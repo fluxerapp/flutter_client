@@ -29,7 +29,6 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
       :final subtitle,
       :final channelId,
       :final icon,
-      :final groupStatus,
       :final groupMembers,
     ) =>
       QuickSwitcherGroupDmResult(
@@ -37,7 +36,6 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
         subtitle: subtitle,
         channelId: channelId,
         icon: icon,
-        groupStatus: groupStatus,
         groupMembers: groupMembers,
       ),
     QuickSwitcherChannelCandidate(

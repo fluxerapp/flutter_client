@@ -169,9 +169,6 @@ class DmRepository {
         lastMessageMentionedUser: lastMsg == null
             ? null
             : userMap[DmConversation.mentionedUserIdFromMessage(lastMsg)],
-        groupStatus: isGroup
-            ? _computeGroupStatus(recipientIds, userMap)
-            : null,
         groupMembers: isGroup
             ? buildDmGroupMembers(recipientIds, userMap)
             : const [],
@@ -189,18 +186,6 @@ class DmRepository {
         productName: _productName,
       );
     }).toList();
-  }
-
-  static String? _computeGroupStatus(
-    List<String> recipientIds,
-    Map<String, db.User> userMap,
-  ) {
-    for (final id in recipientIds) {
-      if (userMap[id]?.status == 'online') {
-        return 'online';
-      }
-    }
-    return null;
   }
 
   Future<db.DmChannelsCompanion?> _buildDmChannelCompanion(

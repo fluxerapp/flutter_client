@@ -50,7 +50,7 @@ class GroupDmWelcomeSection extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          groupDmAvatarCluster(dm: dm, size: 80, status: dm.groupStatus),
+          GroupDmAvatar.conversation(dm, size: 80),
           const SizedBox(height: 16),
           Text(
             displayName,

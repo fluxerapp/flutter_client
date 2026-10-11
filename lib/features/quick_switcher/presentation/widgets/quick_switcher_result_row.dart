@@ -112,16 +112,12 @@ class QuickSwitcherResultRow extends StatelessWidget {
           QuickSwitcherGroupDmResult(
             :final channelId,
             :final icon,
-            :final groupStatus,
             :final groupMembers,
           ) =>
-            FluxerAvatarCluster(
-              channelId: channelId,
-              iconUrl: icon != null && icon.isNotEmpty
-                  ? FluxerMediaUrl.guildIcon(guildId: channelId, hash: icon)
-                  : null,
-              status: groupStatus,
-              members: groupDmClusterMembers(groupMembers),
+            GroupDmAvatar(
+              iconUrl: FluxerMediaUrl.guildIcon(guildId: channelId, hash: icon),
+              members: groupMembers,
+              size: _kAvatarRenderSize,
             ),
           QuickSwitcherTextChannelResult(:final channelType) => ChannelIcon(
             type: channelType,

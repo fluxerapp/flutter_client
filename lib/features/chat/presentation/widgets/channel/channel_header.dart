@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -12,11 +11,11 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
-import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_back_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_left_section.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_toolbar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/dm_header_avatar.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_back_button_unread_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -25,7 +24,6 @@ import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
-import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
@@ -323,29 +321,51 @@ class ChannelHeader extends ConsumerWidget {
                                 ),
                                 const SizedBox(width: 6),
                                 Flexible(
-                                  child: Text(
-                                    resolveChannelHeaderTitle(
-                                      ref,
-                                      channelId: channelId,
-                                      l10n: l10n,
-                                      channel: channel,
-                                      dm: dm,
-                                      isPersonalNotes: isPersonalNotes,
-                                    ),
-                                    style: context.textStyles.channelName,
-                                    overflow: TextOverflow.ellipsis,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              resolveChannelHeaderTitle(
+                                                ref,
+                                                channelId: channelId,
+                                                l10n: l10n,
+                                                channel: channel,
+                                                dm: dm,
+                                                isPersonalNotes:
+                                                    isPersonalNotes,
+                                              ),
+                                              style: context
+                                                  .textStyles
+                                                  .channelName,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          if (dm != null &&
+                                              isBotOrSystemDmRecipient(dm)) ...[
+                                            const SizedBox(width: 6),
+                                            FluxerUserTag(
+                                              isSystem: dm.isSystem,
+                                            ),
+                                          ],
+                                          const SizedBox(width: 4),
+                                          PhosphorIcon(
+                                            PhosphorIconsBold.caretRight,
+                                            size: 16,
+                                            color:
+                                                context.colors.textPrimaryMuted,
+                                          ),
+                                        ],
+                                      ),
+                                      if (dm != null && dm.isGroup)
+                                        GroupDmMemberCountSubtitle(dm: dm),
+                                    ],
                                   ),
-                                ),
-                                if (dm != null &&
-                                    isBotOrSystemDmRecipient(dm)) ...[
-                                  const SizedBox(width: 6),
-                                  FluxerUserTag(isSystem: dm.isSystem),
-                                ],
-                                const SizedBox(width: 4),
-                                PhosphorIcon(
-                                  PhosphorIconsBold.caretRight,
-                                  size: 16,
-                                  color: context.colors.textPrimaryMuted,
                                 ),
                               ],
                             ),
@@ -529,53 +549,7 @@ class ChannelHeader extends ConsumerWidget {
       );
     }
     if (dm != null) {
-      final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-      final Map<String, VoiceState> voiceStates = ref.watch(
-        voiceStatesMapProvider,
-      );
-      final bool showE2eeBadge = isDmCallE2eeEncryptedForHeader(
-        voiceStates: voiceStates,
-        channelId: dm.id,
-        connectedVoiceGuildId: voice.guildId,
-        connectedVoiceChannelId: voice.channelId,
-      );
-      final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
-      return Stack(
-        clipBehavior: Clip.none,
-        children: [
-          if (dm.isGroup)
-            groupDmAvatarCluster(
-              dm: dm,
-              size: 32,
-              status: dm.groupStatus,
-              isTyping: isTyping,
-            )
-          else
-            FluxerAvatar.userPresence(
-              fallbackText: dm.recipientName,
-              userId: dm.recipientId,
-              imageUrl: FluxerMediaUrl.userAvatar(
-                userId: dm.recipientId,
-                hash: dm.recipientAvatar,
-                animated: true,
-              ),
-              showStatus: shouldShowDmRecipientPresence(dm) || isTyping,
-              isTyping: isTyping,
-              size: 32,
-            ),
-          if (showE2eeBadge)
-            Positioned(
-              right: -2,
-              top: -2,
-              child: ChannelIcon(
-                type: ChannelType.guildVoice,
-                size: 14,
-                e2eeEncrypted: true,
-                color: context.colors.statusOnline,
-              ),
-            ),
-        ],
-      );
+      return DmHeaderAvatar(dm: dm);
     }
     return PhosphorIcon(
       PhosphorIconsFill.chatCircle,

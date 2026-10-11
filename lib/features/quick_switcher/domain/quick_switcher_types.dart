@@ -65,7 +65,6 @@ class QuickSwitcherGroupDmResult extends QuickSwitcherResult {
     required this.channelId,
     this.subtitle,
     this.icon,
-    this.groupStatus,
     this.groupMembers = const <GroupMemberInfo>[],
   });
 
@@ -73,7 +72,6 @@ class QuickSwitcherGroupDmResult extends QuickSwitcherResult {
   final String? subtitle;
   final String channelId;
   final String? icon;
-  final String? groupStatus;
   final List<GroupMemberInfo> groupMembers;
 }
 

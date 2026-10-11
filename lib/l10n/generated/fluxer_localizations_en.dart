@@ -1252,7 +1252,13 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Members',
+      one: '1 Member',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -16304,7 +16310,13 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Members',
+      one: '1 Member',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -30337,7 +30349,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Members',
+      one: '1 Member',
+    );
+    return '$_temp0';
   }
 
   @override

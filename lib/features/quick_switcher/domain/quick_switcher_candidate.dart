@@ -50,13 +50,11 @@ class QuickSwitcherGroupDmCandidate extends QuickSwitcherCandidate {
     required this.channelId,
     super.subtitle,
     this.icon,
-    this.groupStatus,
     this.groupMembers = const <GroupMemberInfo>[],
   });
 
   final String channelId;
   final String? icon;
-  final String? groupStatus;
   final List<GroupMemberInfo> groupMembers;
 }
 

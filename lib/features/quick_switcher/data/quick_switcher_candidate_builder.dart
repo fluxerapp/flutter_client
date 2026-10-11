@@ -251,7 +251,6 @@ QuickSwitcherGroupDmCandidate quickSwitcherGroupDmCandidate(
     subtitle: subtitle,
     channelId: convo.id,
     icon: convo.icon,
-    groupStatus: convo.groupStatus,
     groupMembers: convo.groupMembers,
     searchValues: <String>[title, ...participantNames, convo.id],
     sortWeight: convo.lastMessageTime.millisecondsSinceEpoch,

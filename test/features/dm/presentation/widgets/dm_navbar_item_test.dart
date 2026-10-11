@@ -23,6 +23,8 @@ import 'package:fluxer_app/features/profile/providers/user_presence_provider.dar
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -218,8 +220,9 @@ void main() {
       expect(cluster.members.map((member) => member.userId), [
         '1000000000000000011',
         '1000000000000000012',
-        '1000000000000000013',
       ]);
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+      expect(find.byType(FluxerTypingStatusIndicator), findsNothing);
     });
   });
 }

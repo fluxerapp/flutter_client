@@ -1176,7 +1176,7 @@
     "@dmInviteSendFailed": {
         "description": "Toast shown when sending a community invite from the DM menu fails."
     },
-    "dmGroupMemberCount": "{count} Members",
+    "dmGroupMemberCount": "{count, plural, =1{1 Member} other{{count} Members}}",
     "@dmGroupMemberCount": {
         "description": "Member count label for group DMs.",
         "placeholders": {

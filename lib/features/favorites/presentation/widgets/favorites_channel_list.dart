@@ -459,16 +459,12 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dm = entry.dm;
     if (dm != null && dm.isGroup) {
-      final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
-      return groupDmAvatarCluster(
-        dm: dm,
-        size: _avatarSize,
-        status: dm.groupStatus,
-        isTyping: isTyping,
-      );
+      return GroupDmAvatar.conversation(dm, size: _avatarSize);
     }
     if (dm != null) {
-      final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
+      final bool isTyping = ref.watch(
+        isUserTypingInChannelProvider(dm.id, dm.recipientId),
+      );
       return FluxerAvatar.userPresence(
         fallbackText: dm.displayName,
         userId: dm.recipientId,

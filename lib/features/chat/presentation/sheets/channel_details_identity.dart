@@ -187,11 +187,7 @@ class _DetailsAvatar extends ConsumerWidget {
         );
       }
       if (dm.isGroup) {
-        return groupDmAvatarCluster(
-          dm: dm,
-          size: _size,
-          status: dm.groupStatus,
-        );
+        return GroupDmAvatar.conversation(dm, size: _size);
       }
       return FluxerAvatar.userPresence(
         fallbackText: dm.displayNameWith(

@@ -109,7 +109,7 @@ class ChannelSearchResultGroupHeader extends ConsumerWidget {
     if (dm != null && dm.isGroup) {
       return Padding(
         padding: const EdgeInsets.only(right: 8),
-        child: groupDmAvatarCluster(dm: dm, size: 20, status: dm.groupStatus),
+        child: GroupDmAvatar.conversation(dm, size: 20),
       );
     }
     return Padding(

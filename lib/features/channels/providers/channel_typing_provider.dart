@@ -2,7 +2,6 @@ import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -40,20 +39,6 @@ bool isUserTypingInChannel(Ref ref, String channelId, String userId) {
 @riverpod
 bool memberListUserIsTyping(Ref ref, String channelId, String userId) {
   return ref.watch(isUserTypingInChannelProvider(channelId, userId));
-}
-
-/// Whether a DM conversation avatar should show the typing badge.
-@riverpod
-bool dmAvatarIsTyping(Ref ref, DmConversation dm) {
-  if (dm.isGroup) {
-    for (final String userId in dm.remoteRecipientIds) {
-      if (ref.watch(isUserTypingInChannelProvider(dm.id, userId))) {
-        return true;
-      }
-    }
-    return false;
-  }
-  return ref.watch(isUserTypingInChannelProvider(dm.id, dm.recipientId));
 }
 
 /// Whether a remote user is typing in [channelId].

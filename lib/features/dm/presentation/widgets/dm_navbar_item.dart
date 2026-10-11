@@ -5,7 +5,6 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -112,12 +111,6 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
             userId: widget.recipientId,
             hash: conversation?.recipientAvatar,
           );
-    final bool isTyping = !isGroup
-        ? ref.watch(
-            isUserTypingInChannelProvider(widget.channelId, widget.recipientId),
-          )
-        : conversation != null &&
-              ref.watch(dmAvatarIsTypingProvider(conversation));
 
     final indicatorHeight = isSelected
         ? 40.0
@@ -189,39 +182,35 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                             clipBehavior: Clip.none,
                             children: [
                               Center(
-                                child: AnimatedContainer(
-                                  duration: context.motion.panel,
-                                  curve: Curves.easeOutCubic,
-                                  width: 44,
-                                  height: 44,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                      borderRadius,
-                                    ),
-                                  ),
-                                  child: isGroup
-                                      ? conversation != null
-                                            ? groupDmAvatarCluster(
-                                                dm: conversation,
+                                child: isGroup
+                                    ? SizedBox.square(
+                                        dimension: 44,
+                                        child: conversation == null
+                                            ? null
+                                            : GroupDmAvatar.conversation(
+                                                conversation,
                                                 size: 44,
-                                                status:
-                                                    conversation.groupStatus,
-                                                isTyping: isTyping,
-                                              )
-                                            : FluxerAvatarCluster(
-                                                channelId: widget.channelId,
-                                                size: 44,
-                                              )
-                                      : FluxerAvatar.user(
+                                              ),
+                                      )
+                                    : AnimatedContainer(
+                                        duration: context.motion.panel,
+                                        curve: Curves.easeOutCubic,
+                                        width: 44,
+                                        height: 44,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            borderRadius,
+                                          ),
+                                        ),
+                                        child: FluxerAvatar.user(
                                           fallbackText: displayName,
                                           userId: widget.recipientId,
                                           imageUrl: avatarImageUrl,
                                           showStatus: false,
-                                          isTyping: isTyping,
                                           size: 44,
                                         ),
-                                ),
+                                      ),
                               ),
                               if (mentionCount > 0 && unreadState.show)
                                 Positioned(

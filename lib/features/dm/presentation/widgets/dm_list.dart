@@ -871,17 +871,12 @@ class _DMListState extends ConsumerState<DMList> {
               children: [
                 Consumer(
                   builder: (context, ref, _) {
-                    final bool isTyping = ref.watch(
-                      dmAvatarIsTypingProvider(c),
-                    );
                     if (c.isGroup) {
-                      return groupDmAvatarCluster(
-                        dm: c,
-                        size: avatarSize,
-                        status: null,
-                        isTyping: isTyping,
-                      );
+                      return GroupDmAvatar.conversation(c, size: avatarSize);
                     }
+                    final bool isTyping = ref.watch(
+                      isUserTypingInChannelProvider(c.id, c.recipientId),
+                    );
                     final bool showPresence = shouldShowDmRecipientPresence(c);
                     return FluxerAvatar.userPresence(
                       fallbackText: displayName,
@@ -1839,25 +1834,13 @@ class _DmContextMenuLeading extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(dmListRecipientRowDataProvider);
-    final bool isTyping = ref.watch(dmAvatarIsTypingProvider(convo));
-
     if (convo.isGroup) {
-      return Container(
-        width: 48,
-        height: 48,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: context.colors.backgroundSecondaryAlt,
-        ),
-        alignment: Alignment.center,
-        child: PhosphorIcon(
-          PhosphorIconsFill.usersThree,
-          size: 26,
-          color: context.colors.interactiveNormal,
-        ),
-      );
+      return GroupDmAvatar.conversation(convo, size: 48);
     }
+    ref.watch(dmListRecipientRowDataProvider);
+    final bool isTyping = ref.watch(
+      isUserTypingInChannelProvider(convo.id, convo.recipientId),
+    );
 
     return FluxerAvatar.userPresence(
       fallbackText: displayName,

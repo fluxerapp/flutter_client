@@ -40,7 +40,6 @@ class DmConversation {
   final int unreadCount;
   final bool isBot;
   final bool isSystem;
-  final String? groupStatus;
   final List<GroupMemberInfo> groupMembers;
 
   /// Per-user nickname overrides for this group DM (from channel.nicks).
@@ -75,7 +74,6 @@ class DmConversation {
     this.unreadCount = 0,
     this.isBot = false,
     this.isSystem = false,
-    this.groupStatus,
     this.groupMembers = const [],
     this.channelNicks = const {},
     this.remoteRecipientIds = const [],
@@ -142,7 +140,6 @@ class DmConversation {
     db.Message? cachedLastMessage,
     db.User? lastMessageAuthor,
     db.User? lastMessageMentionedUser,
-    String? groupStatus,
     List<GroupMemberInfo> groupMembers = const [],
     Map<String, String> channelNicks = const {},
     List<String> remoteRecipientIds = const [],
@@ -189,7 +186,6 @@ class DmConversation {
           lastMessageMentionedUser?.username,
       lastMessageTime: row.lastMessageTime,
       unreadCount: unreadCount ?? row.unreadCount,
-      groupStatus: groupStatus,
       groupMembers: groupMembers,
       channelNicks: channelNicks,
       remoteRecipientIds: remoteRecipientIds,

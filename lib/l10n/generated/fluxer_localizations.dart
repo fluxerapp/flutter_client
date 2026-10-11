@@ -2279,7 +2279,7 @@ abstract class FluxerLocalizations {
   /// Member count label for group DMs.
   ///
   /// In en, this message translates to:
-  /// **'{count} Members'**
+  /// **'{count, plural, =1{1 Member} other{{count} Members}}'**
   String dmGroupMemberCount(int count);
 
   /// Mute duration option: 15 minutes.

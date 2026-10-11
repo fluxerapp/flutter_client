@@ -89,20 +89,7 @@ class VoiceCallJoinEmptyState extends ConsumerWidget {
       );
     }
     if (dm.isGroup) {
-      return ClipOval(
-        child: SizedBox(
-          width: iconSize,
-          height: iconSize,
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: groupDmAvatarCluster(
-              dm: dm,
-              size: iconSize,
-              status: dm.groupStatus,
-            ),
-          ),
-        ),
-      );
+      return GroupDmAvatar.conversation(dm, size: iconSize);
     }
     return ClipOval(
       child: SizedBox(

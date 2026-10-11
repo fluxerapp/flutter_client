@@ -24,22 +24,6 @@ Widget buildTestApp(Widget child) {
 }
 
 void main() {
-  group('avatarClusterGeometryChanged', () {
-    test('returns true when cutouts change', () {
-      expect(
-        avatarClusterGeometryChanged(
-          ownCenter: const Offset(12, 12),
-          ownRadius: 10,
-          cutouts: const [Rect.fromLTWH(4, 6, 8, 8)],
-          oldOwnCenter: const Offset(12, 12),
-          oldOwnRadius: 10,
-          oldCutouts: const [Rect.fromLTWH(8, 6, 8, 8)],
-        ),
-        isTrue,
-      );
-    });
-  });
-
   group('FluxerAvatar', () {
     testWidgets('user variant renders default avatar for user id', (
       tester,
@@ -227,33 +211,12 @@ void main() {
       expect(image.memCacheHeight, isNull);
     });
 
-    testWidgets(
-      'avatar cluster renders overlapping members without layout errors',
-      (tester) async {
-        await tester.pumpWidget(
-          buildTestApp(
-            const FluxerAvatarCluster(
-              channelId: '123',
-              members: [
-                AvatarClusterMember(userId: '1'),
-                AvatarClusterMember(userId: '2'),
-                AvatarClusterMember(userId: '3'),
-              ],
-            ),
-          ),
-        );
-
-        expect(tester.takeException(), isNull);
-      },
-    );
-
     testWidgets('avatar cluster tolerates non-numeric member ids', (
       tester,
     ) async {
       await tester.pumpWidget(
         buildTestApp(
           const FluxerAvatarCluster(
-            channelId: '123',
             members: [
               AvatarClusterMember(userId: 'oops'),
               AvatarClusterMember(userId: '2'),
@@ -263,6 +226,128 @@ void main() {
       );
 
       expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('FluxerAvatarCluster', () {
+    testWidgets('stacks two 20pt circles at the corners of a 32pt box', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const Center(
+            child: FluxerAvatarCluster(
+              members: [
+                AvatarClusterMember(userId: '1'),
+                AvatarClusterMember(userId: '2'),
+                AvatarClusterMember(userId: '3'),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final Rect box = tester.getRect(find.byType(FluxerAvatarCluster));
+      expect(box.size, const Size(32, 32));
+      final List<Rect> circles = tester
+          .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .map(
+            (CachedNetworkImage image) =>
+                tester.getRect(find.byWidget(image)).shift(-box.topLeft),
+          )
+          .toList();
+      expect(circles, const <Rect>[
+        Rect.fromLTWH(0, 0, 20, 20),
+        Rect.fromLTWH(12, 12, 20, 20),
+      ]);
+    });
+
+    testWidgets('never shows a status dot or typing pill', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatarCluster(
+            members: [
+              AvatarClusterMember(userId: '1'),
+              AvatarClusterMember(userId: '2'),
+            ],
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+      expect(find.byType(FluxerTypingStatusIndicator), findsNothing);
+      expect(find.byType(FluxerMobileOnlineStatusIndicator), findsNothing);
+    });
+
+    testWidgets('cuts a transparent ring out of the back avatar', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const Center(
+            child: FluxerAvatarCluster(
+              members: [
+                AvatarClusterMember(userId: '1'),
+                AvatarClusterMember(userId: '2'),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final ClipPath clip = tester.widget<ClipPath>(find.byType(ClipPath));
+      final Path path = clip.clipper!.getClip(const Size(20, 20));
+      expect(path.contains(const Offset(4, 4)), isTrue);
+      expect(path.contains(const Offset(12.5, 12.5)), isTrue);
+      expect(path.contains(const Offset(13.5, 13.5)), isFalse);
+      expect(path.contains(const Offset(16, 16)), isFalse);
+    });
+
+    testWidgets('falls back to a brand glyph disc without members', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatarCluster(
+            members: [AvatarClusterMember(userId: '1')],
+          ),
+        ),
+      );
+
+      final Container disc = tester.widget<Container>(
+        find.descendant(
+          of: find.byType(FluxerAvatarCluster),
+          matching: find.byType(Container),
+        ),
+      );
+      expect(
+        (disc.decoration! as BoxDecoration).color,
+        buildDarkColorTheme().brandPrimary,
+      );
+      expect(find.byType(CachedNetworkImage), findsNothing);
+    });
+
+    testWidgets('custom icon renders instead of the member stack', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatarCluster(
+            iconUrl: 'https://cdn.example/icons/9/icon.webp',
+            members: [
+              AvatarClusterMember(userId: '1'),
+              AvatarClusterMember(userId: '2'),
+            ],
+          ),
+        ),
+      );
+
+      final CachedNetworkImage image = tester.widget<CachedNetworkImage>(
+        find.byType(CachedNetworkImage),
+      );
+      expect(image.imageUrl, 'https://cdn.example/icons/9/icon.webp');
+      expect(image.fadeInDuration, Duration.zero);
+      expect(image.memCacheWidth, isNotNull);
     });
   });
 

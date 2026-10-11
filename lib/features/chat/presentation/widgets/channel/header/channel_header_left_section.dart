@@ -2,20 +2,18 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
-import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_topic_dialog.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/dm_header_avatar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/channel_details_handheld.dart';
 import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/edit_group_dm_flow.dart';
-import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
@@ -255,53 +253,7 @@ class _ChannelHeaderLeftSectionState
     }
     final DmConversation? dm = widget.dm;
     if (dm != null) {
-      final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-      final Map<String, VoiceState> voiceStates = ref.watch(
-        voiceStatesMapProvider,
-      );
-      final bool showE2eeBadge = isDmCallE2eeEncryptedForHeader(
-        voiceStates: voiceStates,
-        channelId: dm.id,
-        connectedVoiceGuildId: voice.guildId,
-        connectedVoiceChannelId: voice.channelId,
-      );
-      final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
-      return Stack(
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          if (dm.isGroup)
-            groupDmAvatarCluster(
-              dm: dm,
-              size: 32,
-              status: dm.groupStatus,
-              isTyping: isTyping,
-            )
-          else
-            FluxerAvatar.userPresence(
-              fallbackText: dm.recipientName,
-              userId: dm.recipientId,
-              imageUrl: FluxerMediaUrl.userAvatar(
-                userId: dm.recipientId,
-                hash: dm.recipientAvatar,
-                animated: true,
-              ),
-              showStatus: shouldShowDmRecipientPresence(dm) || isTyping,
-              isTyping: isTyping,
-              size: 32,
-            ),
-          if (showE2eeBadge)
-            Positioned(
-              right: -2,
-              top: -2,
-              child: ChannelIcon(
-                type: ChannelType.guildVoice,
-                size: 14,
-                e2eeEncrypted: true,
-                color: context.colors.statusOnline,
-              ),
-            ),
-        ],
-      );
+      return DmHeaderAvatar(dm: dm);
     }
     return PhosphorIcon(
       PhosphorIconsFill.chatCircle,

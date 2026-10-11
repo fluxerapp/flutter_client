@@ -1,43 +1,12 @@
-import 'dart:math' as math;
-
-import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
-import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
-import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
-import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
-import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const _kAccentColors = [
-  Color(0xFF5865F2),
-  Color(0xFF57F287),
-  Color(0xFFFEE75C),
-  Color(0xFFEB459E),
-  Color(0xFFED4245),
-  Color(0xFF9B59B6),
-];
-
-const _kAvatarBorderSize = 2.0;
-const Duration _kStatusTransitionDuration = Duration(milliseconds: 160);
-
-enum _ClusterStatusCutoutShape { circle, typingPill, mobilePhone }
-
-@visibleForTesting
-bool avatarClusterGeometryChanged({
-  required Offset ownCenter,
-  required double ownRadius,
-  required List<Rect> cutouts,
-  required Offset oldOwnCenter,
-  required double oldOwnRadius,
-  required List<Rect> oldCutouts,
-}) {
-  return ownCenter != oldOwnCenter ||
-      ownRadius != oldOwnRadius ||
-      !listEquals(cutouts, oldCutouts);
-}
+const double kAvatarClusterMemberScale = 0.625;
+const double kAvatarClusterCutoutScale = 0.084;
+const double _kFallbackGlyphScale = 0.5;
 
 class AvatarClusterMember {
   final String userId;
@@ -55,204 +24,86 @@ class AvatarClusterMember {
 
 class FluxerAvatarCluster extends StatelessWidget {
   const FluxerAvatarCluster({
-    required this.channelId,
     this.iconUrl,
-    this.status,
-    this.isTyping = false,
-    this.isMobileStatus = false,
     this.members = const [],
     this.size = 32,
     super.key,
   });
 
-  final String channelId;
   final String? iconUrl;
-  final String? status;
-  final bool isTyping;
-  final bool isMobileStatus;
   final List<AvatarClusterMember> members;
   final double size;
 
-  Color get _accentColor {
-    if (channelId.isEmpty) {
-      return _kAccentColors[0];
-    }
-    var hash = 0;
-    for (var i = 0; i < channelId.length; i++) {
-      hash = ((hash << 5) - hash + channelId.codeUnitAt(i)).toSigned(32);
-    }
-    return _kAccentColors[hash.abs() % _kAccentColors.length];
-  }
-
-  bool get _showsTypingIndicator => isTyping && status != null;
-
-  bool get _showsStatusBadge => status != null;
-
   @override
   Widget build(BuildContext context) {
-    Widget avatar;
     if (iconUrl != null) {
-      avatar = _buildCustomIcon();
-    } else if (members.length >= 2) {
-      avatar = _buildCluster(context);
-    } else {
-      avatar = _buildFallback();
-    }
-
-    if (!_showsStatusBadge) {
-      return avatar;
-    }
-
-    final bool isMobileOnline = isMobileOnlineStatus(
-      isMobileStatus: isMobileStatus,
-      status: status!,
-      isTyping: isTyping,
-      size: size,
-    );
-    final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(size);
-    final _ClusterStatusCutoutShape cutoutShape = _showsTypingIndicator
-        ? _ClusterStatusCutoutShape.typingPill
-        : isMobileOnline
-        ? _ClusterStatusCutoutShape.mobilePhone
-        : _ClusterStatusCutoutShape.circle;
-
-    avatar = ClipPath(
-      clipper: _ClusterStatusCutoutClipper(
-        cutoutRadius: layout.cutoutRadius,
-        statusCutoutCenter: layout.statusCutoutCenter,
-        cutoutShape: cutoutShape,
-        typingCutoutRect: layout.typingCutoutRect,
-        phoneCutoutRect: layout.phoneCutoutRect,
-      ),
-      child: avatar,
-    );
-
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          avatar,
-          AnimatedPositioned(
-            duration: _kStatusTransitionDuration,
-            curve: Curves.easeOut,
-            right: _showsTypingIndicator
-                ? layout.typingRight
-                : isMobileOnline
-                ? size - layout.phoneCutoutRect.right
-                : layout.statusRight,
-            bottom: _showsTypingIndicator
-                ? layout.typingBottom
-                : isMobileOnline
-                ? size - layout.phoneCutoutRect.bottom
-                : layout.statusBottom,
-            child: _showsTypingIndicator
-                ? FluxerTypingStatusIndicator(
-                    status: status!,
-                    width: layout.typingWidth,
-                    height: layout.typingHeight,
-                  )
-                : isMobileOnline
-                ? FluxerMobileOnlineStatusIndicator(
-                    width: layout.phoneCutoutRect.width,
-                    height: layout.phoneCutoutRect.height,
-                    borderWidth: mobileStatusBorderWidth(
-                      statusDotSize: layout.statusDotSize,
-                      cutoutRadius: layout.cutoutRadius,
-                    ),
-                  )
-                : FluxerStatusIndicator(
-                    status: status!,
-                    size: layout.statusDotSize,
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCustomIcon() {
-    return Container(
-      width: size,
-      height: size,
-      decoration: const BoxDecoration(shape: BoxShape.circle),
-      clipBehavior: Clip.antiAlias,
-      child: CachedNetworkImage(
-        imageUrl: iconUrl!,
+      return SizedBox(
         width: size,
         height: size,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => _buildFallback(),
-      ),
-    );
-  }
-
-  Widget _buildFallback() {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: _accentColor),
-      alignment: Alignment.center,
-      child: PhosphorIcon(
-        PhosphorIconsFill.usersThree,
-        size: size * 0.55,
-        color: Colors.white,
-      ),
-    );
-  }
-
-  Widget _buildCluster(BuildContext context) {
-    final count = math.min(members.length, 3);
-    final displayMembers = members.take(count).toList();
-
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Stack(
-        children: [
-          for (var i = 0; i < count; i++)
-            _buildClusterAvatar(context, displayMembers[i], i, count),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildClusterAvatar(
-    BuildContext context,
-    AvatarClusterMember member,
-    int index,
-    int count,
-  ) {
-    final pos = _getPosition(count, index);
-    final avatar = _buildMemberCircle(context, member, pos.avatarSize);
-
-    final cutouts = <_CircleCutout>[];
-    for (var j = index + 1; j < count; j++) {
-      final other = _getPosition(count, j);
-      cutouts.add(
-        _CircleCutout(
-          cx: other.left - pos.left + other.avatarSize / 2,
-          cy: other.top - pos.top + other.avatarSize / 2,
-          radius: other.avatarSize / 2 + _kAvatarBorderSize,
+        child: buildFluxerNetworkAvatarImage(
+          context: context,
+          size: size,
+          imageUrl: iconUrl!,
+          onFinalError: () => _buildFallback(context),
         ),
       );
     }
-
-    if (cutouts.isEmpty) {
-      return Positioned(top: pos.top, left: pos.left, child: avatar);
+    if (members.length >= 2) {
+      return _buildStack(context);
     }
+    return _buildFallback(context);
+  }
 
-    return Positioned(
-      top: pos.top,
-      left: pos.left,
-      child: ClipPath(
-        clipper: _ClusterOverlapClipper(
-          ownCenter: Offset(pos.avatarSize / 2, pos.avatarSize / 2),
-          ownRadius: pos.avatarSize / 2,
-          cutouts: cutouts,
-        ),
-        child: avatar,
+  Widget _buildFallback(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: context.colors.brandPrimary,
+      ),
+      alignment: Alignment.center,
+      child: PhosphorIcon(
+        PhosphorIconsFill.users,
+        size: size * _kFallbackGlyphScale,
+        color: context.colors.textOnBrandPrimary,
+      ),
+    );
+  }
+
+  Widget _buildStack(BuildContext context) {
+    final double memberSize = size * kAvatarClusterMemberScale;
+    final double frontOffset = size - memberSize;
+    final Rect frontCutout = Rect.fromCircle(
+      center: Offset(
+        frontOffset + memberSize / 2,
+        frontOffset + memberSize / 2,
+      ),
+      radius: memberSize / 2 + size * kAvatarClusterCutoutScale,
+    );
+
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            child: ClipPath(
+              clipper: _StackBackClipper(
+                memberSize: memberSize,
+                frontCutout: frontCutout,
+              ),
+              child: _buildMemberCircle(context, members[0], memberSize),
+            ),
+          ),
+          Positioned(
+            top: frontOffset,
+            left: frontOffset,
+            child: _buildMemberCircle(context, members[1], memberSize),
+          ),
+        ],
       ),
     );
   }
@@ -260,160 +111,43 @@ class FluxerAvatarCluster extends StatelessWidget {
   Widget _buildMemberCircle(
     BuildContext context,
     AvatarClusterMember member,
-    double avatarSize,
+    double memberSize,
   ) {
     final String? imageUrl = member.resolvedImageUrl;
     if (imageUrl == null) {
-      return SizedBox(width: avatarSize, height: avatarSize);
+      return SizedBox(width: memberSize, height: memberSize);
     }
 
-    return ClipOval(
-      child: buildFluxerNetworkAvatarImage(
-        context: context,
-        size: avatarSize,
-        imageUrl: imageUrl,
-        customImageUrl: member.imageUrl,
-        defaultImageUrl: FluxerMediaUrl.defaultAvatar(userId: member.userId),
-      ),
-    );
-  }
-
-  _AvatarPosition _getPosition(int count, int index) {
-    if (count == 2) {
-      final avatarSize = size * 0.7;
-      final inset = math.min(size * 0.06, avatarSize * 0.18);
-      if (index == 0) {
-        return _AvatarPosition(top: inset, left: 0, avatarSize: avatarSize);
-      }
-      return _AvatarPosition(
-        top: size - avatarSize - inset,
-        left: size - avatarSize,
-        avatarSize: avatarSize,
-      );
-    }
-
-    final avatarSize = size * 0.68;
-    final inset = math.min(size * 0.04, avatarSize * 0.12);
-    final topRow = inset;
-    final bottomRow = size - avatarSize - inset;
-
-    if (index == 0) {
-      return _AvatarPosition(top: topRow, left: 0, avatarSize: avatarSize);
-    }
-    if (index == 1) {
-      return _AvatarPosition(
-        top: topRow,
-        left: size - avatarSize,
-        avatarSize: avatarSize,
-      );
-    }
-    return _AvatarPosition(
-      top: bottomRow,
-      left: (size - avatarSize) / 2,
-      avatarSize: avatarSize,
+    return buildFluxerNetworkAvatarImage(
+      context: context,
+      size: memberSize,
+      imageUrl: imageUrl,
+      customImageUrl: member.imageUrl,
+      defaultImageUrl: FluxerMediaUrl.defaultAvatar(userId: member.userId),
     );
   }
 }
 
-class _AvatarPosition {
-  final double top;
-  final double left;
-  final double avatarSize;
-
-  const _AvatarPosition({
-    required this.top,
-    required this.left,
-    required this.avatarSize,
-  });
-}
-
-class _CircleCutout {
-  final double cx;
-  final double cy;
-  final double radius;
-
-  const _CircleCutout({
-    required this.cx,
-    required this.cy,
-    required this.radius,
+class _StackBackClipper extends CustomClipper<Path> {
+  const _StackBackClipper({
+    required this.memberSize,
+    required this.frontCutout,
   });
 
-  Rect get oval => Rect.fromCircle(center: Offset(cx, cy), radius: radius);
-}
-
-class _ClusterStatusCutoutClipper extends CustomClipper<Path> {
-  const _ClusterStatusCutoutClipper({
-    required this.cutoutRadius,
-    required this.statusCutoutCenter,
-    required this.cutoutShape,
-    required this.typingCutoutRect,
-    required this.phoneCutoutRect,
-  });
-
-  final double cutoutRadius;
-  final Offset statusCutoutCenter;
-  final _ClusterStatusCutoutShape cutoutShape;
-  final RRect typingCutoutRect;
-  final RRect phoneCutoutRect;
+  final double memberSize;
+  final Rect frontCutout;
 
   @override
   Path getClip(Size size) {
-    final Path path = Path()
-      ..addOval(Rect.fromLTWH(0, 0, size.width, size.height));
-    switch (cutoutShape) {
-      case _ClusterStatusCutoutShape.typingPill:
-        path.addRRect(typingCutoutRect);
-      case _ClusterStatusCutoutShape.mobilePhone:
-        path.addRRect(phoneCutoutRect);
-      case _ClusterStatusCutoutShape.circle:
-        path.addOval(
-          Rect.fromCircle(center: statusCutoutCenter, radius: cutoutRadius),
-        );
-    }
-    return path..fillType = PathFillType.evenOdd;
+    return Path.combine(
+      PathOperation.difference,
+      Path()..addOval(Rect.fromLTWH(0, 0, memberSize, memberSize)),
+      Path()..addOval(frontCutout),
+    );
   }
 
   @override
-  bool shouldReclip(covariant _ClusterStatusCutoutClipper oldClipper) =>
-      cutoutRadius != oldClipper.cutoutRadius ||
-      statusCutoutCenter != oldClipper.statusCutoutCenter ||
-      cutoutShape != oldClipper.cutoutShape ||
-      typingCutoutRect != oldClipper.typingCutoutRect ||
-      phoneCutoutRect != oldClipper.phoneCutoutRect;
-}
-
-class _ClusterOverlapClipper extends CustomClipper<Path> {
-  const _ClusterOverlapClipper({
-    required this.ownCenter,
-    required this.ownRadius,
-    required this.cutouts,
-  });
-
-  final Offset ownCenter;
-  final double ownRadius;
-  final List<_CircleCutout> cutouts;
-
-  @override
-  Path getClip(Size size) {
-    final path = Path()
-      ..addOval(Rect.fromCircle(center: ownCenter, radius: ownRadius));
-    for (final c in cutouts) {
-      path.addOval(c.oval);
-    }
-    path.fillType = PathFillType.evenOdd;
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant _ClusterOverlapClipper oldClipper) =>
-      avatarClusterGeometryChanged(
-        ownCenter: ownCenter,
-        ownRadius: ownRadius,
-        cutouts: cutouts.map((cutout) => cutout.oval).toList(growable: false),
-        oldOwnCenter: oldClipper.ownCenter,
-        oldOwnRadius: oldClipper.ownRadius,
-        oldCutouts: oldClipper.cutouts
-            .map((cutout) => cutout.oval)
-            .toList(growable: false),
-      );
+  bool shouldReclip(covariant _StackBackClipper oldClipper) =>
+      memberSize != oldClipper.memberSize ||
+      frontCutout != oldClipper.frontCutout;
 }

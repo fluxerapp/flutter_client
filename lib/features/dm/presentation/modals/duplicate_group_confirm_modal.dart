@@ -56,11 +56,7 @@ Future<void> showDuplicateGroupConfirmModal(
                     padding: const EdgeInsets.all(8),
                     child: Row(
                       children: <Widget>[
-                        groupDmAvatarCluster(
-                          dm: channel,
-                          size: 40,
-                          status: channel.groupStatus,
-                        ),
+                        GroupDmAvatar.conversation(channel, size: 40),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
