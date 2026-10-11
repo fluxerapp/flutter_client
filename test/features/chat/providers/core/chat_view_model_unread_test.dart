@@ -2378,6 +2378,43 @@ void main() {
     );
   });
 
+  test('leaving the tail while a tail ack is in flight keeps the snapshot '
+      'for the return', () async {
+    final String tailId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final String liveId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final String awayId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+    final opened = await openReadChannelAtTail(tailId);
+    final ProviderContainer container = opened.container;
+    final notifier = container.read(chatViewModelProvider.notifier);
+
+    emitLiveMessage(container, liveId);
+    await _flushAsync();
+    _updateViewport(container, nearLoadedTail: true);
+    await _flushAsync();
+
+    final Future<void> inFlight = notifier.flushScheduledReadAckRetryForTest();
+    _updateViewport(
+      container,
+      nearLoadedTail: false,
+      distanceFromBottom: 4000,
+      viewportHeight: 800,
+    );
+    await inFlight;
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).stickyUnreadMessageId, null);
+
+    emitLiveMessage(container, awayId);
+    await _flushAsync();
+    _updateViewport(container, nearLoadedTail: true);
+    await _flushAsync();
+    await notifier.flushScheduledReadAckRetryForTest();
+    await _flushAsync();
+
+    final readState = await opened.db.readStateDao.getReadState('channel-1');
+    expect(readState?.lastMessageId, awayId);
+    expect(container.read(chatViewModelProvider).stickyUnreadMessageId, awayId);
+  });
+
   test('a message acked at the tail without leaving it sets no sticky '
       'divider', () async {
     final String tailId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));

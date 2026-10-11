@@ -4492,7 +4492,9 @@ class ChatViewModel extends _$ChatViewModel {
       if (!force) {
         await _ensureUnreadBoundaryLoaded(channelId, readState: readState);
       }
-      if (_stickySnapshotArmed && state.channelId == channelId) {
+      if (_stickySnapshotArmed &&
+          _viewportWasAtTail &&
+          state.channelId == channelId) {
         _stickySnapshotArmed = false;
         if (!force && state.stickyUnreadMessageId == null) {
           final String? unreadId = _stickyUnreadIdForCurrentMessages(
