@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -93,6 +95,20 @@ UserSettingsResponseGuildFolders _folder({
   int? id,
 }) {
   return UserSettingsResponseGuildFolders(id: id, guildIds: guildIds);
+}
+
+UserSettingsResponseGuildFolders _serverFolder({
+  required int id,
+  required List<String> guildIds,
+}) {
+  return UserSettingsResponseGuildFolders.fromJson(<String, Object?>{
+    'id': id,
+    'name': null,
+    'color': null,
+    'flags': 0,
+    'icon': 'folder',
+    'guild_ids': guildIds,
+  });
 }
 
 void main() {
@@ -571,6 +587,93 @@ void main() {
         'b',
         'c',
       ]);
+    });
+  });
+  group('OrganizedGuildList remote folder updates', () {
+    test('applies other-session order after a local reorder echo', () async {
+      final StreamController<List<UserSettingsResponseGuildFolders>> folders =
+          StreamController<List<UserSettingsResponseGuildFolders>>();
+      addTearDown(folders.close);
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          guildOrderRepositoryProvider.overrideWith(
+            (Ref ref) => GuildOrderRepository(_FakeClient()),
+          ),
+          guildListViewModelProvider.overrideWithValue(
+            GuildListViewState(guilds: ['a', 'b', 'c'].map(_guild).toList()),
+          ),
+          guildFoldersProvider.overrideWith((Ref ref) => folders.stream),
+        ],
+      );
+      addTearDown(container.dispose);
+      final ProviderSubscription<List<GuildNavbarItem>> subscription = container
+          .listen(organizedGuildListProvider, (_, _) {});
+      addTearDown(subscription.close);
+      List<String> order() => flattenOrganizedGuildList(
+        container.read(organizedGuildListProvider),
+      ).map((Guild g) => g.id).toList();
+
+      folders.add([
+        _serverFolder(id: -1, guildIds: ['a', 'b', 'c']),
+      ]);
+      await pumpEventQueue();
+      expect(order(), ['a', 'b', 'c']);
+
+      container
+          .read(organizedGuildListProvider.notifier)
+          .reorder(sourceId: 'c', targetId: 'a', insertAfter: false);
+      expect(order(), ['c', 'a', 'b']);
+
+      folders.add([
+        _serverFolder(id: -1, guildIds: ['c', 'a', 'b']),
+      ]);
+      await pumpEventQueue();
+      expect(order(), ['c', 'a', 'b']);
+
+      folders.add([
+        _serverFolder(id: -1, guildIds: ['b', 'c', 'a']),
+      ]);
+      await pumpEventQueue();
+      expect(order(), ['b', 'c', 'a']);
+    });
+
+    test('keeps a local reorder until the server folders change', () async {
+      final StreamController<List<UserSettingsResponseGuildFolders>> folders =
+          StreamController<List<UserSettingsResponseGuildFolders>>();
+      addTearDown(folders.close);
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          guildOrderRepositoryProvider.overrideWith(
+            (Ref ref) => GuildOrderRepository(_FakeClient()),
+          ),
+          guildListViewModelProvider.overrideWithValue(
+            GuildListViewState(guilds: ['a', 'b', 'c'].map(_guild).toList()),
+          ),
+          guildFoldersProvider.overrideWith((Ref ref) => folders.stream),
+        ],
+      );
+      addTearDown(container.dispose);
+      final ProviderSubscription<List<GuildNavbarItem>> subscription = container
+          .listen(organizedGuildListProvider, (_, _) {});
+      addTearDown(subscription.close);
+      List<String> order() => flattenOrganizedGuildList(
+        container.read(organizedGuildListProvider),
+      ).map((Guild g) => g.id).toList();
+
+      folders.add([
+        _serverFolder(id: -1, guildIds: ['a', 'b', 'c']),
+      ]);
+      await pumpEventQueue();
+
+      container
+          .read(organizedGuildListProvider.notifier)
+          .reorder(sourceId: 'c', targetId: 'a', insertAfter: false);
+
+      folders.add([
+        _serverFolder(id: -1, guildIds: ['a', 'b', 'c']),
+      ]);
+      await pumpEventQueue();
+      expect(order(), ['c', 'a', 'b']);
     });
   });
 }

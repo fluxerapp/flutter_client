@@ -227,7 +227,7 @@ Stream<List<UserSettingsResponseGuildFolders>> guildFolders(Ref ref) async* {
 
 @Riverpod(keepAlive: true)
 class OrganizedGuildList extends _$OrganizedGuildList {
-  var _hasPendingLocalOrder = false;
+  String? _serverFoldersAtLocalOrder;
 
   @override
   List<GuildNavbarItem> build() {
@@ -236,30 +236,14 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     final Set<String> trackedUnavailableGuildIds = ref.watch(
       guildAvailabilityProvider,
     );
-    final computed = computeOrganizedGuildList(
-      guilds: guildState.guilds,
-      folders: folders,
-      trackedUnavailableGuildIds: trackedUnavailableGuildIds,
-    );
 
-    ref.listen(guildFoldersProvider, (previous, next) {
-      if (!_hasPendingLocalOrder) {
-        return;
-      }
-      final List<UserSettingsResponseGuildFolders>? incoming = next.value;
-      if (incoming == null) {
-        return;
-      }
-      _hasPendingLocalOrder = false;
-      state = computeOrganizedGuildList(
-        guilds: ref.read(guildListViewModelProvider).guilds,
-        folders: incoming,
-        trackedUnavailableGuildIds: ref.read(guildAvailabilityProvider),
+    if (_serverFoldersAtLocalOrder != jsonEncode(folders)) {
+      _serverFoldersAtLocalOrder = null;
+      return computeOrganizedGuildList(
+        guilds: guildState.guilds,
+        folders: folders,
+        trackedUnavailableGuildIds: trackedUnavailableGuildIds,
       );
-    });
-
-    if (!_hasPendingLocalOrder) {
-      return computed;
     }
 
     return stripOutageUnavailableFromNavbarItems(
@@ -611,7 +595,9 @@ class OrganizedGuildList extends _$OrganizedGuildList {
   }
 
   void _commitLocalMutation(List<GuildNavbarItem> items) {
-    _hasPendingLocalOrder = true;
+    _serverFoldersAtLocalOrder ??= jsonEncode(
+      ref.read(guildFoldersProvider).value ?? [],
+    );
     state = items;
     _persist();
   }
