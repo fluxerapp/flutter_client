@@ -40,7 +40,7 @@ class _ScriptedAdapter implements HttpClientAdapter {
     if (outcome is int) {
       return ResponseBody.fromString('{}', outcome);
     }
-    throw outcome;
+    throw outcome as Exception;
   }
 
   @override
