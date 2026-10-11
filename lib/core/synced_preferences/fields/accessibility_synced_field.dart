@@ -29,6 +29,7 @@ class AccessibilityLocalState {
     required this.saturationFactor,
     required this.customThemeCss,
     required this.advanced,
+    this.syncThemeColorsFromThemeStudio = true,
     this.syncThemeColorsToThemeStudio = true,
     this.showUserAvatarsInCompactMode = false,
     this.screenReaderAnnounceNewMessages = false,
@@ -76,6 +77,7 @@ class AccessibilityLocalState {
   final bool showUserAvatarsInCompactMode;
   final double saturationFactor;
   final String? customThemeCss;
+  final bool syncThemeColorsFromThemeStudio;
   final bool syncThemeColorsToThemeStudio;
   final AdvancedAccessibilityLocalState advanced;
   final bool screenReaderAnnounceNewMessages;
@@ -158,6 +160,7 @@ class AccessibilitySyncedField
       showUserAvatarsInCompactMode: appearance.showUserAvatarsInCompactMode,
       saturationFactor: theme.saturationFactor,
       customThemeCss: theme.customThemeCss,
+      syncThemeColorsFromThemeStudio: theme.syncThemeColorsFromThemeStudio,
       syncThemeColorsToThemeStudio: theme.syncThemeColorsToThemeStudio,
       screenReaderAnnounceNewMessages:
           appearance.screenReaderAnnounceNewMessages,
@@ -349,6 +352,42 @@ class AccessibilitySyncedField
     required AccessibilityLocalState local,
     required AccessibilityLocalState remote,
   }) {
+    return _merge(
+      local: local,
+      remote: remote,
+      customThemeCss: mergeAccessibilityCustomThemeCss(local, remote),
+    );
+  }
+
+  @override
+  AccessibilityLocalState mergeProtectedInbound({
+    required AccessibilityLocalState local,
+    required AccessibilityLocalState remote,
+    required AccessibilityLocalState? baseline,
+  }) {
+    final bool remoteCssChanged =
+        _protoCustomThemeCss(remote) !=
+        (baseline == null ? null : _protoCustomThemeCss(baseline));
+    return _merge(
+      local: local,
+      remote: remote,
+      customThemeCss: remoteCssChanged
+          ? mergeAccessibilityCustomThemeCss(local, remote)
+          : normalizeCustomThemeCss(local.customThemeCss),
+    );
+  }
+
+  static String? _protoCustomThemeCss(AccessibilityLocalState state) {
+    return state.hasCustomThemeCssInProto
+        ? normalizeCustomThemeCss(state.customThemeCss)
+        : null;
+  }
+
+  static AccessibilityLocalState _merge({
+    required AccessibilityLocalState local,
+    required AccessibilityLocalState remote,
+    required String? customThemeCss,
+  }) {
     return AccessibilityLocalState(
       hideKeyboardHints: remote.hideKeyboardHints,
       channelTypingIndicatorMode: remote.channelTypingIndicatorMode,
@@ -364,7 +403,7 @@ class AccessibilitySyncedField
       saturationFactor: remote.hasSaturationFactorInProto
           ? remote.saturationFactor
           : local.saturationFactor,
-      customThemeCss: mergeAccessibilityCustomThemeCss(local, remote),
+      customThemeCss: customThemeCss,
       showMediaDeleteButton: remote.showMediaDeleteButton,
       showMediaDownloadButton: remote.showMediaDownloadButton,
       showMediaFavoriteButton: remote.showMediaFavoriteButton,
@@ -621,8 +660,14 @@ class AccessibilitySyncedField
           ..fontSize = local.chatFontSize.toDouble()
           ..zoomLevel = local.scaleFactor;
     _applyAdvancedToProto(settings, local.advanced, wireBase: wireBase);
-    if (effectiveCss != null && local.syncThemeColorsToThemeStudio) {
+    if (!local.syncThemeColorsToThemeStudio) {
+      return settings;
+    }
+    if (effectiveCss != null) {
       return settings..customThemeCss = effectiveCss;
+    }
+    if (local.syncThemeColorsFromThemeStudio) {
+      settings.clearCustomThemeCss();
     }
     return settings;
   }

@@ -381,7 +381,7 @@ void main() {
       },
     );
 
-    test('toProtoForPush keeps wire custom theme css when local has none', () {
+    test('toProtoForPush clears wire custom theme css when local has none', () {
       const local = AccessibilityLocalState(
         hideKeyboardHints: false,
         channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
@@ -394,19 +394,47 @@ void main() {
         compactMessageGroupSpacing: 0,
         saturationFactor: 1,
         customThemeCss: null,
-        hasSaturationFactorInProto: false,
-        hasCustomThemeCssInProto: false,
         advanced: _defaultAdvancedAccessibility,
-      );
-      const css = ':root { --brand-primary: #010203; }';
-      final wireBase = accessibility_pb.AccessibilitySettings(
-        customThemeCss: css,
       );
       final pushed = AccessibilitySyncedField.toProtoForPush(
         local: local,
-        wireBase: wireBase,
+        wireBase: accessibility_pb.AccessibilitySettings(
+          customThemeCss: ':root { --brand-primary: #010203; }',
+        ),
       );
-      expect(pushed.customThemeCss, css);
+      expect(pushed.hasCustomThemeCss(), isFalse);
     });
+
+    test(
+      'toProtoForPush keeps wire custom theme css when studio colors are not used',
+      () {
+        const local = AccessibilityLocalState(
+          syncThemeColorsFromThemeStudio: false,
+          hideKeyboardHints: false,
+          channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+          showSelectedChannelTypingIndicator: false,
+          showFadedUnreadOnMutedChannels: false,
+          dmMessagePreviewMode: DmMessagePreviewMode.all,
+          showFavorites: true,
+          useSystemLocaleForTimeFormat: false,
+          messageGroupSpacing: 16,
+          compactMessageGroupSpacing: 0,
+          saturationFactor: 1,
+          customThemeCss: null,
+          hasSaturationFactorInProto: false,
+          hasCustomThemeCssInProto: false,
+          advanced: _defaultAdvancedAccessibility,
+        );
+        const css = ':root { --brand-primary: #010203; }';
+        final wireBase = accessibility_pb.AccessibilitySettings(
+          customThemeCss: css,
+        );
+        final pushed = AccessibilitySyncedField.toProtoForPush(
+          local: local,
+          wireBase: wireBase,
+        );
+        expect(pushed.customThemeCss, css);
+      },
+    );
   });
 }

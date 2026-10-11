@@ -298,9 +298,10 @@ class SyncedPreferencesStore {
       if (isProtected && !wasFirstHydrate) {
         if (remote != null &&
             adapter.hasInboundUpdatesWhileProtected(local, remote)) {
-          final target = adapter.mergeForMigration(
+          final target = adapter.mergeProtectedInbound(
             local: local,
             remote: remote,
+            baseline: adapter.readFromProto(_hydrateBaselineWire ?? _wire),
           );
           if (!_statesEqual(adapter, local, target)) {
             await _applyAdapterRemote(adapter, target);

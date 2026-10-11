@@ -44,6 +44,12 @@ abstract class SyncedFieldAdapter<T> {
 
   T mergeForMigration({required T local, required T remote}) => remote;
 
+  T mergeProtectedInbound({
+    required T local,
+    required T remote,
+    required T? baseline,
+  }) => mergeForMigration(local: local, remote: remote);
+
   bool verifyRoundtrip(T candidate);
 
   bool hasLocalData(T local) => true;
