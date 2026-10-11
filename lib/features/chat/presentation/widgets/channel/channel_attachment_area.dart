@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/pending_attachment_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/attachment_edit_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/alt_text_badge.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
@@ -24,6 +22,7 @@ class ChannelAttachmentArea extends ConsumerWidget {
   final String channelId;
   final bool wideComposerAction;
 
+  static const Key uploadProgressKey = Key('composer-attachment-progress');
   static const double _kAttachmentListHeight = 150;
 
   @override
@@ -126,17 +125,17 @@ class _AttachmentChip extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
-    final String path = attachment.file.path;
-    final bool hasImagePreview =
-        path.isNotEmpty &&
-        isImageAttachment(
-          filename: attachment.filename,
-          contentType: attachment.contentType,
-        );
     final bool isVideo = _isVideoFilename(attachment.filename);
     final bool isSpoiler = (attachment.flags & attachmentFlagIsSpoiler) != 0;
     final String? byteSizeLabel = formatAttachmentByteSize(attachment.size);
     final String? altText = resolvedMediaAltText(attachment.description);
+    final Widget fallbackIcon = Center(
+      child: Icon(
+        isVideo ? PhosphorIconsFill.filmStrip : _fileIcon(attachment.filename),
+        size: 44,
+        color: colors.textPrimaryMuted,
+      ),
+    );
 
     return SizedBox(
       width: 150,
@@ -158,24 +157,12 @@ class _AttachmentChip extends ConsumerWidget {
                     fit: StackFit.expand,
                     children: [
                       ColoredBox(color: colors.backgroundTertiary),
-                      if (hasImagePreview && !isSpoiler)
-                        if (isSvgImageMedia(
-                          url: path,
-                          filename: attachment.filename,
-                          contentType: attachment.contentType,
-                        ))
-                          SvgPicture.file(File(path), fit: BoxFit.cover)
-                        else
-                          Image.file(File(path), fit: BoxFit.cover)
+                      if (isSpoiler)
+                        fallbackIcon
                       else
-                        Center(
-                          child: Icon(
-                            isVideo
-                                ? PhosphorIconsFill.filmStrip
-                                : _fileIcon(attachment.filename),
-                            size: 44,
-                            color: colors.textPrimaryMuted,
-                          ),
+                        PendingAttachmentPreview(
+                          attachment: attachment,
+                          fallback: fallbackIcon,
                         ),
                       if (isSpoiler)
                         ColoredBox(
@@ -200,6 +187,20 @@ class _AttachmentChip extends ConsumerWidget {
                           bottom: 6,
                           child: IgnorePointer(
                             child: AltTextBadge(altText: altText),
+                          ),
+                        ),
+                      if (attachment.status ==
+                          PendingAttachmentStatus.uploading)
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: LinearProgressIndicator(
+                            key: ChannelAttachmentArea.uploadProgressKey,
+                            minHeight: 3,
+                            value: attachment.uploadProgress.clamp(0, 1),
+                            backgroundColor: colors.backgroundTertiary,
+                            color: colors.brandPrimary,
                           ),
                         ),
                       if (attachment.status == PendingAttachmentStatus.failed)

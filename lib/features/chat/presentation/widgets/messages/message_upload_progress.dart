@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/pending_attachment_preview.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
@@ -49,6 +51,17 @@ class MessageUploadProgress extends ConsumerWidget {
     final double progressValue = (progressPercent ?? 0) / 100;
     final String? sizeLabel = formatAttachmentByteSize(attachment.size);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final PendingAttachment? previewAttachment =
+        session == null || session.attachments.isEmpty
+        ? null
+        : session.attachments.first;
+    final Widget fileIcon = Center(
+      child: PhosphorIcon(
+        PhosphorIconsFill.file,
+        size: 32,
+        color: colors.textTertiary,
+      ),
+    );
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: isMobile ? double.infinity : _maxWidth,
@@ -69,20 +82,19 @@ class MessageUploadProgress extends ConsumerWidget {
         ),
         child: Row(
           children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: ColoredBox(
                 color: colors.backgroundTertiary,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: SizedBox(
-                width: _iconTileSize,
-                height: _iconTileSize,
-                child: Center(
-                  child: PhosphorIcon(
-                    PhosphorIconsFill.file,
-                    size: 32,
-                    color: colors.textTertiary,
-                  ),
+                child: SizedBox(
+                  width: _iconTileSize,
+                  height: _iconTileSize,
+                  child: previewAttachment == null
+                      ? fileIcon
+                      : PendingAttachmentPreview(
+                          attachment: previewAttachment,
+                          fallback: fileIcon,
+                        ),
                 ),
               ),
             ),
