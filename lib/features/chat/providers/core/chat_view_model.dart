@@ -6441,10 +6441,14 @@ class ChatViewModel extends _$ChatViewModel {
   Future<GuildComposerAccess?> _resolveGuildComposerBlock(
     String channelId,
   ) async {
+    final String? guildId = await _guildIdForChannel(channelId);
+    if (guildId == null) {
+      return null;
+    }
     // One-off snapshot; read does not retain the autoDispose family.
     // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
     final GuildComposerAccess access = await ref.read(
-      guildComposerAccessProvider(channelId).future,
+      guildMemberComposerAccessProvider(guildId).future,
     );
     if (!access.canAccess) {
       return access;

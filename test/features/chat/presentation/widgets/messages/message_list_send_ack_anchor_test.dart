@@ -322,7 +322,7 @@ List<Override> _messageListUiOverrides() {
     ),
     guildComposerAccessProvider(
       _channelId,
-    ).overrideWith((Ref ref) => GuildComposerAccess.allowed),
+    ).overrideWithValue(const AsyncData(GuildComposerAccess.allowed)),
     dmViewModelProvider.overrideWithValue(
       const DmViewState(
         conversations: <DmConversation>[],
