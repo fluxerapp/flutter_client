@@ -77,17 +77,24 @@ class _SuspendTrackingGatewayConnection extends _TestGatewayConnection {
 }
 
 class _NudgeGatewayConnection extends GatewayConnection {
-  _NudgeGatewayConnection({this.suspended = false, this.alive = true})
-    : super(token: 'test', dio: Dio());
+  _NudgeGatewayConnection({
+    this.suspended = false,
+    this.alive = true,
+    this.likelyStale = false,
+  }) : super(token: 'test', dio: Dio());
 
   final bool suspended;
   final bool alive;
+  final bool likelyStale;
   int reconnectNowCalls = 0;
   int livenessChecks = 0;
   GatewayState current = GatewayState.disconnected;
 
   @override
   bool get isReconnectSuspended => suspended;
+
+  @override
+  bool get isLikelyStale => likelyStale;
 
   @override
   Future<bool> verifyLiveness({
@@ -557,6 +564,26 @@ void main() {
         async.flushMicrotasks();
         expect(connection.livenessChecks, 1);
         expect(connection.reconnectNowCalls, 0);
+        expect(inFlightLog, [true]);
+      });
+    });
+
+    test('resumes a socket whose heartbeat is overdue without probing it', () {
+      fakeAsync((FakeAsync async) {
+        final connection = _NudgeGatewayConnection(likelyStale: true)
+          ..current = GatewayState.connected;
+        final List<bool> inFlightLog = <bool>[];
+        unawaited(
+          nudgeGatewayReconnectAfterResume(
+            connection,
+            onResumeReconnectInFlight: ({required bool inFlight}) =>
+                inFlightLog.add(inFlight),
+            hasConnectivity: () async => true,
+          ),
+        );
+        async.flushMicrotasks();
+        expect(connection.livenessChecks, 0);
+        expect(connection.reconnectNowCalls, 1);
         expect(inFlightLog, [true]);
       });
     });

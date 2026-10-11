@@ -74,8 +74,10 @@ Future<void> nudgeGatewayConnectionReconnect(
     }
     final GatewayState state = connection.state;
     if (state == GatewayState.connected) {
-      if (forceReconnect) {
+      if (forceReconnect || connection.isLikelyStale) {
         await connection.reconnectNow();
+        holdInFlightUntilOnline =
+            onResumeReconnectInFlight != null && !forceReconnect;
         return;
       }
       if (!await connection.verifyLiveness()) {
@@ -435,7 +437,8 @@ void gatewayForegroundListener(Ref ref) {
       final GatewayConnection connection = ref.read(gatewayConnectionProvider);
       if (connection.isReconnectSuspended) {
         talker.info('[Gateway] App resumed from background suspend');
-      } else if (connection.state == GatewayState.connected) {
+      } else if (connection.state == GatewayState.connected &&
+          !connection.isLikelyStale) {
         talker.info('[Gateway] App resumed, probing the socket');
       } else {
         talker.info('[Gateway] App resumed, reconnecting');
