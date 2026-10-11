@@ -78,10 +78,8 @@ class _ChannelTile extends ConsumerWidget {
         );
 
     final double rowOpacity = isChannelDirectlyMuted && !isSelected ? 0.5 : 1.0;
-    final Color baseTextColor = isSelected
+    final Color baseTextColor = isSelected || channelUnreadState.isHighlight
         ? context.colors.textPrimary
-        : channelUnreadState.isHighlight
-        ? context.colors.textSecondary
         : context.colors.textTertiaryMuted;
     final Color textColor = rowOpacity < 1
         ? baseTextColor.withValues(alpha: baseTextColor.a * rowOpacity)
@@ -190,7 +188,9 @@ class _ChannelTile extends ConsumerWidget {
               ),
               if (showMentionBadge) ...[
                 const SizedBox(width: 4),
-                FluxerBadge.count(count: mentionCount),
+                FluxerBadgeEntrance(
+                  child: FluxerBadge.count(count: mentionCount),
+                ),
               ],
               if (showVoiceUserCount) ...[
                 const SizedBox(width: 4),
