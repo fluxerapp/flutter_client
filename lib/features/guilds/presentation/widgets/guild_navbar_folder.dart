@@ -66,7 +66,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
         : context.colors.brandPrimary;
 
     final folderSurface = Color.lerp(
-      context.colors.backgroundSecondary,
+      context.colors.serverSidebarBackground,
       folderAccent,
       isDark ? 0.2 : 0.15,
     )!;
@@ -74,7 +74,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     // Stack: background panel behind header + animated guild list.
     // Background spans from header through guild items when expanded.
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
+      padding: const EdgeInsets.symmetric(
+        vertical: GuildNavbarIconShape.itemSpacing / 2,
+      ),
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
@@ -84,10 +86,12 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             Positioned.fill(
               child: Center(
                 child: Container(
-                  width: 48,
+                  width: GuildNavbarIconShape.size,
                   decoration: BoxDecoration(
                     color: folderSurface,
-                    borderRadius: BorderRadius.circular(48 * 0.3),
+                    borderRadius: BorderRadius.circular(
+                      GuildNavbarIconShape.radius,
+                    ),
                   ),
                 ),
               ),
@@ -126,7 +130,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                   totalMentions: totalMentions,
                   folderVoiceActivity: folderVoiceActivity,
                   isExpanded: visuallyExpanded,
-                  guildUnreadReady: guildUnreadReady,
                 ),
               ),
               // Animated expand/collapse of guild items.
@@ -134,6 +137,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                 duration: context.motion.panel,
                 curve: const Cubic(0.25, 0.1, 0.25, 1),
                 alignment: Alignment.topCenter,
+                clipBehavior: Clip.none,
                 child: visuallyExpanded
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 4),
@@ -145,7 +149,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                           ],
                         ),
                       )
-                    : const SizedBox(width: 72),
+                    : const SizedBox(width: kGuildNavbarWidth),
               ),
             ],
           ),
@@ -162,13 +166,12 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     required int totalMentions,
     required VoiceActivityType folderVoiceActivity,
     required bool isExpanded,
-    required bool guildUnreadReady,
   }) {
     final folder = widget.folder;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String folderName = folder.name ?? _derivedFolderName;
     return SizedBox(
-      width: 72,
+      width: kGuildNavbarWidth,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
@@ -179,24 +182,12 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
               top: 0,
               bottom: 0,
               child: Center(
-                child: AnimatedContainer(
-                  duration: guildUnreadReady
-                      ? context.motion.panel
-                      : Duration.zero,
-                  curve: const Cubic(0.25, 0.1, 0.25, 1),
-                  width: 4,
+                child: GuildNavbarPill(
                   height: _isHovered
-                      ? 20
+                      ? GuildNavbarPill.hoverHeight
                       : anyUnread
-                      ? 8
+                      ? GuildNavbarPill.unreadHeight
                       : 0,
-                  decoration: BoxDecoration(
-                    color: context.colors.textPrimary,
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(999),
-                      bottomRight: Radius.circular(999),
-                    ),
-                  ),
                 ),
               ),
             ),
@@ -237,9 +228,8 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                           ),
                         );
                       },
-                      child: SizedBox(
-                        width: 48,
-                        height: 48,
+                      child: SizedBox.square(
+                        dimension: GuildNavbarIconShape.size,
                         child: isExpanded
                             ? Center(
                                 child: PhosphorIcon(
@@ -249,15 +239,13 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                                 ),
                               )
                             : Center(
-                                child: AnimatedContainer(
-                                  duration: context.motion.hover,
-                                  curve: Curves.easeOut,
-                                  width: 48,
-                                  height: 48,
+                                child: Container(
+                                  width: GuildNavbarIconShape.size,
+                                  height: GuildNavbarIconShape.size,
                                   decoration: BoxDecoration(
                                     color: folderSurface,
                                     borderRadius: BorderRadius.circular(
-                                      48 * 0.3,
+                                      GuildNavbarIconShape.radius,
                                     ),
                                   ),
                                   child: _buildFolderContent(
@@ -273,11 +261,13 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
               ),
               if (!isExpanded && totalMentions > 0)
                 Positioned(
-                  bottom: -4,
-                  right: -4,
-                  child: FluxerBadge.count(
-                    count: totalMentions,
-                    cutoutColor: context.colors.backgroundSecondary,
+                  bottom: GuildNavbarPill.badgeInset,
+                  right: GuildNavbarPill.badgeInset,
+                  child: FluxerBadgeEntrance(
+                    child: FluxerBadge.count(
+                      count: totalMentions,
+                      cutoutColor: context.colors.serverSidebarBackground,
+                    ),
                   ),
                 ),
               if (!isExpanded && folderVoiceActivity != VoiceActivityType.none)

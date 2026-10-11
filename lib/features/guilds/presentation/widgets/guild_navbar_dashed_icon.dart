@@ -20,7 +20,6 @@ class _DashedGuildIcon extends StatefulWidget {
 class _DashedGuildIconState extends State<_DashedGuildIcon>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _radiusAnim;
   late Animation<Color?> _colorAnim;
 
   @override
@@ -30,10 +29,6 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
       vsync: this,
       duration: FluxerMotionTheme.hoverDuration,
     );
-    _radiusAnim = Tween<double>(
-      begin: 22,
-      end: 13,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -58,10 +53,12 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 3),
+    padding: const EdgeInsets.symmetric(
+      vertical: GuildNavbarIconShape.itemSpacing / 2,
+    ),
     child: Row(
       children: [
-        const SizedBox(width: 12),
+        const SizedBox(width: GuildNavbarIconShape.itemSpacing),
         _RightTooltip(
           content: _TooltipLabel(label: widget.label),
           child: MouseRegion(
@@ -79,29 +76,20 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
                     final Color activeColor = widget.isSelected
                         ? context.colors.brandPrimary
                         : (_colorAnim.value ?? context.colors.interactiveMuted);
-                    return SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: Center(
-                        child: SizedBox(
-                          width: 44,
-                          height: 44,
-                          child: CustomPaint(
-                            painter: DashedBorderPainter(
-                              shape: DashedBorderShape.roundedRectangle,
-                              borderRadius: widget.isSelected
-                                  ? 13
-                                  : _radiusAnim.value,
-                              color: activeColor,
-                              isSolid: widget.isSelected,
-                            ),
-                            child: Center(
-                              child: PhosphorIcon(
-                                widget.icon,
-                                color: activeColor,
-                                size: 20,
-                              ),
-                            ),
+                    return SizedBox.square(
+                      dimension: GuildNavbarIconShape.size,
+                      child: CustomPaint(
+                        painter: DashedBorderPainter(
+                          shape: DashedBorderShape.roundedRectangle,
+                          borderRadius: GuildNavbarIconShape.radius,
+                          color: activeColor,
+                          isSolid: widget.isSelected,
+                        ),
+                        child: Center(
+                          child: PhosphorIcon(
+                            widget.icon,
+                            color: activeColor,
+                            size: 20,
                           ),
                         ),
                       ),

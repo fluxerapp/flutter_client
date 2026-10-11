@@ -242,7 +242,6 @@ void main() {
       final mentionChurn = UnreadDmState(
         channels: [a.copyWith(unreadCount: 9), b],
         unreadChannelIds: const {'dm-1', 'dm-2'},
-        pendingRemovalIds: const {'dm-2'},
       );
       final membershipChange = UnreadDmState(channels: [a]);
 
@@ -259,6 +258,51 @@ void main() {
       expect(base.mentionCountFor('absent'), 0);
     },
   );
+
+  test('a read DM leaves the list with its count in one emission', () async {
+    final db = openTestDatabase();
+    await db.dmChannelDao.upsertDmChannels([
+      DmChannelsCompanion.insert(
+        id: 'dm-1',
+        recipientId: 'other',
+        unreadCount: const Value(0),
+      ),
+    ]);
+    await db.readStateDao.upsertReadState(
+      const ReadStatesCompanion(
+        channelId: Value('dm-1'),
+        mentionCount: Value(3),
+      ),
+    );
+    final container = ProviderContainer(
+      overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+    );
+    addTearDown(container.dispose);
+    final List<UnreadDmState> emitted = <UnreadDmState>[];
+    final subscription = container.listen(
+      unreadDmChannelsProvider,
+      (_, next) => emitted.add(next),
+    );
+    addTearDown(subscription.close);
+
+    await pumpEventQueue();
+    expect(container.read(unreadDmChannelsProvider).mentionCountFor('dm-1'), 3);
+    emitted.clear();
+
+    await db.readStateDao.upsertReadState(
+      const ReadStatesCompanion(
+        channelId: Value('dm-1'),
+        mentionCount: Value(0),
+      ),
+    );
+    await pumpEventQueue();
+
+    expect(emitted, isNotEmpty);
+    for (final UnreadDmState state in emitted) {
+      expect(state.channels, isEmpty);
+      expect(state.mentionCountFor('dm-1'), 0);
+    }
+  });
 
   test('guild read-state churn does not re-emit the DM list', () async {
     final db = openTestDatabase();

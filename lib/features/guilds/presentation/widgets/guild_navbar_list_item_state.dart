@@ -3,7 +3,6 @@ part of 'guild_navbar.dart';
 class _GuildListItemState extends State<_GuildListItem>
     with AutomaticKeepAliveClientMixin {
   var _isHovered = false;
-  var _animateUnreadIndicator = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -11,23 +10,9 @@ class _GuildListItemState extends State<_GuildListItem>
   @override
   void initState() {
     super.initState();
-    _animateUnreadIndicator = widget.guildUnreadReady;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onMounted?.call();
     });
-  }
-
-  @override
-  void didUpdateWidget(_GuildListItem oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!oldWidget.guildUnreadReady && widget.guildUnreadReady) {
-      _animateUnreadIndicator = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() => _animateUnreadIndicator = true);
-        }
-      });
-    }
   }
 
   bool get _displayHasUnread => widget.guildUnreadReady && widget.hasUnread;
@@ -49,13 +34,6 @@ class _GuildListItemState extends State<_GuildListItem>
       label.write(', ${l10n.guildNavbarGuildUnread}');
     }
     return label.toString();
-  }
-
-  Duration get _unreadIndicatorDuration {
-    if (!widget.guildUnreadReady || !_animateUnreadIndicator) {
-      return Duration.zero;
-    }
-    return context.motion.panel;
   }
 
   Widget _buildIconFace(
@@ -127,35 +105,27 @@ class _GuildListItemState extends State<_GuildListItem>
     final hasImage = iconUrl != null && !widget.isUnavailable;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
+      padding: const EdgeInsets.symmetric(
+        vertical: GuildNavbarIconShape.itemSpacing / 2,
+      ),
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: [
-          const SizedBox(width: 72),
+          const SizedBox(width: kGuildNavbarWidth),
           Positioned(
             left: 0,
             top: 0,
             bottom: 0,
             child: Center(
-              child: AnimatedContainer(
-                duration: _unreadIndicatorDuration,
-                curve: const Cubic(0.25, 0.1, 0.25, 1),
-                width: 4,
+              child: GuildNavbarPill(
                 height: widget.isSelected
-                    ? 40
+                    ? GuildNavbarPill.selectedHeight
                     : _isHovered
-                    ? 20
+                    ? GuildNavbarPill.hoverHeight
                     : _displayHasUnread
-                    ? 8
+                    ? GuildNavbarPill.unreadHeight
                     : 0,
-                decoration: BoxDecoration(
-                  color: context.colors.textPrimary,
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(999),
-                    bottomRight: Radius.circular(999),
-                  ),
-                ),
               ),
             ),
           ),
@@ -197,12 +167,13 @@ class _GuildListItemState extends State<_GuildListItem>
                       ? () => unawaited(_showActionSheet(context))
                       : null,
                   child: SizedBox(
-                    width: widget.opaqueHitTarget ? 72 : 48,
-                    height: 48,
+                    width: widget.opaqueHitTarget
+                        ? kGuildNavbarWidth
+                        : GuildNavbarIconShape.size,
+                    height: GuildNavbarIconShape.size,
                     child: Center(
-                      child: SizedBox(
-                        width: 48,
-                        height: 48,
+                      child: SizedBox.square(
+                        dimension: GuildNavbarIconShape.size,
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
@@ -221,12 +192,14 @@ class _GuildListItemState extends State<_GuildListItem>
                             if (!widget.isUnavailable &&
                                 _displayMentionCount > 0)
                               Positioned(
-                                bottom: -2,
-                                right: -2,
-                                child: FluxerBadge.count(
-                                  count: _displayMentionCount,
-                                  cutoutColor:
-                                      context.colors.backgroundSecondary,
+                                bottom: GuildNavbarPill.badgeInset,
+                                right: GuildNavbarPill.badgeInset,
+                                child: FluxerBadgeEntrance(
+                                  child: FluxerBadge.count(
+                                    count: _displayMentionCount,
+                                    cutoutColor:
+                                        context.colors.serverSidebarBackground,
+                                  ),
                                 ),
                               ),
                             if (!widget.isUnavailable &&

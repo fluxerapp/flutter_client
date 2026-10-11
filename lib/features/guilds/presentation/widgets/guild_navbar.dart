@@ -55,6 +55,8 @@ import 'package:fluxer_app/features/guilds/presentation/'
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/guild_navbar_dm_transition.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_navbar_scroll_targets.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_scroll_indicator.dart';
@@ -153,6 +155,10 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   bool _restoring = false;
   bool _needsScrollClamp = false;
   GuildNavbarScrollStore? _scrollStore;
+  List<DmChannel> _railDms = const <DmChannel>[];
+  final Set<String> _enteringDmIds = <String>{};
+  final Set<String> _exitingDmIds = <String>{};
+  bool _railDmsSeeded = false;
 
   @override
   void initState() {
@@ -325,6 +331,60 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     return entries;
   }
 
+  List<DmChannel> _reconcileRailDms(
+    List<DmChannel> next, {
+    required bool animate,
+  }) {
+    final Set<String> nextIds = <String>{
+      for (final DmChannel dm in next) dm.id,
+    };
+    final Set<String> previousIds = <String>{
+      for (final DmChannel dm in _railDms) dm.id,
+    };
+    if (_railDmsSeeded && animate) {
+      _enteringDmIds.addAll(nextIds.difference(previousIds));
+    }
+    _railDmsSeeded = true;
+    _exitingDmIds.removeAll(nextIds);
+    final List<DmChannel> result = <DmChannel>[...next];
+    if (animate) {
+      for (var i = 0; i < _railDms.length; i++) {
+        final DmChannel dm = _railDms[i];
+        if (nextIds.contains(dm.id)) {
+          continue;
+        }
+        _exitingDmIds.add(dm.id);
+        result.insert(min(i, result.length), dm);
+      }
+    } else {
+      _exitingDmIds.clear();
+    }
+    _railDms = result;
+    return result;
+  }
+
+  Key? _entryKey(_NavbarListEntry entry) {
+    if (entry.dm case final DmChannel dm) {
+      return ValueKey<String>('dm-${dm.id}');
+    }
+    if (entry.organizedItem case final GuildNavbarFolder folder) {
+      return _itemKeys.putIfAbsent(
+        guildFolderScrollIndicatorId(folder.id),
+        GlobalKey.new,
+      );
+    }
+    return null;
+  }
+
+  void _handleRailDmExited(String channelId) {
+    if (!mounted || !_exitingDmIds.remove(channelId)) {
+      return;
+    }
+    setState(() {
+      _railDms = _railDms.where((DmChannel dm) => dm.id != channelId).toList();
+    });
+  }
+
   @override
   void dispose() {
     _persistScroll();
@@ -356,7 +416,10 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
 
     final dmFolderState = ref.watch(dmFolderProvider);
     ref.watch(unreadDmChannelsProvider.select(dmNavbarMembershipToken));
-    final unreadDms = ref.read(unreadDmChannelsProvider).channels;
+    final List<DmChannel> unreadDms = _reconcileRailDms(
+      ref.read(unreadDmChannelsProvider).channels,
+      animate: context.motion.panel != Duration.zero,
+    );
     final showFavorites = ref.watch(
       appearancePreferencesProvider.select((s) => s.showFavorites),
     );
@@ -423,11 +486,16 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     _indicatorFolderGuilds = guildNavbarScrollIndicatorFolderGuilds(
       _indicatorItems(),
     );
+    final Map<Key, int> keyedEntryIndex = <Key, int>{
+      for (var i = 0; i < navbarEntries.length; i++)
+        if (_entryKey(navbarEntries[i]) case final Key key) key: i,
+    };
     final guildListView = ListView.builder(
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       controller: _scrollController,
       padding: EdgeInsets.only(top: topPadding, bottom: 8),
       itemCount: navbarEntries.length,
+      findChildIndexCallback: (Key key) => keyedEntryIndex[key],
       itemBuilder: (BuildContext context, int index) {
         return _buildNavbarListItem(
           context,
@@ -440,9 +508,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
 
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Container(
-      width: 72,
+      width: kGuildNavbarWidth,
       decoration: BoxDecoration(
-        color: context.colors.backgroundSecondary,
+        color: context.colors.serverSidebarBackground,
         border: Border(right: BorderSide(color: context.colors.borderColor)),
       ),
       child: ScrollConfiguration(
@@ -471,34 +539,44 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         return const _FavoritesButton();
       case _NavbarListEntryKind.allowlistedDm:
         final DmChannel dm = entry.dm!;
-        return DmNavbarItem(
-          key: ValueKey('dm-${dm.id}'),
-          channelId: dm.id,
-          recipientId: dm.recipientId,
-          displayName: dm.name ?? l10n.favoritesDirectMessageSubtitle,
-          type: dm.type,
-          onContextMenu: (Offset position) => _handleDmContextMenu(
-            context,
-            position: position,
-            dm: dm,
-            isCollapsed: dmFolderState.collapseDMs,
-            isAllowlisted: true,
+        return GuildNavbarDmTransition(
+          key: _entryKey(entry),
+          visible: !_exitingDmIds.contains(dm.id),
+          animateIn: _enteringDmIds.remove(dm.id),
+          onExited: () => _handleRailDmExited(dm.id),
+          child: DmNavbarItem(
+            channelId: dm.id,
+            recipientId: dm.recipientId,
+            displayName: dm.name ?? l10n.favoritesDirectMessageSubtitle,
+            type: dm.type,
+            onContextMenu: (Offset position) => _handleDmContextMenu(
+              context,
+              position: position,
+              dm: dm,
+              isCollapsed: dmFolderState.collapseDMs,
+              isAllowlisted: true,
+            ),
           ),
         );
       case _NavbarListEntryKind.regularDm:
         final DmChannel dm = entry.dm!;
-        return DmNavbarItem(
-          key: ValueKey('dm-${dm.id}'),
-          channelId: dm.id,
-          recipientId: dm.recipientId,
-          displayName: dm.name ?? l10n.favoritesDirectMessageSubtitle,
-          type: dm.type,
-          onContextMenu: (Offset position) => _handleDmContextMenu(
-            context,
-            position: position,
-            dm: dm,
-            isCollapsed: dmFolderState.collapseDMs,
-            isAllowlisted: false,
+        return GuildNavbarDmTransition(
+          key: _entryKey(entry),
+          visible: !_exitingDmIds.contains(dm.id),
+          animateIn: _enteringDmIds.remove(dm.id),
+          onExited: () => _handleRailDmExited(dm.id),
+          child: DmNavbarItem(
+            channelId: dm.id,
+            recipientId: dm.recipientId,
+            displayName: dm.name ?? l10n.favoritesDirectMessageSubtitle,
+            type: dm.type,
+            onContextMenu: (Offset position) => _handleDmContextMenu(
+              context,
+              position: position,
+              dm: dm,
+              isCollapsed: dmFolderState.collapseDMs,
+              isAllowlisted: false,
+            ),
           ),
         );
       case _NavbarListEntryKind.divider:
@@ -560,10 +638,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         final GuildNavbarFolder folderItem =
             entry.organizedItem! as GuildNavbarFolder;
         return KeyedSubtree(
-          key: _itemKeys.putIfAbsent(
-            guildFolderScrollIndicatorId(folderItem.id),
-            GlobalKey.new,
-          ),
+          key: _entryKey(entry),
           child: _GuildFolderWidget(
             key: ValueKey<String>('folder-${folderItem.id}'),
             folder: folderItem,
