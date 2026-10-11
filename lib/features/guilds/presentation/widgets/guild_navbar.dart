@@ -55,6 +55,8 @@ import 'package:fluxer_app/features/guilds/presentation/'
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/guild_navbar_scroll_targets.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
@@ -177,15 +179,18 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   }
 
   List<String> _indicatorOrder() {
-    final Set<int> expanded = ref.read(folderExpandedStateProvider);
-    return <String>[
-      for (final _NavbarListEntry entry in _indicatorEntries)
-        if (entry.organizedItem case final GuildNavbarGuild item)
-          item.guild.id
-        else if (entry.organizedItem case final GuildNavbarFolder folder
-            when expanded.contains(folder.id))
-          for (final Guild guild in folder.guilds) guild.id,
-    ];
+    return guildNavbarScrollIndicatorOrder(
+      items: _indicatorItems(),
+      expandedFolderIds: ref.read(folderExpandedStateProvider),
+    );
+  }
+
+  Iterable<GuildNavbarItem> _indicatorItems() sync* {
+    for (final _NavbarListEntry entry in _indicatorEntries) {
+      if (entry.organizedItem case final GuildNavbarItem item) {
+        yield item;
+      }
+    }
   }
 
   void _persistScroll() {
@@ -328,20 +333,12 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     super.dispose();
   }
 
-  GuildScrollIndicatorSeverity? _resolveGuildScrollSeverity(String guildId) {
-    final GuildReadStateEntry? unread = ref.read(
-      guildReadStateProvider,
-    )[guildId];
-    if (unread == null) {
-      return null;
-    }
-    if (unread.mentionCount > 0) {
-      return GuildScrollIndicatorSeverity.mention;
-    }
-    if (unread.hasUnread) {
-      return GuildScrollIndicatorSeverity.unread;
-    }
-    return null;
+  GuildScrollIndicatorSeverity? _resolveGuildScrollSeverity(String id) {
+    return guildNavbarScrollIndicatorSeverity(
+      id: id,
+      items: _indicatorItems(),
+      readStates: ref.read(guildReadStateProvider),
+    );
   }
 
   @override
@@ -557,13 +554,22 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       case _NavbarListEntryKind.organizedFolder:
         final GuildNavbarFolder folderItem =
             entry.organizedItem! as GuildNavbarFolder;
-        return _GuildFolderWidget(
-          key: ValueKey<String>('folder-${folderItem.id}'),
-          folder: folderItem,
-          unavailableCount: unavailableCount,
-          resolveGuildItemKey: (String guildId) =>
-              _itemKeys.putIfAbsent(guildId, GlobalKey<_GuildListItemState>.new)
-                  as GlobalKey<_GuildListItemState>,
+        return KeyedSubtree(
+          key: _itemKeys.putIfAbsent(
+            guildFolderScrollIndicatorId(folderItem.id),
+            GlobalKey.new,
+          ),
+          child: _GuildFolderWidget(
+            key: ValueKey<String>('folder-${folderItem.id}'),
+            folder: folderItem,
+            unavailableCount: unavailableCount,
+            resolveGuildItemKey: (String guildId) =>
+                _itemKeys.putIfAbsent(
+                      guildId,
+                      GlobalKey<_GuildListItemState>.new,
+                    )
+                    as GlobalKey<_GuildListItemState>,
+          ),
         );
       case _NavbarListEntryKind.exploreCommunities:
         final bool isDiscover = ref.watch(
