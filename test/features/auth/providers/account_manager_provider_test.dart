@@ -36,14 +36,17 @@ class _FakeApiServer {
 
   int statusCode = HttpStatus.ok;
 
+  Completer<void>? hold;
+
   static Future<_FakeApiServer> start() async {
     final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
     final fake = _FakeApiServer._(server);
-    server.listen((HttpRequest request) {
+    server.listen((HttpRequest request) async {
       fake.requests.add('${request.method} ${request.uri.path}');
       fake.authHeaders.add(
         request.headers.value(HttpHeaders.authorizationHeader),
       );
+      await fake.hold?.future;
       request.response.statusCode = fake.statusCode;
       unawaited(request.response.close());
     });
@@ -209,6 +212,35 @@ void main() {
     expect(switching, isNot(contains(true)));
     expect(container.read(currentUserIdProvider), _userId);
     expect((await db.authSessionDao.getSession('user-2'))!.isValid, isFalse);
+  });
+
+  test('a second switch is ignored while the token check runs', () async {
+    final server = await _FakeApiServer.start();
+    addTearDown(server.close);
+    server
+      ..statusCode = HttpStatus.unauthorized
+      ..hold = Completer<void>();
+    final (:container, :db) = _harness(baseUrl: server.baseUrl);
+    await _signIn(container, db);
+    await db.authSessionDao.saveSessionMetadata(userId: 'user-2');
+    await db.authSessionDao.saveSessionMetadata(userId: 'user-3');
+    await db.authSessionDao.touchSession(_userId);
+    final AccountManager manager = container.read(
+      accountManagerProvider.notifier,
+    );
+
+    final Future<void> first = manager.switchToAccount('user-2');
+    while (server.requests.isEmpty) {
+      await Future<void>.delayed(const Duration(milliseconds: 5));
+    }
+    expect(container.read(accountManagerProvider).isSwitchPending, isTrue);
+    await manager.switchToAccount('user-3');
+    server.hold!.complete();
+    await expectLater(first, throwsA(isA<SessionExpiredFailure>()));
+
+    expect(server.authHeaders, ['token-user-2']);
+    expect(container.read(accountManagerProvider).isSwitchPending, isFalse);
+    expect((await db.authSessionDao.getSession('user-3'))!.isValid, isTrue);
   });
 
   for (final String? token in <String?>[null, '']) {

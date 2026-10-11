@@ -25,19 +25,23 @@ const Duration _kPostSwitchStartupTimeout = Duration(seconds: 20);
 class AccountManagerState {
   final List<StoredAccount> accounts;
   final bool isSwitching;
+  final bool isSwitchPending;
 
   const AccountManagerState({
     required this.accounts,
     required this.isSwitching,
+    this.isSwitchPending = false,
   });
 
   AccountManagerState copyWith({
     List<StoredAccount>? accounts,
     bool? isSwitching,
+    bool? isSwitchPending,
   }) {
     return AccountManagerState(
       accounts: accounts ?? this.accounts,
       isSwitching: isSwitching ?? this.isSwitching,
+      isSwitchPending: isSwitchPending ?? this.isSwitchPending,
     );
   }
 }
@@ -63,6 +67,10 @@ class AccountManager extends _$AccountManager {
   /// marked invalid and a [SessionExpiredFailure] is thrown so the UI can
   /// prompt re-login.
   Future<void> switchToAccount(String userId) async {
+    if (state.isSwitchPending) {
+      return;
+    }
+    state = state.copyWith(isSwitchPending: true);
     try {
       final db = ref.read(fluxerDatabaseProvider);
       final authRepository = ref.read(authRepositoryProvider);
@@ -115,6 +123,8 @@ class AccountManager extends _$AccountManager {
       talker.error('[AccountManager] Switch failed: $e');
       state = state.copyWith(isSwitching: false);
       rethrow;
+    } finally {
+      state = state.copyWith(isSwitchPending: false);
     }
   }
 

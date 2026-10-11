@@ -64,9 +64,9 @@ class AccountSelector extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
 
     return AbsorbPointer(
-      absorbing: state.isSwitching,
+      absorbing: state.isSwitchPending,
       child: AnimatedOpacity(
-        opacity: state.isSwitching ? 0.5 : 1.0,
+        opacity: state.isSwitchPending ? 0.5 : 1.0,
         duration: context.motion.fast,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
