@@ -3328,27 +3328,6 @@ class ChatViewModel extends _$ChatViewModel {
       currentUserId: ref.read(currentUserIdProvider),
       allowDecrease: true,
     );
-    if (state.channelId != channelId || !ref.mounted) {
-      return;
-    }
-    final database = ref.read(fluxerDatabaseProvider);
-    final readState = await database.readStateDao.getReadState(channelId);
-    if ((readState?.mentionCount ?? 0) > 0 || (readState?.manual ?? false)) {
-      return;
-    }
-    final ackMessageId = readState?.lastMessageId;
-    if (ackMessageId == null || ackMessageId.isEmpty) {
-      return;
-    }
-    final messagesAfterAck = await database.messageDao.getMessagesAfter(
-      channelId,
-      ackMessageId,
-      limit: 1,
-    );
-    if (messagesAfterAck.isNotEmpty) {
-      return;
-    }
-    await repository.applyLocalAckLatest(channelId);
   }
 
   Future<PageLoadResult> loadMore() async {

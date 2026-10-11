@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
@@ -3492,6 +3493,7 @@ void main() {
       final channel = await db.channelDao.getChannelById('channel-1');
       expect(channel?.lastMessageId, deletedId);
       expect(readState?.lastMessageId, deletedId);
+      expect(adapter.ackedMessageIds, <String>[deletedId]);
       expect(
         container.read(chatViewModelProvider).hasMoreNewerMessages,
         isFalse,
@@ -3641,6 +3643,112 @@ void main() {
       expect(adapter.ackedMessageIds, <String>[dmId]);
       expect(readState?.lastMessageId, dmId);
       expect(readState?.mentionCount, 0);
+      expect(dm?.unreadCount, 0);
+    },
+  );
+
+  test(
+    'reopening an emptied DM acks the deleted tail READY still points at',
+    () async {
+      final db = openTestDatabase();
+      final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+      final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await GatewayEventHandler(database: db, currentUserId: 'me').handle(
+        ReadyEvent(
+          sessionId: 'session-1',
+          user: UserPrivateResponse.fromJson(<String, Object?>{
+            'id': 'me',
+            'username': 'me',
+            'discriminator': '0001',
+            'global_name': null,
+            'avatar': null,
+            'avatar_color': null,
+            'flags': 0,
+            'is_staff': false,
+            'acls': <String>[],
+            'traits': <String>[],
+            'email': null,
+            'bio': null,
+            'pronouns': null,
+            'accent_color': null,
+            'banner': null,
+            'banner_color': null,
+            'mfa_enabled': false,
+            'verified': true,
+            'has_verified_phone': false,
+            'premium_type': null,
+            'premium_since': null,
+            'premium_until': null,
+            'premium_will_cancel': false,
+            'premium_billing_cycle': null,
+            'premium_lifetime_sequence': null,
+            'premium_badge_hidden': false,
+            'premium_badge_masked': false,
+            'premium_badge_timestamp_hidden': false,
+            'premium_badge_sequence_hidden': false,
+            'premium_purchase_disabled': false,
+            'premium_enabled_override': false,
+            'premium_discriminator': false,
+            'premium_perks_disabled': false,
+            'password_last_changed_at': null,
+            'required_actions': <String>[],
+            'nsfw_allowed': true,
+            'has_dismissed_premium_onboarding': false,
+            'has_ever_purchased': false,
+            'has_unread_gift_inventory': false,
+            'unread_gift_inventory_count': 0,
+            'pending_bulk_message_deletion': null,
+          }),
+          guilds: const [],
+          rawGuilds: const [],
+          privateChannels: <ChannelResponse>[
+            ChannelResponse.fromJson(<String, Object?>{
+              'id': dmId,
+              'type': 1,
+              'last_message_id': deletedId,
+              'recipients': <Map<String, Object?>>[
+                <String, Object?>{
+                  'id': '12345',
+                  'username': 'user-12345',
+                  'discriminator': '0001',
+                  'global_name': null,
+                  'avatar': null,
+                  'avatar_color': null,
+                  'flags': 0,
+                },
+              ],
+            }),
+          ],
+          relationships: const [],
+          readStates: <GatewayReadState>[
+            GatewayReadState(id: dmId, lastMessageId: dmId),
+          ],
+          presences: const [],
+        ),
+      );
+      expect(
+        (await db.dmChannelDao.getDmChannelById(dmId))?.lastMessageId,
+        deletedId,
+      );
+      final adapter = _ChatAdapter(messagesByChannel: {dmId: []});
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel(dmId);
+      _setViewportActive(container, channelId: dmId);
+      await _flushAsync();
+      _updateViewport(container, channelId: dmId, nearLoadedTail: true);
+      await _flushAsync();
+      await container.read(ackBatcherProvider).flushPending(force: true);
+      await _flushAsync();
+
+      final readState = await db.readStateDao.getReadState(dmId);
+      final dm = await db.dmChannelDao.getDmChannelById(dmId);
+      expect(container.read(chatViewModelProvider).messages, isEmpty);
+      expect(adapter.ackedMessageIds, <String>[deletedId]);
+      expect(readState?.lastMessageId, deletedId);
+      expect(dm?.lastMessageId, deletedId);
       expect(dm?.unreadCount, 0);
     },
   );
