@@ -97,14 +97,18 @@ ProviderContainer _createContainer({
   required db.FluxerDatabase database,
   required _FakeUsersApi usersApi,
   Duration patchDebounce = kGuildUserSettingsPatchDebounce,
+  Duration patchRetryBaseDelay = kGuildUserSettingsPatchRetryBaseDelay,
 }) {
   return ProviderContainer(
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(database),
       fluxerClientProvider.overrideWithValue(_FakeClient(usersApi)),
       guildUserSettingsRepositoryProvider.overrideWith(
-        (Ref ref) =>
-            GuildUserSettingsRepository(ref, patchDebounce: patchDebounce),
+        (Ref ref) => GuildUserSettingsRepository(
+          ref,
+          patchDebounce: patchDebounce,
+          patchRetryBaseDelay: patchRetryBaseDelay,
+        ),
       ),
     ],
   );
@@ -541,6 +545,63 @@ void main() {
         );
       },
     );
+
+    test('a debounced PATCH that fails transiently is re-sent', () async {
+      const guildId = 'guild-1';
+      const channelId = 'channel-1';
+      var failures = 1;
+      usersApi = _FakeUsersApi(
+        onPatch: (String guildId, UserGuildSettingsUpdateRequest body) {
+          if (failures > 0) {
+            failures -= 1;
+            throw DioException.connectionError(
+              requestOptions: RequestOptions(path: '/users/@me/guilds'),
+              reason: 'Connection reset by peer',
+            );
+          }
+          return UserGuildSettingsResponse(
+            guildId: guildId,
+            messageNotifications: UserNotificationSettings.inherit,
+            muted: false,
+            muteConfig: null,
+            mobilePush: true,
+            suppressEveryone: false,
+            suppressRoles: false,
+            hideMutedChannels: false,
+            channelOverrides: body.channelOverrides.value,
+            version: 1,
+          );
+        },
+      );
+      container.dispose();
+      container = _createContainer(
+        database: database,
+        usersApi: usersApi,
+        patchDebounce: const Duration(milliseconds: 10),
+        patchRetryBaseDelay: const Duration(milliseconds: 50),
+      );
+      final GuildUserSettingsRepository repo = container.read(
+        guildUserSettingsRepositoryProvider,
+      );
+
+      await repo.updateChannelOverride(
+        guildId: guildId,
+        channelId: channelId,
+        muted: true,
+      );
+      await repo.flushPendingPatches(guildId: guildId);
+      expect(usersApi.patchCount, 1);
+
+      for (var i = 0; i < 60 && usersApi.patchCount < 2; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      }
+
+      expect(usersApi.patchCount, 2);
+      expect(
+        usersApi.lastRequest?.channelOverrides.value?[channelId]?.muted,
+        isTrue,
+      );
+    });
 
     test('concurrent mutes include every channel in final PATCH', () async {
       const guildId = 'guild-1';
