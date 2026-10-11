@@ -1027,6 +1027,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         UsersCompanion(
           id: Value(profile.id),
           username: Value(profile.username),
+          mentionFlags: Value(profile.mentionFlags?.json),
           bio: Value(profile.bio),
           pronouns: Value(profile.pronouns),
           accentColor: Value(profile.accentColor),

@@ -345,6 +345,34 @@ void main() {
     );
   });
 
+  test('private profile stores the mention preference', () async {
+    final FluxerDatabase db = openTestDatabase();
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        fluxerClientProvider.overrideWithValue(_OfflineFluxerClient()),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    container.read(currentUserIdProvider.notifier).set('u1');
+    container.read(userSettingsViewModelProvider);
+    container
+        .read(currentUserPrivateReadProvider.notifier)
+        .apply(
+          UserPrivateResponse.fromJson(<String, dynamic>{
+            ..._privateUser('u1').toJson(),
+            'mention_flags': MentionReplyPreferences.preferMention.json,
+          }),
+        );
+    await pumpEventQueue();
+
+    expect(
+      (await db.userDao.getUserById('u1'))?.mentionFlags,
+      MentionReplyPreferences.preferMention.json,
+    );
+  });
+
   test('reset clears isSaving for per-guild profile', () {
     final container = ProviderContainer(
       overrides: [

@@ -233,7 +233,6 @@ db.RolesCompanion roleFromSdk(GuildRoleResponse sdk, String guildId) {
 db.UsersCompanion userFromPartialSdk(UserPartialResponse sdk) {
   final bot = sdk.bot;
   final system = sdk.system;
-  final mentionFlags = sdk.mentionFlags;
   return db.UsersCompanion.insert(
     id: sdk.id,
     username: sdk.username,
@@ -244,9 +243,7 @@ db.UsersCompanion userFromPartialSdk(UserPartialResponse sdk) {
     bot: bot == null ? const Value.absent() : Value(bot),
     system: system == null ? const Value.absent() : Value(system),
     memberSince: Value(dateTimeFromUserSnowflakeOrNull(sdk.id)),
-    mentionFlags: mentionFlags == null
-        ? const Value.absent()
-        : Value(mentionFlags.json),
+    mentionFlags: Value(sdk.mentionFlags?.json),
   );
 }
 
