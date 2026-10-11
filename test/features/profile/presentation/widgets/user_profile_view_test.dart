@@ -313,6 +313,36 @@ void main() {
     expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
   });
 
+  testWidgets('profile avatar is 80pt inside a 6pt sheet-coloured ring', (
+    tester,
+  ) async {
+    final ScrollController scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+    tester.view.physicalSize = const Size(1400, 1200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    await tester.pumpWidget(_buildApp(scrollController));
+    await tester.pumpAndSettle();
+
+    final FluxerAvatar avatar = tester.widget<FluxerAvatar>(
+      find.byType(FluxerAvatar),
+    );
+    expect(avatar.size, 80);
+    final Container ring = tester.widget<Container>(
+      find
+          .ancestor(
+            of: find.byType(FluxerAvatar),
+            matching: find.byType(Container),
+          )
+          .first,
+    );
+    expect(ring.padding, const EdgeInsets.all(6));
+  });
+
   testWidgets('profile tab status tap opens the same menu as display name', (
     tester,
   ) async {

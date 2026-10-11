@@ -56,7 +56,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kBannerHeight = 184;
 const double _kAvatarSize = 80;
-const double _kAvatarOverlap = _kAvatarSize / 2;
+const double _kAvatarRingWidth = 6;
+const double _kAvatarOverlap = _kAvatarSize / 2 + _kAvatarRingWidth;
 
 class UserProfileView extends ConsumerStatefulWidget {
   const UserProfileView({
@@ -1058,7 +1059,7 @@ class _ProfileIdentityAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget avatar = Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(_kAvatarRingWidth),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: context.colors.backgroundPrimary,
