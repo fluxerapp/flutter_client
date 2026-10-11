@@ -313,20 +313,19 @@ class FluxerNetworkAvatarImage extends StatelessWidget {
 
     Widget networkImage(String url, {required Widget Function() onError}) {
       final bool animated = url.contains('animated=true');
-      return AllowImageFrameAnimation(
-        child: CachedNetworkImage(
-          imageUrl: url,
-          width: size,
-          height: size,
-          memCacheWidth: animated ? null : (size * devicePixelRatio).round(),
-          fit: BoxFit.cover,
-          fadeInDuration: Duration.zero,
-          fadeOutDuration: Duration.zero,
-          useOldImageOnUrlChange: true,
-          placeholder: (_, _) => placeholder(),
-          errorBuilder: (_, _, _) => onError(),
-        ),
+      final Widget image = CachedNetworkImage(
+        imageUrl: url,
+        width: size,
+        height: size,
+        memCacheWidth: animated ? null : (size * devicePixelRatio).round(),
+        fit: BoxFit.cover,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
+        useOldImageOnUrlChange: true,
+        placeholder: (_, _) => placeholder(),
+        errorBuilder: (_, _, _) => onError(),
       );
+      return animated ? AllowImageFrameAnimation(child: image) : image;
     }
 
     final String? url = imageUrl;
