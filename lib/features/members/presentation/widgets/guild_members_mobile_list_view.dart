@@ -455,18 +455,16 @@ class _MobileFilterChips extends ConsumerWidget {
                 for (final JoinSourceType type in JoinSourceType.$valuesDefined)
                   FluxerBottomSheetMenuItem(
                     label: _joinSourceLabel(l10n, type),
-                    isSelected: filter.sourceTypes.contains(type),
+                    isSelected:
+                        filter.sourceTypes.length == 1 &&
+                        filter.sourceTypes.first == type,
                     onTap: () {
-                      final List<JoinSourceType> next =
-                          List<JoinSourceType>.from(filter.sourceTypes);
-                      if (next.contains(type)) {
-                        next.remove(type);
-                      } else {
-                        next.add(type);
-                      }
                       notifier.setJoinMethodFilter(
-                        filter.copyWith(sourceTypes: next),
+                        GuildMembersJoinMethodFilter(
+                          sourceTypes: <JoinSourceType>[type],
+                        ),
                       );
+                      close();
                     },
                   ),
               ],
@@ -484,7 +482,6 @@ class _MobileFilterChips extends ConsumerWidget {
     final GuildMembersSearch notifier = ref.read(
       guildMembersSearchProvider(guildId).notifier,
     );
-    final List<String> selected = state.roleFilter;
     final List<drift_db.Role> sorted = roles.values.toList()
       ..sort(
         (drift_db.Role a, drift_db.Role b) => b.position.compareTo(a.position),
@@ -500,33 +497,39 @@ class _MobileFilterChips extends ConsumerWidget {
             ScrollController scrollController,
             VoidCallback close,
           ) {
-            return _MembersFilterOptionsList(
-              sheetContext: sheetContext,
-              scrollController: scrollController,
-              children: <Widget>[
-                FluxerBottomSheetMenuItem(
-                  label: l10n.guildMembersClearAll,
-                  isSelected: selected.isEmpty,
-                  onTap: () {
-                    notifier.setRoleFilter(<String>[]);
-                    close();
-                  },
-                ),
-                for (final drift_db.Role role in sorted)
-                  FluxerBottomSheetMenuItem(
-                    label: role.name,
-                    isSelected: selected.contains(role.id),
-                    onTap: () {
-                      final List<String> next = List<String>.from(selected);
-                      if (next.contains(role.id)) {
-                        next.remove(role.id);
-                      } else {
-                        next.add(role.id);
-                      }
-                      notifier.setRoleFilter(next);
-                    },
-                  ),
-              ],
+            return Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                final List<String> selected = ref.watch(
+                  guildMembersSearchProvider(
+                    guildId,
+                  ).select((GuildMembersSearchState s) => s.roleFilter),
+                );
+                return _MembersFilterOptionsList(
+                  sheetContext: sheetContext,
+                  scrollController: scrollController,
+                  children: <Widget>[
+                    FluxerBottomSheetMenuItem(
+                      label: l10n.guildMembersClearAll,
+                      enabled: selected.isNotEmpty,
+                      onTap: () => notifier.setRoleFilter(<String>[]),
+                    ),
+                    for (final drift_db.Role role in sorted)
+                      FluxerBottomSheetMenuItem(
+                        label: role.name,
+                        isSelected: selected.contains(role.id),
+                        onTap: () {
+                          final List<String> next = List<String>.from(selected);
+                          if (next.contains(role.id)) {
+                            next.remove(role.id);
+                          } else {
+                            next.add(role.id);
+                          }
+                          notifier.setRoleFilter(next);
+                        },
+                      ),
+                  ],
+                );
+              },
             );
           },
     );
