@@ -6,10 +6,12 @@ import 'dart:ui' as ui show Locale;
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
+import 'package:drift/native.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/daos/composer_draft_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -598,6 +600,49 @@ void main() {
       final ChatViewState state = container.read(chatViewModelProvider);
       expect(state.editingMessage, isNull);
       expect(state.messageText, 'typed draft');
+    },
+  );
+
+  test(
+    'returning before the outgoing draft write lands keeps the draft',
+    () async {
+      final _WriteBehindDraftDatabase db = _WriteBehindDraftDatabase();
+      addTearDown(db.close);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: 'channel-1', guildId: '', name: 'dm'),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-2',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+      final container = _container(
+        db,
+        _SendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+        ),
+      );
+      addTearDown(container.dispose);
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+      notifier.updateMessageText('a long pasted draft');
+
+      db.drafts.holdWrites = true;
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+      final Future<void> returned = notifier.switchChannel('channel-1');
+      await _flushAsync();
+      db.drafts.releaseWrites();
+      await returned;
+      await _flushAsync();
+
+      expect(
+        container.read(chatViewModelProvider).messageText,
+        'a long pasted draft',
+      );
     },
   );
 
@@ -1587,5 +1632,62 @@ class _ImmediateUploadClient extends AttachmentUploadClient {
       fileSize: params.plan.fileSize,
       contentType: params.plan.contentType,
     );
+  }
+}
+
+class _WriteBehindDraftDatabase extends FluxerDatabase {
+  _WriteBehindDraftDatabase() : super.forTesting(NativeDatabase.memory());
+
+  late final _WriteBehindComposerDraftDao drafts = _WriteBehindComposerDraftDao(
+    this,
+  );
+
+  @override
+  ComposerDraftDao get composerDraftDao => drafts;
+}
+
+class _WriteBehindComposerDraftDao extends ComposerDraftDao {
+  _WriteBehindComposerDraftDao(super.attachedDatabase);
+
+  bool holdWrites = false;
+  final List<Completer<void>> _heldWrites = <Completer<void>>[];
+
+  void releaseWrites() {
+    holdWrites = false;
+    for (final Completer<void> held in _heldWrites) {
+      held.complete();
+    }
+    _heldWrites.clear();
+  }
+
+  Future<void> _writeSlot() {
+    if (!holdWrites) {
+      return Future<void>.value();
+    }
+    final Completer<void> held = Completer<void>();
+    _heldWrites.add(held);
+    return held.future;
+  }
+
+  @override
+  Future<void> upsertDraft({
+    required String channelId,
+    required String content,
+    String? replyToMessageId,
+    bool? replyMentioning,
+  }) async {
+    await _writeSlot();
+    await super.upsertDraft(
+      channelId: channelId,
+      content: content,
+      replyToMessageId: replyToMessageId,
+      replyMentioning: replyMentioning,
+    );
+  }
+
+  @override
+  Future<void> deleteDraft(String channelId) async {
+    await _writeSlot();
+    await super.deleteDraft(channelId);
   }
 }

@@ -611,6 +611,8 @@ class ChatViewModel extends _$ChatViewModel {
   Timer? _readAckRetryTimer;
   bool _stickySnapshotArmed = false;
   Timer? _draftSaveTimer;
+  final Map<String, Future<void>> _pendingDraftWrites =
+      <String, Future<void>>{};
   Timer? _jumpHighlightTimer;
   final Set<String> _loadedUnreadBoundaryKeys = <String>{};
   final _WindowContiguity _contiguity = _WindowContiguity();
@@ -1883,6 +1885,28 @@ class ChatViewModel extends _$ChatViewModel {
     if (channelId.isEmpty) {
       return;
     }
+    final Future<void> write = _writeComposerDraft(
+      channelId: channelId,
+      content: content,
+      reply: reply,
+      replyMentioning: replyMentioning,
+    );
+    _pendingDraftWrites[channelId] = write;
+    try {
+      await write;
+    } finally {
+      _pendingDraftWrites.removeWhere(
+        (_, Future<void> pending) => identical(pending, write),
+      );
+    }
+  }
+
+  Future<void> _writeComposerDraft({
+    required String channelId,
+    required String content,
+    required Message? reply,
+    required bool? replyMentioning,
+  }) async {
     final String sanitizedContent = stripPrivateUseCharacters(content);
     final String? replyId = reply?.id;
     final bool hasDraft =
@@ -1980,6 +2004,7 @@ class ChatViewModel extends _$ChatViewModel {
 
   Future<({String text, Message? reply, bool? replyMentioning})>
   _loadComposerDraft(String channelId) async {
+    await _pendingDraftWrites[channelId];
     final row = await ref
         .read(fluxerDatabaseProvider)
         .composerDraftDao
