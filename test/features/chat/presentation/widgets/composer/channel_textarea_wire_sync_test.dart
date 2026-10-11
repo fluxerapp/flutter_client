@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_send_and_voice_button.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
 import '../../../../../helpers/open_test_database.dart';
@@ -21,6 +23,28 @@ void main() {
     await tester.pump(const Duration(milliseconds: 50));
 
     expect(readMutableChatViewModel(container).state.messageText, 'hello wire');
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pump(const Duration(milliseconds: 400));
+    await releaseTestWidgetTree(tester);
+  });
+
+  testWidgets('sending closes the attachment tray', (tester) async {
+    final container = await pumpComposerChannelTextareaHarness(tester);
+    await tester.enterText(channelComposerField(), 'hello');
+    await tester.pump(const Duration(milliseconds: 50));
+    container.read(attachmentPanelProvider.notifier).open();
+    await tester.pump();
+
+    tester
+        .widget<ComposerSendAndVoiceButton>(
+          find.byType(ComposerSendAndVoiceButton),
+        )
+        .onSend();
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.pump(const Duration(milliseconds: 50));
+
+    expect(readMutableChatViewModel(container).sentTexts, <String?>['hello']);
+    expect(container.read(attachmentPanelProvider), isFalse);
     FocusManager.instance.primaryFocus?.unfocus();
     await tester.pump(const Duration(milliseconds: 400));
     await releaseTestWidgetTree(tester);

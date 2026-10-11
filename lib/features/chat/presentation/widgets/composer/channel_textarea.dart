@@ -452,6 +452,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _resetComposerInputAfterSend() {
+    ref.read(attachmentPanelProvider.notifier).close();
     _clearSlashSession();
     if (_showComposerCounter.value) {
       _showComposerCounter.value = false;

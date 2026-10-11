@@ -79,6 +79,13 @@ class MutableChatViewModel extends ChatViewModel {
   void updateMessageText(String text) {
     state = state.copyWith(messageText: text);
   }
+
+  final List<String?> sentTexts = <String?>[];
+
+  @override
+  Future<void> sendMessage({String? text, bool tts = false}) async {
+    sentTexts.add(text);
+  }
 }
 
 class _HarnessDmViewModel extends DmViewModel {
