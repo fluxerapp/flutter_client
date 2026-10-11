@@ -185,6 +185,7 @@ class _MobileComposerIconButtonState extends State<MobileComposerIconButton> {
       button: true,
       enabled: enabled,
       label: widget.semanticLabel,
+      onTap: widget.onPressed,
       excludeSemantics: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -246,6 +247,7 @@ class MobileComposerSendButton extends StatelessWidget {
       button: true,
       enabled: onPressed != null,
       label: semanticLabel,
+      onTap: onPressed,
       excludeSemantics: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,

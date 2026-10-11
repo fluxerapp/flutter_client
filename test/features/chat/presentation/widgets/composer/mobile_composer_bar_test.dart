@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
@@ -211,6 +212,40 @@ void main() {
     container.read(attachmentPanelProvider.notifier).close();
     await tester.pumpAndSettle();
     await _release(tester);
+  });
+
+  testWidgets('screen readers can activate the composer buttons', (
+    tester,
+  ) async {
+    final SemanticsHandle handle = tester.ensureSemantics();
+    await _pumpEmpty(tester);
+    expect(
+      tester
+          .getSemantics(_attach())
+          .getSemanticsData()
+          .hasAction(SemanticsAction.tap),
+      isTrue,
+    );
+    expect(
+      tester
+          .getSemantics(_emoji())
+          .getSemanticsData()
+          .hasAction(SemanticsAction.tap),
+      isTrue,
+    );
+
+    await tester.enterText(channelComposerField(), 'hi');
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .getSemantics(_send())
+          .getSemanticsData()
+          .hasAction(SemanticsAction.tap),
+      isTrue,
+    );
+
+    await _release(tester);
+    handle.dispose();
   });
 
   testWidgets('pressing the emoji button dims it until release', (
