@@ -17,12 +17,14 @@ import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -124,6 +126,29 @@ void main() {
 
     expect(h.localRows, isEmpty);
     expect(h.adapter.messagePostCount, 0);
+  });
+
+  test('a fallback upload reports progress and can be cancelled', () async {
+    final _Harness h = await _Harness.create();
+    h.uploadClient.fail = true;
+    h.adapter.holdPost = true;
+    await h.stageFile();
+
+    unawaited(h.notifier.sendMessage(text: ''));
+    await _flushAsync();
+
+    expect(h.adapter.lastMultipart, isTrue);
+    final Message local = h.localRows.single;
+    final MessageUploadSession session = h.container.read(
+      messageUploadSessionsProvider,
+    )[local.clientNonce]!;
+    expect(computeMessageUploadSendingProgress(session), 100);
+
+    h.notifier.cancelSendingMessage(local.id);
+    await _flushAsync();
+
+    expect(h.adapter.postCancelled, isTrue);
+    expect(h.localRows, isEmpty);
   });
 
   test('the X on a failed upload message removes it', () async {
@@ -361,6 +386,7 @@ class _FakeUploadClient extends AttachmentUploadClient {
   _FakeUploadClient({required super.channelsApi, required super.uploadDio});
 
   Completer<void>? block;
+  bool fail = false;
 
   @override
   Future<AttachmentUploadPlan> requestAttachmentUploadPlan({
@@ -372,6 +398,9 @@ class _FakeUploadClient extends AttachmentUploadClient {
     CancelToken? cancelToken,
   }) async {
     await block?.future;
+    if (fail) {
+      throw StateError('presign unavailable');
+    }
     return SingleAttachmentUploadPlan(
       uploadFilename: 'stored-$filename',
       fileSize: fileSize,
@@ -398,6 +427,8 @@ class _PostAdapter implements HttpClientAdapter {
   final List<_PostOutcome> outcomes = <_PostOutcome>[];
   int messagePostCount = 0;
   Map<String, dynamic>? lastBody;
+  bool lastMultipart = false;
+  bool postCancelled = false;
   bool holdPost = false;
   Completer<void>? _postGate;
 
@@ -425,18 +456,22 @@ class _PostAdapter implements HttpClientAdapter {
     }
     if (options.method == 'POST' && isMessages) {
       messagePostCount++;
-      final Map<String, dynamic> body = options.data is Map<String, dynamic>
-          ? options.data as Map<String, dynamic>
-          : jsonDecode(
-                  utf8.decode(
-                    (await requestStream!.toList()).expand((e) => e).toList(),
-                  ),
-                )
-                as Map<String, dynamic>;
+      final List<int> raw = (await requestStream!.toList())
+          .expand((Uint8List chunk) => chunk)
+          .toList();
+      final bool multipart = options.data is FormData;
+      lastMultipart = multipart;
+      final Map<String, dynamic> body = multipart
+          ? <String, dynamic>{}
+          : jsonDecode(utf8.decode(raw)) as Map<String, dynamic>;
       lastBody = body;
       if (holdPost) {
         _postGate ??= Completer<void>();
-        await _postGate!.future;
+        await Future.any(<Future<void>>[
+          _postGate!.future,
+          if (cancelFuture != null)
+            cancelFuture.then((_) => postCancelled = true),
+        ]);
       }
       final _PostOutcome outcome = outcomes.isEmpty
           ? _PostOutcome.ok

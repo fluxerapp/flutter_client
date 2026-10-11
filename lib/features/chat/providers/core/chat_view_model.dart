@@ -5845,6 +5845,14 @@ class ChatViewModel extends _$ChatViewModel {
               attachmentFiles: prepared.attachmentFiles,
               messageFlags: messageFlags,
               tts: tts,
+              cancelToken: uploadNotifier.sendCancelToken(clientNonce),
+              onSendProgress: prepared.attachmentFiles == null
+                  ? null
+                  : (int sent, int total) => uploadNotifier.reportSendProgress(
+                      clientNonce,
+                      sent,
+                      total,
+                    ),
             ),
         isStillSending: () => _isMessageUploadSessionActive(clientNonce),
       );

@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -58,6 +61,38 @@ void main() {
     for (final RequestOptions request in adapter.requests) {
       expect(request.uri.queryParameters['session_id'], 'session-1');
     }
+  });
+
+  test('a message POST that carries files is never retried', () async {
+    final Directory dir = await Directory.systemTemp.createTemp('repo_send');
+    addTearDown(() => dir.delete(recursive: true));
+    final File file = File('${dir.path}/a.png')..writeAsBytesSync(<int>[1]);
+    final _DroppingAdapter adapter = _DroppingAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    dio.interceptors.add(RetryInterceptor(dio: dio));
+    final repo = MessageRepository(
+      FluxerClient(dio),
+      dio,
+      openTestDatabase(),
+      'me',
+    );
+
+    await expectLater(
+      repo.sendMessage(
+        channelId: 'c1',
+        content: '',
+        attachmentFiles: <XFile>[XFile(file.path)],
+      ),
+      throwsA(
+        isA<DioException>().having(
+          (DioException e) => e.type,
+          'type',
+          DioExceptionType.connectionError,
+        ),
+      ),
+    );
+    expect(adapter.posts, 1);
   });
 
   test('own reactions omit session_id before the gateway is ready', () async {
@@ -825,6 +860,27 @@ class _EditMessageAttachmentsAdapter implements HttpClientAdapter {
       );
     }
     return ResponseBody.fromString('nf', 404);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _DroppingAdapter implements HttpClientAdapter {
+  int posts = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    posts++;
+    await requestStream?.drain<void>();
+    throw DioException.connectionError(
+      requestOptions: options,
+      reason: 'Connection reset by peer',
+    );
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -675,6 +676,8 @@ class MessageRepository {
     List<XFile>? attachmentFiles,
     int? messageFlags,
     bool tts = false,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
   }) async {
     try {
       final Map<String, dynamic> body = buildMessageCreateBody(
@@ -705,10 +708,13 @@ class MessageRepository {
             .post<Map<String, dynamic>>(
               '/channels/$channelId/messages',
               data: formData,
+              cancelToken: cancelToken,
+              onSendProgress: onSendProgress,
               options: Options(
                 contentType: 'multipart/form-data',
                 sendTimeout: const Duration(minutes: 30),
                 receiveTimeout: const Duration(minutes: 5),
+                extra: <String, Object>{kNoRetryKey: true},
               ),
             );
         final Map<String, dynamic>? data = response.data;
@@ -721,7 +727,11 @@ class MessageRepository {
         return await _persistSdkMessage(channelId: channelId, schema: schema);
       }
 
-      final Message sent = await _postMessage(channelId, body);
+      final Message sent = await _postMessage(
+        channelId,
+        body,
+        cancelToken: cancelToken,
+      );
       return sent;
     } on DioException {
       rethrow;
@@ -730,12 +740,14 @@ class MessageRepository {
 
   Future<Message> _postMessage(
     String channelId,
-    Map<String, dynamic> body,
-  ) async {
+    Map<String, dynamic> body, {
+    CancelToken? cancelToken,
+  }) async {
     final Response<Map<String, dynamic>> response = await _dio
         .post<Map<String, dynamic>>(
           '/channels/$channelId/messages',
           data: body,
+          cancelToken: cancelToken,
           options: Options(
             sendTimeout: const Duration(minutes: 5),
             receiveTimeout: const Duration(minutes: 2),
