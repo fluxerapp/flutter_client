@@ -4,8 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:talker/talker.dart';
 
 import '../../helpers/open_test_database.dart';
 import '../../helpers/synced_preferences_test_helpers.dart';
@@ -171,6 +173,29 @@ void main() {
 
       await flushSyncedPreferencesPushRetry(store);
       expect(usersApi.pushCount, 2);
+    });
+
+    test('a dropped connection is retried without an error log', () async {
+      talker.cleanHistory();
+      usersApi.pushError = DioException.connectionError(
+        requestOptions: RequestOptions(path: '/users/@me/settings'),
+        reason: 'Connection reset by peer',
+      );
+      await container
+          .read(soundPreferencesProvider.notifier)
+          .setMasterVolume(80);
+      await flushSyncedPreferencesDebounce(store);
+
+      expect(usersApi.pushCount, 1);
+      expect(store.hasPushRetryScheduledForTest, isTrue);
+      expect(
+        talker.history.where(
+          (TalkerData data) =>
+              data.logLevel == LogLevel.error &&
+              (data.message ?? '').contains('[SyncedPreferences]'),
+        ),
+        isEmpty,
+      );
     });
 
     test('markDirty during a 429 retry keeps the backoff timer', () async {

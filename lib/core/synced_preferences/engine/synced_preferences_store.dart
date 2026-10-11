@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_registry.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
@@ -593,8 +594,8 @@ class SyncedPreferencesStore {
       talker.error('[SyncedPreferences] Wire encode failed', error, stackTrace);
       _pendingPush = false;
     } on Object catch (error, stackTrace) {
-      if (_isRateLimitError(error)) {
-        talker.warning('[SyncedPreferences] Push rate-limited, will retry');
+      if (isTransientNetworkError(error)) {
+        talker.warning('[SyncedPreferences] Push failed, will retry: $error');
       } else {
         talker.error('[SyncedPreferences] Push failed', error, stackTrace);
       }
