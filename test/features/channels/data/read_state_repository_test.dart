@@ -6,9 +6,11 @@ import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/gateway.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -965,6 +967,74 @@ void main() {
       expect(readState?.mentionCount, 1);
     },
   );
+
+  test('ackLatest clears a DM whose every message was deleted', () async {
+    final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+    final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final adapter = _RecordingAdapter();
+    final db = openTestDatabase();
+    await db.dmChannelDao.upsertDmChannels([
+      DmChannelsCompanion.insert(
+        id: dmId,
+        recipientId: 'other',
+        recipientIds: const Value('["other"]'),
+        lastMessageTime: Value(DateTime.utc(2026, 5, 6, 10)),
+      ),
+    ]);
+    final repository = ReadStateRepository(
+      FluxerClient(
+        Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+          ..httpClientAdapter = adapter,
+      ),
+      db,
+    );
+    final handler = GatewayEventHandler(
+      database: db,
+      currentUserId: 'me',
+      readStateRepository: repository,
+    );
+    await handler.handle(
+      MessageCreateEvent(
+        message: MessageResponseSchema(
+          id: messageId,
+          channelId: dmId,
+          author: const UserPartialResponse(
+            id: 'other',
+            username: 'other',
+            discriminator: '0001',
+            globalName: null,
+            avatar: null,
+            avatarColor: null,
+            flags: 0,
+          ),
+          type: MessageType.valueDefault,
+          flags: 0,
+          content: 'hello',
+          timestamp: dateTimeFromUserSnowflakeOrNull(messageId)!,
+          pinned: false,
+          mentionEveryone: false,
+          tts: false,
+          mentions: const [],
+          mentionRoles: const [],
+        ),
+      ),
+    );
+    await handler.handle(
+      MessageDeleteEvent(channelId: dmId, messageId: messageId),
+    );
+    await pumpEventQueue();
+
+    await repository.ackLatest(dmId);
+
+    final dm = await db.dmChannelDao.getDmChannelById(dmId);
+    final readState = await db.readStateDao.getReadState(dmId);
+    expect(adapter.requests, [
+      ('POST', '/v1/channels/$dmId/messages/$dmId/ack'),
+    ]);
+    expect(readState?.lastMessageId, dmId);
+    expect(readState?.mentionCount, 0);
+    expect(dm?.unreadCount, 0);
+  });
 }
 
 class _RecordingAdapter implements HttpClientAdapter {

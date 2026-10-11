@@ -336,6 +336,9 @@ class ReadStateRepository {
         latest = candidate;
       }
     }
+    if (latest == null && (readState?.mentionCount ?? 0) > 0) {
+      return channelId;
+    }
     return latest;
   }
 

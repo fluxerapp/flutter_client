@@ -3604,6 +3604,47 @@ void main() {
     },
   );
 
+  test(
+    'opening a DM with no message left clears its pending mentions',
+    () async {
+      final db = openTestDatabase();
+      final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+      await db.dmChannelDao.upsertDmChannels([
+        DmChannelsCompanion.insert(
+          id: dmId,
+          recipientId: '12345',
+          lastMessageTime: Value(DateTime.utc(2026, 5, 6, 10)),
+          unreadCount: const Value(1),
+        ),
+      ]);
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: Value(dmId),
+          lastMessageId: const Value(null),
+          mentionCount: const Value(1),
+        ),
+      );
+      final adapter = _ChatAdapter(messagesByChannel: {dmId: []});
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel(dmId);
+      _setViewportActive(container, channelId: dmId);
+      _updateViewport(container, channelId: dmId, nearLoadedTail: true);
+      await _flushAsync();
+      await container.read(ackBatcherProvider).flushPending(force: true);
+      await _flushAsync();
+
+      final readState = await db.readStateDao.getReadState(dmId);
+      final dm = await db.dmChannelDao.getDmChannelById(dmId);
+      expect(adapter.ackedMessageIds, <String>[dmId]);
+      expect(readState?.lastMessageId, dmId);
+      expect(readState?.mentionCount, 0);
+      expect(dm?.unreadCount, 0);
+    },
+  );
+
   test('auto ack retries HTTP failure after applying local ack', () async {
     final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
