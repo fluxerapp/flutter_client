@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path_lib;
@@ -13,6 +14,14 @@ typedef AttachmentGalleryFile = ({XFile file, String filename});
 bool galleryAssetNeedsExport(String title) {
   final String ext = path_lib.extension(title).toLowerCase();
   return ext == '.heic' || ext == '.heif';
+}
+
+FilterOptionGroup attachmentGalleryFilterFor(TargetPlatform platform) {
+  return FilterOptionGroup(
+    orders: platform == TargetPlatform.iOS
+        ? const <OrderOption>[]
+        : const <OrderOption>[OrderOption()],
+  );
 }
 
 String galleryUploadFilename({
@@ -60,10 +69,6 @@ abstract class AttachmentGallerySource {
 }
 
 class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
-  static final FilterOptionGroup _galleryFilter = FilterOptionGroup(
-    orders: const <OrderOption>[OrderOption()],
-  );
-
   final Map<String, AssetEntity> _assetsById = <String, AssetEntity>{};
   final List<VoidCallback> _changeListeners = <VoidCallback>[];
   bool _changeNotifyStarted = false;
@@ -106,7 +111,7 @@ class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
   Future<AssetPathEntity?> _recentAlbum() async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
       onlyAll: true,
-      filterOption: _galleryFilter,
+      filterOption: attachmentGalleryFilterFor(defaultTargetPlatform),
     );
     if (albums.isEmpty) {
       return null;

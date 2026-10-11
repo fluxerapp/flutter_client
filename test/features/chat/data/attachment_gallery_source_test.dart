@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 
@@ -28,6 +29,14 @@ void main() {
     expect(
       galleryUploadFilename(title: '', filePath: '/tmp/86FD638E.mp4'),
       '86FD638E.mp4',
+    );
+  });
+
+  test('iOS lists the library by date added, newest first', () {
+    expect(attachmentGalleryFilterFor(TargetPlatform.iOS).orders, isEmpty);
+    expect(
+      attachmentGalleryFilterFor(TargetPlatform.android).orders,
+      isNotEmpty,
     );
   });
 }
