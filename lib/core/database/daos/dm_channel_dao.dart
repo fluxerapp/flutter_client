@@ -117,6 +117,9 @@ class DmChannelDao extends DatabaseAccessor<FluxerDatabase>
       DmChannelsCompanion(
         recipientIds: Value(jsonEncode(updated)),
         recipientCount: Value(updated.length + 1),
+        recipientId: recipientIds.isEmpty
+            ? Value(userId)
+            : const Value.absent(),
       ),
     );
   }

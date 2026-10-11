@@ -19,11 +19,12 @@ List<String> parseDmChannelRecipientIds(String json) {
 
 List<String> buildDmRemoteRecipientIds(
   List<String> parsedRecipientIds,
-  String primaryRecipientId,
-) {
+  String primaryRecipientId, {
+  required bool isGroup,
+}) {
   final Set<String> combined = <String>{
     ...parsedRecipientIds,
-    primaryRecipientId,
+    if (!isGroup) primaryRecipientId,
   };
   final List<String> out = combined.toList()..sort();
   return out;
@@ -72,6 +73,7 @@ Future<DmConversation> buildDmConversationFromChannelRow(
     remoteRecipientIds: buildDmRemoteRecipientIds(
       recipientIds,
       row.recipientId,
+      isGroup: isGroup,
     ),
     productName: productName,
   );

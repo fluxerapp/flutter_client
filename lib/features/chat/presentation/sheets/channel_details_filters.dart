@@ -188,6 +188,7 @@ class _DmUserFilterSheetLoaderState
         ...buildDmRemoteRecipientIds(
           parseDmChannelRecipientIds(dmRow.recipientIds),
           dmRow.recipientId,
+          isGroup: isDmGroupType(dmRow.type),
         ),
       if (currentUserId != null && currentUserId.isNotEmpty) currentUserId,
     };

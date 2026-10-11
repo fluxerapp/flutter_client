@@ -159,6 +159,7 @@ class DmRepository {
       final remoteRecipientIds = buildDmRemoteRecipientIds(
         recipientIds,
         row.recipientId,
+        isGroup: isGroup,
       );
       return DmConversation.fromRow(
         row,
