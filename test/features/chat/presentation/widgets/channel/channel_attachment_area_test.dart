@@ -123,6 +123,41 @@ void main() {
     expect(find.byKey(PendingAttachmentPreview.playBadgeKey), findsOneWidget);
   });
 
+  testWidgets('a photo chip decodes at chip size, not full resolution', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          cloudUploadControllerProvider('channel-1').overrideWith(
+            () => _StaticUploads(<PendingAttachment>[
+              PendingAttachment(
+                id: 1,
+                channelId: 'channel-1',
+                file: XFile('/picked/IMG_0001.JPG'),
+                filename: 'IMG_0001.JPG',
+                size: 8 * 1024 * 1024,
+                contentType: 'image/jpeg',
+                status: PendingAttachmentStatus.pending,
+                uploadProgress: 0,
+              ),
+            ]),
+          ),
+        ],
+        child: _buildTestApp(
+          child: const ChannelAttachmentArea(channelId: 'channel-1'),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final Image image = tester.widget(find.byType(Image));
+    expect(image.image, isA<ResizeImage>());
+    final ResizeImage resized = image.image as ResizeImage;
+    final int chipPixels = (150 * tester.view.devicePixelRatio).round();
+    expect(resized.width ?? resized.height, lessThanOrEqualTo(chipPixels));
+  });
+
   testWidgets('a horizontal drag scrolls the chips instead of reordering', (
     WidgetTester tester,
   ) async {

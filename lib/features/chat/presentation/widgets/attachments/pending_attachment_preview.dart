@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
@@ -67,7 +68,21 @@ class PendingAttachmentPreview extends ConsumerWidget {
       )) {
         return SvgPicture.file(File(path), fit: BoxFit.cover);
       }
-      return Image.file(File(path), fit: BoxFit.cover);
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final ({int? width, int? height}) cache = coverDecodeCacheSize(
+            cellWidth: constraints.maxWidth,
+            cellHeight: constraints.maxHeight,
+            devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
+          );
+          return Image.file(
+            File(path),
+            fit: BoxFit.cover,
+            cacheWidth: cache.width,
+            cacheHeight: cache.height,
+          );
+        },
+      );
     }
     final String? galleryAssetId = attachment.galleryAssetId;
     final bool isVideo = isVideoAttachment(
