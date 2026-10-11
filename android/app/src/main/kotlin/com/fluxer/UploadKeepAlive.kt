@@ -27,14 +27,20 @@ class UploadKeepAliveBridge(private val context: Context) {
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     "start" -> {
+                        UploadKeepAliveService.stopRequested = false
                         val title = call.argument<String>(EXTRA_TITLE) ?: ""
                         val intent = Intent(context, UploadKeepAliveService::class.java)
                             .putExtra(EXTRA_TITLE, title)
                         runCatching { ContextCompat.startForegroundService(context, intent) }
+                            .onSuccess { UploadKeepAliveService.pendingStarts += 1 }
                         result.success(null)
                     }
                     "stop" -> {
-                        context.stopService(Intent(context, UploadKeepAliveService::class.java))
+                        if (UploadKeepAliveService.pendingStarts == 0) {
+                            context.stopService(Intent(context, UploadKeepAliveService::class.java))
+                        } else {
+                            UploadKeepAliveService.stopRequested = true
+                        }
                         result.success(null)
                     }
                     else -> result.notImplemented()
@@ -44,9 +50,15 @@ class UploadKeepAliveBridge(private val context: Context) {
 }
 
 class UploadKeepAliveService : Service() {
+    companion object {
+        var pendingStarts = 0
+        var stopRequested = false
+    }
+
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        pendingStarts = maxOf(pendingStarts - 1, 0)
         val title = intent?.getStringExtra(EXTRA_TITLE).orEmpty()
         val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
@@ -56,8 +68,8 @@ class UploadKeepAliveService : Service() {
         val started = runCatching {
             ServiceCompat.startForeground(this, NOTIFICATION_ID, buildNotification(title), type)
         }
-        if (started.isFailure) {
-            stopSelf()
+        if (started.isFailure || (stopRequested && pendingStarts == 0)) {
+            stopSelf(startId)
         }
         return START_NOT_STICKY
     }
