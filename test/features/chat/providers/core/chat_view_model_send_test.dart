@@ -781,6 +781,66 @@ void main() {
   });
 
   test(
+    'a retried send moves below messages that arrived after the failure',
+    () async {
+      final DateTime now = DateTime.now().toUtc();
+      final String laterId = _snowflakeForUtc(
+        now.add(const Duration(minutes: 1)),
+      );
+      final String retriedId = _snowflakeForUtc(
+        now.add(const Duration(minutes: 2)),
+      );
+      final _SendAdapter adapter = _SendAdapter(
+        serverMessageId: retriedId,
+        failureCode: 'UNKNOWN_CHANNEL',
+      );
+      final (container, _, _) = await setUpChannel(adapter: adapter);
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'offline send');
+      await _flushAsync();
+
+      final Message failed = container
+          .read(chatViewModelProvider)
+          .messages
+          .firstWhere((Message m) => m.hasFailed);
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: laterId,
+                    channelId: 'channel-1',
+                    authorId: 'other',
+                    content: 'later',
+                  ),
+                ),
+              ),
+            ),
+          );
+      await _flushAsync();
+      adapter.failureCode = null;
+
+      await notifier.retryMessageSend(failed.id);
+      await _flushAsync();
+
+      final List<Message> messages = container
+          .read(chatViewModelProvider)
+          .messages;
+      expect(
+        messages
+            .where((Message m) => !m.isClientSystemMessage)
+            .map((Message m) => m.id)
+            .toList(),
+        <String>[laterId, retriedId],
+      );
+      expect(messages.last.deliveryState, MessageDeliveryState.sent);
+    },
+  );
+
+  test(
     'send failure with DM restriction adds Fluxerbot system message',
     () async {
       final FluxerLocalizations l10n = lookupFluxerLocalizations(

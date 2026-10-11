@@ -6989,31 +6989,15 @@ class ChatViewModel extends _$ChatViewModel {
     required Message delivered,
   }) {
     final List<Message> updated = List<Message>.from(messages);
-    int optimisticIndex = optimisticId == null
+    final int optimisticIndex = optimisticId == null
         ? -1
         : updated.indexWhere((Message m) => m.id == optimisticId);
-    int deliveredIndex = updated.indexWhere(
+    final int deliveredIndex = updated.indexWhere(
       (Message m) => m.id == delivered.id,
     );
-    if (optimisticIndex != -1 &&
-        deliveredIndex != -1 &&
-        deliveredIndex != optimisticIndex) {
-      updated.removeAt(deliveredIndex);
-      if (deliveredIndex < optimisticIndex) {
-        optimisticIndex -= 1;
-      }
-      deliveredIndex = -1;
-    }
     final String? currentUserId = ref.read(currentUserIdProvider);
-    if (optimisticIndex != -1) {
-      updated[optimisticIndex] = mergeMentionHighlightFlag(
-        incoming: delivered,
-        previous: updated[optimisticIndex],
-        currentUserId: currentUserId,
-      );
-      return updated;
-    }
-    if (deliveredIndex != -1) {
+    if (deliveredIndex != -1 &&
+        (optimisticIndex == -1 || optimisticIndex == deliveredIndex)) {
       updated[deliveredIndex] = mergeMentionHighlightFlag(
         incoming: delivered,
         previous: updated[deliveredIndex],
@@ -7021,13 +7005,53 @@ class ChatViewModel extends _$ChatViewModel {
       );
       return updated;
     }
-    updated.add(
+    final Message? previous = optimisticIndex == -1
+        ? null
+        : updated[optimisticIndex];
+    int slot = optimisticIndex == -1 ? updated.length : optimisticIndex;
+    if (deliveredIndex != -1) {
+      updated.removeAt(deliveredIndex);
+      if (deliveredIndex < slot) {
+        slot -= 1;
+      }
+    }
+    if (optimisticIndex != -1) {
+      updated.removeAt(slot);
+    }
+    updated.insert(
+      _deliveredMessageSlot(updated, delivered.id, slot),
       mergeMentionHighlightFlag(
         incoming: delivered,
+        previous: previous,
         currentUserId: currentUserId,
       ),
     );
     return updated;
+  }
+
+  int _deliveredMessageSlot(
+    List<Message> messages,
+    String deliveredId,
+    int preferred,
+  ) {
+    bool isServerOrdered(Message m) =>
+        m.deliveryState == MessageDeliveryState.sent &&
+        !m.isClientSystemMessage;
+    int lowest = 0;
+    for (int i = 0; i < messages.length; i++) {
+      if (isServerOrdered(messages[i]) &&
+          compareSnowflakeIds(messages[i].id, deliveredId) < 0) {
+        lowest = i + 1;
+      }
+    }
+    int highest = messages.length;
+    for (int i = lowest; i < messages.length; i++) {
+      if (isServerOrdered(messages[i])) {
+        highest = i;
+        break;
+      }
+    }
+    return preferred.clamp(lowest, highest);
   }
 
   bool _shouldRefreshChannelFromNetwork(String channelId) {
