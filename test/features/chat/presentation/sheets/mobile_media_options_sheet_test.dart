@@ -128,6 +128,44 @@ void main() {
     expect(find.text('Open in browser'), findsOneWidget);
   });
 
+  testWidgets('download is shown for embed media with a media URL', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _wrap(
+        Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return Scaffold(
+              body: Center(
+                child: TextButton(
+                  onPressed: () {
+                    unawaited(
+                      showMobileMediaOptionsSheet(
+                        context: context,
+                        ref: ref,
+                        launchContext: const MediaOptionsLaunchContext(
+                          fallbackUrl: 'https://tenor.com/view/wave-gif-1',
+                          embedIndex: 0,
+                          downloadUrl:
+                              'https://fluxerusercontent.com/external/sig/https/media.tenor.com/wave.mp4',
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('open'),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Download'), findsOneWidget);
+  });
+
   testWidgets('download is shown for uploaded attachments', (tester) async {
     await tester.pumpWidget(
       _wrap(
@@ -145,6 +183,7 @@ void main() {
                           fallbackUrl: _testAttachmentUrl,
                           attachmentId: 'attachment-id',
                           filename: 'video.mp4',
+                          downloadUrl: _testAttachmentUrl,
                         ),
                       ),
                     );
@@ -366,7 +405,6 @@ void main() {
     expect(viewerClosed, isTrue);
     expect(find.text('options'), findsNothing);
   });
-
   testWidgets('forward closes the media viewer and keeps the forward sheet', (
     tester,
   ) async {

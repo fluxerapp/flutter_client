@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/attachment_alt_text_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
-import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
@@ -80,7 +79,9 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     final String linkUrl = downloadsHidden
         ? ''
         : launchContext.fallbackUrl.trim();
-    final String? downloadUrl = downloadsHidden ? null : _downloadUrl();
+    final String? downloadUrl = downloadsHidden
+        ? null
+        : launchContext.downloadUrl;
     final Attachment? attachment = actionScope == null
         ? null
         : resolveMessageAttachment(
@@ -225,7 +226,7 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
       context: hostContext,
       ref: hostRef,
       url: downloadUrl,
-      filename: launchContext.filename,
+      filename: launchContext.downloadFilename,
     );
   }
 
@@ -278,17 +279,5 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
         previewRoleGuildId: actionScope.previewRoleGuildId,
       );
     });
-  }
-
-  String? _downloadUrl() {
-    final String? attachmentId = launchContext.attachmentId;
-    if (attachmentId == null || attachmentId.isEmpty) {
-      return null;
-    }
-    return attachmentEffectiveDownloadUrl(
-      url: launchContext.fallbackUrl,
-      isExpired: launchContext.isExpired,
-      proxyUrl: launchContext.proxyUrl,
-    );
   }
 }

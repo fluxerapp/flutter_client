@@ -82,6 +82,9 @@ class EmbedImage extends ConsumerWidget {
                     embedPageUrl: embed.url,
                     animated: animate,
                     embedIndex: embedIndex,
+                    downloadMedia: embed.type == EmbedType.gifv
+                        ? embed.video
+                        : null,
                     channelId: channelId,
                     messageId: messageId,
                     actionScope: mediaActionScope,

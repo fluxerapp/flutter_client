@@ -63,10 +63,77 @@ void main() {
         expect(context.attachmentId, 'attachment-id');
         expect(context.embedIndex, isNull);
         expect(context.filename, _testAttachmentImageFilename);
-        expect(context.proxyUrl, _testAttachmentImageProxyUrl);
-        expect(context.isExpired, isTrue);
+        expect(context.downloadUrl, isNull);
         expect(context.actionScope, actionScope);
         expect(context.hasOptionsMenu, isTrue);
+      });
+
+      test('downloads a live attachment from its proxy URL', () {
+        const Attachment attachment = Attachment(
+          id: 'attachment-id',
+          filename: _testAttachmentImageFilename,
+          url: _testAttachmentImageUrl,
+          proxyUrl: _testAttachmentImageProxyUrl,
+        );
+        const ChatFullscreenVideoLaunchContext videoContext =
+            ChatFullscreenVideoLaunchContext(
+              source: ChatVideoSource(fallbackUrl: _testAttachmentImageUrl),
+              attachment: attachment,
+            );
+
+        final MediaOptionsLaunchContext context =
+            MediaOptionsLaunchContext.fromVideoLaunchContext(videoContext);
+
+        expect(context.downloadUrl, _testAttachmentImageProxyUrl);
+        expect(context.downloadFilename, _testAttachmentImageFilename);
+      });
+
+      test('downloads an embed video from its direct media URL', () {
+        const ChatFullscreenVideoLaunchContext
+        videoContext = ChatFullscreenVideoLaunchContext(
+          source: ChatVideoSource(
+            fallbackUrl: 'https://tenor.com/view/wave-gif-1',
+            directMediaUrl:
+                'https://fluxerusercontent.com/external/sig/https/media.tenor.com/wave.mp4',
+          ),
+          embedIndex: 0,
+        );
+
+        final MediaOptionsLaunchContext context =
+            MediaOptionsLaunchContext.fromVideoLaunchContext(videoContext);
+
+        expect(
+          context.downloadUrl,
+          'https://fluxerusercontent.com/external/sig/https/media.tenor.com/wave.mp4',
+        );
+        expect(context.downloadFilename, isNull);
+      });
+
+      test('does not download a YouTube embed', () {
+        const Embed embed = Embed(
+          type: EmbedType.video,
+          url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          providerUrl: 'https://www.youtube.com',
+          video: EmbedMedia(
+            url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            proxyUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            width: 1280,
+            height: 720,
+          ),
+          thumbnail: EmbedMedia(
+            url: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+            proxyUrl:
+                'https://fluxerusercontent.com/external/sig/https/i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+          ),
+        );
+        final ChatFullscreenVideoLaunchContext videoContext =
+            ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(embed: embed);
+
+        expect(videoContext.isYouTubeEmbed, isTrue);
+        final MediaOptionsLaunchContext context =
+            MediaOptionsLaunchContext.fromVideoLaunchContext(videoContext);
+
+        expect(context.downloadUrl, isNull);
       });
 
       test('copies embed metadata and action scope', () {
@@ -85,8 +152,7 @@ void main() {
         expect(context.fallbackUrl, 'https://example.com/video');
         expect(context.attachmentId, isNull);
         expect(context.embedIndex, 2);
-        expect(context.proxyUrl, isNull);
-        expect(context.isExpired, isFalse);
+        expect(context.downloadUrl, isNull);
         expect(context.actionScope, actionScope);
         expect(context.hasOptionsMenu, isTrue);
       });
@@ -100,7 +166,7 @@ void main() {
           attachmentId: 'attachment-id',
           embedIndex: 3,
           proxyUrl: _testAttachmentImageProxyUrl,
-          isExpired: true,
+          downloadUrl: _testAttachmentImageProxyUrl,
         );
 
         final MediaOptionsLaunchContext context =
@@ -113,8 +179,7 @@ void main() {
         expect(context.attachmentId, 'attachment-id');
         expect(context.embedIndex, 3);
         expect(context.filename, _testAttachmentImageFilename);
-        expect(context.proxyUrl, _testAttachmentImageProxyUrl);
-        expect(context.isExpired, isTrue);
+        expect(context.downloadUrl, _testAttachmentImageProxyUrl);
         expect(context.actionScope, actionScope);
         expect(context.hasOptionsMenu, isTrue);
       });

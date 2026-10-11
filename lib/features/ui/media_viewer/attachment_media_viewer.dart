@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_preview_media_policy.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
@@ -41,7 +42,7 @@ class AttachmentMediaViewerItem {
     this.linkUrl,
     this.proxyUrl,
     this.contentType,
-    this.isExpired = false,
+    this.downloadUrl,
     this.contentHash,
     this.description,
   });
@@ -56,7 +57,11 @@ class AttachmentMediaViewerItem {
       attachmentId: attachment.id,
       proxyUrl: attachment.proxyUrl,
       contentType: attachment.contentType,
-      isExpired: attachment.expired ?? false,
+      downloadUrl: attachmentEffectiveDownloadUrl(
+        url: attachment.url,
+        isExpired: attachment.expired ?? false,
+        proxyUrl: attachment.proxyUrl,
+      ),
       contentHash: attachment.contentHash,
       description: attachment.description,
     );
@@ -78,7 +83,7 @@ class AttachmentMediaViewerItem {
   }
 
   final String? contentType;
-  final bool isExpired;
+  final String? downloadUrl;
   final String? contentHash;
   final String? description;
 }

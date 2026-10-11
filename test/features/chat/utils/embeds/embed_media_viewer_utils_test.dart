@@ -97,6 +97,55 @@ void main() {
       expect(item.url, contains('fluxerusercontent.com'));
       expect(item.shareableUrl, 'https://tenor.com/view/wave-gif-1');
     });
+
+    test('downloads the original proxied media, not the display variant', () {
+      const EmbedMedia media = EmbedMedia(
+        url: 'https://media.klipy.com/wave.gif',
+        proxyUrl:
+            'https://fluxerusercontent.com/external/sig/https/media.klipy.com/wave.gif',
+      );
+      final AttachmentMediaViewerItem item = buildEmbedMediaViewerItem(
+        media: media,
+        embedPageUrl: 'https://klipy.com/gifs/wave',
+        animated: true,
+      );
+      expect(item.url, contains('animated=true'));
+      expect(
+        item.downloadUrl,
+        'https://fluxerusercontent.com/external/sig/https/media.klipy.com/wave.gif',
+      );
+    });
+
+    test('downloads the direct URL when the embed is not proxied', () {
+      const EmbedMedia media = EmbedMedia(url: directUrl);
+      final AttachmentMediaViewerItem item = buildEmbedMediaViewerItem(
+        media: media,
+      );
+      expect(item.downloadUrl, directUrl);
+    });
+
+    test('downloads the gifv video when one is given', () {
+      const EmbedMedia thumbnail = EmbedMedia(
+        url: 'https://media.tenor.com/wave.webp',
+        proxyUrl:
+            'https://fluxerusercontent.com/external/sig/https/media.tenor.com/wave.webp',
+      );
+      const EmbedMedia video = EmbedMedia(
+        url: 'https://media.tenor.com/wave.mp4',
+        proxyUrl:
+            'https://fluxerusercontent.com/external/sig/https/media.tenor.com/wave.mp4',
+      );
+      final AttachmentMediaViewerItem item = buildEmbedMediaViewerItem(
+        media: thumbnail,
+        animated: true,
+        downloadMedia: video,
+      );
+      expect(item.url, contains('wave.webp'));
+      expect(
+        item.downloadUrl,
+        'https://fluxerusercontent.com/external/sig/https/media.tenor.com/wave.mp4',
+      );
+    });
   });
 
   group('resolveEmbedMediaViewerFilename', () {
