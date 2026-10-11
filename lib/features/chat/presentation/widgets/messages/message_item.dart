@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -269,6 +270,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _pressHighlight = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
+  int? _reactionsBarPointer;
   bool _animateJumpHighlight = false;
   Message? _semanticLabelMessage;
   FluxerLocalizations? _semanticLabelL10n;
@@ -725,7 +727,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           canEditOwnMessage: canEditOwnMessage,
           onEdit: widget.onEdit,
         );
-    final body = FluxerGestureDetector(
+    final rowGestures = FluxerGestureDetector(
       onLongPressStart: useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) {
               _pressHighlight.value = true;
@@ -734,14 +736,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           : null,
       onSecondaryTapUp: !useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
-          : null,
-      onDoubleTap: doubleTapEnabled
-          ? () => dispatchDoubleTapMessageAction(
-              ref: ref,
-              action: doubleTapAction,
-              onReaction: widget.onReaction,
-              onEdit: canEditOwnMessage ? widget.onEdit : null,
-            )
           : null,
       child: MouseRegion(
         onEnter: (_) => _hovered.value = true,
@@ -922,6 +916,30 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ),
         ),
       ),
+    );
+    final body = RawGestureDetector(
+      gestures: <Type, GestureRecognizerFactory>{
+        if (doubleTapEnabled)
+          _MessageDoubleTapGestureRecognizer:
+              GestureRecognizerFactoryWithHandlers<
+                _MessageDoubleTapGestureRecognizer
+              >(
+                () => _MessageDoubleTapGestureRecognizer(
+                  ignoresPointer: (int pointer) =>
+                      pointer == _reactionsBarPointer,
+                  debugOwner: this,
+                ),
+                (_MessageDoubleTapGestureRecognizer recognizer) {
+                  recognizer.onDoubleTap = () => dispatchDoubleTapMessageAction(
+                    ref: ref,
+                    action: doubleTapAction,
+                    onReaction: widget.onReaction,
+                    onEdit: canEditOwnMessage ? widget.onEdit : null,
+                  );
+                },
+              ),
+      },
+      child: rowGestures,
     );
     final onReply = widget.onReply;
     final Widget semanticBody = Semantics(
@@ -1318,28 +1336,32 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         wrapPart(
           Padding(
             padding: const EdgeInsets.only(top: 4),
-            child: MessageReactionsBar(
-              reactions: msg.reactions,
-              channelId: msg.channelId,
-              onReactionTap: (emoji, {emojiId, animated = false}) => widget
-                  .onReaction
-                  ?.call(emoji, emojiId: emojiId, animated: animated),
-              onReactionLongPress: widget.inboxPreviewMode
-                  ? null
-                  : (reaction) {
-                      unawaited(
-                        showMessageReactionsSheet(
-                          context,
-                          message: msg,
-                          initialReaction: reaction,
-                        ),
-                      );
-                    },
-              showAddReaction:
-                  widget.canAddReactions &&
-                  msg.supportsInteractiveActions &&
-                  !widget.inboxPreviewMode,
-              isMobile: isMobile,
+            child: Listener(
+              onPointerDown: (PointerDownEvent event) =>
+                  _reactionsBarPointer = event.pointer,
+              child: MessageReactionsBar(
+                reactions: msg.reactions,
+                channelId: msg.channelId,
+                onReactionTap: (emoji, {emojiId, animated = false}) => widget
+                    .onReaction
+                    ?.call(emoji, emojiId: emojiId, animated: animated),
+                onReactionLongPress: widget.inboxPreviewMode
+                    ? null
+                    : (reaction) {
+                        unawaited(
+                          showMessageReactionsSheet(
+                            context,
+                            message: msg,
+                            initialReaction: reaction,
+                          ),
+                        );
+                      },
+                showAddReaction:
+                    widget.canAddReactions &&
+                    msg.supportsInteractiveActions &&
+                    !widget.inboxPreviewMode,
+                isMobile: isMobile,
+              ),
             ),
           ),
         ),
@@ -2261,6 +2283,19 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     ),
   );
+}
+
+class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {
+  _MessageDoubleTapGestureRecognizer({
+    required this.ignoresPointer,
+    super.debugOwner,
+  });
+
+  final bool Function(int pointer) ignoresPointer;
+
+  @override
+  bool isPointerAllowed(PointerDownEvent event) =>
+      !ignoresPointer(event.pointer) && super.isPointerAllowed(event);
 }
 
 /// Resolves author display and role color in an isolated consumer so presence
