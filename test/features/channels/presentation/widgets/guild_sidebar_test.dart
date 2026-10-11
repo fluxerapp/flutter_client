@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -228,6 +229,51 @@ void main() {
 
       expect(find.byType(ChannelUnreadIndicator), findsNothing);
       expect(find.byType(FluxerBadge), findsNothing);
+    });
+  });
+
+  group('GuildSidebar unread channel rows', () {
+    testWidgets('unread names are bold primary text with a ringless badge', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {
+              'c1': UnreadState(
+                hasUnread: true,
+                hasUnreadMessages: true,
+                mentionCount: 3,
+              ),
+              'c2': UnreadState(),
+            },
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      final colors = buildDarkColorTheme();
+      final TextStyle unread = tester
+          .widget<widgets.Text>(find.text('general'))
+          .style!;
+      final TextStyle read = tester
+          .widget<widgets.Text>(find.text('random'))
+          .style!;
+      expect(unread.fontWeight, FontWeight.w600);
+      expect(unread.color, colors.textPrimary);
+      expect(read.fontWeight, FontWeight.w500);
+      expect(read.color, colors.textTertiaryMuted);
+
+      final Container pill = tester.widget<Container>(
+        find.descendant(
+          of: find.byType(FluxerBadge),
+          matching: find.byType(Container),
+        ),
+      );
+      expect((pill.decoration! as BoxDecoration).border, isNull);
+      expect(find.byType(FluxerBadgeEntrance), findsOneWidget);
     });
   });
 

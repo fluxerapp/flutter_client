@@ -38,4 +38,21 @@ void main() {
     expect(find.byType(FluxerBadge), findsOneWidget);
     expect(find.text('4'), findsOneWidget);
   });
+
+  testWidgets('large counts use the standard pill with a composer cutout', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      buildTestApp(ChatBackButton(unreadCount: 250, onPressed: () {})),
+    );
+    await tester.pumpAndSettle();
+
+    final FluxerBadge badge = tester.widget<FluxerBadge>(
+      find.byType(FluxerBadge),
+    );
+    expect(badge.cutoutColor, buildDarkColorTheme().chatInputBackground);
+    expect(find.text('99+'), findsOneWidget);
+    expect(tester.getSize(find.byType(FluxerBadge)).height, FluxerBadge.height);
+    expect(tester.takeException(), isNull);
+  });
 }
