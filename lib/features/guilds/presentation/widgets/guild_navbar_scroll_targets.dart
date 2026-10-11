@@ -21,16 +21,24 @@ List<String> guildNavbarScrollIndicatorOrder({
   ];
 }
 
+Map<String, List<Guild>> guildNavbarScrollIndicatorFolderGuilds(
+  Iterable<GuildNavbarItem> items,
+) {
+  return <String, List<Guild>>{
+    for (final GuildNavbarItem item in items)
+      if (item case final GuildNavbarFolder folder)
+        guildFolderScrollIndicatorId(folder.id): folder.guilds,
+  };
+}
+
 GuildScrollIndicatorSeverity? guildNavbarScrollIndicatorSeverity({
   required String id,
-  required Iterable<GuildNavbarItem> items,
+  required Map<String, List<Guild>> folderGuilds,
   required Map<String, GuildReadStateEntry> readStates,
 }) {
-  for (final GuildNavbarItem item in items) {
-    if (item is GuildNavbarFolder &&
-        guildFolderScrollIndicatorId(item.id) == id) {
-      return _folderSeverity(item.guilds, readStates);
-    }
+  final List<Guild>? guilds = folderGuilds[id];
+  if (guilds != null) {
+    return _folderSeverity(guilds, readStates);
   }
   return _guildSeverity(readStates[id]);
 }

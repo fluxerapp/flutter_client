@@ -44,6 +44,8 @@ void main() {
         for (var i = 0; i < 10; i++) 'unread-$i': _readState(mentionCount: 0),
         'pinged': _readState(mentionCount: 1),
       };
+  final Map<String, List<Guild>> folderGuilds =
+      guildNavbarScrollIndicatorFolderGuilds(items);
 
   test('a collapsed folder is one target that takes its guilds mention', () {
     final List<String> order = guildNavbarScrollIndicatorOrder(
@@ -56,7 +58,7 @@ void main() {
     expect(
       guildNavbarScrollIndicatorSeverity(
         id: guildFolderScrollIndicatorId(7),
-        items: items,
+        folderGuilds: folderGuilds,
         readStates: readStates,
       ),
       GuildScrollIndicatorSeverity.mention,
@@ -85,7 +87,7 @@ void main() {
       itemKeys: itemKeys,
       resolveSeverity: (String id) => guildNavbarScrollIndicatorSeverity(
         id: id,
-        items: items,
+        folderGuilds: folderGuilds,
         readStates: readStates,
       ),
       orderedIds: () => guildNavbarScrollIndicatorOrder(

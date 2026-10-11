@@ -147,6 +147,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   late final ScrollController _scrollController;
   final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
   List<_NavbarListEntry> _indicatorEntries = const <_NavbarListEntry>[];
+  Map<String, List<Guild>> _indicatorFolderGuilds =
+      const <String, List<Guild>>{};
   late final GuildScrollIndicatorController _scrollIndicator;
   bool _restoring = false;
   bool _needsScrollClamp = false;
@@ -336,7 +338,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   GuildScrollIndicatorSeverity? _resolveGuildScrollSeverity(String id) {
     return guildNavbarScrollIndicatorSeverity(
       id: id,
-      items: _indicatorItems(),
+      folderGuilds: _indicatorFolderGuilds,
       readStates: ref.read(guildReadStateProvider),
     );
   }
@@ -418,6 +420,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       hideDirectMessages: hideDirectMessages,
     );
     _indicatorEntries = navbarEntries;
+    _indicatorFolderGuilds = guildNavbarScrollIndicatorFolderGuilds(
+      _indicatorItems(),
+    );
     final guildListView = ListView.builder(
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       controller: _scrollController,
