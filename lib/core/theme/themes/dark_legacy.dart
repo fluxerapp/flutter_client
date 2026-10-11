@@ -405,6 +405,24 @@ FluxerColorTheme buildDarkLegacyColorTheme({double saturationFactor = 1.0}) {
     surfaceInteractiveHoverBg: backgroundModifierHoverVal,
     surfaceInteractiveSelectedBg: backgroundModifierSelectedVal,
     surfaceInteractiveSelectedColor: textPrimary,
+    listItemSelectedBg: toneDirect(
+      hue: 220,
+      saturation: 13,
+      lightness: 100,
+      alpha: 0.04,
+    ),
+    listItemSelectedBorder: toneDirect(
+      hue: 220,
+      saturation: 13,
+      lightness: 100,
+      alpha: 0.06,
+    ),
+    listItemPressedBg: toneDirect(
+      hue: 220,
+      saturation: 13,
+      lightness: 100,
+      alpha: 0.09,
+    ),
 
     // Scrollbar
     scrollbarThumbBg: const Color(0x66797A7C),

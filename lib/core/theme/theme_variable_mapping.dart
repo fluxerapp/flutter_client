@@ -88,6 +88,9 @@ const Map<String, String> kThemeCssVariableToProperty = {
   '--interactive-hover': 'interactiveHover',
   '--interactive-muted': 'interactiveMuted',
   '--interactive-normal': 'interactiveNormal',
+  '--list-item-selected-bg': 'listItemSelectedBg',
+  '--list-item-selected-border': 'listItemSelectedBorder',
+  '--list-item-pressed-bg': 'listItemPressedBg',
   '--markup-everyone-border': 'markupEveryoneBorder',
   '--markup-everyone-fill': 'markupEveryoneFill',
   '--markup-everyone-text': 'markupEveryoneText',
@@ -451,6 +454,10 @@ extension FluxerColorThemeOverrideExtension on FluxerColorTheme {
       surfaceInteractiveSelectedColor:
           overrides['surfaceInteractiveSelectedColor'] ??
           surfaceInteractiveSelectedColor,
+      listItemSelectedBg: overrides['listItemSelectedBg'] ?? listItemSelectedBg,
+      listItemSelectedBorder:
+          overrides['listItemSelectedBorder'] ?? listItemSelectedBorder,
+      listItemPressedBg: overrides['listItemPressedBg'] ?? listItemPressedBg,
       scrollbarThumbBg: overrides['scrollbarThumbBg'] ?? scrollbarThumbBg,
       scrollbarThumbBgHover:
           overrides['scrollbarThumbBgHover'] ?? scrollbarThumbBgHover,

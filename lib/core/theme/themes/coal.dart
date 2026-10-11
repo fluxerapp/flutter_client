@@ -405,6 +405,17 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     surfaceInteractiveHoverBg: backgroundModifierHoverVal,
     surfaceInteractiveSelectedBg: backgroundModifierSelectedVal,
     surfaceInteractiveSelectedColor: textPrimary,
+    listItemSelectedBg: tone(
+      FluxerColorFamilies.neutralDark,
+      100,
+      alpha: 0.035,
+    ),
+    listItemSelectedBorder: tone(
+      FluxerColorFamilies.neutralDark,
+      100,
+      alpha: 0.05,
+    ),
+    listItemPressedBg: tone(FluxerColorFamilies.neutralDark, 100, alpha: 0.08),
 
     // Scrollbar (coal overrides)
     scrollbarThumbBg: const Color(0x59A0A0A0),

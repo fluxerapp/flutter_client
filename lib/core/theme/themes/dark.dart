@@ -403,6 +403,13 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     surfaceInteractiveHoverBg: backgroundModifierHoverVal,
     surfaceInteractiveSelectedBg: backgroundModifierSelectedVal,
     surfaceInteractiveSelectedColor: textPrimary,
+    listItemSelectedBg: tone(FluxerColorFamilies.neutralDark, 100, alpha: 0.04),
+    listItemSelectedBorder: tone(
+      FluxerColorFamilies.neutralDark,
+      100,
+      alpha: 0.06,
+    ),
+    listItemPressedBg: tone(FluxerColorFamilies.neutralDark, 100, alpha: 0.09),
 
     // Scrollbar
     scrollbarThumbBg: const Color(0x66797A7C),

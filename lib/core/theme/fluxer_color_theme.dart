@@ -129,6 +129,9 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
     required this.surfaceInteractiveHoverBg,
     required this.surfaceInteractiveSelectedBg,
     required this.surfaceInteractiveSelectedColor,
+    required this.listItemSelectedBg,
+    required this.listItemSelectedBorder,
+    required this.listItemPressedBg,
     // Scrollbar
     required this.scrollbarThumbBg,
     required this.scrollbarThumbBgHover,
@@ -299,6 +302,9 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
   final Color surfaceInteractiveHoverBg;
   final Color surfaceInteractiveSelectedBg;
   final Color surfaceInteractiveSelectedColor;
+  final Color listItemSelectedBg;
+  final Color listItemSelectedBorder;
+  final Color listItemPressedBg;
 
   // Scrollbar
   final Color scrollbarThumbBg;
@@ -459,6 +465,9 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
     Color? surfaceInteractiveHoverBg,
     Color? surfaceInteractiveSelectedBg,
     Color? surfaceInteractiveSelectedColor,
+    Color? listItemSelectedBg,
+    Color? listItemSelectedBorder,
+    Color? listItemPressedBg,
     // Scrollbar
     Color? scrollbarThumbBg,
     Color? scrollbarThumbBgHover,
@@ -651,6 +660,10 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
       surfaceInteractiveSelectedColor:
           surfaceInteractiveSelectedColor ??
           this.surfaceInteractiveSelectedColor,
+      listItemSelectedBg: listItemSelectedBg ?? this.listItemSelectedBg,
+      listItemSelectedBorder:
+          listItemSelectedBorder ?? this.listItemSelectedBorder,
+      listItemPressedBg: listItemPressedBg ?? this.listItemPressedBg,
       // Scrollbar
       scrollbarThumbBg: scrollbarThumbBg ?? this.scrollbarThumbBg,
       scrollbarThumbBgHover:
@@ -1100,6 +1113,21 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
       surfaceInteractiveSelectedColor: Color.lerp(
         surfaceInteractiveSelectedColor,
         other.surfaceInteractiveSelectedColor,
+        t,
+      )!,
+      listItemSelectedBg: Color.lerp(
+        listItemSelectedBg,
+        other.listItemSelectedBg,
+        t,
+      )!,
+      listItemSelectedBorder: Color.lerp(
+        listItemSelectedBorder,
+        other.listItemSelectedBorder,
+        t,
+      )!,
+      listItemPressedBg: Color.lerp(
+        listItemPressedBg,
+        other.listItemPressedBg,
         t,
       )!,
       // Scrollbar
