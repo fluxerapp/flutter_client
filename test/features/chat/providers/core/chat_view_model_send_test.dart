@@ -1344,10 +1344,7 @@ void main() {
         overrides: <Override>[
           maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
           attachmentUploadClientProvider.overrideWithValue(
-            _ImmediateUploadClient(
-              channelsApi: ChannelsApi(Dio()),
-              uploadDio: Dio(),
-            ),
+            _ImmediateUploadClient(apiDio: Dio(), uploadDio: Dio()),
           ),
         ],
       );
@@ -1718,10 +1715,7 @@ void main() {
         overrides: <Override>[
           maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
           attachmentUploadClientProvider.overrideWithValue(
-            _ImmediateUploadClient(
-              channelsApi: ChannelsApi(Dio()),
-              uploadDio: Dio(),
-            ),
+            _ImmediateUploadClient(apiDio: Dio(), uploadDio: Dio()),
           ),
           isSlowmodeImmuneProvider(
             'channel-1',
@@ -2308,10 +2302,7 @@ class _StateGatewayConnection extends GatewayConnection {
 }
 
 class _ImmediateUploadClient extends AttachmentUploadClient {
-  _ImmediateUploadClient({
-    required super.channelsApi,
-    required super.uploadDio,
-  });
+  _ImmediateUploadClient({required super.apiDio, required super.uploadDio});
 
   @override
   Future<AttachmentUploadPlan> requestAttachmentUploadPlan({

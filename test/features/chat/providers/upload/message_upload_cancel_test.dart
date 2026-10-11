@@ -48,7 +48,7 @@ PendingAttachment _pendingAttachment({
 
 class _BlockingAttachmentUploadClient extends AttachmentUploadClient {
   _BlockingAttachmentUploadClient({
-    required super.channelsApi,
+    required super.apiDio,
     required super.uploadDio,
     required this.uploadBlock,
   });
@@ -127,7 +127,7 @@ void main() {
       final Completer<void> uploadBlock = Completer<void>();
       final ProviderContainer container = _uploadContainer(
         uploadClient: _BlockingAttachmentUploadClient(
-          channelsApi: ChannelsApi(Dio()),
+          apiDio: Dio(),
           uploadDio: Dio(),
           uploadBlock: uploadBlock,
         ),
@@ -183,7 +183,7 @@ void main() {
             maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
             attachmentUploadClientProvider.overrideWithValue(
               _BlockingAttachmentUploadClient(
-                channelsApi: ChannelsApi(dio),
+                apiDio: dio,
                 uploadDio: Dio(),
                 uploadBlock: uploadBlock,
               ),
@@ -359,7 +359,7 @@ class _AttachmentSendHarness {
         maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
         attachmentUploadClientProvider.overrideWithValue(
           _BlockingAttachmentUploadClient(
-            channelsApi: ChannelsApi(dio),
+            apiDio: dio,
             uploadDio: Dio(),
             uploadBlock: uploadBlock,
           ),

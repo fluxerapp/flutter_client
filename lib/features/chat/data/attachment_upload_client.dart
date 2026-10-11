@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
@@ -79,14 +76,25 @@ class UploadAttachmentPlanParams {
   final void Function(int uploadedBytes, int totalBytes)? onProgress;
 }
 
+Duration attachmentUploadSendTimeout(int bytes) {
+  final Duration scaled = Duration(
+    seconds: bytes ~/ _kSlowestUploadBytesPerSecond,
+  );
+  return scaled > _kMinUploadSendTimeout ? scaled : _kMinUploadSendTimeout;
+}
+
+const int _kSlowestUploadBytesPerSecond = 8 * 1024;
+const Duration _kMinUploadSendTimeout = Duration(minutes: 10);
+const Duration _kCompleteUploadReceiveTimeout = Duration(minutes: 5);
+
 class AttachmentUploadClient {
   AttachmentUploadClient({
-    required this._channelsApi,
+    required this._apiDio,
     required this._uploadDio,
     this._multipartConcurrency = kMultipartUploadConcurrency,
   });
 
-  final ChannelsApi _channelsApi;
+  final Dio _apiDio;
   final Dio _uploadDio;
   final int _multipartConcurrency;
 
@@ -98,10 +106,10 @@ class AttachmentUploadClient {
     required String contentType,
     CancelToken? cancelToken,
   }) async {
-    final PresignedAttachmentUploadResponse response = await _channelsApi
-        .requestPresignedMessageAttachmentUploads(
-          channelId: channelId,
-          body: PresignedAttachmentUploadRequest(
+    final Response<Map<String, dynamic>> reply = await _apiDio
+        .post<Map<String, dynamic>>(
+          '/channels/$channelId/attachments',
+          data: PresignedAttachmentUploadRequest(
             attachments: <PresignedAttachmentUploadRequestItem>[
               PresignedAttachmentUploadRequestItem(
                 id: attachmentId,
@@ -110,8 +118,11 @@ class AttachmentUploadClient {
                 contentType: contentType,
               ),
             ],
-          ),
+          ).toJson(),
+          cancelToken: cancelToken,
         );
+    final PresignedAttachmentUploadResponse response =
+        PresignedAttachmentUploadResponse.fromJson(reply.data!);
     if (response.attachments.isEmpty) {
       throw StateError('Missing attachment upload plan');
     }
@@ -176,6 +187,7 @@ class AttachmentUploadClient {
       cancelToken: params.cancelToken,
       options: Options(
         contentType: normalizedType,
+        sendTimeout: attachmentUploadSendTimeout(totalBytes),
         headers: <String, dynamic>{Headers.contentLengthHeader: totalBytes},
       ),
       onSendProgress: (int sent, int total) {
@@ -216,42 +228,36 @@ class AttachmentUploadClient {
             totalFileBytes: totalBytes,
           );
       final int chunkLength = range.endExclusive - range.startInclusive;
-      final RandomAccessFile raf = await File(file.path).open();
-      try {
-        await raf.setPosition(range.startInclusive);
-        final Uint8List chunk = await raf.read(chunkLength);
-        await _uploadDio.put<dynamic>(
-          part.uploadUrl,
-          data: chunk,
-          cancelToken: params.cancelToken,
-          options: Options(
-            contentType: normalizedType,
-            headers: <String, dynamic>{
-              Headers.contentLengthHeader: chunk.length,
-            },
-          ),
-          onSendProgress: (int sent, int chunkTotal) {
-            loadedByPart[index] = sent < chunk.length ? sent : chunk.length;
-            reportProgress();
-          },
-        );
-        loadedByPart[index] = chunk.length;
-        reportProgress();
-      } finally {
-        await raf.close();
-      }
+      await _uploadDio.put<dynamic>(
+        part.uploadUrl,
+        data: file.openRead(range.startInclusive, range.endExclusive),
+        cancelToken: params.cancelToken,
+        options: Options(
+          contentType: normalizedType,
+          sendTimeout: attachmentUploadSendTimeout(chunkLength),
+          headers: <String, dynamic>{Headers.contentLengthHeader: chunkLength},
+        ),
+        onSendProgress: (int sent, int chunkTotal) {
+          loadedByPart[index] = sent < chunkLength ? sent : chunkLength;
+          reportProgress();
+        },
+      );
+      loadedByPart[index] = chunkLength;
+      reportProgress();
     });
 
-    await _channelsApi.completeMultipartMessageAttachmentUploads(
-      channelId: params.channelId,
-      body: CompleteMultipartAttachmentUploadRequest(
+    await _apiDio.post<Map<String, dynamic>>(
+      '/channels/${params.channelId}/attachments/complete',
+      data: CompleteMultipartAttachmentUploadRequest(
         uploads: <CompleteMultipartAttachmentUploadItem>[
           CompleteMultipartAttachmentUploadItem(
             uploadFilename: plan.uploadFilename,
             uploadId: plan.uploadId,
           ),
         ],
-      ),
+      ).toJson(),
+      cancelToken: params.cancelToken,
+      options: Options(receiveTimeout: _kCompleteUploadReceiveTimeout),
     );
     params.onProgress?.call(totalBytes, totalBytes);
   }

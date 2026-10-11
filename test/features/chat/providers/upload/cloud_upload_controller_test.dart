@@ -16,7 +16,6 @@ import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_pro
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
-import 'package:fluxer_dart/export.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -161,7 +160,7 @@ class _Fixture {
 
   static Future<_Fixture> create({int maxFileBytes = 25 * 1024 * 1024}) async {
     final _FakeUploadClient client = _FakeUploadClient(
-      channelsApi: ChannelsApi(Dio()),
+      apiDio: Dio(),
       uploadDio: Dio(),
     );
     final ProviderContainer container = ProviderContainer(
@@ -199,7 +198,7 @@ class _Fixture {
 }
 
 class _FakeUploadClient extends AttachmentUploadClient {
-  _FakeUploadClient({required super.channelsApi, required super.uploadDio});
+  _FakeUploadClient({required super.apiDio, required super.uploadDio});
 
   Completer<void>? gate;
   int planRequests = 0;

@@ -307,7 +307,7 @@ class _Harness {
       baseUrl: 'https://api.fluxer.app/v1',
     );
     final _FakeUploadClient uploadClient = _FakeUploadClient(
-      channelsApi: ChannelsApi(dio),
+      apiDio: dio,
       uploadDio: Dio(),
     );
     final ProviderContainer container = ProviderContainer(
@@ -383,7 +383,7 @@ class _Harness {
 }
 
 class _FakeUploadClient extends AttachmentUploadClient {
-  _FakeUploadClient({required super.channelsApi, required super.uploadDio});
+  _FakeUploadClient({required super.apiDio, required super.uploadDio});
 
   Completer<void>? block;
   bool fail = false;
