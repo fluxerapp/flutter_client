@@ -5,9 +5,8 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 
 class DmListRecipientRowData {
-  const DmListRecipientRowData({required this.status, this.customStatus});
+  const DmListRecipientRowData({this.customStatus});
 
-  final String status;
   final String? customStatus;
 }
 
@@ -19,9 +18,7 @@ final dmListRecipientUserIdsKeyProvider = Provider<String>((Ref ref) {
   );
   final Set<String> userIds = <String>{};
   for (final DmConversation conversation in conversations) {
-    if (conversation.isGroup) {
-      userIds.addAll(conversation.remoteRecipientIds);
-    } else if (!conversation.isPersonalNotes) {
+    if (!conversation.isGroup && !conversation.isPersonalNotes) {
       userIds.add(conversation.recipientId);
     }
   }
@@ -50,7 +47,6 @@ final dmListRecipientRowDataProvider =
             (List<User> users) => <String, DmListRecipientRowData>{
               for (final User user in users)
                 user.id: DmListRecipientRowData(
-                  status: user.status,
                   customStatus: user.customStatus,
                 ),
             },

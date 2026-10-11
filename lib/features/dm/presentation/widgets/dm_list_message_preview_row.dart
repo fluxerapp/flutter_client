@@ -60,14 +60,7 @@ class DmListTileSubtext extends ConsumerWidget {
       }
     }
     if (conversation.isGroup) {
-      return Text(
-        FluxerLocalizations.of(
-          context,
-        ).dmGroupMemberCount(conversation.memberCount),
-        style: style.copyWith(height: 14 / 11),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-      );
+      return const SizedBox.shrink();
     }
     final String? customStatus = ref.watch(
       dmListRecipientRowDataProvider.select(
@@ -84,7 +77,7 @@ class DmListTileSubtext extends ConsumerWidget {
   }
 }
 
-class DmListMessagePreviewRow extends StatefulWidget {
+class DmListMessagePreviewRow extends StatelessWidget {
   const DmListMessagePreviewRow({
     required this.preview,
     required this.channelId,
@@ -101,56 +94,29 @@ class DmListMessagePreviewRow extends StatefulWidget {
   final String attachmentLabel;
 
   @override
-  State<DmListMessagePreviewRow> createState() =>
-      _DmListMessagePreviewRowState();
-}
-
-class _DmListMessagePreviewRowState extends State<DmListMessagePreviewRow> {
-  bool _useMarkdown = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() => _useMarkdown = true);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final DmListMessagePreview messagePreview = widget.preview;
+    final DmListMessagePreview messagePreview = preview;
     if (messagePreview is DmListMarkdownMessagePreview) {
       final DmListMarkdownMessagePreview markdownPreview = messagePreview;
       return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: <Widget>[
-          Text(markdownPreview.authorPrefix, style: widget.style, maxLines: 1),
+          Text(markdownPreview.authorPrefix, style: style, maxLines: 1),
           Expanded(
-            child: _useMarkdown
-                ? RepaintBoundary(
-                    child: IgnorePointer(
-                      child: MessageMarkdown(
-                        data: markdownPreview.content,
-                        channelId: widget.channelId,
-                        messageId: widget.messageId,
-                        markdownContext:
-                            FluxerMarkdownContext.restrictedInlineReply,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        baseStyle: widget.style,
-                      ),
-                    ),
-                  )
-                : Text(
-                    markdownPreview.content,
-                    style: widget.style,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
+            child: RepaintBoundary(
+              child: IgnorePointer(
+                child: MessageMarkdown(
+                  data: markdownPreview.content,
+                  channelId: channelId,
+                  messageId: messageId,
+                  markdownContext: FluxerMarkdownContext.restrictedInlineReply,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  baseStyle: style,
+                ),
+              ),
+            ),
           ),
         ],
       );
@@ -158,7 +124,7 @@ class _DmListMessagePreviewRowState extends State<DmListMessagePreviewRow> {
     if (messagePreview is DmListSystemMessagePreview) {
       return Text(
         messagePreview.text,
-        style: widget.style,
+        style: style,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       );
@@ -169,11 +135,11 @@ class _DmListMessagePreviewRowState extends State<DmListMessagePreviewRow> {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: <Widget>[
-        Text(attachmentPreview.authorPrefix, style: widget.style, maxLines: 1),
+        Text(attachmentPreview.authorPrefix, style: style, maxLines: 1),
         Expanded(
           child: Text(
-            widget.attachmentLabel,
-            style: widget.style.copyWith(fontStyle: FontStyle.italic),
+            attachmentLabel,
+            style: style.copyWith(fontStyle: FontStyle.italic),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),

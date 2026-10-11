@@ -11,7 +11,7 @@ class DmListSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = isMobileLayout(context);
-    final double rowHeight = isMobile ? 52 : 42;
+    final double rowHeight = isMobile ? 55 : 42;
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       itemExtent: rowHeight,
@@ -50,22 +50,21 @@ class _DmListSkeletonRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerLayoutTheme layout = context.layout;
-    final double avatarSize = rowHeight > 44 ? 36 : 32;
     return SizedBox(
       height: rowHeight,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: layout.s2),
+        padding: EdgeInsets.symmetric(horizontal: layout.s2 * 2),
         child: Row(
           children: <Widget>[
             Container(
-              width: avatarSize,
-              height: avatarSize,
+              width: 32,
+              height: 32,
               decoration: BoxDecoration(
                 color: context.colors.backgroundSecondaryAlt,
                 shape: BoxShape.circle,
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: layout.s3),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

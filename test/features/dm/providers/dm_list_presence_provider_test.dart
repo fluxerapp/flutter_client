@@ -50,7 +50,7 @@ void main() {
       },
     );
 
-    test('includes group recipients and excludes personal notes', () {
+    test('keys only one-to-one recipients', () {
       final ProviderContainer container = ProviderContainer(
         overrides: [
           dmViewModelProvider.overrideWithValue(
@@ -91,10 +91,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      expect(
-        container.read(dmListRecipientUserIdsKeyProvider),
-        '201\x1e202\x1e400',
-      );
+      expect(container.read(dmListRecipientUserIdsKeyProvider), '400');
     });
   });
 }

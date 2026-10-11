@@ -110,6 +110,29 @@ void main() {
       expect(result, 'now');
     });
 
+    test('floors to "1m" when a minimum minute is requested', () async {
+      final l10n = await _loadL10n();
+      final DateTime now = DateTime(2026, 10, 11, 12);
+      final result = relativeTimeShort(
+        now.subtract(const Duration(seconds: 5)),
+        l10n,
+        now: now,
+        minimumOneMinute: true,
+      );
+      expect(result, '1m');
+    });
+
+    test('keeps counting days up to a month', () async {
+      final l10n = await _loadL10n();
+      final DateTime now = DateTime(2026, 10, 11, 12);
+      final result = relativeTimeShort(
+        now.subtract(const Duration(days: 17)),
+        l10n,
+        now: now,
+      );
+      expect(result, '17d');
+    });
+
     test('returns "5m" for five minutes', () async {
       final l10n = await _loadL10n();
       final result = relativeTimeShort(

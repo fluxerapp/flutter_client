@@ -77,8 +77,13 @@ String relativeTimestamp(
 ///
 /// Mirrors the web app's `formatShortRelativeTime` output. Used in compact
 /// card layouts like Linked Devices.
-String relativeTimeShort(DateTime date, FluxerLocalizations l10n) {
-  final diff = DateTime.now().difference(date);
+String relativeTimeShort(
+  DateTime date,
+  FluxerLocalizations l10n, {
+  DateTime? now,
+  bool minimumOneMinute = false,
+}) {
+  final diff = (now ?? DateTime.now()).difference(date);
   if (diff.inDays > 365) {
     return l10n.relativeTimeShortYears((diff.inDays / 365).floor());
   }
@@ -93,6 +98,9 @@ String relativeTimeShort(DateTime date, FluxerLocalizations l10n) {
   }
   if (diff.inMinutes > 0) {
     return l10n.relativeTimeShortMinutes(diff.inMinutes);
+  }
+  if (minimumOneMinute) {
+    return l10n.relativeTimeShortMinutes(1);
   }
   return l10n.relativeTimeShortNow;
 }

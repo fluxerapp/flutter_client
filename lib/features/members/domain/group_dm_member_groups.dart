@@ -51,16 +51,3 @@ List<GroupDmMemberGroup<T>> groupDmMembersByPresence<T>({
   }
   return groups;
 }
-
-String? groupDmAggregateStatus({
-  required List<String> participantIds,
-  required String Function(String userId) resolveStatus,
-}) {
-  for (final String userId in participantIds) {
-    final String status = resolveStatus(userId);
-    if (isMemberPresenceOnline(status)) {
-      return status;
-    }
-  }
-  return null;
-}
