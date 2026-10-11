@@ -2016,6 +2016,9 @@ class ChatViewModel extends _$ChatViewModel {
 
   void _dropParkedWindow(String channelId) {
     _parkedWindows.remove(channelId);
+    if (channelId == state.channelId) {
+      return;
+    }
     _displayWarmer.release(channelId);
     ref.read(messageReferencesProvider.notifier).clearChannel(channelId);
   }

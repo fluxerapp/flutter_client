@@ -2,12 +2,18 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/gateway.dart';
 
 import '../../../../helpers/chat_view_model_pagination_test_harness.dart';
+import '../../../../helpers/message_realtime_test_helpers.dart';
 import '../../../../helpers/open_test_database.dart';
 
 typedef _InstallSnapshot = ({
@@ -175,6 +181,63 @@ void main() {
         mentionName: 'Sim Peer',
         replyState: MessageReferenceState.loaded,
       ));
+    },
+  );
+
+  test(
+    'emptying the open channel stale parked copy keeps its reply parents',
+    () async {
+      final (ProviderContainer container, ChatViewModel notifier) =
+          await setUp();
+      await notifier.switchChannel('channel-1');
+      await paginationFlushAsync();
+      await notifier.switchChannel('channel-2');
+      await paginationFlushAsync();
+      await notifier.switchChannel('channel-1');
+      await paginationFlushAsync();
+
+      final String liveReplyId = paginationSnowflakeForIndex(12);
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(<String, Object?>{
+                  ...replyJson(),
+                  'id': liveReplyId,
+                }),
+              ),
+            ),
+          );
+      await paginationFlushAsync();
+      await container.read(fluxerDatabaseProvider).messageDao.deleteMessages(
+        <String>[replyId, mentionId],
+      );
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            MessagesDeletedBulk(
+              MessageDeleteBulkEvent(
+                channelId: 'channel-1',
+                ids: <String>[replyId, mentionId],
+              ),
+            ),
+          );
+      await paginationFlushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.messages.map((m) => m.id), contains(liveReplyId));
+      expect(
+        container
+            .read(messageReferencesProvider.notifier)
+            .resolveSync(
+              channelId: 'channel-1',
+              messageId: parentId,
+              channelMessages: state.messages,
+            )
+            .state,
+        MessageReferenceState.loaded,
+      );
     },
   );
 }
