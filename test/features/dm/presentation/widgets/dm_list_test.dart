@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
-    show FluxerDatabase, User;
+    show DmChannel, FluxerDatabase, User;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.d
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -812,6 +813,70 @@ void main() {
       expect(find.byType(ChannelUnreadIndicator), findsOneWidget);
     });
 
+    testWidgets('unread rows turn bold and carry the mention count', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      final DmChannel unreadRow = DmChannel(
+        id: '100',
+        type: 1,
+        recipientId: '200',
+        recipientCount: 1,
+        recipientIds: '["200"]',
+        nicksJson: '{}',
+        lastMessage: 'ping',
+        lastMessageTime: DateTime.utc(2026),
+        unreadCount: 3,
+      );
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            unreadDms: UnreadDmState(
+              channels: [unreadRow],
+              unreadChannelIds: const {'100'},
+            ),
+            conversations: [
+              DmConversation(
+                id: '100',
+                type: 1,
+                recipientId: '200',
+                recipientName: 'Monty',
+                lastMessage: 'ping',
+                lastMessageTime: _recentTime(),
+                unreadCount: 3,
+              ),
+              DmConversation(
+                id: '101',
+                type: 1,
+                recipientId: '201',
+                recipientName: 'Quiet',
+                lastMessage: 'old',
+                lastMessageTime: _recentTime(),
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.widget<Text>(findAppText('Monty')).style?.fontWeight,
+        FontWeight.w600,
+      );
+      expect(
+        tester.widget<Text>(findAppText('Quiet')).style?.fontWeight,
+        FontWeight.w500,
+      );
+      final Finder badge = find.byType(FluxerBadge);
+      expect(badge, findsOneWidget);
+      expect(
+        find.descendant(of: badge, matching: find.text('3')),
+        findsOneWidget,
+      );
+      expect(tester.widget<FluxerBadge>(badge).cutoutColor, isNull);
+    });
+
     testWidgets('shows attachment fallback text', (tester) async {
       _setMobileSurface(tester);
 
@@ -1065,9 +1130,13 @@ List<Override> _buildOverrides({
   String? selectedChannelId,
   Set<String> mutedIds = const <String>{},
   FluxerDatabase? database,
+  UnreadDmState unreadDms = const UnreadDmState(),
 }) {
   final db = database ?? openTestDatabase();
   return [
+    unreadDmChannelsProvider.overrideWith(
+      () => _FakeUnreadDmChannels(unreadDms),
+    ),
     fluxerDatabaseProvider.overrideWithValue(db),
     userSettingsStatusProvider.overrideWithValue(null),
     ..._userPresenceOverrides(
@@ -1111,6 +1180,15 @@ List<Override> _buildOverrides({
       _VerifiedUserSettingsViewModel.new,
     ),
   ];
+}
+
+class _FakeUnreadDmChannels extends UnreadDmChannels {
+  _FakeUnreadDmChannels(this._state);
+
+  final UnreadDmState _state;
+
+  @override
+  UnreadDmState build() => _state;
 }
 
 class _TestAppearancePreferences extends AppearancePreferences {

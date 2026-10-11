@@ -37,6 +37,7 @@ import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/sorted_dm_conversations_provider.dart';
+import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
@@ -306,6 +307,11 @@ class _DMListState extends ConsumerState<DMList> {
                             icon: PhosphorIconsFill.users,
                             label: 'Friends',
                             isSelected: isFriends,
+                            badgeCount:
+                                ref
+                                    .watch(pendingFriendRequestCountProvider)
+                                    .value ??
+                                0,
                             onTap: () => navigateToDmFriendsContent(context),
                           ),
                           _buildNavButton(
@@ -403,6 +409,7 @@ class _DMListState extends ConsumerState<DMList> {
     required VoidCallback onTap,
     bool isSelected = false,
     VoidCallback? onLongPress,
+    int badgeCount = 0,
   }) => _selectableRow(
     context,
     isSelected: isSelected,
@@ -433,14 +440,24 @@ class _DMListState extends ConsumerState<DMList> {
           ),
         ),
         SizedBox(width: context.layout.s3),
-        Text(
-          label,
-          style: context.textStyles.username.copyWith(
-            color: isSelected
-                ? context.colors.surfaceInteractiveSelectedColor
-                : context.colors.textPrimaryMuted,
+        Expanded(
+          child: Text(
+            label,
+            style: context.textStyles.username.copyWith(
+              color: isSelected
+                  ? context.colors.surfaceInteractiveSelectedColor
+                  : context.colors.textPrimaryMuted,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
+        if (badgeCount > 0)
+          ExcludeSemantics(
+            child: FluxerBadgeEntrance(
+              child: FluxerBadge.count(count: badgeCount),
+            ),
+          ),
       ],
     ),
   );
@@ -556,26 +573,12 @@ class _DMListState extends ConsumerState<DMList> {
                   ),
                   if (pendingCount > 0)
                     Positioned(
-                      top: -4,
-                      right: -4,
-                      child: Container(
-                        constraints: const BoxConstraints(
-                          minWidth: 20,
-                          minHeight: 20,
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                          color: context.colors.statusDanger,
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          '$pendingCount',
-                          style: context.textStyles.smallText.copyWith(
-                            color: context.colors.textPrimary,
-                            fontWeight: FontWeight.w700,
-                            height: 16 / 12,
-                          ),
+                      top: -6,
+                      right: -6,
+                      child: FluxerBadgeEntrance(
+                        child: FluxerBadge.count(
+                          count: pendingCount,
+                          cutoutColor: context.colors.channelSidebarBackground,
                         ),
                       ),
                     ),
@@ -820,7 +823,7 @@ class _DMListState extends ConsumerState<DMList> {
     final titleStyle = _dmRowTitleStyle(
       context,
       color: emphasized ? context.colors.textPrimary : mutedTextColor,
-      emphasized: hasUnread,
+      emphasized: hasUnread && !isMuted,
       isMobile: isMobile,
     );
     final secondaryStyle = context.textStyles.timestamp.copyWith(
@@ -936,13 +939,21 @@ class _DMListState extends ConsumerState<DMList> {
                     ],
                   ),
                 ),
-                if (lastMessageId != null) ...[
-                  const SizedBox(width: 8),
-                  DmRowTimestamp(
-                    time: c.lastMessageTime,
-                    style: secondaryStyle.copyWith(fontWeight: FontWeight.w400),
-                  ),
-                ],
+                const SizedBox(width: 8),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (lastMessageId != null)
+                      DmRowTimestamp(
+                        time: c.lastMessageTime,
+                        style: secondaryStyle.copyWith(
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    if (!isMuted) _DmListMentionBadge(channelId: c.id),
+                  ],
+                ),
               ],
             ),
           ),
@@ -1909,6 +1920,32 @@ class _DmInviteSheet extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _DmListMentionBadge extends ConsumerWidget {
+  const _DmListMentionBadge({required this.channelId});
+
+  final String channelId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final int mentionCount = ref.watch(
+      unreadDmChannelsProvider.select(
+        (UnreadDmState state) => state.mentionCountFor(channelId),
+      ),
+    );
+    if (mentionCount <= 0) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: ExcludeSemantics(
+        child: FluxerBadgeEntrance(
+          child: FluxerBadge.count(count: mentionCount),
+        ),
+      ),
     );
   }
 }
