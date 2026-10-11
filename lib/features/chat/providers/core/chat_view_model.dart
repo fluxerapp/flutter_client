@@ -681,7 +681,7 @@ class ChatViewModel extends _$ChatViewModel {
   final Map<String, List<_LocalMutation>> _localMutations =
       <String, List<_LocalMutation>>{};
   final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
-  final Set<String> _sendsAwaitingReconnect = <String>{};
+  final Map<String, int> _sendsAwaitingReconnect = <String, int>{};
   final Map<String, _RetrySendOptions> _retrySendOptions =
       <String, _RetrySendOptions>{};
   final Map<String, Future<void>> _pendingDeleteFutures =
@@ -2735,6 +2735,9 @@ class ChatViewModel extends _$ChatViewModel {
     } finally {
       if (cacheFetchOrdinal != null) {
         _endPageFetch(cacheFetchOrdinal);
+      }
+      if (isCurrentSwitch()) {
+        _resendSendsAwaitingReconnect();
       }
       debugPrint(
         '[ChatViewModel] switchChannel($channelId) completed in '
@@ -5619,7 +5622,9 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     if (local.attachments.isEmpty && _shouldAwaitReconnect(error)) {
-      _sendsAwaitingReconnect.add(optimisticMessageId);
+      _sendsAwaitingReconnect[optimisticMessageId] = ref.read(
+        gatewaySessionRecoveryProvider,
+      );
       return;
     }
     final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
@@ -5676,16 +5681,14 @@ class ChatViewModel extends _$ChatViewModel {
     if (_sendsAwaitingReconnect.isEmpty) {
       return;
     }
-    final List<String> messageIds = _sendsAwaitingReconnect.toList();
-    _sendsAwaitingReconnect.clear();
-    for (final String messageId in messageIds) {
-      final int messageIndex = state.messages.indexWhere(
-        (Message m) => m.id == messageId,
-      );
-      if (messageIndex == -1) {
-        continue;
-      }
-      final Message message = state.messages[messageIndex];
+    final int generation = ref.read(gatewaySessionRecoveryProvider);
+    final List<Message> due = <Message>[
+      for (final Message message in state.messages)
+        if ((_sendsAwaitingReconnect[message.id] ?? generation) < generation)
+          message,
+    ];
+    for (final Message message in due) {
+      _sendsAwaitingReconnect.remove(message.id);
       if (!message.isSending || _adoptDeliveredMatch(message)) {
         continue;
       }
@@ -5826,16 +5829,10 @@ class ChatViewModel extends _$ChatViewModel {
             ),
       );
       _retrySendOptions.remove(message.id);
-      final List<Message> nextMessages = _replaceOptimisticWithDelivered(
-        messages: state.messages,
-        optimisticId: message.id,
-        delivered: sent.copyWith(
-          deliveryState: MessageDeliveryState.sent,
-          sendError: null,
-        ),
-      );
-      state = state.copyWith(
-        write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
+      _commitDeliveredOptimisticSend(
+        channelId: message.channelId,
+        optimisticMessageId: message.id,
+        sent: sent,
       );
       unawaited(
         _recordSlowmodeSendOnSuccess(

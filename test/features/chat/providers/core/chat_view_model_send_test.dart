@@ -932,6 +932,64 @@ void main() {
       );
     });
 
+    test('a send parked in another channel is resent on return', () async {
+      final (container, adapter, serverMessageId, connection) =
+          await setUpOffline();
+      final db = container.read(fluxerDatabaseProvider);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: 'channel-2', guildId: '', name: 'dm2'),
+      );
+      connection.current = GatewayState.reconnecting;
+      adapter.connectionErrorSends = 1;
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'offline');
+      await _flushAsync();
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+      connection.current = GatewayState.connected;
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 1);
+      expect(container.read(chatViewModelProvider).messages, isEmpty);
+
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 2);
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.messages.single.id, serverMessageId);
+      expect(state.messages.single.isSending, isFalse);
+    });
+
+    test('a resend delivered after leaving stays in its channel', () async {
+      final (container, adapter, _, connection) = await setUpOffline();
+      final db = container.read(fluxerDatabaseProvider);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: 'channel-2', guildId: '', name: 'dm2'),
+      );
+      connection.current = GatewayState.reconnecting;
+      adapter.connectionErrorSends = 1;
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'offline');
+      await _flushAsync();
+      adapter.holdSend = true;
+      connection.current = GatewayState.connected;
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await _flushAsync();
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+      adapter.releaseSend();
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 2);
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.channelId, 'channel-2');
+      expect(state.messages, isEmpty);
+    });
+
     test('a cancelled send is not resent after reconnecting', () async {
       final (container, adapter, _, connection) = await setUpOffline();
       connection.current = GatewayState.reconnecting;
