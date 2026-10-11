@@ -223,6 +223,21 @@ void main() {
       ]);
       expect(find.byType(FluxerStatusIndicator), findsNothing);
       expect(find.byType(FluxerTypingStatusIndicator), findsNothing);
+      expect(
+        find.ancestor(
+          of: find.byType(FluxerAvatarCluster),
+          matching: find.byWidgetPredicate(
+            (Widget widget) =>
+                widget is ClipRRect ||
+                widget is ClipRect ||
+                widget is ClipOval ||
+                (widget is AnimatedContainer &&
+                    widget.clipBehavior != Clip.none),
+          ),
+        ),
+        findsNothing,
+        reason: 'the rail must not clip the typing pill past the avatar edge',
+      );
     });
   });
 }

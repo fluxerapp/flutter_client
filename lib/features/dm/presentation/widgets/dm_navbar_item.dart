@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -111,6 +112,12 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
             userId: widget.recipientId,
             hash: conversation?.recipientAvatar,
           );
+    final bool isTyping = !isGroup
+        ? ref.watch(
+            isUserTypingInChannelProvider(widget.channelId, widget.recipientId),
+          )
+        : conversation != null &&
+              ref.watch(dmAvatarIsTypingProvider(conversation));
 
     final indicatorHeight = isSelected
         ? 40.0
@@ -123,7 +130,6 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
       alpha: unreadState.faded && !isSelected && !_isHovered ? 0.5 : 1.0,
     );
 
-    final borderRadius = (isSelected || _isHovered) ? 13.0 : 22.0;
     final String semanticLabel = navigationItemSemanticLabel(
       l10n: FluxerLocalizations.of(context),
       name: displayName,
@@ -182,35 +188,25 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                             clipBehavior: Clip.none,
                             children: [
                               Center(
-                                child: isGroup
-                                    ? SizedBox.square(
-                                        dimension: 44,
-                                        child: conversation == null
+                                child: SizedBox.square(
+                                  dimension: 44,
+                                  child: isGroup
+                                      ? conversation == null
                                             ? null
                                             : GroupDmAvatar.conversation(
                                                 conversation,
                                                 size: 44,
-                                              ),
-                                      )
-                                    : AnimatedContainer(
-                                        duration: context.motion.panel,
-                                        curve: Curves.easeOutCubic,
-                                        width: 44,
-                                        height: 44,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            borderRadius,
-                                          ),
-                                        ),
-                                        child: FluxerAvatar.user(
+                                                isTyping: isTyping,
+                                              )
+                                      : FluxerAvatar.user(
                                           fallbackText: displayName,
                                           userId: widget.recipientId,
                                           imageUrl: avatarImageUrl,
                                           showStatus: false,
+                                          isTyping: isTyping,
                                           size: 44,
                                         ),
-                                      ),
+                                ),
                               ),
                               if (mentionCount > 0 && unreadState.show)
                                 Positioned(
