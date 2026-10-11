@@ -39,6 +39,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_send_cancelled_exception.dart';
+import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
@@ -667,9 +668,8 @@ class ChatViewModel extends _$ChatViewModel {
       <String, int>{};
   final Map<String, int> _lastReconciledConnectivityGapGenerationByChannel =
       <String, int>{};
-  // Guards against duplicate sends when send is triggered repeatedly before an
-  // in-flight send finishes its async preparation (e.g. while the app lags).
-  bool _isPreparingSend = false;
+  Future<void> _sendPreparation = Future<void>.value();
+  final Set<String> _preparingSendKeys = <String>{};
   // Monotonically increasing token identifying the most recent switchChannel
   // call.
   int _channelSwitchGeneration = 0;
@@ -5332,18 +5332,13 @@ class ChatViewModel extends _$ChatViewModel {
     required String filePath,
     required int duration,
     required String waveform,
-  }) async {
-    try {
-      await _sendVoiceMessageInner(
-        filePath: filePath,
-        duration: duration,
-        waveform: waveform,
-      );
-    } on Object catch (error, st) {
-      talker.error('[ChatViewModel] voice send failed unexpectedly', error, st);
-      _showUnexpectedSendError();
-    }
-  }
+  }) => _afterPreparingSends(
+    () => _sendVoiceMessageInner(
+      filePath: filePath,
+      duration: duration,
+      waveform: waveform,
+    ),
+  );
 
   String _maybeSanitizeOutgoing(String text) {
     if (text.isEmpty) {
@@ -5380,24 +5375,71 @@ class ChatViewModel extends _$ChatViewModel {
       }
       return;
     }
-    if (_isPreparingSend) {
+    final String? claimNonce = _claimComposerFiles();
+    final String key = <String?>[
+      text,
+      favoriteMemeId,
+      ...stickerIds,
+    ].join('\u0000');
+    if (claimNonce == null && _preparingSendKeys.contains(key)) {
       return;
     }
-    _isPreparingSend = true;
+    _preparingSendKeys.add(key);
     try {
-      await _sendContentInner(
-        text,
-        clearMessageText: clearMessageText,
-        stickerIds: stickerIds,
-        favoriteMemeId: favoriteMemeId,
-        tts: tts,
-      );
-    } on Object catch (error, st) {
-      talker.error('[ChatViewModel] send failed unexpectedly', error, st);
-      _showUnexpectedSendError();
+      await _afterPreparingSends(() async {
+        final bool consumed = await _sendContentInner(
+          text,
+          claimNonce: claimNonce,
+          clearMessageText: clearMessageText,
+          stickerIds: stickerIds,
+          favoriteMemeId: favoriteMemeId,
+          tts: tts,
+        );
+        if (!consumed && claimNonce != null) {
+          _returnClaim(claimNonce);
+        }
+      });
     } finally {
-      _isPreparingSend = false;
+      _preparingSendKeys.remove(key);
     }
+  }
+
+  Future<void> _afterPreparingSends(Future<void> Function() prepare) {
+    final Future<void> previous = _sendPreparation;
+    final Future<void> next = previous.then((_) async {
+      try {
+        await prepare();
+      } on Object catch (error, st) {
+        talker.error('[ChatViewModel] send failed unexpectedly', error, st);
+        _showUnexpectedSendError();
+      }
+    });
+    _sendPreparation = next;
+    return next;
+  }
+
+  String? _claimComposerFiles() {
+    final String channelId = state.channelId;
+    if (channelId.isEmpty || state.editingMessage != null) {
+      return null;
+    }
+    final CloudUploadController uploads = ref.read(
+      cloudUploadControllerProvider(channelId).notifier,
+    );
+    final String nonce = clientNonceGenerator.next();
+    return uploads.claimForMessage(nonce).isEmpty ? null : nonce;
+  }
+
+  void _returnClaim(String nonce) {
+    final MessageUploadSession? session = ref.read(
+      messageUploadSessionsProvider,
+    )[nonce];
+    if (session == null) {
+      return;
+    }
+    ref
+        .read(cloudUploadControllerProvider(session.channelId).notifier)
+        .returnClaim(nonce);
   }
 
   Future<void> _sendVoiceMessageInner({
@@ -5461,23 +5503,23 @@ class ChatViewModel extends _$ChatViewModel {
     final CloudUploadController uploadNotifier = ref.read(
       cloudUploadControllerProvider(channelId).notifier,
     );
+    final String clientNonce = clientNonceGenerator.next();
     final FileUploadValidationResult validation = await uploadNotifier
-        .addVoiceMessage(
+        .claimVoiceMessage(
+          nonce: clientNonce,
           file: XFile(filePath, name: kVoiceMessageFilename),
           duration: duration,
           waveform: waveform,
         );
     if (!validation.isValid) {
-      uploadNotifier.clearComposerAttachments();
       _showUnexpectedSendError();
       return;
     }
     final String? replyToId = state.replyingTo?.id;
     final bool replyMention = state.replyMentioning;
-    final String clientNonce = clientNonceGenerator.next();
-    final List<PendingAttachment> claimed = uploadNotifier.claimForMessage(
-      clientNonce,
-    );
+    final List<PendingAttachment> claimed =
+        ref.read(messageUploadSessionsProvider)[clientNonce]?.attachments ??
+        const <PendingAttachment>[];
     if (claimed.isEmpty) {
       return;
     }
@@ -5538,8 +5580,9 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
-  Future<void> _sendContentInner(
+  Future<bool> _sendContentInner(
     String text, {
+    required String? claimNonce,
     required bool clearMessageText,
     List<String> stickerIds = const [],
     String? favoriteMemeId,
@@ -5549,7 +5592,12 @@ class ChatViewModel extends _$ChatViewModel {
     if (channelId.isEmpty) {
       talker.debug('[ChatViewModel] send blocked: channel_not_ready');
       _notifySendBlocked(_SendBlockReason.channelNotReady);
-      return;
+      return false;
+    }
+    if (claimNonce != null &&
+        ref.read(messageUploadSessionsProvider)[claimNonce]?.channelId !=
+            channelId) {
+      return false;
     }
     final GuildComposerAccess? guildBlock = await _resolveGuildComposerBlock(
       channelId,
@@ -5559,19 +5607,20 @@ class ChatViewModel extends _$ChatViewModel {
         '[ChatViewModel] send blocked: guild_access channelId=$channelId',
       );
       _notifySendBlocked(_SendBlockReason.guildAccess, guildBlock: guildBlock);
-      return;
+      return false;
     }
     final String? currentUserId = ref.read(currentUserIdProvider);
-    final List<PendingAttachment> pendingAttachments = ref
-        .read(cloudUploadControllerProvider(channelId))
-        .items;
+    final List<PendingAttachment> pendingAttachments = claimNonce == null
+        ? const <PendingAttachment>[]
+        : ref.read(messageUploadSessionsProvider)[claimNonce]?.attachments ??
+              const <PendingAttachment>[];
     if (!hasVisibleContent(text) &&
         stickerIds.isEmpty &&
         favoriteMemeId == null &&
         pendingAttachments.isEmpty) {
       talker.debug('[ChatViewModel] send blocked: empty channelId=$channelId');
       _notifySendBlocked(_SendBlockReason.empty);
-      return;
+      return false;
     }
     final ({String content, int flags}) normalized = _normalizeOutgoing(text);
     final String outgoingText = normalized.content;
@@ -5613,7 +5662,7 @@ class ChatViewModel extends _$ChatViewModel {
             '[ChatViewModel] send blocked: no_permission channelId=$channelId',
           );
           _notifySendBlocked(_SendBlockReason.noPermission);
-          return;
+          return false;
         }
       } else {
         talker.debug(
@@ -5635,7 +5684,7 @@ class ChatViewModel extends _$ChatViewModel {
         _SendBlockReason.slowmode,
         remaining: slowmodeRemaining,
       );
-      return;
+      return false;
     }
 
     final replyToId = state.replyingTo?.id;
@@ -5651,14 +5700,11 @@ class ChatViewModel extends _$ChatViewModel {
     final String authorName = hasGlobalName
         ? currentUser!.globalName!
         : currentUser?.username ?? 'You';
-    final String clientNonce = clientNonceGenerator.next();
+    final String clientNonce = claimNonce ?? clientNonceGenerator.next();
     final CloudUploadController uploadNotifier = ref.read(
       cloudUploadControllerProvider(channelId).notifier,
     );
     final bool hasPendingAttachments = pendingAttachments.isNotEmpty;
-    if (hasPendingAttachments) {
-      uploadNotifier.claimForMessage(clientNonce);
-    }
     final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
     final List<Attachment> optimisticAttachments = hasPendingAttachments
         ? buildUploadingPlaceholderAttachments(
@@ -5731,7 +5777,7 @@ class ChatViewModel extends _$ChatViewModel {
           tts: tts,
         ),
       );
-      return;
+      return true;
     }
 
     _registerInFlightOptimisticSend(optimisticMessage);
@@ -5750,6 +5796,7 @@ class ChatViewModel extends _$ChatViewModel {
         tts: tts,
       ),
     );
+    return true;
   }
 
   Future<void> _completeSendWithoutAttachments({

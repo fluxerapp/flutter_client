@@ -38,6 +38,48 @@ import '../../../../helpers/open_test_database.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  test('sending clears the composer files in the same frame', () async {
+    final _Harness h = await _Harness.create();
+    await h.stageFile();
+
+    unawaited(h.notifier.sendMessage(text: 'pic'));
+
+    expect(h.composerItems, isEmpty);
+    await _flushAsync();
+    expect(h.adapter.messagePostCount, 1);
+  });
+
+  test('a second send while the first is preparing is not dropped', () async {
+    final _Harness h = await _Harness.create();
+
+    unawaited(h.notifier.sendMessage(text: 'first'));
+    unawaited(h.notifier.sendMessage(text: 'second'));
+    await _flushAsync();
+
+    expect(h.adapter.messagePostCount, 2);
+    expect(h.deliveredRows.map((Message m) => m.content), <String>[
+      'first',
+      'second',
+    ]);
+  });
+
+  test('a voice message leaves staged composer files alone', () async {
+    final _Harness h = await _Harness.create();
+    await h.stageFile();
+    final File voice = File('${h.tempDir.path}/voice.wav')
+      ..writeAsBytesSync(<int>[1, 2, 3, 4]);
+
+    await h.notifier.sendVoiceMessage(
+      filePath: voice.path,
+      duration: 1,
+      waveform: 'AA==',
+    );
+    await _flushAsync();
+
+    expect(h.composerItems, hasLength(1));
+    expect(h.adapter.messagePostCount, 1);
+  });
+
   test('a lost response settles when MESSAGE_CREATE arrives later', () async {
     final _Harness h = await _Harness.create();
     h.adapter.outcomes.add(_PostOutcome.createdThenConnectionLost);
@@ -493,7 +535,10 @@ class _PostAdapter implements HttpClientAdapter {
         case _PostOutcome.ok:
           return _json(
             _messageJson(
-              id: serverMessageId,
+              id:
+                  (BigInt.parse(serverMessageId) +
+                          BigInt.from(messagePostCount - 1))
+                      .toString(),
               content: body['content'] as String? ?? '',
               nonce: body['nonce'] as String?,
             ),

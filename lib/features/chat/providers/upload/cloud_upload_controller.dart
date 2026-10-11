@@ -203,6 +203,20 @@ class CloudUploadController extends _$CloudUploadController {
     return claimed;
   }
 
+  void returnClaim(String nonce) {
+    final MessageUploadSession? session = ref.read(
+      messageUploadSessionsProvider,
+    )[nonce];
+    if (session == null) {
+      return;
+    }
+    ref.read(messageUploadSessionsProvider.notifier).removeSession(nonce);
+    state = CloudComposerAttachments(<PendingAttachment>[
+      ...session.attachments,
+      ...state.items,
+    ]);
+  }
+
   CancelToken sendCancelToken(String nonce) =>
       _sendTokens.putIfAbsent(nonce, CancelToken.new);
 
@@ -616,16 +630,12 @@ class CloudUploadController extends _$CloudUploadController {
     state = CloudComposerAttachments(next);
   }
 
-  Future<FileUploadValidationResult> addVoiceMessage({
+  Future<FileUploadValidationResult> claimVoiceMessage({
+    required String nonce,
     required XFile file,
     required int duration,
     required String waveform,
   }) async {
-    if (state.items.isNotEmpty) {
-      return const FileUploadValidationResult.failure(
-        FileUploadValidationError.tooManyAttachments,
-      );
-    }
     final int maxFileBytes = ref.read(maxAttachmentFileBytesProvider);
     final FileUploadValidator validator = FileUploadValidator(
       maxAttachments: 1,
@@ -641,21 +651,31 @@ class CloudUploadController extends _$CloudUploadController {
           multipartPayloadPreview: const <String, dynamic>{'content': ''},
         );
     if (!validation.isValid) {
+      if (_stagedPaths.contains(resolved.path)) {
+        _deleteStagedPath(resolved.path);
+      }
       return validation;
     }
-    final PendingAttachment created = PendingAttachment(
-      id: _nextAttachmentId++,
-      channelId: _channelId,
-      file: resolved,
-      filename: resolved.name,
-      size: length,
-      contentType: 'audio/wav',
-      status: PendingAttachmentStatus.pending,
-      uploadProgress: 0,
-      duration: duration,
-      waveform: waveform,
-    );
-    state = CloudComposerAttachments(<PendingAttachment>[created]);
+    ref
+        .read(messageUploadSessionsProvider.notifier)
+        .createSession(
+          nonce: nonce,
+          channelId: _channelId,
+          attachments: <PendingAttachment>[
+            PendingAttachment(
+              id: _nextAttachmentId++,
+              channelId: _channelId,
+              file: resolved,
+              filename: resolved.name,
+              size: length,
+              contentType: 'audio/wav',
+              status: PendingAttachmentStatus.pending,
+              uploadProgress: 0,
+              duration: duration,
+              waveform: waveform,
+            ),
+          ],
+        );
     return const FileUploadValidationResult.success();
   }
 
@@ -676,12 +696,6 @@ class CloudUploadController extends _$CloudUploadController {
         waveform: a.waveform,
       );
     });
-  }
-
-  void clearComposerAttachments() {
-    final List<PendingAttachment> discarded = state.items;
-    state = CloudComposerAttachments.empty;
-    _discardFiles(discarded);
   }
 }
 

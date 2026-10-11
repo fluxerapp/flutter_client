@@ -144,7 +144,6 @@ class ShareMediaSender {
     try {
       final validation = await uploadNotifier.addFiles(uploadFiles);
       if (!validation.isValid) {
-        uploadNotifier.clearComposerAttachments();
         return false;
       }
 
