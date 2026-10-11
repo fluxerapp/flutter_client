@@ -61,6 +61,10 @@ class _Switching extends AccountManager {
   AccountManagerState build() {
     return const AccountManagerState(accounts: [], isSwitching: true);
   }
+
+  void finish() {
+    state = state.copyWith(isSwitching: false);
+  }
 }
 
 class _NoopIncidentRead extends ServiceStatusIncidentRead {
@@ -123,6 +127,13 @@ Future<bool> _revealCompleteAfter(
   final ProviderContainer container = ProviderScope.containerOf(
     tester.element(find.byType(SplashScreen)),
   );
+  if (switching) {
+    expect(container.read(splashExitAllowedProvider), isFalse);
+    expect(find.byType(InstanceBrandMark), findsOneWidget);
+    (container.read(accountManagerProvider.notifier) as _Switching).finish();
+    await tester.pump();
+    await tester.pump();
+  }
   expect(container.read(splashExitAllowedProvider), isTrue);
   expect(container.read(splashRevealZoomProvider), !switching);
   for (var i = 0; i < 20; i++) {

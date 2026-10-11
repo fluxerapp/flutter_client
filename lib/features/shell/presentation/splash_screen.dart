@@ -182,7 +182,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     }
     _revealComplete ??= ref.read(splashRevealCompleteProvider.notifier);
     final AsyncValue<void> startup = ref.read(appStartupProvider);
-    if (startup is! AsyncData<void> || !ref.read(gatewayReadyProvider)) {
+    if (startup is! AsyncData<void> ||
+        !ref.read(gatewayReadyProvider) ||
+        ref.read(accountManagerProvider).isSwitching) {
       return;
     }
     if (!ref.read(authStateProvider)) {
@@ -354,7 +356,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         (bool? previous, bool switching) {
           if (switching) {
             _enteredForAccountSwitch = true;
+            return;
           }
+          _scheduleExitReveal();
         },
       )
       ..listen<bool>(gatewayReadyProvider, (bool? previous, bool _) {
