@@ -159,7 +159,12 @@ final class AttachmentMediaBridge: NSObject, PHPickerViewControllerDelegate {
       return false
     }
     let options = [kCGImageDestinationLossyCompressionQuality: 0.9] as CFDictionary
-    CGImageDestinationAddImageFromSource(target, image, 0, options)
+    CGImageDestinationAddImageFromSource(
+      target,
+      image,
+      CGImageSourceGetPrimaryImageIndex(image),
+      options
+    )
     return CGImageDestinationFinalize(target)
   }
 
