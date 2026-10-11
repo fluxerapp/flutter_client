@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -38,12 +37,6 @@ class MentionReplyPreference extends _$MentionReplyPreference {
       '/users/@me',
       data: <String, Object?>{'mention_flags': preference.json},
     );
-    final User? existing = await database.userDao.getUserById(userId);
-    if (existing == null) {
-      return;
-    }
-    await database.userDao.upsertUser(
-      UsersCompanion(id: Value(userId), mentionFlags: Value(preference.json)),
-    );
+    await database.userDao.updateUserMentionFlags(userId, preference.json);
   }
 }
