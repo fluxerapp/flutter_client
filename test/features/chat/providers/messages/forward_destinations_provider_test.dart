@@ -69,6 +69,15 @@ DmConversation _dm(String id, {int type = 1}) => DmConversation(
 
 Future<FluxerDatabase> _seedDb() async {
   final FluxerDatabase db = openTestDatabase();
+  for (final (String id, String ownerId) in <(String, String)>[
+    (_ownedGuild, _userId),
+    (_otherGuild, 'someone_else'),
+    (_memberGuild, 'someone_else'),
+  ]) {
+    await db.guildDao.upsertServer(
+      ServersCompanion.insert(id: id, name: id, ownerId: Value(ownerId)),
+    );
+  }
 
   Future<void> channel(
     String id,
