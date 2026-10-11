@@ -19,7 +19,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Reconectando…';
 
   @override
-  String get gatewayReconnectTryAgain => 'Try again';
+  String get gatewayReconnectTryAgain => 'Volver a intentar';
 
   @override
   String get gatewayConnectedToast => 'Conectado';
@@ -15340,6 +15340,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get gatewayReconnectingToast => 'Reconectando…';
+
+  @override
+  String get gatewayReconnectTryAgain => 'Reintentar';
 
   @override
   String get gatewayConnectedToast => 'Conexión Restablecida';

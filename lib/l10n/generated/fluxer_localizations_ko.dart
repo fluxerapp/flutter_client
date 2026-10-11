@@ -18,7 +18,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get gatewayReconnectingToast => '다시 연결 중…';
 
   @override
-  String get gatewayReconnectTryAgain => 'Try again';
+  String get gatewayReconnectTryAgain => '다시 시도';
 
   @override
   String get gatewayConnectedToast => '연결됨';

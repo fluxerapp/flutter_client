@@ -19,7 +19,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Opnieuw verbinden…';
 
   @override
-  String get gatewayReconnectTryAgain => 'Try again';
+  String get gatewayReconnectTryAgain => 'Opnieuw proberen';
 
   @override
   String get gatewayConnectedToast => 'Verbonden';

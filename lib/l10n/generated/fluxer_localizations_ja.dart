@@ -18,7 +18,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get gatewayReconnectingToast => '再接続中…';
 
   @override
-  String get gatewayReconnectTryAgain => 'Try again';
+  String get gatewayReconnectTryAgain => '再試行';
 
   @override
   String get gatewayConnectedToast => '接続済み';

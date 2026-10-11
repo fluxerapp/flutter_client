@@ -19,7 +19,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Kobler til på nytt …';
 
   @override
-  String get gatewayReconnectTryAgain => 'Try again';
+  String get gatewayReconnectTryAgain => 'Prøv igjen';
 
   @override
   String get gatewayConnectedToast => 'Tilkoblet';

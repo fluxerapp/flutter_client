@@ -19,7 +19,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Свързване отново…';
 
   @override
-  String get gatewayReconnectTryAgain => 'Try again';
+  String get gatewayReconnectTryAgain => 'Опитай отново';
 
   @override
   String get gatewayConnectedToast => 'Свързан';

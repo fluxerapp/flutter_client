@@ -15081,6 +15081,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get gatewayReconnectingToast => 'Reconnecting…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'Connected';
 
   @override
@@ -29119,6 +29122,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get gatewayReconnectingToast => 'Reconnecting…';
+
+  @override
+  String get gatewayReconnectTryAgain => 'Try again';
 
   @override
   String get gatewayConnectedToast => 'Connected';
