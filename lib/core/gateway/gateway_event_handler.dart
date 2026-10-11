@@ -1195,23 +1195,23 @@ class GatewayEventHandler {
         prunedChannelIds.addAll(closedDmIds);
       }
 
-      if (event.relationships.isNotEmpty) {
-        final relUsers = <db.UsersCompanion>[];
-        final relCompanions = <db.RelationshipsCompanion>[];
-        for (final rel in event.relationships) {
-          relUsers.add(userFromPartialSdk(rel.user));
-          relCompanions.add(
-            db.RelationshipsCompanion.insert(
-              userId: rel.user.id,
-              type: rel.type.json ?? 1,
-              nickname: Value(rel.nickname),
-              since: Value(rel.since),
-            ),
-          );
-        }
-        await database.userDao.upsertUsers(relUsers);
-        await database.relationshipDao.upsertRelationships(relCompanions);
+      final relUsers = <db.UsersCompanion>[];
+      final relCompanions = <db.RelationshipsCompanion>[];
+      for (final rel in event.relationships) {
+        relUsers.add(userFromPartialSdk(rel.user));
+        relCompanions.add(
+          db.RelationshipsCompanion.insert(
+            userId: rel.user.id,
+            type: rel.type.json ?? 1,
+            nickname: Value(rel.nickname),
+            since: Value(rel.since),
+          ),
+        );
       }
+      if (relUsers.isNotEmpty) {
+        await database.userDao.upsertUsers(relUsers);
+      }
+      await database.relationshipDao.replaceAll(relCompanions);
 
       if (event.presences.isNotEmpty) {
         final List<
