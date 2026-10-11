@@ -114,10 +114,14 @@ class ForumPostsController extends Notifier<ForumViewState> {
   final Map<ForumListKind, int> _attempts = <ForumListKind, int>{};
   final Map<ForumListKind, Timer> _retryTimers = <ForumListKind, Timer>{};
   Timer? _searchTimer;
+  int _listeners = 0;
 
   @override
   ForumViewState build() {
-    ref.listen<int>(gatewayFullRecoveryProvider, (_, _) => _resetAfterReady());
+    ref
+      ..onAddListener(() => _listeners++)
+      ..onRemoveListener(() => _listeners--)
+      ..listen<int>(gatewayFullRecoveryProvider, (_, _) => _resetAfterReady());
     ref.onDispose(() {
       _searchTimer?.cancel();
       for (final Timer timer in _retryTimers.values) {
@@ -142,18 +146,21 @@ class ForumPostsController extends Notifier<ForumViewState> {
     if (!state.archived.loaded && !state.archived.loading) {
       unawaited(_fetch(ForumListKind.archived, append: false));
     }
+    final ForumListState search = state.search;
+    if (state.isSearching &&
+        !(_searchTimer?.isActive ?? false) &&
+        !search.loaded &&
+        !search.loading &&
+        !search.indexing) {
+      unawaited(_fetch(ForumListKind.search, append: false));
+    }
   }
 
   void _resetAfterReady() {
-    final ForumListState archived = state.archived;
     _reset(ForumListKind.archived);
     _reset(ForumListKind.search);
-    if (archived.loaded || archived.loading || archived.indexing) {
+    if (_listeners > 0) {
       ensureLoaded();
-    }
-    if (state.isSearching) {
-      _searchTimer?.cancel();
-      unawaited(_fetch(ForumListKind.search, append: false));
     }
   }
 

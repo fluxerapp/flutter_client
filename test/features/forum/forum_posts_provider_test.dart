@@ -64,11 +64,11 @@ void main() {
     ],
   );
 
-  void storeForum(FakeAsync async) {
+  void storeForum(FakeAsync async, {String id = 'f1'}) {
     unawaited(
       database.channelDao.upsertChannel(
         db.ChannelsCompanion.insert(
-          id: 'f1',
+          id: id,
           guildId: 'g1',
           name: 'forum',
           type: const Value(15),
@@ -120,6 +120,11 @@ void main() {
         ]);
       storeForum(async);
       container = createContainer();
+      final ProviderSubscription<ForumViewState> sub = container.listen(
+        forumPostsProvider('f1'),
+        (_, _) {},
+      );
+      addTearDown(sub.close);
       container.read(forumPostsProvider('f1').notifier)
         ..ensureLoaded()
         ..setLayout(ForumLayout.gallery);
@@ -135,6 +140,47 @@ void main() {
       expect(repository.queries, hasLength(2));
       expect(state.archived.ids, <String>['p2']);
       expect(state.layoutOverride, ForumLayout.gallery);
+      container.dispose();
+    });
+  });
+
+  test('a fresh READY leaves forums off screen for their next open', () {
+    fakeAsync((FakeAsync async) {
+      repository = _FakeRepository();
+      storeForum(async);
+      storeForum(async, id: 'f2');
+      container = createContainer();
+      final ProviderSubscription<ForumViewState> open = container.listen(
+        forumPostsProvider('f1'),
+        (_, _) {},
+      );
+      addTearDown(open.close);
+      final ProviderSubscription<ForumViewState> visited = container.listen(
+        forumPostsProvider('f2'),
+        (_, _) {},
+      );
+      final ForumPostsController offScreen = container.read(
+        forumPostsProvider('f2').notifier,
+      )..ensureLoaded();
+      container.read(forumPostsProvider('f1').notifier).ensureLoaded();
+      offScreen.setQuery('bug');
+      async
+        ..elapse(forumSearchDebounce)
+        ..flushMicrotasks();
+      visited.close();
+      expect(repository.queries, hasLength(3));
+
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
+      async.flushMicrotasks();
+      expect(repository.queries, hasLength(4));
+      expect(container.read(forumPostsProvider('f2')).archived.loaded, isFalse);
+      expect(container.read(forumPostsProvider('f2')).search.loaded, isFalse);
+
+      offScreen.ensureLoaded();
+      async.flushMicrotasks();
+      expect(repository.queries, hasLength(6));
+      expect(repository.queries.last.name, 'bug');
+      expect(container.read(forumPostsProvider('f2')).search.loaded, isTrue);
       container.dispose();
     });
   });
