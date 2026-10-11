@@ -1831,7 +1831,9 @@ class _MessageListState extends ConsumerState<MessageList>
   }
 
   void _onLiveTailEntranceStatus(AnimationStatus status) {
-    if (status != AnimationStatus.completed || !mounted) {
+    if (status != AnimationStatus.completed ||
+        !mounted ||
+        _liveTailEntranceMessageIds.isEmpty) {
       return;
     }
     _clearLiveTailEntrance();
@@ -1840,7 +1842,7 @@ class _MessageListState extends ConsumerState<MessageList>
 
   void _clearLiveTailEntrance() {
     _liveTailEntranceMessageIds.clear();
-    _liveTailEntranceController?.stop();
+    _liveTailEntranceController?.value = 1;
   }
 
   void _disposeLiveTailEntranceAnimation() {

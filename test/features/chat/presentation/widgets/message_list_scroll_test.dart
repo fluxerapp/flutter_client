@@ -5838,6 +5838,59 @@ void main() {
 
       await disposeMessageList(tester);
     });
+
+    testWidgets('live append taller than the viewport is opaque on the snap '
+        'frame', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        disableMessageListAnimations: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester);
+
+      final List<Message> old = chatViewModel.testState.messages;
+      final DateTime timestamp = old.last.timestamp.add(
+        const Duration(minutes: 1),
+      );
+      final String id = snowflakeForUtc(timestamp);
+      final String content = List<String>.generate(
+        60,
+        (int i) => 'long line $i',
+      ).join('\n');
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (
+          messages: <Message>[
+            ...old,
+            harnessMessage(id: id, content: content, timestamp: timestamp),
+          ],
+          origin: MessagesOrigin.liveCreate,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        tester.getRect(messageItemFor(id)).height,
+        greaterThan(position.viewportDimension),
+      );
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+        reason: 'a taller-than-viewport arrival snaps to the tail',
+      );
+      final Iterable<Opacity> opacities = tester.widgetList<Opacity>(
+        find.ancestor(of: messageItemFor(id), matching: find.byType(Opacity)),
+      );
+      for (final Opacity opacity in opacities) {
+        expect(
+          opacity.opacity,
+          1,
+          reason: 'the snapped row fills the viewport and must not be faded',
+        );
+      }
+
+      await disposeMessageList(tester);
+    });
   });
 }
 
