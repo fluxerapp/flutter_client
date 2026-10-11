@@ -556,6 +556,26 @@ void main() {
   );
 
   test(
+    'starting another edit while a cancel restores the draft keeps it',
+    () async {
+      final (container, _, _) = await setUpChannel();
+      final notifier = container.read(chatViewModelProvider.notifier)
+        ..updateMessageText('typed draft')
+        ..startEdit(_msg(id: 'm-first', authorId: 'me', content: 'first'));
+      await _flushAsync();
+
+      notifier
+        ..cancelEdit()
+        ..startEdit(_msg(id: 'm-second', authorId: 'me', content: 'second'));
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.editingMessage?.id, 'm-second');
+      expect(state.messageText, 'second');
+    },
+  );
+
+  test(
     'switching channels mid-edit abandons the edit and keeps the draft',
     () async {
       final (container, _, _) = await setUpChannel();
