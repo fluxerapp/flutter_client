@@ -42,6 +42,10 @@ abstract class SyncedFieldAdapter<T> {
 
   bool statesEqual(T a, T b);
 
+  Duration get pushDebounce => const Duration(milliseconds: 500);
+
+  T mergeRemote({required T local, required T remote}) => remote;
+
   T mergeForMigration({required T local, required T remote}) => remote;
 
   T mergeProtectedInbound({

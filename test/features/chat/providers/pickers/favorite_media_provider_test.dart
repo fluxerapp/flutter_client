@@ -96,14 +96,22 @@ void main() {
     ]);
   });
 
-  test('sortFavoriteMemesForSearchFrecency prefers recently used memes', () {
+  test('sortFavoriteMemesForSearchFrecency orders by score like web', () {
     final memes = [_meme(id: '100'), _meme(id: '300'), _meme(id: '200')];
 
     expect(
-      sortFavoriteMemesForSearchFrecency(memes, const [
-        'meme:200',
-      ]).map((meme) => meme.id),
+      sortFavoriteMemesForSearchFrecency(memes, const {
+        '200': 2.0,
+        '300': 0.5,
+      }).map((meme) => meme.id),
       ['200', '300', '100'],
+    );
+    expect(
+      sortFavoriteMemesForSearchFrecency(
+        memes,
+        const {},
+      ).map((meme) => meme.id),
+      ['100', '300', '200'],
     );
   });
 }

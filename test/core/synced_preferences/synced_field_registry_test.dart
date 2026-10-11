@@ -17,7 +17,7 @@ void main() {
         return fields;
       }),
     );
-    expect(registered, hasLength(21));
+    expect(registered, hasLength(23));
     expect(registered.toSet(), {
       SyncedPreferenceField.favorites,
       SyncedPreferenceField.accessibility,
@@ -36,6 +36,8 @@ void main() {
       SyncedPreferenceField.textualPreview,
       SyncedPreferenceField.emojiPicker,
       SyncedPreferenceField.stickerPicker,
+      SyncedPreferenceField.memesPicker,
+      SyncedPreferenceField.emoji,
       SyncedPreferenceField.favoriteGifs,
       SyncedPreferenceField.chatInput,
       SyncedPreferenceField.doubleTapReaction,

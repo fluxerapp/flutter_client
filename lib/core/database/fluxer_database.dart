@@ -4,7 +4,6 @@ import 'package:fluxer_app/core/database/daos/channel_dao.dart';
 import 'package:fluxer_app/core/database/daos/composer_draft_dao.dart';
 import 'package:fluxer_app/core/database/daos/dm_channel_dao.dart';
 import 'package:fluxer_app/core/database/daos/dm_folder_settings_dao.dart';
-import 'package:fluxer_app/core/database/daos/emoji_usage_dao.dart';
 import 'package:fluxer_app/core/database/daos/favorite_channels_dao.dart';
 import 'package:fluxer_app/core/database/daos/favorite_memes_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_dao.dart';
@@ -35,7 +34,6 @@ import 'package:fluxer_app/core/database/tables/channels.dart';
 import 'package:fluxer_app/core/database/tables/composer_drafts.dart';
 import 'package:fluxer_app/core/database/tables/dm_channels.dart';
 import 'package:fluxer_app/core/database/tables/dm_folder_settings.dart';
-import 'package:fluxer_app/core/database/tables/emoji_usage.dart';
 import 'package:fluxer_app/core/database/tables/favorite_categories.dart';
 import 'package:fluxer_app/core/database/tables/favorite_channels.dart';
 import 'package:fluxer_app/core/database/tables/favorite_memes.dart';
@@ -64,6 +62,7 @@ import 'package:fluxer_app/core/database/tables/user_notes.dart';
 import 'package:fluxer_app/core/database/tables/user_preferences.dart';
 import 'package:fluxer_app/core/database/tables/user_settings.dart';
 import 'package:fluxer_app/core/database/tables/users.dart';
+import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 
 part 'fluxer_database.g.dart';
 
@@ -81,7 +80,6 @@ part 'fluxer_database.g.dart';
     DmChannels,
     ReadStates,
     UserPreferencesTable,
-    EmojiUsage,
     GuildLastChannels,
     UserSettingsTable,
     UserGuildSettingsTable,
@@ -117,7 +115,6 @@ part 'fluxer_database.g.dart';
     DmChannelDao,
     ReadStateDao,
     UserPreferencesDao,
-    EmojiUsageDao,
     GuildLastChannelDao,
     ComposerDraftDao,
     UserSettingsDao,
@@ -143,7 +140,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 94;
+  int get schemaVersion => 95;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -191,9 +188,6 @@ class FluxerDatabase extends _$FluxerDatabase {
       }
       if (from < 4) {
         await m.addColumn(messages, messages.type);
-      }
-      if (from < 5) {
-        await m.createTable(emojiUsage);
       }
       if (from < 6) {
         await m.addColumn(dmChannels, dmChannels.type);
@@ -1564,6 +1558,26 @@ class FluxerDatabase extends _$FluxerDatabase {
           'DROP TABLE IF EXISTS notification_mention_prefs',
         );
       }
+      if (from < 95) {
+        for (final GeneratedColumn<String> column in <GeneratedColumn<String>>[
+          userPreferencesTable.emojiUsageJson,
+          userPreferencesTable.stickerUsageJson,
+          userPreferencesTable.memeUsageJson,
+          userPreferencesTable.favoriteMemeIdsJson,
+          userPreferencesTable.collapsedMemePickerCategoriesJson,
+          userPreferencesTable.syncedPreferencesDirtyFieldsJson,
+        ]) {
+          if (!await _tableHasColumn(
+            m.database,
+            tableName: 'user_preferences',
+            columnName: column.name,
+          )) {
+            await m.addColumn(userPreferencesTable, column);
+          }
+        }
+        await _moveLocalExpressionUsageToActiveAccount(m.database);
+        await customStatement('DROP TABLE IF EXISTS emoji_usage');
+      }
     },
   );
 
@@ -1580,7 +1594,6 @@ class FluxerDatabase extends _$FluxerDatabase {
       await dmChannelDao.clearAll();
       await userPreferencesDao.clearAll();
       await readStateDao.clearAll();
-      await emojiUsageDao.clearAll();
       await guildLastChannelDao.clearAll();
       await composerDraftDao.clearAll();
       await userSettingsDao.clearAll();
@@ -1598,6 +1611,58 @@ class FluxerDatabase extends _$FluxerDatabase {
       await threadDao.clearAll();
     });
   }
+}
+
+Future<void> _moveLocalExpressionUsageToActiveAccount(
+  GeneratedDatabase database,
+) async {
+  if (!await _tableExists(database, tableName: 'emoji_usage')) {
+    return;
+  }
+  final QueryRow? session = await database
+      .customSelect(
+        'SELECT user_id FROM auth_sessions WHERE is_valid = 1 '
+        'ORDER BY last_active DESC LIMIT 1',
+      )
+      .getSingleOrNull();
+  if (session == null) {
+    return;
+  }
+  final List<QueryRow> rows = await database
+      .customSelect('SELECT key, use_count, last_used FROM emoji_usage')
+      .get();
+  final Map<String, UsageEntry> emoji = <String, UsageEntry>{};
+  final Map<String, UsageEntry> sticker = <String, UsageEntry>{};
+  final Map<String, UsageEntry> meme = <String, UsageEntry>{};
+  for (final QueryRow row in rows) {
+    final String key = row.read<String>('key');
+    final UsageEntry entry = UsageEntry(
+      count: row.read<int>('use_count'),
+      lastUsedMs: row.read<int>('last_used') * 1000,
+    );
+    if (key.startsWith('sticker:')) {
+      sticker[key.substring('sticker:'.length)] = entry;
+    } else if (key.startsWith('meme:')) {
+      meme[key.substring('meme:'.length)] = entry;
+    } else {
+      emoji[key] = entry;
+    }
+  }
+  final int nowMs = DateTime.now().millisecondsSinceEpoch;
+  await database.customStatement(
+    'INSERT INTO user_preferences (user_id, emoji_usage_json, '
+    'sticker_usage_json, meme_usage_json) VALUES (?, ?, ?, ?) '
+    'ON CONFLICT(user_id) DO UPDATE SET '
+    'emoji_usage_json = excluded.emoji_usage_json, '
+    'sticker_usage_json = excluded.sticker_usage_json, '
+    'meme_usage_json = excluded.meme_usage_json',
+    <Object>[
+      session.read<String>('user_id'),
+      encodeUsageMapJson(sanitizeUsageMap(emoji, nowMs)),
+      encodeUsageMapJson(sanitizeUsageMap(sticker, nowMs)),
+      encodeUsageMapJson(sanitizeUsageMap(meme, nowMs)),
+    ],
+  );
 }
 
 Future<bool> _tableHasColumn(

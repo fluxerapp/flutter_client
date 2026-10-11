@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/synced_preferences/fields/expression_picker_sync
 import 'package:fluxer_app/core/synced_preferences/fields/expression_picker_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/pickers.pb.dart'
     as pickers_pb;
+import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 
 EmojiPickerSyncedField _field() {
@@ -17,10 +18,12 @@ EmojiPickerSyncedField _field() {
 
 void main() {
   group('ExpressionPickerSyncedField', () {
-    test('toProtoMessageForPush preserves usage stats from wire', () {
-      const local = ExpressionPickerSyncedLocalState(
-        favoriteKeys: ['unicode:heart'],
-        collapsedCategoryIds: ['people'],
+    test('toProtoMessageForPush writes local usage in web wire form', () {
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final local = ExpressionPickerSyncedLocalState(
+        favoriteKeys: const ['unicode:heart'],
+        collapsedCategoryIds: const ['people'],
+        usage: {'unicode:tada': UsageEntry(count: 2, lastUsedMs: now)},
       );
       final wireBase = pickers_pb.EmojiPickerState();
       wireBase.usage['unicode:thumbsup'] = pickers_pb.UsageStat(
@@ -32,8 +35,9 @@ void main() {
               as pickers_pb.EmojiPickerState;
       expect(pushed.favoriteEmojiIds, ['unicode:heart']);
       expect(pushed.collapsedCategoryIds, ['people']);
-      expect(pushed.usage.length, 1);
-      expect(pushed.usage['unicode:thumbsup']?.count, 3);
+      expect(pushed.usage.keys, ['unicode:tada']);
+      expect(pushed.usage['unicode:tada']?.count, 2);
+      expect(pushed.usage['unicode:tada']?.lastUsedMs, Int64(now));
     });
   });
 
@@ -49,12 +53,22 @@ void main() {
       );
     });
 
-    test('mergeExpressionPickerStringLists unions remote and local', () {
-      final merged = mergeExpressionPickerStringLists(
-        remote: ['unicode:thumbsup'],
-        local: ['unicode:heart'],
+    test('three-way list merge keeps both sides of concurrent edits', () {
+      expect(
+        mergeExpressionPickerListsThreeWay(
+          local: ['unicode:heart', 'unicode:local'],
+          remote: ['unicode:tada', 'unicode:remote'],
+          baseline: ['unicode:heart', 'unicode:tada'],
+        ),
+        ['unicode:local', 'unicode:remote'],
       );
-      expect(merged, ['unicode:thumbsup', 'unicode:heart']);
+    });
+
+    test('collapsed guild ids drop the legacy guild- prefix', () {
+      expect(normalizeCollapsedPickerCategoryIds(['guild-1', '1', 'people']), [
+        '1',
+        'people',
+      ]);
     });
 
     test('stickerFavoriteKey matches web wire format', () {

@@ -27,7 +27,6 @@ class FluxerEmojiPickerSheet {
     ],
     ExpressionPickerTab initialTab = ExpressionPickerTab.emojis,
     String? channelId,
-    bool trackEmojiUsageOnSelect = true,
   }) {
     return FluxerBottomSheet.showScrollable<void>(
       context,
@@ -44,7 +43,6 @@ class FluxerEmojiPickerSheet {
           onStickerSelected: onStickerSelected,
           onFavoriteMemeSelected: onFavoriteMemeSelected,
           channelId: channelId,
-          trackEmojiUsageOnSelect: trackEmojiUsageOnSelect,
         );
       },
     );
@@ -62,7 +60,6 @@ class _SheetContent extends StatefulWidget {
     this.onStickerSelected,
     this.onFavoriteMemeSelected,
     this.channelId,
-    this.trackEmojiUsageOnSelect = true,
   });
 
   final ScrollController scrollController;
@@ -74,7 +71,6 @@ class _SheetContent extends StatefulWidget {
   final ValueChanged<StickerEntry>? onStickerSelected;
   final ValueChanged<FavoriteMemeSelection>? onFavoriteMemeSelected;
   final String? channelId;
-  final bool trackEmojiUsageOnSelect;
 
   @override
   State<_SheetContent> createState() => _SheetContentState();
@@ -131,7 +127,6 @@ class _SheetContentState extends State<_SheetContent> {
             initialTab: _selectedTab,
             showTabs: false,
             channelId: widget.channelId,
-            trackEmojiUsageOnSelect: widget.trackEmojiUsageOnSelect,
           ),
         ),
       ],

@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:riverpod/riverpod.dart' as rp;
 
@@ -40,8 +43,6 @@ class StickerEntry {
   String cacheKeyForSize(int size) =>
       'sticker_${id}_${animated ? 'a' : 's'}_$size';
 
-  String get frecencyKey => 'sticker:$guildId:$id';
-
   String get favoriteKey => stickerFavoriteKey(this);
 
   static List<String> _decodeTags(String tagsJson) {
@@ -70,23 +71,33 @@ final allGuildStickersForPickerProvider = rp.StreamProvider<List<StickerEntry>>(
 final frecentStickersProvider = rp.FutureProvider<List<StickerEntry>>((
   ref,
 ) async {
-  final db = ref.watch(fluxerDatabaseProvider);
-  final usage = await db.emojiUsageDao.getTopByFrecencyForPrefix(
-    'sticker:',
-    kMaxFrecentStickers * 4,
+  final Map<String, UsageEntry> usage = await ref.watch(
+    expressionUsageProvider(ExpressionUsageKind.sticker).future,
   );
-  final stickers = await db.guildStickerDao.getAll();
-  final byKey = <String, StickerEntry>{};
-  for (final row in stickers) {
-    final entry = StickerEntry.fromRow(row);
-    byKey[entry.frecencyKey] = entry;
-  }
-  return usage
-      .map((row) => byKey[row.key])
-      .whereType<StickerEntry>()
-      .take(kMaxFrecentStickers)
-      .toList(growable: false);
+  final List<StickerEntry> stickers = await ref.watch(
+    allGuildStickersForPickerProvider.future,
+  );
+  return frecentStickers(
+    stickers: stickers,
+    usage: usage,
+    nowMs: DateTime.now().millisecondsSinceEpoch,
+  );
 });
+
+List<StickerEntry> frecentStickers({
+  required List<StickerEntry> stickers,
+  required Map<String, UsageEntry> usage,
+  required int nowMs,
+  int limit = kMaxFrecentStickers,
+}) {
+  final scored = <({StickerEntry sticker, double score})>[
+    for (final StickerEntry sticker in stickers)
+      if (usage[sticker.favoriteKey] case final UsageEntry entry)
+        (sticker: sticker, score: usageFrecencyScore(entry, nowMs)),
+  ];
+  mergeSort(scored, compare: (a, b) => b.score.compareTo(a.score));
+  return [for (final item in scored.take(limit)) item.sticker];
+}
 
 Map<Guild, List<StickerEntry>> guildStickerEntriesForPicker({
   required List<Guild> guilds,

@@ -5,12 +5,12 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/saved_media/saved_media_form_content.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_media_selection.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_preview_playback_policy.dart';
@@ -93,11 +93,9 @@ class _FavoriteMediaPickerContentState
   void _select(FavoriteMeme meme) {
     unawaited(
       ref
-          .read(fluxerDatabaseProvider)
-          .emojiUsageDao
-          .trackUsage('meme:${meme.id}'),
+          .read(expressionUsageProvider(ExpressionUsageKind.meme).notifier)
+          .track(meme.id),
     );
-    ref.invalidate(favoriteMemeFrecencyKeysProvider);
     final autoSend = !HardwareKeyboard.instance.isShiftPressed;
     widget.onSelect?.call(
       FavoriteMemeSelection(meme: meme, autoSend: autoSend),
@@ -217,7 +215,8 @@ class _FavoriteMediaPickerContentState
     if (_searchQuery.trim().isNotEmpty) {
       filtered = sortFavoriteMemesForSearchFrecency(
         filtered,
-        ref.watch(favoriteMemeFrecencyKeysProvider).value ?? const <String>[],
+        ref.watch(favoriteMemeFrecencyScoresProvider).value ??
+            const <String, double>{},
       );
     }
     if (filtered.isEmpty) {

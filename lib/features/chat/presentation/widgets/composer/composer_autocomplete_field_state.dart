@@ -1060,13 +1060,14 @@ class ComposerAutocompleteFieldState
           _channelId,
         ).canUseExternalEmojis;
     final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
-    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
 
     final List<GuildEmojiEntry> allCustom = await ref.read(
       allGuildEmojisForPickerProvider.future,
     );
-    final Map<String, double> scores = await database.emojiUsageDao
-        .getFrecencyScores();
+    final Map<String, double> scores = usageScores(
+      await ref.read(expressionUsageProvider(ExpressionUsageKind.emoji).future),
+      DateTime.now().millisecondsSinceEpoch,
+    );
     if (generation != _syncGeneration) {
       return;
     }
@@ -1109,7 +1110,11 @@ class ComposerAutocompleteFieldState
           CustomEmojiResult(:final GuildEmojiEntry entry) => _ComposerRow(
             title: ':${entry.name}:',
             subtitle: guildNameById[entry.guildId],
-            onApply: () => _applyEmoji(name: entry.name, wire: entry.markdown),
+            onApply: () => _applyEmoji(
+              name: entry.name,
+              wire: entry.markdown,
+              usageKey: entry.favoriteKey,
+            ),
             emojiImageUrl: entry.url,
             emojiCacheKey: entry.cacheKeyForSize(kCustomEmojiFetchSize),
           ),
@@ -1119,6 +1124,7 @@ class ComposerAutocompleteFieldState
             onApply: () => _applyEmoji(
               name: entry.primaryName,
               wire: ':${entry.primaryName}:',
+              usageKey: unicodeEmojiFavoriteKey(entry),
             ),
             emojiSurrogates: entry.surrogates,
           ),
@@ -1853,13 +1859,22 @@ class ComposerAutocompleteFieldState
     _afterApply();
   }
 
-  void _applyEmoji({required String name, required String wire}) {
+  void _applyEmoji({
+    required String name,
+    required String wire,
+    required String usageKey,
+  }) {
     final ComposerAutocompleteTrigger? trigger = _autocompleteTriggerForApply(
       ComposerAutocompleteTriggerKind.emoji,
     );
     if (trigger == null) {
       return;
     }
+    unawaited(
+      ref
+          .read(expressionUsageProvider(ExpressionUsageKind.emoji).notifier)
+          .track(usageKey),
+    );
     final TextEditingController controller = widget.controller;
     if (controller is InlineTokenTextEditingController) {
       controller.replaceRangeWithToken(

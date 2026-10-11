@@ -57,7 +57,6 @@ class ExpressionPicker extends ConsumerStatefulWidget {
     this.onSearchActivated,
     this.searchFocusNode,
     this.sheetDragHandlers,
-    this.trackEmojiUsageOnSelect = true,
     super.key,
   });
 
@@ -87,11 +86,6 @@ class ExpressionPicker extends ConsumerStatefulWidget {
   final VoidCallback? onSearchActivated;
   final FocusNode? searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
-
-  /// Forwarded to [EmojiPickerContent.trackUsageOnSelect]. Set false when the
-  /// picker drives reactions, which are tracked centrally in
-  /// `ChatViewModel.toggleReaction`.
-  final bool trackEmojiUsageOnSelect;
 
   @override
   ConsumerState<ExpressionPicker> createState() => _ExpressionPickerState();
@@ -259,7 +253,6 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
         onHoveredEmojiChanged: _onHoveredChanged,
         onSelect: widget.onEmojiSelect,
         channelId: widget.channelId,
-        trackUsageOnSelect: widget.trackEmojiUsageOnSelect,
       );
     }
     if (_selectedTab == ExpressionPickerTab.gifs) {

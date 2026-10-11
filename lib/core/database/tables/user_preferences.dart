@@ -101,6 +101,15 @@ class UserPreferencesTable extends Table {
       text().withDefault(const Constant('[]'))();
   TextColumn get collapsedStickerPickerCategoriesJson =>
       text().withDefault(const Constant('[]'))();
+  TextColumn get emojiUsageJson => text().withDefault(const Constant('{}'))();
+  TextColumn get stickerUsageJson => text().withDefault(const Constant('{}'))();
+  TextColumn get memeUsageJson => text().withDefault(const Constant('{}'))();
+  TextColumn get favoriteMemeIdsJson =>
+      text().withDefault(const Constant('[]'))();
+  TextColumn get collapsedMemePickerCategoriesJson =>
+      text().withDefault(const Constant('[]'))();
+  TextColumn get syncedPreferencesDirtyFieldsJson =>
+      text().withDefault(const Constant('[]'))();
   TextColumn get matureContentAgreedChannelIdsJson =>
       text().withDefault(const Constant('[]'))();
   TextColumn get matureContentAgreedCategoryIdsJson =>

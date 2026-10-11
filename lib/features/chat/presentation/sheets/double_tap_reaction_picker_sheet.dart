@@ -25,7 +25,6 @@ Future<void> showDoubleTapReactionPicker(
     ),
     channelId: channelId,
     visibleTabs: const [ExpressionPickerTab.emojis],
-    trackEmojiUsageOnSelect: false,
     onEmojiSelected: (emoji) {
       unawaited(saveSelectedDoubleTapReaction(ref, emoji));
     },

@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -15,6 +14,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_sea
 import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_banner.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
@@ -334,18 +334,18 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         return;
       }
       offset += _kCategoryGap + _kCategoryHeaderHeight;
-      if (!collapsedCategories.contains(key)) {
+      if (!collapsedCategories.contains(entry.key.id)) {
         offset += _gridHeightForItemCount(entry.value.length);
       }
     }
   }
 
   Future<void> _selectSticker(StickerEntry sticker) async {
-    await ref
-        .read(fluxerDatabaseProvider)
-        .emojiUsageDao
-        .trackUsage(sticker.frecencyKey);
-    ref.invalidate(frecentStickersProvider);
+    unawaited(
+      ref
+          .read(expressionUsageProvider(ExpressionUsageKind.sticker).notifier)
+          .track(sticker.favoriteKey),
+    );
     widget.onSelect?.call(sticker);
   }
 
@@ -356,13 +356,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     if (favoriteKeys.isEmpty) {
       return const <StickerEntry>[];
     }
-    final byKey = <String, StickerEntry>{};
-    for (final sticker in visibleStickers) {
-      byKey[sticker.favoriteKey] = sticker;
-    }
-    return favoriteKeys
-        .map((key) => byKey[key])
-        .whereType<StickerEntry>()
+    final Set<String> favorites = favoriteKeys.toSet();
+    return visibleStickers
+        .where((sticker) => favorites.contains(sticker.favoriteKey))
         .toList(growable: false);
   }
 
@@ -582,7 +578,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
               ),
             ),
           ),
-          if (!data.collapsedCategories.contains('guild-${entry.key.id}'))
+          if (!data.collapsedCategories.contains(entry.key.id))
             SliverPadding(
               padding: _gridPadding,
               sliver: _buildStickerGridSliver(entry.value, colors),

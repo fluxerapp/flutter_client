@@ -72,7 +72,6 @@ Future<void> showSystemMessageActionsSheet(
           context,
           channelId: message.channelId,
           visibleTabs: const [ExpressionPickerTab.emojis],
-          trackEmojiUsageOnSelect: false,
           onEmojiSelected: (emoji) =>
               _toggleReactionFromEmoji(ref, message, emoji),
         ),

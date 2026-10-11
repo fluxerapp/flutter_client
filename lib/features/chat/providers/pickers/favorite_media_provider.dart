@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:riverpod/riverpod.dart' as rp;
 
 enum FavoriteMemeMediaFilter { all, images, videos, audio, gifs }
@@ -24,13 +27,13 @@ final Provider<FavoriteMediaRepository> favoriteMediaRepositoryProvider =
       );
     });
 
-final favoriteMemeFrecencyKeysProvider = rp.FutureProvider<List<String>>((
-  ref,
-) async {
-  final db = ref.watch(fluxerDatabaseProvider);
-  final usage = await db.emojiUsageDao.getTopByFrecencyForPrefix('meme:', 500);
-  return usage.map((row) => row.key).toList(growable: false);
-});
+final favoriteMemeFrecencyScoresProvider =
+    rp.FutureProvider<Map<String, double>>((ref) async {
+      final Map<String, UsageEntry> usage = await ref.watch(
+        expressionUsageProvider(ExpressionUsageKind.meme).future,
+      );
+      return usageScores(usage, DateTime.now().millisecondsSinceEpoch);
+    });
 
 List<FavoriteMeme> filterFavoriteMemes(
   Iterable<FavoriteMeme> memes, {
@@ -56,24 +59,15 @@ List<FavoriteMeme> filterFavoriteMemes(
 
 List<FavoriteMeme> sortFavoriteMemesForSearchFrecency(
   Iterable<FavoriteMeme> memes,
-  List<String> frecencyKeys,
+  Map<String, double> frecencyScores,
 ) {
-  final frecencyRank = <String, int>{};
-  for (var i = 0; i < frecencyKeys.length; i++) {
-    final key = frecencyKeys[i];
-    if (key.startsWith('meme:')) {
-      frecencyRank[key.substring('meme:'.length)] = i;
-    }
-  }
-  const missingRank = 1 << 30;
-  return [...memes]..sort((a, b) {
-    final aRank = frecencyRank[a.id];
-    final bRank = frecencyRank[b.id];
-    if (aRank != null || bRank != null) {
-      return (aRank ?? missingRank).compareTo(bRank ?? missingRank);
-    }
-    return _compareFavoriteMemeByNewestFirst(a, b);
-  });
+  final List<FavoriteMeme> sorted = [...memes];
+  mergeSort(
+    sorted,
+    compare: (FavoriteMeme a, FavoriteMeme b) =>
+        (frecencyScores[b.id] ?? 0).compareTo(frecencyScores[a.id] ?? 0),
+  );
+  return sorted;
 }
 
 List<FavoriteMeme> sortFavoriteMemesByNewest(Iterable<FavoriteMeme> memes) =>

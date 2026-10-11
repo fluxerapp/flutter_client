@@ -21,8 +21,13 @@ class FavoriteEmojiKeys extends _$FavoriteEmojiKeys {
         .getFavoriteEmojiKeys(userId);
   }
 
+  Future<List<String>> _loadedKeys() async {
+    await future;
+    return state.value ?? const <String>[];
+  }
+
   Future<void> toggle(String key) async {
-    final next = _toggleKey(_currentKeys(state), key);
+    final next = _toggleKey(await _loadedKeys(), key);
     state = AsyncData<List<String>>(next);
     final userId = ref.read(currentUserIdProvider);
     if (userId == null) {
@@ -52,13 +57,18 @@ class FavoriteStickerKeys extends _$FavoriteStickerKeys {
     );
   }
 
+  Future<List<String>> _loadedKeys() async {
+    await future;
+    return state.value ?? const <String>[];
+  }
+
   Future<void> toggle(String key) async {
     final normalizedKey = normalizeStickerFavoriteKey(key);
     if (normalizedKey.isEmpty) {
       return;
     }
     final next = _toggleKey(
-      normalizeStickerFavoriteKeys(_currentKeys(state)),
+      normalizeStickerFavoriteKeys(await _loadedKeys()),
       normalizedKey,
     );
     state = AsyncData<List<String>>(next);
@@ -82,14 +92,25 @@ class CollapsedEmojiPickerCategories extends _$CollapsedEmojiPickerCategories {
     if (userId == null) {
       return const <String>[];
     }
-    return ref
-        .read(fluxerDatabaseProvider)
-        .userPreferencesDao
-        .getCollapsedEmojiPickerCategories(userId);
+    return normalizeCollapsedPickerCategoryIds(
+      await ref
+          .read(fluxerDatabaseProvider)
+          .userPreferencesDao
+          .getCollapsedEmojiPickerCategories(userId),
+    );
+  }
+
+  Future<List<String>> _loadedKeys() async {
+    await future;
+    return state.value ?? const <String>[];
   }
 
   Future<void> toggle(String category) async {
-    final next = _toggleKey(_currentKeys(state), category);
+    final next = _toggleKey(
+      await _loadedKeys(),
+      normalizeCollapsedPickerCategoryId(category),
+      maxItems: kMaxSyncedCollapsedPickerCategories,
+    );
     state = AsyncData<List<String>>(next);
     final userId = ref.read(currentUserIdProvider);
     if (userId == null) {
@@ -112,14 +133,25 @@ class CollapsedStickerPickerCategories
     if (userId == null) {
       return const <String>[];
     }
-    return ref
-        .read(fluxerDatabaseProvider)
-        .userPreferencesDao
-        .getCollapsedStickerPickerCategories(userId);
+    return normalizeCollapsedPickerCategoryIds(
+      await ref
+          .read(fluxerDatabaseProvider)
+          .userPreferencesDao
+          .getCollapsedStickerPickerCategories(userId),
+    );
+  }
+
+  Future<List<String>> _loadedKeys() async {
+    await future;
+    return state.value ?? const <String>[];
   }
 
   Future<void> toggle(String category) async {
-    final next = _toggleKey(_currentKeys(state), category);
+    final next = _toggleKey(
+      await _loadedKeys(),
+      normalizeCollapsedPickerCategoryId(category),
+      maxItems: kMaxSyncedCollapsedPickerCategories,
+    );
     state = AsyncData<List<String>>(next);
     final userId = ref.read(currentUserIdProvider);
     if (userId == null) {
@@ -137,12 +169,11 @@ void _markPickerDirty(Ref ref, SyncedPreferenceField field) {
   ref.markSyncedDirty(field);
 }
 
-List<String> _currentKeys(AsyncValue<List<String>> state) => switch (state) {
-  AsyncData<List<String>>(:final value) => value,
-  _ => const <String>[],
-};
-
-List<String> _toggleKey(List<String> current, String key) {
+List<String> _toggleKey(
+  List<String> current,
+  String key, {
+  int maxItems = kMaxSyncedFavoriteExpressionKeys,
+}) {
   final normalized = key.trim();
   if (normalized.isEmpty) {
     return current;
@@ -150,5 +181,8 @@ List<String> _toggleKey(List<String> current, String key) {
   if (current.contains(normalized)) {
     return current.where((entry) => entry != normalized).toList();
   }
-  return <String>[normalized, ...current];
+  if (current.length >= maxItems) {
+    return current;
+  }
+  return <String>[...current, normalized];
 }

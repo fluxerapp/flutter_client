@@ -46,6 +46,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_spoiler_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/channel_details_handheld.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -510,8 +511,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   void _dispatchQuickReaction(QuickReactionItem item) {
-    // Frecency is tracked centrally in ChatViewModel.toggleReaction, so the
-    // quick-row tap only needs to fire the reaction.
+    final String? usageKey = quickReactionUsageKey(item);
+    if (usageKey != null) {
+      unawaited(
+        ref
+            .read(expressionUsageProvider(ExpressionUsageKind.emoji).notifier)
+            .track(usageKey),
+      );
+    }
     switch (item) {
       case UnicodeQuickReaction(:final emoji):
         widget.onReaction?.call(emoji);
@@ -2233,7 +2240,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 key: _reactionPickerKey,
                 closeOnEmojiSelect: true,
                 visibleTabs: const [ExpressionPickerTab.emojis],
-                trackEmojiUsageOnSelect: false,
                 onClose: () {
                   _reactionPickerOpen.value = false;
                   _hovered.value = false;

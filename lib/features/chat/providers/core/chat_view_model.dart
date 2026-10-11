@@ -89,7 +89,6 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/guild_member_prefetch.dart';
 import 'package:fluxer_app/shared/utils/message_member_load_utils.dart';
 import 'package:fluxer_dart/export.dart';
@@ -7514,10 +7513,6 @@ class ChatViewModel extends _$ChatViewModel {
           ),
     );
 
-    if (!hasReacted) {
-      unawaited(_trackReactionFrecency(emoji, emojiId));
-    }
-
     final reaction = Reaction(
       emoji: emoji,
       emojiId: emojiId,
@@ -7621,20 +7616,6 @@ class ChatViewModel extends _$ChatViewModel {
         );
       }
     }
-  }
-
-  Future<void> _trackReactionFrecency(String emoji, String? emojiId) async {
-    final database = ref.read(fluxerDatabaseProvider);
-    final String key;
-    if (emojiId != null) {
-      final row = await database.guildEmojiDao.getById(emojiId);
-      final guildId = row?.guildId ?? '';
-      key = 'custom:$guildId:$emojiId';
-    } else {
-      final name = EmojiRegistry.entryBySurrogates(emoji)?.primaryName;
-      key = name != null ? 'unicode:$name' : 'unicode:$emoji';
-    }
-    await database.emojiUsageDao.trackUsage(key);
   }
 
   Message _buildOptimisticMessage({

@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
@@ -282,29 +284,36 @@ void main() {
   });
 
   group('rankedEmojiUsageKeysProvider', () {
-    test('returns tracked usage keys ordered by frecency', () async {
+    test('returns synced usage keys ordered by frecency', () async {
       final db = openTestDatabase();
-      await db.emojiUsageDao.trackUsage('unicode:thumbsup');
-      await db.emojiUsageDao.trackUsage('custom:g1:custom-1');
+      final now = DateTime.now().millisecondsSinceEpoch;
+      await db.userPreferencesDao.setEmojiUsage('user-1', {
+        'unicode:thumbsup': UsageEntry(count: 1, lastUsedMs: now),
+        'custom:g1:custom-1': UsageEntry(count: 3, lastUsedMs: now),
+      });
 
       final container = ProviderContainer(
-        overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          currentUserIdProvider.overrideWithValue('user-1'),
+        ],
       );
       addTearDown(container.dispose);
 
       final result = await container.read(rankedEmojiUsageKeysProvider.future);
 
-      expect(result, hasLength(2));
-      expect(result, contains('unicode:thumbsup'));
-      expect(result, contains('custom:g1:custom-1'));
+      expect(result, ['custom:g1:custom-1', 'unicode:thumbsup']);
     });
   });
 
   group('picker frecent integration', () {
     test('builds mixed unicode and custom emojis from ranked keys', () async {
       final db = openTestDatabase();
-      await db.emojiUsageDao.trackUsage('unicode:thumbsup');
-      await db.emojiUsageDao.trackUsage('custom:g1:custom-1');
+      final now = DateTime.now().millisecondsSinceEpoch;
+      await db.userPreferencesDao.setEmojiUsage('user-1', {
+        'unicode:thumbsup': UsageEntry(count: 2, lastUsedMs: now),
+        'custom:g1:custom-1': UsageEntry(count: 1, lastUsedMs: now),
+      });
       await db
           .into(db.guildEmojis)
           .insert(
@@ -316,7 +325,10 @@ void main() {
           );
 
       final container = ProviderContainer(
-        overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          currentUserIdProvider.overrideWithValue('user-1'),
+        ],
       );
       addTearDown(container.dispose);
 

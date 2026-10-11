@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
@@ -21,6 +22,16 @@ class CustomQuickReaction extends QuickReactionItem {
   const CustomQuickReaction(this.emoji);
   final GuildEmojiEntry emoji;
 }
+
+String? quickReactionUsageKey(QuickReactionItem item) => switch (item) {
+  UnicodeQuickReaction(:final emoji) => switch (EmojiRegistry.entryBySurrogates(
+    emoji,
+  )) {
+    final EmojiEntry entry => unicodeEmojiFavoriteKey(entry),
+    null => null,
+  },
+  CustomQuickReaction(:final emoji) => emoji.favoriteKey,
+};
 
 const List<QuickReactionItem> kQuickReactionDefaults = [
   UnicodeQuickReaction('\u{1F44D}'),

@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_registry.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
@@ -22,7 +24,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'synced_preferences_store.g.dart';
 
-const Duration _kSyncDebounce = Duration(milliseconds: 500);
 const Duration _kRecentAckWindow = Duration(seconds: 60);
 const int _kRateLimitMaxAttempts = 6;
 const int _kRateLimitBackoffCapMs = 60000;
@@ -72,7 +73,9 @@ class SyncedPreferencesStore {
   pb.SyncedPreferences? _inFlightSnapshot;
   final Map<SyncedPreferenceField, DateTime> _recentlyAckedUntil = {};
   Timer? _pushTimer;
+  Duration? _pushTimerDelay;
   Timer? _pushRetryTimer;
+  Set<SyncedPreferenceField> _restoredDirtyFields = {};
   int _pushGeneration = 0;
   int _pushRetryAttempts = 0;
 
@@ -109,6 +112,7 @@ class SyncedPreferencesStore {
     _inFlightFields.clear();
     _inFlightSnapshot = null;
     _recentlyAckedUntil.clear();
+    _restoredDirtyFields = {};
     _pushGeneration++;
     _pushRetryAttempts = 0;
   }
@@ -117,6 +121,7 @@ class SyncedPreferencesStore {
 
   void markDirty(SyncedPreferenceField field) {
     _dirtyFields.add(field);
+    _persistDirtyFields();
     if (_pushRetryTimer?.isActive ?? false) {
       return;
     }
@@ -131,8 +136,25 @@ class SyncedPreferencesStore {
     if (_isApplyingRemote) {
       return;
     }
+    _startPushTimer();
+  }
+
+  Duration _pushDebounce() {
+    var delay = const Duration(milliseconds: 500);
+    for (final field in _dirtyFields) {
+      final Duration? fieldDelay = _adapters[field]?.pushDebounce;
+      if (fieldDelay != null && fieldDelay > delay) {
+        delay = fieldDelay;
+      }
+    }
+    return delay;
+  }
+
+  void _startPushTimer() {
     _pushTimer?.cancel();
-    _pushTimer = Timer(_kSyncDebounce, () {
+    final Duration delay = _pushDebounce();
+    _pushTimerDelay = delay;
+    _pushTimer = Timer(delay, () {
       if (!_ref.mounted) {
         return;
       }
@@ -160,6 +182,9 @@ class SyncedPreferencesStore {
         ? SyncedPreferencesEngine.createEmpty()
         : SyncedPreferencesEngine.decode(encoded);
     final wasFirstHydrate = !_hasHydrated;
+    if (wasFirstHydrate) {
+      await _restorePersistedDirtyFields();
+    }
     final protectedFields = _protectedFields(wasFirstHydrate: wasFirstHydrate);
     final recentlyAcked = _recentlyAckedFields();
     final mergeResult = SyncedPreferencesEngine.mergeIncoming(
@@ -198,7 +223,52 @@ class SyncedPreferencesStore {
       themeCustomizationApplier: themeCustomizationApplier,
     );
     _hasHydrated = true;
+    _restoredDirtyFields = {};
+    _persistDirtyFields();
     _flushPendingPush();
+  }
+
+  Future<void> _restorePersistedDirtyFields() async {
+    final String? userId = _ref.read(currentUserIdProvider);
+    if (userId == null) {
+      return;
+    }
+    final List<String> names = await _ref
+        .read(fluxerDatabaseProvider)
+        .userPreferencesDao
+        .getSyncedPreferencesDirtyFields(userId);
+    final restored = <SyncedPreferenceField>{
+      for (final name in names)
+        if (SyncedPreferenceField.values.asNameMap()[name]
+            case final SyncedPreferenceField field
+            when _adapters.containsKey(field))
+          field,
+    };
+    _restoredDirtyFields = restored;
+    _dirtyFields.addAll(restored);
+  }
+
+  void _persistDirtyFields() {
+    if (!_hasHydrated) {
+      return;
+    }
+    final String? userId = _ref.read(currentUserIdProvider);
+    if (userId == null) {
+      return;
+    }
+    final List<String> names = [for (final field in _dirtyFields) field.name]
+      ..sort();
+    unawaited(
+      _ref
+          .read(fluxerDatabaseProvider)
+          .userPreferencesDao
+          .setSyncedPreferencesDirtyFields(userId, names)
+          .catchError((Object error, StackTrace stackTrace) {
+            talker.warning(
+              '[SyncedPreferences] Failed to persist dirty fields: $error',
+            );
+          }),
+    );
   }
 
   Future<void> _applyMergedAccessibilityTheme({
@@ -277,11 +347,17 @@ class SyncedPreferencesStore {
             } else {
               _dirtyFields.remove(field);
             }
-          } else if (!_statesEqual(adapter, local, remote)) {
-            await _applyAdapterRemote(adapter, remote);
-            _dirtyFields.remove(field);
           } else {
-            _dirtyFields.remove(field);
+            final target = adapter.mergeRemote(local: local, remote: remote);
+            if (!_statesEqual(adapter, local, target)) {
+              await _applyAdapterRemote(adapter, target);
+            }
+            if (_statesEqual(adapter, target, remote)) {
+              _dirtyFields.remove(field);
+            } else {
+              _dirtyFields.add(field);
+              scheduleFlush();
+            }
           }
         } else if (hasLocal && encodedIsEmpty()) {
           _dirtyFields.add(field);
@@ -296,7 +372,7 @@ class SyncedPreferencesStore {
           _dirtyFields.contains(field)) {
         continue;
       }
-      if (isProtected && !wasFirstHydrate) {
+      if (isProtected) {
         if (remote != null &&
             adapter.hasInboundUpdatesWhileProtected(local, remote)) {
           final target = adapter.mergeProtectedInbound(
@@ -521,6 +597,7 @@ class SyncedPreferencesStore {
       }
       if (changedFields.isEmpty) {
         _dirtyFields.clear();
+        _persistDirtyFields();
         _pendingPush = false;
         return;
       }
@@ -582,6 +659,7 @@ class SyncedPreferencesStore {
       final stillChanged = await _changedRegisteredFields();
       _dirtyFields.addAll(stillChanged);
       _pendingPush = _dirtyFields.isNotEmpty;
+      _persistDirtyFields();
       _markFieldsAcked(fieldsInRequest);
       _pushRetryAttempts = 0;
       talker.debug(
@@ -759,7 +837,7 @@ class SyncedPreferencesStore {
 
   Set<SyncedPreferenceField> _protectedFields({required bool wasFirstHydrate}) {
     if (wasFirstHydrate) {
-      return {};
+      return {..._restoredDirtyFields};
     }
     final protected = <SyncedPreferenceField>{..._dirtyFields};
     if (_isPushInFlight) {
@@ -810,13 +888,7 @@ class SyncedPreferencesStore {
 
   void _deferPush() {
     _pendingPush = true;
-    _pushTimer?.cancel();
-    _pushTimer = Timer(_kSyncDebounce, () {
-      if (!_ref.mounted) {
-        return;
-      }
-      unawaited(_flushPush());
-    });
+    _startPushTimer();
   }
 
   void _schedulePushRetry(Object error) {
@@ -854,6 +926,10 @@ class SyncedPreferencesStore {
     _pushRetryTimer?.cancel();
     _pushRetryTimer = null;
   }
+
+  @visibleForTesting
+  Duration? get scheduledPushDelayForTest =>
+      (_pushTimer?.isActive ?? false) ? _pushTimerDelay : null;
 
   @visibleForTesting
   void triggerDebouncedPushForTest() {

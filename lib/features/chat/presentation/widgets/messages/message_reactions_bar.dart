@@ -40,7 +40,6 @@ Future<void> openReactionPickerSheet(
     context,
     channelId: channelId,
     visibleTabs: const [ExpressionPickerTab.emojis],
-    trackEmojiUsageOnSelect: false,
     onEmojiSelected: onEmojiSelected,
   );
 }
@@ -252,7 +251,6 @@ class _InlineAddReactionButtonState extends State<_InlineAddReactionButton> {
       key: _pickerKey,
       closeOnEmojiSelect: true,
       visibleTabs: const [ExpressionPickerTab.emojis],
-      trackEmojiUsageOnSelect: false,
       channelId: widget.channelId,
       onClose: () => setState(() => _isPickerOpen = false),
       onEmojiSelected: _handleEmojiSelected,

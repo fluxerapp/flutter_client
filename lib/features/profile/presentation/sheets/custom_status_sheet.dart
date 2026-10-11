@@ -100,7 +100,6 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
       context,
       title: FluxerLocalizations.of(context).customStatusChooseEmoji,
       visibleTabs: const <ExpressionPickerTab>[ExpressionPickerTab.emojis],
-      trackEmojiUsageOnSelect: false,
       onEmojiSelected: (FluxerSelectedEmoji emoji) {
         setState(() {
           if (emoji.isCustom) {
