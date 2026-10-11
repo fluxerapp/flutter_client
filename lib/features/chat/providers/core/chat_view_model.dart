@@ -742,7 +742,7 @@ class ChatViewModel extends _$ChatViewModel {
           _invalidateMessageCacheTrust();
         }
       })
-      ..listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
+      ..listen<int>(gatewayFullRecoveryProvider, (int? previous, int next) {
         if (next <= 0 || previous == next) {
           return;
         }
@@ -6887,7 +6887,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   bool _messagesNeedResync(String channelId) {
-    final int gatewayGeneration = ref.read(gatewaySessionRecoveryProvider);
+    final int gatewayGeneration = ref.read(gatewayFullRecoveryProvider);
     if ((_lastReconciledGatewayGenerationByChannel[channelId] ?? -1) <
         gatewayGeneration) {
       return true;
@@ -6905,7 +6905,7 @@ class ChatViewModel extends _$ChatViewModel {
 
   void _markMessagesReconciled(String channelId) {
     _lastReconciledGatewayGenerationByChannel[channelId] = ref.read(
-      gatewaySessionRecoveryProvider,
+      gatewayFullRecoveryProvider,
     );
     _lastReconciledForegroundGenerationByChannel[channelId] =
         _foregroundResyncGeneration;

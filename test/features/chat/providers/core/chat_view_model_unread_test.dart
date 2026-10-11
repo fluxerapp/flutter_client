@@ -999,7 +999,7 @@ void main() {
         _messageJson(id: keptId, channelId: 'channel-1', authorId: 'other'),
         _messageJson(id: anchorId, channelId: 'channel-1', authorId: 'other'),
       ];
-      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
       await _flushAsync();
 
       final state = container.read(chatViewModelProvider);
@@ -1007,6 +1007,56 @@ void main() {
       expect(await db.messageDao.getMessage(deletedId), null);
     },
   );
+
+  test('RESUMED keeps the open channel without a REST refetch, the gateway '
+      'replays the missed events', () async {
+    final db = openTestDatabase();
+    final anchorId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));
+    final keptId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 12));
+    await db.messageDao.upsertMessages([
+      _cachedMessage(id: anchorId, channelId: 'channel-1', authorId: 'other'),
+      _cachedMessage(id: keptId, channelId: 'channel-1', authorId: 'other'),
+    ]);
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(keptId),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(keptId),
+        mentionCount: const Value(0),
+      ),
+    );
+    final adapter = _ChatAdapter(
+      messagesByChannel: <String, List<Map<String, Object?>>>{
+        'channel-1': <Map<String, Object?>>[
+          _messageJson(id: keptId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: anchorId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      },
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+    final int requestsBeforeResume = adapter.messageRequestUris.length;
+
+    container.read(gatewaySessionRecoveryProvider.notifier).bump();
+    await _flushAsync();
+
+    expect(adapter.messageRequestUris, hasLength(requestsBeforeResume));
+    expect(container.read(chatViewModelProvider).messages.map((m) => m.id), [
+      anchorId,
+      keptId,
+    ]);
+  });
 
   test(
     'switchChannel reconciles stale same-channel window after recovery',
@@ -1101,7 +1151,7 @@ void main() {
         keptId,
       ]);
 
-      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
       await notifier.switchChannel('channel-1');
       await _flushAsync();
 
@@ -1257,7 +1307,7 @@ void main() {
       await notifier.switchChannel('channel-1');
       await _flushAsync();
       adapter.beforeQueries.clear();
-      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
       await _flushAsync();
 
       await notifier.loadMore();
@@ -1331,7 +1381,7 @@ void main() {
 
     await notifier.switchChannel('channel-2');
     await _flushAsync();
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
     await notifier.switchChannel('channel-1');
     for (var i = 0; i < 30; i++) {
       await _flushAsync();
@@ -1799,7 +1849,7 @@ void main() {
           lastMessageId: Value(newId),
         ),
       );
-      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
       await _flushAsync();
 
       adapter.releaseMessageFetch();

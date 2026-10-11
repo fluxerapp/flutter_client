@@ -2447,7 +2447,7 @@ void main() {
     // A is the real recovery path: production bumps this on gateway
     // READY/RESUMED and the view model reconciles off the listener.
     adapter.holdAroundFetch = true;
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
     await _flushAsync();
     expect(
       adapter.aroundFetchCalls,
@@ -2600,7 +2600,7 @@ void main() {
     adapter
       ..holdAroundFetch = true
       ..failAroundFetch = true;
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
     await _flushAsync();
     expect(
       adapter.aroundFetchCalls,
@@ -2700,7 +2700,7 @@ void main() {
 
     // A: the recovery reconcile, armed and parked in its latest fetch.
     adapter.holdLatestFetch = true;
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
     await _flushAsync();
     expect(
       adapter.latestFetchCalls,
@@ -2744,7 +2744,7 @@ void main() {
 
     // The same recovery WITHOUT a sibling applies, and the guarded
     // post-commit callback is what scrolls: exactly one bump.
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
     await _flushAsync();
     expect(
       container.read(chatViewModelProvider).scrollToBottomSignal,
@@ -4346,7 +4346,7 @@ void main() {
     // else about the window changes - same channel, same tail, no generation
     // moved - which is exactly the interleave a weaker guard cannot see.
     adapter.holdAroundFetch = true;
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
     await _flushAsync();
     expect(
       adapter.aroundFetchCalls,
