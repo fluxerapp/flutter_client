@@ -269,7 +269,7 @@ void main() {
       );
 
       test(
-        'administrator granted via channel overwrite gets all permissions',
+        'administrator granted via channel overwrite stays a single bit',
         () {
           final String adminOverwrite = jsonEncode([
             {
@@ -291,8 +291,14 @@ void main() {
             overwriteJsonLayersRootToLeaf: [adminOverwrite],
           );
 
-          expect(result, equals(allPermissions));
-          expect(bypassesSlowmode(result), isTrue);
+          expect(
+            result,
+            equals(
+              Permission.viewChannel.value | Permission.administrator.value,
+            ),
+          );
+          expect(hasPermission(result, Permission.sendMessages), isFalse);
+          expect(bypassesSlowmode(result), isFalse);
         },
       );
     });

@@ -85,9 +85,10 @@ void main() {
       expect(hasPermission(result, Permission.administrator), isFalse);
     });
 
-    test('bypassesSlowmode includes administrator and bypass permission', () {
+    test('bypassesSlowmode needs the bypass slowmode bit', () {
       expect(bypassesSlowmode(Permission.bypassSlowmode.value), isTrue);
-      expect(bypassesSlowmode(Permission.administrator.value), isTrue);
+      expect(bypassesSlowmode(allPermissions), isTrue);
+      expect(bypassesSlowmode(Permission.administrator.value), isFalse);
       expect(bypassesSlowmode(Permission.sendMessages.value), isFalse);
     });
   });
