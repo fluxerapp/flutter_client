@@ -401,6 +401,35 @@ void main() {
       expect(find.byType(FluxerStatusIndicator), findsNothing);
     });
 
+    testWidgets('typing cutout keeps the back circle of a group stack whole', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const Center(
+            child: FluxerAvatarCluster(
+              members: [
+                AvatarClusterMember(userId: '1'),
+                AvatarClusterMember(userId: '2'),
+              ],
+              isTyping: true,
+            ),
+          ),
+        ),
+      );
+      final ClipPath clip = tester.widget<ClipPath>(
+        find
+            .descendant(
+              of: find.byType(FluxerAvatarStatusBadge),
+              matching: find.byType(ClipPath),
+            )
+            .first,
+      );
+      final Path path = clip.clipper!.getClip(const Size.square(32));
+      expect(path.contains(const Offset(3.5, 3.5)), isTrue);
+      expect(path.contains(const Offset(28, 28)), isFalse);
+    });
+
     testWidgets('avatar cluster tolerates non-numeric member ids', (
       tester,
     ) async {

@@ -206,7 +206,7 @@ class _StatusCutoutClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    final Path avatar = Path()..addOval(Offset.zero & size);
+    final Path avatar = Path()..addRect(Offset.zero & size);
     if (cutout.width <= 0) {
       return avatar;
     }
