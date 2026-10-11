@@ -11,7 +11,7 @@ const double _kDefaultSfxVolume = 0.4;
 final AudioContext kNotificationSfxContext = AudioContext(
   android: const AudioContextAndroid(
     contentType: AndroidContentType.sonification,
-    usageType: AndroidUsageType.notificationRingtone,
+    usageType: AndroidUsageType.notification,
     audioFocus: AndroidAudioFocus.none,
   ),
   iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),

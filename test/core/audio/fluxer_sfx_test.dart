@@ -39,7 +39,7 @@ void main() {
   });
 
   group('audioContextForSfxClip', () {
-    test('notification clips use ambient or ringtone context', () {
+    test('message clips use the notification context', () {
       expect(
         audioContextForSfxClip(
           FluxerSfxClip.message,
@@ -69,6 +69,26 @@ void main() {
           isIncomingRingLoop: false,
         ),
         kSessionFeedbackSfxContext,
+      );
+    });
+  });
+
+  group('android audio attributes', () {
+    test('message sounds mix with other media as notifications', () {
+      final AudioContextAndroid android = kNotificationSfxContext.android;
+      expect(android.usageType, AndroidUsageType.notification);
+      expect(android.contentType, AndroidContentType.sonification);
+      expect(android.audioFocus, AndroidAudioFocus.none);
+    });
+
+    test('only the incoming ring loop plays as a ringtone', () {
+      expect(
+        kIncomingRingLoopContext.android.usageType,
+        AndroidUsageType.notificationRingtone,
+      );
+      expect(
+        kSessionFeedbackSfxContext.android.usageType,
+        isNot(AndroidUsageType.notificationRingtone),
       );
     });
   });
