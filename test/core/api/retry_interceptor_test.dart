@@ -157,6 +157,30 @@ void main() {
       );
     });
 
+    test(
+      'counts only failures before the request was sent as connection errors',
+      () {
+        expect(
+          isTransientConnectionError(
+            _dio(
+              type: DioExceptionType.unknown,
+              error: const HandshakeException('Handshake error in client'),
+            ),
+          ),
+          isTrue,
+        );
+        expect(
+          isTransientConnectionError(
+            _dio(
+              type: DioExceptionType.unknown,
+              error: const SocketException('Connection reset by peer'),
+            ),
+          ),
+          isFalse,
+        );
+      },
+    );
+
     test('treats gateway errors and rate limits as transient', () {
       for (final int status in <int>[429, 502, 503, 504]) {
         expect(isTransientNetworkError(_dio(statusCode: status)), isTrue);
@@ -219,6 +243,22 @@ void main() {
       );
       expect(adapter.calls, 1);
     });
+
+    test(
+      'does not replay a POST whose connection dropped mid-request',
+      () async {
+        final _ScriptedAdapter adapter = _ScriptedAdapter(<Object>[
+          const SocketException('Connection reset by peer'),
+          200,
+        ]);
+
+        await expectLater(
+          _retryingDio(adapter).post<dynamic>('/channels/1/messages'),
+          throwsA(isA<DioException>()),
+        );
+        expect(adapter.calls, 1);
+      },
+    );
 
     test('does not replay a request after the session changed', () async {
       String token = 'account-a';

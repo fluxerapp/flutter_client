@@ -31,18 +31,15 @@ const Set<String> _kIdempotentMethods = <String>{
 bool _isTransientIoFailure(Object? error) =>
     error is SocketException || error is TlsException || error is HttpException;
 
-bool isTransientConnectionError(DioException error) {
-  if (_kRetryableTypes.contains(error.type)) {
-    return true;
-  }
-  return error.type == DioExceptionType.unknown &&
-      _isTransientIoFailure(error.error);
-}
+bool isTransientConnectionError(DioException error) =>
+    _kRetryableTypes.contains(error.type) || error.error is HandshakeException;
 
 bool isTransientNetworkError(Object error) {
   if (error is DioException) {
     return isTransientConnectionError(error) ||
         error.type == DioExceptionType.receiveTimeout ||
+        (error.type == DioExceptionType.unknown &&
+            _isTransientIoFailure(error.error)) ||
         error.response?.statusCode == 429 ||
         isHttpServiceUnavailable(error);
   }
@@ -58,8 +55,7 @@ bool _isSafeToReplay(DioException error) {
   if (_kIdempotentMethods.contains(error.requestOptions.method.toUpperCase())) {
     return isTransientNetworkError(error);
   }
-  return _kRetryableTypes.contains(error.type) ||
-      error.error is HandshakeException;
+  return isTransientConnectionError(error);
 }
 
 Duration jitteredBackoff({
