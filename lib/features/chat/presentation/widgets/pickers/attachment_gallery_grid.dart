@@ -35,12 +35,7 @@ class AttachmentGalleryGrid extends StatelessWidget {
     final int extra = isLoadingMore ? 1 : 0;
     return GridView.builder(
       controller: scrollController,
-      padding: EdgeInsets.fromLTRB(
-        layout.s1_5,
-        0,
-        layout.s1_5,
-        layout.s20 + layout.s2,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: layout.s1_5),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         mainAxisSpacing: layout.s1,

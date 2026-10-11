@@ -10,9 +10,11 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_gallery_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_source_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:path/path.dart' as path_lib;
 
@@ -156,6 +158,30 @@ void main() {
     );
     await tester.pump(const Duration(seconds: 30));
   });
+
+  testWidgets('the source bar sits below the grid, not over it', (
+    tester,
+  ) async {
+    await _pumpGallery(tester, _FakeAttachmentGallerySource());
+
+    final Rect grid = tester.getRect(find.byType(AttachmentGalleryGrid));
+    final Rect bar = tester.getRect(find.byType(AttachmentPanelSourceBar));
+    expect(bar.top, greaterThanOrEqualTo(grid.bottom));
+  });
+
+  testWidgets('without photo access the camera is still offered', (
+    tester,
+  ) async {
+    final _FakeAttachmentGallerySource source = _FakeAttachmentGallerySource()
+      ..access = AttachmentGalleryAccess.denied;
+    await _pumpGallery(tester, source);
+
+    expect(find.byType(AttachmentGalleryGrid), findsNothing);
+    expect(find.bySemanticsLabel('Camera'), findsOneWidget);
+    final Rect settings = tester.getRect(find.byType(FluxerButton).first);
+    final Rect bar = tester.getRect(find.byType(AttachmentPanelSourceBar));
+    expect(bar.overlaps(settings), isFalse);
+  });
 }
 
 Future<ScrollController> _pumpGallery(
@@ -215,6 +241,7 @@ class _FakeAttachmentGallerySource implements AttachmentGallerySource {
   Completer<void>? resolveGate;
   Directory? resolveDir;
   String? resolvedName;
+  AttachmentGalleryAccess access = AttachmentGalleryAccess.granted;
   int loadCalls = 0;
 
   void emitChange() {
@@ -225,7 +252,7 @@ class _FakeAttachmentGallerySource implements AttachmentGallerySource {
 
   @override
   Future<AttachmentGalleryAccess> requestAccess() async {
-    return AttachmentGalleryAccess.granted;
+    return access;
   }
 
   @override

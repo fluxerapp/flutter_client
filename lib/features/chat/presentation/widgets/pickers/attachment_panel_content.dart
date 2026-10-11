@@ -386,17 +386,17 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
 
     return ColoredBox(
       color: context.colors.chatInputBackground,
-      child: Stack(
+      child: Column(
         children: <Widget>[
-          Positioned.fill(child: _body(context, l10n, selectedIds)),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: context.layout.s2),
-              child: AttachmentPanelSourceBar(
-                onPhotosPressed: () => unawaited(_onPhotosPressed()),
-                onFilesPressed: () => unawaited(_onFilesPressed()),
-              ),
+          Expanded(child: _body(context, l10n, selectedIds)),
+          Padding(
+            padding: EdgeInsets.only(
+              top: context.layout.s1,
+              bottom: context.layout.s2,
+            ),
+            child: AttachmentPanelSourceBar(
+              onPhotosPressed: () => unawaited(_onPhotosPressed()),
+              onFilesPressed: () => unawaited(_onFilesPressed()),
             ),
           ),
         ],
@@ -417,7 +417,9 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
         title: l10n.chatAttachmentLibraryPermissionTitle,
         description: l10n.chatAttachmentLibraryPermissionBody,
         settingsLabel: l10n.chatAttachmentLibraryPermissionSettings,
+        cameraLabel: l10n.chatAttachmentSourceCamera,
         onOpenSettings: () => unawaited(_onOpenPhotoSettings()),
+        onCameraPressed: () => unawaited(_onCameraPressed()),
       );
     }
     return AttachmentGalleryGrid(
@@ -439,13 +441,17 @@ class _AttachmentLibraryPermissionState extends StatelessWidget {
     required this.title,
     required this.description,
     required this.settingsLabel,
+    required this.cameraLabel,
     required this.onOpenSettings,
+    required this.onCameraPressed,
   });
 
   final String title;
   final String description;
   final String settingsLabel;
+  final String cameraLabel;
   final VoidCallback onOpenSettings;
+  final VoidCallback onCameraPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -480,9 +486,23 @@ class _AttachmentLibraryPermissionState extends StatelessWidget {
               ),
             ),
             SizedBox(height: layout.s4),
-            FluxerButton.secondary(
-              label: settingsLabel,
-              onPressed: onOpenSettings,
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: layout.s2,
+              runSpacing: layout.s2,
+              children: <Widget>[
+                FluxerButton.secondary(
+                  label: settingsLabel,
+                  fitContent: true,
+                  onPressed: onOpenSettings,
+                ),
+                FluxerButton.secondary(
+                  icon: PhosphorIconsFill.camera,
+                  label: cameraLabel,
+                  fitContent: true,
+                  onPressed: onCameraPressed,
+                ),
+              ],
             ),
           ],
         ),
