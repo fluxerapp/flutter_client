@@ -42,6 +42,7 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 
 const int _messageTypeThreadStarter = 21;
+const int _cachedMessagesKeptPerChannel = 100;
 
 void _logGatewayDebug(void Function() log) {
   assert(() {
@@ -1401,6 +1402,9 @@ class GatewayEventHandler {
 
       if (keepCachedMessages) {
         await database.messageDao.deleteMessagesOutsideKnownChannels();
+        await database.messageDao.keepNewestMessagesPerChannel(
+          _cachedMessagesKeptPerChannel,
+        );
       }
 
       settingsMs = phase.elapsedMilliseconds;

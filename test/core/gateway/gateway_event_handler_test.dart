@@ -290,6 +290,25 @@ void main() {
       expect(await database.messageDao.getMessage('502'), isNull);
     });
 
+    test(
+      'first READY of a launch keeps only the newest page per channel',
+      () async {
+        final database = openTestDatabase();
+        await seedOwner(database, '100');
+        for (var i = 0; i < 101; i++) {
+          await seedMessage(database, id: '${1000 + i}', channelId: '210');
+        }
+
+        await GatewayEventHandler(
+          database: database,
+        ).handle(readyWithChannel());
+
+        expect(await database.messageDao.getMessage('1000'), isNull);
+        expect(await database.messageDao.getMessage('1001'), isNotNull);
+        expect(await database.messageDao.getMessage('1100'), isNotNull);
+      },
+    );
+
     test('first READY of a launch drops another account messages', () async {
       final database = openTestDatabase();
       await seedOwner(database, '777');

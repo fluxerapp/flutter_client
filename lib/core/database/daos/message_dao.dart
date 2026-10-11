@@ -408,6 +408,24 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
         .go();
   }
 
+  Future<int> keepNewestMessagesPerChannel(int limit) => customUpdate(
+    '''
+    DELETE FROM messages WHERE id IN (
+      SELECT id FROM (
+        SELECT id, ROW_NUMBER() OVER (
+          PARTITION BY channel_id
+          ORDER BY timestamp DESC, CAST(id AS INTEGER) DESC
+        ) AS position
+        FROM messages
+      )
+      WHERE position > ?
+    )
+    ''',
+    variables: <Variable<Object>>[Variable<int>(limit)],
+    updates: <TableInfo<Table, dynamic>>{messages},
+    updateKind: UpdateKind.delete,
+  );
+
   Future<Map<String, Message>> getLastMessageForChannels(
     List<String> channelIds,
   ) async {
