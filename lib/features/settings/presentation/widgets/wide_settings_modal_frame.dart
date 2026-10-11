@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class WideSettingsModalFrame extends StatelessWidget {
@@ -73,6 +74,7 @@ Future<void> showWideSettingsBottomSheet(
     isScrollControlled: true,
     useSafeArea: true,
     backgroundColor: Colors.transparent,
+    sheetAnimationStyle: fluxerBottomSheetAnimationStyle(context),
     constraints: BoxConstraints(maxWidth: maxModalWidth),
     builder: (BuildContext sheetContext) {
       final EdgeInsets insets = wideSettingsModalInsets(

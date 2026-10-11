@@ -54,10 +54,6 @@ class FluxerBottomSheetScope extends InheritedWidget {
   }
 }
 
-/// Shows a styled modal bottom sheet with the app's standard appearance.
-///
-/// The sheet builder receives a `close` callback so children can dismiss the
-/// sheet without needing their own `Navigator.pop` call.
 AnimationStyle fluxerBottomSheetAnimationStyle(BuildContext context) {
   final FluxerMotionTheme motion = context.motion;
   return AnimationStyle(
@@ -68,6 +64,10 @@ AnimationStyle fluxerBottomSheetAnimationStyle(BuildContext context) {
   );
 }
 
+/// Shows a styled modal bottom sheet with the app's standard appearance.
+///
+/// The sheet builder receives a `close` callback so children can dismiss the
+/// sheet without needing their own `Navigator.pop` call.
 class FluxerBottomSheet {
   FluxerBottomSheet._();
 
