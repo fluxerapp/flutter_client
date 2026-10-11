@@ -98,6 +98,24 @@ void main() {
         isFalse,
       );
     });
+
+    test('an overwrite ADMINISTRATOR bit does not offer /kick', () {
+      expect(
+        canUseComposerCommand(
+          command: const ComposerActionSlashCommand(
+            name: '/kick',
+            description: 'd',
+            requiresGuild: true,
+            permission: Permission.kickMembers,
+          ),
+          hasChannel: true,
+          isGuild: true,
+          channelPermissionBits:
+              Permission.viewChannel.value | Permission.administrator.value,
+        ),
+        isFalse,
+      );
+    });
   });
 
   group('createComposerCommandReplacement', () {
@@ -168,6 +186,22 @@ void main() {
       color: 0,
       position: 1,
     );
+
+    test('an overwrite ADMINISTRATOR bit does not grant kick', () {
+      expect(
+        canManageUserForCommand(
+          currentUserId: 'me',
+          otherUserId: 'them',
+          permission: Permission.kickMembers,
+          viewerPermissions: Permission.administrator.value,
+          ownerId: 'owner',
+          targetIsOwner: false,
+          viewerHighest: highRole,
+          targetHighest: lowRole,
+        ),
+        isFalse,
+      );
+    });
 
     test('rejects self', () {
       expect(

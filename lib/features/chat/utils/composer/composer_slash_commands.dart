@@ -243,8 +243,7 @@ bool canUseComposerCommand({
   }
   final Permission? permission = command.permission;
   if (permission != null) {
-    return hasPermission(channelPermissionBits, permission) ||
-        hasPermission(channelPermissionBits, Permission.administrator);
+    return hasPermission(channelPermissionBits, permission);
   }
   return true;
 }
@@ -277,8 +276,7 @@ bool canManageUserForCommand({
   if (otherUserId == currentUserId) {
     return false;
   }
-  if (!hasPermission(viewerPermissions, permission) &&
-      !hasPermission(viewerPermissions, Permission.administrator)) {
+  if (!hasPermission(viewerPermissions, permission)) {
     return false;
   }
   return canManageTarget(
