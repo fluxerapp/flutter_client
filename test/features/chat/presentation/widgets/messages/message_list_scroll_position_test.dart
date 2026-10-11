@@ -77,6 +77,58 @@ Future<void> _sendPointerScroll(
 }
 
 void main() {
+  testWidgets(
+    'a viewport resize during a tail follow does not jump in layout',
+    (WidgetTester tester) async {
+      final _PointerScrollController controller = _PointerScrollController();
+      addTearDown(controller.dispose);
+      final ValueNotifier<double> height = ValueNotifier<double>(300);
+      addTearDown(height.dispose);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Align(
+            alignment: Alignment.topCenter,
+            child: ValueListenableBuilder<double>(
+              valueListenable: height,
+              builder: (BuildContext context, double value, Widget? child) {
+                return SizedBox(height: value, child: child);
+              },
+              child: ListView.builder(
+                controller: controller,
+                itemCount: 80,
+                itemBuilder: (BuildContext context, int index) {
+                  return SizedBox(height: 48, child: Text('Row $index'));
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+      final MessageListScrollPosition position =
+          controller.position as MessageListScrollPosition;
+      int completions = 0;
+      position.followTailTo(
+        position.maxScrollExtent,
+        onComplete: () {
+          completions += 1;
+          position.jumpTo(position.maxScrollExtent);
+        },
+        resolveTarget: () => position.maxScrollExtent,
+      );
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(position.isFollowingTail, isTrue);
+
+      height.value = 420;
+      await tester.pump(const Duration(milliseconds: 16));
+
+      expect(tester.takeException(), isNull);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(completions, 1);
+      expect(position.pixels, position.maxScrollExtent);
+    },
+  );
+
   testWidgets('pointer-scroll ticks share one start and end after a pause', (
     WidgetTester tester,
   ) async {

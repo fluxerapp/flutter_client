@@ -193,7 +193,8 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   @override
   void beginActivity(ScrollActivity? newActivity) {
     final bool settlesInPlace =
-        _applyingNewDimensions && newActivity is IdleScrollActivity;
+        newActivity is IdleScrollActivity &&
+        (_applyingNewDimensions || _tailFollowActive);
     if (newActivity != null &&
         newActivity is! _PointerSignalScrollActivity &&
         !settlesInPlace) {
