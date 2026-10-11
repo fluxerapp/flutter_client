@@ -686,6 +686,7 @@ class ChatViewModel extends _$ChatViewModel {
   /// consumer that needs to know "was the window swapped under me" needs this.
   int _windowWrites = 0;
   int _pageFetchOrdinal = 0;
+  Message? _endingEdit;
   final Set<int> _outstandingFetchOrdinals = <int>{};
   final Map<String, List<_LocalMutation>> _localMutations =
       <String, List<_LocalMutation>>{};
@@ -2136,6 +2137,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   Future<bool> _endEditRestoringDraft(Message editing) async {
+    _endingEdit = editing;
     final String channelId = state.channelId;
     if (channelId.isEmpty) {
       state = state.copyWith(editingMessage: null, messageText: '');
@@ -6576,6 +6578,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void startEdit(Message message) {
+    _endingEdit = null;
     unawaited(_flushComposerDraftSave());
     state = state.copyWith(
       editingMessage: message,
@@ -6594,7 +6597,7 @@ class ChatViewModel extends _$ChatViewModel {
 
   Future<void> saveEditedMessage({String? text}) async {
     final Message? editingMessage = state.editingMessage;
-    if (editingMessage == null) {
+    if (editingMessage == null || identical(editingMessage, _endingEdit)) {
       return;
     }
     final String sanitized = _maybeSanitizeOutgoing(

@@ -675,6 +675,21 @@ void main() {
     expect(settled.errorMessage, 'Failed to edit message');
   });
 
+  test('saving again while the draft reloads sends one edit', () async {
+    final (container, adapter, notifier, _) = await setUpPendingEdit();
+
+    final Future<void> first = notifier.saveEditedMessage(text: 'Test 2');
+    final Future<void> second = notifier.saveEditedMessage(text: 'Test 2');
+    await _flushAsync();
+
+    adapter.releaseEdit();
+    await Future.wait(<Future<void>>[first, second]);
+    await _flushAsync();
+
+    expect(adapter.editRequestCount, 1);
+    expect(container.read(chatViewModelProvider).editingMessage, isNull);
+  });
+
   test(
     'starting another edit while a cancel restores the draft keeps it',
     () async {
@@ -1755,6 +1770,7 @@ class _SendAdapter implements HttpClientAdapter {
   int messagePostCount = 0;
   final List<String> reactionPuts = <String>[];
   String? lastEditContent;
+  int editRequestCount = 0;
   bool holdSend = false;
   bool holdLatestFetch = false;
   bool holdEdit = false;
@@ -1914,6 +1930,7 @@ class _SendAdapter implements HttpClientAdapter {
                 r'name="content"\r?\n\r?\n([\s\S]*?)\r?\n--',
               ).firstMatch(raw);
         lastEditContent = contentMatch?.group(1);
+        editRequestCount++;
         if (holdEdit) {
           _editCompleter ??= Completer<void>();
           await _editCompleter!.future;
