@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:path/path.dart' as path_lib;
 
 import '../../../../../helpers/pump_fluxer_app.dart';
 
@@ -126,6 +127,35 @@ void main() {
     );
     await tester.pump(const Duration(seconds: 30));
   });
+
+  testWidgets('a photo keeps the name the library gives it', (tester) async {
+    final Directory dir = Directory.systemTemp.createTempSync('gallery_name');
+    addTearDown(() => dir.deleteSync(recursive: true));
+    final _FakeAttachmentGallerySource source = _FakeAttachmentGallerySource()
+      ..resolveDir = dir
+      ..resolvedName = 'IMG_0568.GIF';
+    await _pumpGallery(tester, source);
+    final ProviderContainer container = ProviderScope.containerOf(
+      tester.element(find.byType(AttachmentPanelContent)),
+    );
+
+    await tester.tap(find.byKey(const ValueKey<String>('photo-0')));
+    for (int i = 0; i < 10; i++) {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 10)),
+      );
+      await tester.pump();
+    }
+
+    expect(
+      container
+          .read(cloudUploadControllerProvider('channel-1'))
+          .items
+          .map((PendingAttachment a) => a.filename),
+      <String>['IMG_0568.GIF'],
+    );
+    await tester.pump(const Duration(seconds: 30));
+  });
 }
 
 Future<ScrollController> _pumpGallery(
@@ -184,6 +214,7 @@ class _FakeAttachmentGallerySource implements AttachmentGallerySource {
   Completer<void>? pageGate;
   Completer<void>? resolveGate;
   Directory? resolveDir;
+  String? resolvedName;
   int loadCalls = 0;
 
   void emitChange() {
@@ -224,14 +255,17 @@ class _FakeAttachmentGallerySource implements AttachmentGallerySource {
   }
 
   @override
-  Future<XFile?> resolveFile(String id) async {
+  Future<AttachmentGalleryFile?> resolveFile(String id) async {
     final Directory? dir = resolveDir;
     if (dir == null) {
       return null;
     }
     await resolveGate?.future;
     final File file = File('${dir.path}/$id.jpg')..writeAsBytesSync(<int>[1]);
-    return XFile(file.path);
+    return (
+      file: XFile(file.path),
+      filename: resolvedName ?? path_lib.basename(file.path),
+    );
   }
 
   @override

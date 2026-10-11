@@ -248,7 +248,7 @@ class _ThumbnailGallerySource extends AttachmentGallerySource {
       _transparentPng;
 
   @override
-  Future<XFile?> resolveFile(String id) async => null;
+  Future<AttachmentGalleryFile?> resolveFile(String id) async => null;
 }
 
 final Uint8List _transparentPng = Uint8List.fromList(<int>[

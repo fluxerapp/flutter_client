@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
@@ -291,13 +290,19 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     final Completer<void> added = Completer<void>();
     _assetAdds = added.future;
     try {
-      final XFile? file = await _gallerySource.resolveFile(item.id);
+      final AttachmentGalleryFile? picked = await _gallerySource.resolveFile(
+        item.id,
+      );
       await earlierAdds;
-      if (!mounted || file == null) {
+      if (!mounted || picked == null) {
         return;
       }
       await _addUploads(<ComposerUploadFile>[
-        composerUploadFile(file, galleryAssetId: item.id),
+        composerUploadFile(
+          picked.file,
+          displayFilename: picked.filename,
+          galleryAssetId: item.id,
+        ),
       ], channelId: channelId);
     } finally {
       added.complete();
