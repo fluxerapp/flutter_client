@@ -12,10 +12,14 @@ final class AttachmentMediaBridge: NSObject, PHPickerViewControllerDelegate {
   private var pendingResult: FlutterResult?
   private var preselected: Set<String> = []
 
+  private static let stagingDirectory = FileManager.default.temporaryDirectory
+    .appendingPathComponent("photo_picker", isDirectory: true)
+
   func register(messenger: FlutterBinaryMessenger) {
     if channel != nil {
       return
     }
+    try? FileManager.default.removeItem(at: Self.stagingDirectory)
     let channel = FlutterMethodChannel(
       name: "fluxer_app/attachment_media",
       binaryMessenger: messenger
@@ -115,8 +119,7 @@ final class AttachmentMediaBridge: NSObject, PHPickerViewControllerDelegate {
   }
 
   private static func stage(_ source: URL, suggestedName: String?) -> URL? {
-    let directory = FileManager.default.temporaryDirectory
-      .appendingPathComponent("photo_picker", isDirectory: true)
+    let directory = stagingDirectory
       .appendingPathComponent(UUID().uuidString, isDirectory: true)
     let sourceExtension = source.pathExtension
     var stem = suggestedName ?? source.deletingPathExtension().lastPathComponent
