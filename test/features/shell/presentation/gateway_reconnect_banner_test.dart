@@ -15,6 +15,10 @@ class _RetryCountingGatewayConnection extends GatewayConnection {
   _RetryCountingGatewayConnection() : super(token: 'test', dio: Dio());
 
   int reconnectNowCalls = 0;
+  GatewayState current = GatewayState.reconnecting;
+
+  @override
+  GatewayState get state => current;
 
   @override
   Future<void> reconnectNow() async {
@@ -102,6 +106,11 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 450));
 
+    await tester.tap(find.text(testL10n.gatewayReconnectingToast));
+    expect(connection.reconnectNowCalls, 1);
+    expect(backgroundTaps, 0);
+
+    connection.current = GatewayState.connecting;
     await tester.tap(find.text(testL10n.gatewayReconnectingToast));
     expect(connection.reconnectNowCalls, 1);
     expect(backgroundTaps, 0);

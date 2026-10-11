@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_dart/gateway.dart';
 
 double _reconnectMarkBounce(double t) {
   final double clamped = t.clamp(0.0, 1.0);
@@ -212,7 +213,11 @@ class _GatewayReconnectBannerState
   }
 
   void _retryNow() {
-    unawaited(ref.read(gatewayConnectionProvider).reconnectNow());
+    final GatewayConnection connection = ref.read(gatewayConnectionProvider);
+    if (connection.state != GatewayState.reconnecting) {
+      return;
+    }
+    unawaited(connection.reconnectNow());
   }
 
   @override
