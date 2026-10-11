@@ -353,7 +353,10 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
               excluding: !peek && revealSide == RevealSide.left,
               child: ValueListenableBuilder<bool>(
                 valueListenable: _sliderTickersEnabled,
-                child: _DrawerSliderLayer(slider: widget.slider),
+                child: SidebarDrawerSliderScope(
+                  translate: _animationController,
+                  child: _DrawerSliderLayer(slider: widget.slider),
+                ),
                 builder: (BuildContext context, bool enabled, Widget? slider) =>
                     TickerMode(enabled: enabled, child: slider!),
               ),
@@ -423,6 +426,31 @@ class _DrawerSliderLayer extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+class SidebarDrawerSliderScope extends InheritedWidget {
+  const SidebarDrawerSliderScope({
+    required this.translate,
+    required super.child,
+    super.key,
+  });
+
+  final AnimationController translate;
+
+  static bool isPresentingOf(BuildContext context) {
+    final AnimationController? translate = context
+        .getInheritedWidgetOfExactType<SidebarDrawerSliderScope>()
+        ?.translate;
+    if (translate == null) {
+      return false;
+    }
+    return translate.value != 0 || translate.isAnimating;
+  }
+
+  @override
+  bool updateShouldNotify(SidebarDrawerSliderScope oldWidget) {
+    return translate != oldWidget.translate;
   }
 }
 
