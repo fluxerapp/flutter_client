@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/misc.dart'
     show NotifierProviderFamily, StreamProviderFamily;
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
+import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
@@ -115,6 +116,7 @@ class ForumPostsController extends Notifier<ForumViewState> {
   final Map<ForumListKind, Timer> _retryTimers = <ForumListKind, Timer>{};
   Timer? _searchTimer;
   int _listeners = 0;
+  ProviderSubscription<ThreadActor?>? _accessWatch;
 
   @override
   ForumViewState build() {
@@ -241,14 +243,21 @@ class ForumPostsController extends Notifier<ForumViewState> {
     if (!ref.mounted || forum == null) {
       return;
     }
-    if (!canRequestForumPosts(
-      ref.read(parentThreadActorProvider(forum.guildId, forumId)),
-    )) {
-      _reset(kind);
-      state = state.withList(
-        kind,
-        const ForumListState(hasMore: false, loaded: true),
-      );
+    final ParentThreadActorProvider access = parentThreadActorProvider(
+      forum.guildId,
+      forumId,
+    );
+    if (!canRequestForumPosts(ref.read(access))) {
+      _accessWatch ??= ref.listen<ThreadActor?>(access, (_, ThreadActor? next) {
+        if (!canRequestForumPosts(next)) {
+          return;
+        }
+        _accessWatch?.close();
+        _accessWatch = null;
+        if (_listeners > 0) {
+          ensureLoaded();
+        }
+      });
       return;
     }
     final String query = state.query.trim();

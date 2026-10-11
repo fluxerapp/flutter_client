@@ -363,6 +363,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
             SliverToBoxAdapter(
               child: _ForumListFooter(
                 list: list,
+                requestable: canRequestForumPosts(actor),
                 onRetry: () => controller.retry(kind),
               ),
             ),
@@ -570,15 +571,20 @@ class _ForumEmptyState extends StatelessWidget {
 }
 
 class _ForumListFooter extends StatelessWidget {
-  const _ForumListFooter({required this.list, required this.onRetry});
+  const _ForumListFooter({
+    required this.list,
+    required this.requestable,
+    required this.onRetry,
+  });
 
   final ForumListState list;
+  final bool requestable;
   final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    if (list.loading || (!list.loaded && !list.failed)) {
+    if (list.loading || (requestable && !list.loaded && !list.failed)) {
       return Padding(
         padding: EdgeInsets.all(context.layout.s4),
         child: const Center(

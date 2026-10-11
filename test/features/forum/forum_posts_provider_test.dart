@@ -55,12 +55,10 @@ void main() {
     database = openTestDatabase();
   });
 
-  ProviderContainer createContainer({ThreadActor? actor}) => ProviderContainer(
+  ProviderContainer createContainer() => ProviderContainer(
     overrides: <Override>[
       fluxerDatabaseProvider.overrideWithValue(database),
       forumRepositoryProvider.overrideWithValue(repository),
-      if (actor != null)
-        parentThreadActorProvider('g1', 'f1').overrideWithValue(actor),
     ],
   );
 
@@ -78,13 +76,32 @@ void main() {
     async.flushMicrotasks();
   }
 
-  test('a forum without read message history loads empty with no request', () {
+  test('a forum without read message history loads once access arrives', () {
     fakeAsync((FakeAsync async) {
-      repository = _FakeRepository();
+      repository = _FakeRepository()
+        ..outcomes.add(
+          const ForumSearchPage(
+            postIds: <String>['p1'],
+            hasMore: false,
+            firstMessages: <String, Message>{},
+          ),
+        );
       storeForum(async);
-      container = createContainer(
-        actor: ThreadActor(permissions: Permission.viewChannel.value),
+      container = ProviderContainer(
+        overrides: <Override>[
+          fluxerDatabaseProvider.overrideWithValue(database),
+          forumRepositoryProvider.overrideWithValue(repository),
+          parentThreadActorProvider(
+            'g1',
+            'f1',
+          ).overrideWith((Ref ref) => ref.watch(_accessProvider)),
+        ],
       );
+      final ProviderSubscription<ForumViewState> sub = container.listen(
+        forumPostsProvider('f1'),
+        (_, _) {},
+      );
+      addTearDown(sub.close);
       final ForumPostsController controller = container.read(
         forumPostsProvider('f1').notifier,
       )..ensureLoaded();
@@ -93,12 +110,15 @@ void main() {
       async.flushMicrotasks();
 
       expect(repository.queries, isEmpty);
-      final ForumListState list = container
-          .read(forumPostsProvider('f1'))
-          .archived;
-      expect(list.loaded, isTrue);
-      expect(list.hasMore, isFalse);
-      expect(list.failed, isFalse);
+      expect(sub.read().archived.loaded, isFalse);
+      expect(sub.read().archived.failed, isFalse);
+
+      container.read(_accessProvider.notifier).grant();
+      async.elapse(Duration.zero);
+
+      expect(repository.queries, hasLength(1));
+      expect(sub.read().archived.loaded, isTrue);
+      expect(sub.read().archived.ids, <String>['p1']);
       container.dispose();
     });
   });
@@ -334,3 +354,17 @@ void main() {
     });
   });
 }
+
+class _Access extends Notifier<ThreadActor?> {
+  @override
+  ThreadActor? build() =>
+      ThreadActor(permissions: Permission.viewChannel.value);
+
+  void grant() => state = ThreadActor(
+    permissions:
+        Permission.viewChannel.value | Permission.readMessageHistory.value,
+  );
+}
+
+final NotifierProvider<_Access, ThreadActor?> _accessProvider =
+    NotifierProvider<_Access, ThreadActor?>(_Access.new);
