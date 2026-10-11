@@ -11,14 +11,6 @@ class SlowmodeTracker extends _$SlowmodeTracker {
   @override
   Map<String, int> build() => <String, int>{};
 
-  void recordSend(String channelId) {
-    if (channelId.isEmpty) {
-      return;
-    }
-    _lastSentAt[channelId] = DateTime.now();
-    state = {...state, channelId: (state[channelId] ?? 0) + 1};
-  }
-
   void updateSendTimestamp(String channelId, DateTime sentAt) {
     if (channelId.isEmpty) {
       return;

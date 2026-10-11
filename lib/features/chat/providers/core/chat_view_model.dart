@@ -5310,7 +5310,7 @@ class ChatViewModel extends _$ChatViewModel {
             ),
       );
       _retrySendOptions.remove(optimisticMessageId);
-      unawaited(_recordSlowmodeSendOnSuccess(channelId));
+      unawaited(_recordSlowmodeSendOnSuccess(channelId, sent.timestamp));
       _commitDeliveredOptimisticSend(
         channelId: channelId,
         optimisticMessageId: optimisticMessageId,
@@ -5374,7 +5374,7 @@ class ChatViewModel extends _$ChatViewModel {
       );
       _retrySendOptions.remove(optimisticMessageId);
       _finishAttachmentUploadSession(clientNonce, uploadNotifier);
-      unawaited(_recordSlowmodeSendOnSuccess(channelId));
+      unawaited(_recordSlowmodeSendOnSuccess(channelId, sent.timestamp));
       _commitDeliveredOptimisticSend(
         channelId: channelId,
         optimisticMessageId: optimisticMessageId,
@@ -5428,13 +5428,18 @@ class ChatViewModel extends _$ChatViewModel {
     return remaining > Duration.zero ? remaining : null;
   }
 
-  Future<void> _recordSlowmodeSendOnSuccess(String channelId) async {
+  Future<void> _recordSlowmodeSendOnSuccess(
+    String channelId,
+    DateTime sentAt,
+  ) async {
     // One-off snapshot; read does not retain the autoDispose family.
     // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
     if (await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
       return;
     }
-    ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+    ref
+        .read(slowmodeTrackerProvider.notifier)
+        .updateSendTimestamp(channelId, sentAt);
   }
 
   void _notifySendBlocked(
@@ -5682,7 +5687,9 @@ class ChatViewModel extends _$ChatViewModel {
       state = state.copyWith(
         write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
       );
-      unawaited(_recordSlowmodeSendOnSuccess(message.channelId));
+      unawaited(
+        _recordSlowmodeSendOnSuccess(message.channelId, sent.timestamp),
+      );
     } on Object catch (e) {
       debugPrint('[ChatViewModel] Retry failed: $e');
       final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);

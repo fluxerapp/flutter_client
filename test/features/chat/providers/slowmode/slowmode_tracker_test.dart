@@ -17,7 +17,7 @@ void main() {
     test('remainingFor uses server cooldown when it is longer than local', () {
       tracker
         ..updateCooldownRemaining('channel-1', 30_000)
-        ..recordSend('channel-1');
+        ..updateSendTimestamp('channel-1', DateTime.now());
 
       final Duration remaining = tracker.remainingFor('channel-1', 5);
 
@@ -27,7 +27,7 @@ void main() {
     test('remainingFor uses local cooldown when it is longer than server', () {
       tracker
         ..updateCooldownRemaining('channel-1', 1_000)
-        ..recordSend('channel-1');
+        ..updateSendTimestamp('channel-1', DateTime.now());
 
       final Duration remaining = tracker.remainingFor('channel-1', 30);
 
@@ -36,7 +36,7 @@ void main() {
 
     test('syncFromResponse clears state when user can bypass', () {
       tracker
-        ..recordSend('channel-1')
+        ..updateSendTimestamp('channel-1', DateTime.now())
         ..updateCooldownRemaining('channel-1', 30_000)
         ..syncFromResponse(
           'channel-1',
@@ -74,7 +74,7 @@ void main() {
       'syncFromResponse preserves local send when retry_after_ms is zero',
       () {
         tracker
-          ..recordSend('channel-1')
+          ..updateSendTimestamp('channel-1', DateTime.now())
           ..syncFromResponse(
             'channel-1',
             const ChannelSlowmodeStateResponse(
@@ -126,7 +126,7 @@ void main() {
       final DateTime older = recent.subtract(const Duration(seconds: 5));
 
       tracker
-        ..recordSend('channel-1')
+        ..updateSendTimestamp('channel-1', recent)
         ..updateSendTimestamp('channel-1', older);
 
       final Duration remaining = tracker.remainingFor('channel-1', 30);
@@ -135,7 +135,7 @@ void main() {
 
     test('clearChannel removes both local and server cooldown state', () {
       tracker
-        ..recordSend('channel-1')
+        ..updateSendTimestamp('channel-1', DateTime.now())
         ..updateCooldownRemaining('channel-1', 30_000)
         ..clearChannel('channel-1');
 

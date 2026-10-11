@@ -423,6 +423,7 @@ class _ForwardMessageSheetBodyState
             guildId: _guildIdForSelectedDestination(destinations.first),
           )
         : null;
+    final DateTime forwardStartedAt = DateTime.now();
     try {
       await ref
           .read(messageRepositoryProvider)
@@ -439,7 +440,7 @@ class _ForwardMessageSheetBodyState
         slowmodeTrackerProvider.notifier,
       );
       for (final String id in destinations) {
-        tracker.recordSend(id);
+        tracker.updateSendTimestamp(id, forwardStartedAt);
       }
       if (!mounted) {
         return;

@@ -1194,10 +1194,38 @@ void main() {
   });
 
   test(
+    'slowmode cooldown runs from the server send time, not the ack arrival',
+    () async {
+      final DateTime acceptedAt = DateTime.now().toUtc().subtract(
+        const Duration(seconds: 6),
+      );
+      final (container, _, _) = await setUpChannel(
+        adapter: _SendAdapter(serverMessageId: _snowflakeForUtc(acceptedAt)),
+        overrides: <Override>[
+          isSlowmodeImmuneProvider(
+            'channel-1',
+          ).overrideWith((ref) => Future<bool>.value(false)),
+        ],
+      );
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .sendMessage(text: 'hello');
+      await _flushAsync();
+
+      final Duration remaining = container
+          .read(slowmodeTrackerProvider.notifier)
+          .remainingFor('channel-1', 10);
+      expect(remaining, greaterThan(Duration.zero));
+      expect(remaining, lessThanOrEqualTo(const Duration(seconds: 4)));
+    },
+  );
+
+  test(
     'slowmode arms when the gateway reconciles an attachment send first',
     () async {
       final _SendAdapter adapter = _SendAdapter(
-        serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+        serverMessageId: _snowflakeForUtc(DateTime.now().toUtc()),
       )..holdSend = true;
       final (container, _, serverMessageId) = await setUpChannel(
         adapter: adapter,

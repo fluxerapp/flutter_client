@@ -67,7 +67,9 @@ void main() {
         ],
       );
       addTearDown(container.dispose);
-      container.read(slowmodeTrackerProvider.notifier).recordSend('channel-1');
+      container
+          .read(slowmodeTrackerProvider.notifier)
+          .updateSendTimestamp('channel-1', DateTime.now());
 
       final List<bool> values = <bool>[];
       container.listen(isSlowmodeBlockedProvider('channel-1'), (_, next) {
