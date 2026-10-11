@@ -15,6 +15,8 @@ import 'package:fluxer_app/core/database/daos/composer_draft_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
@@ -842,6 +844,114 @@ void main() {
     },
   );
 
+  group('send while the connection is down', () {
+    Future<(ProviderContainer, _SendAdapter, String, _StateGatewayConnection)>
+    setUpOffline() async {
+      final _StateGatewayConnection connection = _StateGatewayConnection();
+      addTearDown(connection.dispose);
+      final (container, adapter, serverMessageId) = await setUpChannel(
+        overrides: <Override>[
+          gatewayHasAuthTokenProvider.overrideWithValue(true),
+          gatewayConnectionProvider.overrideWithValue(connection),
+        ],
+      );
+      return (container, adapter, serverMessageId, connection);
+    }
+
+    test('stays pending and is resent once the gateway is back', () async {
+      final (container, adapter, serverMessageId, connection) =
+          await setUpOffline();
+      connection.current = GatewayState.reconnecting;
+      adapter.connectionErrorSends = 1;
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'offline');
+      await _flushAsync();
+
+      ChatViewState state = container.read(chatViewModelProvider);
+      expect(adapter.messagePostCount, 1);
+      expect(state.errorMessage, isNull);
+      expect(state.messages.single.isSending, isTrue);
+
+      connection.current = GatewayState.connected;
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await _flushAsync();
+
+      state = container.read(chatViewModelProvider);
+      expect(adapter.messagePostCount, 2);
+      expect(adapter.lastBody?['content'], 'offline');
+      expect(state.errorMessage, isNull);
+      expect(state.messages.single.id, serverMessageId);
+      expect(state.messages.single.hasFailed, isFalse);
+    });
+
+    test('a resend that loses the connection again keeps waiting', () async {
+      final (container, adapter, serverMessageId, connection) =
+          await setUpOffline();
+      connection.current = GatewayState.reconnecting;
+      adapter.connectionErrorSends = 2;
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'offline');
+      await _flushAsync();
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 2);
+      expect(
+        container.read(chatViewModelProvider).messages.single.isSending,
+        isTrue,
+      );
+
+      connection.current = GatewayState.connected;
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 3);
+      expect(
+        container.read(chatViewModelProvider).messages.single.id,
+        serverMessageId,
+      );
+    });
+
+    test('fails when the gateway is still connected', () async {
+      final (container, adapter, _, connection) = await setUpOffline();
+      connection.current = GatewayState.connected;
+      adapter.connectionErrorSends = 1;
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'offline');
+      await _flushAsync();
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 1);
+      expect(
+        container.read(chatViewModelProvider).messages.single.hasFailed,
+        isTrue,
+      );
+    });
+
+    test('a cancelled send is not resent after reconnecting', () async {
+      final (container, adapter, _, connection) = await setUpOffline();
+      connection.current = GatewayState.reconnecting;
+      adapter.connectionErrorSends = 1;
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'offline');
+      await _flushAsync();
+      notifier.cancelSendingMessage(
+        container.read(chatViewModelProvider).messages.single.id,
+      );
+      connection.current = GatewayState.connected;
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 1);
+      expect(container.read(chatViewModelProvider).messages, isEmpty);
+    });
+  });
+
   test('a short send rate limit is retried automatically', () async {
     final (container, adapter, serverMessageId) = await setUpChannel();
     adapter.rateLimitedSends = 1;
@@ -1401,6 +1511,7 @@ class _SendAdapter implements HttpClientAdapter {
   int failureStatus;
   String failureMessage;
   int rateLimitedSends = 0;
+  int connectionErrorSends = 0;
   double rateLimitRetryAfterSeconds = 0.05;
   final List<Map<String, Object?>> aroundMessages;
   final List<Map<String, Object?>> latestMessages;
@@ -1463,6 +1574,13 @@ class _SendAdapter implements HttpClientAdapter {
           : jsonDecode(raw) as Map<String, dynamic>;
       lastSentNonce = body['nonce'] as String?;
       lastBody = body;
+      if (connectionErrorSends > 0) {
+        connectionErrorSends--;
+        throw DioException.connectionError(
+          requestOptions: options,
+          reason: 'Connection refused',
+        );
+      }
       if (rateLimitedSends > 0) {
         rateLimitedSends--;
         return ResponseBody.fromString(
@@ -1600,6 +1718,18 @@ Future<String?> _readRequestBody(
     return jsonEncode(data);
   }
   return null;
+}
+
+class _StateGatewayConnection extends GatewayConnection {
+  _StateGatewayConnection() : super(token: 'test', dio: Dio());
+
+  GatewayState current = GatewayState.disconnected;
+
+  @override
+  GatewayState get state => current;
+
+  @override
+  bool get isLikelyStale => false;
 }
 
 class _ImmediateUploadClient extends AttachmentUploadClient {

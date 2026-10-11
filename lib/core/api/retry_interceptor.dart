@@ -17,6 +17,9 @@ const Set<DioExceptionType> _kRetryableTypes = {
   DioExceptionType.sendTimeout,
 };
 
+bool isTransientConnectionError(DioException error) =>
+    _kRetryableTypes.contains(error.type);
+
 int connectionRetryDelayMs({required int attempt, required Random random}) {
   final int baseMs = 250 * (1 << attempt);
   final int jitterRange = (baseMs * 0.25).round();
@@ -46,7 +49,7 @@ class RetryInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (!_kRetryableTypes.contains(err.type) ||
+    if (!isTransientConnectionError(err) ||
         err.requestOptions.extra[kNoRetryKey] == true) {
       handler.next(err);
       return;

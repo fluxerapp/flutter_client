@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/retry_after.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -680,6 +681,7 @@ class ChatViewModel extends _$ChatViewModel {
   final Map<String, List<_LocalMutation>> _localMutations =
       <String, List<_LocalMutation>>{};
   final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
+  final Set<String> _sendsAwaitingReconnect = <String>{};
   final Map<String, _RetrySendOptions> _retrySendOptions =
       <String, _RetrySendOptions>{};
   final Map<String, Future<void>> _pendingDeleteFutures =
@@ -702,6 +704,7 @@ class ChatViewModel extends _$ChatViewModel {
     _localMutations.clear();
     _inFlightOptimisticMessages.clear();
     _retrySendOptions.clear();
+    _sendsAwaitingReconnect.clear();
     _pendingDeleteFutures.clear();
     _loadedUnreadBoundaryKeys.clear();
     _realtimeQueue.clear();
@@ -747,6 +750,11 @@ class ChatViewModel extends _$ChatViewModel {
         if ((previous ?? false) && !next) {
           _connectivityGapGeneration++;
           _invalidateMessageCacheTrust();
+        }
+      })
+      ..listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
+        if (previous != next) {
+          _resendSendsAwaitingReconnect();
         }
       })
       ..listen<int>(gatewayFullRecoveryProvider, (int? previous, int next) {
@@ -5610,6 +5618,10 @@ class ChatViewModel extends _$ChatViewModel {
     if (deliveredMatchForLocalSend(state.messages, local) != null) {
       return;
     }
+    if (local.attachments.isEmpty && _shouldAwaitReconnect(error)) {
+      _sendsAwaitingReconnect.add(optimisticMessageId);
+      return;
+    }
     final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
     final String failedMessage = l10n.chatMessageFailedToSend;
     final List<Message> nextMessages = List<Message>.from(state.messages);
@@ -5646,6 +5658,39 @@ class ChatViewModel extends _$ChatViewModel {
       write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
       errorMessage: failedMessage,
     );
+  }
+
+  bool _shouldAwaitReconnect(Object error) {
+    if (error is! DioException || !isTransientConnectionError(error)) {
+      return false;
+    }
+    if (!ref.read(gatewayHasAuthTokenProvider)) {
+      return false;
+    }
+    final GatewayConnection connection = ref.read(gatewayConnectionProvider);
+    return connection.state != GatewayState.connected ||
+        connection.isLikelyStale;
+  }
+
+  void _resendSendsAwaitingReconnect() {
+    if (_sendsAwaitingReconnect.isEmpty) {
+      return;
+    }
+    final List<String> messageIds = _sendsAwaitingReconnect.toList();
+    _sendsAwaitingReconnect.clear();
+    for (final String messageId in messageIds) {
+      final int messageIndex = state.messages.indexWhere(
+        (Message m) => m.id == messageId,
+      );
+      if (messageIndex == -1) {
+        continue;
+      }
+      final Message message = state.messages[messageIndex];
+      if (!message.isSending || _adoptDeliveredMatch(message)) {
+        continue;
+      }
+      unawaited(_resendLocalMessage(message));
+    }
   }
 
   void insertClientSystemMessage(String content) {
@@ -5701,6 +5746,7 @@ class ChatViewModel extends _$ChatViewModel {
           .cancelMessageUpload(nonce);
     }
     _retrySendOptions.remove(messageId);
+    _sendsAwaitingReconnect.remove(messageId);
     final List<Message>? next = _removeIds(state.messages, {messageId});
     if (next == null) {
       return;
@@ -5718,26 +5764,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final Message message = state.messages[messageIndex];
-    if (!message.hasFailed) {
-      return;
-    }
-    final Message? alreadyDelivered = deliveredMatchForLocalSend(
-      state.messages,
-      message,
-    );
-    if (alreadyDelivered != null) {
-      _retrySendOptions.remove(message.id);
-      state = state.copyWith(
-        write: (
-          messages: _replaceOptimisticWithDelivered(
-            messages: state.messages,
-            optimisticId: message.id,
-            delivered: alreadyDelivered,
-          ),
-          origin: MessagesOrigin.localMutation,
-        ),
-        errorMessage: null,
-      );
+    if (!message.hasFailed || _adoptDeliveredMatch(message)) {
       return;
     }
     final List<Message> pendingMessages = List<Message>.from(state.messages);
@@ -5749,6 +5776,33 @@ class ChatViewModel extends _$ChatViewModel {
       write: (messages: pendingMessages, origin: MessagesOrigin.localMutation),
       errorMessage: null,
     );
+    await _resendLocalMessage(message);
+  }
+
+  bool _adoptDeliveredMatch(Message message) {
+    final Message? alreadyDelivered = deliveredMatchForLocalSend(
+      state.messages,
+      message,
+    );
+    if (alreadyDelivered == null) {
+      return false;
+    }
+    _retrySendOptions.remove(message.id);
+    state = state.copyWith(
+      write: (
+        messages: _replaceOptimisticWithDelivered(
+          messages: state.messages,
+          optimisticId: message.id,
+          delivered: alreadyDelivered,
+        ),
+        origin: MessagesOrigin.localMutation,
+      ),
+      errorMessage: null,
+    );
+    return true;
+  }
+
+  Future<void> _resendLocalMessage(Message message) async {
     final _RetrySendOptions? options = _retrySendOptions[message.id];
     try {
       final String clientNonce =
@@ -5792,46 +5846,7 @@ class ChatViewModel extends _$ChatViewModel {
       );
     } on Object catch (e) {
       debugPrint('[ChatViewModel] Retry failed: $e');
-      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
-      final String failedMessage = l10n.chatMessageFailedToSend;
-      final List<Message> nextMessages = List<Message>.from(state.messages);
-      final int latestIndex = nextMessages.indexWhere(
-        (m) => m.id == message.id,
-      );
-      if (latestIndex == -1) {
-        return;
-      }
-      nextMessages[latestIndex] = nextMessages[latestIndex].copyWith(
-        deliveryState: MessageDeliveryState.failed,
-        sendError: failedMessage,
-      );
-      final String? apiErrorCode = e is DioException
-          ? apiErrorCodeFromDioException(e)
-          : null;
-      _syncSlowmodeFromSendError(e, message.channelId);
-      final String? systemMessageContent = clientSystemMessageForSendError(
-        apiErrorCode: apiErrorCode,
-        apiMessage: e is DioException ? apiMessageFromDioException(e) : null,
-        l10n: l10n,
-        selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
-      );
-      if (systemMessageContent != null) {
-        nextMessages.add(
-          createClientSystemMessage(
-            channelId: message.channelId,
-            content: systemMessageContent,
-            productName: ref.read(instanceRuntimeConfigProvider).productName,
-          ),
-        );
-        state = state.copyWith(
-          write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
-        );
-        return;
-      }
-      state = state.copyWith(
-        write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
-        errorMessage: failedMessage,
-      );
+      _handleSendFailure(message.id, e);
     }
   }
 
