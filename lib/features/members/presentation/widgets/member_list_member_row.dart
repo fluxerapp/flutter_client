@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
 import 'package:fluxer_app/features/members/presentation/menus/guild_member_context_menu.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
@@ -89,9 +87,6 @@ class _MemberListSidebarMemberRowState
     );
     final bool showUserTag =
         (member.user.bot ?? false) || (member.user.system ?? false);
-    final String? currentUserId = ref.watch(currentUserIdProvider);
-    final bool isCurrentUser =
-        currentUserId != null && currentUserId == widget.userId;
     final bool isTyping = ref.watch(
       memberListUserIsTypingProvider(widget.channelId, widget.userId),
     );
@@ -150,10 +145,6 @@ class _MemberListSidebarMemberRowState
                     avatarColor: member.user.avatarColor,
                     status: status,
                     isMobileStatus: presenceUser?.mobile ?? false,
-                    showStatus:
-                        isCurrentUser ||
-                        isTyping ||
-                        isMemberPresenceOnline(status),
                     isTyping: isTyping,
                     size: 32,
                   ),
