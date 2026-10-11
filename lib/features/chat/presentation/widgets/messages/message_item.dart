@@ -1300,6 +1300,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           spoilerSyncController: _spoilerSyncController,
           messageId: msg.id,
           messageNonce: msg.clientNonce,
+          messageSendFailed: msg.hasFailed,
           channelId: msg.channelId,
           messageFlags: msg.flags,
           mediaActionScope: _videoActionScope,

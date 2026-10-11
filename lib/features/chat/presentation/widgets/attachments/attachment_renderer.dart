@@ -32,6 +32,7 @@ class AttachmentRenderer extends ConsumerWidget {
     this.imageGalleryIndex = 0,
     this.messageId,
     this.messageNonce,
+    this.messageSendFailed = false,
     this.channelId,
     this.messageFlags = 0,
     this.mediaActionScope,
@@ -48,6 +49,7 @@ class AttachmentRenderer extends ConsumerWidget {
   final int imageGalleryIndex;
   final String? messageId;
   final String? messageNonce;
+  final bool messageSendFailed;
   final String? channelId;
   final int messageFlags;
   final MessageMediaActionScope? mediaActionScope;
@@ -113,6 +115,7 @@ class AttachmentRenderer extends ConsumerWidget {
         attachment: attachment,
         messageId: messageId!,
         messageNonce: messageNonce!,
+        failed: messageSendFailed,
       );
     }
     if (renderState.shouldRenderAsFile) {

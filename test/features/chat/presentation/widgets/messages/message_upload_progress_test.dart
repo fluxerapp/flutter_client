@@ -91,6 +91,49 @@ void main() {
     );
   });
 
+  testWidgets('a failed send shows a retry control and the failure', (
+    WidgetTester tester,
+  ) async {
+    const String nonce = 'nonce-4';
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          messageUploadSessionsProvider
+              .overrideWithValue(<String, MessageUploadSession>{
+                nonce: const MessageUploadSession(
+                  nonce: nonce,
+                  channelId: 'channel-1',
+                  attachments: <PendingAttachment>[],
+                  sendingProgress: 100,
+                ),
+              }),
+        ],
+        child: _buildTestApp(
+          child: const MessageUploadProgress(
+            attachment: Attachment(
+              id: kUploadingAttachmentPlaceholderId,
+              filename: 'clip.mp4',
+              url: '',
+              size: 2048,
+            ),
+            messageId: nonce,
+            messageNonce: nonce,
+            failed: true,
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byKey(MessageUploadProgress.retryButtonKey), findsOneWidget);
+    expect(find.byKey(MessageUploadProgress.cancelButtonKey), findsOneWidget);
+    expect(find.text('Failed to send message'), findsOneWidget);
+    expect(
+      find.byKey(MessageUploadProgress.determinateProgressKey),
+      findsNothing,
+    );
+  });
+
   testWidgets('shows cancel control', (WidgetTester tester) async {
     const String nonce = 'nonce-3';
     await tester.pumpWidget(
