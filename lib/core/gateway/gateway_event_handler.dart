@@ -2737,7 +2737,6 @@ class GatewayEventHandler {
       );
       return;
     }
-    _emit(() => onGuildAvailable?.call(guildId));
 
     final List<ChannelResponse>? threads = threadsGate == null
         ? null
@@ -2880,6 +2879,7 @@ class GatewayEventHandler {
         );
         return pruned;
       });
+      _emit(() => onGuildAvailable?.call(guildId));
       _forgetPrunedChannels(pruned.channelIds);
       if (pruned.channelIds.isNotEmpty) {
         messageMentionContextCache?.invalidateGuild(guildId);
