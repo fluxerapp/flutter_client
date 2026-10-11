@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_scroll_position.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -235,6 +236,65 @@ void main() {
     await pad.panZoomEnd();
     await tester.pumpAndSettle();
     expect(_scrollableIgnoringPointers(tester), isFalse);
+  });
+  testWidgets('tail follow keeps animating across a content extent change', (
+    WidgetTester tester,
+  ) async {
+    final _PointerScrollController controller = _PointerScrollController();
+    addTearDown(controller.dispose);
+    final ValueNotifier<double> lastRowHeight = ValueNotifier<double>(48);
+    addTearDown(lastRowHeight.dispose);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ListView.builder(
+          controller: controller,
+          itemCount: 80,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 79) {
+              return ValueListenableBuilder<double>(
+                valueListenable: lastRowHeight,
+                builder: (BuildContext context, double height, Widget? child) {
+                  return SizedBox(height: height, child: const Text('Row 79'));
+                },
+              );
+            }
+            return SizedBox(height: 48, child: Text('Row $index'));
+          },
+        ),
+      ),
+    );
+    final MessageListScrollPosition position =
+        controller.position as MessageListScrollPosition;
+    position.jumpTo(position.maxScrollExtent - 200);
+    await tester.pump();
+    final double start = position.pixels;
+    int completions = 0;
+
+    position.followTailTo(
+      position.maxScrollExtent,
+      resolveTarget: () => position.maxScrollExtent,
+      onComplete: () => completions += 1,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 16));
+    final double beforeExtentChange = position.pixels;
+    expect(beforeExtentChange, greaterThan(start));
+
+    lastRowHeight.value = 96;
+    await tester.pump(const Duration(milliseconds: 16));
+
+    expect(tester.takeException(), isNull);
+    expect(position.isFollowingTail, isTrue);
+    expect(completions, 0);
+    expect(position.pixels, greaterThan(beforeExtentChange));
+    expect(position.pixels, lessThan(position.maxScrollExtent));
+
+    await tester.pump(kMessageListLiveTailMotionDuration);
+    await tester.pump();
+
+    expect(position.isFollowingTail, isFalse);
+    expect(completions, 1);
+    expect(position.pixels, moreOrLessEquals(position.maxScrollExtent));
   });
 }
 

@@ -2,6 +2,7 @@
 library;
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5766,6 +5767,74 @@ void main() {
         position.pixels,
         moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
       );
+
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('mixed-height live burst follows each arrival in one motion', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        disableMessageListAnimations: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester);
+      const List<String> bodies = <String>[
+        'short',
+        'a slightly longer line that wraps across the phone width for sure',
+        'two\nlines',
+        'para one with words words words\n\npara two with more words',
+      ];
+      double? landedBottom;
+      for (int i = 1; i <= 4; i += 1) {
+        final List<Message> old = chatViewModel.testState.messages;
+        final DateTime timestamp = old.last.timestamp.add(
+          const Duration(seconds: 1),
+        );
+        final String id = snowflakeForUtc(timestamp);
+        chatViewModel.testState = chatViewModel.testState.copyWith(
+          write: (
+            messages: <Message>[
+              ...old,
+              harnessMessage(
+                id: id,
+                content: 'burst $i ${bodies[i % bodies.length]}',
+                timestamp: timestamp,
+              ),
+            ],
+            origin: MessagesOrigin.liveCreate,
+          ),
+        );
+        final double from = position.pixels;
+        await tester.pump();
+        final double distance = position.maxScrollExtent - from;
+        double previous = position.pixels;
+        double largestStep = 0;
+        for (int frame = 0; frame < 20; frame += 1) {
+          await tester.pump(const Duration(milliseconds: 16));
+          largestStep = math.max(largestStep, position.pixels - previous);
+          previous = position.pixels;
+        }
+
+        expect(
+          largestStep,
+          lessThan(distance / 2),
+          reason: 'arrival $i must follow in one motion, not a mid-way snap',
+        );
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+        );
+        final double bottom = tester.getRect(messageItemFor(id)).bottom;
+        landedBottom ??= bottom;
+        expect(
+          bottom,
+          moreOrLessEquals(landedBottom, epsilon: 1),
+          reason: 'arrival $i must land fully above the composer',
+        );
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
       await disposeMessageList(tester);
     });

@@ -29,6 +29,7 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   Duration? _elapsed;
   double _target = 0;
   bool _disposed = false;
+  bool _applyingNewDimensions = false;
 
   bool _tailFollowActive = false;
   double _tailFollowFrom = 0;
@@ -156,8 +157,22 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   }
 
   @override
+  void applyNewDimensions() {
+    _applyingNewDimensions = true;
+    try {
+      super.applyNewDimensions();
+    } finally {
+      _applyingNewDimensions = false;
+    }
+  }
+
+  @override
   void beginActivity(ScrollActivity? newActivity) {
-    if (newActivity != null && newActivity is! _PointerSignalScrollActivity) {
+    final bool settlesInPlace =
+        _applyingNewDimensions && newActivity is IdleScrollActivity;
+    if (newActivity != null &&
+        newActivity is! _PointerSignalScrollActivity &&
+        !settlesInPlace) {
       _abortTailFollow();
       _stopTicker();
       _cancelSettle();
