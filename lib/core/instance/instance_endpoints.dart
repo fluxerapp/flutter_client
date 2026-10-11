@@ -24,7 +24,7 @@ abstract final class InstanceEndpoints {
       endpoints.staticCdn,
       fallback: defaultStaticCdn,
     );
-    media = _normalizeBaseUrl(endpoints.media, fallback: defaultMedia);
+    media = mediaOf(response);
     invite = _normalizeBaseUrl(endpoints.invite, fallback: defaultInvite);
     gift = _normalizeBaseUrl(endpoints.gift, fallback: defaultGift);
     webApp = _normalizeBaseUrl(endpoints.webapp, fallback: defaultWebApp);
@@ -33,6 +33,13 @@ abstract final class InstanceEndpoints {
         : endpoints.api;
     api = resolvedApi.isNotEmpty ? _normalizeBaseUrl(resolvedApi) : api;
     gateway = endpoints.gateway.isNotEmpty ? endpoints.gateway : gateway;
+  }
+
+  static String mediaOf(WellKnownFluxerResponse? response) {
+    return _normalizeBaseUrl(
+      response?.endpoints.media ?? '',
+      fallback: defaultMedia,
+    );
   }
 
   static String _normalizeBaseUrl(String value, {String? fallback}) {

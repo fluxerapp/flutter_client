@@ -3,7 +3,6 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -243,11 +242,7 @@ class _AccountPickerOverlayBodyState
           opacity: visibility,
           child: FittedBox(
             fit: BoxFit.cover,
-            child: _SwitchingAvatarBadge(
-              userId: account.userId,
-              displayName: account.displayName,
-              avatarHash: account.avatar,
-            ),
+            child: _SwitchingAvatarBadge(account: account),
           ),
         ),
       ),
@@ -543,9 +538,7 @@ class _AccountAvatarTile extends StatelessWidget {
                       padding: const EdgeInsets.all(_kAvatarInnerPadding),
                       child: FluxerAvatar.user(
                         userId: account.userId,
-                        imageUrl: FluxerMediaUrl.userAvatar(
-                          userId: account.userId,
-                          hash: account.avatar,
+                        imageUrl: account.avatarUrl(
                           size: MediaProxySizes.avatarProfile,
                         ),
                         fallbackText: account.displayName,
@@ -635,15 +628,9 @@ class _AccountAvatarTile extends StatelessWidget {
 }
 
 class _SwitchingAvatarBadge extends StatelessWidget {
-  const _SwitchingAvatarBadge({
-    required this.userId,
-    required this.displayName,
-    required this.avatarHash,
-  });
+  const _SwitchingAvatarBadge({required this.account});
 
-  final String userId;
-  final String displayName;
-  final String? avatarHash;
+  final StoredAccount account;
 
   @override
   Widget build(BuildContext context) {
@@ -666,13 +653,9 @@ class _SwitchingAvatarBadge extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(_kAvatarInnerPadding),
         child: FluxerAvatar.user(
-          userId: userId,
-          imageUrl: FluxerMediaUrl.userAvatar(
-            userId: userId,
-            hash: avatarHash,
-            size: MediaProxySizes.avatarProfile,
-          ),
-          fallbackText: displayName,
+          userId: account.userId,
+          imageUrl: account.avatarUrl(size: MediaProxySizes.avatarProfile),
+          fallbackText: account.displayName,
           showStatus: false,
           size:
               _kGridAvatarSize -

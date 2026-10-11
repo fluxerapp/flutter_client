@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
@@ -52,10 +51,7 @@ class AccountRow extends StatelessWidget {
           child: Row(
             children: [
               FluxerAvatar.user(
-                imageUrl: FluxerMediaUrl.userAvatar(
-                  userId: account.userId,
-                  hash: account.avatar,
-                ),
+                imageUrl: account.avatarUrl(),
                 fallbackText: account.displayName,
                 size: 36,
                 showStatus: false,

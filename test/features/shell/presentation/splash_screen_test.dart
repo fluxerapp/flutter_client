@@ -81,6 +81,7 @@ class _AccountsPresent extends AccountManager {
           isValid: true,
           username: 'alice',
           displayDomain: 'chat.example.com',
+          mediaBaseUrl: 'https://media.chat.example.com',
         ),
       ],
       isSwitching: false,

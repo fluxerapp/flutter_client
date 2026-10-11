@@ -468,6 +468,17 @@ class AuthRepository {
     return normalizer.formatDisplayDomain(raw);
   }
 
+  String _resolveMediaBaseUrl(String? instanceSnapshotJson) {
+    if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
+      return InstanceConfigSnapshot.officialDefault().mediaBaseUrl;
+    }
+    try {
+      return InstanceConfigSnapshot.fromJson(instanceSnapshotJson).mediaBaseUrl;
+    } on Object {
+      return InstanceConfigSnapshot.officialDefault().mediaBaseUrl;
+    }
+  }
+
   String? _parseDisplayDomain(String? instanceSnapshotJson) {
     if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
       return null;
@@ -632,6 +643,7 @@ class AuthRepository {
           discriminator: s.discriminator,
           avatar: s.avatar,
           displayDomain: _resolveDisplayDomain(s.instanceSnapshotJson),
+          mediaBaseUrl: _resolveMediaBaseUrl(s.instanceSnapshotJson),
         ),
       );
     }

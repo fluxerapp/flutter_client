@@ -124,6 +124,8 @@ class InstanceConfigSnapshot {
     }
   }
 
+  String get mediaBaseUrl => InstanceEndpoints.mediaOf(wellKnown);
+
   InstanceSsoSchema? get ssoConfig => wellKnown?.sso;
 
   bool get isSsoEnabled => ssoConfig?.enabled ?? false;

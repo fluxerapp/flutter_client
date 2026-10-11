@@ -79,7 +79,6 @@ class AuthSessionDao extends DatabaseAccessor<FluxerDatabase>
       username: Value(username),
       discriminator: Value(discriminator),
       avatar: Value(avatar),
-      lastActive: Value(DateTime.now()),
     ),
   );
 

@@ -7,6 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
+import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
@@ -16,6 +18,7 @@ import 'package:fluxer_app/features/auth/domain/registration_result.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
+import '../../../helpers/well_known_fixture.dart';
 
 void main() {
   group('AuthRepository', () {
@@ -293,6 +296,50 @@ void main() {
 
       expect(accounts, hasLength(1));
       expect(accounts.single.userId, 'valid-user');
+    });
+
+    test('stored accounts build avatars on their own media host', () async {
+      InstanceEndpoints.apply(
+        wellKnownFixture(
+          media: 'http://192.168.0.145/media',
+          staticCdn: 'http://192.168.0.145/static',
+        ),
+      );
+      addTearDown(InstanceEndpoints.resetToDefaults);
+      await repository.migrateLegacyTokens();
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'official-user',
+        avatar: 'a_abc',
+        instanceSnapshotJson: InstanceConfigSnapshot.officialDefault().toJson(),
+      );
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'self-hosted-user',
+        avatar: 'def',
+        instanceSnapshotJson: InstanceConfigSnapshot.fromWellKnown(
+          wellKnown: wellKnownFixture(
+            media: 'https://media.chat.example/',
+            staticCdn: 'https://static.chat.example',
+          ),
+          normalizer: const InstanceEndpointNormalizer(),
+        ).toJson(),
+      );
+      await tokenStorage.saveToken(userId: 'official-user', token: 'token-1');
+      await tokenStorage.saveToken(
+        userId: 'self-hosted-user',
+        token: 'token-2',
+      );
+
+      final Map<String, String?> avatarUrls = <String, String?>{
+        for (final account in await repository.getStoredAccounts())
+          account.userId: account.avatarUrl(size: 80),
+      };
+
+      expect(avatarUrls, <String, String?>{
+        'official-user':
+            'https://fluxerusercontent.com/avatars/official-user/abc.webp?size=80',
+        'self-hosted-user':
+            'https://media.chat.example/avatars/self-hosted-user/def.webp?size=80',
+      });
     });
 
     test('getActiveSession skips and removes tokenless sessions', () async {

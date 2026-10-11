@@ -2612,6 +2612,14 @@ class GatewayEventHandler {
         ),
       ),
     );
+    unawaited(
+      database.authSessionDao.updateUserData(
+        userId: event.user.id,
+        username: event.user.username,
+        discriminator: event.user.discriminator,
+        avatar: event.user.avatar,
+      ),
+    );
     _emit(() => onCurrentUserUpdate?.call(event.user));
   }
 
