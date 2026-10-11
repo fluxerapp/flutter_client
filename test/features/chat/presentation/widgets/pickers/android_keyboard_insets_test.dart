@@ -51,7 +51,9 @@ class _ComposerHarnessState extends ConsumerState<_ComposerHarness> {
   }
 
   void _onFocusChanged() {
-    session.handleFocusChange(focused: widget.focusNode.hasFocus);
+    if (!widget.focusNode.hasFocus) {
+      session.handleFocusLost();
+    }
   }
 
   @override

@@ -222,7 +222,6 @@ void main() {
     await tester.pumpAndSettle();
     focusNode.requestFocus();
     await tester.pumpAndSettle();
-    session.handleFocusChange(focused: true);
 
     widgetRef.read(mobileKeyboardMetricsProvider.notifier)
       ..updateLayout(screenHeight: 800, isPortrait: true, isIos: false)
@@ -248,6 +247,57 @@ void main() {
     expect(widgetRef.read(bottomInputSlotProvider).slotHeight, 0);
     session.dispose();
   });
+  testWidgets(
+    'focusing a closed composer follows the keyboard inset from the first frame',
+    (tester) async {
+      final FocusNode focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+      late ComposerKeyboardSession session;
+      late WidgetRef widgetRef;
+
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            home: Scaffold(
+              body: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? _) {
+                  widgetRef = ref;
+                  session = ComposerKeyboardSession(
+                    ref: ref,
+                    focusNode: focusNode,
+                    isMounted: () => true,
+                    isMobileLayout: () => true,
+                    isSlashSessionActive: () => false,
+                    composerEntryFocused: () => focusNode.hasFocus,
+                  );
+                  return TextField(focusNode: focusNode);
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      widgetRef
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .captureKeyboardAnchor(336);
+      focusNode.requestFocus();
+      await tester.pump();
+
+      expect(widgetRef.read(bottomInputSlotProvider).slotHeight, 0);
+
+      widgetRef
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .syncViewInsets(24, safeAreaBottom: 34);
+      expect(widgetRef.read(bottomInputSlotProvider).slotHeight, 24);
+
+      widgetRef
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .syncViewInsets(336, safeAreaBottom: 34);
+      expect(widgetRef.read(bottomInputSlotProvider).slotHeight, 336);
+      session.dispose();
+    },
+  );
 }
 
 class _OpenKeyboardMetrics extends MobileKeyboardMetrics {

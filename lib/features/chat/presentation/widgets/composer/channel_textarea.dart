@@ -591,7 +591,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_composerFocused != focused) {
       setState(() => _composerFocused = focused);
     }
-    _keyboardSession.handleFocusChange(focused: focused);
+    if (!focused) {
+      _keyboardSession.handleFocusLost();
+    }
   }
 
   bool _composerEntryFocused() {

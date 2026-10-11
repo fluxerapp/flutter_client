@@ -152,10 +152,7 @@ class ComposerKeyboardSession {
     }
   }
 
-  void handleFocusChange({required bool focused}) {
-    if (focused) {
-      return;
-    }
+  void handleFocusLost() {
     cancelPendingFocusRestore();
     if (_isMounted() &&
         !isComposerPanelOpen(
