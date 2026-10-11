@@ -897,12 +897,9 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
           );
         }
         final entry = state.results[index];
-        final label = entry.channelName == null
-            ? _formatDate(entry.message.timestamp)
-            : '#${entry.channelName} - ${_formatDate(entry.message.timestamp)}';
         return MessagePreviewTile(
           message: entry.message,
-          label: label,
+          label: entry.channelName == null ? null : '#${entry.channelName}',
           guildId: entry.guildId,
           onTap: () => _popWithJumpRequest(
             context,

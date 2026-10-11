@@ -545,13 +545,6 @@ void _popWithJumpRequest(
   ).pop(ChannelDetailsJumpRequest(message: message, guildId: guildId));
 }
 
-String _formatDate(DateTime dateTime) {
-  final local = dateTime.toLocal();
-  final h = local.hour.toString().padLeft(2, '0');
-  final m = local.minute.toString().padLeft(2, '0');
-  return '${local.month}/${local.day}/${local.year} $h:$m';
-}
-
 String _contentLabel(
   FluxerLocalizations l10n,
   MessageSearchContentFilter value,

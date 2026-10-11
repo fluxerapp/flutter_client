@@ -45,6 +45,7 @@ class _SeededSearch extends ChannelSearch {
         for (int i = 0; i < 3; i += 1)
           MessageSearchResultEntry(
             guildId: guildId,
+            channelName: i == 0 ? 'general' : null,
             message: Message(
               id: '100000000000000000$i',
               channelId: channelId,
@@ -171,5 +172,21 @@ void main() {
     expect(find.byType(MessagePreviewTile), findsWidgets);
     expect(find.byType(ListView), findsWidgets);
     expect(find.byType(DraggableScrollableSheet), findsNothing);
+  });
+
+  testWidgets('search result labels name the channel without a timestamp', (
+    tester,
+  ) async {
+    final FluxerDatabase database = openTestDatabase();
+    final ProviderContainer container = _container(database, seedSearch: true);
+    addTearDown(container.dispose);
+
+    await _openPage(tester, container);
+
+    final List<String?> labels = tester
+        .widgetList<MessagePreviewTile>(find.byType(MessagePreviewTile))
+        .map((MessagePreviewTile tile) => tile.label)
+        .toList();
+    expect(labels, <String?>['#general', null, null]);
   });
 }
