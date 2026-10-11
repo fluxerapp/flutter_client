@@ -209,3 +209,15 @@ class _GuildListItem extends StatefulWidget {
   @override
   State<_GuildListItem> createState() => _GuildListItemState();
 }
+
+@visibleForTesting
+Widget guildListItemForTest({
+  required String label,
+  bool isSelected = false,
+  int mentionCount = 0,
+}) => _GuildListItem(
+  label: label,
+  onTap: () {},
+  isSelected: isSelected,
+  mentionCount: mentionCount,
+);

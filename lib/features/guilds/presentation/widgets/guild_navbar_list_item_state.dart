@@ -219,7 +219,6 @@ class _GuildListItemState extends State<_GuildListItem>
                               ),
                             ),
                             if (!widget.isUnavailable &&
-                                !widget.isSelected &&
                                 _displayMentionCount > 0)
                               Positioned(
                                 bottom: -2,
