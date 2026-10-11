@@ -17,6 +17,7 @@ void main() {
     batcher = ReadStateWriteBatcher(
       database: db,
       window: const Duration(hours: 1),
+      mentionWindow: const Duration(hours: 1),
     );
   });
 
@@ -155,7 +156,7 @@ void main() {
       fastBatcher.enqueueUnread(
         channelId: channelId,
         messageId: '100',
-        shouldMention: true,
+        shouldMention: false,
         isDm: false,
         seedAckCandidate: null,
       );
@@ -165,7 +166,7 @@ void main() {
       fastBatcher.enqueueUnread(
         channelId: channelId,
         messageId: '200',
-        shouldMention: true,
+        shouldMention: false,
         isDm: false,
         seedAckCandidate: null,
       );
@@ -174,6 +175,47 @@ void main() {
 
       async.elapse(const Duration(milliseconds: 40));
       expect(fastBatcher.hasPending(channelId), isFalse);
+    });
+  });
+
+  test('a mention flushes on the short window despite the unread interval', () {
+    fakeAsync((FakeAsync async) {
+      const String channelId = 'guild-channel-mention';
+      final ReadStateWriteBatcher mentionBatcher = ReadStateWriteBatcher(
+        database: db,
+        minIntervalBetweenUnreadFlushes: const Duration(seconds: 5),
+      );
+      addTearDown(mentionBatcher.clearAll);
+
+      mentionBatcher.enqueueUnread(
+        channelId: channelId,
+        messageId: '100',
+        shouldMention: false,
+        isDm: false,
+        seedAckCandidate: null,
+      );
+      async.elapse(const Duration(milliseconds: 10));
+      expect(mentionBatcher.hasPending(channelId), isTrue);
+
+      mentionBatcher.enqueueUnread(
+        channelId: channelId,
+        messageId: '200',
+        shouldMention: true,
+        isDm: false,
+        seedAckCandidate: null,
+      );
+      async.elapse(const Duration(milliseconds: kReadStateMentionBatchMs));
+      expect(mentionBatcher.hasPending(channelId), isFalse);
+
+      mentionBatcher.enqueueUnread(
+        channelId: channelId,
+        messageId: '300',
+        shouldMention: true,
+        isDm: false,
+        seedAckCandidate: null,
+      );
+      async.elapse(const Duration(milliseconds: kReadStateMentionBatchMs));
+      expect(mentionBatcher.hasPending(channelId), isFalse);
     });
   });
 }

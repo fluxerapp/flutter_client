@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 const int kReadStateWriteBatchMs = 1000;
 
 const int kReadStateAckBatchMs = 50;
+const int kReadStateMentionBatchMs = 50;
 const int kReadStateUnreadMinIntervalMs = 2000;
 
 /// Batches per-channel unread read-state writes during gateway bursts.
@@ -17,6 +18,9 @@ class ReadStateWriteBatcher {
     required this._database,
     this._window = const Duration(milliseconds: kReadStateWriteBatchMs),
     this._ackWindow = const Duration(milliseconds: kReadStateAckBatchMs),
+    this._mentionWindow = const Duration(
+      milliseconds: kReadStateMentionBatchMs,
+    ),
     this._minIntervalBetweenUnreadFlushes = const Duration(
       milliseconds: kReadStateUnreadMinIntervalMs,
     ),
@@ -25,6 +29,7 @@ class ReadStateWriteBatcher {
   final FluxerDatabase _database;
   final Duration _window;
   final Duration _ackWindow;
+  final Duration _mentionWindow;
   final Duration _minIntervalBetweenUnreadFlushes;
   final Map<String, _PendingUnread> _pending = <String, _PendingUnread>{};
   final Map<String, _PendingAck> _pendingAcks = <String, _PendingAck>{};
@@ -42,12 +47,19 @@ class ReadStateWriteBatcher {
       channelId,
       () => _PendingUnread(
         isDm: isDm,
-        timer: Timer(
-          _resolveUnreadDelay(channelId),
-          () => unawaited(flush(channelId)),
+        timer: _scheduleUnreadFlush(
+          channelId,
+          shouldMention ? _mentionWindow : _resolveUnreadDelay(channelId),
         ),
+        urgent: shouldMention,
       ),
     );
+    if (shouldMention && !pending.urgent) {
+      pending.timer.cancel();
+      pending
+        ..timer = _scheduleUnreadFlush(channelId, _mentionWindow)
+        ..urgent = true;
+    }
     pending.intents.add(
       _UnreadIntent(
         messageId: messageId,
@@ -56,6 +68,9 @@ class ReadStateWriteBatcher {
       ),
     );
   }
+
+  Timer _scheduleUnreadFlush(String channelId, Duration delay) =>
+      Timer(delay, () => unawaited(flush(channelId)));
 
   Duration _resolveUnreadDelay(String channelId) {
     final DateTime? lastFlush = _lastUnreadFlushAt[channelId];
@@ -275,10 +290,15 @@ class ReadStateWriteBatcher {
 }
 
 class _PendingUnread {
-  _PendingUnread({required this.isDm, required this.timer});
+  _PendingUnread({
+    required this.isDm,
+    required this.timer,
+    required this.urgent,
+  });
 
   final bool isDm;
-  final Timer timer;
+  Timer timer;
+  bool urgent;
   final List<_UnreadIntent> intents = <_UnreadIntent>[];
 }
 

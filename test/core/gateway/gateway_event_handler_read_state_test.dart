@@ -1613,6 +1613,7 @@ void main() {
       final batcher = ReadStateWriteBatcher(
         database: db,
         window: const Duration(hours: 1),
+        mentionWindow: const Duration(hours: 1),
       );
       addTearDown(batcher.clearAll);
 
