@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
@@ -45,7 +47,7 @@ class BottomInputSpacer extends ConsumerWidget {
         grossAnchorHeight: anchorHeight,
         useExactSlotHeight: slotState.slotHeightHeld,
       );
-      return _animatedSpacer(context, reservedHeight);
+      return _PanelSpacer(height: reservedHeight);
     }
 
     final ({double liveKeyboardHeight, bool unmeasuredKeyboardReserved})
@@ -92,12 +94,61 @@ class BottomInputSpacer extends ConsumerWidget {
       homeIndicatorInset: MediaQuery.viewPaddingOf(context).bottom,
     );
   }
+}
 
-  Widget _animatedSpacer(BuildContext context, double height) {
+class _PanelSpacer extends ConsumerStatefulWidget {
+  const _PanelSpacer({required this.height});
+
+  final double height;
+
+  @override
+  ConsumerState<_PanelSpacer> createState() => _PanelSpacerState();
+}
+
+class _PanelSpacerState extends ConsumerState<_PanelSpacer> {
+  bool _growing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final bool keyboardVisible = ref.read(
+      mobileKeyboardMetricsProvider.select(
+        (MobileKeyboardMetricsState metrics) => metrics.isKeyboardVisible,
+      ),
+    );
+    final BottomInputTransition transition = ref.read(
+      bottomInputSlotProvider.select(
+        (BottomInputSlotState state) => state.transition,
+      ),
+    );
+    if (keyboardVisible || transition != BottomInputTransition.idle) {
+      return;
+    }
+    _growing = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _growing = false);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return expandableSheetAnimatedSize(
       context: context,
       isDragging: false,
-      height: height,
+      height: _growing
+          ? math.min(
+              widget.height,
+              bottomInputKeyboardSpacerHeight(
+                slotHeight: 0,
+                homeIndicatorInset: bottomInputHomeIndicatorInset(
+                  MediaQuery.of(context),
+                ),
+              ),
+            )
+          : widget.height,
       child: const SizedBox.shrink(),
     );
   }

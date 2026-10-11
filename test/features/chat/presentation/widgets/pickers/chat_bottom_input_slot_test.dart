@@ -118,6 +118,65 @@ void main() {
     );
   });
 
+  testWidgets('BottomInputSpacer grows from the safe bar when opened at rest', (
+    tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    container.read(mobileKeyboardMetricsProvider.notifier)
+      ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+      ..syncViewInsets(0, safeAreaBottom: 0);
+
+    await tester.pumpWidget(_buildSpacerHarness(container));
+    await tester.pump();
+    expect(tester.getSize(find.byType(BottomInputSpacer)).height, 0);
+
+    container.read(expressionPanelProvider.notifier).open();
+    await tester.pump();
+    expect(
+      tester.getSize(find.byType(BottomInputSpacer)).height,
+      _homeInset - kMobileComposerBottomGap,
+    );
+
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    final double midHeight = tester
+        .getSize(find.byType(BottomInputSpacer))
+        .height;
+    expect(midHeight, greaterThan(_homeInset));
+
+    await tester.pumpAndSettle();
+    final double settledHeight = tester
+        .getSize(find.byType(BottomInputSpacer))
+        .height;
+    expect(settledHeight, greaterThan(200));
+    expect(midHeight, lessThan(settledHeight));
+  });
+
+  testWidgets('BottomInputSpacer swaps instantly when opening over keyboard', (
+    tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    container.read(mobileKeyboardMetricsProvider.notifier)
+      ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+      ..debugApplyNativeMetrics(
+        keyboardHeight: 336,
+        isKeyboardVisible: true,
+        nativeSafeAreaBottom: 34,
+      )
+      ..syncViewInsets(336, safeAreaBottom: 0);
+
+    await tester.pumpWidget(_buildSpacerHarness(container));
+    await tester.pump();
+
+    container.read(expressionPanelProvider.notifier).open();
+    await tester.pump();
+    expect(tester.getSize(find.byType(BottomInputSpacer)).height, 336);
+
+    await tester.pump(const Duration(milliseconds: 500));
+  });
+
   testWidgets(
     'BottomInputSpacer matches keyboard slot height when panel is closed',
     (tester) async {
