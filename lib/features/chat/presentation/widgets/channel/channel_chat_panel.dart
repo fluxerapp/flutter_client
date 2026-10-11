@@ -109,6 +109,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
   final ComposerAutocompletePanelHost _composerAutocompletePanelHost =
       ComposerAutocompletePanelHost(null);
   final ScrollController _composerAutocompletePanelScroll = ScrollController();
+  DockedComposerPanel? _dockedPanel;
 
   @override
   void dispose() {
@@ -167,6 +168,21 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
       expressionPanelOpen: isExpressionOpen,
       attachmentPanelOpen: isAttachmentOpen,
     );
+    final bool keyboardTakingOverPanel =
+        isMobile &&
+        ref.watch(
+          bottomInputSlotProvider.select(
+            (BottomInputSlotState state) =>
+                state.transition == BottomInputTransition.lockingToKeyboard,
+          ),
+        );
+    final DockedComposerPanel? dockedPanel = resolveDockedComposerPanel(
+      expressionPanelOpen: isExpressionOpen,
+      attachmentPanelOpen: isAttachmentOpen,
+      keyboardTakingOver: keyboardTakingOverPanel,
+      previous: _dockedPanel,
+    );
+    _dockedPanel = dockedPanel;
     final Widget messageList = MessageList(
       key: ValueKey<String>(listChannelId),
       expectedChannelId: listChannelId,
@@ -184,7 +200,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
           builder: (BuildContext context, BoxConstraints constraints) {
             double sheetContentHeight = 0;
             double dragHandleHeight = 0;
-            if (isPanelOpen) {
+            if (dockedPanel != null) {
               final ({
                 double? anchoredKeyboardHeight,
                 double fallbackKeyboardHeight,
@@ -302,20 +318,24 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                     ),
                   ],
                 ),
-                if (isPanelOpen)
+                if (dockedPanel != null)
                   Positioned(
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    child: ChatExpressionExpandableSheet(
-                      collapsedHeight: math.max(
-                        sheetContentHeight,
-                        kExpressionPanelMinContentHeight,
+                    child: IgnorePointer(
+                      ignoring: !isPanelOpen,
+                      child: ChatExpressionExpandableSheet(
+                        collapsedHeight: math.max(
+                          sheetContentHeight,
+                          kExpressionPanelMinContentHeight,
+                        ),
+                        dragHandleHeight: dragHandleHeight,
+                        contentBuilder:
+                            dockedPanel == DockedComposerPanel.attachment
+                            ? _attachmentPanelContent
+                            : null,
                       ),
-                      dragHandleHeight: dragHandleHeight,
-                      contentBuilder: isAttachmentOpen
-                          ? _attachmentPanelContent
-                          : null,
                     ),
                   ),
               ],

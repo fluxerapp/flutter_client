@@ -62,4 +62,54 @@ void main() {
       );
     });
   });
+
+  group('resolveDockedComposerPanel', () {
+    test('docks the open attachment panel over the expression panel', () {
+      expect(
+        resolveDockedComposerPanel(
+          expressionPanelOpen: true,
+          attachmentPanelOpen: true,
+          keyboardTakingOver: false,
+          previous: null,
+        ),
+        DockedComposerPanel.attachment,
+      );
+    });
+
+    test('docks the open expression panel', () {
+      expect(
+        resolveDockedComposerPanel(
+          expressionPanelOpen: true,
+          attachmentPanelOpen: false,
+          keyboardTakingOver: false,
+          previous: null,
+        ),
+        DockedComposerPanel.expression,
+      );
+    });
+
+    test('keeps the closed panel docked while the keyboard takes over', () {
+      expect(
+        resolveDockedComposerPanel(
+          expressionPanelOpen: false,
+          attachmentPanelOpen: false,
+          keyboardTakingOver: true,
+          previous: DockedComposerPanel.attachment,
+        ),
+        DockedComposerPanel.attachment,
+      );
+    });
+
+    test('drops the closed panel once the keyboard has taken over', () {
+      expect(
+        resolveDockedComposerPanel(
+          expressionPanelOpen: false,
+          attachmentPanelOpen: false,
+          keyboardTakingOver: false,
+          previous: DockedComposerPanel.expression,
+        ),
+        isNull,
+      );
+    });
+  });
 }

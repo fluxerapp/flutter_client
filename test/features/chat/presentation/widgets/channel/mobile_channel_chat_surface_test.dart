@@ -21,11 +21,15 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_ch
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -755,6 +759,51 @@ void main() {
             'the first sync must reach switchChannel AS TARGETED; a targetless '
             'first request swallows the jump unrecoverably',
       );
+      await _disposeWidgetTree(tester);
+    });
+
+    testWidgets('keeps the expression panel up while the keyboard rises', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final _RetryingChatViewModel recorder = _RetryingChatViewModel();
+      final ProviderContainer container = ProviderContainer(
+        overrides: _contentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      container.read(expressionPanelProvider.notifier).open();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+      expect(find.byKey(kChatExpressionSheetKey), findsOneWidget);
+
+      container
+          .read(bottomInputSlotProvider.notifier)
+          .beginKeyboardTransition(291);
+      container.read(expressionPanelProvider.notifier).close();
+      await tester.pump();
+      expect(find.byKey(kChatExpressionSheetKey), findsOneWidget);
+
+      await tester.pump(const Duration(milliseconds: 450));
+      expect(
+        container.read(bottomInputSlotProvider).transition,
+        BottomInputTransition.idle,
+      );
+      expect(find.byKey(kChatExpressionSheetKey), findsNothing);
       await _disposeWidgetTree(tester);
     });
 
