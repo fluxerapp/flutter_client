@@ -105,6 +105,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   bool _focusedDismissPending = false;
   int _unmeasuredReservationExtensions = 0;
   bool _acceptVisibleNativeSamples = true;
+  bool _isIos = defaultTargetPlatform == TargetPlatform.iOS;
 
   @override
   MobileKeyboardMetricsState build() {
@@ -261,13 +262,14 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     final bool composerEntryFocused = ref
         .read(composerFocusCoordinatorProvider)
         .composerHasFocus();
-    if (mergedHeight > 0) {
-      _cancelFocusedDismissHold();
-    } else if (_shouldHoldFocusedDismiss(
+    if (_shouldHoldFocusedDismiss(
+      mergedHeight: mergedHeight,
       composerEntryFocused: composerEntryFocused,
     )) {
       _armFocusedDismissHold();
       mergedHeight = state.liveKeyboardHeight;
+    } else if (!_focusedDismissPending) {
+      _cancelFocusedDismissHold();
     }
     final double anchorSample = _preferNativeIme && nativeImeOnly > 0
         ? nativeImeOnly
@@ -336,18 +338,23 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     _syncShortInsetCorrection(nativeImeOnly);
   }
 
-  bool _shouldHoldFocusedDismiss({required bool composerEntryFocused}) {
-    if (_focusedDismissPending || !composerEntryFocused) {
+  bool _shouldHoldFocusedDismiss({
+    required double mergedHeight,
+    required bool composerEntryFocused,
+  }) {
+    if (mergedHeight > 0 || _focusedDismissPending || !composerEntryFocused) {
       return false;
     }
     if (!isImeKeyboardHeight(state.liveKeyboardHeight)) {
       return false;
     }
-    return _viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardHoldsOpen;
+    return _viewInsetsKeyboardHeight <= 0 &&
+        _nativeKeyboardVisible &&
+        !_nativeKeyboardHoldsOpen;
   }
 
   bool get _nativeKeyboardHoldsOpen =>
-      _nativeKeyboardVisible && !_sawViewInsets;
+      _isIos && _nativeKeyboardVisible && !_sawViewInsets;
 
   void _armFocusedDismissHold() {
     if (_focusedDismissTimer != null) {
@@ -595,6 +602,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     required bool isPortrait,
     required bool isIos,
   }) {
+    _isIos = isIos;
     final double fallback = fallbackKeyboardHeightForScreen(
       screenHeight: screenHeight,
       isIos: isIos,

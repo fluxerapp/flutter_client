@@ -49,6 +49,15 @@ void _hideKeyboard(ProviderContainer container) {
     );
 }
 
+void _dropViewInsetsOnly(ProviderContainer container) {
+  container
+      .read(mobileKeyboardMetricsProvider.notifier)
+      .syncViewInsets(0, safeAreaBottom: 0);
+}
+
+double _liveHeight(ProviderContainer container) =>
+    container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight;
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -214,25 +223,59 @@ void main() {
           _hideKeyboard(focused);
 
           expect(
-            focused.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
-            _kOpenHeight,
-          );
-          async.elapse(kFocusedKeyboardDismissHold);
-          expect(
             focused
                 .read(mobileKeyboardMetricsProvider)
                 .unmeasuredKeyboardReserved,
             isFalse,
           );
           expect(focused.read(bottomInputSlotProvider).slotHeight, 0);
-          expect(
-            focused.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
-            0,
-          );
+          expect(_liveHeight(focused), 0);
         } finally {
           focused.dispose();
         }
       });
+    });
+
+    test('back without a close animation drops the composer at once', () {
+      fakeAsync((FakeAsync async) {
+        final ProviderContainer focused = _openFocusedKeyboard();
+        try {
+          focused.read(mobileKeyboardMetricsProvider.notifier)
+            ..debugApplyNativeMetrics(
+              keyboardHeight: 0,
+              isKeyboardVisible: false,
+              nativeSafeAreaBottom: _kNativeSafe,
+            )
+            ..syncViewInsets(0, safeAreaBottom: 0);
+
+          expect(_liveHeight(focused), 0);
+          expect(focused.read(bottomInputSlotProvider).slotHeight, 0);
+        } finally {
+          focused.dispose();
+        }
+      });
+    });
+
+    test('android open follows the inset animation, not the native frame', () {
+      final ProviderContainer focused = _openFocusedKeyboard();
+      try {
+        _hideKeyboard(focused);
+        final MobileKeyboardMetrics metrics =
+            focused.read(mobileKeyboardMetricsProvider.notifier)
+              ..debugApplyNativeMetrics(
+                keyboardHeight: _kNativeGross,
+                isKeyboardVisible: true,
+                nativeSafeAreaBottom: _kNativeSafe,
+              );
+        expect(_liveHeight(focused), 0);
+
+        metrics.syncViewInsets(40, safeAreaBottom: 0);
+        expect(_liveHeight(focused), 40);
+        metrics.syncViewInsets(_kOpenHeight, safeAreaBottom: 0);
+        expect(_liveHeight(focused), _kOpenHeight);
+      } finally {
+        focused.dispose();
+      }
     });
 
     test('losing focus clears a held keyboard immediately', () {
@@ -265,7 +308,7 @@ void main() {
                 nativeSafeAreaBottom: _kNativeSafe,
               )
               ..syncViewInsets(_kOpenHeight, safeAreaBottom: 0);
-        _hideKeyboard(container);
+        _dropViewInsetsOnly(container);
         expect(
           container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
           _kOpenHeight,
@@ -336,7 +379,7 @@ void main() {
       fakeAsync((FakeAsync async) {
         final ProviderContainer focused = _openFocusedKeyboard();
         try {
-          _hideKeyboard(focused);
+          _dropViewInsetsOnly(focused);
 
           expect(
             focused.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
@@ -369,8 +412,9 @@ void main() {
       });
     });
 
-    test('open flicker keeps native-visible height until inset arrives', () {
+    test('ios open keeps native-visible height until inset arrives', () {
       notifier
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
         ..debugApplyNativeMetrics(
           keyboardHeight: _kNativeGross,
           isKeyboardVisible: true,
