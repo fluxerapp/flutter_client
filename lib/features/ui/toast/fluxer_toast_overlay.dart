@@ -1,3 +1,4 @@
+import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -142,6 +143,11 @@ class _ToastItemState extends State<_ToastItem>
     super.dispose();
   }
 
+  void _runAction(FluxerToastAction action) {
+    widget.onDismiss();
+    action.onPressed();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -149,6 +155,7 @@ class _ToastItemState extends State<_ToastItem>
     final textStyles = context.textStyles;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String message = widget.entry.toast.message;
+    final FluxerToastAction? action = widget.entry.toast.action;
 
     return SlideTransition(
       position: _slideAnimation,
@@ -162,6 +169,12 @@ class _ToastItemState extends State<_ToastItem>
             button: true,
             onTap: widget.onDismiss,
             hint: l10n.uiDismissNotification,
+            customSemanticsActions: action == null
+                ? null
+                : <CustomSemanticsAction, VoidCallback>{
+                    CustomSemanticsAction(label: action.label): () =>
+                        _runAction(action),
+                  },
             child: ExcludeSemantics(
               child: FluxerGestureDetector(
                 onTap: widget.onDismiss,
@@ -211,6 +224,19 @@ class _ToastItemState extends State<_ToastItem>
                             ),
                           ),
                         ),
+                        if (action != null) ...[
+                          SizedBox(width: layout.s3),
+                          FluxerGestureDetector(
+                            onTap: () => _runAction(action),
+                            child: Text(
+                              action.label,
+                              style: textStyles.bodyMedium.copyWith(
+                                color: colors.textLink,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),

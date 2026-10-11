@@ -71,6 +71,35 @@ void main() {
       expect(find.text('Tap me away'), findsNothing);
     });
 
+    testWidgets('tapping the action runs it and dismisses the toast', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildTestApp(const SizedBox.shrink()));
+
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(FluxerToastOverlay)),
+      );
+      int pressed = 0;
+      container
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: 'Failed',
+              action: FluxerToastAction(
+                label: 'Undo',
+                onPressed: () => pressed++,
+              ),
+            ),
+          );
+
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Undo'));
+      await tester.pumpAndSettle();
+
+      expect(pressed, 1);
+      expect(find.text('Failed'), findsNothing);
+    });
+
     testWidgets('auto-dismisses after duration', (tester) async {
       await tester.pumpWidget(buildTestApp(const SizedBox.shrink()));
 
