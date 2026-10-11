@@ -1194,10 +1194,10 @@ void main() {
   });
 
   test(
-    'slowmode cooldown runs from the server send time, not the ack arrival',
+    'slowmode cooldown is not shortened by a device clock ahead of the server',
     () async {
       final DateTime acceptedAt = DateTime.now().toUtc().subtract(
-        const Duration(seconds: 6),
+        const Duration(seconds: 30),
       );
       final (container, _, _) = await setUpChannel(
         adapter: _SendAdapter(serverMessageId: _snowflakeForUtc(acceptedAt)),
@@ -1216,8 +1216,8 @@ void main() {
       final Duration remaining = container
           .read(slowmodeTrackerProvider.notifier)
           .remainingFor('channel-1', 10);
-      expect(remaining, greaterThan(Duration.zero));
-      expect(remaining, lessThanOrEqualTo(const Duration(seconds: 4)));
+      expect(remaining, greaterThan(const Duration(seconds: 9)));
+      expect(remaining, lessThanOrEqualTo(const Duration(seconds: 10)));
     },
   );
 

@@ -40,14 +40,12 @@ class ShareMediaSender {
       if (!await _canSendToChannel(channelId)) {
         continue;
       }
-      final Message? sent = await _sendToChannel(
+      if (await _sendToChannel(
         channelId: channelId,
         uploadFiles: uploadFiles,
         outgoingText: outgoingText,
-      );
-      if (sent != null) {
+      )) {
         successCount++;
-        await _recordSendIfNeeded(channelId, sent.timestamp);
       }
     }
 
@@ -67,6 +65,7 @@ class ShareMediaSender {
       if (!await _canSendToChannel(channelId)) {
         continue;
       }
+      final DateTime sendStartedAt = DateTime.now();
       try {
         final Message sent = await ref
             .read(messageRepositoryProvider)
@@ -76,7 +75,7 @@ class ShareMediaSender {
               clientNonce: clientNonceGenerator.next(),
             );
         successCount++;
-        await _recordSendIfNeeded(channelId, sent.timestamp);
+        await _recordSendIfNeeded(channelId, sent.timestamp, sendStartedAt);
       } on Object catch (error, stackTrace) {
         _handleSendError(channelId, error, stackTrace);
       }
@@ -103,13 +102,20 @@ class ShareMediaSender {
     );
   }
 
-  Future<void> _recordSendIfNeeded(String channelId, DateTime sentAt) async {
+  Future<void> _recordSendIfNeeded(
+    String channelId,
+    DateTime serverSentAt,
+    DateTime sendStartedAt,
+  ) async {
     if (await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
       return;
     }
     ref
         .read(slowmodeTrackerProvider.notifier)
-        .updateSendTimestamp(channelId, sentAt);
+        .updateSendTimestamp(
+          channelId,
+          serverSentAt.isAfter(sendStartedAt) ? serverSentAt : sendStartedAt,
+        );
   }
 
   void _handleSendError(String channelId, Object error, StackTrace stackTrace) {
@@ -125,7 +131,7 @@ class ShareMediaSender {
     );
   }
 
-  Future<Message?> _sendToChannel({
+  Future<bool> _sendToChannel({
     required String channelId,
     required List<ComposerUploadFile> uploadFiles,
     required String outgoingText,
@@ -139,13 +145,13 @@ class ShareMediaSender {
       final validation = await uploadNotifier.addFiles(uploadFiles);
       if (!validation.isValid) {
         uploadNotifier.clearComposerAttachments();
-        return null;
+        return false;
       }
 
       clientNonce = clientNonceGenerator.next();
       final claimed = uploadNotifier.claimForMessage(clientNonce);
       if (claimed.isEmpty) {
-        return null;
+        return false;
       }
 
       final prepared = await uploadNotifier.prepareSessionForSend(
@@ -153,6 +159,7 @@ class ShareMediaSender {
         favoriteMemePayload: false,
       );
 
+      final DateTime sendStartedAt = DateTime.now();
       final Message sent = await ref
           .read(messageRepositoryProvider)
           .sendMessage(
@@ -164,13 +171,14 @@ class ShareMediaSender {
           );
 
       uploadNotifier.removeMessageUpload(clientNonce);
-      return sent;
+      await _recordSendIfNeeded(channelId, sent.timestamp, sendStartedAt);
+      return true;
     } on Object catch (error, stackTrace) {
       if (clientNonce != null) {
         uploadNotifier.cancelMessageUpload(clientNonce);
       }
       _handleSendError(channelId, error, stackTrace);
-      return null;
+      return false;
     }
   }
 }

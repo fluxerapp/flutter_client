@@ -5293,6 +5293,7 @@ class ChatViewModel extends _$ChatViewModel {
     int? messageFlags,
     bool tts = false,
   }) async {
+    final DateTime sendStartedAt = DateTime.now();
     try {
       final Message sent = await _sendWithRateLimitRetry(
         () => ref
@@ -5310,7 +5311,9 @@ class ChatViewModel extends _$ChatViewModel {
             ),
       );
       _retrySendOptions.remove(optimisticMessageId);
-      unawaited(_recordSlowmodeSendOnSuccess(channelId, sent.timestamp));
+      unawaited(
+        _recordSlowmodeSendOnSuccess(channelId, sent.timestamp, sendStartedAt),
+      );
       _commitDeliveredOptimisticSend(
         channelId: channelId,
         optimisticMessageId: optimisticMessageId,
@@ -5354,6 +5357,7 @@ class ChatViewModel extends _$ChatViewModel {
         _finishAttachmentUploadSession(clientNonce, uploadNotifier);
         return;
       }
+      final DateTime sendStartedAt = DateTime.now();
       final Message sent = await _sendWithRateLimitRetry(
         () => ref
             .read(messageRepositoryProvider)
@@ -5374,7 +5378,9 @@ class ChatViewModel extends _$ChatViewModel {
       );
       _retrySendOptions.remove(optimisticMessageId);
       _finishAttachmentUploadSession(clientNonce, uploadNotifier);
-      unawaited(_recordSlowmodeSendOnSuccess(channelId, sent.timestamp));
+      unawaited(
+        _recordSlowmodeSendOnSuccess(channelId, sent.timestamp, sendStartedAt),
+      );
       _commitDeliveredOptimisticSend(
         channelId: channelId,
         optimisticMessageId: optimisticMessageId,
@@ -5430,7 +5436,8 @@ class ChatViewModel extends _$ChatViewModel {
 
   Future<void> _recordSlowmodeSendOnSuccess(
     String channelId,
-    DateTime sentAt,
+    DateTime serverSentAt,
+    DateTime sendStartedAt,
   ) async {
     // One-off snapshot; read does not retain the autoDispose family.
     // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
@@ -5439,7 +5446,10 @@ class ChatViewModel extends _$ChatViewModel {
     }
     ref
         .read(slowmodeTrackerProvider.notifier)
-        .updateSendTimestamp(channelId, sentAt);
+        .updateSendTimestamp(
+          channelId,
+          serverSentAt.isAfter(sendStartedAt) ? serverSentAt : sendStartedAt,
+        );
   }
 
   void _notifySendBlocked(
@@ -5658,6 +5668,7 @@ class ChatViewModel extends _$ChatViewModel {
     try {
       final String clientNonce =
           message.clientNonce ?? clientNonceGenerator.next();
+      final DateTime sendStartedAt = DateTime.now();
       final Message sent = await _sendWithRateLimitRetry(
         () => ref
             .read(messageRepositoryProvider)
@@ -5688,7 +5699,11 @@ class ChatViewModel extends _$ChatViewModel {
         write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
       );
       unawaited(
-        _recordSlowmodeSendOnSuccess(message.channelId, sent.timestamp),
+        _recordSlowmodeSendOnSuccess(
+          message.channelId,
+          sent.timestamp,
+          sendStartedAt,
+        ),
       );
     } on Object catch (e) {
       debugPrint('[ChatViewModel] Retry failed: $e');
