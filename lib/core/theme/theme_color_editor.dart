@@ -310,6 +310,7 @@ const List<ThemeColorEditorGroup> kThemeColorEditorGroups =
           'bgTableRowOdd',
           'spoilerBackground',
           'spoilerOverlayHoverColor',
+          'modalScrim',
           'menuDangerText',
         ],
       ),

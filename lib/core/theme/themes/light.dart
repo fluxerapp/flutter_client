@@ -462,6 +462,7 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     mentionBackground: backgroundModifierAccentVal,
     spoilerBackground: const Color(0x1A000000),
     spoilerOverlayHoverColor: const Color(0x26000000),
+    modalScrim: const Color(0x66000000),
     guildBannerGradient: const Color(0x4D000000),
     focusPrimary: const Color(0xFF00B0F4),
     interactiveActive: toneDirect(

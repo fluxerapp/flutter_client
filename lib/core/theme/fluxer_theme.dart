@@ -296,6 +296,7 @@ ThemeData buildFluxerTheme({
     bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: colorTheme.backgroundSecondary,
       modalBackgroundColor: colorTheme.backgroundSecondary,
+      modalBarrierColor: colorTheme.modalScrim,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: layoutTheme.radiusXxl.topLeft),
       ),

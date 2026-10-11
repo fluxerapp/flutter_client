@@ -447,6 +447,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     mentionBackground: backgroundModifierAccentVal,
     spoilerBackground: const Color(0x14FFFFFF),
     spoilerOverlayHoverColor: const Color(0x24FFFFFF),
+    modalScrim: const Color(0xB3000000),
     guildBannerGradient: const Color(0x4D000000),
     focusPrimary: const Color(0xFF00B0F4),
     interactiveActive: Color.lerp(

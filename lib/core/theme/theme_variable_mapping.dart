@@ -108,6 +108,7 @@ const Map<String, String> kThemeCssVariableToProperty = {
   '--member-list-background': 'memberListBackground',
   '--mention-background': 'mentionBackground',
   '--menu-danger-text': 'menuDangerText',
+  '--modal-scrim': 'modalScrim',
   '--panel-control-bg': 'panelControlBg',
   '--panel-control-border': 'panelControlBorder',
   '--panel-control-divider': 'panelControlDivider',
@@ -485,6 +486,7 @@ extension FluxerColorThemeOverrideExtension on FluxerColorTheme {
       spoilerBackground: overrides['spoilerBackground'] ?? spoilerBackground,
       spoilerOverlayHoverColor:
           overrides['spoilerOverlayHoverColor'] ?? spoilerOverlayHoverColor,
+      modalScrim: overrides['modalScrim'] ?? modalScrim,
       guildBannerGradient:
           overrides['guildBannerGradient'] ?? guildBannerGradient,
       focusPrimary: overrides['focusPrimary'] ?? focusPrimary,
