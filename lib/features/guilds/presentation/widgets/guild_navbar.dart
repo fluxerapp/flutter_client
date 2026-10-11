@@ -317,11 +317,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           );
       }
     }
-    entries
-      ..add(const _NavbarListEntry(kind: _NavbarListEntryKind.divider))
-      ..add(
-        const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
-      );
+    entries.add(
+      const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
+    );
     if (showAddCommunity) {
       entries.add(
         const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
@@ -659,7 +657,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         );
         return _DashedGuildIcon(
           label: l10n.guildNavbarExploreDiscoverableCommunities,
-          icon: PhosphorIconsBold.compass,
+          icon: PhosphorIconsFill.compass,
           isSelected: isDiscover,
           onTap: () {
             if (ref.read(currentLocationProvider) == RoutePaths.discover) {
@@ -677,7 +675,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       case _NavbarListEntryKind.help:
         return _DashedGuildIcon(
           label: l10n.guildNavbarHelp,
-          icon: PhosphorIconsBold.question,
+          icon: PhosphorIconsBold.questionMark,
           onTap: () =>
               handleExternalLinkTap(context, 'https://help.fluxer.app'),
         );

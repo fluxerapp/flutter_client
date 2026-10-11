@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui' show PathMetric;
 
 import 'package:fluxer_app/material_ui.dart';
@@ -10,14 +11,12 @@ class DashedBorderPainter extends CustomPainter {
     required this.shape,
     this.strokeWidth = 2,
     this.borderRadius = 0,
-    this.isSolid = false,
   });
 
   final Color color;
   final DashedBorderShape shape;
   final double strokeWidth;
   final double borderRadius;
-  final bool isSolid;
 
   static const double _dashLength = 6;
   static const double _gapLength = 4;
@@ -29,10 +28,6 @@ class DashedBorderPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
     final Path path = _buildPath(size);
-    if (isSolid) {
-      canvas.drawPath(path, paint);
-      return;
-    }
     for (final PathMetric metric in path.computeMetrics()) {
       double distance = 0;
       while (distance < metric.length) {
@@ -57,8 +52,8 @@ class DashedBorderPainter extends CustomPainter {
       DashedBorderShape.roundedRectangle =>
         Path()..addRRect(
           RRect.fromRectAndRadius(
-            Offset.zero & size,
-            Radius.circular(borderRadius),
+            (Offset.zero & size).deflate(strokeWidth / 2),
+            Radius.circular(max(0, borderRadius - strokeWidth / 2)),
           ),
         ),
     };
@@ -69,7 +64,6 @@ class DashedBorderPainter extends CustomPainter {
     return oldDelegate.color != color ||
         oldDelegate.shape != shape ||
         oldDelegate.strokeWidth != strokeWidth ||
-        oldDelegate.borderRadius != borderRadius ||
-        oldDelegate.isSolid != isSolid;
+        oldDelegate.borderRadius != borderRadius;
   }
 }

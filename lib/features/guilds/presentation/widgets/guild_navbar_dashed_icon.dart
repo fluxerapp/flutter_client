@@ -1,5 +1,19 @@
 part of 'guild_navbar.dart';
 
+typedef _DashedGuildIconVisual = ({double fill, double shape, double border});
+
+class _DashedGuildIconVisualTween extends Tween<_DashedGuildIconVisual> {
+  _DashedGuildIconVisualTween(_DashedGuildIconVisual value)
+    : super(begin: value, end: value);
+
+  @override
+  _DashedGuildIconVisual lerp(double t) => (
+    fill: begin!.fill + (end!.fill - begin!.fill) * t,
+    shape: begin!.shape + (end!.shape - begin!.shape) * t,
+    border: begin!.border + (end!.border - begin!.border) * t,
+  );
+}
+
 class _DashedGuildIcon extends StatefulWidget {
   final String label;
   final IconData icon;
@@ -17,90 +31,100 @@ class _DashedGuildIcon extends StatefulWidget {
   State<_DashedGuildIcon> createState() => _DashedGuildIconState();
 }
 
-class _DashedGuildIconState extends State<_DashedGuildIcon>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late Animation<Color?> _colorAnim;
+class _DashedGuildIconState extends State<_DashedGuildIcon> {
+  bool _isHovered = false;
+  bool _isPressed = false;
+
+  void _setPressed(bool value) {
+    if (_isPressed != value) {
+      setState(() => _isPressed = value);
+    }
+  }
 
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: FluxerMotionTheme.hoverDuration,
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final bool isEngaged = _isHovered || _isPressed;
+    final _DashedGuildIconVisual target = (
+      fill: widget.isSelected ? 1 : 0,
+      shape: widget.isSelected || isEngaged ? 1 : 0,
+      border: isEngaged && !widget.isSelected ? 1 : 0,
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _controller.duration = context.motion.hover;
-    _colorAnim = ColorTween(
-      begin: context.colors.interactiveMuted,
-      end: context.colors.textPrimary,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onEnter() => _controller.forward();
-
-  void _onExit() => _controller.reverse();
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(
-      vertical: GuildNavbarIconShape.itemSpacing / 2,
-    ),
-    child: Row(
-      children: [
-        const SizedBox(width: GuildNavbarIconShape.itemSpacing),
-        _RightTooltip(
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: GuildNavbarIconShape.itemSpacing / 2,
+      ),
+      child: Center(
+        child: _RightTooltip(
           content: _TooltipLabel(label: widget.label),
           child: MouseRegion(
-            onEnter: (_) => _onEnter(),
-            onExit: (_) => _onExit(),
+            onEnter: (_) => setState(() => _isHovered = true),
+            onExit: (_) => setState(() => _isHovered = false),
             child: Semantics(
               button: true,
               selected: widget.isSelected,
               label: widget.label,
               child: FluxerGestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: widget.onTap,
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, _) {
-                    final Color activeColor = widget.isSelected
-                        ? context.colors.brandPrimary
-                        : (_colorAnim.value ?? context.colors.interactiveMuted);
-                    return SizedBox.square(
-                      dimension: GuildNavbarIconShape.size,
-                      child: CustomPaint(
-                        painter: DashedBorderPainter(
-                          shape: DashedBorderShape.roundedRectangle,
-                          borderRadius: GuildNavbarIconShape.idleRadius,
-                          color: activeColor,
-                          isSolid: widget.isSelected,
-                        ),
-                        child: Center(
-                          child: PhosphorIcon(
-                            widget.icon,
-                            color: activeColor,
-                            size: 20,
+                onTapDown: (_) => _setPressed(true),
+                onTapUp: (_) => _setPressed(false),
+                onTapCancel: () => _setPressed(false),
+                child: TweenAnimationBuilder<_DashedGuildIconVisual>(
+                  duration: context.motion.hover,
+                  curve: Curves.easeOut,
+                  tween: _DashedGuildIconVisualTween(target),
+                  builder:
+                      (
+                        BuildContext context,
+                        _DashedGuildIconVisual visual,
+                        Widget? _,
+                      ) {
+                        final double radius =
+                            GuildNavbarIconShape.idleRadius +
+                            (GuildNavbarIconShape.activeRadius -
+                                    GuildNavbarIconShape.idleRadius) *
+                                visual.shape;
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: colors.brandPrimary.withValues(
+                              alpha: colors.brandPrimary.a * visual.fill,
+                            ),
+                            borderRadius: BorderRadius.circular(radius),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                          child: CustomPaint(
+                            foregroundPainter: DashedBorderPainter(
+                              shape: DashedBorderShape.roundedRectangle,
+                              borderRadius: radius,
+                              color: Color.lerp(
+                                colors.backgroundModifierAccent,
+                                colors.textPrimary,
+                                visual.border,
+                              )!,
+                            ),
+                            child: SizedBox.square(
+                              dimension: GuildNavbarIconShape.size,
+                              child: Center(
+                                child: PhosphorIcon(
+                                  widget.icon,
+                                  color: Color.lerp(
+                                    colors.textPrimary,
+                                    colors.textOnBrandPrimary,
+                                    visual.fill,
+                                  ),
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                 ),
               ),
             ),
           ),
         ),
-      ],
-    ),
-  );
+      ),
+    );
+  }
 }
