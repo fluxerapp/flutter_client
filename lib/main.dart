@@ -24,6 +24,7 @@ import 'package:fluxer_app/core/push/services/apple_push_service.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
@@ -81,6 +82,9 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     return;
   }
 
+  if (Platform.isAndroid) {
+    installImeEditingShortcutHandler();
+  }
   configureFluxerMobileDetection();
   configureFluxerImageCache();
   configureFluxerErrorUi();

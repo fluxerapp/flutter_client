@@ -1,6 +1,53 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 enum TextEditingShortcutKind { copy, cut, paste, selectAll, undo, redo }
+
+const MethodChannel imeEditingShortcutChannel = MethodChannel(
+  'fluxer_app/ime_editing_shortcut',
+);
+
+class TextEditingShortcutIntent extends Intent {
+  const TextEditingShortcutIntent(this.kind);
+
+  final TextEditingShortcutKind kind;
+}
+
+Intent textEditingIntentFor(TextEditingShortcutKind kind) {
+  const SelectionChangedCause cause = SelectionChangedCause.keyboard;
+  return switch (kind) {
+    TextEditingShortcutKind.copy => CopySelectionTextIntent.copy,
+    TextEditingShortcutKind.cut => const CopySelectionTextIntent.cut(cause),
+    TextEditingShortcutKind.paste => const PasteTextIntent(cause),
+    TextEditingShortcutKind.selectAll => const SelectAllTextIntent(cause),
+    TextEditingShortcutKind.undo => const UndoTextIntent(cause),
+    TextEditingShortcutKind.redo => const RedoTextIntent(cause),
+  };
+}
+
+void installImeEditingShortcutHandler() {
+  imeEditingShortcutChannel.setMethodCallHandler((MethodCall call) async {
+    final TextEditingShortcutKind? kind = TextEditingShortcutKind.values
+        .asNameMap()[call.arguments];
+    if (call.method == 'perform' && kind != null) {
+      performTextEditingShortcut(kind);
+    }
+  });
+}
+
+void performTextEditingShortcut(TextEditingShortcutKind kind) {
+  final BuildContext? context = FocusManager.instance.primaryFocus?.context;
+  if (context == null) {
+    return;
+  }
+  final TextEditingShortcutIntent intent = TextEditingShortcutIntent(kind);
+  if (Actions.maybeFind<TextEditingShortcutIntent>(context, intent: intent) !=
+      null) {
+    Actions.invoke(context, intent);
+    return;
+  }
+  Actions.maybeInvoke(context, textEditingIntentFor(kind));
+}
 
 /// Copy/cut/paste/select-all/undo/redo from Ctrl/Cmd or IME control characters.
 TextEditingShortcutKind? matchTextEditingShortcut(KeyEvent event) {
