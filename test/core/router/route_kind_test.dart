@@ -29,4 +29,56 @@ void main() {
       expect(classifyRoute('/channels/@discover'), RouteKind.discover);
     });
   });
+
+  group('deletedChannelExitPath', () {
+    test('sends an open guild channel back to its guild root', () {
+      expect(
+        deletedChannelExitPath(
+          location: '/channels/guild-1/chan-1',
+          channelId: 'chan-1',
+        ),
+        '/channels/guild-1',
+      );
+    });
+
+    test('sends a guild message jump back to its guild root', () {
+      expect(
+        deletedChannelExitPath(
+          location: '/channels/guild-1/chan-1/msg-1',
+          channelId: 'chan-1',
+        ),
+        '/channels/guild-1',
+      );
+    });
+
+    test('sends an open DM back to the DM list', () {
+      expect(
+        deletedChannelExitPath(
+          location: '/channels/@me/dm-1',
+          channelId: 'dm-1',
+        ),
+        '/channels/@me',
+      );
+    });
+
+    test('leaves the route alone when another channel is open', () {
+      expect(
+        deletedChannelExitPath(
+          location: '/channels/guild-1/chan-2',
+          channelId: 'chan-1',
+        ),
+        isNull,
+      );
+    });
+
+    test('leaves the route alone off a chat route', () {
+      expect(
+        deletedChannelExitPath(
+          location: '/channels/guild-1',
+          channelId: 'chan-1',
+        ),
+        isNull,
+      );
+    });
+  });
 }

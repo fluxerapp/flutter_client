@@ -102,3 +102,20 @@ String? extractChannelId(String location) {
   }
   return null;
 }
+
+String? deletedChannelExitPath({
+  required String location,
+  required String channelId,
+}) {
+  if (extractChannelId(location) != channelId) {
+    return null;
+  }
+  final String? guildId = extractGuildId(location);
+  if (guildId != null) {
+    return RoutePaths.guild(guildId);
+  }
+  if (location.startsWith('${RoutePaths.me}/')) {
+    return RoutePaths.me;
+  }
+  return null;
+}

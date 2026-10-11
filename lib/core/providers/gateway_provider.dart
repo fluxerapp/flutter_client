@@ -52,6 +52,7 @@ import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_pr
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
+import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_member_list_provider.dart';
@@ -375,6 +376,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onChannelDelete: (channelId) => ifMounted(() {
       ref.read(slowmodeTrackerProvider.notifier).clearChannel(channelId);
       ref.read(savedMessagesProvider.notifier).handleChannelDelete(channelId);
+      DrawerNavigationCoordinator.leaveDeletedChannel(ref.container, channelId);
     }),
     onSavedMessageCreate: (message) => ifMounted(() {
       ref.read(savedMessagesProvider.notifier).handleSavedCreate(message);

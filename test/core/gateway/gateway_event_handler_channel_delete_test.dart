@@ -70,4 +70,30 @@ void main() {
       expect(await _waitForChannel(database, present: false), isNull);
     },
   );
+
+  test('CHANNEL_DELETE notifies only once the channel row is gone', () async {
+    final List<Future<Channel?>> rowsAtNotify = <Future<Channel?>>[];
+    final GatewayEventHandler notifyingHandler = GatewayEventHandler(
+      database: database,
+      currentUserId: '100',
+      onChannelDelete: (String channelId) =>
+          rowsAtNotify.add(database.channelDao.getChannelById(channelId)),
+    );
+    await notifyingHandler.handle(
+      parser.parse('CHANNEL_CREATE', _channelJson()),
+    );
+    expect(await _waitForChannel(database, present: true), isNotNull);
+
+    await notifyingHandler.handle(
+      parser.parse('CHANNEL_DELETE', <String, Object?>{
+        'guild_id': _guildId,
+        'id': _channelId,
+      }),
+    );
+    await _waitForChannel(database, present: false);
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+
+    expect(rowsAtNotify, hasLength(1));
+    expect(await rowsAtNotify.single, isNull);
+  });
 }

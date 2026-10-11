@@ -2379,13 +2379,17 @@ class GatewayEventHandler {
   void _handleChannelDelete(ChannelDeleteEvent event) {
     final String channelId = event.channelId;
     _invalidateMentionCacheForChannel(channelId, guildId: event.guildId);
-    _emit(() => onChannelDelete?.call(channelId));
     unawaited(database.messageDao.deleteMessagesForChannel(channelId));
-    unawaited(database.channelDao.deleteChannel(channelId));
-    unawaited(database.dmChannelDao.deleteDmChannel(channelId));
+    unawaited(_deleteChannelRows(channelId));
     readStateWriteBatcher?.discard(channelId);
     unawaited(database.readStateDao.deleteReadState(channelId));
     unawaited(_deleteThreadsForParent(channelId));
+  }
+
+  Future<void> _deleteChannelRows(String channelId) async {
+    await database.channelDao.deleteChannel(channelId);
+    await database.dmChannelDao.deleteDmChannel(channelId);
+    _emit(() => onChannelDelete?.call(channelId));
   }
 
   Future<void> _deleteThreadsForParent(String parentId) async {
