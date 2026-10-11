@@ -64,6 +64,19 @@ void main() {
     ]);
   });
 
+  test('a send that throws gives the files back to the composer', () async {
+    final _Harness h = await _Harness.create();
+    await h.stageFile();
+    await h.container.read(fluxerDatabaseProvider).close();
+
+    await h.notifier.sendMessage(text: 'pic');
+    await _flushAsync();
+
+    expect(h.composerItems, hasLength(1));
+    expect(h.sessions, isEmpty);
+    expect(h.adapter.messagePostCount, 0);
+  });
+
   test('a voice message leaves staged composer files alone', () async {
     final _Harness h = await _Harness.create();
     await h.stageFile();

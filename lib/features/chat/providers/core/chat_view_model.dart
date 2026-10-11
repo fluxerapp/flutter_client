@@ -5389,16 +5389,20 @@ class ChatViewModel extends _$ChatViewModel {
     _preparingSendKeys.add(key);
     try {
       await _afterPreparingSends(() async {
-        final bool consumed = await _sendContentInner(
-          text,
-          claimNonce: claimNonce,
-          clearMessageText: clearMessageText,
-          stickerIds: stickerIds,
-          favoriteMemeId: favoriteMemeId,
-          tts: tts,
-        );
-        if (!consumed && claimNonce != null) {
-          _returnClaim(claimNonce);
+        bool consumed = false;
+        try {
+          consumed = await _sendContentInner(
+            text,
+            claimNonce: claimNonce,
+            clearMessageText: clearMessageText,
+            stickerIds: stickerIds,
+            favoriteMemeId: favoriteMemeId,
+            tts: tts,
+          );
+        } finally {
+          if (!consumed && claimNonce != null) {
+            _returnClaim(claimNonce);
+          }
         }
       });
     } finally {
