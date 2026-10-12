@@ -193,8 +193,8 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       }
     }
     final GuildEmojiSettingsState latest = state.value ?? current;
-    final List<GuildEmojiSettingsEntry> merged = await repository.listEmojis(
-      guildId,
+    final List<GuildEmojiSettingsEntry> merged = _sortNewestFirst(
+      await repository.listEmojis(guildId),
     );
     final List<int> indices = filterGuildEmojiIndices(
       merged,
@@ -238,15 +238,9 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
 
   Future<GuildEmojiSettingsState> _loadState() async {
     try {
-      final List<GuildEmojiSettingsEntry> emojis =
-          List<GuildEmojiSettingsEntry>.from(
-            await ref
-                .read(guildExpressionsRepositoryProvider)
-                .listEmojis(guildId),
-          )..sort(
-            (GuildEmojiSettingsEntry left, GuildEmojiSettingsEntry right) =>
-                compareGuildExpressionEntriesByIdDesc(left.id, right.id),
-          );
+      final List<GuildEmojiSettingsEntry> emojis = _sortNewestFirst(
+        await ref.read(guildExpressionsRepositoryProvider).listEmojis(guildId),
+      );
       final List<int> indices = filterGuildEmojiIndices(emojis, '');
       return GuildEmojiSettingsState(
         loadStatus: GuildEmojiSettingsLoadStatus.success,
@@ -265,4 +259,13 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       );
     }
   }
+}
+
+List<GuildEmojiSettingsEntry> _sortNewestFirst(
+  List<GuildEmojiSettingsEntry> emojis,
+) {
+  return List<GuildEmojiSettingsEntry>.from(emojis)..sort(
+    (GuildEmojiSettingsEntry left, GuildEmojiSettingsEntry right) =>
+        compareGuildExpressionEntriesByIdDesc(left.id, right.id),
+  );
 }
