@@ -37,6 +37,7 @@ class FluxerSelect<T> extends StatefulWidget {
     required ValueChanged<T> onChanged,
     this.value,
     this.label,
+    this.sheetTitle,
     this.hint,
     this.description,
     this.errorText,
@@ -55,6 +56,7 @@ class FluxerSelect<T> extends StatefulWidget {
   final ValueChanged<Object?> _onChanged;
   final T? value;
   final String? label;
+  final String? sheetTitle;
   final String? hint;
   final String? description;
   final String? errorText;
@@ -87,6 +89,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
   ValueChanged<Object?> get _onChanged => widget._onChanged;
   T? get value => widget.value;
   String? get label => widget.label;
+  String? get sheetTitle => widget.sheetTitle ?? widget.label;
   String? get hint => widget.hint;
   String? get description => widget.description;
   String? get errorText => widget.errorText;
@@ -214,12 +217,16 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     required ValueChanged<T> onSelected,
   }) {
     final layout = sheetContext.layout;
+    final bool hasSystemInset =
+        FluxerBottomSheet.systemBottomInsetOf(sheetContext) > 0;
     return ListView(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       padding: FluxerBottomSheet.scrollViewPadding(
         sheetContext,
-        padding: EdgeInsets.only(bottom: layout.s4),
+        padding: EdgeInsets.only(
+          bottom: hasSystemInset ? layout.s2 : layout.s4,
+        ),
       ),
       children: [
         FluxerBottomSheetSection(
@@ -274,7 +281,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     if (enableSearch || scrollableSheet) {
       sheetFuture = FluxerBottomSheet.showScrollable<T>(
         sheetHostContext,
-        title: label,
+        title: sheetTitle,
         useRootNavigator: sheetUsesRootNavigator,
         initialChildSize: enableSearch
             ? FluxerBottomSheet.scrollableSheetSize
@@ -294,7 +301,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     } else {
       sheetFuture = FluxerBottomSheet.show<T>(
         sheetHostContext,
-        title: label,
+        title: sheetTitle,
         maxHeight: 0.58,
         useRootNavigator: sheetUsesRootNavigator,
         variant: FluxerBottomSheetVariant.menu,

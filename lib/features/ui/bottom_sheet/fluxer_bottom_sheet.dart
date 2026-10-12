@@ -226,6 +226,7 @@ class FluxerBottomSheet {
 
           final sheetContent = _wrapBottomSheetSurface(
             context: sheetContext,
+            isMenu: isMenuVariant,
             child: content,
           );
 
@@ -431,19 +432,33 @@ double _effectiveBottomSheetBottomPadding(
 Widget _wrapBottomSheetSurface({
   required BuildContext context,
   required Widget child,
+  bool isMenu = false,
 }) {
   final BottomSheetThemeData bottomSheetTheme = Theme.of(
     context,
   ).bottomSheetTheme;
   return Material(
-    color:
-        bottomSheetTheme.modalBackgroundColor ??
-        bottomSheetTheme.backgroundColor,
+    color: isMenu
+        ? context.colors.backgroundSecondaryAlt
+        : bottomSheetTheme.modalBackgroundColor ??
+              bottomSheetTheme.backgroundColor,
     surfaceTintColor: Colors.transparent,
     shape: bottomSheetTheme.shape,
     clipBehavior: bottomSheetTheme.clipBehavior ?? Clip.antiAlias,
-    child: child,
+    child: isMenu ? _FluxerMenuSheetScope(child: child) : child,
   );
+}
+
+class _FluxerMenuSheetScope extends InheritedWidget {
+  const _FluxerMenuSheetScope({required super.child});
+
+  static bool contains(BuildContext context) {
+    return context.getInheritedWidgetOfExactType<_FluxerMenuSheetScope>() !=
+        null;
+  }
+
+  @override
+  bool updateShouldNotify(_FluxerMenuSheetScope oldWidget) => false;
 }
 
 class _FluxerBottomSheetInsetChild extends StatelessWidget {
@@ -1325,13 +1340,12 @@ class FluxerMenuGroup extends StatelessWidget {
 
     final colors = context.colors;
     final layout = context.layout;
-    final dividerColor = bordered
-        ? colors.backgroundModifierAccent
-        : colors.backgroundHeaderSecondary.withValues(alpha: 0.3);
     final dividerInset = bordered ? layout.s3 : 16.0;
 
     return Material(
-      color: colors.backgroundSecondaryAlt,
+      color: _FluxerMenuSheetScope.contains(context)
+          ? colors.backgroundTertiary
+          : colors.backgroundSecondaryAlt,
       surfaceTintColor: Colors.transparent,
       shape: bordered
           ? RoundedRectangleBorder(
@@ -1345,7 +1359,7 @@ class FluxerMenuGroup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: _intersperseDividers(
           children,
-          dividerColor: dividerColor,
+          dividerColor: colors.backgroundModifierAccent,
           dividerInset: dividerInset,
         ),
       ),
@@ -1406,11 +1420,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final baseColor = isDanger
-        ? colors.menuDangerText
-        : isSelected
-        ? colors.brandPrimary
-        : colors.textPrimary;
+    final baseColor = isDanger ? colors.menuDangerText : colors.textPrimary;
 
     return FluxerTappable(
       enabled: enabled,
@@ -1424,11 +1434,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
         return AnimatedContainer(
           duration: context.motion.fast,
           curve: context.motion.curve,
-          color: isSelected
-              ? colors.brandPrimary.withValues(alpha: 0.12)
-              : isPressed
-              ? colors.backgroundModifierHover.withValues(alpha: 0.6)
-              : Colors.transparent,
+          color: isPressed ? colors.listItemPressedBg : Colors.transparent,
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
@@ -1484,7 +1490,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
                     const SizedBox(width: 12),
                     PhosphorIcon(
                       PhosphorIconsBold.check,
-                      size: 18,
+                      size: 20,
                       color: colors.brandPrimary,
                     ),
                   ],
@@ -1562,9 +1568,7 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
         return AnimatedContainer(
           duration: context.motion.fast,
           curve: context.motion.curve,
-          color: isPressed
-              ? colors.backgroundModifierHover.withValues(alpha: 0.6)
-              : Colors.transparent,
+          color: isPressed ? colors.listItemPressedBg : Colors.transparent,
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(

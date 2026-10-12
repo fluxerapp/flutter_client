@@ -125,6 +125,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       ),
                     ),
                     FluxerSelect<NotificationsInboxTab>(
+                      sheetTitle: l10n.notificationsPageTitle,
                       hint: '',
                       enableSearch: false,
                       useShellTabOverlayNavigator: true,
