@@ -72,7 +72,7 @@ class _NotificationsSkeletonRow extends StatelessWidget {
         kNotificationRowHorizontalPadding,
         kNotificationRowVerticalPadding,
         kNotificationRowHorizontalPadding,
-        kNotificationRowVerticalPadding + kNotificationRowGap,
+        kNotificationRowVerticalPadding + 1,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,12 +87,11 @@ class _NotificationsSkeletonRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(height: 3),
                 _SkeletonBar(widthFactor: 0.8, height: 14, color: shape),
-                const SizedBox(height: 6),
-                _SkeletonBar(widthFactor: 0.57, height: 14, color: shape),
-                const SizedBox(height: 10),
-                _SkeletonBar(widthFactor: 0.9, height: 12, color: shape),
+                const SizedBox(height: 4),
+                _SkeletonBar(widthFactor: 0.57, height: 15, color: shape),
+                const SizedBox(height: 8),
+                NotificationsSkeletonBlock(color: shape, height: 40),
               ],
             ),
           ),

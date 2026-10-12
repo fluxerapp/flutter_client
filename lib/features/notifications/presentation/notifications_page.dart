@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/bookmarks_sheet.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mention_filters_sheet.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_tab_bar.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
@@ -20,6 +21,9 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kHeaderHeight = 66;
+const double _kHeaderTitleFontSize = 20;
+const double _kHeaderTitleLineHeight = 24;
+const double _kHeaderTabsBottomPadding = 12;
 const Duration _kTabSwitchDuration = Duration(milliseconds: 250);
 
 class NotificationsPage extends ConsumerStatefulWidget {
@@ -145,13 +149,18 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s2, 12),
+                  padding: EdgeInsets.fromLTRB(
+                    kNotificationRowHorizontalPadding,
+                    0,
+                    layout.s2,
+                    _kHeaderTabsBottomPadding,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       ConstrainedBox(
                         constraints: const BoxConstraints(
-                          minHeight: _kHeaderHeight - 12,
+                          minHeight: _kHeaderHeight - _kHeaderTabsBottomPadding,
                         ),
                         child: Row(
                           children: <Widget>[
@@ -159,7 +168,10 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                               child: Text(
                                 l10n.notificationsPageTitle,
                                 style: context.textStyles.heading.copyWith(
-                                  fontSize: 20,
+                                  fontSize: _kHeaderTitleFontSize,
+                                  height:
+                                      _kHeaderTitleLineHeight /
+                                      _kHeaderTitleFontSize,
                                   fontWeight: FontWeight.w700,
                                   color: colors.textPrimary,
                                 ),
@@ -180,7 +192,9 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: layout.s2),
+                        padding: EdgeInsets.only(
+                          right: kNotificationRowHorizontalPadding - layout.s2,
+                        ),
                         child: NotificationsTabBar(
                           labels: <String>[
                             l10n.notificationsFilterUnreads,

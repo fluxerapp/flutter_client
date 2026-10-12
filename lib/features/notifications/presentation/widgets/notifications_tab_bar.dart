@@ -5,6 +5,8 @@ import 'package:fluxer_app/material_ui.dart';
 
 const double _kTabBarHeight = 40;
 const double _kTabBarInset = 3;
+const double _kTabLabelFontSize = 14;
+const double _kTabLabelLineHeight = 20;
 
 class NotificationsTabBar extends StatelessWidget {
   const NotificationsTabBar({
@@ -68,8 +70,14 @@ class NotificationsTabBar extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: textStyles.bodyMedium.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: _kTabLabelFontSize,
+                                  height:
+                                      _kTabLabelLineHeight / _kTabLabelFontSize,
+                                  fontWeight: FontWeight.lerp(
+                                    FontWeight.w600,
+                                    FontWeight.w500,
+                                    (clamped - i).abs().clamp(0, 1).toDouble(),
+                                  ),
                                   color: Color.lerp(
                                     colors.textPrimary,
                                     colors.textPrimaryMuted,
