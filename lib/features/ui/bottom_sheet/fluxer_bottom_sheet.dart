@@ -586,6 +586,43 @@ class _FluxerDraggableScrollableSheetState
   }
 
   @override
+  void didUpdateWidget(_FluxerDraggableScrollableSheet oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.bottomInset <= 0 && widget.bottomInset > 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _expandForKeyboard());
+    }
+  }
+
+  void _expandForKeyboard() {
+    if (!mounted ||
+        _dismissed ||
+        _activePointers > 0 ||
+        !_sheetController.isAttached ||
+        _sheetController.size >= widget.maxChildSize - _kSheetSizeEpsilon) {
+      return;
+    }
+    final BuildContext? focused = FocusManager.instance.primaryFocus?.context;
+    if (focused == null ||
+        focused
+                .findAncestorStateOfType<
+                  _FluxerDraggableScrollableSheetState
+                >() !=
+            this) {
+      return;
+    }
+    final FluxerMotionTheme motion = widget.sheetContext.motion;
+    if (motion.panel <= Duration.zero) {
+      _sheetController.jumpTo(widget.maxChildSize);
+      return;
+    }
+    _sheetController.animateTo(
+      widget.maxChildSize,
+      duration: motion.panel,
+      curve: motion.curve,
+    );
+  }
+
+  @override
   void dispose() {
     _routeAnimation?.removeStatusListener(_markDismissedIfRouteClosing);
     _sheetController.removeListener(_handleSheetSize);
