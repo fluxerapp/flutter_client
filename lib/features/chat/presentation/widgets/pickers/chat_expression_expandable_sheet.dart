@@ -76,6 +76,7 @@ class ChatExpressionExpandableSheetState
   bool _searchExpandScheduled = false;
   bool _suppressSearchExpand = false;
   bool _ignoreContentDrag = false;
+  bool _dragDismissedKeyboard = false;
   double _contentDragSlopAccumulated = 0;
   Timer? _closeTimer;
   int _lastHandledDismissRequest = 0;
@@ -311,7 +312,29 @@ class ChatExpressionExpandableSheetState
       details.sourceTimeStamp ?? Duration.zero,
       details.globalPosition,
     );
+    if (_dragDismissedKeyboard) {
+      return;
+    }
+    if (details.delta.dy > 0 && _searchFocusNode.hasFocus) {
+      _dismissKeyboardForDrag();
+      return;
+    }
     _adjustSheetHeight(details.delta.dy);
+  }
+
+  void _dismissKeyboardForDrag() {
+    _dragDismissedKeyboard = true;
+    _searchFocusNode.unfocus();
+  }
+
+  bool _finishKeyboardDismissDrag() {
+    if (!_dragDismissedKeyboard) {
+      return false;
+    }
+    _dragDismissedKeyboard = false;
+    _isDraggingNotifier.value = false;
+    _resetDragHaptics();
+    return true;
   }
 
   double _resolveHeaderDragVelocity(DragEndDetails details) {
@@ -323,6 +346,9 @@ class ChatExpressionExpandableSheetState
   }
 
   void _onHeaderDragEnd(DragEndDetails details) {
+    if (_finishKeyboardDismissDrag()) {
+      return;
+    }
     _snapFromVelocity(_resolveHeaderDragVelocity(details));
   }
 
@@ -352,6 +378,16 @@ class ChatExpressionExpandableSheetState
       return;
     }
     final double deltaDy = event.delta.dy;
+    if (_dragDismissedKeyboard) {
+      return;
+    }
+    if (deltaDy > 0 && _searchFocusNode.hasFocus) {
+      _contentDragSlopAccumulated += deltaDy;
+      if (_contentDragSlopAccumulated >= kExpressionSheetContentDragSlop) {
+        _dismissKeyboardForDrag();
+      }
+      return;
+    }
     if (deltaDy > 0 && _height <= _minHeight + 1) {
       return;
     }
@@ -370,6 +406,10 @@ class ChatExpressionExpandableSheetState
 
   void _onContentPointerEnd(PointerEvent event) {
     _contentDragSlopAccumulated = 0;
+    if (_finishKeyboardDismissDrag()) {
+      _ignoreContentDrag = false;
+      return;
+    }
     if (_ignoreContentDrag) {
       _ignoreContentDrag = false;
       return;
