@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -48,23 +49,82 @@ void main() {
       expect(find.text('99+'), findsOneWidget);
     });
 
-    testWidgets('count pill is fully rounded', (tester) async {
+    testWidgets('count badge is a desktop rounded square, not a circle', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildTestApp(const FluxerBadge.count(count: 7)));
 
-      expect(
-        _pillDecoration(tester).borderRadius,
-        BorderRadius.circular(FluxerBadge.height / 2),
-      );
+      final BoxDecoration decoration = _pillDecoration(tester);
+      expect(decoration.borderRadius, BorderRadius.circular(6));
+      expect(decoration.shape, BoxShape.rectangle);
+      expect(decoration.color, buildDarkColorTheme().statusDanger);
+      expect(decoration.boxShadow, const <BoxShadow>[
+        BoxShadow(
+          color: Color(0x1A000000),
+          offset: Offset(0, 4),
+          blurRadius: 6,
+          spreadRadius: -1,
+        ),
+        BoxShadow(
+          color: Color(0x1A000000),
+          offset: Offset(0, 2),
+          blurRadius: 4,
+          spreadRadius: -2,
+        ),
+      ]);
       expect(tester.getSize(find.byType(FluxerBadge)).height, 20);
+    });
+
+    testWidgets('count text matches desktop size, weight and colour', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildTestApp(const FluxerBadge.count(count: 7)));
+
+      final TextStyle style = tester
+          .widget<widgets.Text>(find.text('7'))
+          .style!;
+      expect(style.fontSize, 11);
+      expect(style.fontWeight, FontWeight.w600);
+      expect(style.color, Colors.white);
+    });
+
+    testWidgets('wide counts grow with 6px side padding at 20px tall', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(const FluxerBadge.count(count: 150)),
+      );
+
+      final Size badge = tester.getSize(find.byType(FluxerBadge));
+      final Size text = tester.getSize(find.text('99+'));
+      expect(badge.height, 20);
+      expect(badge.width, text.width + 12);
+    });
+
+    testWidgets('digit sits in the centre of the badge', (tester) async {
+      await tester.pumpWidget(buildTestApp(const FluxerBadge.count(count: 3)));
+
+      final Rect badge = tester.getRect(find.byType(FluxerBadge));
+      final Rect text = tester.getRect(find.text('3'));
+      expect(badge.width, greaterThanOrEqualTo(20));
+      expect(text.center.dx, closeTo(badge.center.dx, 0.01));
+      expect(text.center.dy, closeTo(badge.center.dy, 0.01));
     });
 
     testWidgets('inline badge draws no cutout ring', (tester) async {
       await tester.pumpWidget(buildTestApp(const FluxerBadge.count(count: 3)));
 
       expect(_pillDecoration(tester).border, isNull);
+      expect(
+        find.descendant(
+          of: find.byType(FluxerBadge),
+          matching: find.byType(DecoratedBox),
+        ),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('overlay badge draws its cutout ring in the given colour', (
+    testWidgets('overlay badge rings itself with a 3px cutout outside', (
       tester,
     ) async {
       const Color surface = Color(0xFF121214);
@@ -72,9 +132,23 @@ void main() {
         buildTestApp(const FluxerBadge.count(count: 3, cutoutColor: surface)),
       );
 
-      final Border border = _pillDecoration(tester).border! as Border;
+      final DecoratedBox ring = tester.widget<DecoratedBox>(
+        find
+            .descendant(
+              of: find.byType(FluxerBadge),
+              matching: find.byType(DecoratedBox),
+            )
+            .first,
+      );
+      final BoxDecoration decoration = ring.decoration as BoxDecoration;
+      final Border border = decoration.border! as Border;
       expect(border.top.color, surface);
-      expect(border.top.width, FluxerBadge.cutoutWidth);
+      expect(border.top.width, 3);
+      expect(border.top.strokeAlign, BorderSide.strokeAlignOutside);
+      expect(decoration.borderRadius, BorderRadius.circular(6));
+      expect(decoration.color, isNull);
+      expect(_pillDecoration(tester).border, isNull);
+      expect(tester.getSize(find.byType(FluxerBadge)).height, 20);
     });
 
     testWidgets('digits keep their size at the largest text scale', (

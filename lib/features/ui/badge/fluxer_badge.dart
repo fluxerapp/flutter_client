@@ -21,7 +21,22 @@ class FluxerBadge extends StatelessWidget {
       isDot = false;
 
   static const double height = 20;
+  static const double radius = 6;
   static const double cutoutWidth = 3;
+  static const List<BoxShadow> shadows = <BoxShadow>[
+    BoxShadow(
+      color: Color(0x1A000000),
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: -1,
+    ),
+    BoxShadow(
+      color: Color(0x1A000000),
+      offset: Offset(0, 2),
+      blurRadius: 4,
+      spreadRadius: -2,
+    ),
+  ];
 
   final int? count;
   final String? text;
@@ -49,36 +64,46 @@ class FluxerBadge extends StatelessWidget {
   );
 
   Widget _buildPill(BuildContext context) {
-    final Color? cutout = cutoutColor;
-    return Container(
+    final Widget pill = Container(
       height: height,
       constraints: const BoxConstraints(minWidth: height),
       padding: const EdgeInsets.symmetric(horizontal: 6),
-      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: context.colors.statusDanger,
-        borderRadius: BorderRadius.circular(height / 2),
-        border: cutout == null
-            ? null
-            : Border.all(
-                color: cutout,
-                width: cutoutWidth,
-                strokeAlign: BorderSide.strokeAlignOutside,
-              ),
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow: shadows,
       ),
-      child: Text(
-        text ?? formatBadgeCount(count ?? 0),
-        maxLines: 1,
-        softWrap: false,
-        textScaler: TextScaler.noScaling,
-        style: context.textStyles.smallText.copyWith(
-          color: context.colors.textOnBrandPrimary,
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          height: 1,
-          leadingDistribution: TextLeadingDistribution.even,
+      child: Center(
+        widthFactor: 1,
+        child: Text(
+          text ?? formatBadgeCount(count ?? 0),
+          maxLines: 1,
+          softWrap: false,
+          textScaler: TextScaler.noScaling,
+          style: context.textStyles.smallText.copyWith(
+            color: Colors.white,
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            height: 1,
+            leadingDistribution: TextLeadingDistribution.even,
+          ),
         ),
       ),
+    );
+    final Color? cutout = cutoutColor;
+    if (cutout == null) {
+      return pill;
+    }
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(
+          color: cutout,
+          width: cutoutWidth,
+          strokeAlign: BorderSide.strokeAlignOutside,
+        ),
+      ),
+      child: pill,
     );
   }
 }
