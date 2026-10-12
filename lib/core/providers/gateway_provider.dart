@@ -414,9 +414,18 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
     }),
     onMessageCreate: (MessageCreateDispatch dispatch) => ifMounted(() {
-      if (ref
-          .read(abandonedMessageSendsProvider.notifier)
-          .reclaim(dispatch.event.message)) {
+      final MessageResponseSchema message = dispatch.event.message;
+      final AbandonedMessageSends abandoned = ref.read(
+        abandonedMessageSendsProvider.notifier,
+      );
+      if (abandoned.isAbandoned(message.nonce)) {
+        unawaited(
+          abandoned.reclaim(
+            nonce: message.nonce!,
+            channelId: message.channelId,
+            messageId: message.id,
+          ),
+        );
         return;
       }
       messageBus.emit(

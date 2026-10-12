@@ -731,6 +731,7 @@ class MessageRepository {
         channelId,
         body,
         cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
       );
       return sent;
     } on DioException {
@@ -742,12 +743,14 @@ class MessageRepository {
     String channelId,
     Map<String, dynamic> body, {
     CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
   }) async {
     final Response<Map<String, dynamic>> response = await _dio
         .post<Map<String, dynamic>>(
           '/channels/$channelId/messages',
           data: body,
           cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
           options: Options(
             sendTimeout: const Duration(minutes: 5),
             receiveTimeout: const Duration(minutes: 2),

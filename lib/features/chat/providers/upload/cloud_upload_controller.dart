@@ -38,6 +38,7 @@ class CloudUploadController extends _$CloudUploadController {
   final Map<int, int> _progressPatchedAtMs = <int, int>{};
   final Map<String, int> _sendProgressAtMs = <String, int>{};
   final Map<String, CancelToken> _sendTokens = <String, CancelToken>{};
+  final Set<String> _sentSendBodies = <String>{};
   final Set<String> _stagedPaths = <String>{};
   String _channelId = '';
 
@@ -221,8 +222,21 @@ class CloudUploadController extends _$CloudUploadController {
   CancelToken sendCancelToken(String nonce) =>
       _sendTokens.putIfAbsent(nonce, CancelToken.new);
 
-  void reportSendProgress(String nonce, int sentBytes, int totalBytes) {
+  void reportSendProgress(
+    String nonce,
+    int sentBytes,
+    int totalBytes, {
+    required bool showProgress,
+  }) {
     if (totalBytes <= 0) {
+      return;
+    }
+    if (sentBytes >= totalBytes) {
+      _sentSendBodies.add(nonce);
+    } else {
+      _sentSendBodies.remove(nonce);
+    }
+    if (!showProgress) {
       return;
     }
     final double progress = sentBytes / totalBytes;
@@ -237,14 +251,17 @@ class CloudUploadController extends _$CloudUploadController {
   void cancelMessageUpload(String nonce) {
     final CancelToken? sendToken = _sendTokens.remove(nonce);
     if (sendToken != null) {
-      sendToken.cancel();
       ref.read(abandonedMessageSendsProvider.notifier).abandon(nonce);
+      if (!_sentSendBodies.contains(nonce)) {
+        sendToken.cancel();
+      }
     }
     removeMessageUpload(nonce);
   }
 
   void removeMessageUpload(String nonce) {
     _sendTokens.remove(nonce);
+    _sentSendBodies.remove(nonce);
     _sendProgressAtMs.remove(nonce);
     final MessageUploadSession? session = ref.read(
       messageUploadSessionsProvider,

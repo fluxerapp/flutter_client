@@ -49,6 +49,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_ack_gate.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/abandoned_message_sends_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
@@ -5909,16 +5910,27 @@ class ChatViewModel extends _$ChatViewModel {
               messageFlags: messageFlags,
               tts: tts,
               cancelToken: uploadNotifier.sendCancelToken(clientNonce),
-              onSendProgress: prepared.attachmentFiles == null
-                  ? null
-                  : (int sent, int total) => uploadNotifier.reportSendProgress(
-                      clientNonce,
-                      sent,
-                      total,
-                    ),
+              onSendProgress: (int sent, int total) =>
+                  uploadNotifier.reportSendProgress(
+                    clientNonce,
+                    sent,
+                    total,
+                    showProgress: prepared.attachmentFiles != null,
+                  ),
             ),
         isStillSending: () => _isMessageUploadSessionActive(clientNonce),
       );
+      final AbandonedMessageSends abandoned = ref.read(
+        abandonedMessageSendsProvider.notifier,
+      );
+      if (abandoned.isAbandoned(clientNonce)) {
+        await abandoned.reclaim(
+          nonce: clientNonce,
+          channelId: channelId,
+          messageId: sent.id,
+        );
+        return;
+      }
       _retrySendOptions.remove(optimisticMessageId);
       _finishAttachmentUploadSession(clientNonce, uploadNotifier);
       unawaited(
