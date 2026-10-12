@@ -656,11 +656,16 @@ class _FluxerDraggableScrollableSheetState
   }
 
   void _onPointerMove(PointerMoveEvent event) {
+    final Offset travel = event.position - _pointerDownPosition;
+    if (travel.dy > _kSheetPointerDragSlop &&
+        travel.dy > travel.dx.abs() &&
+        MediaQuery.viewInsetsOf(widget.sheetContext).bottom > 0) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
     if (_pointerDragged) {
       return;
     }
-    if ((event.position - _pointerDownPosition).distance >
-        _kSheetPointerDragSlop) {
+    if (travel.distance > _kSheetPointerDragSlop) {
       _pointerDragged = true;
     }
   }
