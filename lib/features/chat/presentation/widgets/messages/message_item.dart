@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/crosspost
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/forward_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_long_press_highlight.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
@@ -272,8 +273,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _pressHighlight = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
-  int? _doubleTapExemptPointer;
+  final MessageDoubleTapExemption _doubleTapExemption =
+      MessageDoubleTapExemption();
   bool _animateJumpHighlight = false;
+
   Message? _semanticLabelMessage;
   FluxerLocalizations? _semanticLabelL10n;
   bool _semanticLabelSending = false;
@@ -951,7 +954,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               >(
                 () => _MessageDoubleTapGestureRecognizer(
                   ignoresPointer: (int pointer) =>
-                      pointer == _doubleTapExemptPointer,
+                      pointer == _doubleTapExemption.pointer,
                   debugOwner: this,
                 ),
                 (_MessageDoubleTapGestureRecognizer recognizer) {
@@ -964,7 +967,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 },
               ),
       },
-      child: rowGestures,
+      child: MessageDoubleTapExemptionScope(
+        exemption: _doubleTapExemption,
+        child: rowGestures,
+      ),
     );
     final onReply = widget.onReply;
     final Widget semanticBody = Semantics(
@@ -1361,7 +1367,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             padding: const EdgeInsets.only(top: 4),
             child: Listener(
               onPointerDown: (PointerDownEvent event) =>
-                  _doubleTapExemptPointer = event.pointer,
+                  _doubleTapExemption.pointer = event.pointer,
               child: MessageReactionsBar(
                 reactions: msg.reactions,
                 channelId: msg.channelId,
@@ -1622,7 +1628,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ..._authorTags(context, msg),
         if (showAvatar)
           _AuthorProfileTapTarget(
-            onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
+            onPointerDown: (int pointer) =>
+                _doubleTapExemption.pointer = pointer,
             onTap: _canOpenAuthorProfile(msg)
                 ? () => _openAuthorProfile(context, msg)
                 : null,
@@ -1642,7 +1649,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             ),
           ),
         _AuthorProfileTapTarget(
-          onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
+          onPointerDown: (int pointer) => _doubleTapExemption.pointer = pointer,
           onTap: _canOpenAuthorProfile(msg)
               ? () => _openAuthorProfile(context, msg)
               : null,
@@ -1803,7 +1810,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       _wrapMessageSendingDim(
         dim: dimMessagePartsExceptAttachments,
         child: _AuthorProfileTapTarget(
-          onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
+          onPointerDown: (int pointer) => _doubleTapExemption.pointer = pointer,
           onTap: _canOpenAuthorProfile(msg)
               ? () => _openAuthorProfile(context, msg)
               : null,
@@ -1910,7 +1917,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               : null,
           image: true,
           child: _AuthorProfileTapTarget(
-            onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
+            onPointerDown: (int pointer) =>
+                _doubleTapExemption.pointer = pointer,
             onTap: _canOpenAuthorProfile(msg)
                 ? () => _openAuthorProfile(context, msg)
                 : null,
@@ -1948,7 +1956,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                         Flexible(
                           child: _AuthorProfileTapTarget(
                             onPointerDown: (int pointer) =>
-                                _doubleTapExemptPointer = pointer,
+                                _doubleTapExemption.pointer = pointer,
                             onTap: _canOpenAuthorProfile(msg)
                                 ? () => _openAuthorProfile(context, msg)
                                 : null,

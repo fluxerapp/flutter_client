@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_share
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -213,30 +214,32 @@ class EmbedRich extends StatelessWidget {
                 ),
                 if (shouldRenderInlineThumbnail) ...[
                   const SizedBox(width: 12),
-                  FluxerGestureDetector(
-                    onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
-                        ? () => openEmbedMediaViewer(
-                            context,
-                            media: embed.thumbnail!,
-                            title: embed.title,
-                            embedPageUrl: embed.url,
-                            embedIndex: embedIndex,
-                            channelId: channelId,
-                            messageId: messageId,
-                            actionScope: videoActionScope,
-                          )
-                        : null,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: ChatNetworkImage(
-                        imageUrl: embedMediaEffectiveUrl(embed.thumbnail!),
-                        contentType: embed.thumbnail!.contentType,
-                        width: 72,
-                        height: 72,
-                        memCacheWidth:
-                            (72 * MediaQuery.devicePixelRatioOf(context))
-                                .round(),
-                        fit: BoxFit.cover,
+                  MessageDoubleTapExempt(
+                    child: FluxerGestureDetector(
+                      onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
+                          ? () => openEmbedMediaViewer(
+                              context,
+                              media: embed.thumbnail!,
+                              title: embed.title,
+                              embedPageUrl: embed.url,
+                              embedIndex: embedIndex,
+                              channelId: channelId,
+                              messageId: messageId,
+                              actionScope: videoActionScope,
+                            )
+                          : null,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: ChatNetworkImage(
+                          imageUrl: embedMediaEffectiveUrl(embed.thumbnail!),
+                          contentType: embed.thumbnail!.contentType,
+                          width: 72,
+                          height: 72,
+                          memCacheWidth:
+                              (72 * MediaQuery.devicePixelRatioOf(context))
+                                  .round(),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -406,20 +409,22 @@ class _EmbedMediaImage extends StatelessWidget {
         ),
       ),
     );
-    return FluxerGestureDetector(
-      onTap: canOpenEmbedMediaViewer(media)
-          ? () => openEmbedMediaViewer(
-              context,
-              media: media,
-              title: title,
-              embedPageUrl: embedPageUrl,
-              embedIndex: embedIndex,
-              channelId: channelId,
-              messageId: messageId,
-              actionScope: actionScope,
-            )
-          : null,
-      child: image,
+    return MessageDoubleTapExempt(
+      child: FluxerGestureDetector(
+        onTap: canOpenEmbedMediaViewer(media)
+            ? () => openEmbedMediaViewer(
+                context,
+                media: media,
+                title: title,
+                embedPageUrl: embedPageUrl,
+                embedIndex: embedIndex,
+                channelId: channelId,
+                messageId: messageId,
+                actionScope: actionScope,
+              )
+            : null,
+        child: image,
+      ),
     );
   }
 }

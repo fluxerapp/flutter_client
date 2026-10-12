@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
@@ -306,28 +307,30 @@ class AttachmentMediaGrid extends ConsumerWidget {
           channelId: channelId,
           isMatureMedia: attachment.isMatureMedia,
           borderRadius: BorderRadius.circular(8),
-          child: FluxerGestureDetector(
-            onTap: canOpen ? () => _openMedia(context, attachment) : null,
-            child: MediaAltText(
-              altText: attachment.description,
-              caption: MediaAltTextCaption.never,
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  if (displayUrl.isEmpty)
-                    const MediaLoadErrorPlaceholder()
-                  else
-                    ChatNetworkImage(
-                      imageUrl: displayUrl,
-                      filename: attachment.filename,
-                      contentType: attachment.contentType,
-                      memCacheWidth: cache.width,
-                      memCacheHeight: cache.height,
-                      fit: BoxFit.cover,
-                      errorPlaceholder: const MediaLoadErrorPlaceholder(),
-                    ),
-                  if (isVideo) const VideoPlayButtonOverlay(),
-                ],
+          child: MessageDoubleTapExempt(
+            child: FluxerGestureDetector(
+              onTap: canOpen ? () => _openMedia(context, attachment) : null,
+              child: MediaAltText(
+                altText: attachment.description,
+                caption: MediaAltTextCaption.never,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    if (displayUrl.isEmpty)
+                      const MediaLoadErrorPlaceholder()
+                    else
+                      ChatNetworkImage(
+                        imageUrl: displayUrl,
+                        filename: attachment.filename,
+                        contentType: attachment.contentType,
+                        memCacheWidth: cache.width,
+                        memCacheHeight: cache.height,
+                        fit: BoxFit.cover,
+                        errorPlaceholder: const MediaLoadErrorPlaceholder(),
+                      ),
+                    if (isVideo) const VideoPlayButtonOverlay(),
+                  ],
+                ),
               ),
             ),
           ),

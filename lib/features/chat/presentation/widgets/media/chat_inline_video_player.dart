@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/utils/media/chat_video_hdr_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
@@ -192,16 +193,18 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
     final Widget player = AspectRatio(
       aspectRatio: _resolveAspectRatio(),
       child: isMobile
-          ? FluxerGestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: _openMobileFullscreen,
-              child: Stack(
-                fit: StackFit.expand,
-                alignment: Alignment.center,
-                children: <Widget>[
-                  _buildPoster(),
-                  const VideoPlayButtonOverlay(),
-                ],
+          ? MessageDoubleTapExempt(
+              child: FluxerGestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: _openMobileFullscreen,
+                child: Stack(
+                  fit: StackFit.expand,
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    _buildPoster(),
+                    const VideoPlayButtonOverlay(),
+                  ],
+                ),
               ),
             )
           : _playbackFailed
@@ -231,19 +234,21 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
                   ),
               ],
             )
-          : FluxerGestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: _startPlayback,
-              child: Stack(
-                fit: StackFit.expand,
-                alignment: Alignment.center,
-                children: <Widget>[
-                  _buildPoster(),
-                  if (_isLoading)
-                    const Center(child: FluxerLoadingSpinner())
-                  else
-                    const VideoPlayButtonOverlay(),
-                ],
+          : MessageDoubleTapExempt(
+              child: FluxerGestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: _startPlayback,
+                child: Stack(
+                  fit: StackFit.expand,
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    _buildPoster(),
+                    if (_isLoading)
+                      const Center(child: FluxerLoadingSpinner())
+                    else
+                      const VideoPlayButtonOverlay(),
+                  ],
+                ),
               ),
             ),
     );

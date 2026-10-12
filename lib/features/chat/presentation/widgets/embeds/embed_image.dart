@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
@@ -73,53 +74,55 @@ class EmbedImage extends ConsumerWidget {
         borderRadius: BorderRadius.circular(4),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(4),
-          child: FluxerGestureDetector(
-            onTap: canOpenEmbedMediaViewer(media)
-                ? () => openEmbedMediaViewer(
-                    context,
-                    media: media,
-                    title: embed.title,
-                    embedPageUrl: embed.url,
-                    animated: animate,
-                    embedIndex: embedIndex,
-                    downloadMedia: embed.type == EmbedType.gifv
-                        ? embed.video
-                        : null,
-                    channelId: channelId,
-                    messageId: messageId,
-                    actionScope: mediaActionScope,
-                  )
-                : null,
-            child: animate
-                ? SizedBox(
-                    width: cellWidth,
-                    height: cellHeight,
-                    child: EmbedAnimatedImage(
-                      animatedUrl: animatedEmbedImageUrl(
-                        embedMediaEffectiveUrl(media),
+          child: MessageDoubleTapExempt(
+            child: FluxerGestureDetector(
+              onTap: canOpenEmbedMediaViewer(media)
+                  ? () => openEmbedMediaViewer(
+                      context,
+                      media: media,
+                      title: embed.title,
+                      embedPageUrl: embed.url,
+                      animated: animate,
+                      embedIndex: embedIndex,
+                      downloadMedia: embed.type == EmbedType.gifv
+                          ? embed.video
+                          : null,
+                      channelId: channelId,
+                      messageId: messageId,
+                      actionScope: mediaActionScope,
+                    )
+                  : null,
+              child: animate
+                  ? SizedBox(
+                      width: cellWidth,
+                      height: cellHeight,
+                      child: EmbedAnimatedImage(
+                        animatedUrl: animatedEmbedImageUrl(
+                          embedMediaEffectiveUrl(media),
+                        ),
+                        staticUrl: staticEmbedImageUrl(
+                          embedMediaEffectiveUrl(media),
+                        ),
+                        fit: BoxFit.contain,
+                        placeholder: placeholder,
+                        errorPlaceholder: errorPlaceholder,
                       ),
-                      staticUrl: staticEmbedImageUrl(
-                        embedMediaEffectiveUrl(media),
+                    )
+                  : _EmbedStaticImage(
+                      imageUrl: buildHdrAwareImageUrl(
+                        url: embedMediaEffectiveUrl(media),
+                        mode: hdrDisplayMode,
+                        contentType: media.contentType,
                       ),
-                      fit: BoxFit.contain,
+                      contentType: media.contentType,
+                      cellWidth: cellWidth,
+                      cellHeight: cellHeight,
+                      sourceWidth: media.width,
+                      sourceHeight: media.height,
                       placeholder: placeholder,
                       errorPlaceholder: errorPlaceholder,
                     ),
-                  )
-                : _EmbedStaticImage(
-                    imageUrl: buildHdrAwareImageUrl(
-                      url: embedMediaEffectiveUrl(media),
-                      mode: hdrDisplayMode,
-                      contentType: media.contentType,
-                    ),
-                    contentType: media.contentType,
-                    cellWidth: cellWidth,
-                    cellHeight: cellHeight,
-                    sourceWidth: media.width,
-                    sourceHeight: media.height,
-                    placeholder: placeholder,
-                    errorPlaceholder: errorPlaceholder,
-                  ),
+            ),
           ),
         ),
       ),

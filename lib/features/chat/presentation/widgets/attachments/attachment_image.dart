@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
@@ -94,54 +95,61 @@ class AttachmentImage extends ConsumerWidget {
                   button: gallery.isNotEmpty,
                   image: true,
                   label: _semanticLabel(context),
-                  child: FluxerGestureDetector(
-                    onTap: gallery.isEmpty
-                        ? null
-                        : () => showAttachmentMediaViewer(
-                            context,
-                            items: gallery
-                                .map(AttachmentMediaViewerItem.fromAttachment)
-                                .toList(),
-                            initialIndex: imageGalleryIndex.clamp(
-                              0,
-                              gallery.length - 1,
-                            ),
-                            channelId: channelId,
-                            onForward: (channelId != null && messageId != null)
-                                ? (int index) => showForwardMediaSheet(
-                                    context,
-                                    sourceChannelId: channelId!,
-                                    sourceMessageId: messageId!,
-                                    attachmentIds: <String>[gallery[index].id],
-                                  )
-                                : null,
-                            actionScope: mediaActionScope,
-                          ),
-                    child: AspectRatio(
-                      aspectRatio: _resolveAspectRatio(),
-                      child: animate
-                          ? EmbedAnimatedImage(
-                              animatedUrl: animatedEmbedImageUrl(effectiveUrl),
-                              staticUrl: staticEmbedImageUrl(effectiveUrl),
-                              fit: BoxFit.contain,
-                              placeholder: _buildImagePlaceholder(context),
-                              errorPlaceholder:
-                                  const MediaLoadErrorPlaceholder(),
-                            )
-                          : _AttachmentStaticImage(
-                              imageUrl: buildHdrAwareImageUrl(
-                                url: effectiveUrl,
-                                mode: hdrDisplayMode,
-                                contentType: attachment.contentType,
+                  child: MessageDoubleTapExempt(
+                    child: FluxerGestureDetector(
+                      onTap: gallery.isEmpty
+                          ? null
+                          : () => showAttachmentMediaViewer(
+                              context,
+                              items: gallery
+                                  .map(AttachmentMediaViewerItem.fromAttachment)
+                                  .toList(),
+                              initialIndex: imageGalleryIndex.clamp(
+                                0,
+                                gallery.length - 1,
                               ),
-                              filename: attachment.filename,
-                              contentType: attachment.contentType,
-                              displaySize: displaySize,
-                              dimensions: dimensions,
-                              sourceWidth: attachment.width,
-                              sourceHeight: attachment.height,
-                              placeholder: _buildImagePlaceholder(context),
+                              channelId: channelId,
+                              onForward:
+                                  (channelId != null && messageId != null)
+                                  ? (int index) => showForwardMediaSheet(
+                                      context,
+                                      sourceChannelId: channelId!,
+                                      sourceMessageId: messageId!,
+                                      attachmentIds: <String>[
+                                        gallery[index].id,
+                                      ],
+                                    )
+                                  : null,
+                              actionScope: mediaActionScope,
                             ),
+                      child: AspectRatio(
+                        aspectRatio: _resolveAspectRatio(),
+                        child: animate
+                            ? EmbedAnimatedImage(
+                                animatedUrl: animatedEmbedImageUrl(
+                                  effectiveUrl,
+                                ),
+                                staticUrl: staticEmbedImageUrl(effectiveUrl),
+                                fit: BoxFit.contain,
+                                placeholder: _buildImagePlaceholder(context),
+                                errorPlaceholder:
+                                    const MediaLoadErrorPlaceholder(),
+                              )
+                            : _AttachmentStaticImage(
+                                imageUrl: buildHdrAwareImageUrl(
+                                  url: effectiveUrl,
+                                  mode: hdrDisplayMode,
+                                  contentType: attachment.contentType,
+                                ),
+                                filename: attachment.filename,
+                                contentType: attachment.contentType,
+                                displaySize: displaySize,
+                                dimensions: dimensions,
+                                sourceWidth: attachment.width,
+                                sourceHeight: attachment.height,
+                                placeholder: _buildImagePlaceholder(context),
+                              ),
+                      ),
                     ),
                   ),
                 ),
