@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
@@ -166,11 +167,17 @@ class MentionFeedUiState {
 class MentionFeedCoordinator extends _$MentionFeedCoordinator {
   @override
   MentionFeedUiState build() {
-    ref.listen<MentionFilters>(mentionFiltersPreferencesProvider, (_, _) {
-      if (state.fetched) {
-        unawaited(refresh());
-      }
-    });
+    ref
+      ..listen<MentionFilters>(mentionFiltersPreferencesProvider, (_, _) {
+        if (state.fetched) {
+          unawaited(refresh());
+        }
+      })
+      ..listen<int>(gatewayFullRecoveryProvider, (_, _) {
+        if (state.fetched) {
+          unawaited(refresh());
+        }
+      });
     return MentionFeedUiState();
   }
 

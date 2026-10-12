@@ -915,6 +915,7 @@ class GatewayEventHandler {
         await database.guildStickerDao.clearAll();
         if (!keepCachedMessages) {
           await database.messageDao.clearAll();
+          await database.notificationDao.clearMentionFeed();
         }
         await database.threadDao.clearAll();
       } else {

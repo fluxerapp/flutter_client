@@ -482,7 +482,7 @@ class _NotificationsMentionsBodyState
     final List<drift_db.NotificationMentionFeedData> visible = _visibleRows(
       rows,
     ).toList();
-    if (visible.isEmpty && !sync.fetched) {
+    if (visible.isEmpty && (!sync.fetched || sync.busy)) {
       return _buildLoading();
     }
     if (visible.isEmpty && _feedHydrationPending && rows.isNotEmpty) {

@@ -109,8 +109,10 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
     return q?.ordinal;
   }
 
+  Future<void> clearMentionFeed() => delete(notificationMentionFeed).go();
+
   Future<void> clearAllUserData() async {
     await delete(notificationUnreadCollapsed).go();
-    await delete(notificationMentionFeed).go();
+    await clearMentionFeed();
   }
 }
