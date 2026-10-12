@@ -204,6 +204,7 @@ void main() {
 
       await tester.pump(const Duration(milliseconds: 500));
     },
+    variant: TargetPlatformVariant.only(TargetPlatform.iOS),
   );
 
   testWidgets('BottomInputSpacer tracks keyboard height without overshoot', (
@@ -225,7 +226,7 @@ void main() {
     }
 
     await tester.pump(const Duration(milliseconds: 500));
-  });
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
   testWidgets(
     'BottomInputSpacer follows a shrinking inset before the provider syncs',
@@ -305,6 +306,7 @@ void main() {
 
       await tester.pump(const Duration(milliseconds: 500));
     },
+    variant: TargetPlatformVariant.only(TargetPlatform.iOS),
   );
 
   testWidgets('BottomInputSpacer stays collapsed when keyboard is dismissed', (
@@ -335,7 +337,7 @@ void main() {
     expect(tester.getSize(find.byType(BottomInputSpacer)).height, 0);
 
     await tester.pump(const Duration(milliseconds: 500));
-  });
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
   testWidgets(
     'BottomInputSpacer reserves height when the attachment panel is open',

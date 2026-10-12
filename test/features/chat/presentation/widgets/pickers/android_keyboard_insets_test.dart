@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -5,9 +7,13 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/services/composer_keyboard_session.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -19,6 +25,7 @@ const Size _kScreen = Size(400, 800);
 const double _kNavBar = 24;
 const double _kIme = 302;
 const double _kNativeGross = 326;
+const double _kRestGap = _kNavBar - kMobileComposerBottomGap;
 const List<double> _kOpenFrames = <double>[40, 120, 210, 280, _kIme];
 const List<double> _kCloseFrames = <double>[280, 210, 120, 40, 0];
 
@@ -74,12 +81,41 @@ class _ComposerHarnessState extends ConsumerState<_ComposerHarness> {
             height: 58,
             child: TextField(focusNode: widget.focusNode),
           ),
+          const _ComposerSafeBar(),
           const BottomInputSpacer(),
         ],
       ),
     );
   }
 }
+
+class _ComposerSafeBar extends ConsumerWidget {
+  const _ComposerSafeBar();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final double slotHeight = ref.watch(
+      bottomInputSlotProvider.select(
+        (BottomInputSlotState state) => state.slotHeight,
+      ),
+    );
+    final bool panelOpen = isComposerPanelOpen(
+      expressionPanelOpen: ref.watch(expressionPanelProvider),
+      attachmentPanelOpen: ref.watch(attachmentPanelProvider),
+    );
+    final double safeAreaBottom = MediaQuery.paddingOf(context).bottom;
+    final bool show =
+        safeAreaBottom > 0 &&
+        slotHeight <= 0 &&
+        !panelOpen &&
+        resolvedKeyboardInsetBottom(context) <= 0;
+    return SizedBox(
+      height: show ? safeAreaBottom - kMobileComposerBottomGap : 0,
+    );
+  }
+}
+
+double _gapFor(double inset) => math.max(inset, _kRestGap);
 
 class _AndroidKeyboard {
   _AndroidKeyboard(this.tester, this.container);
@@ -102,6 +138,11 @@ class _AndroidKeyboard {
       isKeyboardVisible: visible,
       nativeSafeAreaBottom: _kNavBar,
     );
+  }
+
+  Future<void> insetBeforeSync(double bottom) async {
+    tester.view.viewInsets = FakeViewPadding(bottom: bottom);
+    await tester.pump(const Duration(milliseconds: 16));
   }
 
   Future<void> open() async {
@@ -189,12 +230,12 @@ void main() {
 
     focusNode.requestFocus();
     await tester.pump();
-    expect(keyboard.composerGap(), 0);
+    expect(keyboard.composerGap(), _kRestGap);
 
     keyboard.native(visible: true);
     for (final double frame in _kOpenFrames) {
       await keyboard.inset(frame);
-      expect(keyboard.composerGap(), frame);
+      expect(keyboard.composerGap(), _gapFor(frame));
     }
     await tester.pump(const Duration(seconds: 1));
     expect(keyboard.composerGap(), _kIme);
@@ -213,10 +254,56 @@ void main() {
 
     await keyboard.closeWithoutNativeHidden();
     expect(focusNode.hasFocus, isTrue);
-    expect(keyboard.composerGap(), 0);
+    expect(keyboard.composerGap(), _kRestGap);
 
     await tester.pump(const Duration(seconds: 2));
-    expect(keyboard.composerGap(), 0);
+    expect(keyboard.composerGap(), _kRestGap);
+  });
+
+  testWidgets('an instant IME hide drops the composer in the same frame', (
+    tester,
+  ) async {
+    final (_, FocusNode focusNode, _AndroidKeyboard keyboard) =
+        await _pumpHarness(tester);
+
+    focusNode.requestFocus();
+    await tester.pump();
+    await keyboard.open();
+    expect(keyboard.composerGap(), _kIme);
+
+    await keyboard.insetBeforeSync(0);
+    expect(keyboard.composerGap(), _kRestGap);
+    await keyboard.inset(0);
+    expect(keyboard.composerGap(), _kRestGap);
+    for (int i = 0; i < 15; i++) {
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(keyboard.composerGap(), _kRestGap);
+    }
+    await tester.pump(const Duration(seconds: 1));
+  });
+
+  testWidgets('each animated IME frame moves the composer in that frame', (
+    tester,
+  ) async {
+    final (_, FocusNode focusNode, _AndroidKeyboard keyboard) =
+        await _pumpHarness(tester);
+
+    focusNode.requestFocus();
+    await tester.pump();
+    keyboard.native(visible: true);
+    for (final double frame in _kOpenFrames) {
+      await keyboard.insetBeforeSync(frame);
+      expect(keyboard.composerGap(), _gapFor(frame));
+      await keyboard.inset(frame);
+    }
+    for (final double frame in _kCloseFrames) {
+      await keyboard.insetBeforeSync(frame);
+      expect(keyboard.composerGap(), _gapFor(frame));
+      await keyboard.inset(frame);
+      expect(keyboard.composerGap(), _gapFor(frame));
+    }
+    await tester.pump(const Duration(seconds: 1));
+    expect(keyboard.composerGap(), _kRestGap);
   });
 
   testWidgets('a late native hidden event does not hold the composer up', (
@@ -229,12 +316,12 @@ void main() {
     await tester.pump();
     await keyboard.open();
     await keyboard.closeWithoutNativeHidden();
-    expect(keyboard.composerGap(), 0);
+    expect(keyboard.composerGap(), _kRestGap);
 
     await tester.pump(const Duration(milliseconds: 300));
     keyboard.native(visible: false);
     await tester.pump();
-    expect(keyboard.composerGap(), 0);
+    expect(keyboard.composerGap(), _kRestGap);
   });
 
   testWidgets('rapid show hide show with stale native samples is idempotent', (
@@ -251,11 +338,11 @@ void main() {
       await keyboard.closeWithoutNativeHidden();
       keyboard.native(visible: true);
       await tester.pump();
-      expect(keyboard.composerGap(), 0);
+      expect(keyboard.composerGap(), _kRestGap);
       await keyboard.inset(120);
       expect(keyboard.composerGap(), 120);
       await keyboard.closeWithoutNativeHidden();
-      expect(keyboard.composerGap(), 0);
+      expect(keyboard.composerGap(), _kRestGap);
     }
     await keyboard.open();
     expect(keyboard.composerGap(), _kIme);
@@ -285,9 +372,9 @@ void main() {
       container.read(expressionPanelProvider.notifier).close();
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 16));
-      expect(keyboard.composerGap(), 0);
+      expect(keyboard.composerGap(), _kRestGap);
       await tester.pump(const Duration(seconds: 1));
-      expect(keyboard.composerGap(), 0);
+      expect(keyboard.composerGap(), _kRestGap);
     },
   );
 }

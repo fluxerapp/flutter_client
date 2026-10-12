@@ -253,7 +253,11 @@ double resolveKeyboardSpacerRawHeight({
   required double slotHeight,
   required bool keyboardLayoutActive,
   double syncedViewInsetBottom = 0,
+  bool viewInsetOwnsSpacer = false,
 }) {
+  if (viewInsetOwnsSpacer && viewInsetBottom <= 0) {
+    return 0;
+  }
   if (!keyboardLayoutActive) {
     if (viewInsetBottom <= 0) {
       return 0;

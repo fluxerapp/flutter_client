@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
@@ -79,6 +80,10 @@ class BottomInputSpacer extends ConsumerWidget {
       syncedViewInsetBottom: slotTracksKeyboard
           ? metrics.viewInsetsKeyboardHeight
           : 0,
+      viewInsetOwnsSpacer:
+          slotTracksKeyboard &&
+          !metrics.unmeasuredKeyboardReserved &&
+          defaultTargetPlatform == TargetPlatform.android,
     );
     if (spacerHeight <= 0) {
       return const SizedBox.shrink();
@@ -91,6 +96,7 @@ class BottomInputSpacer extends ConsumerWidget {
     double slotHeight, {
     required bool keyboardLayoutActive,
     required double syncedViewInsetBottom,
+    required bool viewInsetOwnsSpacer,
   }) {
     final double inset = resolvedKeyboardInsetBottom(context);
     final double resolved = resolveKeyboardSpacerRawHeight(
@@ -98,8 +104,9 @@ class BottomInputSpacer extends ConsumerWidget {
       slotHeight: slotHeight,
       keyboardLayoutActive: keyboardLayoutActive,
       syncedViewInsetBottom: syncedViewInsetBottom,
+      viewInsetOwnsSpacer: viewInsetOwnsSpacer,
     );
-    if (resolved <= 0) {
+    if (resolved <= 0 && !(viewInsetOwnsSpacer && slotHeight > 0)) {
       return 0;
     }
     return bottomInputKeyboardSpacerHeight(
