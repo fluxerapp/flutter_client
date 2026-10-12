@@ -28,7 +28,9 @@ const double _kLoadMoreScrollThreshold = 0.8;
 const int _kLoadMoreSkeletonRows = 2;
 
 class NotificationsMentionsBody extends ConsumerStatefulWidget {
-  const NotificationsMentionsBody({super.key});
+  const NotificationsMentionsBody({super.key, this.selected = true});
+
+  final bool selected;
 
   @override
   ConsumerState<NotificationsMentionsBody> createState() =>
@@ -105,13 +107,24 @@ class _NotificationsMentionsBodyState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bool active = TickerMode.valuesOf(context).enabled;
-    if (active && !_active) {
+    _syncActive();
+  }
+
+  @override
+  void didUpdateWidget(NotificationsMentionsBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _syncActive();
+  }
+
+  void _syncActive() {
+    final bool active = widget.selected && TickerMode.valuesOf(context).enabled;
+    final bool entered = active && !_active;
+    _active = active;
+    if (entered) {
       _readThisVisit.clear();
       _visitBoundaryResolved = false;
       _resolveVisitBoundary();
     }
-    _active = active;
   }
 
   void _resolveVisitBoundary() {
@@ -125,7 +138,7 @@ class _NotificationsMentionsBodyState
   }
 
   void _markNewestSeen() {
-    if (!_visitBoundaryResolved || _feedHydrationPending) {
+    if (!_active || !_visitBoundaryResolved || _feedHydrationPending) {
       return;
     }
     final List<drift_db.NotificationMentionFeedData>? rows = ref

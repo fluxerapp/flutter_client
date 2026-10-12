@@ -44,7 +44,7 @@ TextStyle notificationQuoteStyle(BuildContext context, {required bool unread}) {
   return context.textStyles.bodyMedium.copyWith(
     fontSize: kNotificationQuoteFontSize,
     height: kNotificationQuoteLineHeight / kNotificationQuoteFontSize,
-    color: unread ? colors.textSecondary : colors.textPrimaryMuted,
+    color: unread ? colors.textSecondary : colors.textTertiaryMuted,
   );
 }
 
@@ -56,7 +56,7 @@ TextStyle notificationTimestampStyle(
   return context.textStyles.bodySmall.copyWith(
     fontSize: kNotificationTimestampFontSize,
     height: kNotificationTitleLineHeight / kNotificationTimestampFontSize,
-    color: unread ? colors.textSecondary : colors.textPrimaryMuted,
+    color: unread ? colors.textSecondary : colors.textTertiaryMuted,
   );
 }
 
@@ -233,7 +233,7 @@ class NotificationSectionHeader extends StatelessWidget {
             fontSize: kNotificationSectionFontSize,
             height: 16 / kNotificationSectionFontSize,
             fontWeight: FontWeight.w500,
-            color: context.colors.textPrimaryMuted,
+            color: context.colors.textTertiaryMuted,
           ),
         ),
       ),

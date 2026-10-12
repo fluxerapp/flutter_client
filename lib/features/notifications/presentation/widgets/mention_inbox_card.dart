@@ -258,7 +258,7 @@ class MentionInboxCard extends ConsumerWidget {
         ? TextStyle(fontWeight: FontWeight.w500, color: colors.textPrimary)
         : TextStyle(
             fontWeight: FontWeight.w400,
-            color: colors.textPrimaryMuted,
+            color: colors.textTertiaryMuted,
           );
     final TextStyle verbStyle = isUnread
         ? TextStyle(fontWeight: FontWeight.w700, color: colors.textSecondary)
