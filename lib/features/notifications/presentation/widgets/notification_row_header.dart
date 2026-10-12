@@ -128,6 +128,9 @@ class NotificationRowAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       padding: EdgeInsets.zero,
+      style: IconButton.styleFrom(
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
       constraints: const BoxConstraints(
         minWidth: kNotificationRowActionSize,
         minHeight: kNotificationRowActionSize,
