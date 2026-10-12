@@ -215,6 +215,7 @@ class MessageItem extends ConsumerStatefulWidget {
   final bool inboxPreviewMode;
   final bool allowAuthorProfileInPreview;
   final bool hideMentionHighlight;
+  final bool previewContentOnly;
   final bool isJumpHighlighted;
   final bool isSendDisabled;
 
@@ -257,6 +258,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.inboxPreviewMode = false,
     this.allowAuthorProfileInPreview = false,
     this.hideMentionHighlight = false,
+    this.previewContentOnly = false,
     this.isJumpHighlighted = false,
     this.swipeToReplyEnabled = true,
     this.previewRoleGuildId,
@@ -616,7 +618,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         isGrouped: widget.isGrouped,
       );
     }
-    final isGrouped = widget.isGrouped;
+    final bool contentOnly = widget.previewContentOnly;
+    final isGrouped = widget.isGrouped || contentOnly;
     final isMobile = isMobileLayout(context);
     final bool useTouchMessageActions = _usesTouchMessageActions(context);
     final isTouch =
@@ -764,7 +767,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             border: rowBorder,
           ),
           hoverTintColor: hoverTintColor,
-          padding: widget.inboxPreviewMode
+          padding: contentOnly
+              ? const EdgeInsets.symmetric(horizontal: 12, vertical: 10)
+              : widget.inboxPreviewMode
               ? EdgeInsets.only(
                   left: hasLeftAccentBar ? 7 : 8,
                   right: 8,
@@ -782,7 +787,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if ((!isGrouped || messageDisplayCompact) && msg.isReply)
+                  if (!contentOnly &&
+                      (!isGrouped || messageDisplayCompact) &&
+                      msg.isReply)
                     _wrapMessageSendingDim(
                       dim: dimMessagePartsExceptAttachments,
                       child: _buildReplyRow(
@@ -792,7 +799,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                         showCompactTimestampColumn: messageDisplayCompact,
                       ),
                     ),
-                  if ((!isGrouped || messageDisplayCompact) &&
+                  if (!contentOnly &&
+                      (!isGrouped || messageDisplayCompact) &&
                       msg.isForwarded &&
                       !msg.hasForwardSnapshots &&
                       msg.forwardedFrom != null)
@@ -810,7 +818,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                         child: ForwardIndicator(source: msg.forwardedFrom!),
                       ),
                     ),
-                  if (messageDisplayCompact)
+                  if (messageDisplayCompact && !contentOnly)
                     _MessageAuthorScope(
                       message: msg,
                       guildId: guildId,
@@ -1807,41 +1815,43 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }) => Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      _wrapMessageSendingDim(
-        dim: dimMessagePartsExceptAttachments,
-        child: _AuthorProfileTapTarget(
-          onPointerDown: (int pointer) => _doubleTapExemption.pointer = pointer,
-          onTap: _canOpenAuthorProfile(msg)
-              ? () => _openAuthorProfile(context, msg)
-              : null,
-          child: SizedBox(
-            width: kMessageAvatarColumnWidth,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: ValueListenableBuilder<bool>(
-                valueListenable: _hovered,
-                builder: (context, hovered, child) => AnimatedOpacity(
-                  opacity: hovered ? 1.0 : 0.0,
-                  duration: context.motion.fast,
-                  child: child,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _formatShortTimestamp(msg.timestamp.toLocal()),
-                      style: context.textStyles.timestamp.copyWith(
-                        color: context.colors.textTertiaryMuted,
-                        fontSize: 10,
+      if (!widget.previewContentOnly)
+        _wrapMessageSendingDim(
+          dim: dimMessagePartsExceptAttachments,
+          child: _AuthorProfileTapTarget(
+            onPointerDown: (int pointer) =>
+                _doubleTapExemption.pointer = pointer,
+            onTap: _canOpenAuthorProfile(msg)
+                ? () => _openAuthorProfile(context, msg)
+                : null,
+            child: SizedBox(
+              width: kMessageAvatarColumnWidth,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _hovered,
+                  builder: (context, hovered, child) => AnimatedOpacity(
+                    opacity: hovered ? 1.0 : 0.0,
+                    duration: context.motion.fast,
+                    child: child,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        _formatShortTimestamp(msg.timestamp.toLocal()),
+                        style: context.textStyles.timestamp.copyWith(
+                          color: context.colors.textTertiaryMuted,
+                          fontSize: 10,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
       Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

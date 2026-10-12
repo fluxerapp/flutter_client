@@ -3,6 +3,8 @@ import 'package:fluxer_app/material_ui.dart';
 
 const double kNotificationRowLeadingSize = 48;
 const double kNotificationRowLeadingGap = 12;
+const double kNotificationRowTextInset =
+    kNotificationRowLeadingSize + kNotificationRowLeadingGap;
 const double kNotificationRowHorizontalPadding = 16;
 const double kNotificationPreviewRadius = 8;
 const Duration _kPulsePeriod = Duration(milliseconds: 900);
@@ -76,36 +78,28 @@ class _NotificationsSkeletonRow extends StatelessWidget {
         kNotificationRowHorizontalPadding,
         8,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                width: kNotificationRowLeadingSize,
-                height: kNotificationRowLeadingSize,
-                decoration: BoxDecoration(
-                  color: shape,
-                  borderRadius: BorderRadius.circular(
-                    kNotificationRowLeadingSize * 0.3,
-                  ),
-                ),
-              ),
-              const SizedBox(width: kNotificationRowLeadingGap),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _SkeletonBar(widthFactor: 0.8, height: 14, color: shape),
-                    const SizedBox(height: 4),
-                    _SkeletonBar(widthFactor: 0.57, height: 15, color: shape),
-                  ],
-                ),
-              ),
-            ],
+          Container(
+            width: kNotificationRowLeadingSize,
+            height: kNotificationRowLeadingSize,
+            decoration: BoxDecoration(color: shape, shape: BoxShape.circle),
           ),
-          const SizedBox(height: 8),
-          NotificationsSkeletonBlock(color: shape),
+          const SizedBox(width: kNotificationRowLeadingGap),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 3),
+                _SkeletonBar(widthFactor: 0.8, height: 14, color: shape),
+                const SizedBox(height: 4),
+                _SkeletonBar(widthFactor: 0.57, height: 15, color: shape),
+                const SizedBox(height: 12),
+                NotificationsSkeletonBlock(color: shape, height: 40),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -113,14 +107,15 @@ class _NotificationsSkeletonRow extends StatelessWidget {
 }
 
 class NotificationsSkeletonBlock extends StatelessWidget {
-  const NotificationsSkeletonBlock({this.color, super.key});
+  const NotificationsSkeletonBlock({this.color, this.height = 56, super.key});
 
   final Color? color;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56,
+      height: height,
       decoration: BoxDecoration(
         color: color ?? context.colors.backgroundSecondaryAlt,
         borderRadius: BorderRadius.circular(kNotificationPreviewRadius),
