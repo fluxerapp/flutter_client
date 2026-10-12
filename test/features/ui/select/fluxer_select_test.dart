@@ -201,14 +201,14 @@ void main() {
 
       expect(find.text('Search options'), findsOneWidget);
 
-      await tester.enterText(find.byType(TextFormField), 'Gam');
+      await tester.enterText(find.byType(EditableText), 'Gam');
       await tester.pumpAndSettle();
 
       expect(find.text('Gamma'), findsOneWidget);
       expect(find.text('Third option'), findsOneWidget);
       expect(find.text('Alpha'), findsNothing);
 
-      await tester.enterText(find.byType(TextFormField), 'zzz');
+      await tester.enterText(find.byType(EditableText), 'zzz');
       await tester.pumpAndSettle();
 
       expect(find.text('No matches found'), findsOneWidget);

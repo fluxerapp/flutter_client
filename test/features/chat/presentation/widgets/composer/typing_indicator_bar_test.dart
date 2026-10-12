@@ -12,11 +12,11 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_typing_dots.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -117,12 +117,12 @@ void main() {
     );
   });
 
-  testWidgets('wide typing indicator uses spinner without pill chrome', (
+  testWidgets('wide typing indicator uses typing dots without pill chrome', (
     WidgetTester tester,
   ) async {
     await _pumpTypingIndicatorBar(tester, compact: false);
 
-    expect(find.byType(ChatLoadingSpinner), findsOneWidget);
+    expect(find.byType(FluxerTypingDots), findsOneWidget);
     expect(
       find.byWidgetPredicate(
         (Widget widget) =>
@@ -174,12 +174,12 @@ void main() {
     container.read(typingIndicatorsProvider.notifier).clearAll();
   });
 
-  testWidgets('compact typing indicator keeps the loading spinner', (
+  testWidgets('compact typing indicator keeps the typing dots', (
     WidgetTester tester,
   ) async {
     await _pumpTypingIndicatorBar(tester, compact: true);
 
-    expect(find.byType(ChatLoadingSpinner), findsOneWidget);
+    expect(find.byType(FluxerTypingDots), findsOneWidget);
     expect(
       tester
           .widget<FluxerAvatarStack>(find.byType(FluxerAvatarStack))
