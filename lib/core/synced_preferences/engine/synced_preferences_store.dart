@@ -241,7 +241,7 @@ class SyncedPreferencesStore {
       for (final name in names)
         if (SyncedPreferenceField.values.asNameMap()[name]
             case final SyncedPreferenceField field
-            when _adapters.containsKey(field))
+            when _adapters[field]?.keepsUnpushedEditsAcrossLaunches ?? false)
           field,
     };
     _restoredDirtyFields = restored;

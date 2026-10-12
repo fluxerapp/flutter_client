@@ -44,6 +44,8 @@ abstract class SyncedFieldAdapter<T> {
 
   Duration get pushDebounce => const Duration(milliseconds: 500);
 
+  bool get keepsUnpushedEditsAcrossLaunches => false;
+
   T mergeRemote({required T local, required T remote}) => remote;
 
   T mergeForMigration({required T local, required T remote}) => remote;

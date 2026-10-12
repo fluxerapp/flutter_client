@@ -19,6 +19,9 @@ class EmojiSkinToneSyncedField
   SyncedPreferenceField get field => SyncedPreferenceField.emoji;
 
   @override
+  bool get keepsUnpushedEditsAcrossLaunches => true;
+
+  @override
   String readLocal() {
     throw UnsupportedError('Use readLocalValue for the emoji skin tone');
   }

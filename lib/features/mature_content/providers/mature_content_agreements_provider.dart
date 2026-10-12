@@ -4,6 +4,8 @@ import 'package:fluxer_app/core/database/daos/user_preferences_dao.dart'
     as preferences_dao;
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -73,6 +75,7 @@ class MatureContentAgreements extends _$MatureContentAgreements {
         agreedGuildIds: state.agreedGuildIds.toList(),
       ),
     );
+    ref.markSyncedDirty(SyncedPreferenceField.guildNsfwAgreements);
   }
 
   Future<void> agreeToChannel(String channelId) async {

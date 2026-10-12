@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/pickers.pb.dart'
     as pickers_pb;
@@ -14,6 +15,7 @@ import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
 
 import '../../helpers/open_test_database.dart';
 import '../../helpers/synced_preferences_test_helpers.dart';
@@ -307,6 +309,41 @@ void main() {
         'unicode:tada',
       ]);
       expect(api.lastPush.emojiPicker.favoriteEmojiIds, ['unicode:tada']);
+    });
+  });
+
+  group('restart', () {
+    test('memory-only fields never replay a stale dirty mark', () async {
+      final remote = pb.SyncedPreferences(
+        favoriteGifs: pickers_pb.FavoriteGifSettings(
+          entries: [pickers_pb.FavoriteGifEntry(url: 'https://x/a.gif')],
+        ),
+      );
+      await store.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(remote),
+      );
+      store.markDirty(SyncedPreferenceField.favoriteGifs);
+      await drainAsyncWork();
+      container.dispose();
+
+      final restarted = _container(database, api);
+      final restartedStore = restarted.read(syncedPreferencesStoreProvider);
+      final pushesBefore = api.pushes.length;
+      await restartedStore.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(remote),
+      );
+      await flushSyncedPreferencesDebounce(restartedStore);
+
+      expect(restarted.read(favoriteGifsProvider).entries.map((e) => e.url), [
+        'https://x/a.gif',
+      ]);
+      expect(
+        api.pushes
+            .skip(pushesBefore)
+            .where((push) => push.hasFavoriteGifs())
+            .map((push) => push.favoriteGifs.entries.length),
+        everyElement(1),
+      );
     });
   });
 

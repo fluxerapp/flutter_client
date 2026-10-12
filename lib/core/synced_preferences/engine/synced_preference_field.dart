@@ -34,6 +34,7 @@ enum SyncedPreferenceField {
   sudoPrompt(110),
   keybinds(111),
   chatInput(112),
+  saveCameraUploadsToDevice(113),
   doubleTapReaction(114),
   doubleTapAction(117),
   swipeRightToLeftAction(118);

@@ -104,6 +104,9 @@ class _ExpressionPickerSyncedField
   Duration get pushDebounce => kExpressionPickerPushDebounce;
 
   @override
+  bool get keepsUnpushedEditsAcrossLaunches => true;
+
+  @override
   ExpressionPickerSyncedLocalState readLocal() {
     throw UnsupportedError('Use readLocalValue for expression pickers');
   }

@@ -41,6 +41,6 @@ class ChatInputPreferences extends _$ChatInputPreferences {
 
   Future<void> setSaveCameraCapturesToDevice({required bool value}) async {
     state = state.copyWith(saveCameraCapturesToDevice: value);
-    ref.markSyncedDirty(SyncedPreferenceField.chatInput);
+    ref.markSyncedDirty(SyncedPreferenceField.saveCameraUploadsToDevice);
   }
 }

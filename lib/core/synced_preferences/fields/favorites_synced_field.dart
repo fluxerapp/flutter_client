@@ -35,6 +35,9 @@ class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
   SyncedPreferenceField get field => SyncedPreferenceField.favorites;
 
   @override
+  bool get keepsUnpushedEditsAcrossLaunches => true;
+
+  @override
   FavoritesLocalState readLocal() {
     throw UnsupportedError('Use readLocalValue for favorites');
   }
