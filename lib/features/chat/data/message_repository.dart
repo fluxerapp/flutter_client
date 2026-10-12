@@ -22,6 +22,13 @@ import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
+const Duration _kSendLookupClockSkew = Duration(minutes: 2);
+
+bool sendMaybeCreated(Object error) =>
+    error is DioException &&
+    ((error.response?.statusCode ?? 0) >= 500 ||
+        error.type == DioExceptionType.receiveTimeout);
+
 class MessageListLoadResult {
   const MessageListLoadResult({
     required this.messages,
@@ -737,6 +744,60 @@ class MessageRepository {
     } on DioException {
       rethrow;
     }
+  }
+
+  Future<String?> findUnseenOwnSend({
+    required String channelId,
+    required String clientNonce,
+    required String content,
+    required List<String> attachmentFilenames,
+  }) async {
+    final int? sentAtMs = snowflakeTimestampMsOrNull(clientNonce);
+    final String? authorId = _currentUserId;
+    if (sentAtMs == null || authorId == null) {
+      return null;
+    }
+    final List<MessageResponseSchema> page = await _client.channels
+        .listMessages(
+          channelId: channelId,
+          after: snowflakeFromDateTime(
+            DateTime.fromMillisecondsSinceEpoch(
+              sentAtMs - _kSendLookupClockSkew.inMilliseconds,
+            ),
+          ),
+          limit: '100',
+        );
+    final List<MessageResponseSchema> ordered = [...page]
+      ..sort(
+        (MessageResponseSchema a, MessageResponseSchema b) =>
+            BigInt.parse(a.id).compareTo(BigInt.parse(b.id)),
+      );
+    final List<String> expectedNames = [...attachmentFilenames]..sort();
+    for (final MessageResponseSchema message in ordered) {
+      if (message.author.id != authorId) {
+        continue;
+      }
+      if (message.nonce != null) {
+        if (message.nonce == clientNonce) {
+          return message.id;
+        }
+        continue;
+      }
+      final List<String> names = [
+        for (final MessageAttachmentResponse a
+            in message.attachments ?? const <MessageAttachmentResponse>[])
+          a.filename,
+      ]..sort();
+      if (message.content.trim() != content.trim() ||
+          !listEquals(names, expectedNames)) {
+        continue;
+      }
+      if (await _db.messageDao.getMessage(message.id) != null) {
+        continue;
+      }
+      return message.id;
+    }
+    return null;
   }
 
   Future<Message> _postMessage(

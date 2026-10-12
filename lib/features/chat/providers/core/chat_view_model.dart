@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
+import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
@@ -719,6 +720,9 @@ class ChatViewModel extends _$ChatViewModel {
       <String, List<_LocalMutation>>{};
   final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
   final Map<String, int> _sendsAwaitingReconnect = <String, int>{};
+  final Map<String, List<String>> _maybeCreatedSends = <String, List<String>>{};
+  final Map<String, Future<bool>> _maybeCreatedLookups =
+      <String, Future<bool>>{};
   final Map<String, Message> _forwardSends = <String, Message>{};
   final Map<String, _RetrySendOptions> _retrySendOptions =
       <String, _RetrySendOptions>{};
@@ -744,6 +748,8 @@ class ChatViewModel extends _$ChatViewModel {
     _forwardSends.clear();
     _retrySendOptions.clear();
     _sendsAwaitingReconnect.clear();
+    _maybeCreatedSends.clear();
+    _maybeCreatedLookups.clear();
     _pendingDeleteFutures.clear();
     _loadedUnreadBoundaryKeys.clear();
     _realtimeQueue.clear();
@@ -5850,6 +5856,7 @@ class ChatViewModel extends _$ChatViewModel {
         st,
       );
       _handleSendFailure(optimisticMessageId, error);
+      _noteMaybeCreatedSend(optimisticMessageId, error, const <String>[]);
     }
   }
 
@@ -5872,6 +5879,7 @@ class ChatViewModel extends _$ChatViewModel {
             ?.attachments
             .length ??
         1;
+    List<String> attachmentFilenames = const <String>[];
     _uploadKeepAlive.begin(
       notificationTitle: ref
           .read(appLocalizationsProvider)
@@ -5893,6 +5901,11 @@ class ChatViewModel extends _$ChatViewModel {
         _finishAttachmentUploadSession(clientNonce, uploadNotifier);
         return;
       }
+      attachmentFilenames = <String>[
+        for (final ApiAttachmentMetadata attachment
+            in prepared.attachmentMetadata ?? const <ApiAttachmentMetadata>[])
+          attachment.filename,
+      ];
       final DateTime sendStartedAt = DateTime.now();
       final Message sent = await _sendWithRateLimitRetry(
         () => ref
@@ -5949,8 +5962,25 @@ class ChatViewModel extends _$ChatViewModel {
         error,
         st,
       );
+      final AbandonedMessageSends abandoned = ref.read(
+        abandonedMessageSendsProvider.notifier,
+      );
+      if (abandoned.isAbandoned(clientNonce)) {
+        if (sendMaybeCreated(error)) {
+          unawaited(
+            abandoned.reclaimUnseen(
+              nonce: clientNonce,
+              channelId: channelId,
+              content: outgoingText,
+              attachmentFilenames: attachmentFilenames,
+            ),
+          );
+        }
+        return;
+      }
       _handleSendFailure(optimisticMessageId, error);
       _parkFailedLocalSend(optimisticMessageId, clientNonce);
+      _noteMaybeCreatedSend(optimisticMessageId, error, attachmentFilenames);
     } finally {
       _uploadKeepAlive.end();
     }
@@ -6249,6 +6279,21 @@ class ChatViewModel extends _$ChatViewModel {
 
   void _discardLocalSend(Message message) {
     final String? nonce = message.clientNonce;
+    final List<String>? maybeCreatedFilenames = _maybeCreatedSends.remove(
+      message.id,
+    );
+    if (nonce != null && maybeCreatedFilenames != null) {
+      unawaited(
+        ref
+            .read(abandonedMessageSendsProvider.notifier)
+            .reclaimUnseen(
+              nonce: nonce,
+              channelId: message.channelId,
+              content: message.content,
+              attachmentFilenames: maybeCreatedFilenames,
+            ),
+      );
+    }
     if (nonce != null) {
       _clearInFlightOptimisticSend(nonce);
       _forwardSends.remove(nonce);
@@ -6315,7 +6360,76 @@ class ChatViewModel extends _$ChatViewModel {
     return true;
   }
 
+  void _noteMaybeCreatedSend(
+    String optimisticMessageId,
+    Object error,
+    List<String> attachmentFilenames,
+  ) {
+    if (!sendMaybeCreated(error)) {
+      return;
+    }
+    _maybeCreatedSends[optimisticMessageId] = attachmentFilenames;
+    unawaited(_adoptMaybeCreatedSend(optimisticMessageId));
+  }
+
+  Future<bool> _adoptMaybeCreatedSend(String optimisticMessageId) =>
+      _maybeCreatedLookups[optimisticMessageId] ??= _lookupMaybeCreatedSend(
+        optimisticMessageId,
+      ).whenComplete(() => _maybeCreatedLookups.remove(optimisticMessageId));
+
+  Future<bool> _lookupMaybeCreatedSend(String optimisticMessageId) async {
+    final List<String>? attachmentFilenames =
+        _maybeCreatedSends[optimisticMessageId];
+    final int index = state.messages.indexWhere(
+      (Message m) => m.id == optimisticMessageId,
+    );
+    final Message? local = index == -1 ? null : state.messages[index];
+    final String? nonce = local?.clientNonce;
+    if (attachmentFilenames == null || local == null || nonce == null) {
+      return false;
+    }
+    final MessageRepository repository = ref.read(messageRepositoryProvider);
+    try {
+      final String? messageId = await repository.findUnseenOwnSend(
+        channelId: local.channelId,
+        clientNonce: nonce,
+        content: local.content,
+        attachmentFilenames: attachmentFilenames,
+      );
+      if (messageId == null) {
+        _maybeCreatedSends.remove(optimisticMessageId);
+        return false;
+      }
+      final Message sent = await repository.fetchMessage(
+        channelId: local.channelId,
+        messageId: messageId,
+      );
+      if (_maybeCreatedSends.remove(optimisticMessageId) == null) {
+        return false;
+      }
+      _retrySendOptions.remove(optimisticMessageId);
+      _sendsAwaitingReconnect.remove(optimisticMessageId);
+      ref
+          .read(cloudUploadControllerProvider(local.channelId).notifier)
+          .removeMessageUpload(nonce);
+      _clearInFlightOptimisticSend(nonce);
+      _commitDeliveredOptimisticSend(
+        channelId: local.channelId,
+        optimisticMessageId: optimisticMessageId,
+        sent: sent,
+      );
+      return true;
+    } on Object catch (error) {
+      talker.warning('[ChatViewModel] maybe-created lookup failed: $error');
+      return false;
+    }
+  }
+
   Future<void> _resendLocalMessage(Message message) async {
+    if (_maybeCreatedSends.containsKey(message.id) &&
+        await _adoptMaybeCreatedSend(message.id)) {
+      return;
+    }
     final _RetrySendOptions? options = _retrySendOptions[message.id];
     final String? uploadNonce = message.clientNonce;
     if (uploadNonce != null && _isMessageUploadSessionActive(uploadNonce)) {
@@ -6394,6 +6508,8 @@ class ChatViewModel extends _$ChatViewModel {
       _handleSendFailure(message.id, e);
       if (forwardNonce != null) {
         _recordForwardFailure(message);
+      } else {
+        _noteMaybeCreatedSend(message.id, e, const <String>[]);
       }
     }
   }
