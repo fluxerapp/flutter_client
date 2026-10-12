@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoActivityIndicator;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
@@ -38,23 +36,19 @@ class FluxerLoadingSpinner extends StatelessWidget {
     return Semantics(
       label: l10n.uiLoading,
       child: ExcludeSemantics(
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            final double radius =
-                math.min(size.diameter, constraints.biggest.shortestSide) / 2;
-            if (progress != null) {
-              return CupertinoActivityIndicator.partiallyRevealed(
-                color: spokeColor,
-                radius: radius,
-                progress: progress,
-              );
-            }
-            return CupertinoActivityIndicator(
-              color: spokeColor,
-              radius: radius,
-              animating: animating,
-            );
-          },
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: progress != null
+              ? CupertinoActivityIndicator.partiallyRevealed(
+                  color: spokeColor,
+                  radius: size.diameter / 2,
+                  progress: progress,
+                )
+              : CupertinoActivityIndicator(
+                  color: spokeColor,
+                  radius: size.diameter / 2,
+                  animating: animating,
+                ),
         ),
       ),
     );
