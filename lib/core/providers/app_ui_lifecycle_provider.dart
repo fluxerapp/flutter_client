@@ -139,11 +139,9 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     if (!wasForeground && isForeground) {
       unawaited(ref.read(wellKnownProvider.notifier).refresh());
     }
-    if ((Platform.isIOS || Platform.isAndroid) &&
-        isForeground &&
-        !wasForeground) {
-      unawaited(prepareAppMediaAudioSession());
-    }
+    unawaited(
+      AppMediaAudioSession.instance.setForeground(foreground: isForeground),
+    );
   }
 
   void _syncLocalDay() {

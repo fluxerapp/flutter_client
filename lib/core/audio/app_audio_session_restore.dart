@@ -10,5 +10,5 @@ Future<void> restorePreferredAppAudioSession() async {
     await activateChatAttachmentAudioSession();
     return;
   }
-  await releaseAppAudioSessionForMixing();
+  await AppMediaAudioSession.instance.release();
 }
