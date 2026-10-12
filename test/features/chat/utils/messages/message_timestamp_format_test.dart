@@ -54,6 +54,23 @@ void main() {
       );
     });
 
+    test('formats yesterday across a daylight saving change', () {
+      final DateTime timestamp = DateTime(2026, 3, 29, 12);
+      final String result = formatMessageTimestamp(
+        timestamp,
+        l10n,
+        locale,
+        use12Hour: true,
+        now: DateTime(2026, 3, 30, 10),
+      );
+      expect(
+        result,
+        l10n.chatMessageTimestampYesterday(
+          DateFormat.jm(locale).format(timestamp),
+        ),
+      );
+    });
+
     test('formats older dates with locale date and time', () {
       final DateTime timestamp = DateTime(2026, 6, 17, 9, 5);
       final String result = formatMessageTimestamp(

@@ -17,11 +17,7 @@ String formatMessageTimestamp(
       formatUserTime(localDateTime, locale, use12Hour: use12Hour),
     );
   }
-  final DateTime yesterday = DateTime(
-    now.year,
-    now.month,
-    now.day,
-  ).subtract(const Duration(days: 1));
+  final DateTime yesterday = DateTime(now.year, now.month, now.day - 1);
   if (_isSameCalendarDay(localDateTime, yesterday)) {
     return l10n.chatMessageTimestampYesterday(
       formatUserTime(localDateTime, locale, use12Hour: use12Hour),
