@@ -25,7 +25,7 @@ class GuildNavbarIconShape extends StatelessWidget {
   static const double size = 48;
   static const double idleRadius = size * 0.5;
   static const double activeRadius = size * 0.3;
-  static const double itemSpacing = 12;
+  static const double itemSpacing = 8;
 
   final bool isActive;
   final bool hasImage;

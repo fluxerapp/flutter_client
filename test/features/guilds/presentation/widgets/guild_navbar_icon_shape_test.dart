@@ -109,7 +109,7 @@ void main() {
     expect(tester.getSize(find.byType(GuildNavbarPill)), Size.zero);
   });
 
-  test('rail rows are 60pt apart', () {
-    expect(GuildNavbarIconShape.size + GuildNavbarIconShape.itemSpacing, 60);
+  test('rail rows are 56pt apart', () {
+    expect(GuildNavbarIconShape.size + GuildNavbarIconShape.itemSpacing, 56);
   });
 }
