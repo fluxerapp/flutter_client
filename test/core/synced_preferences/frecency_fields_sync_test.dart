@@ -178,4 +178,70 @@ void main() {
       expect(container.read(channelFrecencyProvider), isEmpty);
     });
   });
+
+  group('account switch', () {
+    test('another account never inherits frecency held in memory', () async {
+      final api = RecordingUsersApi();
+      final switching = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
+          fluxerClientProvider.overrideWithValue(RecordingFluxerClient(api)),
+        ],
+      );
+      addTearDown(switching.dispose);
+      final switchingStore = switching.read(syncedPreferencesStoreProvider);
+      switching.read(currentUserIdProvider.notifier).set('user-a');
+      await switchingStore.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(pb.SyncedPreferences()),
+      );
+      switching
+          .read(channelFrecencyProvider.notifier)
+          .recordSelection(guildId: _guild, channelId: _channel);
+      switching
+          .read(mentionFrecencyProvider.notifier)
+          .record(guildId: _guild, userId: 'a-friend');
+      await flushSyncedPreferencesDebounce(switchingStore);
+
+      switchingStore.reset();
+      switching.read(currentUserIdProvider.notifier).set('user-b');
+      final now = DateTime.now().millisecondsSinceEpoch;
+      await switchingStore.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(
+          pb.SyncedPreferences(
+            channelFrecency: pb.ChannelFrecencyState(
+              usage: {
+                '1558633981610557445': pb.ChannelFrecencyEntry(
+                  totalUses: 2,
+                  recentUsesMs: [Int64(now)],
+                ),
+              }.entries,
+            ),
+          ),
+        ),
+      );
+      final pushesBefore = api.pushes.length;
+      switching
+          .read(mentionFrecencyProvider.notifier)
+          .record(guildId: _guild, userId: 'b-friend');
+      switching
+          .read(channelFrecencyProvider.notifier)
+          .recordSelection(guildId: '@me', channelId: '1558633981610557446');
+      await flushSyncedPreferencesDebounce(switchingStore);
+
+      final List<pb.SyncedPreferences> pushes = api.pushes
+          .skip(pushesBefore)
+          .toList();
+      expect(pushes, isNotEmpty);
+      expect(pushes.last.channelFrecency.usage.keys.toSet(), {
+        '1558633981610557445',
+        '1558633981610557446',
+      });
+      expect(
+        pushes.last.mentionFrecency.scopes
+            .expand((s) => s.entries)
+            .map((e) => e.userId),
+        ['b-friend'],
+      );
+    });
+  });
 }

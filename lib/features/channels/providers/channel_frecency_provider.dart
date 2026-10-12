@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/channel_frecency.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
@@ -11,7 +12,12 @@ class ChannelFrecency extends _$ChannelFrecency {
   String? _lastGuildId;
 
   @override
-  ChannelFrecencyUsage build() => const {};
+  ChannelFrecencyUsage build() {
+    ref.watch(currentUserIdProvider);
+    _lastChannelId = null;
+    _lastGuildId = null;
+    return const {};
+  }
 
   Future<void> applySynced(ChannelFrecencyUsage usage) async {
     state = usage;
