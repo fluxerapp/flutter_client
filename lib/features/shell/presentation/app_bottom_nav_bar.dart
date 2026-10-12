@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -42,6 +43,7 @@ class AppBottomNavBar extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final items = _items(l10n);
     final UserSettingsViewState user = ref.watch(userSettingsViewModelProvider);
+    ref.listen(currentUserFullProfileProvider, (_, _) {});
 
     final Widget itemRow = Row(
       children: [

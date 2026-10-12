@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:fluxer_app/features/members/domain/member_list_group_names.dart'
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'user_profile.g.dart';
 
@@ -132,107 +134,99 @@ Future<void> _cacheUserProfile(
   );
 }
 
-// `AutoDisposeFutureProvider` is not exposed by the public API; the explicit
-// type would require a `package:riverpod/src/...` import.
-// ignore: specify_nonobvious_property_types
-final currentUserProfileConnectionsProvider =
-    FutureProvider.autoDispose<List<ConnectionResponse>>((ref) async {
-      final String userId = ref.watch(
-        userSettingsViewModelProvider.select((state) => state.userId),
-      );
-      if (userId.isEmpty) {
-        return const <ConnectionResponse>[];
-      }
-      final FluxerClient client = ref.read(fluxerClientProvider);
-      try {
-        final UserProfileFullResponse profile = await client.users
-            .getUserProfile(targetId: userId);
-        return profile.connectedAccounts ?? const <ConnectionResponse>[];
-      } on Object {
-        return const <ConnectionResponse>[];
-      }
-    });
+const String _kOwnProfileStorageKeyPrefix = 'own_full_profile_v1_';
 
-// Timezone offset is nullable and inferred from async profile fetch.
-// ignore: specify_nonobvious_property_types
-final currentUserProfileTimezoneOffsetProvider =
-    FutureProvider.autoDispose<int?>((ref) async {
-      final String userId = ref.watch(
-        userSettingsViewModelProvider.select((state) => state.userId),
-      );
-      if (userId.isEmpty) {
-        return null;
-      }
-      final FluxerClient client = ref.read(fluxerClientProvider);
-      try {
-        final UserProfileFullResponse profile = await client.users
-            .getUserProfile(targetId: userId);
-        return profile.timezoneOffset;
-      } on Object {
-        return null;
-      }
-    });
-
-final StreamProvider<CurrentUserCachedProfile?>
-currentUserCachedProfileProvider = StreamProvider<CurrentUserCachedProfile?>((
-  ref,
-) {
-  final String userId = ref.watch(
-    userSettingsViewModelProvider.select((state) => state.userId),
-  );
-  if (userId.isEmpty) {
-    return const Stream<CurrentUserCachedProfile?>.empty();
-  }
-  final FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
-  final int publicFlags = ref.watch(
-    userSettingsViewModelProvider.select((state) => state.publicFlags),
-  );
-  unawaited(_refreshCurrentUserProfile(ref, userId));
-  return database.userDao.watchUserById(userId).map((User? row) {
-    if (row == null) {
-      return null;
+@Riverpod(keepAlive: true)
+class CurrentUserFullProfile extends _$CurrentUserFullProfile {
+  @override
+  UserProfileFullResponse? build() {
+    final String userId = ref.watch(
+      userSettingsViewModelProvider.select((state) => state.userId),
+    );
+    if (userId.isNotEmpty) {
+      unawaited(_restoreThenRefresh(userId));
     }
-    return CurrentUserCachedProfile(
-      id: row.id,
-      username: row.username,
-      discriminator: row.discriminator,
-      globalName: row.globalName,
-      avatar: row.avatar,
-      avatarColor: row.avatarColor,
-      bio: row.bio,
-      pronouns: row.pronouns,
-      accentColor: row.accentColor,
-      banner: row.banner,
-      publicFlags: publicFlags,
-    );
-  });
-});
+    return null;
+  }
 
-Future<void> _refreshCurrentUserProfile(Ref ref, String userId) async {
-  final FluxerClient client = ref.read(fluxerClientProvider);
-  final FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-  try {
-    final UserProfileFullResponse profile = await client.users.getUserProfile(
-      targetId: userId,
-    );
-    await database.userDao.upsertUser(
-      UsersCompanion(
-        id: Value(profile.user.id),
-        username: Value(profile.user.username),
-        discriminator: Value(profile.user.discriminator),
-        globalName: Value(profile.user.globalName),
-        avatar: Value(profile.user.avatar),
-        avatarColor: Value(profile.user.avatarColor),
-        bio: Value(profile.userProfile.bio),
-        pronouns: Value(profile.userProfile.pronouns),
-        accentColor: Value(profile.userProfile.accentColor),
-        banner: Value(profile.userProfile.banner),
-      ),
-    );
-  } on Object {
-    return;
+  bool _isCurrent(String userId) =>
+      ref.mounted && ref.read(userSettingsViewModelProvider).userId == userId;
+
+  Future<void> _restoreThenRefresh(String userId) async {
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      final String? raw = preferences.getString(
+        '$_kOwnProfileStorageKeyPrefix$userId',
+      );
+      if (raw != null && _isCurrent(userId) && state == null) {
+        state = UserProfileFullResponse.fromJson(
+          jsonDecode(raw) as Map<String, Object?>,
+        );
+      }
+    } on Object catch (_) {}
+    await _refresh(userId);
+  }
+
+  Future<void> refresh() async {
+    final String userId = ref.read(userSettingsViewModelProvider).userId;
+    if (userId.isNotEmpty) {
+      await _refresh(userId);
+    }
+  }
+
+  Future<void> _refresh(String userId) async {
+    try {
+      final UserProfileFullResponse profile = await ref
+          .read(fluxerClientProvider)
+          .users
+          .getUserProfile(targetId: userId);
+      if (!_isCurrent(userId)) {
+        return;
+      }
+      state = profile;
+      await _cacheUserProfile(ref.read(fluxerDatabaseProvider), profile);
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      await preferences.setString(
+        '$_kOwnProfileStorageKeyPrefix$userId',
+        jsonEncode(profile.toJson()),
+      );
+    } on Object {
+      return;
+    }
   }
 }
+
+final Provider<CurrentUserCachedProfile?> currentUserCachedProfileProvider =
+    Provider<CurrentUserCachedProfile?>((ref) {
+      final UserSettingsViewState settings = ref.watch(
+        userSettingsViewModelProvider,
+      );
+      if (settings.userId.isEmpty || settings.username.isEmpty) {
+        return null;
+      }
+      final int? persistedFlags = ref.watch(
+        currentUserFullProfileProvider.select(
+          (UserProfileFullResponse? profile) => profile?.user.flags,
+        ),
+      );
+      return CurrentUserCachedProfile(
+        id: settings.userId,
+        username: settings.username,
+        discriminator: settings.discriminator,
+        globalName: settings.displayName,
+        avatar: settings.avatar,
+        avatarColor: settings.avatarColor,
+        bio: settings.bio,
+        pronouns: settings.pronouns,
+        accentColor: settings.accentColor,
+        banner: settings.banner,
+        publicFlags: settings.isProfileLoaded
+            ? settings.publicFlags
+            : persistedFlags ?? settings.publicFlags,
+      );
+    });
 
 @riverpod
 Future<String?> userProfileSelfNote(Ref ref, {required String userId}) async {

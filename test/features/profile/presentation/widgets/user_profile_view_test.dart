@@ -68,6 +68,11 @@ class _FakeUserSettings extends UserSettingsViewModel {
   );
 }
 
+class _FakeCurrentUserFullProfile extends CurrentUserFullProfile {
+  @override
+  UserProfileFullResponse? build() => null;
+}
+
 class _FakeAccountManager extends AccountManager {
   @override
   AccountManagerState build() =>
@@ -137,13 +142,10 @@ List<Override> _overrides({UserSettingsViewModel Function()? settings}) {
     userNoteViewModelProvider(
       userId: _kUserId,
     ).overrideWith(_FakeUserNoteViewModel.new),
-    currentUserCachedProfileProvider.overrideWith(
-      (Ref ref) => Stream<CurrentUserCachedProfile?>.value(_cachedProfile()),
+    currentUserCachedProfileProvider.overrideWithValue(_cachedProfile()),
+    currentUserFullProfileProvider.overrideWith(
+      _FakeCurrentUserFullProfile.new,
     ),
-    currentUserProfileConnectionsProvider.overrideWith(
-      (Ref ref) => const <ConnectionResponse>[],
-    ),
-    currentUserProfileTimezoneOffsetProvider.overrideWith((Ref ref) => null),
   ];
 }
 

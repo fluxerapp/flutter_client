@@ -734,83 +734,67 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     );
     _maybeAutoFocusNote(noteAsync);
     if (widget.useCurrentUserCache) {
-      final AsyncValue<List<ConnectionResponse>> connectionsAsync = ref.watch(
-        currentUserProfileConnectionsProvider,
+      final UserProfileFullResponse? ownFullProfile = ref.watch(
+        currentUserFullProfileProvider,
       );
-      final AsyncValue<int?> timezoneOffsetAsync = ref.watch(
-        currentUserProfileTimezoneOffsetProvider,
-      );
-      final AsyncValue<CurrentUserCachedProfile?> cachedAsync = ref.watch(
+      final CurrentUserCachedProfile? profile = ref.watch(
         currentUserCachedProfileProvider,
       );
-      return cachedAsync.when(
-        loading: () => UserProfileLoadingSkeleton(
+      if (profile == null) {
+        return UserProfileLoadingSkeleton(
           scrollController: widget.scrollController,
           showTopHandle: widget.showTopHandle,
+        );
+      }
+      final PremiumBadgeVisibility premiumBadges =
+          PremiumBadgeVisibility.fromSettings(settingsState);
+      return _buildLoadedView(
+        userId: profile.id,
+        username: profile.username,
+        discriminator: profile.discriminator,
+        displayName: profile.globalName ?? profile.username,
+        avatarUrl: FluxerMediaUrl.userAvatar(
+          userId: profile.id,
+          hash: profile.avatar,
+          size: MediaProxySizes.avatarProfile,
+          animated: true,
         ),
-        error: (_, _) => _ErrorState(
-          onRetry: () => ref.invalidate(currentUserCachedProfileProvider),
-          message: l10n.userProfileLoadError,
-          onClose: widget.onCloseRequested,
+        avatarColor: profile.avatarColor,
+        bannerColor: resolveGuildProfileBannerColor(
+          bannerColor: null,
+          accentColor: profile.accentColor,
+          avatarColor: profile.avatarColor,
         ),
-        data: (CurrentUserCachedProfile? profile) {
-          if (profile == null) {
-            return _ErrorState(
-              onRetry: () => ref.invalidate(currentUserCachedProfileProvider),
-              message: l10n.userProfileLoadError,
-              onClose: widget.onCloseRequested,
-            );
-          }
-          final PremiumBadgeVisibility premiumBadges =
-              PremiumBadgeVisibility.fromSettings(settingsState);
-          return _buildLoadedView(
-            userId: profile.id,
-            username: profile.username,
-            discriminator: profile.discriminator,
-            displayName: profile.globalName ?? profile.username,
-            avatarUrl: FluxerMediaUrl.userAvatar(
-              userId: profile.id,
-              hash: profile.avatar,
-              size: MediaProxySizes.avatarProfile,
-              animated: true,
-            ),
-            avatarColor: profile.avatarColor,
-            bannerColor: resolveGuildProfileBannerColor(
-              bannerColor: null,
-              accentColor: profile.accentColor,
-              avatarColor: profile.avatarColor,
-            ),
-            bannerUrl: FluxerMediaUrl.userBanner(
-              userId: profile.id,
-              hash: profile.banner,
-              animated: true,
-            ),
-            bio: profile.bio,
-            accountMemberSince: dateTimeFromUserSnowflakeOrNull(profile.id),
-            guildMemberSince: null,
-            guildName: null,
-            guildIconUrl: null,
-            memberRoles: const <MemberRole>[],
-            flags: profile.publicFlags,
-            hasPlutonium: premiumBadges.hasPlutonium,
-            isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
-            premiumSince: premiumBadges.premiumSince,
-            premiumLifetimeSequence: premiumBadges.premiumLifetimeSequence,
-            mutualFriends: const <UserPartialResponse>[],
-            mutualCommunities: const <UserProfileFullResponseMutualGuilds>[],
-            actionUser: null,
-            connections: connectionsAsync.value ?? const <ConnectionResponse>[],
-            relationship: relationshipAsync.value,
-            pronouns: profile.pronouns,
-            customStatus: presenceAsync.value?.customStatus,
-            presenceAsync: presenceAsync,
-            note: noteAsync.value,
-            isCurrentUser: ownUserId == profile.id,
-            hasGuildProfile: false,
-            isShowingGlobalProfile: false,
-            timezoneOffset: timezoneOffsetAsync.value,
-          );
-        },
+        bannerUrl: FluxerMediaUrl.userBanner(
+          userId: profile.id,
+          hash: profile.banner,
+          animated: true,
+        ),
+        bio: profile.bio,
+        accountMemberSince: dateTimeFromUserSnowflakeOrNull(profile.id),
+        guildMemberSince: null,
+        guildName: null,
+        guildIconUrl: null,
+        memberRoles: const <MemberRole>[],
+        flags: profile.publicFlags,
+        hasPlutonium: premiumBadges.hasPlutonium,
+        isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
+        premiumSince: premiumBadges.premiumSince,
+        premiumLifetimeSequence: premiumBadges.premiumLifetimeSequence,
+        mutualFriends: const <UserPartialResponse>[],
+        mutualCommunities: const <UserProfileFullResponseMutualGuilds>[],
+        actionUser: null,
+        connections:
+            ownFullProfile?.connectedAccounts ?? const <ConnectionResponse>[],
+        relationship: relationshipAsync.value,
+        pronouns: profile.pronouns,
+        customStatus: presenceAsync.value?.customStatus,
+        presenceAsync: presenceAsync,
+        note: noteAsync.value,
+        isCurrentUser: ownUserId == profile.id,
+        hasGuildProfile: false,
+        isShowingGlobalProfile: false,
+        timezoneOffset: ownFullProfile?.timezoneOffset,
       );
     }
     final String? cachedGuildId = widget.guildId;
