@@ -57,6 +57,15 @@ class NotificationsUnreadsBody extends ConsumerWidget {
                     entry: list[i],
                   ),
                   childCount: list.length,
+                  findChildIndexCallback: (Key key) {
+                    if (key is! ValueKey<String>) {
+                      return null;
+                    }
+                    final int index = list.indexWhere(
+                      (UnreadInboxEntry e) => e.channelId == key.value,
+                    );
+                    return index < 0 ? null : index;
+                  },
                 ),
               ),
             ),

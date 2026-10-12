@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_meta.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notification_removable_row.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_preview.dart';
@@ -37,6 +38,7 @@ class _UnreadChannelInboxCardState
   List<Message>? _preview;
   bool _loadingPreview = false;
   bool _metaLoaded = false;
+  bool _markingRead = false;
   int _previewGeneration = 0;
 
   @override
@@ -50,6 +52,7 @@ class _UnreadChannelInboxCardState
     super.didUpdateWidget(oldWidget);
     if (oldWidget.entry.recencyComparator != widget.entry.recencyComparator ||
         oldWidget.entry.mentionCount != widget.entry.mentionCount) {
+      _markingRead = false;
       unawaited(_loadPreview(force: true));
       return;
     }
@@ -147,29 +150,32 @@ class _UnreadChannelInboxCardState
   }
 
   Future<void> _markRead() async {
-    final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
+    bool marked = false;
+    try {
+      marked = await _markReadNow();
+    } finally {
+      if (!marked && mounted) {
+        setState(() => _markingRead = false);
+      }
+    }
+  }
+
+  Future<bool> _markReadNow() async {
     final NotificationsRepository repo = ref.read(
       notificationsRepositoryProvider,
     );
-    final drift_db.Channel? ch = await db.channelDao.getChannelById(
+    String? messageId = await repo.resolveMarkReadMessageId(
       widget.entry.channelId,
     );
-    String? messageId = ch?.lastMessageId;
-    final List<drift_db.Message> msgs = await db.messageDao.getMessages(
-      widget.entry.channelId,
-      limit: 1,
-    );
-    if (msgs.isNotEmpty) {
-      messageId = msgs.last.id;
-    }
     messageId ??= (_preview?.isNotEmpty ?? false) ? _preview!.last.id : null;
     if (messageId == null || messageId.isEmpty) {
-      return;
+      return false;
     }
     await repo.markChannelRead(
       channelId: widget.entry.channelId,
       messageId: messageId,
     );
+    return true;
   }
 
   void _jump({String? explicitMessageId}) {
@@ -214,44 +220,48 @@ class _UnreadChannelInboxCardState
   @override
   Widget build(BuildContext context) {
     final bool collapsed = widget.entry.isCollapsed;
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: kNotificationRowHorizontalPadding,
-        vertical: 8,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          UnreadInboxCardHeader(
-            entry: widget.entry,
-            meta: _meta,
-            collapsed: collapsed,
-            onToggleCollapsed:
-                isThreadFeatureChannelType(
-                  _meta.guildChannelVisualType.wireValue,
-                )
-                ? null
-                : () => unawaited(_toggleCollapsed()),
-            onJump: _jump,
-            onMarkRead: () => unawaited(_markRead()),
-            onOpenGuildNotificationSettings: () =>
-                unawaited(_openGuildNotificationSettings()),
-          ),
-          AnimatedSize(
-            duration: context.motion.normal,
-            curve: context.motion.curve,
-            alignment: Alignment.topCenter,
-            child: collapsed
-                ? const SizedBox(width: double.infinity)
-                : UnreadInboxCardPreview(
-                    preview: _preview,
-                    isLoading: _loadingPreview || !_metaLoaded,
-                    previewRoleGuildId: widget.entry.guildId,
-                    onViewAllUnread: (Message m) =>
-                        _jump(explicitMessageId: m.id),
-                  ),
-          ),
-        ],
+    return NotificationRemovableRow(
+      removing: _markingRead,
+      onRemoved: () => unawaited(_markRead()),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: kNotificationRowHorizontalPadding,
+          vertical: 8,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            UnreadInboxCardHeader(
+              entry: widget.entry,
+              meta: _meta,
+              collapsed: collapsed,
+              onToggleCollapsed:
+                  isThreadFeatureChannelType(
+                    _meta.guildChannelVisualType.wireValue,
+                  )
+                  ? null
+                  : () => unawaited(_toggleCollapsed()),
+              onJump: _jump,
+              onMarkRead: () => setState(() => _markingRead = true),
+              onOpenGuildNotificationSettings: () =>
+                  unawaited(_openGuildNotificationSettings()),
+            ),
+            AnimatedSize(
+              duration: context.motion.normal,
+              curve: context.motion.curve,
+              alignment: Alignment.topCenter,
+              child: collapsed
+                  ? const SizedBox(width: double.infinity)
+                  : UnreadInboxCardPreview(
+                      preview: _preview,
+                      isLoading: _loadingPreview || !_metaLoaded,
+                      previewRoleGuildId: widget.entry.guildId,
+                      onViewAllUnread: (Message m) =>
+                          _jump(explicitMessageId: m.id),
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

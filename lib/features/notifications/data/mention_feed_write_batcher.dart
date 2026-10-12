@@ -35,9 +35,7 @@ class MentionFeedWriteBatcher {
     if (_pending.isEmpty) {
       return;
     }
-    final List<_MentionFeedIntent> batch = List<_MentionFeedIntent>.from(
-      _pending,
-    );
+    final List<_MentionFeedIntent> batch = _pending.reversed.toList();
     _pending.clear();
     final Future<void> future = _applyFlush(batch);
     _flushing = future;

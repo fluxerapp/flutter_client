@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
@@ -250,9 +251,7 @@ class NotificationsRepository {
     List<UnreadInboxEntry> entries,
   ) async {
     for (final UnreadInboxEntry entry in entries) {
-      final String? messageId = await _resolveMarkReadMessageId(
-        entry.channelId,
-      );
+      final String? messageId = await resolveMarkReadMessageId(entry.channelId);
       if (messageId == null || messageId.isEmpty) {
         continue;
       }
@@ -260,12 +259,15 @@ class NotificationsRepository {
     }
   }
 
-  Future<String?> _resolveMarkReadMessageId(String channelId) async {
+  Future<String?> resolveMarkReadMessageId(String channelId) async {
     final channel = await _database.channelDao.getChannelById(channelId);
-    String? messageId = channel?.lastMessageId;
+    final dm = channel == null
+        ? await _database.dmChannelDao.getDmChannelById(channelId)
+        : null;
+    String? messageId = channel?.lastMessageId ?? dm?.lastMessageId;
     final msgs = await _database.messageDao.getMessages(channelId, limit: 1);
-    if (msgs.isNotEmpty) {
-      messageId = msgs.last.id;
+    if (msgs.isNotEmpty && compareSnowflakeIds(msgs.first.id, messageId) > 0) {
+      messageId = msgs.first.id;
     }
     return messageId;
   }
