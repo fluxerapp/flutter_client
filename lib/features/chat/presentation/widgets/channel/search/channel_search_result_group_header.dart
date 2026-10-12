@@ -169,7 +169,7 @@ class _GuildChannelScopeRow extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: PhosphorIcon(
-            PhosphorIconsFill.caretRight,
+            PhosphorIconsBold.caretRight,
             size: 12,
             color: context.colors.textPrimaryMuted,
           ),

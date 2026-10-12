@@ -1534,7 +1534,7 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
       leading: leading,
       onTap: onTap,
       trailing: PhosphorIcon(
-        PhosphorIconsFill.caretRight,
+        PhosphorIconsBold.caretRight,
         size: 16,
         color: context.colors.textSecondary,
       ),

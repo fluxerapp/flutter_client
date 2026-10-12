@@ -569,7 +569,7 @@ class FluxerMenuSubmenuItem extends StatelessWidget {
                   ),
                 ),
                 PhosphorIcon(
-                  PhosphorIconsFill.caretRight,
+                  PhosphorIconsBold.caretRight,
                   size: 16,
                   color: colors.textSecondary,
                 ),

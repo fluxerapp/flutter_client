@@ -186,7 +186,7 @@ class GuildSidebarHeaderBody extends StatelessWidget {
           ),
           if (!outageUnavailable)
             PhosphorIcon(
-              PhosphorIconsFill.caretDown,
+              PhosphorIconsBold.caretDown,
               color: caretColor,
               size: 16,
               shadows: bannerShadows,

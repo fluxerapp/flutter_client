@@ -134,8 +134,8 @@ List<CategoryMenuGroup> buildCategoryMenuGroups({
             ? l10n.categoryExpandCategory
             : l10n.categoryCollapseCategory,
         icon: state.isCollapsed
-            ? PhosphorIconsFill.caretRight
-            : PhosphorIconsFill.caretDown,
+            ? PhosphorIconsBold.caretRight
+            : PhosphorIconsBold.caretDown,
         action: CategoryMenuAction.toggleCollapse,
       ),
       CategoryMenuEntry(
@@ -143,8 +143,8 @@ List<CategoryMenuGroup> buildCategoryMenuGroups({
             ? l10n.categoryExpandAllCategories
             : l10n.categoryCollapseAllCategories,
         icon: state.allCategoriesCollapsed
-            ? PhosphorIconsFill.caretRight
-            : PhosphorIconsFill.caretDown,
+            ? PhosphorIconsBold.caretRight
+            : PhosphorIconsBold.caretDown,
         action: CategoryMenuAction.toggleCollapseAll,
       ),
     ],
