@@ -1,5 +1,8 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
+import 'package:fluxer_app/features/dm/data/dm_conversation_mapper.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
@@ -18,6 +21,8 @@ class UnreadInboxCardMeta {
     required this.guildIconDisplayUrl,
     required this.guildUnavailableForIcon,
     required this.guildIconName,
+    this.dmUser,
+    this.groupDm,
   });
 
   factory UnreadInboxCardMeta.empty() => const UnreadInboxCardMeta(
@@ -35,6 +40,8 @@ class UnreadInboxCardMeta {
   final String? guildIconDisplayUrl;
   final bool guildUnavailableForIcon;
   final String guildIconName;
+  final drift_db.User? dmUser;
+  final DmConversation? groupDm;
 }
 
 /// Resolves the display metadata (title, guild line, and icon inputs) for
@@ -59,6 +66,10 @@ Future<UnreadInboxCardMeta> _loadDmMeta(
     channelId,
   );
   final String title = result.header.isDm ? result.header.primary : '';
+  final drift_db.DmChannel? dm = await db.dmChannelDao.getDmChannelById(
+    channelId,
+  );
+  final bool isGroup = dm != null && isDmGroupType(dm.type);
   return UnreadInboxCardMeta(
     channelTitle: title.isEmpty ? _kFallbackDmTitle : title,
     subtitleLine: '',
@@ -66,6 +77,12 @@ Future<UnreadInboxCardMeta> _loadDmMeta(
     guildIconDisplayUrl: null,
     guildUnavailableForIcon: false,
     guildIconName: '',
+    dmUser: dm == null || isGroup || dm.recipientId.isEmpty
+        ? null
+        : await db.userDao.getUserById(dm.recipientId),
+    groupDm: dm != null && isGroup
+        ? await buildDmConversationFromChannelRow(db, dm)
+        : null,
   );
 }
 

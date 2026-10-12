@@ -103,14 +103,21 @@ class _NotificationsSkeletonRow extends StatelessWidget {
 }
 
 class NotificationsSkeletonBlock extends StatelessWidget {
-  const NotificationsSkeletonBlock({this.color, this.height = 56, super.key});
+  const NotificationsSkeletonBlock({
+    this.color,
+    this.width,
+    this.height = 56,
+    super.key,
+  });
 
   final Color? color;
+  final double? width;
   final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
       height: height,
       decoration: BoxDecoration(
         color: color ?? context.colors.backgroundSecondaryAlt,
