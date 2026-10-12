@@ -62,6 +62,7 @@ class ComposerAutocompleteFieldState
   Timer? _debounce;
   String? _panelHeading;
   bool _gifEmpty = false;
+  String? _revealedQueryKey;
 
   final OverlayPortalController _overlayController = OverlayPortalController();
   final ScrollController _scrollController = ScrollController();
@@ -1524,6 +1525,9 @@ class ComposerAutocompleteFieldState
     if (!mounted) {
       return;
     }
+    final bool open = next.isNotEmpty || gifEmpty;
+    final String? queryKey = open ? _autocompleteQueryKey() : null;
+    final int previousIndex = _selectedIndex;
     setState(() {
       _rows
         ..clear()
@@ -1538,22 +1542,44 @@ class ComposerAutocompleteFieldState
         _selectedIndex = _firstSelectableRowIndex();
       }
     });
-    if (next.isEmpty && !gifEmpty) {
+    final bool revealSelection =
+        open &&
+        (queryKey != _revealedQueryKey || _selectedIndex != previousIndex);
+    _revealedQueryKey = queryKey;
+    if (!open) {
       _stopMentionAutocompleteWatches();
     }
     if (_usesInStackPanel) {
       _publishPanel();
-      if (next.isNotEmpty || gifEmpty) {
-        _scheduleScrollSelectionIntoView();
-      }
-      return;
-    }
-    if (next.isEmpty && !gifEmpty) {
+    } else if (open) {
+      _showOverlay();
+    } else {
       _hideOverlay();
-      return;
     }
-    _showOverlay();
-    _scheduleScrollSelectionIntoView();
+    if (revealSelection) {
+      _scheduleScrollSelectionIntoView();
+    }
+  }
+
+  String? _autocompleteQueryKey() {
+    final ComposerSlashSession? session = widget.slashSession;
+    if (session != null && session.isActive) {
+      return 'slash:${session.command?.name}:${session.focusedSlotIndex}:'
+          '${session.optionalHintFocused}:${session.focusedSlot?.text}';
+    }
+    final int? caret = _autocompleteCaretIndex(widget.controller.value);
+    if (caret == null) {
+      return null;
+    }
+    final ComposerAutocompleteTrigger? trigger =
+        ComposerAutocompleteTrigger.detectIfAllowed(
+          fullText: widget.controller.text,
+          caretIndex: caret,
+        );
+    if (trigger == null) {
+      return null;
+    }
+    return '${trigger.kind.name}:${trigger.matchStart}:${trigger.matchedText}';
   }
 
   ComposerAutocompletePanelSnapshot _panelSnapshot() {

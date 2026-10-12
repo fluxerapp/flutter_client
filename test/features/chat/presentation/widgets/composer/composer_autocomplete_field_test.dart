@@ -111,6 +111,84 @@ ComposerAutocompleteFieldState _fieldState(WidgetTester tester) =>
       find.byType(ComposerAutocompleteField),
     );
 
+Future<
+  ({
+    EmojiTextEditingController controller,
+    ComposerAutocompletePanelHost host,
+    ScrollController scrollController,
+  })
+>
+_pumpInStackField(
+  WidgetTester tester, {
+  required FluxerDatabase db,
+  required List<GuildEmojiEntry> custom,
+}) async {
+  final host = ComposerAutocompletePanelHost(null);
+  addTearDown(host.dispose);
+  final scrollController = ScrollController();
+  addTearDown(scrollController.dispose);
+  final controller = EmojiTextEditingController();
+  addTearDown(controller.dispose);
+  final focusNode = FocusNode();
+  addTearDown(focusNode.dispose);
+  final colorTheme = buildDarkColorTheme();
+
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        activeGuildIdProvider.overrideWith((ref) => null),
+        guildListViewModelProvider.overrideWith(
+          () => _FakeGuilds(const <Guild>[
+            Guild(id: 'g1', name: 'Linux Hub', ownerId: 'owner'),
+          ]),
+        ),
+        allGuildEmojisForPickerProvider.overrideWith(
+          (ref) => Stream<List<GuildEmojiEntry>>.value(custom),
+        ),
+      ],
+      child: MaterialApp(
+        locale: kTestLocale,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Scaffold(
+          body: Column(
+            children: <Widget>[
+              Expanded(
+                child: ComposerAutocompletePanelStrip(
+                  host: host,
+                  scrollController: scrollController,
+                ),
+              ),
+              ComposerAutocompleteField(
+                controller: controller,
+                focusNode: focusNode,
+                allowedTriggers: const <ComposerAutocompleteTriggerKind>{
+                  ComposerAutocompleteTriggerKind.emoji,
+                },
+                renderMode: AutocompleteRenderMode.inStack,
+                panelHost: host,
+                panelScrollController: scrollController,
+                child: TextField(controller: controller, focusNode: focusNode),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+  return (
+    controller: controller,
+    host: host,
+    scrollController: scrollController,
+  );
+}
+
 void main() {
   setUpAll(() async {
     await EmojiRegistry.preload();
@@ -265,86 +343,99 @@ void main() {
     'inStack mode publishes suggestions to panel host without overlay',
     (tester) async {
       final db = openTestDatabase();
-      final host = ComposerAutocompletePanelHost(null);
-      addTearDown(host.dispose);
-      final scrollController = ScrollController();
-      addTearDown(scrollController.dispose);
-      final controller = EmojiTextEditingController();
-      addTearDown(controller.dispose);
-      final focusNode = FocusNode();
-      addTearDown(focusNode.dispose);
-      final colorTheme = buildDarkColorTheme();
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            fluxerDatabaseProvider.overrideWithValue(db),
-            activeGuildIdProvider.overrideWith((ref) => null),
-            guildListViewModelProvider.overrideWith(
-              () => _FakeGuilds(const <Guild>[
-                Guild(id: 'g1', name: 'Linux Hub', ownerId: 'owner'),
-              ]),
-            ),
-            allGuildEmojisForPickerProvider.overrideWith(
-              (ref) => Stream<List<GuildEmojiEntry>>.value(<GuildEmojiEntry>[
-                GuildEmojiEntry(
-                  id: 'e1',
-                  name: 'smile',
-                  animated: false,
-                  guildId: 'g1',
-                ),
-              ]),
-            ),
-          ],
-          child: MaterialApp(
-            locale: kTestLocale,
-            localizationsDelegates: fluxerLocalizationsDelegates,
-            supportedLocales: FluxerLocalizations.supportedLocales,
-            theme: buildFluxerTheme(
-              colorTheme: colorTheme,
-              textTheme: FluxerTextTheme.fromColors(colorTheme),
-              layoutTheme: FluxerLayoutTheme.scaled(),
-            ),
-            home: Scaffold(
-              body: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: ComposerAutocompletePanelStrip(
-                      host: host,
-                      scrollController: scrollController,
-                    ),
-                  ),
-                  ComposerAutocompleteField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    allowedTriggers: const <ComposerAutocompleteTriggerKind>{
-                      ComposerAutocompleteTriggerKind.emoji,
-                    },
-                    renderMode: AutocompleteRenderMode.inStack,
-                    panelHost: host,
-                    panelScrollController: scrollController,
-                    child: TextField(
-                      controller: controller,
-                      focusNode: focusNode,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+      final field = await _pumpInStackField(
+        tester,
+        db: db,
+        custom: <GuildEmojiEntry>[
+          GuildEmojiEntry(
+            id: 'e1',
+            name: 'smile',
+            animated: false,
+            guildId: 'g1',
           ),
-        ),
+        ],
       );
 
       await tester.enterText(find.byType(TextField), ':smile');
       await _settleAutocomplete(tester);
 
       expect(_fieldState(tester).hasOpenMenu, isTrue);
-      expect(host.value, isNotNull);
+      expect(field.host.value, isNotNull);
       expect(find.byType(OverlayPortal), findsNothing);
       expect(find.byType(ListView), findsOneWidget);
       expect(find.text('Linux Hub'), findsOneWidget);
     },
   );
+
+  group('suggestion scroll position', () {
+    final List<GuildEmojiEntry> manyEmojis = <GuildEmojiEntry>[
+      for (int i = 0; i < 20; i++)
+        GuildEmojiEntry(
+          id: 'e$i',
+          name: 'test$i',
+          animated: false,
+          guildId: 'g1',
+        ),
+    ];
+
+    Future<
+      ({
+        EmojiTextEditingController controller,
+        ComposerAutocompletePanelHost host,
+        ScrollController scrollController,
+      })
+    >
+    pumpScrolledPanel(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(400, 400);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final field = await _pumpInStackField(
+        tester,
+        db: openTestDatabase(),
+        custom: manyEmojis,
+      );
+      await tester.enterText(find.byType(TextField), ':test');
+      await _settleAutocomplete(tester);
+      expect(_fieldState(tester).hasOpenMenu, isTrue);
+      expect(field.scrollController.position.maxScrollExtent, greaterThan(0));
+
+      await tester.drag(find.byType(ListView), const Offset(0, -150));
+      await tester.pumpAndSettle();
+      expect(field.scrollController.offset, greaterThan(0));
+      return field;
+    }
+
+    testWidgets('a refresh for the same query keeps the scroll offset', (
+      tester,
+    ) async {
+      final field = await pumpScrolledPanel(tester);
+      final double scrolled = field.scrollController.offset;
+
+      field.controller.value = field.controller.value.copyWith(
+        composing: const TextRange(start: 1, end: 5),
+      );
+      await _settleAutocomplete(tester);
+      await tester.pumpAndSettle();
+
+      expect(_fieldState(tester).hasOpenMenu, isTrue);
+      expect(field.scrollController.offset, scrolled);
+    });
+
+    testWidgets('a new query scrolls the selection back into view', (
+      tester,
+    ) async {
+      final field = await pumpScrolledPanel(tester);
+
+      await tester.enterText(find.byType(TextField), ':test1');
+      await _settleAutocomplete(tester);
+      await tester.pumpAndSettle();
+
+      expect(_fieldState(tester).hasOpenMenu, isTrue);
+      expect(field.scrollController.offset, 0);
+    });
+  });
 
   testWidgets('overlay autocomplete stays below the top safe inset', (
     tester,
