@@ -1,16 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
-import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row_header.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -18,8 +17,11 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const String _kSubtitleSeparator = ' · ';
-const double _kReplyLineHeight = 20;
+const String _kAuthorToken = '';
+const String _kPlaceToken = '';
+const String _kPlainTitleSeparator = '  ';
+
+enum MentionInboxCardTitle { mention, plain }
 
 class MentionInboxCard extends ConsumerWidget {
   const MentionInboxCard({
@@ -29,7 +31,10 @@ class MentionInboxCard extends ConsumerWidget {
     required this.previewGuildId,
     required this.onJump,
     required this.onRemove,
-    this.removeTooltip,
+    this.onReply,
+    this.isUnread = false,
+    this.title = MentionInboxCardTitle.mention,
+    this.removeLabel,
     super.key,
   });
 
@@ -39,70 +44,102 @@ class MentionInboxCard extends ConsumerWidget {
   final String? previewGuildId;
   final ValueChanged<Message> onJump;
   final ValueChanged<String> onRemove;
-  final String? removeTooltip;
+  final ValueChanged<Message>? onReply;
+  final bool isUnread;
+  final MentionInboxCardTitle title;
+  final String? removeLabel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final Message? msg = message;
-    return FluxerTappable(
+    return NotificationRowSurface(
       onTap: msg == null ? null : () => onJump(msg),
+      onLongPress: () => _showActions(context, l10n),
       semanticLabel: l10n.notificationsJump,
-      builder: (BuildContext context, Set<WidgetState> states) =>
-          AnimatedContainer(
-            duration: context.motion.fast,
-            color: states.contains(WidgetState.pressed)
-                ? colors.listItemPressedBg
-                : Colors.transparent,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: msg == null
-                ? _buildUnavailable(context, l10n)
-                : _buildMention(context, ref, l10n, msg),
-          ),
+      child: msg == null
+          ? _buildUnavailable(context, l10n)
+          : _buildMention(context, ref, l10n, msg),
     );
   }
 
-  Widget _removeAction(FluxerLocalizations l10n) {
-    return NotificationRowAction(
-      icon: const Icon(PhosphorIconsBold.x),
-      tooltip: removeTooltip ?? l10n.notificationsRemoveMentionTooltip,
-      onPressed: () => onRemove(messageId),
+  void _showActions(BuildContext context, FluxerLocalizations l10n) {
+    unawaited(
+      FluxerBottomSheet.show<void>(
+        context,
+        variant: FluxerBottomSheetVariant.menu,
+        useRootNavigator: true,
+        builder: (BuildContext sheetContext, VoidCallback close) => Padding(
+          padding: EdgeInsets.fromLTRB(
+            16,
+            0,
+            16,
+            FluxerBottomSheet.bottomGapOf(sheetContext),
+          ),
+          child: FluxerMenuGroup(
+            children: <Widget>[
+              FluxerBottomSheetMenuItem(
+                icon: PhosphorIconsBold.trash,
+                label: removeLabel ?? l10n.notificationsRemoveNotification,
+                isDanger: true,
+                onTap: () {
+                  onRemove(messageId);
+                  close();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
+  }
+
+  String? _place(FluxerLocalizations l10n) {
+    final MentionHeader? mentionHeader = header;
+    if (mentionHeader == null || mentionHeader.primary.isEmpty) {
+      return null;
+    }
+    if (!mentionHeader.isDm) {
+      return mentionHeader.secondaryLine.isEmpty
+          ? mentionHeader.primary
+          : l10n.notificationsMentionPlace(
+              mentionHeader.secondaryLine,
+              mentionHeader.primary,
+            );
+    }
+    return mentionHeader.isGroupDm ? mentionHeader.primary : null;
   }
 
   Widget _buildUnavailable(BuildContext context, FluxerLocalizations l10n) {
     final colors = context.colors;
-    final MentionHeader? mentionHeader = header;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        NotificationRowHeader(
-          isDm: mentionHeader?.isDm ?? false,
-          title: mentionHeader?.primary ?? '',
-          subtitle: mentionHeader?.secondaryLine ?? '',
-          channelType:
-              mentionHeader?.guildChannelVisualType ??
-              domain.ChannelType.guildText,
-          guildIconName: mentionHeader?.guildIconName ?? '',
-          guildIconUrl: mentionHeader?.guildIconUrl,
-          isGuildUnavailable: mentionHeader?.isGuildUnavailable ?? false,
-          actions: <Widget>[_removeAction(l10n)],
+        FluxerAvatar.icon(
+          icon: PhosphorIconsFill.chatCircle,
+          size: kNotificationRowLeadingSize,
+          iconColor: colors.textPrimaryMuted,
+          iconBackgroundColor: colors.backgroundTertiary,
         ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.only(left: kNotificationRowTextInset),
-          child: _previewBox(
-            context,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              child: Text(
-                l10n.notificationsMessageUnavailable,
-                style: context.textStyles.bodySmall.copyWith(
-                  color: colors.textPrimaryMuted,
+        const SizedBox(width: kNotificationRowLeadingGap),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              if (_place(l10n) case final String place)
+                Text(
+                  place,
+                  style: notificationTitleStyle(
+                    context,
+                  ).copyWith(color: colors.textPrimaryMuted),
+                ),
+              NotificationQuote(
+                child: Text(
+                  l10n.notificationsMessageUnavailable,
+                  style: notificationQuoteStyle(context, unread: false),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],
@@ -115,9 +152,6 @@ class MentionInboxCard extends ConsumerWidget {
     FluxerLocalizations l10n,
     Message msg,
   ) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
-    final MentionHeader? mentionHeader = header;
     final String? guildId = previewGuildId;
     final String? roleGuildId = guildId == null || guildId.isEmpty
         ? null
@@ -129,7 +163,7 @@ class MentionInboxCard extends ConsumerWidget {
       guildId: roleGuildId,
       currentUserId: currentUserId,
     );
-    final bool showChannelIcon = mentionHeader != null && !mentionHeader.isDm;
+    final ValueChanged<Message>? reply = onReply;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -144,6 +178,7 @@ class MentionInboxCard extends ConsumerWidget {
             avatarColor: author.avatarColor,
             size: kNotificationRowLeadingSize,
             showStatus: false,
+            fadeInDuration: kNotificationAvatarFadeIn,
           ),
         ),
         const SizedBox(width: kNotificationRowLeadingGap),
@@ -152,90 +187,58 @@ class MentionInboxCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
+                    child: Text.rich(
+                      TextSpan(
+                        children: _titleSpans(
+                          context,
+                          l10n,
+                          msg,
                           author.displayName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: textStyles.bodyMedium.copyWith(
-                            fontSize: 16,
-                            height: 18 / 16,
-                            fontWeight: FontWeight.w600,
-                            color: colors.textPrimary,
-                          ),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            if (showChannelIcon) ...<Widget>[
-                              ChannelIcon(
-                                type: mentionHeader.guildChannelVisualType,
-                                color: colors.textPrimaryMuted,
-                                size: 13,
-                              ),
-                              const SizedBox(width: 3),
-                            ],
-                            Flexible(
-                              child: Text(
-                                _subtitle(mentionHeader, msg, author, l10n),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: textStyles.bodySmall.copyWith(
-                                  fontSize: 13,
-                                  height: 16 / 13,
-                                  color: colors.textPrimaryMuted,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  _removeAction(l10n),
-                ],
-              ),
-              const SizedBox(height: 8),
-              _previewBox(
-                context,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    if (msg.replyParentMessageId != null)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-                        child: IgnorePointer(
-                          child: SizedBox(
-                            height: MediaQuery.textScalerOf(
-                              context,
-                            ).scale(_kReplyLineHeight),
-                            child: Align(
-                              alignment: AlignmentDirectional.centerStart,
-                              child: InlineReplyPreview(
-                                message: msg,
-                                guildId: roleGuildId,
-                                currentUserId: currentUserId,
-                              ),
-                            ),
-                          ),
+                          currentUserId,
                         ),
                       ),
-                    MessageItem(
-                      message: msg,
-                      currentUserId: currentUserId,
-                      inboxPreviewMode: true,
-                      hideMentionHighlight: true,
-                      previewContentOnly: true,
-                      previewRoleGuildId: roleGuildId,
+                      style: notificationTitleStyle(context),
                     ),
-                  ],
+                  ),
+                  const SizedBox(width: kNotificationTimestampGap),
+                  Text(
+                    relativeTimeShort(
+                      msg.timestamp,
+                      l10n,
+                      minimumOneMinute: true,
+                    ),
+                    maxLines: 1,
+                    style: notificationTimestampStyle(
+                      context,
+                      unread: isUnread,
+                    ),
+                  ),
+                ],
+              ),
+              NotificationQuote(
+                child: MentionPlainTextScope(
+                  child: MessageItem(
+                    message: msg,
+                    currentUserId: currentUserId,
+                    inboxPreviewMode: true,
+                    hideMentionHighlight: true,
+                    previewContentOnly: true,
+                    previewTextStyle: notificationQuoteStyle(
+                      context,
+                      unread: isUnread,
+                    ),
+                    previewRoleGuildId: roleGuildId,
+                  ),
                 ),
               ),
+              if (reply != null)
+                NotificationRowButton(
+                  label: l10n.notificationsSendReply,
+                  onPressed: () => reply(msg),
+                ),
             ],
           ),
         ),
@@ -243,33 +246,74 @@ class MentionInboxCard extends ConsumerWidget {
     );
   }
 
-  String _subtitle(
-    MentionHeader? mentionHeader,
-    Message msg,
-    GuildUserDisplay author,
+  List<InlineSpan> _titleSpans(
+    BuildContext context,
     FluxerLocalizations l10n,
+    Message msg,
+    String authorName,
+    String? currentUserId,
   ) {
-    return <String>[
-      if (mentionHeader != null &&
-          mentionHeader.primary.isNotEmpty &&
-          mentionHeader.primary != author.displayName)
-        mentionHeader.primary,
-      if (mentionHeader != null && mentionHeader.secondaryLine.isNotEmpty)
-        mentionHeader.secondaryLine,
-      relativeTimeShort(msg.timestamp, l10n),
-    ].join(_kSubtitleSeparator);
-  }
+    final colors = context.colors;
+    final TextStyle nameStyle = isUnread
+        ? TextStyle(fontWeight: FontWeight.w500, color: colors.textPrimary)
+        : TextStyle(
+            fontWeight: FontWeight.w400,
+            color: colors.textPrimaryMuted,
+          );
+    final TextStyle verbStyle = isUnread
+        ? TextStyle(fontWeight: FontWeight.w700, color: colors.textSecondary)
+        : nameStyle;
+    final String? place = _place(l10n);
+    if (title == MentionInboxCardTitle.plain) {
+      return <InlineSpan>[
+        TextSpan(text: authorName, style: nameStyle),
+        if (place != null)
+          TextSpan(
+            text: '$_kPlainTitleSeparator$place',
+            style: TextStyle(color: colors.textPrimaryMuted),
+          ),
+      ];
+    }
+    final bool isReplyPing =
+        msg.isReply &&
+        (currentUserId == null || !msg.content.contains('<@$currentUserId>'));
+    final String template = switch ((isReplyPing, place != null)) {
+      (true, true) => l10n.notificationsRepliedToYouIn(
+        _kAuthorToken,
+        _kPlaceToken,
+      ),
+      (true, false) => l10n.notificationsRepliedToYou(_kAuthorToken),
+      (false, true) => l10n.notificationsMentionedYouIn(
+        _kAuthorToken,
+        _kPlaceToken,
+      ),
+      (false, false) => l10n.notificationsMentionedYou(_kAuthorToken),
+    };
+    final List<InlineSpan> spans = <InlineSpan>[];
+    final StringBuffer literal = StringBuffer();
+    void flushLiteral() {
+      if (literal.isEmpty) {
+        return;
+      }
+      spans.add(TextSpan(text: literal.toString(), style: verbStyle));
+      literal.clear();
+    }
 
-  Widget _previewBox(BuildContext context, Widget child) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.colors.backgroundSecondaryAlt,
-        borderRadius: BorderRadius.circular(kNotificationPreviewRadius),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(kNotificationPreviewRadius),
-        child: child,
-      ),
-    );
+    for (final int rune in template.runes) {
+      final String char = String.fromCharCode(rune);
+      if (char == _kAuthorToken || char == _kPlaceToken) {
+        flushLiteral();
+        spans.add(
+          TextSpan(
+            text: char == _kAuthorToken ? authorName : place,
+            style: nameStyle,
+          ),
+        );
+      } else {
+        literal.write(char);
+      }
+    }
+    flushLiteral();
+    return spans;
   }
 }

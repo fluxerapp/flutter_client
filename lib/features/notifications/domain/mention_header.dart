@@ -9,17 +9,19 @@ class MentionHeader {
     required this.secondaryLine,
     required this.guildChannelVisualType,
     required this.isDm,
+    required this.isGroupDm,
     required this.guildIconUrl,
     required this.guildIconName,
     required this.isGuildUnavailable,
   });
 
-  factory MentionHeader.dm({required String title}) {
+  factory MentionHeader.dm({required String title, bool isGroup = false}) {
     return MentionHeader(
       primary: title,
       secondaryLine: '',
       guildChannelVisualType: ChannelType.guildText,
       isDm: true,
+      isGroupDm: isGroup,
       guildIconUrl: null,
       guildIconName: title,
       isGuildUnavailable: false,
@@ -39,6 +41,7 @@ class MentionHeader {
       secondaryLine: secondaryLine,
       guildChannelVisualType: visual,
       isDm: false,
+      isGroupDm: false,
       guildIconUrl: iconUrl,
       guildIconName: iconName,
       isGuildUnavailable: isUnavailable,
@@ -49,6 +52,7 @@ class MentionHeader {
   final String secondaryLine;
   final ChannelType guildChannelVisualType;
   final bool isDm;
+  final bool isGroupDm;
   final String? guildIconUrl;
   final String guildIconName;
   final bool isGuildUnavailable;

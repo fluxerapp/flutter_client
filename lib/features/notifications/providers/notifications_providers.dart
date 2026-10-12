@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
@@ -15,10 +16,59 @@ import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart
 import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'notifications_providers.g.dart';
 
 enum NotificationsInboxTab { unreads, mentions }
+
+const String _kMentionSeenBoundaryKeyPrefix = 'notifications_mentions_seen_';
+
+class MentionSeenBoundaryState {
+  const MentionSeenBoundaryState({required this.loaded, this.messageId});
+
+  final bool loaded;
+  final String? messageId;
+}
+
+@Riverpod(keepAlive: true)
+class MentionSeenBoundary extends _$MentionSeenBoundary {
+  String _key = _kMentionSeenBoundaryKeyPrefix;
+
+  @override
+  MentionSeenBoundaryState build() {
+    final String key =
+        '$_kMentionSeenBoundaryKeyPrefix${ref.watch(currentUserIdProvider) ?? ''}';
+    _key = key;
+    unawaited(_load(key));
+    return const MentionSeenBoundaryState(loaded: false);
+  }
+
+  Future<void> _load(String key) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (key != _key || state.loaded) {
+      return;
+    }
+    state = MentionSeenBoundaryState(
+      loaded: true,
+      messageId: preferences.getString(key),
+    );
+  }
+
+  void markSeen(String messageId) {
+    if (!state.loaded || compareSnowflakeIds(messageId, state.messageId) <= 0) {
+      return;
+    }
+    state = MentionSeenBoundaryState(loaded: true, messageId: messageId);
+    final String key = _key;
+    unawaited(
+      SharedPreferences.getInstance().then(
+        (SharedPreferences preferences) =>
+            preferences.setString(key, messageId),
+      ),
+    );
+  }
+}
 
 @Riverpod(keepAlive: true)
 class NotificationsInboxSegment extends _$NotificationsInboxSegment {

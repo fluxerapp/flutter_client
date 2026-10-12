@@ -216,6 +216,7 @@ class MessageItem extends ConsumerStatefulWidget {
   final bool allowAuthorProfileInPreview;
   final bool hideMentionHighlight;
   final bool previewContentOnly;
+  final TextStyle? previewTextStyle;
   final bool isJumpHighlighted;
   final bool isSendDisabled;
 
@@ -259,6 +260,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.allowAuthorProfileInPreview = false,
     this.hideMentionHighlight = false,
     this.previewContentOnly = false,
+    this.previewTextStyle,
     this.isJumpHighlighted = false,
     this.swipeToReplyEnabled = true,
     this.previewRoleGuildId,
@@ -768,7 +770,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ),
           hoverTintColor: hoverTintColor,
           padding: contentOnly
-              ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
+              ? EdgeInsets.zero
               : widget.inboxPreviewMode
               ? EdgeInsets.only(
                   left: hasLeftAccentBar ? 7 : 8,
@@ -1466,6 +1468,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ? FluxerLocalizations.of(context).chatMessageOriginalDeleted
           : msg.displayedContent,
       messageId: msg.id,
+      baseStyle: widget.previewTextStyle,
       selectable:
           (widget.renderSettings?.markdown.enableTextSelection ??
               ref.watch(

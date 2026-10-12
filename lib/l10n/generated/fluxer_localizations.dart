@@ -9987,6 +9987,54 @@ abstract class FluxerLocalizations {
   /// **'This message couldn\'t be loaded.'**
   String get notificationsMessageUnavailable;
 
+  /// Title of a Notifications row for a message that mentions the user. place is a server and channel or a group name.
+  ///
+  /// In en, this message translates to:
+  /// **'{author} mentioned you in {place}:'**
+  String notificationsMentionedYouIn(String author, String place);
+
+  /// Title of a Notifications row for a reply that pings the user. place is a server and channel or a group name.
+  ///
+  /// In en, this message translates to:
+  /// **'{author} replied to you in {place}:'**
+  String notificationsRepliedToYouIn(String author, String place);
+
+  /// Title of a Notifications row for a mention inside a direct message.
+  ///
+  /// In en, this message translates to:
+  /// **'{author} mentioned you:'**
+  String notificationsMentionedYou(String author);
+
+  /// Title of a Notifications row for a reply that pings the user inside a direct message.
+  ///
+  /// In en, this message translates to:
+  /// **'{author} replied to you:'**
+  String notificationsRepliedToYou(String author);
+
+  /// Server and channel a notification came from, used inside the Notifications row title.
+  ///
+  /// In en, this message translates to:
+  /// **'{server} – {channel}'**
+  String notificationsMentionPlace(String server, String channel);
+
+  /// Button on a new Notifications row that opens the channel with a reply to that message started.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a reply'**
+  String get notificationsSendReply;
+
+  /// Section label above Notifications rows the user has already seen.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent activity'**
+  String get notificationsRecentActivity;
+
+  /// Menu action that removes a row from the Notifications list.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove notification'**
+  String get notificationsRemoveNotification;
+
   /// Character counter tooltip showing how many characters remain.
   ///
   /// In en, this message translates to:

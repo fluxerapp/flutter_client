@@ -34,7 +34,8 @@ class FluxerAvatar extends StatelessWidget {
        userId = null,
        icon = null,
        iconColor = null,
-       iconBackgroundColor = null;
+       iconBackgroundColor = null,
+       fadeInDuration = Duration.zero;
 
   const FluxerAvatar.user({
     required this.userId,
@@ -46,6 +47,7 @@ class FluxerAvatar extends StatelessWidget {
     this.isTyping = false,
     this.isMobileStatus = false,
     this.avatarColor,
+    this.fadeInDuration = Duration.zero,
     super.key,
   }) : _shape = _AvatarShape.circle,
        icon = null,
@@ -66,7 +68,8 @@ class FluxerAvatar extends StatelessWidget {
        userId = null,
        icon = null,
        iconColor = null,
-       iconBackgroundColor = null;
+       iconBackgroundColor = null,
+       fadeInDuration = Duration.zero;
 
   /// Icon centered on a colored disc — use for channel-type avatars.
   const FluxerAvatar.icon({
@@ -83,7 +86,8 @@ class FluxerAvatar extends StatelessWidget {
        isTyping = false,
        isMobileStatus = false,
        avatarColor = null,
-       userId = null;
+       userId = null,
+       fadeInDuration = Duration.zero;
 
   factory FluxerAvatar.fromUserRow(
     db.User user, {
@@ -143,6 +147,7 @@ class FluxerAvatar extends StatelessWidget {
   final IconData? icon;
   final Color? iconColor;
   final Color? iconBackgroundColor;
+  final Duration fadeInDuration;
 
   bool get _isUserAvatar => userId != null;
 
@@ -191,6 +196,7 @@ class FluxerAvatar extends StatelessWidget {
         imageUrl: resolvedUrl,
         fallbackImageUrl: _defaultAvatarUrl,
         placeholderColor: avatarColor == null ? null : Color(avatarColor!),
+        fadeInDuration: fadeInDuration,
       );
     } else if (resolvedUrl != null) {
       avatarContent = FluxerNetworkAvatarImage(
@@ -290,6 +296,7 @@ class FluxerNetworkAvatarImage extends StatelessWidget {
     this.borderRadius,
     this.placeholderColor,
     this.errorBuilder,
+    this.fadeInDuration = Duration.zero,
     super.key,
   });
 
@@ -299,6 +306,7 @@ class FluxerNetworkAvatarImage extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Color? placeholderColor;
   final Widget Function()? errorBuilder;
+  final Duration fadeInDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -319,7 +327,8 @@ class FluxerNetworkAvatarImage extends StatelessWidget {
         height: size,
         memCacheWidth: animated ? null : (size * devicePixelRatio).round(),
         fit: BoxFit.cover,
-        fadeInDuration: Duration.zero,
+        fadeInDuration: fadeInDuration,
+        fadeInCurve: Curves.linear,
         fadeOutDuration: Duration.zero,
         useOldImageOnUrlChange: true,
         placeholder: (_, _) => placeholder(),

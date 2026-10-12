@@ -7,13 +7,15 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mention_inbox_card.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_empty_state.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_end_footer.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/notification_removable_row.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
@@ -38,7 +40,8 @@ class _NotificationsMentionsBodyState
   final ScrollController _scroll = ScrollController();
   final Map<String, Message?> _messageById = <String, Message?>{};
   final Set<String> _skippedMessageIds = <String>{};
-  final Set<String> _removingMessageIds = <String>{};
+  final Set<String> _removedMessageIds = <String>{};
+  final Set<String> _readThisVisit = <String>{};
   final Map<String, MentionHeader> _mentionHeaderByChannelId =
       <String, MentionHeader>{};
 
@@ -48,6 +51,9 @@ class _NotificationsMentionsBodyState
 
   int _hydrateGeneration = 0;
   bool _feedHydrationPending = false;
+  bool _active = false;
+  bool _visitBoundaryResolved = false;
+  String? _visitBoundaryId;
 
   @override
   void initState() {
@@ -68,6 +74,14 @@ class _NotificationsMentionsBodyState
         },
         fireImmediately: true,
       )
+      ..listenManual<MentionSeenBoundaryState>(mentionSeenBoundaryProvider, (
+        _,
+        MentionSeenBoundaryState next,
+      ) {
+        if (!_visitBoundaryResolved && next.loaded && mounted) {
+          setState(_resolveVisitBoundary);
+        }
+      })
       ..listenManual<MentionFeedUiState>(mentionFeedCoordinatorProvider, (
         MentionFeedUiState? previous,
         MentionFeedUiState next,
@@ -86,6 +100,58 @@ class _NotificationsMentionsBodyState
         unawaited(_refresh());
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final bool active = TickerMode.valuesOf(context).enabled;
+    if (active && !_active) {
+      _readThisVisit.clear();
+      _visitBoundaryResolved = false;
+      _resolveVisitBoundary();
+    }
+    _active = active;
+  }
+
+  void _resolveVisitBoundary() {
+    final MentionSeenBoundaryState seen = ref.read(mentionSeenBoundaryProvider);
+    if (!seen.loaded) {
+      return;
+    }
+    _visitBoundaryId = seen.messageId;
+    _visitBoundaryResolved = true;
+    _markNewestSeen();
+  }
+
+  void _markNewestSeen() {
+    if (!_visitBoundaryResolved || _feedHydrationPending) {
+      return;
+    }
+    final List<drift_db.NotificationMentionFeedData>? rows = ref
+        .read(notificationMentionFeedStreamProvider)
+        .value;
+    if (rows == null) {
+      return;
+    }
+    String? newest;
+    for (final drift_db.NotificationMentionFeedData row in _visibleRows(rows)) {
+      if (compareSnowflakeIds(row.messageId, newest) > 0) {
+        newest = row.messageId;
+      }
+    }
+    if (newest == null) {
+      return;
+    }
+    _visitBoundaryId ??= newest;
+    ref.read(mentionSeenBoundaryProvider.notifier).markSeen(newest);
+  }
+
+  bool _isNew(String messageId) {
+    final String? boundary = _visitBoundaryId;
+    return _visitBoundaryResolved &&
+        boundary != null &&
+        compareSnowflakeIds(messageId, boundary) > 0;
   }
 
   @override
@@ -120,7 +186,8 @@ class _NotificationsMentionsBodyState
       _messageById.removeWhere(
         (String k, Message? _) => !wantedIds.contains(k),
       );
-      _removingMessageIds.retainAll(wantedIds);
+      _removedMessageIds.retainAll(wantedIds);
+      _readThisVisit.retainAll(wantedIds);
       final Set<String> skipped = <String>{};
       final Set<String> retainedChannelIds = <String>{};
 
@@ -187,6 +254,7 @@ class _NotificationsMentionsBodyState
     } finally {
       if (ticket == _hydrateGeneration && mounted) {
         _feedHydrationPending = false;
+        _markNewestSeen();
         setState(() {});
       }
     }
@@ -236,11 +304,8 @@ class _NotificationsMentionsBodyState
     );
   }
 
-  void _startRemovingMention(String messageId) {
-    setState(() => _removingMessageIds.add(messageId));
-  }
-
   Future<void> _removeMention(String messageId) async {
+    setState(() => _removedMessageIds.add(messageId));
     await ref
         .read(notificationsRepositoryProvider)
         .removeMentionLocalAndRemote(messageId);
@@ -251,7 +316,18 @@ class _NotificationsMentionsBodyState
     }
   }
 
+  Future<void> _replyToMessage(BuildContext outerContext, Message msg) async {
+    await ref.read(chatViewModelProvider.notifier).prepareReplyInChannel(msg);
+    if (!outerContext.mounted) {
+      return;
+    }
+    await _jumpToMessage(outerContext, msg);
+  }
+
   Future<void> _jumpToMessage(BuildContext outerContext, Message msg) async {
+    if (_readThisVisit.add(msg.id)) {
+      setState(() {});
+    }
     final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
     final drift_db.Channel? chRow = await db.channelDao.getChannelById(
       msg.channelId,
@@ -272,53 +348,57 @@ class _NotificationsMentionsBodyState
     );
   }
 
+  String _channelKey(drift_db.NotificationMentionFeedData row) {
+    final Message? msg = _messageById[row.messageId];
+    return msg != null && msg.channelId.isNotEmpty
+        ? msg.channelId
+        : row.channelId;
+  }
+
+  bool _isHydrated(drift_db.NotificationMentionFeedData row) {
+    return _messageById.containsKey(row.messageId) &&
+        (!_feedHydrationPending ||
+            _mentionHeaderByChannelId.containsKey(_channelKey(row)));
+  }
+
   Iterable<drift_db.NotificationMentionFeedData> _visibleRows(
     List<drift_db.NotificationMentionFeedData> rows,
   ) => rows.where(
     (drift_db.NotificationMentionFeedData r) =>
-        !_skippedMessageIds.contains(r.messageId),
+        !_skippedMessageIds.contains(r.messageId) &&
+        !_removedMessageIds.contains(r.messageId) &&
+        _isHydrated(r),
   );
 
-  Widget _buildMentionTile(drift_db.NotificationMentionFeedData row) {
+  Widget _buildMentionTile(
+    drift_db.NotificationMentionFeedData row, {
+    required bool showSectionHeader,
+  }) {
     final Message? msg = _messageById[row.messageId];
-    final String channelKey = msg != null && msg.channelId.isNotEmpty
-        ? msg.channelId
-        : row.channelId;
-    final bool hydrated =
-        _messageById.containsKey(row.messageId) &&
-        (!_feedHydrationPending ||
-            _mentionHeaderByChannelId.containsKey(channelKey));
-    return NotificationRemovableRow(
+    final String channelKey = _channelKey(row);
+    final bool isNew = _isNew(row.messageId);
+    final Widget card = MentionInboxCard(
+      messageId: row.messageId,
+      message: msg,
+      header: _mentionHeaderByChannelId[channelKey],
+      previewGuildId: _guildIdPreviewByChannelId[channelKey],
+      isUnread: isNew && !_readThisVisit.contains(row.messageId),
+      onJump: (Message m) => unawaited(_jumpToMessage(context, m)),
+      onReply: isNew
+          ? (Message m) => unawaited(_replyToMessage(context, m))
+          : null,
+      onRemove: (String id) => unawaited(_removeMention(id)),
+    );
+    return Column(
       key: ValueKey<String>(row.messageId),
-      removing: _removingMessageIds.contains(row.messageId),
-      onRemoved: () => unawaited(_removeMention(row.messageId)),
-      child: AnimatedSize(
-        duration: context.motion.normal,
-        alignment: Alignment.topCenter,
-        child: AnimatedSwitcher(
-          duration: context.motion.normal,
-          child: hydrated
-              ? Padding(
-                  key: const ValueKey<String>('row'),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kNotificationRowHorizontalPadding,
-                  ),
-                  child: MentionInboxCard(
-                    messageId: row.messageId,
-                    message: msg,
-                    header: _mentionHeaderByChannelId[channelKey],
-                    previewGuildId: _guildIdPreviewByChannelId[channelKey],
-                    onJump: (Message m) =>
-                        unawaited(_jumpToMessage(context, m)),
-                    onRemove: _startRemovingMention,
-                  ),
-                )
-              : const NotificationsSkeletonList(
-                  key: ValueKey<String>('skeleton'),
-                  rowCount: 1,
-                ),
-        ),
-      ),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (showSectionHeader)
+          NotificationSectionHeader(
+            label: FluxerLocalizations.of(context).notificationsRecentActivity,
+          ),
+        card,
+      ],
     );
   }
 
@@ -395,6 +475,9 @@ class _NotificationsMentionsBodyState
     if (visible.isEmpty && _feedHydrationPending && rows.isNotEmpty) {
       return _buildLoading();
     }
+    final int firstSeenIndex = visible.indexWhere(
+      (drift_db.NotificationMentionFeedData r) => !_isNew(r.messageId),
+    );
     if (visible.isEmpty && sync.lastError != null) {
       return _buildError(sync.lastError!, l10n);
     }
@@ -421,7 +504,10 @@ class _NotificationsMentionsBodyState
             delegate: SliverChildBuilderDelegate(
               (BuildContext _, int index) {
                 if (index < visible.length) {
-                  return _buildMentionTile(visible[index]);
+                  return _buildMentionTile(
+                    visible[index],
+                    showSectionHeader: index == firstSeenIndex,
+                  );
                 }
                 if (showLoadBusy) {
                   return const NotificationsSkeletonList(

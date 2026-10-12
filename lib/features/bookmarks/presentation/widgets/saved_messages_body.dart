@@ -247,7 +247,8 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
       message: message,
       header: channelId.isEmpty ? null : _headerByChannelId[channelId],
       previewGuildId: _guildIdPreviewByChannelId[channelId],
-      removeTooltip: l10n.savedMessagesRemoveTooltip,
+      title: MentionInboxCardTitle.plain,
+      removeLabel: l10n.savedMessagesRemoveTooltip,
       onJump: (Message msg) => unawaited(_jumpToMessage(msg)),
       onRemove: (String id) => unawaited(_removeBookmark(id)),
     );

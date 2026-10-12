@@ -1,11 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-const double kNotificationRowLeadingSize = 48;
-const double kNotificationRowLeadingGap = 12;
-const double kNotificationRowTextInset =
-    kNotificationRowLeadingSize + kNotificationRowLeadingGap;
-const double kNotificationRowHorizontalPadding = 16;
 const double kNotificationPreviewRadius = 8;
 const Duration _kPulsePeriod = Duration(milliseconds: 900);
 
@@ -74,9 +70,9 @@ class _NotificationsSkeletonRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         kNotificationRowHorizontalPadding,
-        8,
+        kNotificationRowVerticalPadding,
         kNotificationRowHorizontalPadding,
-        8,
+        kNotificationRowVerticalPadding + kNotificationRowGap,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,11 +87,12 @@ class _NotificationsSkeletonRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                const SizedBox(height: 3),
                 _SkeletonBar(widthFactor: 0.8, height: 14, color: shape),
-                const SizedBox(height: 4),
-                _SkeletonBar(widthFactor: 0.57, height: 15, color: shape),
-                const SizedBox(height: 9),
-                NotificationsSkeletonBlock(color: shape, height: 40),
+                const SizedBox(height: 6),
+                _SkeletonBar(widthFactor: 0.57, height: 14, color: shape),
+                const SizedBox(height: 10),
+                _SkeletonBar(widthFactor: 0.9, height: 12, color: shape),
               ],
             ),
           ),

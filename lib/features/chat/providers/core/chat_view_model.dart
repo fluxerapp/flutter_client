@@ -7218,6 +7218,25 @@ class ChatViewModel extends _$ChatViewModel {
     unawaited(_flushComposerDraftSave());
   }
 
+  Future<void> prepareReplyInChannel(Message message) async {
+    final String channelId = message.channelId;
+    if (state.channelId == channelId) {
+      await _startReply(message);
+      return;
+    }
+    final ({String text, Message? reply, bool? replyMentioning}) draft =
+        await _loadComposerDraft(channelId);
+    await _persistComposerDraftForChannel(
+      channelId: channelId,
+      content: draft.text,
+      reply: message,
+      replyMentioning: await _defaultReplyMentionFor(
+        message: message,
+        channelId: channelId,
+      ),
+    );
+  }
+
   Future<bool> _defaultReplyMentionFor({
     required Message message,
     required String channelId,

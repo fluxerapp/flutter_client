@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/notifications/data/unread_inbox_card_cache.d
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_meta.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_removable_row.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_preview.dart';

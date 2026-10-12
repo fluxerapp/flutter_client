@@ -215,6 +215,18 @@ double _mentionPillBorderRadius(TextStyle style) =>
 
 double _mentionInlineGap(TextStyle style) => (style.fontSize ?? 14) * (2 / 14);
 
+class MentionPlainTextScope extends InheritedWidget {
+  const MentionPlainTextScope({required super.child, super.key});
+
+  static bool contains(BuildContext context) {
+    return context.getInheritedWidgetOfExactType<MentionPlainTextScope>() !=
+        null;
+  }
+
+  @override
+  bool updateShouldNotify(MentionPlainTextScope oldWidget) => false;
+}
+
 class _MentionPill extends StatelessWidget {
   const _MentionPill({
     required this.child,
@@ -228,6 +240,9 @@ class _MentionPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (MentionPlainTextScope.contains(context)) {
+      return child;
+    }
     final colors = context.colors;
     return Container(
       clipBehavior: Clip.antiAlias,

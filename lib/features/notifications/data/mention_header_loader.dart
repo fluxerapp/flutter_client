@@ -133,7 +133,7 @@ Future<MentionHeaderResult> _buildDmHeader(
     final conversation = await buildDmConversationFromChannelRow(db, dm);
     final String title = resolveGroupDmDisplayName(dm: conversation);
     return MentionHeaderResult(
-      header: MentionHeader.dm(title: title),
+      header: MentionHeader.dm(title: title, isGroup: true),
       guildIdForPreview: '',
     );
   }
