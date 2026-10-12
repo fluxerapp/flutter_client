@@ -15,13 +15,13 @@ import 'package:fluxer_app/features/guilds/services/join_community_service.dart'
 import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -665,8 +665,6 @@ class _InviteGuildIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String initials = abbreviateGuildName(name);
-    final int initialsLength = guildNameInitialsLength(name);
     return Container(
       width: size,
       height: size,
@@ -681,17 +679,9 @@ class _InviteGuildIcon extends StatelessWidget {
               width: size,
               height: size,
               fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => _InviteInitialsFallback(
-                initials: initials,
-                initialsLength: initialsLength,
-                size: size,
-              ),
+              errorBuilder: (_, _, _) => FluxerGuildAcronym(name: name),
             )
-          : _InviteInitialsFallback(
-              initials: initials,
-              initialsLength: initialsLength,
-              size: size,
-            ),
+          : FluxerGuildAcronym(name: name),
     );
   }
 }
@@ -723,40 +713,26 @@ class _InviteUserAvatar extends StatelessWidget {
               width: size,
               height: size,
               fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => _InviteInitialsFallback(
-                initials: name.isNotEmpty ? name[0].toUpperCase() : '?',
-                initialsLength: 1,
-                size: size,
-              ),
+              errorBuilder: (_, _, _) =>
+                  _InviteUserInitial(name: name, size: size),
             )
-          : _InviteInitialsFallback(
-              initials: name.isNotEmpty ? name[0].toUpperCase() : '?',
-              initialsLength: 1,
-              size: size,
-            ),
+          : _InviteUserInitial(name: name, size: size),
     );
   }
 }
 
-class _InviteInitialsFallback extends StatelessWidget {
-  const _InviteInitialsFallback({
-    required this.initials,
-    required this.initialsLength,
-    required this.size,
-  });
+class _InviteUserInitial extends StatelessWidget {
+  const _InviteUserInitial({required this.name, required this.size});
 
-  final String initials;
-  final int initialsLength;
+  final String name;
   final double size;
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = size >= 64
-        ? (initialsLength <= 2 ? 28 : 22)
-        : (initialsLength <= 2 ? 18 : 15);
+    final double fontSize = size >= 64 ? 28 : 18;
     return Center(
       child: Text(
-        initials,
+        name.isNotEmpty ? name[0].toUpperCase() : '?',
         style: context.textStyles.smallText.copyWith(
           color: context.colors.textPrimary,
           fontSize: fontSize,

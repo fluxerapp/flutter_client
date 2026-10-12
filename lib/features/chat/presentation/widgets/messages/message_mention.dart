@@ -24,13 +24,13 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -707,8 +707,6 @@ class _GuildInitials extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initials = abbreviateGuildName(guild.name);
-    final initialsLength = guildNameInitialsLength(guild.name);
     final colors = context.colors;
     return Container(
       width: size,
@@ -717,26 +715,11 @@ class _GuildInitials extends StatelessWidget {
         color: colors.backgroundSecondary,
         shape: BoxShape.circle,
       ),
-      alignment: Alignment.center,
-      child: Text(
-        initials,
-        style: context.textStyles.smallText.copyWith(
-          fontSize: _guildMentionInitialsFontSize(initialsLength, size),
-          fontWeight: FontWeight.w700,
-          color: colors.markupMentionText,
-          height: 1,
-        ),
+      clipBehavior: Clip.antiAlias,
+      child: FluxerGuildAcronym(
+        name: guild.name,
+        color: colors.markupMentionText,
       ),
     );
   }
-}
-
-double _guildMentionInitialsFontSize(int initialsLength, double size) {
-  if (initialsLength <= 2) {
-    return size * 0.6;
-  }
-  if (initialsLength <= kGuildIconInitialsMaxLength) {
-    return size * 0.45;
-  }
-  return size * 0.35;
 }

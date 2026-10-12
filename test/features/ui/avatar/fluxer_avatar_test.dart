@@ -146,15 +146,6 @@ void main() {
       expect(find.byType(DecoratedBox), findsWidgets);
     });
 
-    testWidgets('guild variant renders with fallback text', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(const FluxerAvatar.guild(fallbackText: 'My Server')),
-      );
-
-      expect(find.text('M'), findsOneWidget);
-      expect(find.byType(FluxerStatusIndicator), findsNothing);
-    });
-
     testWidgets('default constructor renders without status', (tester) async {
       await tester.pumpWidget(
         buildTestApp(const FluxerAvatar(fallbackText: 'Test')),

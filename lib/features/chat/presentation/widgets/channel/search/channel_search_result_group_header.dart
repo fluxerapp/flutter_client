@@ -207,7 +207,6 @@ class _GuildBadge extends StatelessWidget {
       name: guild.name,
       imageUrl: guild.iconUrl,
       size: 12,
-      initialsFontWeight: FontWeight.w700,
     );
   }
 }

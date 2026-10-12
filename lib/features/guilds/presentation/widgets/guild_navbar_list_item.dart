@@ -1,15 +1,5 @@
 part of 'guild_navbar.dart';
 
-double _guildNavbarInitialsFontSize(int initialsLength) {
-  if (initialsLength <= 2) {
-    return 20;
-  }
-  if (initialsLength <= kGuildIconInitialsMaxLength) {
-    return 16;
-  }
-  return 12;
-}
-
 int _guildNavbarIconMemCache(BuildContext context, double logicalSize) =>
     (logicalSize * MediaQuery.devicePixelRatioOf(context)).round();
 

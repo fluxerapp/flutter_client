@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_s
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -21,7 +22,6 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -299,22 +299,9 @@ class AddGuildIconPreview extends StatelessWidget {
         ),
       );
     }
-    final String initials = abbreviateGuildName(name);
-    final int initialsLength = guildNameInitialsLength(name);
     return _buildCircle(
       context,
-      child: initials.isEmpty || initials == '?'
-          ? null
-          : Center(
-              child: Text(
-                initials,
-                style: context.textStyles.smallText.copyWith(
-                  color: context.colors.textPrimary,
-                  fontSize: _initialsFontSize(initialsLength),
-                  height: 1,
-                ),
-              ),
-            ),
+      child: name.trim().isEmpty ? null : FluxerGuildAcronym(name: name),
     );
   }
 
@@ -330,16 +317,6 @@ class AddGuildIconPreview extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: child,
     );
-  }
-
-  double _initialsFontSize(int initialsLength) {
-    if (initialsLength <= 2) {
-      return 22;
-    }
-    if (initialsLength == 3) {
-      return 18;
-    }
-    return 15;
   }
 
   Uint8List? _decodeDataUri(String? dataUri) {

@@ -328,15 +328,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                           )
                         : ColoredBox(
                             color: context.colors.serverIconBackground,
-                            child: Center(
-                              child: Text(
-                                abbreviateGuildName(guild.name, maxLength: 2),
-                                style: context.textStyles.smallText.copyWith(
-                                  fontSize: 8,
-                                  color: context.colors.textPrimary,
-                                ),
-                              ),
-                            ),
+                            child: FluxerGuildAcronym(name: guild.name),
                           ),
                   ),
                 ),

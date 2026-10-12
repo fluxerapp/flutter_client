@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
 import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -1847,13 +1848,7 @@ class _GuildInitial extends StatelessWidget {
       color: colors.backgroundSecondary,
       shape: BoxShape.circle,
     ),
-    alignment: Alignment.center,
-    child: Text(
-      name.isNotEmpty ? name[0].toUpperCase() : '?',
-      style: context.textStyles.smallText.copyWith(
-        fontSize: size <= 16 ? 8 : 11,
-        color: colors.textPrimaryMuted,
-      ),
-    ),
+    clipBehavior: Clip.antiAlias,
+    child: FluxerGuildAcronym(name: name, color: colors.textPrimaryMuted),
   );
 }

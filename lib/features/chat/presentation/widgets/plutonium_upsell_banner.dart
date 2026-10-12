@@ -8,11 +8,11 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'plutonium_upsell_banner.g.dart';
@@ -173,31 +173,11 @@ class _GuildInitial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initials = abbreviateGuildName(guild.name);
-    final initialsLength = guildNameInitialsLength(guild.name);
     return ColoredBox(
       color: const Color.fromRGBO(255, 255, 255, 0.1),
-      child: Center(
-        child: Text(
-          initials,
-          style: context.textStyles.smallText.copyWith(
-            fontSize: _plutoniumGuildInitialsFontSize(initialsLength),
-            color: Colors.white,
-          ),
-        ),
-      ),
+      child: FluxerGuildAcronym(name: guild.name, color: Colors.white),
     );
   }
-}
-
-double _plutoniumGuildInitialsFontSize(int initialsLength) {
-  if (initialsLength <= 2) {
-    return 9;
-  }
-  if (initialsLength <= kGuildIconInitialsMaxLength) {
-    return 7.5;
-  }
-  return 6.5;
 }
 
 class _PreviewEmojiRow extends StatelessWidget {

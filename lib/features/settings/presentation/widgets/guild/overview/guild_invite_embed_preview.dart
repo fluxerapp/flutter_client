@@ -3,11 +3,11 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 
 class GuildInviteEmbedPreview extends StatelessWidget {
   const GuildInviteEmbedPreview({
@@ -185,8 +185,6 @@ class GuildInviteEmbedPreview extends StatelessWidget {
   }
 
   Widget _buildIconFallback(BuildContext context) {
-    final String initials = abbreviateGuildName(guildName);
-    final int initialsLength = guildNameInitialsLength(guildName);
     return Container(
       width: 44,
       height: 44,
@@ -194,15 +192,8 @@ class GuildInviteEmbedPreview extends StatelessWidget {
         color: context.colors.backgroundTertiary,
         shape: BoxShape.circle,
       ),
-      child: Center(
-        child: Text(
-          initials,
-          style: context.textStyles.smallText.copyWith(
-            color: context.colors.textPrimary,
-            fontSize: _guildInviteInitialsFontSize(initialsLength),
-          ),
-        ),
-      ),
+      clipBehavior: Clip.antiAlias,
+      child: FluxerGuildAcronym(name: guildName),
     );
   }
 
@@ -229,16 +220,6 @@ class GuildInviteEmbedPreview extends StatelessWidget {
       return '${(count / 1000).toStringAsFixed(1)}K';
     }
     return '$count';
-  }
-
-  static double _guildInviteInitialsFontSize(int initialsLength) {
-    if (initialsLength <= 2) {
-      return 18;
-    }
-    if (initialsLength <= kGuildIconInitialsMaxLength) {
-      return 15;
-    }
-    return 12;
   }
 }
 

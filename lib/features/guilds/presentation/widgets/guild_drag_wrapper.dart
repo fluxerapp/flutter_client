@@ -9,10 +9,10 @@ import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildDragData {
@@ -52,8 +52,6 @@ class GuildDragFeedback extends StatelessWidget {
         : hasImage
         ? Colors.transparent
         : colors.brandPrimary;
-    final String initials = abbreviateGuildName(label);
-    final int initialsLength = guildNameInitialsLength(label);
     return _FloatingDragIcon(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -85,16 +83,13 @@ class GuildDragFeedback extends StatelessWidget {
                       context,
                       _kGuildIconInnerSize,
                     ),
-                    errorBuilder: (context, url, error) =>
-                        _DragFeedbackInitials(
-                          initials: initials,
-                          initialsLength: initialsLength,
-                          color: colors.textOnBrandPrimary,
-                        ),
+                    errorBuilder: (context, url, error) => FluxerGuildAcronym(
+                      name: label,
+                      color: colors.textOnBrandPrimary,
+                    ),
                   )
-                : _DragFeedbackInitials(
-                    initials: initials,
-                    initialsLength: initialsLength,
+                : FluxerGuildAcronym(
+                    name: label,
                     color: colors.textOnBrandPrimary,
                   ),
           ),
@@ -698,32 +693,6 @@ class _FloatingDragIcon extends StatelessWidget {
   }
 }
 
-class _DragFeedbackInitials extends StatelessWidget {
-  const _DragFeedbackInitials({
-    required this.initials,
-    required this.initialsLength,
-    required this.color,
-  });
-
-  final String initials;
-  final int initialsLength;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        initials,
-        style: context.textStyles.smallText.copyWith(
-          color: color,
-          fontSize: _dragFeedbackInitialsFontSize(initialsLength),
-          height: 1,
-        ),
-      ),
-    );
-  }
-}
-
 class _FolderMiniGrid extends StatelessWidget {
   const _FolderMiniGrid({required this.guilds});
 
@@ -763,15 +732,7 @@ class _FolderMiniGrid extends StatelessWidget {
                           )
                         : ColoredBox(
                             color: context.colors.serverIconBackground,
-                            child: Center(
-                              child: Text(
-                                abbreviateGuildName(guild.name, maxLength: 2),
-                                style: context.textStyles.smallText.copyWith(
-                                  fontSize: 8,
-                                  color: context.colors.textPrimary,
-                                ),
-                              ),
-                            ),
+                            child: FluxerGuildAcronym(name: guild.name),
                           ),
                   ),
                 ),
@@ -852,14 +813,4 @@ BoxDecoration _combineTargetDecoration(Color color, bool isMobile) {
       ),
     ],
   );
-}
-
-double _dragFeedbackInitialsFontSize(int initialsLength) {
-  if (initialsLength <= 2) {
-    return 18;
-  }
-  if (initialsLength <= kGuildIconInitialsMaxLength) {
-    return 14;
-  }
-  return 12;
 }

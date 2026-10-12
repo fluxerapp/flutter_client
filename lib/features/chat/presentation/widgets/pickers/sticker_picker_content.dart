@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_prov
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -958,14 +959,8 @@ class _StickerGuildInitial extends StatelessWidget {
       color: colors.backgroundSecondary,
       shape: BoxShape.circle,
     ),
-    alignment: Alignment.center,
-    child: Text(
-      name.isNotEmpty ? name[0].toUpperCase() : '?',
-      style: context.textStyles.smallText.copyWith(
-        fontSize: size <= 16 ? 8 : 11,
-        color: colors.textPrimaryMuted,
-      ),
-    ),
+    clipBehavior: Clip.antiAlias,
+    child: FluxerGuildAcronym(name: name, color: colors.textPrimaryMuted),
   );
 }
 

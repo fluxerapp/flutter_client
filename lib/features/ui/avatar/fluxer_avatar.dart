@@ -17,16 +17,13 @@ const _kFallbackColors = [
   Color(0xFFED4245),
 ];
 
-enum _AvatarShape { circle, rounded }
-
 class FluxerAvatar extends StatelessWidget {
   const FluxerAvatar({
     this.imageUrl,
     this.fallbackText,
     this.size = 32,
     super.key,
-  }) : _shape = _AvatarShape.circle,
-       status = null,
+  }) : status = null,
        showStatus = false,
        isTyping = false,
        isMobileStatus = false,
@@ -49,27 +46,9 @@ class FluxerAvatar extends StatelessWidget {
     this.avatarColor,
     this.fadeInDuration = Duration.zero,
     super.key,
-  }) : _shape = _AvatarShape.circle,
-       icon = null,
+  }) : icon = null,
        iconColor = null,
        iconBackgroundColor = null;
-
-  const FluxerAvatar.guild({
-    this.imageUrl,
-    this.fallbackText,
-    this.size = 44,
-    super.key,
-  }) : _shape = _AvatarShape.rounded,
-       status = null,
-       showStatus = false,
-       isTyping = false,
-       isMobileStatus = false,
-       avatarColor = null,
-       userId = null,
-       icon = null,
-       iconColor = null,
-       iconBackgroundColor = null,
-       fadeInDuration = Duration.zero;
 
   /// Icon centered on a colored disc — use for channel-type avatars.
   const FluxerAvatar.icon({
@@ -78,8 +57,7 @@ class FluxerAvatar extends StatelessWidget {
     this.iconColor,
     this.iconBackgroundColor,
     super.key,
-  }) : _shape = _AvatarShape.circle,
-       imageUrl = null,
+  }) : imageUrl = null,
        fallbackText = null,
        status = null,
        showStatus = false,
@@ -143,7 +121,6 @@ class FluxerAvatar extends StatelessWidget {
   final bool isMobileStatus;
   final int? avatarColor;
   final String? userId;
-  final _AvatarShape _shape;
   final IconData? icon;
   final Color? iconColor;
   final Color? iconBackgroundColor;
@@ -164,9 +141,7 @@ class FluxerAvatar extends StatelessWidget {
     return _kFallbackColors[text.hashCode.abs() % _kFallbackColors.length];
   }
 
-  BorderRadius get _borderRadius => _shape == _AvatarShape.rounded
-      ? BorderRadius.circular(size * 0.27)
-      : BorderRadius.circular(size / 2);
+  BorderRadius get _borderRadius => BorderRadius.circular(size / 2);
 
   @override
   Widget build(BuildContext context) {

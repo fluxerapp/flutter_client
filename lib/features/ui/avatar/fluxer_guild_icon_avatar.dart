@@ -1,8 +1,7 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kCornerRatio = 0.32;
@@ -21,7 +20,6 @@ class FluxerGuildIconAvatar extends StatelessWidget {
     this.isUnavailable = false,
     this.isCircle = false,
     this.initialsColor,
-    this.initialsFontWeight = FontWeight.w600,
     this.size = 36,
     super.key,
   });
@@ -31,7 +29,6 @@ class FluxerGuildIconAvatar extends StatelessWidget {
   final bool isUnavailable;
   final bool isCircle;
   final Color? initialsColor;
-  final FontWeight initialsFontWeight;
   final double size;
 
   @override
@@ -67,63 +64,13 @@ class FluxerGuildIconAvatar extends StatelessWidget {
     final String? url = imageUrl;
     final Color fallbackColor = initialsColor ?? colors.textTertiary;
     if (url == null) {
-      return _LetterFallback(
-        name: name,
-        color: fallbackColor,
-        fontWeight: initialsFontWeight,
-        size: size,
-      );
+      return FluxerGuildAcronym(name: name, color: fallbackColor);
     }
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.cover,
       errorBuilder: (BuildContext _, Object _, StackTrace? _) =>
-          _LetterFallback(
-            name: name,
-            color: fallbackColor,
-            fontWeight: initialsFontWeight,
-            size: size,
-          ),
+          FluxerGuildAcronym(name: name, color: fallbackColor),
     );
   }
-}
-
-class _LetterFallback extends StatelessWidget {
-  const _LetterFallback({
-    required this.name,
-    required this.color,
-    required this.fontWeight,
-    required this.size,
-  });
-
-  final String name;
-  final Color color;
-  final FontWeight fontWeight;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        abbreviateGuildName(name),
-        textScaler: kIconInitialsTextScaler,
-        style: context.textStyles.smallText.copyWith(
-          fontSize: _guildInitialsFontSize(guildNameInitialsLength(name), size),
-          fontWeight: fontWeight,
-          color: color,
-          height: 1,
-        ),
-      ),
-    );
-  }
-}
-
-double _guildInitialsFontSize(int length, double size) {
-  if (length <= 2) {
-    return (size * 0.275).clamp(10, 22);
-  }
-  if (length <= kGuildIconInitialsMaxLength) {
-    return (size * 0.225).clamp(9, 18);
-  }
-  return (size * 0.1875).clamp(8, 15);
 }

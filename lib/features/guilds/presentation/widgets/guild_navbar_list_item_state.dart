@@ -83,21 +83,11 @@ class _GuildListItemState extends State<_GuildListItem>
   Widget _buildBackupIcon(BuildContext context) {
     final Color iconColor =
         IconTheme.of(context).color ?? context.colors.textPrimary;
-    final initials = abbreviateGuildName(widget.label);
-    final initialsLength = guildNameInitialsLength(widget.label);
-    return Center(
-      child: widget.icon != null
-          ? PhosphorIcon(widget.icon!, color: iconColor, size: 32)
-          : Text(
-              initials,
-              textScaler: kIconInitialsTextScaler,
-              style: context.textStyles.smallText.copyWith(
-                color: iconColor,
-                fontSize: _guildNavbarInitialsFontSize(initialsLength),
-                height: 1,
-              ),
-            ),
-    );
+    final IconData? icon = widget.icon;
+    if (icon == null) {
+      return FluxerGuildAcronym(name: widget.label, color: iconColor);
+    }
+    return Center(child: PhosphorIcon(icon, color: iconColor, size: 32));
   }
 
   @override

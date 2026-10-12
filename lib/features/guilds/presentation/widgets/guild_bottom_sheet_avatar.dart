@@ -1,9 +1,8 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 
 class GuildBottomSheetAvatar extends StatelessWidget {
   final Guild guild;
@@ -26,20 +25,9 @@ class GuildBottomSheetAvatar extends StatelessWidget {
           ? CachedNetworkImage(
               imageUrl: iconUrl,
               fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => _buildFallback(context),
+              errorBuilder: (_, _, _) => FluxerGuildAcronym(name: guild.name),
             )
-          : _buildFallback(context),
-    );
-  }
-
-  Widget _buildFallback(BuildContext context) {
-    return Center(
-      child: Text(
-        abbreviateGuildName(guild.name),
-        style: context.textStyles.label.copyWith(
-          color: context.colors.textPrimary,
-        ),
-      ),
+          : FluxerGuildAcronym(name: guild.name),
     );
   }
 }
