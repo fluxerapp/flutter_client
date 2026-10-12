@@ -96,7 +96,6 @@ void gatewayConnectBinding(Ref ref) {
     if (previous != null) {
       ref.read(gatewayReadyProvider.notifier).reset();
       ref.read(guildAvailabilityProvider.notifier).clear();
-      ref.read(threadsGateProvider).resetConnection();
     }
     unawaited(backgroundDropGuard?.cancel());
     backgroundDropGuard = next.stateChanges.listen((GatewayState state) {
