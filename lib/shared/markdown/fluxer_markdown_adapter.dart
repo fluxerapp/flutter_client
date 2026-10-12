@@ -176,7 +176,11 @@ Future<void> _fluxerOnTapLink(BuildContext context, String href) async {
     if (!context.mounted) {
       return;
     }
-    await navigateToChannelJumpLinkFromContext(context: context, link: jump);
+    await navigateToChannelJumpLinkFromContext(
+      context: context,
+      link: jump,
+      dismissCoveringPages: true,
+    );
     return;
   }
 

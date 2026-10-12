@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_denied_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
+import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 
 /// Builds the in-app route for a resolved channel jump target.
 String buildChannelJumpRoutePath({
@@ -185,6 +186,7 @@ ChannelJumpResolution _resolveNavigation({
 Future<void> _applyChannelJumpResolution({
   required ProviderContainer container,
   required ChannelJumpResolution resolution,
+  required bool dismissCoveringPages,
   BuildContext? context,
 }) async {
   switch (resolution) {
@@ -207,6 +209,9 @@ Future<void> _applyChannelJumpResolution({
       container
           .read(channelJumpTargetLedgerProvider.notifier)
           .request(channelId: channelId, messageId: messageId);
+      if (dismissCoveringPages) {
+        popShellCoveringPages();
+      }
       await container
           .read(chatViewModelProvider.notifier)
           .goToRepliedMessage(channelId: channelId, messageId: messageId);
@@ -232,6 +237,9 @@ Future<void> _applyChannelJumpResolution({
         channel: Channel.fromRow(channel),
       );
     case ChannelJumpRedirectGuild(:final guildId):
+      if (dismissCoveringPages) {
+        popShellCoveringPages();
+      }
       _navigateToPathViaContainer(container, RoutePaths.guild(guildId));
     case ChannelJumpNavigate(:final path, :final channelId, :final messageId):
       final db.Channel? channel = await container
@@ -267,6 +275,9 @@ Future<void> _applyChannelJumpResolution({
             .read(channelJumpTargetLedgerProvider.notifier)
             .request(channelId: channelId, messageId: messageId);
       }
+      if (dismissCoveringPages) {
+        popShellCoveringPages();
+      }
       _navigateToPathViaContainer(container, path);
   }
 }
@@ -294,17 +305,20 @@ Future<void> navigateToChannelJumpLink({
   required ProviderContainer container,
   required ChannelJumpLink link,
   BuildContext? context,
+  bool dismissCoveringPages = false,
 }) {
   return _navigateToChannelJumpLink(
     container: container,
     context: context,
     link: link,
+    dismissCoveringPages: dismissCoveringPages,
   );
 }
 
 Future<void> navigateToChannelJumpLinkFromContext({
   required BuildContext context,
   required ChannelJumpLink link,
+  bool dismissCoveringPages = false,
 }) {
   if (!context.mounted) {
     return Future<void>.value();
@@ -313,6 +327,7 @@ Future<void> navigateToChannelJumpLinkFromContext({
     container: ProviderScope.containerOf(context),
     context: context,
     link: link,
+    dismissCoveringPages: dismissCoveringPages,
   );
 }
 
@@ -325,6 +340,7 @@ Future<void> navigateToChannelJumpLinkFromContext({
 Future<void> _navigateToChannelJumpLink({
   required ProviderContainer container,
   required ChannelJumpLink link,
+  required bool dismissCoveringPages,
   BuildContext? context,
 }) async {
   talker.debug('[ChannelJump] link=$link');
@@ -335,6 +351,7 @@ Future<void> _navigateToChannelJumpLink({
   await _applyChannelJumpResolution(
     container: container,
     resolution: resolution,
+    dismissCoveringPages: dismissCoveringPages,
     context: (context != null && context.mounted) ? context : null,
   );
 }
@@ -381,6 +398,7 @@ Future<void> navigateToChannelJumpLinkVia({
   await _applyChannelJumpResolution(
     container: container,
     resolution: resolution,
+    dismissCoveringPages: false,
     context: (context != null && context.mounted) ? context : null,
   );
 }

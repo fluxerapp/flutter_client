@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
+import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -88,7 +89,7 @@ Future<void> _joinGuildInvite({
           .loadChannels(guildId, guild: stagedGuild);
     }
   }
-  _navigateToContent(
+  _navigateToJoinedContent(
     ref,
     guildInviteNavigationPath(
       guildId: guildId,
@@ -118,9 +119,11 @@ Future<void> _joinGroupDmInvite({
 }) async {
   final client = ref.read(fluxerClientProvider);
   await client.invites.acceptInvite(inviteCode: code);
-  _navigateToContent(ref, RoutePaths.dmChannel(invite.channel.id));
+  _navigateToJoinedContent(ref, RoutePaths.dmChannel(invite.channel.id));
 }
 
-void _navigateToContent(WidgetRef ref, String path) {
-  navigateToContentVia(ref, path);
+void _navigateToJoinedContent(WidgetRef ref, String path) {
+  final ProviderContainer container = ref.container;
+  popShellCoveringPages();
+  navigateToContentViaContainer(container, path);
 }

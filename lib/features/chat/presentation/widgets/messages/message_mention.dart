@@ -499,6 +499,7 @@ class ChannelJumpLinkMention extends ConsumerWidget {
           container: ref.container,
           context: context,
           link: link,
+          dismissCoveringPages: true,
         ),
       );
     }

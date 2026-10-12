@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/guilds/providers/invite_accept_provider.dart
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
@@ -119,10 +120,9 @@ class _InviteAcceptCloseButton extends StatelessWidget {
 }
 
 class InviteAcceptModalBody extends ConsumerStatefulWidget {
-  const InviteAcceptModalBody({required this.code, this.onClose, super.key});
+  const InviteAcceptModalBody({required this.code, super.key});
 
   final String code;
-  final VoidCallback? onClose;
 
   @override
   ConsumerState<InviteAcceptModalBody> createState() =>
@@ -132,14 +132,6 @@ class InviteAcceptModalBody extends ConsumerStatefulWidget {
 class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
   bool _isAccepting = false;
 
-  void _close() {
-    if (widget.onClose != null) {
-      widget.onClose!();
-      return;
-    }
-    Navigator.of(context).maybePop();
-  }
-
   Future<void> _acceptInvite() async {
     if (_isAccepting) {
       return;
@@ -148,10 +140,6 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
     setState(() => _isAccepting = true);
     try {
       await joinCommunityViaInvite(ref: ref, rawInput: widget.code, l10n: l10n);
-      if (!mounted) {
-        return;
-      }
-      _close();
     } on JoinCommunityException catch (e) {
       if (!mounted) {
         return;
@@ -172,15 +160,16 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
   }
 
   void _navigateToGuild(InviteResponseSchemaGuildInviteResponse invite) {
-    navigateToContentVia(
-      ref,
+    final ProviderContainer container = ref.container;
+    popShellCoveringPages();
+    navigateToContentViaContainer(
+      container,
       guildInviteNavigationPath(
         guildId: invite.guild.id,
         channelType: invite.channel.type,
         channelId: invite.channel.id,
       ),
     );
-    _close();
   }
 
   @override

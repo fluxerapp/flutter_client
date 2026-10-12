@@ -315,10 +315,6 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
         rawInput: _inviteController.text,
         l10n: l10n,
       );
-      if (!mounted) {
-        return;
-      }
-      _close();
     } on JoinCommunityException catch (e) {
       if (!mounted) {
         return;
