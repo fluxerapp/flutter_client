@@ -10,14 +10,9 @@ const double kMessageStickerSize = 160;
 const int kMessageStickerRequestSize = 320;
 
 class MessageStickerImage extends StatelessWidget {
-  const MessageStickerImage({
-    required this.sticker,
-    required this.visibilityKey,
-    super.key,
-  });
+  const MessageStickerImage({required this.sticker, super.key});
 
   final MessageSticker sticker;
-  final String visibilityKey;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +24,6 @@ class MessageStickerImage extends StatelessWidget {
         child: EmbedAnimatedImage(
           animatedUrl: sticker.urlForSize(kMessageStickerRequestSize),
           staticUrl: FluxerMediaUrl.sticker(id: sticker.id),
-          visibilityKey: visibilityKey,
           useStickerAnimationPreference: true,
           fit: BoxFit.contain,
           placeholder: const SizedBox(

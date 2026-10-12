@@ -159,11 +159,7 @@ class ForwardedMessageContent extends ConsumerWidget {
                       runSpacing: 8,
                       children: [
                         for (final MessageSticker sticker in snapshot.stickers)
-                          MessageStickerImage(
-                            sticker: sticker,
-                            visibilityKey:
-                                '${message.channelId}_${message.id}_forward_${sticker.id}',
-                          ),
+                          MessageStickerImage(sticker: sticker),
                       ],
                     ),
                   ),

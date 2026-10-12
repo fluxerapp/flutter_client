@@ -721,8 +721,6 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       child = EmbedAnimatedImage(
         animatedUrl: sticker.urlForSize(_kStickerRequestSize),
         staticUrl: FluxerMediaUrl.sticker(id: sticker.id),
-        visibilityKey:
-            'picker_${sticker.cacheKeyForSize(_kStickerRequestSize)}',
         useStickerAnimationPreference: true,
         fit: BoxFit.contain,
         placeholder: SizedBox(width: _imageSize, height: _imageSize),

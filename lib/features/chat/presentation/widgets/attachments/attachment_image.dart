@@ -123,8 +123,6 @@ class AttachmentImage extends ConsumerWidget {
                           ? EmbedAnimatedImage(
                               animatedUrl: animatedEmbedImageUrl(effectiveUrl),
                               staticUrl: staticEmbedImageUrl(effectiveUrl),
-                              visibilityKey:
-                                  '${channelId}_${messageId}_${attachment.id}',
                               fit: BoxFit.contain,
                               placeholder: _buildImagePlaceholder(context),
                               errorPlaceholder:

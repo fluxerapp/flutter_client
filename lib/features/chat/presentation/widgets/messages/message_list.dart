@@ -275,7 +275,6 @@ class _MessageListState extends ConsumerState<MessageList>
   final AnimatedImagePlaybackController _animatedImagePlaybackController =
       AnimatedImagePlaybackController(
         maxActiveVideos: kMaxActiveChatAnimatedImages,
-        suppressWhileScrolling: true,
       );
   final MessageTileCache _tileCache = MessageTileCache();
   late final ChatViewModel _chatViewModel;
@@ -1840,7 +1839,6 @@ class _MessageListState extends ConsumerState<MessageList>
     if (_tailFollowOwnsScroll()) {
       return;
     }
-    _syncAnimatedImageScrollPause();
     _publishDemandGeometry();
     _signalFillerEntry();
     _syncReadViewport();
@@ -2182,12 +2180,6 @@ class _MessageListState extends ConsumerState<MessageList>
     }
   }
 
-  void _syncAnimatedImageScrollPause() {
-    _animatedImagePlaybackController.setScrollActive(
-      active: _isUserDrivenScroll,
-    );
-  }
-
   bool get _isUserDrivenScroll =>
       _userDragActive ||
       (_scrollController.hasClients &&
@@ -2434,14 +2426,12 @@ class _MessageListState extends ConsumerState<MessageList>
     if (notification is ScrollStartNotification &&
         notification.dragDetails != null) {
       _userDragActive = true;
-      _syncAnimatedImageScrollPause();
     } else if (notification is ScrollEndNotification) {
       _userDragActive = false;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) {
           return;
         }
-        _syncAnimatedImageScrollPause();
         if (!_isUserDrivenScroll) {
           _maybeExpandScrollCache();
         } else {

@@ -1350,10 +1350,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               runSpacing: 8,
               children: [
                 for (final MessageSticker sticker in msg.stickers)
-                  MessageStickerImage(
-                    sticker: sticker,
-                    visibilityKey: '${msg.channelId}_${msg.id}_${sticker.id}',
-                  ),
+                  MessageStickerImage(sticker: sticker),
               ],
             ),
           ),

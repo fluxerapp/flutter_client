@@ -101,9 +101,6 @@ class EmbedImage extends ConsumerWidget {
                       staticUrl: staticEmbedImageUrl(
                         embedMediaEffectiveUrl(media),
                       ),
-                      visibilityKey:
-                          '${channelId}_${messageId}_'
-                          '${embedIndex}_${embed.type.name}',
                       fit: BoxFit.contain,
                       placeholder: placeholder,
                       errorPlaceholder: errorPlaceholder,

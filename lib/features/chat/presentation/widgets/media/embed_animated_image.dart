@@ -14,7 +14,6 @@ class EmbedAnimatedImage extends ConsumerStatefulWidget {
   const EmbedAnimatedImage({
     required this.animatedUrl,
     required this.staticUrl,
-    required this.visibilityKey,
     this.fit = BoxFit.cover,
     this.placeholder,
     this.errorPlaceholder,
@@ -25,8 +24,6 @@ class EmbedAnimatedImage extends ConsumerStatefulWidget {
   final String animatedUrl;
 
   final String staticUrl;
-
-  final String visibilityKey;
 
   final BoxFit fit;
 
@@ -68,10 +65,10 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     if (controller == _controller) {
       return;
     }
-    _controller?.unregister(widget.visibilityKey);
+    _controller?.unregister(this);
     _controller?.removeListener(_onControllerChanged);
     _controller = controller;
-    _controller?.register(widget.visibilityKey, _localVisible ? 1 : 0);
+    _controller?.register(this, _localVisible ? 1 : 0);
     _controller?.addListener(_onControllerChanged);
     _syncPlaying();
   }
@@ -80,7 +77,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
   void dispose() {
     _hideScheduled = false;
     _controller?.removeListener(_onControllerChanged);
-    _controller?.unregister(widget.visibilityKey);
+    _controller?.unregister(this);
     _playback.dispose();
     super.dispose();
   }
@@ -135,8 +132,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     if (!mounted) {
       return;
     }
-    final bool playbackActive =
-        _controller?.isPlaying(widget.visibilityKey) ?? _localVisible;
+    final bool playbackActive = _controller?.isPlaying(this) ?? _localVisible;
     final ({bool playing, bool loadAnimated}) next = (
       playing: _playbackAllowed && playbackActive,
       loadAnimated: _loadAllowed && _localVisible,
@@ -149,7 +145,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
 
   void _applyVisibility(VisibilityInfo info, {required bool visible}) {
     _localVisible = visible;
-    _controller?.updateVisibility(widget.visibilityKey, info.visibleFraction);
+    _controller?.updateVisibility(this, info.visibleFraction);
     _syncPlaying();
   }
 

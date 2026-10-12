@@ -1,9 +1,6 @@
 import 'package:fluxer_app/material_ui.dart';
 
 class _AnimatedImageCandidate {
-  _AnimatedImageCandidate({required this.key});
-
-  final String key;
   double visibleFraction = 0;
   int visibleSince = 0;
   bool active = false;
@@ -18,41 +15,28 @@ const int kMaxActiveChatAnimatedImages = 3;
 /// visible image. Over the limit, the most visible images play, and ties go to
 /// the one that became visible last.
 class AnimatedImagePlaybackController extends ChangeNotifier {
-  AnimatedImagePlaybackController({
-    this.maxActiveVideos,
-    this.suppressWhileScrolling = false,
-  });
+  AnimatedImagePlaybackController({this.maxActiveVideos});
 
   final int? maxActiveVideos;
-  final bool suppressWhileScrolling;
-  bool _scrollActive = false;
   int _visibleStamp = 0;
 
-  final Map<String, _AnimatedImageCandidate> _candidates =
-      <String, _AnimatedImageCandidate>{};
+  final Map<Object, _AnimatedImageCandidate> _candidates =
+      <Object, _AnimatedImageCandidate>{};
 
-  void setScrollActive({required bool active}) {
-    if (_scrollActive == active) {
-      return;
-    }
-    _scrollActive = active;
-    _recompute();
-  }
-
-  void register(String key, double visibleFraction) {
-    final _AnimatedImageCandidate? existing = _candidates[key];
+  void register(Object owner, double visibleFraction) {
+    final _AnimatedImageCandidate? existing = _candidates[owner];
     if (existing != null && existing.visibleFraction == visibleFraction) {
       return;
     }
     final _AnimatedImageCandidate candidate =
-        existing ?? _AnimatedImageCandidate(key: key);
+        existing ?? _AnimatedImageCandidate();
     _setVisibleFraction(candidate, visibleFraction);
-    _candidates[key] = candidate;
+    _candidates[owner] = candidate;
     _recompute();
   }
 
-  void updateVisibility(String key, double visibleFraction) {
-    final _AnimatedImageCandidate? candidate = _candidates[key];
+  void updateVisibility(Object owner, double visibleFraction) {
+    final _AnimatedImageCandidate? candidate = _candidates[owner];
     if (candidate == null || candidate.visibleFraction == visibleFraction) {
       return;
     }
@@ -71,13 +55,13 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
     candidate.visibleFraction = visibleFraction;
   }
 
-  void unregister(String key) {
-    _candidates.remove(key);
+  void unregister(Object owner) {
+    _candidates.remove(owner);
     _recompute();
   }
 
-  bool isPlaying(String key) {
-    final _AnimatedImageCandidate? candidate = _candidates[key];
+  bool isPlaying(Object owner) {
+    final _AnimatedImageCandidate? candidate = _candidates[owner];
     if (candidate == null) {
       return false;
     }
@@ -85,31 +69,20 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
   }
 
   void _recompute() {
-    final Map<String, bool> previousActive = <String, bool>{
-      for (final _AnimatedImageCandidate c in _candidates.values)
-        c.key: c.active,
-    };
-    if (suppressWhileScrolling && _scrollActive) {
-      for (final _AnimatedImageCandidate candidate in _candidates.values) {
-        candidate.active = false;
-      }
-    } else {
-      final List<_AnimatedImageCandidate> visible =
-          _candidates.values
-              .where((candidate) => candidate.visibleFraction > 0)
-              .toList()
-            ..sort(_compareCandidatesByVisibility);
-      final int? configuredLimit = maxActiveVideos;
-      final int limit = configuredLimit == null || configuredLimit <= 0
-          ? visible.length
-          : configuredLimit;
-      final Set<String> allowed = visible
-          .take(limit)
-          .map((candidate) => candidate.key)
-          .toSet();
-      for (final _AnimatedImageCandidate candidate in _candidates.values) {
-        candidate.active = allowed.contains(candidate.key);
-      }
+    final Map<_AnimatedImageCandidate, bool> previousActive =
+        _activeByCandidate();
+    final List<_AnimatedImageCandidate> visible =
+        _candidates.values
+            .where((candidate) => candidate.visibleFraction > 0)
+            .toList()
+          ..sort(_compareCandidatesByVisibility);
+    final int? configuredLimit = maxActiveVideos;
+    final int limit = configuredLimit == null || configuredLimit <= 0
+        ? visible.length
+        : configuredLimit;
+    final Set<_AnimatedImageCandidate> allowed = visible.take(limit).toSet();
+    for (final _AnimatedImageCandidate candidate in _candidates.values) {
+      candidate.active = allowed.contains(candidate);
     }
     if (_activeMapChanged(previousActive)) {
       notifyListeners();
@@ -129,15 +102,19 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
     return b.visibleSince.compareTo(a.visibleSince);
   }
 
-  bool _activeMapChanged(Map<String, bool> previousActive) {
-    final Map<String, bool> currentActive = <String, bool>{
-      for (final _AnimatedImageCandidate c in _candidates.values)
-        c.key: c.active,
-    };
+  Map<_AnimatedImageCandidate, bool> _activeByCandidate() =>
+      <_AnimatedImageCandidate, bool>{
+        for (final _AnimatedImageCandidate c in _candidates.values) c: c.active,
+      };
+
+  bool _activeMapChanged(Map<_AnimatedImageCandidate, bool> previousActive) {
+    final Map<_AnimatedImageCandidate, bool> currentActive =
+        _activeByCandidate();
     if (previousActive.length != currentActive.length) {
       return true;
     }
-    for (final MapEntry<String, bool> entry in previousActive.entries) {
+    for (final MapEntry<_AnimatedImageCandidate, bool> entry
+        in previousActive.entries) {
       if (currentActive[entry.key] != entry.value) {
         return true;
       }
