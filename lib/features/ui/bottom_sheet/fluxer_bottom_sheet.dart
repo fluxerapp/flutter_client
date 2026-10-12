@@ -698,6 +698,7 @@ class _FluxerDraggableScrollableSheetState
       }
       _snapOrDismiss(velocity: _releaseDownVelocity);
     });
+    WidgetsBinding.instance.ensureVisualUpdate();
   }
 
   void _snapOrDismiss({double velocity = 0}) {
@@ -742,23 +743,6 @@ class _FluxerDraggableScrollableSheetState
     );
   }
 
-  bool _handleExtentChanged(DraggableScrollableNotification notification) {
-    if (!notification.shouldCloseOnMinExtent ||
-        notification.extent > notification.minExtent) {
-      return false;
-    }
-    if (_dismissed) {
-      return true;
-    }
-    final ModalRoute<dynamic>? route = ModalRoute.of(context);
-    if (route != null && !route.isCurrent) {
-      _dismissed = true;
-      return true;
-    }
-    _dismissed = true;
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     final layout = widget.sheetContext.layout;
@@ -769,82 +753,77 @@ class _FluxerDraggableScrollableSheetState
         onPointerMove: _onPointerMove,
         onPointerUp: _onPointerReleased,
         onPointerCancel: _onPointerReleased,
-        child: NotificationListener<DraggableScrollableNotification>(
-          onNotification: _handleExtentChanged,
-          child: DraggableScrollableSheet(
-            expand: false,
-            controller: _sheetController,
-            initialChildSize: widget.initialChildSize,
-            minChildSize: widget.minChildSize,
-            maxChildSize: widget.maxChildSize,
-            shouldCloseOnMinExtent: false,
-            builder: (context, scrollController) {
-              return _wrapBottomSheetSurface(
-                context: widget.sheetContext,
-                child: AnimatedPadding(
-                  duration: widget.sheetContext.motion.normal,
-                  curve: widget.sheetContext.motion.curve,
-                  padding: EdgeInsets.only(bottom: widget.bottomInset),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      final double layoutHeight = math.max(
-                        constraints.maxHeight,
-                        160,
-                      );
-                      return OverflowBox(
-                        alignment: Alignment.topCenter,
-                        minHeight: layoutHeight,
-                        maxHeight: layoutHeight,
-                        child: SizedBox(
-                          height: layoutHeight,
-                          child: _FluxerBottomSheetDragScope(
-                            sheetController: _sheetController,
-                            minChildSize: widget.minChildSize,
-                            maxChildSize: widget.maxChildSize,
-                            onDismiss: _dismiss,
-                            child: Column(
-                              children: [
-                                if (widget.showDragHandle)
-                                  FluxerBottomSheetDragHandle(
-                                    includeTopPadding:
-                                        !widget.disableTopPadding,
-                                  ),
-                                if (!widget.showDragHandle && widget.hasHeader)
-                                  SizedBox(height: layout.s4),
-                                if (widget.hasHeader)
-                                  _FluxerBottomSheetHeaderBlock(
-                                    title: widget.title ?? '',
-                                    subtitle: widget.subtitle,
-                                    leading: widget.leading,
-                                    trailing: widget.trailing,
-                                    onBack: widget.onBack,
-                                    gap: layout.s2,
-                                  ),
-                                Expanded(
-                                  child: FluxerBottomSheetScope(
-                                    bottomScrollPadding:
-                                        widget.bottomScrollPadding,
-                                    child: Builder(
-                                      builder: (scopedContext) =>
-                                          widget.builder(
-                                            scopedContext,
-                                            scrollController,
-                                            _dismiss,
-                                          ),
+        child: DraggableScrollableSheet(
+          expand: false,
+          controller: _sheetController,
+          initialChildSize: widget.initialChildSize,
+          minChildSize: widget.minChildSize,
+          maxChildSize: widget.maxChildSize,
+          shouldCloseOnMinExtent: false,
+          builder: (context, scrollController) {
+            return _wrapBottomSheetSurface(
+              context: widget.sheetContext,
+              child: AnimatedPadding(
+                duration: widget.sheetContext.motion.normal,
+                curve: widget.sheetContext.motion.curve,
+                padding: EdgeInsets.only(bottom: widget.bottomInset),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final double layoutHeight = math.max(
+                      constraints.maxHeight,
+                      160,
+                    );
+                    return OverflowBox(
+                      alignment: Alignment.topCenter,
+                      minHeight: layoutHeight,
+                      maxHeight: layoutHeight,
+                      child: SizedBox(
+                        height: layoutHeight,
+                        child: _FluxerBottomSheetDragScope(
+                          sheetController: _sheetController,
+                          minChildSize: widget.minChildSize,
+                          maxChildSize: widget.maxChildSize,
+                          onDismiss: _dismiss,
+                          child: Column(
+                            children: [
+                              if (widget.showDragHandle)
+                                FluxerBottomSheetDragHandle(
+                                  includeTopPadding: !widget.disableTopPadding,
+                                ),
+                              if (!widget.showDragHandle && widget.hasHeader)
+                                SizedBox(height: layout.s4),
+                              if (widget.hasHeader)
+                                _FluxerBottomSheetHeaderBlock(
+                                  title: widget.title ?? '',
+                                  subtitle: widget.subtitle,
+                                  leading: widget.leading,
+                                  trailing: widget.trailing,
+                                  onBack: widget.onBack,
+                                  gap: layout.s2,
+                                ),
+                              Expanded(
+                                child: FluxerBottomSheetScope(
+                                  bottomScrollPadding:
+                                      widget.bottomScrollPadding,
+                                  child: Builder(
+                                    builder: (scopedContext) => widget.builder(
+                                      scopedContext,
+                                      scrollController,
+                                      _dismiss,
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
