@@ -58,25 +58,37 @@ void main() {
 
   group('guildAcronymFontSize', () {
     const cases = <(int, double)>[
-      (0, 18),
-      (1, 18),
-      (2, 18),
-      (3, 16),
+      (0, 16),
+      (1, 16),
+      (2, 16),
+      (3, 14),
       (4, 14),
       (5, 12),
-      (6, 10),
-      (10, 10),
+      (6, 12),
+      (10, 12),
     ];
 
     for (final (length, fontSize) in cases) {
-      test('$length graphemes -> ${fontSize}px on a 48px icon', () {
-        expect(guildAcronymFontSize(length, 48), closeTo(fontSize, 0.001));
-      });
+      for (final double iconSize in <double>[48, 60, 64]) {
+        test('$length graphemes -> ${fontSize}px on a ${iconSize}px icon', () {
+          expect(
+            guildAcronymFontSize(length, iconSize),
+            closeTo(fontSize, 0.001),
+          );
+        });
+      }
     }
 
-    test('scales with the icon and never drops below the floor', () {
-      expect(guildAcronymFontSize(2, 96), closeTo(36, 0.001));
-      expect(guildAcronymFontSize(2, 24), closeTo(9, 0.001));
+    test('scales up proportionally above 64px', () {
+      expect(guildAcronymFontSize(2, 96), closeTo(24, 0.001));
+      expect(guildAcronymFontSize(4, 128), closeTo(28, 0.001));
+      expect(guildAcronymFontSize(5, 80), closeTo(15, 0.001));
+    });
+
+    test('scales down below 48px and never drops below the floor', () {
+      expect(guildAcronymFontSize(2, 36), closeTo(12, 0.001));
+      expect(guildAcronymFontSize(2, 24), closeTo(8, 0.001));
+      expect(guildAcronymFontSize(4, 40), closeTo(11.667, 0.001));
       expect(guildAcronymFontSize(6, 16), kGuildAcronymMinFontSize);
     });
   });
