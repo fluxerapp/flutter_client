@@ -3623,15 +3623,11 @@ class _MessageListState extends ConsumerState<MessageList>
     bool prependUnreadSeparator = false,
     bool forceLeadingSpacing = false,
   }) {
-    final bool isNewDay =
-        renderDaySeparator &&
-        (previousMessage == null ||
-            !_isSameDay(message.timestamp, previousMessage.timestamp));
-    final bool isGrouped = computeMessageRowGrouped(
-      message: message,
-      previousMessage: previousMessage,
-      isNewDay: isNewDay,
-    );
+    final bool startsNewDay =
+        previousMessage == null ||
+        !isSameLocalDay(message.timestamp, previousMessage.timestamp);
+    final bool isNewDay = renderDaySeparator && startsNewDay;
+    final bool isGrouped = shouldGroupMessages(message, previousMessage);
     final bool isJumpHighlighted =
         message.id == highlightedMessageId || message.id == replyingToMessageId;
     final bool isUnreadBoundary =
@@ -3641,7 +3637,7 @@ class _MessageListState extends ConsumerState<MessageList>
         channelCanAddReactions && !isAuthorBlocked;
     final double leading = leadingGroupSpacing(
       isGroupStart: !isGrouped,
-      isNewDay: isNewDay,
+      isNewDay: startsNewDay,
       isUnreadBoundary: isUnreadBoundary,
       hasPrevious: previousMessage != null || forceLeadingSpacing,
       bothSystem:
@@ -4116,14 +4112,6 @@ class _MessageListState extends ConsumerState<MessageList>
       return endExclusive - 1 - dataIndex;
     }
     return dataIndex - startInclusive;
-  }
-
-  bool _isSameDay(DateTime a, DateTime b) {
-    final DateTime localA = a.toLocal();
-    final DateTime localB = b.toLocal();
-    return localA.year == localB.year &&
-        localA.month == localB.month &&
-        localA.day == localB.day;
   }
 
   Widget _withMessageSeparators(

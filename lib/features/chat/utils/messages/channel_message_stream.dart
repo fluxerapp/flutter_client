@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
 
 enum ChannelStreamType {
   message,
@@ -97,7 +98,7 @@ List<MessageCollapseAssignment> buildMessageCollapseAssignments({
     }
     if (collapsedType != currentType ||
         (previousTimestamp != null &&
-            !_isSameDay(previousTimestamp, message.timestamp))) {
+            !isSameLocalDay(previousTimestamp, message.timestamp))) {
       currentType = collapsedType;
       currentGroupKey = message.id;
     }
@@ -202,7 +203,7 @@ createIndexedChannelStream({
     final Message message = messages[i];
     final MessageCollapseAssignment assignment = assignments[i];
     if (lastDateDividerTimestamp == null ||
-        !_isSameDay(lastDateDividerTimestamp, message.timestamp)) {
+        !isSameLocalDay(lastDateDividerTimestamp, message.timestamp)) {
       activeCollapsedGroupKey = null;
       activeCollapsedItem = null;
       stream.add(
@@ -373,12 +374,4 @@ bool isMessageInRevealedCollapsedGroup({
     return true;
   }
   return revealedCollapsedGroupKey == groupKey;
-}
-
-bool _isSameDay(DateTime a, DateTime b) {
-  final DateTime localA = a.toLocal();
-  final DateTime localB = b.toLocal();
-  return localA.year == localB.year &&
-      localA.month == localB.month &&
-      localA.day == localB.day;
 }

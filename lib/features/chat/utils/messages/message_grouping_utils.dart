@@ -18,6 +18,14 @@ bool authorsShareGroupIdentity(Message current, Message previous) {
   return true;
 }
 
+bool isSameLocalDay(DateTime a, DateTime b) {
+  final DateTime localA = a.toLocal();
+  final DateTime localB = b.toLocal();
+  return localA.year == localB.year &&
+      localA.month == localB.month &&
+      localA.day == localB.day;
+}
+
 bool isNewMessageGroup(Message current, Message? previous) {
   if (previous == null) {
     return true;
@@ -54,6 +62,9 @@ bool isNewMessageGroup(Message current, Message? previous) {
       previous.authorName != current.authorName) {
     return true;
   }
+  if (!isSameLocalDay(previous.timestamp, current.timestamp)) {
+    return true;
+  }
   if (current.timestamp.difference(previous.timestamp) > messageGroupTimeout) {
     return true;
   }
@@ -78,17 +89,6 @@ bool shouldGroupMessages(Message current, Message? previous) {
     return false;
   }
   return !isNewMessageGroup(current, previous);
-}
-
-bool computeMessageRowGrouped({
-  required Message message,
-  required Message? previousMessage,
-  required bool isNewDay,
-}) {
-  if (isNewDay) {
-    return false;
-  }
-  return shouldGroupMessages(message, previousMessage);
 }
 
 double leadingGroupSpacing({

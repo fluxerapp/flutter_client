@@ -83,10 +83,9 @@ class UnreadInboxCardPreview extends ConsumerWidget {
         for (int i = 0; i < items.length && i < _kMaxPreviewMessages; i++)
           MessageItem(
             message: items[i],
-            isGrouped: computeMessageRowGrouped(
-              message: items[i],
-              previousMessage: i > 0 ? items[i - 1] : null,
-              isNewDay: false,
+            isGrouped: shouldGroupMessages(
+              items[i],
+              i > 0 ? items[i - 1] : null,
             ),
             currentUserId: currentUserId,
             inboxPreviewMode: true,

@@ -282,52 +282,6 @@ void main() {
     });
   });
 
-  group('computeMessageRowGrouped', () {
-    test('groups consecutive messages from the same author', () {
-      final Message first = _message(
-        id: '1',
-        authorId: 'user',
-        authorName: 'Alice',
-      );
-      final Message second = _message(
-        id: '2',
-        authorId: 'user',
-        authorName: 'Alice',
-        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
-      );
-      expect(
-        computeMessageRowGrouped(
-          message: second,
-          previousMessage: first,
-          isNewDay: false,
-        ),
-        isTrue,
-      );
-    });
-
-    test('returns false on a new day', () {
-      final Message first = _message(
-        id: '1',
-        authorId: 'user',
-        authorName: 'Alice',
-      );
-      final Message second = _message(
-        id: '2',
-        authorId: 'user',
-        authorName: 'Alice',
-        timestamp: DateTime.utc(2026, 1, 2, 12, 1),
-      );
-      expect(
-        computeMessageRowGrouped(
-          message: second,
-          previousMessage: first,
-          isNewDay: true,
-        ),
-        isFalse,
-      );
-    });
-  });
-
   group('isNewMessageGroup', () {
     test('starts a new group when previous is null', () {
       final Message current = _message(
@@ -336,6 +290,23 @@ void main() {
         authorName: 'Alice',
       );
       expect(isNewMessageGroup(current, null), isTrue);
+    });
+
+    test('starts a new group when the local day changes', () {
+      final Message beforeMidnight = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime(2026, 1, 1, 23, 59),
+      );
+      final Message afterMidnight = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime(2026, 1, 2, 0, 1),
+      );
+      expect(isNewMessageGroup(afterMidnight, beforeMidnight), isTrue);
+      expect(shouldGroupMessages(afterMidnight, beforeMidnight), isFalse);
     });
   });
 
