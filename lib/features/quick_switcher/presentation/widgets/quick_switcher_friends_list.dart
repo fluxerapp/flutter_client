@@ -10,18 +10,19 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class QuickSwitcherFriendsList extends ConsumerWidget {
   const QuickSwitcherFriendsList({
     required this.searchQuery,
-    required this.onFriendSelected,
+    required this.onNavigatedAway,
     required this.scrollController,
     super.key,
   });
 
   final String searchQuery;
-  final VoidCallback onFriendSelected;
+  final VoidCallback onNavigatedAway;
   final ScrollController scrollController;
 
   @override
@@ -79,15 +80,7 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 6),
               child: _FriendRow(
                 friend: friend,
-                onTap: () {
-                  onFriendSelected();
-                  if (!context.mounted) {
-                    return;
-                  }
-                  unawaited(
-                    FluxerUserProfileSheet.show(context, userId: friend.id),
-                  );
-                },
+                onTap: () => unawaited(_openProfile(context, friend.id)),
               ),
             ),
           ),
@@ -95,6 +88,23 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
         ],
       ],
     );
+  }
+
+  Future<void> _openProfile(BuildContext context, String userId) async {
+    final GoRouteInformationProvider location = GoRouter.of(
+      context,
+    ).routeInformationProvider;
+    bool navigated = false;
+    void markNavigated() => navigated = true;
+    location.addListener(markNavigated);
+    try {
+      await FluxerUserProfileSheet.show(context, userId: userId);
+    } finally {
+      location.removeListener(markNavigated);
+    }
+    if (navigated && context.mounted) {
+      onNavigatedAway();
+    }
   }
 
   bool _matchesFriend(Friend friend, String query) {

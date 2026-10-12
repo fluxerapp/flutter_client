@@ -199,7 +199,7 @@ class _QuickSwitcherSheetBodyState
           child: QuickSwitcherFriendsList(
             searchQuery: state.friendsSearchQuery,
             scrollController: widget.scrollController,
-            onFriendSelected: widget.onClose,
+            onNavigatedAway: widget.onClose,
           ),
         ),
       ],
