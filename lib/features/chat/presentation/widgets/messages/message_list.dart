@@ -3177,9 +3177,9 @@ class _MessageListState extends ConsumerState<MessageList>
       return cached;
     }
     final ChatUnreadSummary summary = computeChatUnreadSummary(
-      messages: messages.map(
-        (Message message) => ChatUnreadMessageRef(id: message.id),
-      ),
+      messages: messages
+          .where((Message message) => !isLocalOnlyMessage(message))
+          .map((Message message) => ChatUnreadMessageRef(id: message.id)),
       ackLastMessageId: ackLastMessageId,
       mentionCount: mentionCount,
       channelLastMessageId: channelLastMessageId,

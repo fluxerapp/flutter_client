@@ -5133,10 +5133,14 @@ class ChatViewModel extends _$ChatViewModel {
       return null;
     }
     return oldestUnreadMessageId(
-      messageIds: state.messages.map((message) => message.id),
+      messageIds: _serverBackedMessageIds(),
       ackLastMessageId: ack,
     );
   }
+
+  Iterable<String> _serverBackedMessageIds() => state.messages
+      .where((Message message) => !isLocalOnlyMessage(message))
+      .map((Message message) => message.id);
 
   // Own messages can be first unread, but must not become sticky: live-tail
   // auto-ack would leave a leftover NEW divider on a just-acked own send.
@@ -7466,7 +7470,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final String? nearestNewer = oldestUnreadMessageId(
-      messageIds: state.messages.map((Message m) => m.id),
+      messageIds: _serverBackedMessageIds(),
       ackLastMessageId: ack,
     );
     if (nearestNewer != null) {
