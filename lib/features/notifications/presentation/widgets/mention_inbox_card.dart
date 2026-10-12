@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row_header.dart';
@@ -18,6 +19,7 @@ import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String _kSubtitleSeparator = ' · ';
+const double _kReplyLineHeight = 20;
 
 class MentionInboxCard extends ConsumerWidget {
   const MentionInboxCard({
@@ -162,11 +164,11 @@ class MentionInboxCard extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                           style: textStyles.bodyMedium.copyWith(
                             fontSize: 16,
+                            height: 18 / 16,
                             fontWeight: FontWeight.w600,
                             color: colors.textPrimary,
                           ),
                         ),
-                        const SizedBox(height: 2),
                         Row(
                           children: <Widget>[
                             if (showChannelIcon) ...<Widget>[
@@ -184,6 +186,7 @@ class MentionInboxCard extends ConsumerWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: textStyles.bodySmall.copyWith(
                                   fontSize: 13,
+                                  height: 16 / 13,
                                   color: colors.textPrimaryMuted,
                                 ),
                               ),
@@ -200,13 +203,37 @@ class MentionInboxCard extends ConsumerWidget {
               const SizedBox(height: 8),
               _previewBox(
                 context,
-                MessageItem(
-                  message: msg,
-                  currentUserId: currentUserId,
-                  inboxPreviewMode: true,
-                  hideMentionHighlight: true,
-                  previewContentOnly: true,
-                  previewRoleGuildId: roleGuildId,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    if (msg.replyParentMessageId != null)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+                        child: IgnorePointer(
+                          child: SizedBox(
+                            height: MediaQuery.textScalerOf(
+                              context,
+                            ).scale(_kReplyLineHeight),
+                            child: Align(
+                              alignment: AlignmentDirectional.centerStart,
+                              child: InlineReplyPreview(
+                                message: msg,
+                                guildId: roleGuildId,
+                                currentUserId: currentUserId,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    MessageItem(
+                      message: msg,
+                      currentUserId: currentUserId,
+                      inboxPreviewMode: true,
+                      hideMentionHighlight: true,
+                      previewContentOnly: true,
+                      previewRoleGuildId: roleGuildId,
+                    ),
+                  ],
                 ),
               ),
             ],

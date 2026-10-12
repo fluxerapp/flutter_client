@@ -91,11 +91,10 @@ class _NotificationsSkeletonRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(height: 3),
                 _SkeletonBar(widthFactor: 0.8, height: 14, color: shape),
                 const SizedBox(height: 4),
                 _SkeletonBar(widthFactor: 0.57, height: 15, color: shape),
-                const SizedBox(height: 12),
+                const SizedBox(height: 9),
                 NotificationsSkeletonBlock(color: shape, height: 40),
               ],
             ),

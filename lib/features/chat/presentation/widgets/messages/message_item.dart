@@ -768,7 +768,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ),
           hoverTintColor: hoverTintColor,
           padding: contentOnly
-              ? const EdgeInsets.symmetric(horizontal: 12, vertical: 10)
+              ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
               : widget.inboxPreviewMode
               ? EdgeInsets.only(
                   left: hasLeftAccentBar ? 7 : 8,

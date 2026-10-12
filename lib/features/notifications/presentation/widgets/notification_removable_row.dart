@@ -15,7 +15,8 @@ class NotificationRemovableRow extends StatefulWidget {
   final Widget child;
 
   @override
-  State<NotificationRemovableRow> createState() => _NotificationRemovableRowState();
+  State<NotificationRemovableRow> createState() =>
+      _NotificationRemovableRowState();
 }
 
 class _NotificationRemovableRowState extends State<NotificationRemovableRow>

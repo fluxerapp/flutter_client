@@ -1,6 +1,8 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
+import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 
 const String _kFallbackDmTitle = 'DM';
@@ -52,19 +54,13 @@ Future<UnreadInboxCardMeta> _loadDmMeta(
   drift_db.FluxerDatabase db,
   String channelId,
 ) async {
-  final drift_db.DmChannel? dm = await db.dmChannelDao.getDmChannelById(
+  final MentionHeaderResult result = await loadMentionHeaderForChannelId(
+    db,
     channelId,
   );
-  String title = dm?.name?.trim() ?? '';
-  if (title.isEmpty && dm != null && dm.recipientId.isNotEmpty) {
-    final drift_db.User? user = await db.userDao.getUserById(dm.recipientId);
-    title = user?.username ?? _kFallbackDmTitle;
-  }
-  if (title.isEmpty) {
-    title = _kFallbackDmTitle;
-  }
+  final String title = result.header.isDm ? result.header.primary : '';
   return UnreadInboxCardMeta(
-    channelTitle: title,
+    channelTitle: title.isEmpty ? _kFallbackDmTitle : title,
     subtitleLine: '',
     guildChannelVisualType: domain.ChannelType.guildText,
     guildIconDisplayUrl: null,
