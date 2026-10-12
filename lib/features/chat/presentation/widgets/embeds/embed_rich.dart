@@ -77,10 +77,10 @@ class EmbedRich extends StatelessWidget {
                 actionScope: videoActionScope,
               )
             : null;
-        final bool hasImage = embed.image != null;
+        final bool hasImage = isValidEmbedMedia(embed.image);
         final bool hasThumbnail =
             !hasVideo &&
-            embed.thumbnail != null &&
+            isValidEmbedMedia(embed.thumbnail) &&
             embed.type != EmbedType.image &&
             embed.type != EmbedType.gifv;
         final EmbedGalleryDisplay gallery = galleryIndex.resolveDisplay(
@@ -186,8 +186,7 @@ class EmbedRich extends StatelessWidget {
                             messageId: messageId,
                           ),
                         )
-                      else if (embed.image != null &&
-                          !shouldRenderInlineThumbnail)
+                      else if (hasImage && !shouldRenderInlineThumbnail)
                         Padding(
                           padding: const EdgeInsets.only(top: 4, bottom: 4),
                           child: _EmbedMediaImage(
@@ -379,59 +378,34 @@ class _EmbedMediaImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dimensions = mediaDimensionsForSize(dimensionSize);
-    final displaySize = constrainMediaSize(
+    final Size size = constrainMediaSize(
       dimensions: dimensions,
       width: media.width,
       height: media.height,
+    )!;
+    final ({int? width, int? height}) cache = coverDecodeCacheSize(
+      cellWidth: size.width,
+      cellHeight: size.height,
+      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
+      sourceWidth: media.width,
+      sourceHeight: media.height,
     );
-    final double dpr = MediaQuery.devicePixelRatioOf(context);
-    final Widget image;
-    if (displaySize != null) {
-      final ({int? width, int? height}) cache = coverDecodeCacheSize(
-        cellWidth: displaySize.width,
-        cellHeight: displaySize.height,
-        devicePixelRatio: dpr,
-        sourceWidth: media.width,
-        sourceHeight: media.height,
-      );
-      image = ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: SizedBox(
-          width: displaySize.width,
-          height: displaySize.height,
-          child: ChatNetworkImage(
-            imageUrl: embedMediaEffectiveUrl(media),
-            contentType: media.contentType,
-            width: displaySize.width,
-            height: displaySize.height,
-            memCacheWidth: cache.width,
-            memCacheHeight: cache.height,
-            fit: BoxFit.cover,
-          ),
+    final Widget image = ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: SizedBox(
+        width: size.width,
+        height: size.height,
+        child: ChatNetworkImage(
+          imageUrl: embedMediaEffectiveUrl(media),
+          contentType: media.contentType,
+          width: size.width,
+          height: size.height,
+          memCacheWidth: cache.width,
+          memCacheHeight: cache.height,
+          fit: BoxFit.cover,
         ),
-      );
-    } else {
-      final ({int? width, int? height}) cache = containDecodeCacheSize(
-        cellWidth: dimensions.maxWidth,
-        cellHeight: kEmbedMediaFallbackHeight,
-        devicePixelRatio: dpr,
-        sourceWidth: media.width,
-        sourceHeight: media.height,
-      );
-      image = ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: SizedBox(
-          width: dimensions.maxWidth,
-          height: kEmbedMediaFallbackHeight,
-          child: ChatNetworkImage(
-            imageUrl: embedMediaEffectiveUrl(media),
-            contentType: media.contentType,
-            memCacheWidth: cache.width,
-            memCacheHeight: cache.height,
-          ),
-        ),
-      );
-    }
+      ),
+    );
     return FluxerGestureDetector(
       onTap: canOpenEmbedMediaViewer(media)
           ? () => openEmbedMediaViewer(

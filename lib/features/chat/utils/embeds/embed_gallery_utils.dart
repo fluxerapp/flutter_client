@@ -1,5 +1,6 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 
 const int kMaxEmbedGalleryMedia = 10;
 
@@ -22,15 +23,11 @@ String? normalizeEmbedUrl(String? url) {
   }
 }
 
-bool isValidEmbedGalleryMedia(EmbedMedia? media) {
-  return media != null && embedMediaEffectiveUrl(media).isNotEmpty;
-}
-
 EmbedMedia? galleryMediaForEmbed(Embed embed) {
-  if (isValidEmbedGalleryMedia(embed.image)) {
+  if (isValidEmbedMedia(embed.image)) {
     return embed.image;
   }
-  if (isValidEmbedGalleryMedia(embed.thumbnail)) {
+  if (isValidEmbedMedia(embed.thumbnail)) {
     return embed.thumbnail;
   }
   return null;
@@ -76,7 +73,7 @@ _EmbedListRenderMetadata _buildEmbedListRenderMetadata(List<Embed> embedList) {
       <int, List<EmbedMedia>>{};
   final Map<int, Set<String>> seenMediaKeysByFirstIndex = <int, Set<String>>{};
   void tryAddGalleryMedia(int firstIndex, EmbedMedia? media) {
-    if (!isValidEmbedGalleryMedia(media)) {
+    if (!isValidEmbedMedia(media)) {
       return;
     }
     final List<EmbedMedia> images = galleryImagesByFirstIndex.putIfAbsent(
