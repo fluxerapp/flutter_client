@@ -4307,6 +4307,7 @@ void main() {
           'message-1',
         );
         container.dispose();
+        async.flushTimers();
       });
     });
 
@@ -4330,6 +4331,7 @@ void main() {
           null,
         );
         container.dispose();
+        async.flushTimers();
       });
     });
 
@@ -4353,6 +4355,7 @@ void main() {
           null,
         );
         container.dispose();
+        async.flushTimers();
       });
     });
 
