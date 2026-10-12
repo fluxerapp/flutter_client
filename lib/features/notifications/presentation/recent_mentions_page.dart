@@ -1,33 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/message_list_page_shell.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/mention_filters_sheet.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class RecentMentionsPage extends ConsumerStatefulWidget {
+class RecentMentionsPage extends StatelessWidget {
   const RecentMentionsPage({super.key});
-
-  @override
-  ConsumerState<RecentMentionsPage> createState() => _RecentMentionsPageState();
-}
-
-class _RecentMentionsPageState extends ConsumerState<RecentMentionsPage> {
-  NotificationsMentionsOpenFilterInvoker? _filterInvoker;
-
-  void _onFilterInvokerChanged(
-    NotificationsMentionsOpenFilterInvoker? invoker,
-  ) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() => _filterInvoker = invoker);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +26,12 @@ class _RecentMentionsPageState extends ConsumerState<RecentMentionsPage> {
         child: IconButton(
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
-          onPressed: _filterInvoker == null
-              ? null
-              : () => unawaited(_filterInvoker!()),
+          onPressed: () => unawaited(
+            showMentionFiltersSheet(
+              context,
+              title: l10n.notificationsMentionFiltersTitle,
+            ),
+          ),
           icon: Icon(
             PhosphorIconsBold.funnel,
             color: context.colors.textSecondary,
@@ -54,9 +39,7 @@ class _RecentMentionsPageState extends ConsumerState<RecentMentionsPage> {
           ),
         ),
       ),
-      body: NotificationsMentionsBody(
-        onOpenFilterInvokerChanged: _onFilterInvokerChanged,
-      ),
+      body: const NotificationsMentionsBody(),
     );
   }
 }

@@ -7,19 +7,20 @@ import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadFeatureChannelType;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_meta.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_preview.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
-/// Inbox unread card matching web unread channel previews.
 class UnreadChannelInboxCard extends ConsumerStatefulWidget {
   const UnreadChannelInboxCard({required this.entry, super.key});
 
@@ -35,6 +36,7 @@ class _UnreadChannelInboxCardState
   UnreadInboxCardMeta _meta = UnreadInboxCardMeta.empty();
   List<Message>? _preview;
   bool _loadingPreview = false;
+  bool _metaLoaded = false;
   int _previewGeneration = 0;
 
   @override
@@ -69,7 +71,10 @@ class _UnreadChannelInboxCardState
     if (!mounted) {
       return;
     }
-    setState(() => _meta = meta);
+    setState(() {
+      _meta = meta;
+      _metaLoaded = true;
+    });
     await _loadPreview();
   }
 
@@ -210,7 +215,10 @@ class _UnreadChannelInboxCardState
   Widget build(BuildContext context) {
     final bool collapsed = widget.entry.isCollapsed;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: kNotificationRowHorizontalPadding,
+        vertical: 8,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -229,13 +237,20 @@ class _UnreadChannelInboxCardState
             onOpenGuildNotificationSettings: () =>
                 unawaited(_openGuildNotificationSettings()),
           ),
-          if (!collapsed)
-            UnreadInboxCardPreview(
-              preview: _preview,
-              isLoading: _loadingPreview,
-              previewRoleGuildId: widget.entry.guildId,
-              onViewAllUnread: (Message m) => _jump(explicitMessageId: m.id),
-            ),
+          AnimatedSize(
+            duration: context.motion.normal,
+            curve: context.motion.curve,
+            alignment: Alignment.topCenter,
+            child: collapsed
+                ? const SizedBox(width: double.infinity)
+                : UnreadInboxCardPreview(
+                    preview: _preview,
+                    isLoading: _loadingPreview || !_metaLoaded,
+                    previewRoleGuildId: widget.entry.guildId,
+                    onViewAllUnread: (Message m) =>
+                        _jump(explicitMessageId: m.id),
+                  ),
+          ),
         ],
       ),
     );

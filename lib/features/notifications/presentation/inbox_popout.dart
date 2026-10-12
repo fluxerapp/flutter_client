@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_messages_body.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/mention_filters_sheet.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
@@ -212,19 +213,6 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
   static const double _kSidebarWidth = 46;
 
   InboxTab _activeTab = InboxTab.unreads;
-  NotificationsMentionsOpenFilterInvoker? _mentionsFilterInvoker;
-
-  void _onMentionsOpenFilterInvokerChanged(
-    NotificationsMentionsOpenFilterInvoker? invoker,
-  ) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() => _mentionsFilterInvoker = invoker);
-    });
-  }
-
   Future<void> _confirmAndMarkAllAsRead() async {
     final bool skipConfirmation = ref.read(
       advancedPreferencesProvider.select(
@@ -309,8 +297,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                   onTap: () => setState(() => _activeTab = InboxTab.mentions),
                 ),
                 const Spacer(),
-                if (_activeTab == InboxTab.mentions &&
-                    _mentionsFilterInvoker != null)
+                if (_activeTab == InboxTab.mentions)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: FluxerTooltip(
@@ -319,7 +306,12 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                       child: _InboxSidebarActionButton(
                         icon: PhosphorIconsBold.funnel,
                         tooltip: l10n.notificationsMentionFilterTooltip,
-                        onPressed: () => unawaited(_mentionsFilterInvoker!()),
+                        onPressed: () => unawaited(
+                          showMentionFiltersSheet(
+                            context,
+                            title: l10n.notificationsMentionFiltersTitle,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -346,9 +338,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
           child: switch (_activeTab) {
             InboxTab.unreads => const NotificationsUnreadsBody(),
             InboxTab.bookmarks => SavedMessagesBody(onClose: widget.onClose),
-            InboxTab.mentions => NotificationsMentionsBody(
-              onOpenFilterInvokerChanged: _onMentionsOpenFilterInvokerChanged,
-            ),
+            InboxTab.mentions => const NotificationsMentionsBody(),
           },
         ),
       ],

@@ -6,35 +6,27 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/mention_filters_sheet.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mention_inbox_card.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_empty_state.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_end_footer.dart';
-import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const double _kLoadMoreScrollThreshold = 0.8;
 
-typedef NotificationsMentionsOpenFilterInvoker = Future<void> Function();
+const int _kLoadMoreSkeletonRows = 2;
+const Duration _kRemoveRowDuration = Duration(milliseconds: 200);
 
 class NotificationsMentionsBody extends ConsumerStatefulWidget {
-  const NotificationsMentionsBody({
-    required this.onOpenFilterInvokerChanged,
-    super.key,
-  });
-
-  final ValueChanged<NotificationsMentionsOpenFilterInvoker?>
-  onOpenFilterInvokerChanged;
+  const NotificationsMentionsBody({super.key});
 
   @override
   ConsumerState<NotificationsMentionsBody> createState() =>
@@ -46,6 +38,7 @@ class _NotificationsMentionsBodyState
   final ScrollController _scroll = ScrollController();
   final Map<String, Message?> _messageById = <String, Message?>{};
   final Set<String> _skippedMessageIds = <String>{};
+  final Set<String> _removingMessageIds = <String>{};
   final Map<String, MentionHeader> _mentionHeaderByChannelId =
       <String, MentionHeader>{};
 
@@ -75,11 +68,6 @@ class _NotificationsMentionsBodyState
         },
         fireImmediately: true,
       )
-      ..listenManual<MentionFilters>(mentionFiltersPreferencesProvider, (_, _) {
-        if (mounted) {
-          setState(_resetCachesLocal);
-        }
-      })
       ..listenManual<MentionFeedUiState>(mentionFeedCoordinatorProvider, (
         MentionFeedUiState? previous,
         MentionFeedUiState next,
@@ -89,62 +77,33 @@ class _NotificationsMentionsBodyState
               .read(notificationMentionFeedStreamProvider)
               .value;
           if (data != null) {
-            unawaited(_reconcile(data));
+            unawaited(_reconcile(data, reload: true));
           }
         }
       });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.onOpenFilterInvokerChanged(_openMentionFilters);
-      unawaited(_bootstrapFromPrefsIfUnfetched());
+      if (mounted && !ref.read(mentionFeedCoordinatorProvider).fetched) {
+        unawaited(_refresh());
+      }
     });
   }
 
   @override
   void dispose() {
-    widget.onOpenFilterInvokerChanged(null);
     _scroll
       ..removeListener(_onScrollNearEnd)
       ..dispose();
     super.dispose();
   }
 
-  Future<void> _openMentionFilters() {
-    return showMentionFiltersSheet(context, ref);
-  }
-
-  Future<void> _bootstrapFromPrefsIfUnfetched() async {
-    final MentionFeedUiState sync = ref.read(mentionFeedCoordinatorProvider);
-    if (sync.fetched) {
-      return;
-    }
-    await _bootstrapFromPrefs();
-  }
-
-  Future<void> _bootstrapFromPrefs() async {
-    if (mounted) {
-      _resetCachesLocal();
-      setState(() {});
-    }
-    await ref.read(mentionFeedCoordinatorProvider.notifier).refresh();
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  Future<void> _retryCoordinatorFetch() {
+  Future<void> _refresh() {
     return ref.read(mentionFeedCoordinatorProvider.notifier).refresh();
   }
 
-  void _resetCachesLocal() {
-    _messageById.clear();
-    _skippedMessageIds.clear();
-    _mentionHeaderByChannelId.clear();
-    _guildIdPreviewByChannelId.clear();
-  }
-
   Future<void> _reconcile(
-    List<drift_db.NotificationMentionFeedData> rows,
-  ) async {
+    List<drift_db.NotificationMentionFeedData> rows, {
+    bool reload = false,
+  }) async {
     final int ticket = ++_hydrateGeneration;
     if (rows.isNotEmpty) {
       final bool wasPending = _feedHydrationPending;
@@ -161,11 +120,11 @@ class _NotificationsMentionsBodyState
       _messageById.removeWhere(
         (String k, Message? _) => !wantedIds.contains(k),
       );
-      _skippedMessageIds.clear();
+      final Set<String> skipped = <String>{};
       final Set<String> retainedChannelIds = <String>{};
 
       for (final drift_db.NotificationMentionFeedData r in rows) {
-        if (_messageById[r.messageId] == null) {
+        if (reload || _messageById[r.messageId] == null) {
           final drift_db.Message? row = await db.messageDao.getMessage(
             r.messageId,
           );
@@ -179,7 +138,7 @@ class _NotificationsMentionsBodyState
             ? await isChannelReachable(db, msg)
             : await isBareChannelReachable(db, r.channelId);
         if (!reachable) {
-          _skippedMessageIds.add(r.messageId);
+          skipped.add(r.messageId);
           continue;
         }
         if (msg != null) {
@@ -200,8 +159,12 @@ class _NotificationsMentionsBodyState
         (String k, String _) => !retainedChannelIds.contains(k),
       );
 
+      _skippedMessageIds
+        ..clear()
+        ..addAll(skipped);
+
       for (final drift_db.NotificationMentionFeedData r in rows) {
-        if (_skippedMessageIds.contains(r.messageId)) {
+        if (skipped.contains(r.messageId)) {
           continue;
         }
         final Message? msg = _messageById[r.messageId];
@@ -211,7 +174,7 @@ class _NotificationsMentionsBodyState
         if (channelId.isEmpty) {
           continue;
         }
-        await _ensureHeaderCached(db, channelId, msg);
+        await _ensureHeaderCached(db, channelId, msg, reload: reload);
         if (ticket != _hydrateGeneration || !mounted) {
           return;
         }
@@ -231,9 +194,10 @@ class _NotificationsMentionsBodyState
   Future<void> _ensureHeaderCached(
     drift_db.FluxerDatabase db,
     String channelId,
-    Message? msg,
-  ) async {
-    if (_mentionHeaderByChannelId.containsKey(channelId)) {
+    Message? msg, {
+    required bool reload,
+  }) async {
+    if (!reload && _mentionHeaderByChannelId.containsKey(channelId)) {
       return;
     }
     final MentionHeaderResult result = msg != null
@@ -271,6 +235,10 @@ class _NotificationsMentionsBodyState
     );
   }
 
+  void _startRemovingMention(String messageId) {
+    setState(() => _removingMessageIds.add(messageId));
+  }
+
   Future<void> _removeMention(String messageId) async {
     await ref
         .read(notificationsRepositoryProvider)
@@ -278,6 +246,7 @@ class _NotificationsMentionsBodyState
     if (mounted) {
       _messageById.remove(messageId);
       _skippedMessageIds.remove(messageId);
+      _removingMessageIds.remove(messageId);
       setState(() {});
     }
   }
@@ -310,26 +279,43 @@ class _NotificationsMentionsBodyState
         !_skippedMessageIds.contains(r.messageId),
   );
 
-  bool _isMessageLoading(MentionFeedUiState sync) {
-    return sync.busy || _feedHydrationPending;
-  }
-
-  Widget _buildMentionTile(
-    drift_db.NotificationMentionFeedData row,
-    MentionFeedUiState sync,
-  ) {
+  Widget _buildMentionTile(drift_db.NotificationMentionFeedData row) {
+    final bool hydrated = _messageById.containsKey(row.messageId);
     final Message? msg = _messageById[row.messageId];
     final String channelKey = msg != null && msg.channelId.isNotEmpty
         ? msg.channelId
         : row.channelId;
-    return MentionInboxCard(
-      messageId: row.messageId,
-      message: msg,
-      isMessageLoading: _isMessageLoading(sync),
-      header: _mentionHeaderByChannelId[channelKey],
-      previewGuildId: _guildIdPreviewByChannelId[channelKey],
-      onJump: (Message m) => unawaited(_jumpToMessage(context, m)),
-      onRemove: (String id) => unawaited(_removeMention(id)),
+    return _RemovableRow(
+      key: ValueKey<String>(row.messageId),
+      removing: _removingMessageIds.contains(row.messageId),
+      onRemoved: () => unawaited(_removeMention(row.messageId)),
+      child: AnimatedSize(
+        duration: context.motion.normal,
+        alignment: Alignment.topCenter,
+        child: AnimatedSwitcher(
+          duration: context.motion.normal,
+          child: hydrated
+              ? Padding(
+                  key: const ValueKey<String>('row'),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kNotificationRowHorizontalPadding,
+                  ),
+                  child: MentionInboxCard(
+                    messageId: row.messageId,
+                    message: msg,
+                    header: _mentionHeaderByChannelId[channelKey],
+                    previewGuildId: _guildIdPreviewByChannelId[channelKey],
+                    onJump: (Message m) =>
+                        unawaited(_jumpToMessage(context, m)),
+                    onRemove: _startRemovingMention,
+                  ),
+                )
+              : const NotificationsSkeletonList(
+                  key: ValueKey<String>('skeleton'),
+                  rowCount: 1,
+                ),
+        ),
+      ),
     );
   }
 
@@ -338,37 +324,30 @@ class _NotificationsMentionsBodyState
     final MentionFeedUiState sync = ref.watch(mentionFeedCoordinatorProvider);
 
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final FluxerColorTheme colors = context.colors;
     final AsyncValue<List<drift_db.NotificationMentionFeedData>> rowsAsync = ref
         .watch(notificationMentionFeedStreamProvider);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-      child: rowsAsync.when(
-        skipLoadingOnReload: false,
-        loading: () => _buildLoading(colors),
-        error: (Object err, _) => _buildError(err, l10n),
-        data: (List<drift_db.NotificationMentionFeedData> rows) =>
-            _buildList(rows, sync, l10n, colors),
-      ),
+    return rowsAsync.when(
+      skipLoadingOnReload: true,
+      loading: _buildLoading,
+      error: (Object err, _) => _buildError(err, l10n),
+      data: (List<drift_db.NotificationMentionFeedData> rows) =>
+          _buildList(rows, sync, l10n),
     );
   }
 
-  Widget _buildLoading(FluxerColorTheme colors) {
+  Widget _buildLoading() {
     return FluxerRefreshScrollView(
-      onRefresh: _bootstrapFromPrefs,
+      onRefresh: _refresh,
       slivers: const <Widget>[
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Center(child: FluxerLoadingSpinner()),
-        ),
+        SliverToBoxAdapter(child: NotificationsSkeletonList()),
       ],
     );
   }
 
   Widget _buildError(Object error, FluxerLocalizations l10n) {
     return FluxerRefreshScrollView(
-      onRefresh: _bootstrapFromPrefs,
+      onRefresh: _refresh,
       slivers: <Widget>[
         SliverFillRemaining(
           hasScrollBody: false,
@@ -387,40 +366,7 @@ class _NotificationsMentionsBodyState
                   ),
                   const SizedBox(height: 12),
                   FilledButton(
-                    onPressed: () => unawaited(_bootstrapFromPrefs()),
-                    child: Text(l10n.retry),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCoordinatorError(Object error, FluxerLocalizations l10n) {
-    return FluxerRefreshScrollView(
-      onRefresh: _bootstrapFromPrefs,
-      slivers: <Widget>[
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    userFacingErrorMessage(error, l10n.networkErrorMessage),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.colors.statusDanger,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  FilledButton(
-                    onPressed: () => unawaited(_retryCoordinatorFetch()),
+                    onPressed: () => unawaited(_refresh()),
                     child: Text(l10n.retry),
                   ),
                 ],
@@ -436,34 +382,22 @@ class _NotificationsMentionsBodyState
     List<drift_db.NotificationMentionFeedData> rows,
     MentionFeedUiState sync,
     FluxerLocalizations l10n,
-    FluxerColorTheme colors,
   ) {
     final List<drift_db.NotificationMentionFeedData> visible = _visibleRows(
       rows,
     ).toList();
-    if (sync.busy && visible.isEmpty) {
-      return _buildLoading(colors);
+    if (visible.isEmpty && !sync.fetched) {
+      return _buildLoading();
     }
-    if (_feedHydrationPending &&
-        rows.isNotEmpty &&
-        visible.every(
-          (drift_db.NotificationMentionFeedData row) =>
-              !_messageById.containsKey(row.messageId),
-        )) {
-      return _buildLoading(colors);
+    if (visible.isEmpty && _feedHydrationPending && rows.isNotEmpty) {
+      return _buildLoading();
     }
-    if (sync.fetched &&
-        sync.lastError != null &&
-        visible.isEmpty &&
-        !sync.busy) {
-      return _buildCoordinatorError(sync.lastError!, l10n);
+    if (visible.isEmpty && sync.lastError != null) {
+      return _buildError(sync.lastError!, l10n);
     }
-    if (sync.fetched &&
-        visible.isEmpty &&
-        !sync.busy &&
-        sync.lastError == null) {
+    if (visible.isEmpty) {
       return FluxerRefreshScrollView(
-        onRefresh: _bootstrapFromPrefs,
+        onRefresh: _refresh,
         slivers: const <Widget>[
           SliverFillRemaining(
             hasScrollBody: false,
@@ -472,41 +406,96 @@ class _NotificationsMentionsBodyState
         ],
       );
     }
-    final bool showEndFooter =
-        sync.fetched && !sync.hasMore && visible.isNotEmpty && !sync.busy;
-    final bool showLoadBusy = sync.busy && sync.hasMore && visible.isNotEmpty;
+    final bool showEndFooter = !sync.hasMore && !sync.busy;
+    final bool showLoadBusy = sync.busy && sync.hasMore;
     return FluxerRefreshScrollView(
       controller: _scroll,
-      onRefresh: _bootstrapFromPrefs,
+      onRefresh: _refresh,
       slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext _, int index) {
-              if (index < visible.length) {
-                return _buildMentionTile(visible[index], sync);
-              }
-              int rest = index - visible.length;
-              if (showLoadBusy) {
-                if (rest == 0) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 24),
-                    child: Center(child: FluxerLoadingSpinner()),
+        SliverPadding(
+          padding: const EdgeInsets.only(bottom: 12),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext _, int index) {
+                if (index < visible.length) {
+                  return _buildMentionTile(visible[index]);
+                }
+                if (showLoadBusy) {
+                  return const NotificationsSkeletonList(
+                    rowCount: _kLoadMoreSkeletonRows,
                   );
                 }
-                rest--;
-              }
-              if (showEndFooter && rest == 0) {
-                return const MentionsEndFooter();
-              }
-              return const SizedBox.shrink();
-            },
-            childCount:
-                visible.length +
-                (showLoadBusy ? 1 : 0) +
-                (showEndFooter ? 1 : 0),
+                return const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: kNotificationRowHorizontalPadding,
+                  ),
+                  child: MentionsEndFooter(),
+                );
+              },
+              childCount:
+                  visible.length + (showLoadBusy || showEndFooter ? 1 : 0),
+            ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _RemovableRow extends StatefulWidget {
+  const _RemovableRow({
+    required this.removing,
+    required this.onRemoved,
+    required this.child,
+    super.key,
+  });
+
+  final bool removing;
+  final VoidCallback onRemoved;
+  final Widget child;
+
+  @override
+  State<_RemovableRow> createState() => _RemovableRowState();
+}
+
+class _RemovableRowState extends State<_RemovableRow>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: _kRemoveRowDuration,
+    value: 1,
+  )..addStatusListener(_onStatus);
+  late final Animation<double> _curve = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOut,
+  );
+
+  @override
+  void didUpdateWidget(_RemovableRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.removing && !oldWidget.removing) {
+      _controller.reverse();
+    }
+  }
+
+  void _onStatus(AnimationStatus status) {
+    if (status == AnimationStatus.dismissed) {
+      widget.onRemoved();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizeTransition(
+      sizeFactor: _curve,
+      alignment: Alignment.topCenter,
+      child: FadeTransition(opacity: _curve, child: widget.child),
     );
   }
 }

@@ -6,14 +6,21 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/bookmarks_sheet.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/mention_filters_sheet.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_tab_bar.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
+import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
+import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+const double _kHeaderHeight = 66;
+const Duration _kTabSwitchDuration = Duration(milliseconds: 250);
 
 class NotificationsPage extends ConsumerStatefulWidget {
   const NotificationsPage({super.key});
@@ -23,24 +30,102 @@ class NotificationsPage extends ConsumerStatefulWidget {
 }
 
 class _NotificationsPageState extends ConsumerState<NotificationsPage> {
-  NotificationsMentionsOpenFilterInvoker? _mentionsFilterInvoker;
+  late final PageController _pages = PageController(
+    initialPage: ref.read(notificationsInboxSegmentProvider).index,
+  );
+  late final ValueNotifier<double> _position = ValueNotifier<double>(
+    _pages.initialPage.toDouble(),
+  );
 
-  void _onMentionsOpenFilterInvokerChanged(
-    NotificationsMentionsOpenFilterInvoker? invoker,
-  ) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
+  @override
+  void initState() {
+    super.initState();
+    _pages.addListener(_onPageScrolled);
+    ref.listenManual<NotificationsInboxTab>(notificationsInboxSegmentProvider, (
+      _,
+      NotificationsInboxTab next,
+    ) {
+      if (_pages.hasClients && _pages.page?.round() != next.index) {
+        _animateTo(next.index);
       }
-      setState(() => _mentionsFilterInvoker = invoker);
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    final NotificationsInboxTab segment = ref.watch(
-      notificationsInboxSegmentProvider,
+  void dispose() {
+    _pages
+      ..removeListener(_onPageScrolled)
+      ..dispose();
+    _position.dispose();
+    super.dispose();
+  }
+
+  void _onPageScrolled() {
+    _position.value = _pages.page ?? _position.value;
+  }
+
+  void _animateTo(int index) {
+    _pages.animateToPage(
+      index,
+      duration: MediaQuery.disableAnimationsOf(context)
+          ? Duration.zero
+          : _kTabSwitchDuration,
+      curve: Curves.easeOutCubic,
     );
+  }
+
+  void _select(int index) {
+    ref
+        .read(notificationsInboxSegmentProvider.notifier)
+        .select(NotificationsInboxTab.values[index]);
+  }
+
+  void _openBookmarks() {
+    if (isMobileLayout(context)) {
+      unawaited(BookmarksSheet.show(context));
+    } else {
+      navigateToContent(context, RoutePaths.bookmarksPath);
+    }
+  }
+
+  void _openOverflow() {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    unawaited(
+      showMentionFiltersSheet(
+        context,
+        title: l10n.notificationsPageTitle,
+        extraGroupBuilder: (BuildContext _, VoidCallback close) =>
+            FluxerMenuGroup(
+              children: <Widget>[
+                FluxerBottomSheetSubmenuItem(
+                  icon: PhosphorIconsBold.bookmarkSimple,
+                  label: l10n.notificationsBookmarksTooltip,
+                  onTap: () {
+                    close();
+                    _openBookmarks();
+                  },
+                ),
+                FluxerBottomSheetSubmenuItem(
+                  icon: PhosphorIconsBold.gear,
+                  label: l10n.notificationSettings,
+                  onTap: () {
+                    close();
+                    unawaited(
+                      UserSettingsModal.show(
+                        context,
+                        initialSection: UserSettingsSection.notifications,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
@@ -51,117 +136,99 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
         bottom: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          children: <Widget>[
             FluxerConstrainedUiTextScale(
-              child: Container(
-                constraints: const BoxConstraints(minHeight: 55),
+              child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: colors.backgroundSecondary,
                   border: Border(
                     bottom: BorderSide(color: colors.backgroundHeaderSecondary),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: layout.s3,
-                  vertical: layout.s1,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        l10n.notificationsPageTitle,
-                        style: context.textStyles.heading.copyWith(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s2, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          minHeight: _kHeaderHeight - 12,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                l10n.notificationsPageTitle,
+                                style: context.textStyles.heading.copyWith(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.textPrimary,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: _openOverflow,
+                              tooltip: l10n.chatMessageMore,
+                              icon: Icon(
+                                PhosphorIconsBold.dotsThree,
+                                color: colors.textPrimary,
+                                size: 24,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    if (segment == NotificationsInboxTab.mentions) ...[
-                      Tooltip(
-                        message: l10n.notificationsMentionFilterTooltip,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(
-                            minWidth: 36,
-                            minHeight: 36,
-                          ),
-                          onPressed: _mentionsFilterInvoker == null
-                              ? null
-                              : () => unawaited(_mentionsFilterInvoker!()),
-                          icon: Icon(
-                            PhosphorIconsBold.funnel,
-                            color: colors.textSecondary,
-                            size: 22,
-                          ),
+                      Padding(
+                        padding: EdgeInsets.only(right: layout.s2),
+                        child: NotificationsTabBar(
+                          labels: <String>[
+                            l10n.notificationsFilterUnreads,
+                            l10n.notificationsFilterMentions,
+                          ],
+                          position: _position,
+                          onSelected: _select,
                         ),
                       ),
                     ],
-                    Tooltip(
-                      message: l10n.notificationsBookmarksTooltip,
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(
-                          minWidth: 36,
-                          minHeight: 36,
-                        ),
-                        onPressed: () {
-                          if (isMobileLayout(context)) {
-                            unawaited(BookmarksSheet.show(context));
-                          } else {
-                            navigateToContent(
-                              context,
-                              RoutePaths.bookmarksPath,
-                            );
-                          }
-                        },
-                        icon: Icon(
-                          PhosphorIconsFill.bookmarkSimple,
-                          color: colors.textSecondary,
-                          size: 22,
-                        ),
-                      ),
-                    ),
-                    FluxerSelect<NotificationsInboxTab>(
-                      sheetTitle: l10n.notificationsPageTitle,
-                      hint: '',
-                      enableSearch: false,
-                      useShellTabOverlayNavigator: true,
-                      value: segment,
-                      items: <FluxerSelectItem<NotificationsInboxTab>>[
-                        FluxerSelectItem<NotificationsInboxTab>(
-                          value: NotificationsInboxTab.unreads,
-                          label: l10n.notificationsFilterUnreads,
-                        ),
-                        FluxerSelectItem<NotificationsInboxTab>(
-                          value: NotificationsInboxTab.mentions,
-                          label: l10n.notificationsFilterMentions,
-                        ),
-                      ],
-                      onChanged: (NotificationsInboxTab next) {
-                        ref
-                            .read(notificationsInboxSegmentProvider.notifier)
-                            .select(next);
-                      },
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-
             Expanded(
-              child: segment == NotificationsInboxTab.unreads
-                  ? const NotificationsUnreadsBody()
-                  : NotificationsMentionsBody(
-                      onOpenFilterInvokerChanged:
-                          _onMentionsOpenFilterInvokerChanged,
-                    ),
+              child: PageView(
+                controller: _pages,
+                onPageChanged: _select,
+                children: const <Widget>[
+                  _KeepAlivePage(child: NotificationsUnreadsBody()),
+                  _KeepAlivePage(child: NotificationsMentionsBody()),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class _KeepAlivePage extends StatefulWidget {
+  const _KeepAlivePage({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_KeepAlivePage> createState() => _KeepAlivePageState();
+}
+
+class _KeepAlivePageState extends State<_KeepAlivePage>
+    with AutomaticKeepAliveClientMixin<_KeepAlivePage> {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }

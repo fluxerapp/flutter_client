@@ -6,16 +6,12 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const int _kMaxPreviewMessages = 24;
-const double _kPreviewLoaderHeight = 80;
 
-/// Collapsable preview body of an unread inbox card. Shows a loading spinner
-/// while messages are fetched, the inline message list when available, and a
-/// "view all unread" button beneath the list.
 class UnreadInboxCardPreview extends ConsumerWidget {
   const UnreadInboxCardPreview({
     required this.preview,
@@ -33,22 +29,30 @@ class UnreadInboxCardPreview extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerColorTheme colors = context.colors;
+    if (isLoading) {
+      return const Padding(
+        padding: EdgeInsets.only(top: 8),
+        child: NotificationsSkeletonBlock(),
+      );
+    }
+    final List<Message>? items = preview;
+    if (items == null || items.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return Padding(
-      padding: const EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 12),
+      padding: const EdgeInsets.only(top: 8),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: colors.backgroundSecondary,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: colors.backgroundHeaderSecondary),
+          color: colors.backgroundSecondaryAlt,
+          borderRadius: BorderRadius.circular(kNotificationPreviewRadius),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(kNotificationPreviewRadius),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _buildBody(context, ref, colors),
-              if (_shouldShowViewAllButton())
-                _buildViewAllButton(context, colors),
+              _buildBody(context, ref, items),
+              _buildViewAllButton(context, colors, items.first),
             ],
           ),
         ),
@@ -56,26 +60,7 @@ class UnreadInboxCardPreview extends ConsumerWidget {
     );
   }
 
-  bool _shouldShowViewAllButton() {
-    final List<Message>? items = preview;
-    return items != null && items.isNotEmpty && !isLoading;
-  }
-
-  Widget _buildBody(
-    BuildContext context,
-    WidgetRef ref,
-    FluxerColorTheme colors,
-  ) {
-    if (isLoading) {
-      return const SizedBox(
-        height: _kPreviewLoaderHeight,
-        child: Center(child: FluxerLoadingSpinner()),
-      );
-    }
-    final List<Message>? items = preview;
-    if (items == null || items.isEmpty) {
-      return const SizedBox(height: 4);
-    }
+  Widget _buildBody(BuildContext context, WidgetRef ref, List<Message> items) {
     final String? currentUserId = ref.watch(currentUserIdProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,19 +80,19 @@ class UnreadInboxCardPreview extends ConsumerWidget {
     );
   }
 
-  Widget _buildViewAllButton(BuildContext context, FluxerColorTheme colors) {
+  Widget _buildViewAllButton(
+    BuildContext context,
+    FluxerColorTheme colors,
+    Message first,
+  ) {
     final FluxerTextTheme textStyles = context.textStyles;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final List<Message>? items = preview;
-    final Message? first = items != null && items.isNotEmpty
-        ? items.first
-        : null;
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.only(top: 8),
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
         child: OutlinedButton(
-          onPressed: first == null ? null : () => onViewAllUnread(first),
+          onPressed: () => onViewAllUnread(first),
           style: OutlinedButton.styleFrom(
             foregroundColor: colors.textPrimary,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
