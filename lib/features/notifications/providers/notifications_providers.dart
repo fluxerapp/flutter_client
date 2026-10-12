@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_calculator.dart';
+import 'package:fluxer_app/features/notifications/data/unread_inbox_card_cache.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
@@ -39,6 +40,14 @@ NotificationsRepository notificationsRepository(Ref ref) {
     messageRepository: ref.watch(messageRepositoryProvider),
     client: ref.watch(fluxerClientProvider),
     currentUserId: ref.watch(currentUserIdProvider),
+  );
+}
+
+@Riverpod(keepAlive: true)
+UnreadInboxCardCache unreadInboxCardCache(Ref ref) {
+  return UnreadInboxCardCache(
+    database: ref.watch(fluxerDatabaseProvider),
+    repository: ref.watch(notificationsRepositoryProvider),
   );
 }
 

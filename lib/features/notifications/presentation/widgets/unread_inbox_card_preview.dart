@@ -10,12 +10,11 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/notificat
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-const int _kMaxPreviewMessages = 24;
-
 class UnreadInboxCardPreview extends ConsumerWidget {
   const UnreadInboxCardPreview({
     required this.preview,
     required this.isLoading,
+    required this.showViewAllUnread,
     required this.previewRoleGuildId,
     required this.onViewAllUnread,
     super.key,
@@ -23,6 +22,7 @@ class UnreadInboxCardPreview extends ConsumerWidget {
 
   final List<Message>? preview;
   final bool isLoading;
+  final bool showViewAllUnread;
   final String? previewRoleGuildId;
   final ValueChanged<Message> onViewAllUnread;
 
@@ -52,7 +52,8 @@ class UnreadInboxCardPreview extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _buildBody(context, ref, items),
-              _buildViewAllButton(context, colors, items.first),
+              if (showViewAllUnread)
+                _buildViewAllButton(context, colors, items.first),
             ],
           ),
         ),
@@ -65,7 +66,7 @@ class UnreadInboxCardPreview extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        for (int i = 0; i < items.length && i < _kMaxPreviewMessages; i++)
+        for (int i = 0; i < items.length; i++)
           MessageItem(
             message: items[i],
             isGrouped: shouldGroupMessages(

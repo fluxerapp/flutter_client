@@ -150,7 +150,8 @@ class UnreadInboxCalculator {
         continue;
       }
 
-      if (unreadSettings.isMuted ||
+      final bool isMuted =
+          unreadSettings.isMuted ||
           (isThread &&
               isThreadMuted(
                 threadId: channel.id,
@@ -158,7 +159,8 @@ class UnreadInboxCalculator {
                 member: joinedThreads[channel.id],
                 guildSettings: guildSettingsByGuild[guildId],
                 now: DateTime.fromMillisecondsSinceEpoch(nowMs),
-              ))) {
+              ));
+      if (isMuted && mentions == 0) {
         continue;
       }
 
@@ -211,7 +213,7 @@ class UnreadInboxCalculator {
           inboxVisibilityLevel != UserNotificationSettings.noMessages;
       final bool hasUnread =
           (allowsMentionUnread && mentions > 0) ||
-          (allowsMessageUnread && hasUnreadMessage);
+          (allowsMessageUnread && !isMuted && hasUnreadMessage);
 
       if (!hasUnread) {
         continue;
@@ -227,6 +229,8 @@ class UnreadInboxCalculator {
           mentionCount: mentions,
           isCollapsed: collapsedByChannelId[channel.id] ?? false,
           recencyComparator: recency,
+          ackMessageId: ackId,
+          lastMessageId: channelLastMsg,
         ),
       );
     }
@@ -244,8 +248,10 @@ class UnreadInboxCalculator {
         continue;
       }
       final readState = readStateMap[dm.id];
+      final String? dmLastMessageId =
+          dm.lastMessageId ?? dmLastMessages[dm.id]?.id;
       final unreadCount = dmUnreadCountFromReadState(
-        latestMessageId: dm.lastMessageId ?? dmLastMessages[dm.id]?.id,
+        latestMessageId: dmLastMessageId,
         ackLastMessageId: readState?.lastMessageId,
         fallbackAckMs: snowflakeTimestampMs(dm.id),
         mentionCount: readState?.mentionCount ?? 0,
@@ -265,6 +271,8 @@ class UnreadInboxCalculator {
           mentionCount: unreadCount,
           isCollapsed: collapsedByChannelId[dm.id] ?? false,
           recencyComparator: ms,
+          ackMessageId: readState?.lastMessageId,
+          lastMessageId: dmLastMessageId,
         ),
       );
     }

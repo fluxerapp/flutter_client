@@ -5,6 +5,8 @@ class UnreadInboxEntry {
   final int mentionCount;
   final bool isCollapsed;
   final int recencyComparator;
+  final String? ackMessageId;
+  final String? lastMessageId;
 
   const UnreadInboxEntry({
     required this.channelId,
@@ -13,5 +15,7 @@ class UnreadInboxEntry {
     required this.mentionCount,
     required this.isCollapsed,
     required this.recencyComparator,
+    required this.ackMessageId,
+    required this.lastMessageId,
   });
 }

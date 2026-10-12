@@ -393,54 +393,52 @@ void main() {
     expect(entries, isEmpty);
   });
 
-  test(
-    'muted guild channel with mentions is excluded from unread inbox',
-    () async {
-      final db = openTestDatabase();
-      const guildId = 'guild_test_1';
-      const channelId = 'channel_test_1';
-      await db.guildDao.upsertServer(
-        ServersCompanion.insert(id: guildId, name: 'Test Guild'),
-      );
-      await db.channelDao.upsertChannel(
-        ChannelsCompanion.insert(
-          id: channelId,
-          guildId: guildId,
-          name: 'general',
-          lastMessageId: Value(_snowflakeForUtc(DateTime.utc(2026, 5, 6))),
+  test('muted guild channel with mentions stays in unread inbox', () async {
+    final db = openTestDatabase();
+    const guildId = 'guild_test_1';
+    const channelId = 'channel_test_1';
+    await db.guildDao.upsertServer(
+      ServersCompanion.insert(id: guildId, name: 'Test Guild'),
+    );
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: channelId,
+        guildId: guildId,
+        name: 'general',
+        lastMessageId: Value(_snowflakeForUtc(DateTime.utc(2026, 5, 6))),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      const ReadStatesCompanion(
+        channelId: Value(channelId),
+        mentionCount: Value(2),
+      ),
+    );
+    await db.userGuildSettingsDao.upsert(
+      UserGuildSettingsTableCompanion.insert(
+        guildId: guildId,
+        data: jsonEncode(
+          _guildSettings(
+            channelOverrides: {
+              channelId: const ChannelOverrides(
+                collapsed: false,
+                messageNotifications: UserNotificationSettingsInput.inherit,
+                muted: true,
+              ),
+            },
+          ).toJson(),
         ),
-      );
-      await db.readStateDao.upsertReadState(
-        const ReadStatesCompanion(
-          channelId: Value(channelId),
-          mentionCount: Value(2),
-        ),
-      );
-      await db.userGuildSettingsDao.upsert(
-        UserGuildSettingsTableCompanion.insert(
-          guildId: guildId,
-          data: jsonEncode(
-            _guildSettings(
-              channelOverrides: {
-                channelId: const ChannelOverrides(
-                  collapsed: false,
-                  messageNotifications: UserNotificationSettingsInput.inherit,
-                  muted: true,
-                ),
-              },
-            ).toJson(),
-          ),
-        ),
-      );
+      ),
+    );
 
-      final entries = await UnreadInboxCalculator.compute(
-        db,
-        collapsedByChannelId: <String, bool>{},
-      );
+    final entries = await UnreadInboxCalculator.compute(
+      db,
+      collapsedByChannelId: <String, bool>{},
+    );
 
-      expect(entries, isEmpty);
-    },
-  );
+    expect(entries.map((e) => e.channelId), [channelId]);
+    expect(entries.single.mentionCount, 2);
+  });
 
   test(
     'guild channel stays in unread inbox when notifications are mentions only '
