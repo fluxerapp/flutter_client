@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -823,13 +824,15 @@ class _AttachmentMediaViewerShellState
     final bool isPortrait = (item.height ?? 0) > (item.width ?? 0);
     final Widget image = imageUrl.isEmpty
         ? errorPlaceholder
-        : ChatNetworkImage(
-            imageUrl: imageUrl,
-            filename: item.filename,
-            contentType: item.contentType,
-            memCacheWidth: isPortrait ? null : decodeCap,
-            memCacheHeight: isPortrait ? decodeCap : null,
-            errorPlaceholder: errorPlaceholder,
+        : AllowImageFrameAnimation(
+            child: ChatNetworkImage(
+              imageUrl: imageUrl,
+              filename: item.filename,
+              contentType: item.contentType,
+              memCacheWidth: isPortrait ? null : decodeCap,
+              memCacheHeight: isPortrait ? decodeCap : null,
+              errorPlaceholder: errorPlaceholder,
+            ),
           );
     final Widget media = MatureMediaOverlay(
       channelId: widget.channelId,

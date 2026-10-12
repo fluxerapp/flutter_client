@@ -535,6 +535,39 @@ void main() {
         (null, null),
       ]);
     });
+
+    testWidgets('viewer page animates GIFs when reduced motion is on', (
+      tester,
+    ) async {
+      _useLowEndPhoneSurface(tester);
+
+      await tester.pumpWidget(
+        _touchApp(
+          Builder(
+            builder: (BuildContext context) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(disableAnimations: true),
+              child: const AttachmentMediaViewerShell(
+                items: [
+                  AttachmentMediaViewerItem(
+                    url: 'https://cdn.example.com/attachments/1/clip.gif',
+                    filename: 'clip.gif',
+                    width: 400,
+                    height: 300,
+                    contentType: 'image/gif',
+                  ),
+                  _landscapePhoto,
+                ],
+                initialIndex: 0,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(_disableAnimations(tester, BoxFit.contain), [false]);
+      expect(_disableAnimations(tester, BoxFit.cover), [true, true]);
+    });
   });
 
   group('touch pinch zoom', () {
@@ -656,5 +689,15 @@ List<(int?, int?)> _decodeCaps(WidgetTester tester, BoxFit fit) {
         (CachedNetworkImage image) =>
             (image.memCacheWidth, image.memCacheHeight),
       )
+      .toList();
+}
+
+List<bool> _disableAnimations(WidgetTester tester, BoxFit fit) {
+  return tester
+      .elementList(find.byType(CachedNetworkImage))
+      .where(
+        (Element element) => (element.widget as CachedNetworkImage).fit == fit,
+      )
+      .map(MediaQuery.disableAnimationsOf)
       .toList();
 }
