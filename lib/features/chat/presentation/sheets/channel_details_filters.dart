@@ -369,19 +369,9 @@ class _GuildUserSearchFilterSheetState
       ),
       child: Column(
         children: <Widget>[
-          FluxerInput(
+          PickerSearchInput.inline(
             controller: _searchController,
-            hint: l10n.channelDetailsSearchUsersHint,
-            prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
-            suffixIcon: _searchTerm.isNotEmpty
-                ? const PhosphorIcon(PhosphorIconsBold.x)
-                : null,
-            onSuffixTap: _searchTerm.isNotEmpty
-                ? () {
-                    _searchController.clear();
-                  }
-                : null,
-            textInputAction: TextInputAction.search,
+            hintText: l10n.channelDetailsSearchUsersHint,
             autofocus: true,
           ),
           const SizedBox(height: 12),
@@ -544,19 +534,9 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
       ),
       child: Column(
         children: [
-          FluxerInput(
+          PickerSearchInput.inline(
             controller: _searchController,
-            hint: l10n.channelDetailsSearchUsersHint,
-            prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
-            suffixIcon: _searchTerm.isNotEmpty
-                ? const PhosphorIcon(PhosphorIconsBold.x)
-                : null,
-            onSuffixTap: _searchTerm.isNotEmpty
-                ? () {
-                    _searchController.clear();
-                  }
-                : null,
-            textInputAction: TextInputAction.search,
+            hintText: l10n.channelDetailsSearchUsersHint,
           ),
           const SizedBox(height: 12),
           Expanded(

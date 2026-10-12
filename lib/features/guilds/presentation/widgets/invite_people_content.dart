@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_create_errors.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
@@ -9,7 +10,6 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class InvitePeopleContent extends StatefulWidget {
   const InvitePeopleContent({
@@ -238,16 +238,8 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
             );
           },
         ),
-        FluxerInput(
-          hint: l10n.guildNavbarSearchFriends,
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: layout.s3),
-            child: PhosphorIcon(
-              PhosphorIconsBold.magnifyingGlass,
-              size: 20,
-              color: colors.textSecondary,
-            ),
-          ),
+        PickerSearchInput.inline(
+          hintText: l10n.guildNavbarSearchFriends,
           onChanged: (String v) => setState(() => _searchQuery = v),
         ),
         SizedBox(height: layout.s2),

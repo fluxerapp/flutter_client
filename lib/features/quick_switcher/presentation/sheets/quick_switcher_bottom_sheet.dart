@@ -168,6 +168,7 @@ class _QuickSwitcherSheetBodyState
       children: <Widget>[
         PickerSearchInput(
           controller: _searchController,
+          focusNode: _searchFocusNode,
           hintText: l10n.quickSwitcherSearchPlaceholder,
           topPadding: 0,
           bottomPadding: 0,

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -12,7 +13,6 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kMemberPreviewLimit = 10;
 const Duration _kMemberSearchDebounce = Duration(milliseconds: 300);
@@ -317,14 +317,10 @@ class _ChannelAddOverridePickerContentState
 
     final Widget searchField = Padding(
       padding: searchPadding,
-      child: FluxerInput(
-        hint:
+      child: PickerSearchInput.inline(
+        hintText:
             widget.searchHint ??
             l10n.channelSettingsPermissionsSearchRolesOrMembers,
-        prefixIcon: const PhosphorIcon(
-          PhosphorIconsBold.magnifyingGlass,
-          size: 16,
-        ),
         autofocus: isBottomSheet,
         onChanged: _onSearchChanged,
       ),

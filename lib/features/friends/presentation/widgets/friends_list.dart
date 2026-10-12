@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -269,15 +270,9 @@ class FriendsList extends ConsumerWidget {
       right: context.layout.s4,
       top: context.layout.s3,
     ),
-    child: FluxerInput(
-      hint: _searchHint(activeTab),
+    child: PickerSearchInput.inline(
+      hintText: _searchHint(activeTab),
       onChanged: ref.read(dmViewModelProvider.notifier).updateSearch,
-      prefixIcon: PhosphorIcon(
-        PhosphorIconsBold.magnifyingGlass,
-        size: 20,
-        color: context.colors.textSecondary,
-      ),
-      style: context.textStyles.inputText.copyWith(fontSize: 14),
     ),
   );
 

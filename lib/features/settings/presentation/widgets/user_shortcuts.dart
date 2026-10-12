@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/input/domain/default_keybind.dart';
 import 'package:fluxer_app/features/input/domain/default_keybinds.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo_format.dart';
@@ -7,10 +8,8 @@ import 'package:fluxer_app/features/input/utils/default_shortcuts_display.dart';
 import 'package:fluxer_app/features/input/utils/keybind_action_labels.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/keybind_hint/fluxer_keybind_hint.dart';
-import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DefaultShortcutsList extends StatelessWidget {
   const DefaultShortcutsList({required this.searchQuery, super.key});
@@ -221,14 +220,9 @@ class _UserShortcutsState extends State<UserShortcuts> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          FluxerInput(
+          PickerSearchInput.inline(
             controller: _searchController,
-            hint: l10n.keybindsSearchShortcuts,
-            prefixIcon: PhosphorIcon(
-              PhosphorIconsBold.magnifyingGlass,
-              size: 16,
-              color: context.colors.textTertiary,
-            ),
+            hintText: l10n.keybindsSearchShortcuts,
           ),
           SizedBox(height: layout.s4),
           DefaultShortcutsList(searchQuery: _searchQuery),

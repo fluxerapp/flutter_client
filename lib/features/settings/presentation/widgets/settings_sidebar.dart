@@ -53,8 +53,6 @@ class SettingsSidebar extends StatelessWidget {
                 onChanged: onSearchChanged ?? (_) {},
                 onClear: onSearchClear ?? () {},
                 padding: EdgeInsets.zero,
-                iconSize: 18,
-                style: context.textStyles.inputText.copyWith(fontSize: 14),
               ),
             ),
           if (username != null)

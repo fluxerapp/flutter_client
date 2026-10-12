@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -366,18 +366,10 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
       children: [
         if (widget.enableSearch)
           FluxerBottomSheetSection(
-            child: FluxerInput(
+            child: PickerSearchInput.inline(
               controller: _searchController,
-              hint: widget.searchHint ?? l10n.uiSearchPlaceholder,
+              hintText: widget.searchHint ?? l10n.uiSearchPlaceholder,
               autofocus: true,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(12),
-                child: PhosphorIcon(
-                  PhosphorIconsBold.magnifyingGlass,
-                  size: 18,
-                  color: colors.textSecondary,
-                ),
-              ),
               onChanged: (value) => setState(() => _query = value),
             ),
           ),

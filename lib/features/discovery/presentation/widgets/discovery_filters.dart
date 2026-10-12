@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_language_select.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
-import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double discoveryFiltersMaxContentWidth = 400;
 
@@ -57,11 +56,10 @@ class _DiscoveryFiltersState extends ConsumerState<DiscoveryFilters> {
       children: <Widget>[
         TapRegion(
           onTapOutside: (_) => _searchFocusNode.unfocus(),
-          child: FluxerInput(
+          child: PickerSearchInput.inline(
             controller: _searchController,
             focusNode: _searchFocusNode,
-            hint: l10n.discoverySearchCommunities,
-            prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
+            hintText: l10n.discoverySearchCommunities,
             autofocus: widget.autofocusSearch,
             onChanged: ref.read(discoveryControllerProvider.notifier).setQuery,
           ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_bans_state.dart';
@@ -13,7 +14,6 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/settings/providers/guild/guild_bans_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
-import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -168,14 +168,9 @@ class _GuildBansWidgetState extends ConsumerState<GuildBansWidget> {
             ),
           ),
           SizedBox(height: context.layout.s4),
-          FluxerInput(
+          PickerSearchInput.inline(
             controller: _searchController,
-            hint: l10n.guildSettingsBansSearchHint,
-            prefixIcon: PhosphorIcon(
-              PhosphorIconsBold.magnifyingGlass,
-              size: 18,
-              color: context.colors.textPrimaryMuted,
-            ),
+            hintText: l10n.guildSettingsBansSearchHint,
             onChanged: (String value) {
               ref
                   .read(guildBansProvider(widget.guildId).notifier)

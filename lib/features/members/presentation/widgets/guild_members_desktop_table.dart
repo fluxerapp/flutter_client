@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
@@ -571,15 +572,10 @@ class _MembersTableToolbar extends StatelessWidget {
           children: <Widget>[
             SizedBox(
               width: 224,
-              child: FluxerInput(
+              child: PickerSearchInput.inline(
                 controller: searchController,
-                hint: l10n.guildSettingsMembersSearchHint,
+                hintText: l10n.guildSettingsMembersSearchHint,
                 enabled: !indexing,
-                prefixIcon: PhosphorIcon(
-                  PhosphorIconsBold.magnifyingGlass,
-                  size: 16,
-                  color: context.colors.textSecondary,
-                ),
                 onChanged: onSearchChanged,
               ),
             ),

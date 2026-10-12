@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_option_card.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/utils/search/channel_search_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -360,11 +361,9 @@ class _ChannelSearchChannelFilterSheetState
       ),
       child: Column(
         children: <Widget>[
-          FluxerInput(
+          PickerSearchInput.inline(
             controller: _searchController,
-            hint: l10n.channelDetailsSearchChannelsHint,
-            prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
-            textInputAction: TextInputAction.search,
+            hintText: l10n.channelDetailsSearchChannelsHint,
             autofocus: true,
           ),
           const SizedBox(height: 12),

@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/members/domain/guild_members_search_models.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/guild_member_search_row.dart';
@@ -16,7 +17,6 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildMembersMobileListView extends ConsumerStatefulWidget {
   const GuildMembersMobileListView({
@@ -118,15 +118,10 @@ class _GuildMembersMobileListViewState
                   ),
                 ],
                 const SizedBox(height: 12),
-                FluxerInput(
+                PickerSearchInput.inline(
                   controller: _searchController,
-                  hint: l10n.guildSettingsMembersSearchHint,
+                  hintText: l10n.guildSettingsMembersSearchHint,
                   enabled: !state.indexing,
-                  prefixIcon: PhosphorIcon(
-                    PhosphorIconsBold.magnifyingGlass,
-                    size: 20,
-                    color: context.colors.textSecondary,
-                  ),
                   onChanged: notifier.setSearchQuery,
                 ),
                 if (state.indexing) ...<Widget>[
