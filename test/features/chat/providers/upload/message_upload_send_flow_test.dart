@@ -67,7 +67,7 @@ void main() {
   test('a send that throws gives the files back to the composer', () async {
     final _Harness h = await _Harness.create();
     await h.stageFile();
-    await h.container.read(fluxerDatabaseProvider).close();
+    await h.container.read(fluxerDatabaseProvider).executor.close();
 
     await h.notifier.sendMessage(text: 'pic');
     await _flushAsync();
@@ -250,7 +250,7 @@ void main() {
     expect(h.adapter.messagePostCount, 0);
   });
 
-  test('a fallback upload reports progress and can be cancelled', () async {
+  test('cancelling a fully sent fallback upload deletes the message', () async {
     final _Harness h = await _Harness.create();
     h.uploadClient.fail = true;
     h.adapter.holdPost = true;
@@ -269,8 +269,17 @@ void main() {
     h.notifier.cancelSendingMessage(local.id);
     await _flushAsync();
 
-    expect(h.adapter.postCancelled, isTrue);
+    expect(h.adapter.postCancelled, isFalse);
     expect(h.localRows, isEmpty);
+    expect(h.adapter.deletedPaths, isEmpty);
+
+    h.adapter.releasePost();
+    await _flushAsync();
+
+    expect(h.adapter.deletedPaths, <String>[
+      '/v1/channels/channel-1/messages/${h.adapter.serverMessageId}',
+    ]);
+    expect(h.deliveredRows, isEmpty);
   });
 
   test('the X on a failed upload message removes it', () async {
@@ -593,6 +602,7 @@ class _PostAdapter implements HttpClientAdapter {
   Map<String, dynamic>? lastBody;
   bool lastMultipart = false;
   bool postCancelled = false;
+  final List<String> deletedPaths = <String>[];
   bool holdPost = false;
   List<Object?> history = const <Object?>[];
   Completer<void>? _postGate;
@@ -667,6 +677,11 @@ class _PostAdapter implements HttpClientAdapter {
             ),
           );
       }
+    }
+    if (options.method == 'DELETE' &&
+        RegExp(r'/channels/[^/]+/messages/[^/]+$').hasMatch(path)) {
+      deletedPaths.add(path);
+      return ResponseBody.fromString('', 204);
     }
     if (options.method == 'POST' &&
         (path.endsWith('/ack') || path.endsWith('/read-states/ack-bulk'))) {
