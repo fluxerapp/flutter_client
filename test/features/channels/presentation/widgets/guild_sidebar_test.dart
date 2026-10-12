@@ -942,6 +942,97 @@ void main() {
         expect(visibleCount, 1);
       },
     );
+
+    testWidgets(
+      'shows the off-screen mention pill once a remounted list settles',
+      (tester) async {
+        tester.view.physicalSize = const Size(390, 220);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final ProviderContainer container = ProviderContainer(
+          overrides: _buildOverrides(
+            channelListState: ChannelListState(
+              guild: const Guild(id: _guildId, name: 'Test Guild'),
+              categories: [
+                ChannelCategory(
+                  id: 'cat1',
+                  name: 'My Category',
+                  channels: List<Channel>.generate(
+                    40,
+                    (int index) =>
+                        _channel('c${index + 1}', 'channel-${index + 1}'),
+                  ),
+                ),
+              ],
+              selectedChannelId: 'c1',
+              hasReceivedInitialChannelList: true,
+            ),
+            selectedChannelId: 'c1',
+            unread: <String, UnreadState>{
+              for (int index = 1; index <= 40; index++)
+                'c$index': index == 40
+                    ? const UnreadState(
+                        hasUnread: true,
+                        hasUnreadMessages: true,
+                        mentionCount: 1,
+                      )
+                    : const UnreadState(),
+            },
+          ),
+        );
+        addTearDown(container.dispose);
+        final colorTheme = buildDarkColorTheme();
+        Future<void> mountSidebar() async {
+          await tester.pumpWidget(
+            UncontrolledProviderScope(
+              container: container,
+              child: MaterialApp(
+                locale: kTestLocale,
+                localizationsDelegates: fluxerLocalizationsDelegates,
+                supportedLocales: FluxerLocalizations.supportedLocales,
+                theme: buildFluxerTheme(
+                  colorTheme: colorTheme,
+                  textTheme: FluxerTextTheme.fromColors(colorTheme),
+                  layoutTheme: FluxerLayoutTheme.scaled(),
+                ),
+                home: const Scaffold(body: GuildSidebar()),
+              ),
+            ),
+          );
+          await _pumpSidebar(tester);
+        }
+
+        Future<void> showDirectMessages() async {
+          await tester.pumpWidget(const SizedBox.shrink());
+          await _pumpSidebar(tester);
+        }
+
+        await mountSidebar();
+        expect(_visibleScrollIndicatorCount(tester), 1);
+
+        await showDirectMessages();
+        await mountSidebar();
+        expect(_visibleScrollIndicatorCount(tester), 1);
+
+        final ScrollableState scrollable = tester.state<ScrollableState>(
+          find.byType(Scrollable).first,
+        );
+        scrollable.position.jumpTo(40);
+        await _pumpSidebar(tester);
+        await showDirectMessages();
+        await mountSidebar();
+        expect(
+          tester
+              .state<ScrollableState>(find.byType(Scrollable).first)
+              .position
+              .pixels,
+          40,
+        );
+        expect(_visibleScrollIndicatorCount(tester), 1);
+      },
+    );
   });
 
   group('GuildSidebar scroll persistence', () {
@@ -1190,6 +1281,18 @@ void main() {
       },
     );
   });
+}
+
+int _visibleScrollIndicatorCount(WidgetTester tester) {
+  return tester
+      .widgetList<AnimatedOpacity>(
+        find.descendant(
+          of: find.byType(GuildScrollIndicatorLayer),
+          matching: find.byType(AnimatedOpacity),
+        ),
+      )
+      .where((AnimatedOpacity opacity) => opacity.opacity == 1.0)
+      .length;
 }
 
 void _setMobileSurface(WidgetTester tester) {
