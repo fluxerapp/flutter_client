@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:clock/clock.dart';
 import 'package:dynamic_app_icon_flutter_plus/dynamic_app_icon_flutter_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
@@ -17,16 +18,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_ui_lifecycle_provider.g.dart';
 
-bool isAppUiForegroundLifecycle(AppLifecycleState state) {
-  return state == AppLifecycleState.resumed ||
-      state == AppLifecycleState.inactive;
+bool isAppUiForegroundLifecycle(
+  AppLifecycleState state, {
+  required bool wasForeground,
+}) {
+  return switch (state) {
+    AppLifecycleState.resumed => true,
+    AppLifecycleState.inactive => wasForeground || !_isMobileTarget,
+    _ => false,
+  };
 }
+
+bool get _isMobileTarget =>
+    defaultTargetPlatform == TargetPlatform.iOS ||
+    defaultTargetPlatform == TargetPlatform.android;
 
 bool shouldCloseInAppBrowserOnLifecycleResume({
   required bool wasForeground,
   required AppLifecycleState state,
 }) {
-  return !wasForeground && isAppUiForegroundLifecycle(state);
+  return !wasForeground && state == AppLifecycleState.resumed;
 }
 
 /// True while the app is visible (resumed or briefly inactive)
@@ -34,11 +45,9 @@ bool shouldCloseInAppBrowserOnLifecycleResume({
 class AppUiForeground extends _$AppUiForeground {
   @override
   bool build() {
-    final AppLifecycleState? s = WidgetsBinding.instance.lifecycleState;
-    if (s == null) {
-      return false;
-    }
-    return isAppUiForegroundLifecycle(s);
+    final AppLifecycleState? state = WidgetsBinding.instance.lifecycleState;
+    return state != null &&
+        isAppUiForegroundLifecycle(state, wasForeground: false);
   }
 
   // Keep the notifier API stable for tests and lifecycle call sites.
@@ -110,7 +119,10 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
       }
     }
     final bool wasForeground = ref.read(appUiForegroundProvider);
-    final bool isForeground = isAppUiForegroundLifecycle(state);
+    final bool isForeground = isAppUiForegroundLifecycle(
+      state,
+      wasForeground: wasForeground,
+    );
     if (shouldCloseInAppBrowserOnLifecycleResume(
       wasForeground: wasForeground,
       state: state,

@@ -7,10 +7,12 @@ import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
@@ -80,6 +82,13 @@ part 'gateway_provider.g.dart';
 /// socket.
 @Riverpod(keepAlive: true)
 void gatewayConnectBinding(Ref ref) {
+  StreamSubscription<GatewayState>? backgroundDropGuard;
+  ref.onDispose(() => unawaited(backgroundDropGuard?.cancel()));
+
+  bool mayHoldGateway() =>
+      ref.read(appUiForegroundProvider) ||
+      shouldKeepGatewayConnectedForVoice(ref);
+
   ref.listen<GatewayConnection>(gatewayConnectionProvider, (
     GatewayConnection? previous,
     GatewayConnection next,
@@ -89,7 +98,19 @@ void gatewayConnectBinding(Ref ref) {
       ref.read(guildAvailabilityProvider.notifier).clear();
       ref.read(threadsGateProvider).resetConnection();
     }
-    unawaited(next.connect());
+    unawaited(backgroundDropGuard?.cancel());
+    backgroundDropGuard = next.stateChanges.listen((GatewayState state) {
+      if (state == GatewayState.reconnecting && !mayHoldGateway()) {
+        talker.info('[Gateway] Socket dropped in background, suspending');
+        unawaited(next.suspend());
+      }
+    });
+    if (mayHoldGateway()) {
+      unawaited(next.connect());
+      return;
+    }
+    talker.info('[Gateway] Started in background, suspended until resume');
+    unawaited(next.suspend());
   }, fireImmediately: true);
 }
 

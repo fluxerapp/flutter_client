@@ -14,13 +14,13 @@ void main() {
       );
     });
 
-    test('is true when returning from background to inactive', () {
+    test('waits for resumed when returning through inactive', () {
       expect(
         shouldCloseInAppBrowserOnLifecycleResume(
           wasForeground: false,
           state: AppLifecycleState.inactive,
         ),
-        isTrue,
+        isFalse,
       );
     });
 
