@@ -57,6 +57,7 @@ Future<GuildAction?> showGuildBottomSheet(
 
   final result = await FluxerBottomSheet.showScrollable<GuildAction>(
     context,
+    variant: FluxerBottomSheetVariant.menu,
     title: guild.name,
     leading: GuildBottomSheetAvatar(guild: guild),
     subtitle: GuildBottomSheetStats(guildId: guild.id, fallbackGuild: guild),
@@ -142,6 +143,7 @@ void _openSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
   unawaited(
     FluxerBottomSheet.showScrollable<GuildAction>(
       context,
+      variant: FluxerBottomSheetVariant.menu,
       title: submenu.label,
       onBack: nav.pop,
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,

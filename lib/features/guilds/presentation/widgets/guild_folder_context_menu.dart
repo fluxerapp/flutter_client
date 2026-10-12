@@ -23,6 +23,7 @@ Future<FolderMenuAction?> showFolderSubmenuBottomSheet(
 
   return FluxerBottomSheet.showScrollable<FolderMenuAction>(
     context,
+    variant: FluxerBottomSheetVariant.menu,
     title: submenu.label,
     onBack: () => Navigator.of(context).pop(),
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,

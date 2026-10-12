@@ -101,6 +101,7 @@ Future<MessageAction?> showMessageBottomSheet(
   );
   return FluxerBottomSheet.showScrollable<MessageAction>(
     context,
+    variant: FluxerBottomSheetVariant.menu,
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
     minChildSize: 0.3,
     builder: (sheetContext, scrollController, _) => _MessageBottomSheetBody(

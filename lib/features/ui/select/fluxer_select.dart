@@ -282,6 +282,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
       sheetFuture = FluxerBottomSheet.showScrollable<T>(
         sheetHostContext,
         title: sheetTitle,
+        variant: FluxerBottomSheetVariant.menu,
         useRootNavigator: sheetUsesRootNavigator,
         initialChildSize: enableSearch
             ? FluxerBottomSheet.scrollableSheetSize

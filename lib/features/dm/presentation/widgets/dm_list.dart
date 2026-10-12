@@ -1062,6 +1062,7 @@ class _DMListState extends ConsumerState<DMList> {
     );
     final result = await FluxerBottomSheet.showScrollable<Object>(
       context,
+      variant: FluxerBottomSheetVariant.menu,
       title: displayName,
       leading: _DmContextMenuLeading(convo: convo, displayName: displayName),
       subtitle: convo.isGroup ? _DmContextMenuSubtitle(convo: convo) : null,

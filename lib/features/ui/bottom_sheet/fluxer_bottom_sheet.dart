@@ -266,6 +266,7 @@ class FluxerBottomSheet {
     double initialChildSize = scrollableSheetSize,
     double minChildSize = 0.4,
     double maxChildSize = scrollableSheetSize,
+    FluxerBottomSheetVariant variant = FluxerBottomSheetVariant.content,
     ValueNotifier<bool>? canDismissNotifier,
     double? maxHeight,
     bool disableTopPadding = false,
@@ -342,6 +343,7 @@ class FluxerBottomSheet {
             bottomInset: keyboardInset,
             bottomScrollPadding: bottomScrollPadding,
             sheetContext: sheetContext,
+            isMenu: variant == FluxerBottomSheetVariant.menu,
             builder: builder,
           );
 
@@ -531,6 +533,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.bottomInset,
     required this.bottomScrollPadding,
     required this.sheetContext,
+    required this.isMenu,
     required this.builder,
   });
 
@@ -551,6 +554,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
   final double bottomInset;
   final double bottomScrollPadding;
   final BuildContext sheetContext;
+  final bool isMenu;
   final FluxerScrollableBottomSheetBuilder builder;
 
   @override
@@ -820,6 +824,7 @@ class _FluxerDraggableScrollableSheetState
           builder: (context, scrollController) {
             return _wrapBottomSheetSurface(
               context: widget.sheetContext,
+              isMenu: widget.isMenu,
               child: AnimatedPadding(
                 duration: widget.sheetContext.motion.normal,
                 curve: widget.sheetContext.motion.curve,
