@@ -1600,13 +1600,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get gifPickerSearch => 'GIF-ek keresése';
 
   @override
-  String get gifPickerSearchKlipy => 'KLIPY keresése';
+  String get gifPickerSearchKlipy => 'Klipy keresése';
 
   @override
   String get gifPickerSearchTenor => 'Tenor keresése';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Kedvencek';

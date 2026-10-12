@@ -1591,13 +1591,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get gifPickerSearch => 'Pretraži GIF-ove';
 
   @override
-  String get gifPickerSearchKlipy => 'Pretraži KLIPY';
+  String get gifPickerSearchKlipy => 'Pretraži Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Pretraži Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favoriti';

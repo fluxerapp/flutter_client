@@ -1601,13 +1601,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get gifPickerSearch => 'Szukaj GIF-ów';
 
   @override
-  String get gifPickerSearchKlipy => 'Szukaj KLIPY';
+  String get gifPickerSearchKlipy => 'Szukaj Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Szukaj Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Ulubione';

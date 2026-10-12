@@ -1589,13 +1589,10 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get gifPickerSearch => 'Pesquisar GIFs';
 
   @override
-  String get gifPickerSearchKlipy => 'Pesquisar KLIPY';
+  String get gifPickerSearchKlipy => 'Pesquisar Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Pesquisar Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favoritos';
@@ -16704,13 +16701,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get gifPickerSearch => 'Pesquisar GIFs';
 
   @override
-  String get gifPickerSearchKlipy => 'Pesquisar KLIPY';
+  String get gifPickerSearchKlipy => 'Pesquisar Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Pesquisar Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favoritos';

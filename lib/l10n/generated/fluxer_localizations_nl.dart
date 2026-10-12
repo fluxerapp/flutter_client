@@ -1590,13 +1590,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get gifPickerSearch => 'Zoek GIF\'s';
 
   @override
-  String get gifPickerSearchKlipy => 'Zoek KLIPY';
+  String get gifPickerSearchKlipy => 'Zoek Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Zoek op Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favorieten';

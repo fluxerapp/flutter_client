@@ -1595,13 +1595,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get gifPickerSearch => 'Caută GIF-uri';
 
   @override
-  String get gifPickerSearchKlipy => 'Caută în KLIPY';
+  String get gifPickerSearchKlipy => 'Caută în Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Caută pe Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favorite';

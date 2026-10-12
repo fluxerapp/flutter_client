@@ -2870,10 +2870,10 @@ abstract class FluxerLocalizations {
   /// **'Search GIFs'**
   String get gifPickerSearch;
 
-  /// GIF picker search placeholder for KLIPY.
+  /// GIF picker search placeholder for Klipy.
   ///
   /// In en, this message translates to:
-  /// **'Search KLIPY'**
+  /// **'Search Klipy'**
   String get gifPickerSearchKlipy;
 
   /// GIF picker search placeholder for Tenor.
@@ -2881,12 +2881,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Search Tenor'**
   String get gifPickerSearchTenor;
-
-  /// Short powered-by KLIPY label in the GIF picker search field.
-  ///
-  /// In en, this message translates to:
-  /// **'KLIPY'**
-  String get gifPickerPoweredByKlipy;
 
   /// Favorites category tile in the GIF picker.
   ///

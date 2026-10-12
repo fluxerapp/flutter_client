@@ -1598,13 +1598,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get gifPickerSearch => 'Поиск GIF';
 
   @override
-  String get gifPickerSearchKlipy => 'Поиск KLIPY';
+  String get gifPickerSearchKlipy => 'Поиск Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Поиск Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Избранное';

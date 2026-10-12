@@ -1588,13 +1588,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get gifPickerSearch => 'Sök GIF:ar';
 
   @override
-  String get gifPickerSearchKlipy => 'Sök KLIPY';
+  String get gifPickerSearchKlipy => 'Sök Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Sök Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favoriter';

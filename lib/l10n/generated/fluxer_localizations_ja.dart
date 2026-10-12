@@ -1525,13 +1525,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get gifPickerSearch => 'GIFを検索';
 
   @override
-  String get gifPickerSearchKlipy => 'KLIPYを検索';
+  String get gifPickerSearchKlipy => 'Klipyを検索';
 
   @override
   String get gifPickerSearchTenor => 'Tenorを検索';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'お気に入り';

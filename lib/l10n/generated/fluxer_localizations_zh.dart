@@ -1499,13 +1499,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get gifPickerSearch => '搜索 GIF';
 
   @override
-  String get gifPickerSearchKlipy => '搜索 KLIPY';
+  String get gifPickerSearchKlipy => '搜索 Klipy';
 
   @override
   String get gifPickerSearchTenor => '搜索 Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => '收藏夹';
@@ -15754,13 +15751,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get gifPickerSearch => '搜尋 GIF';
 
   @override
-  String get gifPickerSearchKlipy => '搜尋 KLIPY';
+  String get gifPickerSearchKlipy => '搜尋 Klipy';
 
   @override
   String get gifPickerSearchTenor => '搜尋 Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => '我的最愛';

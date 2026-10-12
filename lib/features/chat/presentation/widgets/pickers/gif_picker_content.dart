@@ -154,12 +154,12 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
         ),
       ),
     );
-    if (!gif.attributionRequired && provider != GifProviderKind.klipy) {
+    final String? label = gif.displayName;
+    if (!gif.attributionRequired ||
+        provider == GifProviderKind.klipy ||
+        label == null) {
       return null;
     }
-    final String label =
-        gif.displayName ??
-        FluxerLocalizations.of(context).gifPickerPoweredByKlipy;
     return _PoweredByLabel(label);
   }
 

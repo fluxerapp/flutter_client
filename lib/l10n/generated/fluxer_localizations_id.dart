@@ -1582,13 +1582,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get gifPickerSearch => 'Cari GIF';
 
   @override
-  String get gifPickerSearchKlipy => 'Cari KLIPY';
+  String get gifPickerSearchKlipy => 'Cari Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Cari di Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favorit';

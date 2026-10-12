@@ -1585,13 +1585,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get gifPickerSearch => 'Tìm ảnh GIF';
 
   @override
-  String get gifPickerSearchKlipy => 'Tìm kiếm KLIPY';
+  String get gifPickerSearchKlipy => 'Tìm kiếm Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Tìm kiếm trên Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Mục yêu thích';

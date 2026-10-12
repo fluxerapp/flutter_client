@@ -1586,13 +1586,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get gifPickerSearch => 'Søk etter GIF-er';
 
   @override
-  String get gifPickerSearchKlipy => 'Søk i KLIPY';
+  String get gifPickerSearchKlipy => 'Søk i Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Søk i Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favoritter';

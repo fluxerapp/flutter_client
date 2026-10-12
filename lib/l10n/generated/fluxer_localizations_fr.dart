@@ -1611,13 +1611,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get gifPickerSearch => 'Rechercher des GIFs';
 
   @override
-  String get gifPickerSearchKlipy => 'Rechercher sur KLIPY';
+  String get gifPickerSearchKlipy => 'Rechercher sur Klipy';
 
   @override
   String get gifPickerSearchTenor => 'Rechercher sur Tenor';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => 'Favoris';

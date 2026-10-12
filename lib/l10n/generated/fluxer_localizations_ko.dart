@@ -1525,13 +1525,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get gifPickerSearch => 'GIF 검색';
 
   @override
-  String get gifPickerSearchKlipy => 'KLIPY 검색';
+  String get gifPickerSearchKlipy => 'Klipy 검색';
 
   @override
   String get gifPickerSearchTenor => 'Tenor 검색';
-
-  @override
-  String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
   String get gifPickerFavorites => '즐겨찾기';
