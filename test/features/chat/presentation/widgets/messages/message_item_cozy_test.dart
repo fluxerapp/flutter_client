@@ -70,9 +70,8 @@ class _FixedLocalDay extends LocalDay {
   @override
   DateTime build() => _day;
 
-  DateTime get day => state;
-
-  set day(DateTime value) => state = value;
+  void rollToNextDay() =>
+      state = DateTime(state.year, state.month, state.day + 1);
 }
 
 Widget _app(Widget child, {List<Override> overrides = const <Override>[]}) {
@@ -195,7 +194,7 @@ void main() {
       await tester.pump();
       expect(find.textContaining('Today at'), findsOneWidget);
 
-      localDay.day = DateTime(2026, 1, 2);
+      localDay.rollToNextDay();
       await tester.pump();
       expect(find.textContaining('Today at'), findsNothing);
       expect(find.textContaining('Yesterday at'), findsOneWidget);
