@@ -73,8 +73,7 @@ class _GuildRoleEditorState extends ConsumerState<GuildRoleEditor> {
   @override
   void didUpdateWidget(covariant GuildRoleEditor oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.role.id != widget.role.id ||
-        oldWidget.role.name != widget.role.name) {
+    if (_nameController.text != widget.role.name) {
       _nameController.text = widget.role.name;
     }
   }
