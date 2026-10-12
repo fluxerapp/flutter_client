@@ -96,16 +96,18 @@ class _ReportFlowDisclaimer extends StatelessWidget {
           WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
             baseline: TextBaseline.alphabetic,
-            child: punctuation.isEmpty
-                ? link
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Flexible(child: link),
-                      Text(punctuation, style: style),
-                    ],
-                  ),
+            child: MediaQuery.withNoTextScaling(
+              child: punctuation.isEmpty
+                  ? link
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Flexible(child: link),
+                        Text(punctuation, style: style),
+                      ],
+                    ),
+            ),
           ),
           TextSpan(text: rest.substring(punctuation.length)),
         ],

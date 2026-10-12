@@ -50,20 +50,24 @@ class PremiumPurchaseDisclaimer extends StatelessWidget {
                 WidgetSpan(
                   alignment: PlaceholderAlignment.baseline,
                   baseline: TextBaseline.alphabetic,
-                  child: FluxerTextLink(
-                    text: l10n.premiumTermsOfService,
-                    url: _kTermsUrl,
-                    style: mutedStyle.copyWith(color: colors.textLink),
+                  child: MediaQuery.withNoTextScaling(
+                    child: FluxerTextLink(
+                      text: l10n.premiumTermsOfService,
+                      url: _kTermsUrl,
+                      style: mutedStyle.copyWith(color: colors.textLink),
+                    ),
                   ),
                 ),
                 TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
                 WidgetSpan(
                   alignment: PlaceholderAlignment.baseline,
                   baseline: TextBaseline.alphabetic,
-                  child: FluxerTextLink(
-                    text: l10n.premiumPrivacyPolicy,
-                    url: _kPrivacyUrl,
-                    style: mutedStyle.copyWith(color: colors.textLink),
+                  child: MediaQuery.withNoTextScaling(
+                    child: FluxerTextLink(
+                      text: l10n.premiumPrivacyPolicy,
+                      url: _kPrivacyUrl,
+                      style: mutedStyle.copyWith(color: colors.textLink),
+                    ),
                   ),
                 ),
                 const TextSpan(text: '.'),

@@ -374,20 +374,24 @@ class _PurchaseTerms extends StatelessWidget {
           WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
             baseline: TextBaseline.alphabetic,
-            child: FluxerTextLink(
-              text: l10n.premiumTermsOfService,
-              url: 'https://fluxer.app/terms',
-              style: muted.copyWith(color: PremiumStoreStyle.accent),
+            child: MediaQuery.withNoTextScaling(
+              child: FluxerTextLink(
+                text: l10n.premiumTermsOfService,
+                url: 'https://fluxer.app/terms',
+                style: muted.copyWith(color: PremiumStoreStyle.accent),
+              ),
             ),
           ),
           TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
           WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
             baseline: TextBaseline.alphabetic,
-            child: FluxerTextLink(
-              text: l10n.premiumPrivacyPolicy,
-              url: 'https://fluxer.app/privacy',
-              style: muted.copyWith(color: PremiumStoreStyle.accent),
+            child: MediaQuery.withNoTextScaling(
+              child: FluxerTextLink(
+                text: l10n.premiumPrivacyPolicy,
+                url: 'https://fluxer.app/privacy',
+                style: muted.copyWith(color: PremiumStoreStyle.accent),
+              ),
             ),
           ),
           const TextSpan(text: '.'),

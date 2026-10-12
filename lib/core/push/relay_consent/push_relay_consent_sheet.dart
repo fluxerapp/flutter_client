@@ -101,10 +101,12 @@ class _PushRelayConsentSheetContent extends StatelessWidget {
                   WidgetSpan(
                     alignment: PlaceholderAlignment.baseline,
                     baseline: TextBaseline.alphabetic,
-                    child: FluxerTextLink(
-                      text: l10n.pushRelayConsentNoticeLink,
-                      url: kPushRelayNoticeUrl,
-                      style: bodyStyle,
+                    child: MediaQuery.withNoTextScaling(
+                      child: FluxerTextLink(
+                        text: l10n.pushRelayConsentNoticeLink,
+                        url: kPushRelayNoticeUrl,
+                        style: bodyStyle,
+                      ),
                     ),
                   ),
                   TextSpan(text: l10n.pushRelayConsentNoticeSuffix),

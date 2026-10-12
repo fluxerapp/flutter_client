@@ -227,13 +227,15 @@ class _DonateLine extends StatelessWidget {
           WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
             baseline: TextBaseline.alphabetic,
-            child: FluxerTextLink(
-              text: l10n.storePlutoniumDonateLink,
-              url: _kDonateUrl,
-              style: muted.copyWith(
-                color: PremiumStoreStyle.ink,
-                decoration: TextDecoration.underline,
-                decorationColor: PremiumStoreStyle.inkFaint,
+            child: MediaQuery.withNoTextScaling(
+              child: FluxerTextLink(
+                text: l10n.storePlutoniumDonateLink,
+                url: _kDonateUrl,
+                style: muted.copyWith(
+                  color: PremiumStoreStyle.ink,
+                  decoration: TextDecoration.underline,
+                  decorationColor: PremiumStoreStyle.inkFaint,
+                ),
               ),
             ),
           ),
@@ -261,10 +263,12 @@ class _TagFootnote extends StatelessWidget {
           WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
             baseline: TextBaseline.alphabetic,
-            child: FluxerTextLink(
-              text: l10n.storePlutoniumLearnVisionary,
-              url: _kVisionaryUrl,
-              style: muted.copyWith(color: PremiumStoreStyle.accent),
+            child: MediaQuery.withNoTextScaling(
+              child: FluxerTextLink(
+                text: l10n.storePlutoniumLearnVisionary,
+                url: _kVisionaryUrl,
+                style: muted.copyWith(color: PremiumStoreStyle.accent),
+              ),
             ),
           ),
         ],

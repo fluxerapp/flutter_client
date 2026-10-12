@@ -685,10 +685,12 @@ InlineSpan _systemMessageActionSpan({
   return WidgetSpan(
     alignment: PlaceholderAlignment.baseline,
     baseline: TextBaseline.alphabetic,
-    child: FluxerGestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.translucent,
-      child: Text(label, style: style),
+    child: MediaQuery.withNoTextScaling(
+      child: FluxerGestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.translucent,
+        child: Text(label, style: style),
+      ),
     ),
   );
 }

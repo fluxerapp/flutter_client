@@ -489,7 +489,9 @@ class InlineTokenTextEditingController extends TextEditingController {
         children.add(
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
-            child: token.buildInline(context, style),
+            child: MediaQuery.withNoTextScaling(
+              child: token.buildInline(context, style),
+            ),
           ),
         );
         index += 1;

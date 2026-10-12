@@ -2114,11 +2114,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                           const TextSpan(text: ' '),
                           WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
-                            child: FluxerGestureDetector(
-                              onTap: widget.onDismissClientSystem,
-                              child: Text(
-                                l10n.chatClientSystemDismiss,
-                                style: dismissTextStyle,
+                            child: MediaQuery.withNoTextScaling(
+                              child: FluxerGestureDetector(
+                                onTap: widget.onDismissClientSystem,
+                                child: Text(
+                                  l10n.chatClientSystemDismiss,
+                                  style: dismissTextStyle,
+                                ),
                               ),
                             ),
                           ),

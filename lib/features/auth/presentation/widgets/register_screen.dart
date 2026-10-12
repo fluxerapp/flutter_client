@@ -674,10 +674,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         WidgetSpan(
                           alignment: PlaceholderAlignment.baseline,
                           baseline: TextBaseline.alphabetic,
-                          child: FluxerTextLink(
-                            text: l10n.registerConsentTerms,
-                            url: termsUrl,
-                            style: textStyles.bodySmall,
+                          child: MediaQuery.withNoTextScaling(
+                            child: FluxerTextLink(
+                              text: l10n.registerConsentTerms,
+                              url: termsUrl,
+                              style: textStyles.bodySmall,
+                            ),
                           ),
                         ),
                       if (termsUrl != null && privacyUrl != null)
@@ -686,10 +688,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         WidgetSpan(
                           alignment: PlaceholderAlignment.baseline,
                           baseline: TextBaseline.alphabetic,
-                          child: FluxerTextLink(
-                            text: l10n.registerConsentPrivacy,
-                            url: privacyUrl,
-                            style: textStyles.bodySmall,
+                          child: MediaQuery.withNoTextScaling(
+                            child: FluxerTextLink(
+                              text: l10n.registerConsentPrivacy,
+                              url: privacyUrl,
+                              style: textStyles.bodySmall,
+                            ),
                           ),
                         ),
                     ],

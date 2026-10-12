@@ -320,7 +320,7 @@ void appendTrailingInlineWidget(
       WidgetSpan(
         alignment: PlaceholderAlignment.baseline,
         baseline: TextBaseline.alphabetic,
-        child: trailingInlineWidget,
+        child: MediaQuery.withNoTextScaling(child: trailingInlineWidget),
       ),
     );
 }
@@ -551,7 +551,12 @@ class _MarkdownBlockRenderer {
         return [
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
-            child: _buildBlockSpoilerElement(node),
+            child: MediaQuery.withNoTextScaling(
+              child: _buildBlockSpoilerElement(
+                node,
+                textScaler: TextScaler.noScaling,
+              ),
+            ),
           ),
         ];
       default:
@@ -653,8 +658,11 @@ class _MarkdownBlockRenderer {
     TextAlign? textAlign,
     Widget? trailingInlineWidget,
     String emptySpanPlaceholder = '\n',
+    TextScaler? textScaler,
   }) {
     final effectiveStyle = style ?? baseStyle;
+    final TextScaler effectiveTextScaler =
+        textScaler ?? MediaQuery.textScalerOf(context);
     final spans = _MarkdownInlineRenderer(
       context: context,
       baseStyle: effectiveStyle,
@@ -675,7 +683,7 @@ class _MarkdownBlockRenderer {
         text: TextSpan(text: emptySpanPlaceholder, style: effectiveStyle),
         baseStyle: effectiveStyle,
         textAlign: textAlign ?? TextAlign.start,
-        textScaler: MediaQuery.textScalerOf(context),
+        textScaler: effectiveTextScaler,
         maxLines: maxLines,
         overflow: overflow,
         textWidthBasis: maxLines != null
@@ -691,7 +699,7 @@ class _MarkdownBlockRenderer {
       text: TextSpan(style: effectiveStyle, children: spans),
       baseStyle: effectiveStyle,
       textAlign: textAlign ?? TextAlign.start,
-      textScaler: MediaQuery.textScalerOf(context),
+      textScaler: effectiveTextScaler,
       maxLines: maxLines,
       overflow: overflow,
       textWidthBasis: maxLines != null || trailingInlineWidget != null
@@ -746,13 +754,13 @@ class _MarkdownBlockRenderer {
     return _buildParagraph(node.children ?? const [], style: subtextStyle);
   }
 
-  Widget _buildBlockSpoilerElement(md.Element node) {
+  Widget _buildBlockSpoilerElement(md.Element node, {TextScaler? textScaler}) {
     return _FluxerSpoilerSpan(
       initiallyRevealed: config.spoilersInitiallyRevealed,
       textColor: baseStyle.color,
       spoilerSyncController: config.spoilerSyncController,
       syncKeys: _collectSpoilerSyncKeys(node, config.spoilerSyncKeyNormalizer),
-      child: _buildParagraph(node.children ?? const []),
+      child: _buildParagraph(node.children ?? const [], textScaler: textScaler),
     );
   }
 
@@ -1328,15 +1336,17 @@ class _MarkdownInlineRenderer {
           return WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
             baseline: TextBaseline.alphabetic,
-            child: FluxerLiveTimestamp(
-              format: () =>
-                  _formatTimestampText(
-                    node,
-                    localeName: localeName,
-                    formatter: formatter,
-                  ) ??
-                  '',
-              style: timestampStyle,
+            child: MediaQuery.withNoTextScaling(
+              child: FluxerLiveTimestamp(
+                format: () =>
+                    _formatTimestampText(
+                      node,
+                      localeName: localeName,
+                      formatter: formatter,
+                    ) ??
+                    '',
+                style: timestampStyle,
+              ),
             ),
           );
         }
@@ -1363,15 +1373,17 @@ class _MarkdownInlineRenderer {
       case FluxerMarkdownElementTags.emojiCustom:
         return WidgetSpan(
           alignment: PlaceholderAlignment.middle,
-          child: FluxerEmojiWidget(
-            element: node,
-            baseStyle: effectiveStyle,
-            unicodeEmojiUrlBuilder: config.unicodeEmojiUrlBuilder,
-            customEmojiUrlBuilder: config.customEmojiUrlBuilder,
-            animateCustomEmoji: config.animateCustomEmoji,
-            onEmojiLongPress: config.onEmojiLongPress,
-            jumbo: jumbo,
-            fitToLineHeight: features.isRestrictedInlinePreview,
+          child: MediaQuery.withNoTextScaling(
+            child: FluxerEmojiWidget(
+              element: node,
+              baseStyle: effectiveStyle,
+              unicodeEmojiUrlBuilder: config.unicodeEmojiUrlBuilder,
+              customEmojiUrlBuilder: config.customEmojiUrlBuilder,
+              animateCustomEmoji: config.animateCustomEmoji,
+              onEmojiLongPress: config.onEmojiLongPress,
+              jumbo: jumbo,
+              fitToLineHeight: features.isRestrictedInlinePreview,
+            ),
           ),
         );
       default:
@@ -1400,7 +1412,7 @@ class _MarkdownInlineRenderer {
       if (widget != null) {
         return WidgetSpan(
           alignment: PlaceholderAlignment.middle,
-          child: widget,
+          child: MediaQuery.withNoTextScaling(child: widget),
         );
       }
     }
@@ -1462,7 +1474,10 @@ class _MarkdownInlineRenderer {
     final href = element.attributes['href'] ?? element.textContent;
     final widget = config.linkWidgetBuilder?.call(context, href, style);
     if (widget != null) {
-      return WidgetSpan(alignment: PlaceholderAlignment.middle, child: widget);
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: MediaQuery.withNoTextScaling(child: widget),
+      );
     }
     return _buildLink(element, style);
   }
@@ -1476,7 +1491,9 @@ class _MarkdownInlineRenderer {
     if (builder != null) {
       return WidgetSpan(
         alignment: PlaceholderAlignment.middle,
-        child: builder(context, element.textContent, style),
+        child: MediaQuery.withNoTextScaling(
+          child: builder(context, element.textContent, style),
+        ),
       );
     }
 
@@ -1490,10 +1507,12 @@ class _MarkdownInlineRenderer {
     if (config.everyoneMentionBuilder != null) {
       return WidgetSpan(
         alignment: PlaceholderAlignment.middle,
-        child: config.everyoneMentionBuilder!(
-          context,
-          element.textContent,
-          style,
+        child: MediaQuery.withNoTextScaling(
+          child: config.everyoneMentionBuilder!(
+            context,
+            element.textContent,
+            style,
+          ),
         ),
       );
     }
@@ -1510,11 +1529,13 @@ class _MarkdownInlineRenderer {
     if (config.commandMentionBuilder != null && applicationId != null) {
       return WidgetSpan(
         alignment: PlaceholderAlignment.middle,
-        child: config.commandMentionBuilder!(
-          context,
-          command,
-          applicationId,
-          style,
+        child: MediaQuery.withNoTextScaling(
+          child: config.commandMentionBuilder!(
+            context,
+            command,
+            applicationId,
+            style,
+          ),
         ),
       );
     }
@@ -1535,11 +1556,13 @@ class _MarkdownInlineRenderer {
     if (config.guildNavigationMentionBuilder != null && navType != null) {
       return WidgetSpan(
         alignment: PlaceholderAlignment.middle,
-        child: config.guildNavigationMentionBuilder!(
-          context,
-          navType,
-          navigationId,
-          style,
+        child: MediaQuery.withNoTextScaling(
+          child: config.guildNavigationMentionBuilder!(
+            context,
+            navType,
+            navigationId,
+            style,
+          ),
         ),
       );
     }
@@ -1581,17 +1604,19 @@ class _MarkdownInlineRenderer {
       return WidgetSpan(
         alignment: PlaceholderAlignment.baseline,
         baseline: TextBaseline.alphabetic,
-        child: _FluxerSpoilerSpan(
-          initiallyRevealed: config.spoilersInitiallyRevealed,
-          textColor: effectiveStyle.color,
-          spoilerSyncController: config.spoilerSyncController,
-          syncKeys: syncKeys,
-          child: buildFluxerBoundedRichText(
-            text: TextSpan(style: effectiveStyle, children: spoilerChildren),
-            baseStyle: effectiveStyle,
-            textScaler: MediaQuery.textScalerOf(context),
-            maxLines: maxLines,
-            overflow: overflow,
+        child: MediaQuery.withNoTextScaling(
+          child: _FluxerSpoilerSpan(
+            initiallyRevealed: config.spoilersInitiallyRevealed,
+            textColor: effectiveStyle.color,
+            spoilerSyncController: config.spoilerSyncController,
+            syncKeys: syncKeys,
+            child: buildFluxerBoundedRichText(
+              text: TextSpan(style: effectiveStyle, children: spoilerChildren),
+              baseStyle: effectiveStyle,
+              textScaler: TextScaler.noScaling,
+              maxLines: maxLines,
+              overflow: overflow,
+            ),
           ),
         ),
       );

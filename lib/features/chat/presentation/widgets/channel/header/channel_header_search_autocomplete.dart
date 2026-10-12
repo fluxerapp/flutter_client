@@ -570,7 +570,9 @@ class _FilterChipLabel extends StatelessWidget {
         children: <InlineSpan>[
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
-            child: _SyntaxChip(label: syntaxLabel, textColor: textColor),
+            child: MediaQuery.withNoTextScaling(
+              child: _SyntaxChip(label: syntaxLabel, textColor: textColor),
+            ),
           ),
           if (description != null && description!.isNotEmpty)
             TextSpan(

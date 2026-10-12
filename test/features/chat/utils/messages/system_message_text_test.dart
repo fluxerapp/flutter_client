@@ -149,6 +149,36 @@ void main() {
 
       expect(_containsWidgetSpan(TextSpan(children: spans)), isFalse);
     });
+
+    testWidgets('tappable usernames scale with the text once', (tester) async {
+      Future<double> usernameHeight(double scale) async {
+        await tester.pumpWidget(
+          MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.linear(scale)),
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Text.rich(
+                TextSpan(
+                  children: expandSystemMessageTemplate(
+                    'Welcome, $kSystemMessageUsernamePlaceholder!',
+                    authorName: 'Alice',
+                    textStyle: const TextStyle(fontSize: 16),
+                    usernameStyle: const TextStyle(fontSize: 16),
+                    onAuthorTap: () {},
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        return tester.getRect(find.text('Alice')).height;
+      }
+
+      final double base = await usernameHeight(1);
+      final double scaled = await usernameHeight(1.25);
+
+      expect(scaled / base, closeTo(1.25, 0.05));
+    });
   });
 }
 

@@ -53,18 +53,20 @@ class UserNotificationsTtsSection extends ConsumerWidget {
                   WidgetSpan(
                     alignment: PlaceholderAlignment.baseline,
                     baseline: TextBaseline.alphabetic,
-                    child: FluxerGestureDetector(
-                      onTap: () => unawaited(
-                        UserSettingsModal.show(
-                          context,
-                          initialSection: UserSettingsSection.accessibility,
+                    child: MediaQuery.withNoTextScaling(
+                      child: FluxerGestureDetector(
+                        onTap: () => unawaited(
+                          UserSettingsModal.show(
+                            context,
+                            initialSection: UserSettingsSection.accessibility,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        l10n.notificationsTtsAccessibilityLinkLabel,
-                        style: textStyles.smallText.copyWith(
-                          color: colors.textLink,
-                          decoration: TextDecoration.underline,
+                        child: Text(
+                          l10n.notificationsTtsAccessibilityLinkLabel,
+                          style: textStyles.smallText.copyWith(
+                            color: colors.textLink,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ),
