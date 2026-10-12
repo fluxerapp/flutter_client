@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +39,7 @@ CustomTransitionPage<void> shellInstantTransitionPage({
   return CustomTransitionPage<void>(
     key: key,
     name: name,
-    child: child,
+    child: FluxerSheetBackdrop(child: child),
     transitionDuration: Duration.zero,
     reverseTransitionDuration: Duration.zero,
     transitionsBuilder:
@@ -67,7 +68,7 @@ CustomTransitionPage<void> shellFadeTransitionPage({
     key: key,
     name: name,
     opaque: opaque,
-    child: child,
+    child: FluxerSheetBackdrop(child: child),
     transitionDuration: resolved,
     reverseTransitionDuration: resolved,
     transitionsBuilder:
@@ -92,7 +93,7 @@ CustomTransitionPage<void> shellSlideTransitionPage({
   return CustomTransitionPage<void>(
     key: key,
     name: name,
-    child: child,
+    child: FluxerSheetBackdrop(child: child),
     transitionDuration: motion.push,
     reverseTransitionDuration: motion.pop,
     transitionsBuilder:
@@ -135,7 +136,7 @@ CustomTransitionPage<void> shellPhoneVoiceCallTransitionPage({
   }
   return CustomTransitionPage<void>(
     key: key,
-    child: child,
+    child: FluxerSheetBackdrop(child: child),
     transitionDuration: kVoiceCallPhoneTransitionDuration,
     reverseTransitionDuration: kVoiceCallPhoneTransitionDuration,
     transitionsBuilder:
@@ -214,7 +215,8 @@ class _ShellCupertinoPushRoute extends PageRoute<void>
       CupertinoPageTransition.delegatedTransition;
 
   @override
-  Widget buildContent(BuildContext context) => _page.child;
+  Widget buildContent(BuildContext context) =>
+      FluxerSheetBackdrop(child: _page.child);
 
   @override
   String? get title => null;

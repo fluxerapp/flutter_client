@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -14,7 +16,7 @@ void main() {
       expect(theme.slow, const Duration(milliseconds: 300));
       expect(theme.push, const Duration(milliseconds: 230));
       expect(theme.pop, const Duration(milliseconds: 180));
-      expect(theme.sheet, const Duration(milliseconds: 270));
+      expect(theme.sheet, const Duration(milliseconds: 400));
       expect(theme.curve, Curves.easeOut);
       expect(theme.emphasizedCurve, Curves.easeInOut);
     });
@@ -33,12 +35,15 @@ void main() {
       }
     });
 
-    test('sheet curve settles without overshooting', () {
+    test('sheet curve overshoots like the measured Discord sheet spring', () {
       const theme = FluxerMotionTheme.standard();
+      double peak = 0;
       for (int i = 0; i <= 100; i++) {
-        expect(theme.sheetCurve.transform(i / 100), lessThanOrEqualTo(1));
+        peak = math.max(peak, theme.sheetCurve.transform(i / 100));
       }
-      expect(theme.sheetCurve.transform(0.5), greaterThan(0.9));
+      expect(peak, inInclusiveRange(1.024, 1.029));
+      expect(theme.sheetCurve.transform(0.99), closeTo(1, 0.002));
+      expect(theme.sheetCurve.transform(1), 1);
     });
 
     test('reduced zeroes all durations', () {

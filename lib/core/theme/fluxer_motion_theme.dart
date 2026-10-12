@@ -1,4 +1,35 @@
+import 'dart:math' as math;
+
 import 'package:fluxer_app/material_ui.dart';
+
+class FluxerSpringCurve extends Curve {
+  const FluxerSpringCurve({
+    required this.stiffness,
+    required this.damping,
+    required this.duration,
+  });
+
+  final double stiffness;
+  final double damping;
+  final Duration duration;
+
+  @override
+  double transformInternal(double t) {
+    final double seconds =
+        t * duration.inMicroseconds / Duration.microsecondsPerSecond;
+    final double omega = math.sqrt(stiffness);
+    final double zeta = damping / (2 * omega);
+    if (zeta >= 1) {
+      return 1 - math.exp(-omega * seconds) * (1 + omega * seconds);
+    }
+    final double dampedOmega = omega * math.sqrt(1 - zeta * zeta);
+    final double decay = math.exp(-zeta * omega * seconds);
+    return 1 -
+        decay *
+            (math.cos(dampedOmega * seconds) +
+                zeta * omega / dampedOmega * math.sin(dampedOmega * seconds));
+  }
+}
 
 class FluxerMotionTheme extends ThemeExtension<FluxerMotionTheme> {
   const FluxerMotionTheme({
@@ -52,9 +83,15 @@ class FluxerMotionTheme extends ThemeExtension<FluxerMotionTheme> {
   static const Duration slowDuration = Duration(milliseconds: 300);
   static const Duration pushDuration = Duration(milliseconds: 230);
   static const Duration popDuration = Duration(milliseconds: 180);
-  static const Duration sheetDuration = Duration(milliseconds: 270);
+  static const Duration sheetDuration = Duration(milliseconds: 400);
+  static const double sheetSpringStiffness = 540;
+  static const double sheetSpringDamping = 35;
   static const Curve standardPushCurve = Cubic(0.35, 0.7, 0.3, 1);
-  static const Curve standardSheetCurve = Cubic(0.4, 1, 0.35, 1);
+  static const Curve standardSheetCurve = FluxerSpringCurve(
+    stiffness: sheetSpringStiffness,
+    damping: sheetSpringDamping,
+    duration: sheetDuration,
+  );
 
   final Duration hover;
   final Duration fast;

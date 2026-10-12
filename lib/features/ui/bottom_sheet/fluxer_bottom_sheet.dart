@@ -5,7 +5,9 @@ import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dar
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
@@ -239,9 +241,15 @@ class FluxerBottomSheet {
             ),
           );
 
-          final sheetContent = _wrapBottomSheetSurface(
-            context: sheetContext,
-            child: content,
+          final sheetContent = _FluxerSheetPresentation(
+            navigator: Navigator.of(
+              sheetContext,
+              rootNavigator: useRootNavigator,
+            ),
+            child: _wrapBottomSheetSurface(
+              context: sheetContext,
+              child: content,
+            ),
           );
 
           return _buildSheetWithBackHandler(
@@ -348,6 +356,10 @@ class FluxerBottomSheet {
             disableTopPadding: disableTopPadding,
             hasHeader: hasHeader,
             onDismiss: close,
+            navigator: Navigator.of(
+              sheetContext,
+              rootNavigator: useRootNavigator,
+            ),
             title: title,
             subtitle: subtitle,
             leading: leading,
@@ -450,13 +462,162 @@ Widget _wrapBottomSheetSurface({
   final BottomSheetThemeData bottomSheetTheme = Theme.of(
     context,
   ).bottomSheetTheme;
-  return Material(
-    color: context.colors.backgroundSecondaryAlt,
-    surfaceTintColor: Colors.transparent,
-    shape: bottomSheetTheme.shape,
-    clipBehavior: bottomSheetTheme.clipBehavior ?? Clip.antiAlias,
-    child: _FluxerSheetSurfaceScope(child: child),
+  final Color surfaceColor = context.colors.backgroundSecondaryAlt;
+  return Stack(
+    fit: StackFit.passthrough,
+    clipBehavior: Clip.none,
+    children: <Widget>[
+      Positioned(
+        left: 0,
+        right: 0,
+        bottom: -kFluxerSheetOvershootBleed,
+        height: kFluxerSheetOvershootBleed,
+        child: ColoredBox(color: surfaceColor),
+      ),
+      Material(
+        color: surfaceColor,
+        surfaceTintColor: Colors.transparent,
+        shape: bottomSheetTheme.shape,
+        clipBehavior: bottomSheetTheme.clipBehavior ?? Clip.antiAlias,
+        child: _FluxerSheetSurfaceScope(child: child),
+      ),
+    ],
   );
+}
+
+bool _fluxerSheetDrivesBackdrop(BuildContext context) {
+  return isMobileLayout(context) && !MediaQuery.disableAnimationsOf(context);
+}
+
+class _FluxerSheetPresentation extends StatefulWidget {
+  const _FluxerSheetPresentation({
+    required this.navigator,
+    required this.child,
+  });
+
+  final NavigatorState navigator;
+  final Widget child;
+
+  @override
+  State<_FluxerSheetPresentation> createState() =>
+      _FluxerSheetPresentationState();
+}
+
+class _FluxerSheetPresentationState extends State<_FluxerSheetPresentation>
+    with SingleTickerProviderStateMixin {
+  final ValueNotifier<double> _dragOffset = ValueNotifier<double>(0);
+  late final AnimationController _settle = AnimationController(
+    vsync: this,
+    duration: kFluxerSheetDragSettleDuration,
+  )..addListener(_applySettle);
+  double _settleFrom = 0;
+  Animation<double>? _routeAnimation;
+  FluxerSheetBackdropLink? _backdrop;
+  AnimationStyle _routeStyle = const AnimationStyle();
+
+  @override
+  void initState() {
+    super.initState();
+    _dragOffset.addListener(_reportBackdrop);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _routeStyle = fluxerBottomSheetAnimationStyle(context);
+    if (_fluxerSheetDrivesBackdrop(context)) {
+      _backdrop ??= FluxerSheetBackdropLink(widget.navigator);
+    } else {
+      _backdrop?.dispose();
+      _backdrop = null;
+    }
+    final Animation<double>? animation = ModalRoute.of(context)?.animation;
+    if (identical(animation, _routeAnimation)) {
+      return;
+    }
+    _routeAnimation?.removeListener(_reportBackdrop);
+    _routeAnimation = animation;
+    _routeAnimation?.addListener(_reportBackdrop);
+  }
+
+  @override
+  void dispose() {
+    _routeAnimation?.removeListener(_reportBackdrop);
+    _backdrop?.dispose();
+    _settle.dispose();
+    _dragOffset.dispose();
+    super.dispose();
+  }
+
+  void dragBy(double deltaDy) {
+    _settle.stop();
+    _dragOffset.value = math.max(0, _dragOffset.value + deltaDy);
+  }
+
+  void settle() {
+    if (_dragOffset.value <= 0) {
+      return;
+    }
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _dragOffset.value = 0;
+      return;
+    }
+    _settleFrom = _dragOffset.value;
+    _settle.forward(from: 0);
+  }
+
+  void _applySettle() {
+    _dragOffset.value =
+        _settleFrom * (1 - Curves.easeOutCubic.transform(_settle.value));
+  }
+
+  void _reportBackdrop() {
+    final FluxerSheetBackdropLink? backdrop = _backdrop;
+    final Animation<double>? animation = _routeAnimation;
+    final RenderObject? box = context.findRenderObject();
+    if (backdrop == null ||
+        animation == null ||
+        box is! RenderBox ||
+        !box.hasSize) {
+      return;
+    }
+    final double progress = fluxerSheetRouteProgress(animation, _routeStyle);
+    backdrop.reportVisibleHeight(
+      math.max(0, box.size.height * progress - _dragOffset.value),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _FluxerSheetDragTranslationScope(
+      presentation: this,
+      child: ValueListenableBuilder<double>(
+        valueListenable: _dragOffset,
+        child: widget.child,
+        builder: (BuildContext context, double offset, Widget? child) {
+          return Transform.translate(offset: Offset(0, offset), child: child);
+        },
+      ),
+    );
+  }
+}
+
+class _FluxerSheetDragTranslationScope extends InheritedWidget {
+  const _FluxerSheetDragTranslationScope({
+    required this.presentation,
+    required super.child,
+  });
+
+  final _FluxerSheetPresentationState presentation;
+
+  static _FluxerSheetPresentationState? maybeOf(BuildContext context) {
+    return context
+        .getInheritedWidgetOfExactType<_FluxerSheetDragTranslationScope>()
+        ?.presentation;
+  }
+
+  @override
+  bool updateShouldNotify(_FluxerSheetDragTranslationScope oldWidget) => false;
 }
 
 class _FluxerSheetSurfaceScope extends InheritedWidget {
@@ -533,6 +694,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.disableTopPadding,
     required this.hasHeader,
     required this.onDismiss,
+    required this.navigator,
     required this.title,
     required this.subtitle,
     required this.leading,
@@ -553,6 +715,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
   final bool disableTopPadding;
   final bool hasHeader;
   final VoidCallback onDismiss;
+  final NavigatorState navigator;
   final String? title;
   final Widget? subtitle;
   final Widget? leading;
@@ -587,6 +750,8 @@ class _FluxerDraggableScrollableSheetState
   double _sizePerSecond = 0;
   double _releaseDownVelocity = 0;
   Animation<double>? _routeAnimation;
+  FluxerSheetBackdropLink? _backdrop;
+  AnimationStyle _routeStyle = const AnimationStyle();
 
   @override
   void initState() {
@@ -597,13 +762,24 @@ class _FluxerDraggableScrollableSheetState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _routeStyle = fluxerBottomSheetAnimationStyle(context);
+    if (_fluxerSheetDrivesBackdrop(context)) {
+      _backdrop ??= FluxerSheetBackdropLink(widget.navigator);
+    } else {
+      _backdrop?.dispose();
+      _backdrop = null;
+    }
     final Animation<double>? animation = ModalRoute.of(context)?.animation;
     if (identical(animation, _routeAnimation)) {
       return;
     }
-    _routeAnimation?.removeStatusListener(_markDismissedIfRouteClosing);
+    _routeAnimation
+      ?..removeStatusListener(_markDismissedIfRouteClosing)
+      ..removeListener(_reportBackdrop);
     _routeAnimation = animation;
-    _routeAnimation?.addStatusListener(_markDismissedIfRouteClosing);
+    _routeAnimation
+      ?..addStatusListener(_markDismissedIfRouteClosing)
+      ..addListener(_reportBackdrop);
     final AnimationStatus? status = _routeAnimation?.status;
     if (status != null) {
       _markDismissedIfRouteClosing(status);
@@ -649,10 +825,25 @@ class _FluxerDraggableScrollableSheetState
 
   @override
   void dispose() {
-    _routeAnimation?.removeStatusListener(_markDismissedIfRouteClosing);
+    _routeAnimation
+      ?..removeStatusListener(_markDismissedIfRouteClosing)
+      ..removeListener(_reportBackdrop);
+    _backdrop?.dispose();
     _sheetController.removeListener(_handleSheetSize);
     _sheetController.dispose();
     super.dispose();
+  }
+
+  void _reportBackdrop() {
+    final FluxerSheetBackdropLink? backdrop = _backdrop;
+    final Animation<double>? animation = _routeAnimation;
+    if (backdrop == null || animation == null || !_sheetController.isAttached) {
+      return;
+    }
+    backdrop.reportVisibleHeight(
+      _sheetController.pixels *
+          fluxerSheetRouteProgress(animation, _routeStyle),
+    );
   }
 
   void _markDismissedIfRouteClosing(AnimationStatus status) {
@@ -683,6 +874,7 @@ class _FluxerDraggableScrollableSheetState
     }
     _lastSize = size;
     _lastSizeUs = now;
+    _reportBackdrop();
   }
 
   void _dismiss() {
@@ -958,6 +1150,9 @@ class _FluxerBottomSheetDragAreaState extends State<FluxerBottomSheetDragArea> {
 
   VoidCallback? get _onDismiss => widget.onDismiss ?? _scope?.onDismiss;
 
+  _FluxerSheetPresentationState? get _presentation =>
+      _FluxerSheetDragTranslationScope.maybeOf(context);
+
   bool get _canDrag => _controller != null || _onDismiss != null;
 
   void _handleVerticalDragStart(DragStartDetails details) {
@@ -968,6 +1163,7 @@ class _FluxerBottomSheetDragAreaState extends State<FluxerBottomSheetDragArea> {
     _dragDistance += details.delta.dy;
     final DraggableScrollableController? controller = _controller;
     if (controller == null || !controller.isAttached) {
+      _presentation?.dragBy(details.delta.dy);
       return;
     }
     final double currentSize = controller.size;
@@ -998,7 +1194,9 @@ class _FluxerBottomSheetDragAreaState extends State<FluxerBottomSheetDragArea> {
       velocity: velocity,
     )) {
       _onDismiss?.call();
+      return;
     }
+    _presentation?.settle();
   }
 
   @override
