@@ -10,18 +10,17 @@ String formatMessageTimestamp(
   FluxerLocalizations l10n,
   String locale, {
   required bool use12Hour,
-  DateTime? now,
+  required DateTime now,
 }) {
-  final DateTime reference = now ?? DateTime.now();
-  if (_isSameCalendarDay(localDateTime, reference)) {
+  if (_isSameCalendarDay(localDateTime, now)) {
     return l10n.chatMessageTimestampToday(
       formatUserTime(localDateTime, locale, use12Hour: use12Hour),
     );
   }
   final DateTime yesterday = DateTime(
-    reference.year,
-    reference.month,
-    reference.day,
+    now.year,
+    now.month,
+    now.day,
   ).subtract(const Duration(days: 1));
   if (_isSameCalendarDay(localDateTime, yesterday)) {
     return l10n.chatMessageTimestampYesterday(

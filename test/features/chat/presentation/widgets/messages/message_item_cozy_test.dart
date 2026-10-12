@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/local_day_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -19,6 +20,7 @@ import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_p
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_item_test_overrides.dart';
@@ -60,10 +62,24 @@ const MessageRenderSettings _denseSettings = MessageRenderSettings(
   messageDisplayCompact: true,
 );
 
-Widget _app(Widget child) {
+class _FixedLocalDay extends LocalDay {
+  _FixedLocalDay(this._day);
+
+  final DateTime _day;
+
+  @override
+  DateTime build() => _day;
+
+  DateTime get day => state;
+
+  set day(DateTime value) => state = value;
+}
+
+Widget _app(Widget child, {List<Override> overrides = const <Override>[]}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
+      ...overrides,
       fluxerDatabaseProvider.overrideWithValue(_database),
       instanceRuntimeConfigOverride(),
       ...messageItemTestProviderOverrides(),
@@ -160,6 +176,30 @@ void main() {
         );
       },
     );
+
+    messageItemTestWidgets('relative day label follows the local day', (
+      tester,
+    ) async {
+      final _FixedLocalDay localDay = _FixedLocalDay(DateTime(2026));
+      await tester.pumpWidget(
+        _app(
+          MessageItem(
+            message: _message().copyWith(
+              timestamp: DateTime(2026, 1, 1, 23, 59),
+            ),
+            renderSettings: _cozySettings,
+          ),
+          overrides: [localDayProvider.overrideWith(() => localDay)],
+        ),
+      );
+      await tester.pump();
+      expect(find.textContaining('Today at'), findsOneWidget);
+
+      localDay.day = DateTime(2026, 1, 2);
+      await tester.pump();
+      expect(find.textContaining('Today at'), findsNothing);
+      expect(find.textContaining('Yesterday at'), findsOneWidget);
+    });
 
     messageItemTestWidgets('dense mode does not use the cozy avatar layout', (
       tester,

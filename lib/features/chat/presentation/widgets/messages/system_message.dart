@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/local_day_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -152,6 +153,7 @@ class SystemMessage extends ConsumerWidget {
       FluxerLocalizations.of(context),
       Localizations.localeOf(context).toString(),
       use12Hour: ref.watch(use12HourTimeFormatProvider),
+      now: ref.watch(localDayProvider),
     );
     final TextStyle timestampStyle = context.textStyles.timestamp.copyWith(
       color: context.colors.textTertiaryMuted,

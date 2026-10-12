@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/local_day_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -1972,6 +1973,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       FluxerLocalizations.of(context),
                       Localizations.localeOf(context).toString(),
                       use12Hour: ref.watch(use12HourTimeFormatProvider),
+                      now: ref.watch(localDayProvider),
                     ),
                     style: context.textStyles.timestamp,
                   ),
@@ -2073,6 +2075,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                             l10n,
                             Localizations.localeOf(context).toString(),
                             use12Hour: use12Hour,
+                            now: ref.watch(localDayProvider),
                           ),
                           style: context.textStyles.timestamp,
                         ),

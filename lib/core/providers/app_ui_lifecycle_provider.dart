@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:clock/clock.dart';
 import 'package:dynamic_app_icon_flutter_plus/dynamic_app_icon_flutter_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
+import 'package:fluxer_app/core/providers/local_day_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_kit_player_lifecycle.dart';
 import 'package:fluxer_app/features/voice/services/voice_wakelock_coordinator.dart';
@@ -62,6 +64,8 @@ class AppUiLifecycleObserver extends ConsumerStatefulWidget {
 
 class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     with WidgetsBindingObserver {
+  Timer? _localDayTimer;
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +80,7 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
 
   @override
   void dispose() {
+    _localDayTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -113,6 +118,12 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
       unawaited(closeInAppBrowserIfOpen());
     }
     ref.read(appUiForegroundProvider.notifier).setResumed(isForeground);
+    if (isForeground) {
+      _syncLocalDay();
+    } else {
+      _localDayTimer?.cancel();
+      _localDayTimer = null;
+    }
     if (!wasForeground && isForeground) {
       unawaited(ref.read(wellKnownProvider.notifier).refresh());
     }
@@ -121,6 +132,16 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
         !wasForeground) {
       unawaited(prepareAppMediaAudioSession());
     }
+  }
+
+  void _syncLocalDay() {
+    _localDayTimer?.cancel();
+    if (!mounted) {
+      _localDayTimer = null;
+      return;
+    }
+    ref.read(localDayProvider.notifier).sync();
+    _localDayTimer = Timer(nextLocalDayCheckDelay(clock.now()), _syncLocalDay);
   }
 
   @override
