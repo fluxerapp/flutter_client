@@ -536,6 +536,88 @@ void main() {
       ]);
     });
   });
+
+  group('touch pinch zoom', () {
+    Future<void> pumpTouchViewer(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        _touchApp(
+          const AttachmentMediaViewerShell(
+            items: [_landscapePhoto, _landscapePhoto],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+    }
+
+    double currentScale(WidgetTester tester) {
+      final InteractiveViewer viewer = tester.widget<InteractiveViewer>(
+        find.byType(InteractiveViewer).first,
+      );
+      return viewer.transformationController!.value.getMaxScaleOnAxis();
+    }
+
+    double currentPage(WidgetTester tester) {
+      final PageView pageView = tester.widget<PageView>(find.byType(PageView));
+      return pageView.controller!.page!;
+    }
+
+    Future<void> pinchMovingOneFinger(
+      WidgetTester tester,
+      Offset fingerDelta,
+    ) async {
+      final Offset center = tester.getCenter(
+        find.byType(TouchMediaViewerPage).first,
+      );
+      final TestGesture anchor = await tester.startGesture(
+        center - const Offset(30, 30),
+        pointer: 1,
+      );
+      final TestGesture mover = await tester.startGesture(
+        center + const Offset(30, 30),
+        pointer: 2,
+      );
+      for (int i = 0; i < 12; i++) {
+        await mover.moveBy(fingerDelta / 12);
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      final double scale = currentScale(tester);
+      await mover.up();
+      await anchor.up();
+      await tester.pump();
+      expect(scale, greaterThan(1.2));
+    }
+
+    testWidgets('pinch zooms when one finger moves vertically', (tester) async {
+      await pumpTouchViewer(tester);
+      await pinchMovingOneFinger(tester, const Offset(0, 90));
+      await tester.pumpAndSettle();
+      expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+    });
+
+    testWidgets('pinch zooms when one finger moves horizontally', (
+      tester,
+    ) async {
+      await pumpTouchViewer(tester);
+      await pinchMovingOneFinger(tester, const Offset(90, 0));
+      await tester.pumpAndSettle();
+      expect(currentPage(tester), 0);
+    });
+
+    testWidgets('a one finger horizontal swipe still pages', (tester) async {
+      await pumpTouchViewer(tester);
+      await tester.fling(
+        find.byType(TouchMediaViewerPage).first,
+        const Offset(-300, 0),
+        1500,
+      );
+      await tester.pumpAndSettle();
+      expect(currentPage(tester), 1);
+    });
+  });
 }
 
 const AttachmentMediaViewerItem _landscapePhoto = AttachmentMediaViewerItem(

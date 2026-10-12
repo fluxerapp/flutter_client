@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_drag_recognizers.dart';
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -170,6 +172,8 @@ class _AttachmentMediaViewerShellState
   bool _isDesktopDragging = false;
   double _touchDismissProgress = 0;
   bool _isTouchZoomed = false;
+  ScrollHoldController? _touchPageHold;
+  Drag? _touchPageDrag;
 
   int? _pageDecodeCap;
 
@@ -272,6 +276,31 @@ class _AttachmentMediaViewerShellState
     });
   }
 
+  void _handleTouchPageDragDown(DragDownDetails details) {
+    _touchPageHold = _pageController.position.hold(() {
+      _touchPageHold = null;
+    });
+  }
+
+  void _handleTouchPageDragStart(DragStartDetails details) {
+    _touchPageDrag = _pageController.position.drag(details, () {
+      _touchPageDrag = null;
+    });
+  }
+
+  void _handleTouchPageDragUpdate(DragUpdateDetails details) {
+    _touchPageDrag?.update(details);
+  }
+
+  void _handleTouchPageDragEnd(DragEndDetails details) {
+    _touchPageDrag?.end(details);
+  }
+
+  void _handleTouchPageDragCancel() {
+    _touchPageHold?.cancel();
+    _touchPageDrag?.cancel();
+  }
+
   void _handleTouchZoomChanged(bool isZoomed) {
     if (_isTouchZoomed == isZoomed) {
       return;
@@ -327,38 +356,70 @@ class _AttachmentMediaViewerShellState
   }
 
   Widget _buildMediaPageView({required bool useTouchGestures}) {
+    final ScrollBehavior scrollBehavior = ScrollConfiguration.of(context);
+    final DeviceGestureSettings? gestureSettings =
+        MediaQuery.maybeGestureSettingsOf(context);
     return Listener(
       onPointerDown: (_) => _isPointerDownInsideContent = true,
       onPointerUp: (_) => _isPointerDownInsideContent = false,
       onPointerCancel: (_) => _isPointerDownInsideContent = false,
-      child: PageView.builder(
-        clipBehavior: Clip.none,
-        controller: _pageController,
-        physics: useTouchGestures
-            ? (_isTouchZoomed
-                  ? const NeverScrollableScrollPhysics()
-                  : const ClampingScrollPhysics())
-            : (_isDesktopZoomed
-                  ? const NeverScrollableScrollPhysics()
-                  : const ClampingScrollPhysics()),
-        onPageChanged: (int index) {
-          setState(() {
-            _currentIndex = index;
-            _desktopMediaHovered = false;
-            _isDesktopDragging = false;
-          });
-          _resetZoomState();
+      child: RawGestureDetector(
+        gestures: <Type, GestureRecognizerFactory>{
+          if (useTouchGestures && !_isTouchZoomed)
+            MediaViewerHorizontalDragGestureRecognizer:
+                GestureRecognizerFactoryWithHandlers<
+                  MediaViewerHorizontalDragGestureRecognizer
+                >(
+                  () => MediaViewerHorizontalDragGestureRecognizer(
+                    debugOwner: this,
+                    supportedDevices: scrollBehavior.dragDevices,
+                  ),
+                  (MediaViewerHorizontalDragGestureRecognizer instance) {
+                    instance
+                      ..onDown = _handleTouchPageDragDown
+                      ..onStart = _handleTouchPageDragStart
+                      ..onUpdate = _handleTouchPageDragUpdate
+                      ..onEnd = _handleTouchPageDragEnd
+                      ..onCancel = _handleTouchPageDragCancel
+                      ..velocityTrackerBuilder = scrollBehavior
+                          .velocityTrackerBuilder(context)
+                      ..multitouchDragStrategy = scrollBehavior
+                          .getMultitouchDragStrategy(context)
+                      ..gestureSettings = gestureSettings;
+                  },
+                ),
         },
-        itemCount: widget.items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _buildMediaPage(
-            context: context,
-            item: widget.items[index],
-            useTouchGestures: useTouchGestures,
-            index: index,
-          );
-        },
+        child: _buildPageView(useTouchGestures: useTouchGestures),
       ),
+    );
+  }
+
+  Widget _buildPageView({required bool useTouchGestures}) {
+    return PageView.builder(
+      clipBehavior: Clip.none,
+      controller: _pageController,
+      physics: useTouchGestures
+          ? const _ExternallyDraggedPagePhysics()
+          : (_isDesktopZoomed
+                ? const NeverScrollableScrollPhysics()
+                : const ClampingScrollPhysics()),
+      onPageChanged: (int index) {
+        setState(() {
+          _currentIndex = index;
+          _desktopMediaHovered = false;
+          _isDesktopDragging = false;
+        });
+        _resetZoomState();
+      },
+      itemCount: widget.items.length,
+      itemBuilder: (BuildContext context, int index) {
+        return _buildMediaPage(
+          context: context,
+          item: widget.items[index],
+          useTouchGestures: useTouchGestures,
+          index: index,
+        );
+      },
     );
   }
 
@@ -1048,4 +1109,16 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
       errorPlaceholder: errorPlaceholder,
     );
   }
+}
+
+class _ExternallyDraggedPagePhysics extends ClampingScrollPhysics {
+  const _ExternallyDraggedPagePhysics({super.parent});
+
+  @override
+  _ExternallyDraggedPagePhysics applyTo(ScrollPhysics? ancestor) {
+    return _ExternallyDraggedPagePhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  bool shouldAcceptUserOffset(ScrollMetrics position) => false;
 }

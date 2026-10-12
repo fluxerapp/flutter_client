@@ -1,5 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_drag_recognizers.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class MediaViewerDismissible extends StatefulWidget {
@@ -197,10 +198,26 @@ class _MediaViewerDismissibleState extends State<MediaViewerDismissible>
       dismissProgress: dismissProgress,
     );
     final bool gesturesEnabled = widget.enabled && !_isDismissAnimating;
-    return FluxerGestureDetector(
+    final DeviceGestureSettings? gestureSettings =
+        MediaQuery.maybeGestureSettingsOf(context);
+    return RawGestureDetector(
       behavior: HitTestBehavior.translucent,
-      onVerticalDragUpdate: gesturesEnabled ? _handleVerticalDragUpdate : null,
-      onVerticalDragEnd: gesturesEnabled ? _handleVerticalDragEnd : null,
+      gestures: <Type, GestureRecognizerFactory>{
+        if (gesturesEnabled)
+          MediaViewerVerticalDragGestureRecognizer:
+              GestureRecognizerFactoryWithHandlers<
+                MediaViewerVerticalDragGestureRecognizer
+              >(
+                () =>
+                    MediaViewerVerticalDragGestureRecognizer(debugOwner: this),
+                (MediaViewerVerticalDragGestureRecognizer instance) {
+                  instance
+                    ..onUpdate = _handleVerticalDragUpdate
+                    ..onEnd = _handleVerticalDragEnd
+                    ..gestureSettings = gestureSettings;
+                },
+              ),
+      },
       child: Transform.translate(
         offset: Offset(0, _dragOffset),
         child: Transform.scale(scale: contentScale, child: widget.child),
