@@ -1713,6 +1713,12 @@ class ComposerAutocompleteFieldState
   }
 
   void _applyUserMention(Member member) {
+    ref
+        .read(mentionFrecencyProvider.notifier)
+        .record(
+          guildId: ref.read(contextualGuildIdProvider),
+          userId: member.id,
+        );
     final ComposerSlashSession? session = widget.slashSession;
     if (session != null &&
         session.isActive &&

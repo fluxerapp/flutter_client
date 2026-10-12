@@ -193,7 +193,11 @@ Future<void> _navigateToForwardDestination({
   final bool isDm = guildId == null || guildId.isEmpty;
   container
       .read(recentChannelVisitsProvider.notifier)
-      .recordVisit(channelId: channelId, guildId: guildId);
+      .recordVisit(
+        channelId: channelId,
+        guildId: guildId,
+        isThread: channel?.isThread ?? false,
+      );
   if (isDm ||
       channel == null ||
       isAnnouncementConvertibleChannel(channel.type)) {

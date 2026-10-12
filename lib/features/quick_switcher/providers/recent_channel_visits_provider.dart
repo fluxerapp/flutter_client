@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/channels/providers/channel_frecency_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,7 +9,18 @@ class RecentChannelVisits extends _$RecentChannelVisits {
   @override
   List<RecentChannelVisit> build() => const <RecentChannelVisit>[];
 
-  void recordVisit({required String channelId, String? guildId}) {
+  void recordVisit({
+    required String channelId,
+    String? guildId,
+    bool isThread = false,
+  }) {
+    ref
+        .read(channelFrecencyProvider.notifier)
+        .recordSelection(
+          guildId: guildId,
+          channelId: channelId,
+          isThread: isThread,
+        );
     final List<RecentChannelVisit> next = <RecentChannelVisit>[
       RecentChannelVisit(channelId: channelId, guildId: guildId),
       ...state.where(

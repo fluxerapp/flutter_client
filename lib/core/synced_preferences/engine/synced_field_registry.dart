@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_overrides_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/channel_frecency_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/double_tap_action_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/double_tap_reaction_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/emoji_skin_tone_synced_field.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/core/synced_preferences/fields/guild_folders_synced_f
 import 'package:fluxer_app/core/synced_preferences/fields/guild_nsfw_agreements_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/local_spam_overrides_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/member_list_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/mention_frecency_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/nagbar_dismissals_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/privacy_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/recent_mentions_synced_field.dart';
@@ -51,6 +53,8 @@ void registerDefaultSyncedFieldAdapters({
   registerAdapter(MemesPickerSyncedField(ref));
   registerAdapter(EmojiSkinToneSyncedField(ref));
   registerAdapter(GuildNsfwAgreementsSyncedField(ref));
+  registerAdapter(MentionFrecencySyncedField(ref));
+  registerAdapter(ChannelFrecencySyncedField(ref));
   registerAdapter(FavoriteGifsSyncedField(ref));
   registerAdapter(SaveCameraUploadsSyncedField(ref));
   registerAdapter(DoubleTapReactionSyncedField(ref));
