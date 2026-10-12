@@ -195,12 +195,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     ],
   ),
   _UserSettingsSearchOption(
-    id: 'look-and-feel:chat-font-size',
-    section: UserSettingsSection.lookAndFeel,
-    fieldId: 'messages',
-    label: _l((l10n) => l10n.lookAndFeelChatFontSizeLabel),
-  ),
-  _UserSettingsSearchOption(
     id: 'look-and-feel:message-spacing',
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'messages',

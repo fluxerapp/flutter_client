@@ -192,7 +192,11 @@ List<UserSettingsSearchHit> searchUserSettings({
     }
     return a.label.toLowerCase().compareTo(b.label.toLowerCase());
   });
-  return hits;
+  final Set<(UserSettingsSection, String)> seen = {};
+  return [
+    for (final UserSettingsSearchHit hit in hits)
+      if (seen.add((hit.section, hit.label.toLowerCase()))) hit,
+  ];
 }
 
 List<MapEntry<UserSettingsSection, List<UserSettingsSearchHit>>>
