@@ -1,6 +1,7 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 
@@ -11,14 +12,13 @@ class GuildBottomSheetAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
     final iconUrl = guild.iconUrl;
 
     return Container(
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: colors.backgroundSecondaryAlt,
+        color: FluxerBottomSheet.cardColorOf(context),
         shape: BoxShape.circle,
       ),
       clipBehavior: Clip.antiAlias,

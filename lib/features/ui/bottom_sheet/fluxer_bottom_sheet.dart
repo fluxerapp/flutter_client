@@ -100,7 +100,8 @@ class FluxerBottomSheet {
   static double bottomGapOf(BuildContext context) {
     final bool sheetCoversInset =
         _FluxerSheetSurfaceScope.contains(context) &&
-        systemBottomInsetOf(context) > 0;
+        systemBottomInsetOf(context) > 0 &&
+        MediaQuery.viewInsetsOf(context).bottom <= 0;
     return sheetCoversInset ? 0 : context.layout.s4;
   }
 
