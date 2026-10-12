@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/list/fluxer_list_row.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -65,11 +66,12 @@ class FluxerListSection extends StatelessWidget {
           ),
         if (children.isNotEmpty)
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: backgroundColor ?? colors.backgroundSecondaryAlt,
-                borderRadius: BorderRadius.circular(12),
+                color:
+                    backgroundColor ?? FluxerBottomSheet.cardColorOf(context),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,

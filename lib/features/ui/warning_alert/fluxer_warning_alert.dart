@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -44,7 +45,7 @@ class FluxerWarningAlert extends StatelessWidget {
       label: alertLabel,
       child: Container(
         decoration: BoxDecoration(
-          color: colors.backgroundSecondaryAlt,
+          color: FluxerBottomSheet.cardColorOf(context),
           border: Border(left: BorderSide(color: borderColor, width: 4)),
           borderRadius: layout.radiusSm,
         ),

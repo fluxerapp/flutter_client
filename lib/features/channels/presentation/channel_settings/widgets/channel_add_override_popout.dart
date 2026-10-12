@@ -337,7 +337,7 @@ class _ChannelAddOverridePickerContentState
                   context.layout.s4,
                   0,
                   context.layout.s4,
-                  context.layout.s4,
+                  FluxerBottomSheet.bottomGapOf(context),
                 ),
               ),
         child: Column(

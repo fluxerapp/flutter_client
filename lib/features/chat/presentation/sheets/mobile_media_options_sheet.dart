@@ -31,7 +31,6 @@ Future<void> showMobileMediaOptionsSheet({
   }
   await FluxerBottomSheet.showScrollable<void>(
     context,
-    variant: FluxerBottomSheetVariant.menu,
     useRootNavigator: true,
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
     minChildSize: 0.25,

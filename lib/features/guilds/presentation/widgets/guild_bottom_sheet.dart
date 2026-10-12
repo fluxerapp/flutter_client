@@ -57,7 +57,6 @@ Future<GuildAction?> showGuildBottomSheet(
 
   final result = await FluxerBottomSheet.showScrollable<GuildAction>(
     context,
-    variant: FluxerBottomSheetVariant.menu,
     title: guild.name,
     leading: GuildBottomSheetAvatar(guild: guild),
     subtitle: GuildBottomSheetStats(guildId: guild.id, fallbackGuild: guild),
@@ -82,7 +81,12 @@ Future<GuildAction?> showGuildBottomSheet(
         controller: scrollController,
         padding: FluxerBottomSheet.scrollViewPadding(
           sheetContext,
-          padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+          padding: EdgeInsets.fromLTRB(
+            layout.s4,
+            0,
+            layout.s4,
+            FluxerBottomSheet.bottomGapOf(sheetContext),
+          ),
         ),
         children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
       );
@@ -143,7 +147,6 @@ void _openSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
   unawaited(
     FluxerBottomSheet.showScrollable<GuildAction>(
       context,
-      variant: FluxerBottomSheetVariant.menu,
       title: submenu.label,
       onBack: nav.pop,
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
@@ -156,7 +159,12 @@ void _openSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
           controller: scrollController,
           padding: FluxerBottomSheet.scrollViewPadding(
             sheetContext,
-            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+            padding: EdgeInsets.fromLTRB(
+              layout.s4,
+              0,
+              layout.s4,
+              FluxerBottomSheet.bottomGapOf(sheetContext),
+            ),
           ),
           children: [
             FluxerBottomSheetGroupColumn(

@@ -66,7 +66,9 @@ class FluxerActionMenu {
             physics: const ClampingScrollPhysics(),
             padding: FluxerBottomSheet.scrollViewPadding(
               sheetContext,
-              padding: EdgeInsets.only(bottom: sheetContext.layout.s2),
+              padding: EdgeInsets.only(
+                bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
+              ),
             ),
             children: [
               FluxerBottomSheetGroupColumn(

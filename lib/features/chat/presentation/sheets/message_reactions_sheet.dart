@@ -253,7 +253,7 @@ class _ReactionTab extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? colors.brandPrimary.withValues(alpha: 0.2)
-              : colors.backgroundSecondaryAlt.withValues(alpha: 0.4),
+              : FluxerBottomSheet.cardColorOf(context),
           border: Border.all(
             color: isSelected ? colors.brandPrimary : Colors.transparent,
           ),

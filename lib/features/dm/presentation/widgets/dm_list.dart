@@ -1062,7 +1062,6 @@ class _DMListState extends ConsumerState<DMList> {
     );
     final result = await FluxerBottomSheet.showScrollable<Object>(
       context,
-      variant: FluxerBottomSheetVariant.menu,
       title: displayName,
       leading: _DmContextMenuLeading(convo: convo, displayName: displayName),
       subtitle: convo.isGroup ? _DmContextMenuSubtitle(convo: convo) : null,
@@ -1770,7 +1769,12 @@ class _DmBottomSheet extends ConsumerWidget {
       controller: scrollController,
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+        padding: EdgeInsets.fromLTRB(
+          layout.s4,
+          0,
+          layout.s4,
+          FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       children: [FluxerBottomSheetGroupColumn(children: groups)],
     );
@@ -1791,7 +1795,12 @@ class _DmBottomSheet extends ConsumerWidget {
             controller: scrollController,
             padding: FluxerBottomSheet.scrollViewPadding(
               sheetContext,
-              padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+              padding: EdgeInsets.fromLTRB(
+                layout.s4,
+                0,
+                layout.s4,
+                FluxerBottomSheet.bottomGapOf(sheetContext),
+              ),
             ),
             children: [
               MuteDurationSheetBody(
@@ -1907,7 +1916,12 @@ class _DmInviteSheet extends StatelessWidget {
       controller: scrollController,
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+        padding: EdgeInsets.fromLTRB(
+          layout.s4,
+          0,
+          layout.s4,
+          FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       children: [
         FluxerBottomSheetGroupColumn(

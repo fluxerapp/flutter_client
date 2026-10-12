@@ -58,7 +58,6 @@ class VoiceParticipantContextMenu {
   }) {
     return FluxerBottomSheet.showScrollable<void>(
       context,
-      variant: FluxerBottomSheetVariant.menu,
       useRootNavigator: true,
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.25,
@@ -74,7 +73,7 @@ class VoiceParticipantContextMenu {
               sheetContext.layout.s4,
               0,
               sheetContext.layout.s4,
-              sheetContext.layout.s4,
+              FluxerBottomSheet.bottomGapOf(sheetContext),
             ),
           ),
         );

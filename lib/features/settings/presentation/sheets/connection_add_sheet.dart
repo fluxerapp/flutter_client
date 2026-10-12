@@ -358,7 +358,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     return Container(
       padding: EdgeInsets.all(layout.s3),
       decoration: BoxDecoration(
-        color: colors.backgroundSecondary,
+        color: FluxerBottomSheet.cardColorOf(context),
         border: Border.all(color: colors.backgroundModifierAccent),
         borderRadius: layout.radiusMd,
       ),
@@ -431,7 +431,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     return Container(
       padding: EdgeInsets.all(layout.s3),
       decoration: BoxDecoration(
-        color: colors.backgroundSecondary,
+        color: FluxerBottomSheet.cardColorOf(context),
         border: Border.all(color: colors.backgroundModifierAccent),
         borderRadius: layout.radiusMd,
       ),

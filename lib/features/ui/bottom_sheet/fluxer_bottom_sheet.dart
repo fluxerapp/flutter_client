@@ -97,6 +97,20 @@ class FluxerBottomSheet {
     return _fluxerSystemBottomInset(MediaQuery.of(context));
   }
 
+  static double bottomGapOf(BuildContext context) {
+    final bool sheetCoversInset =
+        _FluxerSheetSurfaceScope.contains(context) &&
+        systemBottomInsetOf(context) > 0;
+    return sheetCoversInset ? 0 : context.layout.s4;
+  }
+
+  static Color cardColorOf(BuildContext context) {
+    final FluxerColorTheme colors = context.colors;
+    return _FluxerSheetSurfaceScope.contains(context)
+        ? colors.backgroundTertiary
+        : colors.backgroundSecondaryAlt;
+  }
+
   static double systemEndInsetOf(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
@@ -226,7 +240,6 @@ class FluxerBottomSheet {
 
           final sheetContent = _wrapBottomSheetSurface(
             context: sheetContext,
-            isMenu: isMenuVariant,
             child: content,
           );
 
@@ -266,7 +279,6 @@ class FluxerBottomSheet {
     double initialChildSize = scrollableSheetSize,
     double minChildSize = 0.4,
     double maxChildSize = scrollableSheetSize,
-    FluxerBottomSheetVariant variant = FluxerBottomSheetVariant.content,
     ValueNotifier<bool>? canDismissNotifier,
     double? maxHeight,
     bool disableTopPadding = false,
@@ -343,7 +355,6 @@ class FluxerBottomSheet {
             bottomInset: keyboardInset,
             bottomScrollPadding: bottomScrollPadding,
             sheetContext: sheetContext,
-            isMenu: variant == FluxerBottomSheetVariant.menu,
             builder: builder,
           );
 
@@ -434,33 +445,29 @@ double _effectiveBottomSheetBottomPadding(
 Widget _wrapBottomSheetSurface({
   required BuildContext context,
   required Widget child,
-  bool isMenu = false,
 }) {
   final BottomSheetThemeData bottomSheetTheme = Theme.of(
     context,
   ).bottomSheetTheme;
   return Material(
-    color: isMenu
-        ? context.colors.backgroundSecondaryAlt
-        : bottomSheetTheme.modalBackgroundColor ??
-              bottomSheetTheme.backgroundColor,
+    color: context.colors.backgroundSecondaryAlt,
     surfaceTintColor: Colors.transparent,
     shape: bottomSheetTheme.shape,
     clipBehavior: bottomSheetTheme.clipBehavior ?? Clip.antiAlias,
-    child: isMenu ? _FluxerMenuSheetScope(child: child) : child,
+    child: _FluxerSheetSurfaceScope(child: child),
   );
 }
 
-class _FluxerMenuSheetScope extends InheritedWidget {
-  const _FluxerMenuSheetScope({required super.child});
+class _FluxerSheetSurfaceScope extends InheritedWidget {
+  const _FluxerSheetSurfaceScope({required super.child});
 
   static bool contains(BuildContext context) {
-    return context.getInheritedWidgetOfExactType<_FluxerMenuSheetScope>() !=
+    return context.getInheritedWidgetOfExactType<_FluxerSheetSurfaceScope>() !=
         null;
   }
 
   @override
-  bool updateShouldNotify(_FluxerMenuSheetScope oldWidget) => false;
+  bool updateShouldNotify(_FluxerSheetSurfaceScope oldWidget) => false;
 }
 
 class _FluxerBottomSheetInsetChild extends StatelessWidget {
@@ -533,7 +540,6 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.bottomInset,
     required this.bottomScrollPadding,
     required this.sheetContext,
-    required this.isMenu,
     required this.builder,
   });
 
@@ -554,7 +560,6 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
   final double bottomInset;
   final double bottomScrollPadding;
   final BuildContext sheetContext;
-  final bool isMenu;
   final FluxerScrollableBottomSheetBuilder builder;
 
   @override
@@ -824,7 +829,6 @@ class _FluxerDraggableScrollableSheetState
           builder: (context, scrollController) {
             return _wrapBottomSheetSurface(
               context: widget.sheetContext,
-              isMenu: widget.isMenu,
               child: AnimatedPadding(
                 duration: widget.sheetContext.motion.normal,
                 curve: widget.sheetContext.motion.curve,
@@ -1348,17 +1352,15 @@ class FluxerMenuGroup extends StatelessWidget {
     final dividerInset = bordered ? layout.s3 : 16.0;
 
     return Material(
-      color: _FluxerMenuSheetScope.contains(context)
-          ? colors.backgroundTertiary
-          : colors.backgroundSecondaryAlt,
+      color: FluxerBottomSheet.cardColorOf(context),
       surfaceTintColor: Colors.transparent,
       shape: bordered
           ? RoundedRectangleBorder(
-              borderRadius: layout.radiusXl,
+              borderRadius: layout.radiusXxl,
               side: BorderSide(color: colors.backgroundModifierAccent),
             )
           : null,
-      borderRadius: bordered ? null : layout.radiusXl,
+      borderRadius: bordered ? null : layout.radiusXxl,
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisSize: MainAxisSize.min,

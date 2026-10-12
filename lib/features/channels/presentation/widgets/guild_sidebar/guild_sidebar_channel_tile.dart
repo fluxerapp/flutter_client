@@ -286,7 +286,6 @@ class _ChannelTile extends ConsumerWidget {
     if (isMobileLayout(context)) {
       return FluxerBottomSheet.showScrollable<void>(
         context,
-        variant: FluxerBottomSheetVariant.menu,
         title: channel.name,
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         minChildSize: 0.25,

@@ -192,7 +192,9 @@ class _DiscoveryLanguageSelectSheetState
                   controller: widget.scrollController,
                   padding: FluxerBottomSheet.scrollViewPadding(
                     context,
-                    padding: EdgeInsets.only(bottom: layout.s4),
+                    padding: EdgeInsets.only(
+                      bottom: FluxerBottomSheet.bottomGapOf(context),
+                    ),
                   ),
                   children: <Widget>[
                     FluxerBottomSheetSection(

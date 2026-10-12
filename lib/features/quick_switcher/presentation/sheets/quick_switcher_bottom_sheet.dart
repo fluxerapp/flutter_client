@@ -104,7 +104,7 @@ class _QuickSwitcherSheetBodyState
     final bool isSearchTab = state.activeTab == QuickSwitcherSheetTab.search;
     _syncSearchControllers(state);
     return ColoredBox(
-      color: context.colors.backgroundSecondary,
+      color: context.colors.backgroundSecondaryAlt,
       child: Column(
         children: <Widget>[
           SizedBox(height: context.layout.s2),
@@ -278,7 +278,9 @@ class _QuickSwitcherSheetBodyState
       physics: const AlwaysScrollableScrollPhysics(),
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: EdgeInsets.only(bottom: context.layout.s5),
+        padding: EdgeInsets.only(
+          bottom: FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       children: children,
     );
@@ -293,7 +295,9 @@ class _QuickSwitcherSheetBodyState
       physics: const AlwaysScrollableScrollPhysics(),
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: EdgeInsets.only(bottom: context.layout.s5),
+        padding: EdgeInsets.only(
+          bottom: FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       children: <Widget>[
         SizedBox(

@@ -272,7 +272,7 @@ class _RecoveryKitSheetState extends ConsumerState<RecoveryKitSheet> {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: colors.backgroundSecondaryAlt,
+                      color: FluxerBottomSheet.cardColorOf(context),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(

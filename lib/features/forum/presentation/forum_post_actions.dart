@@ -196,7 +196,7 @@ class _ForumPostActions extends ConsumerWidget {
             context.layout.s4,
             0,
             context.layout.s4,
-            context.layout.s2,
+            FluxerBottomSheet.bottomGapOf(context),
           ),
         ),
         children: <Widget>[

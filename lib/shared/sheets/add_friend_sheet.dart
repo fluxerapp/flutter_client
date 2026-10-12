@@ -49,7 +49,7 @@ class _AddFriendSheetBody extends ConsumerWidget {
           context.layout.s4,
           0,
           context.layout.s4,
-          context.layout.s4,
+          FluxerBottomSheet.bottomGapOf(context),
         ),
       ),
       children: [

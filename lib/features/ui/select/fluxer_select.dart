@@ -216,16 +216,13 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     BuildContext sheetContext, {
     required ValueChanged<T> onSelected,
   }) {
-    final layout = sheetContext.layout;
-    final bool hasSystemInset =
-        FluxerBottomSheet.systemBottomInsetOf(sheetContext) > 0;
     return ListView(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       padding: FluxerBottomSheet.scrollViewPadding(
         sheetContext,
         padding: EdgeInsets.only(
-          bottom: hasSystemInset ? layout.s2 : layout.s4,
+          bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
         ),
       ),
       children: [
@@ -282,7 +279,6 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
       sheetFuture = FluxerBottomSheet.showScrollable<T>(
         sheetHostContext,
         title: sheetTitle,
-        variant: FluxerBottomSheetVariant.menu,
         useRootNavigator: sheetUsesRootNavigator,
         initialChildSize: enableSearch
             ? FluxerBottomSheet.scrollableSheetSize
@@ -399,7 +395,9 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
                   controller: widget.scrollController,
                   padding: FluxerBottomSheet.scrollViewPadding(
                     context,
-                    padding: EdgeInsets.only(bottom: layout.s4),
+                    padding: EdgeInsets.only(
+                      bottom: FluxerBottomSheet.bottomGapOf(context),
+                    ),
                   ),
                   children: [
                     FluxerBottomSheetSection(

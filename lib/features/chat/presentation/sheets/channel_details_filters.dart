@@ -365,7 +365,12 @@ class _GuildUserSearchFilterSheetState
     return Padding(
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          0,
+          16,
+          FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       child: Column(
         children: <Widget>[
@@ -530,7 +535,12 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
     return Padding(
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          0,
+          16,
+          FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       child: Column(
         children: [
@@ -719,7 +729,12 @@ class _HasFilterSheetState extends State<_HasFilterSheet> {
     return Padding(
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          0,
+          16,
+          FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       child: Column(
         children: [

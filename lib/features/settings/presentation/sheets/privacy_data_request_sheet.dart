@@ -651,7 +651,7 @@ class _PrivacyDataRequestSheetState
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: colors.backgroundSecondary,
+              color: FluxerBottomSheet.cardColorOf(context),
               border: Border.all(color: colors.backgroundHeaderSecondary),
               borderRadius: BorderRadius.circular(6),
             ),

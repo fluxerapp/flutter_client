@@ -692,7 +692,7 @@ class _GuildListItemState extends State<_GuildListItem>
     return Padding(
       padding: EdgeInsets.only(bottom: layout.s3),
       child: Material(
-        color: colors.backgroundSecondaryAlt,
+        color: FluxerBottomSheet.cardColorOf(context),
         borderRadius: layout.radiusLg,
         clipBehavior: Clip.antiAlias,
         child: Padding(

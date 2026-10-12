@@ -90,7 +90,12 @@ class _GroupDmInvitesContentState extends ConsumerState<GroupDmInvitesContent> {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: FluxerBottomSheet.scrollViewPadding(
             context,
-            padding: EdgeInsets.all(context.layout.s4),
+            padding: EdgeInsets.fromLTRB(
+              context.layout.s4,
+              context.layout.s4,
+              context.layout.s4,
+              FluxerBottomSheet.bottomGapOf(context),
+            ),
           ),
           itemCount: state.invites.length,
           separatorBuilder: (BuildContext context, int index) =>
@@ -129,7 +134,12 @@ class _GroupDmInvitesContentState extends ConsumerState<GroupDmInvitesContent> {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: FluxerBottomSheet.scrollViewPadding(
             context,
-            padding: EdgeInsets.all(context.layout.s4),
+            padding: EdgeInsets.fromLTRB(
+              context.layout.s4,
+              context.layout.s4,
+              context.layout.s4,
+              FluxerBottomSheet.bottomGapOf(context),
+            ),
           ),
           children: <Widget>[
             ConstrainedBox(

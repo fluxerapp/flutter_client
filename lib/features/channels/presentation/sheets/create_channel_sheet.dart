@@ -674,8 +674,8 @@ class _FieldCard extends StatelessWidget {
     final layout = context.layout;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: context.colors.backgroundSecondaryAlt,
-        borderRadius: layout.radiusXl,
+        color: FluxerBottomSheet.cardColorOf(context),
+        borderRadius: layout.radiusXxl,
       ),
       child: Padding(padding: EdgeInsets.all(layout.s3), child: child),
     );

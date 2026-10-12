@@ -113,7 +113,12 @@ class _ChannelSearchMoreFiltersSheetState
     return Padding(
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          0,
+          16,
+          FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       child: Column(
         children: <Widget>[
@@ -357,7 +362,12 @@ class _ChannelSearchChannelFilterSheetState
     return Padding(
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          0,
+          16,
+          FluxerBottomSheet.bottomGapOf(context),
+        ),
       ),
       child: Column(
         children: <Widget>[

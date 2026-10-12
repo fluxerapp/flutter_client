@@ -27,7 +27,7 @@ class WideSettingsModalFrame extends StatelessWidget {
     final bool hasInset = insets != EdgeInsets.zero;
     final BorderRadius borderRadius = hasInset
         ? BorderRadius.circular(16)
-        : const BorderRadius.vertical(top: Radius.circular(16));
+        : const BorderRadius.vertical(top: Radius.circular(24));
     final double screenHeight = MediaQuery.sizeOf(context).height;
     final double height = hasInset
         ? screenHeight - insets.vertical

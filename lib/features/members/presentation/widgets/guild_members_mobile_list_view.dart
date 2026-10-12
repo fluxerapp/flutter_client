@@ -562,12 +562,13 @@ class _MembersFilterOptionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final layout = sheetContext.layout;
     return ListView(
       controller: scrollController,
       padding: FluxerBottomSheet.scrollViewPadding(
         sheetContext,
-        padding: EdgeInsets.only(bottom: layout.s4),
+        padding: EdgeInsets.only(
+          bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
+        ),
       ),
       children: <Widget>[
         FluxerBottomSheetSection(child: FluxerMenuGroup(children: children)),
@@ -592,7 +593,7 @@ class _MembersFilterPill extends StatelessWidget {
     final colors = context.colors;
     final background = isActive
         ? colors.brandPrimary
-        : colors.backgroundSecondaryAlt;
+        : FluxerBottomSheet.cardColorOf(context);
     final borderColor = isActive ? colors.brandPrimary : colors.borderColor;
     final labelColor = isActive ? Colors.white : colors.textSecondary;
 

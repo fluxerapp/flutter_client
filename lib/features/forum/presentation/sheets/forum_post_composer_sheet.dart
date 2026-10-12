@@ -229,7 +229,7 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
               Container(
                 padding: EdgeInsets.all(layout.s3),
                 decoration: BoxDecoration(
-                  color: colors.backgroundSecondaryAlt,
+                  color: FluxerBottomSheet.cardColorOf(context),
                   borderRadius: layout.radiusXl,
                 ),
                 child: Column(

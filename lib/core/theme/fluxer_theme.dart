@@ -292,13 +292,14 @@ ThemeData buildFluxerTheme({
       circularTrackColor: colorTheme.backgroundModifierAccent,
     ),
 
-    // Bottom sheets — web mobile modal: bg-secondary, 16px top radius
     bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: colorTheme.backgroundSecondary,
-      modalBackgroundColor: colorTheme.backgroundSecondary,
+      backgroundColor: colorTheme.backgroundSecondaryAlt,
+      modalBackgroundColor: colorTheme.backgroundSecondaryAlt,
       modalBarrierColor: colorTheme.modalScrim,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: layoutTheme.radiusXxl.topLeft),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(24 * layoutTheme.scaleFactor),
+        ),
       ),
     ),
 

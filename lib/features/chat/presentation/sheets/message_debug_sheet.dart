@@ -79,7 +79,7 @@ class _MessageDebugSheetBody extends ConsumerWidget {
           Container(
             padding: EdgeInsets.all(layout.s3),
             decoration: BoxDecoration(
-              color: colors.backgroundSecondaryAlt,
+              color: FluxerBottomSheet.cardColorOf(context),
               borderRadius: layout.radiusLg,
             ),
             child: SelectableText(

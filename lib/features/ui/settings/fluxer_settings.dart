@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
@@ -88,9 +89,9 @@ class FluxerSettingsGroup extends StatelessWidget {
     final layout = context.layout;
 
     return Material(
-      color: colors.backgroundSecondaryAlt,
+      color: FluxerBottomSheet.cardColorOf(context),
       surfaceTintColor: Colors.transparent,
-      borderRadius: layout.radiusXl,
+      borderRadius: layout.radiusXxl,
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisSize: MainAxisSize.min,
