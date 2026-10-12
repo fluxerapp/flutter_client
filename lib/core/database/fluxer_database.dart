@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/daos/auth_session_dao.dart';
 import 'package:fluxer_app/core/database/daos/channel_dao.dart';
@@ -62,6 +64,7 @@ import 'package:fluxer_app/core/database/tables/user_notes.dart';
 import 'package:fluxer_app/core/database/tables/user_preferences.dart';
 import 'package:fluxer_app/core/database/tables/user_settings.dart';
 import 'package:fluxer_app/core/database/tables/users.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 
 part 'fluxer_database.g.dart';
@@ -1649,18 +1652,30 @@ Future<void> _moveLocalExpressionUsageToActiveAccount(
     }
   }
   final int nowMs = DateTime.now().millisecondsSinceEpoch;
+  final Map<String, UsageEntry> emojiUsage = sanitizeUsageMap(emoji, nowMs);
+  final Map<String, UsageEntry> stickerUsage = sanitizeUsageMap(sticker, nowMs);
+  final Map<String, UsageEntry> memeUsage = sanitizeUsageMap(meme, nowMs);
+  final List<String> dirtyFields = <String>[
+    if (emojiUsage.isNotEmpty) SyncedPreferenceField.emojiPicker.name,
+    if (memeUsage.isNotEmpty) SyncedPreferenceField.memesPicker.name,
+    if (stickerUsage.isNotEmpty) SyncedPreferenceField.stickerPicker.name,
+  ];
   await database.customStatement(
     'INSERT INTO user_preferences (user_id, emoji_usage_json, '
-    'sticker_usage_json, meme_usage_json) VALUES (?, ?, ?, ?) '
+    'sticker_usage_json, meme_usage_json, '
+    'synced_preferences_dirty_fields_json) VALUES (?, ?, ?, ?, ?) '
     'ON CONFLICT(user_id) DO UPDATE SET '
     'emoji_usage_json = excluded.emoji_usage_json, '
     'sticker_usage_json = excluded.sticker_usage_json, '
-    'meme_usage_json = excluded.meme_usage_json',
+    'meme_usage_json = excluded.meme_usage_json, '
+    'synced_preferences_dirty_fields_json = '
+    'excluded.synced_preferences_dirty_fields_json',
     <Object>[
       session.read<String>('user_id'),
-      encodeUsageMapJson(sanitizeUsageMap(emoji, nowMs)),
-      encodeUsageMapJson(sanitizeUsageMap(sticker, nowMs)),
-      encodeUsageMapJson(sanitizeUsageMap(meme, nowMs)),
+      encodeUsageMapJson(emojiUsage),
+      encodeUsageMapJson(stickerUsage),
+      encodeUsageMapJson(memeUsage),
+      jsonEncode(dirtyFields),
     ],
   );
 }

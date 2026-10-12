@@ -290,11 +290,13 @@ void main() {
           _emojiPicker(favorites: ['unicode:heart', 'unicode:tada']),
         ),
       );
+      api.offline = true;
       await container
           .read(favoriteEmojiKeysProvider.notifier)
           .toggle('unicode:heart');
       await drainAsyncWork();
       container.dispose();
+      api.offline = false;
 
       final restarted = _container(database, api);
       final restartedStore = restarted.read(syncedPreferencesStoreProvider);
@@ -313,6 +315,50 @@ void main() {
   });
 
   group('restart', () {
+    test(
+      'a restored edit waits for the server copy before pushing over the cache',
+      () async {
+        final cached = _emojiPicker(
+          favorites: ['unicode:heart', 'unicode:tada'],
+        );
+        await store.hydrateFromUserSettings(
+          syncedPreferencesUserSettings(cached),
+        );
+        api.offline = true;
+        await container
+            .read(favoriteEmojiKeysProvider.notifier)
+            .toggle('unicode:heart');
+        await drainAsyncWork();
+        container.dispose();
+        api.offline = false;
+
+        final restarted = _container(database, api);
+        final restartedStore = restarted.read(syncedPreferencesStoreProvider);
+        final pushesBefore = api.pushes.length;
+        await restartedStore.hydrateFromUserSettings(
+          syncedPreferencesUserSettings(cached),
+          fromCache: true,
+        );
+        await flushSyncedPreferencesDebounce(restartedStore);
+        expect(api.pushes.length, pushesBefore);
+
+        final server = _emojiPicker(
+          favorites: ['unicode:heart', 'unicode:tada', 'unicode:fire'],
+        )..sidebar = pb.SidebarPreferences(inlineDmsCollapsed: false);
+        await restartedStore.hydrateFromUserSettings(
+          syncedPreferencesUserSettings(server),
+        );
+        await flushSyncedPreferencesDebounce(restartedStore);
+
+        expect(api.pushes.length, pushesBefore + 1);
+        expect(api.lastPush.emojiPicker.favoriteEmojiIds, [
+          'unicode:tada',
+          'unicode:fire',
+        ]);
+        expect(api.lastPush.sidebar.inlineDmsCollapsed, isFalse);
+      },
+    );
+
     test('memory-only fields never replay a stale dirty mark', () async {
       final remote = pb.SyncedPreferences(
         favoriteGifs: pickers_pb.FavoriteGifSettings(
@@ -344,6 +390,55 @@ void main() {
             .map((push) => push.favoriteGifs.entries.length),
         everyElement(1),
       );
+    });
+  });
+
+  group('server without the field', () {
+    pb.SyncedPreferences sidebarOnly({required bool collapsed}) =>
+        pb.SyncedPreferences(
+          sidebar: pb.SidebarPreferences(inlineDmsCollapsed: collapsed),
+        );
+
+    test('a first edit survives server updates that lack the field', () async {
+      await store.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(sidebarOnly(collapsed: true)),
+      );
+      api.offline = true;
+      await container
+          .read(expressionUsageProvider(ExpressionUsageKind.emoji).notifier)
+          .track('unicode:tada');
+      await store.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(sidebarOnly(collapsed: false)),
+      );
+      await store.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(sidebarOnly(collapsed: true)),
+      );
+      api.offline = false;
+      await flushSyncedPreferencesDebounce(store);
+
+      expect((await database.userPreferencesDao.getEmojiUsage(_userId)).keys, [
+        'unicode:tada',
+      ]);
+      expect(api.lastPush.emojiPicker.usage['unicode:tada']?.count, 1);
+    });
+
+    test('upgraded usage reaches a server that never had the field', () async {
+      final int now = _nowMs();
+      await database.userPreferencesDao.setEmojiUsage(_userId, {
+        'unicode:sweat_smile': UsageEntry(count: 3, lastUsedMs: now),
+      });
+      await database.userPreferencesDao.setSyncedPreferencesDirtyFields(
+        _userId,
+        ['emojiPicker'],
+      );
+
+      await store.hydrateFromUserSettings(
+        syncedPreferencesUserSettings(sidebarOnly(collapsed: true)),
+      );
+      await flushSyncedPreferencesDebounce(store);
+
+      expect(api.lastPush.emojiPicker.usage['unicode:sweat_smile']?.count, 3);
+      expect(api.lastPush.sidebar.inlineDmsCollapsed, isTrue);
     });
   });
 

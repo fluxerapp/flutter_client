@@ -294,6 +294,10 @@ void main() {
         );
         expect(prefs?.stickerUsageJson, '{"1:3":[5,1700000200000]}');
         expect(prefs?.memeUsageJson, '{"4":[1,1700000300000]}');
+        expect(
+          prefs?.syncedPreferencesDirtyFieldsJson,
+          '["emojiPicker","memesPicker","stickerPicker"]',
+        );
         expect(await db.userPreferencesDao.getPreferences('old'), isNull);
         expect(_schemaTables(raw), isNot(contains('emoji_usage')));
         expect(_userVersion(raw), db.schemaVersion);

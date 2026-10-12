@@ -76,6 +76,7 @@ UserSettingsResponse testUserSettingsWithSyncedBlob(String syncedPreferences) {
 
 class RecordingUsersApi implements UsersApi {
   final List<pb.SyncedPreferences> pushes = <pb.SyncedPreferences>[];
+  bool offline = false;
 
   pb.SyncedPreferences get lastPush => pushes.last;
 
@@ -83,6 +84,12 @@ class RecordingUsersApi implements UsersApi {
   Future<UserSettingsResponse> updateCurrentUserSettings({
     UserSettingsUpdateRequest? body,
   }) async {
+    if (offline) {
+      throw DioException.connectionError(
+        requestOptions: RequestOptions(),
+        reason: 'offline',
+      );
+    }
     final String encoded = body?.syncedPreferences.value ?? '';
     pushes.add(pb.SyncedPreferences.fromBuffer(base64Decode(encoded)));
     return testUserSettingsWithSyncedBlob(encoded);

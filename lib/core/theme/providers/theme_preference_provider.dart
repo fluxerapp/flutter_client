@@ -417,7 +417,10 @@ class ThemePreference extends _$ThemePreference {
       if (decoded is! Map<String, dynamic>) {
         return false;
       }
-      await _applyRemoteUserSettings(UserSettingsResponse.fromJson(decoded));
+      await _applyRemoteUserSettings(
+        UserSettingsResponse.fromJson(decoded),
+        fromCache: true,
+      );
       return true;
     } on Object catch (e, st) {
       talker.warning('[ThemePreference] Cached settings apply failed', e, st);
@@ -436,12 +439,16 @@ class ThemePreference extends _$ThemePreference {
     }
   }
 
-  Future<void> _applyRemoteUserSettings(UserSettingsResponse settings) async {
+  Future<void> _applyRemoteUserSettings(
+    UserSettingsResponse settings, {
+    bool fromCache = false,
+  }) async {
     await ref
         .read(syncedPreferencesStoreProvider)
         .hydrateFromUserSettings(
           settings,
           themeCustomizationApplier: applySyncedThemeCustomization,
+          fromCache: fromCache,
         );
     if (state.syncAcrossDevices && state.mode != FluxerThemeMode.system) {
       await applyServerSettings(settings);

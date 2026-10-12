@@ -65,6 +65,7 @@ class SyncedPreferencesStore {
   pb.SyncedPreferences _wire = SyncedPreferencesEngine.createEmpty();
   pb.SyncedPreferences? _hydrateBaselineWire;
   bool _hasHydrated = false;
+  bool _hasServerSnapshot = false;
   bool _isApplyingRemote = false;
   bool _isPushInFlight = false;
   bool _pendingPush = false;
@@ -105,6 +106,7 @@ class SyncedPreferencesStore {
     _wire = SyncedPreferencesEngine.createEmpty();
     _hydrateBaselineWire = null;
     _hasHydrated = false;
+    _hasServerSnapshot = false;
     _isApplyingRemote = false;
     _isPushInFlight = false;
     _pendingPush = false;
@@ -165,15 +167,22 @@ class SyncedPreferencesStore {
   Future<void> hydrateFromUserSettings(
     UserSettingsResponse settings, {
     SyncedThemeCustomizationApplier? themeCustomizationApplier,
+    bool fromCache = false,
   }) async {
     final encoded = settings.syncedPreferences;
+    if (!fromCache) {
+      _hasServerSnapshot = true;
+    }
     if (_hasHydrated && encoded.isEmpty) {
+      _flushPendingPush();
       return;
     }
     _wireBlob = encoded;
     final decodeStatus = await _decodeIncoming(encoded);
     if (decodeStatus == _DecodeStatus.failure) {
-      await _attemptBoundedRepair(encoded);
+      if (!fromCache) {
+        await _attemptBoundedRepair(encoded);
+      }
       _hasHydrated = true;
       _flushPendingPush();
       return;
@@ -217,7 +226,7 @@ class SyncedPreferencesStore {
       _hydrateBaselineWire = null;
     }
     if (encoded.isNotEmpty && decodeStatus == _DecodeStatus.success) {
-      _clearStaleDirtyForAbsentServerFields(incoming: incoming);
+      await _clearStaleDirtyForAbsentServerFields(incoming: incoming);
     }
     await _applyMergedAccessibilityTheme(
       themeCustomizationApplier: themeCustomizationApplier,
@@ -473,9 +482,9 @@ class SyncedPreferencesStore {
     return adapter.readFromProto(_hydrateBaselineWire ?? _wire);
   }
 
-  void _clearStaleDirtyForAbsentServerFields({
+  Future<void> _clearStaleDirtyForAbsentServerFields({
     required pb.SyncedPreferences incoming,
-  }) {
+  }) async {
     for (final field in List<SyncedPreferenceField>.from(_dirtyFields)) {
       if (_inFlightFields.contains(field)) {
         continue;
@@ -485,6 +494,9 @@ class SyncedPreferencesStore {
         continue;
       }
       if (adapter.readFromProto(incoming) != null) {
+        continue;
+      }
+      if (adapter.hasLocalData(await adapter.readLocalValue())) {
         continue;
       }
       _dirtyFields.remove(field);
@@ -579,8 +591,8 @@ class SyncedPreferencesStore {
       _pendingPush = true;
       return;
     }
-    if (!_hasHydrated) {
-      _deferPush();
+    if (!_hasServerSnapshot) {
+      _pendingPush = true;
       return;
     }
     if (_isPushInFlight) {
@@ -884,11 +896,6 @@ class SyncedPreferencesStore {
       return;
     }
     scheduleFlush();
-  }
-
-  void _deferPush() {
-    _pendingPush = true;
-    _startPushTimer();
   }
 
   void _schedulePushRetry(Object error) {
