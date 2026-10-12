@@ -227,6 +227,9 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'interface',
     label: _l((l10n) => l10n.lookAndFeelChannelTypingIndicatorsTitle),
+    description: _l(
+      (l10n) => l10n.lookAndFeelChannelTypingIndicatorsDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'look-and-feel:selected-channel-typing',
@@ -235,12 +238,16 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     label: _l(
       (l10n) => l10n.lookAndFeelShowSelectedChannelTypingIndicatorLabel,
     ),
+    description: _l(
+      (l10n) => l10n.lookAndFeelShowSelectedChannelTypingIndicatorDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'look-and-feel:keyboard-hints',
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'interface',
     label: _l((l10n) => l10n.lookAndFeelHideKeyboardHintsLabel),
+    description: _l((l10n) => l10n.lookAndFeelHideKeyboardHintsDescription),
     keywords: [_l((l10n) => l10n.lookAndFeelKeyboardHintsTitle)],
   ),
   _UserSettingsSearchOption(
@@ -259,18 +266,23 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'channel-list',
     label: _l((l10n) => l10n.lookAndFeelShowFadedUnreadOnMutedChannelsLabel),
+    description: _l(
+      (l10n) => l10n.lookAndFeelShowFadedUnreadOnMutedChannelsDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'look-and-feel:active-now',
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'active-now',
     label: _l((l10n) => l10n.lookAndFeelShowActiveNowLabel),
+    description: _l((l10n) => l10n.lookAndFeelShowActiveNowDescription),
   ),
   _UserSettingsSearchOption(
     id: 'look-and-feel:favorites',
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'channel-list',
     label: _l((l10n) => l10n.lookAndFeelEnableFavoritesLabel),
+    description: _l((l10n) => l10n.lookAndFeelEnableFavoritesDescription),
     keywords: [_l((l10n) => l10n.lookAndFeelFavoritesSectionTitle)],
   ),
   // Notifications
@@ -279,6 +291,10 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.notifications,
     fieldId: 'notifications',
     label: _l((l10n) => l10n.notificationsEnableNotificationsLabel),
+    description: _lp(
+      (l10n, productName) =>
+          l10n.notificationsEnableNotificationsDescription(productName),
+    ),
     keywords: [_l((l10n) => l10n.notificationsEnableDesktopNotificationsLabel)],
   ),
   _UserSettingsSearchOption(
@@ -286,12 +302,17 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.notifications,
     fieldId: 'notifications',
     label: _l((l10n) => l10n.notificationsPushInactiveTimeoutLabel),
+    description: _lp(
+      (l10n, productName) =>
+          l10n.notificationsPushInactiveTimeoutDescription(productName),
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'notifications:push-relay',
     section: UserSettingsSection.notifications,
     fieldId: 'push-relay',
     label: _l((l10n) => l10n.notificationsPushRelayConsentLabel),
+    description: _l((l10n) => l10n.notificationsPushRelayConsentDescription),
     keywords: [_l((l10n) => l10n.notificationsPushRelaySectionTitle)],
   ),
   _UserSettingsSearchOption(
@@ -305,18 +326,21 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.notifications,
     fieldId: 'text-to-speech',
     label: _l((l10n) => l10n.notificationsTtsEnableCommandLabel),
+    description: _l((l10n) => l10n.notificationsTtsEnableCommandDescription),
   ),
   _UserSettingsSearchOption(
     id: 'notifications:disable-sounds',
     section: UserSettingsSection.notifications,
     fieldId: 'sounds',
     label: _l((l10n) => l10n.notificationsDisableAllSoundsLabel),
+    description: _l((l10n) => l10n.notificationsDisableAllSoundsDescription),
   ),
   _UserSettingsSearchOption(
     id: 'notifications:per-sound-volume',
     section: UserSettingsSection.notifications,
     fieldId: 'sounds',
     label: _l((l10n) => l10n.notificationsPerSoundVolumeTitle),
+    description: _l((l10n) => l10n.notificationsPerSoundVolumeDescription),
   ),
   // Security
   _UserSettingsSearchOption(
@@ -324,30 +348,38 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.securityLogin,
     fieldId: 'account',
     label: _l((l10n) => l10n.securityLoginEmailSectionTitle),
+    description: _lp(
+      (l10n, productName) =>
+          l10n.securityLoginEmailSectionDescription(productName),
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'security:password',
     section: UserSettingsSection.securityLogin,
     fieldId: 'account',
     label: _l((l10n) => l10n.securityLoginPasswordSectionTitle),
+    description: _l((l10n) => l10n.securityLoginPasswordSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'security:two-factor',
     section: UserSettingsSection.securityLogin,
     fieldId: 'security',
     label: _l((l10n) => l10n.securityTfaSectionTitle),
+    description: _l((l10n) => l10n.securityTfaSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'security:passkeys',
     section: UserSettingsSection.securityLogin,
     fieldId: 'security',
     label: _l((l10n) => l10n.securityPasskeysSectionTitle),
+    description: _l((l10n) => l10n.securityPasskeysSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'security:danger-zone',
     section: UserSettingsSection.securityLogin,
     fieldId: 'danger_zone',
     label: _l((l10n) => l10n.dangerZoneSectionTitle),
+    description: _l((l10n) => l10n.dangerZoneSectionDescription),
   ),
   // Chat
   _UserSettingsSearchOption(
@@ -370,30 +402,37 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.chat,
     fieldId: 'display',
     label: _l((l10n) => l10n.messagesMediaLinkPreviewsToggleLabel),
+    description: _l((l10n) => l10n.messagesMediaLinkPreviewsSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'chat:reactions',
     section: UserSettingsSection.chat,
     fieldId: 'display',
     label: _l((l10n) => l10n.messagesMediaReactionsToggleLabel),
+    description: _l((l10n) => l10n.messagesMediaReactionsSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'chat:spoilers',
     section: UserSettingsSection.chat,
     fieldId: 'display',
     label: _l((l10n) => l10n.messagesMediaSpoilersRadioLabel),
+    description: _l((l10n) => l10n.messagesMediaSpoilersSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'chat:gif-autoplay',
     section: UserSettingsSection.chat,
     fieldId: 'media',
     label: _l((l10n) => l10n.messagesMediaGifsAutoSendLabel),
+    description: _l((l10n) => l10n.messagesMediaGifsSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'chat:camera-save-to-device',
     section: UserSettingsSection.chat,
     fieldId: 'media',
     label: _l((l10n) => l10n.messagesMediaCameraUploadsSaveToDeviceLabel),
+    description: _l(
+      (l10n) => l10n.messagesMediaCameraUploadsSectionDescription,
+    ),
     keywords: [_l((l10n) => l10n.messagesMediaCameraUploadsSectionTitle)],
   ),
   _UserSettingsSearchOption(
@@ -401,6 +440,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.chat,
     fieldId: 'gestures',
     label: _l((l10n) => l10n.messagesMediaGesturesDoubleTapActionLabel),
+    description: _l((l10n) => l10n.messagesMediaGesturesSectionDescription),
     keywords: [
       _l((l10n) => l10n.messagesMediaGesturesSectionTitle),
       _l((l10n) => l10n.doubleTapReactionEditSubtitle),
@@ -424,6 +464,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.chat,
     fieldId: 'gestures',
     label: _l((l10n) => l10n.messagesMediaGesturesReactionLabel),
+    description: _l((l10n) => l10n.messagesMediaGesturesReactionDescription),
     keywords: [
       _l((l10n) => l10n.messagesMediaGesturesSectionTitle),
       _l((l10n) => l10n.doubleTapReactionEditTitle),
@@ -443,17 +484,22 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     id: 'chat:trust-links',
     section: UserSettingsSection.chat,
     label: _l((l10n) => l10n.externalLinkTrustAllLabel),
+    description: _l((l10n) => l10n.externalLinkTrustAllDisabledDescription),
     keywords: [_l((l10n) => l10n.externalLinksSectionTitle)],
   ),
   _UserSettingsSearchOption(
     id: 'chat:strip-tracking',
     section: UserSettingsSection.chat,
     label: _l((l10n) => l10n.externalLinkStripTrackingLabel),
+    description: _l((l10n) => l10n.externalLinkStripTrackingDescription),
   ),
   _UserSettingsSearchOption(
     id: 'chat:hide-muted',
     section: UserSettingsSection.chat,
     label: _l((l10n) => l10n.messagesMediaDefaultHideMutedChannelsLabel),
+    description: _l(
+      (l10n) => l10n.messagesMediaDefaultHideMutedChannelsDescription,
+    ),
   ),
   // Accessibility
   _UserSettingsSearchOption(
@@ -492,6 +538,9 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.accessibility,
     fieldId: 'screen-reader',
     label: _l((l10n) => l10n.accessibilityScreenReaderAnnounceNewMessagesLabel),
+    description: _l(
+      (l10n) => l10n.accessibilityScreenReaderAnnounceNewMessagesDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'accessibility:focus-ring',
@@ -522,6 +571,9 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.accessibility,
     fieldId: 'motion',
     label: _l((l10n) => l10n.accessibilitySyncReducedMotionWithSystemLabel),
+    description: _l(
+      (l10n) => l10n.accessibilitySyncReducedMotionWithSystemDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'accessibility:emoji-animation',
@@ -547,6 +599,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.audioAndVideo,
     fieldId: 'audio',
     label: _l((l10n) => l10n.audioAndVideoUseSpeakerLabel),
+    description: _l((l10n) => l10n.audioAndVideoUseSpeakerDescription),
   ),
   _UserSettingsSearchOption(
     id: 'av:input-volume',
@@ -626,11 +679,13 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     id: 'language:app-language',
     section: UserSettingsSection.languageAndTime,
     label: _l((l10n) => l10n.languageAndTimeLanguageSectionTitle),
+    description: _l((l10n) => l10n.languageAndTimeLanguageSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'language:time-format',
     section: UserSettingsSection.languageAndTime,
     label: _l((l10n) => l10n.languageAndTimeTimeFormatSectionTitle),
+    description: _l((l10n) => l10n.languageAndTimeTimeFormatSectionDescription),
   ),
   // Advanced
   _UserSettingsSearchOption(
@@ -638,150 +693,193 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-privacy',
     label: _l((l10n) => l10n.advancedSettingPreuploadAttachmentsLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingPreuploadAttachmentsDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:strip-tracking',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-privacy',
     label: _l((l10n) => l10n.advancedSettingStripTrackingLabel),
+    description: _l((l10n) => l10n.advancedSettingStripTrackingDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:trust-links',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-privacy',
     label: _l((l10n) => l10n.advancedSettingTrustAllLinksLabel),
+    description: _l((l10n) => l10n.externalLinkTrustAllDisabledDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:screen-share-preview',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-privacy',
     label: _l((l10n) => l10n.advancedSettingScreenSharePreviewBehaviorLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingScreenSharePreviewBehaviorDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:neko',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-appearance',
     label: _l((l10n) => l10n.advancedSettingShowNekoLabel),
+    description: _l((l10n) => l10n.advancedSettingShowNekoDescriptionTouch),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:splash-animation',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-appearance',
     label: _l((l10n) => l10n.advancedSettingMobileSplashZoomAnimationLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingMobileSplashZoomAnimationDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:keyboard-hints',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-appearance',
     label: _l((l10n) => l10n.advancedSettingKeyboardHintsLabel),
+    description: _l((l10n) => l10n.advancedSettingKeyboardHintsDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:favorites',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-appearance',
     label: _l((l10n) => l10n.advancedSettingEnableFavoritesLabel),
+    description: _l((l10n) => l10n.advancedSettingEnableFavoritesDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:voice-join',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-appearance',
     label: _l((l10n) => l10n.advancedSettingVoiceChannelJoinBehaviorLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingVoiceChannelJoinBehaviorDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:text-selection',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-accessibility',
     label: _l((l10n) => l10n.advancedSettingEnableTextSelectionLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingEnableTextSelectionDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:seek-thumbnails',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-accessibility',
     label: _l((l10n) => l10n.advancedSettingVideoSeekThumbnailsLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingVideoSeekThumbnailsDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:haptic-feedback',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-accessibility',
     label: _l((l10n) => l10n.advancedSettingHapticFeedbackLabel),
+    description: _l((l10n) => l10n.advancedSettingHapticFeedbackDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:auto-send-gifs',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingAutoSendGifsLabel),
+    description: _l((l10n) => l10n.advancedSettingAutoSendGifsDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:save-gif-favorites',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingSaveGifFavoritesLabel),
+    description: _l((l10n) => l10n.advancedSettingSaveGifFavoritesDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:media-buttons',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingMediaButtonsLabel),
+    description: _l((l10n) => l10n.advancedSettingMediaButtonsDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:search-engines',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingSearchEnginesLabel),
+    description: _l((l10n) => l10n.advancedSettingSearchEnginesDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:translators',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingTranslatorsLabel),
+    description: _l((l10n) => l10n.advancedSettingTranslatorsDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:reverse-image-search',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingReverseImageSearchLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingReverseImageSearchDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:scroll-on-send',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingScrollToBottomOnSendLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingScrollToBottomOnSendDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:skip-mark-read',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingSkipMarkAllAsReadLabel),
+    description: _l((l10n) => l10n.advancedSettingSkipMarkAllAsReadDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:hide-muted',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingHideMutedChannelsLabel),
+    description: _l((l10n) => l10n.advancedSettingHideMutedChannelsDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:screen-share-codec',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-media',
     label: _l((l10n) => l10n.advancedSettingScreenShareCodecLabel),
+    description: _l((l10n) => l10n.advancedSettingScreenShareCodecDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:new-device-alerts',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-voice',
     label: _l((l10n) => l10n.advancedSettingNewDeviceAlertsLabel),
+    description: _l((l10n) => l10n.advancedSettingNewDeviceAlertsDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:connection-volume',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-voice',
     label: _l((l10n) => l10n.advancedSettingConnectionVolumeControlsLabel),
+    description: _l(
+      (l10n) => l10n.advancedSettingConnectionVolumeControlsDescription,
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:developer-mode',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-developer',
     label: _l((l10n) => l10n.advancedSettingDeveloperModeLabel),
+    description: _l((l10n) => l10n.advancedSettingDeveloperModeDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:performance-reporting',

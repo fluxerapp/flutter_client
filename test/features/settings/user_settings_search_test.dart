@@ -1,13 +1,28 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_search.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_search_index.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 Future<FluxerLocalizations> _loadL10n() {
   WidgetsFlutterBinding.ensureInitialized();
   return FluxerLocalizations.delegate.load(const Locale('en'));
+}
+
+final class _KeyEchoL10n implements FluxerLocalizations {
+  @override
+  String get localeName => 'en';
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+    final String symbol = invocation.memberName.toString();
+    return symbol.substring('Symbol("'.length, symbol.length - 2);
+  }
 }
 
 void main() {
@@ -146,6 +161,54 @@ void main() {
         isTouchPrimary: false,
       );
       expect(pointerHits.any((hit) => hit.fieldId == 'keyboard'), isTrue);
+    });
+
+    test('finds an option by words only in its description', () {
+      final List<UserSettingsSearchHit> hits = searchUserSettings(
+        l10n: l10n,
+        query: 'vibration',
+        visibleSections: {UserSettingsSection.advanced},
+        isTouchPrimary: true,
+      );
+      expect(
+        hits.map((hit) => hit.label),
+        contains(l10n.advancedSettingHapticFeedbackLabel),
+      );
+    });
+
+    test('wires the description of every option that has one', () {
+      final Map<String, dynamic> arb =
+          jsonDecode(File('lib/l10n/fluxer_en.arb').readAsStringSync())
+              as Map<String, dynamic>;
+      final FluxerLocalizations keys = _KeyEchoL10n();
+      final List<String> missing = [];
+      for (final UserSettingsSearchDescriptor descriptor
+          in userSettingsSearchDescriptors()) {
+        if (descriptor.id.startsWith('section:') ||
+            descriptor.id.startsWith('field:')) {
+          continue;
+        }
+        final String labelKey = descriptor.label(keys, productName: 'Fluxer');
+        final String stem = labelKey.replaceFirst(
+          RegExp(r'(Toggle|Radio)?(Label|Title)$'),
+          '',
+        );
+        final bool hasDescriptionKey = [
+          '${stem}Description',
+          '${stem.replaceFirst(RegExp(r'Section$'), '')}SectionDescription',
+        ].any(arb.containsKey);
+        final String? descriptionKey = descriptor.description?.call(
+          keys,
+          productName: 'Fluxer',
+        );
+        if (hasDescriptionKey && descriptionKey == null) {
+          missing.add(descriptor.id);
+        }
+        if (descriptionKey != null) {
+          expect(arb, contains(descriptionKey), reason: descriptor.id);
+        }
+      }
+      expect(missing, isEmpty);
     });
 
     test('omits sections that are not visible', () {
