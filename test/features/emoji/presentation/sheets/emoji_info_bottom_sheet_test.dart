@@ -137,10 +137,7 @@ void main() {
 
     expect(find.text(':party:'), findsOneWidget);
     expect(find.text(testL10n.emojiInfoCustomGuildDescription), findsOneWidget);
-    expect(
-      find.text(testL10n.emojiInfoFromHeader.toUpperCase()),
-      findsOneWidget,
-    );
+    expect(find.text(testL10n.emojiInfoFromHeader), findsOneWidget);
     expect(find.text('Test Community'), findsOneWidget);
     expect(find.text(testL10n.emojiInfoPrivateCommunity), findsOneWidget);
     expect(
@@ -185,10 +182,7 @@ void main() {
       find.text(testL10n.emojiInfoCustomInviteRequiredDescription),
       findsNothing,
     );
-    expect(
-      find.text(testL10n.emojiInfoFromHeader.toUpperCase()),
-      findsOneWidget,
-    );
+    expect(find.text(testL10n.emojiInfoFromHeader), findsOneWidget);
     expect(find.text('Test Community'), findsOneWidget);
   });
 
@@ -227,7 +221,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.text(testL10n.emojiInfoCustomGuildDescription), findsNothing);
-    expect(find.text(testL10n.emojiInfoFromHeader.toUpperCase()), findsNothing);
+    expect(find.text(testL10n.emojiInfoFromHeader), findsNothing);
     expect(find.text('Test Community'), findsNothing);
   });
 

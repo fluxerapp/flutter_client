@@ -154,10 +154,9 @@ class DiscoveryGuildCard extends ConsumerWidget {
                         if (categoryLabel != null) ...<Widget>[
                           SizedBox(height: layout.s2),
                           Text(
-                            categoryLabel.toUpperCase(),
+                            categoryLabel,
                             style: textStyles.label.copyWith(
                               color: colors.textTertiaryMuted,
-                              letterSpacing: 0.4,
                             ),
                           ),
                         ],

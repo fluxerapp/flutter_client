@@ -14664,31 +14664,31 @@ abstract class FluxerLocalizations {
   /// Section heading for account-related items in user settings navigation.
   ///
   /// In en, this message translates to:
-  /// **'YOUR ACCOUNT'**
+  /// **'Your account'**
   String get userSettingsGroupYourAccount;
 
   /// Section heading for billing items in user settings navigation.
   ///
   /// In en, this message translates to:
-  /// **'BILLING'**
+  /// **'Billing'**
   String get userSettingsGroupBilling;
 
   /// Section heading for app preference items in user settings navigation.
   ///
   /// In en, this message translates to:
-  /// **'APPLICATION'**
+  /// **'Application'**
   String get userSettingsGroupApplication;
 
   /// Section heading for developer items in user settings navigation.
   ///
   /// In en, this message translates to:
-  /// **'DEVELOPER'**
+  /// **'Developer'**
   String get userSettingsGroupDeveloper;
 
   /// Section heading for staff-only items in user settings navigation.
   ///
   /// In en, this message translates to:
-  /// **'STAFF-ONLY'**
+  /// **'Staff-only'**
   String get userSettingsGroupStaffOnly;
 
   /// Placeholder for the user settings search field.
@@ -22395,25 +22395,25 @@ abstract class FluxerLocalizations {
   /// Sidebar category for emoji and stickers.
   ///
   /// In en, this message translates to:
-  /// **'EXPRESSIONS'**
+  /// **'Expressions'**
   String get guildSettingsCategoryExpressions;
 
   /// Sidebar category for discovery and vanity URL.
   ///
   /// In en, this message translates to:
-  /// **'COMMUNITY'**
+  /// **'Community'**
   String get guildSettingsCategoryCommunity;
 
   /// Sidebar category for webhooks.
   ///
   /// In en, this message translates to:
-  /// **'INTEGRATIONS'**
+  /// **'Integrations'**
   String get guildSettingsCategoryIntegrations;
 
   /// Sidebar category for members, invites, and bans.
   ///
   /// In en, this message translates to:
-  /// **'PEOPLE'**
+  /// **'People'**
   String get guildSettingsCategoryPeople;
 
   /// No description provided for @guildSettingsOverviewBrandingTitle.

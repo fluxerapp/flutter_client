@@ -307,7 +307,7 @@ class FriendsList extends ConsumerWidget {
     required FriendsTab activeTab,
     required int friendCount,
   }) {
-    final label = _tabLabel(activeTab).toUpperCase();
+    final label = _tabLabel(activeTab);
     return Padding(
       padding: EdgeInsets.only(
         left: context.layout.s4,

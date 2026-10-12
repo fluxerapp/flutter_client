@@ -143,10 +143,9 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
             Divider(color: context.colors.borderColor, height: 1),
             SizedBox(height: layout.s4),
             Text(
-              l10n.emojiInfoFromHeader.toUpperCase(),
+              l10n.emojiInfoFromHeader,
               style: context.textStyles.label.copyWith(
                 color: context.colors.textPrimaryMuted,
-                letterSpacing: 0.4,
               ),
             ),
             SizedBox(height: layout.s3),

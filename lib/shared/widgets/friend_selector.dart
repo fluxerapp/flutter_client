@@ -108,10 +108,7 @@ class FriendSelector extends StatelessWidget {
               top: context.layout.s2,
               bottom: context.layout.s1,
             ),
-            child: Text(
-              letter,
-              style: context.textStyles.smallText.copyWith(letterSpacing: 0.64),
-            ),
+            child: Text(letter, style: context.textStyles.smallText),
           ),
         );
         for (final Friend friend in groups[letter]!) {

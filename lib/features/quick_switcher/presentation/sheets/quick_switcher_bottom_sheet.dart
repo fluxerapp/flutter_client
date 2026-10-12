@@ -243,10 +243,7 @@ class _QuickSwitcherSheetBodyState
               context.layout.s3,
               context.layout.s1 + 2,
             ),
-            child: Text(
-              result.title,
-              style: context.textStyles.smallText.copyWith(letterSpacing: 0.64),
-            ),
+            child: Text(result.title, style: context.textStyles.smallText),
           ),
         );
         continue;

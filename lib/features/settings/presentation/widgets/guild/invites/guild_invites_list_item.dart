@@ -237,7 +237,7 @@ class GuildInvitesListItem extends StatelessWidget {
         SizedBox(
           width: 72,
           child: Text(
-            label.toUpperCase(),
+            label,
             style: context.textStyles.smallText.copyWith(
               color: context.colors.textPrimaryMuted,
             ),

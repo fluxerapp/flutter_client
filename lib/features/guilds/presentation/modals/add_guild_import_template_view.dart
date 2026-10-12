@@ -293,12 +293,11 @@ class _TemplatePreviewCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            l10n.addGuildImportTemplateLabel.toUpperCase(),
+            l10n.addGuildImportTemplateLabel,
             style: context.textStyles.bodySmall.copyWith(
               color: context.colors.textPrimaryMuted,
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              letterSpacing: 0.32,
             ),
           ),
           const SizedBox(height: 2),

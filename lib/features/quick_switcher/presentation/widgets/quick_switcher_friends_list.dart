@@ -70,10 +70,7 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
         for (final String letter in letters) ...<Widget>[
           Padding(
             padding: EdgeInsets.only(bottom: context.layout.s1 + 2),
-            child: Text(
-              letter,
-              style: context.textStyles.smallText.copyWith(letterSpacing: 0.64),
-            ),
+            child: Text(letter, style: context.textStyles.smallText),
           ),
           ...groups[letter]!.map(
             (Friend friend) => Padding(

@@ -281,7 +281,7 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
                               child: Text(
-                                snap.heading!.toUpperCase(),
+                                snap.heading!,
                                 style: context.textStyles.timestamp.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -306,7 +306,7 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
                               child: Text(
-                                row.title.toUpperCase(),
+                                row.title,
                                 style: context.textStyles.timestamp.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,

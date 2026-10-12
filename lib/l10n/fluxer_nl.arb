@@ -10645,23 +10645,23 @@
     "@purgePersonalNotesFailed": {
         "description": "Toast or error title when the purge personal notes API call fails."
     },
-    "userSettingsGroupYourAccount": "JE ACCOUNT",
+    "userSettingsGroupYourAccount": "Je account",
     "@userSettingsGroupYourAccount": {
         "description": "Section heading for account-related items in user settings navigation."
     },
-    "userSettingsGroupBilling": "BILLING",
+    "userSettingsGroupBilling": "Billing",
     "@userSettingsGroupBilling": {
         "description": "Section heading for billing items in user settings navigation."
     },
-    "userSettingsGroupApplication": "APPLICATION",
+    "userSettingsGroupApplication": "Application",
     "@userSettingsGroupApplication": {
         "description": "Section heading for app preference items in user settings navigation."
     },
-    "userSettingsGroupDeveloper": "DEVELOPER",
+    "userSettingsGroupDeveloper": "Developer",
     "@userSettingsGroupDeveloper": {
         "description": "Section heading for developer items in user settings navigation."
     },
-    "userSettingsGroupStaffOnly": "STAFF-ONLY",
+    "userSettingsGroupStaffOnly": "Staff-only",
     "@userSettingsGroupStaffOnly": {
         "description": "Section heading for staff-only items in user settings navigation."
     },
@@ -15199,19 +15199,19 @@
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
-    "guildSettingsCategoryExpressions": "EXPRESSIONS",
+    "guildSettingsCategoryExpressions": "Expressions",
     "@guildSettingsCategoryExpressions": {
         "description": "Sidebar category for emoji and stickers."
     },
-    "guildSettingsCategoryCommunity": "COMMUNITY",
+    "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
         "description": "Sidebar category for discovery and vanity URL."
     },
-    "guildSettingsCategoryIntegrations": "INTEGRATIONS",
+    "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
         "description": "Sidebar category for webhooks."
     },
-    "guildSettingsCategoryPeople": "PEOPLE",
+    "guildSettingsCategoryPeople": "People",
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },

@@ -173,11 +173,10 @@ class _SectionHeaderRow extends StatelessWidget {
           ],
           Expanded(
             child: Text(
-              entry.label.toUpperCase(),
+              entry.label,
               style: context.textStyles.bodySmall.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 0.48,
                 color: muted,
               ),
             ),
