@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -43,10 +45,9 @@ class UnreadInboxCardCache {
       return Future<UnreadInboxCardData>.value(cached);
     }
     final String flightKey = '${entry.channelId}:$cacheKey';
-    return _inFlight[flightKey] ??= _fetch(
-      entry,
-      cacheKey,
-    ).whenComplete(() => _inFlight.remove(flightKey));
+    return _inFlight[flightKey] ??= _fetch(entry, cacheKey).whenComplete(() {
+      unawaited(_inFlight.remove(flightKey));
+    });
   }
 
   void clear() => _entries.clear();
