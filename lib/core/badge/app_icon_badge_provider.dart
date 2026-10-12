@@ -19,6 +19,10 @@ class AppIconBadge extends _$AppIconBadge {
     final String? userId = ref.watch(currentUserIdProvider);
     final AppIconBadgeValue? previous = userId == _userId ? stateOrNull : null;
     _userId = userId;
+    ref.listen<Map<String, GuildReadStateEntry>>(
+      guildReadStateProvider,
+      (_, _) {},
+    );
     final bool ready =
         ref.watch(gatewayReadyProvider) &&
         ref.watch(guildReadStateReadyProvider);
