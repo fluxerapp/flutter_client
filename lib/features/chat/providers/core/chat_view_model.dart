@@ -6134,7 +6134,14 @@ class ChatViewModel extends _$ChatViewModel {
       if (local == null) {
         return;
       }
-      _noteMaybeCreatedSend(optimisticMessageId, error, const <String>[]);
+      if (await _adoptMaybeCreatedSend(
+            optimisticMessageId,
+            error,
+            const <String>[],
+          ) ||
+          !ref.mounted) {
+        return;
+      }
       _failLocalSend(local, error);
     }
   }
@@ -6257,9 +6264,16 @@ class ChatViewModel extends _$ChatViewModel {
         }
         return;
       }
+      if (await _adoptMaybeCreatedSend(
+            optimisticMessageId,
+            error,
+            attachmentFilenames,
+          ) ||
+          !ref.mounted) {
+        return;
+      }
       _handleSendFailure(optimisticMessageId, error);
       _parkFailedLocalSend(optimisticMessageId, clientNonce);
-      _noteMaybeCreatedSend(optimisticMessageId, error, attachmentFilenames);
     } finally {
       _uploadKeepAlive.end();
     }
@@ -6640,24 +6654,35 @@ class ChatViewModel extends _$ChatViewModel {
     return true;
   }
 
-  void _noteMaybeCreatedSend(
+  Future<bool> _adoptMaybeCreatedSend(
     String optimisticMessageId,
     Object error,
     List<String> attachmentFilenames,
-  ) {
+  ) async {
     if (!sendMaybeCreated(error)) {
-      return;
+      return false;
     }
     _maybeCreatedSends[optimisticMessageId] = attachmentFilenames;
-    unawaited(_resolveMaybeCreatedSend(optimisticMessageId));
+    return _resolveMaybeCreatedSend(optimisticMessageId);
   }
 
-  Future<void> _resolveMaybeCreatedSend(String optimisticMessageId) async {
+  Future<bool> _resolveMaybeCreatedSend(String optimisticMessageId) async {
+    final _MaybeCreatedLookup lookup = await _lookupMaybeCreatedSend(
+      optimisticMessageId,
+    );
+    if (lookup.error != null) {
+      unawaited(_retryMaybeCreatedLookup(optimisticMessageId));
+    }
+    return lookup.adopted;
+  }
+
+  Future<void> _retryMaybeCreatedLookup(String optimisticMessageId) async {
     if (!_maybeCreatedResolvers.add(optimisticMessageId)) {
       return;
     }
     try {
       for (final Duration delay in _kMaybeCreatedLookupBackoff) {
+        await Future<void>.delayed(delay);
         if (!ref.mounted ||
             !_maybeCreatedSends.containsKey(optimisticMessageId)) {
           return;
@@ -6668,7 +6693,6 @@ class ChatViewModel extends _$ChatViewModel {
         if (lookup.error == null) {
           return;
         }
-        await Future<void>.delayed(delay);
       }
     } finally {
       _maybeCreatedResolvers.remove(optimisticMessageId);
@@ -6861,8 +6885,12 @@ class ChatViewModel extends _$ChatViewModel {
       if (!ref.mounted) {
         return;
       }
-      if (forward == null) {
-        _noteMaybeCreatedSend(message.id, e, const <String>[]);
+      if (forward == null &&
+          await _adoptMaybeCreatedSend(message.id, e, const <String>[])) {
+        return;
+      }
+      if (!ref.mounted) {
+        return;
       }
       _handleSendFailure(message.id, e);
       _recordLocalSendFailure(message);
