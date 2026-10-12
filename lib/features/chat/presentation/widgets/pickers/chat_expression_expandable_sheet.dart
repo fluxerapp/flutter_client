@@ -70,6 +70,7 @@ class ChatExpressionExpandableSheetState
   bool? _dragWasPastCollapsed;
   bool _initialized = false;
   bool _isClosing = false;
+  double? _closingContentHeight;
   BottomInputSlot? _closingSlot;
   ComposerPanelClosing? _closingPanel;
   bool _isSearchFocused = false;
@@ -469,14 +470,24 @@ class ChatExpressionExpandableSheetState
     _closeTimer?.cancel();
 
     final double startContentHeight = _height;
-    final double slotHeight = ref.read(bottomInputSlotProvider).slotHeight;
-    final double animateSlotFrom = slotHeight > 0
-        ? slotHeight
+    final BottomInputSlotState slot = ref.read(bottomInputSlotProvider);
+    final double animateSlotFrom = slot.slotHeight > 0
+        ? slot.slotHeight
         : _totalHeightFor(startContentHeight);
+    _closingContentHeight = _minHeight;
     if (animateSlotFrom > 0) {
       ref
           .read(bottomInputSlotProvider.notifier)
-          .holdSlotHeight(animateSlotFrom);
+          .holdSlotHeight(
+            slot.transition == BottomInputTransition.lockingToKeyboard
+                ? animateSlotFrom
+                : bottomInputKeyboardSpacerHeight(
+                    slotHeight: 0,
+                    homeIndicatorInset: bottomInputHomeIndicatorInset(
+                      MediaQuery.of(context),
+                    ),
+                  ),
+          );
     }
 
     final ComposerPanelClosing closingPanel = ref.read(
@@ -518,7 +529,10 @@ class ChatExpressionExpandableSheetState
     if (!mounted) {
       return;
     }
-    setState(() => _isClosing = false);
+    setState(() {
+      _isClosing = false;
+      _closingContentHeight = null;
+    });
     ref.read(bottomInputSlotProvider.notifier).clearHeldSlotHeight();
     ref.read(composerPanelClosingProvider.notifier).reset();
     _closingSlot = null;
@@ -619,71 +633,80 @@ class ChatExpressionExpandableSheetState
             required bool isDragging,
             required Widget child,
           }) {
-            final double totalHeight = _totalHeightFor(height);
-            final bool showSheetBody = totalHeight > widget.dragHandleHeight;
             return expandableSheetAnimatedSize(
               context: context,
               isDragging: isDragging,
-              height: totalHeight,
+              height: _totalHeightFor(height),
               decoration: BoxDecoration(color: sheetBackground),
-              child: showSheetBody
-                  ? ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.15),
+                        blurRadius: 12,
+                        offset: Offset(0, -2),
                       ),
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.15),
-                              blurRadius: 12,
-                              offset: Offset(0, -2),
-                            ),
-                          ],
-                        ),
-                        child: Opacity(
-                          opacity: _isClosing ? 0 : 1,
-                          child: IgnorePointer(
-                            ignoring: _isClosing,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                ExpandableSheetDragTarget(
-                                  key: kChatExpressionSheetDragHeaderKey,
-                                  onVerticalDragStart: _onHeaderDragStart,
-                                  onVerticalDragUpdate: _onHeaderDragUpdate,
-                                  onVerticalDragEnd: _onHeaderDragEnd,
-                                  child: SizedBox(
-                                    key: kChatExpressionSheetDragHandleKey,
-                                    height: widget.dragHandleHeight,
-                                    width: double.infinity,
-                                    child: const IgnorePointer(
-                                      child: FluxerBottomSheetDragHandle(
-                                        includeTopPadding: false,
+                    ],
+                  ),
+                  child: IgnorePointer(
+                    ignoring: _isClosing,
+                    child: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                            final double columnHeight = math.max(
+                              constraints.maxHeight,
+                              widget.dragHandleHeight,
+                            );
+                            return OverflowBox(
+                              alignment: Alignment.topCenter,
+                              minHeight: columnHeight,
+                              maxHeight: columnHeight,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  ExpandableSheetDragTarget(
+                                    key: kChatExpressionSheetDragHeaderKey,
+                                    onVerticalDragStart: _onHeaderDragStart,
+                                    onVerticalDragUpdate: _onHeaderDragUpdate,
+                                    onVerticalDragEnd: _onHeaderDragEnd,
+                                    child: SizedBox(
+                                      key: kChatExpressionSheetDragHandleKey,
+                                      height: widget.dragHandleHeight,
+                                      width: double.infinity,
+                                      child: const IgnorePointer(
+                                        child: FluxerBottomSheetDragHandle(
+                                          includeTopPadding: false,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: ClipRect(
-                                    child: OverflowBox(
-                                      alignment: Alignment.topCenter,
-                                      maxHeight: double.infinity,
-                                      child: SizedBox(
-                                        height: math.max(height, _minHeight),
-                                        width: double.infinity,
-                                        child: child,
+                                  Expanded(
+                                    child: ClipRect(
+                                      child: OverflowBox(
+                                        alignment: Alignment.topCenter,
+                                        maxHeight: double.infinity,
+                                        child: SizedBox(
+                                          height:
+                                              _closingContentHeight ??
+                                              math.max(height, _minHeight),
+                                          width: double.infinity,
+                                          child: child,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+                                ],
+                              ),
+                            );
+                          },
+                    ),
+                  ),
+                ),
+              ),
             );
           },
       child: RepaintBoundary(
@@ -712,11 +735,13 @@ class ChatExpressionExpandableSheetState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         sheetBody,
-        if (!_isClosing && homeIndicatorInset > 0)
-          ColoredBox(
-            color: sheetBackground,
-            child: SizedBox(height: homeIndicatorInset),
-          ),
+        expandableSheetAnimatedSize(
+          context: context,
+          isDragging: false,
+          height: _isClosing ? 0 : homeIndicatorInset,
+          decoration: BoxDecoration(color: sheetBackground),
+          child: const SizedBox.shrink(),
+        ),
       ],
     );
   }
