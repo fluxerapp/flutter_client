@@ -93,6 +93,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_member_prefetch.dart';
 import 'package:fluxer_app/shared/utils/message_member_load_utils.dart';
+import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -517,6 +518,141 @@ class _ForwardSource {
   final List<int>? embedIndices;
 }
 
+const List<Duration> _kMaybeCreatedLookupBackoff = <Duration>[
+  Duration(seconds: 2),
+  Duration(seconds: 5),
+  Duration(seconds: 15),
+  Duration(seconds: 30),
+  Duration(minutes: 1),
+];
+
+const Duration _kSendNonceDedupeWindow = Duration(minutes: 4);
+
+typedef _MaybeCreatedLookup = ({bool adopted, Object? error});
+
+typedef _StoredLocalSend = ({
+  Message message,
+  _RetrySendOptions? options,
+  bool maybeCreated,
+});
+
+String _encodeLocalSend(
+  Message local,
+  _RetrySendOptions? options, {
+  required bool maybeCreated,
+}) {
+  final _ForwardSource? forward = options?.forward;
+  return jsonEncode(<String, Object?>{
+    'author_name': local.authorName,
+    'author_avatar': local.authorAvatar,
+    'author_avatar_color': local.authorAvatarColor,
+    'author_bot': local.authorIsBot,
+    'author_system': local.authorIsSystem,
+    'content': local.content,
+    'timestamp': local.timestamp.millisecondsSinceEpoch,
+    'reply_to_id': local.replyToId,
+    'mentions': local.mentionedUserIds,
+    'stickers': <Map<String, dynamic>>[
+      for (final MessageSticker sticker in local.stickers) sticker.toJson(),
+    ],
+    'flags': local.flags,
+    'message_reference': local.messageReference?.toJson(),
+    'message_snapshots': <Map<String, dynamic>>[
+      for (final MessageSnapshot snapshot in local.messageSnapshots)
+        snapshot.toJson(),
+    ],
+    'maybe_created': maybeCreated,
+    if (options != null) ...<String, Object?>{
+      'reply_mention': options.replyMention,
+      'favorite_meme_id': options.favoriteMemeId,
+      'tts': options.tts,
+    },
+    if (forward != null)
+      'forward': <String, Object?>{
+        'channel_id': forward.channelId,
+        'message_id': forward.messageId,
+        'guild_id': forward.guildId,
+        'attachment_ids': forward.attachmentIds,
+        'embed_indices': forward.embedIndices,
+      },
+  });
+}
+
+_StoredLocalSend? _decodeLocalSend(
+  db.LocalMessageSend row, {
+  required String sendError,
+}) {
+  try {
+    final Map<String, dynamic> json =
+        jsonDecode(row.payloadJson) as Map<String, dynamic>;
+    final Map<String, dynamic>? reference =
+        json['message_reference'] as Map<String, dynamic>?;
+    final Map<String, dynamic>? forward =
+        json['forward'] as Map<String, dynamic>?;
+    final Message message = Message(
+      id: row.clientNonce,
+      channelId: row.channelId,
+      authorId: row.authorId,
+      authorName: json['author_name'] as String? ?? '',
+      authorAvatar: json['author_avatar'] as String?,
+      authorAvatarColor: json['author_avatar_color'] as int?,
+      authorIsBot: json['author_bot'] as bool? ?? false,
+      authorIsSystem: json['author_system'] as bool? ?? false,
+      content: json['content'] as String? ?? '',
+      timestamp: DateTime.fromMillisecondsSinceEpoch(json['timestamp'] as int),
+      replyToId: json['reply_to_id'] as String?,
+      mentionedUserIds: <String>[
+        for (final Object? id in json['mentions'] as List<dynamic>? ?? const [])
+          id! as String,
+      ],
+      stickers: <MessageSticker>[
+        for (final Object? sticker
+            in json['stickers'] as List<dynamic>? ?? const [])
+          MessageSticker.fromJson(sticker! as Map<String, dynamic>),
+      ],
+      flags: json['flags'] as int? ?? 0,
+      messageReference: reference == null
+          ? null
+          : MessageReference.fromJson(reference),
+      messageSnapshots: <MessageSnapshot>[
+        for (final Object? snapshot
+            in json['message_snapshots'] as List<dynamic>? ?? const [])
+          MessageSnapshot.fromJson(snapshot! as Map<String, dynamic>),
+      ],
+      deliveryState: MessageDeliveryState.failed,
+      sendError: sendError,
+      clientNonce: row.clientNonce,
+    );
+    final _RetrySendOptions? options =
+        json.containsKey('reply_mention') || forward != null
+        ? _RetrySendOptions(
+            replyMention: json['reply_mention'] as bool? ?? true,
+            favoriteMemeId: json['favorite_meme_id'] as String?,
+            tts: json['tts'] as bool? ?? false,
+            forward: forward == null
+                ? null
+                : _ForwardSource(
+                    channelId: forward['channel_id'] as String,
+                    messageId: forward['message_id'] as String,
+                    guildId: forward['guild_id'] as String?,
+                    attachmentIds: (forward['attachment_ids'] as List<dynamic>?)
+                        ?.cast<String>(),
+                    embedIndices: (forward['embed_indices'] as List<dynamic>?)
+                        ?.cast<int>(),
+                  ),
+          )
+        : null;
+    return (
+      message: message,
+      options: options,
+      maybeCreated: json['maybe_created'] as bool? ?? true,
+    );
+  } on Object catch (error) {
+    talker.warning('[ChatViewModel] unreadable local send: $error');
+    return null;
+  }
+}
+
 enum _LocalMutationKind {
   deleteMessage,
   removeAttachment,
@@ -721,9 +857,10 @@ class ChatViewModel extends _$ChatViewModel {
   final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
   final Map<String, int> _sendsAwaitingReconnect = <String, int>{};
   final Map<String, List<String>> _maybeCreatedSends = <String, List<String>>{};
-  final Map<String, Future<bool>> _maybeCreatedLookups =
-      <String, Future<bool>>{};
-  final Map<String, Message> _forwardSends = <String, Message>{};
+  final Map<String, Future<_MaybeCreatedLookup>> _maybeCreatedLookups =
+      <String, Future<_MaybeCreatedLookup>>{};
+  final Set<String> _maybeCreatedResolvers = <String>{};
+  final Map<String, Message> _localSends = <String, Message>{};
   final Map<String, _RetrySendOptions> _retrySendOptions =
       <String, _RetrySendOptions>{};
   final Map<String, Future<void>> _pendingDeleteFutures =
@@ -745,11 +882,12 @@ class ChatViewModel extends _$ChatViewModel {
     _lastNetworkRefreshByChannel.clear();
     _localMutations.clear();
     _inFlightOptimisticMessages.clear();
-    _forwardSends.clear();
+    _localSends.clear();
     _retrySendOptions.clear();
     _sendsAwaitingReconnect.clear();
     _maybeCreatedSends.clear();
     _maybeCreatedLookups.clear();
+    _maybeCreatedResolvers.clear();
     _pendingDeleteFutures.clear();
     _loadedUnreadBoundaryKeys.clear();
     _realtimeQueue.clear();
@@ -773,6 +911,9 @@ class ChatViewModel extends _$ChatViewModel {
       }
       _resetAccountLocalState();
       state = ChatViewState.empty;
+      if (next != null) {
+        unawaited(_restoreLocalSends(next));
+      }
     });
     final bus = ref.watch(messageRealtimeBusProvider);
     unawaited(_eventsSub?.cancel());
@@ -830,6 +971,10 @@ class ChatViewModel extends _$ChatViewModel {
         _frameBatcher?.dispose();
         unawaited(_eventsSub?.cancel());
       });
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId != null) {
+      unawaited(_restoreLocalSends(userId));
+    }
     return ChatViewState.empty;
   }
 
@@ -1343,6 +1488,119 @@ class ChatViewModel extends _$ChatViewModel {
     ];
   }
 
+  void _trackLocalSend(Message local) {
+    final String? nonce = local.clientNonce;
+    if (nonce == null) {
+      return;
+    }
+    _localSends[nonce] = local;
+    _persistLocalSend(nonce);
+  }
+
+  void _persistLocalSend(String nonce) {
+    final Message? local = _localSends[nonce];
+    if (local == null) {
+      return;
+    }
+    final String payload = _encodeLocalSend(
+      local,
+      _retrySendOptions[local.id],
+      maybeCreated: local.isSending || _maybeCreatedSends.containsKey(local.id),
+    );
+    unawaited(
+      ref
+          .read(fluxerDatabaseProvider)
+          .localMessageSendsDao
+          .upsert(
+            clientNonce: nonce,
+            channelId: local.channelId,
+            authorId: local.authorId,
+            payloadJson: payload,
+          )
+          .catchError((Object error) {
+            talker.warning('[ChatViewModel] local send save failed: $error');
+          }),
+    );
+  }
+
+  void _untrackLocalSend(String? nonce) {
+    if (nonce == null) {
+      return;
+    }
+    _localSends.remove(nonce);
+    _maybeCreatedSends.remove(nonce);
+    unawaited(
+      ref
+          .read(fluxerDatabaseProvider)
+          .localMessageSendsDao
+          .remove(nonce)
+          .catchError((Object error) {
+            talker.warning('[ChatViewModel] local send forget failed: $error');
+          }),
+    );
+  }
+
+  Future<void> _restoreLocalSends(String userId) async {
+    final List<db.LocalMessageSend> rows;
+    try {
+      rows = await ref
+          .read(fluxerDatabaseProvider)
+          .localMessageSendsDao
+          .getForAuthor(userId);
+    } on Object catch (error) {
+      talker.warning('[ChatViewModel] local send restore failed: $error');
+      return;
+    }
+    if (!ref.mounted || ref.read(currentUserIdProvider) != userId) {
+      return;
+    }
+    final String sendError = ref
+        .read(appLocalizationsProvider)
+        .chatMessageFailedToSend;
+    final List<String> maybeCreated = <String>[];
+    var restoredHere = false;
+    for (final db.LocalMessageSend row in rows) {
+      if (_localSends.containsKey(row.clientNonce)) {
+        continue;
+      }
+      final _StoredLocalSend? stored = _decodeLocalSend(
+        row,
+        sendError: sendError,
+      );
+      if (stored == null) {
+        unawaited(
+          ref
+              .read(fluxerDatabaseProvider)
+              .localMessageSendsDao
+              .remove(row.clientNonce),
+        );
+        continue;
+      }
+      final Message message = stored.message;
+      _localSends[row.clientNonce] = message;
+      final _RetrySendOptions? options = stored.options;
+      if (options != null) {
+        _retrySendOptions[message.id] = options;
+      }
+      if (stored.maybeCreated) {
+        _maybeCreatedSends[message.id] = const <String>[];
+        maybeCreated.add(message.id);
+      }
+      restoredHere = restoredHere || message.channelId == state.channelId;
+    }
+    if (restoredHere) {
+      state = state.copyWith(
+        write: (
+          messages: _mergeInFlightSends(state.channelId, state.messages),
+          origin: MessagesOrigin.localMutation,
+        ),
+      );
+    }
+    for (final String id in maybeCreated) {
+      unawaited(_resolveMaybeCreatedSend(id));
+    }
+  }
+
   void _registerInFlightOptimisticSend(Message message) {
     final String? nonce = message.clientNonce;
     if (nonce == null) {
@@ -1372,6 +1630,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String optimisticMessageId,
     required Message sent,
   }) {
+    _untrackLocalSend(optimisticMessageId);
     if (state.channelId != channelId) {
       return;
     }
@@ -1393,7 +1652,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   List<Message> _mergeInFlightSends(String channelId, List<Message> messages) {
-    if (_inFlightOptimisticMessages.isEmpty && _forwardSends.isEmpty) {
+    if (_inFlightOptimisticMessages.isEmpty && _localSends.isEmpty) {
       return messages;
     }
     final Set<String> existingIds = messages.map((Message m) => m.id).toSet();
@@ -1421,21 +1680,19 @@ class ChatViewModel extends _$ChatViewModel {
     for (final String nonce in staleNonces) {
       _inFlightOptimisticMessages.remove(nonce);
     }
-    final List<String> deliveredForwards = <String>[];
-    for (final MapEntry<String, Message> entry in _forwardSends.entries) {
+    final List<String> delivered = <String>[];
+    for (final MapEntry<String, Message> entry in _localSends.entries) {
       final Message message = entry.value;
       if (message.channelId != channelId || existingIds.contains(message.id)) {
         continue;
       }
       if (deliveredMatchForLocalSend(messages, message) != null) {
-        deliveredForwards.add(entry.key);
+        delivered.add(entry.key);
         continue;
       }
       inFlight.add(message);
     }
-    for (final String nonce in deliveredForwards) {
-      _forwardSends.remove(nonce);
-    }
+    delivered.forEach(_untrackLocalSend);
     if (inFlight.isEmpty) {
       return messages;
     }
@@ -2083,9 +2340,20 @@ class ChatViewModel extends _$ChatViewModel {
             droppedOlder: false,
             droppedNewer: false,
           );
+    final List<Message> parkedMessages = <Message>[];
+    for (final Message message in trim.messages) {
+      final String? nonce = message.clientNonce;
+      if (nonce != null &&
+          isLocalSendPlaceholder(message) &&
+          _localSends.containsKey(nonce)) {
+        _localSends[nonce] = message;
+        continue;
+      }
+      parkedMessages.add(message);
+    }
     _parkedWindows.remove(channelId);
     _parkedWindows[channelId] = _ParkedChannelWindow(
-      messages: List<Message>.unmodifiable(trim.messages),
+      messages: List<Message>.unmodifiable(parkedMessages),
       hasMoreMessages: state.hasMoreMessages || trim.droppedOlder,
       hasMoreNewerMessages: state.hasMoreNewerMessages || trim.droppedNewer,
     );
@@ -5156,7 +5424,7 @@ class ChatViewModel extends _$ChatViewModel {
         forward: source,
       );
       for (final Message local in <Message>[forward, ?commentMessage]) {
-        _forwardSends[local.clientNonce!] = local;
+        _trackLocalSend(local);
         if (state.channelId == channelId) {
           shownHere.add(local);
         }
@@ -5226,7 +5494,7 @@ class ChatViewModel extends _$ChatViewModel {
       if (!ref.mounted) {
         return;
       }
-      _settleForwardSend(forward, sent);
+      _settleLocalSend(forward, sent);
       unawaited(
         _recordSlowmodeSendOnSuccess(channelId, sent.timestamp, sendStartedAt),
       );
@@ -5239,13 +5507,13 @@ class ChatViewModel extends _$ChatViewModel {
       if (!ref.mounted) {
         return;
       }
-      _failForwardSend(forward, error);
+      _failLocalSend(forward, error);
       if (comment != null) {
-        _markForwardSendFailed(comment);
+        _markLocalSendFailed(comment);
       }
       return;
     }
-    if (comment == null || !_forwardSends.containsKey(comment.clientNonce)) {
+    if (comment == null || !_localSends.containsKey(comment.clientNonce)) {
       return;
     }
     try {
@@ -5262,7 +5530,7 @@ class ChatViewModel extends _$ChatViewModel {
       if (!ref.mounted) {
         return;
       }
-      _settleForwardSend(comment, sent);
+      _settleLocalSend(comment, sent);
     } on Object catch (error, st) {
       talker.error(
         '[ChatViewModel] forward comment api_error channelId=$channelId',
@@ -5272,12 +5540,11 @@ class ChatViewModel extends _$ChatViewModel {
       if (!ref.mounted) {
         return;
       }
-      _failForwardSend(comment, error);
+      _failLocalSend(comment, error);
     }
   }
 
-  void _settleForwardSend(Message local, Message sent) {
-    _forwardSends.remove(local.clientNonce);
+  void _settleLocalSend(Message local, Message sent) {
     _retrySendOptions.remove(local.id);
     _commitDeliveredOptimisticSend(
       channelId: local.channelId,
@@ -5286,35 +5553,42 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
-  void _failForwardSend(Message local, Object error) {
-    if (!_forwardSends.containsKey(local.clientNonce)) {
+  void _failLocalSend(Message local, Object error) {
+    if (!_localSends.containsKey(local.clientNonce)) {
       return;
     }
     if (state.channelId != local.channelId) {
-      _markForwardSendFailed(local);
+      _markLocalSendFailed(local);
       _syncSlowmodeFromSendError(error, local.channelId);
       _showUnexpectedSendError();
       return;
     }
     _handleSendFailure(local.id, error);
-    _recordForwardFailure(local);
+    _recordLocalSendFailure(local);
   }
 
-  void _recordForwardFailure(Message local) {
+  void _recordLocalSendFailure(Message local) {
+    final String? nonce = local.clientNonce;
+    if (nonce == null || !_localSends.containsKey(nonce)) {
+      return;
+    }
     final int index = state.messages.indexWhere(
       (Message m) => m.id == local.id,
     );
-    _forwardSends[local.clientNonce!] = index == -1
+    _localSends[nonce] = index == -1
         ? _failedLocalSend(local)
         : state.messages[index];
+    _persistLocalSend(nonce);
   }
 
-  void _markForwardSendFailed(Message local) {
-    if (!_forwardSends.containsKey(local.clientNonce)) {
+  void _markLocalSendFailed(Message local) {
+    final String? nonce = local.clientNonce;
+    if (nonce == null || !_localSends.containsKey(nonce)) {
       return;
     }
     final Message failed = _failedLocalSend(local);
-    _forwardSends[local.clientNonce!] = failed;
+    _localSends[nonce] = failed;
+    _persistLocalSend(nonce);
     if (state.channelId != local.channelId) {
       return;
     }
@@ -5775,6 +6049,7 @@ class ChatViewModel extends _$ChatViewModel {
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
 
     if (!hasPendingAttachments) {
+      _trackLocalSend(optimisticMessage);
       unawaited(
         _completeSendWithoutAttachments(
           channelId: channelId,
@@ -5855,8 +6130,12 @@ class ChatViewModel extends _$ChatViewModel {
         error,
         st,
       );
-      _handleSendFailure(optimisticMessageId, error);
+      final Message? local = _localSends[clientNonce];
+      if (local == null) {
+        return;
+      }
       _noteMaybeCreatedSend(optimisticMessageId, error, const <String>[]);
+      _failLocalSend(local, error);
     }
   }
 
@@ -6020,6 +6299,7 @@ class ChatViewModel extends _$ChatViewModel {
         ev.event.message.author.id != ref.read(currentUserIdProvider)) {
       return;
     }
+    _untrackLocalSend(nonce);
     final Message? local = _inFlightOptimisticMessages.remove(nonce);
     if (local == null) {
       return;
@@ -6296,7 +6576,7 @@ class ChatViewModel extends _$ChatViewModel {
     }
     if (nonce != null) {
       _clearInFlightOptimisticSend(nonce);
-      _forwardSends.remove(nonce);
+      _untrackLocalSend(nonce);
       ref
           .read(cloudUploadControllerProvider(message.channelId).notifier)
           .cancelMessageUpload(nonce);
@@ -6345,7 +6625,7 @@ class ChatViewModel extends _$ChatViewModel {
       return false;
     }
     _retrySendOptions.remove(message.id);
-    _forwardSends.remove(message.clientNonce);
+    _untrackLocalSend(message.clientNonce);
     state = state.copyWith(
       write: (
         messages: _replaceOptimisticWithDelivered(
@@ -6369,24 +6649,74 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     _maybeCreatedSends[optimisticMessageId] = attachmentFilenames;
-    unawaited(_adoptMaybeCreatedSend(optimisticMessageId));
+    unawaited(_resolveMaybeCreatedSend(optimisticMessageId));
   }
 
-  Future<bool> _adoptMaybeCreatedSend(String optimisticMessageId) =>
-      _maybeCreatedLookups[optimisticMessageId] ??= _lookupMaybeCreatedSend(
-        optimisticMessageId,
-      ).whenComplete(() => _maybeCreatedLookups.remove(optimisticMessageId));
+  Future<void> _resolveMaybeCreatedSend(String optimisticMessageId) async {
+    if (!_maybeCreatedResolvers.add(optimisticMessageId)) {
+      return;
+    }
+    try {
+      for (final Duration delay in _kMaybeCreatedLookupBackoff) {
+        if (!ref.mounted ||
+            !_maybeCreatedSends.containsKey(optimisticMessageId)) {
+          return;
+        }
+        final _MaybeCreatedLookup lookup = await _lookupMaybeCreatedSend(
+          optimisticMessageId,
+        );
+        if (lookup.error == null) {
+          return;
+        }
+        await Future<void>.delayed(delay);
+      }
+    } finally {
+      _maybeCreatedResolvers.remove(optimisticMessageId);
+    }
+  }
 
-  Future<bool> _lookupMaybeCreatedSend(String optimisticMessageId) async {
+  Future<_MaybeCreatedLookup> _lookupMaybeCreatedSend(
+    String optimisticMessageId,
+  ) {
+    final Future<_MaybeCreatedLookup>? running =
+        _maybeCreatedLookups[optimisticMessageId];
+    if (running != null) {
+      return running;
+    }
+    final Future<_MaybeCreatedLookup> lookup = _runMaybeCreatedLookup(
+      optimisticMessageId,
+    );
+    _maybeCreatedLookups[optimisticMessageId] = lookup;
+    unawaited(
+      lookup.whenComplete(() {
+        if (identical(_maybeCreatedLookups[optimisticMessageId], lookup)) {
+          unawaited(_maybeCreatedLookups.remove(optimisticMessageId));
+        }
+      }),
+    );
+    return lookup;
+  }
+
+  Message? _unsentLocalMessage(String optimisticMessageId) {
+    for (final Message message in state.messages) {
+      if (message.id == optimisticMessageId) {
+        return message;
+      }
+    }
+    return _localSends[optimisticMessageId] ??
+        _inFlightOptimisticMessages[optimisticMessageId];
+  }
+
+  Future<_MaybeCreatedLookup> _runMaybeCreatedLookup(
+    String optimisticMessageId,
+  ) async {
+    const _MaybeCreatedLookup absent = (adopted: false, error: null);
     final List<String>? attachmentFilenames =
         _maybeCreatedSends[optimisticMessageId];
-    final int index = state.messages.indexWhere(
-      (Message m) => m.id == optimisticMessageId,
-    );
-    final Message? local = index == -1 ? null : state.messages[index];
+    final Message? local = _unsentLocalMessage(optimisticMessageId);
     final String? nonce = local?.clientNonce;
     if (attachmentFilenames == null || local == null || nonce == null) {
-      return false;
+      return absent;
     }
     final MessageRepository repository = ref.read(messageRepositoryProvider);
     try {
@@ -6397,15 +6727,15 @@ class ChatViewModel extends _$ChatViewModel {
         attachmentFilenames: attachmentFilenames,
       );
       if (messageId == null) {
-        _maybeCreatedSends.remove(optimisticMessageId);
-        return false;
+        return absent;
       }
       final Message sent = await repository.fetchMessage(
         channelId: local.channelId,
         messageId: messageId,
       );
-      if (_maybeCreatedSends.remove(optimisticMessageId) == null) {
-        return false;
+      if (!ref.mounted ||
+          _maybeCreatedSends.remove(optimisticMessageId) == null) {
+        return absent;
       }
       _retrySendOptions.remove(optimisticMessageId);
       _sendsAwaitingReconnect.remove(optimisticMessageId);
@@ -6418,17 +6748,37 @@ class ChatViewModel extends _$ChatViewModel {
         optimisticMessageId: optimisticMessageId,
         sent: sent,
       );
-      return true;
+      return (adopted: true, error: null);
     } on Object catch (error) {
       talker.warning('[ChatViewModel] maybe-created lookup failed: $error');
-      return false;
+      return (adopted: false, error: error);
     }
+  }
+
+  bool _insideSendNonceDedupeWindow(Message message) {
+    final int? sentAtMs = snowflakeTimestampMsOrNull(message.clientNonce);
+    return sentAtMs != null &&
+        DateTime.now().millisecondsSinceEpoch - sentAtMs <
+            _kSendNonceDedupeWindow.inMilliseconds;
   }
 
   Future<void> _resendLocalMessage(Message message) async {
     if (_maybeCreatedSends.containsKey(message.id) &&
-        await _adoptMaybeCreatedSend(message.id)) {
-      return;
+        !_insideSendNonceDedupeWindow(message)) {
+      final _MaybeCreatedLookup lookup = await _lookupMaybeCreatedSend(
+        message.id,
+      );
+      if (!ref.mounted ||
+          lookup.adopted ||
+          !_maybeCreatedSends.containsKey(message.id)) {
+        return;
+      }
+      final Object? error = lookup.error;
+      if (error != null) {
+        _handleSendFailure(message.id, error);
+        _recordLocalSendFailure(message);
+        return;
+      }
     }
     final _RetrySendOptions? options = _retrySendOptions[message.id];
     final String? uploadNonce = message.clientNonce;
@@ -6456,20 +6806,21 @@ class ChatViewModel extends _$ChatViewModel {
       );
       return;
     }
-    final String? forwardNonce = _forwardSends.containsKey(message.clientNonce)
+    final String? trackedNonce = _localSends.containsKey(message.clientNonce)
         ? message.clientNonce
         : null;
-    if (forwardNonce != null) {
-      _forwardSends[forwardNonce] = message.copyWith(
+    if (trackedNonce != null) {
+      _localSends[trackedNonce] = message.copyWith(
         deliveryState: MessageDeliveryState.sending,
         sendError: null,
       );
+      _persistLocalSend(trackedNonce);
     }
+    final _ForwardSource? forward = options?.forward;
     try {
       final String clientNonce =
           message.clientNonce ?? clientNonceGenerator.next();
       final DateTime sendStartedAt = DateTime.now();
-      final _ForwardSource? forward = options?.forward;
       final Message sent = forward != null
           ? await _sendForward(message, forward)
           : await _sendWithRateLimitRetry(
@@ -6489,8 +6840,10 @@ class ChatViewModel extends _$ChatViewModel {
                     tts: options?.tts ?? false,
                   ),
             );
+      if (!ref.mounted) {
+        return;
+      }
       _retrySendOptions.remove(message.id);
-      _forwardSends.remove(forwardNonce);
       _commitDeliveredOptimisticSend(
         channelId: message.channelId,
         optimisticMessageId: message.id,
@@ -6505,12 +6858,14 @@ class ChatViewModel extends _$ChatViewModel {
       );
     } on Object catch (e) {
       debugPrint('[ChatViewModel] Retry failed: $e');
-      _handleSendFailure(message.id, e);
-      if (forwardNonce != null) {
-        _recordForwardFailure(message);
-      } else {
+      if (!ref.mounted) {
+        return;
+      }
+      if (forward == null) {
         _noteMaybeCreatedSend(message.id, e, const <String>[]);
       }
+      _handleSendFailure(message.id, e);
+      _recordLocalSendFailure(message);
     }
   }
 

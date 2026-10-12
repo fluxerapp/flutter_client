@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/database/daos/guild_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_emoji_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_last_channel_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_sticker_dao.dart';
+import 'package:fluxer_app/core/database/daos/local_message_sends_dao.dart';
 import 'package:fluxer_app/core/database/daos/local_spam_overrides_dao.dart';
 import 'package:fluxer_app/core/database/daos/member_dao.dart';
 import 'package:fluxer_app/core/database/daos/message_dao.dart';
@@ -43,6 +44,7 @@ import 'package:fluxer_app/core/database/tables/favorite_settings.dart';
 import 'package:fluxer_app/core/database/tables/guild_emojis.dart';
 import 'package:fluxer_app/core/database/tables/guild_last_channels.dart';
 import 'package:fluxer_app/core/database/tables/guild_stickers.dart';
+import 'package:fluxer_app/core/database/tables/local_message_sends.dart';
 import 'package:fluxer_app/core/database/tables/local_spam_overrides.dart';
 import 'package:fluxer_app/core/database/tables/member_cache_access.dart';
 import 'package:fluxer_app/core/database/tables/members.dart';
@@ -104,6 +106,7 @@ part 'fluxer_database.g.dart';
     ComposerDrafts,
     RecentInstances,
     ThreadMembers,
+    LocalMessageSends,
   ],
   daos: [
     AuthSessionDao,
@@ -135,6 +138,7 @@ part 'fluxer_database.g.dart';
     LocalSpamOverridesDao,
     RecentInstancesDao,
     ThreadDao,
+    LocalMessageSendsDao,
   ],
 )
 class FluxerDatabase extends _$FluxerDatabase {
@@ -143,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 95;
+  int get schemaVersion => 96;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1581,6 +1585,9 @@ class FluxerDatabase extends _$FluxerDatabase {
         await _moveLocalExpressionUsageToActiveAccount(m.database);
         await customStatement('DROP TABLE IF EXISTS emoji_usage');
       }
+      if (from < 96) {
+        await _createTableIfNotExists(m, localMessageSends);
+      }
     },
   );
 
@@ -1612,6 +1619,7 @@ class FluxerDatabase extends _$FluxerDatabase {
       await favoriteChannelsDao.clearAll();
       await localSpamOverridesDao.clearAll();
       await threadDao.clearAll();
+      await localMessageSendsDao.clearAll();
     });
   }
 }
