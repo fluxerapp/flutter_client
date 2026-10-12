@@ -1,5 +1,5 @@
-const double kFluxerBottomSheetDismissDragDistance = 50;
-const double kFluxerBottomSheetDismissVelocity = 300;
+const double kFluxerBottomSheetDismissHeightFraction = 0.5;
+const double kFluxerBottomSheetDismissVelocity = 800;
 const double kFluxerBottomSheetHalfSize = 0.5;
 const double kFluxerBottomSheetFullSize = 0.95;
 
@@ -26,9 +26,10 @@ double fluxerBottomSheetSizeAfterDrag({
 bool fluxerBottomSheetShouldDismissAfterDrag({
   required double dragDistance,
   required double velocity,
-  double dismissDragDistance = kFluxerBottomSheetDismissDragDistance,
-  double dismissVelocity = kFluxerBottomSheetDismissVelocity,
-}) => dragDistance > dismissDragDistance || velocity > dismissVelocity;
+  required double sheetHeight,
+}) =>
+    dragDistance > sheetHeight * kFluxerBottomSheetDismissHeightFraction ||
+    velocity > kFluxerBottomSheetDismissVelocity;
 
 /// Returns the half or full snap size, or `null` when the sheet should close.
 ///
@@ -44,13 +45,14 @@ double? fluxerBottomSheetSnapTarget({
     return fullSize;
   }
 
-  if (size < halfSize - _kSnapEpsilon) {
+  final bool atOrBelowHalf = size <= halfSize + _kSnapEpsilon;
+  if (atOrBelowHalf &&
+      (velocity > kFluxerBottomSheetDismissVelocity ||
+          size < halfSize * kFluxerBottomSheetDismissHeightFraction)) {
     return null;
   }
-
-  final bool atHalf = size <= halfSize + _kSnapEpsilon;
-  if (atHalf && velocity > kFluxerBottomSheetDismissVelocity) {
-    return null;
+  if (size < halfSize) {
+    return halfSize;
   }
 
   double projected = size;

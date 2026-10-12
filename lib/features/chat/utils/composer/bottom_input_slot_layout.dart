@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
 enum BottomInputTransition { idle, lockingToPanel, lockingToKeyboard }
@@ -14,6 +13,7 @@ const double kShortKeyboardInsetGap = 48;
 const double kMinImeKeyboardHeight = 120;
 const double kInlineExpressionPanelAnchorMagneticFraction = 0.12;
 const double kInlineExpressionPanelDismissHeightFraction = 0.55;
+const double kInlineExpressionPanelDismissVelocity = 300;
 const double kInlineExpressionPanelExpandedSnapMidpointFraction =
     kExpandableSheetSnapMidpointFraction;
 
@@ -137,7 +137,7 @@ InlineExpressionPanelSnapTarget inlineExpressionPanelSnapTarget({
   required double velocity,
   required double anchorHeight,
   required double expandedHeight,
-  double dismissVelocity = kFluxerBottomSheetDismissVelocity,
+  double dismissVelocity = kInlineExpressionPanelDismissVelocity,
   double expandVelocity = -kExpandableSheetFlingVelocityThreshold,
 }) {
   final double magneticZone =

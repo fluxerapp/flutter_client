@@ -4,21 +4,127 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const double kFluxerSheetOvershootBleed = 48;
-const Duration kFluxerSheetDragSettleDuration = Duration(milliseconds: 180);
+
+const Duration kFluxerSheetCloseDuration = Duration(milliseconds: 110);
+const Duration kFluxerSheetScrimOpenDuration = Duration(milliseconds: 125);
+const Duration kFluxerSheetBackdropLead = Duration(milliseconds: 70);
+const double kFluxerSheetBackdropSpringOmega = 18.5;
 
 const double kFluxerSheetBackdropScale = 0.924;
 const double kFluxerSheetBackdropCornerRadius = 12;
+const double kFluxerSheetBackdropMinCoverage = 0.6;
 const double kFluxerSheetBackdropFullCoverage = 0.9;
 const double kFluxerSheetBackdropCornerRampEnd = 0.25;
+const Color kFluxerSheetBackdropDimColor = Color(0x80000000);
 
-double fluxerSheetRouteProgress(
+double _sheetOpenSeconds(Animation<double> animation, Duration forward) {
+  return animation.value *
+      forward.inMicroseconds /
+      Duration.microsecondsPerSecond;
+}
+
+double fluxerSheetScrimOpacity(Animation<double> animation, Duration forward) {
+  if (animation.status == AnimationStatus.reverse || forward <= Duration.zero) {
+    return animation.value.clamp(0, 1);
+  }
+  return (animation.value *
+          forward.inMicroseconds /
+          kFluxerSheetScrimOpenDuration.inMicroseconds)
+      .clamp(0, 1);
+}
+
+double fluxerSheetBackdropProgress(
   Animation<double> animation,
-  AnimationStyle style,
+  Duration forward,
 ) {
-  final Curve? curve = animation.status == AnimationStatus.reverse
-      ? style.reverseCurve
-      : style.curve;
-  return (curve?.transform(animation.value) ?? animation.value).clamp(0, 1);
+  if (animation.status == AnimationStatus.reverse ||
+      animation.status == AnimationStatus.completed ||
+      forward <= Duration.zero) {
+    return animation.value.clamp(0, 1);
+  }
+  final double x =
+      kFluxerSheetBackdropSpringOmega * _sheetOpenSeconds(animation, forward);
+  return (1 - math.exp(-x) * (1 + x)).clamp(0, 1);
+}
+
+class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
+  FluxerSheetRoute({
+    required super.builder,
+    required super.isScrollControlled,
+    required NavigatorState navigator,
+    super.capturedThemes,
+    super.barrierLabel,
+    super.barrierOnTapHint,
+    super.backgroundColor,
+    super.elevation,
+    super.isDismissible,
+    super.modalBarrierColor,
+    super.enableDrag,
+    super.useSafeArea,
+    super.sheetAnimationStyle,
+  }) : _backdrop = FluxerSheetBackdropProgress.of(navigator);
+
+  final FluxerSheetBackdropProgress _backdrop;
+  final ValueNotifier<double> _scrimTravel = ValueNotifier<double>(1);
+  bool _travelFlushScheduled = false;
+  double _pendingTravel = 1;
+
+  void setScrimTravel(double travel) {
+    _pendingTravel = travel.clamp(0, 1);
+    if (SchedulerBinding.instance.schedulerPhase !=
+        SchedulerPhase.persistentCallbacks) {
+      _scrimTravel.value = _pendingTravel;
+      return;
+    }
+    if (_travelFlushScheduled) {
+      return;
+    }
+    _travelFlushScheduled = true;
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _travelFlushScheduled = false;
+      if (isActive) {
+        _scrimTravel.value = _pendingTravel;
+      }
+    });
+  }
+
+  @override
+  Widget buildModalBarrier() {
+    final Animation<double>? routeAnimation = animation;
+    final Color base = barrierColor;
+    if (routeAnimation == null || base.a == 0 || offstage) {
+      return super.buildModalBarrier();
+    }
+    return ListenableBuilder(
+      listenable: Listenable.merge(<Listenable>[
+        routeAnimation,
+        _scrimTravel,
+        _backdrop,
+      ]),
+      builder: (BuildContext context, Widget? _) {
+        final double opacity =
+            fluxerSheetScrimOpacity(routeAnimation, transitionDuration) *
+            _scrimTravel.value;
+        final Color tinted = _backdrop.value <= 0
+            ? base
+            : Color.lerp(base, kFluxerSheetBackdropDimColor, _backdrop.value)!;
+        return ModalBarrier(
+          color: opacity >= 1
+              ? tinted
+              : tinted.withValues(alpha: tinted.a * opacity),
+          dismissible: barrierDismissible,
+          semanticsLabel: barrierLabel,
+          semanticsOnTapHint: barrierOnTapHint,
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrimTravel.dispose();
+    super.dispose();
+  }
 }
 
 class FluxerSheetBackdropProgress extends ValueNotifier<double> {
@@ -31,20 +137,20 @@ class FluxerSheetBackdropProgress extends ValueNotifier<double> {
     return _byNavigator[navigator] ??= FluxerSheetBackdropProgress._();
   }
 
-  final Map<Object, double> _coverageBySheet = <Object, double>{};
+  final Map<Object, double> _strengthBySheet = <Object, double>{};
   bool _flushScheduled = false;
 
-  void report(Object sheet, double coverage) {
-    final double clamped = coverage.clamp(0, 1);
-    if (_coverageBySheet[sheet] == clamped) {
+  void report(Object sheet, double strength) {
+    final double clamped = strength.clamp(0, 1);
+    if (_strengthBySheet[sheet] == clamped) {
       return;
     }
-    _coverageBySheet[sheet] = clamped;
+    _strengthBySheet[sheet] = clamped;
     _flush();
   }
 
   void remove(Object sheet) {
-    if (_coverageBySheet.remove(sheet) == null) {
+    if (_strengthBySheet.remove(sheet) == null) {
       return;
     }
     _flush();
@@ -53,7 +159,7 @@ class FluxerSheetBackdropProgress extends ValueNotifier<double> {
   void _flush() {
     if (SchedulerBinding.instance.schedulerPhase !=
         SchedulerPhase.persistentCallbacks) {
-      value = _coverageBySheet.values.fold<double>(0, math.max);
+      value = _strengthBySheet.values.fold<double>(0, math.max);
       return;
     }
     if (_flushScheduled) {
@@ -62,7 +168,7 @@ class FluxerSheetBackdropProgress extends ValueNotifier<double> {
     _flushScheduled = true;
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _flushScheduled = false;
-      value = _coverageBySheet.values.fold<double>(0, math.max);
+      value = _strengthBySheet.values.fold<double>(0, math.max);
     });
   }
 }
@@ -74,14 +180,22 @@ class FluxerSheetBackdropLink {
   final NavigatorState _navigator;
   final FluxerSheetBackdropProgress _progress;
 
-  void reportVisibleHeight(double visibleHeight) {
+  double reportVisibleHeight(double visibleHeight, double routeProgress) {
     final RenderObject? box = _navigator.mounted
         ? _navigator.context.findRenderObject()
         : null;
     if (box is! RenderBox || !box.hasSize || box.size.height <= 0) {
-      return;
+      return 0;
     }
-    _progress.report(this, visibleHeight / box.size.height);
+    final double coverage = visibleHeight / box.size.height;
+    final double strength =
+        ((coverage - kFluxerSheetBackdropMinCoverage) /
+                (kFluxerSheetBackdropFullCoverage -
+                    kFluxerSheetBackdropMinCoverage))
+            .clamp(0, 1) *
+        routeProgress;
+    _progress.report(this, strength);
+    return strength;
   }
 
   void dispose() => _progress.remove(this);
@@ -118,9 +232,7 @@ class _FluxerSheetBackdropState extends State<FluxerSheetBackdrop> {
     return ValueListenableBuilder<double>(
       valueListenable: progress,
       child: widget.child,
-      builder: (BuildContext context, double coverage, Widget? child) {
-        final double strength = (coverage / kFluxerSheetBackdropFullCoverage)
-            .clamp(0, 1);
+      builder: (BuildContext context, double strength, Widget? child) {
         final bool active = strength > 0;
         final double scale = 1 - (1 - kFluxerSheetBackdropScale) * strength;
         final double radius =

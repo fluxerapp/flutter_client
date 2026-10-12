@@ -56,14 +56,22 @@ void main() {
   group('fluxerBottomSheetShouldDismissAfterDrag', () {
     test('dismisses after sufficient downward drag distance', () {
       expect(
-        fluxerBottomSheetShouldDismissAfterDrag(dragDistance: 60, velocity: 0),
+        fluxerBottomSheetShouldDismissAfterDrag(
+          dragDistance: 160,
+          velocity: 0,
+          sheetHeight: 300,
+        ),
         isTrue,
       );
     });
 
     test('dismisses after fast downward fling', () {
       expect(
-        fluxerBottomSheetShouldDismissAfterDrag(dragDistance: 0, velocity: 400),
+        fluxerBottomSheetShouldDismissAfterDrag(
+          dragDistance: 0,
+          velocity: 900,
+          sheetHeight: 300,
+        ),
         isTrue,
       );
     });
@@ -71,8 +79,9 @@ void main() {
     test('does not dismiss for small drags', () {
       expect(
         fluxerBottomSheetShouldDismissAfterDrag(
-          dragDistance: 20,
-          velocity: 100,
+          dragDistance: 90.7,
+          velocity: 167,
+          sheetHeight: 298,
         ),
         isFalse,
       );
@@ -83,10 +92,17 @@ void main() {
     const double half = 0.5;
     const double full = 0.95;
 
-    test('dismisses when released below the half mark', () {
+    test('dismisses when less than half of the half snap is left', () {
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.2, halfSize: half, fullSize: full),
+        isNull,
+      );
+    });
+
+    test('returns to half when released just below the half mark', () {
       expect(
         fluxerBottomSheetSnapTarget(size: 0.4, halfSize: half, fullSize: full),
-        isNull,
+        half,
       );
     });
 
@@ -121,7 +137,7 @@ void main() {
           size: 0.5,
           halfSize: half,
           fullSize: full,
-          velocity: 400,
+          velocity: 900,
           availablePixels: 800,
         ),
         isNull,

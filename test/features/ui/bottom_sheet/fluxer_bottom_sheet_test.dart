@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -190,7 +191,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(route!.transitionDuration, FluxerMotionTheme.sheetDuration);
-      expect(route!.reverseTransitionDuration, FluxerMotionTheme.popDuration);
+      expect(route!.reverseTransitionDuration, kFluxerSheetCloseDuration);
       final Iterable<ModalBarrier> barriers = tester
           .widgetList<ModalBarrier>(find.byType(ModalBarrier))
           .where((ModalBarrier barrier) => barrier.color != null);
@@ -442,7 +443,7 @@ void main() {
 
       await tester.drag(
         find.byType(FluxerBottomSheetDragHandle),
-        const Offset(0, 300),
+        const Offset(0, 450),
       );
       await tester.pumpAndSettle();
 
@@ -603,7 +604,7 @@ void main() {
 
         await tester.tap(find.text('Open'));
         await tester.pump();
-        await tester.pump(const Duration(milliseconds: 50));
+        await tester.pump(const Duration(milliseconds: 140));
         expect(find.text('Choose'), findsOneWidget);
 
         await tester.tap(find.text('Choose'));
@@ -687,7 +688,7 @@ void main() {
 
         await tester.tap(find.text('Open'));
         await tester.pump();
-        await tester.pump(const Duration(milliseconds: 50));
+        await tester.pump(const Duration(milliseconds: 140));
         expect(find.text('Choose'), findsOneWidget);
 
         await tester.tap(find.text('Choose'));
@@ -853,7 +854,7 @@ void main() {
       final TestGesture gesture = await tester.startGesture(
         tester.getCenter(handle),
       );
-      await gesture.moveBy(Offset(0, parentHeight * 0.7));
+      await gesture.moveBy(Offset(0, parentHeight * 0.8));
       await tester.pump();
 
       final RenderBox draggedBox = tester.renderObject(
@@ -1028,7 +1029,7 @@ void main() {
 
         await tester.drag(
           find.byType(FluxerBottomSheetDragHandle),
-          const Offset(0, 300),
+          const Offset(0, 400),
         );
         await tester.pumpAndSettle();
 
@@ -1070,7 +1071,7 @@ void main() {
 
       await tester.drag(
         find.byType(FluxerBottomSheetDragHandle),
-        const Offset(0, 80),
+        const Offset(0, 240),
       );
       await tester.pumpAndSettle();
 
