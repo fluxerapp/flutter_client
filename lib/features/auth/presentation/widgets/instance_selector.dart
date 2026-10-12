@@ -236,7 +236,10 @@ class _InstanceSelectorControlState
           size: 20,
         );
       case InstanceDiscoveryStatus.discovering:
-        return FluxerLoadingSpinner(color: context.colors.textPrimaryMuted);
+        return FluxerLoadingSpinner(
+          color: context.colors.textPrimaryMuted,
+          size: FluxerLoadingSpinnerSize.small,
+        );
       case InstanceDiscoveryStatus.idle:
         return null;
     }

@@ -20,7 +20,6 @@ library;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
@@ -217,15 +216,12 @@ class MessageListViewport extends StatelessWidget {
           ),
         ),
         if (isLoadingMore)
-          Positioned(
+          const Positioned(
             top: 8,
             left: 0,
             right: 0,
             child: Center(
-              child: ChatLoadingSpinner(
-                reason: ChatSpinnerReason.loadingMore,
-                color: context.colors.brandPrimary,
-              ),
+              child: ChatLoadingSpinner(reason: ChatSpinnerReason.loadingMore),
             ),
           ),
         if (isLoadingNewer)
@@ -233,11 +229,8 @@ class MessageListViewport extends StatelessWidget {
             bottom: trailingInset,
             left: 0,
             right: 0,
-            child: Center(
-              child: ChatLoadingSpinner(
-                reason: ChatSpinnerReason.loadingNewer,
-                color: context.colors.brandPrimary,
-              ),
+            child: const Center(
+              child: ChatLoadingSpinner(reason: ChatSpinnerReason.loadingNewer),
             ),
           ),
       ],

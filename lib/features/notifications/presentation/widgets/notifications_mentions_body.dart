@@ -357,12 +357,10 @@ class _NotificationsMentionsBodyState
   Widget _buildLoading(FluxerColorTheme colors) {
     return FluxerRefreshScrollView(
       onRefresh: _bootstrapFromPrefs,
-      slivers: <Widget>[
+      slivers: const <Widget>[
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Center(
-            child: FluxerLoadingSpinner(color: colors.brandPrimary),
-          ),
+          child: Center(child: FluxerLoadingSpinner()),
         ),
       ],
     );
@@ -490,14 +488,9 @@ class _NotificationsMentionsBodyState
               int rest = index - visible.length;
               if (showLoadBusy) {
                 if (rest == 0) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 24,
-                    ),
-                    child: Center(
-                      child: FluxerLoadingSpinner(color: colors.brandPrimary),
-                    ),
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 24),
+                    child: Center(child: FluxerLoadingSpinner()),
                   );
                 }
                 rest--;

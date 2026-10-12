@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart
 import 'package:fluxer_app/features/channels/presentation/channel_settings/widgets/channel_settings_control_row.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -151,7 +152,7 @@ class ChannelOverviewVoiceSection extends StatelessWidget {
             loading: () => const Center(
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
+                child: FluxerLoadingSpinner(),
               ),
             ),
             error: (Object error, StackTrace stackTrace) {

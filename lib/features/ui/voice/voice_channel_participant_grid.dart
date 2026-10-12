@@ -2811,7 +2811,10 @@ class _VoiceStatusPill extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            FluxerLoadingSpinner(color: context.colors.textPrimary),
+            FluxerLoadingSpinner(
+              color: context.colors.textPrimary,
+              size: FluxerLoadingSpinnerSize.small,
+            ),
             const SizedBox(width: 8),
             Text(
               label,

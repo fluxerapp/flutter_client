@@ -338,9 +338,7 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
           hasScrollBody: false,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: layout.s8),
-            child: Center(
-              child: FluxerLoadingSpinner(color: colors.brandPrimary),
-            ),
+            child: const Center(child: FluxerLoadingSpinner()),
           ),
         ),
       ];

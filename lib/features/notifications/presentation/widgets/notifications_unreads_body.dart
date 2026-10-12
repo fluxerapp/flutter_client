@@ -62,12 +62,10 @@ class NotificationsUnreadsBody extends ConsumerWidget {
         },
         loading: () => FluxerRefreshScrollView(
           onRefresh: refreshUnreadInbox,
-          slivers: <Widget>[
+          slivers: const <Widget>[
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Center(
-                child: FluxerLoadingSpinner(color: colors.brandPrimary),
-              ),
+              child: Center(child: FluxerLoadingSpinner()),
             ),
           ],
         ),

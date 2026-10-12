@@ -65,7 +65,10 @@ class ThemeSwatchButton extends StatelessWidget {
                       customBorder: const CircleBorder(),
                       child: isLoading
                           ? Center(
-                              child: FluxerLoadingSpinner(color: contrastColor),
+                              child: FluxerLoadingSpinner(
+                                color: contrastColor,
+                                size: FluxerLoadingSpinnerSize.small,
+                              ),
                             )
                           : centerIcon == null
                           ? const SizedBox.expand()

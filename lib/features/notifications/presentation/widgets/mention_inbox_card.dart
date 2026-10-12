@@ -153,9 +153,9 @@ class MentionInboxCard extends ConsumerWidget {
     final textStyles = context.textStyles;
     final Message? msg = message;
     if (isMessageLoading) {
-      return SizedBox(
+      return const SizedBox(
         height: _kMessageLoaderHeight,
-        child: Center(child: FluxerLoadingSpinner(color: colors.brandPrimary)),
+        child: Center(child: FluxerLoadingSpinner()),
       );
     }
     if (msg == null) {

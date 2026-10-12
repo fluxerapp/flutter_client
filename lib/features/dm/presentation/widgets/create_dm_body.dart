@@ -108,7 +108,9 @@ class _CreateDmBodyState extends ConsumerState<CreateDmBody> {
       if (controller.isCreating)
         const Padding(
           padding: EdgeInsets.only(bottom: 8),
-          child: Center(child: FluxerLoadingSpinner()),
+          child: Center(
+            child: FluxerLoadingSpinner(size: FluxerLoadingSpinnerSize.small),
+          ),
         ),
       if (widget.listHeight != null)
         SizedBox(height: widget.listHeight, child: selector)

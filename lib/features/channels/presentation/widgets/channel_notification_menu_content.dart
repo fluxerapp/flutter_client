@@ -37,11 +37,7 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
     return menuStateAsync.when(
       loading: () => const Padding(
         padding: EdgeInsets.all(16),
-        child: SizedBox(
-          width: 24,
-          height: 24,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
+        child: SizedBox(width: 24, height: 24, child: FluxerLoadingSpinner()),
       ),
       error: (_, _) => const SizedBox.shrink(),
       data: (ChannelNotificationMenuState menuState) {

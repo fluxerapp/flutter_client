@@ -16,86 +16,49 @@ class FluxerRefreshScrollView extends StatelessWidget {
     required this.slivers,
     super.key,
     this.controller,
-    this.spinnerColor,
   });
 
   final Future<void> Function() onRefresh;
   final List<Widget> slivers;
   final ScrollController? controller;
-  final Color? spinnerColor;
 
   static Widget buildSpinnerIndicator({
     required RefreshIndicatorMode refreshState,
     required double pulledExtent,
     required double refreshTriggerPullDistance,
-    required double refreshIndicatorExtent,
-    required Color spinnerColor,
   }) {
-    const double topMargin = 16;
     final double percentageComplete = clampDouble(
       pulledExtent / refreshTriggerPullDistance,
       0,
       1,
     );
-    switch (refreshState) {
-      case RefreshIndicatorMode.inactive:
-        return const SizedBox.shrink();
-      case RefreshIndicatorMode.drag:
-        const Curve opacityCurve = Interval(0, 0.35, curve: Curves.easeInOut);
-        return Center(
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Positioned(
-                top: topMargin,
-                left: 0,
-                right: 0,
-                child: Opacity(
-                  opacity: opacityCurve.transform(percentageComplete),
-                  child: FluxerLoadingSpinner(color: spinnerColor),
-                ),
-              ),
-            ],
-          ),
-        );
-      case RefreshIndicatorMode.armed:
-      case RefreshIndicatorMode.refresh:
-        return Center(
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Positioned(
-                top: topMargin,
-                left: 0,
-                right: 0,
-                child: FluxerLoadingSpinner(color: spinnerColor),
-              ),
-            ],
-          ),
-        );
-      case RefreshIndicatorMode.done:
-        return Center(
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Positioned(
-                top: topMargin,
-                left: 0,
-                right: 0,
-                child: Opacity(
-                  opacity: percentageComplete,
-                  child: FluxerLoadingSpinner(color: spinnerColor),
-                ),
-              ),
-            ],
-          ),
-        );
-    }
+    final Widget spinner = switch (refreshState) {
+      RefreshIndicatorMode.inactive => const SizedBox.shrink(),
+      RefreshIndicatorMode.drag => FluxerLoadingSpinner(
+        size: FluxerLoadingSpinnerSize.medium,
+        revealProgress: percentageComplete,
+      ),
+      RefreshIndicatorMode.armed || RefreshIndicatorMode.refresh =>
+        const FluxerLoadingSpinner(size: FluxerLoadingSpinnerSize.medium),
+      RefreshIndicatorMode.done => Opacity(
+        opacity: percentageComplete,
+        child: const FluxerLoadingSpinner(
+          size: FluxerLoadingSpinnerSize.medium,
+        ),
+      ),
+    };
+    return Center(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          Positioned(top: 15, left: 0, right: 0, child: Center(child: spinner)),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final Color color = spinnerColor ?? context.colors.brandPrimary;
     return CustomScrollView(
       controller: controller,
       physics: const AlwaysScrollableScrollPhysics(),
@@ -114,8 +77,6 @@ class FluxerRefreshScrollView extends StatelessWidget {
                   refreshState: refreshState,
                   pulledExtent: pulledExtent,
                   refreshTriggerPullDistance: refreshTriggerPullDistance,
-                  refreshIndicatorExtent: refreshIndicatorExtent,
-                  spinnerColor: color,
                 );
               },
         ),
@@ -133,7 +94,6 @@ Widget fluxerRefreshScrollViewPreview() {
     child: ColoredBox(
       color: const Color(0xFF2B2D31),
       child: FluxerRefreshScrollView(
-        spinnerColor: const Color(0xFF5865F2),
         onRefresh: () async {
           await Future<void>.delayed(const Duration(seconds: 1));
         },

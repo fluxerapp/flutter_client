@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_t
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_typing_dots.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -53,7 +53,7 @@ void main() {
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
-        expect(find.byType(FluxerLoadingSpinner), findsOneWidget);
+        expect(find.byType(FluxerTypingDots), findsOneWidget);
         expect(find.byType(FluxerAvatarStack), findsNothing);
       });
     });
@@ -66,7 +66,7 @@ void main() {
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
-        expect(find.byType(FluxerLoadingSpinner), findsOneWidget);
+        expect(find.byType(FluxerTypingDots), findsOneWidget);
         expect(find.byType(FluxerAvatarStack), findsOneWidget);
       });
     });
@@ -79,7 +79,7 @@ void main() {
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
-        expect(find.byType(FluxerLoadingSpinner), findsNothing);
+        expect(find.byType(FluxerTypingDots), findsNothing);
         expect(find.byType(FluxerAvatarStack), findsNothing);
       });
     });
@@ -98,7 +98,7 @@ void main() {
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
-        expect(find.byType(FluxerLoadingSpinner), findsNothing);
+        expect(find.byType(FluxerTypingDots), findsNothing);
       });
     });
 
@@ -117,7 +117,7 @@ void main() {
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
-        expect(find.byType(FluxerLoadingSpinner), findsOneWidget);
+        expect(find.byType(FluxerTypingDots), findsOneWidget);
       });
     });
 
@@ -133,7 +133,7 @@ void main() {
             .addTyping('c1', _kBlockedUserId);
         await tester.pump();
 
-        expect(find.byType(FluxerLoadingSpinner), findsNothing);
+        expect(find.byType(FluxerTypingDots), findsNothing);
       });
     });
   });

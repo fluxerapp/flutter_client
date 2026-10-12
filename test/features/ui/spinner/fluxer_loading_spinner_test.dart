@@ -4,8 +4,6 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
-import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_typing_dots.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -29,7 +27,7 @@ Widget buildTestApp(Widget child) {
 }
 
 Finder _spinnerPaintFinder() => find.descendant(
-  of: find.byType(FluxerLoadingSpinner),
+  of: find.byType(FluxerTypingDots),
   matching: find.byType(CustomPaint),
 );
 
@@ -57,7 +55,7 @@ Widget _wrapPositioned({required bool onScreen}) => buildTestApp(
         Positioned(
           left: 0,
           top: onScreen ? 0 : 5000,
-          child: const FluxerLoadingSpinner(),
+          child: const FluxerTypingDots(color: Colors.white),
         ),
       ],
     ),
@@ -88,17 +86,19 @@ void main() {
     testWidgets('animates dots via CustomPainter without Opacity layers', (
       tester,
     ) async {
-      await tester.pumpWidget(buildTestApp(const FluxerLoadingSpinner()));
+      await tester.pumpWidget(
+        buildTestApp(const FluxerTypingDots(color: Colors.white)),
+      );
       await tester.pump();
 
       final Finder spinnerPaint = find.descendant(
-        of: find.byType(FluxerLoadingSpinner),
+        of: find.byType(FluxerTypingDots),
         matching: find.byType(CustomPaint),
       );
       expect(spinnerPaint, findsOneWidget);
       expect(
         find.descendant(
-          of: find.byType(FluxerLoadingSpinner),
+          of: find.byType(FluxerTypingDots),
           matching: find.byType(Opacity),
         ),
         findsNothing,
@@ -130,7 +130,9 @@ void main() {
     });
 
     testWidgets('pauses animation when app is paused', (tester) async {
-      await tester.pumpWidget(buildTestApp(const FluxerLoadingSpinner()));
+      await tester.pumpWidget(
+        buildTestApp(const FluxerTypingDots(color: Colors.white)),
+      );
       await tester.pump();
       final double first = await _awaitProgress(tester);
 
@@ -168,8 +170,8 @@ void main() {
                     ),
                   ),
                   LayoutBuilder(
-                    builder: (_, _) => const ChatLoadingSpinner(
-                      reason: ChatSpinnerReason.typing,
+                    builder: (_, _) => const RepaintBoundary(
+                      child: FluxerTypingDots(color: Colors.white),
                     ),
                   ),
                 ],

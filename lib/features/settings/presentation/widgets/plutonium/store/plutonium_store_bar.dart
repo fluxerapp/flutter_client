@@ -146,7 +146,7 @@ class _WaitingStatus extends StatelessWidget {
     final layout = context.layout;
     return Row(
       children: [
-        const FluxerLoadingSpinner(),
+        const FluxerLoadingSpinner(size: FluxerLoadingSpinnerSize.small),
         SizedBox(width: layout.s3),
         Expanded(
           child: Text(

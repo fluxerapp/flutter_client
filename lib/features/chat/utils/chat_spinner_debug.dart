@@ -4,8 +4,7 @@ import 'package:flutter/foundation.dart';
 enum ChatSpinnerReason {
   panelNotReady('panel_not_ready'),
   loadingMore('loading_more'),
-  loadingNewer('loading_newer'),
-  typing('typing');
+  loadingNewer('loading_newer');
 
   const ChatSpinnerReason(this.label);
 

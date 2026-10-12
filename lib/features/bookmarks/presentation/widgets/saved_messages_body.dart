@@ -223,12 +223,10 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
           ]),
         ),
         if (list.isLoadingMore)
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              child: Center(
-                child: FluxerLoadingSpinner(color: colors.brandPrimary),
-              ),
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Center(child: FluxerLoadingSpinner()),
             ),
           ),
         if (!list.hasMore && !list.isLoadingMore)
@@ -271,11 +269,9 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
       controller: widget.scrollController,
       onRefresh: _refresh,
       slivers: <Widget>[
-        SliverFillRemaining(
+        const SliverFillRemaining(
           hasScrollBody: false,
-          child: Center(
-            child: FluxerLoadingSpinner(color: colors.brandPrimary),
-          ),
+          child: Center(child: FluxerLoadingSpinner()),
         ),
         _bottomInsetSliver(context),
       ],

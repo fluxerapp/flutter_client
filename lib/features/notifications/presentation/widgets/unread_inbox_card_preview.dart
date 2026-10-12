@@ -67,9 +67,9 @@ class UnreadInboxCardPreview extends ConsumerWidget {
     FluxerColorTheme colors,
   ) {
     if (isLoading) {
-      return SizedBox(
+      return const SizedBox(
         height: _kPreviewLoaderHeight,
-        child: Center(child: FluxerLoadingSpinner(color: colors.brandPrimary)),
+        child: Center(child: FluxerLoadingSpinner()),
       );
     }
     final List<Message>? items = preview;

@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -250,11 +251,11 @@ class GuildRouteLoadingShell extends ConsumerWidget {
                 title: '',
                 channelId: channelIdForBackUnread,
               ),
-            Expanded(
+            const Expanded(
               child: Center(
                 child: ChatLoadingSpinner(
                   reason: ChatSpinnerReason.panelNotReady,
-                  color: context.colors.brandPrimary,
+                  size: FluxerLoadingSpinnerSize.large,
                 ),
               ),
             ),

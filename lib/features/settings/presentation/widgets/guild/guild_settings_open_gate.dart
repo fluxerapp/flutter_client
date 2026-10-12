@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -46,9 +45,7 @@ class _GuildSettingsOpenGateState extends ConsumerState<GuildSettingsOpenGate> {
   @override
   Widget build(BuildContext context) {
     if (!_permissionsResolved) {
-      return Center(
-        child: FluxerLoadingSpinner(color: context.colors.brandPrimary),
-      );
+      return const Center(child: FluxerLoadingSpinner());
     }
 
     final int permissions = ref.watch(

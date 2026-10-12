@@ -206,6 +206,7 @@ class GuildRolesSidebarActionButton extends StatelessWidget {
                 ExcludeSemantics(
                   child: FluxerLoadingSpinner(
                     color: colors.buttonSecondaryText,
+                    size: FluxerLoadingSpinnerSize.small,
                   ),
                 )
               else

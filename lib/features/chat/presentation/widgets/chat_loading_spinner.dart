@@ -3,10 +3,14 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ChatLoadingSpinner extends StatefulWidget {
-  const ChatLoadingSpinner({required this.reason, this.color, super.key});
+  const ChatLoadingSpinner({
+    required this.reason,
+    this.size = FluxerLoadingSpinnerSize.small,
+    super.key,
+  });
 
   final ChatSpinnerReason reason;
-  final Color? color;
+  final FluxerLoadingSpinnerSize size;
 
   @override
   State<ChatLoadingSpinner> createState() => _ChatLoadingSpinnerState();
@@ -25,7 +29,7 @@ class _ChatLoadingSpinnerState extends State<ChatLoadingSpinner> {
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: ExcludeSemantics(child: FluxerLoadingSpinner(color: widget.color)),
+      child: ExcludeSemantics(child: FluxerLoadingSpinner(size: widget.size)),
     );
   }
 }

@@ -127,7 +127,6 @@ class _ImageCropContentState extends ConsumerState<_ImageCropContent> {
           frameBorderColor: frameBorderColor,
           frameGuideColor: frameGuideColor,
           backgroundColor: colors.backgroundPrimary,
-          brandPrimary: colors.brandPrimary,
           textPrimary: colors.textPrimary,
         );
 
@@ -157,7 +156,6 @@ class _ImageCropContentState extends ConsumerState<_ImageCropContent> {
     required Color frameBorderColor,
     required Color frameGuideColor,
     required Color backgroundColor,
-    required Color brandPrimary,
     required Color textPrimary,
   }) {
     return LayoutBuilder(
@@ -195,9 +193,7 @@ class _ImageCropContentState extends ConsumerState<_ImageCropContent> {
                     color: textPrimary,
                   ),
             willUpdateScale: _isTouchMode ? _willUpdateScale : null,
-            progressIndicator: Center(
-              child: CircularProgressIndicator(color: brandPrimary),
-            ),
+            progressIndicator: const Center(child: FluxerLoadingSpinner()),
             onCropped: _handleCropped,
           ),
         );

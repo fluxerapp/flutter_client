@@ -43,9 +43,7 @@ class _GuildMembersAccessGateState
   @override
   Widget build(BuildContext context) {
     if (!_permissionsResolved) {
-      return Center(
-        child: FluxerLoadingSpinner(color: context.colors.brandPrimary),
-      );
+      return const Center(child: FluxerLoadingSpinner());
     }
 
     final int permissions =

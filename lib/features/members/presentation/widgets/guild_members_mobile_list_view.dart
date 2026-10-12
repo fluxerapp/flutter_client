@@ -154,11 +154,9 @@ class _GuildMembersMobileListViewState
           ),
         ),
         if (state.showProgress && state.members.isEmpty)
-          SliverFillRemaining(
+          const SliverFillRemaining(
             hasScrollBody: false,
-            child: Center(
-              child: FluxerLoadingSpinner(color: context.colors.brandPrimary),
-            ),
+            child: Center(child: FluxerLoadingSpinner()),
           )
         else if (state.showError)
           SliverFillRemaining(
@@ -192,13 +190,9 @@ class _GuildMembersMobileListViewState
               (BuildContext context, int index) {
                 if (index >= state.members.length) {
                   return state.isLoadingMore
-                      ? Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Center(
-                            child: FluxerLoadingSpinner(
-                              color: context.colors.brandPrimary,
-                            ),
-                          ),
+                      ? const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Center(child: FluxerLoadingSpinner()),
                         )
                       : const SizedBox.shrink();
                 }

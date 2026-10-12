@@ -3,16 +3,15 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_override_scope.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/composer/typing_indicator_text.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_typing_dots.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -131,9 +130,10 @@ class _TypingPill extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final String typingLabel = _typingLabel(l10n, total, resolvedUsers);
     final Color surfaceColor = composerStatusSurfaceColor(context);
-    final Widget indicator = ChatLoadingSpinner(
-      reason: ChatSpinnerReason.typing,
-      color: compact ? colors.textSecondary : colors.textChat,
+    final Widget indicator = RepaintBoundary(
+      child: FluxerTypingDots(
+        color: compact ? colors.textSecondary : colors.textChat,
+      ),
     );
     final Widget avatarStack = FluxerAvatarStack(
       size: _kAvatarSize,
