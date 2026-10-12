@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_fiel
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_app/features/chat/utils/media/attachment_url_signature.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'favorite_gifs_provider.g.dart';
@@ -32,7 +33,10 @@ class FavoriteGifs extends _$FavoriteGifs {
   }
 
   bool hasUrl(String url) {
-    return state.entries.any((entry) => entry.url == url);
+    final String target = stripAttachmentSignature(url);
+    return state.entries.any(
+      (entry) => stripAttachmentSignature(entry.url) == target,
+    );
   }
 
   void addFromGif(GifPickerGif gif) {
@@ -41,7 +45,10 @@ class FavoriteGifs extends _$FavoriteGifs {
       return;
     }
     state = FavoriteGifsState(
-      entries: [...state.entries, favoriteGifEntryFromPickerGif(gif)],
+      entries: [
+        ...state.entries,
+        stripFavoriteGifEntrySignatures(favoriteGifEntryFromPickerGif(gif)),
+      ],
       seenFirstTimePrompt: state.seenFirstTimePrompt,
     );
     _markDirty();
@@ -51,8 +58,11 @@ class FavoriteGifs extends _$FavoriteGifs {
     if (!hasUrl(url)) {
       return;
     }
+    final String target = stripAttachmentSignature(url);
     state = FavoriteGifsState(
-      entries: state.entries.where((entry) => entry.url != url).toList(),
+      entries: state.entries
+          .where((entry) => stripAttachmentSignature(entry.url) != target)
+          .toList(),
       seenFirstTimePrompt: state.seenFirstTimePrompt,
     );
     _markDirty();
@@ -71,8 +81,8 @@ class FavoriteGifs extends _$FavoriteGifs {
       entries: [
         ...state.entries,
         FavoriteGifEntry(
-          url: url,
-          proxyUrl: proxyUrl,
+          url: stripAttachmentSignature(url),
+          proxyUrl: stripAttachmentSignature(proxyUrl),
           width: width,
           height: height,
         ),
