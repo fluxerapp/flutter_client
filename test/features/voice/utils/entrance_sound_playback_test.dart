@@ -1,5 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:fluxer_app/features/voice/utils/entrance_sound_playback.dart';
 import 'package:mockito/mockito.dart';
@@ -86,6 +88,25 @@ void main() {
     test('skips empty urls', () async {
       await player.play(url: '');
       verifyNever(mockPlayer.play(any));
+    });
+
+    test('leaves the Android call audio route alone during a call', () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      addTearDown(() {
+        debugDefaultTargetPlatformOverride = null;
+        ChatAttachmentAudioSession.instance.resetForTest();
+      });
+      await ChatAttachmentAudioSession.instance.clearForVoiceCall();
+
+      await player.play(url: 'https://cdn.example/a.ogg');
+
+      verifyNever(mockPlayer.setAudioContext(any));
+      verify(mockPlayer.play(any)).called(1);
+
+      ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
+      await player.play(url: 'https://cdn.example/b.ogg');
+
+      verify(mockPlayer.setAudioContext(kSessionFeedbackSfxContext)).called(1);
     });
 
     test('reuses the audio context on later plays', () async {

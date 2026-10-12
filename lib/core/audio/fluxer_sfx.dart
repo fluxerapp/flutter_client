@@ -79,8 +79,8 @@ class FluxerSFX {
         ignoreRingerPolicy: ignoreRingerPolicy,
         isIncomingRingLoop: false,
       );
-      if (_lastOneShotContext != context) {
-        await _oneShotPlayer.setAudioContext(context);
+      if (_lastOneShotContext != context &&
+          await applyAudioPlayerContext(_oneShotPlayer, context)) {
         _lastOneShotContext = context;
       }
       await _oneShotPlayer.setReleaseMode(ReleaseMode.release);
@@ -117,8 +117,8 @@ class FluxerSFX {
         ignoreRingerPolicy: false,
         isIncomingRingLoop: clip == FluxerSfxClip.incomingRing,
       );
-      if (_lastLoopContext != context) {
-        await _loopPlayer.setAudioContext(context);
+      if (_lastLoopContext != context &&
+          await applyAudioPlayerContext(_loopPlayer, context)) {
         _lastLoopContext = context;
       }
       await _loopPlayer.setReleaseMode(ReleaseMode.loop);
@@ -157,7 +157,7 @@ class FluxerSFX {
     }
     await restorePreferredAppAudioSession();
     _lastOneShotContext = null;
-    await _oneShotPlayer.setAudioContext(kAppMediaAudioContext);
+    await applyAudioPlayerContext(_oneShotPlayer, kAppMediaAudioContext);
   }
 
   Future<void> _reactivateChatAttachmentAfterNotification(
@@ -184,8 +184,8 @@ class FluxerSFX {
   Future<void> _restoreAppMediaAudio() async {
     await restorePreferredAppAudioSession();
     _lastOneShotContext = null;
-    await _oneShotPlayer.setAudioContext(kAppMediaAudioContext);
-    await _loopPlayer.setAudioContext(kAppMediaAudioContext);
+    await applyAudioPlayerContext(_oneShotPlayer, kAppMediaAudioContext);
+    await applyAudioPlayerContext(_loopPlayer, kAppMediaAudioContext);
   }
 
   static double _clampVolume(double volume) {

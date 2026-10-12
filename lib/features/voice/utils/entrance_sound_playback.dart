@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -35,8 +36,8 @@ class EntranceSoundPlayer {
     }
     final int generation = ++_generation;
     try {
-      if (_context != kSessionFeedbackSfxContext) {
-        await _player.setAudioContext(kSessionFeedbackSfxContext);
+      if (_context != kSessionFeedbackSfxContext &&
+          await applyAudioPlayerContext(_player, kSessionFeedbackSfxContext)) {
         _context = kSessionFeedbackSfxContext;
       }
       if (generation != _generation) {
