@@ -11260,10 +11260,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildNavbarHelp => 'Súgó';
 
   @override
-  String get scrollIndicatorNew => 'ÚJ';
+  String get scrollIndicatorNew => 'Új';
 
   @override
-  String get scrollIndicatorNewMessage => 'ÚJ ÜZENET';
+  String get scrollIndicatorNewMessages => 'Új üzenetek';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

@@ -11161,10 +11161,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get guildNavbarHelp => 'Trợ giúp';
 
   @override
-  String get scrollIndicatorNew => 'MỚI';
+  String get scrollIndicatorNew => 'Mới';
 
   @override
-  String get scrollIndicatorNewMessage => 'Tin nhắn mới';
+  String get scrollIndicatorNewMessages => 'Tin nhắn mới';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

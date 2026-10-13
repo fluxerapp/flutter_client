@@ -1,12 +1,32 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator_selection.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/locale_upper_case.dart';
 
 enum GuildScrollIndicatorSeverity { unread, mention }
+
+enum GuildScrollIndicatorEdge { top, bottom }
+
+typedef GuildScrollIndicatorCandidate = ({
+  String id,
+  GuildScrollIndicatorSeverity severity,
+  double distance,
+  int order,
+});
+
+const double kGuildScrollIndicatorVisibilityEpsilon = 0.5;
+const double kGuildScrollIndicatorEdgeInset = 8;
+const double _kScrollTargetPadding = 12;
+const double _kPillHitSlop = 10;
+const double _kPillEnterOffset = 10;
+const double _kPillHiddenScale = 0.96;
+const Duration _kPillEnterDuration = Duration(milliseconds: 180);
+const Duration _kPillLeaveDuration = Duration(milliseconds: 160);
+const Color _kUnreadPillColor = Color(0xFF484B51);
 
 typedef GuildScrollIndicatorState = ({
   bool show,
@@ -69,9 +89,6 @@ class GuildScrollIndicatorController {
 
   bool _updateScheduled = false;
   bool _settled = false;
-  double _lastScrollOffset = 0;
-  GuildScrollIndicatorEdge? _preferredEdge;
-  GuildScrollIndicatorEdge? _lastEdge;
 
   void attach() {
     _scrollController.addListener(_onScroll);
@@ -88,15 +105,6 @@ class GuildScrollIndicatorController {
   }
 
   void _onScroll() {
-    if (_scrollController.hasClients) {
-      final double currentOffset = _scrollController.offset;
-      if (currentOffset > _lastScrollOffset + _scrollDirectionEpsilon) {
-        _preferredEdge = GuildScrollIndicatorEdge.bottom;
-      } else if (currentOffset < _lastScrollOffset - _scrollDirectionEpsilon) {
-        _preferredEdge = GuildScrollIndicatorEdge.top;
-      }
-      _lastScrollOffset = currentOffset;
-    }
     scheduleUpdate();
   }
 
@@ -238,89 +246,100 @@ class GuildScrollIndicatorController {
         bottomCandidate = candidate;
       }
     }
-    GuildScrollIndicatorSelection? selection = selectGuildScrollIndicator(
-      topCandidate: topCandidate,
-      bottomCandidate: bottomCandidate,
-      preferredEdge: _preferredEdge,
-      previousEdge: _lastEdge,
-    );
     final bool hideTop = _hideTopWhen?.call(scrollPosition.pixels) ?? false;
-    if (selection?.edge == GuildScrollIndicatorEdge.top && hideTop) {
-      selection = bottomCandidate != null
-          ? (edge: GuildScrollIndicatorEdge.bottom, candidate: bottomCandidate)
-          : null;
-    }
     final bool animate = _settled;
-    GuildScrollIndicatorState stateFor(GuildScrollIndicatorEdge edge) {
-      if (selection == null || selection.edge != edge) {
-        return (
-          show: false,
-          severity: GuildScrollIndicatorSeverity.unread,
-          targetId: null,
-          animate: animate,
-        );
-      }
-      return (
-        show: true,
-        severity: selection.candidate.severity,
-        targetId: selection.candidate.id,
-        animate: animate,
-      );
-    }
-
-    _assign(topIndicator, stateFor(GuildScrollIndicatorEdge.top));
-    _assign(bottomIndicator, stateFor(GuildScrollIndicatorEdge.bottom));
-    if (selection != null) {
-      _lastEdge = selection.edge;
-    }
+    _assign(topIndicator, hideTop ? null : topCandidate, animate);
+    _assign(bottomIndicator, bottomCandidate, animate);
     _settled = true;
   }
 
   static void _assign(
     ValueNotifier<GuildScrollIndicatorState> notifier,
-    GuildScrollIndicatorState next,
+    GuildScrollIndicatorCandidate? candidate,
+    bool animate,
   ) {
+    final GuildScrollIndicatorState next = candidate == null
+        ? (
+            show: false,
+            severity: notifier.value.severity,
+            targetId: null,
+            animate: animate,
+          )
+        : (
+            show: true,
+            severity: candidate.severity,
+            targetId: candidate.id,
+            animate: animate,
+          );
     if (_sameIndicator(notifier.value, next)) {
       return;
     }
     notifier.value = next;
   }
 
-  void scrollTo(String? itemId) {
+  void scrollTo(
+    String? itemId,
+    GuildScrollIndicatorEdge edge, {
+    double obstruction = 0,
+  }) {
     if (itemId == null) {
       return;
     }
-    unawaited(_scrollToward(itemId, _maxScrollToUnbuiltAttempts));
+    unawaited(
+      _scrollToward(itemId, edge, obstruction, _maxScrollToUnbuiltAttempts),
+    );
   }
 
-  Future<void> _scrollToward(String itemId, int attemptsLeft) async {
-    final BuildContext? context = _itemKeys[itemId]?.currentContext;
-    if (context != null) {
-      await Scrollable.ensureVisible(
-        context,
-        duration: context.motion.panel,
-        curve: Curves.easeOut,
-      );
+  Future<void> _scrollToward(
+    String itemId,
+    GuildScrollIndicatorEdge edge,
+    double obstruction,
+    int attemptsLeft,
+  ) async {
+    if (!_canMeasure) {
       return;
     }
-    if (attemptsLeft == 0 || !_canMeasure) {
+    final ScrollPosition position = _scrollController.position;
+    final RenderBox? target = _laidOutBox(_itemKeys[itemId]?.currentContext);
+    if (target != null) {
+      final RenderAbstractViewport viewport = RenderAbstractViewport.of(target);
+      final double padding = obstruction + _kScrollTargetPadding;
+      final double offset = switch (edge) {
+        GuildScrollIndicatorEdge.top =>
+          viewport.getOffsetToReveal(target, 0).offset - padding,
+        GuildScrollIndicatorEdge.bottom =>
+          viewport.getOffsetToReveal(target, 1).offset + padding,
+      };
+      await _animateTo(position, offset);
+      return;
+    }
+    if (attemptsLeft == 0) {
       return;
     }
     final double? offset = _estimatedOffsetOf(itemId);
     if (offset == null) {
       return;
     }
-    final ScrollPosition position = _scrollController.position;
-    await position.animateTo(
-      offset,
-      duration: position.context.storageContext.motion.panel,
-      curve: Curves.easeOut,
-    );
+    await _animateTo(position, offset);
     await WidgetsBinding.instance.endOfFrame;
-    if (!_canMeasure) {
+    await _scrollToward(itemId, edge, obstruction, attemptsLeft - 1);
+  }
+
+  static Future<void> _animateTo(ScrollPosition position, double offset) async {
+    final double clamped = offset.clamp(
+      position.minScrollExtent,
+      position.maxScrollExtent,
+    );
+    final Duration duration = position.context.storageContext.motion.panel;
+    if (duration == Duration.zero) {
+      position.jumpTo(clamped);
       return;
     }
-    await _scrollToward(itemId, attemptsLeft - 1);
+    await position.animateTo(
+      clamped,
+      duration: duration,
+      curve: Curves.easeOut,
+    );
   }
 
   double? _estimatedOffsetOf(String itemId) {
@@ -401,14 +420,16 @@ class GuildScrollIndicatorLayer extends StatelessWidget {
     required this.controller,
     required this.label,
     required this.child,
-    this.topInset = 8,
-    this.bottomInset = 8,
+    this.animated = true,
+    this.topInset = kGuildScrollIndicatorEdgeInset,
+    this.bottomInset = kGuildScrollIndicatorEdgeInset,
     super.key,
   });
 
   final GuildScrollIndicatorController controller;
   final String label;
   final Widget child;
+  final bool animated;
   final double topInset;
   final double bottomInset;
 
@@ -418,28 +439,38 @@ class GuildScrollIndicatorLayer extends StatelessWidget {
       children: [
         child,
         Positioned(
-          top: topInset,
+          top: topInset - _kPillHitSlop,
           left: 0,
           right: 0,
           child: Center(
             child: _GuildScrollIndicatorPill(
               stateListenable: controller.topIndicator,
               label: label,
-              slideUp: true,
-              onTap: controller.scrollTo,
+              edge: GuildScrollIndicatorEdge.top,
+              animated: animated,
+              onTap: (String? targetId) => controller.scrollTo(
+                targetId,
+                GuildScrollIndicatorEdge.top,
+                obstruction: topInset - kGuildScrollIndicatorEdgeInset,
+              ),
             ),
           ),
         ),
         Positioned(
-          bottom: bottomInset,
+          bottom: bottomInset - _kPillHitSlop,
           left: 0,
           right: 0,
           child: Center(
             child: _GuildScrollIndicatorPill(
               stateListenable: controller.bottomIndicator,
               label: label,
-              slideUp: false,
-              onTap: controller.scrollTo,
+              edge: GuildScrollIndicatorEdge.bottom,
+              animated: animated,
+              onTap: (String? targetId) => controller.scrollTo(
+                targetId,
+                GuildScrollIndicatorEdge.bottom,
+                obstruction: bottomInset - kGuildScrollIndicatorEdgeInset,
+              ),
             ),
           ),
         ),
@@ -452,13 +483,15 @@ class _GuildScrollIndicatorPill extends StatelessWidget {
   const _GuildScrollIndicatorPill({
     required this.stateListenable,
     required this.label,
-    required this.slideUp,
+    required this.edge,
+    required this.animated,
     required this.onTap,
   });
 
   final ValueListenable<GuildScrollIndicatorState> stateListenable;
   final String label;
-  final bool slideUp;
+  final GuildScrollIndicatorEdge edge;
+  final bool animated;
   final void Function(String? targetId) onTap;
 
   @override
@@ -466,19 +499,36 @@ class _GuildScrollIndicatorPill extends StatelessWidget {
     return ValueListenableBuilder<GuildScrollIndicatorState>(
       valueListenable: stateListenable,
       builder: (BuildContext context, GuildScrollIndicatorState state, _) {
+        final bool animate =
+            animated && state.animate && context.motion.normal != Duration.zero;
+        final Duration duration = !animate
+            ? Duration.zero
+            : state.show
+            ? _kPillEnterDuration
+            : _kPillLeaveDuration;
+        final Curve curve = state.show
+            ? Curves.easeOutCubic
+            : Curves.easeInOutQuad;
+        final double direction = edge == GuildScrollIndicatorEdge.top ? -1 : 1;
         return IgnorePointer(
           ignoring: !state.show,
           child: AnimatedSlide(
-            offset: Offset(0, state.show ? 0 : (slideUp ? -1 : 1)),
-            duration: state.animate ? context.motion.normal : Duration.zero,
-            curve: Curves.easeOut,
-            child: AnimatedOpacity(
-              opacity: state.show ? 1.0 : 0.0,
-              duration: state.animate ? context.motion.normal : Duration.zero,
-              child: GuildScrollIndicator(
-                severity: state.severity,
-                label: label,
-                onTap: () => onTap(state.targetId),
+            offset: Offset(0, state.show ? 0 : direction * _kPillHiddenSlide),
+            duration: duration,
+            curve: curve,
+            child: AnimatedScale(
+              scale: state.show ? 1 : _kPillHiddenScale,
+              duration: duration,
+              curve: curve,
+              child: AnimatedOpacity(
+                opacity: state.show ? 1.0 : 0.0,
+                duration: duration,
+                curve: curve,
+                child: GuildScrollIndicator(
+                  severity: state.severity,
+                  label: label,
+                  onTap: () => onTap(state.targetId),
+                ),
               ),
             ),
           ),
@@ -487,6 +537,10 @@ class _GuildScrollIndicatorPill extends StatelessWidget {
     );
   }
 }
+
+const double _kPillHeight = 24;
+const double _kPillHiddenSlide =
+    _kPillEnterOffset / (_kPillHeight + 2 * _kPillHitSlop);
 
 class GuildScrollIndicator extends StatelessWidget {
   const GuildScrollIndicator({
@@ -502,39 +556,45 @@ class GuildScrollIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final Color bgColor = switch (severity) {
-      GuildScrollIndicatorSeverity.mention => colors.statusDanger,
-      GuildScrollIndicatorSeverity.unread => colors.textSecondary.withValues(
-        alpha: 0.6,
-      ),
+    final Color background = switch (severity) {
+      GuildScrollIndicatorSeverity.mention => context.colors.statusDanger,
+      GuildScrollIndicatorSeverity.unread => _kUnreadPillColor,
     };
     return FluxerGestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(999),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.45),
-              blurRadius: 6,
-              offset: Offset(0, 4),
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: _kPillHitSlop),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: BorderRadius.circular(999),
+            boxShadow: const <BoxShadow>[
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.75),
+                blurRadius: 20,
+                spreadRadius: -12,
+                offset: Offset(0, 10),
+              ),
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.45),
+                blurRadius: 6,
+                spreadRadius: -2,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Text(
+            localeUpperCase(context, label),
+            maxLines: 1,
+            style: context.textStyles.smallText.copyWith(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              height: 16 / 11,
+              letterSpacing: 0.275,
             ),
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.35),
-              blurRadius: 20,
-              offset: Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Text(
-          label,
-          style: context.textStyles.smallText.copyWith(
-            color: colors.textOnBrandPrimary,
-            fontSize: 11,
-            letterSpacing: 0.3,
           ),
         ),
       ),

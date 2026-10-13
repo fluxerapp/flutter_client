@@ -11155,10 +11155,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get guildNavbarHelp => 'Bantuan';
 
   @override
-  String get scrollIndicatorNew => 'BARU';
+  String get scrollIndicatorNew => 'Baru';
 
   @override
-  String get scrollIndicatorNewMessage => 'PESAN BARU';
+  String get scrollIndicatorNewMessages => 'Pesan baru';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

@@ -11163,10 +11163,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildNavbarHelp => 'Hjelp';
 
   @override
-  String get scrollIndicatorNew => 'NY';
+  String get scrollIndicatorNew => 'Ny';
 
   @override
-  String get scrollIndicatorNewMessage => 'NY MELDING';
+  String get scrollIndicatorNewMessages => 'Nye meldinger';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

@@ -10459,7 +10459,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get scrollIndicatorNew => '新';
 
   @override
-  String get scrollIndicatorNewMessage => '新消息';
+  String get scrollIndicatorNewMessages => '新消息';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
@@ -24483,7 +24483,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get scrollIndicatorNew => '新';
 
   @override
-  String get scrollIndicatorNewMessage => '新訊息';
+  String get scrollIndicatorNewMessages => '新訊息';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

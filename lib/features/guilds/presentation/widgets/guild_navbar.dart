@@ -515,7 +515,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         child: GuildScrollIndicatorLayer(
           controller: _scrollIndicator,
           label: l10n.scrollIndicatorNew,
-          topInset: 8 + topPadding,
+          topInset: kGuildScrollIndicatorEdgeInset + topPadding,
           child: guildListView,
         ),
       ),

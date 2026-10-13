@@ -11254,10 +11254,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildNavbarHelp => 'Pagalba';
 
   @override
-  String get scrollIndicatorNew => 'NAUJA';
+  String get scrollIndicatorNew => 'Nauja';
 
   @override
-  String get scrollIndicatorNewMessage => 'NAUJAS PRANEŠIMAS';
+  String get scrollIndicatorNewMessages => 'Naujos žinutės';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

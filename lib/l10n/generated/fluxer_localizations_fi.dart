@@ -11172,10 +11172,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildNavbarHelp => 'Ohje';
 
   @override
-  String get scrollIndicatorNew => 'UUSI';
+  String get scrollIndicatorNew => 'Uusi';
 
   @override
-  String get scrollIndicatorNewMessage => 'UUSI VIESTI';
+  String get scrollIndicatorNewMessages => 'Uudet viestit';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

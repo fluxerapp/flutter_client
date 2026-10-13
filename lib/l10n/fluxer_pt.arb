@@ -6728,10 +6728,6 @@
     "@scrollIndicatorNew": {
         "description": "Scroll pill shown when unread guilds are off-screen in the guild navbar."
     },
-    "scrollIndicatorNewMessage": "NOVA MENSAGEM",
-    "@scrollIndicatorNewMessage": {
-        "description": "Scroll pill shown when unread channels are off-screen in the channel sidebar."
-    },
     "guildNavbarCollapseFolder": "Recolher {folderName}",
     "@guildNavbarCollapseFolder": {
         "description": "Tooltip when collapsing a guild folder in the navbar.",

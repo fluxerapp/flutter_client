@@ -10677,7 +10677,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get scrollIndicatorNew => '신규';
 
   @override
-  String get scrollIndicatorNewMessage => '새 메시지';
+  String get scrollIndicatorNewMessages => '새 메시지';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

@@ -825,7 +825,7 @@ void main() {
   });
 
   group('GuildSidebar scroll indicator', () {
-    testWidgets('shows NEW MESSAGE when unread channel is off-screen below', (
+    testWidgets('shows NEW MESSAGES when unread channel is off-screen below', (
       tester,
     ) async {
       tester.view.physicalSize = const Size(390, 220);
@@ -870,7 +870,7 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
       }
 
-      final Finder indicator = find.text('NEW MESSAGE');
+      final Finder indicator = find.text('NEW MESSAGES');
       expect(indicator, findsNWidgets(2));
 
       await tester.tap(indicator.last);
@@ -881,7 +881,7 @@ void main() {
     });
 
     testWidgets(
-      'shows only one NEW MESSAGE pill when unread channels exist above and below',
+      'shows a NEW MESSAGES pill at each edge when unread channels exist above and below',
       (tester) async {
         tester.view.physicalSize = const Size(390, 220);
         tester.view.devicePixelRatio = 1;
@@ -939,7 +939,7 @@ void main() {
         final int visibleCount = opacities
             .where((AnimatedOpacity opacity) => opacity.opacity == 1.0)
             .length;
-        expect(visibleCount, 1);
+        expect(visibleCount, 2);
       },
     );
 

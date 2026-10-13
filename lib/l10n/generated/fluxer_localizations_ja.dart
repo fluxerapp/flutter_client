@@ -10693,7 +10693,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get scrollIndicatorNew => '新規';
 
   @override
-  String get scrollIndicatorNewMessage => '新しいメッセージ';
+  String get scrollIndicatorNewMessages => '新着メッセージ';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

@@ -11142,7 +11142,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get scrollIndicatorNew => 'नया';
 
   @override
-  String get scrollIndicatorNewMessage => 'नया संदेश';
+  String get scrollIndicatorNewMessages => 'नए मैसेज';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {

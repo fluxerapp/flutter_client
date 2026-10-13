@@ -401,7 +401,8 @@ class _GuildSidebarChannelListState
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
       child: GuildScrollIndicatorLayer(
         controller: _scrollIndicator,
-        label: FluxerLocalizations.of(context).scrollIndicatorNewMessage,
+        label: FluxerLocalizations.of(context).scrollIndicatorNewMessages,
+        animated: false,
         topInset: kGuildSidebarScrollIndicatorTopInset,
         child: Opacity(
           opacity: _needsScrollClamp ? 0 : 1,

@@ -134,7 +134,7 @@ void main() {
     });
 
     testWidgets(
-      'shows only one indicator when unread items exist above and below viewport',
+      'shows an indicator at each edge when unread items exist above and below viewport',
       (WidgetTester tester) async {
         final scrollController = ScrollController();
         final itemKeys = <String, GlobalKey>{
@@ -164,12 +164,8 @@ void main() {
         await tester.pump();
         indicatorController.update();
 
-        final bool topVisible = indicatorController.topIndicator.value.show;
-        final bool bottomVisible =
-            indicatorController.bottomIndicator.value.show;
-        expect(topVisible || bottomVisible, isTrue);
-        expect(topVisible && bottomVisible, isFalse);
-        expect(indicatorController.bottomIndicator.value.targetId, 'below');
+        _expectShowing(indicatorController.topIndicator.value, 'above');
+        _expectShowing(indicatorController.bottomIndicator.value, 'below');
       },
     );
 
@@ -329,6 +325,7 @@ void main() {
 
       indicatorController.scrollTo(
         indicatorController.bottomIndicator.value.targetId,
+        GuildScrollIndicatorEdge.bottom,
       );
       await tester.pumpAndSettle();
 
