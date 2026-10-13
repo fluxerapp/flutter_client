@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
@@ -217,12 +218,14 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                             border: idleBorder,
                             enabledBorder: idleBorder,
                             disabledBorder: idleBorder,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: radius,
-                              borderSide: BorderSide(
-                                color: colors.brandPrimary,
-                              ),
-                            ),
+                            focusedBorder: isFluxerMobileOs
+                                ? idleBorder
+                                : OutlineInputBorder(
+                                    borderRadius: radius,
+                                    borderSide: BorderSide(
+                                      color: colors.brandPrimary,
+                                    ),
+                                  ),
                           ),
                         );
                       },

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
@@ -1426,7 +1427,9 @@ class _ChannelHeaderSearchFieldState
             color: colors.background,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: _focusNode.hasFocus ? colors.borderFocused : colors.border,
+              color: _focusNode.hasFocus && !isFluxerMobileOs
+                  ? colors.borderFocused
+                  : colors.border,
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),

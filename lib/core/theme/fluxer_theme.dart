@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
@@ -149,7 +150,11 @@ ThemeData buildFluxerTheme({
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: layoutTheme.radiusLg,
-        borderSide: BorderSide(color: colorTheme.backgroundModifierAccentFocus),
+        borderSide: BorderSide(
+          color: isFluxerMobileOs
+              ? colorTheme.backgroundModifierAccent
+              : colorTheme.backgroundModifierAccentFocus,
+        ),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: layoutTheme.radiusLg,
