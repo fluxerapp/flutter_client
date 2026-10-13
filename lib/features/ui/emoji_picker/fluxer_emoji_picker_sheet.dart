@@ -13,11 +13,11 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const Color kReactionPickerScrimColor = Color(0xCC000000);
-const Duration kReactionPickerRiseDuration = Duration(milliseconds: 300);
+const Duration kReactionPickerRiseDuration = Duration(milliseconds: 400);
 const double kReactionPickerRiseStartFraction = 0.558;
 const Curve kReactionPickerRiseSpring = FluxerSpringCurve(
-  stiffness: 1714,
-  damping: 60,
+  stiffness: 900,
+  damping: 42,
   duration: kReactionPickerRiseDuration,
 );
 
