@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -14,7 +16,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'emoji_picker_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+Duration _retryEmojiRegistryLoad(int retryCount, Object error) =>
+    Duration(milliseconds: 200 * (1 << min(retryCount, 5)));
+
+@Riverpod(keepAlive: true, retry: _retryEmojiRegistryLoad)
 Future<void> emojiRegistryLoaded(Ref ref) {
   return EmojiRegistry.ensureLoaded();
 }
