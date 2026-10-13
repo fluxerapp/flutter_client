@@ -74,7 +74,7 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
   Drag drag(DragStartDetails details, VoidCallback dragCancelCallback) {
     _owner = _FluxerSheetDragOwner.none;
     if (pixels < minScrollExtent) {
-      setPixels(minScrollExtent);
+      jumpTo(minScrollExtent);
     }
     return super.drag(details, dragCancelCallback);
   }

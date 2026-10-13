@@ -56,14 +56,25 @@ class FluxerRadioGroup<T> extends StatelessWidget {
         ? FluxerMenuGroup(
             children: [
               for (final item in items)
-                FluxerBottomSheetMenuItem(
-                  label: item.label,
-                  labelColor: item.labelColor,
-                  hint: item.description,
-                  leading: item.leading,
+                Semantics(
                   enabled: item.enabled,
-                  isSelected: value == item.value,
-                  onTap: () => _onChanged(item.value),
+                  checked: value == item.value,
+                  inMutuallyExclusiveGroup: true,
+                  label: item.description != null
+                      ? '${item.label}. ${item.description}'
+                      : item.label,
+                  onTap: item.enabled ? () => _onChanged(item.value) : null,
+                  child: ExcludeSemantics(
+                    child: FluxerBottomSheetMenuItem(
+                      label: item.label,
+                      labelColor: item.labelColor,
+                      hint: item.description,
+                      leading: item.leading,
+                      enabled: item.enabled,
+                      isSelected: value == item.value,
+                      onTap: () => _onChanged(item.value),
+                    ),
+                  ),
                 ),
             ],
           )

@@ -444,7 +444,7 @@ class FluxerBottomSheet {
               final double halfChildSize = cardBackdrop
                   ? scrollableSheetHalfSize.clamp(0, effectiveMaxChildSize)
                   : effectiveMaxChildSize;
-              return _FluxerDraggableScrollableSheet(
+              return FluxerDraggableScrollableSheet(
                 minChildSize: math.min(
                   kFluxerBottomSheetDragMinSize,
                   math.min(minChildSize, effectiveMaxChildSize),
@@ -881,8 +881,8 @@ const double _kDragHandleThickness = 4;
 
 const double _kSheetSizeEpsilon = 0.001;
 
-class _FluxerDraggableScrollableSheet extends StatefulWidget {
-  const _FluxerDraggableScrollableSheet({
+class FluxerDraggableScrollableSheet extends StatefulWidget {
+  const FluxerDraggableScrollableSheet({
     required this.minChildSize,
     required this.maxChildSize,
     required this.halfChildSize,
@@ -902,6 +902,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.bottomScrollPadding,
     required this.sheetContext,
     required this.builder,
+    super.key,
   });
 
   final double minChildSize;
@@ -925,12 +926,12 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
   final FluxerScrollableBottomSheetBuilder builder;
 
   @override
-  State<_FluxerDraggableScrollableSheet> createState() =>
+  State<FluxerDraggableScrollableSheet> createState() =>
       _FluxerDraggableScrollableSheetState();
 }
 
 class _FluxerDraggableScrollableSheetState
-    extends State<_FluxerDraggableScrollableSheet>
+    extends State<FluxerDraggableScrollableSheet>
     with SingleTickerProviderStateMixin
     implements FluxerSheetDragTarget {
   late final AnimationController _size = AnimationController.unbounded(
@@ -976,7 +977,7 @@ class _FluxerDraggableScrollableSheetState
   }
 
   @override
-  void didUpdateWidget(_FluxerDraggableScrollableSheet oldWidget) {
+  void didUpdateWidget(FluxerDraggableScrollableSheet oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.bottomInset <= 0 && widget.bottomInset > 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _expandForKeyboard());
@@ -1128,7 +1129,14 @@ class _FluxerDraggableScrollableSheetState
         padding: EdgeInsets.only(bottom: widget.bottomInset),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final double layoutHeight = math.max(constraints.maxHeight, 160);
+            final double restHeight =
+                math.min(widget.halfChildSize, widget.initialChildSize) *
+                    _available -
+                widget.bottomInset;
+            final double layoutHeight = math.max(
+              constraints.maxHeight,
+              math.max(restHeight, 160),
+            );
             return OverflowBox(
               alignment: Alignment.topCenter,
               minHeight: layoutHeight,
