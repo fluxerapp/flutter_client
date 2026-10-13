@@ -22,6 +22,26 @@ import '../../../../../helpers/pump_fluxer_app.dart';
 
 const Size _kGalleryViewport = Size(400, 520);
 
+Future<void> _waitForPendingItems(
+  WidgetTester tester,
+  ProviderContainer container,
+  int count,
+) async {
+  for (int i = 0; i < 300; i++) {
+    if (container
+            .read(cloudUploadControllerProvider('channel-1'))
+            .items
+            .length >=
+        count) {
+      return;
+    }
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 10)),
+    );
+    await tester.pump();
+  }
+}
+
 void main() {
   testWidgets('loading older photos does not jump the gallery to the top', (
     tester,
@@ -113,12 +133,7 @@ void main() {
     );
 
     source.resolveGate!.complete();
-    for (int i = 0; i < 10; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 10)),
-      );
-      await tester.pump();
-    }
+    await _waitForPendingItems(tester, container, 2);
 
     expect(
       container
@@ -142,12 +157,7 @@ void main() {
     );
 
     await tester.tap(find.byKey(const ValueKey<String>('photo-0')));
-    for (int i = 0; i < 10; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 10)),
-      );
-      await tester.pump();
-    }
+    await _waitForPendingItems(tester, container, 1);
 
     expect(
       container
