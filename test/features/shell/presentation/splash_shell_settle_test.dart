@@ -47,12 +47,12 @@ void main() {
   ) async {
     await _settleAfterExit(tester, zoom: false);
 
-    expect(
+    final Transform transform = tester.widget<Transform>(
       find.descendant(
         of: find.byType(SplashShellSettle),
         matching: find.byType(Transform),
       ),
-      findsNothing,
     );
+    expect(transform.transform, Matrix4.identity());
   });
 }

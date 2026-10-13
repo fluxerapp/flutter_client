@@ -176,14 +176,17 @@ void main() {
 
     expect(tester.takeException(), isNull);
     expect(container.read(splashRevealCompleteProvider), isTrue);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('cold launch reveal plays the logo zoom', (tester) async {
     expect(await _revealCompleteAfter(tester, switching: false), isFalse);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('account switch reveal skips the logo zoom', (tester) async {
     expect(await _revealCompleteAfter(tester, switching: true), isTrue);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('503 startup shows outage copy and status links', (tester) async {
@@ -206,6 +209,7 @@ void main() {
     expect(find.text(testL10n.splashStatusPageLink), findsOneWidget);
     expect(find.text(testL10n.retry), findsOneWidget);
     expect(find.textContaining('Failed to start'), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('503 outage shows switch accounts when other accounts exist', (
@@ -228,6 +232,7 @@ void main() {
 
     expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
     expect(find.text('fluxer.com'), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets(
@@ -252,6 +257,7 @@ void main() {
 
       expect(find.textContaining('Failed to start'), findsOneWidget);
       expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     },
   );
 
@@ -276,6 +282,7 @@ void main() {
 
       expect(find.textContaining('Failed to start'), findsOneWidget);
       expect(find.text('Connection lost'), findsNothing);
+      await releaseTestWidgetTree(tester);
     },
   );
 
@@ -316,6 +323,7 @@ void main() {
       ),
       findsWidgets,
     );
+    await releaseTestWidgetTree(tester);
     handle.dispose();
   });
 }
