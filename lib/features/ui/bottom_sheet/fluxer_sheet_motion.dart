@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:go_router/go_router.dart';
 
 const double kFluxerSheetOvershootBleed = 48;
 
@@ -75,6 +77,8 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   final ValueNotifier<bool> _inputLocked;
   bool _travelFlushScheduled = false;
   double _pendingTravel = 1;
+  GoRouter? _router;
+  String? _routerPath;
 
   bool get isEntering => _inputLocked.value;
 
@@ -84,6 +88,13 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
     animation?.addListener(_syncInputLock);
     animation?.addStatusListener(_syncInputLockStatus);
     _syncInputLock();
+    final NavigatorState? nav = navigator;
+    final GoRouter? router = nav == null ? null : GoRouter.maybeOf(nav.context);
+    if (router != null) {
+      _router = router;
+      _routerPath = _currentRouterPath(router);
+      router.routerDelegate.addListener(_handleRouterChange);
+    }
   }
 
   void _syncInputLock() {
@@ -105,6 +116,28 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   }
 
   void _syncInputLockStatus(AnimationStatus status) => _syncInputLock();
+
+  static String _currentRouterPath(GoRouter router) {
+    return router.routerDelegate.currentConfiguration.uri.path;
+  }
+
+  void _handleRouterChange() {
+    final GoRouter? router = _router;
+    if (router == null) {
+      return;
+    }
+    final String path = _currentRouterPath(router);
+    if (path.isEmpty || path == _routerPath) {
+      return;
+    }
+    _detachRouter();
+    scheduleMicrotask(closeSelf);
+  }
+
+  void _detachRouter() {
+    _router?.routerDelegate.removeListener(_handleRouterChange);
+    _router = null;
+  }
 
   void closeSelf([T? result]) {
     final NavigatorState? nav = navigator;
@@ -186,6 +219,7 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
 
   @override
   void dispose() {
+    _detachRouter();
     animation?.removeListener(_syncInputLock);
     animation?.removeStatusListener(_syncInputLockStatus);
     _scrimTravel.dispose();
