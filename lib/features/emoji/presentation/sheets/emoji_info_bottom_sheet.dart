@@ -34,7 +34,6 @@ class EmojiInfoBottomSheet {
     FluxerHaptics.medium();
     return FluxerBottomSheet.show<void>(
       context,
-      maxHeight: 0.45,
       showDragHandle: false,
       barrierColor: kEmojiInfoScrimColor,
       builder: (sheetContext, close) {
