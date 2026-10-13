@@ -58,7 +58,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kBannerHeight = 184;
 const double _kAvatarSize = 80;
-const double _kAvatarRingWidth = 6;
+const double _kAvatarRingWidth = 3.2;
 const double _kAvatarOverlap = _kAvatarSize / 2 + _kAvatarRingWidth;
 
 class UserProfileView extends ConsumerStatefulWidget {
