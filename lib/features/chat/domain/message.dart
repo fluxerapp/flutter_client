@@ -546,9 +546,6 @@ class MessageSticker {
   String urlForSize(int size) =>
       FluxerMediaUrl.sticker(id: id, animated: animated, size: size);
 
-  String cacheKeyForSize(int size) =>
-      'message_sticker_${id}_${animated ? 'a' : 's'}_$size';
-
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
