@@ -26,14 +26,17 @@ String guildAcronym(String name) {
 
 int guildAcronymLength(String acronym) => acronym.characters.length;
 
+const double kGuildAcronymFitPadding = 4;
+const List<double> _kReferenceFontSizes = <double>[16, 14, 12];
+
 double _referenceFontSize(int acronymLength) {
   if (acronymLength <= 2) {
-    return 16;
+    return _kReferenceFontSizes[0];
   }
   if (acronymLength <= 4) {
-    return 14;
+    return _kReferenceFontSizes[1];
   }
-  return 12;
+  return _kReferenceFontSizes[2];
 }
 
 double _iconScale(double iconSize) {
@@ -51,4 +54,36 @@ double guildAcronymFontSize(int acronymLength, double iconSize) {
     _referenceFontSize(acronymLength) * _iconScale(iconSize),
     kGuildAcronymMinFontSize,
   );
+}
+
+double guildAcronymFitWidth(double iconSize) {
+  final double padding =
+      kGuildAcronymFitPadding * math.min(_iconScale(iconSize), 1);
+  return math.max(iconSize - padding * 2, 0);
+}
+
+double fitGuildAcronymFontSize({
+  required int acronymLength,
+  required double iconSize,
+  required double Function(double fontSize) measureWidth,
+}) {
+  final double available = guildAcronymFitWidth(iconSize);
+  final double scale = _iconScale(iconSize);
+  final double start = _referenceFontSize(acronymLength);
+  double fontSize = guildAcronymFontSize(acronymLength, iconSize);
+  double width = measureWidth(fontSize);
+  for (final double reference in _kReferenceFontSizes) {
+    if (width <= available || fontSize <= kGuildAcronymMinFontSize) {
+      return fontSize;
+    }
+    if (reference >= start) {
+      continue;
+    }
+    fontSize = math.max(reference * scale, kGuildAcronymMinFontSize);
+    width = measureWidth(fontSize);
+  }
+  if (width <= available || width <= 0) {
+    return fontSize;
+  }
+  return math.max(fontSize * available / width, kGuildAcronymMinFontSize);
 }
