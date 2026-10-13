@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -17,6 +18,7 @@ import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
+import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
 
 class _TouchPrimaryModality extends InputModalityNotifier {
@@ -78,9 +80,11 @@ Widget _touchAppWithFavorites(Widget child) {
 }
 
 Widget _mouseAppWithFavorites(Widget child) {
+  final database = fluxerDatabaseProvider.overrideWithValue(openTestDatabase());
   return ProviderScope(
     overrides: [
       inputModalityProvider.overrideWith(_MousePrimaryModality.new),
+      database,
       favoriteMemesProvider.overrideWith(
         (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
       ),
@@ -308,6 +312,7 @@ void main() {
       await tester.pump();
 
       expect(find.byTooltip('Add to favorites'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('uses touch gesture page when touch is primary', (

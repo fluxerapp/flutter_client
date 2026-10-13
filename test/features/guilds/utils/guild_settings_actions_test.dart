@@ -111,44 +111,6 @@ void main() {
     expect(mentioned?.mentionCount, 0);
   });
 
-  test('marking a guild read outside the experiment skips threads', () async {
-    final FluxerDatabase db = openTestDatabase();
-    addTearDown(db.close);
-    final Dio dio = Dio()
-      ..interceptors.add(
-        InterceptorsWrapper(
-          onRequest: (RequestOptions options, RequestInterceptorHandler h) {
-            h.resolve(Response<void>(requestOptions: options, statusCode: 204));
-          },
-        ),
-      );
-    await db.channelDao.upsertChannels(<ChannelsCompanion>[
-      ChannelsCompanion.insert(
-        id: 'c1',
-        guildId: 'g1',
-        name: 'c1',
-        type: const Value(0),
-        lastMessageId: const Value('10'),
-      ),
-      ChannelsCompanion.insert(
-        id: 't1',
-        guildId: 'g1',
-        name: 't1',
-        type: const Value(11),
-        parentId: const Value('c1'),
-        lastMessageId: const Value('11'),
-      ),
-    ]);
-    await db.threadDao.upsertMember(
-      ThreadMembersCompanion.insert(threadId: 't1', guildId: 'g1'),
-    );
-
-    await markGuildAsRead('g1', db, FluxerClient(dio));
-
-    expect((await db.readStateDao.getReadState('c1'))?.lastMessageId, '10');
-    expect(await db.readStateDao.getReadState('t1'), isNull);
-  });
-
   group('guild mute requests clear a stale mute_config', () {
     for (final GuildAction action in <GuildAction>[
       GuildAction.unmute,

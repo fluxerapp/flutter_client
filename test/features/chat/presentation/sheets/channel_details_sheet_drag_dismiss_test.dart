@@ -103,9 +103,7 @@ void main() {
     );
     expect(_handle, findsOneWidget);
 
-    // Full-height scrollable sheets snap between half and full. Closing the
-    // handle requires releasing below the half mark.
-    await tester.drag(_handle, const Offset(0, 300));
+    await tester.drag(_handle, const Offset(0, 440));
     await tester.pumpAndSettle();
 
     expect(_handle, findsNothing);
@@ -125,7 +123,7 @@ void main() {
     );
 
     final RenderBox sheetBox = tester.renderObject(
-      find.byType(DraggableScrollableSheet),
+      find.byType(FluxerDraggableScrollableSheet),
     );
     await tester.drag(
       _handle,

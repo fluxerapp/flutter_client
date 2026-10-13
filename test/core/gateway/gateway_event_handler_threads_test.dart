@@ -897,22 +897,15 @@ void main() {
 
   group('announcement threads', () {
     test(
-      'READY without threads keeps the announcement channel and drops type 10',
+      'READY without threads keeps the announcement channel and stores type 10 creates',
       () async {
         final _Harness h = _build();
-        await _ready(
-          h.handler,
-          withThreads: false,
-          threads: <Map<String, Object?>>[
-            _thread(_threadId, parentId: _announcementId, type: 10),
-          ],
-        );
+        await _ready(h.handler, withThreads: false);
 
         expect(
           (await h.database.channelDao.getChannelById(_announcementId))?.type,
           5,
         );
-        expect(await h.database.channelDao.getChannelById(_threadId), isNull);
 
         await h.handler.handle(
           ThreadCreateEvent(
@@ -924,11 +917,11 @@ void main() {
         );
         await Future<void>.delayed(const Duration(milliseconds: 20));
 
-        expect(
-          await h.database.channelDao.getChannelById(_otherThreadId),
-          isNull,
+        final Channel? thread = await h.database.channelDao.getChannelById(
+          _otherThreadId,
         );
-        expect(await h.database.threadDao.getMember(_otherThreadId), isNull);
+        expect(thread?.type, 10);
+        expect(thread?.parentId, _announcementId);
       },
     );
 

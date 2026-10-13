@@ -3601,7 +3601,10 @@ void main() {
       await pumpFluxerFrames(tester);
 
       final ScrollPosition scrolled = messageListScrollPosition(tester);
-      await tester.drag(messageListScrollable(), const Offset(0, 400));
+      await tester.drag(
+        messageListScrollable(),
+        const Offset(0, kJumpToBottomDistance + 100),
+      );
       await pumpFluxerFrames(tester);
       expect(
         scrolled.maxScrollExtent - scrolled.pixels,

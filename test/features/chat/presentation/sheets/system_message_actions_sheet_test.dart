@@ -130,6 +130,7 @@ void main() {
       expect(find.text('Bookmark message'), findsNothing);
       expect(find.text('Report message'), findsNothing);
       expect(find.text('Copy message'), findsNothing);
+      await releaseTestWidgetTree(tester);
     },
   );
 
@@ -183,5 +184,6 @@ void main() {
     expect(clipboardWrites, [
       l10n.systemPreviewChangedChannelNameTo('Author', 'renamed-channel'),
     ]);
+    await releaseTestWidgetTree(tester);
   });
 }

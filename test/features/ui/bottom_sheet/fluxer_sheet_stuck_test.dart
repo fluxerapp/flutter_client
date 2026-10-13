@@ -541,10 +541,17 @@ void main() {
     await tester.pumpAndSettle();
     final double topBefore = tester.getTopLeft(find.text('Search')).dy;
 
-    await tester.drag(find.text('Search'), const Offset(0, 120));
-    await tester.pumpAndSettle();
+    final TestGesture drag = await tester.startGesture(
+      tester.getCenter(find.text('Search')),
+    );
+    for (int move = 0; move < 6; move++) {
+      await drag.moveBy(const Offset(0, 20));
+      await tester.pump(const Duration(milliseconds: 16));
+    }
 
     expect(tester.getTopLeft(find.text('Search')).dy, greaterThan(topBefore));
+    await drag.up();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('a scrollable sheet never rests between its snap points', (

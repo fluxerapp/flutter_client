@@ -131,7 +131,7 @@ void main() {
     await _openPage(tester, container);
 
     expect(find.byType(ChannelSearchPage), findsOneWidget);
-    expect(find.byType(DraggableScrollableSheet), findsNothing);
+    expect(find.byType(FluxerDraggableScrollableSheet), findsNothing);
     expect(find.byType(FluxerBottomSheetDragHandle), findsNothing);
 
     final FluxerLocalizations l10n = FluxerLocalizations.of(
@@ -171,7 +171,7 @@ void main() {
 
     expect(find.byType(MessagePreviewTile), findsWidgets);
     expect(find.byType(ListView), findsWidgets);
-    expect(find.byType(DraggableScrollableSheet), findsNothing);
+    expect(find.byType(FluxerDraggableScrollableSheet), findsNothing);
   });
 
   testWidgets('search result labels name the channel without a timestamp', (

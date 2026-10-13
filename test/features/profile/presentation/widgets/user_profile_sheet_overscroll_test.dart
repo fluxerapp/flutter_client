@@ -97,12 +97,6 @@ Future<void> _expectNoOverscrollHeldAboveTop(
   }
   expect(position.pixels, greaterThan(0));
 
-  double minPixels = position.pixels;
-  void trackMinPixels() {
-    minPixels = math.min(minPixels, position.pixels);
-  }
-
-  position.addListener(trackMinPixels);
   await tester.fling(scrollView, const Offset(0, 300), 5000);
   for (int frame = 0; frame < 8; frame++) {
     await tester.pump(const Duration(milliseconds: 16));
@@ -111,6 +105,15 @@ Future<void> _expectNoOverscrollHeldAboveTop(
   final TestGesture hold = await tester.startGesture(
     tester.getCenter(scrollView),
   );
+  await hold.moveBy(const Offset(0, 24));
+  await tester.pump(const Duration(milliseconds: 16));
+
+  double minPixels = position.pixels;
+  void trackMinPixels() {
+    minPixels = math.min(minPixels, position.pixels);
+  }
+
+  position.addListener(trackMinPixels);
   for (int move = 0; move < 3; move++) {
     await hold.moveBy(const Offset(0, 12));
     await tester.pump(const Duration(milliseconds: 16));

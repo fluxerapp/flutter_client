@@ -143,6 +143,7 @@ void main() {
     await tester.tapAt(_contentCenter(tester));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.text(testL10n.retry), findsOneWidget);
     expect(find.text(testL10n.chatMessageDeleteFailed), findsOneWidget);

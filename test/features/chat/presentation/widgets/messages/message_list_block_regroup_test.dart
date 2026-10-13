@@ -135,9 +135,14 @@ void main() {
       'swap post 0 line 0',
       findRichText: true,
     );
+    final Finder olderRow = find.textContaining(
+      'older chatter 13',
+      findRichText: true,
+    );
     for (int attempt = 0; attempt < 40; attempt += 1) {
       final double top = tester.getRect(messageListScrollable()).top;
       if (firstPost.hitTestable().evaluate().isNotEmpty &&
+          olderRow.hitTestable().evaluate().isNotEmpty &&
           tester.getRect(firstPost).top > top + 20 &&
           tester.getRect(firstPost).top < top + 200) {
         break;
@@ -149,9 +154,7 @@ void main() {
     final Rect postRect = tester.getRect(firstPost);
     expect(postRect.top, greaterThan(viewport.top));
     expect(postRect.top, lessThan(viewport.top + 200));
-    final Rect olderRect = tester.getRect(
-      find.textContaining('older chatter 13', findRichText: true),
-    );
+    final Rect olderRect = tester.getRect(olderRow);
     final ScrollPosition before = messageListScrollPosition(tester);
     expect(before.pixels, greaterThan(before.minScrollExtent + 1));
     final bool nearTailBefore = _nearLoadedTail(tester);

@@ -56,7 +56,12 @@ void main() {
       expect(find.text('content'), findsOneWidget);
     });
 
-    testWidgets('renders divider when isFirst is false', (tester) async {
+    testWidgets('renders divider when isFirst is false on desktop', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
       await tester.pumpWidget(
         buildTestApp(
           const Column(
@@ -73,6 +78,28 @@ void main() {
       );
 
       expect(find.byType(Divider), findsOneWidget);
+    });
+
+    testWidgets('mobile sections stack as groups without dividers', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const Column(
+            children: [
+              FluxerSettingsSection(
+                title: 'First',
+                isFirst: true,
+                children: [Text('a')],
+              ),
+              FluxerSettingsSection(title: 'Second', children: [Text('b')]),
+            ],
+          ),
+        ),
+      );
+
+      expect(find.text('Second'), findsOneWidget);
+      expect(find.byType(Divider), findsNothing);
     });
 
     testWidgets('does not render divider when isFirst is true', (tester) async {

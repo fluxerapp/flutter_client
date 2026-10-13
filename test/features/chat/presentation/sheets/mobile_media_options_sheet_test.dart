@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -19,6 +20,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
 const String _testAttachmentUrl =
@@ -30,8 +32,12 @@ const String _externalEmbedUrl =
 
 Widget _wrap(Widget child, {List<Override> overrides = const []}) {
   final colorTheme = buildDarkColorTheme();
+  final Override database = fluxerDatabaseProvider.overrideWithValue(
+    openTestDatabase(),
+  );
   return ProviderScope(
     overrides: <Override>[
+      database,
       favoriteMemesProvider.overrideWith(
         (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
       ),

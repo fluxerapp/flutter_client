@@ -78,9 +78,11 @@ void main() {
   List<Override> baseOverrides(
     String messageId, {
     bool translationAvailable = false,
+    FluxerDatabase? database,
     List<Override> extra = const [],
   }) {
     return <Override>[
+      fluxerDatabaseProvider.overrideWithValue(database ?? openTestDatabase()),
       isMessageSavedProvider(
         messageId,
       ).overrideWith((ref) => Stream<bool>.value(false)),
@@ -151,11 +153,12 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      final DraggableScrollableSheet sheet = tester.widget(
-        find.byType(DraggableScrollableSheet),
+      final FluxerDraggableScrollableSheet sheet = tester.widget(
+        find.byType(FluxerDraggableScrollableSheet),
       );
       expect(sheet.initialChildSize, FluxerBottomSheet.scrollableSheetHalfSize);
       expect(sheet.maxChildSize, FluxerBottomSheet.scrollableSheetSize);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('shows delete and edit alt text for own attachments', (
@@ -212,6 +215,7 @@ void main() {
 
       expect(deletedAttachment, isNotNull);
       expect(deletedAttachment!.id, 'att-1');
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('hides delete attachment when preference is disabled', (
@@ -249,6 +253,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Delete attachment'), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -302,6 +307,7 @@ void main() {
       labels.indexOf(testL10n.chatMessageViewReactions),
       lessThan(labels.indexOf(testL10n.chatMessageTranslate)),
     );
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('hides Translate when the message is in the app language', (
@@ -343,6 +349,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text(testL10n.chatMessageTranslate), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('hides Translate for a custom-emoji-only message, fixes #698', (
@@ -387,6 +394,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text(testL10n.chatMessageTranslate), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('hides Translate for a klipy gif url-only message', (
@@ -431,6 +439,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text(testL10n.chatMessageTranslate), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('hides Translate when no source is available', (tester) async {
@@ -466,6 +475,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text(testL10n.chatMessageTranslate), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
 
   group('copy embed text', () {
@@ -508,6 +518,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text(testL10n.chatMessageCopyEmbedText), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('hides the item for media-only embeds', (tester) async {
@@ -519,6 +530,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text(testL10n.chatMessageCopyEmbedText), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -562,6 +574,7 @@ void main() {
       await tester.pump();
       expect(forwarded, isTrue);
       await dispatched;
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('bookmarking a message shows a success toast', (tester) async {
@@ -573,8 +586,8 @@ void main() {
         ProviderScope(
           overrides: baseOverrides(
             message.id,
+            database: database,
             extra: <Override>[
-              fluxerDatabaseProvider.overrideWithValue(database),
               savedMessagesRepositoryProvider.overrideWithValue(
                 _FakeSavedMessagesRepository(database),
               ),
@@ -612,6 +625,7 @@ void main() {
         testL10n.savedMessagesAddedToast,
       );
       await tester.pump(const Duration(seconds: 5));
+      await releaseTestWidgetTree(tester);
     });
   });
 }

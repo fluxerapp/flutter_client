@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/member.dart' show MemberRole;
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/status_change_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_loading_skeleton.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_view.dart';
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
@@ -292,9 +293,7 @@ void main() {
     FluxerHaptics.enabled = true;
   });
 
-  testWidgets('profile tab avatar tap opens the same menu as display name', (
-    tester,
-  ) async {
+  testWidgets('profile tab avatar tap opens the status sheet', (tester) async {
     final ScrollController scrollController = ScrollController();
     addTearDown(scrollController.dispose);
     tester.view.physicalSize = const Size(1400, 1200);
@@ -307,15 +306,15 @@ void main() {
     await tester.pumpWidget(_buildApp(scrollController));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ProfileTabMenuSheetBody), findsNothing);
+    expect(find.byType(StatusChangeSheetBody), findsNothing);
     await tester.tap(find.byType(FluxerAvatar));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ProfileTabMenuSheetBody), findsOneWidget);
-    expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
+    expect(find.byType(StatusChangeSheetBody), findsOneWidget);
+    expect(find.byType(ProfileTabMenuSheetBody), findsNothing);
   });
 
-  testWidgets('profile avatar is 80pt inside a 6pt sheet-coloured ring', (
+  testWidgets('profile avatar is 80pt inside a 3.2pt sheet-coloured ring', (
     tester,
   ) async {
     final ScrollController scrollController = ScrollController();
@@ -342,12 +341,10 @@ void main() {
           )
           .first,
     );
-    expect(ring.padding, const EdgeInsets.all(6));
+    expect(ring.padding, const EdgeInsets.all(3.2));
   });
 
-  testWidgets('profile tab status tap opens the same menu as display name', (
-    tester,
-  ) async {
+  testWidgets('profile tab status tap opens the status sheet', (tester) async {
     final ScrollController scrollController = ScrollController();
     addTearDown(scrollController.dispose);
     tester.view.physicalSize = const Size(1400, 1200);
@@ -360,12 +357,12 @@ void main() {
     await tester.pumpWidget(_buildApp(scrollController));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ProfileTabMenuSheetBody), findsNothing);
+    expect(find.byType(StatusChangeSheetBody), findsNothing);
     await tester.tap(find.byType(FluxerStatusIndicator).first);
     await tester.pumpAndSettle();
 
-    expect(find.byType(ProfileTabMenuSheetBody), findsOneWidget);
-    expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
+    expect(find.byType(StatusChangeSheetBody), findsOneWidget);
+    expect(find.byType(ProfileTabMenuSheetBody), findsNothing);
   });
 
   testWidgets(

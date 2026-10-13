@@ -90,6 +90,7 @@ void main() {
 
       expect(find.byType(GuildSidebarSkeleton), findsOneWidget);
       expect(find.text('general'), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -115,6 +116,7 @@ void main() {
       expect(find.text('My Category'), findsOneWidget);
       expect(find.text('general'), findsOneWidget);
       expect(find.text('random'), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('keeps the selected channel even when it is read', (
@@ -135,6 +137,7 @@ void main() {
 
       expect(find.text('random'), findsOneWidget);
       expect(find.text('general'), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -163,6 +166,7 @@ void main() {
 
       expect(find.byType(ChannelUnreadIndicator), findsOneWidget);
       expect(find.byType(FluxerBadge), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('selected row is a 38pt box inset 8pt with an 8pt radius', (
@@ -203,6 +207,7 @@ void main() {
       expect(box.height, 38);
       expect(weightOf('random'), FontWeight.w600);
       expect(weightOf('general'), FontWeight.w500);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('hides unread and mention indicators on wide layout', (
@@ -229,6 +234,7 @@ void main() {
 
       expect(find.byType(ChannelUnreadIndicator), findsNothing);
       expect(find.byType(FluxerBadge), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -274,6 +280,7 @@ void main() {
       );
       expect((pill.decoration! as BoxDecoration).border, isNull);
       expect(find.byType(FluxerBadgeEntrance), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -303,6 +310,7 @@ void main() {
 
       expect(find.text('general'), findsOneWidget);
       expect(find.text('random'), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -341,6 +349,7 @@ void main() {
 
       expect(find.text('uncategorized'), findsOneWidget);
       expect(find.text('Channels'), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -376,6 +385,7 @@ void main() {
       expect(dy('Mute channel'), lessThan(dy('Notification settings')));
       expect(dy('Notification settings'), lessThan(dy('Copy channel ID')));
       expect(dy('Copy channel ID'), lessThan(dy('Delete my messages')));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('tablet channel menu opens near the pressed row', (
@@ -409,6 +419,7 @@ void main() {
       expect(menuTopLeft.dx, greaterThan(channelCenter.dx - 40));
       expect(menuTopLeft.dy, greaterThan(channelCenter.dy - 40));
       expect((menuTopLeft - channelCenter).distance, lessThan(280));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('channel menu shows mark as read when channel is unread', (
@@ -434,6 +445,7 @@ void main() {
       expect(find.text('Mark as read'), findsOneWidget);
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Mark as read'), lessThan(dy('Copy link')));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('channel menu shows invite people when permitted', (
@@ -460,6 +472,7 @@ void main() {
       expect(find.text('Invite people'), findsOneWidget);
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Invite people'), lessThan(dy('Copy link')));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('voice channel menu shows open chat and delete my messages', (
@@ -481,6 +494,7 @@ void main() {
 
       expect(find.text('Open chat'), findsOneWidget);
       expect(find.text('Delete my messages'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('category menu shows mute, copy id, and mark read actions', (
@@ -509,6 +523,7 @@ void main() {
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Mark as read'), lessThan(dy('Mute category')));
       expect(dy('Mute category'), lessThan(dy('Copy category ID')));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('channel menu shows "Delete channel" for managers', (
@@ -537,6 +552,7 @@ void main() {
       expect(dy('Duplicate channel'), lessThan(dy('Copy channel ID')));
       expect(dy('Copy channel ID'), lessThan(dy('Delete channel')));
       expect(dy('Delete channel'), lessThan(dy('Delete my messages')));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('edit channel opens channel settings', (tester) async {
@@ -574,6 +590,7 @@ void main() {
       expect(find.text('general'), findsOneWidget);
       expect(find.text('Overview'), findsOneWidget);
       expect(find.text('Coming soon'), findsNothing);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('channel menu shows Debug Channel in developer mode', (
@@ -595,6 +612,7 @@ void main() {
       await _pumpSidebar(tester);
 
       expect(find.text('Debug channel'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('category menu shows Debug Category in developer mode', (
@@ -616,6 +634,7 @@ void main() {
       await _pumpSidebar(tester);
 
       expect(find.text('Debug category'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('link channel menu shows Open Link', (tester) async {
@@ -657,6 +676,7 @@ void main() {
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Open link'), lessThan(dy('Copy redirect link')));
       expect(dy('Copy redirect link'), lessThan(dy('Copy channel link')));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('adding a favorite from the channel menu shows a toast', (
@@ -693,6 +713,7 @@ void main() {
       expect(toasts.single.toast.variant, FluxerToastVariant.success);
 
       await tester.pump(const Duration(seconds: 5));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('removing a favorite from the channel menu shows a toast', (
@@ -733,6 +754,7 @@ void main() {
       expect(toasts.single.toast.variant, FluxerToastVariant.success);
 
       await tester.pump(const Duration(seconds: 5));
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -762,6 +784,7 @@ void main() {
       );
       final String asset = (svg.bytesLoader as SvgAssetLoader).assetName;
       expect(asset, contains('voice_no_connect'));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('shows default voice icon while connect bits are unresolved', (
@@ -790,6 +813,7 @@ void main() {
       final String asset = (svg.bytesLoader as SvgAssetLoader).assetName;
       expect(asset, contains('voice.svg'));
       expect(asset, isNot(contains('voice_no_connect')));
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('shows default voice icon when connect is allowed', (
@@ -821,6 +845,7 @@ void main() {
       final String asset = (svg.bytesLoader as SvgAssetLoader).assetName;
       expect(asset, contains('voice.svg'));
       expect(asset, isNot(contains('voice_no_connect')));
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -878,6 +903,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 250));
 
       expect(find.text('channel-20'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets(
@@ -940,6 +966,7 @@ void main() {
             .where((AnimatedOpacity opacity) => opacity.opacity == 1.0)
             .length;
         expect(visibleCount, 2);
+        await releaseTestWidgetTree(tester);
       },
     );
 
@@ -1031,6 +1058,7 @@ void main() {
           40,
         );
         expect(_visibleScrollIndicatorCount(tester), 1);
+        await releaseTestWidgetTree(tester);
       },
     );
   });
@@ -1114,6 +1142,7 @@ void main() {
       await pumpSidebar();
 
       expect(find.text('channel-20'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('restores channel list scroll after switching guilds', (
@@ -1246,6 +1275,7 @@ void main() {
         ..invalidate(channelListViewModelProvider);
       await pumpSidebar();
       expect(find.text('channel-20'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -1278,6 +1308,7 @@ void main() {
         await tester.pump();
 
         expect(find.text('general'), findsOneWidget);
+        await releaseTestWidgetTree(tester);
       },
     );
   });
