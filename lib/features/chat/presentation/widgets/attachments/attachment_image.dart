@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -8,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
@@ -134,7 +134,6 @@ class AttachmentImage extends ConsumerWidget {
                                   effectiveUrl,
                                 ),
                                 staticUrl: staticEmbedImageUrl(effectiveUrl),
-                                fit: BoxFit.contain,
                                 placeholder: _buildImagePlaceholder(context),
                                 errorPlaceholder:
                                     const MediaLoadErrorPlaceholder(),
@@ -208,20 +207,12 @@ class AttachmentImage extends ConsumerWidget {
   }
 
   Widget _buildImagePlaceholder(BuildContext context) {
-    final Widget child;
-    if (attachment.placeholder != null) {
-      child = Image(
-        image: ThumbHash.fromBase64(attachment.placeholder!).toImage(),
-        fit: BoxFit.contain,
-      );
-    } else {
-      child = const Skeletonizer(
-        child: SizedBox(height: double.maxFinite, width: double.maxFinite),
-      );
-    }
     return ColoredBox(
       color: context.colors.backgroundSecondaryAlt,
-      child: child,
+      child: MediaThumbHashPlaceholder(
+        thumbHash: attachment.placeholder,
+        fallback: const Skeletonizer(child: SizedBox.expand()),
+      ),
     );
   }
 
@@ -262,6 +253,7 @@ class _AttachmentStaticImage extends StatelessWidget {
       height: displaySize.height,
       memCacheWidth: (displaySize.width * devicePixelRatio).round(),
       memCacheHeight: (displaySize.height * devicePixelRatio).round(),
+      fit: BoxFit.cover,
       placeholder: placeholder,
       errorPlaceholder: const MediaLoadErrorPlaceholder(),
     );

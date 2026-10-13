@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/utils/media/chat_video_hdr_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.dart';
@@ -471,63 +471,50 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
 
   Widget _buildPoster() {
     final ChatVideoSource source = widget.source;
-    final String? placeholder = source.placeholder;
     final String? posterUrl = source.posterUrl;
-    final Widget base = placeholder != null && placeholder.isNotEmpty
-        ? Image(
-            image: ThumbHash.fromBase64(placeholder).toImage(),
-            fit: widget.posterFit,
-          )
-        : ColoredBox(
-            color: Colors.black,
-            child: Center(
-              child: Icon(
-                Icons.videocam_rounded,
-                color: Colors.white.withValues(alpha: 0.5),
-                size: 38,
-              ),
-            ),
-          );
+    final Widget base = MediaThumbHashPlaceholder(
+      thumbHash: source.placeholder,
+      fallback: ColoredBox(
+        color: Colors.black,
+        child: Center(
+          child: Icon(
+            Icons.videocam_rounded,
+            color: Colors.white.withValues(alpha: 0.5),
+            size: 38,
+          ),
+        ),
+      ),
+    );
     if (posterUrl == null) {
       return base;
     }
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        base,
-        Positioned.fill(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final double dpr = MediaQuery.devicePixelRatioOf(context);
-              final cache = widget.posterFit == BoxFit.cover
-                  ? coverDecodeCacheSize(
-                      cellWidth: constraints.maxWidth,
-                      cellHeight: constraints.maxHeight,
-                      devicePixelRatio: dpr,
-                      sourceWidth: widget.source.width,
-                      sourceHeight: widget.source.height,
-                    )
-                  : containDecodeCacheSize(
-                      cellWidth: constraints.maxWidth,
-                      cellHeight: constraints.maxHeight,
-                      devicePixelRatio: dpr,
-                      sourceWidth: widget.source.width,
-                      sourceHeight: widget.source.height,
-                    );
-              return CachedNetworkImage(
-                imageUrl: posterUrl,
-                fit: widget.posterFit,
-                memCacheWidth: cache.width,
-                memCacheHeight: cache.height,
-                fadeInDuration: Duration.zero,
-                fadeOutDuration: Duration.zero,
-                placeholder: (_, _) => const SizedBox.shrink(),
-                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double dpr = MediaQuery.devicePixelRatioOf(context);
+        final cache = widget.posterFit == BoxFit.cover
+            ? coverDecodeCacheSize(
+                cellWidth: constraints.maxWidth,
+                cellHeight: constraints.maxHeight,
+                devicePixelRatio: dpr,
+                sourceWidth: source.width,
+                sourceHeight: source.height,
+              )
+            : containDecodeCacheSize(
+                cellWidth: constraints.maxWidth,
+                cellHeight: constraints.maxHeight,
+                devicePixelRatio: dpr,
+                sourceWidth: source.width,
+                sourceHeight: source.height,
               );
-            },
-          ),
-        ),
-      ],
+        return ChatNetworkImage(
+          imageUrl: posterUrl,
+          fit: widget.posterFit,
+          memCacheWidth: cache.width,
+          memCacheHeight: cache.height,
+          placeholder: base,
+          errorPlaceholder: base,
+        );
+      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -72,7 +73,10 @@ class FluxerAnimatedImage extends StatelessWidget {
                 maxWidthDiskCache: posterCache.width,
                 maxHeightDiskCache: posterCache.height,
                 fadeInDuration: Duration.zero,
-                fadeOutDuration: Duration.zero,
+                fadeOutDuration: placeholder == null
+                    ? Duration.zero
+                    : mediaPlaceholderFadeOutOf(context),
+                disablePlaceholderOnCacheHit: placeholder == null,
                 placeholder: (_, _) => fallback,
                 errorBuilder: (_, _, _) => errorChild,
               );
@@ -95,6 +99,7 @@ class FluxerAnimatedImage extends StatelessWidget {
                       fit: fit,
                       fadeInDuration: Duration.zero,
                       fadeOutDuration: Duration.zero,
+                      disablePlaceholderOnCacheHit: false,
                       placeholder: (_, _) => loading,
                       errorBuilder: (_, _, _) => errorChild,
                     ),

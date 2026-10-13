@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
@@ -326,6 +327,9 @@ class AttachmentMediaGrid extends ConsumerWidget {
                         memCacheWidth: cache.width,
                         memCacheHeight: cache.height,
                         fit: BoxFit.cover,
+                        placeholder: MediaThumbHashPlaceholder(
+                          thumbHash: attachment.placeholder,
+                        ),
                         errorPlaceholder: const MediaLoadErrorPlaceholder(),
                       ),
                     if (isVideo) const VideoPlayButtonOverlay(),

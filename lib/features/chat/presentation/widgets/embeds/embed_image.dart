@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -77,7 +78,7 @@ class EmbedImage extends ConsumerWidget {
     final double cellHeight = displaySize.height;
     final Widget placeholder = ColoredBox(
       color: context.colors.backgroundSecondaryAlt,
-      child: SizedBox(width: cellWidth, height: cellHeight),
+      child: MediaThumbHashPlaceholder(thumbHash: media.placeholder),
     );
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
     return Container(
@@ -121,7 +122,6 @@ class EmbedImage extends ConsumerWidget {
                         staticUrl: staticEmbedImageUrl(
                           embedMediaEffectiveUrl(media),
                         ),
-                        fit: BoxFit.contain,
                         placeholder: placeholder,
                         errorPlaceholder: errorPlaceholder,
                       ),
@@ -172,7 +172,7 @@ class _EmbedStaticImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-    final ({int? width, int? height}) cache = containDecodeCacheSize(
+    final ({int? width, int? height}) cache = coverDecodeCacheSize(
       cellWidth: cellWidth,
       cellHeight: cellHeight,
       devicePixelRatio: devicePixelRatio,
@@ -186,6 +186,7 @@ class _EmbedStaticImage extends StatelessWidget {
       height: cellHeight,
       memCacheWidth: cache.width,
       memCacheHeight: cache.height,
+      fit: BoxFit.cover,
       placeholder: placeholder,
       errorPlaceholder: errorPlaceholder,
     );

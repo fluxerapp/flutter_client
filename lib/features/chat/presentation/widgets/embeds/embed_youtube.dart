@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
@@ -91,18 +91,14 @@ class _YouTubeThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String posterUrl = thumbnail.proxyUrl!;
-    final String? placeholder = thumbnail.placeholder;
+    final Widget placeholder = MediaThumbHashPlaceholder(
+      thumbHash: thumbnail.placeholder,
+      fallback: const ColoredBox(color: Colors.black),
+    );
 
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        if (placeholder != null && placeholder.isNotEmpty)
-          Image(
-            image: ThumbHash.fromBase64(placeholder).toImage(),
-            fit: BoxFit.cover,
-          )
-        else
-          const ColoredBox(color: Colors.black),
         Positioned.fill(
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -114,15 +110,13 @@ class _YouTubeThumbnail extends StatelessWidget {
                 sourceWidth: thumbnail.width,
                 sourceHeight: thumbnail.height,
               );
-              return CachedNetworkImage(
+              return ChatNetworkImage(
                 imageUrl: posterUrl,
                 fit: BoxFit.cover,
                 memCacheWidth: cache.width,
                 memCacheHeight: cache.height,
-                fadeInDuration: Duration.zero,
-                fadeOutDuration: Duration.zero,
-                placeholder: (_, _) => const SizedBox.shrink(),
-                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                placeholder: placeholder,
+                errorPlaceholder: placeholder,
               );
             },
           ),

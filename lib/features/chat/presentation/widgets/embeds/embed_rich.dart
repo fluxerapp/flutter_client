@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_share
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
@@ -239,6 +240,9 @@ class EmbedRich extends StatelessWidget {
                               (72 * MediaQuery.devicePixelRatioOf(context))
                                   .round(),
                           fit: BoxFit.cover,
+                          placeholder: MediaThumbHashPlaceholder(
+                            thumbHash: embed.thumbnail!.placeholder,
+                          ),
                         ),
                       ),
                     ),
@@ -418,6 +422,7 @@ class _EmbedMediaImage extends StatelessWidget {
           memCacheWidth: cache.width,
           memCacheHeight: cache.height,
           fit: BoxFit.cover,
+          placeholder: MediaThumbHashPlaceholder(thumbHash: media.placeholder),
         ),
       ),
     );

@@ -62,7 +62,7 @@ void main() {
     );
     expect(animated.animatedUrl, contains('format=webp'));
     expect(animated.animatedUrl, contains('animated=true'));
-    expect(animated.fit, BoxFit.contain);
+    expect(animated.fit, BoxFit.cover);
   });
 
   testWidgets('image embed with animated flag renders animated', (
@@ -117,7 +117,7 @@ void main() {
     final image = tester.widget<CachedNetworkImage>(
       find.byType(CachedNetworkImage),
     );
-    expect(image.fit, BoxFit.contain);
+    expect(image.fit, BoxFit.cover);
   });
 
   testWidgets('static embed with dimensions reserves its box before load', (

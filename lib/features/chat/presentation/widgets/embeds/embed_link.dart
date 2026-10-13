@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gallery_media.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -190,6 +191,7 @@ class EmbedLink extends StatelessWidget {
       fit: BoxFit.cover,
       memCacheWidth: cache.width,
       memCacheHeight: cache.height,
+      placeholder: MediaThumbHashPlaceholder(thumbHash: thumbnail.placeholder),
     );
     return SizedBox(
       width: displaySize.width,
