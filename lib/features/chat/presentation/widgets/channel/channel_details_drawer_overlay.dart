@@ -284,6 +284,7 @@ class _ChannelDetailsDrawerOverlayState
       ChannelDetailsDrawerState? next,
     ) {
       if (next != null && previous == null) {
+        FocusManager.instance.primaryFocus?.unfocus();
         _content = next;
         if (!_interactiveDragActive && _translateController.value == 0) {
           unawaited(_moveToOpen());
