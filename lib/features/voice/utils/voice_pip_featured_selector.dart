@@ -113,12 +113,10 @@ VoicePipCandidate? _fallbackTile({
   required Set<String> speakingKeys,
 }) {
   VoicePipCandidate? speaking;
-  VoicePipCandidate? screen;
   VoicePipCandidate? remote;
   VoicePipCandidate? local;
   for (final VoicePipCandidate tile in tiles) {
     if (tile.isScreenShare) {
-      screen ??= tile;
       continue;
     }
     if (_isSpeaking(tile, speakingKeys)) {
@@ -130,7 +128,7 @@ VoicePipCandidate? _fallbackTile({
       remote ??= tile;
     }
   }
-  return speaking ?? screen ?? remote ?? local;
+  return speaking ?? remote ?? local;
 }
 
 Map<String, DateTime> _nextSpeakingSince({
@@ -194,7 +192,10 @@ VoicePipFeaturedResult selectVoicePipFeatured({
         recentlySpokeKeys: recentlySpokeKeys,
       ) ??
       _fallbackTile(tiles: tiles, speakingKeys: speakingKeys);
-  final VoicePipCandidate? current = _byId(tiles, previous.tileId);
+  final VoicePipCandidate? previousTile = _byId(tiles, previous.tileId);
+  final VoicePipCandidate? current = previousTile?.isScreenShare ?? false
+      ? null
+      : previousTile;
 
   if (current == null) {
     return VoicePipFeaturedResult(

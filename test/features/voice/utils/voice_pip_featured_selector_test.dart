@@ -51,6 +51,39 @@ void main() {
       expect(result.pendingSwitchAt, isNull);
     });
 
+    test('an unwatched screen share is never featured', () {
+      final VoicePipFeaturedResult result = selectVoicePipFeatured(
+        previous: const VoicePipFeaturedResult(),
+        now: t0,
+        tiles: <VoicePipCandidate>[
+          _cam(id: 'me', speakingKey: 'me', hasVideo: false, isLocal: true),
+          _cam(id: 'a', speakingKey: 'a', hasVideo: false),
+          _screen(id: 'a', speakingKey: 'a'),
+        ],
+        watchedTileId: null,
+        pinnedTileId: null,
+        speakingKeys: const <String>{},
+        recentlySpokeKeys: const <String>{},
+      );
+      expect(result.tileId, 'a|camera');
+    });
+
+    test('a stream that is no longer watched gives up the PiP', () {
+      final VoicePipFeaturedResult result = selectVoicePipFeatured(
+        previous: const VoicePipFeaturedResult(tileId: 'a|screen'),
+        now: t0,
+        tiles: <VoicePipCandidate>[
+          _cam(id: 'a', speakingKey: 'a', hasVideo: false),
+          _screen(id: 'a', speakingKey: 'a'),
+        ],
+        watchedTileId: null,
+        pinnedTileId: null,
+        speakingKeys: const <String>{'a'},
+        recentlySpokeKeys: const <String>{'a'},
+      );
+      expect(result.tileId, 'a|camera');
+    });
+
     test('pin wins when not watching a stream', () {
       final VoicePipFeaturedResult result = selectVoicePipFeatured(
         previous: const VoicePipFeaturedResult(),
