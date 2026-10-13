@@ -74,6 +74,7 @@ class EmojiAssetImageProvider extends ImageProvider<EmojiAssetImageKey> {
     );
     return decode(
       buffer,
+      // Capping both decode axes stretches non-square emoji: https://feedback.fluxer.com/p/1836
       getTargetSize: (int width, int height) => width >= height
           ? ui.TargetImageSize(width: key.targetPixels)
           : ui.TargetImageSize(height: key.targetPixels),

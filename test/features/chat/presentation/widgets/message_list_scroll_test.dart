@@ -3395,6 +3395,7 @@ void main() {
       },
     );
 
+    // A deleted around target used to latch and hide jump-to-bottom: https://feedback.fluxer.com/p/1811
     testWidgets(
       'a missing jump target still settles and serves jump-to-bottom',
       (WidgetTester tester) async {
@@ -3608,6 +3609,7 @@ void main() {
       await disposeMessageList(tester);
     });
 
+    // Jump centering holds after the ack in the same mounted MessageList: https://feedback.fluxer.com/p/1797
     testWidgets('post-ack sticky retained centers post-divider jump', (
       WidgetTester tester,
     ) async {

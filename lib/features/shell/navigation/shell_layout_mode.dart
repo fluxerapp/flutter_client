@@ -17,6 +17,7 @@ ShellLayoutMode shellLayoutModeForLocation(String location) {
   return ShellLayoutMode.mainTab;
 }
 
+// Every layout mounts the nav shell so Home keeps its branch stack: https://feedback.fluxer.com/p/1852
 ShellLayoutMode resolveMobileShellLayoutMode({
   required int navigationShellIndex,
   required String activeBranchLocation,

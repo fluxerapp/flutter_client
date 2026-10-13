@@ -86,6 +86,7 @@ class EmojiSpritePainter extends CustomPainter {
     required this.diversity,
   });
 
+  // Medium filtering smooths sprite upscaling on high-DPR screens: https://feedback.fluxer.com/p/1551
   static final Paint _paint = Paint()
     ..filterQuality = FilterQuality.medium
     ..isAntiAlias = true;

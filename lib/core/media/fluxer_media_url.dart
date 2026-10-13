@@ -170,6 +170,7 @@ abstract final class FluxerMediaUrl {
     if (animated) {
       query['animated'] = 'true';
     }
+    // Lossy animated emoji come back as VP8+ALPH, which Flutter cannot decode: https://feedback.fluxer.com/p/2156
     query['quality'] = 'lossless';
     if (size != null) {
       query['size'] = '$size';

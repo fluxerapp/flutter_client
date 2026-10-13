@@ -97,6 +97,7 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
           );
     final Widget image = CachedNetworkImage(
       imageUrl: url,
+      // The a2 key skips lossy animated emoji left in the disk cache: https://feedback.fluxer.com/p/2156
       cacheKey:
           'emoji_${widget.emojiId}_${animated ? 'a2' : 's'}_${widget.requestSize}',
       width: widget.size,

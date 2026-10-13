@@ -235,6 +235,7 @@ class MessageRepository {
       pageMarks.add('$name@${pageStopwatch.elapsedMilliseconds}');
     }
 
+    // Tail read before the fetch keeps rows that arrive in flight: https://feedback.fluxer.com/p/1863
     final String? localTailBeforeFetch = isLatestPage
         ? await _db.messageDao.newestServerMessageId(channelId)
         : null;
@@ -905,6 +906,7 @@ class MessageRepository {
     }
   }
 
+  // Sent as JSON since the multipart parser drops a bare attachments field: https://feedback.fluxer.com/p/2012
   Future<Message> editMessageAttachments({
     required String channelId,
     required String messageId,

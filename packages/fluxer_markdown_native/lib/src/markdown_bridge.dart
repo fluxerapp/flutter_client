@@ -63,6 +63,7 @@ final RegExp _leadingNewlines = RegExp(r'^\n+');
 final RegExp _trailingNewlines = RegExp(r'\n+$');
 final RegExp _newlinesOnly = RegExp(r'^\n+$');
 
+// Blank lines arrive as N+1 newlines before a block and N after it: https://feedback.fluxer.com/p/1933
 List<md.Node> _blocksFromRun(
   List<md.Node> run, {
   required bool followsBlock,

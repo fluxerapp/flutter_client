@@ -81,6 +81,7 @@ void main() {
     );
   });
 
+  // A shell-less root used to drop the Home route stack on tab switches: https://feedback.fluxer.com/p/1852
   group('Home branch stack survives tab round trips', () {
     for (final ({String name, String path}) route
         in <({String name, String path})>[
@@ -141,6 +142,7 @@ void main() {
     }
   });
 
+  // The kept shell resumes route-state consumers mid-build on Home return: https://feedback.fluxer.com/p/1852
   group('Home branch return with route-state consumers', () {
     for (final String path in <String>[
       '/channels/guild',

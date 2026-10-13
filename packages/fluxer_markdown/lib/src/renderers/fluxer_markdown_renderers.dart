@@ -1365,6 +1365,7 @@ class _MarkdownInlineRenderer {
           ),
           effectiveStyle: effectiveStyle,
         );
+      // Unicode emoji render as images at every size, jumbo only scales them: https://feedback.fluxer.com/p/2041
       case FluxerMarkdownElementTags.emojiUnicode:
       case FluxerMarkdownElementTags.emojiCustom:
         return WidgetSpan(
@@ -2601,6 +2602,7 @@ class FluxerEmojiWidget extends StatelessWidget {
     if (!animated) {
       return SizedBox(width: size, height: size, child: staticImage);
     }
+    // Failed animated emoji fall back to the static frame, not clipped text: https://feedback.fluxer.com/p/2156
     return FluxerEmojiFrameBoundary(
       size: size,
       child: _allowImageFrameAnimation(
@@ -2634,6 +2636,7 @@ class FluxerEmojiWidget extends StatelessWidget {
       cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_$cdnSize',
       width: size,
       height: size,
+      // Capping both decode axes stretches non-square emoji: https://feedback.fluxer.com/p/1836
       memCacheWidth: animated ? null : px,
       fadeInDuration: Duration.zero,
       fadeOutDuration: Duration.zero,

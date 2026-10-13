@@ -1684,6 +1684,7 @@ void main() {
     },
   );
 
+  // Tail deletes made while the app was closed are never replayed: https://feedback.fluxer.com/p/1863
   test(
     'first open of a fully cached channel fetches the latest page',
     () async {
@@ -3256,6 +3257,7 @@ void main() {
       _setViewportActive(container, channelId: 'channel-1');
       await _flushAsync();
 
+      // Orphaned pointer past the loaded tail used to stay unread: https://feedback.fluxer.com/p/1909
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',

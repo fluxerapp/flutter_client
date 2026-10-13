@@ -2671,6 +2671,7 @@ class ChatViewModel extends _$ChatViewModel {
             return;
           }
           final bool incompleteCache = cached.length < _kPageSize;
+          // Only a latest page can refute a tail deleted while offline: https://feedback.fluxer.com/p/1863
           final bool proveTailFromLatestPage = _messagesNeedResync(channelId);
           final bool willRefresh =
               incompleteCache ||

@@ -357,6 +357,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return (delete(messages)..where((m) => m.id.isIn(ids))).go();
   }
 
+  // Drops tail rows deleted on the server while offline: https://feedback.fluxer.com/p/1863
   Future<void> deleteServerMessagesBetween(
     String channelId, {
     required String afterId,

@@ -129,6 +129,7 @@ void main() {
 
     final double screenHeight = tester.view.physicalSize.height / 3.0;
     final Rect picker = tester.getRect(find.byType(ExpressionPicker));
+    // Swipes in the bottom 34pt belong to the OS app switcher: https://feedback.fluxer.com/p/2015
     expect(picker.bottom, lessThanOrEqualTo(screenHeight - 34));
   });
 

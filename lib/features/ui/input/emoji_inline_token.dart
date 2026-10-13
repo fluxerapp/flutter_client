@@ -164,6 +164,7 @@ class _EmojiChip extends StatelessWidget {
         size: 96,
       ),
       cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_96',
+      // Capping both decode axes stretches non-square emoji: https://feedback.fluxer.com/p/1836
       memCacheWidth: animated ? null : px,
       fit: BoxFit.contain,
       fadeInDuration: Duration.zero,

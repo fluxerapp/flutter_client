@@ -2257,6 +2257,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     return false;
   }
 
+  // Settling under a finger remounts the list and drops the next drag: https://feedback.fluxer.com/p/2094
   void _settleUnlessHeld() {
     if (!mounted) {
       return;

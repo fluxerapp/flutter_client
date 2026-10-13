@@ -312,6 +312,7 @@ bool shouldPreserveLocalMessage({
     return true;
   }
   if (compareSnowflakeIds(message.id, newestNetworkId) > 0) {
+    // A latest page ends at the channel tail, so newer rows were deleted: https://feedback.fluxer.com/p/1863
     return !isLatestPage;
   }
   return false;
