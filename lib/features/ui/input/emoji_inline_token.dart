@@ -7,6 +7,7 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates;
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 const double kInlineEmojiLineHeight = 1.375;
 
@@ -180,27 +181,24 @@ class _EmojiChip extends StatelessWidget {
     final String id = match.group(3)!;
     final double size = _size;
     final int px = (size * MediaQuery.devicePixelRatioOf(context)).round();
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CachedNetworkImage(
-        imageUrl: FluxerMediaUrl.customEmoji(
-          id: id,
-          animated: animated,
-          size: 96,
-        ),
-        // Shares the message renderers' cache entries (same key convention).
-        cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_96',
-        // Cap one decode axis only; capping both stretches non-square emoji
-        // (issue #445). Skip resize on animated frames.
-        memCacheWidth: animated ? null : px,
-        fit: BoxFit.contain,
-        fadeInDuration: Duration.zero,
-        fadeOutDuration: Duration.zero,
-        placeholder: (_, _) => _FallbackChip(name: name),
-        errorBuilder: (_, _, _) => _FallbackChip(name: name),
+    final Widget image = CachedNetworkImage(
+      imageUrl: FluxerMediaUrl.customEmoji(
+        id: id,
+        animated: animated,
+        size: 96,
       ),
+      cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_96',
+      memCacheWidth: animated ? null : px,
+      fit: BoxFit.contain,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
+      placeholder: (_, _) => _FallbackChip(name: name),
+      errorBuilder: (_, _, _) => _FallbackChip(name: name),
     );
+    if (!animated) {
+      return SizedBox(width: size, height: size, child: image);
+    }
+    return FluxerEmojiFrameBoundary(size: size, child: image);
   }
 
   Widget? _buildUnicode() {

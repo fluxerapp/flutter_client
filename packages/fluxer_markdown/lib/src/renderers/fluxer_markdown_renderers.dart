@@ -19,6 +19,7 @@ import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
 import 'package:fluxer_markdown/src/utils/masked_link_guards.dart';
 import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
+import 'package:fluxer_markdown/src/widgets/emoji_frame_boundary.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_live_timestamp.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
@@ -2600,24 +2601,22 @@ class FluxerEmojiWidget extends StatelessWidget {
       px: px,
       errorChild: Text(':$name:'),
     );
-    return SizedBox(
-      width: size,
-      height: size,
-      // The text fallback clips inside this box, so a failed animated frame
-      // retries the static frame first (issue #776).
-      child: animated
-          ? _allowImageFrameAnimation(
-              context,
-              _buildCustomImage(
-                id: id,
-                animated: true,
-                cdnSize: cdnSize,
-                size: size,
-                px: px,
-                errorChild: staticImage,
-              ),
-            )
-          : staticImage,
+    if (!animated) {
+      return SizedBox(width: size, height: size, child: staticImage);
+    }
+    return FluxerEmojiFrameBoundary(
+      size: size,
+      child: _allowImageFrameAnimation(
+        context,
+        _buildCustomImage(
+          id: id,
+          animated: true,
+          cdnSize: cdnSize,
+          size: size,
+          px: px,
+          errorChild: staticImage,
+        ),
+      ),
     );
   }
 
