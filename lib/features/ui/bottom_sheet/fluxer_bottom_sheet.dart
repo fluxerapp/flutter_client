@@ -271,14 +271,17 @@ class FluxerBottomSheet {
                         gap: isMenuVariant ? layout.s3 : layout.s2,
                       ),
                     Flexible(
-                      child: _FluxerBottomSheetInsetChild(
-                        bottomPadding: bottomPadding,
-                        child: isMenuVariant
-                            ? Builder(
-                                builder: (scopedContext) =>
-                                    builder(scopedContext, close),
-                              )
-                            : builder(sheetContext, close),
+                      child: FluxerBottomSheetDragArea(
+                        behavior: HitTestBehavior.translucent,
+                        child: _FluxerBottomSheetInsetChild(
+                          bottomPadding: bottomPadding,
+                          child: isMenuVariant
+                              ? Builder(
+                                  builder: (scopedContext) =>
+                                      builder(scopedContext, close),
+                                )
+                              : builder(sheetContext, close),
+                        ),
                       ),
                     ),
                   ],
@@ -1122,14 +1125,18 @@ class _FluxerDraggableScrollableSheetState
                                   gap: layout.s2,
                                 ),
                               Expanded(
-                                child: FluxerBottomSheetScope(
-                                  bottomScrollPadding:
-                                      widget.bottomScrollPadding,
-                                  child: Builder(
-                                    builder: (scopedContext) => widget.builder(
-                                      scopedContext,
-                                      scrollController,
-                                      _dismiss,
+                                child: FluxerBottomSheetDragArea(
+                                  behavior: HitTestBehavior.translucent,
+                                  child: FluxerBottomSheetScope(
+                                    bottomScrollPadding:
+                                        widget.bottomScrollPadding,
+                                    child: Builder(
+                                      builder: (scopedContext) =>
+                                          widget.builder(
+                                            scopedContext,
+                                            scrollController,
+                                            _dismiss,
+                                          ),
                                     ),
                                   ),
                                 ),
