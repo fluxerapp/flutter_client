@@ -7040,7 +7040,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Покажи чата с {count, plural, one {# непрочетено съобщение} other {# непрочетени съобщения}}",
+    "voiceTextChatShowUnread": "Покажи чата с {count, plural, one {{count} непрочетено съобщение} other {{count} непрочетени съобщения}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -7769,7 +7769,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "Всички без {count, plural, one {# общност} other {# общности}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "Всички без {count, plural, one {{count} общност} other {{count} общности}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -7778,7 +7778,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "Само {count, plural, one {# общност} other {# общности}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "Само {count, plural, one {{count} общност} other {{count} общности}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -7807,7 +7807,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# час} other {# часа}} и {minutes, plural, one {# минута} other {# минути}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} час} other {{hours} часа}} и {minutes, plural, one {{minutes} минута} other {{minutes} минути}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -7819,7 +7819,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# час} other {# часа}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} час} other {{hours} часа}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -7828,7 +7828,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# минута} other {# минути}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} минута} other {{minutes} минути}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -7837,7 +7837,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# секунда} other {# секунди}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} секунда} other {{seconds} секунди}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -14510,7 +14510,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{Изтрито # съобщение.} other{Изтрити # съобщения.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{Изтрито {count} съобщение.} other{Изтрити {count} съобщения.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14519,7 +14519,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{Премахнат # член.} other{Премахнати # членове.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{Премахнат {count} член.} other{Премахнати {count} членове.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -16543,7 +16543,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# ново съобщение} other {# нови съобщения}}",
+    "forumPostNewMessages": "{count, plural, one {{count} ново съобщение} other {{count} нови съобщения}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# ново} other {# нови}} от {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {{unreadCount} ново} other {{unreadCount} нови}} от {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16581,7 +16581,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# ново съобщение} other {# нови съобщения}} от {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} ново съобщение} other {{unreadCount} нови съобщения}} от {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

@@ -49,8 +49,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# הודעות חדשות',
-      one: '# הודעה חדשה',
+      other: '$unreadCount הודעות חדשות',
+      one: '$unreadCount הודעה חדשה',
     );
     return '$_temp0 מאז $compactTime';
   }
@@ -74,8 +74,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# הודעות חדשות',
-      two: '# הודעות חדשות',
+      other: '$unreadCount הודעות חדשות',
+      two: '$unreadCount הודעות חדשות',
       one: 'הודעה חדשה אחת',
     );
     return '$_temp0 מאז $shortTime';
@@ -5937,8 +5937,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# הודעות שלא נקראו',
-      one: '# הודעה שלא נקראה',
+      other: '$count הודעות שלא נקראו',
+      one: '$count הודעה שלא נקראה',
     );
     return 'הצג צ\'אט עם $_temp0';
   }
@@ -6575,8 +6575,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# קהילות',
-      one: '# קהילה',
+      other: '$count קהילות',
+      one: '$count קהילה',
     );
     return 'הכול למעט $_temp0';
   }
@@ -6586,8 +6586,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# קהילות',
-      one: '# קהילה',
+      other: '$count קהילות',
+      one: '$count קהילה',
     );
     return 'רק $_temp0';
   }
@@ -6615,14 +6615,14 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# שעות',
-      one: '# שעה',
+      other: '$hours שעות',
+      one: '$hours שעה',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# דקות',
-      one: '# דקה',
+      other: '$minutes דקות',
+      one: '$minutes דקה',
     );
     return '$_temp0 ו-$_temp1';
   }
@@ -6632,8 +6632,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# שעות',
-      one: '# שעה',
+      other: '$hours שעות',
+      one: '$hours שעה',
     );
     return '$_temp0';
   }
@@ -6643,8 +6643,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# דקות',
-      one: '# דקה',
+      other: '$minutes דקות',
+      one: '$minutes דקה',
     );
     return '$_temp0';
   }
@@ -6654,8 +6654,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# שניות',
-      one: '# שנייה',
+      other: '$seconds שניות',
+      one: '$seconds שנייה',
     );
     return '$_temp0';
   }
@@ -12913,7 +12913,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# הודעות נמחקו.',
+      other: '$count הודעות נמחקו.',
       one: 'הודעה אחת נמחקה.',
     );
     return '$_temp0';
@@ -12924,7 +12924,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'הוסרו # חברים.',
+      other: 'הוסרו $count חברים.',
       one: 'הוסר חבר אחד.',
     );
     return '$_temp0';
@@ -14732,8 +14732,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# הודעות חדשות',
-      one: '# הודעה חדשה',
+      other: '$count הודעות חדשות',
+      one: '$count הודעה חדשה',
     );
     return '$_temp0';
   }

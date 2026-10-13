@@ -49,8 +49,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: 'ข้อความใหม่ # รายการ',
-      one: 'ข้อความใหม่ # รายการ',
+      other: 'ข้อความใหม่ $unreadCount รายการ',
+      one: 'ข้อความใหม่ $unreadCount รายการ',
     );
     return '$_temp0 ตั้งแต่ $compactTime';
   }
@@ -74,7 +74,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: 'ใหม่ # ข้อความ',
+      other: 'ใหม่ $unreadCount ข้อความ',
     );
     return '$_temp0 ตั้งแต่ $shortTime';
   }
@@ -5963,8 +5963,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# ข้อความ',
-      one: '# ข้อความ',
+      other: '$count ข้อความ',
+      one: '$count ข้อความ',
     );
     return 'แสดงแชทพร้อมข้อความที่ยังไม่ได้อ่าน $_temp0';
   }
@@ -6609,8 +6609,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# ชุมชน',
-      one: '# ชุมชน',
+      other: '$count ชุมชน',
+      one: '$count ชุมชน',
     );
     return 'ทั้งหมด ยกเว้น $_temp0';
   }
@@ -6620,8 +6620,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# ชุมชน',
-      one: '# ชุมชน',
+      other: '$count ชุมชน',
+      one: '$count ชุมชน',
     );
     return 'เพียง $_temp0';
   }
@@ -6650,14 +6650,14 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ชั่วโมง',
-      one: '# ชั่วโมง',
+      other: '$hours ชั่วโมง',
+      one: '$hours ชั่วโมง',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: 'และ # นาที',
-      one: 'และ # นาที',
+      other: 'และ $minutes นาที',
+      one: 'และ $minutes นาที',
     );
     return '$_temp0 $_temp1';
   }
@@ -6667,8 +6667,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ชั่วโมง',
-      one: '# ชั่วโมง',
+      other: '$hours ชั่วโมง',
+      one: '$hours ชั่วโมง',
     );
     return '$_temp0';
   }
@@ -6678,8 +6678,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# นาที',
-      one: '# นาที',
+      other: '$minutes นาที',
+      one: '$minutes นาที',
     );
     return '$_temp0';
   }
@@ -6689,8 +6689,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# วินาที',
-      one: '# วินาที',
+      other: '$seconds วินาที',
+      one: '$seconds วินาที',
     );
     return '$_temp0';
   }
@@ -12991,8 +12991,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'ลบข้อความ # รายการ',
-      one: 'ลบข้อความ # รายการ',
+      other: 'ลบข้อความ $count รายการ',
+      one: 'ลบข้อความ $count รายการ',
     );
     return '$_temp0';
   }
@@ -13002,8 +13002,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'ลบสมาชิก # รายการ',
-      one: 'ลบสมาชิก # รายการ',
+      other: 'ลบสมาชิก $count รายการ',
+      one: 'ลบสมาชิก $count รายการ',
     );
     return '$_temp0';
   }
@@ -14817,8 +14817,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# ข้อความใหม่',
-      one: '# ข้อความใหม่',
+      other: '$count ข้อความใหม่',
+      one: '$count ข้อความใหม่',
     );
     return '$_temp0';
   }

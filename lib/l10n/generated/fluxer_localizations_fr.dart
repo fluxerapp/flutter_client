@@ -50,8 +50,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nouveaux messages',
-      one: '# nouveau message',
+      other: '$unreadCount nouveaux messages',
+      one: '$unreadCount nouveau message',
     );
     return '$_temp0 depuis $compactTime';
   }
@@ -75,9 +75,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nouveaux',
-      many: '# nouveaux',
-      one: '# nouveau',
+      other: '$unreadCount nouveaux',
+      many: '$unreadCount nouveaux',
+      one: '$unreadCount nouveau',
     );
     return '$_temp0 depuis $shortTime';
   }
@@ -2624,7 +2624,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'il y a # ans',
+      other: 'il y a $count ans',
       one: 'il y a 1 an',
     );
     return '$_temp0';
@@ -2635,7 +2635,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'il y a # mois',
+      other: 'il y a $count mois',
       one: 'il y a 1 mois',
     );
     return '$_temp0';
@@ -2646,7 +2646,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'il y a # jours',
+      other: 'il y a $count jours',
       one: 'il y a 1 jour',
     );
     return '$_temp0';
@@ -2657,7 +2657,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'il y a # heures',
+      other: 'il y a $count heures',
       one: 'il y a 1 heure',
     );
     return '$_temp0';
@@ -2668,7 +2668,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'il y a # minutes',
+      other: 'il y a $count minutes',
       one: 'il y a 1 minute',
     );
     return '$_temp0';
@@ -6092,8 +6092,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# messages non lus',
-      one: '# message non lu',
+      other: '$count messages non lus',
+      one: '$count message non lu',
     );
     return 'Afficher le chat avec $_temp0';
   }
@@ -6748,8 +6748,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communautés',
-      one: '# communauté',
+      other: '$count communautés',
+      one: '$count communauté',
     );
     return 'Toutes sauf $_temp0';
   }
@@ -6759,8 +6759,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communautés',
-      one: '# communauté',
+      other: '$count communautés',
+      one: '$count communauté',
     );
     return 'Seulement $_temp0';
   }
@@ -6789,14 +6789,14 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# heures',
-      one: '# heure',
+      other: '$hours heures',
+      one: '$hours heure',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutes',
-      one: '# minute',
+      other: '$minutes minutes',
+      one: '$minutes minute',
     );
     return '$_temp0 et $_temp1';
   }
@@ -6806,8 +6806,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# heures',
-      one: '# heure',
+      other: '$hours heures',
+      one: '$hours heure',
     );
     return '$_temp0';
   }
@@ -6817,8 +6817,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutes',
-      one: '# minute',
+      other: '$minutes minutes',
+      one: '$minutes minute',
     );
     return '$_temp0';
   }
@@ -6828,8 +6828,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# secondes',
-      one: '# seconde',
+      other: '$seconds secondes',
+      one: '$seconds seconde',
     );
     return '$_temp0';
   }
@@ -13289,8 +13289,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'A supprimé # messages.',
-      one: 'A supprimé # message.',
+      other: 'A supprimé $count messages.',
+      one: 'A supprimé $count message.',
     );
     return '$_temp0';
   }
@@ -13300,8 +13300,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'A supprimé # membres.',
-      one: 'A supprimé # membre.',
+      other: 'A supprimé $count membres.',
+      one: 'A supprimé $count membre.',
     );
     return '$_temp0';
   }
@@ -13649,7 +13649,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Il y a # minute(s)',
+      other: 'Il y a $count minute(s)',
       one: 'Il y a 1 minute',
     );
     return '$_temp0';
@@ -15180,8 +15180,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# nouveaux messages',
-      one: '# nouveau message',
+      other: '$count nouveaux messages',
+      one: '$count nouveau message',
     );
     return '$_temp0';
   }

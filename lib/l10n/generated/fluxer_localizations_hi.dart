@@ -48,8 +48,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# नए मैसेज',
-      one: '# नया मैसेज',
+      other: '$unreadCount नए मैसेज',
+      one: '$unreadCount नया मैसेज',
     );
     return '$compactTime से $_temp0';
   }
@@ -73,8 +73,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# नए मैसेज',
-      one: '# नया मैसेज',
+      other: '$unreadCount नए मैसेज',
+      one: '$unreadCount नया मैसेज',
     );
     return '$shortTime से $_temp0';
   }
@@ -6000,8 +6000,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# अपठित संदेशों के साथ चैट दिखाएं',
-      one: '# अपठित संदेश के साथ चैट दिखाएं',
+      other: '$count अपठित संदेशों के साथ चैट दिखाएं',
+      one: '$count अपठित संदेश के साथ चैट दिखाएं',
     );
     return '$_temp0';
   }
@@ -6651,8 +6651,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# समुदायों को छोड़कर',
-      one: '# समुदाय को छोड़कर',
+      other: '$count समुदायों को छोड़कर',
+      one: '$count समुदाय को छोड़कर',
     );
     return '$_temp0';
   }
@@ -6662,8 +6662,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# कम्युनिटीज़',
-      one: '# कम्युनिटी',
+      other: '$count कम्युनिटीज़',
+      one: '$count कम्युनिटी',
     );
     return 'सिर्फ़ $_temp0';
   }
@@ -6691,14 +6691,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# घंटे',
-      one: '# घंटा',
+      other: '$hours घंटे',
+      one: '$hours घंटा',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# मिनट',
-      one: '# मिनट',
+      other: '$minutes मिनट',
+      one: '$minutes मिनट',
     );
     return '$_temp0 और $_temp1';
   }
@@ -6708,8 +6708,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# घंटे',
-      one: '# घंटा',
+      other: '$hours घंटे',
+      one: '$hours घंटा',
     );
     return '$_temp0';
   }
@@ -6719,8 +6719,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# मिनट',
-      one: '# मिनट',
+      other: '$minutes मिनट',
+      one: '$minutes मिनट',
     );
     return '$_temp0';
   }
@@ -6730,8 +6730,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# सेकंड',
-      one: '# सेकंड',
+      other: '$seconds सेकंड',
+      one: '$seconds सेकंड',
     );
     return '$_temp0';
   }
@@ -13074,8 +13074,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# संदेश हटाए गए।',
-      one: '# संदेश हटाया गया।',
+      other: '$count संदेश हटाए गए।',
+      one: '$count संदेश हटाया गया।',
     );
     return '$_temp0';
   }
@@ -13085,8 +13085,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# सदस्य हटाए गए।',
-      one: '# सदस्य हटाया गया।',
+      other: '$count सदस्य हटाए गए।',
+      one: '$count सदस्य हटाया गया।',
     );
     return '$_temp0';
   }
@@ -14920,8 +14920,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# नए संदेश',
-      one: '# नया संदेश',
+      other: '$count नए संदेश',
+      one: '$count नया संदेश',
     );
     return '$_temp0';
   }

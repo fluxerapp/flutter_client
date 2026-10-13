@@ -49,10 +49,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# нових повідомлень',
-      many: '# нових повідомлень',
-      few: '# нові повідомлення',
-      one: '# нове повідомлення',
+      other: '$unreadCount нових повідомлень',
+      many: '$unreadCount нових повідомлень',
+      few: '$unreadCount нові повідомлення',
+      one: '$unreadCount нове повідомлення',
     );
     return '$_temp0 з $compactTime';
   }
@@ -76,10 +76,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# нового',
-      many: '# нових',
-      few: '# нові',
-      one: '# нове',
+      other: '$unreadCount нового',
+      many: '$unreadCount нових',
+      few: '$unreadCount нові',
+      one: '$unreadCount нове',
     );
     return '$_temp0 з $shortTime';
   }
@@ -2687,7 +2687,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'за # днів',
+      other: 'за $count днів',
       one: 'за 1 день',
     );
     return '$_temp0';
@@ -6041,8 +6041,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# непрочитаними повідомленнями',
-      one: '# непрочитаним повідомленням',
+      other: '$count непрочитаними повідомленнями',
+      one: '$count непрочитаним повідомленням',
     );
     return 'Показати чат з $_temp0';
   }
@@ -6693,10 +6693,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# спільнот',
-      many: '# спільнот',
-      few: '# спільнот',
-      one: '# спільноти',
+      other: '$count спільнот',
+      many: '$count спільнот',
+      few: '$count спільнот',
+      one: '$count спільноти',
     );
     return 'Усі, крім $_temp0';
   }
@@ -6706,10 +6706,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# спільноти',
-      many: '# спільнот',
-      few: '# спільноти',
-      one: '# спільнота',
+      other: '$count спільноти',
+      many: '$count спільнот',
+      few: '$count спільноти',
+      one: '$count спільнота',
     );
     return 'Лише $_temp0';
   }
@@ -6738,18 +6738,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# годин',
-      many: '# годин',
-      few: '# години',
-      one: '# година',
+      other: '$hours годин',
+      many: '$hours годин',
+      few: '$hours години',
+      one: '$hours година',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# хвилин',
-      many: '# хвилин',
-      few: '# хвилини',
-      one: '# хвилина',
+      other: '$minutes хвилин',
+      many: '$minutes хвилин',
+      few: '$minutes хвилини',
+      one: '$minutes хвилина',
     );
     return '$_temp0 і $_temp1';
   }
@@ -6759,10 +6759,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# години',
-      many: '# годин',
-      few: '# години',
-      one: '# година',
+      other: '$hours години',
+      many: '$hours годин',
+      few: '$hours години',
+      one: '$hours година',
     );
     return '$_temp0';
   }
@@ -6772,10 +6772,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# хвилини',
-      many: '# хвилин',
-      few: '# хвилини',
-      one: '# хвилина',
+      other: '$minutes хвилини',
+      many: '$minutes хвилин',
+      few: '$minutes хвилини',
+      one: '$minutes хвилина',
     );
     return '$_temp0';
   }
@@ -6785,10 +6785,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# секунди',
-      many: '# секунд',
-      few: '# секунди',
-      one: '# секунда',
+      other: '$seconds секунди',
+      many: '$seconds секунд',
+      few: '$seconds секунди',
+      one: '$seconds секунда',
     );
     return '$_temp0';
   }
@@ -13200,8 +13200,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Видалено # повідомлень.',
-      one: 'Видалено # повідомлення.',
+      other: 'Видалено $count повідомлень.',
+      one: 'Видалено $count повідомлення.',
     );
     return '$_temp0';
   }
@@ -13211,8 +13211,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Видалено # учасників.',
-      one: 'Видалено # учасника.',
+      other: 'Видалено $count учасників.',
+      one: 'Видалено $count учасника.',
     );
     return '$_temp0';
   }
@@ -15071,8 +15071,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# нових повідомлень',
-      one: '# нове повідомлення',
+      other: '$count нових повідомлень',
+      one: '$count нове повідомлення',
     );
     return '$_temp0';
   }

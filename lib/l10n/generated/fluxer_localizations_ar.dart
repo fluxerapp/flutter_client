@@ -49,12 +49,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# رسالة جديدة',
-      many: '# رسالة جديدة',
-      few: '# رسائل جديدة',
+      other: '$unreadCount رسالة جديدة',
+      many: '$unreadCount رسالة جديدة',
+      few: '$unreadCount رسائل جديدة',
       two: 'رسالتان جديدتان',
       one: 'رسالة جديدة واحدة',
-      zero: '# رسالة جديدة',
+      zero: '$unreadCount رسالة جديدة',
     );
     return '$_temp0 منذ $compactTime';
   }
@@ -78,9 +78,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# رسالة جديدة',
-      many: '# رسالة جديدة',
-      few: '# رسائل جديدة',
+      other: '$unreadCount رسالة جديدة',
+      many: '$unreadCount رسالة جديدة',
+      few: '$unreadCount رسائل جديدة',
       two: 'رسالتان جديدتان',
       one: 'رسالة جديدة واحدة',
       zero: 'لا رسائل جديدة',
@@ -6616,8 +6616,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# مجتمعات',
-      one: '# مجتمع',
+      other: '$count مجتمعات',
+      one: '$count مجتمع',
     );
     return 'الكل باستثناء $_temp0';
   }
@@ -6627,8 +6627,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# مجتمعات فقط',
-      one: '# مجتمع فقط',
+      other: '$count مجتمعات فقط',
+      one: '$count مجتمع فقط',
     );
     return '$_temp0';
   }
@@ -6657,14 +6657,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ساعات',
-      one: '# ساعة',
+      other: '$hours ساعات',
+      one: '$hours ساعة',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# دقائق',
-      one: '# دقيقة',
+      other: '$minutes دقائق',
+      one: '$minutes دقيقة',
     );
     return '$_temp0 و$_temp1';
   }
@@ -6674,10 +6674,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ساعات',
-      many: '# ساعة',
-      few: '# ساعات',
-      one: '# ساعة',
+      other: '$hours ساعات',
+      many: '$hours ساعة',
+      few: '$hours ساعات',
+      one: '$hours ساعة',
     );
     return '$_temp0';
   }
@@ -6687,10 +6687,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# دقائق',
-      many: '# دقيقة',
-      few: '# دقائق',
-      one: '# دقيقة',
+      other: '$minutes دقائق',
+      many: '$minutes دقيقة',
+      few: '$minutes دقائق',
+      one: '$minutes دقيقة',
     );
     return '$_temp0';
   }
@@ -6700,10 +6700,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# ثانية',
-      many: '# ثانية',
-      few: '# ثوانٍ',
-      one: '# ثانية',
+      other: '$seconds ثانية',
+      many: '$seconds ثانية',
+      few: '$seconds ثوانٍ',
+      one: '$seconds ثانية',
     );
     return '$_temp0';
   }
@@ -12996,8 +12996,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: 'Deleted $count messages.',
+      one: 'Deleted $count message.',
     );
     return '$_temp0';
   }
@@ -13007,8 +13007,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: 'Removed $count members.',
+      one: 'Removed $count member.',
     );
     return '$_temp0';
   }
@@ -14844,8 +14844,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# رسائل جديدة',
-      one: '# رسالة جديدة',
+      other: '$count رسائل جديدة',
+      one: '$count رسالة جديدة',
     );
     return '$_temp0';
   }

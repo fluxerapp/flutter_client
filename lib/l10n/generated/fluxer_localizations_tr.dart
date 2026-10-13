@@ -48,8 +48,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# yeni mesaj',
-      one: '# yeni mesaj',
+      other: '$unreadCount yeni mesaj',
+      one: '$unreadCount yeni mesaj',
     );
     return '$compactTime itibarıyla $_temp0';
   }
@@ -73,8 +73,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# yeni mesaj',
-      one: '# yeni mesaj',
+      other: '$unreadCount yeni mesaj',
+      one: '$unreadCount yeni mesaj',
     );
     return '$shortTime itibarıyla $_temp0';
   }
@@ -6004,8 +6004,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# okunmamış mesaj',
-      one: '# okunmamış mesaj',
+      other: '$count okunmamış mesaj',
+      one: '$count okunmamış mesaj',
     );
     return '$_temp0 ile sohbeti göster';
   }
@@ -6653,8 +6653,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# topluluk',
-      one: '# topluluk',
+      other: '$count topluluk',
+      one: '$count topluluk',
     );
     return 'Şu $_temp0 hariç hepsi';
   }
@@ -6664,8 +6664,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# topluluk',
-      one: '# topluluk',
+      other: '$count topluluk',
+      one: '$count topluluk',
     );
     return 'Yalnızca $_temp0';
   }
@@ -6694,14 +6694,14 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# saat',
-      one: '# saat',
+      other: '$hours saat',
+      one: '$hours saat',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# dakika',
-      one: '# dakika',
+      other: '$minutes dakika',
+      one: '$minutes dakika',
     );
     return '$_temp0 ve $_temp1';
   }
@@ -6711,8 +6711,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# saat',
-      one: '# saat',
+      other: '$hours saat',
+      one: '$hours saat',
     );
     return '$_temp0';
   }
@@ -6722,8 +6722,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# dakika',
-      one: '# dakika',
+      other: '$minutes dakika',
+      one: '$minutes dakika',
     );
     return '$_temp0';
   }
@@ -6733,8 +6733,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# saniye',
-      one: '# saniye',
+      other: '$seconds saniye',
+      one: '$seconds saniye',
     );
     return '$_temp0';
   }
@@ -13095,8 +13095,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# mesaj silindi.',
-      one: '# mesaj silindi.',
+      other: '$count mesaj silindi.',
+      one: '$count mesaj silindi.',
     );
     return '$_temp0';
   }
@@ -13106,8 +13106,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# üye kaldırıldı.',
-      one: '# üye kaldırıldı.',
+      other: '$count üye kaldırıldı.',
+      one: '$count üye kaldırıldı.',
     );
     return '$_temp0';
   }
@@ -14935,8 +14935,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# yeni mesaj',
-      one: '# yeni mesaj',
+      other: '$count yeni mesaj',
+      one: '$count yeni mesaj',
     );
     return '$_temp0';
   }

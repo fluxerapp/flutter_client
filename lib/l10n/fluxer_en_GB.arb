@@ -5142,7 +5142,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Show chat with {count, plural, one {# unread message} other {# unread messages}}",
+    "voiceTextChatShowUnread": "Show chat with {count, plural, one {{count} unread message} other {{count} unread messages}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -8115,7 +8115,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{Deleted # message.} other{Deleted # messages.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{Deleted {count} message.} other{Deleted {count} messages.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8124,7 +8124,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{Removed # member.} other{Removed # members.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{Removed {count} member.} other{Removed {count} members.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -13707,7 +13707,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "All except {count, plural, one {# community} other {# communities}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "All except {count, plural, one {{count} community} other {{count} communities}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -13716,7 +13716,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "Only {count, plural, one {# community} other {# communities}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "Only {count, plural, one {{count} community} other {{count} communities}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -13745,7 +13745,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} hour} other {{hours} hours}} and {minutes, plural, one {{minutes} minute} other {{minutes} minutes}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -13757,7 +13757,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# hour} other {# hours}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} hour} other {{hours} hours}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -13766,7 +13766,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# minute} other {# minutes}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} minute} other {{minutes} minutes}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -13775,7 +13775,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# second} other {# seconds}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} second} other {{seconds} seconds}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -16518,7 +16518,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# new message} other {# new messages}}",
+    "forumPostNewMessages": "{count, plural, one {{count} new message} other {{count} new messages}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16531,7 +16531,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# new} other {# new}} since {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {{unreadCount} new} other {{unreadCount} new}} since {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# new message} other {# new messages}} since {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} new message} other {{unreadCount} new messages}} since {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

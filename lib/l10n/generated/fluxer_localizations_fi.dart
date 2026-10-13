@@ -49,8 +49,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# uutta viestiä',
-      one: '# uusi viesti',
+      other: '$unreadCount uutta viestiä',
+      one: '$unreadCount uusi viesti',
     );
     return '$_temp0 $compactTime alkaen';
   }
@@ -74,8 +74,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# uutta viestiä',
-      one: '# uusi viesti',
+      other: '$unreadCount uutta viestiä',
+      one: '$unreadCount uusi viesti',
     );
     return '$_temp0 $shortTime alkaen';
   }
@@ -6016,8 +6016,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# lukematonta viestiä',
-      one: '# lukematon viesti',
+      other: '$count lukematonta viestiä',
+      one: '$count lukematon viesti',
     );
     return 'Näytä chat, jossa on $_temp0';
   }
@@ -6663,8 +6663,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# yhteisöä',
-      one: '# yhteisö',
+      other: '$count yhteisöä',
+      one: '$count yhteisö',
     );
     return 'Kaikki paitsi $_temp0';
   }
@@ -6674,8 +6674,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# yhteisöä',
-      one: '# yhteisö',
+      other: '$count yhteisöä',
+      one: '$count yhteisö',
     );
     return 'Vain $_temp0';
   }
@@ -6704,14 +6704,14 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# tuntia',
-      one: '# tunti',
+      other: '$hours tuntia',
+      one: '$hours tunti',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minuuttia',
-      one: '# minuutti',
+      other: '$minutes minuuttia',
+      one: '$minutes minuutti',
     );
     return '$_temp0 ja $_temp1';
   }
@@ -6721,8 +6721,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# tuntia',
-      one: '# tunti',
+      other: '$hours tuntia',
+      one: '$hours tunti',
     );
     return '$_temp0';
   }
@@ -6732,8 +6732,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minuuttia',
-      one: '# minuutti',
+      other: '$minutes minuuttia',
+      one: '$minutes minuutti',
     );
     return '$_temp0';
   }
@@ -6743,8 +6743,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# sekuntia',
-      one: '# sekunti',
+      other: '$seconds sekuntia',
+      one: '$seconds sekunti',
     );
     return '$_temp0';
   }
@@ -13116,8 +13116,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Poistettu # viestiä.',
-      one: 'Poistettu # viesti.',
+      other: 'Poistettu $count viestiä.',
+      one: 'Poistettu $count viesti.',
     );
     return '$_temp0';
   }
@@ -13127,8 +13127,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Poistettu # jäsentä.',
-      one: 'Poistettu # jäsen.',
+      other: 'Poistettu $count jäsentä.',
+      one: 'Poistettu $count jäsen.',
     );
     return '$_temp0';
   }
@@ -14973,8 +14973,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# uutta viestiä',
-      one: '# uusi viesti',
+      other: '$count uutta viestiä',
+      one: '$count uusi viesti',
     );
     return '$_temp0';
   }

@@ -7040,7 +7040,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Hiện trò chuyện có {count, plural, one {# tin nhắn chưa đọc} other {# tin nhắn chưa đọc}}",
+    "voiceTextChatShowUnread": "Hiện trò chuyện có {count, plural, one {{count} tin nhắn chưa đọc} other {{count} tin nhắn chưa đọc}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -7769,7 +7769,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "Tất cả trừ {count, plural, one {# cộng đồng} other {# cộng đồng}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "Tất cả trừ {count, plural, one {{count} cộng đồng} other {{count} cộng đồng}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -7778,7 +7778,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "Chỉ {count, plural, one {# cộng đồng} other {# cộng đồng}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "Chỉ {count, plural, one {{count} cộng đồng} other {{count} cộng đồng}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -7807,7 +7807,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# giờ} other {# giờ}} và {minutes, plural, one {# phút} other {# phút}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} giờ} other {{hours} giờ}} và {minutes, plural, one {{minutes} phút} other {{minutes} phút}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -7819,7 +7819,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# giờ} other {# giờ}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} giờ} other {{hours} giờ}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -7828,7 +7828,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# phút} other {# phút}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} phút} other {{minutes} phút}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -7837,7 +7837,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# giây} other {# giây}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} giây} other {{seconds} giây}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -14510,7 +14510,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "Đã xóa {count, plural, =1{# tin nhắn.} other{# tin nhắn.}}",
+    "auditLogOptionDeletedMessages": "Đã xóa {count, plural, =1{{count} tin nhắn.} other{{count} tin nhắn.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14519,7 +14519,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{Đã xóa # thành viên.} other{Đã xóa # thành viên.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{Đã xóa {count} thành viên.} other{Đã xóa {count} thành viên.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -16543,7 +16543,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# tin nhắn mới} other {# tin nhắn mới}}",
+    "forumPostNewMessages": "{count, plural, one {{count} tin nhắn mới} other {{count} tin nhắn mới}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, other {# tin nhắn mới}} từ {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, other {{unreadCount} tin nhắn mới}} từ {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16581,7 +16581,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# tin nhắn mới} other {# tin nhắn mới}} kể từ {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} tin nhắn mới} other {{unreadCount} tin nhắn mới}} kể từ {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

@@ -7040,7 +7040,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Toon chat met {count, plural, one {# ongelezen bericht} other {# ongelezen berichten}}",
+    "voiceTextChatShowUnread": "Toon chat met {count, plural, one {{count} ongelezen bericht} other {{count} ongelezen berichten}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -7769,7 +7769,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "Allemaal behalve {count, plural, one {# community} other {# communities}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "Allemaal behalve {count, plural, one {{count} community} other {{count} communities}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -7778,7 +7778,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "Alleen {count, plural, one {# community} other {# communities}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "Alleen {count, plural, one {{count} community} other {{count} communities}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -7807,7 +7807,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# uur} other {# uur}} en {minutes, plural, one {# minuut} other {# minuten}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} uur} other {{hours} uur}} en {minutes, plural, one {{minutes} minuut} other {{minutes} minuten}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -7819,7 +7819,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# uur} other {# uur}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} uur} other {{hours} uur}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -7828,7 +7828,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# minuut} other {# minuten}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} minuut} other {{minutes} minuten}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -7837,7 +7837,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# seconde} other {# seconden}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} seconde} other {{seconds} seconden}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -14510,7 +14510,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{# bericht verwijderd.} other{# berichten verwijderd.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{{count} bericht verwijderd.} other{{count} berichten verwijderd.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14519,7 +14519,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{# lid verwijderd.} other{# leden verwijderd.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{{count} lid verwijderd.} other{{count} leden verwijderd.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -16543,7 +16543,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# nieuw bericht} other {# nieuwe berichten}}",
+    "forumPostNewMessages": "{count, plural, one {{count} nieuw bericht} other {{count} nieuwe berichten}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# nieuw} other {# nieuw}} sinds {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {{unreadCount} nieuw} other {{unreadCount} nieuw}} sinds {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16581,7 +16581,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# nieuw bericht} other {# nieuwe berichten}} sinds {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} nieuw bericht} other {{unreadCount} nieuwe berichten}} sinds {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

@@ -7040,7 +7040,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "{count, plural, one {# अपठित संदेश के साथ चैट दिखाएं} other {# अपठित संदेशों के साथ चैट दिखाएं}}",
+    "voiceTextChatShowUnread": "{count, plural, one {{count} अपठित संदेश के साथ चैट दिखाएं} other {{count} अपठित संदेशों के साथ चैट दिखाएं}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -7769,7 +7769,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "{count, plural, one {# समुदाय को छोड़कर} other {# समुदायों को छोड़कर}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "{count, plural, one {{count} समुदाय को छोड़कर} other {{count} समुदायों को छोड़कर}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -7778,7 +7778,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "सिर्फ़ {count, plural, one {# कम्युनिटी} other {# कम्युनिटीज़}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "सिर्फ़ {count, plural, one {{count} कम्युनिटी} other {{count} कम्युनिटीज़}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -7807,7 +7807,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# घंटा} other {# घंटे}} और {minutes, plural, one {# मिनट} other {# मिनट}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} घंटा} other {{hours} घंटे}} और {minutes, plural, one {{minutes} मिनट} other {{minutes} मिनट}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -7819,7 +7819,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# घंटा} other {# घंटे}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} घंटा} other {{hours} घंटे}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -7828,7 +7828,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# मिनट} other {# मिनट}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} मिनट} other {{minutes} मिनट}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -7837,7 +7837,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# सेकंड} other {# सेकंड}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} सेकंड} other {{seconds} सेकंड}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -14510,7 +14510,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{# संदेश हटाया गया।} other{# संदेश हटाए गए।}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{{count} संदेश हटाया गया।} other{{count} संदेश हटाए गए।}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14519,7 +14519,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{# सदस्य हटाया गया।} other{# सदस्य हटाए गए।}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{{count} सदस्य हटाया गया।} other{{count} सदस्य हटाए गए।}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -16543,7 +16543,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# नया संदेश} other {# नए संदेश}}",
+    "forumPostNewMessages": "{count, plural, one {{count} नया संदेश} other {{count} नए संदेश}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{shortTime} से {unreadCount, plural, one {# नया मैसेज} other {# नए मैसेज}}",
+    "chatNewMessagesBarNewSince": "{shortTime} से {unreadCount, plural, one {{unreadCount} नया मैसेज} other {{unreadCount} नए मैसेज}}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16581,7 +16581,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{compactTime} से {unreadCount, plural, one {# नया मैसेज} other {# नए मैसेज}}",
+    "chatNewMessagesBarNewMessagesSince": "{compactTime} से {unreadCount, plural, one {{unreadCount} नया मैसेज} other {{unreadCount} नए मैसेज}}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

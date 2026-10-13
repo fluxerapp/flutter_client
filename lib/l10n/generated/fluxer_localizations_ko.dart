@@ -48,8 +48,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '새 메시지 #개',
-      one: '새 메시지 #개',
+      other: '새 메시지 $unreadCount개',
+      one: '새 메시지 $unreadCount개',
     );
     return '$compactTime 이후 $_temp0';
   }
@@ -73,7 +73,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '새 메시지 #개',
+      other: '새 메시지 $unreadCount개',
     );
     return '$shortTime 이후 $_temp0';
   }
@@ -1658,7 +1658,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '맞춤 이모티콘 #개',
+      other: '맞춤 이모티콘 $count개',
       one: '맞춤 이모티콘 1개',
     );
     return '$_temp0';
@@ -1669,7 +1669,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '커뮤니티 #개',
+      other: '커뮤니티 $count개',
       one: '커뮤니티 1개',
     );
     return '$_temp0';
@@ -6395,8 +6395,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '#개 커뮤니티',
-      one: '#개 커뮤니티',
+      other: '$count개 커뮤니티',
+      one: '$count개 커뮤니티',
     );
     return '$_temp0 제외 모두';
   }
@@ -6406,8 +6406,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '#개 커뮤니티만',
-      one: '#개 커뮤니티만',
+      other: '$count개 커뮤니티만',
+      one: '$count개 커뮤니티만',
     );
     return '$_temp0';
   }
@@ -6432,14 +6432,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '#시간',
-      one: '#시간',
+      other: '$hours시간',
+      one: '$hours시간',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '#분',
-      one: '#분',
+      other: '$minutes분',
+      one: '$minutes분',
     );
     return '$_temp0 $_temp1';
   }
@@ -6449,8 +6449,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '#시간',
-      one: '#시간',
+      other: '$hours시간',
+      one: '$hours시간',
     );
     return '$_temp0';
   }
@@ -6460,8 +6460,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '#분',
-      one: '#분',
+      other: '$minutes분',
+      one: '$minutes분',
     );
     return '$_temp0';
   }
@@ -6471,8 +6471,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '#초',
-      one: '#초',
+      other: '$seconds초',
+      one: '$seconds초',
     );
     return '$_temp0';
   }
@@ -12571,7 +12571,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '메시지 #개를 삭제했습니다.',
+      other: '메시지 $count개를 삭제했습니다.',
       one: '메시지 1개를 삭제했습니다.',
     );
     return '$_temp0';
@@ -12582,7 +12582,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '멤버 #명을 추방했습니다.',
+      other: '멤버 $count명을 추방했습니다.',
       one: '멤버 1명을 추방했습니다.',
     );
     return '$_temp0';
@@ -14326,8 +14326,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '#개의 새 메시지',
-      one: '#개의 새 메시지',
+      other: '$count개의 새 메시지',
+      one: '$count개의 새 메시지',
     );
     return '$_temp0';
   }

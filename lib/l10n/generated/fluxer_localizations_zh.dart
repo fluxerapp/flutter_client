@@ -48,7 +48,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# 条新消息',
+      other: '$unreadCount 条新消息',
     );
     return '$compactTime 以来有 $_temp0';
   }
@@ -72,7 +72,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# 条新消息',
+      other: '$unreadCount 条新消息',
     );
     return '$shortTime 以来有 $_temp0';
   }
@@ -5671,8 +5671,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 条未读消息',
-      one: '# 条未读消息',
+      other: '$count 条未读消息',
+      one: '$count 条未读消息',
     );
     return '显示聊天（$_temp0）';
   }
@@ -6261,8 +6261,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 个社群',
-      one: '# 个社群',
+      other: '$count 个社群',
+      one: '$count 个社群',
     );
     return '除 $_temp0 外的所有社群';
   }
@@ -6272,8 +6272,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 个社群',
-      one: '# 个社群',
+      other: '$count 个社群',
+      one: '$count 个社群',
     );
     return '仅限 $_temp0';
   }
@@ -6298,14 +6298,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# 小时',
-      one: '# 小时',
+      other: '$hours 小时',
+      one: '$hours 小时',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# 分钟',
-      one: '# 分钟',
+      other: '$minutes 分钟',
+      one: '$minutes 分钟',
     );
     return '$_temp0又$_temp1';
   }
@@ -6315,8 +6315,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# 小时',
-      one: '# 小时',
+      other: '$hours 小时',
+      one: '$hours 小时',
     );
     return '$_temp0';
   }
@@ -6326,8 +6326,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# 分钟',
-      one: '# 分钟',
+      other: '$minutes 分钟',
+      one: '$minutes 分钟',
     );
     return '$_temp0';
   }
@@ -6337,8 +6337,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# 秒',
-      one: '# 秒',
+      other: '$seconds 秒',
+      one: '$seconds 秒',
     );
     return '$_temp0';
   }
@@ -12330,8 +12330,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '删除了 # 条消息。',
-      one: '删除了 # 条消息。',
+      other: '删除了 $count 条消息。',
+      one: '删除了 $count 条消息。',
     );
     return '$_temp0';
   }
@@ -12341,8 +12341,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '移除了 # 名成员。',
-      one: '移除了 # 名成员。',
+      other: '移除了 $count 名成员。',
+      one: '移除了 $count 名成员。',
     );
     return '$_temp0';
   }
@@ -14050,8 +14050,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 条新消息',
-      one: '# 条新消息',
+      other: '$count 条新消息',
+      one: '$count 条新消息',
     );
     return '$_temp0';
   }
@@ -14406,8 +14406,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# 則新訊息',
-      one: '# 則新訊息',
+      other: '$unreadCount 則新訊息',
+      one: '$unreadCount 則新訊息',
     );
     return '自 $compactTime 起有 $_temp0';
   }
@@ -14431,7 +14431,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# 則新訊息',
+      other: '$unreadCount 則新訊息',
     );
     return '自 $shortTime 起有 $_temp0';
   }
@@ -16596,7 +16596,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '已註冊 # 個通行金鑰',
+      other: '已註冊 $count 個通行金鑰',
       one: '已註冊 1 個通行金鑰',
     );
     return '$_temp0 (最多 10 個)';
@@ -19943,8 +19943,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 則未讀訊息',
-      one: '# 則未讀訊息',
+      other: '$count 則未讀訊息',
+      one: '$count 則未讀訊息',
     );
     return '顯示聊天（有 $_temp0）';
   }
@@ -20502,8 +20502,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 個社群',
-      one: '# 個社群',
+      other: '$count 個社群',
+      one: '$count 個社群',
     );
     return '所有社群，除了 $_temp0';
   }
@@ -20513,8 +20513,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 個社群',
-      one: '# 個社群',
+      other: '$count 個社群',
+      one: '$count 個社群',
     );
     return '僅限 $_temp0';
   }
@@ -20539,14 +20539,14 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# 小時',
-      one: '# 小時',
+      other: '$hours 小時',
+      one: '$hours 小時',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# 分鐘',
-      one: '# 分鐘',
+      other: '$minutes 分鐘',
+      one: '$minutes 分鐘',
     );
     return '$_temp0又$_temp1';
   }
@@ -20556,8 +20556,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# 小時',
-      one: '# 小時',
+      other: '$hours 小時',
+      one: '$hours 小時',
     );
     return '$_temp0';
   }
@@ -20567,8 +20567,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# 分鐘',
-      one: '# 分鐘',
+      other: '$minutes 分鐘',
+      one: '$minutes 分鐘',
     );
     return '$_temp0';
   }
@@ -20578,8 +20578,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# 秒',
-      one: '# 秒',
+      other: '$seconds 秒',
+      one: '$seconds 秒',
     );
     return '$_temp0';
   }
@@ -26038,8 +26038,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '刪除 # 則訊息。',
-      one: '刪除 # 則訊息。',
+      other: '刪除 $count 則訊息。',
+      one: '刪除 $count 則訊息。',
     );
     return '$_temp0';
   }
@@ -26049,8 +26049,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '移除 # 位成員。',
-      one: '移除 # 位成員。',
+      other: '移除 $count 位成員。',
+      one: '移除 $count 位成員。',
     );
     return '$_temp0';
   }
@@ -27687,8 +27687,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# 則新訊息',
-      one: '# 則新訊息',
+      other: '$count 則新訊息',
+      one: '$count 則新訊息',
     );
     return '$_temp0';
   }

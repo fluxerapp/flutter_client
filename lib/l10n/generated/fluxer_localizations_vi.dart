@@ -49,8 +49,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# tin nhắn mới',
-      one: '# tin nhắn mới',
+      other: '$unreadCount tin nhắn mới',
+      one: '$unreadCount tin nhắn mới',
     );
     return '$_temp0 kể từ $compactTime';
   }
@@ -74,7 +74,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# tin nhắn mới',
+      other: '$unreadCount tin nhắn mới',
     );
     return '$_temp0 từ $shortTime';
   }
@@ -5997,8 +5997,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# tin nhắn chưa đọc',
-      one: '# tin nhắn chưa đọc',
+      other: '$count tin nhắn chưa đọc',
+      one: '$count tin nhắn chưa đọc',
     );
     return 'Hiện trò chuyện có $_temp0';
   }
@@ -6649,8 +6649,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# cộng đồng',
-      one: '# cộng đồng',
+      other: '$count cộng đồng',
+      one: '$count cộng đồng',
     );
     return 'Tất cả trừ $_temp0';
   }
@@ -6660,8 +6660,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# cộng đồng',
-      one: '# cộng đồng',
+      other: '$count cộng đồng',
+      one: '$count cộng đồng',
     );
     return 'Chỉ $_temp0';
   }
@@ -6690,14 +6690,14 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# giờ',
-      one: '# giờ',
+      other: '$hours giờ',
+      one: '$hours giờ',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# phút',
-      one: '# phút',
+      other: '$minutes phút',
+      one: '$minutes phút',
     );
     return '$_temp0 và $_temp1';
   }
@@ -6707,8 +6707,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# giờ',
-      one: '# giờ',
+      other: '$hours giờ',
+      one: '$hours giờ',
     );
     return '$_temp0';
   }
@@ -6718,8 +6718,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# phút',
-      one: '# phút',
+      other: '$minutes phút',
+      one: '$minutes phút',
     );
     return '$_temp0';
   }
@@ -6729,8 +6729,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# giây',
-      one: '# giây',
+      other: '$seconds giây',
+      one: '$seconds giây',
     );
     return '$_temp0';
   }
@@ -13102,8 +13102,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# tin nhắn.',
-      one: '# tin nhắn.',
+      other: '$count tin nhắn.',
+      one: '$count tin nhắn.',
     );
     return 'Đã xóa $_temp0';
   }
@@ -13113,8 +13113,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Đã xóa # thành viên.',
-      one: 'Đã xóa # thành viên.',
+      other: 'Đã xóa $count thành viên.',
+      one: 'Đã xóa $count thành viên.',
     );
     return '$_temp0';
   }
@@ -14952,8 +14952,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# tin nhắn mới',
-      one: '# tin nhắn mới',
+      other: '$count tin nhắn mới',
+      one: '$count tin nhắn mới',
     );
     return '$_temp0';
   }

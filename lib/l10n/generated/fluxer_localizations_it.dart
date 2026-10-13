@@ -50,8 +50,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nuovi messaggi',
-      one: '# nuovo messaggio',
+      other: '$unreadCount nuovi messaggi',
+      one: '$unreadCount nuovo messaggio',
     );
     return '$_temp0 da $compactTime';
   }
@@ -75,9 +75,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nuovi',
-      many: '# nuovi',
-      one: '# nuovo',
+      other: '$unreadCount nuovi',
+      many: '$unreadCount nuovi',
+      one: '$unreadCount nuovo',
     );
     return '$_temp0 da $shortTime';
   }
@@ -6034,7 +6034,7 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# messaggi non letti',
+      other: '$count messaggi non letti',
       one: '1 messaggio non letto',
     );
     return 'Mostra chat con $_temp0';
@@ -6690,8 +6690,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# community',
-      one: '# community',
+      other: '$count community',
+      one: '$count community',
     );
     return 'Tutte tranne $_temp0';
   }
@@ -6701,8 +6701,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# community',
-      one: '# community',
+      other: '$count community',
+      one: '$count community',
     );
     return 'Solo $_temp0';
   }
@@ -6729,14 +6729,14 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ore',
-      one: '# ora',
+      other: '$hours ore',
+      one: '$hours ora',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minuti',
-      one: '# minuto',
+      other: '$minutes minuti',
+      one: '$minutes minuto',
     );
     return '$_temp0 e $_temp1';
   }
@@ -6746,8 +6746,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ore',
-      one: '# ora',
+      other: '$hours ore',
+      one: '$hours ora',
     );
     return '$_temp0';
   }
@@ -6757,8 +6757,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minuti',
-      one: '# minuto',
+      other: '$minutes minuti',
+      one: '$minutes minuto',
     );
     return '$_temp0';
   }
@@ -6768,8 +6768,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# secondi',
-      one: '# secondo',
+      other: '$seconds secondi',
+      one: '$seconds secondo',
     );
     return '$_temp0';
   }
@@ -13184,8 +13184,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Eliminati # messaggi.',
-      one: 'Eliminato # messaggio.',
+      other: 'Eliminati $count messaggi.',
+      one: 'Eliminato $count messaggio.',
     );
     return '$_temp0';
   }
@@ -13195,8 +13195,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Rimossi # membri.',
-      one: 'Rimosso # membro.',
+      other: 'Rimossi $count membri.',
+      one: 'Rimosso $count membro.',
     );
     return '$_temp0';
   }
@@ -15052,8 +15052,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# nuovi messaggi',
-      one: '# nuovo messaggio',
+      other: '$count nuovi messaggi',
+      one: '$count nuovo messaggio',
     );
     return '$_temp0';
   }

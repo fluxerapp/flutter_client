@@ -49,8 +49,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# pesan baru',
-      one: '# pesan baru',
+      other: '$unreadCount pesan baru',
+      one: '$unreadCount pesan baru',
     );
     return '$_temp0 sejak $compactTime';
   }
@@ -74,7 +74,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# baru',
+      other: '$unreadCount baru',
     );
     return '$_temp0 sejak $shortTime';
   }
@@ -5999,8 +5999,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# pesan belum dibaca',
-      one: '# pesan belum dibaca',
+      other: '$count pesan belum dibaca',
+      one: '$count pesan belum dibaca',
     );
     return 'Tampilkan obrolan dengan $_temp0';
   }
@@ -6648,8 +6648,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# komunitas',
-      one: '# komunitas',
+      other: '$count komunitas',
+      one: '$count komunitas',
     );
     return 'Semua kecuali $_temp0';
   }
@@ -6659,8 +6659,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# komunitas',
-      one: '# komunitas',
+      other: '$count komunitas',
+      one: '$count komunitas',
     );
     return 'Hanya $_temp0';
   }
@@ -6689,14 +6689,14 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# jam',
-      one: '# jam',
+      other: '$hours jam',
+      one: '$hours jam',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# menit',
-      one: '# menit',
+      other: '$minutes menit',
+      one: '$minutes menit',
     );
     return '$_temp0 dan $_temp1';
   }
@@ -6706,8 +6706,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# jam',
-      one: '# jam',
+      other: '$hours jam',
+      one: '$hours jam',
     );
     return '$_temp0';
   }
@@ -6717,8 +6717,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# menit',
-      one: '# menit',
+      other: '$minutes menit',
+      one: '$minutes menit',
     );
     return '$_temp0';
   }
@@ -6728,8 +6728,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# detik',
-      one: '# detik',
+      other: '$seconds detik',
+      one: '$seconds detik',
     );
     return '$_temp0';
   }
@@ -13097,8 +13097,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Menghapus # pesan.',
-      one: 'Menghapus # pesan.',
+      other: 'Menghapus $count pesan.',
+      one: 'Menghapus $count pesan.',
     );
     return '$_temp0';
   }
@@ -13108,8 +13108,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Menghapus # anggota.',
-      one: 'Menghapus # anggota.',
+      other: 'Menghapus $count anggota.',
+      one: 'Menghapus $count anggota.',
     );
     return '$_temp0';
   }
@@ -14947,8 +14947,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# pesan baru',
-      one: '# pesan baru',
+      other: '$count pesan baru',
+      one: '$count pesan baru',
     );
     return '$_temp0';
   }

@@ -5138,7 +5138,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Mostrar chat com {count, plural, one {# mensagem não lida} other {# mensagens não lidas}}",
+    "voiceTextChatShowUnread": "Mostrar chat com {count, plural, one {{count} mensagem não lida} other {{count} mensagens não lidas}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -8149,7 +8149,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{Excluída # mensagem.} other{Excluídas # mensagens.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{Excluída {count} mensagem.} other{Excluídas {count} mensagens.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8158,7 +8158,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{Membro removido #.} other{Membros removidos #.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{Membro removido {count}.} other{Membros removidos {count}.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {

@@ -209,7 +209,7 @@ abstract class FluxerLocalizations {
   /// Wide new messages bar label. compactTime is the date and time of the oldest unread message.
   ///
   /// In en, this message translates to:
-  /// **'{unreadCount, plural, one {# new message} other {# new messages}} since {compactTime}'**
+  /// **'{unreadCount, plural, one {{unreadCount} new message} other {{unreadCount} new messages}} since {compactTime}'**
   String chatNewMessagesBarNewMessagesSince(
     int unreadCount,
     String compactTime,
@@ -224,7 +224,7 @@ abstract class FluxerLocalizations {
   /// Compact new messages bar label. shortTime is the time of the oldest unread message.
   ///
   /// In en, this message translates to:
-  /// **'{unreadCount, plural, one {# new} other {# new}} since {shortTime}'**
+  /// **'{unreadCount, plural, one {{unreadCount} new} other {{unreadCount} new}} since {shortTime}'**
   String chatNewMessagesBarNewSince(int unreadCount, String shortTime);
 
   /// Subtitle on the reconnecting screen explaining a temporary instance outage.
@@ -9780,7 +9780,7 @@ abstract class FluxerLocalizations {
   /// Accessibility label when voice channel text chat has unread messages.
   ///
   /// In en, this message translates to:
-  /// **'Show chat with {count, plural, one {# unread message} other {# unread messages}}'**
+  /// **'Show chat with {count, plural, one {{count} unread message} other {{count} unread messages}}'**
   String voiceTextChatShowUnread(int count);
 
   /// Error when the user enables video but camera access is denied.
@@ -10852,13 +10852,13 @@ abstract class FluxerLocalizations {
   /// Summary value when community filter is in exclude mode.
   ///
   /// In en, this message translates to:
-  /// **'All except {count, plural, one {# community} other {# communities}}'**
+  /// **'All except {count, plural, one {{count} community} other {{count} communities}}'**
   String privacyDashboardDataRequestSummaryGuildExclude(int count);
 
   /// Summary value when community filter is in include-only mode.
   ///
   /// In en, this message translates to:
-  /// **'Only {count, plural, one {# community} other {# communities}}'**
+  /// **'Only {count, plural, one {{count} community} other {{count} communities}}'**
   String privacyDashboardDataRequestSummaryGuildInclude(int count);
 
   /// Summary chip for open DMs only.
@@ -10894,25 +10894,25 @@ abstract class FluxerLocalizations {
   /// Duration label with hours and minutes.
   ///
   /// In en, this message translates to:
-  /// **'{hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}}'**
+  /// **'{hours, plural, one {{hours} hour} other {{hours} hours}} and {minutes, plural, one {{minutes} minute} other {{minutes} minutes}}'**
   String privacyDashboardDurationHoursMinutes(int hours, int minutes);
 
   /// Duration label with hours only.
   ///
   /// In en, this message translates to:
-  /// **'{hours, plural, one {# hour} other {# hours}}'**
+  /// **'{hours, plural, one {{hours} hour} other {{hours} hours}}'**
   String privacyDashboardDurationHours(int hours);
 
   /// Duration label with minutes only.
   ///
   /// In en, this message translates to:
-  /// **'{minutes, plural, one {# minute} other {# minutes}}'**
+  /// **'{minutes, plural, one {{minutes} minute} other {{minutes} minutes}}'**
   String privacyDashboardDurationMinutes(int minutes);
 
   /// Duration label with seconds only.
   ///
   /// In en, this message translates to:
-  /// **'{seconds, plural, one {# second} other {# seconds}}'**
+  /// **'{seconds, plural, one {{seconds} second} other {{seconds} seconds}}'**
   String privacyDashboardDurationSeconds(int seconds);
 
   /// Error message when privacy settings fail to load.
@@ -21621,13 +21621,13 @@ abstract class FluxerLocalizations {
   /// Audit log option detail sentence.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Deleted # message.} other{Deleted # messages.}}'**
+  /// **'{count, plural, =1{Deleted {count} message.} other{Deleted {count} messages.}}'**
   String auditLogOptionDeletedMessages(int count);
 
   /// Audit log option detail sentence.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Removed # member.} other{Removed # members.}}'**
+  /// **'{count, plural, =1{Removed {count} member.} other{Removed {count} members.}}'**
   String auditLogOptionRemovedMembers(int count);
 
   /// Audit log option detail sentence.
@@ -24717,7 +24717,7 @@ abstract class FluxerLocalizations {
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, one {# new message} other {# new messages}}'**
+  /// **'{count, plural, one {{count} new message} other {{count} new messages}}'**
   String forumPostNewMessages(int count);
 
   /// Forum and media channel UI.

@@ -49,8 +49,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# új üzenet',
-      one: '# új üzenet',
+      other: '$unreadCount új üzenet',
+      one: '$unreadCount új üzenet',
     );
     return '$_temp0 $compactTime óta';
   }
@@ -74,8 +74,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# új üzenet',
-      one: '# új üzenet',
+      other: '$unreadCount új üzenet',
+      one: '$unreadCount új üzenet',
     );
     return '$_temp0 $shortTime óta';
   }
@@ -6050,8 +6050,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# olvasatlan üzenet',
-      one: '# olvasatlan üzenet',
+      other: '$count olvasatlan üzenet',
+      one: '$count olvasatlan üzenet',
     );
     return 'Csevegés megjelenítése $_temp0';
   }
@@ -6704,8 +6704,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# közösséget',
-      one: '# közösséget',
+      other: '$count közösséget',
+      one: '$count közösséget',
     );
     return 'Összes, kivéve $_temp0';
   }
@@ -6715,8 +6715,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# közösség',
-      one: '# közösség',
+      other: '$count közösség',
+      one: '$count közösség',
     );
     return 'Csak $_temp0';
   }
@@ -6746,14 +6746,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# óra',
-      one: '# óra',
+      other: '$hours óra',
+      one: '$hours óra',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# perc',
-      one: '# perc',
+      other: '$minutes perc',
+      one: '$minutes perc',
     );
     return '$_temp0 és $_temp1';
   }
@@ -6763,8 +6763,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# óra',
-      one: '# óra',
+      other: '$hours óra',
+      one: '$hours óra',
     );
     return '$_temp0';
   }
@@ -6774,8 +6774,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# perc',
-      one: '# perc',
+      other: '$minutes perc',
+      one: '$minutes perc',
     );
     return '$_temp0';
   }
@@ -6785,8 +6785,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# másodperc',
-      one: '# másodperc',
+      other: '$seconds másodperc',
+      one: '$seconds másodperc',
     );
     return '$_temp0';
   }
@@ -13208,7 +13208,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Törölve # üzenet.',
+      other: 'Törölve $count üzenet.',
       one: 'Törölve 1 üzenet.',
     );
     return '$_temp0';
@@ -13219,7 +13219,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Eltávolítva # tag.',
+      other: 'Eltávolítva $count tag.',
       one: 'Eltávolítva 1 tag.',
     );
     return '$_temp0';
@@ -15081,8 +15081,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# új üzenet',
-      one: '# új üzenet',
+      other: '$count új üzenet',
+      one: '$count új üzenet',
     );
     return '$_temp0';
   }

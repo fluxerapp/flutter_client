@@ -49,8 +49,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nye beskeder',
-      one: '# ny besked',
+      other: '$unreadCount nye beskeder',
+      one: '$unreadCount ny besked',
     );
     return '$_temp0 siden $compactTime';
   }
@@ -74,8 +74,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nye',
-      one: '# ny',
+      other: '$unreadCount nye',
+      one: '$unreadCount ny',
     );
     return '$_temp0 siden $shortTime';
   }
@@ -5998,8 +5998,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# ulæste beskeder',
-      one: '# ulæst besked',
+      other: '$count ulæste beskeder',
+      one: '$count ulæst besked',
     );
     return 'Vis chat med $_temp0';
   }
@@ -6646,8 +6646,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# fællesskaber',
-      one: '# fællesskab',
+      other: '$count fællesskaber',
+      one: '$count fællesskab',
     );
     return 'Alle undtagen $_temp0';
   }
@@ -6657,8 +6657,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# fællesskaber',
-      one: '# fællesskab',
+      other: '$count fællesskaber',
+      one: '$count fællesskab',
     );
     return 'Kun $_temp0';
   }
@@ -6687,14 +6687,14 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# timer',
-      one: '# time',
+      other: '$hours timer',
+      one: '$hours time',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutter',
-      one: '# minut',
+      other: '$minutes minutter',
+      one: '$minutes minut',
     );
     return '$_temp0 og $_temp1';
   }
@@ -6704,8 +6704,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# timer',
-      one: '# time',
+      other: '$hours timer',
+      one: '$hours time',
     );
     return '$_temp0';
   }
@@ -6715,8 +6715,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutter',
-      one: '# minut',
+      other: '$minutes minutter',
+      one: '$minutes minut',
     );
     return '$_temp0';
   }
@@ -6726,8 +6726,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# sekunder',
-      one: '# sekund',
+      other: '$seconds sekunder',
+      one: '$seconds sekund',
     );
     return '$_temp0';
   }
@@ -13104,8 +13104,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Slettet # beskeder.',
-      one: 'Slettet # besked.',
+      other: 'Slettet $count beskeder.',
+      one: 'Slettet $count besked.',
     );
     return '$_temp0';
   }
@@ -13115,8 +13115,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Fjernede # medlemmer.',
-      one: 'Fjernede # medlem.',
+      other: 'Fjernede $count medlemmer.',
+      one: 'Fjernede $count medlem.',
     );
     return '$_temp0';
   }
@@ -14960,8 +14960,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# nye beskeder',
-      one: '# ny besked',
+      other: '$count nye beskeder',
+      one: '$count ny besked',
     );
     return '$_temp0';
   }

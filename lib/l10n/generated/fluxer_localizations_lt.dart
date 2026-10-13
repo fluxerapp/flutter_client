@@ -49,10 +49,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# naujų žinučių',
-      many: '# naujos žinutės',
-      few: '# naujos žinutės',
-      one: '# nauja žinutė',
+      other: '$unreadCount naujų žinučių',
+      many: '$unreadCount naujos žinutės',
+      few: '$unreadCount naujos žinutės',
+      one: '$unreadCount nauja žinutė',
     );
     return '$_temp0 nuo $compactTime';
   }
@@ -76,10 +76,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# naujų',
-      many: '# naujos',
-      few: '# naujos',
-      one: '# nauja',
+      other: '$unreadCount naujų',
+      many: '$unreadCount naujos',
+      few: '$unreadCount naujos',
+      one: '$unreadCount nauja',
     );
     return '$_temp0 nuo $shortTime';
   }
@@ -3381,9 +3381,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minučių',
-      few: '# minutės',
-      one: '# minutė',
+      other: '$minutes minučių',
+      few: '$minutes minutės',
+      one: '$minutes minutė',
     );
     return '$_temp0';
   }
@@ -5684,9 +5684,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# metų',
-      few: '# metus',
-      one: '# metus',
+      other: '$count metų',
+      few: '$count metus',
+      one: '$count metus',
     );
     return '$_temp0';
   }
@@ -5696,9 +5696,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# mėnesių',
-      few: '# mėnesius',
-      one: '# mėnesį',
+      other: '$count mėnesių',
+      few: '$count mėnesius',
+      one: '$count mėnesį',
     );
     return '$_temp0';
   }
@@ -5708,9 +5708,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# savaičių',
-      few: '# savaites',
-      one: '# savaitę',
+      other: '$count savaičių',
+      few: '$count savaites',
+      one: '$count savaitę',
     );
     return '$_temp0';
   }
@@ -5720,9 +5720,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# dienų',
-      few: '# dienas',
-      one: '# dieną',
+      other: '$count dienų',
+      few: '$count dienas',
+      one: '$count dieną',
     );
     return '$_temp0';
   }
@@ -5732,9 +5732,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# valandų',
-      few: '# valandas',
-      one: '# valandą',
+      other: '$count valandų',
+      few: '$count valandas',
+      one: '$count valandą',
     );
     return '$_temp0';
   }
@@ -5744,9 +5744,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# minučių',
-      few: '# minutes',
-      one: '# minutę',
+      other: '$count minučių',
+      few: '$count minutes',
+      one: '$count minutę',
     );
     return '$_temp0';
   }
@@ -6071,8 +6071,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# neskaitytos žinutės',
-      one: '# neskaityta žinutė',
+      other: '$count neskaitytos žinutės',
+      one: '$count neskaityta žinutė',
     );
     return 'Rodyti pokalbį su $_temp0';
   }
@@ -6723,8 +6723,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# bendruomenes',
-      one: '# bendruomenę',
+      other: '$count bendruomenes',
+      one: '$count bendruomenę',
     );
     return 'Visos, išskyrus $_temp0';
   }
@@ -6734,8 +6734,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# bendruomenės',
-      one: '# bendruomenė',
+      other: '$count bendruomenės',
+      one: '$count bendruomenė',
     );
     return 'Tik $_temp0';
   }
@@ -6764,14 +6764,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# valandos',
-      one: '# valanda',
+      other: '$hours valandos',
+      one: '$hours valanda',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutės',
-      one: '# minutė',
+      other: '$minutes minutės',
+      one: '$minutes minutė',
     );
     return '$_temp0 ir $_temp1';
   }
@@ -6781,9 +6781,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# valandų',
-      few: '# valandos',
-      one: '# valanda',
+      other: '$hours valandų',
+      few: '$hours valandos',
+      one: '$hours valanda',
     );
     return '$_temp0';
   }
@@ -6793,9 +6793,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minučių',
-      few: '# minutės',
-      one: '# minutė',
+      other: '$minutes minučių',
+      few: '$minutes minutės',
+      one: '$minutes minutė',
     );
     return '$_temp0';
   }
@@ -6805,9 +6805,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# sekundžių',
-      few: '# sekundės',
-      one: '# sekundė',
+      other: '$seconds sekundžių',
+      few: '$seconds sekundės',
+      one: '$seconds sekundė',
     );
     return '$_temp0';
   }
@@ -13201,8 +13201,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Ištrinta # žinučių.',
-      one: 'Ištrinta # žinutė.',
+      other: 'Ištrinta $count žinučių.',
+      one: 'Ištrinta $count žinutė.',
     );
     return '$_temp0';
   }
@@ -13212,8 +13212,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pašalinti # nariai.',
-      one: 'Pašalintas # narys.',
+      other: 'Pašalinti $count nariai.',
+      one: 'Pašalintas $count narys.',
     );
     return '$_temp0';
   }
@@ -15075,8 +15075,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# naujos žinutės',
-      one: '# nauja žinutė',
+      other: '$count naujos žinutės',
+      one: '$count nauja žinutė',
     );
     return '$_temp0';
   }

@@ -49,8 +49,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# νέα μηνύματα',
-      one: '# νέο μήνυμα',
+      other: '$unreadCount νέα μηνύματα',
+      one: '$unreadCount νέο μήνυμα',
     );
     return '$_temp0 από $compactTime';
   }
@@ -74,8 +74,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# νέα',
-      one: '# νέο',
+      other: '$unreadCount νέα',
+      one: '$unreadCount νέο',
     );
     return '$_temp0 από $shortTime';
   }
@@ -6065,8 +6065,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# αναπάντητα μηνύματα',
-      one: '# αναπάντητο μήνυμα',
+      other: '$count αναπάντητα μηνύματα',
+      one: '$count αναπάντητο μήνυμα',
     );
     return 'Εμφάνιση συνομιλίας με $_temp0';
   }
@@ -6719,8 +6719,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# κοινότητες',
-      one: '# κοινότητα',
+      other: '$count κοινότητες',
+      one: '$count κοινότητα',
     );
     return 'Όλες εκτός από $_temp0';
   }
@@ -6730,8 +6730,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# κοινότητες',
-      one: '# κοινότητα',
+      other: '$count κοινότητες',
+      one: '$count κοινότητα',
     );
     return 'Μόνο $_temp0';
   }
@@ -6761,14 +6761,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ώρες',
-      one: '# ώρα',
+      other: '$hours ώρες',
+      one: '$hours ώρα',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# λεπτά',
-      one: '# λεπτό',
+      other: '$minutes λεπτά',
+      one: '$minutes λεπτό',
     );
     return '$_temp0 και $_temp1';
   }
@@ -6778,8 +6778,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# ώρες',
-      one: '# ώρα',
+      other: '$hours ώρες',
+      one: '$hours ώρα',
     );
     return '$_temp0';
   }
@@ -6789,8 +6789,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# λεπτά',
-      one: '# λεπτό',
+      other: '$minutes λεπτά',
+      one: '$minutes λεπτό',
     );
     return '$_temp0';
   }
@@ -6800,8 +6800,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# δευτερόλεπτα',
-      one: '# δευτερόλεπτο',
+      other: '$seconds δευτερόλεπτα',
+      one: '$seconds δευτερόλεπτο',
     );
     return '$_temp0';
   }
@@ -13256,8 +13256,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Διαγράφηκαν # μηνύματα.',
-      one: 'Διαγράφηκε # μήνυμα.',
+      other: 'Διαγράφηκαν $count μηνύματα.',
+      one: 'Διαγράφηκε $count μήνυμα.',
     );
     return '$_temp0';
   }
@@ -13267,8 +13267,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Αφαιρέθηκαν # μέλη.',
-      one: 'Αφαιρέθηκε # μέλος.',
+      other: 'Αφαιρέθηκαν $count μέλη.',
+      one: 'Αφαιρέθηκε $count μέλος.',
     );
     return '$_temp0';
   }
@@ -15141,8 +15141,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# νέα μηνύματα',
-      one: '# νέο μήνυμα',
+      other: '$count νέα μηνύματα',
+      one: '$count νέο μήνυμα',
     );
     return '$_temp0';
   }

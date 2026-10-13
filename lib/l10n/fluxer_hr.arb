@@ -3246,7 +3246,7 @@
             }
         }
     },
-    "relativeTimeMonths": "{count, plural, =1{prije 1 mjeseca} other{prije # mjeseci}}",
+    "relativeTimeMonths": "{count, plural, =1{prije 1 mjeseca} other{prije {count} mjeseci}}",
     "@relativeTimeMonths": {
         "description": "Relative time in months.",
         "placeholders": {
@@ -4496,7 +4496,7 @@
     "@linkedDevicesSignOutAll": {
         "description": "Label for the bulk action when no selection is active."
     },
-    "linkedDevicesSignOutN": "{count, plural, =1{Odjavi 1 uređaj} other{Odjavi # uređaja}}",
+    "linkedDevicesSignOutN": "{count, plural, =1{Odjavi 1 uređaj} other{Odjavi {count} uređaja}}",
     "@linkedDevicesSignOutN": {
         "description": "Label for the bulk action button when devices are selected.",
         "placeholders": {
@@ -7040,7 +7040,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Prikaži chat s {count, plural, one {# nepročitanom porukom} other {# nepročitanih poruka}}",
+    "voiceTextChatShowUnread": "Prikaži chat s {count, plural, one {{count} nepročitanom porukom} other {{count} nepročitanih poruka}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -7769,7 +7769,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "Sve osim {count, plural, one {# zajednice} other {# zajednica}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "Sve osim {count, plural, one {{count} zajednice} other {{count} zajednica}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -7778,7 +7778,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "Samo {count, plural, one {# zajednica} other {# zajednice}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "Samo {count, plural, one {{count} zajednica} other {{count} zajednice}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -7807,7 +7807,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# sat} other {# sati}} i {minutes, plural, one {# minuta} other {# minute}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} sat} other {{hours} sati}} i {minutes, plural, one {{minutes} minuta} other {{minutes} minute}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -7819,7 +7819,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# sat} other {# sati}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} sat} other {{hours} sati}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -7828,7 +7828,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# minuta} few {# minute} other {# minuta}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} minuta} few {{minutes} minute} other {{minutes} minuta}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -7837,7 +7837,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# sekunda} other {# sekunde} few {# sekunde}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} sekunda} other {{seconds} sekunde} few {{seconds} sekunde}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -14510,7 +14510,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{Izbrisana # poruka.} other{Izbrisano # poruka.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{Izbrisana {count} poruka.} other{Izbrisano {count} poruka.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14519,7 +14519,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{Uklonjen # član.} other{Uklonjeno # članova.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{Uklonjen {count} član.} other{Uklonjeno {count} članova.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -16543,7 +16543,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# nova poruka} other {# nove poruke}}",
+    "forumPostNewMessages": "{count, plural, one {{count} nova poruka} other {{count} nove poruke}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# nova} few {# nove} other {# novih}} od {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {{unreadCount} nova} few {{unreadCount} nove} other {{unreadCount} novih}} od {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16581,7 +16581,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# nova poruka} few {# nove poruke} other {# novih poruka}} od {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} nova poruka} few {{unreadCount} nove poruke} other {{unreadCount} novih poruka}} od {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

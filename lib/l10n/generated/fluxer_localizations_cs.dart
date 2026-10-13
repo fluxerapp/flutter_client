@@ -49,10 +49,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nových zpráv',
-      many: '# nové zprávy',
-      few: '# nové zprávy',
-      one: '# nová zpráva',
+      other: '$unreadCount nových zpráv',
+      many: '$unreadCount nové zprávy',
+      few: '$unreadCount nové zprávy',
+      one: '$unreadCount nová zpráva',
     );
     return '$_temp0 od $compactTime';
   }
@@ -76,10 +76,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nových',
-      many: '# nové',
-      few: '# nové',
-      one: '# nová',
+      other: '$unreadCount nových',
+      many: '$unreadCount nové',
+      few: '$unreadCount nové',
+      one: '$unreadCount nová',
     );
     return '$_temp0 od $shortTime';
   }
@@ -2588,7 +2588,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'před # lety',
+      other: 'před $count lety',
       one: 'před 1 rokem',
     );
     return '$_temp0';
@@ -2599,7 +2599,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'před # měsíci',
+      other: 'před $count měsíci',
       one: 'před 1 měsícem',
     );
     return '$_temp0';
@@ -2610,7 +2610,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'před # dny',
+      other: 'před $count dny',
       one: 'před 1 dnem',
     );
     return '$_temp0';
@@ -2621,7 +2621,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'před # hodinami',
+      other: 'před $count hodinami',
       one: 'před 1 hodinou',
     );
     return '$_temp0';
@@ -2632,7 +2632,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'před # minutami',
+      other: 'před $count minutami',
       one: 'před 1 minutou',
     );
     return '$_temp0';
@@ -2643,7 +2643,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'před # týdny',
+      other: 'před $count týdny',
       one: 'před týdnem',
     );
     return '$_temp0';
@@ -6018,8 +6018,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# nepřečtenými zprávami',
-      one: '# nepřečtenou zprávou',
+      other: '$count nepřečtenými zprávami',
+      one: '$count nepřečtenou zprávou',
     );
     return 'Zobrazit chat s $_temp0';
   }
@@ -6668,8 +6668,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# komunit',
-      one: '# komunity',
+      other: '$count komunit',
+      one: '$count komunity',
     );
     return 'Vše kromě $_temp0';
   }
@@ -6679,8 +6679,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# komunity',
-      one: '# komunita',
+      other: '$count komunity',
+      one: '$count komunita',
     );
     return 'Pouze $_temp0';
   }
@@ -6710,18 +6710,18 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# hodin',
-      many: '# hodiny',
-      few: '# hodiny',
-      one: '# hodina',
+      other: '$hours hodin',
+      many: '$hours hodiny',
+      few: '$hours hodiny',
+      one: '$hours hodina',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minut',
-      many: '# minuty',
-      few: '# minuty',
-      one: '# minuta',
+      other: '$minutes minut',
+      many: '$minutes minuty',
+      few: '$minutes minuty',
+      one: '$minutes minuta',
     );
     return '$_temp0 a $_temp1';
   }
@@ -6731,10 +6731,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# hodin',
-      many: '# hodiny',
-      few: '# hodiny',
-      one: '# hodina',
+      other: '$hours hodin',
+      many: '$hours hodiny',
+      few: '$hours hodiny',
+      one: '$hours hodina',
     );
     return '$_temp0';
   }
@@ -6744,10 +6744,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minuty',
-      many: '# minut',
-      few: '# minuty',
-      one: '# minuta',
+      other: '$minutes minuty',
+      many: '$minutes minut',
+      few: '$minutes minuty',
+      one: '$minutes minuta',
     );
     return '$_temp0';
   }
@@ -6757,10 +6757,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# sekundy',
-      many: '# sekund',
-      few: '# sekundy',
-      one: '# sekunda',
+      other: '$seconds sekundy',
+      many: '$seconds sekund',
+      few: '$seconds sekundy',
+      one: '$seconds sekunda',
     );
     return '$_temp0';
   }
@@ -13132,8 +13132,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Smazány # zprávy.',
-      one: 'Smazána # zpráva.',
+      other: 'Smazány $count zprávy.',
+      one: 'Smazána $count zpráva.',
     );
     return '$_temp0';
   }
@@ -13143,8 +13143,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Odstraněni # členové.',
-      one: 'Odstraněn # člen.',
+      other: 'Odstraněni $count členové.',
+      one: 'Odstraněn $count člen.',
     );
     return '$_temp0';
   }
@@ -13498,7 +13498,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'před # hodinami',
+      other: 'před $count hodinami',
       one: 'před hodinou',
     );
     return '$_temp0';
@@ -15003,8 +15003,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# nových zpráv',
-      one: '# nová zpráva',
+      other: '$count nových zpráv',
+      one: '$count nová zpráva',
     );
     return '$_temp0';
   }

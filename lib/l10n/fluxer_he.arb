@@ -7040,7 +7040,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "הצג צ'אט עם {count, plural, one {# הודעה שלא נקראה} other {# הודעות שלא נקראו}}",
+    "voiceTextChatShowUnread": "הצג צ'אט עם {count, plural, one {{count} הודעה שלא נקראה} other {{count} הודעות שלא נקראו}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -7769,7 +7769,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "הכול למעט {count, plural, one {# קהילה} other {# קהילות}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "הכול למעט {count, plural, one {{count} קהילה} other {{count} קהילות}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -7778,7 +7778,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "רק {count, plural, one {# קהילה} other {# קהילות}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "רק {count, plural, one {{count} קהילה} other {{count} קהילות}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -7807,7 +7807,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# שעה} other {# שעות}} ו-{minutes, plural, one {# דקה} other {# דקות}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} שעה} other {{hours} שעות}} ו-{minutes, plural, one {{minutes} דקה} other {{minutes} דקות}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -7819,7 +7819,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# שעה} other {# שעות}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} שעה} other {{hours} שעות}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -7828,7 +7828,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# דקה} other {# דקות}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} דקה} other {{minutes} דקות}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -7837,7 +7837,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# שנייה} other {# שניות}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} שנייה} other {{seconds} שניות}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -14510,7 +14510,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{הודעה אחת נמחקה.} other{# הודעות נמחקו.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{הודעה אחת נמחקה.} other{{count} הודעות נמחקו.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14519,7 +14519,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{הוסר חבר אחד.} other{הוסרו # חברים.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{הוסר חבר אחד.} other{הוסרו {count} חברים.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -16543,7 +16543,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# הודעה חדשה} other {# הודעות חדשות}}",
+    "forumPostNewMessages": "{count, plural, one {{count} הודעה חדשה} other {{count} הודעות חדשות}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {הודעה חדשה אחת} two {# הודעות חדשות} other {# הודעות חדשות}} מאז {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {הודעה חדשה אחת} two {{unreadCount} הודעות חדשות} other {{unreadCount} הודעות חדשות}} מאז {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16581,7 +16581,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# הודעה חדשה} other {# הודעות חדשות}} מאז {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} הודעה חדשה} other {{unreadCount} הודעות חדשות}} מאז {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

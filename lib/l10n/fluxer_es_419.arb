@@ -2435,7 +2435,7 @@
     "@securityPasskeysNone": {
         "description": "Shown when no passkeys are registered."
     },
-    "securityPasskeysCount": "{count, plural, =1{# llave de acceso} other{# llaves de acceso}} registradas (máx. 10)",
+    "securityPasskeysCount": "{count, plural, =1{{count} llave de acceso} other{{count} llaves de acceso}} registradas (máx. 10)",
     "@securityPasskeysCount": {
         "description": "Shows passkey count.",
         "placeholders": {
@@ -5138,7 +5138,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Mostrar chat con {count, plural, one {# mensaje sin leer} other {# mensajes sin leer}}",
+    "voiceTextChatShowUnread": "Mostrar chat con {count, plural, one {{count} mensaje sin leer} other {{count} mensajes sin leer}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -8099,7 +8099,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{Se eliminó # mensaje.} other{Se eliminaron # mensajes.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{Se eliminó {count} mensaje.} other{Se eliminaron {count} mensajes.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8108,7 +8108,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{Se eliminó # miembro.} other{Se eliminaron # miembros.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{Se eliminó {count} miembro.} other{Se eliminaron {count} miembros.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -13032,7 +13032,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "Todas excepto {count, plural, one {# comunidad} other {# comunidades}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "Todas excepto {count, plural, one {{count} comunidad} other {{count} comunidades}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -13041,7 +13041,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "Solo {count, plural, one {# comunidad} other {# comunidades}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "Solo {count, plural, one {{count} comunidad} other {{count} comunidades}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -13062,7 +13062,7 @@
     "@privacyDashboardDataRequestSummaryDmsBoth": {
         "description": "Summary chip for open and closed DMs."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# hora} other {# horas}} y {minutes, plural, one {# minuto} other {# minutos}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} hora} other {{hours} horas}} y {minutes, plural, one {{minutes} minuto} other {{minutes} minutos}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -13074,7 +13074,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# hora} other {# horas}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} hora} other {{hours} horas}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -13083,7 +13083,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# minuto} other {# minutos}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} minuto} other {{minutes} minutos}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -13092,7 +13092,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# segundo} other {# segundos}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} segundo} other {{seconds} segundos}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -15588,7 +15588,7 @@
     "@guildMembersJoinedJustNow": {
         "description": "Relative join time on the community members page."
     },
-    "guildMembersJoinedMinutesAgo": "{count, plural, one {hace 1 minuto} other {hace # minutos}}",
+    "guildMembersJoinedMinutesAgo": "{count, plural, one {hace 1 minuto} other {hace {count} minutos}}",
     "@guildMembersJoinedMinutesAgo": {
         "description": "Relative join time on the community members page.",
         "placeholders": {
@@ -15597,7 +15597,7 @@
             }
         }
     },
-    "guildMembersJoinedHoursAgo": "{count, plural, one {Hace 1 hora} other {Hace # horas}}",
+    "guildMembersJoinedHoursAgo": "{count, plural, one {Hace 1 hora} other {Hace {count} horas}}",
     "@guildMembersJoinedHoursAgo": {
         "description": "Relative join time on the community members page.",
         "placeholders": {
@@ -16513,7 +16513,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# mensaje nuevo} other {# mensajes nuevos}}",
+    "forumPostNewMessages": "{count, plural, one {{count} mensaje nuevo} other {{count} mensajes nuevos}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16526,7 +16526,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# nuevo} many {# nuevos} other {# nuevos}} desde {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {{unreadCount} nuevo} many {{unreadCount} nuevos} other {{unreadCount} nuevos}} desde {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16551,7 +16551,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# mensaje nuevo} other {# mensajes nuevos}} desde {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} mensaje nuevo} other {{unreadCount} mensajes nuevos}} desde {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {

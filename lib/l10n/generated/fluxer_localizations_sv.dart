@@ -49,8 +49,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nya meddelanden',
-      one: '# nytt meddelande',
+      other: '$unreadCount nya meddelanden',
+      one: '$unreadCount nytt meddelande',
     );
     return '$_temp0 sedan $compactTime';
   }
@@ -74,8 +74,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# nya',
-      one: '# nytt',
+      other: '$unreadCount nya',
+      one: '$unreadCount nytt',
     );
     return '$_temp0 sedan $shortTime';
   }
@@ -6011,8 +6011,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# olästa meddelanden',
-      one: '# oläst meddelande',
+      other: '$count olästa meddelanden',
+      one: '$count oläst meddelande',
     );
     return 'Visa chatt med $_temp0';
   }
@@ -6660,8 +6660,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communities',
-      one: '# community',
+      other: '$count communities',
+      one: '$count community',
     );
     return 'Alla utom $_temp0';
   }
@@ -6671,8 +6671,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communities',
-      one: '# community',
+      other: '$count communities',
+      one: '$count community',
     );
     return 'Endast $_temp0';
   }
@@ -6701,14 +6701,14 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# timmar',
-      one: '# timme',
+      other: '$hours timmar',
+      one: '$hours timme',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minuter',
-      one: '# minut',
+      other: '$minutes minuter',
+      one: '$minutes minut',
     );
     return '$_temp0 och $_temp1';
   }
@@ -6718,8 +6718,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# timmar',
-      one: '# timme',
+      other: '$hours timmar',
+      one: '$hours timme',
     );
     return '$_temp0';
   }
@@ -6729,8 +6729,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minuter',
-      one: '# minut',
+      other: '$minutes minuter',
+      one: '$minutes minut',
     );
     return '$_temp0';
   }
@@ -6740,8 +6740,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# sekunder',
-      one: '# sekund',
+      other: '$seconds sekunder',
+      one: '$seconds sekund',
     );
     return '$_temp0';
   }
@@ -13116,8 +13116,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Tog bort # meddelanden.',
-      one: 'Tog bort # meddelande.',
+      other: 'Tog bort $count meddelanden.',
+      one: 'Tog bort $count meddelande.',
     );
     return '$_temp0';
   }
@@ -13127,8 +13127,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Tog bort # medlemmar.',
-      one: 'Tog bort # medlem.',
+      other: 'Tog bort $count medlemmar.',
+      one: 'Tog bort $count medlem.',
     );
     return '$_temp0';
   }
@@ -14977,8 +14977,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# nya meddelanden',
-      one: '# nytt meddelande',
+      other: '$count nya meddelanden',
+      one: '$count nytt meddelande',
     );
     return '$_temp0';
   }

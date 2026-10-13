@@ -49,8 +49,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# нови съобщения',
-      one: '# ново съобщение',
+      other: '$unreadCount нови съобщения',
+      one: '$unreadCount ново съобщение',
     );
     return '$_temp0 от $compactTime';
   }
@@ -74,8 +74,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       unreadCount,
       locale: localeName,
-      other: '# нови',
-      one: '# ново',
+      other: '$unreadCount нови',
+      one: '$unreadCount ново',
     );
     return '$_temp0 от $shortTime';
   }
@@ -6050,8 +6050,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# непрочетени съобщения',
-      one: '# непрочетено съобщение',
+      other: '$count непрочетени съобщения',
+      one: '$count непрочетено съобщение',
     );
     return 'Покажи чата с $_temp0';
   }
@@ -6706,8 +6706,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# общности',
-      one: '# общност',
+      other: '$count общности',
+      one: '$count общност',
     );
     return 'Всички без $_temp0';
   }
@@ -6717,8 +6717,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# общности',
-      one: '# общност',
+      other: '$count общности',
+      one: '$count общност',
     );
     return 'Само $_temp0';
   }
@@ -6747,14 +6747,14 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# часа',
-      one: '# час',
+      other: '$hours часа',
+      one: '$hours час',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# минути',
-      one: '# минута',
+      other: '$minutes минути',
+      one: '$minutes минута',
     );
     return '$_temp0 и $_temp1';
   }
@@ -6764,8 +6764,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# часа',
-      one: '# час',
+      other: '$hours часа',
+      one: '$hours час',
     );
     return '$_temp0';
   }
@@ -6775,8 +6775,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# минути',
-      one: '# минута',
+      other: '$minutes минути',
+      one: '$minutes минута',
     );
     return '$_temp0';
   }
@@ -6786,8 +6786,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# секунди',
-      one: '# секунда',
+      other: '$seconds секунди',
+      one: '$seconds секунда',
     );
     return '$_temp0';
   }
@@ -13234,8 +13234,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Изтрити # съобщения.',
-      one: 'Изтрито # съобщение.',
+      other: 'Изтрити $count съобщения.',
+      one: 'Изтрито $count съобщение.',
     );
     return '$_temp0';
   }
@@ -13245,8 +13245,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Премахнати # членове.',
-      one: 'Премахнат # член.',
+      other: 'Премахнати $count членове.',
+      one: 'Премахнат $count член.',
     );
     return '$_temp0';
   }
@@ -15118,8 +15118,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# нови съобщения',
-      one: '# ново съобщение',
+      other: '$count нови съобщения',
+      one: '$count ново съобщение',
     );
     return '$_temp0';
   }

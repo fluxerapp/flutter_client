@@ -3237,7 +3237,7 @@
     "@invalidCode": {
         "description": "Error message when a verification code is invalid."
     },
-    "relativeTimeYears": "{count, plural, =1{acum 1 an} other{acum # ani}}",
+    "relativeTimeYears": "{count, plural, =1{acum 1 an} other{acum {count} ani}}",
     "@relativeTimeYears": {
         "description": "Relative time in years.",
         "placeholders": {
@@ -3246,7 +3246,7 @@
             }
         }
     },
-    "relativeTimeMonths": "{count, plural, =1{acum 1 lună} other{acum # luni}}",
+    "relativeTimeMonths": "{count, plural, =1{acum 1 lună} other{acum {count} luni}}",
     "@relativeTimeMonths": {
         "description": "Relative time in months.",
         "placeholders": {
@@ -3282,7 +3282,7 @@
             }
         }
     },
-    "relativeTimeWeeks": "{count, plural, =1{acum 1 săptămână} other{acum # săptămâni}}",
+    "relativeTimeWeeks": "{count, plural, =1{acum 1 săptămână} other{acum {count} săptămâni}}",
     "@relativeTimeWeeks": {
         "description": "Relative time in weeks.",
         "placeholders": {
@@ -7040,7 +7040,7 @@
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
     },
-    "voiceTextChatShowUnread": "Afișează chatul cu {count, plural, one {# mesaj necitit} other {# mesaje necitite}}",
+    "voiceTextChatShowUnread": "Afișează chatul cu {count, plural, one {{count} mesaj necitit} other {{count} mesaje necitite}}",
     "@voiceTextChatShowUnread": {
         "description": "Accessibility label when voice channel text chat has unread messages.",
         "placeholders": {
@@ -7769,7 +7769,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildExclude": "Toate, cu excepția {count, plural, one {# comunitate} other {# comunități}}",
+    "privacyDashboardDataRequestSummaryGuildExclude": "Toate, cu excepția {count, plural, one {{count} comunitate} other {{count} comunități}}",
     "@privacyDashboardDataRequestSummaryGuildExclude": {
         "description": "Summary value when community filter is in exclude mode.",
         "placeholders": {
@@ -7778,7 +7778,7 @@
             }
         }
     },
-    "privacyDashboardDataRequestSummaryGuildInclude": "Doar {count, plural, one {# comunitate} other {# comunități}}",
+    "privacyDashboardDataRequestSummaryGuildInclude": "Doar {count, plural, one {{count} comunitate} other {{count} comunități}}",
     "@privacyDashboardDataRequestSummaryGuildInclude": {
         "description": "Summary value when community filter is in include-only mode.",
         "placeholders": {
@@ -7807,7 +7807,7 @@
     "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
         "description": "Summary chip for communities."
     },
-    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# oră} other {# ore}} și {minutes, plural, one {# minut} other {# minute}}",
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {{hours} oră} other {{hours} ore}} și {minutes, plural, one {{minutes} minut} other {{minutes} minute}}",
     "@privacyDashboardDurationHoursMinutes": {
         "description": "Duration label with hours and minutes.",
         "placeholders": {
@@ -7819,7 +7819,7 @@
             }
         }
     },
-    "privacyDashboardDurationHours": "{hours, plural, one {# oră} other {# ore}}",
+    "privacyDashboardDurationHours": "{hours, plural, one {{hours} oră} other {{hours} ore}}",
     "@privacyDashboardDurationHours": {
         "description": "Duration label with hours only.",
         "placeholders": {
@@ -7828,7 +7828,7 @@
             }
         }
     },
-    "privacyDashboardDurationMinutes": "{minutes, plural, one {# minut} other {# minute}}",
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {{minutes} minut} other {{minutes} minute}}",
     "@privacyDashboardDurationMinutes": {
         "description": "Duration label with minutes only.",
         "placeholders": {
@@ -7837,7 +7837,7 @@
             }
         }
     },
-    "privacyDashboardDurationSeconds": "{seconds, plural, one {# secundă} other {# secunde}}",
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {{seconds} secundă} other {{seconds} secunde}}",
     "@privacyDashboardDurationSeconds": {
         "description": "Duration label with seconds only.",
         "placeholders": {
@@ -14510,7 +14510,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{A șters # mesaj.} other{Au șters # mesaje.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{A șters {count} mesaj.} other{Au șters {count} mesaje.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14519,7 +14519,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{A eliminat # membru.} other{Au fost eliminați # membri.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{A eliminat {count} membru.} other{Au fost eliminați {count} membri.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -14982,7 +14982,7 @@
     "@guildMembersJoinedJustNow": {
         "description": "Relative join time on the community members page."
     },
-    "guildMembersJoinedMinutesAgo": "{count, plural, one {acum 1 minut} other {acum # minute}}",
+    "guildMembersJoinedMinutesAgo": "{count, plural, one {acum 1 minut} other {acum {count} minute}}",
     "@guildMembersJoinedMinutesAgo": {
         "description": "Relative join time on the community members page.",
         "placeholders": {
@@ -16543,7 +16543,7 @@
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewMessages": "{count, plural, one {# mesaj nou} other {# mesaje noi}}",
+    "forumPostNewMessages": "{count, plural, one {{count} mesaj nou} other {{count} mesaje noi}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {
@@ -16556,7 +16556,7 @@
     "@chatUnreadDividerNew": {
         "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
     },
-    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# mesaj nou} few {# mesaje noi} other {# de mesaje noi}} de la {shortTime}",
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {{unreadCount} mesaj nou} few {{unreadCount} mesaje noi} other {{unreadCount} de mesaje noi}} de la {shortTime}",
     "@chatNewMessagesBarNewSince": {
         "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
         "placeholders": {
@@ -16581,7 +16581,7 @@
             }
         }
     },
-    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# mesaj nou} few {# mesaje noi} other {# de mesaje noi}} de la {compactTime}",
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {{unreadCount} mesaj nou} few {{unreadCount} mesaje noi} other {{unreadCount} de mesaje noi}} de la {compactTime}",
     "@chatNewMessagesBarNewMessagesSince": {
         "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
         "placeholders": {
