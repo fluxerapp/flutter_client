@@ -217,6 +217,7 @@ class EmbedRich extends StatelessWidget {
                   const SizedBox(width: 12),
                   MessageDoubleTapExempt(
                     child: FluxerGestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
                           ? () => openEmbedMediaViewer(
                               context,
@@ -428,6 +429,7 @@ class _EmbedMediaImage extends StatelessWidget {
     );
     return MessageDoubleTapExempt(
       child: FluxerGestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: canOpenEmbedMediaViewer(media)
             ? () => openEmbedMediaViewer(
                 context,

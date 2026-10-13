@@ -75,6 +75,7 @@ void main() {
             type: EmbedType.image,
             image: EmbedMedia(
               url: 'https://cdn.example/embed-0.png',
+              proxyUrl: 'https://media.example/embed-0.png',
               width: 400,
               height: 300,
             ),
@@ -83,6 +84,7 @@ void main() {
             type: EmbedType.image,
             image: EmbedMedia(
               url: 'https://cdn.example/embed-1.png',
+              proxyUrl: 'https://media.example/embed-1.png',
               width: 400,
               height: 300,
             ),

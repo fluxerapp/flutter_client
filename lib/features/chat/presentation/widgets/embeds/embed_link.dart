@@ -117,6 +117,7 @@ class EmbedLink extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4),
                     child: FluxerGestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
                           ? () => openEmbedMediaViewer(
                               context,

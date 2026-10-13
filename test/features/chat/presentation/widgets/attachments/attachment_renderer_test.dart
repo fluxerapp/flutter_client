@@ -23,10 +23,15 @@ import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constan
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_waveform.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 import '../../../../../helpers/test_l10n.dart';
+
+Finder _mediaTapTarget(Finder image) => find
+    .ancestor(of: image, matching: find.byType(FluxerGestureDetector))
+    .first;
 
 void main() {
   testWidgets('renders image attachment inline when enabled', (tester) async {
@@ -286,7 +291,7 @@ void main() {
       expect(find.byType(AttachmentMediaGrid), findsOneWidget);
       await tester.tap(find.text('SPOILER'));
       await tester.pumpAndSettle();
-      await tester.tap(find.byType(CachedNetworkImage).at(1));
+      await tester.tap(_mediaTapTarget(find.byType(CachedNetworkImage).at(1)));
       await tester.pump();
       expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
     },

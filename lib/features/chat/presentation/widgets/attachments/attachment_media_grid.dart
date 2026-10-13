@@ -310,6 +310,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8),
           child: MessageDoubleTapExempt(
             child: FluxerGestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: canOpen ? () => _openMedia(context, attachment) : null,
               child: MediaAltText(
                 altText: attachment.description,

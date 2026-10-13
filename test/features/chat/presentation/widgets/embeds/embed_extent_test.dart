@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -44,6 +45,10 @@ EmbedMedia _media({int? width, int? height}) => EmbedMedia(
   width: width,
   height: height,
 );
+
+Finder _mediaTapTarget(Finder image) => find
+    .ancestor(of: image, matching: find.byType(FluxerGestureDetector))
+    .first;
 
 void main() {
   group('EmbedRich large image', () {
@@ -107,7 +112,7 @@ void main() {
 
     testWidgets('opens the media viewer when tapped', (tester) async {
       await pumpRich(tester, _media(width: 400, height: 300));
-      await tester.tap(find.byType(CachedNetworkImage));
+      await tester.tap(_mediaTapTarget(find.byType(CachedNetworkImage)));
       await tester.pump();
       expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
     });
@@ -158,7 +163,7 @@ void main() {
 
     testWidgets('opens the media viewer when tapped', (tester) async {
       await pumpLink(tester, _media(width: 400, height: 300));
-      await tester.tap(find.byType(CachedNetworkImage));
+      await tester.tap(_mediaTapTarget(find.byType(CachedNetworkImage)));
       await tester.pump();
       expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
     });
