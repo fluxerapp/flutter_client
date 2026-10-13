@@ -16,17 +16,13 @@ class MobileShellBackScope extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!isMobileLayout(context)) {
-      return child;
-    }
-    final int branchIndex = navigationShell.currentIndex;
-    if (branchIndex == shellHomeBranchIndex) {
-      return child;
-    }
+    final bool onHomeBranch =
+        !isMobileLayout(context) ||
+        navigationShell.currentIndex == shellHomeBranchIndex;
     return PopScope(
-      canPop: false,
+      canPop: onHomeBranch,
       onPopInvokedWithResult: (bool didPop, _) {
-        if (didPop) {
+        if (didPop || onHomeBranch) {
           return;
         }
         navigationShell.goBranch(shellHomeBranchIndex);
