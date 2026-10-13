@@ -29,6 +29,21 @@ FluxerMediaDimensions mediaDimensionsForSize(MediaDimensionSize size) {
   };
 }
 
+FluxerMediaDimensions mediaDimensionsWithinWidth(
+  FluxerMediaDimensions dimensions,
+  double availableWidth,
+) {
+  if (!availableWidth.isFinite ||
+      availableWidth <= 0 ||
+      availableWidth >= dimensions.maxWidth) {
+    return dimensions;
+  }
+  return FluxerMediaDimensions(
+    maxWidth: availableWidth,
+    maxHeight: dimensions.maxHeight,
+  );
+}
+
 /// Reserved height for embed media whose intrinsic dimensions are unknown:
 /// the box must exist before bytes arrive and must not change when they do,
 /// or late-loading images shift the chat under the reader.

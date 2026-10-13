@@ -46,9 +46,26 @@ class EmbedImage extends ConsumerWidget {
         (AppearancePreferencesState state) => state.hdrDisplayMode,
       ),
     );
-    final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
-      dimensionSize,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) =>
+          _buildMedia(
+            context,
+            media: media,
+            hdrDisplayMode: hdrDisplayMode,
+            dimensions: mediaDimensionsWithinWidth(
+              mediaDimensionsForSize(dimensionSize),
+              constraints.maxWidth,
+            ),
+          ),
     );
+  }
+
+  Widget _buildMedia(
+    BuildContext context, {
+    required EmbedMedia media,
+    required HdrDisplayMode hdrDisplayMode,
+    required FluxerMediaDimensions dimensions,
+  }) {
     final Size? displaySize = constrainMediaSize(
       dimensions: dimensions,
       width: media.width,

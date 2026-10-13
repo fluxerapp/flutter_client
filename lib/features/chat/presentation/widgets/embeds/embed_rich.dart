@@ -380,7 +380,19 @@ class _EmbedMediaImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dimensions = mediaDimensionsForSize(dimensionSize);
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) =>
+          _buildMedia(
+            context,
+            mediaDimensionsWithinWidth(
+              mediaDimensionsForSize(dimensionSize),
+              constraints.maxWidth,
+            ),
+          ),
+    );
+  }
+
+  Widget _buildMedia(BuildContext context, FluxerMediaDimensions dimensions) {
     final Size size = constrainMediaSize(
       dimensions: dimensions,
       width: media.width,

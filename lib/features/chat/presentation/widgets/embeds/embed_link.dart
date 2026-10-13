@@ -132,10 +132,19 @@ class EmbedLink extends StatelessWidget {
                         // dimensions (fixed fallback when absent), so the load
                         // never shifts the chat and portrait sources cannot
                         // reserve unbounded height.
-                        child: _thumbnailBox(
-                          context: context,
-                          thumbnail: embed.thumbnail!,
-                          dimensions: dimensions,
+                        child: LayoutBuilder(
+                          builder:
+                              (
+                                BuildContext context,
+                                BoxConstraints constraints,
+                              ) => _thumbnailBox(
+                                context: context,
+                                thumbnail: embed.thumbnail!,
+                                dimensions: mediaDimensionsWithinWidth(
+                                  dimensions,
+                                  constraints.maxWidth,
+                                ),
+                              ),
                         ),
                       ),
                     ),
