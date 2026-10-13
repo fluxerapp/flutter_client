@@ -188,7 +188,7 @@ class MessageRenderSettings {
 /// When the message is a reply, a compact preview of the
 /// replied-to message is rendered above, with a curved
 /// connector line from the replier's avatar to the reply
-/// preview (matching Discord's layout).
+/// preview.
 class MessageItem extends ConsumerStatefulWidget {
   final Message message;
   final bool isGrouped;

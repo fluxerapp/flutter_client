@@ -67,7 +67,7 @@ Page<void> _slidePage(BuildContext context, LocalKey key, Widget child) =>
     shellSlideTransitionPage(context: context, key: key, child: child);
 
 void main() {
-  testWidgets('slide push follows the Discord push timing', (tester) async {
+  testWidgets('slide push follows the motion push timing', (tester) async {
     final GlobalKey<_HostState> host = GlobalKey<_HostState>();
     await tester.pumpWidget(_app(_Host(key: host, pageBuilder: _slidePage)));
 

@@ -175,7 +175,7 @@ void main() {
       expect(find.byType(FluxerBottomSheetDragHandle), findsOneWidget);
     });
 
-    testWidgets('opens with Discord sheet motion over the Discord scrim', (
+    testWidgets('opens with the sheet motion over the sheet scrim', (
       tester,
     ) async {
       ModalRoute<dynamic>? route;

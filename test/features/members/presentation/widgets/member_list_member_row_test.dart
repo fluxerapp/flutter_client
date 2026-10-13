@@ -50,9 +50,7 @@ Widget _app(Widget child) {
 }
 
 void main() {
-  testWidgets('sidebar member rows show the offline dot like Discord', (
-    tester,
-  ) async {
+  testWidgets('sidebar member rows show the offline dot', (tester) async {
     await tester.pumpWidget(
       _app(
         MemberListSidebarMemberRow(

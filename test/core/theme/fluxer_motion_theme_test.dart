@@ -21,7 +21,7 @@ void main() {
       expect(theme.emphasizedCurve, Curves.easeInOut);
     });
 
-    test('push curve follows the measured Discord push samples', () {
+    test('push curve follows the measured push samples', () {
       const theme = FluxerMotionTheme.standard();
       const List<(double, double)> samples = <(double, double)>[
         (1 / 7, 0.30),
@@ -35,7 +35,7 @@ void main() {
       }
     });
 
-    test('sheet curve overshoots like the measured Discord sheet spring', () {
+    test('sheet curve overshoots like the measured sheet spring', () {
       const theme = FluxerMotionTheme.standard();
       double peak = 0;
       for (int i = 0; i <= 100; i++) {

@@ -28,7 +28,7 @@ void main() {
       expect(AvatarStatusLayout.forAvatarSize(80).statusDotSize, 16);
     });
 
-    test('dot sits flush with the avatar corner like Discord', () {
+    test('dot sits flush with the avatar corner', () {
       for (final double avatarSize in <double>[32, 40, 80, 120]) {
         final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
           avatarSize,

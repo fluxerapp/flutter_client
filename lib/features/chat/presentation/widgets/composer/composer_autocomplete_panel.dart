@@ -363,7 +363,7 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
 }
 
 /// [FluxerAvatar.user] uses [BigInt.parse] on [userId] for default avatars;
-/// only pass ids that parse as integers (e.g. Discord snowflakes).
+/// only pass ids that parse as integers (e.g. snowflakes).
 String? _snowflakeUserIdForDefaultAvatar(String? userId) {
   if (userId == null || userId.isEmpty) {
     return null;

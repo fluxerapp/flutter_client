@@ -18,7 +18,7 @@ import 'package:window_manager/window_manager.dart';
 /// Height of the custom window title bar.
 const kNativeTitlebarHeight = 32.0;
 
-/// A Discord-style thin title bar with window control buttons.
+/// A thin title bar with window control buttons.
 ///
 /// Provides a [DragToMoveArea] for dragging and double-click to maximize,
 /// plus minimize, maximize/restore, and close buttons on the right.
