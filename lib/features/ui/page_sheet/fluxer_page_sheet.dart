@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_scroll.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -17,11 +19,13 @@ typedef FluxerScrollablePageSheetBuilder =
 
 enum FluxerPageSheetPresentation { root, nested }
 
-/// Adaptive full page settings style sheet
-///
-/// iOS uses a single [showCupertinoSheet] with nested [CupertinoPageRoute]
-/// pushes for sections. Android uses [MaterialPageRoute] (fullscreen dialog
-/// for root, standard push for nested).
+const Color _kPageSheetBarrierColor = Color(0x55000000);
+const Duration _kPageSheetSettleDuration = Duration(milliseconds: 300);
+const double _kPageSheetFlingVelocity = 2;
+const double _kPageSheetCloseProgress = 0.52;
+const double _kPageSheetHeaderTop = 8;
+const double _kPageSheetHeaderBarHeight = 48;
+
 class FluxerPageSheet {
   FluxerPageSheet._();
 
@@ -90,73 +94,82 @@ class FluxerPageSheet {
   }) {
     if (presentation == FluxerPageSheetPresentation.nested &&
         CupertinoSheetRoute.hasParentSheet(context)) {
-      return _pushCupertinoNestedScrollable<T>(
-        context,
-        builder: builder,
-        title: title,
-        titleTrailing: titleTrailing,
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        presentation: presentation,
-        canDismissNotifier: canDismissNotifier,
+      return Navigator.of(context).push<T>(
+        CupertinoPageRoute<T>(
+          builder: (BuildContext routeContext) {
+            return _FluxerPageSheetScrollableHost<T>(
+              builder: builder,
+              title: title,
+              titleTrailing: titleTrailing,
+              backgroundColor: backgroundColor,
+              foregroundColor: foregroundColor,
+              presentation: presentation,
+              canDismissNotifier: canDismissNotifier,
+            );
+          },
+        ),
       );
     }
 
     final bool useNestedNavigation =
         presentation == FluxerPageSheetPresentation.root;
+    final GlobalKey<NavigatorState> nestedNavigatorKey =
+        GlobalKey<NavigatorState>();
 
-    return showCupertinoSheet<T>(
-      context: context,
-      useNestedNavigation: useNestedNavigation,
-      scrollableBuilder:
-          (BuildContext sheetContext, ScrollController controller) {
-            void close() {
-              if (useNestedNavigation) {
-                CupertinoSheetRoute.popSheet(sheetContext);
-                return;
-              }
-              _closePageRoute(sheetContext);
-            }
-
-            return _buildPageSheetWithBackHandler(
-              canDismissNotifier: canDismissNotifier,
-              child: _FluxerPageSheetScaffold(
-                title: title,
-                titleTrailing: titleTrailing,
-                backgroundColor: backgroundColor,
-                foregroundColor: foregroundColor,
-                presentation: presentation,
-                onClose: close,
-                child: builder(sheetContext, controller, close),
-              ),
-            );
-          },
+    late final _FluxerCupertinoSheetRoute<T> route;
+    route = _FluxerCupertinoSheetRoute<T>(
+      scrollableBuilder: (BuildContext sheetContext, ScrollController _) {
+        final Widget page = _FluxerPageSheetScrollableHost<T>(
+          builder: builder,
+          title: title,
+          titleTrailing: titleTrailing,
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          presentation: presentation,
+          canDismissNotifier: canDismissNotifier,
+          closeSheet: useNestedNavigation,
+        );
+        return _FluxerPageSheetRouteScope(
+          route: route,
+          child: useNestedNavigation
+              ? _nestedNavigation<T>(nestedNavigatorKey, page)
+              : page,
+        );
+      },
     );
+    return Navigator.of(context, rootNavigator: true).push<T>(route);
   }
 
-  static Future<T?> _pushCupertinoNestedScrollable<T>(
-    BuildContext context, {
-    required FluxerScrollablePageSheetBuilder builder,
-    required FluxerPageSheetPresentation presentation,
-    String? title,
-    Widget? titleTrailing,
-    Color? backgroundColor,
-    Color? foregroundColor,
-    ValueNotifier<bool>? canDismissNotifier,
-  }) {
-    return Navigator.of(context).push<T>(
-      CupertinoPageRoute<T>(
-        builder: (BuildContext routeContext) {
-          return _FluxerPageSheetScrollableHost<T>(
-            builder: builder,
-            title: title,
-            titleTrailing: titleTrailing,
-            backgroundColor: backgroundColor,
-            foregroundColor: foregroundColor,
-            presentation: presentation,
-            canDismissNotifier: canDismissNotifier,
-          );
-        },
+  static Widget _nestedNavigation<T>(
+    GlobalKey<NavigatorState> navigatorKey,
+    Widget page,
+  ) {
+    return NavigatorPopHandler(
+      onPopWithResult: (T? result) {
+        navigatorKey.currentState!.maybePop();
+      },
+      child: Navigator(
+        key: navigatorKey,
+        initialRoute: '/',
+        onGenerateInitialRoutes:
+            (NavigatorState navigator, String initialRouteName) {
+              return <Route<void>>[
+                CupertinoPageRoute<void>(
+                  builder: (BuildContext context) {
+                    return PopScope(
+                      canPop: false,
+                      onPopInvokedWithResult: (bool didPop, Object? result) {
+                        if (didPop) {
+                          return;
+                        }
+                        Navigator.of(context, rootNavigator: true).pop(result);
+                      },
+                      child: page,
+                    );
+                  },
+                ),
+              ];
+            },
       ),
     );
   }
@@ -191,6 +204,128 @@ class FluxerPageSheet {
   }
 }
 
+class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
+    implements FluxerSheetDragTarget {
+  _FluxerCupertinoSheetRoute({required super.scrollableBuilder})
+    : super(enableDrag: false);
+
+  bool _dragging = false;
+
+  @override
+  Color? get barrierColor => _kPageSheetBarrierColor;
+
+  @override
+  DelegatedTransitionBuilder? get delegatedTransition =>
+      _dimmedDelegatedTransition;
+
+  double get _sheetHeight {
+    final Size? size = navigator?.context.size;
+    if (size == null || size.height <= 0) {
+      return 1;
+    }
+    return size.height * (1 - topGap);
+  }
+
+  @override
+  bool get canExpand => false;
+
+  @override
+  void dragBy(double deltaDy) {
+    final AnimationController? sheet = controller;
+    final NavigatorState? nav = navigator;
+    if (sheet == null || nav == null || !isCurrent) {
+      return;
+    }
+    if (!_dragging) {
+      if (deltaDy <= 0 && sheet.value >= 1) {
+        return;
+      }
+      _dragging = true;
+      nav.didStartUserGesture();
+    }
+    sheet.value = (sheet.value - deltaDy / _sheetHeight).clamp(0, 1);
+  }
+
+  @override
+  void endDrag(double velocityDy) {
+    final AnimationController? sheet = controller;
+    final NavigatorState? nav = navigator;
+    if (!_dragging || sheet == null || nav == null) {
+      return;
+    }
+    _dragging = false;
+    final double velocity = velocityDy / _sheetHeight;
+    final bool close = velocity.abs() >= _kPageSheetFlingVelocity
+        ? velocity > 0
+        : sheet.value <= _kPageSheetCloseProgress;
+    if (close) {
+      if (isCurrent) {
+        nav.pop();
+      }
+      sheet.animateBack(
+        0,
+        duration: _kPageSheetSettleDuration,
+        curve: Curves.easeOut,
+      );
+    } else {
+      sheet.animateTo(
+        1,
+        duration: _kPageSheetSettleDuration,
+        curve: Curves.easeOut,
+      );
+    }
+    if (!sheet.isAnimating) {
+      nav.didStopUserGesture();
+      return;
+    }
+    void stopGesture(AnimationStatus status) {
+      sheet.removeStatusListener(stopGesture);
+      nav.didStopUserGesture();
+    }
+
+    sheet.addStatusListener(stopGesture);
+  }
+}
+
+Widget? _dimmedDelegatedTransition(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  bool allowSnapshotting,
+  Widget? child,
+) {
+  final CupertinoThemeData theme = CupertinoTheme.of(context);
+  return CupertinoTheme(
+    data: theme.copyWith(brightness: Brightness.light),
+    child: Builder(
+      builder: (BuildContext lightContext) =>
+          CupertinoSheetTransition.delegateTransition(
+            lightContext,
+            animation,
+            secondaryAnimation,
+            allowSnapshotting,
+            child == null ? null : CupertinoTheme(data: theme, child: child),
+          ),
+    ),
+  );
+}
+
+class _FluxerPageSheetRouteScope extends InheritedWidget {
+  const _FluxerPageSheetRouteScope({required this.route, required super.child});
+
+  final FluxerSheetDragTarget route;
+
+  static FluxerSheetDragTarget? maybeOf(BuildContext context) {
+    return context
+        .getInheritedWidgetOfExactType<_FluxerPageSheetRouteScope>()
+        ?.route;
+  }
+
+  @override
+  bool updateShouldNotify(_FluxerPageSheetRouteScope oldWidget) =>
+      route != oldWidget.route;
+}
+
 class _FluxerPageSheetScrollableHost<T> extends StatefulWidget {
   const _FluxerPageSheetScrollableHost({
     required this.builder,
@@ -200,6 +335,7 @@ class _FluxerPageSheetScrollableHost<T> extends StatefulWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.canDismissNotifier,
+    this.closeSheet = false,
   });
 
   final FluxerScrollablePageSheetBuilder builder;
@@ -209,6 +345,7 @@ class _FluxerPageSheetScrollableHost<T> extends StatefulWidget {
   final Color? foregroundColor;
   final FluxerPageSheetPresentation presentation;
   final ValueNotifier<bool>? canDismissNotifier;
+  final bool closeSheet;
 
   @override
   State<_FluxerPageSheetScrollableHost<T>> createState() =>
@@ -217,18 +354,38 @@ class _FluxerPageSheetScrollableHost<T> extends StatefulWidget {
 
 class _FluxerPageSheetScrollableHostState<T>
     extends State<_FluxerPageSheetScrollableHost<T>> {
-  late final ScrollController _scrollController = ScrollController();
+  ScrollController? _scrollController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_scrollController != null) {
+      return;
+    }
+    final FluxerSheetDragTarget? sheet = _FluxerPageSheetRouteScope.maybeOf(
+      context,
+    );
+    _scrollController = sheet == null
+        ? ScrollController()
+        : FluxerSheetScrollController(sheet, dragsWhenShort: true);
+  }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _scrollController?.dispose();
     super.dispose();
+  }
+
+  void _close() {
+    if (widget.closeSheet) {
+      CupertinoSheetRoute.popSheet(context);
+      return;
+    }
+    _closePageRoute(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    void close() => _closePageRoute(context);
-
     return _buildPageSheetWithBackHandler(
       canDismissNotifier: widget.canDismissNotifier,
       child: _FluxerPageSheetScaffold(
@@ -237,8 +394,8 @@ class _FluxerPageSheetScrollableHostState<T>
         backgroundColor: widget.backgroundColor,
         foregroundColor: widget.foregroundColor,
         presentation: widget.presentation,
-        onClose: close,
-        child: widget.builder(context, _scrollController, close),
+        onClose: _close,
+        child: widget.builder(context, _scrollController!, _close),
       ),
     );
   }
@@ -265,36 +422,113 @@ class _FluxerPageSheetScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final Color barColor =
         backgroundColor ?? context.colors.backgroundSecondary;
-    final bool isRoot = presentation == FluxerPageSheetPresentation.root;
-
     return Scaffold(
       backgroundColor: barColor,
-      appBar: AppBar(
-        backgroundColor: barColor,
-        foregroundColor: foregroundColor,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: Colors.transparent,
-        title: title == null && titleTrailing == null
-            ? null
-            : Row(
-                children: [
-                  if (title != null) Expanded(child: Text(title!)),
-                  ?titleTrailing,
-                ],
-              ),
-        leading: IconButton(
-          icon: PhosphorIcon(
-            isRoot ? PhosphorIconsBold.x : PhosphorIconsBold.arrowLeft,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          _FluxerPageSheetHeader(
+            title: title,
+            titleTrailing: titleTrailing,
+            foregroundColor: foregroundColor,
+            isRoot: presentation == FluxerPageSheetPresentation.root,
+            onClose: onClose,
           ),
-          tooltip: isRoot ? l10n.uiClose : l10n.back,
-          onPressed: onClose,
+          Expanded(
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: child,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FluxerPageSheetHeader extends StatelessWidget {
+  const _FluxerPageSheetHeader({
+    required this.isRoot,
+    required this.onClose,
+    this.title,
+    this.titleTrailing,
+    this.foregroundColor,
+  });
+
+  final String? title;
+  final Widget? titleTrailing;
+  final Color? foregroundColor;
+  final bool isRoot;
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final Color color = foregroundColor ?? context.colors.textPrimary;
+    final FluxerSheetDragTarget? sheet = _FluxerPageSheetRouteScope.maybeOf(
+      context,
+    );
+    final double topInset = sheet == null
+        ? MediaQuery.paddingOf(context).top
+        : 0;
+    final Widget bar = DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: context.colors.backgroundModifierAccent),
         ),
       ),
-      body: child,
+      child: Padding(
+        padding: EdgeInsets.only(top: topInset + _kPageSheetHeaderTop),
+        child: SizedBox(
+          height: _kPageSheetHeaderBarHeight,
+          child: Row(
+            children: <Widget>[
+              const SizedBox(width: 4),
+              IconButton(
+                onPressed: onClose,
+                tooltip: isRoot ? l10n.uiClose : l10n.back,
+                icon: PhosphorIcon(
+                  isRoot ? PhosphorIconsBold.x : PhosphorIconsBold.arrowLeft,
+                  size: 22,
+                  color: color,
+                ),
+              ),
+              const SizedBox(width: 2),
+              Expanded(
+                child: title == null
+                    ? const SizedBox.shrink()
+                    : Text(
+                        title!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.textStyles.channelName.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: color,
+                        ),
+                      ),
+              ),
+              ?titleTrailing,
+              const SizedBox(width: 12),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (sheet == null) {
+      return bar;
+    }
+    return FluxerGestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onVerticalDragUpdate: (DragUpdateDetails details) =>
+          sheet.dragBy(details.delta.dy),
+      onVerticalDragEnd: (DragEndDetails details) =>
+          sheet.endDrag(details.primaryVelocity ?? 0),
+      onVerticalDragCancel: () => sheet.endDrag(0),
+      child: bar,
     );
   }
 }

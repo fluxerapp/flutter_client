@@ -667,7 +667,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       controller: widget.scrollController,
       padding: EdgeInsets.fromLTRB(
         layout.s4,
-        0,
+        layout.s6,
         layout.s4,
         kSettingsScrollBottomPadding,
       ),

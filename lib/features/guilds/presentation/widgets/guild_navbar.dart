@@ -489,6 +489,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     final guildListView = ListView.builder(
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       controller: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.only(top: topPadding, bottom: 8),
       itemCount: navbarEntries.length,
       findChildIndexCallback: (Key key) => keyedEntryIndex[key],

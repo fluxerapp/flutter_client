@@ -308,6 +308,7 @@ class _GuildSidebarChannelListState
       builder: (BuildContext context, BoxConstraints constraints) {
         return CustomScrollView(
           controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
           scrollCacheExtent: const ScrollCacheExtent.pixels(600),
           slivers: <Widget>[
             SliverPersistentHeader(

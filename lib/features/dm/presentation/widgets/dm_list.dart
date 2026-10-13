@@ -629,6 +629,7 @@ class _DMListState extends ConsumerState<DMList> {
     final int leadingRows = isMobile ? 1 : 0;
     return ListView.builder(
       controller: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       padding: listPadding,
       itemExtent: isMobile ? _kMobileRowExtent : _kDesktopRowExtent,
