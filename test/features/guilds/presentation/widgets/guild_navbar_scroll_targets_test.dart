@@ -80,8 +80,8 @@ void main() {
     expect(order, isNot(contains(guildFolderScrollIndicatorId(7))));
   });
 
-  testWidgets('a mention in a collapsed folder far down the rail beats '
-      'unread communities above', (WidgetTester tester) async {
+  testWidgets('a mention in a collapsed folder far down the rail shows '
+      'alongside unread communities above', (WidgetTester tester) async {
     final scrollController = ScrollController();
     final itemKeys = <String, GlobalKey>{};
     final indicator = GuildScrollIndicatorController(
@@ -124,7 +124,11 @@ void main() {
     await tester.pump();
     indicator.update();
 
-    expect(indicator.topIndicator.value.show, isFalse);
+    expect(indicator.topIndicator.value.show, isTrue);
+    expect(
+      indicator.topIndicator.value.severity,
+      GuildScrollIndicatorSeverity.unread,
+    );
     expect(indicator.bottomIndicator.value.show, isTrue);
     expect(
       indicator.bottomIndicator.value.severity,
