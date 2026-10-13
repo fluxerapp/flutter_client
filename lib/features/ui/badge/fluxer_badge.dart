@@ -110,6 +110,51 @@ class FluxerBadge extends StatelessWidget {
 
 String formatBadgeCount(int count) => count > 99 ? '99+' : '$count';
 
+class FluxerEntranceSettleScope extends StatefulWidget {
+  const FluxerEntranceSettleScope({required this.child, super.key});
+
+  final Widget child;
+
+  static bool isSettling(BuildContext context) {
+    final _FluxerEntranceSettleMarker? marker = context
+        .getInheritedWidgetOfExactType<_FluxerEntranceSettleMarker>();
+    return marker != null && !marker.state._settled;
+  }
+
+  @override
+  State<FluxerEntranceSettleScope> createState() =>
+      _FluxerEntranceSettleScopeState();
+}
+
+class _FluxerEntranceSettleScopeState extends State<FluxerEntranceSettleScope> {
+  bool _settled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _settled = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _FluxerEntranceSettleMarker(state: this, child: widget.child);
+  }
+}
+
+class _FluxerEntranceSettleMarker extends InheritedWidget {
+  const _FluxerEntranceSettleMarker({
+    required this.state,
+    required super.child,
+  });
+
+  final _FluxerEntranceSettleScopeState state;
+
+  @override
+  bool updateShouldNotify(_FluxerEntranceSettleMarker oldWidget) => false;
+}
+
 class FluxerBadgeEntrance extends StatefulWidget {
   const FluxerBadgeEntrance({required this.child, super.key});
 
@@ -140,7 +185,8 @@ class _FluxerBadgeEntranceState extends State<FluxerBadgeEntrance>
       return;
     }
     _started = true;
-    if (context.motion.panel == Duration.zero) {
+    if (context.motion.panel == Duration.zero ||
+        FluxerEntranceSettleScope.isSettling(context)) {
       _controller.value = 1;
       return;
     }
