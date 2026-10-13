@@ -1,12 +1,61 @@
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+
+const Color kReactionPickerScrimColor = Color(0xCC000000);
+const Duration kReactionPickerRiseDuration = Duration(milliseconds: 300);
+const double kReactionPickerRiseStartFraction = 0.558;
+const Curve kReactionPickerRiseSpring = FluxerSpringCurve(
+  stiffness: 1714,
+  damping: 60,
+  duration: kReactionPickerRiseDuration,
+);
+
+class ReactionPickerRiseCurve extends Curve {
+  const ReactionPickerRiseCurve({required this.start});
+
+  final double start;
+
+  @override
+  double transformInternal(double t) =>
+      start + (1 - start) * kReactionPickerRiseSpring.transform(t);
+}
+
+double reactionPickerSheetHeight(BuildContext context) {
+  final MediaQueryData mediaQuery = MediaQuery.of(context);
+  return mediaQuery.size.height -
+      mediaQuery.viewPadding.top -
+      kMobileChannelHeaderHeight;
+}
+
+AnimationStyle? reactionPickerAnimationStyle(
+  BuildContext context, {
+  required double sheetHeight,
+}) {
+  if (context.motion.sheet <= Duration.zero || sheetHeight <= 0) {
+    return null;
+  }
+  final double screenHeight = MediaQuery.sizeOf(context).height;
+  return AnimationStyle(
+    duration: kReactionPickerRiseDuration,
+    curve: ReactionPickerRiseCurve(
+      start: (kReactionPickerRiseStartFraction * screenHeight / sheetHeight)
+          .clamp(0.0, 1.0),
+    ),
+    reverseDuration: kFluxerSheetCloseDuration,
+    reverseCurve: Curves.linear,
+  );
+}
 
 class FluxerEmojiPickerSheet {
   FluxerEmojiPickerSheet._();
@@ -31,11 +80,18 @@ class FluxerEmojiPickerSheet {
     final bool emojiOnly =
         visibleTabs.length == 1 &&
         visibleTabs.first == ExpressionPickerTab.emojis;
+    final double? sheetHeight = emojiOnly
+        ? reactionPickerSheetHeight(context)
+        : null;
     return FluxerBottomSheet.showScrollable<void>(
       context,
       title: title,
       subtitle: subtitle,
-      halfDetent: !emojiOnly,
+      sheetHeight: sheetHeight,
+      barrierColor: sheetHeight == null ? null : kReactionPickerScrimColor,
+      animationStyle: sheetHeight == null
+          ? null
+          : reactionPickerAnimationStyle(context, sheetHeight: sheetHeight),
       builder: (context, scrollController, close) {
         return _SheetContent(
           scrollController: scrollController,

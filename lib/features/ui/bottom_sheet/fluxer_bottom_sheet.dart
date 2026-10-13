@@ -87,6 +87,7 @@ Future<T?> _pushFluxerSheetRoute<T>(
   required bool isDismissible,
   required bool useSafeArea,
   required AnimationStyle animationStyle,
+  Color? barrierColor,
 }) {
   final NavigatorState navigator = Navigator.of(
     context,
@@ -122,7 +123,7 @@ Future<T?> _pushFluxerSheetRoute<T>(
     backgroundColor: Colors.transparent,
     elevation: 0,
     isDismissible: isDismissible,
-    modalBarrierColor: context.colors.modalScrim,
+    modalBarrierColor: barrierColor ?? context.colors.modalScrim,
     enableDrag: false,
     useSafeArea: useSafeArea,
     sheetAnimationStyle: animationStyle,
@@ -372,9 +373,12 @@ class FluxerBottomSheet {
     bool isDismissible = true,
     bool reserveBottomInset = true,
     bool manageKeyboardInset = true,
-    bool halfDetent = true,
+    double? sheetHeight,
+    AnimationStyle? animationStyle,
+    Color? barrierColor,
   }) {
     final layout = context.layout;
+    final bool cardBackdrop = sheetHeight == null;
 
     return _showWithOverlayTracking<T>(
       context,
@@ -382,13 +386,17 @@ class FluxerBottomSheet {
         context,
         useRootNavigator: useRootNavigator,
         isDismissible: isDismissible,
-        animationStyle: fluxerBottomSheetAnimationStyle(
-          context,
-          leadBackdrop:
-              isMobileLayout(context) &&
-              math.min(initialChildSize, maxHeight ?? maxChildSize) >=
-                  kFluxerSheetBackdropMinCoverage,
-        ),
+        barrierColor: barrierColor,
+        animationStyle:
+            animationStyle ??
+            fluxerBottomSheetAnimationStyle(
+              context,
+              leadBackdrop:
+                  cardBackdrop &&
+                  isMobileLayout(context) &&
+                  math.min(initialChildSize, maxHeight ?? maxChildSize) >=
+                      kFluxerSheetBackdropMinCoverage,
+            ),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
           void close() => _closeSheet(sheetContext);
@@ -412,11 +420,12 @@ class FluxerBottomSheet {
           );
 
           final double availableHeight =
+              sheetHeight ??
               mediaQuery.size.height - mediaQuery.viewPadding.top - layout.s4;
-          // maxHeight is a screen-fraction alias for maxChildSize. Applying
-          // both to the container and the draggable sheet stacked the limits.
-          final double effectiveMaxChildSize = maxHeight ?? maxChildSize;
-          final double halfChildSize = halfDetent
+          final double effectiveMaxChildSize = sheetHeight != null
+              ? 1
+              : maxHeight ?? maxChildSize;
+          final double halfChildSize = cardBackdrop
               ? scrollableSheetHalfSize.clamp(0, effectiveMaxChildSize)
               : effectiveMaxChildSize;
           final double effectiveMinChildSize = math.min(
@@ -428,8 +437,11 @@ class FluxerBottomSheet {
             minChildSize: effectiveMinChildSize,
             maxChildSize: effectiveMaxChildSize,
             halfChildSize: halfChildSize,
-            initialChildSize: math.min(initialChildSize, effectiveMaxChildSize),
+            initialChildSize: sheetHeight != null
+                ? 1
+                : math.min(initialChildSize, effectiveMaxChildSize),
             maxHeight: availableHeight,
+            cardBackdrop: cardBackdrop,
             showDragHandle: showDragHandle,
             disableTopPadding: disableTopPadding,
             hasHeader: hasHeader,
@@ -778,6 +790,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.showDragHandle,
     required this.disableTopPadding,
     required this.hasHeader,
+    required this.cardBackdrop,
     required this.onDismiss,
     required this.navigator,
     required this.title,
@@ -799,6 +812,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
   final bool showDragHandle;
   final bool disableTopPadding;
   final bool hasHeader;
+  final bool cardBackdrop;
   final VoidCallback onDismiss;
   final NavigatorState navigator;
   final String? title;
@@ -850,7 +864,7 @@ class _FluxerDraggableScrollableSheetState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_fluxerSheetDrivesBackdrop(context)) {
+    if (widget.cardBackdrop && _fluxerSheetDrivesBackdrop(context)) {
       _backdrop ??= FluxerSheetBackdropLink(widget.navigator);
     } else {
       _backdrop?.dispose();
