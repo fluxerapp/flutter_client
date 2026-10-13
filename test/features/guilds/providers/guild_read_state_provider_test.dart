@@ -751,7 +751,6 @@ void main() {
     await _waitForGuildState(container, 'guild-1');
     final before = container.read(guildReadStateProvider)['guild-1']!;
 
-    // Message-only edit: channel.lastMessageId is unchanged, so no recompute fires.
     await db.messageDao.upsertMessage(
       _cachedMessage(id: lastId, channelId: 'channel-1'),
     );
@@ -802,7 +801,6 @@ void main() {
         isTrue,
       );
 
-      // A recovery bump alone must not re-mark the channel unread.
       container.read(gatewaySessionRecoveryProvider.notifier).bump();
       await db.readStateDao.upsertReadState(
         ReadStatesCompanion(
@@ -866,7 +864,6 @@ void main() {
         isFalse,
       );
 
-      // A bare recovery bump must not reseed the guild into an unread state.
       container.read(gatewaySessionRecoveryProvider.notifier).bump();
       await Future<void>.delayed(const Duration(milliseconds: 80));
       expect(
@@ -874,7 +871,6 @@ void main() {
         isFalse,
       );
 
-      // A real channel write still flows through the reactive watcher.
       final newerMessageId = _recentSnowflake(ago: Duration.zero);
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
@@ -938,8 +934,6 @@ void main() {
       isFalse,
     );
 
-    // The fold does not watch the messages table, so a backfilled newer
-    // message row leaves it stale until the next READY reseed.
     final newerMessageId = _recentSnowflake(ago: const Duration(minutes: 5));
     await db.messageDao.upsertMessage(
       _cachedMessage(id: newerMessageId, channelId: 'channel-1'),
@@ -987,8 +981,6 @@ void main() {
           ),
         );
       }
-      // @everyone denies VIEW_CHANNEL in guild-deny, grants it in
-      // guild-allow; a member row exists, so both outcomes are definitive.
       await db.roleDao.upsertRoles([
         RolesCompanion.insert(
           id: 'guild-deny',

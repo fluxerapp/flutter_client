@@ -61,7 +61,6 @@ class EmojiRegistry {
   static String? resolveSync(String name) => _nameToSurrogate?[name];
   static RegExp? get unicodeEmojiRegexSync => _unicodeEmojiRegex;
 
-  /// UTF-16 length of the longest emoji sequence in the registry.
   static int get maxUnicodeEmojiLength => _maxUnicodeEmojiLength;
 
   static Map<String, List<EmojiEntry>> get categories =>
@@ -242,7 +241,6 @@ class EmojiRegistry {
     return RegExp(pattern);
   }
 
-  /// Searches all emojis, ranked by match tier. Memoizes the last query.
   static List<EmojiEntry> search(String query) {
     final q = normalizeEmojiSearchQuery(query);
     if (q.isEmpty) {

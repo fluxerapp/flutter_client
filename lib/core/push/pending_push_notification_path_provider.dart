@@ -9,7 +9,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pending_push_notification_path_provider.g.dart';
 
-/// Whether external navigation (push taps, universal links) may proceed
 bool isPendingNavigationReady({
   required bool isAuthenticated,
   required bool isGatewayReady,

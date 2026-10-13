@@ -68,7 +68,6 @@ class EmojiSpriteSheet {
     return frame.image;
   }
 
-  /// Source rect for [index] in the @2x sheet (64px cells).
   static Rect spriteRect(int index, {required bool diversity}) {
     final spritesPerRow = diversity
         ? _kDiversitySpritesPerRow
@@ -87,7 +86,6 @@ class EmojiSpritePainter extends CustomPainter {
     required this.diversity,
   });
 
-  // High-DPR cells upscale the @2x sheet; mipmaps cover downscale (issue #99).
   static final Paint _paint = Paint()
     ..filterQuality = FilterQuality.medium
     ..isAntiAlias = true;

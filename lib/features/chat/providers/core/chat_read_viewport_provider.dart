@@ -24,10 +24,6 @@ class ChatReadViewportState {
   final double distanceFromBottom;
   final bool foreground;
 
-  /// The newest server-backed message id the published geometry was measured
-  /// against. When the tail advances before the next publication, this token
-  /// mismatches and auto-ack eligibility drops until post-layout geometry
-  /// republishes. Exact equality; null matches only an empty live window.
   final String? sampledTailId;
 
   bool get canAutoAck => viewportActive && foreground;
@@ -89,7 +85,6 @@ class ChatReadViewport extends _$ChatReadViewport {
           }
           _visibleChannelId = channelId;
         } else {
-          // Ignore teardown from a list that no longer owns the viewport.
           if (_visibleChannelId != channelId) {
             return;
           }
@@ -106,9 +101,6 @@ class ChatReadViewport extends _$ChatReadViewport {
     required double distanceFromBottom,
     required String? sampledTailId,
   }) {
-    // Deferred like the mutators above: the widget publishes from
-    // ScrollMetricsNotification handlers that run during layout, and the
-    // state write in _emit must never land mid-build.
     unawaited(
       Future<void>.microtask(() {
         if (_channelId != channelId) {
@@ -152,10 +144,6 @@ class ChatReadViewport extends _$ChatReadViewport {
   }
 }
 
-/// [currentTailId] is the live window's newest server-backed id. A near-tail
-/// claim authorizes an ack only for the tail it was measured against
-/// ([ChatReadViewportState.sampledTailId], exact equality; null matches only
-/// an empty window) - a stale claim must not ack rows the user never saw.
 bool isAutoAckEligible({
   required ChatReadViewportState viewport,
   required String channelId,

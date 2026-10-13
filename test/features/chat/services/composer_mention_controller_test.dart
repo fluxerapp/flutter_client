@@ -9,10 +9,6 @@ import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Builds a [ComposerMentionController] inside a live, themed widget tree and
-/// returns it once the [TextField] using it has been pumped. The controller is
-/// created once (guarded) so rebuilds keep the same instance, and the Fluxer
-/// theme is supplied so inline mention chips can resolve `context.colors`.
 Future<ComposerMentionController> _pumpController(WidgetTester tester) async {
   final colorTheme = buildDarkColorTheme();
   ComposerMentionController? controller;
@@ -41,8 +37,6 @@ Future<ComposerMentionController> _pumpController(WidgetTester tester) async {
   return controller!;
 }
 
-/// Finds an emoji chip by its `:name:` semantics label, independent of
-/// whether the chip has resolved its image or shows the text fallback.
 Finder _emojiChip(String label) => find.byWidgetPredicate(
   (Widget widget) => widget is Semantics && widget.properties.label == label,
 );
@@ -166,8 +160,6 @@ void main() {
     expect(find.text('@Alice'), findsOneWidget);
     expect(find.text('@Bob'), findsOneWidget);
 
-    // Removing the trailing placeholder drops the last id and its label in
-    // lockstep, so the surviving chip still resolves to its stored label.
     final String trimmed = controller.text.trimRight();
     controller.value = TextEditingValue(
       text: trimmed.substring(0, trimmed.length - 1),
@@ -265,10 +257,8 @@ void main() {
     await controller.applyWireText('12:30:45 <:smile:9>');
     await tester.pump();
 
-    // Only the explicitly written custom emoji becomes a chip.
     expect(_emojiChip(':smile:'), findsOneWidget);
     expect(find.text(':30:'), findsNothing);
-    // The typed time stays literal text and the custom emoji round-trips.
     expect(controller.text.startsWith('12:30:45 '), isTrue);
     expect(controller.toWireText(), '12:30:45 <:smile:9>');
   });

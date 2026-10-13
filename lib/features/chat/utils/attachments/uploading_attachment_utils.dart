@@ -49,7 +49,6 @@ List<Attachment> buildUploadingPlaceholderAttachments({
   ];
 }
 
-/// Aggregate upload percent (0–100) for a message upload session.
 double? computeMessageUploadSendingProgress(MessageUploadSession session) {
   if (session.sendingProgress != null) {
     return session.sendingProgress!.clamp(0, 100);

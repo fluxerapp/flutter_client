@@ -404,7 +404,6 @@ void main() {
     await tester.tap(deleteAttachment.first);
     await tester.pumpAndSettle();
 
-    // Confirm the deletion via the confirm sheet
     await tester.tap(deleteAttachment.last);
     await tester.pumpAndSettle();
 

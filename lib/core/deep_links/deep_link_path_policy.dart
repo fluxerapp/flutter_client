@@ -26,12 +26,6 @@ String normalizeDeepLinkPath(String path) {
   return trimmed.isEmpty ? '/' : trimmed;
 }
 
-/// Converts `fluxer://` URIs into path only form matching https deep links.
-///
-/// Examples:
-/// - `fluxer://channels/@me/123` → `/channels/@me/123`
-/// - `fluxer://invite/abc` → `/invite/abc`
-/// - `fluxer:/channels/@me` → `/channels/@me`
 Uri normalizeAppProtocolDeepLinkUri(Uri uri) {
   if (uri.scheme != appProtocolScheme) {
     return uri;
@@ -48,7 +42,6 @@ Uri normalizeAppProtocolDeepLinkUri(Uri uri) {
   );
 }
 
-/// Normalizes invite URLs (fluxer.gg short links, /invite paths) to `/invite/:code`.
 Uri normalizeInviteDeepLinkUri(Uri uri) {
   final Uri protocolNormalized = normalizeAppProtocolDeepLinkUri(uri);
   if (protocolNormalized.scheme == appProtocolScheme) {
@@ -74,7 +67,6 @@ Uri normalizeInviteDeepLinkUri(Uri uri) {
   return protocolNormalized;
 }
 
-/// Applies app protocol and invite URL normalization for incoming deep links.
 Uri normalizeIncomingDeepLinkUri(Uri uri) {
   return normalizeInviteDeepLinkUri(normalizeAppProtocolDeepLinkUri(uri));
 }

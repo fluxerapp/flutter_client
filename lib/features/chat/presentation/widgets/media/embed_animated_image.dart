@@ -7,9 +7,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
 import 'package:visibility_detector/visibility_detector.dart';
 
-/// Plays [animatedUrl] while visible. On screen, the animated image stays
-/// loaded and pauses instead of swapping to [staticUrl]. Respects the
-/// nearest [AnimatedImagePlaybackScope] for visibility coordination.
 class EmbedAnimatedImage extends ConsumerStatefulWidget {
   const EmbedAnimatedImage({
     required this.animatedUrl,
@@ -31,8 +28,6 @@ class EmbedAnimatedImage extends ConsumerStatefulWidget {
 
   final Widget? errorPlaceholder;
 
-  /// When true, uses [MotionPreferencesModel.effectiveAnimateStickers] instead
-  /// of GIF autoplay.
   final bool useStickerAnimationPreference;
 
   @override

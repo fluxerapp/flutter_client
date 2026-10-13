@@ -59,11 +59,6 @@ class GuildPermissions extends _$GuildPermissions {
     state = {};
   }
 
-  /// Caches the resolved value, including a pending `0` when the current
-  /// user's member row is not loaded yet; gateway member add/update/chunk
-  /// events for the current user invalidate that entry via
-  /// [refreshPermissions]. Only an unknown guild stays uncached
-  /// (`shouldCache: false`), since its permission inputs are not yet known.
   Future<({int value, bool shouldCache})> _computePermissions(
     String guildId,
   ) async {

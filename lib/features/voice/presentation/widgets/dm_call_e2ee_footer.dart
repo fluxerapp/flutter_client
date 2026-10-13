@@ -8,8 +8,6 @@ import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 
-/// Pre-join E2EE status for an ongoing DM/GDM call, matching desktop placement
-/// in the compact call control footer when not in the call.
 class DmCallE2eeFooter extends ConsumerWidget {
   const DmCallE2eeFooter({required this.channelId, super.key});
 

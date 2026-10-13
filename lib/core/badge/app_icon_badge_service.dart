@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:app_badge_plus/app_badge_plus.dart';
 
-/// Updates the OS app-icon badge via app_badge_plus.
 final class AppIconBadgeService {
   const AppIconBadgeService._();
 

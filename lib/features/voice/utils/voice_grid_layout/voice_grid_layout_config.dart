@@ -10,8 +10,6 @@ const double voiceGridCompactMinTileWidthPx = 148;
 const double voiceGridCompactMinTileHeightPx =
     voiceGridCompactMinTileWidthPx / voiceGridTileAspectRatio;
 
-/// A breakpoint mapping a tile count + container size to a column count.
-/// Rules are evaluated in order; the first satisfied rule wins.
 class VoiceGridColumnRule {
   const VoiceGridColumnRule({
     required this.columns,

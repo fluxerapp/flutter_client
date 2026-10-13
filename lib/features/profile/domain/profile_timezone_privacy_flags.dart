@@ -1,4 +1,3 @@
-/// Who can see profile local time.
 abstract final class ProfileTimezonePrivacyFlags {
   static const int everyone = 1 << 0;
   static const int friends = 1 << 1;

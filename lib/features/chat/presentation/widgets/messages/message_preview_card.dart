@@ -14,7 +14,6 @@ double messagePreviewMaxHeight(BuildContext context) {
   );
 }
 
-/// Bordered card used for message previews in modals and sheets.
 class MessagePreviewCard extends StatelessWidget {
   const MessagePreviewCard({required this.child, super.key});
 

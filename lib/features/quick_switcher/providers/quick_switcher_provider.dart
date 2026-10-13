@@ -287,7 +287,6 @@ class QuickSwitcher extends _$QuickSwitcher {
     }
     state = state.copyWith(
       results: results,
-      // Empty query: no preselected row (web sheet has no selection chrome).
       selectedIndex: trimmed.isEmpty
           ? -1
           : getFirstSelectableQuickSwitcherIndex(results),

@@ -16,7 +16,6 @@ class ChannelRepository {
 
   const ChannelRepository(this._client, this._dio, this._db);
 
-  /// Emits only when the domain channels change, not on tail-pointer writes.
   Stream<List<Channel>> watchChannels(String guildId) {
     return _db.channelDao
         .watchChannels(guildId)

@@ -19,8 +19,6 @@ class EmojiAssetImage extends StatelessWidget {
   final double size;
   final Widget fallback;
 
-  /// Source url of [bytes]. When set, raster assets decode through
-  /// [EmojiAssetImageProvider] so identical emoji at one size share a decode.
   final String? url;
 
   @override

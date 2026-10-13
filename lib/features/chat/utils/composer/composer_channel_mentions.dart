@@ -15,8 +15,6 @@ List<Channel> _mentionableChannelsFromCategories(
   return flat;
 }
 
-/// `#` autocomplete channels for [guildId]. Uses the loaded sidebar when it
-/// matches; otherwise [fallbackChannels] from that guild's local rows.
 List<Channel> mentionableChannelsForGuild({
   required String guildId,
   required ChannelListState currentList,

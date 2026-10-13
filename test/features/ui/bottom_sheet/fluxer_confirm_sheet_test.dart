@@ -62,7 +62,6 @@ void main() {
 
       expect(find.text('Delete Item'), findsOneWidget);
       expect(find.text('Are you sure?'), findsOneWidget);
-      // No Cancel button — only the confirm action.
       expect(find.text('Cancel'), findsNothing);
       expect(find.byType(FluxerButton), findsOneWidget);
 
@@ -106,8 +105,6 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Unpin message'), findsOneWidget);
 
-      // Dismiss without confirming — pop the sheet route directly to mimic
-      // a swipe-down / backdrop tap.
       Navigator.of(capturedContext).pop();
       await tester.pumpAndSettle();
 
@@ -142,12 +139,8 @@ void main() {
         await tester.tap(find.text('Open'));
         await tester.pumpAndSettle();
 
-        // The danger constructor maps to `FluxerButton.dangerPrimary`, which
-        // renders a distinct background color. Compare against the primary
-        // constructor rendered in an identical setup.
         final dangerColor = _resolveButtonFill(tester);
 
-        // Re-render with isDanger: false and compare.
         await tester.tap(find.byType(FluxerButton));
         await tester.pumpAndSettle();
         await tester.pumpWidget(
@@ -184,9 +177,6 @@ void main() {
   });
 }
 
-/// Resolves the resting background color of the single FluxerButton currently
-/// rendered in the sheet body. Walks the FluxerButton's subtree to find the
-/// AnimatedContainer that draws the button background.
 Color? _resolveButtonFill(WidgetTester tester) {
   final container = tester.widget<AnimatedContainer>(
     find

@@ -25,11 +25,9 @@ class EmojiAssetCache {
   static final BaseCacheManager _cacheManager =
       CachedNetworkImageProvider.defaultCacheManager;
 
-  /// Upper bound on emoji held in the in-memory bytes cache.
   @visibleForTesting
   static const int maxMemoryEntries = 256;
 
-  /// Upper bound on total bytes in the in-memory cache.
   @visibleForTesting
   static const int maxMemoryBytes = 4 * 1024 * 1024;
 
@@ -38,7 +36,6 @@ class EmojiAssetCache {
   static final Map<String, Future<Uint8List>> _inFlight =
       <String, Future<Uint8List>>{};
 
-  /// Returns the bytes for [url] if already in memory, without I/O.
   static Uint8List? peekBytes(String url) {
     final bytes = _memory.remove(url);
     if (bytes != null) {

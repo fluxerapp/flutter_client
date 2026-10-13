@@ -5,8 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shell_blocks_horizontal_gestures_provider.g.dart';
 
-/// True when a modal route or a manual block (recording overlay)
-/// owns the gesture.
 @Riverpod(keepAlive: true)
 bool shellBlocksHorizontalGestures(Ref ref) {
   return ref.watch(shellHasPopupOverlayProvider) ||

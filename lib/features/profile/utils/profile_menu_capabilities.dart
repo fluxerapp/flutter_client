@@ -1,13 +1,6 @@
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 
-/// Capabilities that gate the guild-scoped items in the user-profile
-/// "more actions" menu.
-///
-/// Mirrors the web `resolveGuildModerationCapabilities` +
-/// `resolveGuildScopedModerationActionKeys`
-/// (`features/guild/utils/GuildModerationCapabilityUtils.ts`) combined with the
-/// nickname/transfer gating in `UserProfileActionsSheet.tsx`.
 class ProfileMenuCapabilities {
   const ProfileMenuCapabilities({
     required this.canChangeNickname,
@@ -22,36 +15,24 @@ class ProfileMenuCapabilities {
     required this.showDisconnectFromVoice,
   });
 
-  /// Whether the "Change nickname" item is shown.
   final bool canChangeNickname;
 
-  /// Whether the "Transfer ownership" item is shown.
   final bool canTransfer;
 
-  /// Whether the "Timeout" item is shown (mod can timeout, target not already
-  /// timed out).
   final bool showTimeout;
 
-  /// Whether the "Remove timeout" item is shown (mod can timeout, target
-  /// currently timed out).
   final bool showRemoveTimeout;
 
-  /// Whether the "Kick" item is shown.
   final bool canKick;
 
-  /// Whether the "Ban" item is shown.
   final bool canBan;
 
-  /// Whether the "Manage roles" item is shown.
   final bool showManageRoles;
 
-  /// Whether community mute is shown in voice participant menus.
   final bool showCommunityMute;
 
-  /// Whether community deafen is shown in voice participant menus.
   final bool showCommunityDeafen;
 
-  /// Whether disconnect is shown in voice participant menus.
   final bool showDisconnectFromVoice;
 
   static const ProfileMenuCapabilities none = ProfileMenuCapabilities(
@@ -68,12 +49,6 @@ class ProfileMenuCapabilities {
   );
 }
 
-/// Highest-authority role from [roles]: maximum [MemberRole.position], ties
-/// broken by smallest snowflake id. Returns null for an empty list.
-///
-/// Mirrors web `PermissionUtils.getHighestRole` (sort descending position, then
-/// ascending id, take first). Callers must exclude the `@everyone` role, which
-/// is never part of a member's role list on the web.
 MemberRole? highestRole(List<MemberRole> roles) {
   MemberRole? highest;
   for (final MemberRole role in roles) {
@@ -87,12 +62,6 @@ MemberRole? highestRole(List<MemberRole> roles) {
   return highest;
 }
 
-/// Whether [currentUserId] outranks the target and may moderate them.
-///
-/// Mirrors web `useRoleHierarchy.canManageTarget`: the owner manages everyone;
-/// nobody manages the owner; a viewer with no roles manages no one; a target
-/// with no roles is managed by anyone with a role; otherwise the higher role
-/// position wins, ties broken by the lower snowflake id.
 bool canManageTarget({
   required String currentUserId,
   required String? ownerId,
@@ -118,8 +87,6 @@ bool canManageTarget({
   return BigInt.parse(viewerHighest.id) < BigInt.parse(targetHighest.id);
 }
 
-/// Resolves the profile menu's guild-scoped capabilities from already-resolved
-/// permission bits and the role-hierarchy decision.
 ProfileMenuCapabilities resolveProfileMenuCapabilities({
   required bool isCurrentUser,
   required bool hasGuildMember,
@@ -133,8 +100,6 @@ ProfileMenuCapabilities resolveProfileMenuCapabilities({
 }) {
   final bool mod = !isCurrentUser && canManageTarget;
 
-  // Ban is guild-scoped: it does not require an active membership row (you can
-  // ban someone who already left). Kick and timeout require a member.
   final bool canKick =
       mod &&
       hasGuildMember &&

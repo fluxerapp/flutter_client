@@ -1,9 +1,5 @@
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
-/// Long-form relative time (e.g. "5 minutes ago", "just now").
-///
-/// Mirrors the long-form used in Security & Login. Uses the existing
-/// `relativeTime*` ARB keys.
 String relativeTime(DateTime date, FluxerLocalizations l10n, {DateTime? now}) {
   final diff = (now ?? DateTime.now()).difference(date);
   if (diff.inDays > 365) {
@@ -24,9 +20,6 @@ String relativeTime(DateTime date, FluxerLocalizations l10n, {DateTime? now}) {
   return l10n.relativeTimeJustNow;
 }
 
-/// Relative time for markdown timestamps (`<t:unix:R>`).
-///
-/// Matches the web unit cascade for both past and future instants.
 String relativeTimestamp(
   DateTime date,
   FluxerLocalizations l10n, {
@@ -73,10 +66,6 @@ String relativeTimestamp(
   return l10n.relativeTimeJustNow;
 }
 
-/// Short-form relative time (e.g. "5m", "2h", "3d", "2mo", "1y", "now").
-///
-/// Mirrors the web app's `formatShortRelativeTime` output. Used in compact
-/// card layouts like Linked Devices.
 String relativeTimeShort(
   DateTime date,
   FluxerLocalizations l10n, {

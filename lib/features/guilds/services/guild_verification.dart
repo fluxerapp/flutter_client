@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-/// Guild verification levels
 abstract final class GuildVerificationLevel {
   static const int none = 0;
   static const int low = 1;

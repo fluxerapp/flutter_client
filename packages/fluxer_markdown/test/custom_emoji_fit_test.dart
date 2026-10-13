@@ -46,8 +46,6 @@ CachedNetworkImage _customEmojiImage(WidgetTester tester) {
   return tester.widget<CachedNetworkImage>(finder.first);
 }
 
-// Issue #445 guard: a single decode axis + BoxFit.contain keeps non-square
-// emoji from stretching. A second axis (memCacheHeight) forces exact resize.
 void _expectSingleAxisContain(CachedNetworkImage image) {
   expect(image.fit, BoxFit.contain);
   expect(image.memCacheHeight, isNull);
@@ -62,7 +60,6 @@ void main() {
       (tester) async {
         await _pumpMarkdown(tester, 'hello <:smile:111111111111111111> world');
 
-        // Surrounding text keeps the emoji inline, i.e. non-jumbo.
         final Size size = tester.getSize(find.byType(FluxerEmojiWidget));
         expect(size.height, lessThan(kFluxerMarkdownEmojiSizeJumbo));
 
@@ -75,8 +72,6 @@ void main() {
       (tester) async {
         await _pumpMarkdown(tester, '<:smile:111111111111111111>');
 
-        // An emoji-only message renders at jumbo size, exercising the jumbo
-        // branch of _buildCustom (larger px), which must still cap one axis.
         final Size size = tester.getSize(find.byType(FluxerEmojiWidget));
         expect(size.height, closeTo(kFluxerMarkdownEmojiSizeJumbo, 1));
 

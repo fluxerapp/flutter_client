@@ -95,7 +95,6 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
     await touchMemberAccessPairs(accessPairs);
   }
 
-  /// Touches cache-access rows for each `(guildId, userId)` pair in one batch.
   Future<void> touchMemberAccessPairs(
     List<({String guildId, String userId})> pairs,
   ) async {

@@ -32,18 +32,15 @@ import '../../../../../helpers/message_item_test_overrides.dart';
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
-/// Author snowflake used by every case in this file.
 const String _authorId = '123456789012345678';
 const String _guildId = 'g1';
 const String _globalAvatarHash = 'global_avatar_hash';
 
-/// Default/blank avatar CDN URL FluxerAvatar derives when imageUrl is null.
 String get _defaultAvatarUrl {
   final index = BigInt.parse(_authorId) % BigInt.from(6);
   return 'https://fluxerstatic.com/avatars/$index.png';
 }
 
-/// Global user avatar URL the message payload would produce without AVATAR_UNSET.
 String get _globalAvatarUrl => FluxerMediaUrl.userAvatar(
   userId: _authorId,
   hash: _globalAvatarHash,
@@ -71,8 +68,6 @@ const MessageRenderSettings _settings = MessageRenderSettings(
   messageGroupSpacing: 16,
 );
 
-/// Guild-resolved display for a member with AVATAR_UNSET: avatarUrl nullled,
-/// but avatarHash still holds the global hash (matches production resolvers).
 const GuildUserDisplay _unsetDisplay = GuildUserDisplay(
   displayName: 'Alice',
   accountDisplayName: 'Alice',
@@ -81,7 +76,6 @@ const GuildUserDisplay _unsetDisplay = GuildUserDisplay(
   avatarColor: null,
 );
 
-/// Same member with avatar shown (inherit / set): global avatar URL.
 final GuildUserDisplay _shownDisplay = GuildUserDisplay(
   displayName: 'Alice',
   accountDisplayName: 'Alice',
@@ -188,15 +182,12 @@ void main() {
     messageItemTestWidgets(
       'same author flips between global and default URLs when unset toggles',
       (tester) async {
-        // Shown first — global avatar URL is the image identity.
         await tester.pumpWidget(
           _app(authorDisplay: _shownDisplay, message: _message()),
         );
         await tester.pump();
         expect(_avatarImage(tester).imageUrl, _globalAvatarUrl);
 
-        // Unset on — image identity must change to the default/blank URL so
-        // the network cache cannot resurrect the prior global avatar.
         await tester.pumpWidget(
           _app(authorDisplay: _unsetDisplay, message: _message()),
         );
@@ -205,7 +196,6 @@ void main() {
         expect(unsetImage.imageUrl, _defaultAvatarUrl);
         expect(unsetImage.imageUrl, isNot(_globalAvatarUrl));
 
-        // Unset off again — back to the global URL (distinct identity).
         await tester.pumpWidget(
           _app(authorDisplay: _shownDisplay, message: _message()),
         );

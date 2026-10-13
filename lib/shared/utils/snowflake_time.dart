@@ -1,7 +1,5 @@
-/// Fluxer snowflake epoch (2015-01-01T00:00:00.000Z) in milliseconds.
 const int kSnowflakeEpochMs = 1420070400000;
 
-/// Unix epoch milliseconds encoded in a Fluxer snowflake id, or null if [id] is not numeric.
 int? snowflakeTimestampMsOrNull(String? id) {
   final BigInt? parsed = BigInt.tryParse(id ?? '');
   if (parsed == null) {

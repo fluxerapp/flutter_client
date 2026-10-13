@@ -15,7 +15,6 @@ Channel? findChannelById(ChannelListState state, String id) {
   return null;
 }
 
-/// In-memory guild channel list first, then the local DB row.
 Channel? resolveGuildChannel(WidgetRef ref, String channelId) {
   return findChannelById(ref.read(channelListViewModelProvider), channelId) ??
       ref.read(channelByIdProvider(channelId)).value;

@@ -30,9 +30,6 @@ String? pushMessageIdFromChannelTag(String? tag, String channelId) {
   return messageId;
 }
 
-/// True when [messageId] is included in an ack through [upToMessageId].
-/// A missing ack id covers the whole conversation. A missing message id does
-/// not, so a group summary stays until its messages are gone.
 bool pushMessageIsCoveredByAck(String? messageId, String? upToMessageId) {
   if (upToMessageId == null || upToMessageId.isEmpty) {
     return true;
@@ -134,8 +131,6 @@ String? resolvePushNotificationTag(Map<String, String> payload) {
 
 final RegExp _guildTitlePattern = RegExp(r' \(#([^,]+), .+\)$');
 
-/// Conversation label for a grouped stack. Null for a 1:1 DM so the
-/// caller can use the message title.
 String? resolvePushConversationName(
   Map<String, String> payload, {
   String? title,
@@ -199,7 +194,6 @@ String? resolvePushDisplayTag(Map<String, String> payload) {
       resolvePushNotificationTag(enriched);
 }
 
-/// Reads `target_user_id` from a local-notification launch payload.
 String? targetUserIdFromPushPayloadJson(String? payloadJson) {
   if (payloadJson == null || payloadJson.isEmpty) {
     return null;
@@ -223,7 +217,6 @@ String? targetUserIdFromPushPayloadJson(String? payloadJson) {
   return userId;
 }
 
-/// Normalizes provider-specific tap payloads into navigation fields.
 Map<String, String> normalizePushTapPayload(Map<String, String> raw) {
   final Map<String, String> payload = Map<String, String>.from(raw);
   _mergeNestedDataPayload(payload);

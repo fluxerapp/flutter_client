@@ -97,18 +97,14 @@ Future<FluxerDatabase> _seedDb() async {
     );
   }
 
-  // Owned guild: the user is the owner, so every text/voice channel is sendable
-  // and slowmode is bypassed.
   await channel('c_source', _ownedGuild, 0);
   await channel('c_text', _ownedGuild, 0);
   await channel('c_voice', _ownedGuild, 2);
   await channel('c_category', _ownedGuild, 4);
   await channel('c_link', _ownedGuild, 998);
 
-  // Other guild: the user has no membership, so sending is blocked.
   await channel('c_other', _otherGuild, 0);
 
-  // Member guild: @everyone grants SEND_MESSAGES but not BYPASS_SLOWMODE.
   await channel('c_slow', _memberGuild, 0, rateLimit: 10);
   await db.roleDao.upsertRoles(<RolesCompanion>[
     RolesCompanion.insert(
@@ -122,8 +118,6 @@ Future<FluxerDatabase> _seedDb() async {
     MembersCompanion.insert(userId: _userId, guildId: _memberGuild),
   );
 
-  // Other guild: the user is a member, but @everyone grants no permissions,
-  // so its channels are a genuine missing-send-permission case (loaded data).
   await db.roleDao.upsertRoles(<RolesCompanion>[
     RolesCompanion.insert(
       id: _otherGuild,
@@ -170,8 +164,6 @@ Future<List<ForwardDestination>> _read(
     sourceHasEmbeds: hasEmbeds,
     sourceHasAttachments: hasAttachments,
   );
-  // Keep the provider (and its Drift stream dependency) alive past the read so
-  // `watchAllChannels` can emit before auto-dispose tears the chain down.
   container.listen(provider, (_, _) {});
   return container.read(provider.future);
 }
@@ -297,11 +289,9 @@ void main() {
 
     final Map<String, ForwardDestination> byId = await _resolve(container);
 
-    // @everyone can send but cannot bypass slowmode, so it is flagged.
     expect(byId['c_slow']!.disable, ForwardDestinationDisable.none);
     expect(byId['c_slow']!.slowmodeEnabled, isTrue);
     expect(byId['c_slow']!.rateLimitPerUser, 10);
-    // The owner bypasses slowmode, so owner channels are never flagged.
     expect(byId['c_text']!.slowmodeEnabled, isFalse);
   });
 
@@ -315,12 +305,10 @@ void main() {
       hasAttachments: true,
     );
 
-    // @everyone lacks ATTACH_FILES, so a message with media can't go here.
     expect(
       byId['c_slow']!.disable,
       ForwardDestinationDisable.noAttachPermission,
     );
-    // The owner has every permission, so owner channels stay sendable.
     expect(byId['c_text']!.disable, ForwardDestinationDisable.none);
   });
 
@@ -444,7 +432,6 @@ void main() {
       overrides: [
         fluxerDatabaseProvider.overrideWithValue(db),
         guildListViewModelProvider.overrideWith(
-          // Owner would have every permission, but the guild disables sending.
           () => _FakeGuilds(const <Guild>[
             Guild(
               id: 'g_disabled',
@@ -527,7 +514,6 @@ void main() {
       ],
     );
     addTearDown(container.dispose);
-    // The forward provider only checks the current user's member timeout.
     container.read(currentUserIdProvider.notifier).set(_userId);
 
     final provider = forwardDestinationsProvider(
@@ -542,7 +528,6 @@ void main() {
     final ForwardDestination dest = result.firstWhere(
       (ForwardDestination d) => d.channelId == 'c_timeout',
     );
-    // @everyone grants SEND, so the timeout is the only blocker and wins.
     expect(dest.disable, ForwardDestinationDisable.memberTimedOut);
   });
 
@@ -566,10 +551,6 @@ void main() {
           type: const Value(0),
         ),
       );
-      // The guild is known, but the current user's member row and roles are
-      // not seeded and they are not the owner, mirroring a guild not opened
-      // yet. Permission resolution returns 0 with shouldCache false, so the
-      // destination must not be disabled (the server enforces on send).
       final ProviderContainer container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),

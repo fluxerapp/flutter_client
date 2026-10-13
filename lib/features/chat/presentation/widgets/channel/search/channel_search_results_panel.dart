@@ -137,8 +137,6 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
     required VoidCallback onClose,
     String? guildId,
   }) async {
-    // Captured before the awaits: the panel is dismissed mid-jump, and a ref
-    // read after that would be dead.
     final ProviderContainer container = ref.container;
     final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
     await database.messageDao.upsertMessage(message.toCompanion());

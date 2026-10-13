@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-/// Lets [Image] advance GIF/WebP frames; playback is still gated by [TickerMode].
 class AllowImageFrameAnimation extends StatelessWidget {
   const AllowImageFrameAnimation({required this.child, super.key});
 

@@ -203,7 +203,6 @@ bool shouldDismissCallKitOnForeground({
   if (isInVoice) {
     return false;
   }
-  // CallKit UI makes the app inactive. Only swap to in-app UI when resumed.
   return lifecycleState == AppLifecycleState.resumed;
 }
 

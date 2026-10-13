@@ -390,7 +390,6 @@ final FutureProviderFamily<Guild?, String> _guildByIdProvider = FutureProvider
       return row == null ? null : Guild.fromRow(row);
     });
 
-// temporary solution :)
 final FutureProviderFamily<String?, String> _dmNameByChannelIdProvider =
     FutureProvider.autoDispose.family<String?, String>((ref, channelId) async {
       final db = ref.watch(fluxerDatabaseProvider);

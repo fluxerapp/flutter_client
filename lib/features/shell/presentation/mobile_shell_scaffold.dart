@@ -42,9 +42,6 @@ class MobileShellScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // The route-state providers defer their update by a frame in some
-    // scheduler phases; watching one keeps this shell rebuilding, while the
-    // router's live configuration is authoritative for the current frame.
     final String deferredBranchLocation = ref.watch(
       activeBranchLocationProvider,
     );

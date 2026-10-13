@@ -4,7 +4,6 @@ import 'package:fluxer_app/core/push/fcm/fcm_tap_binding_host.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 
-/// OSS / UnifiedPush builds: FCM is not linked; this stub is never selected at runtime.
 class FirebaseMessagingPushService implements PushService {
   const FirebaseMessagingPushService();
 

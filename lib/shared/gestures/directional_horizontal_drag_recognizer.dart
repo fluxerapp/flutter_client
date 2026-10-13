@@ -1,11 +1,9 @@
 import 'package:flutter/gestures.dart';
 
-/// Which way a horizontal drag is allowed to claim the pointer.
 enum HorizontalClaimDirection { left, right }
 
 const double _kClearHorizontalDominanceRatio = 2;
 
-/// True when [deltaFromStart] is a clear horizontal drag in one of [directions].
 bool claimsClearHorizontalDrag({
   required Offset deltaFromStart,
   required double slop,
@@ -22,10 +20,6 @@ bool claimsClearHorizontalDrag({
   return directions.contains(way);
 }
 
-/// Accepts or rejects on the first move past slop.
-///
-/// [directions] is read on that move. The recognizer instance is reused, so
-/// the set can change between gestures.
 class DirectionalHorizontalDragRecognizer
     extends HorizontalDragGestureRecognizer {
   DirectionalHorizontalDragRecognizer({

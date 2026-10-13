@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
 
-/// Disables TOTP MFA with one authenticator or backup code.
-///
-/// Sudo and disable cannot share the same TOTP (90s replay lock), so sudo uses
-/// [code] and disable uses an unused backup code.
 Future<void> disableTotpMfa({required Dio dio, required String code}) async {
   final backupResponse = await dio.post<Map<String, dynamic>>(
     '/users/@me/mfa/backup-codes',

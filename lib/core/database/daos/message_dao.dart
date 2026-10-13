@@ -32,9 +32,6 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
         messages,
       )..where((m) => m.id.equals(beforeId))).getSingleOrNull();
       if (beforeMsg != null) {
-        // Composite cursor: pure-timestamp comparison drops or duplicates
-        // equal-timestamp messages at page boundaries. Snowflake ids order
-        // creation within one timestamp; they fit signed 64-bit.
         final int beforeSnowflake = int.parse(beforeId);
         query.where(
           (m) =>
@@ -235,7 +232,6 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
             ..limit(1))
           .getSingleOrNull();
 
-  /// Id of the newest row of [channelId] the server has confirmed.
   Future<String?> newestServerMessageId(String channelId) async {
     final Message? row =
         await (select(messages)
@@ -295,7 +291,6 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       ])
       ..limit(limit);
     if (afterMsg != null) {
-      // Composite cursor - see getMessages.
       final int afterSnowflake = int.parse(afterId);
       query.where(
         (m) =>
@@ -362,13 +357,11 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return (delete(messages)..where((m) => m.id.isIn(ids))).go();
   }
 
-  /// Deletes server-backed rows of [channelId] in (afterId, upToId] (#474).
   Future<void> deleteServerMessagesBetween(
     String channelId, {
     required String afterId,
     required String upToId,
   }) {
-    // Numeric compare: a TEXT compare misorders ids of different length.
     final int afterSnowflake = int.parse(afterId);
     final int upToSnowflake = int.parse(upToId);
     return (delete(messages)..where(

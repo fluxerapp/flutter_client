@@ -90,8 +90,6 @@ void main() {
     expect(withheldLeadingCount(tester), 48);
     final int olderRequestsBefore = harness.chatViewModel.loadMoreCallCount;
 
-    // A refresh reinstalls a short window that keeps the tail anchor, so no
-    // re-anchor runs: only the swap itself can end the reveal.
     final List<Message> current = harness.chatViewModel.testState.messages;
     harness.chatViewModel.testState = harness.chatViewModel.testState.copyWith(
       write: (
@@ -155,8 +153,6 @@ void main() {
     );
     await pumpFluxerFrames(tester);
 
-    // 30 blocked messages fold into one group item, followed by 20 rows:
-    // the page adds 21 stream items ahead of the previously oldest row.
     final List<Message> current = harness.chatViewModel.testState.messages;
     final DateTime first = current.first.timestamp;
     final List<Message> page = <Message>[

@@ -35,7 +35,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     );
     final bool visuallyExpanded = isExpanded && !collapseWhileDragging;
 
-    // Aggregate unread/mention/voice across all guilds in folder.
     var anyUnread = false;
     var totalMentions = 0;
     var folderVoiceActivity = VoiceActivityType.none;
@@ -71,8 +70,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
       isDark ? 0.2 : 0.15,
     )!;
 
-    // Stack: background panel behind header + animated guild list.
-    // Background spans from header through guild items when expanded.
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: GuildNavbarIconShape.itemSpacing / 2,
@@ -81,7 +78,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
         clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
         children: [
-          // Background panel (behind everything, spans full height).
           if (visuallyExpanded)
             Positioned.fill(
               child: Center(
@@ -96,7 +92,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                 ),
               ),
             ),
-          // Content column: header + animated guild list.
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -132,7 +127,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                   isExpanded: visuallyExpanded,
                 ),
               ),
-              // Animated expand/collapse of guild items.
               AnimatedSize(
                 duration: context.motion.panel,
                 curve: const Cubic(0.25, 0.1, 0.25, 1),
@@ -294,7 +288,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
       );
     }
 
-    // 2x2 mini guild icon grid.
     final gridGuilds = folder.guilds.take(4).toList();
     return LayoutBuilder(
       builder: (context, constraints) {

@@ -56,7 +56,6 @@ bool isPersonalNotesChannelRoute({
   required String? currentUserId,
 }) => currentUserId != null && channelId == currentUserId;
 
-/// Whether [channelId] is a DM or Personal Notes composer context.
 bool isComposerDirectChat({
   required String channelId,
   required List<DmConversation> dmConversations,

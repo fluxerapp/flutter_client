@@ -46,7 +46,6 @@ void main() {
 
       expect(find.text('Test notification'), findsOneWidget);
 
-      // Advance past toast duration to clear pending timer.
       await tester.pump(const Duration(seconds: 5));
       await tester.pump();
     });
@@ -64,7 +63,6 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Tap me away'), findsOneWidget);
 
-      // Toast dismisses on tap (GestureDetector.onTap -> dismiss).
       await tester.tap(find.text('Tap me away'));
       await tester.pumpAndSettle();
 

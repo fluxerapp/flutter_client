@@ -22,8 +22,6 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import '../../../../../helpers/rendered_text_test_helpers.dart';
 import '../../../../../helpers/test_l10n.dart';
 
-/// Every message type routed to [SystemMessage] (i.e. not a user message).
-/// Reactions are allowed on all of these.
 const List<int> _systemMessageTypes = <int>[
   messageTypeRecipientAdd,
   messageTypeRecipientRemove,

@@ -65,8 +65,6 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
   Future<List<Channel>> getChannelsByIds(List<String> ids) =>
       (select(channels)..where((c) => c.id.isIn(ids))).get();
 
-  /// Root category (or channel without parent) first,
-  /// then each child down to [channelId].
   Future<List<String?>> getPermissionOverwriteLayers(String channelId) async {
     final Channel? row = await getChannelById(channelId);
     if (row == null) {
@@ -108,19 +106,6 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
     });
   }
 
-  /// Bulk upsert with optional authoritative lastMessageId handling.
-  ///
-  /// When [authoritativeTails] is true (READY path), each present
-  /// `lastMessageId` is taken as-is: the gateway snapshot is server truth at
-  /// connect time. Non-typing gateway events are strictly serialized
-  /// (GatewayEventDispatcher._drain), so READY finishes before any queued
-  /// MESSAGE_CREATE and a genuinely newer tail re-advances via its own event.
-  /// Absent `lastMessageId` leaves the local column untouched.
-  ///
-  /// When false, present tails are max-merged against the existing row
-  /// (CHANNEL_UPDATE-style race protection for non-READY callers).
-  ///
-  /// Fold-forward: duplicate channel ids in one call see earlier decisions.
   Future<void> upsertChannelsMerged(
     List<ChannelsCompanion> channelList, {
     bool authoritativeTails = false,
@@ -136,7 +121,6 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
           (ChannelsCompanion channel) => channel.lastMessageId.present,
         );
     if (needsExisting) {
-      // Full table is small (~payload-sized) and avoids bind-limit chunking.
       for (final Channel row in await select(channels).get()) {
         existingLastById[row.id] = row.lastMessageId;
       }
@@ -178,9 +162,6 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
         ChannelsCompanion(lastMessageId: Value(messageId)),
       );
 
-  /// Advances the tail pointer without notifying drift streams; readers must
-  /// use `ChannelLastMessageIndex`. Never moves the pointer back: rewinds go
-  /// through [setLastMessageId].
   Future<void> advanceLastMessageIdSilently(
     String channelId,
     String messageId,
@@ -205,8 +186,6 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
     );
   }
 
-  /// Max-snowflake merge for single-row CHANNEL_UPDATE-style upserts.
-  /// Incoming null/empty preserves existing; otherwise keep the newer id.
   String? mergeLastMessageIdValues({
     required String? existing,
     required String? incomingLastMessageId,

@@ -8,9 +8,6 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// [CustomScrollView] with pull-to-refresh using [FluxerLoadingSpinner].
-///
-/// Uses [CupertinoSliverRefreshControl]; content must be passed as [slivers].
 class FluxerRefreshScrollView extends StatelessWidget {
   const FluxerRefreshScrollView({
     required this.onRefresh,

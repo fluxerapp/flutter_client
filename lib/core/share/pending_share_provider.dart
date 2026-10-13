@@ -20,7 +20,6 @@ bool isPendingShareReady({
   return isAuthenticated && isGatewayReady && !isConnectionFailed;
 }
 
-/// Queues media from the OS share sheet until the app is ready to present it.
 @Riverpod(keepAlive: true)
 class PendingShare extends _$PendingShare {
   StreamSubscription<List<SharedMediaFile>>? _mediaSubscription;

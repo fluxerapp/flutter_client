@@ -65,7 +65,6 @@ class BanView extends _$BanView {
     return null;
   }
 
-  /// Initializes the ban view state and starts polling.
   Future<void> initialize(BanViewInfo info) async {
     _stopTimers();
     state = BanViewState(info: info, isLoading: true);
@@ -74,7 +73,6 @@ class BanView extends _$BanView {
     _startTokenRefresh();
   }
 
-  /// Submits an appeal with the given rationale.
   Future<void> submitAppeal(String rationale) async {
     final current = state;
     if (current == null) {
@@ -95,7 +93,6 @@ class BanView extends _$BanView {
     }
   }
 
-  /// Manually rechecks the ban status (with cooldown).
   Future<void> recheck() async {
     final current = state;
     if (current == null || current.recheckCooldown > 0) {
@@ -117,7 +114,6 @@ class BanView extends _$BanView {
     }
   }
 
-  /// Clears the ban view state and stops all timers.
   void clear() {
     _stopTimers();
     state = null;
@@ -166,8 +162,6 @@ class BanView extends _$BanView {
         );
       } on Object catch (e) {
         talker.error('[BanView] Token refresh failed: $e');
-        // If refresh fails with 401, the token expired. Clear state to go back
-        // to login.
         clear();
       }
     });

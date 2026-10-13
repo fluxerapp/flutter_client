@@ -1,8 +1,5 @@
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
-/// Hearts shown at the start of Symbols instead of People, where the synced
-/// `emojis.json` puts them. Display-only; sprite indices stay on the original
-/// entries. `cupid` belongs to the cluster despite its shortcode.
 const List<String> kEmojiPickerSymbolHeartNames = [
   'heart',
   'pink_heart',
@@ -32,7 +29,6 @@ const List<String> kEmojiPickerSymbolHeartNames = [
 
 final Set<String> _kSymbolHeartNames = kEmojiPickerSymbolHeartNames.toSet();
 
-// One-entry memo; the registry map is identity-stable after preload.
 Map<String, List<EmojiEntry>>? _memoInput;
 late Map<String, List<EmojiEntry>> _memoOutput;
 
@@ -45,9 +41,6 @@ String? _pickerSymbolHeartName(EmojiEntry emoji) {
   return null;
 }
 
-/// Returns picker categories with the heart cluster moved to Symbols.
-///
-/// Does not mutate [categories] or the [EmojiEntry] objects inside it.
 Map<String, List<EmojiEntry>> emojiPickerDisplayCategories(
   Map<String, List<EmojiEntry>> categories,
 ) {

@@ -2,10 +2,7 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:cupertino_ui/cupertino_ui.dart' show WidgetsFlutterBinding;
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;
-import 'package:fluxer_app/material_ui.dart' show WidgetsFlutterBinding;
 
 const double kFluxerMobileFormFactorMaxShortestSide = 600;
 
@@ -18,14 +15,12 @@ bool? _isRuntimeMobileFormFactor;
 
 bool get isFluxerNativeMobileOs => Platform.isAndroid || Platform.isIOS;
 
-/// Android and iOS use the system CallKit / connection service incoming UI
 bool get isNativeVoiceCallKitPlatform => isFluxerNativeMobileOs;
 
 bool _isFluxerDesktopClassOs() {
   return Platform.isLinux || Platform.isMacOS || Platform.isWindows;
 }
 
-/// Call after [WidgetsFlutterBinding.ensureInitialized].
 void configureFluxerMobileDetection() {
   if (isFluxerNativeMobileOs || !_isFluxerDesktopClassOs()) {
     _isRuntimeMobileFormFactor = false;

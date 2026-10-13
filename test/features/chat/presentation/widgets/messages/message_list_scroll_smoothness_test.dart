@@ -864,8 +864,6 @@ void main() {
       await tester.pump();
 
       expect(position.pixels, moreOrLessEquals(restingPixels, epsilon: 1));
-      // The reader is only a few hundred pixels onto the skeleton, so the
-      // page shows at the viewport bottom, not at its center.
       final Rect viewport = tester.getRect(messageListScrollable());
       expect(
         page.where(

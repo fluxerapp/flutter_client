@@ -15,7 +15,6 @@ extension FluxerThemeX on BuildContext {
   FluxerLayoutTheme get layout =>
       Theme.of(this).extension<FluxerLayoutTheme>()!;
 
-  /// Zeroed when reduced motion is on.
   FluxerMotionTheme get motion {
     if (MediaQuery.disableAnimationsOf(this)) {
       return const FluxerMotionTheme.reduced();

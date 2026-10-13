@@ -1,9 +1,3 @@
-//
-//  DarwinNotificationCenter.swift
-//  Runner
-//
-//  Created by Elias Deuss on 06/04/2026.
-//
 
 import Foundation
 

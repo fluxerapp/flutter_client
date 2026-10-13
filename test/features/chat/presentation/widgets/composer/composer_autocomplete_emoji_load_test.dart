@@ -106,18 +106,13 @@ void main() {
         ),
       );
 
-      // Type a colon query before the guild emoji stream has emitted.
       textController.value = const TextEditingValue(
         text: ':party',
         selection: TextSelection.collapsed(offset: 6),
       );
-      // Past the typing debounce; the stream is still pending so no custom
-      // emoji can be listed yet.
       await tester.pump(const Duration(milliseconds: 350));
       expect(find.text(':partyblob:'), findsNothing);
 
-      // The guild's custom emoji resolve after the trigger already fired; the
-      // warm-emoji listener reschedules the search.
       emojis.add(<GuildEmojiEntry>[
         GuildEmojiEntry(
           id: 'e1',

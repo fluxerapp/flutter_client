@@ -2,12 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 
-/// Which screen edge a full-width panel reveals from.
 enum HorizontalRevealEdge {
-  /// Guild drawer: panel on the left, drag right to open.
   left,
 
-  /// Channel details: panel on the right, drag left to open.
   right,
 }
 
@@ -65,7 +62,6 @@ Set<HorizontalClaimDirection> horizontalRevealDragDirections({
   return <HorizontalClaimDirection>{open, if (translate > 0) close};
 }
 
-/// After a drag ends, whether the panel should settle open (vs closed).
 bool horizontalRevealShouldOpen({
   required HorizontalRevealEdge edge,
   required double translate,

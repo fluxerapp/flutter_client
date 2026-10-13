@@ -84,10 +84,6 @@ class MessageListSkeleton extends ConsumerWidget {
   }
 }
 
-/// Stands in for unloaded history at a loaded edge of the message list, so a
-/// fling runs into skeleton rows instead of a wall while the page loads.
-/// Sized to [MessageListPlaceholderSpecs.totalHeight] and clipped, so the
-/// host knows the extent it adds without measuring.
 class MessageListEdgeFiller extends StatelessWidget {
   const MessageListEdgeFiller({
     required this.specs,
@@ -97,8 +93,6 @@ class MessageListEdgeFiller extends StatelessWidget {
 
   final MessageListPlaceholderSpecs specs;
 
-  /// Groups hug the loaded rows: bottom-aligned above the oldest row,
-  /// top-aligned below the newest.
   final Alignment alignment;
 
   @override

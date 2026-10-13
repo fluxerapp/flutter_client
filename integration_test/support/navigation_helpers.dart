@@ -32,8 +32,6 @@ Future<void> openGuildChannel(WidgetTester tester) async {
   await tester.pump();
   await tester.pump(const Duration(seconds: 2));
 
-  // A `.first` finder throws Bad state on zero matches instead of reporting
-  // empty, which scrollUntilVisible evaluates before every drag.
   final Finder channelList = find
       .descendant(
         of: find.byKey(const ValueKey<String>(guildId)),

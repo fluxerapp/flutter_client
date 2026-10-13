@@ -26,7 +26,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Guild invite embed card.
 class EmbedInvite extends ConsumerWidget {
   const EmbedInvite({required this.code, super.key});
 

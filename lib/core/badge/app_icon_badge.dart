@@ -1,8 +1,6 @@
-/// OS app-icon badge value derived from unread state
 class AppIconBadgeValue {
   const AppIconBadgeValue({required this.count});
 
-  /// `0` clears the badge; `1`+ sets the launcher count.
   final int count;
 }
 

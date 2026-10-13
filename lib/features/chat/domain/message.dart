@@ -28,9 +28,6 @@ const int messageFlagFailedToMentionSomeRolesInThread = 1 << 8;
 const int attachmentFlagIsSpoiler = 1 << 3;
 const int attachmentFlagContainsExplicitMedia = 1 << 4;
 
-/// Message wire-type constants (mirrors the server's
-/// `MessageTypes` enum). Use these everywhere instead of
-/// hardcoding the int value.
 const int messageTypeDefault = 0;
 const int messageTypeRecipientAdd = 1;
 const int messageTypeRecipientRemove = 2;
@@ -253,8 +250,6 @@ class Embed {
     return image != null || thumbnail != null || video != null;
   }
 
-  /// Human-readable text of this embed, top to bottom as rendered, one part
-  /// per line. Empty when the embed is media-only.
   String get copyableText {
     final List<String> parts = <String>[
       ?providerName,
@@ -598,7 +593,6 @@ class Reaction {
 
   bool get isCustom => emojiId != null;
 
-  /// Encoded emoji param for the reaction API.
   String get apiParam => isCustom ? '$emoji:$emojiId' : emoji;
 }
 
@@ -615,9 +609,6 @@ class MessageReference {
     this.guildId,
   });
 
-  // The regenerated SDK emits a distinct message-reference type per parent
-  // schema (message, pinned message, search result). Their shapes are
-  // identical, so each call site uses its own thin adapter.
   factory MessageReference.fromSdk(MessageResponseSchemaMessageReference sdk) {
     return MessageReference(
       channelId: sdk.channelId,
@@ -1314,8 +1305,6 @@ class Message {
     return copyWith(translation: snapshot.translation);
   }
 
-  /// Whether [other] renders identically, so the merge can reuse this instance
-  /// and preserve the row's tile cache.
   bool isRenderEquivalent(Message other) {
     if (identical(this, other)) {
       return true;
@@ -1581,7 +1570,6 @@ class Message {
     );
   }
 
-  /// Merges a gateway `MESSAGE_UPDATE` payload into this message.
   Message applyGatewayUpdate(
     MessageResponseSchema sdk, {
     required bool isMentioned,
@@ -1700,8 +1688,6 @@ class Message {
   bool get isCrosspostSourceDeleted =>
       isCrosspostCopy && (flags & messageFlagSourceMessageDeleted) != 0;
 
-  /// Text of every rendered embed, embeds separated by a blank line. Empty
-  /// when embeds are suppressed or carry no text.
   String get embedsCopyableText {
     if (suppressEmbeds) {
       return '';
@@ -1727,7 +1713,7 @@ class Message {
   }
 
   static final RegExp _invitesRegExp = RegExp(
-    r'(?:https?://)?(?:fluxer\.gg/(?!invite/)([a-zA-Z0-9\-]{2,32})|(?:web\.)?fluxer\.app/invite/([a-zA-Z0-9\-]{2,32}))(?![a-zA-Z0-9\-])', // .com (soon)
+    r'(?:https?://)?(?:fluxer\.gg/(?!invite/)([a-zA-Z0-9\-]{2,32})|(?:web\.)?fluxer\.app/invite/([a-zA-Z0-9\-]{2,32}))(?![a-zA-Z0-9\-])',
   );
 
   List<String> get invites {
@@ -1758,21 +1744,13 @@ class Message {
   bool get isEdited => editedTimestamp != null;
   bool get isSystemMessage => !isUserMessage;
 
-  /// Whether this message is a generic user-authored message
-  /// (default text, reply, or client-system marker). Mirrors the
-  /// web app's `isUserMessage()` predicate.
   bool get isUserMessage =>
       type == messageTypeDefault ||
       type == messageTypeReply ||
       type == messageTypeClientSystem;
 
-  /// `type == 99` is the client-side-only system marker used for
-  /// inline call/system status entries — interactive message
-  /// actions (reply, forward, etc.) are not applicable.
   bool get isClientSystemMessage => type == messageTypeClientSystem;
 
-  /// Whether interactive message actions (reply, forward, add reaction,
-  /// bookmark, suppress embeds) should be offered for this message.
   bool get supportsInteractiveActions => !isClientSystemMessage;
 
   bool get isSending => deliveryState == MessageDeliveryState.sending;
@@ -1796,9 +1774,6 @@ class Message {
 
   bool get isWebhookMessage => webhookId != null && webhookId!.isNotEmpty;
 
-  /// Wire-shaped snapshot of this message suitable for the developer
-  /// debug viewer. Mirrors the field set the web client surfaces via
-  /// `message.toJSON()`; not stable across versions.
   Map<String, dynamic> toJson() => {
     'id': id,
     'channel_id': channelId,

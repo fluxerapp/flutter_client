@@ -37,7 +37,6 @@ class MfaScreen extends ConsumerWidget {
         ? vm.errorType!.resolve(l10n)
         : vm.error;
 
-    // Listen for completion.
     ref.listen(
       mfaViewModelProvider(challenge).select((s) => s.completedSession),
       (_, session) {

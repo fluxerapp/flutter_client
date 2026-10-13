@@ -83,8 +83,6 @@ void main() {
   test(
     'message sfx binding survives a database cancellation mid-event',
     () async {
-      // Drift's isolate protocol completes pending requests with
-      // [CancellationException] when the connection closes mid-event.
       final FluxerDatabase db = FluxerDatabase.forTesting(
         LazyDatabase(() => throw const CancellationException()),
       );
@@ -107,7 +105,6 @@ void main() {
           .read(messageRealtimeBusProvider)
           .emit(testMessageCreated(_createEvent('1')));
 
-      // Without the guard this fails as an unhandled asynchronous error.
       await pumpEventQueue();
       await Future<void>.delayed(const Duration(milliseconds: 200));
 

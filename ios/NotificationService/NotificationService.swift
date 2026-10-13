@@ -1,10 +1,3 @@
-//
-//  NotificationService.swift
-//  NotificationService
-//
-//  Created by Elias Deuss on 15/05/2026.
-//
-//
 
 import Foundation
 import Intents

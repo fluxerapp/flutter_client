@@ -317,9 +317,6 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
     super.dispose();
   }
 
-  // Stars travel ~16px per 90-120s cycle; per-frame deltas are deep
-  // sub-pixel. Quantized painter inputs keep shouldRepaint false between
-  // visible steps, skipping the blurred re-raster on most frames.
   static double _quantizeProgress(double value) =>
       (value * 256).roundToDouble() / 256;
 

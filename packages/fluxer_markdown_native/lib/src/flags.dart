@@ -1,5 +1,3 @@
-/// Mirror of `ParserFlags` in rust/src/ast.rs. Bit positions are ABI
-/// contract; keep in sync with the vendored crate.
 abstract final class FluxerParserFlags {
   static const int spoilers = 1 << 0;
   static const int headings = 1 << 1;

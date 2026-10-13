@@ -12,7 +12,6 @@ import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_m
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// A video embed
 class EmbedVideo extends StatelessWidget {
   final Embed embed;
   final MediaDimensionSize dimensionSize;

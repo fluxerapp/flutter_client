@@ -49,7 +49,6 @@ void performTextEditingShortcut(TextEditingShortcutKind kind) {
   Actions.maybeInvoke(context, textEditingIntentFor(kind));
 }
 
-/// Copy/cut/paste/select-all/undo/redo from Ctrl/Cmd or IME control characters.
 TextEditingShortcutKind? matchTextEditingShortcut(KeyEvent event) {
   if (event is! KeyDownEvent) {
     return null;

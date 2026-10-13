@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:fluxer_app/material_ui.dart';
 
-/// Mixin that manages a resend countdown timer for verification code flows.
-///
-/// Call [disposeResendTimer] from the consuming widget's `dispose()`.
 mixin ResendTimerMixin<T extends StatefulWidget> on State<T> {
   DateTime? _resendAvailableAt;
   Timer? _resendTimer;

@@ -19,21 +19,12 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Builder for action menu items that receives a close callback.
 typedef FluxerActionMenuBuilder =
     List<Widget> Function(BuildContext context, VoidCallback close);
 
-/// Context menu shown at a specific screen position.
-///
-/// Use [FluxerActionMenu.show] to display the menu as an overlay.
 class FluxerActionMenu {
   FluxerActionMenu._();
 
-  /// Shows an action menu with items from [builder].
-  ///
-  /// On mobile, displays a bottom sheet. On tablet/desktop, shows a positioned
-  /// overlay at [position]. The menu is dismissed when tapping outside,
-  /// pressing Escape, or calling the `close` callback passed to [builder].
   static Future<void> show(
     BuildContext context, {
     required Offset position,
@@ -316,9 +307,6 @@ class FluxerMenuSectionHeader extends StatelessWidget {
   }
 }
 
-/// A single item in a [FluxerActionMenu].
-///
-/// Uses [FluxerTappable] for consistent hover behaviour.
 class FluxerMenuItem extends StatelessWidget {
   const FluxerMenuItem({
     required this.label,
@@ -577,7 +565,6 @@ class FluxerMenuSubmenuItem extends StatelessWidget {
   }
 }
 
-/// A thin horizontal divider for use inside [FluxerActionMenu].
 class FluxerMenuDivider extends StatelessWidget {
   const FluxerMenuDivider({super.key});
 

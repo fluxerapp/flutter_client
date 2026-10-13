@@ -2,8 +2,6 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_search.dart';
 
-/// A single ranked emoji autocomplete result: either a unicode emoji from the
-/// registry or a guild custom emoji.
 sealed class EmojiAutocompleteResult {
   const EmojiAutocompleteResult();
 }
@@ -20,15 +18,6 @@ final class CustomEmojiResult extends EmojiAutocompleteResult {
   final GuildEmojiEntry entry;
 }
 
-/// Searches [unicode] and [custom] emoji as a single merged, relevance-ranked
-/// list matching the Fluxer web app (`Emoji.search`): custom and unicode
-/// results interleave purely by rank rather than custom-first.
-///
-/// [matchedText] is the raw `:query` text and is normalized internally.
-/// [custom] should already be ordered active-guild-first (then other guilds) so
-/// active-guild emoji win exact ties. [score] returns the frecency score for a
-/// usage key (`unicode:<name>` / `custom:<guildId>:<id>`); higher wins ties.
-/// A [limit] <= 0 returns every match.
 List<EmojiAutocompleteResult> searchEmojiAutocomplete({
   required String matchedText,
   required List<EmojiEntry> unicode,
@@ -93,8 +82,6 @@ List<EmojiAutocompleteResult> searchEmojiAutocomplete({
   return limited.map((_RankedEmoji r) => r.result).toList(growable: false);
 }
 
-/// Mirrors web `compareSearchResults`: tier asc, frecency desc, primary name
-/// asc, then original merge order asc.
 int _compareRanked(_RankedEmoji a, _RankedEmoji b) {
   if (a.tier != b.tier) {
     return a.tier - b.tier;

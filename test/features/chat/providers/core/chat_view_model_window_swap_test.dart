@@ -1,14 +1,3 @@
-/// Realtime events that race a wholesale window replacement.
-///
-/// Every window swap (the initial load, an around load, a jump to latest)
-/// fetches a REST page, computes a merged list from a snapshot of the state it
-/// read on entry, awaits member hydration, and only then assigns the result.
-/// A gateway create, edit or delete landing inside that gap is applied to a
-/// state the swap is about to overwrite, so without care it is silently lost.
-/// These tests drive the races through public behaviour only: switchChannel,
-/// jumpToLatestMessages and the realtime bus.
-library;
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -77,7 +66,6 @@ Map<String, Object?> _messageJson({
   'mention_roles': <Object?>[],
 };
 
-/// Builds [count] message ids for the channel, ascending, oldest first.
 List<Map<String, Object?>> _channelMessages(int count) => [
   for (var i = 0; i < count; i++)
     _messageJson(
@@ -177,10 +165,6 @@ void main() {
   }
 
   test('a gateway create during jump to latest survives the swap', () async {
-    // Regression: while detached, _nextMessagesFor discards every incoming
-    // create. jumpToLatestMessages awaits a REST page and then swaps the
-    // window, so a create landing between the two was dropped by BOTH paths
-    // and lost for good.
     final db = await seedChannel();
     final adapter = _MessageApiAdapter(messages: _channelMessages(400));
     final container = _container(db, adapter);
@@ -194,7 +178,6 @@ void main() {
     final Future<bool> jump = notifier.jumpToLatestMessages();
     await _flushAsync();
 
-    // Arrives after the REST snapshot was taken, before the window swap.
     _emitCreatedMessage(container, id: raceId);
     await _flushAsync();
 
@@ -214,7 +197,6 @@ void main() {
       reason: 'the raced create is the newest row',
     );
 
-    // Contiguity must still describe the real window, so the next append lands.
     _emitCreatedMessage(container, id: _snowflakeForIndex(501));
     await _flushAsync();
     expect(
@@ -224,10 +206,6 @@ void main() {
   });
 
   test('a gateway create during the initial load survives the swap', () async {
-    // The common path, not an exotic one: _refreshMessagesFromNetwork computes
-    // its merged list from a snapshot and then awaits member hydration. A
-    // create landing in that gap appends itself to state.messages and would be
-    // overwritten by the stale snapshot.
     final db = await seedChannel();
     final adapter = _MessageApiAdapter(messages: _channelMessages(20));
     final hydration = _HoldableHydrationService(database: db)..hold = true;
@@ -258,7 +236,6 @@ void main() {
     expect(state.messages.last.id, raceId);
     expect(state.hasMoreNewerMessages, isFalse);
 
-    // Contiguity must still describe the real window so the next append lands.
     _emitCreatedMessage(container, id: _snowflakeForIndex(901));
     await _flushAsync();
     expect(
@@ -268,8 +245,6 @@ void main() {
   });
 
   test('an edit during the initial load is not rolled back', () async {
-    // The REST page carries the OLD revision. Applying the edit and then
-    // assigning the stale merged list silently reverts it.
     final db = await seedChannel();
     final adapter = _MessageApiAdapter(messages: _channelMessages(20));
     final hydration = _HoldableHydrationService(database: db)..hold = true;
@@ -303,8 +278,6 @@ void main() {
   });
 
   test('a delete during the initial load is not resurrected', () async {
-    // The REST page was fetched BEFORE the delete, so the stale merged list
-    // still contains the row.
     final db = await seedChannel();
     final adapter = _MessageApiAdapter(messages: _channelMessages(20));
     final hydration = _HoldableHydrationService(database: db)..hold = true;
@@ -336,8 +309,6 @@ void main() {
   test(
     'an edit then delete during a jump to present resolves as deleted',
     () async {
-      // Ordering matters: replaying the delete before the edit would leave a
-      // live, edited message behind.
       final db = await seedChannel();
       final adapter = _MessageApiAdapter(messages: _channelMessages(400));
       final hydration = _HoldableHydrationService(database: db);
@@ -373,11 +344,6 @@ void main() {
   );
 
   test('a gateway create during an around load stays out of history', () async {
-    // A create belongs BEYOND a detached window, never spliced into the middle
-    // of history. Dropping it is correct, but only if the newer side stays
-    // open so the user can still reach it.
-    // The channel pointer sits at the live tail, which is how a detached
-    // around window is recognised as detached.
     final db = await seedChannel(lastMessageId: _snowflakeForIndex(199));
     final adapter = _MessageApiAdapter(messages: _channelMessages(200));
     final hydration = _HoldableHydrationService(database: db)..hold = true;
@@ -388,9 +354,6 @@ void main() {
     });
 
     final notifier = container.read(chatViewModelProvider.notifier);
-    // Anchor deep in history so there is a REAL gap between the window and
-    // the live tail. Splicing a create onto this window would produce a list
-    // that looks contiguous while ~75 messages are missing from the middle.
     final Future<void> open = notifier.switchChannel(
       _channelId,
       targetMessageId: _snowflakeForIndex(100),
@@ -413,7 +376,6 @@ void main() {
     );
     expect(
       state.messages.last.id,
-      // Around page limit 50 => newer quota 25 beyond the target at 100.
       _snowflakeForIndex(125),
       reason: 'the window must still end where the around page ended',
     );
@@ -465,8 +427,6 @@ Future<void> _flushAsync() async {
   }
 }
 
-/// Blocks inside the member-hydration await, the last await a window
-/// replacement performs before it assigns the new message list.
 class _HoldableHydrationService extends NoopGuildMemberHydrationService {
   _HoldableHydrationService({required super.database});
 
@@ -496,9 +456,6 @@ class _HoldableHydrationService extends NoopGuildMemberHydrationService {
   }
 }
 
-/// Models the message endpoint closely enough for window-swap work: `around`
-/// on an unknown id still returns the window it would have sorted into, and
-/// the latest page can be held open so a gateway event lands mid-swap.
 class _MessageApiAdapter implements HttpClientAdapter {
   _MessageApiAdapter({required this.messages});
 
@@ -559,7 +516,6 @@ class _MessageApiAdapter implements HttpClientAdapter {
           .toList();
       page = newer.length <= limit ? newer : newer.sublist(0, limit);
     } else if (around != null) {
-      // Unknown anchor (deleted): serve the window it would have sorted into.
       var anchorIndex = messages.indexWhere((m) => m['id'] == around);
       if (anchorIndex == -1) {
         anchorIndex = messages.indexWhere(
@@ -578,7 +534,6 @@ class _MessageApiAdapter implements HttpClientAdapter {
           ? messages
           : messages.sublist(messages.length - limit);
     }
-    // The real API returns newest-first; the repository reverses to ascending.
     return ResponseBody.fromString(
       jsonEncode(page.reversed.toList()),
       200,

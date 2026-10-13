@@ -1,34 +1,16 @@
-/// Route classification for `/channels/...` paths.
-///
-/// Centralizes regex patterns that previously lived in multiple files
-/// (`app_layout.dart`, `reveal_side_provider.dart`, `navigate_to_content.dart`,
-/// `route_state_providers.dart`, `channel_persistence_observer.dart`). Use
-/// this classifier rather than re-deriving route shape from path strings.
-library;
-
 import 'package:fluxer_app/core/router/route_names.dart';
 
 enum RouteKind {
-  /// `/channels/@me`, `/channels/@favorites`, `/channels/:guildId` with no
-  /// sub-path. On mobile the drawer should be open (sidebar visible).
   channelsRoot,
 
-  /// `/channels/:owner/:channelId(/...)` — DM, guild channel, or message
-  /// jump. On mobile the drawer should be closed (chat visible).
   chat,
 
-  /// `/channels/:guildId/members` — guild members view.
   guildMembers,
 
-  /// `/channels/@me/:channelId/call` — fullscreen voice/video call pushed
-  /// on the root navigator.
   dmCall,
 
-  /// `/channels/@discover` — community discovery / explore page.
   discover,
 
-  /// Anything outside the `/channels/` family (`/notifications`, `/you`,
-  /// `/bookmarks`, `/mentions`, `/login`, `/loading`, etc.).
   nonChannel,
 }
 
@@ -63,8 +45,6 @@ bool isDiscoverRoute(String location) => location == RoutePaths.discover;
 
 final _guildIdPattern = RegExp('^/channels/([^@/][^/]*)');
 
-/// Returns the guild ID embedded in [location], or null for `@me`,
-/// `@favorites`, or non-channels routes.
 String? extractGuildId(String location) {
   return _guildIdPattern.firstMatch(location)?.group(1);
 }
@@ -74,12 +54,6 @@ final _dmChannelMessageIdPattern = RegExp('^/channels/@me/([^/]+)/');
 final _favoritesChannelIdPattern = RegExp('^/channels/@favorites/([^/]+)');
 final _guildChannelIdPattern = RegExp('^/channels/[^@/][^/]*/([^/]+)');
 
-/// Returns the channel ID embedded in [location], or null for routes
-/// that have no channel segment (root channels, members, non-channels).
-///
-/// Semantics preserve the existing extractor in `route_state_providers.dart`:
-/// DM/favorites match their channel segment; guild channels match anywhere a
-/// `/channels/:guildId/:channelId(/...)` shape exists (message-jump included).
 String? extractChannelId(String location) {
   if (isDiscoverRoute(location)) {
     return null;

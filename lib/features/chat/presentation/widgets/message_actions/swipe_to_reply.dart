@@ -23,15 +23,6 @@ const Duration _kEditHoldDelay = Duration(milliseconds: 400);
 const double _kHoldRingStroke = 1.5;
 const double _kHoldRingInset = 2;
 
-/// Wraps [child] with a swipe-left-to-reply gesture, plus optional
-/// hold-to-edit.
-///
-/// The child follows the finger leftward, capped at [_kMaxDragFraction] of the
-/// screen width, while an action icon fades in from the right. Releasing past
-/// the trigger threshold invokes [onReply]. When [onEdit] is non-null, holding
-/// the swipe past the threshold for [_kEditHoldDelay] escalates to edit: a
-/// progress ring fills, the icon morphs to a pencil, and releasing invokes
-/// [onEdit] instead. Either way the child springs back.
 class SwipeToReply extends StatefulWidget {
   const SwipeToReply({
     required this.child,
@@ -335,7 +326,6 @@ class _SwipeToReplyState extends State<SwipeToReply>
   }
 }
 
-/// Circular hold-progress ring drawn inside the action pill.
 class _HoldRingPainter extends CustomPainter {
   const _HoldRingPainter({
     required this.progress,

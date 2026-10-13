@@ -70,8 +70,6 @@ class UserProfileActionsSheet {
         final status = relationship?.friendStatus;
         final bool isSystem = user.system ?? false;
 
-        // Each entry is a divider-separated group, mirroring the web
-        // `UserProfileActionsSheet` menu grouping.
         final groups = <List<Widget>>[];
 
         if (hasGuildProfile) {
@@ -454,9 +452,6 @@ class UserProfileActionsSheet {
           );
       return;
     }
-    // Can't use updateGuildMember
-    // communication_disabled_until are treated as required in the OpenAPI spec but
-    // should not be included in patch for other users. The OpenAPI spec should be fixed at some point.
     await ref
         .read(fluxerDioProvider)
         .patch<void>(

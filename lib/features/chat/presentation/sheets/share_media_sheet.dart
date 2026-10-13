@@ -32,8 +32,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int kShareMediaSelectionLimit = 5;
 
-/// Opens the share sheet for [files]: a searchable, multi select destination
-/// picker (up to [kShareMediaSelectionLimit]) with an optional message.
 Future<void> showShareMediaSheet(
   BuildContext context, {
   required List<XFile> files,

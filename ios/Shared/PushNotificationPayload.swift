@@ -1,8 +1,6 @@
 import Foundation
 import UserNotifications
 
-/// APNs payload helpers: channel `thread-id` for grouping, `message_id` for per-message identity.
-/// Remote pushes need a per-message `apns-collapse-id` (or none); channel-scoped collapse replaces prior messages.
 enum PushNotificationPayload {
   static let messageReplyCategoryId = "fluxer_message"
   static let messageReplyActionId = "fluxer_reply"
@@ -95,7 +93,6 @@ enum PushNotificationPayload {
     return resolveSpeakableGroupName(title: title)
   }
 
-  /// Group name for guild channels and group DMs. Nil for a 1:1 DM.
   static func resolveSpeakableGroupName(title: String) -> String? {
     if title.hasSuffix(" (Group DM)") {
       return "Group DM"

@@ -7,13 +7,8 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Position of the tooltip relative to its target.
 enum FluxerTooltipPosition { above, below, left, right }
 
-/// Custom overlay tooltip with position control.
-///
-/// Shows on hover (desktop) and long-press (mobile). Supports both plain
-/// [message] text and a [richMessage] widget.
 class FluxerTooltip extends StatefulWidget {
   const FluxerTooltip({
     required this.child,

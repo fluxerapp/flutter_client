@@ -8,9 +8,6 @@ import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Confirmation modal for pinning a message.
-///
-/// Resolves to `true` when the user taps confirm; `null` when dismissed.
 Future<bool?> showPinMessageConfirmModal(
   BuildContext context,
   WidgetRef ref, {

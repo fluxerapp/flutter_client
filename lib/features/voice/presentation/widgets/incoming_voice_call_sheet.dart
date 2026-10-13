@@ -35,7 +35,6 @@ String _resolveSheetHeaderTitle({
   return l10n.incomingVoiceCallTitle;
 }
 
-/// Web mobile parity: [BottomSheet] with Accept / Reject / Ignore.
 Future<String?> showIncomingVoiceCallSheet(
   BuildContext context, {
   required WidgetRef ref,

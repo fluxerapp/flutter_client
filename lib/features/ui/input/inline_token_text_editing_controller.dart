@@ -4,36 +4,18 @@ import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
-/// A token rendered inline inside an [InlineTokenTextEditingController].
-///
-/// Each token occupies a single private-use sentinel code unit in the editing
-/// text; [buildInline] paints it as a chip while [wireText] is substituted back
-/// into the outgoing string by [InlineTokenTextEditingController.toWireText].
 abstract class InlineToken {
-  /// The outgoing wire representation substituted for the token's sentinel.
   String get wireText;
 
-  /// Builds the inline widget shown in place of the token's sentinel.
   Widget buildInline(BuildContext context, TextStyle? baseStyle);
 }
 
-/// A [TextEditingController] that maps single private-use sentinel code units
-/// to [InlineToken]s, rendering each as a [WidgetSpan] chip while preserving a
-/// plain wire string for sending.
-///
-/// Sentinels are drawn from the BMP Private Use Area (`U+E000` onward) so they
-/// never collide with user-typed characters. Tokens whose sentinel leaves the
-/// text are pruned automatically when [value] is assigned.
 class InlineTokenTextEditingController extends TextEditingController {
   InlineTokenTextEditingController({super.text});
 
   final Map<String, InlineToken> _tokens = <String, InlineToken>{};
   int _nextSentinelIndex = 0;
 
-  /// Allocates a fresh sentinel for [token] and returns it.
-  ///
-  /// Callers splice the returned sentinel into the editing text; the token is
-  /// retained until that sentinel is removed.
   String allocateToken(InlineToken token) {
     final int codePoint = 0xE000 + _nextSentinelIndex++;
     assert(codePoint <= 0xF8FF, 'Inline token sentinel pool exhausted.');
@@ -42,13 +24,11 @@ class InlineTokenTextEditingController extends TextEditingController {
     return sentinel;
   }
 
-  /// Drops every token and resets the sentinel counter.
   void clearTokens() {
     _tokens.clear();
     _nextSentinelIndex = 0;
   }
 
-  /// Replaces the editing text and token map in one step.
   void replaceWireDisplay({
     required String displayText,
     required Map<String, InlineToken> tokens,
@@ -66,8 +46,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     );
   }
 
-  /// The editing text with every sentinel expanded to its
-  /// [InlineToken.wireText].
   String toWireText() => toWireTextRange(0, text.length);
 
   String toWireTextRange(int start, int end) {
@@ -98,10 +76,8 @@ class InlineTokenTextEditingController extends TextEditingController {
     );
   }
 
-  /// The length of [toWireText] without materializing the string.
   int get wireLength => _wireLengthOf(text.runes);
 
-  /// Wire length for arbitrary display text using the current token map
   int wireLengthForDisplayText(String displayText) =>
       _wireLengthOf(displayText.runes);
 
@@ -114,11 +90,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     _pruneOrphanTokens(effectiveValue.text);
   }
 
-  /// Swaps raw unicode emoji for sentinels so the field paints the app's own
-  /// emoji instead of the platform font glyph.
-  ///
-  /// Skipped while an IME composing range is active: shortening the text under
-  /// it invalidates the range.
   TextEditingValue _chipRawUnicodeEmoji(TextEditingValue value) {
     if (value.composing.isValid) {
       return value;
@@ -157,12 +128,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     );
   }
 
-  /// The range of [text] differing from the current text, widened by the
-  /// longest known emoji sequence and snapped off surrogate halves.
-  ///
-  /// Scanning only this range keeps the cost of the sequence alternation off
-  /// every keystroke. A committing IME update returns the whole text, whose
-  /// emoji went unchipped while it composed.
   (int, int) _editedWindow(String text) {
     final String previous = super.value.text;
     if (super.value.composing.isValid) {
@@ -206,7 +171,6 @@ class InlineTokenTextEditingController extends TextEditingController {
   static bool _isLowSurrogate(int codeUnit) =>
       codeUnit >= 0xDC00 && codeUnit <= 0xDFFF;
 
-  /// Maps [offset] onto the text where each [replaced] range became one unit.
   static int _chippedOffset(int offset, List<UnicodeEmojiRange> replaced) {
     int shift = 0;
     for (final UnicodeEmojiRange range in replaced) {
@@ -284,13 +248,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     _tokens.removeWhere((String key, _) => !present.contains(key));
   }
 
-  /// Inserts [token] at the caret (or end when the selection is invalid),
-  /// padding with single spaces when it would abut non-whitespace.
-  ///
-  /// A trailing space is ensured when [ensureTrailingSpace] is true.
-  /// When [maxWireLength] is set the insertion is
-  /// skipped if it would push [wireLength] (including any padding spaces) past
-  /// the limit.
   void insertToken(
     InlineToken token, {
     int? maxWireLength,
@@ -331,11 +288,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     );
   }
 
-  /// Replaces `[start, end)` with [token].
-  ///
-  /// No leading space is added. A trailing space is ensured when
-  /// [ensureTrailingSpace] is true. When [maxWireLength] is set the replacement
-  /// is skipped if it would exceed the limit.
   void replaceRangeWithToken(
     int start,
     int end,
@@ -390,10 +342,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     );
   }
 
-  /// Inserts an emoji selection at the caret as an [EmojiInlineToken].
-  ///
-  /// [maxActualLength] bounds the resulting [wireLength] (see [insertToken]).
-  /// [ensureTrailingSpace] ensures a trailing space at end of the text.
   void insertEmoji(
     String name,
     String surrogates, {
@@ -534,7 +482,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     return TextSpan(style: style, children: children);
   }
 
-  /// iOS inline predictions are composing text after the caret.
   static TextStyle _composingStyle(
     BuildContext context,
     TextStyle? style,
@@ -559,8 +506,6 @@ class InlineTokenTextEditingController extends TextEditingController {
   }
 }
 
-/// Rejects edits that would push an [InlineTokenTextEditingController] past a
-/// wire length limit.
 class InlineTokenWireLengthFormatter extends TextInputFormatter {
   InlineTokenWireLengthFormatter(
     this.controller, {

@@ -58,9 +58,6 @@ ChatUnreadSummary computeChatUnreadSummary({
   final displayUnreadCount = unreadCount > mentionCount
       ? unreadCount
       : mentionCount;
-  // Web parity: the ack boundary is "known" when a loaded message is at or
-  // before the ack, or when the window reaches the channel start. Without it
-  // the first loaded message is NOT the true first unread, so no divider.
   final bool boundaryKnown = hasLoadedAckBoundary || !hasMoreOlderMessages;
   final bool hasUnreadBeyondLoadedTail =
       displayUnreadCount > 0 &&
@@ -84,9 +81,6 @@ ChatUnreadSummary computeChatUnreadSummary({
   );
 }
 
-/// Anchor for the inline "new messages" divider: the sticky message if it is
-/// still loaded, else the oldest unread, else null.
-/// Independent of the unread count, so the divider survives auto-ack.
 String? resolveVisualUnreadId({
   required Iterable<ChatUnreadMessageRef> messages,
   required String? stickyUnreadId,

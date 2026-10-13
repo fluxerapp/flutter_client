@@ -25,7 +25,6 @@ double emojiPickerCacheExtent({
   int overscanRows = kEmojiPickerOverscanRows,
 }) => rowHeight * overscanRows;
 
-/// The extra row covers partial rows cut at both viewport edges.
 int emojiPickerMaxAnimatedEmojis({
   required int columns,
   required double viewportHeight,

@@ -12,8 +12,6 @@ void main() {
 
   setUp(() {
     db = openTestDatabase();
-    // A long window keeps the debounce timer from firing on its own; tests
-    // flush deterministically with flushAll().
     batcher = ReadStateWriteBatcher(
       database: db,
       window: const Duration(hours: 1),
@@ -51,7 +49,6 @@ void main() {
 
     final readState = await db.readStateDao.getReadState(channelId);
     expect(readState?.mentionCount, 2);
-    // Seeded once from the first never-acked message.
     expect(readState?.lastMessageId, '100');
   });
 
@@ -77,7 +74,6 @@ void main() {
 
       final readState = await db.readStateDao.getReadState(channelId);
       expect(readState?.mentionCount, 3);
-      // Known channel: no re-seed of the ack baseline.
       expect(readState?.lastMessageId, '100');
     },
   );
@@ -92,10 +88,7 @@ void main() {
       ),
     );
 
-    // At/below the ack -> covered -> skipped (e.g. an immediate ack advanced the
-    // baseline past it while it sat in the window).
     enqueue(channelId, '300', mention: true);
-    // Above the ack -> still unread -> counted.
     enqueue(channelId, '700', mention: true);
 
     await batcher.flushAll();
@@ -125,7 +118,6 @@ void main() {
     expect(dm?.unreadCount, 3);
     final readState = await db.readStateDao.getReadState(channelId);
     expect(readState?.mentionCount, 3);
-    // DMs never seed the ack baseline; unread is tracked via the DM counter.
     expect(readState?.lastMessageId, isNull);
   });
 

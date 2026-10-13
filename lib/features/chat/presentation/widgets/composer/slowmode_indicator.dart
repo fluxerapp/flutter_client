@@ -20,7 +20,6 @@ const Duration _kShakeDuration = Duration(milliseconds: 300);
 const int _kSecondsPerMinute = 60;
 const int _kSecondsPerHour = 3600;
 
-/// Floating pill shown next to the chat input when slowmode is active.
 class SlowmodeIndicator extends ConsumerStatefulWidget {
   const SlowmodeIndicator({
     this.channelId,

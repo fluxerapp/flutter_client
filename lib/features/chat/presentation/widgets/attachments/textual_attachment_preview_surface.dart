@@ -56,9 +56,6 @@ class TextualAttachmentPreviewSurface extends StatelessWidget {
       top: pad.top,
       bottom: pad.bottom,
     );
-    // Inline previews stay a fixed height and do not scroll on their own.
-    // A nested vertical scrollable steals the channel drag, and the layout
-    // when a cached file mounts again glues the list back to the tail.
     final Widget body = fillAvailableSpace
         ? SingleChildScrollView(
             primary: false,

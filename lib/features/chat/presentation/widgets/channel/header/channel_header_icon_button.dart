@@ -4,7 +4,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Circular toolbar icon used in the wide-layout channel header.
 class ChannelHeaderIconButton extends ConsumerWidget {
   const ChannelHeaderIconButton({
     required this.icon,

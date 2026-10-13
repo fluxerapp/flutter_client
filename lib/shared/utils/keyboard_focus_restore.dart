@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-/// paused or hidden. inactive is system UI over the app, like paste.
 bool isAppBackgroundLifecycleState(AppLifecycleState state) {
   return state == AppLifecycleState.paused || state == AppLifecycleState.hidden;
 }
@@ -11,7 +10,6 @@ bool _canSafelyRequestFocus([AppLifecycleState? state]) {
   return current == null || current == AppLifecycleState.resumed;
 }
 
-/// Re-requests [focusNode] on resume when the keyboard was open before backgrounding.
 class KeyboardFocusRestoreHandle {
   KeyboardFocusRestoreHandle({
     required this.focusNode,

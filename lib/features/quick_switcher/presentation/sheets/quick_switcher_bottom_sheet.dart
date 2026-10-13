@@ -233,7 +233,6 @@ class _QuickSwitcherSheetBodyState
     final List<Widget> children = <Widget>[];
     for (int i = 0; i < state.results.length; i++) {
       final QuickSwitcherResult result = state.results[i];
-      // Headers only appear once the user types; default results have none.
       if (result is QuickSwitcherHeaderResult) {
         children.add(
           Padding(

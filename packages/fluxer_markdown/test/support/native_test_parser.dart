@@ -4,8 +4,6 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:fluxer_markdown_native/fluxer_markdown_native.dart' as native;
 import 'package:markdown/markdown.dart' as md;
 
-/// Unicode emoji available to package tests; the app builds its context from
-/// the full registry, tests only need a stable handful.
 const Map<String, String> kTestUnicodeEmoji = {
   'grinning': '\u{1F600}',
   'joy': '\u{1F602}',
@@ -147,7 +145,6 @@ String _codepoints(String emoji) {
   return processed.runes.map((rune) => rune.toRadixString(16)).join('-');
 }
 
-/// Stable top-level reference used as `FluxerMarkdown.astParser` in tests.
 List<md.Node> parseTestMarkdownAst(
   String data,
   FluxerMarkdownFeatures features,

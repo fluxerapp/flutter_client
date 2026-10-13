@@ -6,9 +6,6 @@ import 'package:fluxer_app/features/threads/presentation/thread_welcome_section.
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Start-of-channel welcome for guild text/voice channels, mirroring the web
-/// client's `ChannelWelcomeSection`. Shown at the top of fully-loaded history
-/// and as the empty state.
 class ChannelWelcomeSection extends StatelessWidget {
   const ChannelWelcomeSection({
     required this.channel,

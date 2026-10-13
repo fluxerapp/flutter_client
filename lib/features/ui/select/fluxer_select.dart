@@ -7,7 +7,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// An item in a [FluxerSelect] dropdown.
 class FluxerSelectItem<T> {
   const FluxerSelectItem({
     required this.value,
@@ -28,8 +27,6 @@ class FluxerSelectItem<T> {
   final bool enabled;
 }
 
-/// A dropdown select that uses a filled input-style trigger and opens
-/// options in a [FluxerBottomSheet].
 class FluxerSelect<T> extends StatefulWidget {
   FluxerSelect({
     required this.items,
@@ -64,12 +61,8 @@ class FluxerSelect<T> extends StatefulWidget {
   final bool enabled;
   final bool stretch;
 
-  /// Opens the options in the scrollable (draggable) bottom-sheet variant even
-  /// when [enableSearch] is false. Use for longer option lists that should
-  /// behave like a full scrollable sheet rather than a content-sized menu.
   final bool scrollableSheet;
 
-  /// Whether the options sheet is shown on the root navigator.
   final bool useRootNavigator;
 
   @override
@@ -241,8 +234,6 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
   Future<void> _showOptions(BuildContext context) async {
     setState(() => _isOpen = true);
 
-    // Apply on tap. Nested dialog/sheet routes can complete with null even
-    // after a successful selection.
     var didSelect = false;
     void handleSelected(BuildContext sheetContext, T selected) {
       didSelect = true;

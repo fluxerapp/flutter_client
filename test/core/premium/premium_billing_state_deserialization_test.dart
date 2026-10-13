@@ -3,9 +3,6 @@ import 'package:fluxer_app/core/premium/premium_state_response_json.dart';
 import 'package:fluxer_dart/models/premium_state_response.dart';
 import 'package:fluxer_dart/models/premium_state_response_billing.dart';
 
-/// Regression: the live API returns null for several billing fields when the user
-/// has no active subscription. The generated SDK still requires some of them as
-/// objects, so we normalize payloads before deserialization.
 void main() {
   group('premium state billing JSON', () {
     Map<String, Object?> billingJson({

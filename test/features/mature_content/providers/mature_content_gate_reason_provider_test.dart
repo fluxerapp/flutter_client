@@ -43,10 +43,6 @@ void main() {
     );
   }
 
-  // The gate reason watches sensitive-content and agreement state. Those
-  // watches must run synchronously before awaiting the gate context (otherwise
-  // a rebuild mid-await touches a disposed ref); these tests pin the resulting
-  // behavior and reactivity.
 
   test(
     'resolves consent-required when the guild is mature and unagreed',

@@ -171,14 +171,14 @@ class _ContextMenuPage extends ConsumerWidget {
   }
 
   double _estimateHeight(List<Widget> items) {
-    var height = 16.0; // 8px vertical padding * 2
+    var height = 16.0;
     for (final item in items) {
       if (item is _MenuDivider) {
-        height += 13; // 1px + 6px * 2
+        height += 13;
       } else if (item is QuickReactionRow || item is MessageQuickReactionRow) {
-        height += 40; // emoji row
+        height += 40;
       } else {
-        height += 38; // 36px + 1px * 2 margin
+        height += 38;
       }
     }
     return height;

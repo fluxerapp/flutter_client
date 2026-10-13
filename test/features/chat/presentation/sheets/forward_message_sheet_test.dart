@@ -44,9 +44,6 @@ import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
-// ---------------------------------------------------------------------------
-// Source media detection helpers (pure)
-// ---------------------------------------------------------------------------
 
 Message _message({
   String channelId = 'c1',
@@ -84,15 +81,10 @@ MessageSnapshot _snapshot({
   );
 }
 
-// ---------------------------------------------------------------------------
-// Widget-test fixtures
-// ---------------------------------------------------------------------------
 
 const String _userId = 'user_1';
 const String _guildId = 'guild_1';
 
-/// Drives a dependency-triggered reload (not a refresh) of the overridden
-/// destinations provider in the no-flicker regression test.
 class _ReloadTrigger extends Notifier<int> {
   @override
   int build() => 0;
@@ -428,7 +420,6 @@ void main() {
         findsOneWidget,
       );
 
-      // Tapping again deselects.
       await tester.tap(find.text('general'));
       await tester.pump();
       expect(
@@ -509,9 +500,6 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('general'), findsOneWidget);
 
-      // A forward mutates channels/DMs that the provider watches, so it reloads
-      // while the recompute is still pending. The retained list must stay
-      // visible instead of flashing the loading spinner (web parity).
       source = () => reloadGate.future;
       ProviderScope.containerOf(
         tester.element(find.text('general')),
@@ -558,13 +546,11 @@ void main() {
       final FluxerDatabase db = await _seedDb();
       await _openSheet(tester, db);
 
-      // Below 80% of the 2000-char limit the counter stays hidden.
       expect(find.text('100'), findsNothing);
 
       await tester.enterText(find.byType(TextField).last, 'a' * 1900);
       await tester.pump();
 
-      // 1900/2000 leaves 100 remaining, now surfaced by the counter.
       expect(find.text('100'), findsOneWidget);
     });
   });
@@ -697,10 +683,8 @@ void main() {
       final FluxerDatabase db = await _seedDb();
       await _openSheet(tester, db);
 
-      // Issue 2: the comment affordance is not the anchored desktop popout.
       expect(find.byType(FluxerEmojiPickerPopout), findsNothing);
 
-      // Issue 1: the emoji button lives inside the comment input field.
       final Finder smiley = find.byWidgetPredicate(
         (Widget widget) =>
             widget is PhosphorIcon && widget.icon == PhosphorIconsFill.smiley,

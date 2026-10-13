@@ -422,8 +422,6 @@ void main() {
                       context,
                       initialChildSize:
                           FluxerBottomSheet.scrollableSheetHalfSize,
-                      // Empty/loading states never attach the controller, so
-                      // the handle has no sheet extent to move.
                       builder: (context, scrollController, close) =>
                           const Center(child: Text('Nothing here')),
                     ),
@@ -487,8 +485,6 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Scroll Item 0'), findsOneWidget);
 
-      // Long enough to cross min extent mid-drag, which also trips the modal
-      // route's own min-extent close.
       await tester.drag(
         find.byType(FluxerBottomSheetDragHandle),
         const Offset(0, 500),

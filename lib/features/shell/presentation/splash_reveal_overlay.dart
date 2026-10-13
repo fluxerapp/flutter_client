@@ -474,13 +474,6 @@ double splashRevealLayerOpacity(
   return 1 - Curves.easeOut.transform(fadeT);
 }
 
-/// Symbol silhouette opacity during the zoom expand.
-///
-/// The strokes outgrow the viewport around the midpoint of the expansion, so
-/// the fade completes inside that visible window: solid as the growth starts,
-/// clearly dissolving while the waves still fit on screen, gone before they
-/// fly past the edges. The cover clears independently and faster
-/// ([splashRevealLayerOpacity]) so the app shows through behind the waves.
 double splashRevealSymbolOpacity(double progress) {
   const double fadeWindow = 0.5;
   final double windowT = (splashRevealFadePhaseProgress(progress) / fadeWindow)

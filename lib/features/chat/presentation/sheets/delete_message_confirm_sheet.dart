@@ -20,10 +20,6 @@ BuildContext? _deleteConfirmSheetContext(BuildContext? fallback) {
   return null;
 }
 
-/// Shows a confirmation bottom sheet for deleting a chat message.
-///
-/// [context] may be null or unmounted; the sheet is presented from the root
-/// navigator. The message is removed only after the sheet closes.
 Future<bool?> showDeleteMessageConfirmSheet(
   BuildContext? context,
   WidgetRef ref, {
@@ -54,10 +50,6 @@ Future<bool?> showDeleteMessageConfirmSheet(
   return confirmed;
 }
 
-/// Shows a confirmation bottom sheet for deleting an attachment.
-///
-/// [context] may be null or unmounted; the sheet is presented from the root
-/// navigator. The attachment is removed only after the sheet closes.
 Future<bool?> showDeleteAttachmentConfirmSheet(
   BuildContext? context,
   WidgetRef ref, {

@@ -129,7 +129,6 @@ void main() {
 
     final double screenHeight = tester.view.physicalSize.height / 3.0;
     final Rect picker = tester.getRect(find.byType(ExpressionPicker));
-    // Below this line, horizontal swipes belong to the OS app switcher (#628).
     expect(picker.bottom, lessThanOrEqualTo(screenHeight - 34));
   });
 

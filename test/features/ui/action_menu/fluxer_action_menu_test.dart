@@ -196,7 +196,6 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Edit'), findsOneWidget);
 
-      // Tap outside the menu area
       await tester.tapAt(const Offset(500, 500));
       await tester.pumpAndSettle();
       expect(find.text('Edit'), findsNothing);
@@ -252,8 +251,6 @@ void main() {
     testWidgets('mobile bottom sheet dismisses on swipe-down over the body', (
       tester,
     ) async {
-      // iOS bouncing physics is where the inner list would otherwise always
-      // claim the vertical drag and swallow the sheet's drag-to-dismiss.
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
       useMobileSurface(tester);
 
@@ -288,8 +285,6 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.text('Edit'), findsOneWidget);
 
-        // Swiping down on a menu item (the body, not the drag handle) must
-        // reach the sheet's drag-to-dismiss instead of being eaten by the list.
         await tester.fling(find.text('Edit'), const Offset(0, 400), 1500);
         await tester.pumpAndSettle();
 

@@ -141,8 +141,6 @@ void main() {
             text: 'abcdefghij',
             selection: TextSelection.collapsed(offset: 5),
           )
-          // actualText would be "abcde :wave: fghij" = 18 chars
-          // but maxActualLength is 17 → should be blocked
           ..insertEmoji('wave', '\u{1F44B}', maxActualLength: 17);
 
         expect(controller.actualText, 'abcdefghij');
@@ -190,12 +188,10 @@ void main() {
       });
 
       test('replaces query after sentinel with no space', () {
-        // Simulate: [sentinel]:wave
         controller.insertEmoji('smile', '\u{1F604}');
-        final sentinelText = controller.text; // single sentinel char
+        final sentinelText = controller.text;
         expect(sentinelText.length, 1);
 
-        // Now append ":wave" by setting the value directly
         controller
           ..value = TextEditingValue(
             text: '$sentinelText:wave',
@@ -268,7 +264,6 @@ void main() {
             ),
           );
 
-        // Existing double space is preserved (no extra space added)
         expect(controller.actualText, ':wave:  hello');
       });
 
@@ -296,10 +291,6 @@ void main() {
             text: 'aaaaaaaaaa:wave',
             selection: TextSelection.collapsed(offset: 15),
           )
-          // actualTextLength = 15 (all plain text)
-          // removedLength = 5 (":wave")
-          // token = ":wave:" = 6
-          // new = 15 - 5 + 6 = 16 → if maxActualLength = 15, should block
           ..replaceRangeWithToken(
             10,
             15,
@@ -365,7 +356,6 @@ void main() {
             ),
           );
 
-        // No trailing space added since after starts with ' '
         expect(controller.selection.baseOffset, 1);
       });
     });
@@ -478,7 +468,6 @@ void main() {
       test('counts emoji token length, not sentinel length', () {
         controller.insertEmoji('wave', '\u{1F44B}');
 
-        // ":wave:" is 6 chars, sentinel is 1 char in text
         expect(controller.actualTextLength, 6);
         expect(controller.text.length, 1);
       });
@@ -486,14 +475,12 @@ void main() {
       test('counts custom emoji token length', () {
         controller.insertEmoji('cool', '<:cool:12345>');
 
-        // "<:cool:12345>" is 13 chars
         expect(controller.actualTextLength, 13);
       });
 
       test('counts mixed text and emoji correctly', () {
         controller.loadWithTokens('hi :wave:');
 
-        // "hi " = 3 chars + ":wave:" = 6 chars = 9
         expect(controller.actualTextLength, 9);
       });
 
@@ -588,7 +575,6 @@ void main() {
         );
 
         expect(result, isNotNull);
-        // "hello " text, :wave: widget, " world" text
         expect(result!.children!.length, 3);
         expect(result!.children![0], isA<TextSpan>());
         expect(result!.children![1], isA<WidgetSpan>());
@@ -601,7 +587,6 @@ void main() {
         controller.loadWithTokens(':wave::smile:');
         expect(controller.text.length, 2);
 
-        // Remove the second sentinel manually
         controller.text = controller.text.substring(0, 1);
 
         await tester.pumpWidget(
@@ -620,7 +605,6 @@ void main() {
           ),
         );
 
-        // After buildTextSpan, stale segment should be cleaned
         expect(controller.actualText, ':wave:');
       });
 
@@ -812,9 +796,8 @@ void main() {
           ..insertEmoji('wave', '\u{1F44B}')
           ..insertEmoji('smile', '\u{1F604}');
 
-        // Two distinct sentinels in the text
         final runes = controller.text.runes.toList();
-        expect(runes.length, 3); // sentinel + space + sentinel
+        expect(runes.length, 3);
         expect(runes[0], isNot(equals(runes[2])));
       });
 
@@ -833,7 +816,6 @@ void main() {
         controller.loadWithTokens(':smile:');
         final secondCode = controller.text.codeUnitAt(0);
 
-        // Both should start from the same base since loadWithTokens resets
         expect(firstCode, equals(secondCode));
       });
     });
@@ -845,7 +827,6 @@ void main() {
             text: 'hello world',
             selection: TextSelection(baseOffset: 5, extentOffset: 11),
           )
-          // Non-collapsed selection should use baseOffset
           ..insertEmoji('wave', '\u{1F44B}');
 
         expect(controller.actualText, 'hello :wave: world');

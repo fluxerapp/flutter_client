@@ -6,10 +6,6 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_dart/export.dart';
 
-/// Resolves whether a message mentions the current user, covering direct
-/// mentions, `@everyone`, role mentions, per-guild suppression, and blocked
-/// authors. Every message persist site uses this so `isMentioned` matches the
-/// gateway live-create path.
 class MessageMentionContext {
   const MessageMentionContext({
     required this.currentUserId,
@@ -45,8 +41,6 @@ MessageMentionContext unknownThreadMentionContext(MessageMentionContext ctx) =>
       threadNonMember: true,
     );
 
-/// Builds the per-channel context once so a caller can resolve many messages
-/// without repeating database reads.
 Future<MessageMentionContext> buildMessageMentionContext(
   FluxerDatabase db, {
   required String? currentUserId,
@@ -92,7 +86,6 @@ Future<MessageMentionContext> buildMessageMentionContext(
   );
 }
 
-/// Pure mention rule evaluated against a prebuilt [MessageMentionContext].
 bool messageMentionsUser(
   MessageMentionContext ctx, {
   required String authorId,
@@ -121,7 +114,6 @@ bool messageMentionsUser(
   return mentionRoleIds.any(ctx.currentUserRoleIds.contains);
 }
 
-/// Keeps a resolved mention highlight when [incoming] would drop it.
 Message mergeMentionHighlightFlag({
   required Message incoming,
   required String? currentUserId,
@@ -158,7 +150,6 @@ List<Message> mergeMentionHighlightFlags(
       .toList(growable: false);
 }
 
-/// Convenience wrapper that builds the context and resolves a single message.
 Future<bool> resolveMessageMentionsUser(
   FluxerDatabase db, {
   required String? currentUserId,

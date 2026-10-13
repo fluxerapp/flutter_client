@@ -40,8 +40,6 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
-/// Wrapper screen for the chat area content.
-/// Takes guildId and channelId from go_router params.
 class ChannelLayout extends ConsumerStatefulWidget {
   final String guildId;
   final String channelId;
@@ -174,8 +172,6 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
       if (previous == next) {
         return;
       }
-      // A route listener can fire while the scope is flushing mid-build, and a
-      // provider write there throws: bind the pair after the frame instead.
       WidgetsBinding.instance.addPostFrameCallback((_) => _syncSearchContext());
     }
 

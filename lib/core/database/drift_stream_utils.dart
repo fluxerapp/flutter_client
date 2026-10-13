@@ -4,8 +4,6 @@ import 'package:drift/drift.dart';
 
 bool isDriftCancellation(Object error) => error is CancellationException;
 
-/// suppresses [CancellationException] from Drift watch streams when a
-/// subscription is cancelled while a refetch is still in flight.
 Stream<T> suppressDriftCancellationStream<T>(Stream<T> stream) {
   return stream.handleError((Object error, StackTrace stackTrace) {
     if (isDriftCancellation(error)) {
@@ -15,10 +13,6 @@ Stream<T> suppressDriftCancellationStream<T>(Stream<T> stream) {
   });
 }
 
-/// Combines the latest values from [streamA] and [streamB].
-///
-/// Subscriptions start when the returned stream is listened to and are torn
-/// down when that listener cancels.
 Stream<R> combineLatest2<A, B, R>(
   Stream<A> streamA,
   Stream<B> streamB,

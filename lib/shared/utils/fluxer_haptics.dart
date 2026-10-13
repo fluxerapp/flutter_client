@@ -64,15 +64,12 @@ abstract final class FluxerHaptics {
     });
   }
 
-  /// Soft flick for sending a message.
   static void send() {
     _playAhap(_sendAhapAsset, onUnavailable: Gaimon.soft);
   }
 
-  /// Preload the send AHAP so the first send feels instant (instead of delayed)
   static Future<void> warmSend() => _warmAhap(_sendAhapAsset);
 
-  /// Soft rumble for petting neko.
   static void purr() {
     if (!_purrGate.tryAcquire()) {
       return;
@@ -80,10 +77,8 @@ abstract final class FluxerHaptics {
     _playAhap(_purrAhapAsset);
   }
 
-  /// Preload the purr AHAP so the first pet feels instant.
   static Future<void> warmPurr() => _warmAhap(_purrAhapAsset);
 
-  /// Play a custom AHAP JSON pattern
   static void pattern(String ahapJson) {
     if (!enabled || !supportsExpressive) {
       return;
@@ -158,7 +153,6 @@ abstract final class FluxerHaptics {
   }
 }
 
-/// Limits stacked purr patterns so iOS does not mute haptics.
 class FluxerHapticPurrGate {
   FluxerHapticPurrGate({
     DateTime Function()? now,

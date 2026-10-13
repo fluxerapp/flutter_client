@@ -191,9 +191,6 @@ class _UserAuthorizedAppsState extends ConsumerState<UserAuthorizedApps> {
   }
 }
 
-// ---------------------------------------------------------------------------
-// App card
-// ---------------------------------------------------------------------------
 
 class _AuthorizedAppCard extends StatelessWidget {
   const _AuthorizedAppCard({

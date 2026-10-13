@@ -2,7 +2,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// > [!NOTE], > [!TIP], > [!IMPORTANT], > [!WARNING], > [!CAUTION]
 enum AlertType {
   note(label: 'Note', icon: PhosphorIconsFill.info),
   tip(label: 'Tip', icon: PhosphorIconsFill.lightbulbFilament),

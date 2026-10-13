@@ -19,8 +19,6 @@ const ValueKey<String> kFavoritesChatPageKey = ValueKey<String>(
   'favorites-chat',
 );
 
-/// Nested `@me` routes share one navigator stack. Only the `:channelId` route
-/// may use [kDmChatPageKey]; parent and message pages must keep [routePageKey].
 LocalKey dmShellPageKeyForRoute({
   required String? routeName,
   required LocalKey routePageKey,

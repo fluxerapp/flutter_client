@@ -1,13 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart'
-    show MessageItem;
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/system_message.dart'
-    show SystemMessage;
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
-/// Horizontal layout shared by [MessageItem] and [SystemMessage].
 const double kMessageAvatarSize = 40;
 const double kMessageAvatarTextGap = 12;
 const double kMessageAvatarColumnWidth =

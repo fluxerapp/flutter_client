@@ -211,7 +211,6 @@ void main() {
       _buildDrawerApp(container: container, router: router),
     );
 
-    // Mid-screen, not the leading edge, must still capture the drag.
     final gesture = await tester.startGesture(const Offset(200, 400));
     await gesture.moveBy(const Offset(80, 0));
     await tester.pump();
@@ -559,7 +558,6 @@ void main() {
     expect(_sliderIgnorePointer(tester).ignoring, isFalse);
     expect(find.byKey(kDrawerPeekInactiveScrimKey), findsNothing);
 
-    // Closing drag starts mid-screen, not at the edge.
     await tester.dragFrom(const Offset(240, 400), const Offset(-260, 0));
     await tester.pumpAndSettle();
 

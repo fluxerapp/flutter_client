@@ -126,7 +126,6 @@ bool shouldSuppressPeekForDrag({
   );
 }
 
-/// Anchor for a sidebar peek/context menu beside a guild or folder icon.
 Offset sidebarPeekMenuAnchorPosition(RenderBox box) {
   final Offset topLeft = box.localToGlobal(Offset.zero);
   final Size size = box.size;

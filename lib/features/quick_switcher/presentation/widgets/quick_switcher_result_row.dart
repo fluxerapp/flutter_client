@@ -11,7 +11,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-// Web bottom sheet: 2rem slot, 24px avatars, ~1.75rem channel glyphs.
 const double _kLeadingSlotSize = 32;
 const double _kAvatarRenderSize = 24;
 const double _kChannelIconSize = 28;

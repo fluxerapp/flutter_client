@@ -7,7 +7,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Identity header for sheets: avatar, title, optional subtitle, close button.
 class FluxerSheetIdentityHeader extends StatelessWidget {
   const FluxerSheetIdentityHeader({
     required this.leading,
@@ -123,7 +122,6 @@ class FluxerSheetIdentityHeader extends StatelessWidget {
   }
 }
 
-/// Standard close affordance for sheet headers.
 class FluxerSheetCloseButton extends StatelessWidget {
   const FluxerSheetCloseButton({
     required this.onTap,

@@ -32,8 +32,6 @@ const double _kSystemMessageIconOpacity = 0.6;
 const Duration _kSystemMessageLongPressDuration = Duration(milliseconds: 500);
 const double _kSystemMessageLongPressMoveTolerance = 18;
 
-/// Renders a system message with an icon aligned to the avatar column,
-/// message text, and an inline timestamp at the end of the text.
 class SystemMessage extends ConsumerWidget {
   final Message message;
   final String? guildId;

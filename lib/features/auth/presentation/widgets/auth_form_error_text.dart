@@ -1,7 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Form-level error with a live region for screen readers.
 class AuthFormErrorText extends StatelessWidget {
   const AuthFormErrorText(this.errorText, {super.key});
 

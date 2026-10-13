@@ -56,8 +56,6 @@ String _composerMentionRoleLabel(
   return name ?? fallback;
 }
 
-/// A user, role, or channel mention rendered inline as a chip while [wireText]
-/// preserves the outgoing mention form for sending.
 class MentionInlineToken extends InlineToken {
   MentionInlineToken({
     required this.wireText,
@@ -68,12 +66,8 @@ class MentionInlineToken extends InlineToken {
   @override
   final String wireText;
 
-  /// Resolves the visible chip label lazily, so live roster or channel renames
-  /// are reflected when no explicit label was captured at insertion time.
   final String Function() resolveVisibleText;
 
-  /// Packed ARGB colour for role mentions; `null` falls back to the link
-  /// colour.
   final int? colorArgb;
 
   @override
@@ -85,8 +79,6 @@ class MentionInlineToken extends InlineToken {
       );
 }
 
-/// Renders user, channel, and role mentions - and inserted emoji - as inline
-/// chips while [toWireText] preserves their wire forms for sending.
 class ComposerMentionController extends InlineTokenTextEditingController {
   ComposerMentionController({required this._ref, super.text});
 
@@ -104,10 +96,6 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     }
   }
 
-  /// Rebuilds the field from a wire string, re-chipping mentions, custom
-  /// emoji, and registry-resolvable emoji (shortcodes, skin-tone forms, raw
-  /// unicode). Unresolvable shortcodes stay literal text so typed colons like
-  /// `12:30:45` are never mis-chipped.
   Future<void> applyWireText(String wire, {bool force = false}) async {
     if (toWireText() == wire) {
       return;
@@ -315,9 +303,6 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     );
   }
 
-  /// Picker-inserted emoji in a message composer always get a trailing space so
-  /// the next typed text does not abut the emoji, matching the emoji
-  /// autocomplete path which inserts with [ensureTrailingSpace] as well.
   @override
   void insertEmoji(
     String name,

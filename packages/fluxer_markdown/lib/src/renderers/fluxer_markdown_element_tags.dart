@@ -1,5 +1,3 @@
-/// Element tag names shared between the renderer and the native AST bridge
-/// in `package:fluxer_markdown_native` (`markdown_bridge.dart`).
 abstract final class FluxerMarkdownElementTags {
   static const String spoiler = 'spoiler';
   static const String emojiUnicode = 'emoji-unicode';

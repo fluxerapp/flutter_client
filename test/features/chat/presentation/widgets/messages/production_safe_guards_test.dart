@@ -2,10 +2,6 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-/// Debug-only Element getters (debugIsActive and friends) are constant-false
-/// in profile and release builds; gating behavior on one disables it outside
-/// debug. flutter_test always runs in debug mode, so a source gate is the
-/// only test seam that can catch it - use `BuildContext.mounted` instead.
 void main() {
   test('chat lib code never gates behavior on debug-only Element getters', () {
     final Directory chatLib = Directory('lib/features/chat');

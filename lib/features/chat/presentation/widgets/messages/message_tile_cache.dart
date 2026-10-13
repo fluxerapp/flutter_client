@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
-/// Reuses a row's built widget while its render signature is unchanged, so a
-/// list rebuild skips unchanged row subtrees instead of rebuilding every row.
 class MessageTileCache {
   final Map<String, _MessageTileCacheEntry> _entries =
       <String, _MessageTileCacheEntry>{};

@@ -6,7 +6,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_channel_unread_snapshot_provider.g.dart';
 
-/// Per-channel unread state for one guild, used by the sidebar entry flattener.
 @riverpod
 Map<String, UnreadState> guildChannelUnreadSnapshot(Ref ref, String guildId) {
   final List<ChannelCategory> categories = ref.watch(

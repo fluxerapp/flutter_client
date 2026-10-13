@@ -73,8 +73,6 @@ class MfaViewModel extends _$MfaViewModel {
   MfaViewState build(MfaChallenge challenge) {
     _challenge = challenge;
 
-    // Auto-select code-based method if only one supported method is available.
-    // WebAuthn requires user interaction so it stays on the selector.
     MfaMethod? initialMethod;
     if (!challenge.hasMultipleMethods) {
       if (challenge.totp) {
@@ -136,7 +134,6 @@ class MfaViewModel extends _$MfaViewModel {
             code: code,
           );
         case MfaMethod.webauthn:
-          // WebAuthn doesn't use code submission.
           return;
       }
 
@@ -189,15 +186,12 @@ class MfaViewModel extends _$MfaViewModel {
       final authenticator = ref.read(passkeyAuthenticatorProvider);
       final webauthnService = WebAuthnService(authenticator);
 
-      // 1. Get WebAuthn options from server.
       final options = await repo.getMfaWebauthnOptions(
         ticket: _challenge.ticket,
       );
 
-      // 2. Trigger platform authenticator.
       final authResponse = await webauthnService.authenticate(options);
 
-      // 3. Verify with server.
       final session = await repo.verifyMfaWebauthn(
         ticket: _challenge.ticket,
         response: authResponse,

@@ -69,7 +69,6 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       return;
     }
 
-    // Password reset links work without authentication.
     if (_tryHandleResetLink(normalizedUri)) {
       return;
     }
@@ -141,13 +140,11 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     talker.info('[DeepLink] Stored registration URL code');
   }
 
-  /// Handles `/reset#token=<TOKEN>` or `/reset?token=<TOKEN>` deep links.
   bool _tryHandleResetLink(Uri uri) {
     if (uri.pathSegments.firstOrNull != 'reset') {
       return false;
     }
 
-    // Token can be in query params or fragment (web app uses hash: #token=xxx).
     var token = uri.queryParameters['token'];
     if (token == null && uri.fragment.isNotEmpty) {
       final fragmentParams = Uri.splitQueryString(uri.fragment);
@@ -162,7 +159,6 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     talker.info('[DeepLink] Password reset token received');
     ref.read(loginViewModelProvider.notifier).setResetToken(token);
 
-    // Navigate to login screen if not already there.
     ref.read(fluxerRouterProvider).go('/login');
 
     return true;
@@ -197,7 +193,6 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     }
   }
 
-  /// Routes an in-app path (e.g. from a push notification tap).
   void handlePath(String path) {
     if (path.isEmpty || !path.startsWith('/')) {
       return;

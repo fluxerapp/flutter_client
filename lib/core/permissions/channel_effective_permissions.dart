@@ -14,8 +14,6 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
 import 'package:riverpod/riverpod.dart';
 
-/// Result of channel permission resolution. When `shouldCache` is false, `value`
-/// may be 0 because the guild or current user's membership is not loaded yet.
 typedef ChannelPermissionBitsOutcome = ({int value, bool shouldCache});
 
 bool bypassesChannelSlowmode(ChannelPermissionBitsOutcome? outcome) {
@@ -323,7 +321,6 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
   if (!ref.mounted) {
     return (value: 0, shouldCache: false);
   }
-  // Only apply this channel's own overwrites, not parent category layers.
   final int value = evaluateChannelEffectivePermissionBits(
     guildOwnerId: guild.ownerId ?? '',
     guildId: guildId,

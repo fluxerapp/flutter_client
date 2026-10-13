@@ -154,7 +154,6 @@ class FluxerDatabase extends _$FluxerDatabase {
     onCreate: (m) => m.createAll(),
     onUpgrade: (m, from, to) async {
       if (from < 2) {
-        // v2: Add author metadata columns to messages, add indexes.
         await m.addColumn(messages, messages.authorName);
         await m.addColumn(messages, messages.authorAvatar);
         await m.addColumn(messages, messages.authorAvatarColor);
@@ -245,21 +244,14 @@ class FluxerDatabase extends _$FluxerDatabase {
         await m.createTable(dmFolderSettingsTable);
       }
       if (from < 17) {
-        // v17: Rename columns to match SDK naming conventions.
-        // serverId → guildId on channels, members, roles.
         await m.renameColumn(channels, 'server_id', channels.guildId);
         await m.renameColumn(members, 'server_id', members.guildId);
         await m.renameColumn(roles, 'server_id', roles.guildId);
-        // nickname → nick on members.
         await m.renameColumn(members, 'nickname', members.nick);
-        // isHoisted → hoist on roles.
         await m.renameColumn(roles, 'is_hoisted', roles.hoist);
-        // isBot → bot on users.
         await m.renameColumn(users, 'is_bot', users.bot);
-        // isPinned → pinned on messages.
         await m.renameColumn(messages, 'is_pinned', messages.pinned);
 
-        // Recreate indexes with updated names.
         await customStatement('DROP INDEX IF EXISTS idx_channels_server');
         await customStatement('DROP INDEX IF EXISTS idx_members_server');
         await customStatement('DROP INDEX IF EXISTS idx_roles_server');
@@ -283,35 +275,29 @@ class FluxerDatabase extends _$FluxerDatabase {
         );
       }
       if (from < 18) {
-        // v18: Add system column to users.
         await m.addColumn(users, users.system);
       }
       if (from < 19) {
-        // v19: Add icon and recipientIds columns to dmChannels.
         await m.addColumn(dmChannels, dmChannels.icon);
         await m.addColumn(dmChannels, dmChannels.recipientIds);
       }
       if (from < 20) {
-        // v20: Add plutoniumUpsellDismissed
         await m.addColumn(
           userPreferencesTable,
           userPreferencesTable.plutoniumUpsellDismissed,
         );
       }
       if (from < 21) {
-        // v21: Add emojiSkinTone
         await m.addColumn(
           userPreferencesTable,
           userPreferencesTable.emojiSkinTone,
         );
       }
       if (from < 22) {
-        // v22: Add message reference and snapshot JSON columns
         await m.addColumn(messages, messages.messageReferenceJson);
         await m.addColumn(messages, messages.messageSnapshotsJson);
       }
       if (from < 23) {
-        // v23: Add profile columns to users
         await m.addColumn(users, users.bio);
         await m.addColumn(users, users.pronouns);
         await m.addColumn(users, users.accentColor);
@@ -509,8 +495,6 @@ class FluxerDatabase extends _$FluxerDatabase {
         );
       }
       if (from < 48) {
-        // Drop the dead forward-from-message draft column (clean cutover).
-        // Composer drafts are disposable local cache, so recreate the table.
         await m.deleteTable('composer_drafts');
         await m.createTable(composerDrafts);
       }
@@ -532,9 +516,6 @@ class FluxerDatabase extends _$FluxerDatabase {
             SELECT 1 FROM users WHERE users.id = messages.author_id
           )
           ''');
-      }
-      if (from < 51) {
-        // v51: legacy tokens remain in SQLite until app startup migration.
       }
       if (from < 52 && from >= 51) {
         final List<QueryRow> columns = await customSelect(
@@ -1594,7 +1575,6 @@ class FluxerDatabase extends _$FluxerDatabase {
     },
   );
 
-  /// Clears all tables except auth sessions.
   Future<void> clearUserData() async {
     await transaction(() async {
       await clearAccountData();

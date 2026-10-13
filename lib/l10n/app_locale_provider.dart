@@ -17,7 +17,6 @@ List<Locale> _currentPlatformLocales() {
   return <Locale>[PlatformDispatcher.instance.locale];
 }
 
-/// The system's ordered locale preferences, kept reactive for runtime changes.
 @Riverpod(keepAlive: true)
 class SystemLocales extends _$SystemLocales {
   @override
@@ -30,7 +29,6 @@ class SystemLocales extends _$SystemLocales {
   }
 }
 
-/// The locale used for all app UI, including work without a widget context.
 @Riverpod(keepAlive: true)
 Locale effectiveAppLocale(Ref ref) {
   final sdk.Locale? selected = ref.watch(
@@ -45,7 +43,6 @@ Locale effectiveAppLocale(Ref ref) {
   return resolveSupportedFluxerLocales(ref.watch(systemLocalesProvider));
 }
 
-/// Localized strings for providers and services that do not own a widget tree.
 @Riverpod(keepAlive: true)
 FluxerLocalizations appLocalizations(Ref ref) {
   return lookupFluxerLocalizations(ref.watch(effectiveAppLocaleProvider));

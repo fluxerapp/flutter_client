@@ -5,7 +5,6 @@ import 'package:flutter_background/flutter_background.dart';
 const Duration _kForegroundServiceVerifyDelay = Duration(milliseconds: 250);
 const int _kForegroundServiceVerifyAttempts = 4;
 
-/// Returns whether the Android screen-share foreground service is active.
 Future<bool> isAndroidScreenShareBackgroundRunning() async {
   if (!Platform.isAndroid) {
     return true;
@@ -27,7 +26,6 @@ Future<bool> _verifyAndroidScreenShareBackgroundRunning() async {
   return false;
 }
 
-/// Starts the media projection foreground service for Android screen share.
 Future<bool> enableAndroidScreenShareBackground({
   required String notificationText,
   bool isRetry = false,
@@ -66,7 +64,6 @@ Future<bool> enableAndroidScreenShareBackground({
   }
 }
 
-/// Stops the screen share foreground service when sharing ends or voice leaves.
 Future<void> disableAndroidScreenShareBackground() async {
   if (!Platform.isAndroid) {
     return;

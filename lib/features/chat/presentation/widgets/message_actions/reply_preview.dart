@@ -7,8 +7,6 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart'
-    show MessageItem;
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
@@ -31,12 +29,6 @@ const double _kReplyPreviewFontSize = 14;
 const double _kReplyPreviewLineHeight = 18 / _kReplyPreviewFontSize;
 const double _kReplyPreviewAuthorMaxWidthRatio = 0.3;
 
-/// The inline reply indicator shown above a message that
-/// is a reply. Displays the replied-to author's avatar or
-/// reply icon in dense mode, plus name and content preview.
-///
-/// The curved connector line is handled by
-/// [ReplyConnectorPainter] in [MessageItem].
 class InlineReplyPreview extends ConsumerWidget {
   final Message message;
   final String? guildId;
@@ -320,24 +312,6 @@ class _ReplyPreviewContent extends ConsumerWidget {
   }
 }
 
-/// Paints the curved "L" connector line from the
-/// replier's avatar area upward and across to the
-/// reply preview row.
-///
-/// The line goes:
-///   1. Up from just above the replier's avatar center
-///   2. Curves right with a rounded corner
-///   3. Extends horizontally to meet the reply
-///      preview row
-///
-/// [avatarCenterX] -- x offset of the replier avatar
-///   center (from left of widget)
-/// [lineTop]       -- y offset where the horizontal arm
-///   meets the reply row
-/// [lineBottom]    -- y offset where the vertical arm
-///   starts (just above avatar)
-/// [horizontalEnd] -- x offset where the horizontal arm
-///   ends (start of reply content)
 class ReplyConnectorPainter extends CustomPainter {
   final double avatarCenterX;
   final double lineTop;
@@ -433,8 +407,6 @@ class CompactReplyConnectorPainter extends CustomPainter {
       color != oldDelegate.color;
 }
 
-/// The reply bar shown above the input when the user
-/// is composing a reply.
 class ReplyInputBar extends ConsumerWidget {
   final Message replyTo;
   final String guildId;
@@ -614,7 +586,6 @@ class ReplyInputBar extends ConsumerWidget {
   }
 }
 
-/// The edit bar shown above the input while message editing is active.
 class EditingInputBar extends StatelessWidget {
   final VoidCallback onCancel;
   final bool wideComposerAction;

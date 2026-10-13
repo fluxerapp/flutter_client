@@ -14,8 +14,6 @@ typedef PresenceUpdateRecord = ({
   bool mobile,
 });
 
-/// Coalesces high-frequency `PRESENCE_UPDATE` events into a single Drift
-/// batch write per [kPresenceUpdateBatchDelay] window.
 class PresenceUpdateBatcher {
   PresenceUpdateBatcher({
     required this._database,

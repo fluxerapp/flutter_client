@@ -519,7 +519,6 @@ void main() {
       expect(find.text('Mark as read'), findsOneWidget);
       expect(find.text('Debug category'), findsNothing);
 
-      // Order must mirror the web category menu: Mark as Read -> Mute -> Copy ID.
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Mark as read'), lessThan(dy('Mute category')));
       expect(dy('Mute category'), lessThan(dy('Copy category ID')));
@@ -575,8 +574,6 @@ void main() {
       await _pumpSidebar(tester);
 
       await tester.longPress(find.text('general'));
-      // Tapping a menu entry before it settles misses the hit test and leaves
-      // the menu's centred channel-name header duplicating the sidebar row.
       await _pumpSidebar(tester);
       for (int i = 0; i < 4; i += 1) {
         await tester.pump(const Duration(milliseconds: 100));
@@ -890,7 +887,6 @@ void main() {
         ),
       );
       await _pumpSidebar(tester);
-      // The unread pill's scroll target only resolves once the list lays out.
       for (int i = 0; i < 4; i += 1) {
         await tester.pump(const Duration(milliseconds: 100));
       }
@@ -1121,8 +1117,6 @@ void main() {
           ),
         );
         await _pumpSidebar(tester);
-        // Scroll restore only runs once the controller has attached and the
-        // extent is known.
         for (int i = 0; i < 4; i += 1) {
           await tester.pump(const Duration(milliseconds: 100));
         }

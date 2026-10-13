@@ -23,7 +23,6 @@ void main() {
   });
 
   test('finds an emoji by a keyword synonym not present in its name', () {
-    // "happy" is a keyword of `grinning` but not part of its shortcode.
     final List<EmojiEntry> results = EmojiRegistry.search('happy');
     expect(results.any((EmojiEntry e) => e.names.contains('grinning')), isTrue);
   });

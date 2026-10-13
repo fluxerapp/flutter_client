@@ -32,10 +32,6 @@ class UnreadDmState {
   }
 }
 
-/// Value-equal token capturing only the navbar-rail DM membership and identity
-/// (id, type, name) of the unread-DM list — NOT mention/unread counts. The guild
-/// navbar watches this via `.select` so it rebuilds only when a DM enters/leaves
-/// the rail or its displayed identity changes, not on every read-state reconcile.
 String dmNavbarMembershipToken(UnreadDmState state) {
   final buffer = StringBuffer();
   for (final channel in state.channels) {

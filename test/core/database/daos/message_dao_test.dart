@@ -81,7 +81,6 @@ void main() {
     expect(after.map((m) => m.id).toList(), ['100']);
   });
 
-  // An unsent row's id is a client nonce, always past the server tail (#474).
   test('deleteServerMessagesBetween drops sent rows inside the bound and '
       'keeps unsent, newer and other-channel ones', () async {
     final db = await seed([idA, idB, idC, idD]);

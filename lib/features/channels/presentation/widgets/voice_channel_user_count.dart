@@ -1,7 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Split badge showing how many users are in a voice channel vs its limit
 class VoiceChannelUserCount extends StatelessWidget {
   final int currentUserCount;
   final int userLimit;

@@ -28,7 +28,6 @@ void main() {
     });
 
     test('never returns both axes, which would distort via exact policy', () {
-      // Both axes would distort via ResizeImagePolicy.exact.
       final cache = coverDecodeCacheSize(
         cellWidth: 137,
         cellHeight: 300,

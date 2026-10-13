@@ -75,7 +75,6 @@ class FluxerMotionTheme extends ThemeExtension<FluxerMotionTheme> {
       pushCurve = Curves.linear,
       sheetCurve = Curves.linear;
 
-  // For timers / defaults that cannot use BuildContext.
   static const Duration hoverDuration = Duration(milliseconds: 70);
   static const Duration fastDuration = Duration(milliseconds: 100);
   static const Duration normalDuration = Duration(milliseconds: 150);

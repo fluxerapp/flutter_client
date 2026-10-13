@@ -5,7 +5,6 @@ import 'package:fluxer_app/material_ui.dart';
 const double kAppTextScaleMin = 0.8;
 const double kAppTextScaleMax = 2;
 
-/// Caps chrome and composer actions at chat font max (24 / 16).
 const double kConstrainedUiTextScaleMax = 1.5;
 
 const double kChatMessageTextScaleMax = 2;
@@ -46,7 +45,6 @@ double clampLayoutZoomLevel(double value) {
   return value.clamp(kMinLayoutZoomLevel, kMaxLayoutZoomLevel);
 }
 
-/// Proto zoom values above 4 are percents (100 = 1.0).
 double protoZoomLevelToFactor(double zoomLevel) {
   if (zoomLevel > 4) {
     return zoomLevel / 100;
@@ -79,7 +77,6 @@ TextScaler chatMessageTextScaler(TextScaler systemScaler, double scaleRatio) {
   );
 }
 
-/// Initials use layout sizes, not reading text scale.
 const TextScaler kIconInitialsTextScaler = TextScaler.noScaling;
 
 class FluxerAppTextScale extends StatelessWidget {

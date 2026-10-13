@@ -38,7 +38,6 @@ enum ChannelType {
 int persistedChannelTypeWire(int? json) =>
     json ?? ChannelType.unknown.wireValue;
 
-/// Guild channels that support text based unread tracking (text + voice).
 const Set<ChannelType> guildTextBasedChannelTypes = <ChannelType>{
   ChannelType.guildText,
   ChannelType.guildVoice,
@@ -490,14 +489,8 @@ class ChannelCategory {
   int get hashCode => Object.hash(id, name, Object.hashAll(channels));
 }
 
-/// Internal group id for channels that have no parent category.
 const String kUncategorizedCategoryId = '_uncategorized';
 
-/// Groups a flat list of channels into channel categories.
-///
-/// Channels with type 4 (category) become group headers. Child channels
-/// reference their category via parentId. Channels without a parent
-/// are placed in an internal uncategorized group.
 List<ChannelCategory> groupChannelsIntoCategories(List<Channel> channels) {
   final categories = <Channel>[];
   final uncategorized = <Channel>[];

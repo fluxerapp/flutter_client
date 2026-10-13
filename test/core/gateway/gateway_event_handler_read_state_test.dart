@@ -620,7 +620,6 @@ void main() {
     );
     final handler = GatewayEventHandler(database: db, currentUserId: 'me');
 
-    // Stale version is rejected, so the absolute mention count is dropped.
     await handler.handle(
       MessageAckEvent(
         channelId: 'channel-1',
@@ -634,7 +633,6 @@ void main() {
     expect(readState?.mentionCount, 0);
     expect(readState?.version, '5');
 
-    // Newer version applies and persists.
     await handler.handle(
       MessageAckEvent(
         channelId: 'channel-1',
@@ -796,8 +794,6 @@ void main() {
     final readState = await db.readStateDao.getReadState('channel-1');
     final message = await db.messageDao.getMessage(messageId);
     final mentionRows = await db.notificationDao.getMentionFeedOrdered();
-    // The suppressed mention must not bump the mention count, but the message
-    // still seeds a plain-unread read state (web parity: recordUnread).
     expect(readState, isNotNull);
     expect(readState?.mentionCount, 0);
     expect(
@@ -1453,7 +1449,6 @@ void main() {
     final stickyId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     final handler = GatewayEventHandler(database: db, currentUserId: 'me');
 
-    // Establish the session so the next ready is an incremental reconnect.
     await handler.handle(_readyEvent());
     await db.readStateDao.upsertReadState(
       ReadStatesCompanion(
@@ -1586,8 +1581,6 @@ void main() {
         ),
       );
 
-      // First occurrence advances past local ack (clears manual); second is
-      // the stale original ack. Fold-forward must not resurrect manual.
       await handler.handle(
         _readyEvent(
           readStates: [
@@ -1598,8 +1591,6 @@ void main() {
       );
 
       final readState = await db.readStateDao.getReadState('channel-1');
-      // Last payload entry wins lastMessageId (same as sequential upserts);
-      // fold-forward ensures the second merge sees manual already cleared.
       expect(readState?.lastMessageId, ackId);
       expect(readState?.manual, isFalse);
       expect(readState?.stickyUnreadMessageId, isNull);
@@ -1647,8 +1638,6 @@ void main() {
         readStateWriteBatcher: batcher,
       );
 
-      // A new mention lands while unviewed -> the increment is batched
-      // (pending), not yet written to Drift.
       await handler.handle(
         MessageCreateEvent(
           message: _message(
@@ -1661,8 +1650,6 @@ void main() {
       );
       expect(batcher.hasPending('channel-1'), isTrue);
 
-      // A server ack refreshes the count at the current position. Its mention
-      // count (1) already accounts for the still-pending mention.
       await handler.handle(
         MessageAckEvent(
           channelId: 'channel-1',
@@ -1672,8 +1659,6 @@ void main() {
         ),
       );
 
-      // The ack flushed the pending increment before its absolute write, so a
-      // later flush cannot replay it: the count stays the server's 1, not 2.
       expect(batcher.hasPending('channel-1'), isFalse);
       await batcher.flushAll();
       final readState = await db.readStateDao.getReadState('channel-1');

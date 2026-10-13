@@ -17,13 +17,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'forward_destinations_provider.g.dart';
 
-/// What kind of destination a [ForwardDestination] points at. Drives the
-/// row leading visual and section grouping.
 enum ForwardDestinationKind { guildText, guildVoice, dm, group, personalNotes }
 
-/// Static (permission-based) reason a destination cannot receive a forward.
-/// Slowmode cool-down and the selection cap are evaluated reactively by the
-/// sheet, not stored here.
 enum ForwardDestinationDisable {
   none,
   guildSendDisabled,
@@ -33,7 +28,6 @@ enum ForwardDestinationDisable {
   noAttachPermission,
 }
 
-/// A channel or DM the current user may forward a message into.
 class ForwardDestination {
   const ForwardDestination({
     required this.channelId,
@@ -55,36 +49,24 @@ class ForwardDestination {
   final String displayName;
   final ForwardDestinationKind kind;
 
-  /// Owning guild id for guild channels; null/empty for DMs.
   final String? guildId;
 
-  /// Owning guild name, used as the section header / secondary label.
   final String? guildName;
 
   final int rateLimitPerUser;
 
-  /// Permission-based eligibility. [ForwardDestinationDisable.none] means the
-  /// user may forward here (subject to slowmode/cap evaluated by the sheet).
   final ForwardDestinationDisable disable;
 
-  /// Whether an active slowmode applies to the current user here (guild
-  /// channels with a rate limit the user cannot bypass). Disables the optional
-  /// comment when such a destination is selected.
   final bool slowmodeEnabled;
 
-  /// Recipient user id for 1:1 DMs (default-avatar fallback).
   final String? avatarUserId;
 
-  /// Resolved avatar image url for 1:1 DMs, when the recipient has one.
   final String? avatarImageUrl;
 
-  /// Resolved guild icon url for guild channel destinations.
   final String? guildAvatarImageUrl;
 
-  /// Custom group DM icon url, when the group has one.
   final String? groupIconUrl;
 
-  /// Members shown in the group DM avatar cluster.
   final List<GroupMemberInfo> groupMembers;
 
   bool get isGuildChannel =>
@@ -94,14 +76,6 @@ class ForwardDestination {
   bool get isPermissionBlocked => disable != ForwardDestinationDisable.none;
 }
 
-/// All channels and DMs the current user may forward into, given the source
-/// channel and whether the source message carries embeds/attachments (which
-/// gate EMBED_LINKS / ATTACH_FILES on guild destinations, matching the server).
-///
-/// DMs are returned first (in recency order), then guild channels grouped by
-/// guild name then channel name, so the sheet can build sections by walking
-/// consecutive runs. Non-text-based channel types (category/link) are filtered
-/// out.
 @riverpod
 Future<List<ForwardDestination>> forwardDestinations(
   Ref ref, {
@@ -193,7 +167,6 @@ Future<List<ForwardDestination>> forwardDestinations(
         return a.name.toLowerCase().compareTo(b.name.toLowerCase());
       });
 
-  // Guild-wide gates precede per-channel permission bits (web parity).
   final Map<String, ForwardDestinationDisable> guildLevelDisable =
       <String, ForwardDestinationDisable>{};
   final DateTime now = DateTime.now();
@@ -239,8 +212,6 @@ Future<List<ForwardDestination>> forwardDestinations(
     if (guildGate != null) {
       disable = guildGate;
     } else if (!outcome.shouldCache) {
-      // Permission data for this guild is not loaded yet, so do not
-      // over-restrict; the server enforces on send (matches the composer).
       disable = ForwardDestinationDisable.none;
     } else {
       disable = _resolveDisable(

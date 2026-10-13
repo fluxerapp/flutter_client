@@ -28,8 +28,6 @@ class _FakeGuilds extends GuildListViewModel {
   GuildListViewState build() => GuildListViewState(guilds: _guilds);
 }
 
-/// Pumps an emoji-only [ComposerAutocompleteField] in bio configuration
-/// (no channel, emoji trigger only) wrapping a plain `TextField`.
 Future<EmojiTextEditingController> _pumpBioField(
   WidgetTester tester, {
   required FluxerDatabase db,
@@ -97,9 +95,6 @@ Future<EmojiTextEditingController> _pumpBioField(
   return controller;
 }
 
-/// Lets the typing debounce, the custom-emoji stream `.future`, and the
-/// open/close fade settle without `pumpAndSettle` (custom-emoji network images
-/// never settle).
 Future<void> _settleAutocomplete(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 350));
   await tester.pump();
@@ -214,8 +209,6 @@ void main() {
     await tester.enterText(find.byType(TextField), ':smile');
     await _settleAutocomplete(tester);
 
-    // The custom ":smile:" (an exact match) is ranked in and labelled with its
-    // guild, alongside the unicode ":smile:".
     expect(find.text('Linux Hub'), findsOneWidget);
     expect(find.text(':smile:'), findsWidgets);
   });
@@ -251,8 +244,6 @@ void main() {
       ..applyCurrentSelection();
     await tester.pump();
 
-    // The trigger text is replaced by an inline emoji chip, the menu closes,
-    // and onApplied fires.
     expect(state.hasOpenMenu, isFalse);
     expect(controller.text.contains(':smile'), isFalse);
     expect(controller.actualText.contains('smile'), isTrue);
@@ -264,7 +255,6 @@ void main() {
 
     await _pumpBioField(tester, db: db);
 
-    // An emoji-only field ignores @mention and #channel triggers entirely.
     await tester.enterText(find.byType(TextField), '@everyone');
     await _settleAutocomplete(tester);
     expect(_fieldState(tester).hasOpenMenu, isFalse);

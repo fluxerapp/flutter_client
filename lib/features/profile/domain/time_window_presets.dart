@@ -18,7 +18,6 @@ class TimeWindowPreset {
 
   final TimeWindowKey key;
 
-  /// Duration in minutes; `null` means no expiry.
   final double? minutes;
 }
 

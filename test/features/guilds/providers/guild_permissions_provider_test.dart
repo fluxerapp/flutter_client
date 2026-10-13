@@ -99,9 +99,6 @@ void main() {
 
       expect(await notifier.getPermissions(_guildId), 0);
 
-      // Pre-fix this guild was never cached (shouldCache:false), so the navbar
-      // re-ran the role/member query every emission. The fix caches the pending
-      // 0 so repeat reads short-circuit on the cached map.
       final cached = container.read(guildPermissionsProvider);
       expect(cached.containsKey(_guildId), isTrue);
       expect(cached[_guildId], 0);
@@ -123,8 +120,6 @@ void main() {
       expect(await notifier.getPermissions(_guildId), 0);
       expect(container.read(guildPermissionsProvider)[_guildId], 0);
 
-      // Current user's member row loads (the gateway member add/chunk path now
-      // drives refreshPermissions for this guild).
       await _seedMember(db);
       await notifier.refreshPermissions(_guildId);
 
@@ -146,7 +141,6 @@ void main() {
 
     expect(await notifier.getPermissions(_guildId), 0);
 
-    // The dropped `value != 0` gate means a real (member-present) 0 caches too.
     expect(
       container.read(guildPermissionsProvider).containsKey(_guildId),
       isTrue,
@@ -162,7 +156,6 @@ void main() {
 
     expect(await notifier.getPermissions('unknown-guild'), 0);
 
-    // guild == null keeps shouldCache:false; it must stay re-resolvable.
     expect(
       container.read(guildPermissionsProvider).containsKey('unknown-guild'),
       isFalse,

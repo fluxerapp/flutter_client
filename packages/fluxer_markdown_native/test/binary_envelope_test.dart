@@ -70,8 +70,6 @@ void main() {
   });
 
   test('binary and JSON paths agree across a mixed corpus', () {
-    // Catches encoder/decoder drift; the JSON path is literal-pinned in
-    // parse_smoke_test.dart.
     const corpus = [
       '# h\n**b** *e* `c` ||s||',
       '> [!NOTE]\n> body\n\n1. a\n2. b\n\n| x | y |\n|---|---|\n| 1 | 2 |',
@@ -97,7 +95,6 @@ void main() {
   });
 
   test('rejects trailing bytes', () {
-    // version 1, zero nodes, one stray byte.
     expect(
       () => decodeBinaryAst(Uint8List.fromList([1, 0, 0xff])),
       throwsFormatException,
@@ -105,7 +102,6 @@ void main() {
   });
 
   test('rejects unknown node tag', () {
-    // version 1, one node, tag 200.
     expect(
       () => decodeBinaryAst(Uint8List.fromList([1, 1, 200])),
       throwsFormatException,

@@ -75,7 +75,6 @@ void main() {
       expect(listState(container)!.memberCount, 5);
 
       enqueue(container, event(memberCount: 9));
-      // Still the first value: the second event is queued, not applied.
       expect(listState(container)!.memberCount, 5);
 
       await waitForBatchWindow();
@@ -99,8 +98,6 @@ void main() {
   test('merges ops across batched updates instead of dropping them', () async {
     final container = buildContainer();
 
-    // Establish the initial payload with a large list so both row indices below
-    // stay in bounds.
     enqueue(
       container,
       event(groups: const [MemberListGroup(id: 'all', count: 100)]),
@@ -127,7 +124,6 @@ void main() {
     );
     await waitForBatchWindow();
 
-    // Both ops survived the merge: dropping the earlier op would leave one row.
     expect(listState(container)!.rows.length, 2);
     await pumpEventQueue();
   });
@@ -193,7 +189,6 @@ void main() {
           ],
         );
 
-    // First payload paints the local user as online.
     enqueue(
       container,
       event(
@@ -205,7 +200,6 @@ void main() {
     );
     expect(rowStatus(container, 'me'), 'online');
 
-    // The local user's own status change skips the batch window entirely.
     enqueue(
       container,
       event(

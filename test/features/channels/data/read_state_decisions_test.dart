@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
 
-// Message ids are compared via snowflake (BigInt) ordering, so plain ascending
-// numeric strings are sufficient: '100' < '200' < '300'.
 
 ReadStateIncomingMessageInput _incoming({
   bool isCurrentUserAuthor = false,

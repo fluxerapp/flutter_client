@@ -9,10 +9,6 @@ int compareSnowflakeIds(String? a, String? b) {
   return ai.compareTo(bi);
 }
 
-/// Mirrors the web's `compareReadStateVersions` (read_states/shared.ts).
-/// Read-state versions are numeric strings; non-numeric values are treated as
-/// incomparable (returns 0). Comparison is by numeric magnitude: shorter
-/// normalized string is smaller, otherwise lexicographic.
 int compareReadStateVersions(String? a, String? b) {
   final left = _normalizeReadStateVersion(a);
   final right = _normalizeReadStateVersion(b);
@@ -236,10 +232,6 @@ String? oldestUnreadMessageId({
   return null;
 }
 
-/// True if the DM-relevant read-state fields (ack id + mention count) differ
-/// between two channelId->ReadState snapshots. Used to skip recomputes that
-/// Drift's table-level stream invalidation fires when no relevant read state
-/// actually changed.
 bool dmReadStatesChanged(
   Map<String, ReadState> previous,
   Map<String, ReadState> next,

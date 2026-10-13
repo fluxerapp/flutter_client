@@ -113,8 +113,6 @@ class ReadStateRepository {
     return messageId;
   }
 
-  /// Acks up to [messageId] (the newest loaded/visible message). Never
-  /// regresses an existing ack. Returns the acked id, or null when a no-op.
   Future<String?> applyLocalAckUpTo(String channelId, String messageId) async {
     final current = await _db.readStateDao.getReadState(channelId);
     final String? currentAck = current?.lastMessageId;
@@ -246,7 +244,6 @@ class ReadStateRepository {
     if (readStates.isEmpty) {
       return;
     }
-    // Per-row point reads here starve the first channel switch after READY.
     final knownChannelIds = <String>{
       for (final channel in await _db.channelDao.getAllChannels(
         includeThreads: true,
@@ -375,9 +372,6 @@ class ReadStateRepository {
       ackMessageId: ackMessageId,
       currentUserId: currentUserId,
     );
-    // A backfill loads a partial window and can undercount, so keep the larger
-    // of stored and recomputed unless the caller is authoritative (a
-    // relationship change that must also drop counts).
     final next = allowDecrease
         ? recomputed
         : (recomputed > current.mentionCount
@@ -398,9 +392,6 @@ class ReadStateRepository {
     );
   }
 
-  /// Reconciles read state after messages are deleted from a channel.
-  /// Walks the channel/DM tail back when the deleted message was the tail,
-  /// the DM unread counter.
   Future<void> reconcileAfterMessageDelete({
     required String channelId,
     required List<String> deletedMessageIds,

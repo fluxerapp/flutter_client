@@ -10,7 +10,6 @@ import 'package:fluxer_app/material_ui.dart';
 
 enum VoiceE2eeIndicatorVariant { voiceChannel, call }
 
-/// One-line E2EE status copy matching the desktop voice indicator.
 class VoiceE2eeIndicator extends ConsumerWidget {
   const VoiceE2eeIndicator({
     required this.guildId,

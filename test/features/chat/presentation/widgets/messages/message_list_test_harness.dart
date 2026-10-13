@@ -159,8 +159,6 @@ String? messageListAnchorId(WidgetTester tester) => tester
     .widget<MessageListViewport>(find.byType(MessageListViewport))
     .anchorId;
 
-/// Scroll offset at which the oldest LOADED row tops the viewport: the min
-/// extent plus whatever skeleton filler stands in for unloaded history.
 double messageListOldestRowOffset(WidgetTester tester) {
   final MessageListViewport viewport = tester.widget<MessageListViewport>(
     find.byType(MessageListViewport),
@@ -169,8 +167,6 @@ double messageListOldestRowOffset(WidgetTester tester) {
       (viewport.leadingFiller?.specs.totalHeight ?? 0);
 }
 
-/// Scroll offset at which the newest LOADED row's trailing edge meets the
-/// viewport bottom: the max extent minus any skeleton filler past it.
 double messageListNewestRowOffset(WidgetTester tester) {
   final MessageListViewport viewport = tester.widget<MessageListViewport>(
     find.byType(MessageListViewport),
@@ -769,7 +765,6 @@ List<Message> newerRows(
   ];
 }
 
-/// Rows strictly older than [before]'s first row, oldest first.
 List<Message> olderRows(List<Message> before, {required int count}) {
   final DateTime first = before.first.timestamp;
   return <Message>[

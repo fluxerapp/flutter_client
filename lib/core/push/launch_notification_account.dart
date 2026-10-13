@@ -2,7 +2,6 @@ import 'package:fluxer_app/core/database/daos/auth_session_dao.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
 
-/// Marks [payloadJson]'s account active when that session is still valid.
 Future<bool> selectStoredAccountForLaunchPayload({
   required String? payloadJson,
   required AuthSessionDao dao,

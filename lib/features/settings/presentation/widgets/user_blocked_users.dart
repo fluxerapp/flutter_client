@@ -222,9 +222,6 @@ class UserBlockedUsers extends ConsumerWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Card
-// ---------------------------------------------------------------------------
 
 class _BlockedUserCard extends ConsumerWidget {
   _BlockedUserCard({

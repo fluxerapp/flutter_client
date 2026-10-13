@@ -813,8 +813,6 @@ class GatewayEventHandler {
     final List<String> prunedChannelIds = <String>[];
     final List<VoiceState> readyVoiceStates = <VoiceState>[];
 
-    // Drop unread writes queued against the previous session. The snapshot
-    // applied below is authoritative.
     readStateWriteBatcher?.clearAll();
 
     var clearsMs = 0;
@@ -843,8 +841,6 @@ class GatewayEventHandler {
         ? (await database.guildDao.getServers()).map((row) => row.id).toSet()
         : const <String>{};
 
-    // Parsed on an isolate before BEGIN so the multi-second parse on large
-    // accounts does not extend the write lock.
     List<ParsedReadyGuild> processedGuilds = const <ParsedReadyGuild>[];
     if (event.rawGuilds.isNotEmpty) {
       final Stopwatch parsePhase = Stopwatch()..start();
@@ -884,7 +880,6 @@ class GatewayEventHandler {
       }
       clearsMs = phase.elapsedMilliseconds;
 
-      // Gateway never echoes the current user's own presence back.
       final selfStatus = event.userSettings?.status ?? 'online';
       await database.userDao.upsertUser(
         db.UsersCompanion.insert(
@@ -1050,8 +1045,6 @@ class GatewayEventHandler {
           }
         }
 
-        // Bulk hops: servers, channels, roles, users, members, then
-        // per-guild emoji/sticker replace (delete+batch each).
         if (guildCompanions.isNotEmpty) {
           await database.guildDao.upsertServers(guildCompanions);
         }
@@ -1231,9 +1224,6 @@ class GatewayEventHandler {
             <db.ReadStatesCompanion>[];
         for (final rs in event.readStates) {
           final db.ReadState? existing = existingByChannelId[rs.id];
-          // The server snapshot never carries the client-only manual-unread
-          // flag, so preserve a local manual mark (and its sticky divider)
-          // while the server ack has not advanced past where we left off.
           final manualMark = existing?.manual ?? false;
           final keepManual =
               manualMark &&
@@ -1254,8 +1244,6 @@ class GatewayEventHandler {
               flags: Value(rs.flags),
             ),
           );
-          // Fold into the preload map so duplicate channel ids in one READY
-          // match sequential single-row merges (later rows see earlier results).
           existingByChannelId[rs.id] = db.ReadState(
             channelId: rs.id,
             lastMessageId: rs.lastMessageId,
@@ -2034,9 +2022,6 @@ class GatewayEventHandler {
     final shouldMention = isDm
         ? !await _isDmMuted(msg.channelId)
         : mentionsCurrentUser;
-    // Seed the ack baseline only for never-acked guild channels so new messages
-    // surface as plain unread. DM unread is tracked via the DM row counter, so
-    // its ack is left untouched.
     final String? ackMessageId = (seedAck && !isDm)
         ? (previousChannelLastMessageId ??
               snowflakeAtPreviousMillisecond(msg.id))
@@ -2189,9 +2174,6 @@ class GatewayEventHandler {
       await database.messageDao.deleteMessages(messageIds);
     });
 
-    // Reconcile read state after the rows are removed. Only the tail is
-    // rewritten; deleting older messages in a jump window must not hide real
-    // unread below it.
     final repository = readStateRepository;
     if (repository != null) {
       await repository.reconcileAfterMessageDelete(
@@ -2222,8 +2204,6 @@ class GatewayEventHandler {
     }
   }
 
-  // Hydrate the typer's member only when absent, mirroring the web client.
-  // Avoids clobbering fresher rows and re-emitting member streams each event.
   Future<void> _hydrateMemberIfMissing(
     String guildId,
     GuildMemberResponse member,
@@ -2667,8 +2647,6 @@ class GatewayEventHandler {
           ),
         );
 
-        // One statement batch per table, mirroring the READY fanout; per-row
-        // writes here starve the channel switch reads racing this transaction.
         final channelCompanions = <db.ChannelsCompanion>[];
         for (final channel in event.guild.channels) {
           final channelGuildId = channel.guildId;
@@ -3076,7 +3054,6 @@ class GatewayEventHandler {
       return;
     }
 
-    // Server ack is authoritative; flush pending increments first.
     await readStateWriteBatcher?.flush(event.channelId);
     await _writeServerAck(
       channelId: event.channelId,

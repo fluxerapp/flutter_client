@@ -2,7 +2,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 extension VisibilityAwareAnimationController on AnimationController {
-  /// Repeat while visible/foregrounded; stop otherwise.
   void syncWithVisibility({
     required bool isVisible,
     bool animationsEnabled = true,

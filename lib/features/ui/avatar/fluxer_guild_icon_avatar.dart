@@ -7,12 +7,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 const double _kCornerRatio = 0.32;
 const double _kUnavailableIconSize = 22;
 
-/// Rounded-square server icon used by inbox-style notification cards.
-///
-/// Renders one of three states:
-/// - Unavailable guild placeholder when [isUnavailable] is true.
-/// - Network image with letter fallback when [imageUrl] is provided.
-/// - Letter-only fallback otherwise.
 class FluxerGuildIconAvatar extends StatelessWidget {
   const FluxerGuildIconAvatar({
     required this.name,

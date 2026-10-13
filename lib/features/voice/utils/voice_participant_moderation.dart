@@ -98,8 +98,6 @@ Future<void> disconnectVoiceParticipant({
     ref,
     failureMessage: failureMessage,
     action: () {
-      // Disconnect requires channel_id: null in the JSON body.
-      // OpenAPI spec currently sets includeIfNull: false
       return ref
           .read(fluxerDioProvider)
           .patch<void>(

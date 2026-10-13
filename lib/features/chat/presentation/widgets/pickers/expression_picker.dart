@@ -67,10 +67,8 @@ class ExpressionPicker extends ConsumerStatefulWidget {
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
 
-  /// When null, tabs auto-show if there are multiple visible tabs.
   final bool? showTabs;
 
-  /// When provided, the search bar is rendered by the parent header /
   final TextEditingController? searchController;
   final String searchQuery;
   final String? skinTone;

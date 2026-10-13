@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Writes pubspec_overrides.yaml for macOS app builds from pubspec.yaml overrides.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

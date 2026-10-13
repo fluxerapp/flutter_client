@@ -34,15 +34,12 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Maximum number of destinations a single forward may target (web parity).
 const int kForwardSelectionLimit = 5;
 
-/// Whether to open the destination after a successful forward (web parity).
 bool shouldNavigateAfterForward(int destinationCount) {
   return destinationCount == 1;
 }
 
-/// Chat route for a single forward destination.
 String forwardDestinationRoute({required String channelId, String? guildId}) {
   if (guildId == null || guildId.isEmpty) {
     return RoutePaths.dmChannel(channelId);
@@ -50,8 +47,6 @@ String forwardDestinationRoute({required String channelId, String? guildId}) {
   return RoutePaths.guildChannel(guildId, channelId);
 }
 
-/// Mention context for the optional forward comment: the last selected
-/// destination, or null when none is selected.
 String? forwardCommentComposerChannelId(Iterable<String> selectedChannelIds) {
   if (selectedChannelIds.isEmpty) {
     return null;
@@ -66,9 +61,6 @@ class _ForwardNavigationTarget {
   final String? guildId;
 }
 
-/// Opens the mobile-first forward sheet for [message]: a searchable,
-/// multi-select destination picker (up to [kForwardSelectionLimit]) with an
-/// optional rich comment.
 Future<void> showForwardMessageSheet(
   BuildContext context, {
   required Message message,
@@ -82,10 +74,6 @@ Future<void> showForwardMessageSheet(
   );
 }
 
-/// Opens the forward sheet to forward specific media (one or more attachments
-/// or embeds) from a message, identified by ids. Used by the media viewer's
-/// Forward action. Destination gating reflects only the selected media: an
-/// attachment selection requires ATTACH_FILES, an embed selection EMBED_LINKS.
 Future<void> showForwardMediaSheet(
   BuildContext context, {
   required String sourceChannelId,
@@ -238,15 +226,11 @@ Future<Channel?> _channelForDestination(
   return Channel.fromRow(row);
 }
 
-/// Whether the source [message] carries embeds (directly or via a forwarded
-/// snapshot), gating EMBED_LINKS on guild destinations.
 bool messageHasForwardableEmbeds(Message message) {
   return message.embeds.isNotEmpty ||
       message.messageSnapshots.any((MessageSnapshot s) => s.embeds.isNotEmpty);
 }
 
-/// Whether the source [message] carries attachments (directly or via a
-/// forwarded snapshot), gating ATTACH_FILES on guild destinations.
 bool messageHasForwardableAttachments(Message message) {
   return message.attachments.isNotEmpty ||
       message.messageSnapshots.any(

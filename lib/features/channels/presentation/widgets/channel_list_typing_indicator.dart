@@ -18,7 +18,6 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 const double _kAvatarSize = 12;
 const int _kMaxVisibleAvatars = 5;
 
-/// Typing indicator shown at the end of a guild channel list row.
 class ChannelListTypingIndicator extends ConsumerWidget {
   const ChannelListTypingIndicator({
     required this.channelId,

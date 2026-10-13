@@ -8,7 +8,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_tray_background_listener_provider.g.dart';
 
-/// Flushes read acks and reconciles the notification tray when the app backgrounds.
 @Riverpod(keepAlive: true)
 Raw<void> pushTrayBackgroundListener(Ref ref) {
   ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {

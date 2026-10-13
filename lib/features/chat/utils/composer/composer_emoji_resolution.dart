@@ -10,15 +10,6 @@ final RegExp _urlPattern = RegExp(
   caseSensitive: false,
 );
 
-/// Resolves typed custom-emoji shortcodes (`:name:`) in [content] to their
-/// custom-emoji markdown (`<:name:id>` / `<a:name:id>`), mirroring the web
-/// app's `replaceTypedEmojiShortcodes`.
-///
-/// Only CUSTOM emoji are resolved. Known unicode shortcodes, shortcodes inside
-/// URLs, and already-rendered custom-emoji markdown (`<:...>` / `<a:...>`) are
-/// left untouched. [lookupAvailableCustomEmojiMarkdown] returns the markdown for
-/// an available custom emoji keyed by lowercased name, or `null` when the emoji
-/// is unknown or unusable.
 String resolveTypedCustomEmojiShortcodes(
   String content,
   String? Function(String nameLower) lookupAvailableCustomEmojiMarkdown,
@@ -42,7 +33,6 @@ String resolveTypedCustomEmojiShortcodes(
   return content.replaceAllMapped(_shortcodePattern, (Match match) {
     final String whole = match[0]!;
     final int start = match.start;
-    // Skip existing custom-emoji markdown: `<:name:id>` and `<a:name:id>`.
     if (start > 0 && content[start - 1] == '<') {
       return whole;
     }
@@ -53,7 +43,6 @@ String resolveTypedCustomEmojiShortcodes(
       return whole;
     }
     final String name = match[1]!;
-    // Known unicode shortcode → leave as-is (server/renderer resolves it).
     if (EmojiRegistry.resolveSync(name) != null) {
       return whole;
     }

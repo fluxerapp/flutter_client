@@ -11,8 +11,6 @@ import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Presents ringing calls in a Fluxer draggable bottom sheet like fluxer-web
-/// IncomingCallUI on mobile.
 class IncomingVoiceCallLayer extends ConsumerStatefulWidget {
   const IncomingVoiceCallLayer({required this.child, super.key});
 

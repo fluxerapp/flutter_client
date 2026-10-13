@@ -21,7 +21,6 @@ String? skinToneToName(String surrogate) {
   return 'skin-tone-${idx + 1}';
 }
 
-/// Resolves a reaction or shortcode [emoji] value to Unicode surrogates.
 String resolveUnicodeEmoji(String emoji) {
   final entry = EmojiRegistry.entryByName(emoji);
   if (entry != null) {

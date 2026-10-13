@@ -1,10 +1,6 @@
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
-/// Formats an inline chat message timestamp for today, yesterday, or older dates.
-///
-/// [localDateTime] must already be in local time. [locale] is typically
-/// `Localizations.localeOf(context).toString()`.
 String formatMessageTimestamp(
   DateTime localDateTime,
   FluxerLocalizations l10n,

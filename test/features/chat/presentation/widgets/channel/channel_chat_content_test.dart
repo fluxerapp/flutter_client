@@ -13,8 +13,6 @@ void main() {
 
   group('shouldDedupChannelChatSwitchRequest', () {
     test('a settled empty channel is the answer, not a retry', () {
-      // Re-firing loops: the completion rebuilds the widget, which schedules
-      // the next sync. shouldResyncStrandedEmptyChannel owns the recovery.
       expect(
         shouldDedupChannelChatSwitchRequest(
           lastRequest: switchRequest,
@@ -80,13 +78,6 @@ void main() {
       );
     });
 
-    // Documents WHY defect C1 needed fixing at the caller rather than here.
-    // This predicate re-derives satisfaction from "is the target currently
-    // loaded", so it UN-satisfies the moment the user navigates away from the
-    // target, with an IDENTICAL lastRequest and no remount involved. Retrying
-    // an unsatisfied target is correct, so this behaviour is deliberately
-    // unchanged; C1 is fixed by resolveEffectiveChannelJumpTarget refusing to
-    // hand a consumed target to this predicate in the first place.
     test('an unsatisfied target sync keeps retrying once the target leaves '
         'the loaded window', () {
       const targetRequest = (
@@ -94,7 +85,6 @@ void main() {
         targetMessageId: 'target',
         loadMessages: true,
       );
-      // The jump landed: the target is loaded, so the request is satisfied.
       expect(
         shouldDedupChannelChatSwitchRequest(
           lastRequest: targetRequest,
@@ -107,7 +97,6 @@ void main() {
         isTrue,
         reason: 'baseline: a landed jump is deduped',
       );
-      // The user then jumps to latest, so the window no longer holds it.
       expect(
         shouldDedupChannelChatSwitchRequest(
           lastRequest: targetRequest,
@@ -155,12 +144,8 @@ void main() {
   });
 
   group('shouldConsumeChannelJumpTarget', () {
-    // An open intent is simply the absence of a consumed record.
     const ChannelJumpTargetConsumption open = ChannelJumpTargetConsumption();
 
-    // Acknowledgement is the view model COMMANDING the jump, observed as a
-    // signal transition. The fetch path resets the signal to null first, so
-    // null -> (target, 1) is the normal shape and must acknowledge.
     test('consumes on a null to matching signal transition', () {
       expect(
         shouldConsumeChannelJumpTarget(
@@ -174,7 +159,6 @@ void main() {
       );
     });
 
-    // The retry invariant: no command, no acknowledgement.
     test('does not consume when no signal has been commanded', () {
       expect(
         shouldConsumeChannelJumpTarget(
@@ -190,9 +174,6 @@ void main() {
       );
     });
 
-    // Mutation (e): a LEVEL match with no transition must not acknowledge.
-    // This is the same-message re-tap shape, where an old signal still sits in
-    // state and numeric or level comparison would consume the fresh intent.
     test('does not consume a stale signal that did not change', () {
       expect(
         shouldConsumeChannelJumpTarget(
@@ -242,9 +223,6 @@ void main() {
       );
     });
 
-    // A route target that was never registered, such as a restored location,
-    // must still be acknowledgeable. Requiring a matching entry would leave it
-    // honoured forever with no way to close the loop.
     test('consumes an unregistered target once the jump is commanded', () {
       expect(
         shouldConsumeChannelJumpTarget(
@@ -273,8 +251,6 @@ void main() {
   });
 
   group('buildChannelChatSyncRequest', () {
-    // Defect C1 at the request level: this is the tuple actually handed to
-    // switchChannel, so a consumed target must be absent from it.
     test(
       'omits a consumed target from the request it hands to switchChannel',
       () {
@@ -325,8 +301,6 @@ void main() {
       );
     });
 
-    // Defect C1. This is the assertion that pins the WIRING: without it the
-    // ledger could exist and simply not be consulted.
     test('drops a target whose jump intent was already consumed', () {
       expect(
         resolveEffectiveChannelJumpTarget(

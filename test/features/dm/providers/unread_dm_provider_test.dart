@@ -336,9 +336,6 @@ void main() {
     final settledEmissions = emissions;
     expect(settledState.channels.map((channel) => channel.id), ['dm-1']);
 
-    // A read state for a channel that is not a DM (e.g. a guild channel) must
-    // not wake the DM reconcile: Drift fires the broad read-state watch, but
-    // the DM-relevant subset is unchanged, so the diff gate skips.
     await db.readStateDao.upsertReadState(
       const ReadStatesCompanion(
         channelId: Value('guild-chan-1'),

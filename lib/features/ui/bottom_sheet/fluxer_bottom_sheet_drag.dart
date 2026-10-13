@@ -3,7 +3,6 @@ const double kFluxerBottomSheetDismissVelocity = 800;
 const double kFluxerBottomSheetHalfSize = 0.5;
 const double kFluxerBottomSheetFullSize = 0.95;
 
-/// Floor used while dragging so the sheet can follow the finger past half.
 const double kFluxerBottomSheetDragMinSize = 0.05;
 
 const double _kSnapEpsilon = 0.001;
@@ -31,9 +30,6 @@ bool fluxerBottomSheetShouldDismissAfterDrag({
     dragDistance > sheetHeight * kFluxerBottomSheetDismissHeightFraction ||
     velocity > kFluxerBottomSheetDismissVelocity;
 
-/// Returns the half or full snap size, or `null` when the sheet should close.
-///
-/// [velocity] is logical pixels per second, positive downward.
 double? fluxerBottomSheetSnapTarget({
   required double size,
   required double halfSize,

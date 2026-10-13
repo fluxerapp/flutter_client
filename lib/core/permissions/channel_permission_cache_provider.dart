@@ -22,8 +22,6 @@ class ChannelPermissionCaches {
   bool hasEffectiveBits(String channelId) => effective.containsKey(channelId);
 }
 
-/// Precomputed effective and local permission bitfields per guild channel,
-/// refreshed from gateway events.
 @Riverpod(keepAlive: true)
 class ChannelPermissionCache extends _$ChannelPermissionCache {
   @override
@@ -32,10 +30,8 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     return const ChannelPermissionCaches();
   }
 
-  /// Cached effective bits for [channelId], or `null` when not resolved yet.
   int? getChannelBits(String channelId) => state.effective[channelId];
 
-  /// Cached channel-local bits for [channelId], or `null` when not resolved yet.
   int? getLocalChannelBits(String channelId) => state.local[channelId];
 
   Future<void> rebuildChannel(

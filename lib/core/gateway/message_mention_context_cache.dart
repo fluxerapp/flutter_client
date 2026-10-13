@@ -35,9 +35,6 @@ class MessageMentionContextCache {
     _dmChannels.clear();
   }
 
-  /// Per-channel context for resolving one or many messages without repeated
-  /// database reads. Backed by the same guild and channel entries the gateway
-  /// invalidates, so page fetches stay in parity with the live-create path.
   Future<MessageMentionContext> contextFor({
     required String? currentUserId,
     required String channelId,

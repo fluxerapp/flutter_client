@@ -55,7 +55,6 @@ class GuildEmojiEntry {
   String cacheKeyForSize(int size) =>
       'emoji_${id}_${animated ? 'a2' : 's'}_$size';
 
-  /// Markdown token inserted into the message text.
   String get markdown =>
       getCustomEmojiMarkdown(name: name, id: id, animated: animated);
 
@@ -225,7 +224,6 @@ Map<Guild, List<GuildEmojiEntry>> _groupEmojiEntriesByGuild({
   return result;
 }
 
-/// Custom emoji are usable in their source guild, or anywhere with global expressions.
 bool composerCanUseGuildEmoji({
   required GuildEmojiEntry emoji,
   required bool hasGlobalEmojiAccess,

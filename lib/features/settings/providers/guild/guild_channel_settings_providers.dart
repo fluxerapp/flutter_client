@@ -61,7 +61,6 @@ class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
     if (!ref.mounted) {
       return;
     }
-    // Async notifier loading state for void action providers.
     state = const AsyncLoading<void>();
     final AsyncValue<void> result = await AsyncValue.guard(() async {
       await ref
@@ -73,7 +72,6 @@ class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
     if (!ref.mounted) {
       return;
     }
-    // Async notifier result state for void action providers.
     state = result;
   }
 

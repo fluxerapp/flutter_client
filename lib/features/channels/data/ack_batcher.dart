@@ -37,8 +37,6 @@ class AckBatcher {
 
   final FluxerClient _client;
 
-  /// Applies the authoritative read states the server returns for a flushed
-  /// ack batch (ack id + mention count + version), keeping local state in sync.
   final Future<void> Function(ReadStateAckResponse response)? onResponse;
   final Duration batchDelay;
   final int batchSize;

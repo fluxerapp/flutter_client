@@ -18,13 +18,6 @@ import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/exceptions.dart';
 
-/// Shows a sudo verification prompt that collects either a password
-/// or TOTP code from the user.
-///
-/// Uses a bottom sheet on mobile and a centered modal on tablet/desktop.
-///
-/// Returns a map with the verification payload on success, or `null` if
-/// cancelled.
 Future<Map<String, dynamic>?> showSudoVerificationSheet({
   required GlobalKey<NavigatorState> navigatorKey,
   required Dio dio,

@@ -1,10 +1,7 @@
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_indicator.dart'
-    show SlowmodeIndicator;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'slowmode_indicator_shake_provider.g.dart';
 
-/// Bumped when a send is blocked by slowmode so [SlowmodeIndicator] can shake.
 @Riverpod(keepAlive: true)
 class SlowmodeIndicatorShake extends _$SlowmodeIndicatorShake {
   @override

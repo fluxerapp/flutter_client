@@ -28,7 +28,6 @@ class _FakeUsersApi implements UsersApi {
     return credentials;
   }
 
-  // Other UsersApi methods are not exercised in these tests.
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
@@ -136,8 +135,6 @@ void main() {
     });
 
     test('setCredentials wins over a slower in-flight load', () async {
-      // The build() load awaits this completer, simulating a slow REST round
-      // trip that resolves after a gateway push already updated the list.
       final completer = Completer<List<WebAuthnCredentialResponse>>();
       final api = _FakeUsersApi(onList: () => completer.future);
       final container = _container(api);
@@ -148,14 +145,12 @@ void main() {
         (_, _) {},
       );
       addTearDown(sub.close);
-      // Let build()'s load() start and suspend on the pending completer.
       await Future<void>.delayed(Duration.zero);
 
       container
           .read(webauthnCredentialsViewModelProvider.notifier)
           .setCredentials([_cred(id: 'gateway')]);
 
-      // The stale REST response must be dropped by the _updateSeq guard.
       completer.complete([_cred(id: 'stale')]);
       await _pumpMicrotasks();
 

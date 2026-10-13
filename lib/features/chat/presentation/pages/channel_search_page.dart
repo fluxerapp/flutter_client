@@ -25,7 +25,6 @@ Future<ChannelDetailsJumpRequest?> showChannelSearchPage(
       });
 }
 
-/// Opens search as a full page and performs any jump it returns
 Future<void> showChannelSearchPageAndJump(
   BuildContext context, {
   required ProviderContainer container,

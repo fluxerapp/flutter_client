@@ -66,14 +66,10 @@ void main() {
           ),
         );
 
-        // Simulate an open popup (e.g. the settings modal the user logs out
-        // from) so the build-phase reconcile below actually changes state.
         container
             .read(shellHasPopupOverlayProvider.notifier)
             .setHasOverlay(value: true);
 
-        // Declarative page push: didPush fires while the navigator is
-        // rebuilding, i.e. during the build phase.
         pages.value = <Page<void>>[
           ...pages.value,
           const MaterialPage<void>(child: SizedBox.shrink()),

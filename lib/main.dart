@@ -97,8 +97,6 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   );
 
   final ProviderContainer container = ProviderContainer();
-  // Chat-attachment audio is platform-channel bound and independent of the
-  // observability/FCM chain; observability consent stays ahead of Firebase.
   await Future.wait<void>([
     FluxerObservability.instance.traceAsync(
       'app.bootstrap.chat_attachment_audio',
@@ -173,10 +171,6 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     },
   );
 
-  // First frame no longer waits for session validation: the router keeps the
-  // splash up until startup settles and the gateway delivers READY, and the
-  // splash surfaces startup errors as a retry. Engine warmup (shaders, fonts,
-  // first raster) overlaps the network round-trips instead of following them.
   unawaited(
     FluxerObservability.instance.traceAsync('app.startup.provider', () async {
       try {

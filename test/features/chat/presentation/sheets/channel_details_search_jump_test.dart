@@ -28,15 +28,6 @@ import '../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
-/// The user's report: search a message, tap the result, and the search page
-/// closes while the DETAILS sheet stays put, so the message is never reached.
-///
-/// Search and details attach to the nearest Navigator. A flat harness attaches
-/// them to go_router's own Navigator, which `go()` then rebuilds, dismissing
-/// them for reasons that have nothing to do with the code under test. The real
-/// app opens them inside a shell branch navigator that survives `go()`. This
-/// harness reproduces that by nesting a Navigator, so a details sheet that is
-/// never popped really does stay on screen.
 const String _guildId = 'guild_1';
 const String _channelId = 'chan_1';
 const String _messageId = '1000000000000000000';
@@ -117,8 +108,6 @@ void main() {
         type: const Value(0),
       ),
     );
-    // Not the navigator that renders this test: the app under test keeps its
-    // sheets on a nested navigator, so routing must not tear the tree down.
     router = GoRouter(
       initialLocation: '/',
       routes: <RouteBase>[
@@ -162,9 +151,6 @@ void main() {
     return container;
   }
 
-  /// Mounts the app with a NESTED navigator, which is the structural property
-  /// that makes the real app differ: sheets attach here, and nothing the
-  /// router does removes them.
   Future<BuildContext> pumpNestedHost(
     WidgetTester tester,
     ProviderContainer container,
@@ -250,10 +236,6 @@ void main() {
     );
   });
 
-  // Defends the HAND OFF, not ordering: with no sheet stacked above it there
-  // is no ordering to get wrong here, so this cannot fail on a mis-sequenced
-  // dismissal. It does fail if the picked message never reaches the opener,
-  // which is the contract it exists to pin.
   testWidgets('tapping a pinned message hands the jump to its opener', (
     tester,
   ) async {
@@ -310,11 +292,6 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // This path traverses three routes: the action menu, the details sheet,
-    // then the navigation. Each must leave the navigator stack before the
-    // next step, so every pop targets the route it means to. Note this
-    // asserts stack membership, not animation completion: Route.popped
-    // resolves on removal from the stack, not when the transition ends.
     await tester.longPress(find.byType(MessagePreviewTile).first);
     await tester.pumpAndSettle();
     final Finder jumpItem = find.text('Jump to message');

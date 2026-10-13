@@ -1,12 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-//
-// Bound against the code asset emitted by hook/build.dart; the asset id
-// matches this library's URI.
 
 import 'dart:ffi';
 import 'dart:io';
 
-/// Mirror of `FluxerMdBuffer` in rust/src/native.rs.
 final class FluxerMdBuffer extends Struct {
   external Pointer<Uint8> data;
 
@@ -132,8 +128,6 @@ external int _nativeFluxerMdParseBinary(
 @Native<Void Function(Pointer<FluxerMdBuffer>)>(symbol: 'fluxer_md_buffer_free')
 external void _nativeFluxerMdBufferFree(Pointer<FluxerMdBuffer> out);
 
-// macOS .app bundles need an explicit dlopen; iOS uses @Native + native assets.
-// dart test still uses the @Native lookup.
 bool get _loadsBundledFramework {
   return Platform.isMacOS &&
       Platform.resolvedExecutable.contains('.app/Contents/MacOS/');
@@ -174,7 +168,6 @@ final class _BundledParser {
 String _frameworkBinaryPath() {
   const framework = 'fluxer_markdown_parser.framework/fluxer_markdown_parser';
   final executableDir = File(Platform.resolvedExecutable).parent;
-  // iOS: Runner.app/Runner. macOS: App.app/Contents/MacOS/App.
   final bundleDir = Platform.isIOS ? executableDir : executableDir.parent;
   return '${bundleDir.path}/Frameworks/$framework';
 }

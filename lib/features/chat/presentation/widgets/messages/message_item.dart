@@ -86,8 +86,6 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Mention highlight color matching web app's
-/// `--message-mention-color: rgb(234 197 50)`.
 const _kMentionColor = Color.from(
   alpha: 1,
   red: 234 / 255,
@@ -95,32 +93,19 @@ const _kMentionColor = Color.from(
   blue: 50 / 255,
 );
 
-/// Jump highlight background matching web `--message-reply-bg`.
 const _kJumpHighlightBg = Color.fromRGBO(59, 130, 246, 0.1);
 
 const _kJumpHighlightBarWidth = 2.0;
 const _kJumpHighlightFadeCurve = Cubic(0.32, 0.72, 0, 1);
 
-/// Height of the compact reply-preview row.
 const _kReplyRowHeight = 20.0;
 
-/// Gap between the reply-preview row and the main message
-/// row (avatar).
 const _kReplyBottomGap = 4.0;
 
-/// Horizontal gap between the end of the connector line
-/// and the reply content.
 const _kReplyLineEndGap = 6.0;
 
 const double _kMessageSendingOpacity = 0.5;
 
-/// Immutable bundle of per-list render settings hoisted out of [MessageItem].
-///
-/// The chat message list watches the underlying settings providers once and
-/// threads this bundle to every row, so rows neither subscribe to those
-/// providers individually nor rebuild when an unrelated row hovers. Inbox and
-/// preview sites that build a [MessageItem] without a bundle fall back to
-/// per-row `ref.watch` reads.
 @immutable
 class MessageRenderSettings {
   const MessageRenderSettings({
@@ -182,13 +167,6 @@ class MessageRenderSettings {
   );
 }
 
-/// A single message row -- avatar, username, timestamp,
-/// content, embeds, reactions, and action buttons on hover.
-///
-/// When the message is a reply, a compact preview of the
-/// replied-to message is rendered above, with a curved
-/// connector line from the replier's avatar to the reply
-/// preview.
 class MessageItem extends ConsumerStatefulWidget {
   final Message message;
   final bool isGrouped;
@@ -220,16 +198,10 @@ class MessageItem extends ConsumerStatefulWidget {
   final bool isJumpHighlighted;
   final bool isSendDisabled;
 
-  /// False to disable swipe-to-reply on this row.
   final bool swipeToReplyEnabled;
 
-  /// When set, resolves author guild role highlight for inbox previews
-  /// (active guild sheet may differ from the channel's guild).
   final String? previewRoleGuildId;
 
-  /// Per-list render settings hoisted by the chat message list. When null
-  /// (inbox and preview sites), the row reads each setting via its own
-  /// `ref.watch`.
   final MessageRenderSettings? renderSettings;
 
   const MessageItem({
@@ -453,9 +425,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   MessageMediaActionScope get _videoActionScope =>
       _mediaActionScopeFor(widget.message);
 
-  /// Scope for media rendered from the first forward snapshot: the snapshot's
-  /// attachments and embeds are projected onto the message so favorite targets
-  /// and viewer actions resolve against the forwarded content.
   MessageMediaActionScope get _forwardedSnapshotActionScope {
     final MessageSnapshot snapshot = widget.message.messageSnapshots.first;
     return _mediaActionScopeFor(
@@ -705,10 +674,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         : showMentionHighlight
         ? const Border(left: BorderSide(color: _kMentionColor, width: 2))
         : null;
-    // Hover tint is painted as a sibling overlay in the Stack below so that
-    // hovering a row never rebuilds its body. Jump-highlighted rows keep their
-    // fixed background (no hover tint); mention rows get an incremental tint
-    // that bumps the base 0.1 mention alpha toward web's hovered 0.14.
     final Color? hoverTintColor = showJumpHighlight
         ? null
         : showMentionHighlight
@@ -1113,7 +1078,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     return Opacity(opacity: _kMessageSendingOpacity, child: child);
   }
 
-  /// Animates only while jump highlight is entering or leaving.
   Widget _messageRowChrome({
     required Decoration decoration,
     required EdgeInsets padding,
@@ -1164,7 +1128,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  /// Builds the reply preview row with space for the connector line.
   Widget _buildReplyRow(
     Message msg, {
     required String? guildId,
@@ -1250,8 +1213,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  /// Returns the content, embeds, and reactions
-  /// widgets for a message.
   List<Widget> _buildMessageContent(
     BuildContext context,
     Message msg,
@@ -1897,8 +1858,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  /// Main message row: avatar on the left, content on
-  /// the right.
   Widget _buildMainRow(
     BuildContext context,
     Message msg,
@@ -2404,8 +2363,6 @@ class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {
       !ignoresPointer(event.pointer) && super.isPointerAllowed(event);
 }
 
-/// Resolves author display and role color in an isolated consumer so presence
-/// and member updates rebuild only the author header, not the full row body.
 class _MessageAuthorScope extends ConsumerWidget {
   const _MessageAuthorScope({
     required this.message,

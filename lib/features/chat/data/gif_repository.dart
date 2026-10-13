@@ -5,9 +5,6 @@ import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_media_selection.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 
-// The generated SDK no longer exposes provider-specific KLIPY/Tenor APIs.
-// The client talks to the provider-agnostic GIF routes directly and keeps the
-// SDK-owned GifMediaFormat shape for alternate media formats.
 typedef GifActiveProviderLoader = Future<GifProviderKind> Function();
 
 const _kFeaturedCacheCapacity = 8;

@@ -99,7 +99,6 @@ Future<void> _joinGuildInvite({
   );
 }
 
-/// Category and link channels open the community root instead.
 String guildInviteNavigationPath({
   required String guildId,
   required ChannelType channelType,

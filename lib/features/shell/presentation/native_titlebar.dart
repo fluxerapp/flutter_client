@@ -15,16 +15,8 @@ import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
-/// Height of the custom window title bar.
 const kNativeTitlebarHeight = 32.0;
 
-/// A thin title bar with window control buttons.
-///
-/// Provides a [DragToMoveArea] for dragging and double-click to maximize,
-/// plus minimize, maximize/restore, and close buttons on the right.
-///
-/// On macOS the logo and custom window controls are hidden so they do not
-/// collide with the system traffic lights.
 class NativeTitlebar extends ConsumerWidget {
   const NativeTitlebar({super.key});
 
@@ -132,7 +124,6 @@ class NativeTitlebar extends ConsumerWidget {
   }
 }
 
-/// A maximize/restore toggle button that listens to window state changes.
 class _MaximizeButton extends StatefulWidget {
   const _MaximizeButton();
 
@@ -190,7 +181,6 @@ class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
   }
 }
 
-/// A single window-control button with hover state.
 class _WindowButton extends StatefulWidget {
   const _WindowButton({
     required this.icon,

@@ -52,7 +52,6 @@ import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// The chat header bar showing channel name, topic, and action icons.
 class ChannelHeader extends ConsumerWidget {
   const ChannelHeader({
     this.channelId,

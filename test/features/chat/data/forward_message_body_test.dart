@@ -15,8 +15,6 @@ void main() {
       expect(reference['channel_id'], 'chan_1');
       expect(reference['message_id'], 'msg_1');
 
-      // The server rejects forward refs that carry message content; the body
-      // must never include any of these (or the no-op `flags`).
       expect(body.containsKey('content'), isFalse);
       expect(body.containsKey('embeds'), isFalse);
       expect(body.containsKey('attachments'), isFalse);

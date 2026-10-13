@@ -1,6 +1,5 @@
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 
-/// Instance id shared by every account on one API base.
 String unifiedPushInstanceIdForApiBase(String apiBaseUrl) {
   final String normalized = _normalizeApiBase(apiBaseUrl);
   if (normalized.isEmpty) {

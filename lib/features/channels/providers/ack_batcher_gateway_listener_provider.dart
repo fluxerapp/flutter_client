@@ -9,7 +9,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'ack_batcher_gateway_listener_provider.g.dart';
 
-/// Flushes pending read acks when the gateway disconnects or session recovers
 @Riverpod(keepAlive: true)
 Raw<void> ackBatcherGatewayListener(Ref ref) {
   final AckBatcher batcher = ref.watch(ackBatcherProvider);

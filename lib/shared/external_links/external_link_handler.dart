@@ -7,7 +7,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_warning_sheet.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 
-/// Opens a URL using the app-wide trusted-domain warning flow.
 Future<void> handleExternalLinkTap(
   BuildContext context,
   String url, {

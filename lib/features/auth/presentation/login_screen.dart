@@ -24,7 +24,6 @@ class LoginScreen extends ConsumerWidget {
 
     final accountState = ref.watch(accountManagerProvider);
 
-    // Account selector when accounts exist and not adding new.
     if (vm.showAccountSelector && accountState.accounts.isNotEmpty) {
       return AccountSelector(
         currentUserId: ref.read(currentUserIdProvider) ?? '',
@@ -44,7 +43,6 @@ class LoginScreen extends ConsumerWidget {
                   }),
             );
           } else {
-            // Pre-fill email for expired account.
             notifier
               ..updateEmail(account.identifier)
               ..hideAccountSelector();
@@ -59,7 +57,6 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Load stored accounts on first build.
     ref.listen(accountManagerProvider, (_, _) {});
     final accountManager = ref.read(accountManagerProvider);
     if (accountManager.accounts.isEmpty) {

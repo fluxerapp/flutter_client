@@ -5,17 +5,13 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pb;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-/// Maps one synced_preferences proto field to local app state.
 abstract class SyncedFieldAdapter<T> {
   SyncedPreferenceField get field;
 
-  /// Wire field number from preferences.proto.
   int get fieldNumber => field.fieldNumber;
 
-  /// Sync read. Async fields must override [readLocalValue] and throw here.
   T readLocal();
 
-  /// Local value for flush/hydrate; override when reading from Drift/async.
   Future<T> readLocalValue() async => readLocal();
 
   Future<void> applyRemote(T value);
@@ -24,7 +20,6 @@ abstract class SyncedFieldAdapter<T> {
 
   $pb.GeneratedMessage toProtoMessage(T local);
 
-  /// Wire type for per-field pushes (`0` = varint, `2` = length-delimited).
   int get fieldPushWireType => 2;
 
   Uint8List encodePushValueBytes(T local) {
@@ -62,7 +57,6 @@ abstract class SyncedFieldAdapter<T> {
 
   bool hasRemoteData(T remote) => true;
 
-  /// Proto3 default when a later snapshot omits this field.
   T? clearedRemoteValue() => null;
 
   bool hasRemoteAdditions(T local, T remote) => false;

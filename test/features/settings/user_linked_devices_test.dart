@@ -175,9 +175,6 @@ void main() {
   testWidgets('shows Network Error when current session cannot be identified', (
     tester,
   ) async {
-    // Mirrors web behavior: without a gateway-supplied current session id
-    // hash, the widget refuses to render the device list to avoid
-    // accidentally revoking the wrong session.
     final api = _FakeAuthApi(
       sessions: [
         _session(id: 'a'),

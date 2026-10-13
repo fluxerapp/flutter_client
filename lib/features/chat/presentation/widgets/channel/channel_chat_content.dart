@@ -26,8 +26,6 @@ import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Composite chat view that assembles the top bar, message list,
-/// and input field. Works for both server channels and DMs.
 class ChannelChatContent extends ConsumerStatefulWidget {
   final String channelId;
   final bool showTopBar;
@@ -59,8 +57,6 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     _scheduleSyncChannelIfNeeded();
   }
 
-  /// A parent rebuild with the same channel and target must stay inert;
-  /// route/layout triggers that need a re-sync have their own paths.
   @override
   void didUpdateWidget(ChannelChatContent oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -90,8 +86,6 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
       return;
     }
     final String? routeTarget = widget.targetMessageId;
-    // The whole request, including which target survives, is built by one
-    // tested function so this widget holds no target-selection logic to bypass.
     final request = buildChannelChatSyncRequest(
       channelId: widget.channelId,
       routeTarget: routeTarget,
@@ -177,14 +171,6 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
         );
   }
 
-  /// Consumption happens on the view model's own JUMP ACKNOWLEDGEMENT.
-  ///
-  /// Marking at issue time would destroy the retry this file depends on: a
-  /// first jump whose target is outside the loaded window needs a fetch, and if
-  /// that sync is interrupted the target must still be reapplied. Consuming
-  /// only once the target is actually present keeps the retry intact while
-  /// still closing the loop, because the stale re-fire needs the target to have
-  /// been loaded at least once.
   void _maybeConsumeSettledJumpTarget(
     ChatViewState? previous,
     ChatViewState next,
@@ -347,18 +333,6 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   }
 }
 
-/// The jump target this sync should actually apply.
-///
-/// The route keeps `/channels/<guild>/<channel>/<messageId>` after a jump lands,
-/// so the target is a DURABLE trigger while any widget's memory of having
-/// applied it is not. Returning null once the intent is consumed is what stops
-/// an unrelated rebuild refetching the window around a stale search result.
-/// Whether the route's jump target has now actually ARRIVED, and so may be
-/// marked consumed.
-///
-/// Deliberately not "the sync was issued": an interrupted first jump must still
-/// be retried, and the C1 loop requires the target to have been loaded at least
-/// once, so arrival is both the safe and the sufficient moment.
 bool shouldConsumeChannelJumpTarget({
   required String channelId,
   required String? routeTarget,
@@ -369,25 +343,15 @@ bool shouldConsumeChannelJumpTarget({
   if (routeTarget == null || routeTarget.isEmpty) {
     return false;
   }
-  // Only "already consumed" blocks acknowledgement. Requiring a matching entry
-  // would leave a route target that was never registered, such as a restored
-  // location, honoured forever but never acknowledgeable: the C1 loop with no
-  // way to close it.
   if (consumption.isConsumed(channelId: channelId, messageId: routeTarget)) {
     return false;
   }
-  // A TRANSITION, not a level or a version. scrollToMessageSignal is reset to
-  // null by _switchedChannelState on every targeted fetch, so versions restart
-  // at 1 and numeric ordering would never acknowledge a re-tap to the same
-  // message. Listeners only fire on change, so a stale value cannot consume.
   if (previousSignal == nextSignal) {
     return false;
   }
   return nextSignal != null && nextSignal.$1 == routeTarget;
 }
 
-/// The complete sync request, so target selection lives in exactly one tested
-/// place rather than inline in a widget where it can be silently bypassed.
 ({String channelId, String? targetMessageId, bool loadMessages})
 buildChannelChatSyncRequest({
   required String channelId,
@@ -416,9 +380,6 @@ String? resolveEffectiveChannelJumpTarget({
   if (consumption.isConsumed(channelId: channelId, messageId: routeTarget)) {
     return null;
   }
-  // A newer jump in this channel means the user asked for something else. An
-  // unacknowledged older target would otherwise fail open and yank them back
-  // off the message they just requested.
   if (consumption.isSuperseded(channelId: channelId, messageId: routeTarget)) {
     return null;
   }
@@ -450,9 +411,6 @@ bool shouldDedupChannelChatSwitchRequest({
       (Message message) => message.id == targetMessageId,
     );
   }
-  // A settled window is the answer, empty or not: re-firing loops, because
-  // every completion rebuilds this widget and schedules the next sync. The
-  // latched recovery is shouldResyncStrandedEmptyChannel.
   return !state.messageLoadFailed;
 }
 

@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 
-/// Cargo-builds the vendored Rust parser for the requested target and
-/// bundles it as a code asset resolved by `src/bindings.dart`.
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (!input.config.buildCodeAssets) {
@@ -12,9 +10,6 @@ void main(List<String> args) async {
     }
     final code = input.config.code;
     final triple = _rustTriple(code);
-    // The crate builds in place inside the fluxer monorepo submodule; the
-    // size-tuned release profile is injected via env because the workspace
-    // manifest is upstream's and stays unpatched.
     final crateRoot = input.packageRoot.resolve(
       '../../fluxer/packages/markdown_parser/rust/',
     );
@@ -129,8 +124,6 @@ String _rustTriple(CodeConfig code) {
   return triple;
 }
 
-/// Android must link through the NDK's target-prefixed clang wrapper; the
-/// bare `clang` the hook provides does not select the Android sysroot.
 Uri? _linkerFor(CodeConfig code) {
   if (code.targetOS != OS.android) {
     return null;

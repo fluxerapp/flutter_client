@@ -1,4 +1,3 @@
-/// Pure helpers for UnifiedPush mobile-device registration decisions.
 bool shouldSkipMobilePushRegistration({
   required String currentUserId,
   required String? persistedUserId,

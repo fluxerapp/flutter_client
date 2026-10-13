@@ -52,9 +52,6 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
     if (state.isLoading) {
       body = const Center(child: FluxerLoadingSpinner());
     } else if (state.error != null || current == null) {
-      // Mirrors the web client: if the gateway-supplied session id hash is
-      // unavailable or does not match any returned session, refuse to render
-      // the list (any revocation would risk targeting the wrong session).
       body = _buildLoadError(context, colors, layout, l10n);
     } else {
       final others = state.sessions.where((s) => s != current).toList();
@@ -496,9 +493,6 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Card
-// ---------------------------------------------------------------------------
 
 class _AuthSessionCard extends StatelessWidget {
   const _AuthSessionCard({

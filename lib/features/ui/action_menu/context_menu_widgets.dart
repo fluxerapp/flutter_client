@@ -8,7 +8,6 @@ const kContextMenuWidth = 220.0;
 const kContextMenuTitleHeight = 40.0;
 const kContextMenuEntranceDuration = Duration(milliseconds: 120);
 
-/// Fade + scale entrance used by sidebar peek menus and context menus.
 class ContextMenuEntranceAnimation extends StatelessWidget {
   const ContextMenuEntranceAnimation({
     required this.animation,

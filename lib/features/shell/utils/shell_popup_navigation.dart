@@ -2,8 +2,6 @@ import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/router/shell_popup_overlay_sync.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Pops sheets, settings pages, and other imperative overlay routes so the
-/// shell and voice call is visible
 void popShellCoveringPages() {
   _popImperativeOverlays(shellTabOverlayNavigatorKey.currentState);
   for (final GlobalKey<NavigatorState> key in shellBranchNavigatorKeys) {
@@ -35,7 +33,6 @@ Route<dynamic>? _navigatorTopRoute(NavigatorState navigator) {
   return top;
 }
 
-/// Popup routes and [Navigator.push] pages
 @visibleForTesting
 bool routeIsImperativeOverlay(Route<dynamic> route) {
   if (route.isFirst) {
@@ -47,8 +44,6 @@ bool routeIsImperativeOverlay(Route<dynamic> route) {
   return route.settings is! Page<dynamic>;
 }
 
-/// Pops the top [PopupRoute] on the nearest navigator, then the root navigator,
-/// then shell branch navigators.
 bool popTopShellPopupRoute([BuildContext? context]) {
   if (context != null) {
     final NavigatorState branchNavigator = Navigator.of(context);
@@ -76,7 +71,6 @@ bool popTopShellPopupRoute([BuildContext? context]) {
   return popPopupRouteIfPresent(rootNavigatorKey.currentState);
 }
 
-/// Pops only when the navigator's top route is a [PopupRoute].
 bool popPopupRouteIfPresent(NavigatorState? navigator) {
   if (!navigatorHasPopupOverlay(navigator)) {
     return false;

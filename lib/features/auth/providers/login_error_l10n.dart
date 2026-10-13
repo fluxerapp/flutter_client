@@ -26,8 +26,6 @@ extension LoginErrorL10n on LoginError {
   }
 }
 
-/// Returns the display error string from a [LoginViewState], resolving
-/// [LoginError] types via l10n and falling back to the raw error message.
 String? resolveLoginError(LoginViewState state, FluxerLocalizations l10n) {
   if (state.errorType != null) {
     return state.errorType!.resolve(l10n);

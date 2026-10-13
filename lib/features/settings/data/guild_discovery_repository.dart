@@ -1,5 +1,3 @@
-// Seems to be a lot of items missing from the OpenAPI spec for discovery,
-// so custom addition is needed untill it's added.
 
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';

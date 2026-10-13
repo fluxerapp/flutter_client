@@ -10,9 +10,6 @@ import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart
 
 const String _kFallbackDmTitle = 'DM';
 
-/// Snapshot of the metadata rendered in an unread-inbox card header: channel
-/// title, optional guild line, channel-type icon hint, and the rounded
-/// server-icon avatar inputs.
 class UnreadInboxCardMeta {
   const UnreadInboxCardMeta({
     required this.channelTitle,
@@ -44,9 +41,6 @@ class UnreadInboxCardMeta {
   final DmConversation? groupDm;
 }
 
-/// Resolves the display metadata (title, guild line, and icon inputs) for
-/// an [UnreadInboxEntry]. Always returns a usable snapshot — falls back to
-/// `'DM'` for unknown DM channels.
 Future<UnreadInboxCardMeta> loadUnreadInboxCardMeta(
   drift_db.FluxerDatabase db,
   UnreadInboxEntry entry,

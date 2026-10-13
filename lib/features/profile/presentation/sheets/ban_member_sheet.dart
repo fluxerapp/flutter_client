@@ -8,19 +8,12 @@ import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Result of the ban sheet: the resolved ban duration in seconds (0 =
-/// permanent), how many days of message history to delete, and an optional
-/// reason.
 typedef BanMemberResult = ({
   int deleteMessageDays,
   String? reason,
   int banDurationSeconds,
 });
 
-/// Bottom sheet to configure and confirm a member ban. Resolves to a
-/// [BanMemberResult], or null when dismissed.
-///
-/// Duration presets and delete-history options mirror the web `BanMemberModal`.
 class BanMemberSheet {
   BanMemberSheet._();
 

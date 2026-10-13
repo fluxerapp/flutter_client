@@ -94,23 +94,17 @@ class FluxerInput extends StatelessWidget {
   final VoidCallback? onSuffixTap;
   final String? suffixSemanticLabel;
 
-  /// Widget placed to the right of the text field inside the same border,
-  /// separated by a vertical divider (e.g. a color swatch).
   final Widget? trailing;
 
   final bool obscureText;
   final bool enabled;
   final bool autofocus;
 
-  /// When true, the field displays text but cannot be edited.
   final bool readOnly;
   final int? maxLength;
   final bool showCounter;
   final ValueGetter<int>? counterLength;
 
-  /// When set, the character counter uses this as its max instead of
-  /// [maxLength]. Useful when [maxLength] is an adjusted display-text
-  /// limit but the counter should reflect the true API limit.
   final int? counterMax;
 
   final String? helperText;

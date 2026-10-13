@@ -247,8 +247,6 @@ Widget wrapFluxerMarkdownSelectable({
   return SelectionArea(contextMenuBuilder: menuBuilder, child: body);
 }
 
-/// Renders a pre-parsed AST and hosts inline spoiler reveal state itself
-/// because the text-flow path never runs for provided ASTs.
 Widget buildFluxerMarkdownProvidedAst({
   required BuildContext context,
   required List<md.Node> nodes,
@@ -1367,7 +1365,6 @@ class _MarkdownInlineRenderer {
           ),
           effectiveStyle: effectiveStyle,
         );
-      // Jumbo only changes size; emoji always render as images (issue #655).
       case FluxerMarkdownElementTags.emojiUnicode:
       case FluxerMarkdownElementTags.emojiCustom:
         return WidgetSpan(
@@ -2637,9 +2634,6 @@ class FluxerEmojiWidget extends StatelessWidget {
       cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_$cdnSize',
       width: size,
       height: size,
-      // Cap one decode axis only. Capping both forces ResizeImagePolicy.exact,
-      // which stretches non-square emoji into a square (issue #445).
-      // Skip resize on animated frames; ResizeImage lags multi-frame decode.
       memCacheWidth: animated ? null : px,
       fadeInDuration: Duration.zero,
       fadeOutDuration: Duration.zero,

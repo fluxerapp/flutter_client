@@ -108,8 +108,6 @@ typedef SelfVoiceConnectionsForJoin = ({
   List<VoiceState> otherDevices,
 });
 
-/// Splits same user voice connections into stale ghosts (this client, no live
-/// session) vs connections that should trigger the multi device join modal.
 SelfVoiceConnectionsForJoin partitionSelfVoiceConnectionsForJoin({
   required Map<String, VoiceState> voiceStates,
   required String? guildId,
@@ -236,9 +234,6 @@ class TypingIndicators extends _$TypingIndicators {
   }
 }
 
-/// Tracks voice state per gateway [VoiceState.connectionId] (or a synthetic key
-/// when [VoiceState.connectionId] is null) so the same user can have multiple
-/// simultaneous connections. Map keys are not user ids.
 @Riverpod(keepAlive: true)
 class VoiceStatesMap extends _$VoiceStatesMap {
   @override
@@ -406,7 +401,6 @@ class VoiceStatesMap extends _$VoiceStatesMap {
   void clear() => state = {};
 }
 
-/// Active call state per channel.
 class CallState {
   const CallState({
     required this.channelId,
@@ -420,11 +414,8 @@ class CallState {
   final String? messageId;
   final String? region;
 
-  /// Last gateway snapshot of user IDs receiving a ring tone.
   final List<String> ringing;
 
-  /// Subset tracked for incoming-call UI (reset from gateway `ringing` when
-  /// present; mutated locally after accept/reject/ignore until next update).
   final Set<String> pendingRingUserIds;
 
   CallState copyWith({
@@ -535,8 +526,6 @@ class ActiveCalls extends _$ActiveCalls {
   void clear() => state = {};
 }
 
-/// Tracks channels where this client initiated an outbound ring (suppresses
-/// incoming overlay for caller), matching the web `CallInitiator`.
 @Riverpod(keepAlive: true)
 class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
   @override
@@ -567,8 +556,6 @@ class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
   void clearAll() => state = {};
 }
 
-/// Returns the [VoiceState] for a specific connection ID.
-/// Uses select to only rebuild when this connection's state changes.
 @riverpod
 VoiceState? voiceStateForConnection(Ref ref, String connectionId) {
   return ref.watch(
@@ -578,8 +565,6 @@ VoiceState? voiceStateForConnection(Ref ref, String connectionId) {
   );
 }
 
-/// Returns voice states for a specific guild channel.
-/// Only emits when voice states for this specific channel change.
 @riverpod
 List<VoiceState> voiceStatesInChannel(
   Ref ref,
@@ -599,8 +584,6 @@ List<VoiceState> voiceStatesInChannel(
   );
 }
 
-/// Returns voice states for a specific DM/private channel.
-/// Only emits when voice states for this specific channel change.
 @riverpod
 List<VoiceState> voiceStatesInPrivateChannel(Ref ref, String channelId) {
   ref.watch(
@@ -615,15 +598,12 @@ List<VoiceState> voiceStatesInPrivateChannel(Ref ref, String channelId) {
   );
 }
 
-/// Returns voice states for a specific guild (all channels).
-/// Only emits when voice states for this guild change.
 @riverpod
 List<VoiceState> voiceStatesInGuild(Ref ref, String guildId) {
   final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
   return map.values.where((VoiceState vs) => vs.guildId == guildId).toList();
 }
 
-/// Returns the count of unique participants in a private DM channel.
 @riverpod
 int privateChannelVoiceParticipantCount(Ref ref, String channelId) {
   return ref.watch(
@@ -635,7 +615,6 @@ int privateChannelVoiceParticipantCount(Ref ref, String channelId) {
   );
 }
 
-/// Returns the count of unique participants in a guild voice channel.
 @riverpod
 int guildChannelVoiceParticipantCount(
   Ref ref,
@@ -651,7 +630,6 @@ int guildChannelVoiceParticipantCount(
   );
 }
 
-/// Clears ephemeral gateway derived UI state after a full identify (READY).
 @Riverpod(keepAlive: true)
 void gatewayEphemeralStateRecoveryListener(Ref ref) {
   ref.listen<int>(gatewayFullRecoveryProvider, (int? previous, int next) {
@@ -665,7 +643,6 @@ void gatewayEphemeralStateRecoveryListener(Ref ref) {
   });
 }
 
-/// In-memory invite cache.
 @Riverpod(keepAlive: true)
 class InviteCache extends _$InviteCache {
   @override

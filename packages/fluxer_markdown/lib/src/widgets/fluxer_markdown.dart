@@ -9,9 +9,6 @@ import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
 
-/// Produces the markdown AST for [FluxerMarkdown]; the app supplies the
-/// canonical native parser. MUST be a stable function reference; a fresh
-/// closure per build defeats the layout cache.
 typedef FluxerMarkdownAstParser =
     List<md.Node> Function(String data, FluxerMarkdownFeatures features);
 

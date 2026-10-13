@@ -3,13 +3,7 @@ import 'package:fluxer_app/core/theme/color_generator.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Builds the coal (pitch-black AMOLED) color theme.
-///
-/// Coal starts from the dark theme but uses much darker, flatter surfaces.
 FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
-  // ---------------------------------------------------------------------------
-  // Helpers
-  // ---------------------------------------------------------------------------
 
   Color tone(
     ColorFamily family,
@@ -47,11 +41,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Scales
-  // ---------------------------------------------------------------------------
 
-  // Coal surface: much narrower/darker range (L 1-12%) than dark (L 5-24%)
   final coalSurface = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
     lightnessStart: 1,
@@ -72,7 +62,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     ],
   ).build(saturationFactor: saturationFactor);
 
-  // Text scale: same as dark theme
   final darkText = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
     lightnessStart: 60,
@@ -90,9 +79,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     ],
   ).build(saturationFactor: saturationFactor);
 
-  // ---------------------------------------------------------------------------
-  // Individual tone tokens
-  // ---------------------------------------------------------------------------
 
   final brandPrimary = tone(FluxerColorFamilies.brand, 55);
   final statusOnline = tone(FluxerColorFamilies.statusOnline, 40);
@@ -102,7 +88,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
   final textSecondary = darkText['textSecondary']!;
   final textPrimary = darkText['textPrimary']!;
 
-  // Coal key characteristic: backgroundSecondary equals backgroundPrimary
   final backgroundPrimary = coalSurface['backgroundPrimary']!;
   final backgroundSecondary = backgroundPrimary;
   final backgroundSecondaryAlt = coalSurface['backgroundSecondaryAlt']!;
@@ -110,7 +95,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
 
   final borderColorVal = tone(FluxerColorFamilies.neutralDark, 50, alpha: 0.2);
 
-  // Coal: lower alpha values for modifier backgrounds
   final backgroundModifierHoverVal = tone(
     FluxerColorFamilies.neutralDark,
     100,
@@ -128,12 +112,8 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     alpha: 0.18,
   );
 
-  // ---------------------------------------------------------------------------
-  // Assemble theme
-  // ---------------------------------------------------------------------------
 
   return FluxerColorTheme(
-    // Background (from coalSurface scale)
     backgroundPrimary: backgroundPrimary,
     backgroundSecondary: backgroundSecondary,
     backgroundSecondaryLighter: backgroundPrimary,
@@ -156,7 +136,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.26,
     ),
 
-    // Brand (same as dark)
     brandPrimary: brandPrimary,
     brandSecondary: tone(FluxerColorFamilies.brand, 49, saturation: 60),
     brandPrimaryLight: toneDirect(hue: 242, saturation: 100, lightness: 84),
@@ -167,7 +146,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       useSatFactor: false,
     ),
 
-    // Status (same as dark)
     statusOnline: statusOnline,
     statusIdle: statusIdle,
     statusDnd: statusDnd,
@@ -175,7 +153,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     statusDanger: tone(FluxerColorFamilies.statusDanger, 55),
     statusWarning: statusIdle,
 
-    // Text (same as dark)
     textPrimary: textPrimary,
     textSecondary: textSecondary,
     textTertiary: darkText['textTertiary']!,
@@ -196,7 +173,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     textPositive: statusOnline,
     textCode: tone(FluxerColorFamilies.textCode, 90),
 
-    // Border (same as dark)
     borderColor: borderColorVal,
     borderColorHover: tone(FluxerColorFamilies.neutralDark, 50, alpha: 0.3),
     borderColorFocus: toneDirect(
@@ -206,7 +182,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.45,
     ),
 
-    // Accent (same as dark)
     accentPrimary: brandPrimary,
     accentSuccess: statusOnline,
     accentWarning: statusIdle,
@@ -214,14 +189,12 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     accentInfo: textLink,
     accentPurple: tone(FluxerColorFamilies.accentPurple, 65),
 
-    // Alert (same as dark)
     alertNote: tone(FluxerColorFamilies.link, 70),
     alertTip: tone(FluxerColorFamilies.statusOnline, 45),
     alertImportant: tone(FluxerColorFamilies.accentPurple, 65),
     alertWarning: tone(FluxerColorFamilies.statusIdle, 55),
     alertCaution: toneDirect(hue: 359, saturation: 75, lightness: 60),
 
-    // Markup (same as dark)
     markupMentionText: textLink,
     markupMentionFill: textLink.withValues(alpha: 0.2),
     markupMentionBorder: tone(FluxerColorFamilies.link, 70, alpha: 0.3),
@@ -257,7 +230,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.3,
     ),
 
-    // Button
     buttonPrimaryFill: toneDirect(hue: 139, saturation: 55, lightness: 44),
     buttonPrimaryActiveFill: toneDirect(
       hue: 136,
@@ -270,7 +242,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       lightness: 100,
       useSatFactor: false,
     ),
-    // Coal: lower alpha for secondary buttons
     buttonSecondaryFill: toneDirect(
       hue: 0,
       saturation: 0,
@@ -285,7 +256,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.07,
       useSatFactor: false,
     ),
-    // Coal: secondary button text uses textPrimary
     buttonSecondaryText: textPrimary,
     buttonSecondaryActiveText: textPrimary,
     buttonDangerFill: toneDirect(hue: 359, saturation: 70, lightness: 54),
@@ -330,7 +300,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       lightness: 0,
       useSatFactor: false,
     ),
-    // Coal: lower alpha for outline buttons
     buttonOutlineBorder: toneDirect(
       hue: 0,
       saturation: 0,
@@ -352,7 +321,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       useSatFactor: false,
     ),
 
-    // Panel Control
     panelControlBg: Color.alphaBlend(
       backgroundPrimary.withValues(alpha: 0.9),
       tone(FluxerColorFamilies.neutralDark, 0),
@@ -371,7 +339,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     ),
     panelControlHighlight: const Color(0x0FFFFFFF),
 
-    // Control Button
     controlButtonNormalBg: Colors.transparent,
     controlButtonNormalText: darkText['textPrimaryMuted']!,
     controlButtonHoverBg: tone(FluxerColorFamilies.neutralDark, 12),
@@ -385,23 +352,19 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       lightness: 20,
     ),
 
-    // Switch
     switchTrackInactive: toneDirect(hue: 220, saturation: 9, lightness: 46),
     switchThumb: Colors.white,
     switchThumbCheckedIcon: brandPrimary,
     switchThumbUncheckedIcon: darkText['textTertiary']!,
 
-    // Menu
     menuDangerText: toneDirect(hue: 350, saturation: 90, lightness: 65),
 
-    // Content Background (coal overrides)
     bgCode: tone(FluxerColorFamilies.neutralDark, 8),
     bgCodeBlock: backgroundSecondaryAlt,
     bgTableHeader: backgroundTertiary,
     bgTableRowOdd: backgroundPrimary,
     bgTableRowEven: backgroundSecondary,
 
-    // Interactive Surface
     surfaceInteractiveHoverBg: backgroundModifierHoverVal,
     surfaceInteractiveSelectedBg: backgroundModifierSelectedVal,
     surfaceInteractiveSelectedColor: textPrimary,
@@ -417,12 +380,10 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     ),
     listItemPressedBg: tone(FluxerColorFamilies.neutralDark, 100, alpha: 0.08),
 
-    // Scrollbar (coal overrides)
     scrollbarThumbBg: const Color(0x59A0A0A0),
     scrollbarThumbBgHover: const Color(0x8CC8C8C8),
     scrollbarTrackBg: const Color(0x73000000),
 
-    // Text Selection
     textSelection: toneDirect(
       hue: 198,
       saturation: 92,
@@ -430,7 +391,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.35,
     ),
 
-    // UI-specific (derives from coal scale)
     chatBackground: backgroundSecondary,
     chatInputBackground: coalSurface['backgroundSecondaryLighter']!,
     serverSidebarBackground: backgroundSecondary,

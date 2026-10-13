@@ -286,7 +286,6 @@ void main() {
 
       await notifier.sendMessage(text: 'hi');
 
-      // Optimistic message inserted, REST still in flight.
       final ChatViewState afterSend = container.read(chatViewModelProvider);
       expect(
         afterSend.messages.last.deliveryState,
@@ -299,7 +298,6 @@ void main() {
       expect(delivered.messages.last.id, serverMessageId);
       expect(delivered.messages.last.content, 'hi');
       expect(delivered.messages.last.deliveryState, MessageDeliveryState.sent);
-      // Exactly one bump: optimistic insert (+1); delivery no longer bumps.
       expect(delivered.scrollToBottomSignal, before + 1);
     },
   );
@@ -395,9 +393,6 @@ void main() {
       final (container, adapter, _) = await setUpChannel();
       final notifier = container.read(chatViewModelProvider.notifier);
 
-      // Fire twice back-to-back without awaiting the first: the second call
-      // re-enters _sendContent while the first is still mid-preparation, exactly
-      // as a repeated send-button tap does while the app lags.
       final Future<void> first = notifier.sendMessage(text: 'hi');
       final Future<void> second = notifier.sendMessage(text: 'hi');
       await Future.wait(<Future<void>>[first, second]);
@@ -1740,8 +1735,6 @@ void main() {
             (Message m) => m.deliveryState == MessageDeliveryState.sending,
           );
 
-      // Gateway MESSAGE_CREATE wins the race against the held HTTP ack and
-      // replaces the optimistic row (nonce -> real snowflake id).
       container
           .read(messageRealtimeBusProvider)
           .emit(

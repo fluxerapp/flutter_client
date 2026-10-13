@@ -1,33 +1,18 @@
-/// Presentation-side demand source: reduces raw scroll geometry to per-edge
-/// demand levels, monotonic geometry revisions, and retry gestures, and pushes
-/// them into the application-owned [PaginationDemandPort]. Geometry never
-/// crosses upward as data or dependency - the coordinator sees levels and
-/// revisions, never pixels.
-library;
-
 import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
 import 'package:fluxer_app/features/chat/providers/core/message_pagination_coordinator.dart';
 
-/// Distance from a loaded edge at which edge demand activates, in pixels.
 double messageListLoadEnterMargin(double viewportHeight) =>
     (viewportHeight * 0.9).clamp(480.0, 900.0);
 
-/// Demand deactivates past this distance - hysteresis above the enter margin
-/// so a level cannot flap across one boundary.
 double messageListLoadExitMargin(double viewportHeight) =>
     messageListLoadEnterMargin(viewportHeight) + viewportHeight * 0.5;
 
-/// EMA blend factor for the newest velocity sample.
 const double _kVelocityEmaAlpha = 0.3;
 
-/// Seconds of travel at the current approach velocity the demand horizon
-/// looks ahead.
 const double _kLookaheadSeconds = 0.5;
 
-/// Lookahead cap, in viewport heights.
 const double _kLookaheadMaxViewports = 4;
 
-/// Geometry deltas at or below this are considered noise, not progress.
 const double _kGeometryEpsilon = 0.5;
 
 class _EdgeDemand {
@@ -57,8 +42,6 @@ class MessageListDemandSource {
 
   final PaginationDemandPort _port;
 
-  /// Monotonic elapsed-time source for velocity dt; injectable for
-  /// deterministic tests.
   final Duration Function() _elapsed;
 
   final _EdgeDemand _older = _EdgeDemand();
@@ -66,10 +49,6 @@ class MessageListDemandSource {
   ContextToken? _context;
   double? _lastExtentProxy;
 
-  /// Signed approach velocity in px/s, positive = toward the OLDER edge.
-  /// Fed exclusively by real scroll motion ([onScrollDelta]); layout-time
-  /// position corrections dispatch no update notifications, so page landings,
-  /// trims, and reflows contribute ZERO velocity at any size.
   double _vSigned = 0;
   Duration? _lastDeltaAt;
 
@@ -82,10 +61,6 @@ class MessageListDemandSource {
       ? (_vSigned > 0 ? _vSigned : 0)
       : (_vSigned < 0 ? -_vSigned : 0);
 
-  /// Samples current geometry for both edges, mapped by the caller's layout
-  /// adapter. Pushes a [DemandChanged] per edge whose distance/extent moved
-  /// by more than [_kGeometryEpsilon] or whose level transitioned; a static
-  /// viewport pushes nothing on its own.
   void updateGeometry({
     required double distanceToOlderEdge,
     required double distanceToNewerEdge,
@@ -93,9 +68,6 @@ class MessageListDemandSource {
     required bool hasMoreOlder,
     required bool hasMoreNewer,
     required ContextToken context,
-    // True while an installed older page is still being handed to the
-    // sliver: the loaded edge is real, but asking for the next page before
-    // this one is reachable would fetch a page per frame.
     bool olderInstallPending = false,
   }) {
     if (context != _context) {
@@ -140,8 +112,6 @@ class MessageListDemandSource {
     required bool suppressed,
     required bool extentChanged,
   }) {
-    // Each edge gets ONLY its own lookahead: a fling toward older must not
-    // widen the newer zone.
     final double lookahead = (_approachVelocity(edge) * _kLookaheadSeconds)
         .clamp(0.0, viewportHeight * _kLookaheadMaxViewports);
     final bool nextActive;
@@ -169,12 +139,6 @@ class MessageListDemandSource {
     _push(edge, state);
   }
 
-  /// Bumps one edge's revision past the geometry-change threshold and pushes
-  /// it. Called post-frame after an install at that edge, after re-sampling
-  /// via [updateGeometry]: an underfilled list keeps min == max == 0 across
-  /// installs, so no metrics or scroll event fires and `awaitingGeometry`
-  /// would deadlock. Edge-specific so an older install cannot release a
-  /// concurrent newer pump against pre-layout geometry (and vice versa).
   void forceGeometryRevision(PaginationEdge edge) {
     if (_context == null) {
       return;
@@ -197,14 +161,11 @@ class MessageListDemandSource {
     );
   }
 
-  /// Signed scroll motion, already mapped by the caller's geometry adapter:
-  /// positive = toward the OLDER edge. Layout corrections never call this.
   void onScrollDelta(double towardOlderDelta) {
     final Duration sampledAt = _elapsed();
     final Duration? previousAt = _lastDeltaAt;
     _lastDeltaAt = sampledAt;
     if (previousAt == null) {
-      // First sample after a reset carries no dt; it only anchors the clock.
       return;
     }
     final double dtSeconds = (sampledAt - previousAt).inMicroseconds / 1e6;
@@ -216,25 +177,15 @@ class MessageListDemandSource {
         _kVelocityEmaAlpha * vInstant + (1 - _kVelocityEmaAlpha) * _vSigned;
   }
 
-  /// Zeroes the approach-velocity EMA. Called on real layout changes
-  /// (viewport resize, content-extent jump), re-anchors, and context
-  /// changes so a stale velocity cannot widen a fresh layout's demand
-  /// horizon. Pixel-only scroll metrics must not call this.
   void resetApproachVelocity() {
     _vSigned = 0;
     _lastDeltaAt = null;
   }
 
-  /// Mints the next gesture id. A drag start is a deliberate act; parked
-  /// pumps buy exactly one retry per gesture.
   void onDragStart() {
     _gestureId += 1;
   }
 
-  /// A gesture pressing into a hard edge moves zero pixels, so no scroll
-  /// fires - the overscroll itself is the "give me more" signal. A user
-  /// scroll onto an edge's skeleton filler reports the same way.
-  /// Repeated signals in one gesture carry the same id and collapse upstream.
   void onOverscrollTowardEdge(PaginationEdge edge) {
     final ContextToken? context = _context;
     if (context == null) {
@@ -245,12 +196,6 @@ class MessageListDemandSource {
     );
   }
 
-  /// A scroll-end trim shrank a capped window. Parked pumps ignore demand
-  /// levels by design, so the trim re-arms them explicitly: mint a fresh
-  /// gesture (the same one-retry-per-parked-cursor budget a drag start
-  /// buys) and push a retry for each edge whose demand is active on the
-  /// freshly sampled post-trim geometry. Idle pumps need nothing - the
-  /// geometry republication's revision bump re-arms them.
   void onWindowTrimmed() {
     final ContextToken? context = _context;
     if (context == null) {

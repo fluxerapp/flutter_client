@@ -181,7 +181,6 @@ Dio _createStatusDio() {
   );
 }
 
-/// Fetches Instatus summary (and optionally components)
 class ServiceStatusClient {
   ServiceStatusClient({Dio? dio}) : _dio = dio ?? _createStatusDio();
 

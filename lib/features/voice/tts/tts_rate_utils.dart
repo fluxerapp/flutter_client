@@ -32,7 +32,6 @@ String formatTtsRateLabel(double rate) => 'x${rate.toStringAsFixed(1)}';
 
 double engineSpeechRate(double userRate) => clampTtsRate(userRate) * 0.5;
 
-/// Parses typed combobox input like `1.2` or `x1.2` into a clamped rate.
 double? parseTtsRateInput(String input) {
   final Match? match = RegExp(
     r'([0-9]+(?:\.[0-9]+)?)',

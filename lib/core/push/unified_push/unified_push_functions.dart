@@ -2,7 +2,6 @@ import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:unifiedpush/unifiedpush.dart' as up;
 import 'package:unifiedpush_ui/unifiedpush_ui.dart';
 
-/// Adapter for UnifiedPush UI dialogs.
 final class FluxerUnifiedPushFunctions extends UnifiedPushFunctions {
   FluxerUnifiedPushFunctions();
 

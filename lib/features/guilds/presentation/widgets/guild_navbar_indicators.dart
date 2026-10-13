@@ -193,29 +193,22 @@ class _TooltipShapePainter extends CustomPainter {
     final arrowBottom = centerY + _kArrowHeight / 2;
 
     final path = Path()
-      // Top-left corner
       ..moveTo(left + r, 0)
-      // Top edge → top-right corner
       ..lineTo(size.width - r, 0)
       ..arcToPoint(Offset(size.width, r), radius: const Radius.circular(r))
-      // Right edge → bottom-right corner
       ..lineTo(size.width, size.height - r)
       ..arcToPoint(
         Offset(size.width - r, size.height),
         radius: const Radius.circular(r),
       )
-      // Bottom edge → bottom-left corner
       ..lineTo(left + r, size.height)
       ..arcToPoint(
         Offset(left, size.height - r),
         radius: const Radius.circular(r),
       )
-      // Left edge down to arrow
       ..lineTo(left, arrowBottom)
-      // Arrow pointing left
       ..lineTo(0, centerY)
       ..lineTo(left, arrowTop)
-      // Left edge up to top-left corner
       ..lineTo(left, r)
       ..arcToPoint(const Offset(left + r, 0), radius: const Radius.circular(r))
       ..close();

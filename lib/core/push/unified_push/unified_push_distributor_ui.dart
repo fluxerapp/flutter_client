@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_di
 import 'package:fluxer_app/material_ui.dart';
 import 'package:unifiedpush_ui/unifiedpush_ui.dart';
 
-/// Shows the official UnifiedPush distributor picker or install guidance.
 Future<void> showUnifiedPushDistributorSetup(
   BuildContext context, {
   required UnifiedPushNoDistributorDismissalStorage dismissalStorage,

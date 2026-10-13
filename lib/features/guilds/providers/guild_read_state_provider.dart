@@ -294,9 +294,6 @@ class GuildReadState extends _$GuildReadState {
       if (!_tracksUnread(channel.type)) {
         continue;
       }
-      // Definitive VIEW_CHANNEL deny contributes nothing (parity with
-      // channelUnread). The fold does not watch the members table, so
-      // permission changes surface on the next delta or READY reseed.
       final canRead = await canReadChannelForUnread(
         database: db,
         channel: channel,
@@ -767,7 +764,6 @@ bool _readStateEquals(ReadState a, ReadState b) =>
     a.manual == b.manual &&
     a.stickyUnreadMessageId == b.stickyUnreadMessageId;
 
-/// Ignores the index: a delete rewinds it before this emission lands.
 Set<String> _diffLastMessageIds(
   Map<String, Channel> previous,
   Map<String, Channel> next,

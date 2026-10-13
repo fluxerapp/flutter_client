@@ -34,7 +34,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridColumns = 9;
 const _kMobileGridColumns = 9;
-// 32 logical is a 1:1 blit of the 64px @2x cell at DPR 2 and matches the web picker.
 const _kUnicodeEmojiSize = 32.0;
 const _kCustomEmojiSize = 40.0;
 const int _kCustomEmojiRequestSize = kCustomEmojiPickerFetchSize;
@@ -347,7 +346,6 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     required List<String> rankedUsageKeys,
     required Map<Guild, List<GuildEmojiEntry>> guildEmojisByGuild,
   }) {
-    // Registry identity doubles as the preload token for unicode keys.
     final unicodeCategories = EmojiRegistry.categories;
     final cached = _cachedFrecent;
     if (cached != null &&

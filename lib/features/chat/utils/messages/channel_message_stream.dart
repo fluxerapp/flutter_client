@@ -128,12 +128,9 @@ String? getCollapsedMessageGroupKey({
   return null;
 }
 
-/// Tile key of the date divider placed before [nextMessageId], stable across
-/// page landings and trims.
 String channelStreamDividerKey(String nextMessageId) =>
     'divider-$nextMessageId';
 
-/// O(1) lookups into one built stream, recorded while it is built.
 class ChannelStreamIndex {
   ChannelStreamIndex._(this.messages);
 
@@ -141,24 +138,18 @@ class ChannelStreamIndex {
     const <Message>[],
   );
 
-  /// The window the stream was built from.
   final List<Message> messages;
   final Map<String, int> _itemByMessageId = <String, int>{};
   final Map<String, int> _itemByGroupKey = <String, int>{};
   final Map<String, int> _itemByDividerKey = <String, int>{};
   final Map<String, int> _windowIndexByMessageId = <String, int>{};
 
-  /// Stream data index of the item holding [messageId], collapsed groups
-  /// included.
   int? itemOfMessage(String messageId) => _itemByMessageId[messageId];
 
   int? itemOfGroup(String groupKey) => _itemByGroupKey[groupKey];
 
-  /// Stream data index of the divider keyed [dividerKey]
-  /// ([channelStreamDividerKey]).
   int? itemOfDivider(String dividerKey) => _itemByDividerKey[dividerKey];
 
-  /// Index of [messageId] in [messages].
   int? windowIndexOf(String messageId) => _windowIndexByMessageId[messageId];
 }
 
@@ -176,7 +167,6 @@ List<ChannelStreamItem> createChannelStream({
   ).items;
 }
 
-/// [createChannelStream] plus a [ChannelStreamIndex] filled in the same pass.
 ({List<ChannelStreamItem> items, ChannelStreamIndex index})
 createIndexedChannelStream({
   required List<Message> messages,
@@ -224,11 +214,6 @@ createIndexedChannelStream({
     if (collapsedType != null && groupKey != null) {
       final bool sameGroup =
           activeCollapsedItem != null && activeCollapsedGroupKey == groupKey;
-      // A collapsed group must never absorb content ACROSS the split
-      // boundary (the viewport anchor): the anchor's containing item sits
-      // leading-of-center, so growth inside it would shift everything above.
-      // Content newer than the boundary starts a NEW stream item, which
-      // lands trailing-of-center and is structurally scroll-stable.
       final bool splitAtBoundary =
           sameGroup &&
           groupSplitBoundaryId != null &&
@@ -247,8 +232,6 @@ createIndexedChannelStream({
         activeCollapsedItem = ChannelStreamItem(
           type: collapsedType,
           messages: <Message>[message],
-          // The post-boundary item needs its own identity or two stream
-          // items would collide on 'group-<key>'.
           groupKey: splitAtBoundary ? message.id : groupKey,
         );
         stream.add(activeCollapsedItem);

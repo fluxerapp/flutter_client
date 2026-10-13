@@ -89,7 +89,6 @@ Widget _attachmentPanelContent(
   return AttachmentPanelContent(scrollController: scrollController);
 }
 
-/// Shared message list, composer, and overlays for channel chat surfaces.
 class ChannelChatPanel extends ConsumerStatefulWidget {
   const ChannelChatPanel({
     required this.displayChannelId,

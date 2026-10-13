@@ -82,7 +82,6 @@ void main() {
       await tester.tap(find.text('Alpha'));
       await tester.pumpAndSettle();
 
-      // All items should be visible in the dropdown
       expect(find.text('Alpha'), findsExactly(2));
       expect(find.text('Beta'), findsOneWidget);
       expect(find.text('Gamma'), findsOneWidget);
@@ -101,16 +100,13 @@ void main() {
         ),
       );
 
-      // Open the dropdown by tapping the caret icon area
       await tester.tap(find.byIcon(PhosphorIconsBold.caretDown));
       await tester.pumpAndSettle();
 
-      // Tap on Beta
       await tester.tap(find.text('Beta'));
       await tester.pumpAndSettle();
 
       expect(selectedValue, equals('b'));
-      // Dropdown should be closed — only the trigger text remains
       expect(find.text('Gamma'), findsNothing);
     });
 
@@ -137,13 +133,11 @@ void main() {
         ),
       );
 
-      // No check icon visible before opening
       expect(find.byIcon(PhosphorIconsBold.check), findsNothing);
 
       await tester.tap(find.text('Alpha'));
       await tester.pumpAndSettle();
 
-      // Check icon visible for selected item
       expect(find.byIcon(PhosphorIconsBold.check), findsOneWidget);
     });
 
@@ -248,14 +242,12 @@ void main() {
           ),
         );
 
-        // Stretched: caret sits at the field's right edge.
         expect(
           _fieldRight(tester, const Key('stretched')) -
               _caretRight(tester, const Key('stretched')),
           lessThan(24),
         );
 
-        // Content-sized: caret sits well left of the right edge.
         expect(
           _fieldRight(tester, const Key('content')) -
               _caretRight(tester, const Key('content')),

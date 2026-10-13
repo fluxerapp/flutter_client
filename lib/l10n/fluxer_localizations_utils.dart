@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart' show basicLocaleListResolution;
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
 
-/// Maps a backend [sdk.Locale] only when the app bundles its Flutter catalog.
 Locale? tryFlutterLocaleFromSdkLocale(sdk.Locale locale) {
   final String? tag = locale.json;
   if (tag == null) {
@@ -29,7 +28,6 @@ Locale? tryFlutterLocaleFromSdkLocale(sdk.Locale locale) {
       : null;
 }
 
-/// Picks the closest supported locale from the ordered platform preferences.
 Locale resolveSupportedFluxerLocales(List<Locale> preferredLocales) {
   return basicLocaleListResolution(
     preferredLocales,

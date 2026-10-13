@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Status and navigation bar style from the app theme, not the OS mode.
 SystemUiOverlayStyle fluxerSystemUiOverlayStyle({
   required Brightness brightness,
   required Color navigationBarColor,
@@ -26,7 +25,6 @@ SystemUiOverlayStyle fluxerSystemUiOverlayStyle({
   );
 }
 
-/// Build Fluxer-styled ThemeData from theme extensions.
 ThemeData buildFluxerTheme({
   required FluxerColorTheme colorTheme,
   required FluxerTextTheme textTheme,
@@ -88,7 +86,6 @@ ThemeData buildFluxerTheme({
       thickness: WidgetStateProperty.all<double>(6),
     ),
 
-    // Buttons — web: 44px height, 96px min-width, 600w 14px, 8px radius
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: colorTheme.brandPrimary,
@@ -134,9 +131,6 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Inputs — web: filled (FormSurface bg-tertiary), 8px radius,
-    // modifier-accent border, modifier-accent-focus on focus,
-    // status-danger on error
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: colorTheme.backgroundTertiary,
@@ -172,8 +166,6 @@ ThemeData buildFluxerTheme({
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     ),
 
-    // Tooltips — web: bg-primary, 1px header-secondary border, 8px radius,
-    // 600w 14px, padding 8/12
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
         color: colorTheme.backgroundPrimary,
@@ -190,7 +182,6 @@ ThemeData buildFluxerTheme({
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     ),
 
-    // Dialogs — web: bg-secondary, 1px header-secondary border, 8px radius
     dialogTheme: DialogThemeData(
       backgroundColor: colorTheme.backgroundSecondary,
       shape: RoundedRectangleBorder(
@@ -203,7 +194,6 @@ ThemeData buildFluxerTheme({
       contentTextStyle: textTheme.bodyMedium,
     ),
 
-    // Context menus — web: bg-primary, 1px modifier-accent border, 4px radius
     popupMenuTheme: PopupMenuThemeData(
       color: colorTheme.backgroundPrimary,
       shape: RoundedRectangleBorder(
@@ -220,15 +210,12 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Dividers — web: modifier-accent, 1px
     dividerTheme: DividerThemeData(
       color: colorTheme.backgroundModifierAccent,
       thickness: 1,
       space: 0,
     ),
 
-    // Checkboxes — web: 24px, 3px radius, header-secondary border,
-    // brand-primary when checked
     checkboxTheme: CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
@@ -241,8 +228,6 @@ ThemeData buildFluxerTheme({
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
     ),
 
-    // Tabs — web: 500w 14px, muted color, brand-primary-light when selected,
-    // 2px underline indicator
     tabBarTheme: TabBarThemeData(
       labelColor: colorTheme.brandPrimaryLight,
       unselectedLabelColor: colorTheme.textPrimaryMuted,
@@ -262,14 +247,12 @@ ThemeData buildFluxerTheme({
       dividerColor: colorTheme.backgroundModifierAccent,
     ),
 
-    // Text selection — brand-primary cursor and selection handles
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: colorTheme.textPrimary,
       selectionColor: colorTheme.brandPrimary.withValues(alpha: 0.3),
       selectionHandleColor: colorTheme.brandPrimary,
     ),
 
-    // Icon buttons — web: square 44px, hover uses modifier-hover bg
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(
         foregroundColor: colorTheme.interactiveNormal,
@@ -280,7 +263,6 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Sliders — web: 4px bar, 16px grabber, brand-primary active
     sliderTheme: SliderThemeData(
       activeTrackColor: colorTheme.brandPrimary,
       inactiveTrackColor: colorTheme.backgroundModifierAccent,
@@ -290,7 +272,6 @@ ThemeData buildFluxerTheme({
       thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
     ),
 
-    // Progress indicators — brand-primary
     progressIndicatorTheme: ProgressIndicatorThemeData(
       color: colorTheme.brandPrimary,
       linearTrackColor: colorTheme.backgroundModifierAccent,
@@ -308,8 +289,6 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Switches — web: brand-primary when on, rgb(107,114,128) when off,
-    // white thumb in both states.
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(colorTheme.switchThumb),
       trackColor: WidgetStateProperty.resolveWith((states) {
@@ -321,8 +300,6 @@ ThemeData buildFluxerTheme({
       trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
     ),
 
-    // Radio buttons — web: 18px, brand-primary when selected,
-    // unselected border is color-mix(border-color 70%, #fff 30%).
     radioTheme: RadioThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
@@ -332,7 +309,6 @@ ThemeData buildFluxerTheme({
       }),
     ),
 
-    // Cards — embed-like: bg-secondary, border, 8px radius
     cardTheme: CardThemeData(
       color: colorTheme.backgroundSecondary,
       elevation: 0,
@@ -343,7 +319,6 @@ ThemeData buildFluxerTheme({
       margin: EdgeInsets.zero,
     ),
 
-    // List tiles — text and icon colors from theme
     listTileTheme: ListTileThemeData(
       textColor: colorTheme.textSecondary,
       iconColor: colorTheme.interactiveNormal,
@@ -354,7 +329,6 @@ ThemeData buildFluxerTheme({
       minVerticalPadding: 8,
     ),
 
-    // Navigation bar (mobile bottom nav)
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: colorTheme.backgroundSecondary,
       indicatorColor: colorTheme.brandPrimary.withValues(alpha: 0.15),
@@ -384,14 +358,12 @@ ThemeData buildFluxerTheme({
       height: 60,
     ),
 
-    // Drawers — bg-secondary
     drawerTheme: DrawerThemeData(
       backgroundColor: colorTheme.backgroundSecondary,
       elevation: 0,
       shape: const RoundedRectangleBorder(),
     ),
 
-    // Snack bars — floating toast style
     snackBarTheme: SnackBarThemeData(
       backgroundColor: colorTheme.backgroundFloating,
       contentTextStyle: TextStyle(
@@ -408,7 +380,6 @@ ThemeData buildFluxerTheme({
       elevation: 8,
     ),
 
-    // Chips — pill-shaped, secondary button style
     chipTheme: ChipThemeData(
       backgroundColor: colorTheme.backgroundTertiary,
       selectedColor: colorTheme.brandPrimary.withValues(alpha: 0.2),
@@ -424,7 +395,6 @@ ThemeData buildFluxerTheme({
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     ),
 
-    // FAB — brand-primary
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: colorTheme.brandPrimary,
       foregroundColor: colorTheme.brandPrimaryFill,
@@ -432,7 +402,6 @@ ThemeData buildFluxerTheme({
       shape: RoundedRectangleBorder(borderRadius: layoutTheme.radiusXl),
     ),
 
-    // Dropdown menus — matches popup menu styling
     dropdownMenuTheme: DropdownMenuThemeData(
       inputDecorationTheme: InputDecorationTheme(
         filled: false,
@@ -461,7 +430,6 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Menu anchors — matches context menu / popup menu
     menuTheme: MenuThemeData(
       style: MenuStyle(
         backgroundColor: WidgetStateProperty.all(colorTheme.backgroundPrimary),
@@ -509,7 +477,6 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Search bar — input-like styling
     searchBarTheme: SearchBarThemeData(
       backgroundColor: WidgetStateProperty.all(colorTheme.backgroundTertiary),
       textStyle: WidgetStateProperty.all(
@@ -535,7 +502,6 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Segmented buttons — brand-primary selected
     segmentedButtonTheme: SegmentedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.resolveWith((states) {
@@ -566,7 +532,6 @@ ThemeData buildFluxerTheme({
       ),
     ),
 
-    // Expansion tiles — minimal, themed text/icon colors
     expansionTileTheme: ExpansionTileThemeData(
       textColor: colorTheme.textPrimary,
       collapsedTextColor: colorTheme.textSecondary,
@@ -578,7 +543,6 @@ ThemeData buildFluxerTheme({
       collapsedShape: const Border(),
     ),
 
-    // Date picker — brand-primary accent
     datePickerTheme: DatePickerThemeData(
       backgroundColor: colorTheme.backgroundSecondary,
       headerBackgroundColor: colorTheme.backgroundTertiary,
@@ -599,7 +563,6 @@ ThemeData buildFluxerTheme({
       shape: RoundedRectangleBorder(borderRadius: layoutTheme.radiusLg),
     ),
 
-    // Time picker — brand-primary accent
     timePickerTheme: TimePickerThemeData(
       backgroundColor: colorTheme.backgroundSecondary,
       dialHandColor: colorTheme.brandPrimary,
@@ -609,7 +572,6 @@ ThemeData buildFluxerTheme({
       shape: RoundedRectangleBorder(borderRadius: layoutTheme.radiusLg),
     ),
 
-    // Navigation drawer — bg-secondary
     navigationDrawerTheme: NavigationDrawerThemeData(
       backgroundColor: colorTheme.backgroundSecondary,
       elevation: 0,
@@ -638,7 +600,6 @@ ThemeData buildFluxerTheme({
       }),
     ),
 
-    // Badges — status-danger (red) notification badges
     badgeTheme: BadgeThemeData(
       backgroundColor: colorTheme.statusDanger,
       textColor: Colors.white,

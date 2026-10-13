@@ -222,8 +222,6 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     if (!inserted && widget.onPaste == null && mounted) {
       _showPasteFailedFeedback();
     }
-    // Dismissing the menu before the paste makes Clipboard.getData return
-    // empty on Android, so remove it only once the text landed.
     ContextMenuController.removeAny();
   }
 
@@ -324,9 +322,6 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     );
   }
 
-  /// Reuses button instances across rebuilds: the Material toolbar resets its
-  /// subtree with a fresh [UniqueKey] when its children are not `listEquals`
-  /// equal, disposing the recognizer that a press in flight is using.
   List<Widget> _toolbarButtons(
     BuildContext context,
     EditableTextState editableTextState,

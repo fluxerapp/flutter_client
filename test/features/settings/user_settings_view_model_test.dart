@@ -59,11 +59,6 @@ UserSettingsViewState _baseSettings({
   );
 }
 
-/// Offline stub for `loadProfile()`'s `client.users.getCurrentUser()`. The API
-/// call returns a `Future<Never>.error` (bottom type, assignable to any
-/// `Future<T>`), so `loadProfile()` suspends at its `await`, lets `build()`
-/// return (initializing `state`), then fails asynchronously into its own
-/// `on Exception` guard — mirroring a network failure without hitting it.
 class _OfflineFluxerClient implements FluxerClient {
   @override
   final UsersApi users = _OfflineUsersApi();
@@ -254,7 +249,6 @@ void main() {
     );
     addTearDown(container.dispose);
 
-    // Drive the view model to watch the current user 'u1'.
     container.read(currentUserIdProvider.notifier).set('u1');
 
     var notifyCount = 0;
@@ -264,13 +258,10 @@ void main() {
     );
     addTearDown(sub.close);
 
-    // Let the watched user-row stream populate the state once.
     await pumpEventQueue();
     expect(container.read(userSettingsViewModelProvider).displayName, 'alice');
     final baseline = notifyCount;
 
-    // Presence-only write to the current user re-emits the row but no
-    // consumed field changes -> distinct projection filters it -> no notify.
     await db.userDao.updateUserPresence('u1', status: 'idle');
     await pumpEventQueue();
     expect(
@@ -279,10 +270,6 @@ void main() {
       reason: 'self presence-only change must not notify',
     );
 
-    // Presence write to a DIFFERENT user still invalidates the users table
-    // (Drift streams are table-granular), re-emitting the current-user row
-    // with identical projected fields -> distinct also filters this -> no
-    // notify. This is the real PRESENCE_UPDATE storm being suppressed.
     await db.userDao.updateUserPresence('u2', status: 'dnd');
     await pumpEventQueue();
     expect(
@@ -291,7 +278,6 @@ void main() {
       reason: "another user's presence write must not notify settings",
     );
 
-    // A real display-field change must still propagate to the state.
     await db.userDao.upsertUser(
       UsersCompanion.insert(id: 'u1', username: 'alice2'),
     );

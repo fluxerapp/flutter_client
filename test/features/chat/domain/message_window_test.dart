@@ -342,10 +342,6 @@ void main() {
 
     test('empty newer page keeps the window and defers the verdict to the '
         'caller', () {
-      // An empty newer page is NOT self-evident proof of the tail. The server
-      // truncates the raw scan before it filters invisible and orphaned rows, so
-      // an empty body can sit in front of rows that plainly exist, and the
-      // caller's pointer consult - not the absence of rows - owns the verdict.
       final List<Message> messages = _range(100, 2);
       final MessageWindowSnapshot open = _applied(
         applyNewerPage(

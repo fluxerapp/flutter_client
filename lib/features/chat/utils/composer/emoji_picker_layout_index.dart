@@ -158,12 +158,10 @@ class EmojiPickerLayoutIndex {
 
   final List<EmojiPickerLayoutEntry> entries;
 
-  /// Top offset of entry `i`; the last element is the total height.
   final Float64List _tops;
   final List<double> _headerTops = <double>[];
   final List<String> _headerKeys = <String>[];
 
-  /// First index in [sorted] holding a value greater than [value].
   static int _upperBound(List<double> sorted, double value) {
     var lo = 0;
     var hi = sorted.length;
@@ -235,7 +233,6 @@ class EmojiPickerLayoutIndex {
     }
     final double aheadTop = scrollOffset + viewportHeight;
     final List<GuildEmojiEntry> emojis = <GuildEmojiEntry>[];
-    // First entry fully at or past the viewport bottom.
     var i = _upperBound(_tops, aheadTop) - 1;
     if (i < 0 || _tops[i] < aheadTop) {
       i++;

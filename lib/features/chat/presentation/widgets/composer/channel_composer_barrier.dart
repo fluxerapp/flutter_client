@@ -11,7 +11,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Replaces the message composer when guild verification blocks messaging.
 class ChannelComposerBarrier extends ConsumerStatefulWidget {
   const ChannelComposerBarrier({required this.access, super.key});
 

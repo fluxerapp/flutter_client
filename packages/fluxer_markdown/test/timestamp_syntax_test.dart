@@ -77,7 +77,6 @@ void main() {
     });
 
     test('accepts the maximum representable timestamp', () {
-      // 8.64e12 s * 1000 == 8.64e15 ms, the inclusive upper bound of DateTime.
       final nodes = _parse('<t:8640000000000:f>');
       expect(_timestampNodes(nodes), hasLength(1));
     });
@@ -85,9 +84,6 @@ void main() {
     test(
       'renders an overflowing timestamp as literal text instead of crashing',
       () {
-        // 15778476000000000 * 1000 overflows a 64-bit int, which previously
-        // produced an out-of-range millisecond value and threw a RangeError
-        // when building FluxerTimestampWidget.
         const input = '<t:15778476000000000:f>';
         final nodes = _parse(input);
         expect(_timestampNodes(nodes), isEmpty);

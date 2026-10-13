@@ -8,10 +8,10 @@ const Duration kStreamPreviewInitialRetryInterval = Duration(seconds: 1);
 const int kStreamPreviewInitialRetryMaxAttempts = 10;
 
 const ColorFilter kStreamPreviewBrightnessFilter = ColorFilter.matrix(<double>[
-  0.4, 0, 0, 0, 0, // R
-  0, 0.4, 0, 0, 0, // G
-  0, 0, 0.4, 0, 0, // B
-  0, 0, 0, 1, 0, // A
+  0.4, 0, 0, 0, 0,
+  0, 0.4, 0, 0, 0,
+  0, 0, 0.4, 0, 0,
+  0, 0, 0, 1, 0,
 ]);
 
 Future<Uint8List?> fetchStreamPreviewBytes({

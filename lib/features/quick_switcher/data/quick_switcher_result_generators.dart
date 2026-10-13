@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.d
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
-// Empty query list: up to 8 recent visits, then up to 8 unread.
 List<QuickSwitcherResult> generateQuickSwitcherDefaultResults(
   QuickSwitcherDefaultInput input,
 ) {

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Helpers for listing Dart paths that before_commit and CI formatting use.
 
 dart_source_files_filter() {
   grep -vE '\.(g|freezed|pb|pbenum|pbjson|fcm)\.dart$' \

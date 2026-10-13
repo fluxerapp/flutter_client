@@ -8,7 +8,6 @@ bool resolveReducedMotion({
       : reducedMotionOverride;
 }
 
-/// Android reduced motion follows animator duration scale, not transition scale.
 bool resolvePlatformReducedMotion({
   required bool disableAnimations,
   required bool androidAnimatorDurationDisabled,

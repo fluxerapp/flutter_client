@@ -145,12 +145,8 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
   final int initialIndex;
   final String? channelId;
 
-  /// When non-null, the action bar shows a Forward button; invoked with the
-  /// index of the item on screen when tapped (after the viewer closes).
   final void Function(int index)? onForward;
 
-  /// When non-null, the mobile overflow menu can show message-level actions
-  /// (reply, delete, etc.) in addition to media actions.
   final MessageMediaActionScope? actionScope;
 
   @override

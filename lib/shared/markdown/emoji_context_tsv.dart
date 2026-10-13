@@ -16,9 +16,6 @@ const Set<String> _specialShortcodes = {'tm', 'copyright', 'registered'};
 
 final RegExp _shortcodePattern = RegExp(r':([\p{L}\p{N}_-]+):', unicode: true);
 
-/// Mirrors the web client's `buildEmojiContext`: newline-joined `S`/`C`/`K`
-/// records with UTF-8 byte offsets, consumed by the native parser's
-/// `EmojiContext` (rust/src/emoji.rs).
 String buildFluxerEmojiContextTsv(String input) {
   final buffer = StringBuffer();
   _appendStandardRecords(buffer, input);

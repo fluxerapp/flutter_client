@@ -95,7 +95,6 @@ class GuildRepository {
     ]);
   }
 
-  /// Fetches ordered guild IDs from user settings guild folders.
   Future<Set<String>> _unavailableGuildIds() async {
     final rows = await _db.guildDao.getServers();
     return rows.where((row) => row.unavailable).map((row) => row.id).toSet();

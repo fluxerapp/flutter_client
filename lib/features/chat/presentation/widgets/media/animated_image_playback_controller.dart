@@ -6,14 +6,8 @@ class _AnimatedImageCandidate {
   bool active = false;
 }
 
-/// Most animated images the chat list plays at once.
 const int kMaxActiveChatAnimatedImages = 3;
 
-/// Coordinates animated image playback in a scrollable feed.
-///
-/// [maxActiveVideos] limits how many visible images animate. Null plays every
-/// visible image. Over the limit, the most visible images play, and ties go to
-/// the one that became visible last.
 class AnimatedImagePlaybackController extends ChangeNotifier {
   AnimatedImagePlaybackController({this.maxActiveVideos});
 

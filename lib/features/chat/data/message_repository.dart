@@ -81,13 +81,6 @@ Map<String, dynamic> buildMessageCreateBody({
   return body;
 }
 
-/// Builds the request body for a message forward.
-///
-/// Forwards reference a source message and MUST NOT carry
-/// content/embeds/attachments/stickers. The server builds the snapshot itself
-/// (it rejects forward refs that include content). [attachmentIds]/
-/// [embedIndices] narrow which media the server snapshots. Omit them to
-/// forward the whole message.
 Map<String, dynamic> buildForwardMessageBody({
   required String sourceChannelId,
   required String sourceMessageId,
@@ -98,7 +91,7 @@ Map<String, dynamic> buildForwardMessageBody({
   int? messageFlags,
 }) {
   final reference = <String, dynamic>{
-    'type': 1, // MessageReferenceType.forward
+    'type': 1,
     'channel_id': sourceChannelId,
     'message_id': sourceMessageId,
   };
@@ -200,9 +193,6 @@ class MessageRepository {
     bool fresh = false,
   }) {
     if (fresh) {
-      // A proof request: its soundness argument is "this fetch left after I
-      // observed X", so it must neither join an in-flight response (whose
-      // snapshot may predate X) nor become a join target for ordinary loads.
       return _fetchMessagePage(
         channelId: channelId,
         limit: limit,
@@ -240,13 +230,11 @@ class MessageRepository {
   }) async {
     final bool isLatestPage = before == null && after == null && around == null;
     final Stopwatch pageStopwatch = Stopwatch()..start();
-    // Cumulative ms marks after each awaited phase, for device-log attribution.
     final List<String> pageMarks = <String>[];
     void mark(String name) {
       pageMarks.add('$name@${pageStopwatch.elapsedMilliseconds}');
     }
 
-    // Rows created while the request is in flight sit above this id (#474).
     final String? localTailBeforeFetch = isLatestPage
         ? await _db.messageDao.newestServerMessageId(channelId)
         : null;
@@ -317,8 +305,6 @@ class MessageRepository {
           pageUsersById[user.id] = userFromPartialSdk(user);
         }
       }
-      // One lock and one commit for the page: four separate commits put the
-      // persist at 15 ms median with 30 to 85 ms spikes.
       late final List<Message> persisted;
       await _db.transaction(() async {
         if (pageUsersById.isNotEmpty) {
@@ -365,8 +351,6 @@ class MessageRepository {
         embeddedReplyParents: embeddedReplyParents,
       );
     } on DioException catch (e) {
-      // SDK deserialization can fail on a 200 response
-      // (e.g. missing fields). Fall back to manual parsing.
       if (e.response?.statusCode == 200) {
         talker.warning(
           '[MessageRepo] SDK parse failed, '
@@ -422,8 +406,6 @@ class MessageRepository {
     }
   }
 
-  /// Fallback: fetch raw JSON and parse manually,
-  /// skipping individual messages that fail.
   Future<List<Message>> _getMessagesFallback({
     required String channelId,
     int limit = 30,
@@ -923,18 +905,6 @@ class MessageRepository {
     }
   }
 
-  /// Rewrites a message's attachment array and nothing else.
-  ///
-  /// `content` is deliberately NOT sent. The endpoint accepts it, but this
-  /// operation does not own the text: another client can edit it while our
-  /// request is in flight, and transmitting a value we merely read would
-  /// overwrite that edit.
-  ///
-  /// Uses Dio directly instead of the generated SDK edit call, which always
-  /// includes `embeds` and `message_snapshots` as null and can make attachment-
-  /// only messages fail with CANNOT_SEND_EMPTY_MESSAGE. Sent as plain JSON:
-  /// the API's multipart parser only reads `payload_json` and file fields, so
-  /// a bare multipart `attachments` field is silently dropped (issue #625).
   Future<Message> editMessageAttachments({
     required String channelId,
     required String messageId,

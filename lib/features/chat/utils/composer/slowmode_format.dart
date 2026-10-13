@@ -1,10 +1,6 @@
 const int _kSecondsPerMinute = 60;
 const int _kSecondsPerHour = 3600;
 
-/// Formats [remaining] as a `MM:SS` (or `HH:MM:SS` past an hour) countdown
-/// clock, matching the slowmode indicator pill and the web client's
-/// `formatSlowmodeTime`. Seconds are rounded up so the clock never reads
-/// `00:00` while time still remains.
 String formatSlowmodeCountdown(Duration remaining) {
   final int totalSeconds = (remaining.inMilliseconds / 1000).ceil();
   final int hours = totalSeconds ~/ _kSecondsPerHour;

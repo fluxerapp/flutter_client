@@ -17,10 +17,6 @@ final RegExp _skinToneShortcodePattern = RegExp(
 );
 final RegExp _plainShortcodePattern = RegExp(r':([a-zA-Z0-9_+\-]+):');
 
-/// An inline emoji rendered as the actual emoji (sprite or custom-emoji image)
-/// with a monospace `:name:` fallback, while [wireText] preserves the outgoing
-/// shortcode (`:name:` / `:name::skin-tone-N:`), custom-emoji markdown
-/// (`<a?:name:id>`), or raw unicode surrogate.
 class EmojiInlineToken extends InlineToken {
   EmojiInlineToken({required this.displayName, required this.wireText});
 
@@ -34,12 +30,6 @@ class EmojiInlineToken extends InlineToken {
       _EmojiChip(name: displayName, wireText: wireText, baseStyle: baseStyle);
 }
 
-/// Builds the wire form for an emoji selection.
-///
-/// Custom emoji ([surrogates] beginning with `<`) pass through verbatim;
-/// unicode emoji become a `:name:` shortcode, or `:name::skin-tone-N:` when a
-/// single skin-tone modifier is present in [surrogates]. Mixed skin tones
-/// pass through as raw [surrogates].
 String buildEmojiWireToken(String name, String surrogates) {
   if (surrogates.startsWith('<')) {
     return surrogates;
@@ -57,14 +47,6 @@ String buildEmojiWireToken(String name, String surrogates) {
   return ':$name:';
 }
 
-/// Rewrites emoji wire forms in [raw] into freshly allocated sentinels,
-/// returning the rewritten string.
-///
-/// Custom emoji `<a?:name:id>` and registry-resolvable raw unicode emoji are
-/// always substituted. Shortcodes (`:name:` / `:name::skin-tone-N:`) are
-/// substituted when [includePlainShortcodes] is true; when false only
-/// registry-resolvable names are substituted, leaving ambiguous typed colons
-/// (e.g. `12:30:45`) untouched.
 String substituteEmojiTokens(
   String raw,
   String Function(EmojiInlineToken token) allocate, {
@@ -104,24 +86,18 @@ String substituteEmojiTokens(
   return substituteUnicodeEmojiTokens(result, allocate).text;
 }
 
-/// A range holding one registry-resolvable raw unicode emoji.
 typedef UnicodeEmojiRange = ({int start, int end});
 
-/// Text with raw unicode emoji swapped for sentinels, plus the ranges they
-/// occupied, in order, for remapping offsets.
 typedef UnicodeEmojiSubstitution = ({
   String text,
   List<UnicodeEmojiRange> replaced,
 });
 
-/// Rewrites registry-resolvable raw unicode emoji in [raw] into freshly
-/// allocated sentinels.
 UnicodeEmojiSubstitution substituteUnicodeEmojiTokens(
   String raw,
   String Function(EmojiInlineToken token) allocate,
 ) {
   final RegExp? unicodePattern = EmojiRegistry.unicodeEmojiRegexSync;
-  // No registry sequence is built from code units below U+00A9.
   if (unicodePattern == null ||
       raw.codeUnits.every((int unit) => unit < 0xA9)) {
     return (text: raw, replaced: const <UnicodeEmojiRange>[]);

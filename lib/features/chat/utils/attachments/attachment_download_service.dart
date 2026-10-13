@@ -55,7 +55,6 @@ Future<void> downloadChatAttachmentMedia({
   await handleExternalLinkTap(context, trimmedUrl);
 }
 
-/// Saves a local attachment file to the device gallery on native mobile.
 Future<void> saveLocalAttachmentToDeviceGallery(XFile file) async {
   if (!isFluxerNativeMobileOs) {
     return;

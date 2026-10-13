@@ -42,11 +42,8 @@ class DmConversation {
   final bool isSystem;
   final List<GroupMemberInfo> groupMembers;
 
-  /// Per-user nickname overrides for this group DM (from channel.nicks).
   final Map<String, String> channelNicks;
 
-  /// Recipients persisted for this DM/channel (excluding the current account at
-  /// call time — filter with the current user ID before ringing).
   final List<String> remoteRecipientIds;
 
   const DmConversation({

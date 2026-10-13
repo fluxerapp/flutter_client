@@ -11,14 +11,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_active_speakers_provider.g.dart';
 
-/// How long a participant stays flagged as "recently spoke" after they stop,
-/// used to keep them ordered near the top of the grid without flicker.
 const Duration _kRecentlySpokeHold = Duration(milliseconds: 4500);
 
-/// Debounce duration for batching rapid speaker updates.
 const Duration _kSpeakerDebounce = Duration(milliseconds: 100);
 
-/// Speaking state derived from LiveKit active speaker updates.
 class VoiceActiveSpeakersState {
   const VoiceActiveSpeakersState({
     this.speakingKeys = const <String>{},
@@ -46,10 +42,6 @@ class VoiceActiveSpeakersState {
   }
 }
 
-/// Tracks which participants are currently speaking in the active voice room.
-///
-/// Listens to [ActiveSpeakersChangedEvent] and keeps a short hold window so the
-/// speaker priority ordering does not flicker as people pause between words.
 @Riverpod(keepAlive: true)
 class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
   EventsListener<RoomEvent>? _listener;

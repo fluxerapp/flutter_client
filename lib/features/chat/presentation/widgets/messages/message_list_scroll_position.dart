@@ -12,8 +12,6 @@ const double _kFollowTau = 0.03;
 const double _kMinTickDt = 1 / 120;
 const double _kSnapEpsilon = 0.5;
 
-/// Coalesces pointer-scroll ticks into one gesture and skips child hit
-/// testing while the list is moving.
 class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   MessageListScrollPosition({
     required super.physics,

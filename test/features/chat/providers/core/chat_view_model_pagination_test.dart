@@ -85,8 +85,6 @@ void main() {
     await notifier.loadMore();
     await paginationFlushAsync();
 
-    // Installs never trim: a directional trim landing mid-fling teleports
-    // the viewport. The full merge stays attached to the tail.
     final merged = container.read(chatViewModelProvider);
     expect(merged.messages, hasLength(250));
     expect(merged.hasMoreNewerMessages, isFalse);
@@ -175,8 +173,6 @@ void main() {
     final int fetchesAfterOpen = adapter.messageFetchCount;
     final int epochBefore = container.read(chatViewModelProvider).windowEpoch;
 
-    // A wholesale swap under an active fling resets the pagination pumps
-    // and thrashes the window - the reconcile must wait for the scroll end.
     notifier.setUserScrollActive(channelId: 'channel-1', active: true);
     await notifier.refreshAfterSessionRecovery();
     await paginationFlushAsync();
@@ -229,8 +225,6 @@ void main() {
     expect(container.read(chatViewModelProvider).messages, hasLength(450));
     expect(adapter.beforeFetchCount, 2);
 
-    // 450 >= the hard cap: pause instead of installing - a directional trim
-    // here would teleport a mid-fling viewport.
     final PageLoadResult capped = await notifier.loadMore();
     await paginationFlushAsync();
     expect(capped.status, PageLoadStatus.skipped);
@@ -275,8 +269,6 @@ void main() {
     final container = paginationContainer(db, adapter);
     addTearDown(container.dispose);
 
-    // Open around a mid-history message: a detached window whose "newest"
-    // row is history, so trimming to it would discard the live tail's claim.
     final notifier = container.read(chatViewModelProvider.notifier);
     await notifier.switchChannel(
       'channel-1',
@@ -286,7 +278,6 @@ void main() {
 
     final state = container.read(chatViewModelProvider);
     expect(state.hasMoreNewerMessages, isTrue);
-    // Above the cap, so only the newer-messages guard protects it.
     expect(state.messages.length, greaterThan(kMaxLoadedMessages));
     final messagesBeforeTrim = state.messages;
 
@@ -455,7 +446,6 @@ void main() {
     await notifier.switchChannel('channel-1');
     await paginationFlushAsync();
 
-    // Hold only the older-page fetch so the channel-2 switch can complete.
     adapter.holdBeforeFetch = true;
     final Future<void> staleLoad = notifier.loadMore();
     await paginationFlushAsync();
@@ -470,7 +460,6 @@ void main() {
 
     final state = container.read(chatViewModelProvider);
     expect(state.channelId, 'channel-2');
-    // Channel-1's in-flight older page must not splice into channel-2.
     final Set<String> loadedIds = state.messages.map((m) => m.id).toSet();
     expect(loadedIds.intersection(channel1Ids), isEmpty);
     expect(state.isLoadingMore, isFalse);
@@ -746,15 +735,10 @@ void main() {
     },
   );
 
-  // A window built with around= is detached by construction. When the channel
-  // pointer is missing the old code read that as "no newer messages", so
-  // jump-to-latest early-returned into a plain scroll and stranded the user at
-  // the bottom of the loaded history with no way back to the present.
   test(
     'jump to latest escapes an around window with no channel pointer',
     () async {
       final db = openTestDatabase();
-      // Deliberately NO lastMessageId: the pointer is unknown.
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -772,7 +756,6 @@ void main() {
       addTearDown(container.dispose);
 
       final notifier = container.read(chatViewModelProvider.notifier);
-      // Open around a message deep in history: the window cannot reach the tail.
       await notifier.switchChannel(
         'channel-1',
         targetMessageId: all[100]['id']! as String,
@@ -803,10 +786,6 @@ void main() {
     },
   );
 
-  // Side (a). The compared id comes from a page just fetched from the network
-  // while the pointer is a cached local value, so reaching the pointer proves
-  // the POINTER is stale, not that we are at the tail. A detached window must
-  // therefore fail open here exactly as it does for an unknown pointer.
   test('a stale pointer does not decide the tail for a detached window', () async {
     final db = openTestDatabase();
     final List<Map<String, Object?>> all = paginationChannelMessages(
@@ -815,8 +794,6 @@ void main() {
     );
     final String target = all[100]['id']! as String;
     final String trueLatestId = all.last['id']! as String;
-    // Pointer parked ON the jump target, so the around window loaded around it
-    // extends NEWER than the pointer: stale, but present.
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -853,9 +830,6 @@ void main() {
     );
   });
 
-  // Side (b), the other half of the same rule: without it, (a) could be
-  // satisfied by hardcoding true. A direct latest page genuinely IS the tail,
-  // so the same stale comparison must still report no newer messages there.
   test(
     'a stale pointer still reports the tail for a direct latest load',
     () async {
@@ -864,7 +838,6 @@ void main() {
         'channel-1',
         350,
       );
-      // Pointer well behind the real newest message: stale, but present.
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -878,7 +851,6 @@ void main() {
       addTearDown(container.dispose);
 
       final notifier = container.read(chatViewModelProvider.notifier);
-      // No targetMessageId: this is a direct latest load, not a detached window.
       await notifier.switchChannel('channel-1');
       await paginationFlushAsync();
 
@@ -898,8 +870,6 @@ void main() {
     },
   );
 
-  // Case (c). Equality returns false regardless of how the window was built, so
-  // the healthy direct-latest case is unchanged by the fail-open above.
   test(
     'a pointer equal to the tail of a direct latest load reports the tail',
     () async {
@@ -938,9 +908,6 @@ void main() {
     },
   );
 
-  // Mutation (h) guard. Tapping B while A's around-load is still in flight used
-  // to hit a silent drop: B highlighted, then A completed, scrolled to A and
-  // overwrote the window. The user landed on the message they did NOT ask for.
   test(
     'a jump requested mid-load preempts the in-flight one and lands',
     () async {
@@ -972,8 +939,6 @@ void main() {
       expect(st().messages.map((e) => e.id).contains(targetA), isFalse);
       expect(st().messages.map((e) => e.id).contains(targetB), isFalse);
 
-      // A is a ROUTE LOAD, not a jump: switchChannel owns isLoading via
-      // _switchedChannelState, and that is the flag the preempt can strand.
       adapter.holdAroundFetch = true;
       unawaited(notifier.switchChannel('channel-1', targetMessageId: targetA));
       await paginationFlushAsync();
@@ -988,7 +953,6 @@ void main() {
         reason: 'and it must have taken ownership of isLoading',
       );
 
-      // The user taps B while A is still loading. This must NOT be dropped.
       final Future<void> jumpB = notifier.goToRepliedMessage(
         channelId: 'channel-1',
         messageId: targetB,
@@ -1011,9 +975,6 @@ void main() {
         targetB,
         reason: 'and the view must be told to scroll to B, not to A',
       );
-      // Flag ownership: the preempted switch set isLoading and can no longer
-      // reach its own clearing paths, so the winner must clear both or the
-      // channel is wedged busy with no exit.
       expect(
         finalState.isLoading,
         isFalse,
@@ -1025,9 +986,6 @@ void main() {
     },
   );
 
-  // The failure path of the same preempt: B preempts A and then comes back
-  // empty. The flags must still clear, or the stranded-empty recovery that
-  // would rescue the channel is itself locked out by isLoading.
   test(
     'a preempting jump that returns nothing still releases the channel',
     () async {
@@ -1052,7 +1010,6 @@ void main() {
       await notifier.switchChannel('channel-1');
       await paginationFlushAsync();
 
-      // A target that does not exist, so the around page comes back empty.
       await notifier.goToRepliedMessage(channelId: 'channel-1', messageId: '1');
       await paginationFlushAsync();
 

@@ -9,10 +9,6 @@ String markdownParseCacheKey(String text, String? parseCacheKey) {
   return '$parseCacheKey:$text';
 }
 
-/// Bounded LRU cache for pure markdown parse results.
-///
-/// Values returned by [resolve] are shared across builds and MUST be treated as
-/// immutable by callers; the markdown renderers only read parsed nodes.
 class MarkdownParseCache<K, V extends Object> {
   MarkdownParseCache({this.maxEntries = kMarkdownParseCacheMaxEntries});
 

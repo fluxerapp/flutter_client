@@ -205,7 +205,6 @@ void main() {
       );
       expect(caps.showTimeout, isFalse);
       expect(caps.showRemoveTimeout, isFalse);
-      // Kick and ban are unaffected by the target's administrator bit.
       expect(caps.canKick, isTrue);
       expect(caps.canBan, isTrue);
     });

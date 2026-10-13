@@ -60,9 +60,6 @@ int fluxerParserFlagsForFeatures(FluxerMarkdownFeatures features) {
   return flags;
 }
 
-/// Top-level on purpose: [FluxerMarkdown.astParser] participates in the
-/// widget's layout cache key. Failures render the raw text and are recorded;
-/// there is no Dart parser to fall back to.
 List<md.Node> parseNativeFluxerMarkdownAst(
   String data,
   FluxerMarkdownFeatures features,

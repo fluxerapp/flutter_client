@@ -291,7 +291,6 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   }
 }
 
-/// Desktop only button that toggles the docked voice text-chat panel.
 class _DesktopVoiceChatToggle extends StatelessWidget {
   const _DesktopVoiceChatToggle({
     required this.channelId,

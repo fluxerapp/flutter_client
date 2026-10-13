@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_bind
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_playback.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
-/// Attachment audio playback that outlives a message-row remount.
 class ChatAttachmentAudioController extends ChangeNotifier {
   factory ChatAttachmentAudioController({
     required String sourceUrl,
@@ -119,7 +118,6 @@ class ChatAttachmentAudioController extends ChangeNotifier {
   bool get _isAtEndOfTrack =>
       _duration > Duration.zero && position.value >= _duration;
 
-  /// Releases this widget's hold. Playing audio keeps running until it stops.
   void detach() {
     if (_disposed) {
       return;
@@ -131,7 +129,6 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     _discard();
   }
 
-  /// Returns false when the source could not be prepared.
   Future<bool> togglePlayback() async {
     if (_disposed || _isLoading || sourceUrl.isEmpty) {
       return true;

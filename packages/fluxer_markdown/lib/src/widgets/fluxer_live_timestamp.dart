@@ -2,10 +2,6 @@ import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 
-/// Shared 1s clock for relative markdown timestamps.
-///
-/// One timer for every live timestamp on screen. Listeners rebuild themselves
-/// only; the surrounding markdown tree is not marked dirty.
 class FluxerRelativeTimeTick extends ChangeNotifier {
   FluxerRelativeTimeTick._();
 

@@ -1,5 +1,3 @@
-library;
-
 const double kMessageListReadBottomThreshold = 48;
 
 const double kJumpToBottomDistance = 1100;
@@ -27,7 +25,6 @@ bool isBeyondJumpToBottomThreshold({required double distanceFromBottom}) {
   return distanceFromBottom >= kJumpToBottomDistance;
 }
 
-/// Channel welcome header at the top of the list (true channel start only).
 bool shouldShowChannelWelcome({
   required bool hasMoreOlderMessages,
   required bool messageLoadFailed,
@@ -35,7 +32,6 @@ bool shouldShowChannelWelcome({
   return !hasMoreOlderMessages && !messageLoadFailed;
 }
 
-/// Visibility of the jump-to-bottom overlay button.
 bool shouldShowJumpToBottomButton({
   required bool hasMessages,
   required bool isLoading,

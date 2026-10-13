@@ -39,8 +39,6 @@ void main() {
         ),
       );
 
-      // Title, the emoji glyph preview, and the source label all render
-      // together in a single row.
       expect(find.text(':monkey:'), findsOneWidget);
       expect(find.byType(UnicodeEmojiWidget), findsOneWidget);
       expect(find.text('Linux Hub'), findsOneWidget);

@@ -74,10 +74,10 @@ void main() {
         limit: 10,
       );
       expect(results.map(label).toList(), <String>[
-        'u:smile', // exact (tier 0)
-        'c:smiley', // starts-with (tier 1)
-        'c:asmile', // contains (tier 3), name < xsmile
-        'u:xsmile', // contains (tier 3)
+        'u:smile',
+        'c:smiley',
+        'c:asmile',
+        'u:xsmile',
       ]);
     });
 
@@ -92,7 +92,6 @@ void main() {
         score: scores(<String, double>{'unicode:ysmile': 5}),
         limit: 10,
       );
-      // Without frecency, 'xsmile' would sort first alphabetically.
       expect(label(results.first), 'u:ysmile');
     });
 

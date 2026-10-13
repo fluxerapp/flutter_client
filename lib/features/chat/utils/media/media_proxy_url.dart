@@ -59,7 +59,6 @@ String stripMediaProxyFormat(String originalUrl) {
   return parsed.replace(queryParameters: query).toString();
 }
 
-/// CDN still frame for inline video posters (WebP over thumbhash).
 String? buildAttachmentVideoPosterUrl({
   required String proxyOrUrl,
   required int? attachmentWidth,

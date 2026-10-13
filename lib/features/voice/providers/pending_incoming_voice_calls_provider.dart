@@ -4,7 +4,6 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 
-/// Channel ids where this user still has a pending incoming ring presentation.
 final Provider<List<String>> pendingIncomingVoiceChannelIdsProvider =
     Provider<List<String>>((Ref ref) {
       final String? uid = ref.watch(currentUserIdProvider);

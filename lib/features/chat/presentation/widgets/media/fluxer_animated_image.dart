@@ -5,10 +5,6 @@ import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart'
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Renders an animated image through Flutter's native image pipeline.
-///
-/// Animated bytes load while [loadAnimated] is true (defaults to [playing])
-/// and advance only while [playing] is true.
 class FluxerAnimatedImage extends StatelessWidget {
   const FluxerAnimatedImage({
     required this.animatedUrl,
@@ -28,15 +24,12 @@ class FluxerAnimatedImage extends StatelessWidget {
 
   final bool playing;
 
-  /// Defaults to [playing]. False unloads the animated decoder.
   final bool? loadAnimated;
 
   final BoxFit fit;
 
-  /// Shown while loading and when the resolved URL is empty.
   final Widget? placeholder;
 
-  /// Shown when the image fails to load. Defaults to [placeholder].
   final Widget? errorPlaceholder;
 
   final Duration fadeInDuration;

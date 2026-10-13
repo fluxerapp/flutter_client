@@ -1,4 +1,3 @@
-/// True when startup is still current and the 401 hit that session's API host.
 bool startupShouldExpireSession({
   required bool mounted,
   required String requestBaseUrl,

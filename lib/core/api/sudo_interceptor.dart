@@ -5,15 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/talker.dart';
 
-/// Header used to send and receive the sudo mode JWT token.
 const kSudoTokenHeader = 'x-fluxer-sudo-mode-jwt';
 
-/// Key in [RequestOptions.extra] to mark requests made internally by the
-/// sudo interceptor (retry after verification), preventing re-entrant
-/// verification prompts.
 const _kSudoInternalKey = '_sudoInternal';
 
-/// How long a sudo token stays valid before we discard it and re-prompt.
 const _kSudoTokenLifetime = Duration(minutes: 4, seconds: 30);
 
 const int _kMaxSudoReissues = 1;
@@ -63,25 +58,11 @@ class SudoChallenge {
   );
 }
 
-/// Dio interceptor that handles sudo mode challenges from the Fluxer API.
-///
-/// When a response with status 403 and error code `SUDO_MODE_REQUIRED` is
-/// received, the interceptor:
-/// 1. Shows a verification bottom sheet to collect credentials.
-/// 2. Merges the verification payload into the original request body.
-/// 3. Retries the request.
-/// 4. Caches the returned `x-fluxer-sudo-mode-jwt` token for subsequent
-///    requests within a 4.5-minute window.
 class SudoInterceptor extends Interceptor {
   SudoInterceptor({required this.dio, required this.showSudoSheet});
 
-  /// The Dio instance used to retry requests.
   final Dio dio;
 
-  /// Callback that shows the sudo verification bottom sheet and returns
-  /// the verification payload as a map (e.g. `{'password': '...'}` or
-  /// `{'mfa_method': 'totp', 'mfa_code': '...'}`).
-  /// Returns `null` if the user cancels.
   final Future<Map<String, dynamic>?> Function(SudoChallenge challenge)
   showSudoSheet;
 
@@ -131,7 +112,6 @@ class SudoInterceptor extends Interceptor {
       return;
     }
 
-    // Invalidate any stale cached token since the server rejected us.
     _cachedToken = null;
     _cachedTokenExpiry = null;
 

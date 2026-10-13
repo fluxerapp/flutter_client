@@ -49,8 +49,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   static const double _logoHeight = 85;
   static const Duration _pulseDuration = Duration(milliseconds: 1300);
   static const Duration _statusPageDisplayDelay = Duration(seconds: 5);
-  // Fires late enough that fast startups never fetch, early enough that the
-  // incident text is ready when _statusPageDisplayDelay reveals it.
   static const Duration _statusPrefetchDelay = Duration(milliseconds: 3500);
   static const Duration _problemsDelay = Duration(seconds: 10);
   static const Duration _hydrationWaitLimit = Duration(milliseconds: 1500);
@@ -117,8 +115,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _hydrationWaitTimer?.cancel();
     _pulseController.dispose();
     final SplashRevealComplete? revealComplete = _revealComplete;
-    // dispose runs while the element tree is being finalized, when Riverpod
-    // rejects provider writes, so release the gate on the next frame.
     if (!_exitRevealStarted && revealComplete != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         revealComplete.complete();

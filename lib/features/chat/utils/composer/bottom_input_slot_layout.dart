@@ -183,8 +183,6 @@ bool shouldEmitKeyboardHeightUpdate({
       kKeyboardHeightQuantizeThreshold;
 }
 
-/// Android native keyboardHeight includes systemBars; strip the same event's
-/// [nativeSafeAreaBottom] to IME-only units (do not use MediaQuery.padding).
 double resolveNativeImeOnlyHeight({
   required double nativeKeyboardHeight,
   required double nativeSafeAreaBottom,
@@ -220,7 +218,6 @@ double resolvedKeyboardInsetBottom(BuildContext context) {
   );
 }
 
-/// viewInsets when it is non-zero, otherwise the native height.
 double resolveDualSourceLiveKeyboardHeight({
   required double nativeHeight,
   required double viewInsetsHeight,

@@ -483,7 +483,6 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     ref.read(gatewayReadyProvider.notifier).reset();
 
     ref
-      // Gateway
       ..invalidate(gatewayConnectionProvider)
       ..invalidate(gatewayEventListenerProvider)
       ..invalidate(gatewayStateListenerProvider)
@@ -492,15 +491,12 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       ..invalidate(gatewayReconnectBannerProvider)
       ..invalidate(gatewayConnectionFailedProvider)
       ..invalidate(connectivityListenerProvider)
-      // Gateway event state
       ..invalidate(typingIndicatorsProvider)
       ..invalidate(voiceStatesMapProvider)
       ..invalidate(activeCallsProvider)
       ..invalidate(outgoingVoiceCallInitiatorProvider)
       ..invalidate(inviteCacheProvider)
-      // Session
       ..invalidate(currentUserIdProvider)
-      // View models
       ..invalidate(dmViewModelProvider)
       ..invalidate(guildListViewModelProvider)
       ..invalidate(organizedGuildListProvider)
@@ -510,7 +506,6 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       ..invalidate(userSettingsViewModelProvider)
       ..invalidate(loginViewModelProvider);
 
-    // AccountManager handles API logout + auth state reset.
     await ref.read(accountManagerProvider.notifier).signOut(userId);
     if (mounted) {
       Navigator.of(context).pop();
@@ -567,9 +562,6 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Mobile settings — page sheets
-// ---------------------------------------------------------------------------
 
 class _MobileSettingsNavBody extends ConsumerStatefulWidget {
   const _MobileSettingsNavBody({
@@ -796,7 +788,6 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     ref.read(gatewayReadyProvider.notifier).reset();
 
     ref
-      // Gateway
       ..invalidate(gatewayConnectionProvider)
       ..invalidate(gatewayEventListenerProvider)
       ..invalidate(gatewayStateListenerProvider)
@@ -805,15 +796,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       ..invalidate(gatewayReconnectBannerProvider)
       ..invalidate(gatewayConnectionFailedProvider)
       ..invalidate(connectivityListenerProvider)
-      // Gateway event state
       ..invalidate(typingIndicatorsProvider)
       ..invalidate(voiceStatesMapProvider)
       ..invalidate(activeCallsProvider)
       ..invalidate(outgoingVoiceCallInitiatorProvider)
       ..invalidate(inviteCacheProvider)
-      // Session
       ..invalidate(currentUserIdProvider)
-      // View models
       ..invalidate(dmViewModelProvider)
       ..invalidate(guildListViewModelProvider)
       ..invalidate(organizedGuildListProvider)

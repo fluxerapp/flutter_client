@@ -14,11 +14,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../helpers/open_test_database.dart';
 
-/// The jump path is entered from a search sheet that the same tap dismisses,
-/// so the BuildContext dies at several different points. Navigation must
-/// still complete, and a required gate must still be honoured rather than
-/// skipped, which is the failure mode that let a dead context walk straight
-/// past the gate.
 void main() {
   const String guildId = '111111111111111111';
   const String channelId = '222222222222222222';
@@ -49,8 +44,6 @@ void main() {
 
   String currentPath() => router.routeInformationProvider.value.uri.path;
 
-  /// [gateReason] drives whether a gate is required; the reason is resolved
-  /// from the container, so it does not need a context.
   ProviderContainer buildContainer({
     MatureContentGateReason gateReason = MatureContentGateReason.none,
   }) {
@@ -69,7 +62,6 @@ void main() {
     return container;
   }
 
-  /// Mounts a throwaway widget and returns its context, still alive.
   Future<BuildContext> mountedContext(WidgetTester tester) async {
     late BuildContext captured;
     await tester.pumpWidget(
@@ -128,8 +120,6 @@ void main() {
       link: link,
       context: live,
     );
-    // Kill it mid flight, which is the window the old code guarded by
-    // returning early and dropping the jump.
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpAndSettle();
     await jump;

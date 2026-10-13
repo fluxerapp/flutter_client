@@ -13,8 +13,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 
-/// Substitutes [raw] through a scratch controller and returns the wire
-/// round-trip of the display text.
 ({String display, String wire, int chips}) _substitute(
   String raw, {
   required bool includePlainShortcodes,

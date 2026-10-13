@@ -8,10 +8,6 @@ import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart'
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
-/// A themed toggle switch with an optional tappable label on the left.
-///
-/// Visual styling is handled by the existing [SwitchTheme]
-/// in `buildFluxerTheme()`.
 class FluxerToggleSwitch extends StatelessWidget {
   const FluxerToggleSwitch({
     required this.value,

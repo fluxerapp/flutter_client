@@ -125,9 +125,6 @@ void main() {
     );
     addTearDown(container.dispose);
 
-    // The route update happens after ShellRouteListeners attaches its manual
-    // listeners. This covers the deferred effect and its stale-guild guard,
-    // but does not claim to reproduce Riverpod's full-app build-flush crash.
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,

@@ -24,11 +24,6 @@ typedef StartDirectVoiceCallResult = ({
   bool joinAttemptFailed,
 });
 
-/// When `microphoneDenied` or `cameraDenied` is true, the voice session
-/// notifier already surfaced permission UI; avoid redundant snack bars.
-/// When neither flag is true: `notEligible` is server ringability failure;
-/// `joinAttemptFailed` is an unexpected exception from join; otherwise
-/// the user likely navigated away (no snack — `ok` stays false silently).
 Future<StartDirectVoiceCallResult> startDirectVoiceCall(
   WidgetRef ref,
   BuildContext context,

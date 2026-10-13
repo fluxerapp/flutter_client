@@ -15,7 +15,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_reveal_physics.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
-/// Compact wide mobile peeks the drawer at the channel list edge.
 class SidebarDrawer extends ConsumerStatefulWidget {
   final Widget base;
   final Widget slider;
@@ -481,7 +480,6 @@ const Key kDrawerPeekInactiveScrimKey = ValueKey<String>('drawer-peek-scrim');
 
 const double kDrawerPeekInactiveScrimOpacity = 0.4;
 
-/// False in compact-wide peek.
 class ChatSwipeToReplyScope extends InheritedWidget {
   const ChatSwipeToReplyScope({
     required this.enabled,
@@ -565,7 +563,6 @@ RevealSide sidebarDrawerTargetForDrag({
   return open ? RevealSide.left : RevealSide.main;
 }
 
-/// True once the chat slider has moved past half the viewport.
 bool drawerTranslatePastHalfScreen({
   required double translate,
   required double screenWidth,

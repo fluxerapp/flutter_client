@@ -88,9 +88,6 @@ void main() {
     });
 
     test('viewer cannot manage equal or higher roles', () {
-      // Equal positions break by snowflake: the LOWER id outranks (pinned by
-      // guild_role_hierarchy_test and profile_menu_capabilities_test), so an
-      // equal-position role with a lower id sits above this viewer.
       expect(
         canManageMemberRole(
           role: role(id: '2', position: 5),

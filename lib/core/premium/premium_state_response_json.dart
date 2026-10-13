@@ -1,7 +1,3 @@
-/// Normalizes premium state JSON before SDK deserialization.
-///
-/// The API may omit or null out billing fields that the generated SDK still
-/// treats as required objects. Patch those payloads until dart_sdk catches up.
 Map<String, dynamic> normalizePremiumStateResponseJson(
   Map<String, dynamic> json,
 ) {

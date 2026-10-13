@@ -918,10 +918,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void _watchUser(String userId) {
     final db = ref.read(fluxerDatabaseProvider);
-    // Project to only the fields this view state consumes, then dedupe: a
-    // presence-only write (status/customStatus) re-emits the user row but
-    // yields an equal record, so `.distinct()` filters it out and avoids a
-    // needless `state=` notification storm on every PRESENCE_UPDATE.
     final subscription = db.userDao
         .watchUserById(userId)
         .map(

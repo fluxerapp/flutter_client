@@ -10,8 +10,6 @@ import 'package:fluxer_markdown_native/src/bindings.dart';
 import 'package:fluxer_markdown_native/src/decode_binary.dart';
 import 'package:fluxer_markdown_native/src/flags.dart';
 
-/// Thrown when the native parser reports a failure (input over limits or
-/// invalid; the parser itself never fails on well-formed UTF-8 text).
 final class FluxerMarkdownParseException implements Exception {
   const FluxerMarkdownParseException(this.message);
   final String message;
@@ -20,15 +18,12 @@ final class FluxerMarkdownParseException implements Exception {
   String toString() => 'FluxerMarkdownParseException: $message';
 }
 
-/// Returns the raw AST JSON payload (`{"nodes":[...]}`). [emojiContextTsv]
-/// is the parser's `S`/`C`/`K` record TSV; empty when not pre-scanned.
 String parseFluxerMarkdownToJson(
   String input, {
   int flags = FluxerParserFlags.all,
   String emojiContextTsv = '',
 }) => _parseWith(input, flags, emojiContextTsv, fluxerMdParse, utf8.decode);
 
-/// Parses [input] into the typed AST via the binary envelope (no JSON).
 List<MdNode> parseFluxerMarkdownBinary(
   String input, {
   int flags = FluxerParserFlags.all,
@@ -91,7 +86,6 @@ Pointer<Uint8> _copyToArena(Arena arena, Uint8List bytes) {
   return pointer;
 }
 
-/// Parses [input] into the typed canonical AST.
 List<MdNode> parseFluxerMarkdown(
   String input, {
   int flags = FluxerParserFlags.all,

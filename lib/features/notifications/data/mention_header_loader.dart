@@ -10,9 +10,6 @@ import 'package:fluxer_app/shared/utils/display_name.dart';
 
 const String _kFallbackDmTitle = 'DM';
 
-/// Whether [msg] points at a still-reachable channel: an existing DM, an
-/// existing guild channel without a guild row, or a guild channel whose guild
-/// is present and not flagged unavailable.
 Future<bool> isChannelReachable(drift_db.FluxerDatabase db, Message msg) async {
   final drift_db.Channel? chRow = await db.channelDao.getChannelById(
     msg.channelId,
@@ -31,8 +28,6 @@ Future<bool> isChannelReachable(drift_db.FluxerDatabase db, Message msg) async {
   return guild != null && !guild.unavailable;
 }
 
-/// Variant of [isChannelReachable] for the case where no resolved [Message]
-/// exists yet, only a channel id from the feed row.
 Future<bool> isBareChannelReachable(
   drift_db.FluxerDatabase db,
   String channelId,
@@ -52,8 +47,6 @@ Future<bool> isBareChannelReachable(
   return dm != null;
 }
 
-/// Build the [MentionHeader] for a known [Message]. Falls back to a generic DM
-/// header if neither a guild channel nor a DM channel can be resolved.
 Future<MentionHeaderResult> loadMentionHeaderForMessage(
   drift_db.FluxerDatabase db,
   Message msg,
@@ -61,8 +54,6 @@ Future<MentionHeaderResult> loadMentionHeaderForMessage(
   return _loadHeaderForChannelId(db, msg.channelId);
 }
 
-/// Build the [MentionHeader] for a feed row whose underlying message has not
-/// been hydrated yet.
 Future<MentionHeaderResult> loadMentionHeaderForChannelId(
   drift_db.FluxerDatabase db,
   String channelId,

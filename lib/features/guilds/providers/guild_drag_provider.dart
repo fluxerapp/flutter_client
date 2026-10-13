@@ -48,7 +48,6 @@ class DragState {
   bool get showMobileDragFeedback =>
       isDragging && hasMovedFromHoldPoint && dragFeedbackGlobalY != null;
 
-  /// Whether [itemId] should visually collapse while being dragged.
   bool shouldCollapseDragSource({
     required String itemId,
     required bool useLongPressDrag,

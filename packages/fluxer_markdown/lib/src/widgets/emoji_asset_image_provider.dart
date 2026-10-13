@@ -25,11 +25,6 @@ class EmojiAssetImageKey {
   String toString() => 'EmojiAssetImageKey($url, ${targetPixels}px)';
 }
 
-/// Decodes a raster emoji asset at its display size, keyed by url plus target
-/// pixel size so identical emoji at one size share one decode through
-/// [ImageCache]. `Image.memory` keys by the bytes instance, and each
-/// `CachedEmojiAssetImage` reads its own copy of the asset, so it decodes a
-/// separate full-resolution texture per widget.
 @immutable
 class EmojiAssetImageProvider extends ImageProvider<EmojiAssetImageKey> {
   const EmojiAssetImageProvider({
@@ -41,10 +36,6 @@ class EmojiAssetImageProvider extends ImageProvider<EmojiAssetImageKey> {
   final String url;
   final double size;
 
-  /// Decode source when the caller already holds the asset. Deliberately not
-  /// part of the key or of equality: the url plus target size decide which
-  /// [ImageCache] entry these bytes belong to, so an instance holding bytes
-  /// and one without still share a single decode.
   final Uint8List? bytes;
 
   @override
@@ -83,8 +74,6 @@ class EmojiAssetImageProvider extends ImageProvider<EmojiAssetImageKey> {
     );
     return decode(
       buffer,
-      // Cap the longer axis only. Capping both forces an exact fit, which
-      // stretches non-square assets (same constraint as custom emoji, #445).
       getTargetSize: (int width, int height) => width >= height
           ? ui.TargetImageSize(width: key.targetPixels)
           : ui.TargetImageSize(height: key.targetPixels),

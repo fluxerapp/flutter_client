@@ -76,7 +76,6 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Popout Content'), findsOneWidget);
 
-      // Tap the dismiss barrier (the edge of the screen, away from content)
       await tester.tapAt(const Offset(700, 500));
       await tester.pumpAndSettle();
       expect(find.text('Popout Content'), findsNothing);

@@ -157,7 +157,6 @@ UserSettingsSearchLabel _lp(
     (l10n, {required String productName}) => label(l10n, productName);
 
 final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
-  // Look & feel
   _UserSettingsSearchOption(
     id: 'look-and-feel:sync-theme',
     section: UserSettingsSection.lookAndFeel,
@@ -279,7 +278,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     description: _l((l10n) => l10n.lookAndFeelEnableFavoritesDescription),
     keywords: [_l((l10n) => l10n.lookAndFeelFavoritesSectionTitle)],
   ),
-  // Notifications
   _UserSettingsSearchOption(
     id: 'notifications:enable',
     section: UserSettingsSection.notifications,
@@ -336,7 +334,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     label: _l((l10n) => l10n.notificationsPerSoundVolumeTitle),
     description: _l((l10n) => l10n.notificationsPerSoundVolumeDescription),
   ),
-  // Security
   _UserSettingsSearchOption(
     id: 'security:email',
     section: UserSettingsSection.securityLogin,
@@ -375,7 +372,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     label: _l((l10n) => l10n.dangerZoneSectionTitle),
     description: _l((l10n) => l10n.dangerZoneSectionDescription),
   ),
-  // Chat
   _UserSettingsSearchOption(
     id: 'chat:inline-embeds',
     section: UserSettingsSection.chat,
@@ -495,7 +491,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
       (l10n) => l10n.messagesMediaDefaultHideMutedChannelsDescription,
     ),
   ),
-  // Accessibility
   _UserSettingsSearchOption(
     id: 'accessibility:saturation',
     section: UserSettingsSection.accessibility,
@@ -575,7 +570,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     fieldId: 'animation',
     label: _l((l10n) => l10n.accessibilityPlayAnimatedEmojisLabel),
   ),
-  // Audio & video
   _UserSettingsSearchOption(
     id: 'av:input-device',
     section: UserSettingsSection.audioAndVideo,
@@ -625,7 +619,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     fieldId: 'video',
     label: _l((l10n) => l10n.audioAndVideoScreenShareQualitySectionTitle),
   ),
-  // Privacy
   _UserSettingsSearchOption(
     id: 'privacy:profile',
     section: UserSettingsSection.privacyDashboard,
@@ -668,7 +661,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     fieldId: 'active-now',
     label: _l((l10n) => l10n.privacyDashboardShareVoiceActivity),
   ),
-  // Language
   _UserSettingsSearchOption(
     id: 'language:app-language',
     section: UserSettingsSection.languageAndTime,
@@ -681,7 +673,6 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     label: _l((l10n) => l10n.languageAndTimeTimeFormatSectionTitle),
     description: _l((l10n) => l10n.languageAndTimeTimeFormatSectionDescription),
   ),
-  // Advanced
   _UserSettingsSearchOption(
     id: 'advanced:preupload',
     section: UserSettingsSection.advanced,

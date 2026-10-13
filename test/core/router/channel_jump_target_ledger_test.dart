@@ -36,8 +36,6 @@ void main() {
     );
   });
 
-  // Defect C1: the route keeps the message id, so without durable consumption
-  // every unrelated rebuild refetched the window around the stale target.
   test('a consumed target is not honoured again', () {
     freshLedger().markConsumed(channelId: channelId, messageId: messageId);
     expect(
@@ -47,8 +45,6 @@ void main() {
     );
   });
 
-  // The constraint that makes a naive id latch unacceptable: the user was
-  // deliberately re-tapping the same message an hour before this was written.
   test('a deliberate repeat jump to the same message is honoured again', () {
     final ChannelJumpTargetLedger ledger = freshLedger()
       ..markConsumed(channelId: channelId, messageId: messageId);
@@ -73,9 +69,6 @@ void main() {
     );
   });
 
-  // Consumption is per target. A single slot erased the earlier record whenever
-  // the user jumped to a second message in the same channel, an ordinary
-  // follow-up search, which reopened the stale-refetch loop for the first.
   test('requesting one target does not re-open another', () {
     freshLedger()
       ..markConsumed(channelId: channelId, messageId: messageId)
@@ -92,8 +85,6 @@ void main() {
     );
   });
 
-  // Supersession: a newer jump in the same channel means the user asked for
-  // something else, so an older PENDING target must never fire again.
   test('a newer intent supersedes an older pending target', () {
     freshLedger()
       ..request(channelId: channelId, messageId: messageId)
@@ -117,7 +108,6 @@ void main() {
     );
   });
 
-  // Interruption is transient and must stay retryable, unlike supersession.
   test('a pending target with no newer intent is still honoured', () {
     freshLedger().request(channelId: channelId, messageId: messageId);
     expect(honours(channelId: channelId, messageId: messageId), isTrue);

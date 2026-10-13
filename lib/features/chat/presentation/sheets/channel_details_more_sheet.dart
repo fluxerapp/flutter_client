@@ -530,11 +530,6 @@ String? _detailsSubtitle({
   return null;
 }
 
-/// Pops the current route, handing the picked message back to its opener.
-///
-/// The sheet must not navigate itself: it is about to be dismissed, so any
-/// context or ref it holds dies mid flight, and `close()` only starts the
-/// dismissal so navigating here would race the animation.
 void _popWithJumpRequest(
   BuildContext context, {
   required Message message,

@@ -179,7 +179,6 @@ class VoiceChannelParticipantGrid extends ConsumerStatefulWidget {
     super.key,
   });
 
-  /// Null for DM / private voice.
   final String? guildId;
   final String channelId;
 

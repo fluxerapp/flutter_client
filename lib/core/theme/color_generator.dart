@@ -1,9 +1,6 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/painting.dart';
 
-/// Quadratic easing curves that match the web app's color scale
-/// implementation exactly. Flutter's built-in [Curves] use cubic bezier
-/// curves which produce slightly different intermediate values.
 class ScaleCurves {
   ScaleCurves._();
 
@@ -42,7 +39,6 @@ class _QuadraticEaseInOut extends Curve {
   }
 }
 
-/// Holds hue and saturation parameters for a color family.
 class ColorFamily {
   const ColorFamily({
     required this.hue,
@@ -55,9 +51,6 @@ class ColorFamily {
   final bool useSaturationFactor;
 }
 
-/// A named stop along a color scale.
-///
-/// A position of -1 means the stop will be auto-distributed evenly.
 class ScaleStop {
   const ScaleStop({required this.name, this.position = -1});
 
@@ -65,7 +58,6 @@ class ScaleStop {
   final double position;
 }
 
-/// A scale that generates colors by interpolating lightness across stops.
 class ColorScale {
   const ColorScale({
     required this.family,
@@ -81,7 +73,6 @@ class ColorScale {
   final Curve curve;
   final List<ScaleStop> stops;
 
-  /// Generates a [Color] at the given [position] (0..1) along the scale.
   Color colorAt(double position, {double saturationFactor = 1.0}) {
     final t = curve.transform(position.clamp(0.0, 1.0));
     final lightness = lightnessStart + (lightnessEnd - lightnessStart) * t;
@@ -97,9 +88,6 @@ class ColorScale {
     ).toColor();
   }
 
-  /// Builds all stops into a map of stop name to [Color].
-  ///
-  /// Stops with a position of -1 are auto-distributed evenly.
   Map<String, Color> build({double saturationFactor = 1.0}) {
     final result = <String, Color>{};
     final count = stops.length;
@@ -117,10 +105,6 @@ class ColorScale {
   }
 }
 
-/// Generates a single HSL color from the given parameters.
-///
-/// [hue] is in degrees (0..360), [saturation] and [lightness] are
-/// percentages (0..100).
 Color generateTone({
   required double hue,
   required double saturation,

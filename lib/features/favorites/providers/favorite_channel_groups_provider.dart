@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channels_provid
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 
-/// Guild channel rows for the current favorites only.
 final StreamProvider<List<Channel>> favoriteGuildChannelsProvider =
     StreamProvider.autoDispose<List<Channel>>((ref) {
       final List<String> ids = <String>[

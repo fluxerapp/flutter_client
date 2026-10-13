@@ -56,8 +56,6 @@ void main() {
     );
   }
 
-  /// Builds a strong toward-older approach velocity: 48 px per 16 ms
-  /// (3000 px/s) sustained long enough for the EMA to converge.
   void flingTowardOlder({int samples = 10}) {
     for (int i = 0; i < samples; i += 1) {
       fakeElapsed += const Duration(milliseconds: 16);
@@ -87,14 +85,12 @@ void main() {
       sample(older: enter, newer: 5000);
       expect(port.lastFor(PaginationEdge.older)!.active, isTrue);
 
-      // Between enter and exit: stays active.
       sample(older: exit, newer: 5000);
       expect(port.lastFor(PaginationEdge.older)!.active, isTrue);
 
       sample(older: exit + 1, newer: 5000);
       expect(port.lastFor(PaginationEdge.older)!.active, isFalse);
 
-      // And re-entering requires the ENTER margin again, not the exit one.
       sample(older: enter + 50, newer: 5000);
       expect(port.lastFor(PaginationEdge.older)!.active, isFalse);
     });
@@ -115,7 +111,6 @@ void main() {
       expect(port.lastFor(PaginationEdge.newer)!.active, isFalse);
 
       flingTowardOlder();
-      // Nudge geometry so the sample re-evaluates levels.
       sample(older: 1999, newer: 2001);
       expect(
         port.lastFor(PaginationEdge.older)!.active,
@@ -132,8 +127,6 @@ void main() {
     test('a page-height distance jump WITHOUT scroll deltas produces zero '
         'approach velocity', () {
       sample(older: 5000, newer: 5000);
-      // A landing teleports the distance by a page height; no onScrollDelta
-      // samples accompany a layout-time correction.
       sample(older: 5000 - 900, newer: 5000 + 900);
       expect(port.lastFor(PaginationEdge.older)!.active, isFalse);
       expect(port.lastFor(PaginationEdge.newer)!.active, isFalse);
@@ -195,7 +188,6 @@ void main() {
       final int olderRevision = port.lastFor(PaginationEdge.older)!.revision;
       final int newerEvents = port.edgeDemands(PaginationEdge.newer).length;
 
-      // Same geometry re-sampled: below the change threshold, no pushes.
       sample(older: 2000, newer: 3000);
       source.forceGeometryRevision(PaginationEdge.older);
 

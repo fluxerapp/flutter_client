@@ -6,9 +6,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_mute_provider.g.dart';
 
-/// user's per-guild channel overrides. Overrides whose mute window has
-/// already elapsed are excluded. Guild-wide mute is tracked separately by
-/// `guildMuteProvider`.
 @riverpod
 AsyncValue<Set<String>> mutedChannelIds(Ref ref, String guildId) {
   return watchUserGuildSettingsData(ref, guildId).whenData(mutedIdsFromData);

@@ -108,8 +108,6 @@ class _DMListState extends ConsumerState<DMList> {
   }
 
   void _persistScroll() {
-    // While a restore is pending the position still sits at 0; persisting it
-    // would erase the offset we are about to jump back to.
     if (_needsScrollRestore || _restoringScroll) {
       return;
     }
@@ -118,8 +116,6 @@ class _DMListState extends ConsumerState<DMList> {
     }
   }
 
-  /// Conversations arrive asynchronously, so the offset can only be restored
-  /// once the list has laid out content to scroll over.
   void _scheduleScrollRestore() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || !_needsScrollRestore) {
@@ -1528,13 +1524,11 @@ class _DmBottomSheet extends ConsumerWidget {
 
     final groups = <Widget>[];
 
-    // Relationship constants (match SDK RelationshipTypesInput values).
     const relFriend = 1;
     const relBlocked = 2;
     const relIncoming = 3;
     const relOutgoing = 4;
 
-    // Group 1: Mark as Read + Pin/Unpin
     groups.add(
       FluxerMenuGroup(
         children: [
@@ -1565,7 +1559,6 @@ class _DmBottomSheet extends ConsumerWidget {
       ),
     );
 
-    // Group 2: Profile actions + Close/Leave
     {
       final children = <Widget>[];
       if (convo.isGroup) {
@@ -1631,7 +1624,6 @@ class _DmBottomSheet extends ConsumerWidget {
       groups.add(FluxerMenuGroup(children: children));
     }
 
-    // Group 3: Relationship actions (1-on-1 DMs only)
     if (!convo.isGroup) {
       final relChildren = <Widget>[
         if (inviteCandidates.isNotEmpty)
@@ -1641,7 +1633,6 @@ class _DmBottomSheet extends ConsumerWidget {
           ),
       ];
 
-      // Friend actions based on relationship state.
       switch (relationshipType) {
         case relFriend:
           relChildren.add(
@@ -1683,7 +1674,6 @@ class _DmBottomSheet extends ConsumerWidget {
           );
       }
 
-      // Block / Unblock.
       if (relationshipType == relBlocked) {
         relChildren.add(
           FluxerBottomSheetMenuItem(
@@ -1706,7 +1696,6 @@ class _DmBottomSheet extends ConsumerWidget {
       groups.add(FluxerMenuGroup(children: relChildren));
     }
 
-    // Group 4: Mute/Unmute
     groups.add(
       FluxerMenuGroup(
         children: [
@@ -1724,7 +1713,6 @@ class _DmBottomSheet extends ConsumerWidget {
       ),
     );
 
-    // Group 5: Debug (developer mode only)
     if (developerMode) {
       groups.add(
         FluxerMenuGroup(
@@ -1745,7 +1733,6 @@ class _DmBottomSheet extends ConsumerWidget {
       );
     }
 
-    // Group 6: Copy IDs
     groups.add(
       FluxerMenuGroup(
         children: [

@@ -46,7 +46,6 @@ class _AccountDisableSheetState extends ConsumerState<AccountDisableSheet> {
       );
 
       if (mounted) {
-        // Pop all the way back — the gateway disconnect will redirect to login
         Navigator.of(context, rootNavigator: true).pop();
       }
     } on DioException catch (e) {

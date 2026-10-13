@@ -19,7 +19,6 @@ import '../../../../../helpers/message_item_test_overrides.dart';
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
-// Webhook author lets the row resolve its display with no provider/DB read.
 Message _message() => Message(
   id: '1',
   channelId: 'c1',

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// [GestureDetector] that shows a click cursor for tap targets on desktop.
 class FluxerGestureDetector extends StatelessWidget {
   const FluxerGestureDetector({
     super.key,
@@ -63,7 +62,6 @@ class FluxerGestureDetector extends StatelessWidget {
   final bool excludeFromSemantics;
   final DragStartBehavior dragStartBehavior;
 
-  /// Override cursor when clickable. Defaults to [SystemMouseCursors.click].
   final MouseCursor? cursor;
 
   bool get _isClickable =>

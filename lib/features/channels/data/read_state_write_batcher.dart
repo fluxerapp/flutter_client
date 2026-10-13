@@ -12,7 +12,6 @@ const int kReadStateAckBatchMs = 50;
 const int kReadStateMentionBatchMs = 50;
 const int kReadStateUnreadMinIntervalMs = 2000;
 
-/// Batches per-channel unread read-state writes during gateway bursts.
 class ReadStateWriteBatcher {
   ReadStateWriteBatcher({
     required this._database,

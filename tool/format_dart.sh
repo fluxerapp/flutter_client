@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Format tracked Dart files, skipping generated and vendored paths.
 if [ -z "${BASH_VERSION:-}" ]; then
   exec bash "$0" "$@"
 fi

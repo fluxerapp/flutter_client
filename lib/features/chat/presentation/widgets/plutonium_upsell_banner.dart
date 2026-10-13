@@ -221,7 +221,6 @@ class _PreviewEmojiRow extends StatelessWidget {
   );
 }
 
-/// Returns up to [limit] items in a deterministic random order based on [seed].
 List<T> pickRandomItems<T>(List<T> items, int limit, int seed) {
   if (items.isEmpty || limit <= 0) {
     return const [];

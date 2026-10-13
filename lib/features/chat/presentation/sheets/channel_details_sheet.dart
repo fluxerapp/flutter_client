@@ -112,9 +112,6 @@ Widget _scrollableSheetPlaceholder(
     padding: FluxerBottomSheet.scrollViewPadding(context),
     children: [
       ConstrainedBox(
-        // A floor, not a fixed height: placeholder content taller than a
-        // quarter screen (small viewports, long localizations) grows the item
-        // and scrolls instead of overflowing the flex.
         constraints: BoxConstraints(
           minHeight: MediaQuery.sizeOf(context).height * 0.25,
         ),
@@ -126,17 +123,6 @@ Widget _scrollableSheetPlaceholder(
 
 enum ChannelDetailsInitialTab { members, pins }
 
-/// Opens the details sheet and performs any jump it returns.
-///
-/// The jump runs only after this future completes, so both the details sheet
-/// and the search sheet nested inside it are off the navigator stack before
-/// any gate UI or route change appears.
-///
-/// Precisely: the sheet futures resolve on `Route.popped`, which fires when a
-/// route leaves the stack, not when its reverse animation finishes. That is
-/// enough to guarantee ordering between the routes, so a pop always targets
-/// the intended route, but it does not guarantee the previous sheet has
-/// finished animating out.
 Future<void> showChannelDetailsSheetAndJump(
   BuildContext context, {
   required ProviderContainer container,
@@ -165,10 +151,6 @@ Future<void> executeChannelDetailsJumpRequest({
   required ProviderContainer container,
   required ChannelDetailsJumpRequest request,
 }) async {
-  // Resolved here rather than in the sheet: doing it before the sheet pops
-  // would leave two awaits between the picked message and the pop, and a
-  // dismissal in that window would lose the jump with no route left to
-  // carry it out.
   final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
   await database.messageDao.upsertMessage(request.message.toCompanion());
   final String? resolvedGuildId =
@@ -186,8 +168,6 @@ Future<void> executeChannelDetailsJumpRequest({
   );
 }
 
-/// Returns the message the user picked, if any. Callers must not navigate
-/// before this future completes; prefer [showChannelDetailsSheetAndJump].
 Future<ChannelDetailsJumpRequest?> showChannelDetailsSheet(
   BuildContext context, {
   required Channel? channel,
@@ -208,11 +188,6 @@ Future<ChannelDetailsJumpRequest?> showChannelDetailsSheet(
   );
 }
 
-/// A message the user picked inside the details sheet, from search or pins.
-///
-/// The sheet returns this instead of navigating itself: each route pops
-/// itself, and the opener sequences the dismissal and the jump off the awaited
-/// result rather than off assumptions about pop ordering.
 class ChannelDetailsJumpRequest {
   const ChannelDetailsJumpRequest({
     required this.message,
@@ -291,7 +266,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
         desiredRanges != null &&
         guildId != null &&
         channelId != null) {
-      // Provider mutations are illegal in dispose; defer to a microtask.
       scheduleMicrotask(() {
         viewport.clearChannel(guildId: guildId, channelId: channelId);
         desiredRanges.clearChannel(guildId: guildId, channelId: channelId);
@@ -337,12 +311,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     unawaited(_runSearch(channelId: channelId));
   }
 
-  /// Owns the search page's lifetime and bubbles its result outward.
-  ///
-  /// Each route pops itself: the search page pops with the picked message,
-  /// and this sheet immediately pops that message onward. A sheet's `close`
-  /// pops whatever is topmost rather than the route that handed it out, so
-  /// chained pops would be timing dependent.
   Future<void> _runSearch({required String channelId}) async {
     final ChannelDetailsJumpRequest? request = await showChannelSearchPage(
       context,
@@ -352,9 +320,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     if (request == null || !mounted) {
       return;
     }
-    // Pop immediately, with no await between the inner result and this pop:
-    // a dismissal in that window would leave no route to carry the jump out.
-    // Resolving the message is the helper's job, after both routes are gone.
     if (widget.completeWithResult != null) {
       widget.completeWithResult!(request);
     } else {

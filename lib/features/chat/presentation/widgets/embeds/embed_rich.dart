@@ -20,7 +20,6 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
-/// A rich embed card
 class EmbedRich extends StatelessWidget {
   final Embed embed;
   final EmbedGalleryIndex galleryIndex;
@@ -270,7 +269,6 @@ class _EmbedFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // inline fields: up to 3 per row; block fields always start a new row
     final rows = <List<EmbedField>>[];
     var current = <EmbedField>[];
 

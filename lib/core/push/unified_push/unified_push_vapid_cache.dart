@@ -2,7 +2,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 
 bool hasUnifiedPushVapid(String? vapid) => vapid != null && vapid.isNotEmpty;
 
-/// Background isolate has no Riverpod database.
 Future<String?> readCachedUnifiedPushVapidPublicKey(String instanceId) async {
   final FluxerDatabase database = FluxerDatabase();
   try {

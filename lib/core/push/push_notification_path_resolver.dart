@@ -2,7 +2,6 @@ import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 
-/// Resolves a push notification data payload to an in-app route path.
 String? resolvePushNotificationPath(Map<String, String> payload) {
   final String? fromUrl = _pathFromUrl(payload['url']);
   if (fromUrl != null) {

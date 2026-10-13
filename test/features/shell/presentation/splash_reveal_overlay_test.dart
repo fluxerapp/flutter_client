@@ -179,8 +179,6 @@ void main() {
     });
 
     test('fade is visible while the waves still fit on screen', () {
-      // Solid at the start of the growth, clearly translucent by the time the
-      // strokes span the viewport, gone by mid-expansion.
       expect(splashRevealSymbolOpacity(0.15), greaterThan(0.9));
       expect(splashRevealSymbolOpacity(0.36), lessThan(0.5));
       expect(splashRevealSymbolOpacity(0.54), 0);

@@ -123,9 +123,6 @@ const _kUnreadDividerHeight = 16.0;
 const _kUnreadDateDividerHeight = 20.0;
 const _kMessageListScrollCacheExtent = 1200.0;
 const _kMessageListCompactScrollCacheExtent = 400.0;
-// Older rows handed to the sliver per frame while revealing an installed
-// page. At 2 rows the worst build frame over a fling measures 25 ms on a
-// Motorola g54, against 55 ms when the page attaches at once.
 const _kOlderRevealRowsPerFrame = 2;
 
 const double _kMessageListStatusOverlayInsetMobile =
@@ -133,11 +130,8 @@ const double _kMessageListStatusOverlayInsetMobile =
 const double _kMessageListStatusOverlayInsetWide =
     WideComposerLayout.messageListTrailingInset;
 
-/// Trailing-run length at which a pinned reader is re-anchored to the tail.
 const int _kPinnedRecenterTrailingThreshold = 60;
 
-// Riverpod does not export the concrete auto-dispose family type.
-// Exposed for widget tests that hold read state in AsyncLoading.
 @visibleForTesting
 // Riverpod family type is not expressible without this ignore.
 // ignore: specify_nonobvious_property_types
@@ -168,20 +162,14 @@ final _cachedUnreadCountProvider = StreamProvider.autoDispose
       );
     });
 
-/// Viewport fraction where the NEW divider sits on unread opens.
 const double _kUnreadOpenAnchor = 0.5;
 
-/// Minimum inset from the viewport top for the NEW divider on unread opens.
 const double _kUnreadOpenTopInset = 32;
 
-/// Trailing unreads this close to filling the lower half stay at mid.
 const double _kUnreadOpenFillSlop = 32;
 
 const int _kUnreadOpenSettleMaxPasses = 4;
 
-/// How long a parked jump target may hold off edge pagination before it is
-/// retired. The page that would contain it may never arrive - a deleted target
-/// comes back as a neighbour window with no error - so the wait is bounded.
 const Duration _kPendingScrollTargetTimeout = Duration(seconds: 6);
 
 const Duration _kDetachedTrimIdleDelay = Duration(seconds: 2);
@@ -198,11 +186,6 @@ typedef _AttachedRows = ({
   double viewportHeight,
 });
 
-/// The scrollable list of messages in the chat area: one center-anchored
-/// [MessageListViewport] for every open/jump/live state. Positioning is the
-/// (anchorId, anchorFraction, anchorEdge) triple; prepends and appends are
-/// structurally scroll-stable because they land at the far ends of the
-/// leading/trailing slivers, away from the center marker.
 class MessageList extends ConsumerStatefulWidget {
   const MessageList({
     this.expectedChannelId,
@@ -211,14 +194,10 @@ class MessageList extends ConsumerStatefulWidget {
     super.key,
   });
 
-  /// When set, shows a loading shell until [ChatViewState.channelId] matches.
   final String? expectedChannelId;
 
   final String? targetMessageId;
 
-  /// False while the shell keeps the list mounted but hidden (drawer
-  /// revealed). Deactivates the read viewport so hidden arrivals never
-  /// auto-ack.
   final bool visible;
 
   @override
@@ -235,24 +214,16 @@ class _MessageListState extends ConsumerState<MessageList> {
   final GlobalKey _unreadCenterKey = GlobalKey();
   late final MessageListDemandSource _demandSource;
 
-  // ---- Unified center-anchored viewport (Phase 3) ----
-  // Positioning is always the pair (anchorId, anchorFraction); every
-  // re-anchor bumps _anchorEpoch so a FRESH ScrollPosition lays the anchor
-  // out at its fraction atomically (no wrong-paint frame, no settle loop).
   String? _anchorId;
   double _anchorFraction = 1;
   MessageListAnchorEdge _anchorEdge = MessageListAnchorEdge.after;
   int _anchorEpoch = 0;
   bool _anchorResolved = false;
-  // Counted in stream items, not messages: collapsed groups fold many
-  // messages into one item, so a message count would withhold visible rows.
   int _pendingOlderReveal = 0;
   bool _olderRevealScheduled = false;
   String? _olderRevealBoundaryId;
   ChannelStreamIndex _builtStreamIndex = ChannelStreamIndex.empty;
   MessageListViewport? _builtViewport;
-  // True while the open anchor is the unread divider; underfill must not
-  // bottom-pin short trailing blocks.
   bool _unreadOpenLayout = false;
   bool _unreadOpenSettling = false;
   int _unreadOpenSettlePasses = 0;
@@ -267,11 +238,6 @@ class _MessageListState extends ConsumerState<MessageList> {
   late String _viewportChannelId;
   bool? _viewportVisible;
   String? _pendingScrollTarget;
-  // The channel the parked target belongs to, plus the deadline that retires
-  // it. An `around=<id>` fetch whose target was deleted or filtered returns the
-  // neighbour window with no error; once that window lands, pending is consumed
-  // by scrolling the closest snowflake neighbour. The timeout is the residual
-  // escape when even that cannot settle.
   String? _pendingScrollTargetChannelId;
   int? _pendingScrollTargetWindowEpoch;
   Timer? _pendingScrollTargetTimer;
@@ -290,14 +256,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   double? _lastMaxScrollExtent;
 
   bool _userDragActive = false;
-  // A touch-down mid-fling makes Scrollable hold(), which dispatches
-  // ScrollEnd like a settle. Settling under a finger remounts the Scrollable
-  // (trim/re-anchor) and the drag that follows is lost (#713), so the settle
-  // waits until the pointer lifts without dragging.
   int _activePointers = 0;
-  // True while the list is ballistic. Horizontal competitors read the last
-  // built value, so a catch-fling pointer-down still defers them after hold()
-  // has already stopped the coast.
   final ValueNotifier<bool> _deferHorizontalWhileCoasting = ValueNotifier<bool>(
     false,
   );
@@ -306,9 +265,6 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _settleDeferredForHold = false;
   Timer? _detachedTrimTimer;
   bool _detachedTrimPending = false;
-  // Extent the edge skeleton fillers add beyond the loaded rows; demand
-  // geometry measures to the rows, not the skeleton, so pagination fires as
-  // the reader approaches real history, not when they run out of filler.
   double _leadingFillerExtent = 0;
   double _trailingFillerExtent = 0;
   MessageListEdgeFiller? _leadingFiller;
@@ -317,10 +273,6 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool? _fillerCompact;
   double? _fillerGroupSpacing;
   double? _fillerFontSize;
-  // Stays true after a user-driven leave of the 8px engage zone until the
-  // reader returns to the tail or an explicit jump/send re-engages it.
-  // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
-  // cannot re-arm follow.
   bool _followDisarmed = false;
   bool _pinnedTailGlueScheduled = false;
   String? _tailGlueRowId;
@@ -343,10 +295,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     _liveTailFollowAnimated = !platformReducedMotionOf(ref, context);
   }
 
-  // Invalidates deferred scroll effects scheduled against a previous UI
-  // world: bumped on channel reload and on every wholesale window
-  // replacement (windowSwap origin), so a stale post-frame callback can
-  // never mutate the scroll position of the window that replaced it.
   int _uiEpoch = 0;
 
   late final void Function() _focusNextMessage;
@@ -487,9 +435,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     super.dispose();
   }
 
-  /// EVERY re-anchor: new (anchorId, fraction, edge) plus a fresh anchor
-  /// epoch. _uiEpoch moves with it so previously scheduled deferred scroll
-  /// effects die with the layout they described.
 
   @override
   Widget build(BuildContext context) {
@@ -498,10 +443,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       ..listen<List<Message>>(
         chatViewModelProvider.select((ChatViewState s) => s.messages),
         (List<Message>? previous, List<Message> next) {
-          // WHO asked decides what the viewport may do with this write. The
-          // verdict is computed here, against exactly the transition this
-          // invocation was handed, and frozen into a local — a later write
-          // cannot re-authorize it (there is no shared latest-value cell).
           final MessagesOrigin? origin = ref
               .read(chatViewModelProvider)
               .writeOriginFor(previous: previous, next: next);
@@ -523,9 +464,6 @@ class _MessageListState extends ConsumerState<MessageList> {
             _tailGlueRowId = null;
           }
           if (origin == MessagesOrigin.windowSwap) {
-            // EVERY wholesale replacement - jump landings AND network-refresh
-            // reinstalls - invalidates deferred scroll effects scheduled
-            // against the window it replaced.
             _uiEpoch++;
             _exposeOlderRowsNow();
           }
@@ -534,12 +472,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           }
           if (origin == MessagesOrigin.olderPage ||
               origin == MessagesOrigin.newerPage) {
-            // Deterministic awaitingGeometry release: sample POST-layout
-            // geometry of the window that scheduled it, then force-bump
-            // exactly the installed edge's revision (an underfilled list
-            // keeps min == max == 0 across installs, so no metrics
-            // notification and no scroll fires). Epoch-guarded so a stale
-            // install cannot release a newer context's pump.
             final PaginationEdge installedEdge =
                 origin == MessagesOrigin.olderPage
                 ? PaginationEdge.older
@@ -554,15 +486,11 @@ class _MessageListState extends ConsumerState<MessageList> {
           }
           final ChatViewState postWrite = ref.read(chatViewModelProvider);
           if (postWrite.hasMoreNewerMessages) {
-            // Any write that leaves the window detached unpins: the loaded
-            // tail is history, not the present.
             _pin.onDetached();
           }
           if (origin == MessagesOrigin.windowSwap &&
               !postWrite.hasMoreNewerMessages &&
               (_landAtLatestTailPending || _shouldRelandLiveTail(next))) {
-            // A terminal newer page can flip the flag while a jump is in
-            // flight; only a swap may consume the pending land.
             final bool animate = _landAtLatestTailPending;
             _landAtLatestTailPending = false;
             _landAtLatestTail(next, animate: animate);
@@ -589,9 +517,6 @@ class _MessageListState extends ConsumerState<MessageList> {
               _isNearLiveTail()) {
             _schedulePinnedTailGlue();
           }
-          // Every other origin: structurally scroll-stable by construction -
-          // prepends/appends land at the far ends of the leading/trailing
-          // slivers, away from the center.
         },
       )
       ..listen<int>(
@@ -799,7 +724,6 @@ class _MessageListState extends ConsumerState<MessageList> {
         widget.targetMessageId != null || _pendingScrollTarget != null;
     if (!_anchorResolved && (!isLoading || messages.isNotEmpty)) {
       if (hasJumpTarget && messages.isEmpty) {
-        // Wait for the around-window before anchoring.
       } else if (readStateAsync.hasValue ||
           (hasJumpTarget && messages.isNotEmpty)) {
         final String? unreadAnchorId = hasJumpTarget ? null : visualUnreadId;
@@ -827,11 +751,6 @@ class _MessageListState extends ConsumerState<MessageList> {
         _exposeOlderRowsNow();
         _followDisarmed = false;
         if (canAnchorUnread) {
-          // Unread open: the split falls BEFORE the first unread's stream
-          // item, so the NEW divider - rendered at the top of that tile,
-          // even when the unread lives inside a collapsed group - sits at
-          // the fraction. A short trailing block is packed to the composer
-          // after layout so NEW is not stuck at mid-viewport over a void.
           _unreadOpenLayout = true;
           _unreadOpenSettling = true;
           _unreadOpenSettlePasses = 0;
@@ -841,8 +760,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           _anchorEdge = MessageListAnchorEdge.before;
           _scheduleUnreadOpenLayoutPass();
         } else if (jumpAnchorId != null) {
-          // Jump open: land on the target, or the closest neighbour when the
-          // around page omitted it (deleted / filtered). Never the live tail.
           _anchorId = jumpAnchorId;
           _anchorFraction = _kUnreadOpenAnchor;
           _anchorEdge = MessageListAnchorEdge.before;
@@ -865,16 +782,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       _scheduleBottomViewportSync();
     }
     _messagesWereLoading = isLoading;
-    // Steady demand publish: a resolved open with a static viewport emits no
-    // scroll and no further metrics notification (a bottom open attaches at
-    // the tail and stays there; the mode can resolve AFTER the only attach
-    // notification fired), so the demand source would otherwise never learn
-    // the geometry - leaving overscroll retries without a context. Post-frame
-    // so it samples laid-out geometry; a static sample pushes nothing.
     if (_anchorResolved) {
-      // Epoch captured at schedule time: a re-anchor inside this same
-      // frame's callbacks would otherwise be sampled against the
-      // still-mounted old geometry.
       final int scheduledEpoch = _uiEpoch;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && _uiEpoch == scheduledEpoch) {
@@ -902,8 +810,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       _tileCache.clear();
     }
 
-    // Defer until the anchor is resolved so this build mounts the real list
-    // and the correction post-frame can find scroll clients.
     if (!isLoading && _anchorResolved && _pendingScrollTarget != null) {
       final String target = _pendingScrollTarget!;
       final int windowEpoch = ref.read(chatViewModelProvider).windowEpoch;
@@ -928,8 +834,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           '${scrollId == target ? '' : ' via neighbour $scrollId'}',
         );
         _pin.pinned = false;
-        // Mid-build re-anchor: direct field writes - THIS build already
-        // renders the new anchor (setState here would assert).
         _unreadOpenLayout = false;
         _setUnreadLeadingPad(0);
         _anchorId = scrollId;
@@ -943,13 +847,11 @@ class _MessageListState extends ConsumerState<MessageList> {
         _scheduleUnderfillBottomReanchor();
         _scheduleJumpHighlightConfirm(target);
       } else if (messageLoadFailed) {
-        // The page that would carry the target will not arrive.
         talker.debug(
           '[MessageList] pending target $target dropped: load failed',
         );
         _clearPendingScrollTarget();
       } else if (windowUpdatedSincePark && messages.isNotEmpty) {
-        // New window landed without a neighbour to settle on
         talker.debug(
           '[MessageList] pending target $target not in ${messages.length} '
           'messages',
@@ -1389,9 +1291,6 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   void _beginOlderReveal(List<Message>? previous) {
     _exposeOlderRowsNow();
-    // The page that ends older history also removes the edge filler, and
-    // that removal already re-lays the list; withholding the rows on top of
-    // it would land the reader a page lower.
     if (previous == null ||
         previous.isEmpty ||
         !ref.read(chatViewModelProvider).hasMoreMessages) {
@@ -1405,9 +1304,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       return;
     }
     _olderRevealScheduled = true;
-    // Not epoch-gated: every _uiEpoch bump exposes the pending rows, so a
-    // count still pending here belongs to the live window. An epoch gate would
-    // strand it, and olderInstallPending would then block older pagination.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _olderRevealScheduled = false;
       if (!mounted || _pendingOlderReveal == 0) {
@@ -1430,10 +1326,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     _olderRevealBoundaryId = null;
   }
 
-  // Rebuilding a filler rebuilds its 26 skeleton groups, and each group's
-  // LayoutBuilder relays out when rebuilt: 52 relayouts per list setState
-  // measured on a Motorola g54, about 2.2 ms of every reveal frame. The
-  // instances are reused until one of these inputs changes.
   void _refreshFillers({
     required String channelId,
     required bool compact,
@@ -1499,20 +1391,12 @@ class _MessageListState extends ConsumerState<MessageList> {
       }
     });
     _demandSource.resetApproachVelocity();
-    // A rebase keeps pixels identical: the fraction was MEASURED off the
-    // live layout, so the half-height center correction (which centers a
-    // jump target's rect) and the underfill fallback must not run. Jumps
-    // leave unread-open layout so they can center the target tile.
     if (!rebase && anchorId != null && fraction < 1.0) {
       _scheduleAnchorCenterCorrection(anchorId);
       _scheduleUnderfillBottomReanchor();
     }
   }
 
-  /// `CustomScrollView.anchor` places the anchor item's LEADING edge at the
-  /// fraction; centering the item's RECT needs one measured half-height
-  /// correction after the first layout. Single-shot and epoch-guarded - not
-  /// a settle loop.
   void _scheduleAnchorCenterCorrection(String anchorId) {
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1526,9 +1410,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           return;
         }
         final ScrollPosition position = _scrollController.position;
-        // A `before` anchor has its LEADING edge at the fraction: centering
-        // the rect moves the content UP by half (pixels grow toward newer).
-        // An `after` anchor has its TRAILING edge there: content DOWN.
         final double corrected = _anchorEdge == MessageListAnchorEdge.before
             ? position.pixels + half
             : position.pixels - half;
@@ -1624,22 +1505,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     return done;
   }
 
-  /// A fractional anchor only holds while the content below it can fill
-  /// `(1 - fraction) * viewportExtent`: once the trailing side clamps to zero
-  /// extent no offset pulls the content down, so the band under the newest
-  /// message is dead and undraggable. Re-anchor bottom when that happens -
-  /// unless newer pagination is about to fill the trailing side.
-  ///
-  /// Only for a reader AT the trailing edge: the shrink that opens the band
-  /// clamps an at-tail offset onto the collapsed maximum, while a reader deep
-  /// in history keeps pixels below it and is left where they are - a re-anchor
-  /// would remount at the tail and yank them out of history. Their own scroll
-  /// back to the edge arms this again.
-  ///
-  /// Re-armed on later geometry, not just at anchor time: a bulk delete, a
-  /// trim or a viewport growth invalidates a fraction that was valid when it
-  /// was measured. Idempotent - the re-anchor it performs sets the fraction to
-  /// 1.0, which the guard below then rejects.
   void _scheduleUnderfillBottomReanchor() {
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1671,9 +1536,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
-  /// After an unread open, park NEW at [_kUnreadOpenAnchor] when the trailing
-  /// unreads fill the lower half. If they do not, lower the split so the last
-  /// unread sits on the composer instead of leaving a void under NEW.
   void _scheduleUnreadOpenLayoutPass() {
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -2079,10 +1941,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     return row;
   }
 
-  /// A user fling goes Drag -> Ballistic with no new ScrollStart, so the
-  /// coasting flag cannot be driven from start notifications alone. While the
-  /// position is still scrolling, horizontal competitors must drop out so a
-  /// catch-fling can keep the hold's velocity.
   void _setDeferHorizontalWhileCoasting(bool value) {
     if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.idle) {
       _deferHorizontalWhileCoastingAfterFrame = null;
@@ -2123,10 +1981,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           _scrollController.position.userScrollDirection !=
               ScrollDirection.idle);
 
-  /// Samples both edges' geometry and pushes demand levels/revisions into
-  /// the pagination coordinator. Unified center-anchored convention: the
-  /// live tail is the trailing (maxScrollExtent) direction - distance to
-  /// older = pixels - min, distance to newer = trailing distance.
   void _publishDemandGeometry() {
     if (!_anchorResolved || !_scrollController.hasClients) {
       return;
@@ -2154,8 +2008,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       ? _kMessageListStatusOverlayInsetMobile
       : _kMessageListStatusOverlayInsetWide;
 
-  /// Distance from the reader to the newest LOADED row's trailing edge; the
-  /// skeleton filler and status inset past it are not history.
   double _centerTrailingDistance(ScrollPosition position) =>
       _rawTrailingDistance(position).clamp(0, double.infinity);
 
@@ -2170,13 +2022,9 @@ class _MessageListState extends ConsumerState<MessageList> {
     required double pixels,
   }) => maxScrollExtent - pixels - _statusOverlayInset - _trailingFillerExtent;
 
-  /// Scroll offset of the newest loaded row's trailing edge: the live-tail
-  /// landing spot, which is [ScrollMetrics.maxScrollExtent] only while no
-  /// trailing filler stands past it.
   double _loadedTailExtent(ScrollPosition position) =>
       position.maxScrollExtent - _trailingFillerExtent;
 
-  /// Newest row height can grow after the first layout pass (wrap, embeds).
   void _reconcilePinnedLiveTailScroll() {
     if (!mounted || !_anchorResolved || !_scrollController.hasClients) {
       return;
@@ -2224,9 +2072,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     position.jumpTo(tail);
   }
 
-  /// With skeleton filler past a loaded edge there is no hard wall to press
-  /// into; a user-driven scroll carrying the reader onto the filler is the
-  /// same "give me more" signal, collapsed per gesture upstream.
   void _signalFillerEntry() {
     if (!_isUserDrivenScroll || !_scrollController.hasClients) {
       return;
@@ -2240,17 +2085,13 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
-  /// Sign adapter for scroll deltas: positive = toward the OLDER edge.
   double _towardOlderDelta(double scrollDelta) =>
-      // Center-anchored viewport: pixels grow toward newer history.
       -scrollDelta;
 
-  /// Maps an overscroll sign to the loaded edge being pressed into.
   PaginationEdge? _overscrollEdge(double overscroll) {
     if (overscroll == 0) {
       return null;
     }
-    // Beyond max = pressing into the newer (trailing) edge.
     return overscroll > 0 ? PaginationEdge.newer : PaginationEdge.older;
   }
 
@@ -2293,7 +2134,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     _rowResizeMessageIds.clear();
     _rowResizeClearTimer?.cancel();
     _rowResizeClearTimer = null;
-    // A target parked for another channel can never be consumed here.
     if (_pendingScrollTargetChannelId != null &&
         _pendingScrollTargetChannelId != channelId) {
       _clearPendingScrollTarget();
@@ -2358,7 +2198,6 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   bool _onScrollNotification(ScrollNotification notification) {
-    // Track drag at any depth so deferred pins can honor it.
     if (notification is ScrollStartNotification &&
         notification.dragDetails != null) {
       _userDragActive = true;
@@ -2382,23 +2221,17 @@ class _MessageListState extends ConsumerState<MessageList> {
       return false;
     }
     if (notification is ScrollStartNotification) {
-      // A drag, ballistic, or programmatic start after a hold owns the next
-      // End; the held settle is superseded.
       _settleDeferredForHold = false;
       _cancelDetachedTrim();
       if (notification.dragDetails == null) {
         _setDeferHorizontalWhileCoasting(true);
       }
       _syncCoastingDefer();
-      // Drag, ballistic, or programmatic - each pairs with an End, and the
-      // VM defers recovery window swaps while any of them is live.
       _chatViewModel.setUserScrollActive(
         channelId: _viewportChannelId,
         active: true,
       );
       if (notification.dragDetails != null) {
-        // A user finger/trackpad drag mints the retry gesture: one deliberate
-        // retry per parked cursor.
         _demandSource.onDragStart();
       }
     } else if (notification is ScrollUpdateNotification) {
@@ -2407,12 +2240,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       }
       final double? delta = notification.scrollDelta;
       if (delta != null && delta != 0) {
-        // Real scroll motion only: layout-time corrections dispatch no
-        // update notifications, so page landings and reflows contribute
-        // zero approach velocity.
         _demandSource.onScrollDelta(_towardOlderDelta(delta));
-        // A user-driven leave of the engage zone must disarm before
-        // ScrollEnd: a liveCreate can land mid-gesture while pinned.
         if (_isUserDrivenScroll &&
             _scrollController.hasClients &&
             _centerTrailingDistance(_scrollController.position) > 8) {
@@ -2421,17 +2249,11 @@ class _MessageListState extends ConsumerState<MessageList> {
         }
       }
     } else if (notification is OverscrollNotification) {
-      // At the hard wall a gesture toward the loaded edge moves ZERO pixels,
-      // so the position listener never runs. The overscroll itself is the
-      // "give me more" signal.
       final PaginationEdge? edge = _overscrollEdge(notification.overscroll);
       if (edge != null) {
         _demandSource.onOverscrollTowardEdge(edge);
       }
     } else if (notification is ScrollEndNotification) {
-      // The hold's End is dispatched from the Scrollable's own pointer
-      // handler, which runs BEFORE the outer viewport Listener sees the same
-      // PointerDown; a microtask reads the pointer count after both.
       scheduleMicrotask(_settleUnlessHeld);
     }
     return false;
@@ -2460,16 +2282,12 @@ class _MessageListState extends ConsumerState<MessageList> {
       _activePointers--;
     }
     if (_activePointers == 0 && _settleDeferredForHold) {
-      // Lifted without dragging: the hold cancelled straight to idle, which
-      // dispatches no End, so the withheld settle runs here.
       scheduleMicrotask(_settleUnlessHeld);
     } else if (_activePointers == 0 && _detachedTrimPending) {
       _armDetachedTrim();
     }
   }
 
-  /// A depth-0 scroll settled: update the pin latch, apply the re-center
-  /// policy, trim the window at the tail, and republish the read viewport.
   void _onUserScrollSettled() {
     _setDeferHorizontalWhileCoasting(false);
     if (!_anchorResolved || !_scrollController.hasClients) {
@@ -2484,7 +2302,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       _scrollController.position,
     );
     if (_followDisarmed) {
-      // Engage-only: the 64px hold would re-arm follow after a leave.
       _pin.pinned = !state.hasMoreNewerMessages && distanceFromLiveTail <= 8;
       if (_pin.pinned) {
         _followDisarmed = false;
@@ -2510,13 +2327,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       );
       _armDetachedTrim();
     }
-    // A reader who scrolled back to the edge is the one the underfill repair
-    // was withheld from while they were in history.
     if (_anchorId != null && _anchorFraction < 1.0 && !_unreadOpenLayout) {
       _scheduleUnderfillBottomReanchor();
     }
-    // Inactive is reported LAST so a deferred recovery resync lands on the
-    // trimmed window.
     _chatViewModel.setUserScrollActive(
       channelId: _viewportChannelId,
       active: false,
@@ -2566,7 +2379,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final _AttachedRows? rows = _measureAttachedRows(state);
     if (rows == null) {
-      // Nothing measurable this cycle; the next scroll end retries.
       return;
     }
     final List<Message> messages = state.messages;
@@ -2828,8 +2640,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
-  /// Re-center policy: a pinned reader with a deep trailing run re-anchors
-  /// to the newest message.
   void _maybeRecenterPinnedTail(List<Message> messages) {
     final String? anchor = _anchorId;
     if (messages.isEmpty) {
@@ -2837,8 +2647,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final String newestId = messages.last.id;
     if (anchor == null || anchor == newestId) {
-      // A null anchor already keeps ALL content in the leading sliver; the
-      // trailing run cannot grow.
       if (anchor != null) {
         return;
       }
@@ -2846,8 +2654,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (anchor == null) {
       return;
     }
-    // Trailing run length, measured on messages (stream separators only add
-    // items, so this undercounts slightly - a conservative threshold).
     int trailing = 0;
     for (int i = messages.length - 1; i >= 0; i -= 1) {
       if (compareSnowflakeIds(messages[i].id, anchor) <= 0) {
@@ -2860,12 +2666,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
-  /// A write removed the current anchor (deleted center). Swap to the
-  /// nearest survivor on the side that keeps the split partition identical,
-  /// without an epoch bump, so the position holds and only the deleted
-  /// item's gap closes: `after` anchors take the nearest older survivor,
-  /// `before` anchors the nearest newer; at the window's edge fall back to
-  /// the other direction.
   void _repairDeletedAnchor(List<Message> next) {
     final String? anchor = _anchorId;
     if (anchor == null) {
@@ -2874,8 +2674,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (next.any((Message m) => m.id == anchor)) {
       return;
     }
-    // An acked own send renames the anchor's id instead of removing the row,
-    // and nonces reach every recipient, so only the sender's row may claim it.
     final String? currentUserId = ref.read(currentUserIdProvider);
     if (currentUserId != null && currentUserId.isNotEmpty) {
       for (final Message message in next.reversed) {
@@ -2911,10 +2709,6 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   bool _onScrollMetricsNotification(ScrollMetricsNotification notification) {
-    // Nested scrollables in rows (markdown tables, code and CSV attachment
-    // panels) bubble their own metrics here. Read as the list's, a row's
-    // first layout looks like a viewport shrink at pixels 0 and glues the
-    // list to the tail.
     if (notification.depth != 0) {
       return false;
     }
@@ -2950,8 +2744,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       }
     }
     if (!pixelOnly) {
-      // Keyboard, rotation, content-extent jump, or first attach. Pixel
-      // slides already flow through _onScroll / ScrollUpdate.
       _demandSource.resetApproachVelocity();
       _publishDemandGeometry();
       _syncReadViewport();
@@ -3006,11 +2798,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
-  /// A target is parked waiting for the page that contains it.
   bool _hasPendingScrollTarget() => _pendingScrollTarget != null;
 
-  /// A jump owns the viewport: edge pagination and read-viewport auto-ack
-  /// must not treat a mid-jump position as where the user is reading.
   bool _isJumpOwningViewport() => _hasPendingScrollTarget();
 
   void _setPendingScrollTarget(String? messageId) {
@@ -3056,9 +2845,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     return createIndexedChannelStream(
       messages: messages,
       oldestUnreadMessageId: oldestUnreadMessageId,
-      // An after-edge anchor's containing item sits leading-of-center; the
-      // split boundary stops collapsed groups from absorbing newer content
-      // into it (which would shift everything above the marker).
       groupSplitBoundaryId: _anchorEdge == MessageListAnchorEdge.after
           ? _anchorId
           : null,
@@ -3142,12 +2928,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
-  /// Publishes viewport geometry to the read-viewport provider.
-  ///
-  /// jump-to-bottom distance branch, so withholding it during a jump hides the
-  /// only escape hatch out of a detached window. Only `nearLoadedTail` - the
-  /// flag that can trigger an auto-ack - is withheld while a jump owns the
-  /// viewport, since the position mid-jump is not where the user is reading.
   void _syncReadViewport({bool ignoreJumpTarget = false}) {
     if (_tailFollowOwnsScroll()) {
       return;
@@ -3160,8 +2940,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       if (chatState.isLoading || chatState.hasMoreNewerMessages) {
         return;
       }
-      // Welcome / empty states do not mount a scroll view, so there is no
-      // metrics callback. Viewing that empty live tail still marks read.
       _readViewport.updateViewport(
         channelId: _viewportChannelId,
         nearLoadedTail: true,
@@ -3184,31 +2962,19 @@ class _MessageListState extends ConsumerState<MessageList> {
             distanceFromTrailingEdge: distanceFromTrailingEdge,
           ),
       distanceFromBottom: distanceFromTrailingEdge,
-      // The tail this geometry was measured against: an atomic write that
-      // advances the tail (terminal newer page, live create) makes this
-      // publication stale for auto-ack until post-layout geometry
-      // republishes with the fresh token.
       sampledTailId: newestServerBackedMessageId(chatState.messages),
     );
   }
 
-  /// Honors [explicitIntent] requests from any distance; a bare signal is
-  /// filtered by [_isSoftReconcileWhileDisarmed].
   void _onScrollToBottom({bool explicitIntent = false}) {
-    // Gated first: a dropped request must not retire the parked target.
     if (!explicitIntent && _isSoftReconcileWhileDisarmed()) {
       return;
     }
-    // The escape hatch preempts: retire any parked target instead of
-    // refusing the tap.
     _clearPendingScrollTarget();
     if (!_anchorResolved) {
       return;
     }
     final ChatViewState chatState = ref.read(chatViewModelProvider);
-    // An unconfirmed tail must fetch the present: a local jump to the
-    // trailing edge would land on the newest message of the LOADED window,
-    // which in a detached window is history, not the present.
     if (chatState.hasMoreNewerMessages) {
       _followDisarmed = false;
       _requestJumpToLatest();
@@ -3243,13 +3009,10 @@ class _MessageListState extends ConsumerState<MessageList> {
     _landAtLatestTail(messages, animate: true);
   }
 
-  /// Only glue can have produced this request: the reader left the tail and
-  /// is still nearer than the jump button's own visibility threshold.
   bool _isSoftReconcileWhileDisarmed() {
     if (!_followDisarmed || !_scrollController.hasClients) {
       return false;
     }
-    // An unconfirmed tail must fetch the present, reconcile or not.
     if (ref.read(chatViewModelProvider).hasMoreNewerMessages) {
       return false;
     }
@@ -3258,8 +3021,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
-  /// Arms the land-at-tail flag and starts a jump. Re-entrant requests are
-  /// ignored so a rejected second call cannot clear the pending flag.
   void _requestJumpToLatest() {
     if (_jumpToLatestInFlight) {
       return;
@@ -3283,8 +3044,6 @@ class _MessageListState extends ConsumerState<MessageList> {
             }
             return false;
           })
-          // A thrown Error would otherwise strand the in-flight flag and wedge
-          // every later jump request.
           .whenComplete(() {
             if (ticket == _jumpToLatestTicket) {
               _jumpToLatestInFlight = false;
@@ -3293,9 +3052,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
-  // An open that lands without a jump has no scroll event, so the
-  // jump-to-bottom button would never learn the viewport height it needs to
-  // evaluate the distance branch.
   void _scheduleBottomViewportSync() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted && _anchorResolved) {
@@ -3548,9 +3304,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     final bool targetLoaded = jumpState.messages.any(
       (Message message) => message.id == messageId,
     );
-    // A landed window that still lacks the target is the deleted or filtered
-    // case: settle on the neighbour now. The view model signals after
-    // installing the around page, so nothing later rebuilds this to retry.
     final String? scrollId = targetLoaded
         ? messageId
         : jumpTargetWindowSettled(
@@ -3565,8 +3318,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           )
         : null;
     if (scrollId == null) {
-      // Still in flight: park until the around page arrives. Resolving here
-      // would land on the edge of the window the reader is leaving.
       _setPendingScrollTarget(messageId);
       talker.debug('[MessageList] pending target parked $messageId');
       return;

@@ -2,7 +2,6 @@ import 'dart:async';
 
 const Duration kVoiceTrackHandoffGrace = Duration(milliseconds: 600);
 
-/// One renderer per track so expand/minimize does not allocate a new texture.
 class VoiceTrackRendererCache<T> {
   VoiceTrackRendererCache({
     required this.create,
@@ -20,7 +19,6 @@ class VoiceTrackRendererCache<T> {
   final Map<String, _RendererSlot<T>> _slots = <String, _RendererSlot<T>>{};
   var _sessionEnded = false;
 
-  /// Claims an already initialized renderer, or null if it still needs creating.
   T? retainIfPresent(String key) {
     final _RendererSlot<T>? slot = _slots[key];
     final T? value = slot?.value;
@@ -76,7 +74,6 @@ class VoiceTrackRendererCache<T> {
     }
   }
 
-  /// Waits until pending creates and destroys finish.
   Future<void> drain() async {
     for (final String key in _slots.keys.toList()) {
       final _RendererSlot<T>? slot = _slots[key];

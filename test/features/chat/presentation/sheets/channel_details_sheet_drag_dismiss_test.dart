@@ -64,7 +64,6 @@ Widget _host(ProviderContainer container, {required Widget child}) {
   );
 }
 
-/// Mounts a host with an `Open` button that shows [show] as a real modal sheet.
 Future<void> _openSheet(
   WidgetTester tester,
   ProviderContainer container,
@@ -132,7 +131,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(_handle, findsOneWidget);
 
-    // At the half snap, a short flick above 300px/s dismisses.
     final TestGesture gesture = await tester.startGesture(
       tester.getCenter(_handle),
     );

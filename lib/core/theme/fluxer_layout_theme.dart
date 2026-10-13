@@ -96,7 +96,6 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
   final double s16;
   final double s20;
 
-  // Radius
   final BorderRadius radiusSm;
   final BorderRadius radiusMd;
   final BorderRadius radiusLg;
@@ -104,25 +103,21 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
   final BorderRadius radiusXxl;
   final BorderRadius radiusFull;
 
-  // Layout Dimensions
   final double sidebarWidth;
   final double headerHeight;
   final double guildListWidth;
   final double mobileBottomNavHeight;
   final double userAreaHeight;
 
-  // Switch dimensions
   final double switchTrackWidth;
   final double switchTrackHeight;
   final double switchThumbSize;
   final double switchThumbInset;
   final double switchIconSize;
 
-  // Settings switch row dimensions
   final double settingsSwitchRowMinHeight;
   final double settingsSwitchGroupedRowMinHeight;
 
-  // Minimum interactive control size
   final double touchTargetMin;
 
   final double pageGutter;

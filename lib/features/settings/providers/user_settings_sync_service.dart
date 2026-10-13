@@ -12,8 +12,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_settings_sync_service.g.dart';
 
-/// Pushes theme updates to PATCH `/users/@me/settings`. Each call awaits the
-/// server response so callers can block UI on the ack.
 class UserSettingsSyncService {
   UserSettingsSyncService(Ref ref) : _ref = ref;
 

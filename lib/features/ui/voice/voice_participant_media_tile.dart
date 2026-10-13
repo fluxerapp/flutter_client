@@ -18,7 +18,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 enum VoiceParticipantTileSource { camera, screenShare }
 
-/// Renders a LiveKit camera/screen-share track, or an avatar fallback.
 class VoiceParticipantMediaTile extends StatefulWidget {
   const VoiceParticipantMediaTile({
     required this.media,

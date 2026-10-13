@@ -171,7 +171,6 @@ String _timePattern(
       : DateFormat.jm(locale);
   final String pattern =
       preferred.pattern ?? (withSeconds ? 'h:mm:ss a' : 'h:mm a');
-  // jm follows the locale clock, so en_GB and similar stay 24-hour.
   if (pattern.contains('H') || pattern.contains('k')) {
     return withSeconds ? 'h:mm:ss a' : 'h:mm a';
   }

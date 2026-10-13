@@ -11,10 +11,6 @@ import 'package:fluxer_app/features/ui/settings/fluxer_settings_heading_link_but
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Vertical density of the section's children.
-///
-/// Use [comfortable] for form fields and complex cards (the default).
-/// Use [compact] for flat tile/card lists where rows should sit close together.
 enum FluxerSettingsSectionDensity { comfortable, compact }
 
 class FluxerSettingsSection extends StatelessWidget {

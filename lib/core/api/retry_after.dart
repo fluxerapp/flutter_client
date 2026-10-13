@@ -116,7 +116,6 @@ bool isGlobalRateLimit({Headers? headers, Object? data}) {
   return _asMap(data)?['global'] == true;
 }
 
-/// Transport pacing delay: reset-after, Retry-After, body, then 1s.
 int transportRateLimitDelayMs({
   Headers? headers,
   Object? data,
@@ -132,7 +131,6 @@ int transportRateLimitDelayMs({
       _kFallbackDelayMs;
 }
 
-/// Feature delay: nested body, retry_after, then headers.
 int? featureRetryAfterMs({
   Headers? headers,
   Object? data,

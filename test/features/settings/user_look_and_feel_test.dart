@@ -158,8 +158,6 @@ Widget _wrap(Widget child, {required FluxerDatabase db}) {
   );
 }
 
-/// Suppress rendering overflow exceptions that originate from FluxerSlider's
-/// fixed-size marker column in test environments.
 void _ignoreSliderOverflows() {
   final previousHandler = FlutterError.onError;
   FlutterError.onError = (details) {

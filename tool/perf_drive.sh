@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Run an integration perf test on a physical Android device and print its frame timings.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -28,7 +27,6 @@ else
   echo "Using device ${DEVICE}"
 fi
 
-# Screen sleep stalls the driven app mid-scroll, so keep the device awake.
 if [ "${PERF_KEEP_AWAKE:-1}" != "0" ]; then
   adb -s "$DEVICE" shell settings put global stay_on_while_plugged_in 7 || true
   adb -s "$DEVICE" shell svc power stayon true || true
@@ -64,8 +62,6 @@ if [ -n "${PERF_SEMANTICS:-}" ]; then
   DART_DEFINES+=(--dart-define=PERF_SEMANTICS="$PERF_SEMANTICS")
 fi
 
-# flutter drive's teardown uninstalls the app (drive_service.dart:286), which
-# wipes the session between runs. Keeping it running skips that teardown.
 KEEP_APP=(--keep-app-running)
 if [ "${PERF_KEEP_INSTALL:-1}" = "0" ]; then
   KEEP_APP=(--no-keep-app-running)

@@ -189,18 +189,15 @@ void main() {
     final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
     final repo = MessageRepository(client, dio, db, 'me');
 
-    // Two concurrent identical loads share one network round-trip.
     await Future.wait([
       repo.loadMessagePage(channelId: 'channel-1'),
       repo.loadMessagePage(channelId: 'channel-1'),
     ]);
     expect(adapter.getMessagesCount, 1);
 
-    // A later (non-overlapping) identical load is not stale-deduped.
     await repo.loadMessagePage(channelId: 'channel-1');
     expect(adapter.getMessagesCount, 2);
 
-    // Concurrent loads with different cursors are not coalesced.
     await Future.wait([
       repo.loadMessagePage(channelId: 'channel-1', before: '123'),
       repo.loadMessagePage(channelId: 'channel-1', after: '456'),
@@ -216,18 +213,12 @@ void main() {
     final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
     final repo = MessageRepository(client, dio, db, 'me');
 
-    // A proof request must observe the server after its caller's pointer
-    // read; an in-flight identical page may carry an older snapshot, and
-    // joining it would launder a raced pointer into an orphan verdict
-    // (see _liveTailAckTargetId).
     await Future.wait([
       repo.loadMessagePage(channelId: 'channel-1'),
       repo.loadMessagePage(channelId: 'channel-1', fresh: true),
     ]);
     expect(adapter.getMessagesCount, 2);
 
-    // Nor may a fresh request become a join target for ordinary loads: that
-    // would silently launder its freshness the other way.
     await Future.wait([
       repo.loadMessagePage(channelId: 'channel-1', fresh: true),
       repo.loadMessagePage(channelId: 'channel-1'),
@@ -284,8 +275,6 @@ void main() {
 
     await repo.loadMessagePage(channelId: 'channel-1');
 
-    // Role-only mention: the old heuristic stored false, the rich resolver
-    // stores true.
     final row = await db.messageDao.getMessage(messageId);
     expect(row?.isMentioned, isTrue);
   });
@@ -695,7 +684,6 @@ class _CountingAdapter implements HttpClientAdapter {
     final String path = options.uri.path;
     if (options.method == 'GET' && path.endsWith('/messages')) {
       getMessagesCount++;
-      // Small delay so concurrent calls genuinely overlap in flight.
       await Future<void>.delayed(const Duration(milliseconds: 10));
       return ResponseBody.fromString(
         jsonEncode(const <Map<String, Object?>>[]),

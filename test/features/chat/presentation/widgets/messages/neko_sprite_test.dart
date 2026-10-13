@@ -31,7 +31,6 @@ class _NeverIdleAnimationRandom implements Random {
 
 void main() {
   setUp(() {
-    // Deliver visibility callbacks synchronously so the gating is deterministic.
     VisibilityDetectorController.instance.updateInterval = Duration.zero;
   });
 
@@ -74,10 +73,6 @@ void main() {
         ),
       );
 
-  // Keeps NekoSprite painted and in the tree (so its painter stays findable and
-  // its State is preserved), but pushes it far off-screen when [onScreen] is
-  // false so VisibilityDetector reports visibleFraction == 0. TickerMode stays
-  // enabled, mirroring "another channel open / PageView page swiped away".
   Widget wrapOffScreen({required bool onScreen, Random? random}) =>
       ProviderScope(
         child: MaterialApp(
@@ -100,8 +95,6 @@ void main() {
         ),
       );
 
-  // The sprite renders nothing until assets/images/neko.gif decodes (real async,
-  // so this runs inside tester.runAsync). Returns the first painter once present.
   Future<Rect> awaitSprite(WidgetTester tester) async {
     for (int i = 0; i < 40; i++) {
       await tester.pump();
@@ -167,7 +160,6 @@ void main() {
     WidgetTester tester,
   ) async {
     await tester.runAsync(() async {
-      // Visible first: confirm it is genuinely animating.
       await tester.pumpWidget(wrapOffScreen(onScreen: true));
       final Rect first = await awaitSprite(tester);
       expect(
@@ -176,8 +168,6 @@ void main() {
         reason: 'control: visible neko must animate before being hidden',
       );
 
-      // Push it offscreen with TickerMode still enabled. VisibilityDetector must
-      // pause the idle timer so the painted frame stops changing.
       await tester.pumpWidget(wrapOffScreen(onScreen: false));
       await Future<void>.delayed(const Duration(milliseconds: 100));
       await tester.pump();

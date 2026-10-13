@@ -4,17 +4,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
-// ---------------------------------------------------------------------------
-// FluxerConfirmSheet
-// ---------------------------------------------------------------------------
 
-/// A confirmation [FluxerBottomSheet] with a single primary (or danger) action.
-///
-/// Mirrors `FluxerConfirmModal` but renders as a bottom sheet. There is **no
-/// Cancel button** — the sheet's drag handle and barrier are the cancel
-/// affordance, matching the rest of the mobile sheet UX. Resolves to `true`
-/// when the confirm button is tapped and to `null` when the user swipes or
-/// taps outside.
 class FluxerConfirmSheet {
   FluxerConfirmSheet._();
 

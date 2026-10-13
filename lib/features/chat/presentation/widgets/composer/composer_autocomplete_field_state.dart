@@ -369,8 +369,6 @@ class ComposerAutocompleteFieldState
   }
 
   void _warmCustomEmoji() {
-    // Keep the all-guild custom emoji stream alive (so `_syncEmoji` can read a
-    // loaded value) and re-run autocomplete whenever any guild's emoji change.
     ref.listen<AsyncValue<List<GuildEmojiEntry>>>(
       allGuildEmojisForPickerProvider,
       (_, AsyncValue<List<GuildEmojiEntry>> next) {

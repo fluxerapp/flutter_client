@@ -704,8 +704,6 @@ void main() {
         expect(avatarFor('Bob').status, 'online');
         expect(avatarFor('Alice').size, 32);
 
-        // Sibling widgets that MUST be reused (not recreated) when only
-        // Alice's presence changes — proof the parent list did not rebuild.
         final aliceNameBefore = tester.widget<Text>(findAppText('Alice'));
         final bobNameBefore = tester.widget<Text>(findAppText('Bob'));
 
@@ -713,12 +711,9 @@ void main() {
         bobPresence.add(_testUser(id: '201', status: 'online'));
         await tester.pumpAndSettle();
 
-        // Correctness: only Alice's avatar status flipped.
         expect(avatarFor('Alice').status, 'offline');
         expect(avatarFor('Bob').status, 'online');
 
-        // Scoping: a list-level presence watch would recreate every row
-        // widget and fail these identity checks.
         expect(
           identical(aliceNameBefore, tester.widget<Text>(findAppText('Alice'))),
           isTrue,
@@ -1110,7 +1105,6 @@ void main() {
       final double scrolledOffset = _dmListScrollOffset(tester);
       expect(scrolledOffset, greaterThan(0));
 
-      // Leaving the DM root swaps the sidebar, disposing the list.
       router.go('/channels/guild');
       await tester.pumpAndSettle();
       expect(find.byType(DMList), findsNothing);

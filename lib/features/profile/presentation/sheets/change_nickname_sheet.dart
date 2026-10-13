@@ -5,11 +5,8 @@ import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Result of the change-nickname sheet: the new nickname, or null to clear it.
 typedef ChangeNicknameResult = ({String? nick});
 
-/// Bottom sheet to set or clear a member's nickname. Resolves to a
-/// [ChangeNicknameResult], or null when dismissed.
 class ChangeNicknameSheet {
   ChangeNicknameSheet._();
 

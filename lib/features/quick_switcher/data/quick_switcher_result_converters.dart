@@ -119,7 +119,6 @@ String? _resolveChannelSubtitle(
   FluxerLocalizations l10n,
   String? viewContext,
 ) {
-  // visit.guildId is set when the channel was opened from favorites.
   if (viewContext == 'favorites') {
     return l10n.quickSwitcherFavoritesLabel;
   }

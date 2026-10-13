@@ -13,7 +13,6 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dar
 import 'package:fluxer_app/features/chat/utils/composer/slowmode_utils.dart';
 import 'package:fluxer_app/features/chat/utils/messages/client_nonce.dart';
 
-/// Sends shared media to selected channels using the existing upload pipeline.
 class ShareMediaSender {
   const ShareMediaSender({required this.ref});
 

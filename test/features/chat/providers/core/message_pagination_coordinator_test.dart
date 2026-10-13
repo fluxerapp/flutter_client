@@ -1,9 +1,3 @@
-// Pure unit tests for MessagePaginationCoordinator: events are pushed
-// straight into the port (onDemandChanged/onEdgeRetry) against a scripted
-// ChatViewModel double, and every transition is asserted via loadMore/
-// loadNewer call counts plus debugPhase. No widgets, no real sleeps: the
-// yield cooldown runs on the injected `now`, and the 1000ms geometry
-// backstop runs under fakeAsync.
 
 import 'dart:async';
 
@@ -68,7 +62,6 @@ void main() {
       expect(h.vm.loadMoreCalls, 1);
       expect(h.olderPhase, 'awaitingGeometry');
 
-      // The installed page laid out and the horizon is satisfied.
       h.demand(active: false, revision: 2);
       await _flushAsync();
       expect(h.olderPhase, 'idle');
@@ -96,7 +89,6 @@ void main() {
       expect(h.vm.loadMoreCalls, 1);
       expect(h.olderPhase, 'awaitingGeometry');
 
-      // Each applied page is released by a post-layout revision push.
       h.demand(active: true, revision: 2);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, 2);
@@ -112,13 +104,11 @@ void main() {
       expect(h.vm.loadMoreCalls, PumpBudget.maxRequestsPerPump);
       expect(h.olderPhase, 'yielded', reason: 'budget exhausted');
 
-      // Geometry progress BEFORE the cooldown must not resume.
       h.demand(active: true, revision: 5);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, PumpBudget.maxRequestsPerPump);
       expect(h.olderPhase, 'yielded');
 
-      // Cooldown elapses (injected clock) and a further revision resumes.
       h.now = h.now.add(PumpBudget.yieldCooldown);
       h.vm.scriptOlder(_applied(requestCursor: '96', installedBoundary: '46'));
       h.demand(active: true, revision: 6);
@@ -137,7 +127,6 @@ void main() {
       final _Harness h = _Harness();
       addTearDown(h.dispose);
 
-      // installedBoundary == requestCursor: applied without advance.
       h.vm.scriptOlder(
         _applied(requestCursor: '100', installedBoundary: '100'),
       );
@@ -146,7 +135,6 @@ void main() {
       expect(h.vm.loadMoreCalls, 1);
       expect(h.olderPhase, 'parked');
 
-      // The level stays active - no false→true cycle, so no re-arm.
       h
         ..demand(active: true, revision: 2)
         ..demand(active: true, revision: 3);
@@ -154,14 +142,12 @@ void main() {
       expect(h.vm.loadMoreCalls, 1);
       expect(h.olderPhase, 'parked');
 
-      // A deliberate NEW gesture buys exactly one attempt.
       h.vm.scriptOlder(_empty(requestCursor: '100'));
       h.retry(gestureId: 7);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, 2);
       expect(h.olderPhase, 'parked', reason: 'the empty retry re-parks');
 
-      // The same gesture cannot buy a second attempt.
       h.retry(gestureId: 7);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, 2);
@@ -181,11 +167,8 @@ void main() {
       expect(h.vm.loadMoreCalls, 1);
       expect(h.olderPhase, 'pumping');
 
-      // A wholesale window replacement bumps the epoch while the request
-      // is still in flight.
       h.vm.setWindowEpoch(1);
 
-      // The request drains with the OLD token.
       held.complete(_applied(requestCursor: '100', installedBoundary: '50'));
       await _flushAsync();
 
@@ -211,7 +194,6 @@ void main() {
       final Completer<PageLoadResult> held = Completer<PageLoadResult>();
       h.vm.scriptOlderHeld(held);
 
-      // Two overscrolls from the same drag: one attempt.
       h
         ..retry(gestureId: 5)
         ..retry(gestureId: 5);
@@ -222,7 +204,6 @@ void main() {
       await _flushAsync();
       expect(h.olderPhase, 'parked');
 
-      // Still the same gesture after the re-park: collapsed.
       h.retry(gestureId: 5);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, 2);
@@ -241,7 +222,6 @@ void main() {
         expect(h.vm.loadNewerCalls, 1);
         expect(h.newerPhase, 'parked');
 
-        // Scroll-driven demand alone never refetches a parked cursor.
         h
           ..demand(edge: PaginationEdge.newer, active: true, revision: 2)
           ..demand(edge: PaginationEdge.newer, active: true, revision: 3)
@@ -250,7 +230,6 @@ void main() {
         expect(h.vm.loadNewerCalls, 1);
         expect(h.newerPhase, 'parked');
 
-        // One retry per new gesture, exactly one attempt each.
         h.vm.scriptNewer(_empty(requestCursor: '200'));
         h.retry(edge: PaginationEdge.newer, gestureId: 1);
         await _flushAsync();
@@ -279,8 +258,6 @@ void main() {
       expect(h.vm.loadMoreCalls, 1);
       expect(h.olderPhase, 'parked');
 
-      // The window changed: geometry moves the edge out of the zone and
-      // back in - a full level cycle, no gesture involved.
       h.demand(active: false, revision: 2);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, 1);
@@ -308,12 +285,10 @@ void main() {
         expect(h.vm.loadMoreCalls, 1);
         expect(h.olderPhase, 'awaitingGeometry');
 
-        // No qualifying revision arrives. Just under the window: nothing.
         async.elapse(const Duration(milliseconds: 999));
         expect(h.vm.loadMoreCalls, 1);
         expect(h.olderPhase, 'awaitingGeometry');
 
-        // The single-shot re-evaluation of the cached (active) level.
         h.vm.scriptOlder(
           _applied(
             requestCursor: '50',
@@ -330,7 +305,6 @@ void main() {
         async.flushMicrotasks();
         expect(h.olderPhase, 'parked', reason: 'edge exhausted');
 
-        // A wedged source degrades to ONE bounded request, not a loop.
         async.elapse(const Duration(seconds: 10));
         expect(h.vm.loadMoreCalls, 2);
         expect(h.olderPhase, 'parked');
@@ -351,8 +325,6 @@ void main() {
         expect(h.vm.loadMoreCalls, 1);
         expect(h.olderPhase, 'awaitingGeometry');
 
-        // The level falls but the wedged source cannot mint a new
-        // revision, so awaitingGeometry cannot consume the event.
         h.demand(active: false, revision: 1);
         expect(h.olderPhase, 'awaitingGeometry');
 
@@ -401,8 +373,6 @@ void main() {
         expect(vm.loadMoreCalls, 1);
         expect(coordinator.debugPhase(PaginationEdge.older), 'pumping');
 
-        // The wholesale replacement resets the pump THROUGH THE PROVIDER'S
-        // ref.listen - while the stale request is still held.
         vm.setWindowEpoch(1);
         await _flushAsync();
         expect(
@@ -414,8 +384,6 @@ void main() {
               'eventually returns',
         );
 
-        // New-context demand while the stale request is still in flight:
-        // cached, not issued - one in-flight request per edge.
         const ContextToken epoch1 = ContextToken(
           channelId: _channelId,
           windowEpoch: 1,
@@ -430,8 +398,6 @@ void main() {
         );
         expect(vm.loadMoreCalls, 1);
 
-        // Draining the stale result discards it (old token) and re-arms the
-        // cached new-context demand; its empty page then parks the new pump.
         vm.scriptOlder(_empty(requestCursor: 'cursor-epoch1', windowEpoch: 1));
         held.complete(
           _applied(requestCursor: 'cursor-epoch0', installedBoundary: 'b-1'),
@@ -452,9 +418,6 @@ void main() {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Harness
-// ---------------------------------------------------------------------------
 
 class _Harness {
   _Harness() : vm = _ScriptedChatViewModel(_initialState()) {
@@ -464,7 +427,6 @@ class _Harness {
     container = ProviderContainer(
       overrides: [chatViewModelProvider.overrideWith(() => vm)],
     );
-    // Materialize the notifier so the coordinator's state reads see it.
     container.read(chatViewModelProvider);
     coordinator = container.read(_coordinatorProvider);
   }
@@ -474,7 +436,6 @@ class _Harness {
   late final ProviderContainer container;
   late final MessagePaginationCoordinator coordinator;
 
-  /// Injected clock for the yield cooldown; advanced by tests directly.
   DateTime now = DateTime.utc(2026, 1, 1, 12);
 
   String get olderPhase => coordinator.debugPhase(PaginationEdge.older);
@@ -546,10 +507,6 @@ ChatViewState _initialState() => const ChatViewState(
   errorMessage: null,
 );
 
-/// Scripted ChatViewModel double: loadMore/loadNewer consume queued
-/// [PageLoadResult] futures (optionally held on Completers) and count calls.
-/// The real ChatViewModel is never exercised - `build` just installs a
-/// minimal state carrying the (channelId, windowEpoch) live token.
 class _ScriptedChatViewModel extends ChatViewModel {
   _ScriptedChatViewModel(this._initialState);
 
@@ -562,9 +519,6 @@ class _ScriptedChatViewModel extends ChatViewModel {
   @visibleForTesting
   int loadNewerCalls = 0;
 
-  /// Requests that arrived with nothing scripted - always a test bug; the
-  /// harness asserts zero on dispose. Their futures never complete so a
-  /// stray request cannot cascade into further transitions.
   @visibleForTesting
   int unscriptedCalls = 0;
 
@@ -580,7 +534,6 @@ class _ScriptedChatViewModel extends ChatViewModel {
   void scriptNewer(PageLoadResult result) =>
       _newerResults.add(Future<PageLoadResult>.value(result));
 
-  /// A wholesale window replacement as the coordinator observes it.
   void setWindowEpoch(int windowEpoch) {
     state = state.copyWith(windowEpoch: windowEpoch);
   }
@@ -606,10 +559,6 @@ class _ScriptedChatViewModel extends ChatViewModel {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Result builders - all carry the live token (channel-1, epoch 0) unless a
-// test overrides it to simulate a stale in-flight result.
-// ---------------------------------------------------------------------------
 
 PageLoadResult _applied({
   required String requestCursor,

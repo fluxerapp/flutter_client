@@ -87,7 +87,6 @@ class SensitiveContent extends _$SensitiveContent {
       if (next == null) {
         return;
       }
-      // Defer: listen can fire while the widget tree is building.
       unawaited(
         Future.microtask(() {
           if (!ref.mounted) {

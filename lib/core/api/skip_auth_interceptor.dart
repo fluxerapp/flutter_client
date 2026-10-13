@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 
-/// Set to `true` in [RequestOptions.extra] to omit the session Authorization
-/// header for a specific request.
 const String kSkipAuthKey = 'skipAuth';
 
 const Set<String> _kPublicAuthPaths = {
@@ -19,8 +17,6 @@ const Set<String> _kPublicAuthPaths = {
   '/auth/handoff/complete',
 };
 
-/// Returns whether [path] is a public auth endpoint that must not carry the
-/// active session token.
 bool isPublicAuthPath(String path) {
   if (_kPublicAuthPaths.contains(path)) {
     return true;
@@ -51,7 +47,6 @@ bool shouldSkipAuth(RequestOptions options) {
   return isPublicAuthPath(options.path);
 }
 
-/// Strips the session Authorization header for unauthenticated auth endpoints.
 class SkipAuthInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

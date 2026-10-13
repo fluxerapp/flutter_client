@@ -10,8 +10,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_channel_participants_provider.g.dart';
 
-/// Prefix for [voiceChannelParticipants] keys when listing DM / private voice
-/// (`VoiceState.guildId` is null).
 const String kVoiceDmParticipantsKeyPrefix = 'private|';
 
 String voiceDmChannelParticipantsFamilyKey(String channelId) =>
@@ -295,7 +293,6 @@ Future<void> voiceGuildMembersLoader(Ref ref, String guildMembersKey) async {
   }
 }
 
-/// Emits when grid tile membership or video/stream visibility changes.
 @riverpod
 String voiceChannelGridStructure(Ref ref, String guildChannelKey) {
   final List<VoiceState> inChannel = _voiceStatesForGuildChannelKey(
@@ -311,7 +308,6 @@ String voiceChannelGridStructure(Ref ref, String guildChannelKey) {
   return parts.join(';');
 }
 
-/// Emits when the set of users in a guild voice channel changes.
 @riverpod
 String voiceChannelSidebarStructure(Ref ref, String guildChannelKey) {
   final List<VoiceState> inChannel = _voiceStatesForGuildChannelKey(

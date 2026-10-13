@@ -79,7 +79,6 @@ class AuthState extends _$AuthState {
   @override
   bool build() => false;
 
-  // Auth transitions are imperative events from startup/login/logout flows.
   void setAuthenticated({required bool value}) {
     if (state == value) {
       return;
@@ -93,7 +92,6 @@ class CurrentUserId extends _$CurrentUserId {
   @override
   String? build() => null;
 
-  // The active user id is assigned once a session is restored.
   void set(String id) {
     if (state == id) {
       return;
@@ -107,7 +105,6 @@ class CurrentUserPremiumType extends _$CurrentUserPremiumType {
   @override
   int build() => 0;
 
-  // Premium type mirrors the current user profile payload.
   void set(int type) {
     if (state == type) {
       return;
@@ -121,7 +118,6 @@ class ServerReachable extends _$ServerReachable {
   @override
   bool build() => true;
 
-  // Gateway reachability is driven by connection lifecycle events.
   void setReachable({required bool value}) {
     if (state == value) {
       return;
@@ -181,8 +177,6 @@ GoRouter fluxerRouter(Ref ref) {
   }
 
   void deferProviderWrite(void Function() write) {
-    // GoRouter redirect / restore can run during build. Provider writes must
-    // wait until after the current frame's synchronous work.
     unawaited(Future<void>(write));
   }
 
@@ -227,7 +221,6 @@ GoRouter fluxerRouter(Ref ref) {
         return isOnLoading ? null : '/loading';
       }
 
-      // Still starting up, stay on splash.
       if (!isStartupComplete) {
         return isOnLoading ? null : '/loading';
       }
@@ -246,7 +239,6 @@ GoRouter fluxerRouter(Ref ref) {
         return '/reconnecting';
       }
 
-      // Authenticated but gateway hasn't delivered READY yet, stay on splash.
       if (isAuthenticated &&
           !isGatewayReady &&
           !isOnReconnecting &&
@@ -312,7 +304,6 @@ GoRouter fluxerRouter(Ref ref) {
       return null;
     },
     routes: [
-      // Auth / startup routes
       GoRoute(
         path: '/loading',
         pageBuilder: (BuildContext context, GoRouterState state) {
@@ -333,7 +324,6 @@ GoRouter fluxerRouter(Ref ref) {
         builder: (context, state) => const ReconnectingScreen(),
       ),
 
-      // Deep link routes
       GoRoute(
         path: '/invite/:code',
         name: RouteNames.invite,
@@ -361,11 +351,9 @@ GoRouter fluxerRouter(Ref ref) {
       GoRoute(
         path: '/theme/:themeId',
         name: RouteNames.themePreview,
-        // TODO(M0n7y5): show theme preview.
         redirect: (context, state) => RoutePaths.me,
       ),
 
-      // Guild settings (pushed on root navigator)
       GoRoute(
         path: '/settings/guild/:guildId',
         name: RouteNames.guildSettings,
@@ -419,7 +407,6 @@ GoRouter fluxerRouter(Ref ref) {
         },
       ),
 
-      // Guild settings tab pages (full-screen on mobile, slide-over on desktop)
       GoRoute(
         path: '/settings/guild/:guildId/overview',
         name: RouteNames.guildSettingsOverview,
@@ -565,7 +552,6 @@ GoRouter fluxerRouter(Ref ref) {
         ),
       ),
 
-      // Channel settings (pushed on root navigator)
       GoRoute(
         path: '/settings/channel/:channelId',
         name: RouteNames.channelSettings,
@@ -652,7 +638,6 @@ GoRouter fluxerRouter(Ref ref) {
             ),
       ),
 
-      // Discover (root navigator — slide on mobile, inline shell on desktop)
       GoRoute(
         path: '/channels/@discover',
         name: RouteNames.discover,
@@ -673,7 +658,6 @@ GoRouter fluxerRouter(Ref ref) {
         },
       ),
 
-      // Main app shell
       StatefulShellRoute.indexedStack(
         pageBuilder: (context, state, navigationShell) =>
             shellFadeTransitionPage(
@@ -682,12 +666,10 @@ GoRouter fluxerRouter(Ref ref) {
               child: AppLayout(navigationShell: navigationShell),
             ),
         branches: [
-          // Branch 0: Home
           StatefulShellBranch(
             navigatorKey: homeBranchNavigatorKey,
             observers: [homeShellPopupRouteObserver],
             routes: [
-              // /channels/@me
               GoRoute(
                 path: '/channels/@me',
                 name: RouteNames.dms,
@@ -747,7 +729,6 @@ GoRouter fluxerRouter(Ref ref) {
                   ),
                 ],
               ),
-              // /channels/@favorites
               GoRoute(
                 path: '/channels/@favorites',
                 name: RouteNames.favorites,
@@ -792,7 +773,6 @@ GoRouter fluxerRouter(Ref ref) {
                   ),
                 ],
               ),
-              // /channels/:guildId
               GoRoute(
                 path: '/channels/:guildId',
                 name: RouteNames.guild,
@@ -879,7 +859,6 @@ GoRouter fluxerRouter(Ref ref) {
                   ),
                 ],
               ),
-              // /bookmarks
               GoRoute(
                 path: '/bookmarks',
                 name: RouteNames.bookmarks,
@@ -889,7 +868,6 @@ GoRouter fluxerRouter(Ref ref) {
                   child: const SavedMessagesPage(),
                 ),
               ),
-              // /mentions
               GoRoute(
                 path: '/mentions',
                 name: RouteNames.mentions,
@@ -902,7 +880,6 @@ GoRouter fluxerRouter(Ref ref) {
             ],
           ),
 
-          // Branch 1: Notifications
           StatefulShellBranch(
             navigatorKey: notificationsBranchNavigatorKey,
             observers: [notificationsShellPopupRouteObserver],
@@ -919,7 +896,6 @@ GoRouter fluxerRouter(Ref ref) {
             ],
           ),
 
-          // Branch 2: You
           StatefulShellBranch(
             navigatorKey: youBranchNavigatorKey,
             observers: [youShellPopupRouteObserver],

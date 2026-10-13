@@ -10,11 +10,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Developer-mode message JSON inspector.
-///
-/// Counterpart of the web app's `MessageDebugModal`; renders a single
-/// pretty-printed JSON dump of [Message.toJson] with a copy-to-clipboard
-/// action. Use only behind a developer-mode gate.
 Future<void> showMessageDebugSheet(
   BuildContext context, {
   required Message message,

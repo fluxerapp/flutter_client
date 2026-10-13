@@ -153,8 +153,6 @@ class _ChannelPinsContentState extends ConsumerState<ChannelPinsContent> {
   }
 
   Future<void> _jumpToMessage(Message message) async {
-    // Captured before the awaits: the panel is dismissed mid-jump, and a ref
-    // read after onClose() would be dead.
     final ProviderContainer container = ref.container;
     final database = container.read(fluxerDatabaseProvider);
     await database.messageDao.upsertMessage(message.toCompanion());

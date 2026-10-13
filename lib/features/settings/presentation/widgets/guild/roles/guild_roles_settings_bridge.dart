@@ -1,7 +1,5 @@
 import 'package:fluxer_app/material_ui.dart';
 
-/// Publishes the roles sidebar from GuildRolesSettingsWidget into the
-/// community settings modal left column.
 class GuildRolesSettingsBridge extends ChangeNotifier {
   Widget? _sidebar;
 

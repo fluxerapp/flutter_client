@@ -15,7 +15,6 @@ FriendRepository friendRepository(Ref ref) {
   return FriendRepository(client, db);
 }
 
-/// Live list of the current user's relationships.
 final friendsListProvider = StreamProvider<List<Friend>>((ref) {
   return ref.watch(friendRepositoryProvider).watchRelationships();
 });
@@ -29,7 +28,6 @@ final StreamProviderFamily<String?, String> friendNicknameProvider =
       });
     });
 
-/// Pending incoming friend request count (type 3 = pendingIncoming).
 final pendingFriendRequestCountProvider = StreamProvider<int>((ref) {
   final db = ref.watch(fluxerDatabaseProvider);
   return db.relationshipDao.watchRelationships().map(

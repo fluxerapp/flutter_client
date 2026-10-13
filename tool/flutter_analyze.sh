@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Run flutter analyze; fail only on error-level diagnostics.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

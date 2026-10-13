@@ -2,10 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 
-/// Dismisses the keyboard and optional composer panels on list tap or scroll.
-///
-/// A clear leftward swipe keeps the current focus so the IME does not hide
-/// and restore mid-gesture.
 class ChatListKeyboardDismiss extends StatefulWidget {
   const ChatListKeyboardDismiss({
     required this.child,

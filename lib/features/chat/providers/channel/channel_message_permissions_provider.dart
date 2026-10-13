@@ -15,8 +15,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_message_permissions_provider.g.dart';
 
-/// Effective flags for the message composer from guild base bits, roles, and
-/// channel/category permission overwrites stored on local channel rows.
 class ChannelMessagePermissions {
   final bool isResolved;
   final bool canSendMessages;
@@ -34,7 +32,6 @@ class ChannelMessagePermissions {
     required this.canUseExternalStickers,
   });
 
-  /// Guild channel permissions are not loaded yet; composer stays enabled.
   static const ChannelMessagePermissions unresolved = ChannelMessagePermissions(
     isResolved: false,
     canSendMessages: true,
@@ -186,7 +183,6 @@ ChannelMessagePermissions channelMessagePermissionsForComposer(
   );
 }
 
-/// Resolves composer permissions synchronously when possible
 ChannelMessagePermissions? syncChannelMessagePermissions(
   WidgetRef ref,
   String channelId, {

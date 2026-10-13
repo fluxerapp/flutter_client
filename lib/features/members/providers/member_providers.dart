@@ -28,8 +28,6 @@ final Provider<GuildMentionMemberSearch> guildMentionMemberSearchProvider =
       );
     });
 
-/// Emits the member row count for [guildId] so permission-related providers
-/// rebuild after membership is synced to the database.
 @riverpod
 Stream<int> guildMemberRowCount(Ref ref, String guildId) {
   if (guildId.isEmpty) {
@@ -41,8 +39,6 @@ Stream<int> guildMemberRowCount(Ref ref, String guildId) {
 
 typedef CurrentUserMemberIdentity = ({String? roleIdsJson});
 
-/// Tracks the current user's role assignment in [guildId] for permission
-/// rebuilds.
 @riverpod
 Stream<CurrentUserMemberIdentity?> currentUserMemberIdentity(
   Ref ref,
@@ -68,7 +64,6 @@ Stream<CurrentUserMemberIdentity?> currentUserMemberIdentity(
   }).distinct();
 }
 
-/// Fingerprint of guild role permission bitfields; changes when roles update.
 @riverpod
 Stream<String> guildRolePermissionsIdentity(Ref ref, String guildId) {
   if (guildId.isEmpty) {

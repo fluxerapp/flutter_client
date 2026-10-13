@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_prov
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Message list and composer for voice-channel text chat, with jump sync.
 class VoiceChannelChatSurface extends ConsumerStatefulWidget {
   const VoiceChannelChatSurface({
     required this.channelId,

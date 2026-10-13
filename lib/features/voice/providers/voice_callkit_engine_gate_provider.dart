@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// True while CallKit has suppressed the LiveKit WebRTC engine.
 class VoiceCallKitEngineGate extends Notifier<bool> {
   @override
   bool build() => false;

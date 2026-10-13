@@ -6,7 +6,6 @@ import 'package:fluxer_app/features/channels/domain/channel_access_icon_flags.da
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-// Might be good to look into creating a custom font with icons embedded
 const String _kAssetText = 'assets/images/icons/channels/text.svg';
 const String _kAssetTextLocked = 'assets/images/icons/channels/text_locked.svg';
 const String _kAssetTextNsfw = 'assets/images/icons/channels/text_nsfw.svg';
@@ -144,11 +143,6 @@ class ChannelIcon extends StatelessWidget {
       e2eeEncrypted: e2eeEncrypted,
     );
     if (asset != null) {
-      // Channel SVGs all use fill="currentColor"; tint via SvgTheme so the
-      // color is baked into the decoded picture at parse time. A runtime
-      // colorFilter would instead force vector_graphics to saveLayer on every
-      // icon paint (RenderPictureVectorGraphic.paint), which dominated raster
-      // time while scrolling the channel list.
       return SvgPicture.asset(
         asset,
         width: size,
@@ -156,7 +150,6 @@ class ChannelIcon extends StatelessWidget {
         theme: SvgTheme(currentColor: resolvedColor),
       );
     }
-    // Backup Icon
     return PhosphorIcon(
       iconDataFor(displayType),
       size: size,

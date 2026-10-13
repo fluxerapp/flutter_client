@@ -7,7 +7,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum FluxerActionButtonVariant { defaultStyle, danger }
 
-/// Stacked icon-and-label button used in sheet quick-action rows.
 class FluxerActionButton extends StatelessWidget {
   const FluxerActionButton({
     required this.icon,

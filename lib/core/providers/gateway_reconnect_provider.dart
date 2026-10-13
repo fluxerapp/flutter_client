@@ -30,13 +30,11 @@ const Duration kReconnectBannerSuccessHold = Duration(milliseconds: 1400);
 
 enum GatewayReconnectBannerPhase { hidden, reconnecting, connected }
 
-/// True while a foreground resume reconnect nudge is in flight.
 @Riverpod(keepAlive: true)
 class GatewayResumeReconnectInFlight extends _$GatewayResumeReconnectInFlight {
   @override
   bool build() => false;
 
-  // Resume reconnect state is toggled by gateway lifecycle callbacks.
   void setInFlight({required bool value}) {
     if (state == value) {
       return;
@@ -45,9 +43,6 @@ class GatewayResumeReconnectInFlight extends _$GatewayResumeReconnectInFlight {
   }
 }
 
-/// Nudges the gateway socket after resume, giving the network stack one
-/// [kResumeReconnectDelay] beat to wake when connectivity is not up yet.
-///
 Future<void> nudgeGatewayConnectionReconnect(
   GatewayConnection connection, {
   void Function({required bool inFlight})? onResumeReconnectInFlight,
@@ -212,7 +207,6 @@ class GatewayConnectionFailed extends _$GatewayConnectionFailed {
   @override
   bool build() => false;
 
-  // Failure state is toggled by gateway lifecycle callbacks.
   void setFailed({required bool value}) {
     if (state == value) {
       return;
@@ -263,9 +257,6 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
     ref.read(guildSyncProvider.notifier).clearAll();
   }
 
-  // A fatal close is usually a rejected token (4004). Probe the session over
-  // REST. On 401 sign out to login so a dead session stops looping on the
-  // failure screen. Other outcomes keep it.
   var sessionExpiryProbeInFlight = false;
   Future<void> handlePossibleSessionExpiry() async {
     if (sessionExpiryProbeInFlight ||
@@ -283,8 +274,6 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
         return;
       }
       talker.warning('[Gateway] Session expired — signing out to login');
-      // The probe got an HTTP verdict, so the server is reachable. Clearing
-      // the failure state keeps the next login from bouncing to /reconnecting.
       markOnline();
       ref
           .read(toastProvider.notifier)

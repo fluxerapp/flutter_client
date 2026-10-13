@@ -22,14 +22,11 @@ import '../../../helpers/open_test_database.dart';
 const String _userId = 'user-1';
 const String _token = 'token-1';
 
-/// Local HTTP server standing in for the Fluxer API. Records every request
-/// so tests can assert exactly which probes were sent.
 class _FakeApiServer {
   _FakeApiServer._(this._server);
 
   final HttpServer _server;
 
-  /// Recorded as `'METHOD path'`, in arrival order.
   final List<String> requests = <String>[];
 
   final List<String?> authHeaders = <String?>[];
@@ -60,8 +57,6 @@ class _FakeApiServer {
   Future<void> close() => _server.close(force: true);
 }
 
-/// [AccountManager.loadAccounts] only needs [getStoredAccounts]. Everything
-/// else throws via [noSuchMethod], so an unexpected repository call fails loud.
 class _FakeAuthRepository implements AuthRepository {
   _FakeAuthRepository({this.targetBaseUrl = ''});
 
@@ -106,8 +101,6 @@ class _FakeAuthRepository implements AuthRepository {
   return (container: container, db: db);
 }
 
-/// Seeds a valid DB session row and primes the live auth state the way the
-/// app does once a session is restored.
 Future<void> _signIn(ProviderContainer container, FluxerDatabase db) async {
   await db.authSessionDao.saveSessionMetadata(
     userId: _userId,
@@ -203,8 +196,6 @@ void main() {
   });
 
   test('network failure is not an auth verdict', () async {
-    // Bind to grab a port that is guaranteed unused, then close it so the
-    // probe gets connection-refused instead of an HTTP response.
     final server = await _FakeApiServer.start();
     final deadBaseUrl = 'http://127.0.0.1:${server.port}';
     await server.close();

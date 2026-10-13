@@ -37,7 +37,6 @@ class GuildNavbarFolder extends GuildNavbarItem {
   final String? icon;
   final List<Guild> guilds;
 
-  /// Whether to show the folder icon instead of the 2x2 grid when collapsed.
   bool get showIconWhenCollapsed => (flags & 1) != 0;
 }
 
@@ -79,8 +78,6 @@ List<GuildNavbarItem> computeOrganizedGuildList({
     for (final guild in folderGuilds) {
       placedGuildIds.add(guild.id);
     }
-    // Web app uses UNCATEGORIZED_FOLDER_ID = -1.
-    // Gateway may send null or -1 for uncategorized entries.
     if (folder.id == null || folder.id == -1) {
       for (final guild in folderGuilds) {
         items.add(GuildNavbarGuild(guild: guild));
@@ -329,7 +326,6 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       return;
     }
 
-    // Generate a folder ID from the two guild IDs to keep it deterministic.
     final folderId = _allocateFolderId(
       items,
       candidateId:
@@ -341,7 +337,6 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       guilds: [targetItem.guild, sourceItem.guild],
     );
 
-    // Remove higher index first to avoid shifting.
     if (sourceIndex > targetIndex) {
       items
         ..removeAt(sourceIndex)
@@ -377,7 +372,6 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       );
     }
 
-    // If not found in a folder, look for a top-level guild.
     if (sourceGuild == null) {
       final sourceIndex = _findTopLevelIndex(items, guildId);
       if (sourceIndex == -1) {

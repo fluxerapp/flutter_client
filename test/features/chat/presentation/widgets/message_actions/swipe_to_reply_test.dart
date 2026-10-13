@@ -220,7 +220,6 @@ void main() {
       viewport.localToGlobal(startLocal),
     );
     await gesture.moveBy(const Offset(-150, 0));
-    // First pump sets the hold ticker baseline; the second crosses the delay.
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 600));
     await gesture.up();

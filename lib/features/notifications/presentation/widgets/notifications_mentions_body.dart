@@ -45,8 +45,6 @@ class _NotificationsMentionsBodyState
   final Map<String, MentionHeader> _mentionHeaderByChannelId =
       <String, MentionHeader>{};
 
-  /// Empty string marks a DM snapshot; otherwise the guild id used to resolve
-  /// member role colors in the inline preview.
   final Map<String, String> _guildIdPreviewByChannelId = <String, String>{};
 
   late final AppLifecycleListener _lifecycle;

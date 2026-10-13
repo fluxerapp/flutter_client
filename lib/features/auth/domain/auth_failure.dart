@@ -15,7 +15,6 @@ class AuthFailure implements Exception {
   String toString() => message;
 }
 
-/// Thrown when a stored account's token is no longer valid on the server.
 class SessionExpiredFailure implements Exception {
   const SessionExpiredFailure();
 }

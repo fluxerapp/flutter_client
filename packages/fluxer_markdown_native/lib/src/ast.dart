@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-//
-// Typed mirror of the Rust AST (rust/src/ast.rs, `Node` and friends) as
-// serialized by serde with `#[serde(tag = "type")]` / `#[serde(tag = "kind")]`.
 
-/// A node of the canonical Fluxer markdown AST.
 sealed class MdNode {
   const MdNode();
 

@@ -11,12 +11,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 typedef ExternalLinkContinueCallback =
     Future<void> Function({required bool trustDomain});
 
-/// Bottom sheet warning the user before navigating to an external URL.
-///
-/// Replaces the previous `ExternalLinkWarningModal`. The "Cancel" button has
-/// been dropped — the sheet's drag handle and backdrop are the cancel
-/// affordance, matching the rest of the mobile sheet UX. The user can still
-/// opt into trusting the destination domain via the checkbox.
 class ExternalLinkWarningSheet extends StatefulWidget {
   const ExternalLinkWarningSheet({
     required this.url,

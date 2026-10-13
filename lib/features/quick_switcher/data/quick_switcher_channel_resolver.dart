@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.d
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
-/// Resolves default quick switcher rows from a channel id
 class QuickSwitcherChannelResolver {
   const QuickSwitcherChannelResolver({
     required this.l10n,

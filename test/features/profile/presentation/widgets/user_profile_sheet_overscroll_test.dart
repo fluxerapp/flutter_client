@@ -45,8 +45,6 @@ Widget _buildTestApp(Widget child) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      // The loading skeleton pulses forever, so pumpAndSettle only terminates
-      // with reduced motion.
       builder: (context, child) => MediaQuery(
         data: MediaQuery.of(context).copyWith(disableAnimations: true),
         child: child!,
@@ -90,7 +88,6 @@ Future<void> _expectNoOverscrollHeldAboveTop(
       )
       .position;
 
-  // Upward drags grow the sheet extent before they scroll the list.
   for (int attempt = 0; attempt < 3 && position.pixels <= 0; attempt++) {
     await tester.drag(scrollView, const Offset(0, -300));
     await tester.pumpAndSettle();
@@ -129,8 +126,6 @@ void main() {
   testWidgets('profile sheet content cannot be held above the sheet top', (
     tester,
   ) async {
-    // Bouncing overscroll is what opens the gap, so the clamp only shows up
-    // under the iOS physics default.
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
     _useMobileSurface(tester);
 

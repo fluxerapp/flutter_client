@@ -50,8 +50,6 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
   final DateTime now = DateTime.now();
   final List<QuickSwitcherUnreadChannel> unread =
       <QuickSwitcherUnreadChannel>[];
-  // Walk read states, not the conversation list. DMs live in dm_channel, not
-  // channelDao, so we resolve guild rows first and fall back to conversations.
   for (final ReadState readState in readStates) {
     final String channelId = readState.channelId;
     final Channel? guildRow = guildChannelsById[channelId];

@@ -154,15 +154,11 @@ FluxerClient authFluxerClient(Ref ref) {
   return FluxerClient(dio, baseUrl: baseUrl);
 }
 
-/// Holds the current auth token. Set by the auth flow, watched by
-/// [fluxerClientProvider] so the client rebuilds when the token changes.
 @Riverpod(keepAlive: true)
 class FluxerAuthToken extends _$FluxerAuthToken {
   @override
   String? build() => null;
 
-  // Auth state is updated from repository flows; Riverpod state remains the
-  // source of truth for consumers.
   void setToken(String? token) {
     if (state == token) {
       return;

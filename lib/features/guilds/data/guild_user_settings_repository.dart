@@ -15,7 +15,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_user_settings_repository.g.dart';
 
-/// Debounce window for coalescing per-guild channel override PATCH requests
 const Duration kGuildUserSettingsPatchDebounce = Duration(seconds: 3);
 const Duration kGuildUserSettingsPatchRetryBaseDelay = Duration(seconds: 2);
 const Duration _kPatchRetryMaxDelay = Duration(seconds: 60);

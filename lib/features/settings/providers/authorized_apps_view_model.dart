@@ -31,10 +31,6 @@ class AuthorizedAppsViewState {
   }
 }
 
-/// Auto-disposed (no `keepAlive: true`) so the provider is rebuilt every time
-/// the user reopens the Authorized Apps screen. Authorizations change
-/// out-of-band via the OAuth consent flow in an external browser, so we must
-/// refetch on each open to reflect newly granted or externally revoked apps.
 @riverpod
 class AuthorizedAppsViewModel extends _$AuthorizedAppsViewModel {
   @override

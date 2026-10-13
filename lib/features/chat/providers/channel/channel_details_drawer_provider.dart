@@ -77,7 +77,6 @@ bool channelDetailsDrawerIsOpen(Ref ref) {
       ref.watch(channelDetailsDrawerRevealProvider) > 0;
 }
 
-/// True when the details drawer is fully open and should not accept a new swipe.
 bool channelDetailsDrawerBlocksMessageSwipe({
   required bool hasDrawerSession,
   required double revealPixels,

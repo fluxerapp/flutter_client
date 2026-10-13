@@ -6,13 +6,6 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/material_ui.dart';
 
 void main() {
-  // A runtime `colorFilter` makes vector_graphics call saveLayer on every icon
-  // paint (RenderPictureVectorGraphic.paint), which dominated raster time while
-  // scrolling the channel list. Because every channel SVG fills with
-  // `currentColor`, we tint through SvgTheme so the color is baked into the
-  // decoded picture and no offscreen layer is needed. These tests lock in that
-  // contract: the SvgPicture must carry the tint via the loader theme, never via
-  // a colorFilter.
   group('ChannelIcon tinting', () {
     const Color tint = Color(0xFF123456);
 

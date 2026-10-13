@@ -122,7 +122,6 @@ ChatViewState _chatState({required List<Message> messages}) {
   );
 }
 
-// Webhook author lets the row resolve its display with no provider/DB read.
 Message _message({
   required String id,
   required String authorName,

@@ -1,15 +1,6 @@
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 
-/// Pure read-state decision tables ported from the web app's state machines
-/// (`fluxer_app/src/features/read_state/state/read_states/*Machine.ts`).
-///
-/// These encode the authoritative unread / mention / ack rules so every Flutter
-/// write path (gateway reducer, repository, unread providers) applies identical
-/// logic to the canonical web client. Keep in lockstep with the web machines.
 
-// ---------------------------------------------------------------------------
-// Incoming message — ReadStateIncomingMessageMachine
-// ---------------------------------------------------------------------------
 
 enum ReadStateIncomingMessageKind {
   ackCurrentUserMessage,
@@ -99,9 +90,6 @@ ReadStateIncomingMessageDecision resolveReadStateIncomingMessageDecision(
   );
 }
 
-// ---------------------------------------------------------------------------
-// Server ack — ReadStateServerAckMachine
-// ---------------------------------------------------------------------------
 
 enum ReadStateServerAckKind {
   ignoreStaleVersion,

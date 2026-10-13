@@ -18,7 +18,6 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// An inline image / gifv embed
 class EmbedImage extends ConsumerWidget {
   final Embed embed;
   final MediaDimensionSize dimensionSize;

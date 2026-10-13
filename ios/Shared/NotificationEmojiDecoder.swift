@@ -1,10 +1,3 @@
-//
-//  NotificationEmojiDecoder.swift
-//  NotificationEmojiDecoder
-//
-//  Created by Elias Deuss on 09/06/2026.
-//
-//
 
 
 import Foundation

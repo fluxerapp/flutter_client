@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'add_account_instance_guard_provider.g.dart';
 
-/// Preserves the signed in account's instance while adding another account
 @Riverpod(keepAlive: true)
 class AddAccountInstanceGuard extends _$AddAccountInstanceGuard {
   @override

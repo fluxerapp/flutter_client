@@ -242,7 +242,6 @@ final class _CustomEmojiSendContext {
   }
 }
 
-/// The chat input bar at the bottom of the chat area.
 class ChannelTextarea extends ConsumerStatefulWidget {
   const ChannelTextarea({
     this.autocompletePanelHost,
@@ -663,7 +662,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         ref.read(physicalKeyboardConnectedProvider).value ?? false,
   );
 
-  /// Enter sends, Shift+Enter inserts newline.
   KeyEventResult _handleComposerFieldKeyEvent(FocusNode node, KeyEvent event) {
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
       return KeyEventResult.ignored;

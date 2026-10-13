@@ -47,7 +47,6 @@ bool canDeleteMessage({
   return hasPermission(channelPermissionBits, Permission.manageMessages);
 }
 
-/// Whether the current user can manage messages in this channel.
 bool canManageMessagesInChannel({
   required bool isDmChannel,
   int? channelPermissionBits,
@@ -61,7 +60,6 @@ bool canManageMessagesInChannel({
   return hasPermission(channelPermissionBits, Permission.manageMessages);
 }
 
-/// Whether the current user can pin messages in this channel.
 bool canPinMessageInChannel({
   required bool isDmChannel,
   int? channelPermissionBits,
@@ -80,7 +78,6 @@ bool canPinMessageInChannel({
       hasPermission(channelPermissionBits, Permission.manageMessages);
 }
 
-/// Whether the current user can add reactions in this channel.
 bool canAddReactionsInChannel({
   required bool isDmChannel,
   int? channelPermissionBits,
@@ -99,7 +96,6 @@ bool canAddReactionsInChannel({
   return hasPermission(channelPermissionBits, Permission.addReactions);
 }
 
-/// Whether the current user can toggle embed suppression on [message].
 bool canSuppressEmbedsOnMessage({
   required Message message,
   required bool isOwnMessage,
@@ -118,7 +114,6 @@ bool canSuppressEmbedsOnMessage({
   return !isDmChannel && canDelete;
 }
 
-/// Whether the current user can delete an attachment from [message].
 bool canDeleteAttachmentOnMessage({
   required Message message,
   required bool isOwnMessage,
@@ -136,7 +131,6 @@ bool canDeleteAttachmentOnMessage({
   return !isSendDisabled;
 }
 
-/// Whether the current user can edit the alt text of [attachment].
 bool canEditAttachmentAltText({
   required Message message,
   required bool isOwnMessage,

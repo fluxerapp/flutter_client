@@ -3,10 +3,6 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// A themed checkbox with an optional tappable label.
-///
-/// Visual styling is handled by the existing [CheckboxTheme]
-/// in `buildFluxerTheme()`.
 class FluxerCheckbox extends StatelessWidget {
   const FluxerCheckbox({
     required this.value,

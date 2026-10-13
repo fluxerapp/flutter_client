@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Opens a favorited channel while keeping the user in the favorites shell.
 Future<void> navigateToFavoriteChannel({
   required BuildContext context,
   required WidgetRef ref,

@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import '../../../../../helpers/pump_fluxer_app.dart';
 import 'message_list_test_harness.dart';
 
-// Renders a horizontal SingleChildScrollView inside the row.
 const String _kTableContent = '| a | b |\n|---|---|\n| 1 | 2 |';
 
 Future<AroundAckMessageListHarness> _pumpTailList(WidgetTester tester) async {

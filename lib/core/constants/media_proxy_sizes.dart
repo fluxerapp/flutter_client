@@ -1,4 +1,3 @@
-/// Mirrors `@fluxer/constants/src/MediaProxyAssetSizes` from the web app.
 abstract final class MediaProxySizes {
   static const int avatarDefault = 160;
   static const int avatarProfile = 240;

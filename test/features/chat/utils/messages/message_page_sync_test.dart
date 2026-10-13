@@ -531,10 +531,6 @@ void main() {
 
     test('aroundPageReachesLiveTail when the newer side came back short of the '
         "server's quota for the fetch limit", () {
-      // The server fills an around window's newer side independently, up to
-      // limit / 2 rows, so a newer side SHORT of that quota is the server
-      // reporting nothing newer remains. Quota reached means truncated, which
-      // proves nothing and must read as detached.
       expect(
         aroundPageReachesLiveTail(
           anchorId: idC,
@@ -623,7 +619,6 @@ void main() {
           isNull,
           reason: 'empty window cannot resolve a neighbour',
         );
-        // Missing target between B and C: prefer the next newer neighbour.
         expect(
           resolveJumpScrollTargetId(
             jumpTargetId: idC,
@@ -631,7 +626,6 @@ void main() {
           ),
           idD,
         );
-        // Missing target older than the window: land on the oldest loaded row.
         expect(
           resolveJumpScrollTargetId(
             jumpTargetId: idA,
@@ -639,7 +633,6 @@ void main() {
           ),
           idB,
         );
-        // Missing target newer than the window: land on the newest loaded row.
         expect(
           resolveJumpScrollTargetId(
             jumpTargetId: idD,
@@ -661,8 +654,6 @@ void main() {
     test(
       'jumpTargetWindowSettled waits for the page that carries the target',
       () {
-        // Inside the loaded span: a deleted or filtered row, so the neighbour
-        // is where the message was.
         expect(
           jumpTargetWindowSettled(
             jumpTargetId: idC,
@@ -672,8 +663,6 @@ void main() {
           ),
           isTrue,
         );
-        // Past an OPEN edge: still in flight, and the nearest loaded row is
-        // the edge of the window being left.
         expect(
           jumpTargetWindowSettled(
             jumpTargetId: idA,
@@ -692,7 +681,6 @@ void main() {
           ),
           isFalse,
         );
-        // Past a SEALED edge: no page can ever bring it.
         expect(
           jumpTargetWindowSettled(
             jumpTargetId: idD,
@@ -726,10 +714,6 @@ void main() {
     );
 
     test('m16e: the quota boundary decides, and it fails toward detached', () {
-      // The one rung the integration tests cannot pin, because the pointer
-      // consult can absorb either verdict. expectedNewer - 1 newer rows is the
-      // tail; expectedNewer exactly is a filled quota, and a tail that happens
-      // to land there costs one extra fetch instead of dropping live messages.
       const int limit = 30;
       const int expectedNewer = limit ~/ 2;
       final DateTime anchorTime = DateTime.utc(2026, 5, 11, 12);

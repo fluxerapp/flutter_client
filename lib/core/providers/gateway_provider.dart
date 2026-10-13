@@ -70,13 +70,6 @@ export 'gateway_reconnect_provider.dart';
 
 part 'gateway_provider.g.dart';
 
-/// Connects whenever [gatewayConnectionProvider] builds a new
-/// [GatewayConnection] (e.g. token or Dio churn). Startup alone is not enough
-/// because only that first instance received [GatewayConnection.connect].
-///
-/// Rotating sockets must clear [gatewayReadyProvider] until the next READY so
-/// navigation and voice do not assume an active session on a disconnected
-/// socket.
 @Riverpod(keepAlive: true)
 void gatewayConnectBinding(Ref ref) {
   StreamSubscription<GatewayState>? backgroundDropGuard;
@@ -260,7 +253,6 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref
           .read(voiceSessionProvider.notifier)
           .handleSelfVoiceStateUpdate(voiceState);
-      // Only sync E2EE if this update is for the current voice channel
       final VoiceSessionState session = ref.read(voiceSessionProvider);
       if (session.isConnected &&
           session.channelId != null &&

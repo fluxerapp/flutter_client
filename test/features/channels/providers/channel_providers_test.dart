@@ -46,11 +46,7 @@ void main() {
         _channelId,
         '300000000000000001',
       );
-      // Flush the tail write's stream notification before the rename, so the
-      // two writes cannot coalesce into a single re-query.
       await pumpEventQueue();
-      // The rename is ordered behind the tail write on the same drift stream,
-      // so its arrival proves the tail write alone emitted nothing.
       await database.channelDao.upsertChannel(_channelRow(name: 'renamed'));
       while (emissions.last?.name != 'renamed') {
         await Future<void>.delayed(Duration.zero);

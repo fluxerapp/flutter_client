@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 
-/// Byte span for one multipart upload part (aligned with server numbering).
 ({int startInclusive, int endExclusive}) computeMultipartPartByteRange({
   required int partNumberOneBased,
   required int partSizeBytes,

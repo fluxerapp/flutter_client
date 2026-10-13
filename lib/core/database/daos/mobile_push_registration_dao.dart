@@ -4,7 +4,6 @@ import 'package:fluxer_app/core/database/tables/mobile_push_registrations.dart';
 
 part 'mobile_push_registration_dao.g.dart';
 
-/// Prefix for UnifiedPush VAPID cache rows.
 const String kUnifiedPushGlobalVapidUserId = '__unified_push_vapid__';
 
 @DriftAccessor(tables: [MobilePushRegistrations])

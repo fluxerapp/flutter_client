@@ -6,10 +6,6 @@ const MethodChannel _androidNotificationsChannel = MethodChannel(
   'fluxer_app/android_notifications',
 );
 
-/// Returns true when the OS is suppressing notification-style sounds.
-///
-/// On Android this reflects Do Not Disturb / interruption filters. On iOS,
-/// notification clips already respect the silent switch via audio session policy.
 Future<bool> isSystemNotificationSoundSuppressed() async {
   if (!Platform.isAndroid) {
     return false;

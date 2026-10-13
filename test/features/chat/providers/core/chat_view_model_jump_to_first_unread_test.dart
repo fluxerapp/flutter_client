@@ -58,8 +58,6 @@ void main() {
     () async {
       final db = openTestDatabase();
 
-      // Full 50-message initial page so hasMoreMessages stays true and the
-      // boundary is "loaded" only because ids <= ack are in the window.
       final DateTime base = DateTime.utc(2026, 5, 20, 10);
       final List<String> ids = List<String>.generate(
         50,
@@ -108,14 +106,11 @@ void main() {
       expect(loaded.messages.map((m) => m.id), contains(ackId));
       final int fetchesAfterLoad = adapter.messageRequestUris.length;
 
-      // Any further message fetch is a bug: the target is already loaded.
       adapter.failMessageFetches = true;
       await notifier.jumpToFirstUnread();
       await _flushAsync();
 
       final ChatViewState state = container.read(chatViewModelProvider);
-      // ids[48] is the user's own message right after the ack. The first
-      // unread includes it, matching web oldest-unread.
       expect(state.scrollToMessageSignal?.$1, ownAfterAckId);
       expect(state.highlightedMessageId, ownAfterAckId);
       expect(adapter.messageRequestUris.length, fetchesAfterLoad);
@@ -127,8 +122,6 @@ void main() {
       'around window without refetching', () async {
     final db = openTestDatabase();
 
-    // Ack far below the default latest page, but the unread-open around
-    // request loads the ack boundary and its first newer message immediately.
     final String ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 19, 9));
     final String nearestNewerId = _snowflakeForUtc(
       DateTime.utc(2026, 5, 19, 10),
@@ -145,8 +138,6 @@ void main() {
       for (final id in windowIds)
         _messageJson(id: id, channelId: 'channel-1', authorId: 'other'),
     ];
-    // The around page is loaded during switchChannel, so jumpToFirstUnread
-    // should only scroll to the first newer message already in memory.
     final List<Map<String, Object?>> aroundPage = <Map<String, Object?>>[
       _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
       _messageJson(
@@ -243,7 +234,6 @@ Future<void> _flushAsync() async {
 class _JumpAdapter implements HttpClientAdapter {
   _JumpAdapter({this.initialMessages = const [], this.aroundMessages});
 
-  /// Ascending by id, served reversed (newest-first) as the REST API does.
   final List<Map<String, Object?>> initialMessages;
   final List<Map<String, Object?>>? aroundMessages;
   final List<Uri> messageRequestUris = [];

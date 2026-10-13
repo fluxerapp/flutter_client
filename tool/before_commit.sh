@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Apply dart fixes, format, and analyze before committing
 if [ -z "${BASH_VERSION:-}" ]; then
   exec bash "$0" "$@"
 fi

@@ -22,7 +22,6 @@ const double _kAvatarSize = 12;
 const int _kMaxVisibleAvatars = 5;
 const double _kStatusFontSize = 12;
 
-/// Floating pill shown over the chat area when other users are typing.
 class TypingIndicatorBar extends ConsumerWidget {
   const TypingIndicatorBar({this.compact = false, super.key});
 

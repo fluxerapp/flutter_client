@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Handles the system back button for modal overlays such as FluxerBottomSheets
-/// and modals.
 Widget wrapFluxerOverlayBackHandler({
   required bool canDismiss,
   required VoidCallback? onBack,

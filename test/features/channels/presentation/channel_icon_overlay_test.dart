@@ -30,7 +30,7 @@ void main() {
       'returns noConnect for voice channel when channel-local deny CONNECT',
       () {
         final channel = makeVoiceChannel();
-        final int deniedBits = Permission.viewChannel.value; // no connect bit
+        final int deniedBits = Permission.viewChannel.value;
 
         final overlay = resolveChannelIconAccessOverlay(
           channel: channel,
@@ -58,7 +58,6 @@ void main() {
     test(
       'returns none for voice channel with @everyone deny CONNECT when user has role grant',
       () {
-        // @everyone deny CONNECT on the channel itself
         final String everyoneDenyConnect =
             '''
 [{"id":"guild-1","type":0,"allow":"0","deny":"${Permission.connect.value}"}]
@@ -70,7 +69,6 @@ void main() {
           type: ChannelType.guildVoice,
           permissionOverwritesJson: everyoneDenyConnect,
         );
-        // User has CONNECT via role (channel-local allows)
         final int allowedBits = Permission.connect.value;
 
         final overlay = resolveChannelIconAccessOverlay(
@@ -84,7 +82,6 @@ void main() {
     test(
       'returns noConnect when channel-level overwrites deny user connect',
       () {
-        // Channel @everyone denies CONNECT (no role grant)
         final String everyoneDenyConnect =
             '''
 [{"id":"guild-1","type":0,"allow":"0","deny":"${Permission.connect.value}"}]
@@ -99,7 +96,7 @@ void main() {
 
         final overlay = resolveChannelIconAccessOverlay(
           channel: channel,
-          canConnectPermissionBits: 0, // no permissions
+          canConnectPermissionBits: 0,
         );
         expect(overlay, equals(ChannelIconAccessOverlay.noConnect));
       },
@@ -124,14 +121,12 @@ void main() {
       'falls back to effectivePermissionBits when canConnectPermissionBits is null',
       () {
         final channel = makeVoiceChannel();
-        // Deny via effective bits (backward compat path)
         final int deniedBits = Permission.viewChannel.value;
 
         final overlay = resolveChannelIconAccessOverlay(
           channel: channel,
           effectivePermissionBits: deniedBits,
         );
-        // CONNECT is evaluated using effectivePermissionBits when canConnect is null
         expect(overlay, equals(ChannelIconAccessOverlay.noConnect));
       },
     );

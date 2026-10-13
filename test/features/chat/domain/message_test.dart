@@ -362,7 +362,6 @@ void main() {
 
   group('Message.fromRow empty sub-objects', () {
     test('returns shared const empty lists without decoding', () {
-      // Fast path returns a canonical const []; old decode allocated fresh.
       final a = Message.fromRow(_emptyRow());
       final b = Message.fromRow(_emptyRow());
       expect(identical(a.embeds, b.embeds), isTrue);

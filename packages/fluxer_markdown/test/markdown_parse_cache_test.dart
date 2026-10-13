@@ -28,11 +28,11 @@ void main() {
         return <int>[aComputes];
       });
 
-      resolveA(); // a inserted (eldest)
+      resolveA();
       cache
         ..resolve('b', () => <int>[0])
-        ..resolve('c', () => <int>[0]); // overflow -> evicts 'a'
-      resolveA(); // recomputed
+        ..resolve('c', () => <int>[0]);
+      resolveA();
 
       expect(aComputes, 2);
     });
@@ -45,11 +45,11 @@ void main() {
         return <int>[aComputes];
       });
 
-      resolveA(); // a (eldest)
-      cache.resolve('b', () => <int>[0]); // b
-      resolveA(); // hit -> a becomes most-recent, b now eldest
-      cache.resolve('c', () => <int>[0]); // overflow -> evicts b, keeps a
-      resolveA(); // still cached
+      resolveA();
+      cache.resolve('b', () => <int>[0]);
+      resolveA();
+      cache.resolve('c', () => <int>[0]);
+      resolveA();
 
       expect(aComputes, 1);
     });

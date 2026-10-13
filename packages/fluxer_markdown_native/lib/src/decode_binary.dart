@@ -1,8 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-//
-// Decoder for the binary AST envelope written by rust/src/binary.rs.
-// Tag values, field order, and the LEB128 varint layout are ABI contract
-// with `FORMAT_VERSION` there.
 
 import 'dart:convert';
 import 'dart:typed_data';

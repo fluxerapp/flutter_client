@@ -1,5 +1,4 @@
 abstract final class RouteNames {
-  // Auth
   static const login = 'login';
 
   static const reconnecting = 'reconnecting';
@@ -7,7 +6,6 @@ abstract final class RouteNames {
   static const notifications = 'notifications';
   static const you = 'you';
 
-  // Home branch routes
   static const dms = 'dms';
   static const dmChannel = 'dm-channel';
   static const dmChannelCall = 'dm-channel-call';
@@ -23,15 +21,12 @@ abstract final class RouteNames {
   static const bookmarks = 'bookmarks';
   static const mentions = 'mentions';
 
-  // Deep links (outside shell)
   static const invite = 'invite';
   static const gift = 'gift';
   static const themePreview = 'theme-preview';
 
-  // Settings (pushed on root)
   static const guildSettings = 'guild-settings';
 
-  // Guild settings individual pages (for mobile popup navigation)
   static const guildSettingsOverview = 'guild-settings-overview';
   static const guildSettingsRoles = 'guild-settings-roles';
   static const guildSettingsEmoji = 'guild-settings-emoji';
@@ -45,7 +40,6 @@ abstract final class RouteNames {
   static const guildSettingsBans = 'guild-settings-bans';
   static const guildSettingsChannels = 'guild-settings-channels';
 
-  // Channel settings (pushed on root)
   static const channelSettings = 'channel-settings';
   static const channelSettingsOverview = 'channel-settings-overview';
   static const channelSettingsPermissions = 'channel-settings-permissions';
@@ -90,7 +84,6 @@ abstract final class RoutePaths {
     return '$base?tab=$tab';
   }
 
-  // Guild settings individual page paths (mobile popup navigation)
   static String guildSettingsOverviewPath(String guildId) =>
       '/settings/guild/$guildId/overview';
   static String guildSettingsRolesPath(String guildId) =>

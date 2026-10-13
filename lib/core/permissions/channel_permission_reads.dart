@@ -1,9 +1,6 @@
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:riverpod/riverpod.dart';
 
-/// Resolves effective guild channel permission bits using the keepAlive cache.
-///
-/// Safe for async call sites that outlive widget-scoped providers.
 Future<int> readEffectiveGuildChannelPermissionBits({
   required ProviderContainer container,
   required String channelId,
@@ -22,9 +19,6 @@ Future<int> readEffectiveGuildChannelPermissionBits({
   return cache.getChannelBits(channelId) ?? 0;
 }
 
-/// Resolves channel-local permission bits (no parent category layers).
-///
-/// Safe for async call sites that outlive widget-scoped providers.
 Future<int> readLocalGuildChannelPermissionBits({
   required ProviderContainer container,
   required String channelId,
@@ -50,7 +44,6 @@ Future<int> readLocalGuildChannelPermissionBits({
   );
 }
 
-/// Same as [readEffectiveGuildChannelPermissionBits] for notifier [Ref] call sites.
 Future<int> readEffectiveGuildChannelPermissionBitsRef({
   required Ref ref,
   required String channelId,
@@ -64,7 +57,6 @@ Future<int> readEffectiveGuildChannelPermissionBitsRef({
   );
 }
 
-/// Same as [readLocalGuildChannelPermissionBits] for notifier [Ref] call sites.
 Future<int> readLocalGuildChannelPermissionBitsRef({
   required Ref ref,
   required String channelId,

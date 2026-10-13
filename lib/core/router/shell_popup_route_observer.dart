@@ -4,7 +4,6 @@ import 'package:fluxer_app/material_ui.dart';
 
 typedef ShellPopupOverlayChanged = void Function({required bool hasOverlay});
 
-/// Tracks [PopupRoute]s (bottom sheets, dialogs) across shell navigators
 class ShellPopupRouteObserver extends NavigatorObserver {
   ShellPopupRouteObserver(this._onOverlayChanged);
 
@@ -12,10 +11,6 @@ class ShellPopupRouteObserver extends NavigatorObserver {
 
   bool _reconcileScheduled = false;
 
-  /// The navigator flushes observer notifications synchronously, which can
-  /// happen mid-build (e.g. a router redirect on logout). Mutating providers
-  /// there is forbidden, so defer to a post-frame callback and re-read the
-  /// navigator stacks once the frame settles.
   void reconcile() {
     if (SchedulerBinding.instance.schedulerPhase ==
         SchedulerPhase.persistentCallbacks) {

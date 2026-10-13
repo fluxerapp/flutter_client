@@ -5,10 +5,6 @@ import 'package:fluxer_app/main.dart' as app;
 
 import 'test_config.dart';
 
-/// `testWidgets` holds a `SemanticsHandle` for the whole test by default
-/// (flutter_test/lib/src/widget_tester.dart:153,178-181). The perf tests opt
-/// out so the traced window has no semantics tree, and take this handle only
-/// while the bootstrap needs `bySemanticsLabel` finders.
 SemanticsHandle? _finderSemantics;
 
 void ensureFinderSemantics(WidgetTester tester) {
@@ -43,9 +39,6 @@ Future<bool> isOnChannelScreen(WidgetTester tester) {
   );
 }
 
-/// The app restores its last route, so a run that follows one which left the
-/// app installed starts inside a channel, where the guild rail and bottom nav
-/// are not mounted. Back out the way a user would.
 Future<void> returnToShell(WidgetTester tester) async {
   for (var attempt = 0; attempt < 3; attempt++) {
     if (await isOnAuthenticatedShell(tester)) {

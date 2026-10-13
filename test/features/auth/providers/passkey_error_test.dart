@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
-// Prefixed to avoid the TimeoutException clash with dart:async (pulled in
-// transitively by flutter_test).
 import 'package:passkeys/exceptions.dart' as pk;
 
 void main() {

@@ -37,7 +37,6 @@ class _FakeAuthApi implements AuthApi {
     }
   }
 
-  // Other AuthApi methods are not exercised in these tests.
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
@@ -93,7 +92,6 @@ void main() {
       final container = _container(api);
       addTearDown(container.dispose);
 
-      // Listen keeps the auto-disposed provider alive across await gaps.
       final sub = container.listen(linkedDevicesViewModelProvider, (_, _) {});
       addTearDown(sub.close);
       await Future<void>.delayed(Duration.zero);

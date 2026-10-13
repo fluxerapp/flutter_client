@@ -82,9 +82,7 @@ class GuildSettingsOverviewActions extends _$GuildSettingsOverviewActions {
   FutureOr<void> build(String guildId) {}
 
   Future<void> updateGuild(GuildUpdateRequest body) async {
-    // Async notifier loading state for void action providers.
     state = const AsyncLoading<void>();
-    // Async notifier result state for void action providers.
     state = await _runGuildSettingsActionWithKeepAlive(
       ref,
       () => AsyncValue.guard(() async {
@@ -113,9 +111,7 @@ class GuildSettingsModerationActions extends _$GuildSettingsModerationActions {
   FutureOr<void> build(String guildId) {}
 
   Future<void> updateModeration(GuildUpdateRequest body) async {
-    // Async notifier loading state for void action providers.
     state = const AsyncLoading<void>();
-    // Async notifier result state for void action providers.
     state = await _runGuildSettingsActionWithKeepAlive(
       ref,
       () => AsyncValue.guard(() async {

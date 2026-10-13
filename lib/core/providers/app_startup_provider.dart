@@ -258,8 +258,6 @@ class AppStartup extends _$AppStartup {
         return;
       }
       ref.read(pendingPushNotificationPathProvider);
-      // keepAlive bindings survive appStartup invalidation. Drop them when
-      // they already exist so account switch cannot reuse the old socket.
       if (ref.exists(authenticatedSessionBindingsProvider)) {
         _invalidateGatewayBindings();
       }

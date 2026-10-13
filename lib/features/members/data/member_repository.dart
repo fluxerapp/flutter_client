@@ -42,7 +42,6 @@ class MemberRepository {
     return getMembersByUserIds(guildId, userIds);
   }
 
-  /// Fills the local cache from REST when gateway lazy sync left the roster sparse.
   Future<void> backfillMembersIfSparse(String guildId) async {
     final db.Server? server = await _db.guildDao.getServerById(guildId);
     if (server == null) {
@@ -174,12 +173,6 @@ class MemberRepository {
     return cachedCount >= expectedCount;
   }
 
-  /// Resolves mention matches from scoped local rows.
-  ///
-  /// Callers should first send gateway opcode 8 (`requestGuildMembers`) with the
-  /// same [query] so `GUILD_MEMBERS_CHUNK` can populate rows, then pass
-  /// [scopeUserIds] from the chunk. Do not use `POST /guilds/:id/members-search`:
-  /// that route requires moderation permissions.
   Future<List<Member>> searchMembersForAutocomplete({
     required String guildId,
     required String query,

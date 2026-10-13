@@ -11,7 +11,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pending_home_quick_action_provider.g.dart';
 
-/// Queues a home-screen shortcut until auth and gateway are ready.
 @Riverpod(keepAlive: true)
 class PendingHomeQuickAction extends _$PendingHomeQuickAction {
   HomeQuickAction? _queued;

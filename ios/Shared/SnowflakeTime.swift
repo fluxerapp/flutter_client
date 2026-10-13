@@ -1,6 +1,5 @@
 import Foundation
 
-/// Fluxer snowflake layout: timestamp ms since 2015-01-01 UTC in the high bits (>> 22).
 enum SnowflakeTime {
   static let epochMs: Int64 = 1_420_070_400_000
 

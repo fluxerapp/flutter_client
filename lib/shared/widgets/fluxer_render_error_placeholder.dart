@@ -7,7 +7,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String _kFallbackErrorMessage = 'An error occurred';
 
-/// Placeholder shown in release when a widget fails to build
 class FluxerRenderErrorPlaceholder extends StatelessWidget {
   const FluxerRenderErrorPlaceholder({super.key});
 

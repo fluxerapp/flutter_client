@@ -1,4 +1,3 @@
-/// Drops repeated identical error logs within a cooldown window
 class ErrorLogRateLimiter {
   ErrorLogRateLimiter({
     this.cooldown = const Duration(seconds: 60),
@@ -13,7 +12,6 @@ class ErrorLogRateLimiter {
   final Map<String, _Entry> _entries = <String, _Entry>{};
   DateTime? _lastPrune;
 
-  /// Returns false when this error should not be logged again yet :(
   bool shouldLog({
     required Object error,
     required String source,

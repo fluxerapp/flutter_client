@@ -79,8 +79,6 @@ RegExp buildChannelJumpLinkPattern(Set<String> hosts) {
 String? _instanceJumpLinkPatternBase;
 RegExp? _instanceJumpLinkPattern;
 
-/// [buildChannelJumpLinkPattern] for [channelJumpLinkHosts] of the current
-/// instance, cached until [InstanceEndpoints.webApp] changes.
 RegExp instanceChannelJumpLinkPattern() {
   final String base = InstanceEndpoints.webApp;
   final RegExp? cached = _instanceJumpLinkPattern;

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-/// Autocomplete triggers for composer typeahead.
 enum ComposerAutocompleteTriggerKind {
   emojiReaction,
   commandArgMention,
@@ -53,8 +52,6 @@ class ComposerAutocompleteTrigger {
   static final RegExp _stickerSearch = RegExp(r'(^\s*)/sticker\s*(.*)$');
   static final RegExp _command = RegExp(r'(^\s*)/(\S*)$');
 
-  /// Odd number of ``` fences before [caretIndex] in [fullText] suppresses
-  /// autocomplete.
   static bool hasOpenCodeBlockBeforeCaret(String fullText, int caretIndex) {
     final int end = caretIndex < 0
         ? 0

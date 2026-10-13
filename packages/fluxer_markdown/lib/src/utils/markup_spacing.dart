@@ -5,20 +5,20 @@ abstract final class FluxerMarkupSpacing {
 
   static double rem(double value) => value * rootFontSize;
 
-  static const double paragraphBottom = 12; // 0.75rem
-  static const double headingTop = 20; // 1.25rem
-  static const double headingTopFirst = 4; // 0.25rem
-  static const double headingBottom = 12; // 0.75rem
+  static const double paragraphBottom = 12;
+  static const double headingTop = 20;
+  static const double headingTopFirst = 4;
+  static const double headingBottom = 12;
   static const double headingLineHeight = 1.2;
 
-  static const double listBlockMargin = 4; // 0.25rem
-  static const double listItemGap = 4; // 0.25rem
-  static const double listNestedTop = 4; // 0.25rem
+  static const double listBlockMargin = 4;
+  static const double listItemGap = 4;
+  static const double listNestedTop = 4;
 
-  static const double quoteMargin = 4; // 0.25rem
-  static const double quoteDividerEnd = 12; // 0.75rem
+  static const double quoteMargin = 4;
+  static const double quoteDividerEnd = 12;
 
-  static const double codePadding = 14; // 0.75rem
+  static const double codePadding = 14;
 
-  static const double blockGap = 12; // 0.75rem
+  static const double blockGap = 12;
 }

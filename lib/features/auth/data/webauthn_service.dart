@@ -9,14 +9,11 @@ PasskeyAuthenticator passkeyAuthenticator(Ref ref) {
   return PasskeyAuthenticator();
 }
 
-/// Wraps the passkeys package for WebAuthn MFA authentication.
 class WebAuthnService {
   final PasskeyAuthenticator _authenticator;
 
   const WebAuthnService(this._authenticator);
 
-  /// Authenticates using WebAuthn with the given server options.
-  /// Returns the authentication response as a JSON map.
   Future<Map<String, dynamic>> authenticate(
     Map<String, dynamic> options,
   ) async {
@@ -48,8 +45,6 @@ class WebAuthnService {
     };
   }
 
-  /// Registers a new passkey with the given server options.
-  /// Returns the registration response as a JSON map.
   Future<Map<String, dynamic>> register(Map<String, dynamic> options) async {
     final request = RegisterRequestType.fromJson(options);
     final response = await _authenticator.register(request);

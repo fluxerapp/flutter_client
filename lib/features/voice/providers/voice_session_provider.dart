@@ -68,8 +68,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_session_provider.g.dart';
 
-/// Cleared when a voice server update is accepted and LiveKit connection is
-/// scheduled. Covers slow gateway only, not LiveKit [Room.connect] duration.
 const Duration _kVoiceJoinWatchdogDuration = Duration(seconds: 15);
 const Duration _kDeferredServerDisconnectDuration = Duration(seconds: 5);
 const List<Duration> _kMicPublishRetryDelays = <Duration>[
@@ -470,11 +468,6 @@ class VoiceSession extends _$VoiceSession {
     );
   }
 
-  /// Joins a voice channel; the gateway responds with [VoiceServerUpdateEvent],
-  /// which is forwarded to [handleVoiceServerUpdate].
-  ///
-  /// [ringSilently] (with [startOutgoingCall]): POST
-  /// ring with an empty recipient list.
   Future<bool> connectToVoiceChannel({
     required String? guildId,
     required String channelId,
@@ -2151,7 +2144,6 @@ class VoiceSession extends _$VoiceSession {
   }
 
   void _teardownOnDispose() {
-    // Prevent stale in-flight connects from creating a room after disposal.
     _intentionalLiveKitTeardown = true;
     _connectGeneration++;
     logVoiceLifecycle(

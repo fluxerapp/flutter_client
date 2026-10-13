@@ -76,10 +76,6 @@ class AuthRepository {
     }
   }
 
-  /// Resets the password using a token from a reset email.
-  ///
-  /// Returns [LoginSuccess] (auto-login) or [LoginMfaRequired] if the user
-  /// has MFA enabled.
   Future<LoginResult> resetPassword({
     required String token,
     required String password,
@@ -317,7 +313,6 @@ class AuthRepository {
     await _tokenStorage.saveApiBaseUrl(userId: userId, apiBaseUrl: migrated);
   }
 
-  /// Removes session metadata that has no matching token in secure storage.
   Future<void> pruneTokenlessSessions() async {
     final sessions = await _db.authSessionDao.getAllSessions();
     for (final session in sessions) {
@@ -759,9 +754,6 @@ class AuthRepository {
               item['code'] == 'INVALID_LOGIN_OR_PASSWORD') {
             sawInvalidCredentials = true;
           }
-          // The live API names the failing field `path`; the OpenAPI spec
-          // (and the generated SDK model) calls it `field`. Accept either so
-          // the helpful per-field message survives spec drift.
           final Object? field = item['path'] ?? item['field'];
           final Object? message = item['message'];
           if (field is String &&

@@ -296,7 +296,6 @@ Map<String, dynamic> buildChannelOverviewPatchBody({
     canManageChannel: canManageChannel,
   );
   final Map<String, dynamic> patch = channelUpdateRequestToPatchBody(request);
-  // SDK toJson skips nulls, but inherit still needs explicit null in the PATCH body.
   if (includeNullFields.contains('nsfw_override')) {
     patch['nsfw_override'] = current.nsfwOverride;
   }

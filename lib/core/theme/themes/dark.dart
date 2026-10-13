@@ -3,11 +3,7 @@ import 'package:fluxer_app/core/theme/color_generator.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Builds the dark color theme using the color generator system.
 FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
-  // ---------------------------------------------------------------------------
-  // Helpers
-  // ---------------------------------------------------------------------------
 
   Color tone(
     ColorFamily family,
@@ -45,9 +41,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Scales
-  // ---------------------------------------------------------------------------
 
   final darkSurface = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
@@ -86,9 +79,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     ],
   ).build(saturationFactor: saturationFactor);
 
-  // ---------------------------------------------------------------------------
-  // Individual tone tokens
-  // ---------------------------------------------------------------------------
 
   final brandPrimary = tone(FluxerColorFamilies.brand, 55);
   final statusOnline = tone(FluxerColorFamilies.statusOnline, 40);
@@ -119,12 +109,8 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     alpha: 0.15,
   );
 
-  // ---------------------------------------------------------------------------
-  // Assemble theme
-  // ---------------------------------------------------------------------------
 
   return FluxerColorTheme(
-    // Background (from darkSurface scale)
     backgroundPrimary: backgroundPrimary,
     backgroundSecondary: backgroundSecondary,
     backgroundSecondaryLighter: darkSurface['backgroundSecondaryLighter']!,
@@ -147,7 +133,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.22,
     ),
 
-    // Brand
     brandPrimary: brandPrimary,
     brandSecondary: tone(FluxerColorFamilies.brand, 49, saturation: 60),
     brandPrimaryLight: toneDirect(hue: 242, saturation: 100, lightness: 84),
@@ -158,7 +143,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       useSatFactor: false,
     ),
 
-    // Status
     statusOnline: statusOnline,
     statusIdle: statusIdle,
     statusDnd: statusDnd,
@@ -166,7 +150,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     statusDanger: tone(FluxerColorFamilies.statusDanger, 55),
     statusWarning: statusIdle,
 
-    // Text (from darkText scale + individual tones)
     textPrimary: textPrimary,
     textSecondary: textSecondary,
     textTertiary: darkText['textTertiary']!,
@@ -187,7 +170,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     textPositive: statusOnline,
     textCode: tone(FluxerColorFamilies.textCode, 90),
 
-    // Border
     borderColor: borderColorVal,
     borderColorHover: tone(FluxerColorFamilies.neutralDark, 50, alpha: 0.3),
     borderColorFocus: toneDirect(
@@ -197,7 +179,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.45,
     ),
 
-    // Accent
     accentPrimary: brandPrimary,
     accentSuccess: statusOnline,
     accentWarning: statusIdle,
@@ -205,14 +186,12 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     accentInfo: textLink,
     accentPurple: tone(FluxerColorFamilies.accentPurple, 65),
 
-    // Alert
     alertNote: tone(FluxerColorFamilies.link, 70),
     alertTip: tone(FluxerColorFamilies.statusOnline, 45),
     alertImportant: tone(FluxerColorFamilies.accentPurple, 65),
     alertWarning: tone(FluxerColorFamilies.statusIdle, 55),
     alertCaution: toneDirect(hue: 359, saturation: 75, lightness: 60),
 
-    // Markup
     markupMentionText: textLink,
     markupMentionFill: textLink.withValues(alpha: 0.2),
     markupMentionBorder: tone(FluxerColorFamilies.link, 70, alpha: 0.3),
@@ -248,7 +227,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.3,
     ),
 
-    // Button
     buttonPrimaryFill: toneDirect(hue: 139, saturation: 55, lightness: 44),
     buttonPrimaryActiveFill: toneDirect(
       hue: 136,
@@ -350,7 +328,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       useSatFactor: false,
     ),
 
-    // Panel Control
     panelControlBg: Color.alphaBlend(
       backgroundSecondaryAlt.withValues(alpha: 0.9),
       tone(FluxerColorFamilies.neutralDark, 2),
@@ -369,7 +346,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     ),
     panelControlHighlight: const Color(0x0AFFFFFF),
 
-    // Control Button
     controlButtonNormalBg: Colors.transparent,
     controlButtonNormalText: darkText['textPrimaryMuted']!,
     controlButtonHoverBg: tone(FluxerColorFamilies.neutralDark, 22),
@@ -383,23 +359,19 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       lightness: 20,
     ),
 
-    // Switch
     switchTrackInactive: toneDirect(hue: 220, saturation: 9, lightness: 46),
     switchThumb: Colors.white,
     switchThumbCheckedIcon: brandPrimary,
     switchThumbUncheckedIcon: darkText['textTertiary']!,
 
-    // Menu
     menuDangerText: toneDirect(hue: 350, saturation: 90, lightness: 65),
 
-    // Content Background
     bgCode: tone(FluxerColorFamilies.neutralDark, 15, alpha: 0.8),
     bgCodeBlock: backgroundSecondaryAlt,
     bgTableHeader: backgroundTertiary,
     bgTableRowOdd: backgroundPrimary,
     bgTableRowEven: backgroundSecondary,
 
-    // Interactive Surface
     surfaceInteractiveHoverBg: backgroundModifierHoverVal,
     surfaceInteractiveSelectedBg: backgroundModifierSelectedVal,
     surfaceInteractiveSelectedColor: textPrimary,
@@ -411,12 +383,10 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     ),
     listItemPressedBg: tone(FluxerColorFamilies.neutralDark, 100, alpha: 0.09),
 
-    // Scrollbar
     scrollbarThumbBg: const Color(0x66797A7C),
     scrollbarThumbBgHover: const Color(0xB3797A7C),
     scrollbarTrackBg: Colors.transparent,
 
-    // Text Selection
     textSelection: toneDirect(
       hue: 198,
       saturation: 92,
@@ -424,7 +394,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.35,
     ),
 
-    // UI-specific
     chatBackground: backgroundSecondary,
     chatInputBackground: darkSurface['backgroundSecondaryLighter']!,
     serverSidebarBackground: backgroundSecondary,

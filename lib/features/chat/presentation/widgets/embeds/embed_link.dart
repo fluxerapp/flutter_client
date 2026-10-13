@@ -15,7 +15,6 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
-/// A link preview card.
 class EmbedLink extends StatelessWidget {
   final Embed embed;
   final EmbedGalleryIndex galleryIndex;
@@ -131,10 +130,6 @@ class EmbedLink extends StatelessWidget {
                           : null,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        // Reserve the extent from metadata, capped by the layout
-                        // dimensions (fixed fallback when absent), so the load
-                        // never shifts the chat and portrait sources cannot
-                        // reserve unbounded height.
                         child: LayoutBuilder(
                           builder:
                               (

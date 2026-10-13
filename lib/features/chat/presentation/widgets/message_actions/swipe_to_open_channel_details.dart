@@ -11,8 +11,6 @@ import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
-/// Leftward swipe on a message row that pulls channel details in without
-/// moving the row.
 class SwipeToOpenChannelDetails extends ConsumerStatefulWidget {
   const SwipeToOpenChannelDetails({
     required this.child,

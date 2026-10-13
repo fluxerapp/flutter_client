@@ -7,13 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 
-/// Key used in [RequestOptions.extra] to track retry attempts.
 const _kRetryCountKey = '_retryCount';
 
-/// Set to `true` in [RequestOptions.extra] to skip retry logic.
 const kNoRetryKey = 'noRetry';
 
-/// Retryable [DioExceptionType]s — transient connection-level failures.
 const Set<DioExceptionType> _kRetryableTypes = {
   DioExceptionType.connectionError,
   DioExceptionType.connectionTimeout,
@@ -87,14 +84,6 @@ int connectionRetryDelayMs({required int attempt, required Random random}) {
   return max(0, baseMs + offset);
 }
 
-/// Dio interceptor that retries requests on transient connection errors
-///
-/// Uses exponential backoff with jitter: 500ms → 1s → 2s, ±25%.
-///
-/// Retry count is tracked in [RequestOptions.extra] because
-/// [Dio.fetch] sends the retry through the full interceptor chain,
-/// so each failure re-enters [onError] rather than being caught by
-/// the caller.
 class RetryInterceptor extends Interceptor {
   RetryInterceptor({
     required this.dio,

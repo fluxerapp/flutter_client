@@ -1,7 +1,5 @@
 part of 'message_list.dart';
 
-/// User settings and channel permission watches isolated from the message list
-/// body so read-state and message updates do not rebuild settings providers.
 class _MessageListSettingsLayer extends ConsumerWidget {
   const _MessageListSettingsLayer({
     required this.channelId,
@@ -77,7 +75,6 @@ class _MessageListSettingsLayer extends ConsumerWidget {
               (ref.watch(spoilerAutoRevealProvider(channelId)).value ?? false),
         RenderSpoilers.onClick || RenderSpoilers.$unknown => false,
       },
-      // Rebuild only when media sizes change.
       chatPreferences: _watchChatMediaPreferences(ref),
       messageGroupSpacing: ref.watch(
         appearancePreferencesProvider.select(

@@ -35,9 +35,6 @@ class LinkedDevicesViewState {
   }
 }
 
-/// Auto-disposed (no `keepAlive: true`) so the provider is rebuilt every time
-/// the user reopens the Linked Devices screen. Sessions change out-of-band
-/// (other devices log in/out independently), so we must refetch on each open.
 @riverpod
 class LinkedDevicesViewModel extends _$LinkedDevicesViewModel {
   @override
@@ -58,8 +55,6 @@ class LinkedDevicesViewModel extends _$LinkedDevicesViewModel {
     }
   }
 
-  /// Logs out the given session id hashes. Throws on failure so the caller
-  /// can show a toast. Removes successfully-logged-out sessions from state.
   Future<void> logout(List<String> idHashes) async {
     if (idHashes.isEmpty) {
       return;

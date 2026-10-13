@@ -45,7 +45,6 @@ bool shouldSendVoiceDisconnectForReplacedRoom({
       replacedConnectionId != incomingConnectionId;
 }
 
-/// LiveKit endpoint change while already connected on the same channel.
 bool isVoiceServerRegionChange({
   required VoiceSessionState state,
   required String resolvedChannelId,

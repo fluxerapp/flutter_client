@@ -141,7 +141,6 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
     if (!mounted || _heldTrack != track || !_started || _muted == muted) {
       return;
     }
-    // Mute changed while the gain update was in flight.
     await _applyVolume();
   }
 

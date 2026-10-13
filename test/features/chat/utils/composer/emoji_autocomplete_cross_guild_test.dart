@@ -35,11 +35,7 @@ void main() {
         overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
       );
       addTearDown(container.dispose);
-      // Mirror `_warmCustomEmoji`'s keep-alive listen: the provider is
-      // autoDispose, so `.future` only resolves while it has a listener.
       container.listen(allGuildEmojisForPickerProvider, (_, _) {});
-      // The autocomplete now awaits `.future` (not `.value`), so it reads a
-      // loaded list spanning all guilds rather than an empty stream snapshot.
       final List<GuildEmojiEntry> emojis = await container.read(
         allGuildEmojisForPickerProvider.future,
       );
@@ -59,7 +55,6 @@ void main() {
           .whereType<CustomEmojiResult>()
           .map((CustomEmojiResult r) => r.entry.name)
           .toSet();
-      // The cross-guild emoji ("agooglemonkey", from g_other) must appear.
       expect(matchedNames, containsAll(<String>['monkey', 'agooglemonkey']));
     },
   );

@@ -6,8 +6,6 @@ import 'package:fluxer_dart/gateway_client/custom_status_storage.dart'
 
 const int kCustomStatusTextLimit = 128;
 
-// Presence payloads omit emoji_animated, and a strict decode of them leaked
-// the raw JSON into status text.
 CustomStatusResponse _customStatusFromLenientMap(Map<String, Object?> map) {
   final Object? text = map['text'];
   final Object? emojiId = map['emoji_id'];

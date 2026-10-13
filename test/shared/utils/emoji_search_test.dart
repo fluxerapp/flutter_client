@@ -53,8 +53,6 @@ void main() {
     });
 
     test('name start beats keyword start', () {
-      // Query matches the start of a keyword and the start of the name; the
-      // name match must win (lower tier).
       expect(
         tierOf(<String>['joyful'], 'joy', keywords: <String>['joyous']),
         emojiTierNameStartsWith,
@@ -91,8 +89,6 @@ void main() {
     });
 
     test('plural rule only applies at a boundary', () {
-      // "smiles" is preceded by a lowercase letter, so the plural-s boundary
-      // does not apply.
       expect(emojiHasBoundaryMatch('catsmiles', 'catsmiles', 'smile'), false);
     });
   });

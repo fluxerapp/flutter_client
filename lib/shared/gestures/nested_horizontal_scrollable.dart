@@ -5,8 +5,6 @@ import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.
 const Key kExpressionPanelShellGestureBlockKey = Key('chat-expression-sheet');
 const Key kPlaybackSeekShellGestureBlockKey = Key('playback-seek');
 
-/// True when [globalPosition] is over a horizontal [Scrollable] under
-/// [searchRoot] that has room to scroll.
 bool isPointerOverOverflowingHorizontalScrollable(
   BuildContext searchRoot,
   Offset globalPosition, {
@@ -19,10 +17,6 @@ bool isPointerOverOverflowingHorizontalScrollable(
   );
 }
 
-/// True when [globalPosition] is over a region under [searchRoot] that the
-/// shell drawer must not claim horizontal drags from: a coasting message
-/// list, an overflowing horizontal [Scrollable], the expression sheet, or an
-/// active playback seek bar.
 bool isPointerOverShellHorizontalGestureBlock(
   BuildContext searchRoot,
   Offset globalPosition, {

@@ -16,10 +16,6 @@ import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// The reservation contract: a media tile's box exists at first layout and
-/// never changes when (or whether) the bytes arrive. In the test environment
-/// the network image never resolves, which IS the pre-load state - the box
-/// must already be final, or late-loading images shift the chat.
 Widget _wrap(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(

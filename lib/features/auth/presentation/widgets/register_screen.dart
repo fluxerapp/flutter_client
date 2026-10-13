@@ -119,7 +119,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return DateFormat.yMMMMd(locale).format(date);
   }
 
-  /// Returns date field order based on locale, matching web app behavior.
   static List<String> _dateFieldOrder(String locale) {
     final pattern = DateFormat.yMd(locale).pattern ?? 'M/d/y';
     final order = <String>[];
@@ -434,7 +433,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               SizedBox(height: layout.s5),
             ],
 
-            // Display name
             FluxerInput(
               controller: _displayNameController,
               focusNode: _displayNameFocus,
@@ -451,7 +449,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             SizedBox(height: layout.s5),
 
-            // Username
             FluxerInput(
               controller: _usernameController,
               focusNode: _usernameFocus,
@@ -506,7 +503,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
             SizedBox(height: layout.s5),
 
-            // Password
             FluxerInput(
               controller: _passwordController,
               focusNode: _passwordFocus,
@@ -521,7 +517,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             SizedBox(height: layout.s5),
 
-            // Confirm password
             FluxerInput(
               controller: _confirmController,
               focusNode: _confirmFocus,
@@ -536,7 +531,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             SizedBox(height: layout.s5),
 
             if (collectDateOfBirth) ...[
-              // Date of birth
               Text(
                 l10n.registerDateOfBirth,
                 style: textStyles.label.copyWith(color: colors.textPrimary),
@@ -655,7 +649,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               SizedBox(height: layout.s5),
             ],
 
-            // Terms consent
             if (requiresConsent) ...[
               FluxerCheckbox(
                 value: _consent,
@@ -703,13 +696,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               SizedBox(height: layout.s5),
             ],
 
-            // Error message
             if (resolveLoginError(vm, l10n) case final errorText?) ...[
               AuthFormErrorText(errorText),
               SizedBox(height: layout.s2),
             ],
 
-            // Submit
             FluxerButton.primary(
               onPressed:
                   _isFormValid(
@@ -728,7 +719,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             SizedBox(height: layout.s4),
 
-            // Back to login
             Row(
               children: [
                 Text(

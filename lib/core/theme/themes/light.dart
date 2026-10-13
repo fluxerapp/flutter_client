@@ -3,11 +3,7 @@ import 'package:fluxer_app/core/theme/color_generator.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Builds the light color theme using the color generator system.
 FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
-  // ---------------------------------------------------------------------------
-  // Helpers
-  // ---------------------------------------------------------------------------
 
   Color tone(
     ColorFamily family,
@@ -45,9 +41,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Scales
-  // ---------------------------------------------------------------------------
 
   final lightSurface = const ColorScale(
     family: FluxerColorFamilies.neutralLight,
@@ -86,9 +79,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     ],
   ).build(saturationFactor: saturationFactor);
 
-  // ---------------------------------------------------------------------------
-  // Individual tone tokens
-  // ---------------------------------------------------------------------------
 
   final brandPrimary = tone(FluxerColorFamilies.brand, 55);
   final statusOnline = tone(
@@ -130,12 +120,8 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     alpha: 0.22,
   );
 
-  // ---------------------------------------------------------------------------
-  // Assemble theme
-  // ---------------------------------------------------------------------------
 
   return FluxerColorTheme(
-    // Background (from lightSurface scale)
     backgroundPrimary: backgroundPrimary,
     backgroundSecondary: backgroundSecondary,
     backgroundSecondaryLighter: lightSurface['backgroundSecondaryLighter']!,
@@ -158,7 +144,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.32,
     ),
 
-    // Brand
     brandPrimary: brandPrimary,
     brandSecondary: tone(FluxerColorFamilies.brand, 49, saturation: 60),
     brandPrimaryLight: toneDirect(hue: 242, saturation: 100, lightness: 84),
@@ -169,7 +154,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       useSatFactor: false,
     ),
 
-    // Status
     statusOnline: statusOnline,
     statusIdle: statusIdle,
     statusDnd: statusDnd,
@@ -177,7 +161,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     statusDanger: tone(FluxerColorFamilies.statusDanger, 55),
     statusWarning: statusIdle,
 
-    // Text (from lightText scale + individual tones)
     textPrimary: textPrimary,
     textSecondary: textSecondary,
     textTertiary: lightText['textTertiary']!,
@@ -198,7 +181,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     textPositive: statusOnline,
     textCode: toneDirect(hue: 340, saturation: 50, lightness: 45),
 
-    // Border
     borderColor: borderColorVal,
     borderColorHover: toneDirect(
       hue: 220,
@@ -213,7 +195,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.4,
     ),
 
-    // Accent
     accentPrimary: brandPrimary,
     accentSuccess: statusOnline,
     accentWarning: statusIdle,
@@ -221,14 +202,12 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     accentInfo: textLink,
     accentPurple: tone(FluxerColorFamilies.accentPurple, 65),
 
-    // Alert
     alertNote: tone(FluxerColorFamilies.link, 45),
     alertTip: toneDirect(hue: 150, saturation: 80, lightness: 35),
     alertImportant: tone(FluxerColorFamilies.accentPurple, 50),
     alertWarning: toneDirect(hue: 45, saturation: 90, lightness: 45),
     alertCaution: toneDirect(hue: 358, saturation: 80, lightness: 50),
 
-    // Markup
     markupMentionText: textLink,
     markupMentionFill: textLink.withValues(alpha: 0.2),
     markupMentionBorder: tone(FluxerColorFamilies.link, 45, alpha: 0.4),
@@ -264,7 +243,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.4,
     ),
 
-    // Button
     buttonPrimaryFill: toneDirect(hue: 139, saturation: 55, lightness: 44),
     buttonPrimaryActiveFill: toneDirect(
       hue: 136,
@@ -345,7 +323,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.1,
     ),
 
-    // Panel Control
     panelControlBg: Color.alphaBlend(
       backgroundSecondary.withValues(alpha: 0.65),
       const Color(0xFFFFFFFF),
@@ -364,7 +341,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     ),
     panelControlHighlight: const Color(0xA6FFFFFF),
 
-    // Control Button
     controlButtonNormalBg: Colors.transparent,
     controlButtonNormalText: toneDirect(
       hue: 220,
@@ -390,23 +366,19 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       lightness: 95,
     ),
 
-    // Switch
     switchTrackInactive: toneDirect(hue: 220, saturation: 9, lightness: 46),
     switchThumb: Colors.white,
     switchThumbCheckedIcon: brandPrimary,
     switchThumbUncheckedIcon: lightText['textTertiary']!,
 
-    // Menu
     menuDangerText: toneDirect(hue: 350, saturation: 90, lightness: 65),
 
-    // Content Background
     bgCode: toneDirect(hue: 220, saturation: 22, lightness: 90, alpha: 0.9),
     bgCodeBlock: backgroundPrimary,
     bgTableHeader: backgroundTertiary,
     bgTableRowOdd: backgroundPrimary,
     bgTableRowEven: backgroundSecondary,
 
-    // Interactive Surface
     surfaceInteractiveHoverBg: backgroundModifierHoverVal,
     surfaceInteractiveSelectedBg: backgroundModifierSelectedVal,
     surfaceInteractiveSelectedColor: textPrimary,
@@ -429,12 +401,10 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.1,
     ),
 
-    // Scrollbar
     scrollbarThumbBg: const Color(0x99797A7C),
     scrollbarThumbBgHover: const Color(0xCC797A7C),
     scrollbarTrackBg: Colors.transparent,
 
-    // Text Selection
     textSelection: toneDirect(
       hue: 210,
       saturation: 90,
@@ -442,7 +412,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
       alpha: 0.2,
     ),
 
-    // UI-specific
     chatBackground: backgroundSecondary,
     chatInputBackground: lightSurface['backgroundSecondaryLighter']!,
     serverSidebarBackground: backgroundSecondary,

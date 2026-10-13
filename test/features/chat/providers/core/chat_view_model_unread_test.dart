@@ -110,8 +110,6 @@ void _updateViewport(
         channelId: channelId,
         nearLoadedTail: nearLoadedTail,
         distanceFromBottom: distanceFromBottom,
-        // Production-faithful: a publication samples the tail its geometry
-        // was measured against.
         sampledTailId: chat.channelId == channelId
             ? newestServerBackedMessageId(chat.messages)
             : null,
@@ -179,18 +177,10 @@ void main() {
     return (db, adapter, container, notifier, ackId);
   }
 
-  // Case (b) of the pointer rule, at integration level. A pointer exactly equal
-  // to our fetched tail is treated as the tail. Asserting the helper returns
-  // false would prove nothing about the symptom, so this pins the two things a
-  // bogus true would break, both of which persist until the user intervenes:
-  // the channel must AUTO-ACK with no button tap or manual pagination, and
-  // newest-window trimming must be PERMITTED.
   test(
     'an around window whose pointer equals its tail acks and allows trimming',
     () async {
       final db = openTestDatabase();
-      // Enough messages that the loaded window exceeds kMaxLoadedMessages, so
-      // trimming has something to do.
       const int total = 250;
       final List<String> ids = <String>[
         for (int i = 0; i < total; i++)
@@ -201,7 +191,6 @@ void main() {
       final String newestId = ids.last;
       final String ackId = ids.first;
 
-      // The cached pointer is EXACTLY our around-page tail, not beyond it.
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -241,7 +230,6 @@ void main() {
         reason: 'a pointer equal to our fetched tail is treated as the tail',
       );
 
-      // Consequence 1: the channel must not sit unread waiting for the user.
       expect(
         adapter.ackedMessageIds,
         contains(newestId),
@@ -250,7 +238,6 @@ void main() {
             'pagination; a bogus hasMoreNewerMessages blocks ack indefinitely',
       );
 
-      // Consequence 2: trimming must be permitted, not gated off.
       expect(
         container.read(chatViewModelProvider).messages.length,
         greaterThan(kMaxLoadedMessages),
@@ -545,10 +532,6 @@ void main() {
 
   test('a duplicate switch joins the running one instead of replacing the '
       'window again', () async {
-    // A rebuild storm re-enters switchChannel a few frames later, before any
-    // state flag says a switch is running and while the window is still empty
-    // (nothing cached). Each duplicate used to wipe the window and bump
-    // windowEpoch, which cancels the scroll effects keyed to it.
     final db = openTestDatabase();
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     await db.channelDao.upsertChannel(
@@ -1701,7 +1684,6 @@ void main() {
     },
   );
 
-  // Nothing replays a delete that landed while the process was dead (#474).
   test(
     'first open of a fully cached channel fetches the latest page',
     () async {
@@ -2344,8 +2326,6 @@ void main() {
       unreadId,
     );
 
-    // A non-manual ack (e.g. the server echoing our own auto-ack) must not
-    // clear the pinned divider.
     notifier.applyExternalAck('channel-1', manual: false);
     await _flushAsync();
 
@@ -2393,7 +2373,6 @@ void main() {
       unreadId,
     );
 
-    // A manual mark-read clears the divider.
     notifier.applyExternalAck('channel-1', manual: true);
     await _flushAsync();
 
@@ -2820,8 +2799,6 @@ void main() {
     final windowBeforeReveal = state.messages;
     final requestsBeforeReveal = adapter.messageRequestUris.length;
 
-    // Mobile drawer reveal round-trip: re-enters the same channel with
-    // loadMessages true and no target message.
     await notifier.switchChannel('channel-1');
     await _flushAsync();
 
@@ -2922,8 +2899,6 @@ void main() {
       ]);
       final requestsBeforeSwitch = adapter.messageRequestUris.length;
 
-      // The same-channel reveal guard must not swallow genuine channel
-      // changes: switching away has to fetch the other channel's window.
       await notifier.switchChannel('channel-2');
       await _flushAsync();
 
@@ -2968,9 +2943,6 @@ void main() {
         ),
       );
       final adapter = _ChatAdapter(
-        // The tail genuinely exists on the server, so the latest-page probe
-        // can prove the around window stopped short. The channel watermark
-        // alone may not: it is monotonic and may point at a deleted row.
         initialMessages: [
           _messageJson(id: tailId, channelId: 'channel-1', authorId: 'other'),
         ],
@@ -3105,13 +3077,8 @@ void main() {
 
     expect(await notifier.jumpToLatestMessages(), isTrue);
     await _flushAsync();
-    // The standing near-tail claim was measured against the detached window;
-    // the swap advanced the tail past its token, so the flip alone must not
-    // ack rows the user has not seen laid out.
     expect(adapter.ackedMessageIds, isEmpty);
 
-    // Post-layout the widget republishes geometry carrying the fresh tail
-    // token; eligibility returns and the ack fires.
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
 
@@ -3175,15 +3142,10 @@ void main() {
     await _flushAsync();
     expect(container.read(chatViewModelProvider).hasMoreNewerMessages, isTrue);
 
-    // The user parks at the loaded NEWER edge of the detached window; the
-    // publication's tail token is the window tail, not the live tail.
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
     expect(adapter.ackedMessageIds, isEmpty);
 
-    // The terminal newer page installs and hasMoreNewerMessages flips
-    // false - the exact moment the pre-token recheck acked rows the user
-    // never saw.
     await notifier.loadNewer();
     await _flushAsync();
     final state = container.read(chatViewModelProvider);
@@ -3199,8 +3161,6 @@ void main() {
     final readState = await db.readStateDao.getReadState('channel-1');
     expect(readState?.lastMessageId, ackId);
 
-    // Only a fresh post-layout publication carrying the new tail token
-    // authorizes the ack.
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
     expect(adapter.ackedMessageIds, [tailId]);
@@ -3238,9 +3198,6 @@ void main() {
     _setViewportActive(container, channelId: 'channel-1');
     await _flushAsync();
 
-    // A token-less near-tail claim over a non-empty window: neither the
-    // eligibility listener nor a DIRECT ack call (realtime/retry paths
-    // enter ackCurrentChannel without isAutoAckEligible) may honor it.
     container
         .read(chatReadViewportProvider.notifier)
         .updateViewport(
@@ -3257,8 +3214,6 @@ void main() {
     var readState = await db.readStateDao.getReadState('channel-1');
     expect(readState?.lastMessageId, priorId);
 
-    // The same geometry carrying the real tail token acks - proving the
-    // rejection above was the token, not an inert fixture.
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
     readState = await db.readStateDao.getReadState('channel-1');
@@ -3301,8 +3256,6 @@ void main() {
       _setViewportActive(container, channelId: 'channel-1');
       await _flushAsync();
 
-      // Pointer ahead of the loaded tail with no local row: a probe that
-      // refused it left deleted-tail orphans unread forever (#520).
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -3369,9 +3322,6 @@ void main() {
       adapter.releaseMessageFetch();
       await switching;
       await _flushAsync();
-      // The mid-load publication carried no tail token (skeleton), so it
-      // cannot authorize the loaded window; post-layout the widget
-      // republishes with the fresh token and the deferred edge acks.
       _updateViewport(container, nearLoadedTail: true);
       await _flushAsync();
 
@@ -3442,7 +3392,6 @@ void main() {
           id: 'channel-1',
           guildId: 'guild-1',
           name: 'general',
-          // Orphaned high pointer (no local message row for it).
           lastMessageId: Value(orphanedPointer),
         ),
       );
@@ -3470,8 +3419,6 @@ void main() {
       _setViewportActive(container, channelId: 'channel-1');
       await _flushAsync();
 
-      // Latest-page jump seals server-tail (short page); orphaned pointer alone
-      // must not keep hasMoreNewer after that.
       expect(await notifier.jumpToLatestMessages(), isTrue);
       await _flushAsync();
 
@@ -3490,7 +3437,6 @@ void main() {
 
   test('not-at-tail with real newer history does not auto-ack', () async {
     final db = openTestDatabase();
-    // Full latest-page (initial size 50) with pointer still ahead.
     final List<String> historyIds = <String>[
       for (var i = 0; i < 50; i++)
         _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10, 0, i)),
@@ -3573,8 +3519,6 @@ void main() {
     await _flushAsync();
     expect(adapter.ackedMessageIds, <String>[tailId]);
 
-    // A newer live message lands while an ack attempt is in flight. Its own
-    // trigger is gated, so convergence relies on the post-attempt re-check.
     final Future<void> inFlight = notifier.ackCurrentChannel();
     container
         .read(messageRealtimeBusProvider)
@@ -3593,8 +3537,6 @@ void main() {
         );
     await inFlight;
     await _flushAsync();
-    // The live append advanced the tail past the standing claim's token;
-    // its layout republishes geometry with the fresh token.
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
     await container
@@ -3686,7 +3628,6 @@ void main() {
     await notifier.switchChannel('channel-1');
     _setViewportActive(container, channelId: 'channel-1');
     await _flushAsync();
-    // Near-tail geometry leaves foreground as the only blocking condition.
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
 
@@ -3844,7 +3785,6 @@ void main() {
       final readState = await db.readStateDao.getReadState('channel-1');
       expect(readState?.lastMessageId, deletedId);
       expect(readState?.mentionCount, 0);
-      // Must reach the server, or the next READY re-marks the channel unread.
       expect(adapter.ackedMessageIds, <String>[deletedId]);
       expect(
         hasUnreadByReadState(
@@ -4555,7 +4495,6 @@ void main() {
             lastMessageId: Value(liveTailId),
           ),
         );
-        // Neighbour window only: the requested target is filtered/deleted.
         final adapter = _ChatAdapter(
           aroundMessages: <Map<String, Object?>>[
             _messageJson(
@@ -4748,9 +4687,6 @@ void main() {
     'live message received while scrolled into history is dropped',
     () async {
       final db = openTestDatabase();
-      // An around window deep in history, with a real newer tail the server
-      // will serve on the latest page. The channel pointer alone cannot make
-      // a window detached: it is monotonic and may point at a deleted row.
       final List<String> historyIds = <String>[
         for (var i = 0; i < 50; i++)
           _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10, 0, i)),
@@ -4809,8 +4745,6 @@ void main() {
           );
       await _flushAsync();
 
-      // Mirrors web ignorePastVisibleWindow: the live message is not appended
-      // to the history tail while newer messages remain unloaded.
       expect(
         container
             .read(chatViewModelProvider)
@@ -5092,9 +5026,6 @@ void main() {
         final container = _container(db, adapter);
         addTearDown(container.dispose);
 
-        // No read-state row exists while the page loads, so the load-time
-        // recording in _onMessagesLoaded cannot capture the divider. Only the
-        // pre-ack snapshot inside ackCurrentChannel can.
         final notifier = container.read(chatViewModelProvider.notifier);
         await notifier.switchChannel('channel-1');
         await _flushAsync();
@@ -5103,8 +5034,6 @@ void main() {
           null,
         );
 
-        // The read state syncs in after the channel opened, then the user
-        // reaches the bottom and the auto ack fires.
         await db.readStateDao.upsertReadState(
           ReadStatesCompanion(
             channelId: const Value('channel-1'),
@@ -5179,11 +5108,8 @@ void main() {
           firstUnreadId,
         );
 
-        // The divider is consumed after being shown.
         notifier.clearStickyUnread();
 
-        // Persist the incoming message the way the gateway DB writer would,
-        // so the follow-up local ack can advance to it.
         await db.messageDao.upsertMessage(
           _cachedMessage(
             id: incomingId,
@@ -5200,9 +5126,6 @@ void main() {
           ),
         );
 
-        // A new message arrives while the user sits at the bottom. The
-        // follow-up ack runs once the 1s min-interval gate reopens (wall
-        // clock, so poll instead of advancing fake time).
         container
             .read(messageRealtimeBusProvider)
             .emit(
@@ -5223,7 +5146,6 @@ void main() {
           container.read(chatViewModelProvider).messages.map((m) => m.id),
           contains(incomingId),
         );
-        // The append's layout republishes geometry with the fresh tail token.
         _updateViewport(container, nearLoadedTail: true);
 
         for (var i = 0; i < 50; i++) {
@@ -5341,8 +5263,6 @@ void main() {
           null,
         );
 
-        // Persist the incoming message the way the gateway DB writer would,
-        // so the follow-up local ack can advance to it.
         await db.messageDao.upsertMessage(
           _cachedMessage(
             id: incomingId,
@@ -5358,8 +5278,6 @@ void main() {
             lastMessageId: Value(incomingId),
           ),
         );
-        // A new unread arrives before the first viewport-driven ack of this
-        // open. The disarmed snapshot must not resurrect the divider.
         container
             .read(messageRealtimeBusProvider)
             .emit(

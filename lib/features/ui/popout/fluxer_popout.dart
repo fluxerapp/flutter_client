@@ -6,21 +6,14 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Position of the popout relative to its anchor.
 enum FluxerPopoutPosition { above, below, left, right }
 
-/// Builder for the anchor widget that triggers the popout.
 typedef FluxerPopoutAnchorBuilder =
     Widget Function(BuildContext context, VoidCallback toggle);
 
-/// Builder for the popout content.
 typedef FluxerPopoutContentBuilder =
     Widget Function(BuildContext context, VoidCallback close);
 
-/// Anchored floating overlay panel.
-///
-/// Shows a floating panel anchored to a target widget. Used as the base for
-/// select dropdowns and action menus.
 class FluxerPopout extends StatefulWidget {
   const FluxerPopout({
     required this.anchorBuilder,

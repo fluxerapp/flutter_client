@@ -1,22 +1,3 @@
-/// The unified center-anchored chat viewport.
-///
-/// One `CustomScrollView` for every open/jump/live state; positioning is the
-/// pair `(anchorId, anchorFraction)`. The split falls after the anchor item:
-/// the anchor is the last child of the leading sliver, so at scroll offset 0
-/// its trailing edge sits at `anchorFraction` of the viewport. The leading
-/// sliver grows up (prepends scroll-stable), the trailing sliver grows down
-/// (appends scroll-stable); `CustomScrollView.center` names the zero-size
-/// marker between them. The live tail is `(newestId, 1.0)`; underfilled
-/// content hugs the bottom for the same reason.
-///
-/// `anchorEpoch` keys the subtree: a re-anchor attaches a fresh
-/// ScrollPosition whose first layout places the anchor at its fraction -
-/// atomic positioning, no wrong-paint frame, no settle loop. Moving the
-/// anchor to a row beside the split keeps the epoch, and the host corrects
-/// the pixels itself. A missing or null anchor degrades to the same
-/// bottom-anchored layout.
-library;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
@@ -26,18 +7,9 @@ import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Which side of the anchor's stream item the split boundary falls on.
 enum MessageListAnchorEdge {
-  /// The split falls BEFORE the anchor item: its LEADING edge sits at the
-  /// fraction. Used for unread-divider opens (the divider renders at the
-  /// top of its tile - even when the first unread lives inside a collapsed
-  /// group item) and for jump targets.
   before,
 
-  /// The split falls AFTER the anchor item: its TRAILING edge sits at the
-  /// fraction. Used for the live tail - `(newestId, 1.0, after)` puts the
-  /// newest item's bottom at the viewport bottom, and later appends land in
-  /// the trailing sliver below the fold (scroll-stable for readers above).
   after,
 }
 
@@ -69,30 +41,20 @@ class MessageListViewport extends StatelessWidget {
     super.key,
   });
 
-  /// Bumped on a re-anchor; keys the scrollable subtree so a fresh
-  /// ScrollPosition lays out ONCE with the anchor at its fraction. Moving
-  /// the anchor to a row already beside the split keeps the epoch.
   final int anchorEpoch;
 
   final List<ChannelStreamItem> stream;
 
-  /// The stream item the split boundary is measured against. Null or
-  /// not-in-stream => bottom-anchored (all content leading).
   final String? anchorId;
   final double anchorFraction;
   final MessageListAnchorEdge anchorEdge;
 
   final ScrollController controller;
 
-  /// Owned by the host State (a GlobalKey created per-build would remount
-  /// the center sliver every frame).
   final Key centerKey;
 
-  /// Builds the tile for a stream data index (keys included).
   final Widget Function(BuildContext context, int dataIndex) itemBuilder;
 
-  /// Maps a tile key back to a sliver child index within [startInclusive,
-  /// endExclusive); `reverse` matches the leading sliver's index direction.
   final int? Function(
     Key key,
     int startInclusive,
@@ -103,39 +65,25 @@ class MessageListViewport extends StatelessWidget {
 
   final double scrollCacheExtentPixels;
 
-  /// Older rows installed but withheld from the leading sliver, so a page is
-  /// attached over several frames. The anchor split is unaffected.
   final int withheldLeadingCount;
 
   final bool Function(ScrollNotification notification) onScrollNotification;
   final bool Function(ScrollMetricsNotification notification)
   onScrollMetricsNotification;
 
-  /// Pointer bookkeeping lives ABOVE the epoch-keyed subtree so a remount
-  /// under a finger cannot lose the count.
   final void Function(PointerDownEvent event) onPointerDown;
   final void Function(PointerEvent event) onPointerUp;
   final bool isLoadingMore;
   final bool isLoadingNewer;
 
-  /// Extent reserved after the trailing sliver for status overlays.
   final double trailingInset;
 
-  /// Extra space before the oldest leading item so a short channel can still
-  /// park the unread divider at [anchorFraction].
   final double leadingPad;
 
-  /// Live unread-open leading pad. Height updates without rebuilding tiles.
   final ValueListenable<double>? liveLeadingPad;
 
   final Widget? startOfChannelHeader;
 
-  /// Skeleton standing in for unloaded history at each edge: the leading one
-  /// is the outermost sliver above the oldest row (mutually exclusive with
-  /// [startOfChannelHeader]); the trailing one sits below the newest row,
-  /// before [trailingInset]. Null once that edge is loaded. Every
-  /// "distance to the loaded tail" the host derives from
-  /// [ScrollMetrics.maxScrollExtent] subtracts the trailing filler's height.
   final MessageListEdgeFiller? leadingFiller;
   final MessageListEdgeFiller? trailingFiller;
 
@@ -241,9 +189,6 @@ class MessageListViewport extends StatelessWidget {
     required int splitIndex,
     required double effectiveAnchor,
   }) {
-    // A page install attaches every older row inside the scroll cache in one
-    // frame: 32 rows measured at 84 ms on a Motorola g54. Withholding rows
-    // spreads that attach across frames.
     final int leadingCount = withheldLeadingCount >= splitIndex
         ? 0
         : splitIndex - withheldLeadingCount;

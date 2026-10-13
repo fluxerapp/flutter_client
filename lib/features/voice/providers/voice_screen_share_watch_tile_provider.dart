@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const int kVoiceMaxWatchedStreams = 256;
 
-/// Watched screen-share tile ids (`identity|screen`).
 class VoiceScreenShareWatchTile extends Notifier<Set<String>> {
   @override
   Set<String> build() => const <String>{};

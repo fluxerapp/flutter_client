@@ -17,18 +17,11 @@ class IntegrationTestConfig {
     defaultValue: 3,
   );
 
-  /// `bool.fromEnvironment` only accepts the literal `true`, so these read the
-  /// raw string and treat `1` as set too.
   static bool _flag(String value) => value == '1' || value == 'true';
 
-  /// Set to keep the semantics tree alive while tracing, matching a device
-  /// with an accessibility service attached.
   static bool get perfSemantics =>
       _flag(const String.fromEnvironment('PERF_SEMANTICS'));
 
-  /// `builds`, `layouts` or `both`/`1`: which per-widget timeline events to
-  /// emit while tracing. Each element costs an event, so `both` truncates the
-  /// traced window on the ~32k VM ring.
   static String get perfWidgetEvents {
     const String raw = String.fromEnvironment('PERF_WIDGET_EVENTS');
     return raw == '1' || raw == 'true' ? 'both' : raw;

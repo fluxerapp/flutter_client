@@ -10,24 +10,13 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-// ---------------------------------------------------------------------------
-// FluxerModal
-// ---------------------------------------------------------------------------
 
-/// Builder that receives the dialog's [BuildContext] and a [close] callback.
 typedef FluxerModalBuilder =
     Widget Function(BuildContext context, VoidCallback close);
 
-/// Builds footer actions with a [pop] callback tied to the dialog route.
 typedef FluxerModalActionsBuilder<T> =
     List<Widget> Function(void Function([T? result]) pop);
 
-/// A styled dialog modal.
-///
-/// Uses [showDialog] with a blurred backdrop matching the web app's
-/// centered-modal styling. Inherits background color and shadow from
-/// the app's [DialogTheme], overriding only the border radius for
-/// mobile layout.
 class FluxerModal {
   FluxerModal._();
 
@@ -62,7 +51,6 @@ class FluxerModal {
         final isMobile = isMobileLayout(dialogContext);
         final useMobileFullscreen = isMobile && !centered;
 
-        // Use the theme's shape but swap the radius for mobile (16px).
         final themeShape = dialogTheme.shape as RoundedRectangleBorder?;
         final headerSubtitle = description == null
             ? null
@@ -154,7 +142,6 @@ class FluxerModal {
           onDismiss: close,
           child: Stack(
             children: [
-              // Backdrop with blur
               Positioned.fill(
                 child: FluxerGestureDetector(
                   onTap: close,
@@ -216,11 +203,7 @@ class FluxerModal {
   }
 }
 
-// ---------------------------------------------------------------------------
-// FluxerConfirmModal
-// ---------------------------------------------------------------------------
 
-/// A confirmation dialog with Cancel / Confirm buttons.
 class FluxerConfirmModal {
   FluxerConfirmModal._();
 

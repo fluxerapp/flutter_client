@@ -12,8 +12,6 @@ double resolveStreamTrackVolume({
   ]);
 }
 
-/// Screen-share mute uses enabled and gain.
-/// Remote stop() leaves Android playback running.
 class ScreenSharePlaybackControls {
   const ScreenSharePlaybackControls({
     required this.isActive,

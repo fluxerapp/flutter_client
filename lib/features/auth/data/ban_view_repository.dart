@@ -2,10 +2,6 @@ import 'package:dio/dio.dart';
 
 import 'package:fluxer_app/features/auth/domain/ban_view.dart';
 
-/// Repository for ban view API calls.
-///
-/// These endpoints use a `BanView` token (not a regular auth token), so
-/// we use a separate Dio instance with no interceptors.
 class BanViewRepository {
   final String _baseUrl;
 

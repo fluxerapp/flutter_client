@@ -11,13 +11,6 @@ import 'package:fluxer_app/features/mature_content/utils/mature_media_policy_uti
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
-/// Whether the caller may proceed into [channelId].
-///
-/// Whether a gate is required is answered from [container] alone, so a caller
-/// with no usable context can still proceed into an ungated channel. When a
-/// gate IS required and there is no live context to show it on, this fails
-/// closed and returns false: navigating anyway would walk straight past the
-/// gate.
 Future<bool> promptForChannelGateIfNeeded({
   required BuildContext? context,
   required ProviderContainer container,

@@ -52,7 +52,6 @@ class FluxerAvatar extends StatelessWidget {
        iconColor = null,
        iconBackgroundColor = null;
 
-  /// Icon centered on a colored disc — use for channel-type avatars.
   const FluxerAvatar.icon({
     required IconData this.icon,
     this.size = 40,

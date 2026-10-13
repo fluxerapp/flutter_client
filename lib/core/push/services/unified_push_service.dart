@@ -13,7 +13,6 @@ import 'package:fluxer_app/core/push/unified_push/unified_push_message_mapper.da
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
 import 'package:unifiedpush/unifiedpush.dart' as up;
 
-/// Instance id from before per-server registrations.
 const String kFluxerUnifiedPushInstance = 'fluxer';
 
 const Duration _kEndpointWaitTimeout = Duration(seconds: 12);
@@ -81,7 +80,6 @@ class UnifiedPushService implements PushService {
     return endpoint != null && endpoint.url.isNotEmpty;
   }
 
-  /// App database for VAPID reads. The background isolate leaves this unset.
   void attachDatabase(FluxerDatabase database) {
     _database ??= database;
   }
@@ -134,7 +132,6 @@ class UnifiedPushService implements PushService {
     });
   }
 
-  /// Drops distributor instances that no stored account still uses.
   Future<void> retainInstances(Set<String> keep) {
     return _enqueue(() => _retainInstances(keep));
   }

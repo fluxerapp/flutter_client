@@ -1,6 +1,5 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 
-/// Clears guild channels, messages, and related data but keeps the server row.
 Future<void> clearGuildContentButKeepServer(
   FluxerDatabase db,
   String guildId,
@@ -41,10 +40,6 @@ Future<void> removeGuildFromLocalDb(FluxerDatabase db, String guildId) async {
   await db.guildDao.deleteServer(guildId);
 }
 
-/// Ids to keep after a membership refresh.
-///
-/// Communities inserted after [localGuildIdsBeforeFetch] was captured stay,
-/// so a join that lands while the fetch is in flight is not removed.
 Set<String> guildIdsKeptAfterMembershipSync({
   required Set<String> apiGuildIds,
   required Set<String> localGuildIdsBeforeFetch,

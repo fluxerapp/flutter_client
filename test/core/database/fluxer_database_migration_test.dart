@@ -4,18 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-/// Last schema version known to the test suite. Bump this when adding a new
-/// migration and extend the tests below if the new step introduces guarded
-/// columns or tables.
 const int _expectedSchemaVersion = 97;
 
-/// First version whose migration steps are written to be re-entrant against
-/// the current schema. Stamp the current schema at each version in this
-/// range and run onUpgrade to verify that the migration does not fail when
-/// objects it creates already exist.
 const int _guardedBaselineVersion = 67;
 
-/// Columns added by guarded migration steps, per table.
 const Map<String, List<String>> _guardedColumns = <String, List<String>>{
   'user_preferences': <String>[
     'voice_settings_json',
@@ -153,22 +145,16 @@ Map<String, Set<String>> _schemaColumns(Database raw) {
 int _userVersion(Database raw) =>
     raw.select('PRAGMA user_version').single['user_version'] as int;
 
-/// Creates the full current schema on [raw] via `onCreate`, then stamps
-/// `user_version` back to [version]. This simulates a database that already
-/// contains the objects a migration step will create.
 Future<void> _stampCurrentSchemaAsVersion(Database raw, int version) async {
   final FluxerDatabase db = FluxerDatabase.forTesting(
     NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
   );
-  // Any statement forces the lazy open, which runs onCreate -> createAll.
   await db.customSelect('SELECT 1').get();
   await db.customStatement('PRAGMA user_version = $version');
   await db.close();
 }
 
 void main() {
-  // Tests intentionally open the same raw database twice (stamp, then
-  // migrate); drift's shared-instance warning is expected here.
   drift.driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
 
   group('FluxerDatabase migration', () {
@@ -193,7 +179,6 @@ void main() {
         addTearDown(raw.close);
         await _stampCurrentSchemaAsVersion(raw, _guardedBaselineVersion);
 
-        // Sanity: tables already have the new columns, but the version lies.
         for (final MapEntry<String, List<String>> entry
             in _guardedColumns.entries) {
           expect(_tableColumns(raw, entry.key), containsAll(entry.value));
@@ -205,9 +190,6 @@ void main() {
         );
         addTearDown(db.close);
 
-        // Forces the open, running onUpgrade. Without the guards the
-        // ALTER TABLE ... ADD COLUMN statements would throw
-        // SqliteException(1): duplicate column name.
         final UserPreferencesTableData? prefs = await db.userPreferencesDao
             .getPreferences('user-1');
         expect(prefs, isNull);
@@ -309,8 +291,6 @@ void main() {
       addTearDown(raw.close);
       await _stampCurrentSchemaAsVersion(raw, _guardedBaselineVersion);
 
-      // Rebuild the genuine pre-68 shape by dropping the drifted columns
-      // again (DROP COLUMN needs the host libsqlite3 to be >= 3.35).
       for (final String table in _guardedTables) {
         raw.execute('DROP TABLE $table');
       }
@@ -331,8 +311,6 @@ void main() {
       );
       addTearDown(db.close);
 
-      // The generated select references all current columns, so this would
-      // throw "no such column" if the migration had not added them.
       final UserPreferencesTableData? prefs = await db.userPreferencesDao
           .getPreferences('user-1');
       expect(prefs, isNull);
@@ -376,9 +354,6 @@ void main() {
         );
         addTearDown(db.close);
 
-        // Forces the open and runs onUpgrade(from: $from). The migration
-        // steps must tolerate objects that already exist because the
-        // current schema was created by onCreate before stamping.
         await db.customSelect('SELECT 1').get();
 
         expect(_userVersion(raw), db.schemaVersion);

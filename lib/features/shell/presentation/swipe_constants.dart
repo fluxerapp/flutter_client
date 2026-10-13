@@ -31,9 +31,6 @@ double horizontalSwipeCompletionThreshold() {
 const double kBackSwipeEdgeMinWidthMaterial = 32;
 const double kBackSwipeEdgeMinWidthCupertino = 20;
 
-/// Width from [Directionality] start (including safe area) reserved for
-/// shell horizontal back / drawer gestures so inner detectors (e.g.
-/// swipe-to-reply) do not win the gesture arena on that strip.
 double leadingEdgeHorizontalSwipeReserveWidth(BuildContext context) {
   final EdgeInsets padding = MediaQuery.paddingOf(context);
   final bool isRtl = Directionality.of(context) == TextDirection.rtl;

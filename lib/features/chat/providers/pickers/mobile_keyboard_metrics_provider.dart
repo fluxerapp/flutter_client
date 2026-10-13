@@ -84,14 +84,11 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   Timer? _persistDebounce;
   double _pendingPersistHeight = 0;
 
-  /// Last height reported by smart_keyboard_insets (0 when that source is hidden).
   double _nativeKeyboardHeight = 0;
   bool _nativeKeyboardVisible = false;
 
-  /// Last height reported by MediaQuery.viewInsets (0 when that source is hidden).
   double _viewInsetsKeyboardHeight = 0;
 
-  /// Paired native systemBars inset for IME-only normalization.
   double _nativeSafeAreaBottom = 0;
 
   bool _hadKeyboardInsetWhileReserved = false;
@@ -188,8 +185,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     SmartKeyboardInsets.instance.metricsNotifier.addListener(
       _metricsNotifierListener!,
     );
-    // Skip hidden bootstrap: iOS getCurrentMetrics is always hidden, and a late
-    // Future must not clobber live stream/viewInsets after focus.
     unawaited(
       SmartKeyboardInsets.instance.getCurrentMetrics().then((
         KeyboardMetrics metrics,
@@ -210,8 +205,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       metrics.keyboardHeight,
       visible: metrics.isKeyboardVisible,
     );
-    // Keep the paired native safeArea for IME normalization; do not write it
-    // into state (MediaQuery.padding is the slot-netting source when needed).
     _nativeSafeAreaBottom = metrics.safeAreaBottom;
     _commitMergedHeights();
   }
@@ -225,7 +218,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     _commitMergedHeights(safeAreaBottom: safeAreaBottom);
   }
 
-  /// Test entry: apply a native-style sample without the platform plugin.
   @visibleForTesting
   void debugApplyNativeMetrics({
     required double keyboardHeight,
@@ -241,7 +233,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     if (!ref.mounted) {
       return;
     }
-    // viewInsets when present, otherwise the raw native height.
     final double nativeImeOnly = resolveNativeImeOnlyHeight(
       nativeKeyboardHeight: _nativeKeyboardHeight,
       nativeSafeAreaBottom: _nativeSafeAreaBottom,

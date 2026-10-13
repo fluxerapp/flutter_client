@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Shows a bottom sheet for editing the alt text of [attachment]
 Future<String?> showAttachmentAltTextSheet(
   BuildContext context, {
   required Attachment attachment,

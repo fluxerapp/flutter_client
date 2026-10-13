@@ -75,7 +75,6 @@ void main() {
     });
 
     testWidgets('is false for phone landscape', (WidgetTester tester) async {
-      // Pixel 10 Pro landscape viewport.
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,

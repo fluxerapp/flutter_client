@@ -484,7 +484,6 @@ void main() {
       expect(await database.userDao.getUserById('u-a'), isNotNull);
       expect(await database.userDao.getUserById('u-b'), isNotNull);
 
-      // Multi-guild bulk must attribute cache access under the correct guild.
       final accessA = await database
           .customSelect(
             'SELECT guild_id, user_id FROM member_cache_access '

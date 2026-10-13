@@ -3,10 +3,6 @@ import 'dart:math' as math;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Horizontal overlap stack of avatar widgets, matching web `AvatarStack`.
-///
-/// Each slot can draw a circular [outlineColor] ring. Non-trailing avatars
-/// clip a cutout so the next slot's ring shows in the overlap.
 class FluxerAvatarStack extends StatelessWidget {
   const FluxerAvatarStack({
     required this.avatars,
@@ -22,23 +18,14 @@ class FluxerAvatarStack extends StatelessWidget {
   final List<Widget> avatars;
   final double size;
 
-  /// Cap on total visible slots (avatars + overflow chip). When null, all
-  /// avatars render with no overflow.
   final int? maxVisible;
 
-  /// Negative value to overlap adjacent avatars by. Defaults to
-  /// `round(-0.35 * size)`, matching the web `AvatarStack` default.
   final double? overlap;
 
-  /// Width of the ring around each slot and the overlap cutout. Defaults to
-  /// `clamp(1, 3, round(size * 0.05))`, matching the web outline.
   final double? outlineWidth;
 
-  /// Fill for the circular ring around each slot. Cutouts reveal this color.
   final Color? outlineColor;
 
-  /// Optional builder for the overflow chip; receives the count of
-  /// avatars that did not fit.
   final Widget Function(BuildContext context, int remaining)? overflowBuilder;
 
   @override

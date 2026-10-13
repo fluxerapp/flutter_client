@@ -11,9 +11,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Shows a bottom sheet with syntax-highlighted JSON data and a copy button.
-///
-/// Used by debug actions (Debug Community, Debug User, Debug Channel).
 Future<void> showDebugBottomSheet(
   BuildContext context, {
   required String title,

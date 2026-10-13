@@ -40,7 +40,6 @@ final class LocalPushNotifications {
   Future<bool>? _initializing;
   void Function(String? payloadJson)? _onNotificationTap;
 
-  /// Android launch payload. Does not deliver the tap.
   Future<String?> peekLaunchPayload() async {
     if (defaultTargetPlatform != TargetPlatform.android) {
       return null;

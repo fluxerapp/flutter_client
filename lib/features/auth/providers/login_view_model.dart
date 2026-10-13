@@ -646,7 +646,6 @@ class LoginViewModel extends _$LoginViewModel {
             isLoggingIn: false,
           );
         case LoginIpAuthRequired() || LoginSuspended():
-          // Unreachable — password reset only returns success or MFA.
           state = state.copyWith(resetToken: null, isLoggingIn: false);
       }
     } on AuthFailure catch (error) {

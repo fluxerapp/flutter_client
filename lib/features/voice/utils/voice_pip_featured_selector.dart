@@ -147,9 +147,6 @@ Map<String, DateTime> _nextSpeakingSince({
   return next;
 }
 
-/// Picks the PiP featured tile. Watched stream and pin win immediately.
-/// Speaking cameras switch only after [hysteresis], unless the current tile
-/// is gone or no longer speaking/recent.
 VoicePipFeaturedResult selectVoicePipFeatured({
   required VoicePipFeaturedResult previous,
   required DateTime now,

@@ -1,6 +1,3 @@
-/// Official Fluxer invite URL bases
-///
-/// Should switch in the future to use well-known config
 const List<String> kOfficialInviteUrlBases = <String>[
   'https://fluxer.app/invite',
   'https://canary.fluxer.app/invite',
@@ -16,9 +13,6 @@ final RegExp _genericInvitePathPattern = RegExp(
   caseSensitive: false,
 );
 
-/// Extracts an invite code from a pasted link or bare code string.
-///
-/// Should switch in the future to use well-known config
 String? parseInviteCode(
   String input, {
   List<String> inviteUrlBases = const <String>[],

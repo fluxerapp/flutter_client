@@ -26,7 +26,6 @@ String languageDetectionSample(String content) {
   return trimmed.substring(0, _kLanguageDetectionSampleLength);
 }
 
-/// Custom emoji and URLs are not judged as translatable strings.
 String translatableMessageText(String content) {
   return content
       .replaceAll(MessageContentPatterns.customEmoji, '')

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fluxer_app/features/voice/utils/voice_track_renderer_cache.dart';
 
-/// Shares screen-share playback so the tile and the PiP do not restart the track.
 class VoiceScreenShareAudioSession<T> {
   VoiceScreenShareAudioSession({
     required this.start,
@@ -22,7 +21,6 @@ class VoiceScreenShareAudioSession<T> {
   final Map<T, _Playback<T>> _playback = <T, _Playback<T>>{};
   var _sessionEnded = false;
 
-  /// True when this retain is the one that started playback.
   Future<bool> retain(T track) {
     final _Playback<T> playback = _playback.putIfAbsent(
       track,

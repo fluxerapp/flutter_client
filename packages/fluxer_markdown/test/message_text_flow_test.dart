@@ -57,8 +57,6 @@ void main() {
 
       final Size singleLineSize = await pumpAndMeasure('test line one');
       final Size messageSize = await pumpAndMeasure(input);
-      // Both blank lines between the two text lines keep a full line height, so
-      // the block is line one + both blank lines + line two tall.
       final double twoBlankLinesHeight =
           messageSize.height - (singleLineSize.height * 2);
       final double expectedMinHeight = singleLineSize.height * 4;
@@ -698,8 +696,6 @@ void main() {
         ),
       );
 
-      // A `>>>` blockquote stays one paragraph, so both lines and the blank
-      // line between them share a single RichText.
       final RichText quoteText = tester.widget<RichText>(
         find.textContaining('line one', findRichText: true),
       );
@@ -758,7 +754,6 @@ void main() {
       tester,
     ) async {
       await _pumpMarkdownFlow(tester, 'intro\n\n\n- one\n- two\n\n\noutro');
-      // Two 22px blank lines plus the 12px collapsed block gap.
       expect(_verticalGap(tester, 'intro', 'one'), closeTo(56, 0.5));
       expect(_verticalGap(tester, 'two', 'outro'), closeTo(56, 0.5));
 

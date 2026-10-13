@@ -1,8 +1,5 @@
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
-/// Human-readable label for a fixed duration [seconds] value used by the
-/// timeout and ban sheets. `0` denotes a permanent (non-expiring) duration.
-/// The custom-duration sentinel is handled by the caller, not here.
 String durationOptionLabel(FluxerLocalizations l10n, int seconds) {
   return switch (seconds) {
     0 => l10n.durationPermanent,

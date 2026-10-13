@@ -69,17 +69,12 @@ export 'composer_autocomplete_panel.dart';
 
 part 'composer_autocomplete_field_state.dart';
 
-/// Where the autocomplete suggestion list is rendered.
 enum AutocompleteRenderMode {
-  /// Floating overlay anchored above the input (bio, forward comment, etc.).
   overlay,
 
-  /// Bottom strip in the chat message-list stack, overlaying message content.
   inStack,
 }
 
-/// Every autocomplete trigger the chat composer understands. Surfaces that only
-/// support a subset (e.g. an emoji-only bio field) pass a narrower set.
 const Set<ComposerAutocompleteTriggerKind> kAllComposerAutocompleteTriggers =
     <ComposerAutocompleteTriggerKind>{
       ComposerAutocompleteTriggerKind.emojiReaction,
@@ -94,13 +89,6 @@ const Set<ComposerAutocompleteTriggerKind> kAllComposerAutocompleteTriggers =
       ComposerAutocompleteTriggerKind.command,
     };
 
-/// Wraps a text input ([child]) with `@mention`, `#channel`, and `:emoji:`
-/// autocomplete.
-///
-/// In [AutocompleteRenderMode.overlay] suggestions render in a floating overlay
-/// above the field. In [AutocompleteRenderMode.inStack] the field publishes to
-/// [panelHost] and [ComposerAutocompletePanelStrip] renders the list in the chat
-/// stack over the message list.
 class ComposerAutocompleteField extends ConsumerStatefulWidget {
   const ComposerAutocompleteField({
     required this.controller,
@@ -125,41 +113,26 @@ class ComposerAutocompleteField extends ConsumerStatefulWidget {
          'inStack mode requires panelHost and panelScrollController',
        );
 
-  /// The input's controller. When it is an
-  /// [InlineTokenTextEditingController] emoji are inserted as inline chips; a
-  /// [ComposerMentionController] also gets mention/channel chips.
   final TextEditingController controller;
 
-  /// The input's focus node. Losing focus dismisses the menu.
   final FocusNode focusNode;
 
-  /// The input widget to decorate (e.g. `TextField`, `FluxerInput.multiline`).
   final Widget child;
 
-  /// The channel providing mention/#channel/permission context. `null` or empty
-  /// means no channel (e.g. a bio): mentions/channels are unavailable and every
-  /// accessible custom emoji is offered without channel permission gating.
   final String? channelId;
 
-  /// Trigger kinds this field reacts to. Defaults to all.
   final Set<ComposerAutocompleteTriggerKind> allowedTriggers;
 
-  /// Upper bound on the controller's wire length when inserting an emoji chip.
   final int? maxActualLength;
 
-  /// Invoked after a suggestion is applied (e.g. to mirror `onChanged`).
   final VoidCallback? onApplied;
 
-  /// When false, autocomplete is suppressed (the [child] still renders).
   final bool enabled;
 
-  /// How suggestion UI is positioned. Chat composer uses [AutocompleteRenderMode.inStack].
   final AutocompleteRenderMode renderMode;
 
-  /// Host for [AutocompleteRenderMode.inStack]. Updated when suggestions change.
   final ComposerAutocompletePanelHost? panelHost;
 
-  /// Scroll controller paired with [panelHost] for keyboard-driven selection.
   final ScrollController? panelScrollController;
 
   final ComposerSlashSession? slashSession;
@@ -175,21 +148,12 @@ class ComposerAutocompleteField extends ConsumerStatefulWidget {
       ComposerAutocompleteFieldState();
 }
 
-/// True on native desktop platforms, where the composer supports hardware
-/// keyboard navigation of the autocomplete menu.
 bool get _composerAutocompleteKeyboardEnabled {
   return defaultTargetPlatform == TargetPlatform.linux ||
       defaultTargetPlatform == TargetPlatform.macOS ||
       defaultTargetPlatform == TargetPlatform.windows;
 }
 
-/// Routes hardware-keyboard navigation keys to an open autocomplete menu.
-///
-/// Returns [KeyEventResult.handled] when the key drove the menu (arrows move
-/// the selection, Tab/Enter apply it, Escape closes it), otherwise
-/// [KeyEventResult.ignored] so the input handles the key normally. Shift+Enter
-/// is always ignored so multiline inputs keep inserting newlines. A no-op on
-/// non-desktop platforms and when [state] has no open menu.
 KeyEventResult handleComposerAutocompleteKey(
   ComposerAutocompleteFieldState? state,
   KeyEvent event,

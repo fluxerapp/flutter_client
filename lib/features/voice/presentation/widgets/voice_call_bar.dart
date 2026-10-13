@@ -23,9 +23,6 @@ import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-/// Compact controls when a voice session is active.
-///
-/// This is just a temporary design for testing, need to work on a final design.
 class VoiceCallBar extends ConsumerWidget {
   const VoiceCallBar({super.key});
 

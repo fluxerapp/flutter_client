@@ -97,7 +97,6 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
           );
     final Widget image = CachedNetworkImage(
       imageUrl: url,
-      // 'a2' bypasses lossy animated entries cached before #776.
       cacheKey:
           'emoji_${widget.emojiId}_${animated ? 'a2' : 's'}_${widget.requestSize}',
       width: widget.size,

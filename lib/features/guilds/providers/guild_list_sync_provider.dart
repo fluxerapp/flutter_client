@@ -7,10 +7,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_list_sync_provider.g.dart';
 
-/// Refreshes guild membership from the REST API after each gateway READY.
-///
-/// READY may omit guilds the user has left while offline, so a follow up fetch
-/// prunes stale local entries.
 @Riverpod(keepAlive: true)
 class GuildListSync extends _$GuildListSync {
   bool _syncScheduled = false;
@@ -27,9 +23,6 @@ class GuildListSync extends _$GuildListSync {
     }
   }
 
-  /// Waits out the first-channel-open window after READY; bumps arriving
-  /// while a sweep is pending collapse into it, since the fetch reflects
-  /// server truth at run time.
   void _scheduleSync() {
     if (_syncScheduled) {
       return;

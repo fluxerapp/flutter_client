@@ -129,8 +129,6 @@ class ComposerAutocompletePanelSnapshot {
   final bool gifEmpty;
 }
 
-/// Renders [ComposerAutocompletePanelSnapshot] from [host], anchored to the
-/// bottom of the parent stack over the message list.
 class ComposerAutocompletePanelStrip extends StatelessWidget {
   const ComposerAutocompletePanelStrip({
     required this.host,
@@ -195,7 +193,6 @@ class ComposerAutocompletePanelStrip extends StatelessWidget {
   }
 }
 
-/// Bottom-aligned [Stack] child with a bounded height.
 class ComposerAutocompletePanelLayer extends StatelessWidget {
   const ComposerAutocompletePanelLayer({
     required this.host,
@@ -362,8 +359,6 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
   }
 }
 
-/// [FluxerAvatar.user] uses [BigInt.parse] on [userId] for default avatars;
-/// only pass ids that parse as integers (e.g. snowflakes).
 String? _snowflakeUserIdForDefaultAvatar(String? userId) {
   if (userId == null || userId.isEmpty) {
     return null;
@@ -374,8 +369,6 @@ String? _snowflakeUserIdForDefaultAvatar(String? userId) {
   return null;
 }
 
-/// A single suggestion row shared by every autocomplete kind: mention (avatar),
-/// channel (glyph), or emoji (unicode glyph / custom network image).
 class ComposerAutocompletePanelListTile extends StatelessWidget {
   const ComposerAutocompletePanelListTile({
     required this.title,

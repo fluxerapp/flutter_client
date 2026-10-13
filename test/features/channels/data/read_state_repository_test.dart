@@ -953,7 +953,6 @@ void main() {
         ),
       );
 
-      // Author just unblocked: the channel is unread with a zero mention count.
       await ReadStateRepository(
         FluxerClient(dio),
         db,

@@ -3,8 +3,6 @@
 import 'package:fluxer_markdown_native/src/ast.dart';
 import 'package:markdown/markdown.dart' as md;
 
-/// Converts the canonical native AST into the `md.Node` element shapes and
-/// tag/attribute contract consumed by `package:fluxer_markdown`'s renderer.
 List<md.Node> fluxerNativeAstToMarkdown(List<MdNode> nodes) =>
     _convertBlockChildren(nodes);
 
@@ -65,8 +63,6 @@ final RegExp _leadingNewlines = RegExp(r'^\n+');
 final RegExp _trailingNewlines = RegExp(r'\n+$');
 final RegExp _newlinesOnly = RegExp(r'^\n+$');
 
-// Blank lines typed next to a block arrive as boundary newlines: N+1 before
-// the block, because one closes the preceding line, and N after it (#545).
 List<md.Node> _blocksFromRun(
   List<md.Node> run, {
   required bool followsBlock,

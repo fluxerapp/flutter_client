@@ -3,12 +3,10 @@ import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Whether [navigator]'s top route is a [PopupRoute].
 bool navigatorHasPopupOverlay(NavigatorState? navigator) {
   return _navigatorShowsPopupOverlay(navigator);
 }
 
-/// Test-visible alias for [navigatorHasPopupOverlay].
 @visibleForTesting
 bool navigatorShowsPopupOverlay(NavigatorState? navigator) {
   return _navigatorShowsPopupOverlay(navigator);
@@ -26,7 +24,6 @@ bool _navigatorShowsPopupOverlay(NavigatorState? navigator) {
   return hasPopup;
 }
 
-/// Scans shell branch and root navigators for any visible popup overlay
 bool shellNavigatorsHavePopupOverlay() {
   if (navigatorShowsPopupOverlay(shellTabOverlayNavigatorKey.currentState)) {
     return true;

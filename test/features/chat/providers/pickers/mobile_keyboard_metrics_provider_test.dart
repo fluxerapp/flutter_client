@@ -34,7 +34,6 @@ void main() {
         );
         await Future<void>.value();
 
-        // Android native includes systemBars; viewInsets is IME-only.
         notifier
           ..debugApplyNativeMetrics(
             keyboardHeight: 336,
@@ -75,14 +74,12 @@ void main() {
       );
       await Future<void>.value();
 
-      // Stale viewInsets frame arrives first (partial open).
       notifier.syncViewInsets(180, safeAreaBottom: 34);
       expect(
         container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
         180,
       );
 
-      // Native gross height must not replace a live viewInsets sample.
       notifier.debugApplyNativeMetrics(
         keyboardHeight: 336,
         isKeyboardVisible: true,

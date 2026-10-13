@@ -3,7 +3,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_o
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
-/// Wraps an embed subtree with the spoiler overlay
 Widget wrapEmbedSpoiler({
   required EmbedType type,
   required bool isSpoiler,

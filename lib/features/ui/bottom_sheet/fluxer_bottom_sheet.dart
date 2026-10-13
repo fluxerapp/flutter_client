@@ -20,16 +20,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-// ---------------------------------------------------------------------------
-// FluxerBottomSheet
-// ---------------------------------------------------------------------------
 
-/// Builder that receives the sheet's [BuildContext] and a [close] callback.
 typedef FluxerBottomSheetBuilder =
     Widget Function(BuildContext context, VoidCallback close);
 
-/// Builder for scrollable sheets — also receives a [ScrollController] that
-/// must be attached to the inner scrollable to coordinate scroll-vs-dismiss.
 typedef FluxerScrollableBottomSheetBuilder =
     Widget Function(
       BuildContext context,
@@ -39,7 +33,6 @@ typedef FluxerScrollableBottomSheetBuilder =
 
 enum FluxerBottomSheetVariant { content, menu }
 
-/// Provides bottom scroll inset for lists inside a [FluxerBottomSheet].
 class FluxerBottomSheetScope extends InheritedWidget {
   const FluxerBottomSheetScope({
     required this.bottomScrollPadding,
@@ -1609,9 +1602,6 @@ class FluxerBottomSheetFooter extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Menu group
-// ---------------------------------------------------------------------------
 
 class FluxerMenuGroup extends StatelessWidget {
   final List<Widget> children;
@@ -1679,9 +1669,6 @@ List<Widget> _intersperseDividers(
   return result;
 }
 
-// ---------------------------------------------------------------------------
-// Menu items
-// ---------------------------------------------------------------------------
 
 class FluxerBottomSheetMenuItem extends StatelessWidget {
   final String label;

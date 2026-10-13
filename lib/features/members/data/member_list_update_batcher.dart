@@ -11,29 +11,8 @@ import 'package:fluxer_app/features/members/providers/member_list_viewport_provi
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/gateway.dart';
 
-/// Debounce window for coalescing `GUILD_MEMBER_LIST_UPDATE` events, mirroring
-/// the web client's `MEMBER_LIST_UPDATE_BATCH_MS`.
 const int kMemberListUpdateBatchMs = 1000;
 
-/// Coalesces high-frequency `GUILD_MEMBER_LIST_UPDATE` events per member list so
-/// the viewport, Drift sync, and cache eviction run at most once per
-/// [kMemberListUpdateBatchMs] window instead of once per event.
-///
-/// The backend broadcasts one event per member-list mutation (presence flips,
-/// joins/leaves, role/hoist changes), which on an active guild is many per
-/// second. Applied individually, each event triggers a member-list widget
-/// rebuild, a multi-table Drift transaction, and a member-count query — the
-/// dominant cost under churn.
-///
-/// Because [MemberListViewport.applyListUpdate] folds `ops` onto existing rows
-/// (delete range, then set), applying the concatenated ops of several events in
-/// one pass yields the same result as applying each event in turn. Batched
-/// events are therefore merged by appending ops and keeping the latest
-/// counts/groups, then flushed once per window.
-///
-/// Two cases bypass the window and apply immediately: the first payload for a
-/// list (so it first-paints without delay) and a change to the local user's own
-/// presence (so their status updates feel instant), matching the web client.
 class MemberListUpdateBatcher {
   MemberListUpdateBatcher(this._ref);
 
@@ -41,10 +20,6 @@ class MemberListUpdateBatcher {
   final Map<String, _PendingMemberListBatch> _pending =
       <String, _PendingMemberListBatch>{};
 
-  /// Queues [event] for batched application. Channel-less events, the first
-  /// payload for a list, and the local user's own presence changes are applied
-  /// immediately; everything else is coalesced into a [kMemberListUpdateBatchMs]
-  /// window measured from the first queued event.
   void enqueue(GuildMemberListUpdateEvent event) {
     final String? channelId = event.channelId;
     if (channelId == null || channelId.isEmpty) {
@@ -60,8 +35,6 @@ class MemberListUpdateBatcher {
     }
     final String key = _batchKey(event.guildId, event.id);
     if (_isOwnPresenceChange(event, list)) {
-      // Flush anything already queued for this list first so ordering holds,
-      // then land the local user's status without the batch delay.
       _flush(key);
       _apply(event, reason: 'self', coalesced: 1);
       return;
@@ -82,8 +55,6 @@ class MemberListUpdateBatcher {
       ..count += 1;
   }
 
-  /// Drops every pending batch without applying it. Called when the session is
-  /// reset so updates queued against a stale socket never land.
   void clearAll() {
     for (final _PendingMemberListBatch batch in _pending.values) {
       batch.timer.cancel();
@@ -132,9 +103,6 @@ class MemberListUpdateBatcher {
     }());
   }
 
-  /// Whether [event] carries a presence change for the local user that is
-  /// already visible in [list]. Such updates skip the batch so the user's own
-  /// status reflects immediately.
   bool _isOwnPresenceChange(
     GuildMemberListUpdateEvent event,
     MemberListViewportListState list,

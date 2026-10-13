@@ -212,8 +212,6 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
             channel: channel,
             guildSettings: decodedGuildSettings,
           );
-    // A guild channel without an ack returns false before the fallback is
-    // read, so skipping it here keeps this hot recompute off the DB.
     final fallbackAckMs = channel == null ? snowflakeTimestampMs(channelId) : 0;
     final bool isThread = channel != null && isThreadChannelType(channel.type);
     if (isThread && threadMemberSub == null) {

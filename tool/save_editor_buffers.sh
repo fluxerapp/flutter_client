@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Flush unsaved editor buffers before dart fix/format
 if [ -z "${BASH_VERSION:-}" ]; then
   exec bash "$0" "$@"
 fi

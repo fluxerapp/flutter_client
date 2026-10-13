@@ -40,7 +40,6 @@ bool shouldCloseInAppBrowserOnLifecycleResume({
   return !wasForeground && state == AppLifecycleState.resumed;
 }
 
-/// True while the app is visible (resumed or briefly inactive)
 @Riverpod(keepAlive: true)
 class AppUiForeground extends _$AppUiForeground {
   @override
@@ -60,7 +59,6 @@ class AppUiForeground extends _$AppUiForeground {
   }
 }
 
-/// Pushes platform lifecycle and locale changes into Riverpod state.
 class AppUiLifecycleObserver extends ConsumerStatefulWidget {
   const AppUiLifecycleObserver({required this.child, super.key});
 

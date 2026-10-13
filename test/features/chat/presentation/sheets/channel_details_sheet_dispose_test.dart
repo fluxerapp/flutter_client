@@ -36,7 +36,6 @@ ProviderContainer _container(FluxerDatabase database, {String? currentUserId}) {
   final List<Override> overrides = <Override>[
     fluxerDatabaseProvider.overrideWithValue(database),
     appearancePreferencesProvider.overrideWith(_FakeAppearance.new),
-    // Neutralise the gateway/router-driven subscription; unrelated to dispose.
     memberListDetailsSubscriptionProvider(
       _guildId,
       _channelId,

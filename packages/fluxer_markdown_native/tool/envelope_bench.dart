@@ -16,7 +16,6 @@ void main() {
     final input = message.toString();
     const runs = 100;
 
-    // Warmup for JIT fairness.
     for (var i = 0; i < 10; i++) {
       parseFluxerMarkdown(input);
       parseFluxerMarkdownBinary(input);
