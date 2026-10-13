@@ -30,6 +30,28 @@ bool inlineSpanHasWidget(InlineSpan span) {
   return false;
 }
 
+class FluxerLineBoundedWidgetSpan extends WidgetSpan {
+  const FluxerLineBoundedWidgetSpan({required super.child})
+    : super(
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
+      );
+}
+
+bool inlineSpanHasUnboundedWidget(InlineSpan span) {
+  if (span is WidgetSpan) {
+    return span is! FluxerLineBoundedWidgetSpan;
+  }
+  if (span is TextSpan) {
+    for (final InlineSpan child in span.children ?? const <InlineSpan>[]) {
+      if (inlineSpanHasUnboundedWidget(child)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 class FluxerBoundedTextClip extends StatelessWidget {
   const FluxerBoundedTextClip({required this.child, super.key});
 
@@ -59,7 +81,9 @@ Widget buildFluxerBoundedRichText({
   TextDirection? textDirection,
   bool softWrap = true,
 }) {
-  final bool forceLineHeight = maxLines != null && !inlineSpanHasWidget(text);
+  final bool forceLineHeight = inlineSpanHasWidget(text)
+      ? !inlineSpanHasUnboundedWidget(text)
+      : maxLines != null;
   return FluxerBoundedTextClip(
     child: RichText(
       text: text,

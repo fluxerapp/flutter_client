@@ -152,7 +152,7 @@ void main() {
       );
     });
 
-    testWidgets('keeps mention widgets taller than the text line', (
+    testWidgets('forces the line height around mention widgets', (
       tester,
     ) async {
       const Key mentionKey = Key('reply-mention');
@@ -160,7 +160,7 @@ void main() {
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         userMentionBuilder: (_, _, _) =>
-            const SizedBox(key: mentionKey, width: 48, height: 24),
+            const SizedBox(key: mentionKey, width: 48, height: 18),
       );
       await tester.pumpWidget(
         MaterialApp(
@@ -183,12 +183,12 @@ void main() {
       await tester.pump();
 
       expect(find.byKey(mentionKey), findsOneWidget);
-      expect(tester.getSize(find.byKey(mentionKey)).height, 24);
+      expect(tester.getSize(find.byKey(mentionKey)).height, 18);
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
-      expect(richText.strutStyle?.forceStrutHeight, isFalse);
+      expect(richText.strutStyle?.forceStrutHeight, isTrue);
       expect(
         tester.getSize(find.byType(FluxerBoundedTextClip).first).height,
-        greaterThanOrEqualTo(24),
+        18,
       );
     });
 

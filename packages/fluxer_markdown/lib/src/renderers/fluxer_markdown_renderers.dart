@@ -317,9 +317,7 @@ void appendTrailingInlineWidget(
   spans
     ..add(TextSpan(text: ' ', style: baseStyle))
     ..add(
-      WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
+      FluxerLineBoundedWidgetSpan(
         child: MediaQuery.withNoTextScaling(child: trailingInlineWidget),
       ),
     );
@@ -1491,9 +1489,7 @@ class _MarkdownInlineRenderer {
     required FluxerMentionBuilder? builder,
   }) {
     if (builder != null) {
-      return WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
+      return FluxerLineBoundedWidgetSpan(
         child: MediaQuery.withNoTextScaling(
           child: builder(context, element.textContent, style),
         ),
@@ -1508,9 +1504,7 @@ class _MarkdownInlineRenderer {
 
   InlineSpan _buildEveryoneMention(md.Element element, TextStyle style) {
     if (config.everyoneMentionBuilder != null) {
-      return WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
+      return FluxerLineBoundedWidgetSpan(
         child: MediaQuery.withNoTextScaling(
           child: config.everyoneMentionBuilder!(
             context,
@@ -1531,9 +1525,7 @@ class _MarkdownInlineRenderer {
     final String command = element.textContent;
     final String? applicationId = element.attributes['id'];
     if (config.commandMentionBuilder != null && applicationId != null) {
-      return WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
+      return FluxerLineBoundedWidgetSpan(
         child: MediaQuery.withNoTextScaling(
           child: config.commandMentionBuilder!(
             context,
@@ -1559,9 +1551,7 @@ class _MarkdownInlineRenderer {
     );
     final String? navigationId = element.attributes['nav-id'];
     if (config.guildNavigationMentionBuilder != null && navType != null) {
-      return WidgetSpan(
-        alignment: PlaceholderAlignment.baseline,
-        baseline: TextBaseline.alphabetic,
+      return FluxerLineBoundedWidgetSpan(
         child: MediaQuery.withNoTextScaling(
           child: config.guildNavigationMentionBuilder!(
             context,
