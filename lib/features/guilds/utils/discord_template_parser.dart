@@ -166,11 +166,9 @@ Map<String, Object?>? _normalizeSerializedSourceGuild(
     return null;
   }
   final Map<String, Object?> normalized = Map<String, Object?>.from(guildJson);
-  if (normalized.containsKey('system_channel_id')) {
-    normalized['system_channel_id'] = _discordTemplateScalarToString(
-      normalized['system_channel_id'],
-    );
-  }
+  normalized['system_channel_id'] = _discordTemplateIdOrNull(
+    normalized['system_channel_id'],
+  );
   final List<Map<String, Object?>>? roles = _normalizeObjectList(
     rolesRaw,
     _normalizeTemplateRole,
@@ -231,11 +229,7 @@ Map<String, Object?>? _normalizeTemplateChannel(Map<String, Object?>? channel) {
     return null;
   }
   normalized['id'] = _discordTemplateScalarToString(normalized['id']);
-  if (normalized.containsKey('parent_id')) {
-    normalized['parent_id'] = _discordTemplateScalarToString(
-      normalized['parent_id'],
-    );
-  }
+  normalized['parent_id'] = _discordTemplateIdOrNull(normalized['parent_id']);
   final Object? overwritesRaw = normalized['permission_overwrites'];
   if (overwritesRaw is List) {
     final List<Map<String, Object?>>? overwrites = _normalizeObjectList(
@@ -272,6 +266,13 @@ String _discordTemplateScalarToString(Object? value) {
     return value.toString();
   }
   return value?.toString() ?? '0';
+}
+
+String? _discordTemplateIdOrNull(Object? value) {
+  if (value == null) {
+    return null;
+  }
+  return _discordTemplateScalarToString(value);
 }
 
 String _permissionOverwriteTypeToString(Object? value) {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/guilds/utils/discord_template_parser.dart';
 import 'package:fluxer_dart/export.dart';
@@ -219,5 +221,133 @@ void main() {
       );
       expect(parsed, isNotNull);
     });
+    test(
+      'keeps names, parents, roles and overwrites in the create request',
+      () {
+        final DiscordGuildTemplate? parsed = parseDiscordGuildTemplate(
+          <String, Object?>{
+            'code': 'hgM48av5Q69A',
+            'name': 'Friends & Family',
+            'serialized_source_guild': <String, Object?>{
+              'name': 'Friends & Family',
+              'description': null,
+              'system_channel_id': 2,
+              'roles': <Map<String, Object?>>[
+                <String, Object?>{
+                  'id': 0,
+                  'name': '@everyone',
+                  'permissions': 104324689,
+                  'permissions_new': '2248329584434769',
+                  'unicode_emoji': null,
+                },
+                <String, Object?>{
+                  'id': 3,
+                  'name': 'Mods',
+                  'permissions': 8192,
+                  'permissions_new': '8192',
+                  'color': 14988288,
+                  'hoist': true,
+                  'unicode_emoji': null,
+                },
+              ],
+              'channels': <Map<String, Object?>>[
+                <String, Object?>{
+                  'id': 1,
+                  'type': 4,
+                  'name': 'Text Channels',
+                  'position': 0,
+                  'parent_id': null,
+                  'topic': null,
+                  'permission_overwrites': <Map<String, Object?>>[],
+                },
+                <String, Object?>{
+                  'id': 2,
+                  'type': 0,
+                  'name': 'general',
+                  'position': 0,
+                  'parent_id': 1,
+                  'topic': 'Say hi',
+                  'permission_overwrites': <Map<String, Object?>>[
+                    <String, Object?>{
+                      'id': 0,
+                      'type': 'role',
+                      'allow': 0,
+                      'deny': 2048,
+                      'allow_new': '0',
+                      'deny_new': '2048',
+                    },
+                    <String, Object?>{
+                      'id': 3,
+                      'type': 'role',
+                      'allow': 2048,
+                      'deny': 0,
+                    },
+                  ],
+                },
+                <String, Object?>{
+                  'id': 5,
+                  'type': 2,
+                  'name': 'Lounge',
+                  'position': 1,
+                  'parent_id': null,
+                  'bitrate': 64000,
+                  'user_limit': 0,
+                },
+              ],
+            },
+          },
+        );
+
+        final Map<String, Object?> body =
+            jsonDecode(
+                  jsonEncode(
+                    GuildCreateRequest(
+                      name: 'Friends & Family',
+                      template: parsed!.sourceGuild,
+                    ).toJson(),
+                  ),
+                )
+                as Map<String, Object?>;
+        final Map<String, Object?> template =
+            body['template']! as Map<String, Object?>;
+        final List<Map<String, Object?>> roles =
+            (template['roles']! as List<Object?>).cast<Map<String, Object?>>();
+        final List<Map<String, Object?>> channels =
+            (template['channels']! as List<Object?>)
+                .cast<Map<String, Object?>>();
+
+        expect(template['system_channel_id'], '2');
+        expect(roles.map((Map<String, Object?> role) => role['name']), <String>[
+          '@everyone',
+          'Mods',
+        ]);
+        expect(roles[0]['permissions_new'], '2248329584434769');
+        expect(roles[1]['permissions'], '8192');
+        expect(roles[1]['color'], 14988288);
+        expect(
+          channels.map((Map<String, Object?> channel) => channel['name']),
+          <String>['Text Channels', 'general', 'Lounge'],
+        );
+        expect(channels[0]['parent_id'], isNull);
+        expect(channels[1]['parent_id'], '1');
+        expect(channels[1]['topic'], 'Say hi');
+        expect(channels[2]['parent_id'], isNull);
+        expect(channels[2]['bitrate'], 64000);
+        expect(channels[1]['permission_overwrites'], <Map<String, Object?>>[
+          <String, Object?>{
+            'id': '0',
+            'type': '0',
+            'allow': '0',
+            'deny': '2048',
+          },
+          <String, Object?>{
+            'id': '3',
+            'type': '0',
+            'allow': '2048',
+            'deny': '0',
+          },
+        ]);
+      },
+    );
   });
 }
