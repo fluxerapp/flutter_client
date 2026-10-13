@@ -243,6 +243,7 @@ void main() {
 
       final SemanticsNode beta = tester.getSemantics(find.text('Beta'));
       expect(beta.flagsCollection.isChecked, CheckedState.isTrue);
+      expect(beta.flagsCollection.isSelected, Tristate.isTrue);
     });
 
     testWidgets('toggle switch exposes toggled state', (tester) async {

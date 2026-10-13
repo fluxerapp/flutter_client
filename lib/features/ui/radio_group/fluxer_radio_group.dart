@@ -59,6 +59,7 @@ class FluxerRadioGroup<T> extends StatelessWidget {
                 Semantics(
                   enabled: item.enabled,
                   checked: value == item.value,
+                  selected: value == item.value,
                   inMutuallyExclusiveGroup: true,
                   label: item.description != null
                       ? '${item.label}. ${item.description}'
