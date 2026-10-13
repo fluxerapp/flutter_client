@@ -1427,7 +1427,7 @@ class FluxerBottomSheetHeader extends StatelessWidget {
     final bool alignStart = effectiveLeading != null || trailing != null;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: EdgeInsets.symmetric(horizontal: layout.pageGutter),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -1508,7 +1508,7 @@ class FluxerBottomSheetContent extends StatelessWidget {
     final layout = context.layout;
     final EdgeInsets resolvedPadding = FluxerBottomSheet.scrollViewPadding(
       context,
-      padding: padding ?? EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: layout.pageGutter),
     );
 
     if (!scrollable) {
@@ -1537,7 +1537,7 @@ class FluxerBottomSheetSection extends StatelessWidget {
     final layout = context.layout;
 
     return Padding(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: layout.pageGutter),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -1596,7 +1596,12 @@ class FluxerBottomSheetFooter extends StatelessWidget {
         right: false,
         maintainBottomViewPadding: inScrollableSheet,
         child: Padding(
-          padding: padding ?? EdgeInsets.all(layout.s4),
+          padding:
+              padding ??
+              EdgeInsets.symmetric(
+                horizontal: layout.pageGutter,
+                vertical: layout.s4,
+              ),
           child: child,
         ),
       ),
@@ -1639,7 +1644,7 @@ class FluxerMenuGroup extends StatelessWidget {
           children: _intersperseDividers(
             children,
             dividerColor: context.colors.backgroundModifierAccent,
-            dividerInset: 16,
+            dividerInset: layout.groupRowInset,
           ),
         ),
       ),
@@ -1731,7 +1736,10 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.layout.groupRowInset,
+                vertical: 14,
+              ),
               child: Row(
                 children: [
                   if (leading case final leading?) ...[
@@ -1861,7 +1869,10 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.layout.groupRowInset,
+                vertical: 14,
+              ),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -1943,7 +1954,10 @@ class FluxerBottomSheetCheckboxItem extends StatelessWidget {
         return ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 56),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.layout.groupRowInset,
+              vertical: 14,
+            ),
             child: Row(
               children: [
                 Expanded(

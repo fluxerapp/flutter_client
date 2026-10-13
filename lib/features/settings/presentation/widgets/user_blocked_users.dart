@@ -32,7 +32,7 @@ class UserBlockedUsers extends ConsumerWidget {
       loading: () => const Center(child: FluxerLoadingSpinner()),
       error: (_, _) => Center(
         child: Padding(
-          padding: EdgeInsets.all(layout.s4),
+          padding: EdgeInsets.symmetric(vertical: layout.s4),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -62,7 +62,7 @@ class UserBlockedUsers extends ConsumerWidget {
         if (blocked.isEmpty) {
           return Center(
             child: Padding(
-              padding: EdgeInsets.all(layout.s4),
+              padding: EdgeInsets.symmetric(vertical: layout.s4),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -94,7 +94,7 @@ class UserBlockedUsers extends ConsumerWidget {
         }
 
         return Padding(
-          padding: EdgeInsets.all(layout.s4),
+          padding: EdgeInsets.symmetric(vertical: layout.s4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

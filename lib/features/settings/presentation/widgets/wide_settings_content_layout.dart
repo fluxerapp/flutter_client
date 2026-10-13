@@ -84,7 +84,12 @@ EdgeInsets settingsScrollPadding(
   if (isWideLayout(context)) {
     return EdgeInsets.only(top: layout.s4, bottom: bottom);
   }
-  return EdgeInsets.fromLTRB(layout.s4, layout.s4, layout.s4, bottom);
+  return EdgeInsets.fromLTRB(
+    layout.pageGutter,
+    layout.s4,
+    layout.pageGutter,
+    bottom,
+  );
 }
 
 EdgeInsets settingsScrollPaddingWithSaveBar(BuildContext context) {
@@ -97,9 +102,9 @@ EdgeInsets settingsScrollPaddingWithSaveBar(BuildContext context) {
 EdgeInsets settingsSheetScrollPadding(BuildContext context) {
   final layout = context.layout;
   return EdgeInsets.fromLTRB(
-    layout.s4,
+    layout.pageGutter,
     0,
-    layout.s4,
+    layout.pageGutter,
     kSettingsScrollBottomPadding,
   );
 }

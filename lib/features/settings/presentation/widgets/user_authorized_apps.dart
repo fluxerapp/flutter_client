@@ -38,7 +38,7 @@ class _UserAuthorizedAppsState extends ConsumerState<UserAuthorizedApps> {
       body = const Center(child: FluxerLoadingSpinner());
     } else if (state.error != null) {
       body = Padding(
-        padding: EdgeInsets.all(layout.s4),
+        padding: EdgeInsets.symmetric(vertical: layout.s4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -67,7 +67,7 @@ class _UserAuthorizedAppsState extends ConsumerState<UserAuthorizedApps> {
       );
     } else if (state.authorizations.isEmpty) {
       body = Padding(
-        padding: EdgeInsets.all(layout.s4),
+        padding: EdgeInsets.symmetric(vertical: layout.s4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -97,7 +97,7 @@ class _UserAuthorizedAppsState extends ConsumerState<UserAuthorizedApps> {
       );
     } else {
       body = Padding(
-        padding: EdgeInsets.all(layout.s4),
+        padding: EdgeInsets.symmetric(vertical: layout.s4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

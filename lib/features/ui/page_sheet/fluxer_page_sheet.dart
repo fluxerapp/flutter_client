@@ -25,6 +25,11 @@ const double _kPageSheetFlingVelocity = 2;
 const double _kPageSheetCloseProgress = 0.52;
 const double _kPageSheetHeaderTop = 8;
 const double _kPageSheetHeaderBarHeight = 48;
+const double _kPageSheetHeaderIconSize = 22;
+const double _kPageSheetHeaderButtonSize = 48;
+const double _kPageSheetHeaderTitleGap = 16;
+const double _kPageSheetHeaderGlyphInset =
+    (_kPageSheetHeaderButtonSize - _kPageSheetHeaderIconSize) / 2;
 
 class FluxerPageSheet {
   FluxerPageSheet._();
@@ -472,6 +477,7 @@ class _FluxerPageSheetHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final Color color = foregroundColor ?? context.colors.textPrimary;
+    final double gutter = context.layout.pageGutter;
     final FluxerSheetDragTarget? sheet = _FluxerPageSheetRouteScope.maybeOf(
       context,
     );
@@ -490,17 +496,24 @@ class _FluxerPageSheetHeader extends StatelessWidget {
           height: _kPageSheetHeaderBarHeight,
           child: Row(
             children: <Widget>[
-              const SizedBox(width: 4),
+              SizedBox(width: gutter - _kPageSheetHeaderGlyphInset),
               IconButton(
                 onPressed: onClose,
                 tooltip: isRoot ? l10n.uiClose : l10n.back,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints.tightFor(
+                  width: _kPageSheetHeaderButtonSize,
+                  height: _kPageSheetHeaderButtonSize,
+                ),
                 icon: PhosphorIcon(
                   isRoot ? PhosphorIconsBold.x : PhosphorIconsBold.arrowLeft,
-                  size: 22,
+                  size: _kPageSheetHeaderIconSize,
                   color: color,
                 ),
               ),
-              const SizedBox(width: 2),
+              const SizedBox(
+                width: _kPageSheetHeaderTitleGap - _kPageSheetHeaderGlyphInset,
+              ),
               Expanded(
                 child: title == null
                     ? const SizedBox.shrink()
@@ -516,7 +529,7 @@ class _FluxerPageSheetHeader extends StatelessWidget {
                       ),
               ),
               ?titleTrailing,
-              const SizedBox(width: 12),
+              SizedBox(width: gutter),
             ],
           ),
         ),

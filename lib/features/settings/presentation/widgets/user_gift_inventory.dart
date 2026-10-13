@@ -73,7 +73,7 @@ class _UserGiftInventoryState extends ConsumerState<UserGiftInventory> {
       padding: settingsScrollPadding(context),
       child: Center(
         child: Padding(
-          padding: EdgeInsets.all(layout.s6),
+          padding: EdgeInsets.symmetric(vertical: layout.s6),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

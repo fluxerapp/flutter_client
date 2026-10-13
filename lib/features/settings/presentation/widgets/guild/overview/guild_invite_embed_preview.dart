@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -41,7 +43,9 @@ class GuildInviteEmbedPreview extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 360),
+        constraints: isMobileLayout(context)
+            ? null
+            : const BoxConstraints(maxWidth: 360),
         decoration: BoxDecoration(
           color: context.colors.backgroundSecondary,
           borderRadius: BorderRadius.circular(12),

@@ -85,7 +85,7 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
     FluxerLocalizations l10n,
   ) {
     return Padding(
-      padding: EdgeInsets.all(layout.s4),
+      padding: EdgeInsets.symmetric(vertical: layout.s4),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -132,7 +132,7 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
   ) {
     final state = ref.watch(linkedDevicesViewModelProvider);
     return Padding(
-      padding: EdgeInsets.fromLTRB(layout.s4, layout.s4, layout.s4, 0),
+      padding: EdgeInsets.only(top: layout.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

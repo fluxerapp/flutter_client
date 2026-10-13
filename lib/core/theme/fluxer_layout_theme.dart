@@ -34,6 +34,8 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
     required this.settingsSwitchRowMinHeight,
     required this.settingsSwitchGroupedRowMinHeight,
     required this.touchTargetMin,
+    required this.pageGutter,
+    required this.groupRowInset,
   });
 
   factory FluxerLayoutTheme.scaled({double scaleFactor = 1.0}) {
@@ -74,6 +76,8 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
       settingsSwitchRowMinHeight: s(44),
       settingsSwitchGroupedRowMinHeight: s(68),
       touchTargetMin: s(44),
+      pageGutter: s(16),
+      groupRowInset: s(16),
     );
   }
 
@@ -120,6 +124,9 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
 
   // Minimum interactive control size
   final double touchTargetMin;
+
+  final double pageGutter;
+  final double groupRowInset;
 
   @override
   FluxerLayoutTheme copyWith({double? scaleFactor}) {

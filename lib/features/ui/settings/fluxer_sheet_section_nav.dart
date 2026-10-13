@@ -80,7 +80,7 @@ class _FluxerSheetSectionNavState extends State<FluxerSheetSectionNav> {
       height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+        padding: EdgeInsets.symmetric(horizontal: layout.pageGutter),
         itemCount: widget.sections.length,
         separatorBuilder: (_, _) => SizedBox(width: layout.s2),
         itemBuilder: (context, index) {

@@ -31,60 +31,57 @@ class PremiumPurchaseDisclaimer extends StatelessWidget {
       height: 1.5,
     );
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s2),
-      child: Column(
-        crossAxisAlignment: alignCenter
-            ? CrossAxisAlignment.center
-            : CrossAxisAlignment.start,
-        children: [
-          Text.rich(
-            TextSpan(
-              style: mutedStyle,
-              children: [
-                TextSpan(
-                  text: isPremium
-                      ? l10n.premiumDisclaimerAgreementPastPrefix
-                      : l10n.premiumDisclaimerAgreementPrefix,
-                ),
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.baseline,
-                  baseline: TextBaseline.alphabetic,
-                  child: MediaQuery.withNoTextScaling(
-                    child: FluxerTextLink(
-                      text: l10n.premiumTermsOfService,
-                      url: _kTermsUrl,
-                      style: mutedStyle.copyWith(color: colors.textLink),
-                    ),
+    return Column(
+      crossAxisAlignment: alignCenter
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
+      children: [
+        Text.rich(
+          TextSpan(
+            style: mutedStyle,
+            children: [
+              TextSpan(
+                text: isPremium
+                    ? l10n.premiumDisclaimerAgreementPastPrefix
+                    : l10n.premiumDisclaimerAgreementPrefix,
+              ),
+              WidgetSpan(
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
+                child: MediaQuery.withNoTextScaling(
+                  child: FluxerTextLink(
+                    text: l10n.premiumTermsOfService,
+                    url: _kTermsUrl,
+                    style: mutedStyle.copyWith(color: colors.textLink),
                   ),
                 ),
-                TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.baseline,
-                  baseline: TextBaseline.alphabetic,
-                  child: MediaQuery.withNoTextScaling(
-                    child: FluxerTextLink(
-                      text: l10n.premiumPrivacyPolicy,
-                      url: _kPrivacyUrl,
-                      style: mutedStyle.copyWith(color: colors.textLink),
-                    ),
+              ),
+              TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
+              WidgetSpan(
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
+                child: MediaQuery.withNoTextScaling(
+                  child: FluxerTextLink(
+                    text: l10n.premiumPrivacyPolicy,
+                    url: _kPrivacyUrl,
+                    style: mutedStyle.copyWith(color: colors.textLink),
                   ),
                 ),
-                const TextSpan(text: '.'),
-              ],
-            ),
+              ),
+              const TextSpan(text: '.'),
+            ],
+          ),
+          textAlign: alignCenter ? TextAlign.center : TextAlign.start,
+        ),
+        if (showRefundNote) ...[
+          SizedBox(height: layout.s2),
+          Text(
+            l10n.premiumDisclaimerRefund,
+            style: mutedStyle,
             textAlign: alignCenter ? TextAlign.center : TextAlign.start,
           ),
-          if (showRefundNote) ...[
-            SizedBox(height: layout.s2),
-            Text(
-              l10n.premiumDisclaimerRefund,
-              style: mutedStyle,
-              textAlign: alignCenter ? TextAlign.center : TextAlign.start,
-            ),
-          ],
         ],
-      ),
+      ],
     );
   }
 }

@@ -173,14 +173,14 @@ class _Body extends ConsumerWidget {
 
     if (state.isLoading && state.connections.isEmpty) {
       return Padding(
-        padding: EdgeInsets.all(layout.s6),
+        padding: EdgeInsets.symmetric(vertical: layout.s6),
         child: const Center(child: FluxerLoadingSpinner()),
       );
     }
 
     if (state.error != null && state.connections.isEmpty) {
       return Padding(
-        padding: EdgeInsets.all(layout.s4),
+        padding: EdgeInsets.symmetric(vertical: layout.s4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -210,7 +210,7 @@ class _Body extends ConsumerWidget {
 
     if (state.connections.isEmpty) {
       return Padding(
-        padding: EdgeInsets.all(layout.s6),
+        padding: EdgeInsets.symmetric(vertical: layout.s6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -437,7 +437,7 @@ class _GuildListItemState extends State<_GuildListItem>
           controller: scrollController,
           padding: FluxerBottomSheet.scrollViewPadding(
             sheetContext,
-            padding: EdgeInsets.symmetric(horizontal: layout.s4),
+            padding: EdgeInsets.symmetric(horizontal: layout.pageGutter),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

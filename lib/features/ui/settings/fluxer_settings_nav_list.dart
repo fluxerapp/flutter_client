@@ -66,7 +66,7 @@ class FluxerSettingsNavList extends StatelessWidget {
       controller: controller,
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: padding ?? EdgeInsets.symmetric(horizontal: layout.s4),
+        padding: padding ?? EdgeInsets.symmetric(horizontal: layout.pageGutter),
       ),
       itemCount:
           headerCount + profileCount + groups.length + emptyCount + footerCount,

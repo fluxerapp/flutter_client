@@ -166,35 +166,32 @@ class FluxerSettingsGroupLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s3),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Semantics(
-                  header: true,
-                  child: Text(title, style: context.textStyles.categoryName),
-                ),
-              ),
-              ?trailing,
-            ],
-          ),
-          if (description != null)
-            Padding(
-              padding: EdgeInsets.only(top: layout.s1),
-              child: Text(
-                description!,
-                style: context.textStyles.timestamp.copyWith(
-                  color: context.colors.textTertiary,
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Semantics(
+                header: true,
+                child: Text(title, style: context.textStyles.categoryName),
               ),
             ),
-        ],
-      ),
+            ?trailing,
+          ],
+        ),
+        if (description != null)
+          Padding(
+            padding: EdgeInsets.only(top: layout.s1),
+            child: Text(
+              description!,
+              style: context.textStyles.timestamp.copyWith(
+                color: context.colors.textTertiary,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
