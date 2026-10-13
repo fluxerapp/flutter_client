@@ -122,7 +122,12 @@ void main() {
       )..holdSend = true;
       final db.FluxerDatabase database = openTestDatabase();
       await database.channelDao.upsertChannel(
-        db.ChannelsCompanion.insert(id: _channelId, guildId: '', name: 'dm'),
+        db.ChannelsCompanion.insert(
+          id: _channelId,
+          guildId: '',
+          name: 'dm',
+          lastMessageId: Value<String?>(latestMessages.last['id']! as String),
+        ),
       );
       await database.readStateDao.upsertReadState(
         db.ReadStatesCompanion(

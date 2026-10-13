@@ -4448,14 +4448,15 @@ void main() {
       'a targeted switchChannel still highlights when a latest load is in flight',
       () async {
         final db = openTestDatabase();
+        final String targetId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
         await db.channelDao.upsertChannel(
           ChannelsCompanion.insert(
             id: 'channel-1',
             guildId: 'guild-1',
             name: 'general',
+            lastMessageId: Value<String?>(targetId),
           ),
         );
-        final String targetId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
         final adapter = _ChatAdapter(
           messagesByChannel: <String, List<Map<String, Object?>>>{
             'channel-1': <Map<String, Object?>>[
@@ -4643,6 +4644,7 @@ void main() {
           .read(chatViewModelProvider.notifier)
           .switchChannel('channel-2');
       expect(container.read(chatViewModelProvider).highlightedMessageId, null);
+      await _flushAsync();
     });
   });
 
