@@ -787,6 +787,60 @@ void main() {
     });
   });
 
+  group('isStaleNativeVoiceCallOnLaunch', () {
+    test('the ongoing call of a previous process is always stale', () {
+      expect(
+        isStaleNativeVoiceCallOnLaunch(
+          extra: const <String, dynamic>{
+            kVoiceCallKitExtraChannelId: 'c1',
+            kVoiceCallKitExtraActiveVoice: true,
+          },
+          channelId: 'c1',
+          interruptedChannelId: null,
+        ),
+        isTrue,
+      );
+    });
+
+    test('a call for the channel the last session died in is stale', () {
+      expect(
+        isStaleNativeVoiceCallOnLaunch(
+          extra: const <String, dynamic>{kVoiceCallKitExtraChannelId: 'c1'},
+          channelId: 'c1',
+          interruptedChannelId: 'c1',
+        ),
+        isTrue,
+      );
+    });
+
+    test('an incoming ring accepted from a cold start is kept', () {
+      expect(
+        isStaleNativeVoiceCallOnLaunch(
+          extra: const <String, dynamic>{kVoiceCallKitExtraChannelId: 'c2'},
+          channelId: 'c2',
+          interruptedChannelId: 'c1',
+        ),
+        isFalse,
+      );
+      expect(
+        isStaleNativeVoiceCallOnLaunch(
+          extra: const <String, dynamic>{kVoiceCallKitExtraChannelId: 'c2'},
+          channelId: 'c2',
+          interruptedChannelId: null,
+        ),
+        isFalse,
+      );
+      expect(
+        isStaleNativeVoiceCallOnLaunch(
+          extra: null,
+          channelId: null,
+          interruptedChannelId: null,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('kVoiceCallKitSpeakerReapplyDelays', () {
     test('retries speaker after CallKit takes the session', () {
       expect(kVoiceCallKitSpeakerReapplyDelays, <Duration>[

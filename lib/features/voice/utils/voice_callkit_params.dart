@@ -59,6 +59,7 @@ CallKitParams buildVoiceCallKitParams({
       kVoiceCallKitExtraIsDm: display.isDm,
       if (guildId != null && guildId.isNotEmpty)
         kVoiceCallKitExtraGuildId: guildId,
+      if (forActiveVoice) kVoiceCallKitExtraActiveVoice: true,
     },
     headers: const <String, dynamic>{},
     android: AndroidParams(

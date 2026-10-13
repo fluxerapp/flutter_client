@@ -31,6 +31,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
 import 'package:fluxer_app/features/voice/utils/foreign_account_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
+import 'package:fluxer_app/features/voice/utils/voice_call_in_progress_marker.dart';
 import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
@@ -141,6 +142,9 @@ class VoiceCallKitCoordinatorLogic {
             _voiceCallKitVoiceSnapshot(next);
         if (previousSnapshot == nextSnapshot) {
           return;
+        }
+        if (Platform.isAndroid) {
+          _recordVoiceCallInProgress(previousSnapshot, nextSnapshot);
         }
         _scheduleSync(() => _syncVoiceSession(previousSnapshot, nextSnapshot));
       })
@@ -508,6 +512,21 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
+  void _recordVoiceCallInProgress(
+    VoiceCallKitVoiceSnapshot? previous,
+    VoiceCallKitVoiceSnapshot next,
+  ) {
+    if (!next.isInVoice) {
+      if (previous?.isInVoice ?? false) {
+        unawaited(clearVoiceCallInProgress());
+      }
+      return;
+    }
+    if (didJoinVoiceCall(previous: previous, next: next)) {
+      unawaited(markVoiceCallInProgress(next.channelId!));
+    }
+  }
+
   Future<void> _syncVoiceSession(
     VoiceCallKitVoiceSnapshot? previous,
     VoiceCallKitVoiceSnapshot next,
@@ -599,7 +618,10 @@ class VoiceCallKitCoordinatorLogic {
         talker.warning('[VoiceCallKit] listening failed: $error');
       }
     }
-    await _adoptNativeCalls();
+    final String? interruptedChannelId = Platform.isAndroid
+        ? await takeInterruptedVoiceCallChannelId()
+        : null;
+    await _adoptNativeCalls(interruptedChannelId: interruptedChannelId);
   }
 
   Future<List<CallKitParams>> _reportedCalls() async {
@@ -620,14 +642,41 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  Future<void> _adoptNativeCalls() async {
+  Future<void> _adoptNativeCalls({
+    required String? interruptedChannelId,
+  }) async {
     final List<CallKitParams> calls = await _reportedCalls();
     for (final CallKitParams params in calls) {
+      if (Platform.isAndroid &&
+          isStaleNativeVoiceCallOnLaunch(
+            extra: params.extra,
+            channelId: _resolveChannelId(callKitId: params.id, params: params),
+            interruptedChannelId: interruptedChannelId,
+          )) {
+        await _discardStaleNativeCall(params);
+        continue;
+      }
       final bool accepted = await _adoptCall(params);
       if (accepted) {
         await _handleAccept(params);
       }
     }
+  }
+
+  Future<void> _discardStaleNativeCall(CallKitParams params) async {
+    talker.info(
+      '[VoiceCallKit] ending call left over from an interrupted session '
+      '(callKitId=${params.id})',
+    );
+    _handledAcceptIds.add(params.id);
+    _handledEndIds.add(params.id);
+    await _runProgrammaticCallKitEnd(() async {
+      try {
+        await FlutterCallkitIncoming.endCall(params.id);
+      } on Object catch (error) {
+        talker.warning('[VoiceCallKit] ending stale call failed: $error');
+      }
+    });
   }
 
   Future<void> _adoptNativeCallsForChannels(Set<String> channelIds) async {

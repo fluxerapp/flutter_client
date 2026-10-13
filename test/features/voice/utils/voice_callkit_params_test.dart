@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
+import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -56,6 +57,46 @@ void main() {
       }),
     );
     expect(params.headers, isEmpty);
+  });
+
+  test('only the ongoing voice call is marked as active voice', () {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
+        channelByIdProvider(
+          'channel',
+        ).overrideWith((ref) => Stream<Channel?>.value(null)),
+        channelListViewModelProvider.overrideWith(
+          _EmptyChannelListViewModel.new,
+        ),
+        dmViewModelProvider.overrideWith(_EmptyDmViewModel.new),
+      ],
+    );
+    addTearDown(container.dispose);
+    CallKitParams build({required bool forActiveVoice}) {
+      return container.read(
+        Provider<CallKitParams>((Ref ref) {
+          return buildVoiceCallKitParams(
+            ref: ref,
+            callKitId: 'call',
+            channelId: 'channel',
+            l10n: lookupFluxerLocalizations(const Locale('en')),
+            forActiveVoice: forActiveVoice,
+          );
+        }),
+      );
+    }
+
+    final CallKitParams active = build(forActiveVoice: true);
+    expect(active.extra?[kVoiceCallKitExtraActiveVoice], isTrue);
+    final CallKitParams restored = CallKitParams.fromJson(active.toJson());
+    expect(restored.extra?[kVoiceCallKitExtraActiveVoice], isTrue);
+    expect(
+      build(
+        forActiveVoice: false,
+      ).extra?.containsKey(kVoiceCallKitExtraActiveVoice),
+      isFalse,
+    );
   });
 
   test('native voip calls keep channel id and accepted state', () {
