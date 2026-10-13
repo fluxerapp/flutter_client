@@ -113,6 +113,8 @@ MessageResponseSchema _schema({
   );
 }
 
+Finder _placeTitle() => find.textContaining('general', findRichText: true);
+
 void main() {
   late FluxerDatabase database;
 
@@ -191,7 +193,7 @@ void main() {
   ) async {
     await pumpBody(tester);
 
-    expect(find.text('general'), findsOneWidget);
+    expect(_placeTitle(), findsOneWidget);
     expect(find.text(testL10n.notificationsMessageUnavailable), findsNothing);
 
     final ProviderContainer container = ProviderScope.containerOf(
@@ -210,7 +212,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('general'), findsNWidgets(2));
+    expect(_placeTitle(), findsNWidgets(2));
     expect(find.text(testL10n.notificationsMessageUnavailable), findsNothing);
 
     await tester.pumpWidget(const SizedBox.shrink());

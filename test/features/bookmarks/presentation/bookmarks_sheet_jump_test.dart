@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_message
 import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -191,7 +192,7 @@ void main() {
     expect(find.byType(SavedMessagesBody), findsOneWidget);
     expect(find.text(testL10n.quickSwitcherBookmarksLabel), findsOneWidget);
 
-    final Finder jump = find.byTooltip(testL10n.notificationsJump);
+    final Finder jump = find.byType(NotificationRowSurface);
     expect(jump, findsOneWidget);
     await tester.tap(jump);
     await tester.pumpAndSettle();
