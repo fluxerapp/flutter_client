@@ -56,6 +56,7 @@ class ChannelMenuState {
     required this.isTextChannel,
     required this.isVoiceChannel,
     required this.isLinkChannel,
+    required this.isThreadOnlyChannel,
     required this.showOpenChat,
     required this.showStartP2pCall,
     required this.showMarkAsRead,
@@ -82,6 +83,7 @@ class ChannelMenuState {
   final bool isTextChannel;
   final bool isVoiceChannel;
   final bool isLinkChannel;
+  final bool isThreadOnlyChannel;
   final bool showOpenChat;
   final bool showStartP2pCall;
   final bool showMarkAsRead;
@@ -126,7 +128,9 @@ ChannelMenuState resolveChannelMenuState({
   final bool isTextChannel = isAnnouncementConvertibleChannel(channel.type);
   final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
   final bool isLinkChannel = channel.type == ChannelType.guildLink;
-  final bool isGuildChannel = isTextChannel || isVoiceChannel || isLinkChannel;
+  final bool isThreadOnlyChannel = channel.isThreadOnly;
+  final bool isGuildChannel =
+      isTextChannel || isVoiceChannel || isLinkChannel || isThreadOnlyChannel;
   final int bits = permissionBits ?? 0;
   final bool canManageChannels = hasPermission(bits, Permission.manageChannels);
   final bool canUpdateRtcRegion =
@@ -150,11 +154,12 @@ ChannelMenuState resolveChannelMenuState({
   final bool showOpenChat =
       isVoiceChannel && !voiceChannelJoinRequiresDoubleClick;
   final bool canOpenLink = isLinkChannel && (channel.url?.isNotEmpty ?? false);
-  final bool showMute = isTextChannel || isVoiceChannel;
+  final bool showMute = isTextChannel || isVoiceChannel || isThreadOnlyChannel;
   return ChannelMenuState(
     isTextChannel: isTextChannel,
     isVoiceChannel: isVoiceChannel,
     isLinkChannel: isLinkChannel,
+    isThreadOnlyChannel: isThreadOnlyChannel,
     showOpenChat: showOpenChat,
     showStartP2pCall:
         isVoiceChannel &&
@@ -162,9 +167,9 @@ ChannelMenuState resolveChannelMenuState({
         !channel.rtcP2p &&
         hasPermission(bits, Permission.connect),
     showMarkAsRead: isGuildChannel && hasUnread,
-    showFavorites: showFavorites,
+    showFavorites: showFavorites && !isThreadOnlyChannel,
     isFavorite: isFavorite,
-    canInvite: inviteCapability.canInvite,
+    canInvite: inviteCapability.canInvite && !isThreadOnlyChannel,
     useVanityInvite: inviteCapability.useVanityUrl,
     vanityUrlCode: inviteCapability.vanityUrlCode,
     canOpenLink: canOpenLink,
@@ -187,7 +192,10 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
   required FluxerLocalizations l10n,
   required ChannelMenuState state,
 }) {
-  if (!state.isTextChannel && !state.isVoiceChannel && !state.isLinkChannel) {
+  if (!state.isTextChannel &&
+      !state.isVoiceChannel &&
+      !state.isLinkChannel &&
+      !state.isThreadOnlyChannel) {
     return const <ChannelMenuGroup>[];
   }
   final List<ChannelMenuGroup> groups = <ChannelMenuGroup>[];

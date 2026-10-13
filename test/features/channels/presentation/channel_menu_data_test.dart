@@ -345,4 +345,49 @@ void main() {
       );
     });
   });
+
+  group('thread-only channel menu', () {
+    for (final ChannelType type in <ChannelType>[
+      ChannelType.guildForum,
+      ChannelType.guildMedia,
+    ]) {
+      test('${type.name} long-press menu matches web', () {
+        final Channel channel = Channel(
+          id: 'forum-1',
+          guildId: guild.id,
+          name: 'forum',
+          type: type,
+        );
+        final ChannelMenuState state = resolveChannelMenuState(
+          channel: channel,
+          guild: guild,
+          parentCategory: null,
+          permissionBits:
+              Permission.manageChannels.value |
+              Permission.createInstantInvite.value,
+          hasUnread: true,
+          showFavorites: true,
+          isFavorite: false,
+          isMuted: false,
+          developerMode: false,
+          nsfwAllowed: true,
+          hasAgreedToMatureContent: false,
+          voiceChannelJoinRequiresDoubleClick: false,
+        );
+        final List<ChannelMenuAction> actions = _flattenChannelMenuActions(
+          buildChannelMenuGroups(l10n: l10n, state: state),
+        );
+        expect(actions, <ChannelMenuAction>[
+          ChannelMenuAction.markAsRead,
+          ChannelMenuAction.copyLink,
+          ChannelMenuAction.mute,
+          ChannelMenuAction.notificationSettings,
+          ChannelMenuAction.editChannel,
+          ChannelMenuAction.duplicateChannel,
+          ChannelMenuAction.copyChannelId,
+          ChannelMenuAction.deleteChannel,
+        ]);
+      });
+    }
+  });
 }
