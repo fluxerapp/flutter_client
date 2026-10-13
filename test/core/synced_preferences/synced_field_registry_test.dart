@@ -17,7 +17,7 @@ void main() {
         return fields;
       }),
     );
-    expect(registered, hasLength(26));
+    expect(registered, hasLength(27));
     expect(registered.toSet(), {
       SyncedPreferenceField.favorites,
       SyncedPreferenceField.accessibility,
