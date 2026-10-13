@@ -2,11 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 
-enum HorizontalRevealEdge {
-  left,
-
-  right,
-}
+enum HorizontalRevealEdge { left, right }
 
 AnimationController createHorizontalRevealController({
   required TickerProvider vsync,

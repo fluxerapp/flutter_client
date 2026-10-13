@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_discovery_application.dart';

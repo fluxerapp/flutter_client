@@ -4078,10 +4078,7 @@ class ChatViewModel extends _$ChatViewModel {
     try {
       final MessageListLoadResult page = await ref
           .read(messageRepositoryProvider)
-          .loadMessagePage(
-            channelId: channelId,
-            limit: _kPageSize,
-          );
+          .loadMessagePage(channelId: channelId, limit: _kPageSize);
       if (!stillValid()) {
         return;
       }

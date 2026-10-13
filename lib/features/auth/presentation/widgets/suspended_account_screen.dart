@@ -139,7 +139,6 @@ class _SuspendedAccountScreenState
   }
 }
 
-
 class _BanInfoCard extends StatelessWidget {
   const _BanInfoCard({required this.status});
 
@@ -211,7 +210,6 @@ class _BanInfoCard extends StatelessWidget {
   }
 }
 
-
 class _InfoRow extends StatelessWidget {
   const _InfoRow({required this.label, required this.value});
 
@@ -238,7 +236,6 @@ class _InfoRow extends StatelessWidget {
     );
   }
 }
-
 
 class _AppealForm extends StatelessWidget {
   const _AppealForm({
@@ -294,7 +291,6 @@ class _AppealForm extends StatelessWidget {
     );
   }
 }
-
 
 class _AppealStatusSection extends StatelessWidget {
   const _AppealStatusSection({required this.appeal});
@@ -391,7 +387,6 @@ class _AppealStatusSection extends StatelessWidget {
   }
 }
 
-
 class _AppealAcceptedSection extends StatelessWidget {
   const _AppealAcceptedSection({required this.onSignIn});
 
@@ -448,7 +443,6 @@ class _AppealAcceptedSection extends StatelessWidget {
     );
   }
 }
-
 
 class _WarningBanner extends StatelessWidget {
   const _WarningBanner({required this.message});

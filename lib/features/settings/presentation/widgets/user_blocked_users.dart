@@ -222,7 +222,6 @@ class UserBlockedUsers extends ConsumerWidget {
   }
 }
 
-
 class _BlockedUserCard extends ConsumerWidget {
   _BlockedUserCard({
     required this.friend,

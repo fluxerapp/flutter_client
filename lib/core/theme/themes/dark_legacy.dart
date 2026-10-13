@@ -4,7 +4,6 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 FluxerColorTheme buildDarkLegacyColorTheme({double saturationFactor = 1.0}) {
-
   Color tone(
     ColorFamily family,
     double lightness, {
@@ -40,7 +39,6 @@ FluxerColorTheme buildDarkLegacyColorTheme({double saturationFactor = 1.0}) {
       opacity: alpha,
     );
   }
-
 
   final darkSurface = const ColorScale(
     family: FluxerColorFamilies.legacyDark,
@@ -79,7 +77,6 @@ FluxerColorTheme buildDarkLegacyColorTheme({double saturationFactor = 1.0}) {
     ],
   ).build(saturationFactor: saturationFactor);
 
-
   final brandPrimary = tone(FluxerColorFamilies.brand, 55);
   final statusOnline = tone(FluxerColorFamilies.legacyStatusOnline, 40);
   final statusIdle = tone(FluxerColorFamilies.statusIdle, 50);
@@ -110,7 +107,6 @@ FluxerColorTheme buildDarkLegacyColorTheme({double saturationFactor = 1.0}) {
     lightness: 80,
     alpha: 0.15,
   );
-
 
   return FluxerColorTheme(
     backgroundPrimary: backgroundPrimary,

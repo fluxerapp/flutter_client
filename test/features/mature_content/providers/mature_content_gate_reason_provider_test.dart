@@ -43,7 +43,6 @@ void main() {
     );
   }
 
-
   test(
     'resolves consent-required when the guild is mature and unagreed',
     () async {

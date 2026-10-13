@@ -562,7 +562,6 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
   );
 }
 
-
 class _MobileSettingsNavBody extends ConsumerStatefulWidget {
   const _MobileSettingsNavBody({
     required this.onClose,

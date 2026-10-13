@@ -1,4 +1,3 @@
-
 const double kMessageListMetricsEpsilon = 0.5;
 
 bool _stable(double current, double last) =>

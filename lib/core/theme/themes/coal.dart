@@ -4,7 +4,6 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
-
   Color tone(
     ColorFamily family,
     double lightness, {
@@ -40,7 +39,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       opacity: alpha,
     );
   }
-
 
   final coalSurface = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
@@ -79,7 +77,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     ],
   ).build(saturationFactor: saturationFactor);
 
-
   final brandPrimary = tone(FluxerColorFamilies.brand, 55);
   final statusOnline = tone(FluxerColorFamilies.statusOnline, 40);
   final statusIdle = tone(FluxerColorFamilies.statusIdle, 50);
@@ -111,7 +108,6 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     saturation: 10,
     alpha: 0.18,
   );
-
 
   return FluxerColorTheme(
     backgroundPrimary: backgroundPrimary,

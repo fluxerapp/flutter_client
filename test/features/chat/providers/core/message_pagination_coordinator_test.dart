@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:fake_async/fake_async.dart';
@@ -418,7 +417,6 @@ void main() {
   });
 }
 
-
 class _Harness {
   _Harness() : vm = _ScriptedChatViewModel(_initialState()) {
     _coordinatorProvider = Provider<MessagePaginationCoordinator>(
@@ -558,7 +556,6 @@ class _ScriptedChatViewModel extends ChatViewModel {
     return _newerResults.removeAt(0);
   }
 }
-
 
 PageLoadResult _applied({
   required String requestCursor,

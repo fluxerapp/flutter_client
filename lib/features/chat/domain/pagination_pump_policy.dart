@@ -6,17 +6,7 @@ class PumpBudget {
   static const Duration yieldCooldown = Duration(milliseconds: 300);
 }
 
-enum PageLoadStatus {
-  applied,
-
-  empty,
-
-  superseded,
-
-  skipped,
-
-  failed,
-}
+enum PageLoadStatus { applied, empty, superseded, skipped, failed }
 
 final class PageLoadResult {
   const PageLoadResult({

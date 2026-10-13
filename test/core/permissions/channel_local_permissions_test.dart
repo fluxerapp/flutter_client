@@ -58,10 +58,7 @@ void main() {
                 Permission.viewChannel.value | Permission.connect.value,
             memberRoles: const [],
             memberRecordPresent: true,
-            overwriteJsonLayersRootToLeaf: [
-              categoryNeutralOverwrites(),
-              null,
-            ],
+            overwriteJsonLayersRootToLeaf: [categoryNeutralOverwrites(), null],
           );
 
           expect(hasPermission(result, Permission.connect), isTrue);

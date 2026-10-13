@@ -7,11 +7,7 @@ import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-enum MessageListAnchorEdge {
-  before,
-
-  after,
-}
+enum MessageListAnchorEdge { before, after }
 
 class MessageListViewport extends StatelessWidget {
   const MessageListViewport({

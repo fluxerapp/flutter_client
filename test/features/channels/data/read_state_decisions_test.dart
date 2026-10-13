@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
 
-
 ReadStateIncomingMessageInput _incoming({
   bool isCurrentUserAuthor = false,
   bool automaticAckEnabled = false,

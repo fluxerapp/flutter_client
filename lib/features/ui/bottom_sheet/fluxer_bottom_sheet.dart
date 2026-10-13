@@ -20,7 +20,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-
 typedef FluxerBottomSheetBuilder =
     Widget Function(BuildContext context, VoidCallback close);
 
@@ -1602,7 +1601,6 @@ class FluxerBottomSheetFooter extends StatelessWidget {
   }
 }
 
-
 class FluxerMenuGroup extends StatelessWidget {
   final List<Widget> children;
 
@@ -1668,7 +1666,6 @@ List<Widget> _intersperseDividers(
   }
   return result;
 }
-
 
 class FluxerBottomSheetMenuItem extends StatelessWidget {
   final String label;

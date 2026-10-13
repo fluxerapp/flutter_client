@@ -1044,10 +1044,7 @@ void main() {
 
         final double leadingDistanceAfter =
             scrollable.position.pixels - scrollable.position.minScrollExtent;
-        expect(
-          leadingDistanceAfter,
-          greaterThan(80),
-        );
+        expect(leadingDistanceAfter, greaterThan(80));
 
         await disposeMessageList(tester);
       },
@@ -5247,7 +5244,6 @@ void main() {
         await disposeMessageList(tester);
       },
     );
-
 
     testWidgets(
       'gate 1: in-window jump re-anchors the target to the viewport center '

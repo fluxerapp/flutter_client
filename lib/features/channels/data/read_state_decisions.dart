@@ -1,7 +1,5 @@
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 
-
-
 enum ReadStateIncomingMessageKind {
   ackCurrentUserMessage,
   ackAutomaticMessage,
@@ -89,7 +87,6 @@ ReadStateIncomingMessageDecision resolveReadStateIncomingMessageDecision(
     initializeUnknownReadState: !input.readStateKnown,
   );
 }
-
 
 enum ReadStateServerAckKind {
   ignoreStaleVersion,

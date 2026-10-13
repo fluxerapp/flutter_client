@@ -1,4 +1,3 @@
-
 const int kDefaultGuildRoleColorArgb = 0xFF99AAB5;
 
 int? opaqueRoleColorInt(int? color) {

@@ -4,7 +4,6 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
-
 class FluxerConfirmSheet {
   FluxerConfirmSheet._();
 

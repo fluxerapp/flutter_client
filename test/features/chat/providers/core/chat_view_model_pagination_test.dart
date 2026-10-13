@@ -786,49 +786,52 @@ void main() {
     },
   );
 
-  test('a stale pointer does not decide the tail for a detached window', () async {
-    final db = openTestDatabase();
-    final List<Map<String, Object?>> all = paginationChannelMessages(
-      'channel-1',
-      350,
-    );
-    final String target = all[100]['id']! as String;
-    final String trueLatestId = all.last['id']! as String;
-    await db.channelDao.upsertChannel(
-      ChannelsCompanion.insert(
-        id: 'channel-1',
-        guildId: 'guild-1',
-        name: 'general',
-        lastMessageId: Value(target),
-      ),
-    );
-    final adapter = PaginatingAdapter(messagesByChannel: {'channel-1': all});
-    final container = paginationContainer(db, adapter);
-    addTearDown(container.dispose);
+  test(
+    'a stale pointer does not decide the tail for a detached window',
+    () async {
+      final db = openTestDatabase();
+      final List<Map<String, Object?>> all = paginationChannelMessages(
+        'channel-1',
+        350,
+      );
+      final String target = all[100]['id']! as String;
+      final String trueLatestId = all.last['id']! as String;
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(target),
+        ),
+      );
+      final adapter = PaginatingAdapter(messagesByChannel: {'channel-1': all});
+      final container = paginationContainer(db, adapter);
+      addTearDown(container.dispose);
 
-    final notifier = container.read(chatViewModelProvider.notifier);
-    await notifier.switchChannel('channel-1', targetMessageId: target);
-    await paginationFlushAsync();
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1', targetMessageId: target);
+      await paginationFlushAsync();
 
-    final ChatViewState state = container.read(chatViewModelProvider);
-    expect(
-      state.messages.map((e) => e.id).contains(trueLatestId),
-      isFalse,
-      reason: 'the window must be genuinely detached from the present',
-    );
-    expect(
-      int.parse(state.messages.last.id) > int.parse(target),
-      isTrue,
-      reason: 'the window must extend newer than the pointer, ie stale',
-    );
-    expect(
-      state.hasMoreNewerMessages,
-      isTrue,
-      reason:
-          'newer messages do exist, and a stale pointer must not be trusted to '
-          'say otherwise for a window that is detached by construction',
-    );
-  });
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(
+        state.messages.map((e) => e.id).contains(trueLatestId),
+        isFalse,
+        reason: 'the window must be genuinely detached from the present',
+      );
+      expect(
+        int.parse(state.messages.last.id) > int.parse(target),
+        isTrue,
+        reason: 'the window must extend newer than the pointer, ie stale',
+      );
+      expect(
+        state.hasMoreNewerMessages,
+        isTrue,
+        reason:
+            'newer messages do exist, and a stale pointer must not be trusted to '
+            'say otherwise for a window that is detached by construction',
+      );
+    },
+  );
 
   test(
     'a stale pointer still reports the tail for a direct latest load',

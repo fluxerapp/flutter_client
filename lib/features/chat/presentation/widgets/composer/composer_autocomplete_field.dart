@@ -69,11 +69,7 @@ export 'composer_autocomplete_panel.dart';
 
 part 'composer_autocomplete_field_state.dart';
 
-enum AutocompleteRenderMode {
-  overlay,
-
-  inStack,
-}
+enum AutocompleteRenderMode { overlay, inStack }
 
 const Set<ComposerAutocompleteTriggerKind> kAllComposerAutocompleteTriggers =
     <ComposerAutocompleteTriggerKind>{

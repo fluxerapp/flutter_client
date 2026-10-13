@@ -435,7 +435,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     _refreshLiveTailFollowAnimated(context);
@@ -2085,8 +2084,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
-  double _towardOlderDelta(double scrollDelta) =>
-      -scrollDelta;
+  double _towardOlderDelta(double scrollDelta) => -scrollDelta;
 
   PaginationEdge? _overscrollEdge(double overscroll) {
     if (overscroll == 0) {

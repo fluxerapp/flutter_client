@@ -493,7 +493,6 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
   }
 }
 
-
 class _AuthSessionCard extends StatelessWidget {
   const _AuthSessionCard({
     required this.session,

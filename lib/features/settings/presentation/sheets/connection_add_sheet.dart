@@ -151,7 +151,6 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     );
   }
 
-
   Widget _buildInitiate() {
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
@@ -272,7 +271,6 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
       setState(() => _error = l10n.connectionInitiateFailed);
     }
   }
-
 
   String get _dnsUrl => _verification == null
       ? ''

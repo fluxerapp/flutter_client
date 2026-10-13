@@ -2637,115 +2637,116 @@ class GatewayEventHandler {
     final int availabilityGeneration = _bumpGuildAvailability(guildId);
 
     unawaited(() async {
-      final ({List<String> channelIds, Set<String> roleGuildIds})
-      pruned = await database.transaction(() async {
-        await database.guildDao.upsertServer(
-          guildFromSdk(
-            event.guild.guild,
-            memberCount: event.guild.memberCount,
-            onlineCount: event.guild.onlineCount,
-          ),
-        );
-
-        final channelCompanions = <db.ChannelsCompanion>[];
-        for (final channel in event.guild.channels) {
-          final channelGuildId = channel.guildId;
-          if (channelGuildId != null) {
-            channelCompanions.add(channelFromSdk(channel, channelGuildId));
-          }
-        }
-        final List<db.ThreadMembersCompanion> joined =
-            <db.ThreadMembersCompanion>[];
-        final Set<String> listedThreadIds = <String>{};
-        for (final ChannelResponse thread
-            in event.guild.threads ?? const <ChannelResponse>[]) {
-          if (!isThreadChannelType(thread.type.json ?? -1)) {
-            continue;
-          }
-          channelCompanions.add(channelFromSdk(thread, guildId));
-          listedThreadIds.add(thread.id);
-          final ThreadMemberResponse? member = thread.member;
-          if (member != null) {
-            joined.add(
-              threadMemberFromSdk(
-                member,
-                threadId: thread.id,
-                guildId: guildId,
+      final ({List<String> channelIds, Set<String> roleGuildIds}) pruned =
+          await database.transaction(() async {
+            await database.guildDao.upsertServer(
+              guildFromSdk(
+                event.guild.guild,
+                memberCount: event.guild.memberCount,
+                onlineCount: event.guild.onlineCount,
               ),
             );
-          }
-        }
-        await database.channelDao.upsertChannelsMerged(channelCompanions);
-        _forgetThreads(
-          await database.threadDao.reconcileJoined(
-            guildId,
-            joined,
-            listedIds: listedThreadIds,
-          ),
-          guildId: guildId,
-        );
 
-        await database.roleDao.upsertRoles(
-          event.guild.roles.map((r) => roleFromSdk(r, guildId)).toList(),
-        );
-        final ({List<String> channelIds, Set<String> roleGuildIds}) pruned =
-            await _pruneGuildSnapshots(
-              channelIdsByGuildId: <String, Set<String>>{
-                guildId: <String>{
-                  for (final db.ChannelsCompanion channel in channelCompanions)
-                    channel.id.value,
-                },
-              },
-              roleIdsByGuildId: <String, Set<String>>{
-                guildId: <String>{
-                  for (final GuildRoleResponse role in event.guild.roles)
-                    role.id,
-                },
-              },
+            final channelCompanions = <db.ChannelsCompanion>[];
+            for (final channel in event.guild.channels) {
+              final channelGuildId = channel.guildId;
+              if (channelGuildId != null) {
+                channelCompanions.add(channelFromSdk(channel, channelGuildId));
+              }
+            }
+            final List<db.ThreadMembersCompanion> joined =
+                <db.ThreadMembersCompanion>[];
+            final Set<String> listedThreadIds = <String>{};
+            for (final ChannelResponse thread
+                in event.guild.threads ?? const <ChannelResponse>[]) {
+              if (!isThreadChannelType(thread.type.json ?? -1)) {
+                continue;
+              }
+              channelCompanions.add(channelFromSdk(thread, guildId));
+              listedThreadIds.add(thread.id);
+              final ThreadMemberResponse? member = thread.member;
+              if (member != null) {
+                joined.add(
+                  threadMemberFromSdk(
+                    member,
+                    threadId: thread.id,
+                    guildId: guildId,
+                  ),
+                );
+              }
+            }
+            await database.channelDao.upsertChannelsMerged(channelCompanions);
+            _forgetThreads(
+              await database.threadDao.reconcileJoined(
+                guildId,
+                joined,
+                listedIds: listedThreadIds,
+              ),
+              guildId: guildId,
             );
 
-        if (event.guild.members.isNotEmpty) {
-          await database.userDao.upsertUsers([
-            for (final member in event.guild.members)
-              userFromPartialSdk(member.user),
-          ]);
-          await database.memberDao.upsertMembers([
-            for (final member in event.guild.members)
-              memberCompanionFromSdk(member, guildId: guildId),
-          ]);
-        }
+            await database.roleDao.upsertRoles(
+              event.guild.roles.map((r) => roleFromSdk(r, guildId)).toList(),
+            );
+            final ({List<String> channelIds, Set<String> roleGuildIds}) pruned =
+                await _pruneGuildSnapshots(
+                  channelIdsByGuildId: <String, Set<String>>{
+                    guildId: <String>{
+                      for (final db.ChannelsCompanion channel
+                          in channelCompanions)
+                        channel.id.value,
+                    },
+                  },
+                  roleIdsByGuildId: <String, Set<String>>{
+                    guildId: <String>{
+                      for (final GuildRoleResponse role in event.guild.roles)
+                        role.id,
+                    },
+                  },
+                );
 
-        await database.guildEmojiDao.replaceForGuild(
-          guildId,
-          event.guild.emojis
-              .map(
-                (e) => db.GuildEmojisCompanion.insert(
-                  id: e.id,
-                  guildId: guildId,
-                  name: e.name,
-                  animated: Value(e.animated),
-                ),
-              )
-              .toList(),
-        );
+            if (event.guild.members.isNotEmpty) {
+              await database.userDao.upsertUsers([
+                for (final member in event.guild.members)
+                  userFromPartialSdk(member.user),
+              ]);
+              await database.memberDao.upsertMembers([
+                for (final member in event.guild.members)
+                  memberCompanionFromSdk(member, guildId: guildId),
+              ]);
+            }
 
-        await database.guildStickerDao.replaceForGuild(
-          guildId,
-          event.guild.stickers
-              .map(
-                (s) => db.GuildStickersCompanion.insert(
-                  id: s.id,
-                  guildId: guildId,
-                  name: s.name,
-                  description: Value(s.description),
-                  tagsJson: Value(jsonEncode(s.tags)),
-                  animated: Value(s.animated),
-                ),
-              )
-              .toList(),
-        );
-        return pruned;
-      });
+            await database.guildEmojiDao.replaceForGuild(
+              guildId,
+              event.guild.emojis
+                  .map(
+                    (e) => db.GuildEmojisCompanion.insert(
+                      id: e.id,
+                      guildId: guildId,
+                      name: e.name,
+                      animated: Value(e.animated),
+                    ),
+                  )
+                  .toList(),
+            );
+
+            await database.guildStickerDao.replaceForGuild(
+              guildId,
+              event.guild.stickers
+                  .map(
+                    (s) => db.GuildStickersCompanion.insert(
+                      id: s.id,
+                      guildId: guildId,
+                      name: s.name,
+                      description: Value(s.description),
+                      tagsJson: Value(jsonEncode(s.tags)),
+                      animated: Value(s.animated),
+                    ),
+                  )
+                  .toList(),
+            );
+            return pruned;
+          });
       if (_guildAvailabilityGenerations[guildId] == availabilityGeneration) {
         _emit(() => onGuildAvailable?.call(guildId));
       }

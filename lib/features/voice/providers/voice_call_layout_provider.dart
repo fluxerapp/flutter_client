@@ -2,11 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_call_layout_provider.g.dart';
 
-enum VoiceCallLayoutMode {
-  grid,
-
-  focus,
-}
+enum VoiceCallLayoutMode { grid, focus }
 
 class VoiceCallLayoutState {
   const VoiceCallLayoutState({

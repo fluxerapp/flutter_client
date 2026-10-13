@@ -10,7 +10,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-
 typedef FluxerModalBuilder =
     Widget Function(BuildContext context, VoidCallback close);
 
@@ -202,7 +201,6 @@ class FluxerModal {
     );
   }
 }
-
 
 class FluxerConfirmModal {
   FluxerConfirmModal._();

@@ -44,7 +44,6 @@ import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
-
 Message _message({
   String channelId = 'c1',
   List<Embed> embeds = const <Embed>[],
@@ -80,7 +79,6 @@ MessageSnapshot _snapshot({
     attachments: attachments,
   );
 }
-
 
 const String _userId = 'user_1';
 const String _guildId = 'guild_1';

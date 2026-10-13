@@ -2075,7 +2075,6 @@ void main() {
     expect(afterA.isLoadingNewer, isFalse);
     final List<String> ids = afterA.messages.map((Message m) => m.id).toList();
     expect(ids.toSet().length, ids.length);
-
   });
 
   test("m14: a superseded jump to latest does not clear its successor's sync "
@@ -2844,7 +2843,6 @@ void main() {
       reason: 'a settled edit must not pin its revision over server truth',
     );
   });
-
 
   test('m16: a search jump into a channel not yet opened this session leaves '
       'the live tail reachable', () async {
