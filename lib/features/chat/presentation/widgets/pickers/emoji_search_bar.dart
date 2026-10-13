@@ -22,11 +22,13 @@ class EmojiSearchBar extends StatelessWidget {
     this.focusNode,
     this.onActivated,
     this.autofocus = false,
+    this.showSkinTone = true,
     super.key,
   });
 
   final TextEditingController controller;
   final bool autofocus;
+  final bool showSkinTone;
   final String? hoveredEmojiName;
   final String skinTone;
   final ValueChanged<String> onSkinToneChanged;
@@ -42,7 +44,7 @@ class EmojiSearchBar extends StatelessWidget {
         : FluxerLocalizations.of(context).emojiSearchPlaceholder;
 
     return Padding(
-      padding: EdgeInsets.only(right: horizontalPadding),
+      padding: EdgeInsets.only(right: showSkinTone ? horizontalPadding : 0),
       child: Row(
         children: [
           Expanded(
@@ -50,7 +52,7 @@ class EmojiSearchBar extends StatelessWidget {
               controller: controller,
               hintText: hintText,
               horizontalPadding: horizontalPadding,
-              rightPadding: 0,
+              rightPadding: showSkinTone ? 0 : horizontalPadding,
               topPadding: 8,
               bottomPadding: 4,
               focusNode: focusNode,
@@ -58,11 +60,13 @@ class EmojiSearchBar extends StatelessWidget {
               autofocus: autofocus,
             ),
           ),
-          const SizedBox(width: 8),
-          _SkinToneButton(
-            skinTone: skinTone,
-            onSkinToneChanged: onSkinToneChanged,
-          ),
+          if (showSkinTone) ...[
+            const SizedBox(width: 8),
+            _SkinToneButton(
+              skinTone: skinTone,
+              onSkinToneChanged: onSkinToneChanged,
+            ),
+          ],
         ],
       ),
     );

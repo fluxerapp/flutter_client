@@ -199,6 +199,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
             onSkinToneChanged: (t) =>
                 unawaited(ref.read(emojiSkinToneProvider.notifier).set(t)),
             autofocus: widget.autofocusSearch,
+            showSkinTone: !isMobileLayout(context),
           ),
         Expanded(child: _buildContent(context, colors, skinTone)),
       ],
