@@ -41,6 +41,7 @@ const _kMaxSearchLength = 100;
 const _kMasonryMinColumnWidth = 227.0;
 const _kMasonryHorizontalPadding = 8.0;
 const _kMasonryCacheExtent = 700.0;
+const _kGifTileFadeInDuration = Duration(milliseconds: 100);
 const double _kCategoryTileAspectRatio = 200 / 96;
 const double _kCompactCategoryTileAspectRatio = 189 / 82;
 const double _kCompactCategoryTileBreakpoint = 600;
@@ -1474,6 +1475,7 @@ class _GifMediaPreview extends StatelessWidget {
       animatedUrl: buildMediaProxyUrl(base, format: 'webp', animated: true),
       playing: allowAnimatedImagePlayback,
       placeholder: const _GifMediaPlaceholder(),
+      fadeInDuration: _kGifTileFadeInDuration,
     );
   }
 }
@@ -1647,16 +1649,8 @@ class _GifMediaPlaceholder extends StatelessWidget {
   const _GifMediaPlaceholder();
 
   @override
-  Widget build(BuildContext context) => ColoredBox(
-    color: context.colors.backgroundModifierAccent,
-    child: Center(
-      child: PhosphorIcon(
-        PhosphorIconsFill.gif,
-        size: 28,
-        color: context.colors.textTertiary,
-      ),
-    ),
-  );
+  Widget build(BuildContext context) =>
+      ColoredBox(color: expressionTabsTrackColor(context));
 }
 
 class _PoweredByLabel extends StatelessWidget {

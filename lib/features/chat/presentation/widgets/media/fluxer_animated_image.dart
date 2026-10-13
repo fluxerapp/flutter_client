@@ -18,6 +18,7 @@ class FluxerAnimatedImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.placeholder,
     this.errorPlaceholder,
+    this.fadeInDuration = Duration.zero,
     super.key,
   });
 
@@ -37,6 +38,8 @@ class FluxerAnimatedImage extends StatelessWidget {
 
   /// Shown when the image fails to load. Defaults to [placeholder].
   final Widget? errorPlaceholder;
+
+  final Duration fadeInDuration;
 
   bool get _loadAnimated => loadAnimated ?? playing;
 
@@ -97,7 +100,7 @@ class FluxerAnimatedImage extends StatelessWidget {
                         height: animatedProxySize.height,
                       ),
                       fit: fit,
-                      fadeInDuration: Duration.zero,
+                      fadeInDuration: fadeInDuration,
                       fadeOutDuration: Duration.zero,
                       disablePlaceholderOnCacheHit: false,
                       placeholder: (_, _) => loading,
