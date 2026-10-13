@@ -6,8 +6,9 @@ import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/pickers/emoji_search_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
@@ -16,14 +17,13 @@ import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provid
 import 'package:fluxer_app/features/chat/utils/composer/composer_expression_tabs.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
-const double kExpressionPanelSearchHorizontalPadding = 16;
+const double kExpressionPanelSearchHorizontalPadding = 8;
 const double kExpressionPanelSearchTopPadding = 8;
-const double kExpressionPanelSearchBottomPadding = 8;
+const double kExpressionPanelSearchBottomPadding = 0;
 const Duration kExpressionPanelContentFadeDuration =
     FluxerMotionTheme.hoverDuration;
 
@@ -38,6 +38,7 @@ class ExpressionPanelContent extends ConsumerStatefulWidget {
     this.onFavoriteMemeSelect,
     this.onSearchActivated,
     this.sheetDragHandlers,
+    this.onBackspace,
     super.key,
   });
 
@@ -50,6 +51,7 @@ class ExpressionPanelContent extends ConsumerStatefulWidget {
   final VoidCallback? onSearchActivated;
   final FocusNode searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
+  final VoidCallback? onBackspace;
 
   @override
   ConsumerState<ExpressionPanelContent> createState() =>
@@ -148,10 +150,12 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     final ChannelMessagePermissions perms = channelId == null
         ? ChannelMessagePermissions.all
         : watchChannelMessagePermissionsForComposer(ref, channelId);
-    final List<ExpressionPickerTab> visibleTabs = expressionPanelVisibleTabs(
-      perms,
-      gifEnabled: ref.watch(
-        instanceRuntimeConfigProvider.select((config) => config.gifEnabled),
+    final List<ExpressionPickerTab> visibleTabs = mobileExpressionPanelTabs(
+      expressionPanelVisibleTabs(
+        perms,
+        gifEnabled: ref.watch(
+          instanceRuntimeConfigProvider.select((config) => config.gifEnabled),
+        ),
       ),
     );
     final ExpressionPickerTab storedTab = ref.watch(expressionPanelTabProvider);
@@ -171,7 +175,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
       opacity: _contentFade,
       child: Column(
         children: <Widget>[
-          _buildDraggableChrome(context, skinTone, selectedTab, visibleTabs),
+          _buildDraggableChrome(context, selectedTab, visibleTabs),
           Expanded(
             child: ExpressionPicker(
               onClose: widget.onClose,
@@ -202,6 +206,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
               onSearchActivated: widget.onSearchActivated,
               searchFocusNode: widget.searchFocusNode,
               sheetDragHandlers: widget.sheetDragHandlers,
+              onEmojiBackspace: widget.onBackspace,
             ),
           ),
         ],
@@ -211,7 +216,6 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
 
   Widget _buildDraggableChrome(
     BuildContext context,
-    String skinTone,
     ExpressionPickerTab selectedTab,
     List<ExpressionPickerTab> visibleTabs,
   ) {
@@ -221,12 +225,12 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
       children: <Widget>[
         _buildSegmentedTabs(context, selectedTab, visibleTabs),
         if (selectedTab == ExpressionPickerTab.emojis)
-          EmojiSearchBar(
+          PickerSearchInput(
             controller: _searchController,
-            skinTone: skinTone,
-            onSkinToneChanged: (String tone) =>
-                unawaited(ref.read(emojiSkinToneProvider.notifier).set(tone)),
+            hintText: FluxerLocalizations.of(context).emojiSearchPlaceholder,
             horizontalPadding: kExpressionPanelSearchHorizontalPadding,
+            topPadding: kExpressionPanelSearchTopPadding,
+            bottomPadding: kExpressionPanelSearchBottomPadding,
             focusNode: widget.searchFocusNode,
             onActivated: widget.onSearchActivated,
           ),
@@ -244,67 +248,16 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     ExpressionPickerTab selectedTab,
     List<ExpressionPickerTab> visibleTabs,
   ) {
-    final colors = context.colors;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.backgroundTertiary,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(3),
-          child: Row(
-            children: visibleTabs.map((ExpressionPickerTab tab) {
-              final bool isActive = tab == selectedTab;
-              return Expanded(
-                child: FluxerGestureDetector(
-                  onTap: () {
-                    if (tab != selectedTab) {
-                      if (widget.scrollController.hasClients) {
-                        widget.scrollController.jumpTo(0);
-                      }
-                      ref.read(expressionPanelTabProvider.notifier).setTab(tab);
-                    }
-                  },
-                  child: AnimatedContainer(
-                    duration: context.motion.normal,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isActive
-                          ? colors.backgroundSecondary
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: isActive
-                          ? const <BoxShadow>[
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.08),
-                                blurRadius: 2,
-                                offset: Offset(0, 1),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Text(
-                      _tabLabel(tab),
-                      textAlign: TextAlign.center,
-                      style: context.textStyles.categoryName.copyWith(
-                        height: 18 / 14,
-                        color: isActive
-                            ? colors.textPrimary
-                            : colors.textSecondary,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-      ),
+    return ExpressionSegmentedTabs(
+      tabs: visibleTabs,
+      selected: selectedTab,
+      labelOf: _tabLabel,
+      onSelected: (ExpressionPickerTab tab) {
+        if (widget.scrollController.hasClients) {
+          widget.scrollController.jumpTo(0);
+        }
+        ref.read(expressionPanelTabProvider.notifier).setTab(tab);
+      },
     );
   }
 }

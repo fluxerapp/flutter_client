@@ -43,17 +43,17 @@ void main() {
     );
   });
 
-  test('caps expanded height to 80% of the screen', () {
+  test('expands up to the bottom of the channel header', () {
     expect(
       inlineExpressionPanelExpandedHeight(
-        availableHeight: 900,
-        screenHeight: 800,
+        availableHeight: 874,
+        screenHeight: 874,
         keyboardInset: 0,
-        topPadding: 0,
-        topMargin: 8,
-        viewPaddingBottom: 0,
+        topPadding: 126,
+        topMargin: 0,
+        viewPaddingBottom: 34,
       ),
-      640,
+      714,
     );
   });
 
@@ -67,7 +67,7 @@ void main() {
         topMargin: 8,
         viewPaddingBottom: 34,
       ),
-      closeTo(675.2, 0.01),
+      687,
     );
   });
 

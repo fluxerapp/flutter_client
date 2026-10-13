@@ -57,6 +57,8 @@ class ExpressionPicker extends ConsumerStatefulWidget {
     this.onSearchActivated,
     this.searchFocusNode,
     this.sheetDragHandlers,
+    this.onEmojiBackspace,
+    this.autofocusSearch = false,
     super.key,
   });
 
@@ -86,6 +88,8 @@ class ExpressionPicker extends ConsumerStatefulWidget {
   final VoidCallback? onSearchActivated;
   final FocusNode? searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
+  final VoidCallback? onEmojiBackspace;
+  final bool autofocusSearch;
 
   @override
   ConsumerState<ExpressionPicker> createState() => _ExpressionPickerState();
@@ -194,6 +198,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
             skinTone: skinTone,
             onSkinToneChanged: (t) =>
                 unawaited(ref.read(emojiSkinToneProvider.notifier).set(t)),
+            autofocus: widget.autofocusSearch,
           ),
         Expanded(child: _buildContent(context, colors, skinTone)),
       ],
@@ -253,6 +258,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
         onHoveredEmojiChanged: _onHoveredChanged,
         onSelect: widget.onEmojiSelect,
         channelId: widget.channelId,
+        onBackspace: widget.onEmojiBackspace,
       );
     }
     if (_selectedTab == ExpressionPickerTab.gifs) {

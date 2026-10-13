@@ -5,6 +5,34 @@ import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_display_cat
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
+class EmojiPickerGridMetrics {
+  const EmojiPickerGridMetrics({
+    required this.rowHeight,
+    required this.headerHeight,
+    required this.sectionGap,
+    required this.topPadding,
+  });
+
+  static const EmojiPickerGridMetrics standard = EmojiPickerGridMetrics(
+    rowHeight: kEmojiPickerCellSize,
+    headerHeight: kEmojiPickerHeaderHeight,
+    sectionGap: kEmojiPickerSectionGap,
+    topPadding: kEmojiPickerTopPadding,
+  );
+
+  static const EmojiPickerGridMetrics mobile = EmojiPickerGridMetrics(
+    rowHeight: kEmojiPickerMobileRowHeight,
+    headerHeight: kEmojiPickerMobileHeaderHeight,
+    sectionGap: 0,
+    topPadding: 0,
+  );
+
+  final double rowHeight;
+  final double headerHeight;
+  final double sectionGap;
+  final double topPadding;
+}
+
 sealed class EmojiPickerLayoutEntry {
   const EmojiPickerLayoutEntry();
 
@@ -12,69 +40,86 @@ sealed class EmojiPickerLayoutEntry {
 }
 
 final class EmojiPickerTopPaddingEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerTopPaddingEntry();
+  const EmojiPickerTopPaddingEntry({this.height = kEmojiPickerTopPadding});
 
   @override
-  double get height => kEmojiPickerTopPadding;
+  final double height;
 }
 
 final class EmojiPickerUpsellEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerUpsellEntry();
+  const EmojiPickerUpsellEntry({
+    this.height = kEmojiPickerUpsellEstimatedHeight,
+  });
 
   @override
-  double get height => kEmojiPickerUpsellEstimatedHeight;
+  final double height;
 }
 
 final class EmojiPickerSectionGapEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerSectionGapEntry();
+  const EmojiPickerSectionGapEntry({this.height = kEmojiPickerSectionGap});
 
   @override
-  double get height => kEmojiPickerSectionGap;
+  final double height;
 }
 
 final class EmojiPickerSectionHeaderEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerSectionHeaderEntry({required this.categoryKey});
+  const EmojiPickerSectionHeaderEntry({
+    required this.categoryKey,
+    this.height = kEmojiPickerHeaderHeight,
+  });
 
   final String categoryKey;
 
   @override
-  double get height => kEmojiPickerHeaderHeight;
+  final double height;
 }
 
 final class EmojiPickerCustomEmojiRowEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerCustomEmojiRowEntry({required this.emojis});
+  const EmojiPickerCustomEmojiRowEntry({
+    required this.emojis,
+    this.height = kEmojiPickerCellSize,
+  });
 
   final List<GuildEmojiEntry> emojis;
 
   @override
-  double get height => kEmojiPickerCellSize;
+  final double height;
 }
 
 final class EmojiPickerUnicodeEmojiRowEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerUnicodeEmojiRowEntry({required this.emojis});
+  const EmojiPickerUnicodeEmojiRowEntry({
+    required this.emojis,
+    this.height = kEmojiPickerCellSize,
+  });
 
   final List<EmojiEntry> emojis;
 
   @override
-  double get height => kEmojiPickerCellSize;
+  final double height;
 }
 
 final class EmojiPickerFavoriteEmojiRowEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerFavoriteEmojiRowEntry({required this.items});
+  const EmojiPickerFavoriteEmojiRowEntry({
+    required this.items,
+    this.height = kEmojiPickerCellSize,
+  });
 
   final List<EmojiPickerFavoriteRowItem> items;
 
   @override
-  double get height => kEmojiPickerCellSize;
+  final double height;
 }
 
 final class EmojiPickerFrecentEmojiRowEntry extends EmojiPickerLayoutEntry {
-  const EmojiPickerFrecentEmojiRowEntry({required this.items});
+  const EmojiPickerFrecentEmojiRowEntry({
+    required this.items,
+    this.height = kEmojiPickerCellSize,
+  });
 
   final List<FrecentEmojiItem> items;
 
   @override
-  double get height => kEmojiPickerCellSize;
+  final double height;
 }
 
 sealed class EmojiPickerFavoriteRowItem {
@@ -136,6 +181,11 @@ class EmojiPickerLayoutIndex {
   int _firstIntersecting(double top) {
     final int i = _upperBound(_tops, top) - 1;
     return i < 0 ? 0 : i;
+  }
+
+  double? headerTop(String categoryKey) {
+    final int i = _headerKeys.indexOf(categoryKey);
+    return i < 0 ? null : _headerTops[i];
   }
 
   String? activeCategoryKey(double scrollOffset) {
@@ -268,6 +318,7 @@ void _collectAnimatedCandidates({
 List<EmojiPickerLayoutEntry> _chunkCustomRows(
   List<GuildEmojiEntry> emojis,
   int columns,
+  double rowHeight,
 ) {
   if (emojis.isEmpty) {
     return const <EmojiPickerLayoutEntry>[];
@@ -276,7 +327,10 @@ List<EmojiPickerLayoutEntry> _chunkCustomRows(
   for (var index = 0; index < emojis.length; index += columns) {
     final int end = (index + columns).clamp(0, emojis.length);
     rows.add(
-      EmojiPickerCustomEmojiRowEntry(emojis: emojis.sublist(index, end)),
+      EmojiPickerCustomEmojiRowEntry(
+        emojis: emojis.sublist(index, end),
+        height: rowHeight,
+      ),
     );
   }
   return rows;
@@ -285,6 +339,7 @@ List<EmojiPickerLayoutEntry> _chunkCustomRows(
 List<EmojiPickerLayoutEntry> _chunkUnicodeRows(
   List<EmojiEntry> emojis,
   int columns,
+  double rowHeight,
 ) {
   if (emojis.isEmpty) {
     return const <EmojiPickerLayoutEntry>[];
@@ -293,7 +348,10 @@ List<EmojiPickerLayoutEntry> _chunkUnicodeRows(
   for (var index = 0; index < emojis.length; index += columns) {
     final int end = (index + columns).clamp(0, emojis.length);
     rows.add(
-      EmojiPickerUnicodeEmojiRowEntry(emojis: emojis.sublist(index, end)),
+      EmojiPickerUnicodeEmojiRowEntry(
+        emojis: emojis.sublist(index, end),
+        height: rowHeight,
+      ),
     );
   }
   return rows;
@@ -302,6 +360,7 @@ List<EmojiPickerLayoutEntry> _chunkUnicodeRows(
 List<EmojiPickerLayoutEntry> _chunkFavoriteRows(
   List<EmojiPickerFavoriteRowItem> items,
   int columns,
+  double rowHeight,
 ) {
   if (items.isEmpty) {
     return const <EmojiPickerLayoutEntry>[];
@@ -310,7 +369,10 @@ List<EmojiPickerLayoutEntry> _chunkFavoriteRows(
   for (var index = 0; index < items.length; index += columns) {
     final int end = (index + columns).clamp(0, items.length);
     rows.add(
-      EmojiPickerFavoriteEmojiRowEntry(items: items.sublist(index, end)),
+      EmojiPickerFavoriteEmojiRowEntry(
+        items: items.sublist(index, end),
+        height: rowHeight,
+      ),
     );
   }
   return rows;
@@ -319,6 +381,7 @@ List<EmojiPickerLayoutEntry> _chunkFavoriteRows(
 List<EmojiPickerLayoutEntry> _chunkFrecentRows(
   List<FrecentEmojiItem> items,
   int columns,
+  double rowHeight,
 ) {
   if (items.isEmpty) {
     return const <EmojiPickerLayoutEntry>[];
@@ -326,7 +389,12 @@ List<EmojiPickerLayoutEntry> _chunkFrecentRows(
   final List<EmojiPickerLayoutEntry> rows = <EmojiPickerLayoutEntry>[];
   for (var index = 0; index < items.length; index += columns) {
     final int end = (index + columns).clamp(0, items.length);
-    rows.add(EmojiPickerFrecentEmojiRowEntry(items: items.sublist(index, end)));
+    rows.add(
+      EmojiPickerFrecentEmojiRowEntry(
+        items: items.sublist(index, end),
+        height: rowHeight,
+      ),
+    );
   }
   return rows;
 }
@@ -339,38 +407,58 @@ EmojiPickerLayoutIndex buildEmojiPickerLayoutIndex({
   required List<String> collapsedCategories,
   required int columns,
   required bool includeUpsell,
+  EmojiPickerGridMetrics metrics = EmojiPickerGridMetrics.standard,
 }) {
   final Map<String, List<EmojiEntry>> displayCategories =
       emojiPickerDisplayCategories(unicodeCategories);
   final List<EmojiPickerLayoutEntry> entries = <EmojiPickerLayoutEntry>[
-    const EmojiPickerTopPaddingEntry(),
+    EmojiPickerTopPaddingEntry(height: metrics.topPadding),
   ];
   if (includeUpsell) {
     entries.add(const EmojiPickerUpsellEntry());
   }
   if (favoriteItems.isNotEmpty) {
-    entries.add(const EmojiPickerSectionHeaderEntry(categoryKey: 'favorites'));
+    entries.add(
+      EmojiPickerSectionHeaderEntry(
+        categoryKey: 'favorites',
+        height: metrics.headerHeight,
+      ),
+    );
     if (!collapsedCategories.contains('favorites')) {
-      entries.addAll(_chunkFavoriteRows(favoriteItems, columns));
+      entries.addAll(
+        _chunkFavoriteRows(favoriteItems, columns, metrics.rowHeight),
+      );
     }
   }
   if (frecentItems.isNotEmpty) {
     if (favoriteItems.isNotEmpty) {
-      entries.add(const EmojiPickerSectionGapEntry());
+      entries.add(EmojiPickerSectionGapEntry(height: metrics.sectionGap));
     }
     entries.add(
-      const EmojiPickerSectionHeaderEntry(categoryKey: 'frequently-used'),
+      EmojiPickerSectionHeaderEntry(
+        categoryKey: 'frequently-used',
+        height: metrics.headerHeight,
+      ),
     );
     if (!collapsedCategories.contains('frequently-used')) {
-      entries.addAll(_chunkFrecentRows(frecentItems, columns));
+      entries.addAll(
+        _chunkFrecentRows(frecentItems, columns, metrics.rowHeight),
+      );
     }
   }
   for (final MapEntry<String, List<GuildEmojiEntry>> section in guildSections) {
     entries
-      ..add(const EmojiPickerSectionGapEntry())
-      ..add(EmojiPickerSectionHeaderEntry(categoryKey: section.key));
+      ..add(EmojiPickerSectionGapEntry(height: metrics.sectionGap))
+      ..add(
+        EmojiPickerSectionHeaderEntry(
+          categoryKey: section.key,
+          height: metrics.headerHeight,
+        ),
+      );
     if (!collapsedCategories.contains(section.key)) {
-      entries.addAll(_chunkCustomRows(section.value, columns));
+      entries.addAll(
+        _chunkCustomRows(section.value, columns, metrics.rowHeight),
+      );
     }
   }
   for (final String category in kEmojiCategoryOrder) {
@@ -379,13 +467,18 @@ EmojiPickerLayoutIndex buildEmojiPickerLayoutIndex({
       continue;
     }
     entries
-      ..add(const EmojiPickerSectionGapEntry())
-      ..add(EmojiPickerSectionHeaderEntry(categoryKey: category));
+      ..add(EmojiPickerSectionGapEntry(height: metrics.sectionGap))
+      ..add(
+        EmojiPickerSectionHeaderEntry(
+          categoryKey: category,
+          height: metrics.headerHeight,
+        ),
+      );
     if (!collapsedCategories.contains(category)) {
-      entries.addAll(_chunkUnicodeRows(emojis, columns));
+      entries.addAll(_chunkUnicodeRows(emojis, columns, metrics.rowHeight));
     }
   }
-  entries.add(const EmojiPickerTopPaddingEntry());
+  entries.add(EmojiPickerTopPaddingEntry(height: metrics.topPadding));
   return EmojiPickerLayoutIndex(entries);
 }
 
@@ -397,6 +490,7 @@ Set<String> animatedCustomEmojiIdsForSearchGrid({
   required int maxAnimated,
   required bool scrollSettled,
   double verticalPadding = 4,
+  double rowHeight = kEmojiPickerCellSize,
 }) {
   if (!scrollSettled || maxAnimated <= 0 || customResults.isEmpty) {
     return const <String>{};
@@ -410,8 +504,7 @@ Set<String> animatedCustomEmojiIdsForSearchGrid({
       continue;
     }
     final int row = index ~/ columns;
-    final double rowCenter =
-        verticalPadding + row * kEmojiPickerCellSize + kEmojiPickerCellSize / 2;
+    final double rowCenter = verticalPadding + row * rowHeight + rowHeight / 2;
     candidates.add((
       id: emoji.id,
       distance: (rowCenter - viewportCenter).abs(),

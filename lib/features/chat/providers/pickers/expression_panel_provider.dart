@@ -94,6 +94,19 @@ class PendingEmojiInsert extends _$PendingEmojiInsert {
   void consume() => state = null;
 }
 
+final NotifierProvider<PendingComposerBackspace, int>
+pendingComposerBackspaceProvider =
+    NotifierProvider<PendingComposerBackspace, int>(
+      PendingComposerBackspace.new,
+    );
+
+class PendingComposerBackspace extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void request() => state++;
+}
+
 final NotifierProvider<PendingGifSelection, FluxerSelectedGif?>
 pendingGifSelectionProvider =
     NotifierProvider<PendingGifSelection, FluxerSelectedGif?>(

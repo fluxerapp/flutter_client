@@ -368,6 +368,28 @@ class InlineTokenTextEditingController extends TextEditingController {
     );
   }
 
+  void deleteBackward() {
+    final TextSelection sel = selection;
+    final int end = sel.isValid ? sel.end : text.length;
+    final int start = sel.isValid ? sel.start : text.length;
+    if (start != end) {
+      value = TextEditingValue(
+        text: text.replaceRange(start, end, ''),
+        selection: TextSelection.collapsed(offset: start),
+      );
+      return;
+    }
+    if (end == 0) {
+      return;
+    }
+    final String before = text.substring(0, end);
+    final int removeFrom = before.length - before.characters.last.length;
+    value = TextEditingValue(
+      text: text.replaceRange(removeFrom, end, ''),
+      selection: TextSelection.collapsed(offset: removeFrom),
+    );
+  }
+
   /// Inserts an emoji selection at the caret as an [EmojiInlineToken].
   ///
   /// [maxActualLength] bounds the resulting [wireLength] (see [insertToken]).

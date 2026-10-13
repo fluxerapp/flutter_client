@@ -372,6 +372,7 @@ class FluxerBottomSheet {
     bool isDismissible = true,
     bool reserveBottomInset = true,
     bool manageKeyboardInset = true,
+    bool halfDetent = true,
   }) {
     final layout = context.layout;
 
@@ -415,10 +416,9 @@ class FluxerBottomSheet {
           // maxHeight is a screen-fraction alias for maxChildSize. Applying
           // both to the container and the draggable sheet stacked the limits.
           final double effectiveMaxChildSize = maxHeight ?? maxChildSize;
-          final double halfChildSize = scrollableSheetHalfSize.clamp(
-            0,
-            effectiveMaxChildSize,
-          );
+          final double halfChildSize = halfDetent
+              ? scrollableSheetHalfSize.clamp(0, effectiveMaxChildSize)
+              : effectiveMaxChildSize;
           final double effectiveMinChildSize = math.min(
             kFluxerBottomSheetDragMinSize,
             math.min(minChildSize, effectiveMaxChildSize),

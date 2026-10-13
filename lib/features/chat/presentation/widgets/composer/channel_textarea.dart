@@ -819,6 +819,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           });
         },
       )
+      ..listen<int>(pendingComposerBackspaceProvider, (
+        int? previous,
+        int next,
+      ) {
+        if (previous == null || next <= previous) {
+          return;
+        }
+        _controller.deleteBackward();
+      })
       ..listen<FluxerSelectedGif?>(pendingGifSelectionProvider, (_, pending) {
         if (pending == null) {
           return;

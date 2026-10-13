@@ -29,6 +29,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
@@ -259,6 +260,43 @@ void main() {
       ),
     );
     expect(image.size, 40);
+    await releaseTestWidgetTree(tester);
+  });
+
+  testWidgets('mobile picker paints unicode at 30 and custom emoji at 33', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        allGuildEmojis: [_customEmoji],
+        rankedUsageKeys: const <String>[],
+        child: const SizedBox(
+          width: 402,
+          height: 400,
+          child: EmojiPickerContent(channelId: 'channel-1', isMobile: true),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    final Iterable<SpriteEmoji> sprites = tester.widgetList<SpriteEmoji>(
+      find.byType(SpriteEmoji),
+    );
+    expect(sprites, isNotEmpty);
+    expect(
+      sprites.every(
+        (SpriteEmoji sprite) => sprite.size == kEmojiPickerMobileUnicodeSize,
+      ),
+      isTrue,
+    );
+    final CachedEmojiImage image = tester.widget(
+      find.byWidgetPredicate(
+        (widget) => widget is CachedEmojiImage && widget.emojiId == 'custom-1',
+      ),
+    );
+    expect(image.size, kEmojiPickerMobileCustomSize);
+    expect(find.byIcon(PhosphorIconsBold.caretDown), findsNothing);
     await releaseTestWidgetTree(tester);
   });
 

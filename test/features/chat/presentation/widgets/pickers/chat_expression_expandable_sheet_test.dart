@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
-import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
@@ -79,14 +78,13 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('panel height stays within anchor and 80% screen bounds', (
+    testWidgets('panel height stays below the header and rubber-bands down', (
       tester,
     ) async {
       await _pumpSheet(tester, colorTheme: colorTheme);
       final Finder dragTarget = find.byKey(kChatExpressionSheetDragHeaderKey);
       final Finder sheet = find.byKey(kChatExpressionSheetKey);
-      final double maxHeight =
-          _kMobileViewport.height * kInlineExpressionPanelMaxScreenFraction;
+      final double maxHeight = _kMobileViewport.height;
       final TestGesture expandGesture = await tester.startGesture(
         tester.getCenter(dragTarget),
       );
@@ -102,10 +100,14 @@ void main() {
       await tester.pump();
       expect(
         tester.getSize(sheet).height,
-        greaterThanOrEqualTo(_kAnchorHeight - 1),
+        greaterThanOrEqualTo(_kAnchorHeight - kExpressionSheetRubberBandLimit),
       );
       await collapseGesture.up();
       await tester.pumpAndSettle();
+      expect(
+        tester.getSize(sheet).height,
+        greaterThanOrEqualTo(_kAnchorHeight - 1),
+      );
     });
 
     testWidgets('list pull up expands docked sheet to expanded height', (

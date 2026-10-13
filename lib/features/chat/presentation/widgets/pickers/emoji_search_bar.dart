@@ -21,10 +21,12 @@ class EmojiSearchBar extends StatelessWidget {
     this.horizontalPadding = 12.0,
     this.focusNode,
     this.onActivated,
+    this.autofocus = false,
     super.key,
   });
 
   final TextEditingController controller;
+  final bool autofocus;
   final String? hoveredEmojiName;
   final String skinTone;
   final ValueChanged<String> onSkinToneChanged;
@@ -53,6 +55,7 @@ class EmojiSearchBar extends StatelessWidget {
               bottomPadding: 4,
               focusNode: focusNode,
               onActivated: onActivated,
+              autofocus: autofocus,
             ),
           ),
           const SizedBox(width: 8),

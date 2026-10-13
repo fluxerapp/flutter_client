@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -110,6 +111,20 @@ class ExpandableSheetHeightBuilder extends StatelessWidget {
   }
 }
 
+const Duration kComposerPanelMotionDuration = Duration(milliseconds: 450);
+const Curve kComposerPanelMotionCurve = FluxerSpringCurve(
+  stiffness: 317,
+  damping: 35.6,
+  duration: kComposerPanelMotionDuration,
+);
+
+Duration composerPanelMotionDuration(BuildContext context) {
+  if (MediaQuery.disableAnimationsOf(context)) {
+    return Duration.zero;
+  }
+  return kComposerPanelMotionDuration;
+}
+
 Widget expandableSheetAnimatedSize({
   required BuildContext context,
   required bool isDragging,
@@ -118,13 +133,18 @@ Widget expandableSheetAnimatedSize({
   double? width,
   BoxDecoration? decoration,
   Clip clipBehavior = Clip.none,
+  bool composerPanelMotion = false,
 }) {
   final Duration duration = isDragging
       ? Duration.zero
+      : composerPanelMotion
+      ? composerPanelMotionDuration(context)
       : expandableSheetSnapDuration(context, isDragging: false);
   return AnimatedContainer(
     duration: duration,
-    curve: Curves.easeOutCubic,
+    curve: composerPanelMotion
+        ? kComposerPanelMotionCurve
+        : Curves.easeOutCubic,
     width: width,
     height: height,
     decoration: decoration,

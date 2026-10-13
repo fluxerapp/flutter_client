@@ -14,6 +14,23 @@ List<ExpressionPickerTab> expressionPanelVisibleTabs(
   ];
 }
 
+const List<ExpressionPickerTab> kMobileExpressionPanelTabOrder =
+    <ExpressionPickerTab>[
+      ExpressionPickerTab.emojis,
+      ExpressionPickerTab.gifs,
+      ExpressionPickerTab.stickers,
+      ExpressionPickerTab.memes,
+    ];
+
+List<ExpressionPickerTab> mobileExpressionPanelTabs(
+  List<ExpressionPickerTab> visibleTabs,
+) {
+  return <ExpressionPickerTab>[
+    for (final ExpressionPickerTab tab in kMobileExpressionPanelTabOrder)
+      if (visibleTabs.contains(tab)) tab,
+  ];
+}
+
 List<ExpressionPickerTab> composerInputButtonVisibleTabs({
   required ChannelMessagePermissions perms,
   required AdvancedPreferencesState advanced,

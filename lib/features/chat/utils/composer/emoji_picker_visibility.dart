@@ -50,8 +50,4 @@ class EmojiPickerVisibilityScope
     }
     return notifier.value.animatedCustomEmojiIds.contains(emojiId);
   }
-
-  static String? activeCategory(BuildContext context) {
-    return _notifierOf(context)?.value.activeCategoryKey;
-  }
 }

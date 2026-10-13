@@ -158,6 +158,7 @@ class _PanelSpacerState extends ConsumerState<_PanelSpacer> {
     return expandableSheetAnimatedSize(
       context: context,
       isDragging: false,
+      composerPanelMotion: true,
       height: _growing
           ? math.min(
               widget.height,
