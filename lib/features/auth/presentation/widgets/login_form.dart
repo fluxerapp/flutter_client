@@ -25,9 +25,10 @@ import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
-  const LoginForm({this.heading, super.key});
+  const LoginForm({this.heading, this.subheading, super.key});
 
   final String? heading;
+  final String? subheading;
 
   @override
   ConsumerState<LoginForm> createState() => _LoginFormState();
@@ -222,6 +223,18 @@ class _LoginFormState extends ConsumerState<LoginForm>
                 style: context.textStyles.heading,
               ),
             ),
+            if (widget.subheading case final String subheading) ...[
+              SizedBox(height: layout.s2),
+              Center(
+                child: Text(
+                  subheading,
+                  style: context.textStyles.bodyMedium.copyWith(
+                    color: context.colors.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
             SizedBox(height: layout.s8),
             FluxerInput(
               controller: _emailController,
