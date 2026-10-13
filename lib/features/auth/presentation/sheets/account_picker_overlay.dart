@@ -193,7 +193,7 @@ class _AccountPickerOverlayBodyState
       await Navigator.of(rootContext, rootNavigator: true).push<void>(
         MaterialPageRoute<void>(
           fullscreenDialog: true,
-          builder: (_) => AddAccountScreen(prefillEmail: account.identifier),
+          builder: (_) => AddAccountScreen(expiredAccount: account),
         ),
       );
     } on Object catch (_) {
@@ -470,7 +470,7 @@ class _AccountPickerPanel extends ConsumerWidget {
       await Navigator.of(rootContext, rootNavigator: true).push<void>(
         MaterialPageRoute<void>(
           fullscreenDialog: true,
-          builder: (_) => AddAccountScreen(prefillEmail: account.identifier),
+          builder: (_) => AddAccountScreen(expiredAccount: account),
         ),
       );
       return;

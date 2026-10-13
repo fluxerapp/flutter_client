@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -13,9 +18,9 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AddAccountScreen extends ConsumerStatefulWidget {
-  const AddAccountScreen({this.prefillEmail, super.key});
+  const AddAccountScreen({this.expiredAccount, super.key});
 
-  final String? prefillEmail;
+  final StoredAccount? expiredAccount;
 
   @override
   ConsumerState<AddAccountScreen> createState() => _AddAccountScreenState();
@@ -38,10 +43,24 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
       ref.invalidate(instanceSelectorProvider);
       final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier)
         ..hideAccountSelector();
-      if (widget.prefillEmail != null) {
-        notifier.updateEmail(widget.prefillEmail!);
+      final StoredAccount? account = widget.expiredAccount;
+      if (account != null) {
+        notifier.updateEmail(account.identifier);
+        unawaited(_selectAccountInstance(account.userId));
       }
     });
+  }
+
+  Future<void> _selectAccountInstance(String userId) async {
+    final InstanceConfigSnapshot snapshot = await ref
+        .read(authRepositoryProvider)
+        .resolveInstanceSnapshotForUser(userId);
+    if (!mounted) {
+      return;
+    }
+    await ref
+        .read(instanceSelectorProvider.notifier)
+        .selectKnownInstance(snapshot);
   }
 
   void _releaseAddAccountGuard() {
@@ -103,8 +122,10 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
           padding: EdgeInsets.all(layout.s5),
           child: AuthFlowContent(
             heading: l10n.accountAdd,
-            subheading: switch (widget.prefillEmail) {
-              final String identifier => l10n.accountSessionExpired(identifier),
+            subheading: switch (widget.expiredAccount) {
+              final StoredAccount account => l10n.accountSessionExpired(
+                account.identifier,
+              ),
               null => null,
             },
           ),

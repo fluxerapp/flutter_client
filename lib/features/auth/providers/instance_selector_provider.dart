@@ -138,6 +138,24 @@ class InstanceSelector extends _$InstanceSelector {
     return true;
   }
 
+  Future<void> selectKnownInstance(InstanceConfigSnapshot snapshot) async {
+    final InstanceSelectorState current = await future;
+    ++_connectSeq;
+    if (!_isolatesActiveInstance) {
+      ref.read(activeInstanceProvider.notifier).applySnapshot(snapshot);
+    }
+    state = AsyncData(
+      current.copyWith(
+        instanceUrl: _normalizer.describeApiEndpoint(snapshot.apiBaseUrl),
+        status: InstanceDiscoveryStatus.success,
+        requiresDiscovery: false,
+        clearError: true,
+        clearPendingSnapshot: !_isolatesActiveInstance,
+        pendingSnapshot: _isolatesActiveInstance ? snapshot : null,
+      ),
+    );
+  }
+
   Future<bool> connectToUrl(String input) async {
     final InstanceSelectorState? current = state.asData?.value;
     if (current == null) {
