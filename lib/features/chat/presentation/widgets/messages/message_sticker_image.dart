@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show SynchronousFuture;
@@ -8,9 +9,13 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const double _kStickerBox = 160;
 const int _kStickerRequestSize = 320;
+const String _kAspectRatiosKey = 'message_sticker_aspect_ratios';
+const int _kMaxPersistedAspectRatios = 512;
+const Duration _kPersistDelay = Duration(seconds: 2);
 
 Size _stickerDisplaySize(double? aspectRatio) {
   if (aspectRatio == null || !aspectRatio.isFinite || aspectRatio <= 0) {
@@ -30,6 +35,47 @@ ImageProvider _stickerStillProvider(MessageSticker sticker) =>
 final Map<String, double> _stickerAspectRatios = <String, double>{};
 final Map<String, Future<double?>> _pendingStickerAspectRatios =
     <String, Future<double?>>{};
+Timer? _persistTimer;
+
+Future<void> loadMessageStickerAspectRatios() async {
+  try {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final String? raw = preferences.getString(_kAspectRatiosKey);
+    if (raw == null) {
+      return;
+    }
+    final Object? decoded = jsonDecode(raw);
+    if (decoded is! Map<String, dynamic>) {
+      return;
+    }
+    for (final MapEntry<String, dynamic> entry in decoded.entries) {
+      final Object? value = entry.value;
+      if (value is num && value > 0) {
+        _stickerAspectRatios.putIfAbsent(entry.key, value.toDouble);
+      }
+    }
+  } on Object catch (_) {}
+}
+
+void _rememberStickerAspectRatio(String stickerId, double aspectRatio) {
+  _stickerAspectRatios
+    ..remove(stickerId)
+    ..[stickerId] = aspectRatio;
+  _persistTimer?.cancel();
+  _persistTimer = Timer(_kPersistDelay, () async {
+    final Iterable<MapEntry<String, double>> entries =
+        _stickerAspectRatios.entries;
+    final int skip = entries.length - _kMaxPersistedAspectRatios;
+    final Map<String, double> kept = Map<String, double>.fromEntries(
+      skip > 0 ? entries.skip(skip) : entries,
+    );
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      await preferences.setString(_kAspectRatiosKey, jsonEncode(kept));
+    } on Object catch (_) {}
+  });
+}
 
 Future<void> prefetchMessageStickerAspectRatios(
   Iterable<Message> messages, {
@@ -75,7 +121,7 @@ Future<double?> _loadStickerAspectRatio(MessageSticker sticker) {
       info.dispose();
       stream.removeListener(listener);
       if (width > 0 && height > 0) {
-        _stickerAspectRatios[sticker.id] = width / height;
+        _rememberStickerAspectRatio(sticker.id, width / height);
       }
       if (!completer.isCompleted) {
         completer.complete(_stickerAspectRatios[sticker.id]);
