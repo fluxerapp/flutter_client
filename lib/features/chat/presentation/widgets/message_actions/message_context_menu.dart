@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/qu
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -211,11 +210,9 @@ class _ContextMenuPage extends ConsumerWidget {
     );
 
     return [
-      if (ref.watch(
-        advancedPreferencesProvider.select(
-          (state) => state.showMessageActionBarQuickReactions,
-        ),
-      ))
+      if (!message.hasFailed &&
+          !message.isSending &&
+          permissions.canAddReactions)
         if (quickReactionChannelId != null)
           MessageQuickReactionRow(
             channelId: quickReactionChannelId!,
