@@ -23,8 +23,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AttachmentImage extends ConsumerWidget {
-  static const double _defaultAspectRatio = 16 / 9;
-
   final Attachment attachment;
   final MediaDimensionSize dimensionSize;
   final bool revealSpoiler;
@@ -50,15 +48,6 @@ class AttachmentImage extends ConsumerWidget {
     super.key,
   });
 
-  double _resolveAspectRatio() {
-    final int? width = attachment.width;
-    final int? height = attachment.height;
-    if (width != null && height != null && width > 0 && height > 0) {
-      return width / height;
-    }
-    return _defaultAspectRatio;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final HdrDisplayMode hdrDisplayMode = ref.watch(
@@ -66,27 +55,43 @@ class AttachmentImage extends ConsumerWidget {
         (AppearancePreferencesState state) => state.hdrDisplayMode,
       ),
     );
-    final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
-      dimensionSize,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) =>
+          _buildImage(
+            context,
+            hdrDisplayMode: hdrDisplayMode,
+            dimensions: mediaDimensionsWithinWidth(
+              mediaDimensionsForSize(dimensionSize),
+              constraints.maxWidth,
+            ),
+          ),
     );
-    final List<Attachment> gallery = _buildGallery();
+  }
+
+  Widget _buildImage(
+    BuildContext context, {
+    required HdrDisplayMode hdrDisplayMode,
+    required FluxerMediaDimensions dimensions,
+  }) {
     final Size? displaySize = constrainMediaSize(
       dimensions: dimensions,
       width: attachment.width,
       height: attachment.height,
     );
+    if (displaySize == null) {
+      return const SizedBox.shrink();
+    }
+    final List<Attachment> gallery = _buildGallery();
     final bool animate = attachment.isAnimated;
     final String effectiveUrl = attachmentEffectiveUrl(attachment);
     final Widget image = Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 3),
       child: MediaAltText(
         altText: attachment.description,
-        captionWidth: displaySize?.width ?? dimensions.maxWidth,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: dimensions.maxWidth,
-            maxHeight: dimensions.maxHeight,
-          ),
+        captionWidth: displaySize.width,
+        child: SizedBox(
+          width: displaySize.width,
+          height: displaySize.height,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Stack(
@@ -122,8 +127,7 @@ class AttachmentImage extends ConsumerWidget {
                                   : null,
                               actionScope: mediaActionScope,
                             ),
-                      child: AspectRatio(
-                        aspectRatio: _resolveAspectRatio(),
+                      child: SizedBox.expand(
                         child: animate
                             ? EmbedAnimatedImage(
                                 animatedUrl: animatedEmbedImageUrl(
@@ -144,9 +148,6 @@ class AttachmentImage extends ConsumerWidget {
                                 filename: attachment.filename,
                                 contentType: attachment.contentType,
                                 displaySize: displaySize,
-                                dimensions: dimensions,
-                                sourceWidth: attachment.width,
-                                sourceHeight: attachment.height,
                                 placeholder: _buildImagePlaceholder(context),
                               ),
                       ),
@@ -241,58 +242,28 @@ class _AttachmentStaticImage extends StatelessWidget {
     required this.filename,
     required this.contentType,
     required this.displaySize,
-    required this.dimensions,
-    required this.sourceWidth,
-    required this.sourceHeight,
     required this.placeholder,
   });
 
   final String imageUrl;
   final String filename;
   final String? contentType;
-  final Size? displaySize;
-  final FluxerMediaDimensions dimensions;
-  final int? sourceWidth;
-  final int? sourceHeight;
+  final Size displaySize;
   final Widget placeholder;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-        final int? memCacheWidth;
-        final int? memCacheHeight;
-        if (displaySize != null) {
-          memCacheWidth = (displaySize!.width * devicePixelRatio).round();
-          memCacheHeight = (displaySize!.height * devicePixelRatio).round();
-        } else {
-          final ({int? width, int? height}) cache = containDecodeCacheSize(
-            cellWidth: constraints.maxWidth.isFinite
-                ? constraints.maxWidth
-                : dimensions.maxWidth,
-            cellHeight: constraints.maxHeight.isFinite
-                ? constraints.maxHeight
-                : dimensions.maxHeight,
-            devicePixelRatio: devicePixelRatio,
-            sourceWidth: sourceWidth,
-            sourceHeight: sourceHeight,
-          );
-          memCacheWidth = cache.width;
-          memCacheHeight = cache.height;
-        }
-        return ChatNetworkImage(
-          imageUrl: imageUrl,
-          filename: filename,
-          contentType: contentType,
-          width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
-          height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
-          memCacheWidth: memCacheWidth,
-          memCacheHeight: memCacheHeight,
-          placeholder: placeholder,
-          errorPlaceholder: const MediaLoadErrorPlaceholder(),
-        );
-      },
+    final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+    return ChatNetworkImage(
+      imageUrl: imageUrl,
+      filename: filename,
+      contentType: contentType,
+      width: displaySize.width,
+      height: displaySize.height,
+      memCacheWidth: (displaySize.width * devicePixelRatio).round(),
+      memCacheHeight: (displaySize.height * devicePixelRatio).round(),
+      placeholder: placeholder,
+      errorPlaceholder: const MediaLoadErrorPlaceholder(),
     );
   }
 }
