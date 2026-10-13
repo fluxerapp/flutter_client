@@ -71,6 +71,8 @@ class _SavedMediaAdvancedPreferences extends AdvancedPreferences {
       const AdvancedPreferencesState(saveGifFavoritesAsSavedMedia: true);
 }
 
+const Duration _categoryPressHold = Duration(milliseconds: 60);
+
 void main() {
   const locale = sdk.Locale.enUs;
 
@@ -128,7 +130,7 @@ void main() {
     expect(find.text('Trending GIFs'), findsOneWidget);
 
     await tester.tap(find.text('Favorites'));
-    await tester.pump();
+    await tester.pump(_categoryPressHold);
 
     expect(showSavedMediaCalled, isFalse);
     expect(find.text('Trending GIFs'), findsNothing);
@@ -159,7 +161,7 @@ void main() {
     await tester.pump();
 
     await tester.tap(find.text('Favorites'));
-    await tester.pump();
+    await tester.pump(_categoryPressHold);
 
     expect(showSavedMediaCalled, isFalse);
     expect(find.text('Trending GIFs'), findsNothing);
@@ -187,7 +189,7 @@ void main() {
       await tester.pump();
 
       await tester.tap(find.text('Favorites'));
-      await tester.pump();
+      await tester.pump(_categoryPressHold);
 
       expect(showSavedMediaCalled, isTrue);
       expect(find.text('Trending GIFs'), findsOneWidget);
@@ -206,7 +208,7 @@ void main() {
     await tester.pump();
 
     await tester.tap(find.text('Favorites'));
-    await tester.pump();
+    await tester.pump(_categoryPressHold);
 
     expect(find.text('No favorite GIFs yet'), findsOneWidget);
     expect(find.text('Star a GIF to see it here.'), findsOneWidget);
