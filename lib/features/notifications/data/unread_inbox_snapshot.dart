@@ -34,6 +34,7 @@ class UnreadInboxSnapshot {
           recencyComparator: frozen.recencyComparator,
           ackMessageId: current.ackMessageId,
           lastMessageId: frozen.lastMessageId,
+          isThreadOnly: frozen.isThreadOnly,
         ),
       );
     }

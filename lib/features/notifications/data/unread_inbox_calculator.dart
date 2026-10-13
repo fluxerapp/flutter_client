@@ -231,6 +231,7 @@ class UnreadInboxCalculator {
           recencyComparator: recency,
           ackMessageId: ackId,
           lastMessageId: channelLastMsg,
+          isThreadOnly: isThreadOnlyChannelType(channel.type),
         ),
       );
     }

@@ -7,6 +7,7 @@ class UnreadInboxEntry {
   final int recencyComparator;
   final String? ackMessageId;
   final String? lastMessageId;
+  final bool isThreadOnly;
 
   const UnreadInboxEntry({
     required this.channelId,
@@ -17,5 +18,6 @@ class UnreadInboxEntry {
     required this.recencyComparator,
     required this.ackMessageId,
     required this.lastMessageId,
+    this.isThreadOnly = false,
   });
 }

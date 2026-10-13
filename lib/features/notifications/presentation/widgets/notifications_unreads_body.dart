@@ -69,7 +69,9 @@ class _NotificationsUnreadsBodyState
   }
 
   void _onLive(AsyncValue<List<UnreadInboxEntry>> next) {
-    final List<UnreadInboxEntry>? live = next.value;
+    final List<UnreadInboxEntry>? live = next.value
+        ?.where((UnreadInboxEntry entry) => !entry.isThreadOnly)
+        .toList();
     final Object? error = next.hasError && live == null ? next.error : null;
     if (live == null) {
       if (error != _error && mounted) {
@@ -132,7 +134,9 @@ class _NotificationsUnreadsBodyState
     ref.read(unreadInboxCardCacheProvider).clear();
     ref.invalidate(unreadInboxChannelListProvider);
     try {
-      _live = await ref.read(unreadInboxChannelListProvider.future);
+      _live = (await ref.read(
+        unreadInboxChannelListProvider.future,
+      )).where((UnreadInboxEntry entry) => !entry.isThreadOnly).toList();
     } on Object catch (_) {
       return;
     }
