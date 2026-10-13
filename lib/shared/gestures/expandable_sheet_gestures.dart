@@ -1,4 +1,5 @@
-import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
+import 'dart:math' as math;
+
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -112,11 +113,41 @@ class ExpandableSheetHeightBuilder extends StatelessWidget {
 }
 
 const Duration kComposerPanelMotionDuration = Duration(milliseconds: 450);
-const Curve kComposerPanelMotionCurve = FluxerSpringCurve(
-  stiffness: 317,
-  damping: 35.6,
-  duration: kComposerPanelMotionDuration,
-);
+const double kComposerPanelSpringOmega = 17.8;
+const Curve kComposerPanelMotionCurve = ComposerPanelSpringCurve();
+
+class ComposerPanelSpringCurve extends Curve {
+  const ComposerPanelSpringCurve({this.initialVelocity = 0});
+
+  factory ComposerPanelSpringCurve.fromRelease({
+    required double fromHeight,
+    required double toHeight,
+    required double heightVelocity,
+  }) {
+    final double distance = toHeight - fromHeight;
+    if (distance.abs() < 1) {
+      return const ComposerPanelSpringCurve();
+    }
+    return ComposerPanelSpringCurve(initialVelocity: heightVelocity / distance);
+  }
+
+  final double initialVelocity;
+
+  @override
+  double transformInternal(double t) {
+    final double seconds =
+        t *
+        kComposerPanelMotionDuration.inMicroseconds /
+        Duration.microsecondsPerSecond;
+    final double velocity = initialVelocity.clamp(
+      0.0,
+      kComposerPanelSpringOmega,
+    );
+    return 1 -
+        (1 + (kComposerPanelSpringOmega - velocity) * seconds) *
+            math.exp(-kComposerPanelSpringOmega * seconds);
+  }
+}
 
 Duration composerPanelMotionDuration(BuildContext context) {
   if (MediaQuery.disableAnimationsOf(context)) {
@@ -134,6 +165,7 @@ Widget expandableSheetAnimatedSize({
   BoxDecoration? decoration,
   Clip clipBehavior = Clip.none,
   bool composerPanelMotion = false,
+  Curve composerPanelCurve = kComposerPanelMotionCurve,
 }) {
   final Duration duration = isDragging
       ? Duration.zero
@@ -142,9 +174,7 @@ Widget expandableSheetAnimatedSize({
       : expandableSheetSnapDuration(context, isDragging: false);
   return AnimatedContainer(
     duration: duration,
-    curve: composerPanelMotion
-        ? kComposerPanelMotionCurve
-        : Curves.easeOutCubic,
+    curve: composerPanelMotion ? composerPanelCurve : Curves.easeOutCubic,
     width: width,
     height: height,
     decoration: decoration,

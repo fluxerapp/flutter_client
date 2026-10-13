@@ -81,6 +81,7 @@ class ChatExpressionExpandableSheetState
   double _expandedHeightCache = 0;
   double? _lockedCollapsedHeight;
   double? _dragVirtualHeight;
+  Curve _snapCurve = kComposerPanelMotionCurve;
   final OverlayPortalController _scrimController = OverlayPortalController();
   bool? _dragWasPastCollapsed;
   bool _initialized = false;
@@ -461,15 +462,22 @@ class ChatExpressionExpandableSheetState
       case InlineExpressionPanelSnapTarget.close:
         _beginCloseAnimation();
       case InlineExpressionPanelSnapTarget.anchor:
-        _snapToHeight(_minHeight);
+        _snapToHeight(_minHeight, releaseVelocity: velocity);
       case InlineExpressionPanelSnapTarget.expanded:
-        _snapToHeight(_expandedHeightCache);
+        _snapToHeight(_expandedHeightCache, releaseVelocity: velocity);
     }
   }
 
-  void _snapToHeight(double target) {
+  void _snapToHeight(double target, {double releaseVelocity = 0}) {
     _dragVirtualHeight = null;
     final double clampedTarget = target.clamp(_minHeight, _maxHeight);
+    _snapCurve = _height < _minHeight
+        ? kComposerPanelMotionCurve
+        : ComposerPanelSpringCurve.fromRelease(
+            fromHeight: _height,
+            toHeight: clampedTarget,
+            heightVelocity: -releaseVelocity,
+          );
     updateExpandableSheetHeight(
       heightNotifier: _heightNotifier,
       nextHeight: clampedTarget,
@@ -521,6 +529,7 @@ class ChatExpressionExpandableSheetState
     _closingSlot = ref.read(bottomInputSlotProvider.notifier);
     _closingPanel = closingPanel;
     closingPanel.start();
+    _snapCurve = kComposerPanelMotionCurve;
     updateExpandableSheetHeight(heightNotifier: _heightNotifier, nextHeight: 0);
     _isDraggingNotifier.value = false;
     setState(() {
@@ -662,6 +671,7 @@ class ChatExpressionExpandableSheetState
               context: context,
               isDragging: isDragging,
               composerPanelMotion: true,
+              composerPanelCurve: _snapCurve,
               height: _totalHeightFor(height),
               decoration: BoxDecoration(
                 color: sheetBackground,
@@ -792,7 +802,7 @@ class ChatExpressionExpandableSheetState
               children: <Widget>[
                 AnimatedPositioned(
                   duration: duration,
-                  curve: kComposerPanelMotionCurve,
+                  curve: _snapCurve,
                   left: 0,
                   right: 0,
                   top: 0,
@@ -804,7 +814,7 @@ class ChatExpressionExpandableSheetState
                       onTap: _snapToDockedIfNeeded,
                       child: AnimatedOpacity(
                         duration: duration,
-                        curve: kComposerPanelMotionCurve,
+                        curve: _snapCurve,
                         opacity: progress,
                         child: child,
                       ),
