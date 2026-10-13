@@ -220,7 +220,6 @@ TextStyle _mentionTextStyle(TextStyle base, Color color) {
     height: baseHeight == null || baseHeight > _kMentionPillLineHeight
         ? _kMentionPillLineHeight
         : baseHeight,
-    leadingDistribution: TextLeadingDistribution.even,
   );
 }
 
