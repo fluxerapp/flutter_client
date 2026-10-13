@@ -400,7 +400,6 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     unawaited(
       FluxerBottomSheet.show<void>(
         context,
-        showDragHandle: false,
         builder: (sheetContext, close) => _StickerActionsSheet(
           sticker: sticker,
           isFavorite: favoriteKeys.contains(key),
@@ -1093,7 +1092,6 @@ class _StickerActionsSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const FluxerBottomSheetEdgeHandle(height: 31),
           Center(
             child: SizedBox.square(
               dimension: _kStickerSheetPreviewSize,

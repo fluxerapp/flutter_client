@@ -7,13 +7,17 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../../helpers/sheet_corner_pixels.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 const Size _kMobileViewport = Size(390, 844);
 const double _kAnchorHeight = 291;
-const double _kDragHandleHeight = 36;
+const double _kDragHandleHeight = kFluxerSheetHandleHeight;
+const Key _kFirstControlKey = Key('expression-sheet-first-control');
 const double _kDockedContentHeight = _kAnchorHeight - _kDragHandleHeight;
 const double _kTextareaHeight = 72;
 const TargetPlatformVariant _kTouchPlatforms = TargetPlatformVariant(
@@ -22,6 +26,8 @@ const TargetPlatformVariant _kTouchPlatforms = TargetPlatformVariant(
 
 void main() {
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
+
+  setUp(() => SharedPreferences.setMockInitialValues(<String, Object>{}));
 
   group('ChatExpressionExpandableSheet', () {
     testWidgets('opens at anchor height, not full screen', (tester) async {
@@ -396,6 +402,48 @@ void main() {
       expect(find.byType(Scrollable), findsWidgets);
     });
 
+    testWidgets('expanded handle spacing matches the shared sheet', (
+      tester,
+    ) async {
+      _usePhoneView(tester);
+      await _pumpSheet(tester, colorTheme: colorTheme);
+      await _expandSheet(tester);
+      final Rect sheet = _sheetSurfaceRect(tester);
+      final Rect bar = tester.getRect(
+        find.descendant(
+          of: find.byKey(kChatExpressionSheetDragHandleKey),
+          matching: find.byType(FluxerSheetHandleBar),
+        ),
+      );
+      final Rect control = tester.getRect(find.byKey(_kFirstControlKey));
+      expect(bar.top - sheet.top, kFluxerSheetHandleTop);
+      expect(control.top - bar.bottom, kFluxerSheetHandleGap);
+    }, variant: _kTouchPlatforms);
+
+    testWidgets('expanded corners show only surface and dimmed backdrop', (
+      tester,
+    ) async {
+      _usePhoneView(tester);
+      await _pumpSheet(tester, colorTheme: colorTheme);
+      await _expandSheet(tester);
+      final Rect sheet = _sheetSurfaceRect(tester);
+      expect(sheet.left, 0);
+      expect(sheet.top, greaterThan(kExpressionSheetCornerRadius));
+      final Color surface = colorTheme.backgroundSecondaryAlt;
+
+      final ScreenPixels pixels = await ScreenPixels.capture(tester);
+      expect(pixels.at(Offset(4, sheet.top - 3)), isNot(surface));
+      expect(
+        sheetCornerColorMismatches(
+          pixels: pixels,
+          sheet: sheet,
+          radius: kExpressionSheetCornerRadius,
+          surface: surface,
+        ),
+        isEmpty,
+      );
+    }, variant: _kTouchPlatforms);
+
     testWidgets('search expand increases content height', (tester) async {
       await _pumpSheet(tester, colorTheme: colorTheme);
       final ChatExpressionExpandableSheetState sheetState = tester.state(
@@ -499,6 +547,7 @@ Future<void> _pumpSheet(
     UncontrolledProviderScope(
       container: scopeContainer,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         locale: kTestLocale,
         localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
@@ -539,6 +588,7 @@ Future<void> _pumpSheet(
                             controller: scrollController,
                             children: const <Widget>[
                               SizedBox(
+                                key: _kFirstControlKey,
                                 height: 800,
                                 child: ColoredBox(color: Color(0xFF333333)),
                               ),
@@ -573,6 +623,21 @@ Future<void> _pumpSheet(
   );
   await tester.pumpAndSettle();
 }
+
+void _usePhoneView(WidgetTester tester) {
+  tester.view.physicalSize = _kMobileViewport * 3;
+  tester.view.devicePixelRatio = 3;
+  addTearDown(tester.view.reset);
+}
+
+Rect _sheetSurfaceRect(WidgetTester tester) => tester.getRect(
+  find
+      .ancestor(
+        of: find.byKey(kChatExpressionSheetDragHandleKey),
+        matching: find.byType(AnimatedContainer),
+      )
+      .first,
+);
 
 ScrollPosition _listPosition(WidgetTester tester) {
   return tester.state<ScrollableState>(find.byType(Scrollable).last).position;

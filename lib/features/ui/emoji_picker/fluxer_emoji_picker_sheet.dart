@@ -77,7 +77,8 @@ class FluxerEmojiPickerSheet {
     final bool emojiOnly =
         visibleTabs.length == 1 &&
         visibleTabs.first == ExpressionPickerTab.emojis;
-    final bool edgeHandle = emojiOnly && title == null && subtitle == null;
+    final bool searchFollowsHandle =
+        visibleTabs.length == 1 && title == null && subtitle == null;
     final double? sheetHeight = emojiOnly
         ? reactionPickerSheetHeight(context)
         : null;
@@ -86,7 +87,6 @@ class FluxerEmojiPickerSheet {
       title: title,
       subtitle: subtitle,
       sheetHeight: sheetHeight,
-      showDragHandle: !edgeHandle,
       animationStyle: sheetHeight == null
           ? null
           : reactionPickerAnimationStyle(context, sheetHeight: sheetHeight),
@@ -95,7 +95,7 @@ class FluxerEmojiPickerSheet {
           scrollController: scrollController,
           visibleTabs: visibleTabs,
           initialTab: initialTab,
-          showEdgeHandle: edgeHandle,
+          searchFollowsHandle: searchFollowsHandle,
           onClose: close,
           onEmojiSelected: onEmojiSelected,
           onGifSelected: onGifSelected,
@@ -113,7 +113,7 @@ class _SheetContent extends StatefulWidget {
     required this.scrollController,
     required this.visibleTabs,
     required this.initialTab,
-    required this.showEdgeHandle,
+    required this.searchFollowsHandle,
     required this.onClose,
     this.onEmojiSelected,
     this.onGifSelected,
@@ -125,7 +125,7 @@ class _SheetContent extends StatefulWidget {
   final ScrollController scrollController;
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
-  final bool showEdgeHandle;
+  final bool searchFollowsHandle;
   final VoidCallback onClose;
   final ValueChanged<FluxerSelectedEmoji>? onEmojiSelected;
   final ValueChanged<FluxerSelectedGif>? onGifSelected;
@@ -154,9 +154,7 @@ class _SheetContentState extends State<_SheetContent> {
     child: Column(
       children: [
         if (widget.visibleTabs.length > 1) _buildSegmentedTabs(context),
-        if (widget.showEdgeHandle)
-          const FluxerBottomSheetEdgeHandle(height: 22),
-        const SizedBox(height: 8),
+        if (!widget.searchFollowsHandle) const SizedBox(height: 8),
         Expanded(
           child: ExpressionPicker(
             scrollController: widget.scrollController,
@@ -183,6 +181,7 @@ class _SheetContentState extends State<_SheetContent> {
             initialTab: _selectedTab,
             showTabs: false,
             channelId: widget.channelId,
+            contentSearchTopPadding: widget.searchFollowsHandle ? 0 : null,
             autofocusSearch:
                 widget.visibleTabs.length == 1 &&
                 widget.visibleTabs.first == ExpressionPickerTab.emojis,
@@ -193,16 +192,13 @@ class _SheetContentState extends State<_SheetContent> {
   );
 
   Widget _buildSegmentedTabs(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: ExpressionSegmentedTabs(
-        tabs: widget.visibleTabs,
-        selected: _selectedTab,
-        labelOf: (ExpressionPickerTab tab) =>
-            expressionTabLabel(tab, FluxerLocalizations.of(context)),
-        onSelected: (ExpressionPickerTab tab) =>
-            setState(() => _selectedTab = tab),
-      ),
+    return ExpressionSegmentedTabs(
+      tabs: widget.visibleTabs,
+      selected: _selectedTab,
+      labelOf: (ExpressionPickerTab tab) =>
+          expressionTabLabel(tab, FluxerLocalizations.of(context)),
+      onSelected: (ExpressionPickerTab tab) =>
+          setState(() => _selectedTab = tab),
     );
   }
 }

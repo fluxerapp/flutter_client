@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
@@ -18,6 +17,7 @@ import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout
 import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_scroll_physics.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
@@ -815,17 +815,20 @@ class ChatExpressionExpandableSheetState
                   left: 0,
                   right: 0,
                   top: 0,
-                  height: math.max(0, sheetTop),
-                  child: IgnorePointer(
-                    ignoring: progress <= 0,
-                    child: FluxerGestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: _snapToDockedIfNeeded,
-                      child: AnimatedOpacity(
-                        duration: duration,
-                        curve: _snapCurve,
-                        opacity: progress,
-                        child: child,
+                  height: math.max(0, sheetTop + kExpressionSheetCornerRadius),
+                  child: ClipPath(
+                    clipper: const _SheetCornerScrimClipper(),
+                    child: IgnorePointer(
+                      ignoring: progress <= 0,
+                      child: FluxerGestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: _snapToDockedIfNeeded,
+                        child: AnimatedOpacity(
+                          duration: duration,
+                          curve: _snapCurve,
+                          opacity: progress,
+                          child: child,
+                        ),
                       ),
                     ),
                   ),
@@ -840,25 +843,39 @@ class ChatExpressionExpandableSheetState
   }
 }
 
+class _SheetCornerScrimClipper extends CustomClipper<Path> {
+  const _SheetCornerScrimClipper();
+
+  @override
+  Path getClip(Size size) {
+    const double radius = kExpressionSheetCornerRadius;
+    return Path.combine(
+      PathOperation.difference,
+      Path()..addRect(Offset.zero & size),
+      Path()..addRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTRB(0, size.height - radius, size.width, size.height),
+          topLeft: const Radius.circular(radius),
+          topRight: const Radius.circular(radius),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool shouldReclip(_SheetCornerScrimClipper oldClipper) => false;
+}
+
 class _ExpressionSheetHandle extends StatelessWidget {
   const _ExpressionSheetHandle();
 
   @override
   Widget build(BuildContext context) {
-    return Align(
+    return const Align(
       alignment: Alignment.topCenter,
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: kInlineExpressionPanelDragHandleTop,
-        ),
-        child: Container(
-          width: kInlineExpressionPanelDragHandleWidth,
-          height: kInlineExpressionPanelDragHandleThickness,
-          decoration: BoxDecoration(
-            color: context.colors.textTertiarySecondary,
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
+        padding: EdgeInsets.only(top: kFluxerSheetHandleTop),
+        child: FluxerSheetHandleBar(),
       ),
     );
   }

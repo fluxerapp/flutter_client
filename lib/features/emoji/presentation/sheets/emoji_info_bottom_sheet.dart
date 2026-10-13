@@ -34,7 +34,6 @@ class EmojiInfoBottomSheet {
     FluxerHaptics.medium();
     return FluxerBottomSheet.show<void>(
       context,
-      showDragHandle: false,
       barrierColor: kEmojiInfoScrimColor,
       builder: (sheetContext, close) {
         return _EmojiInfoBottomSheetContent(emoji: emoji);
@@ -104,7 +103,6 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const FluxerBottomSheetEdgeHandle(height: 52),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

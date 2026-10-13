@@ -19,6 +19,7 @@ class EmojiSearchBar extends StatelessWidget {
     required this.onSkinToneChanged,
     this.hoveredEmojiName,
     this.horizontalPadding = 12.0,
+    this.topPadding = 8,
     this.focusNode,
     this.onActivated,
     this.autofocus = false,
@@ -36,6 +37,7 @@ class EmojiSearchBar extends StatelessWidget {
   final FocusNode? focusNode;
 
   final double horizontalPadding;
+  final double topPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class EmojiSearchBar extends StatelessWidget {
               hintText: hintText,
               horizontalPadding: horizontalPadding,
               rightPadding: showSkinTone ? 0 : horizontalPadding,
-              topPadding: 8,
+              topPadding: topPadding,
               bottomPadding: 4,
               focusNode: focusNode,
               onActivated: onActivated,

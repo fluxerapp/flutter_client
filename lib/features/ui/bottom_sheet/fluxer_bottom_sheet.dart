@@ -868,10 +868,12 @@ class _FluxerBottomSheetInsetChild extends StatelessWidget {
   }
 }
 
-const double _kDragHandleTop = 8;
-const double _kDragHandleGap = 18;
-const double _kDragHandleWidth = 36;
-const double _kDragHandleThickness = 4;
+const double kFluxerSheetHandleTop = 8;
+const double kFluxerSheetHandleGap = 18;
+const double kFluxerSheetHandleWidth = 36;
+const double kFluxerSheetHandleThickness = 4;
+const double kFluxerSheetHandleHeight =
+    kFluxerSheetHandleTop + kFluxerSheetHandleThickness + kFluxerSheetHandleGap;
 
 const double _kSheetSizeEpsilon = 0.001;
 
@@ -1267,28 +1269,6 @@ class _FluxerBottomSheetDragAreaState extends State<FluxerBottomSheetDragArea> {
   }
 }
 
-class FluxerBottomSheetEdgeHandle extends StatelessWidget {
-  const FluxerBottomSheetEdgeHandle({required this.height, super.key});
-
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return FluxerBottomSheetDragArea(
-      child: SizedBox(
-        height: height,
-        child: const Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: EdgeInsets.only(top: _kDragHandleTop),
-            child: _FluxerSheetHandleBar(),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class FluxerBottomSheetDragHandle extends StatelessWidget {
   const FluxerBottomSheetDragHandle({super.key, this.onDismiss});
 
@@ -1299,12 +1279,12 @@ class FluxerBottomSheetDragHandle extends StatelessWidget {
     return FluxerBottomSheetDragArea(
       onDismiss: onDismiss,
       child: const SizedBox(
-        height: _kDragHandleTop + _kDragHandleThickness + _kDragHandleGap,
+        height: kFluxerSheetHandleHeight,
         child: Align(
           alignment: Alignment.topCenter,
           child: Padding(
-            padding: EdgeInsets.only(top: _kDragHandleTop),
-            child: _FluxerSheetHandleBar(),
+            padding: EdgeInsets.only(top: kFluxerSheetHandleTop),
+            child: FluxerSheetHandleBar(),
           ),
         ),
       ),
@@ -1312,17 +1292,17 @@ class FluxerBottomSheetDragHandle extends StatelessWidget {
   }
 }
 
-class _FluxerSheetHandleBar extends StatelessWidget {
-  const _FluxerSheetHandleBar();
+class FluxerSheetHandleBar extends StatelessWidget {
+  const FluxerSheetHandleBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: _kDragHandleWidth,
-      height: _kDragHandleThickness,
+      width: kFluxerSheetHandleWidth,
+      height: kFluxerSheetHandleThickness,
       decoration: BoxDecoration(
         color: context.colors.backgroundModifierAccent,
-        borderRadius: BorderRadius.circular(_kDragHandleThickness / 2),
+        borderRadius: BorderRadius.circular(kFluxerSheetHandleThickness / 2),
       ),
     );
   }

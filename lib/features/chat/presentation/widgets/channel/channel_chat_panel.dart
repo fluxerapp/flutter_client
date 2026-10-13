@@ -230,7 +230,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                     anchoredKeyboardHeight: panelMetrics.anchoredKeyboardHeight,
                     fallbackHeight: panelMetrics.fallbackKeyboardHeight,
                   );
-              dragHandleHeight = inlineExpressionPanelDragHandleHeight();
+              dragHandleHeight = kFluxerSheetHandleHeight;
               final double reservedHeight = resolvePanelReservedLayoutHeight(
                 slotHeight: slotHeight,
                 netAnchorHeight: panelAnchorHeight,

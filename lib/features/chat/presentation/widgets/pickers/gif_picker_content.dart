@@ -517,7 +517,6 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     unawaited(
       FluxerBottomSheet.show<void>(
         context,
-        showDragHandle: false,
         builder: (sheetContext, close) => _GifActionsSheet(
           gif: gif,
           isFavorite: favoriteLookup.isFavorite(gif),
@@ -1641,7 +1640,6 @@ class _GifActionsSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const FluxerBottomSheetEdgeHandle(height: 31),
           ConstrainedBox(
             constraints: BoxConstraints(maxHeight: maxPreviewHeight),
             child: AspectRatio(
