@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_note_edit_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_account_switch_card.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_action_card_row.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_bio_card.dart';
@@ -606,6 +607,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       openProfileSection: true,
                     ),
                   ),
+                  if (widget.useCurrentUserCache) ...[
+                    SizedBox(height: layout.s3),
+                    const UserProfileAccountSwitchCard(),
+                  ],
                   SizedBox(height: layout.s4),
                   UserProfileBioCard(
                     bio: bio,
