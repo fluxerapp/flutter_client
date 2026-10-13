@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/members/domain/member_role_management.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/user_profile_roles_section.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/status_change_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_note_edit_sheet.dart';
@@ -112,6 +113,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
   void _openProfileTabMenu() {
     FluxerHaptics.medium();
     unawaited(ProfileTabMenuSheet.show(context, ref));
+  }
+
+  void _openStatusSheet() {
+    FluxerHaptics.medium();
+    unawaited(StatusChangeSheet.show(context));
   }
 
   Future<void> _handleMessage(
@@ -414,7 +420,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       avatarColor: avatarColor,
                       showStatus: !isWebhook,
                       onTap: widget.useCurrentUserCache
-                          ? _openProfileTabMenu
+                          ? _openStatusSheet
                           : null,
                     ),
                   ),

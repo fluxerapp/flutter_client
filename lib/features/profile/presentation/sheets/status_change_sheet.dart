@@ -10,7 +10,9 @@ import 'package:fluxer_app/features/profile/providers/user_settings_status_provi
 import 'package:fluxer_app/features/profile/providers/user_status_service.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
@@ -56,45 +58,24 @@ class StatusChangeSheetBody extends ConsumerStatefulWidget {
 
 class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
   PresenceStatus? _expandedStatus;
-  bool _isSaving = false;
 
-  Future<void> _selectPresence(
-    PresenceStatus status, {
-    Duration? duration,
-  }) async {
-    if (_isSaving) {
-      return;
-    }
-    setState(() => _isSaving = true);
-    try {
-      await ref
-          .read(userStatusServiceProvider)
-          .setPresenceStatus(status: status, duration: duration);
-      if (mounted) {
-        widget.onClose();
-      }
-    } on Object {
-      if (mounted) {
-        setState(() => _isSaving = false);
-      }
-    }
+  void _selectPresence(PresenceStatus status, {Duration? duration}) {
+    final UserStatusService service = ref.read(userStatusServiceProvider);
+    widget.onClose();
+    unawaited(
+      service
+          .setPresenceStatus(status: status, duration: duration)
+          .catchError((Object _) {}),
+    );
   }
 
-  Future<void> _clearCustomStatus() async {
-    if (_isSaving) {
-      return;
-    }
-    setState(() => _isSaving = true);
-    try {
-      await ref.read(userStatusServiceProvider).clearCustomStatus();
-      if (mounted) {
-        setState(() => _isSaving = false);
-      }
-    } on Object {
-      if (mounted) {
-        setState(() => _isSaving = false);
-      }
-    }
+  void _clearCustomStatus() {
+    unawaited(
+      ref
+          .read(userStatusServiceProvider)
+          .clearCustomStatus()
+          .catchError((Object _) {}),
+    );
   }
 
   Future<void> _openCustomStatusEditor(CustomStatusResponse? existing) async {
@@ -128,35 +109,32 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
       includeDeveloperOptions: includeDeveloperOptions,
     );
 
-    return AbsorbPointer(
-      absorbing: _isSaving,
-      child: AnimatedOpacity(
-        opacity: _isSaving ? 0.6 : 1.0,
-        duration: context.motion.fast,
-        child: FluxerBottomSheetGroupColumn(
-          children: [
-            _buildCustomStatusSection(l10n, customStatus),
-            FluxerBottomSheetSection(
-              title: l10n.statusOnlineStatusSection,
-              padding: EdgeInsets.zero,
-              child: FluxerMenuGroup(
-                children: [
-                  for (final PresenceStatus status
-                      in kSelectablePresenceStatuses)
-                    _ExpandableStatusMenuItem(
-                      status: status,
-                      currentStatus: currentStatus,
-                      expiryPresets: expiryPresets,
-                      isExpanded: _expandedStatus == status,
-                      onToggleExpanded: () => _toggleExpandedStatus(status),
-                      onSelectPresence: _selectPresence,
-                    ),
-                ],
-              ),
-            ),
-          ],
+    return FluxerBottomSheetGroupColumn(
+      children: [
+        AnimatedSize(
+          duration: _kStatusCollapseDuration,
+          curve: Curves.easeInOutCubic,
+          alignment: Alignment.topCenter,
+          child: _buildCustomStatusSection(l10n, customStatus),
         ),
-      ),
+        FluxerBottomSheetSection(
+          title: l10n.statusOnlineStatusSection,
+          padding: EdgeInsets.zero,
+          child: FluxerMenuGroup(
+            children: [
+              for (final PresenceStatus status in kSelectablePresenceStatuses)
+                _ExpandableStatusMenuItem(
+                  status: status,
+                  currentStatus: currentStatus,
+                  expiryPresets: expiryPresets,
+                  isExpanded: _expandedStatus == status,
+                  onToggleExpanded: () => _toggleExpandedStatus(status),
+                  onSelectPresence: _selectPresence,
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -190,7 +168,7 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
         FluxerBottomSheetMenuItem(
           label: l10n.customStatusClear,
           icon: PhosphorIconsBold.x,
-          onTap: () => unawaited(_clearCustomStatus()),
+          onTap: _clearCustomStatus,
         ),
       ],
     );
@@ -214,7 +192,11 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
   }
 }
 
-class _ExpandableStatusMenuItem extends StatelessWidget {
+const Duration _kStatusRevealDuration = Duration(milliseconds: 300);
+const Duration _kStatusCollapseDuration = Duration(milliseconds: 220);
+const double _kStatusOptionInset = 48;
+
+class _ExpandableStatusMenuItem extends StatefulWidget {
   const _ExpandableStatusMenuItem({
     required this.status,
     required this.currentStatus,
@@ -229,14 +211,65 @@ class _ExpandableStatusMenuItem extends StatelessWidget {
   final List<TimeWindowPreset> expiryPresets;
   final bool isExpanded;
   final VoidCallback onToggleExpanded;
-  final Future<void> Function(PresenceStatus status, {Duration? duration})
+  final void Function(PresenceStatus status, {Duration? duration})
   onSelectPresence;
+
+  @override
+  State<_ExpandableStatusMenuItem> createState() =>
+      _ExpandableStatusMenuItemState();
+}
+
+class _ExpandableStatusMenuItemState extends State<_ExpandableStatusMenuItem>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: _kStatusRevealDuration,
+    reverseDuration: _kStatusCollapseDuration,
+    value: widget.isExpanded ? 1 : 0,
+  );
+  late final CurvedAnimation _size = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOutCubic,
+    reverseCurve: Curves.easeInOutCubic,
+  );
+  late final CurvedAnimation _fade = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.2, 1, curve: Curves.easeOut),
+    reverseCurve: const Interval(0.4, 1, curve: Curves.easeIn),
+  );
+
+  @override
+  void didUpdateWidget(covariant _ExpandableStatusMenuItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isExpanded == widget.isExpanded) {
+      return;
+    }
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _controller.value = widget.isExpanded ? 1 : 0;
+      return;
+    }
+    if (widget.isExpanded) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _size.dispose();
+    _fade.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+    final PresenceStatus status = widget.status;
     final String statusValue = status.json ?? 'online';
-    final bool isSelected = currentStatus == statusValue;
+    final bool isSelected = widget.currentStatus == statusValue;
     final String? description = presenceStatusDescription(statusValue, l10n);
     final bool hasExpiryOptions = status != PresenceStatus.online;
 
@@ -247,51 +280,97 @@ class _ExpandableStatusMenuItem extends StatelessWidget {
           label: presenceStatusLabel(statusValue, l10n),
           hint: description,
           leading: FluxerStatusIndicator(status: statusValue, size: 14),
-          isSelected: isSelected && !isExpanded,
+          isSelected: isSelected,
           trailing: hasExpiryOptions
-              ? AnimatedRotation(
-                  turns: isExpanded ? 0.25 : 0,
-                  duration: context.motion.normal,
-                  curve: context.motion.curve,
-                  child: PhosphorIcon(
-                    PhosphorIconsBold.caretRight,
-                    size: 20,
-                    color: context.colors.textPrimaryMuted,
-                  ),
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isSelected) ...[
+                      const FluxerSelectedCheck(),
+                      const SizedBox(width: 12),
+                    ],
+                    RotationTransition(
+                      turns: Tween<double>(begin: 0, end: 0.25).animate(_size),
+                      child: PhosphorIcon(
+                        PhosphorIconsBold.caretRight,
+                        size: 16,
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                  ],
                 )
               : null,
           onTap: () {
             if (!hasExpiryOptions) {
-              unawaited(onSelectPresence(status));
+              widget.onSelectPresence(status);
               return;
             }
-            onToggleExpanded();
+            widget.onToggleExpanded();
           },
         ),
         if (hasExpiryOptions)
-          AnimatedSize(
-            duration: context.motion.normal,
-            curve: context.motion.curve,
-            alignment: Alignment.topCenter,
-            child: isExpanded
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      for (final TimeWindowPreset preset in expiryPresets)
-                        FluxerBottomSheetMenuItem(
-                          label: statusExpiryLabel(preset.key, l10n),
-                          onTap: () => unawaited(
-                            onSelectPresence(
-                              status,
-                              duration: minutesToDuration(preset.minutes),
-                            ),
-                          ),
-                        ),
-                    ],
-                  )
-                : const SizedBox(width: double.infinity),
+          SizeTransition(
+            sizeFactor: _size,
+            alignment: AlignmentDirectional.topStart,
+            child: FadeTransition(
+              opacity: _fade,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (final TimeWindowPreset preset in widget.expiryPresets)
+                    _StatusExpiryOption(
+                      label: statusExpiryLabel(preset.key, l10n),
+                      onTap: () => widget.onSelectPresence(
+                        status,
+                        duration: minutesToDuration(preset.minutes),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
       ],
+    );
+  }
+}
+
+class _StatusExpiryOption extends StatelessWidget {
+  const _StatusExpiryOption({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return FluxerTappable(
+      onTap: onTap,
+      semanticLabel: label,
+      excludeChildSemantics: true,
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final bool isPressed = states.contains(WidgetState.pressed);
+        return ColoredBox(
+          color: isPressed ? colors.listItemPressedBg : Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsetsDirectional.only(
+              start: _kStatusOptionInset,
+              end: 16,
+            ),
+            child: SizedBox(
+              height: 44,
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  label,
+                  style: context.textStyles.bodyMedium.copyWith(
+                    color: colors.textSecondary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

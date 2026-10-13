@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/auth/presentation/sheets/account_picker_overlay.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/account_switcher_sheet.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/profile/domain/presence_status_labels.dart';
@@ -23,7 +22,7 @@ class ProfileTabMenuSheet {
     unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());
 
     if (!isDesktopLayout(context)) {
-      unawaited(AccountPickerOverlay.show(context));
+      await AccountSwitcherSheet.show(context);
       return;
     }
 

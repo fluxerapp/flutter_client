@@ -7,11 +7,14 @@ import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/domain/time_window_presets.dart';
 import 'package:fluxer_app/features/profile/providers/user_status_service.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
+import 'package:fluxer_app/features/ui/fullscreen_flow/fluxer_fullscreen_flow.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
@@ -28,6 +31,17 @@ class CustomStatusSheet {
     required CustomStatusResponse? existing,
     VoidCallback? onSaved,
   }) {
+    if (!isDesktopLayout(context)) {
+      return FluxerFullscreenFlow.show<void>(
+        context,
+        builder: (BuildContext pageContext) => CustomStatusSheetBody(
+          existing: existing,
+          fullscreen: true,
+          onClose: () => Navigator.of(pageContext).pop(),
+          onSaved: onSaved,
+        ),
+      );
+    }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return FluxerBottomSheet.show<void>(
       context,
@@ -52,12 +66,14 @@ class CustomStatusSheetBody extends ConsumerStatefulWidget {
     required this.existing,
     required this.onClose,
     this.onSaved,
+    this.fullscreen = false,
     super.key,
   });
 
   final CustomStatusResponse? existing;
   final VoidCallback onClose;
   final VoidCallback? onSaved;
+  final bool fullscreen;
 
   @override
   ConsumerState<CustomStatusSheetBody> createState() =>
@@ -70,7 +86,6 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
   String? _emojiName;
   bool _emojiAnimated = false;
   late TimeWindowKey _selectedExpiry;
-  bool _isSaving = false;
 
   @override
   void initState() {
@@ -116,18 +131,16 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
     );
   }
 
-  Future<void> _save() async {
-    if (_isSaving) {
-      return;
-    }
-    setState(() => _isSaving = true);
-    final bool includeDeveloperOptions = ref
-        .read(userSettingsViewModelProvider)
-        .developerMode;
-    final List<TimeWindowPreset> presets = getTimeWindowPresets(
-      includeDeveloperOptions: includeDeveloperOptions,
+  List<TimeWindowPreset> _presets() {
+    return getTimeWindowPresets(
+      includeDeveloperOptions: ref
+          .read(userSettingsViewModelProvider)
+          .developerMode,
     );
-    final TimeWindowPreset selectedPreset = presets.firstWhere(
+  }
+
+  void _save() {
+    final TimeWindowPreset selectedPreset = _presets().firstWhere(
       (TimeWindowPreset preset) => preset.key == _selectedExpiry,
     );
     final DateTime? expiresAt = selectedPreset.minutes == null
@@ -141,27 +154,24 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
       emojiName: _emojiName,
       expiresAt: expiresAt,
     );
-    try {
-      await ref.read(userStatusServiceProvider).setCustomStatus(payload);
-      widget.onSaved?.call();
-      if (mounted) {
-        widget.onClose();
-      }
-    } on Object {
-      if (mounted) {
-        setState(() => _isSaving = false);
-      }
-    }
+    final UserStatusService service = ref.read(userStatusServiceProvider);
+    widget.onClose();
+    widget.onSaved?.call();
+    unawaited(service.setCustomStatus(payload).catchError((Object _) {}));
+  }
+
+  void _clearInput() {
+    setState(() {
+      _textController.clear();
+      _emojiId = null;
+      _emojiName = null;
+      _emojiAnimated = false;
+    });
   }
 
   Future<void> _showExpiryPicker() async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool includeDeveloperOptions = ref
-        .read(userSettingsViewModelProvider)
-        .developerMode;
-    final List<TimeWindowPreset> presets = getTimeWindowPresets(
-      includeDeveloperOptions: includeDeveloperOptions,
-    );
+    final List<TimeWindowPreset> presets = _presets();
     final TimeWindowKey? picked = await FluxerBottomSheet.show<TimeWindowKey>(
       context,
       title: l10n.customStatusClearAfter,
@@ -196,46 +206,155 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.fullscreen) {
+      return _buildPage(context);
+    }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
-    return AbsorbPointer(
-      absorbing: _isSaving,
-      child: AnimatedOpacity(
-        opacity: _isSaving ? 0.6 : 1.0,
-        duration: context.motion.fast,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            _buildEmojiPickerButton(l10n),
+            SizedBox(width: layout.s3),
+            Expanded(
+              child: FluxerInput(
+                controller: _textController,
+                textCapitalization: TextCapitalization.sentences,
+                hint: l10n.customStatusPlaceholder,
+                maxLength: kCustomStatusTextLimit,
+                onChanged: (_) => setState(() {}),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: layout.s3),
+        FluxerBottomSheetSubmenuItem(
+          label: l10n.customStatusClearAfter,
+          hint: customStatusExpiryLabel(_selectedExpiry, l10n),
+          onTap: _showExpiryPicker,
+        ),
+        SizedBox(height: layout.s4),
+        FluxerButton.primary(onPressed: _save, label: l10n.customStatusSave),
+      ],
+    );
+  }
+
+  Widget _buildPage(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+    final layout = context.layout;
+    final bool hasContent =
+        _textController.text.isNotEmpty || _buildEmojiPreview() != null;
+    return FluxerPushPage(
+      title: l10n.customStatusSetTitle,
+      closes: true,
+      trailing: FluxerPushPageAction(
+        label: l10n.customStatusSave,
+        onPressed: _save,
+      ),
+      body: ListView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        padding: EdgeInsets.fromLTRB(
+          16,
+          8,
+          16,
+          16 + MediaQuery.paddingOf(context).bottom,
+        ),
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.backgroundSecondaryAlt,
+              borderRadius: layout.radiusXxl,
+            ),
+            child: Row(
               children: [
-                _buildEmojiPickerButton(l10n),
-                SizedBox(width: layout.s3),
+                FluxerTappable(
+                  onTap: () => unawaited(_pickEmoji()),
+                  semanticLabel: l10n.customStatusChooseEmoji,
+                  builder: (BuildContext context, Set<WidgetState> states) {
+                    return SizedBox(
+                      width: 52,
+                      height: 52,
+                      child: Center(
+                        child:
+                            _buildEmojiPreview() ??
+                            PhosphorIcon(
+                              PhosphorIconsFill.smiley,
+                              size: 24,
+                              color: colors.textSecondary,
+                            ),
+                      ),
+                    );
+                  },
+                ),
                 Expanded(
-                  child: FluxerInput(
+                  child: TextField(
                     controller: _textController,
+                    autofocus: true,
                     textCapitalization: TextCapitalization.sentences,
-                    hint: l10n.customStatusPlaceholder,
                     maxLength: kCustomStatusTextLimit,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => _save(),
                     onChanged: (_) => setState(() {}),
+                    style: context.textStyles.bodyMedium.copyWith(
+                      fontSize: 16,
+                      color: colors.textPrimary,
+                    ),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      filled: false,
+                      counterText: '',
+                      contentPadding: EdgeInsets.zero,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      hintText: l10n.customStatusPlaceholder,
+                      hintStyle: context.textStyles.bodyMedium.copyWith(
+                        fontSize: 16,
+                        color: colors.textTertiary,
+                      ),
+                    ),
+                  ),
+                ),
+                AnimatedOpacity(
+                  opacity: hasContent ? 1 : 0,
+                  duration: context.motion.fast,
+                  child: IgnorePointer(
+                    ignoring: !hasContent,
+                    child: IconButton(
+                      onPressed: _clearInput,
+                      tooltip: l10n.customStatusClear,
+                      icon: PhosphorIcon(
+                        PhosphorIconsFill.xCircle,
+                        size: 20,
+                        color: colors.textTertiary,
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: layout.s3),
-            FluxerBottomSheetSubmenuItem(
-              label: l10n.customStatusClearAfter,
-              hint: customStatusExpiryLabel(_selectedExpiry, l10n),
-              onTap: _showExpiryPicker,
+          ),
+          const SizedBox(height: 24),
+          FluxerBottomSheetSection(
+            title: l10n.customStatusClearAfter,
+            padding: EdgeInsets.zero,
+            child: FluxerMenuGroup(
+              children: [
+                for (final TimeWindowPreset preset in _presets())
+                  FluxerBottomSheetMenuItem(
+                    label: customStatusExpiryLabel(preset.key, l10n),
+                    isSelected: preset.key == _selectedExpiry,
+                    onTap: () => setState(() => _selectedExpiry = preset.key),
+                  ),
+              ],
             ),
-            SizedBox(height: layout.s4),
-            FluxerButton.primary(
-              onPressed: _save,
-              label: l10n.customStatusSave,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

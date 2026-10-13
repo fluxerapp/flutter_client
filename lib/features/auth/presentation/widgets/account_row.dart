@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -98,16 +99,12 @@ class AccountRow extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            PhosphorIconsFill.checkCircle,
-                            size: 12,
-                            color: colors.textPositive,
-                          ),
+                          const FluxerSelectedCheck(size: 14),
                           SizedBox(width: layout.s1),
                           Text(
                             l10n.accountActive,
                             style: textStyles.bodySmall.copyWith(
-                              color: colors.textPositive,
+                              color: colors.textSecondary,
                             ),
                           ),
                         ],
@@ -115,7 +112,7 @@ class AccountRow extends StatelessWidget {
                   ],
                 ),
               ),
-              _MenuButton(l10n: l10n, onSignOut: onSignOut),
+              AccountOverflowButton(onSignOut: onSignOut),
             ],
           ),
         );
@@ -124,16 +121,16 @@ class AccountRow extends StatelessWidget {
   }
 }
 
-class _MenuButton extends StatelessWidget {
-  const _MenuButton({required this.l10n, required this.onSignOut});
+class AccountOverflowButton extends StatelessWidget {
+  const AccountOverflowButton({required this.onSignOut, super.key});
 
-  final FluxerLocalizations l10n;
   final VoidCallback onSignOut;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
+    final l10n = FluxerLocalizations.of(context);
 
     return FluxerTappable(
       semanticLabel: l10n.accountOverflowMenu,

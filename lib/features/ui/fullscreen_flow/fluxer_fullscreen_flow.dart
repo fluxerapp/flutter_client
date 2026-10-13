@@ -29,9 +29,11 @@ class FluxerFullscreenFlow {
       fullscreenDialog: fullscreenDialog,
       builder: builder,
     );
-    return Navigator.of(context, rootNavigator: true).push<T>(route).whenComplete(
-      () => container.read(obscuringOverlayTrackerProvider.notifier).pop(),
-    );
+    return Navigator.of(context, rootNavigator: true)
+        .push<T>(route)
+        .whenComplete(
+          () => container.read(obscuringOverlayTrackerProvider.notifier).pop(),
+        );
   }
 }
 
