@@ -213,9 +213,11 @@ class ExpandableSheetDragHandlers {
     required this.onVerticalDragUpdate,
     required this.onVerticalDragEnd,
     this.onVerticalDragStart,
+    this.expand,
   });
 
   final GestureDragStartCallback? onVerticalDragStart;
+  final VoidCallback? expand;
   final GestureDragUpdateCallback onVerticalDragUpdate;
   final GestureDragEndCallback onVerticalDragEnd;
 

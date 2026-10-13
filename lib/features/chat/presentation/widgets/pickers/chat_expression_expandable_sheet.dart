@@ -231,7 +231,16 @@ class ChatExpressionExpandableSheetState
       onVerticalDragStart: _onHeaderDragStart,
       onVerticalDragUpdate: _onHeaderDragUpdate,
       onVerticalDragEnd: _onHeaderDragEnd,
+      expand: _expandForBrowse,
     );
+  }
+
+  void _expandForBrowse() {
+    _refreshExpandedHeight();
+    if (_isExpanded) {
+      return;
+    }
+    _snapToHeight(_expandedHeightCache);
   }
 
   void _refreshExpandedHeight() {

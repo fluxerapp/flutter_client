@@ -224,6 +224,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       _debouncedQuery = limited.trim();
       _view = _GifPickerView.landing;
     });
+    widget.sheetDragHandlers?.expand?.call();
   }
 
   void _showTrending() {
@@ -233,6 +234,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       _debouncedQuery = '';
       _view = _GifPickerView.trending;
     });
+    widget.sheetDragHandlers?.expand?.call();
   }
 
   void _goToLanding() {
@@ -263,6 +265,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       _debouncedQuery = '';
       _view = _GifPickerView.favorites;
     });
+    widget.sheetDragHandlers?.expand?.call();
   }
 
   @override
