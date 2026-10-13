@@ -218,7 +218,8 @@ void main() {
                       builder: (BuildContext context, BoxConstraints _) {
                         return FluxerMarkdown(
                           astParser: parseTestMarkdownAst,
-                          data: 'party <a:party:11111111111111111${markdownContext.index}> time',
+                          data:
+                              'party <a:party:11111111111111111${markdownContext.index}> time',
                           context: markdownContext,
                           baseStyle: const TextStyle(fontSize: 14),
                           config: FluxerMarkdownConfig(
