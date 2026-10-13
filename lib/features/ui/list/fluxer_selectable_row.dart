@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -59,7 +60,7 @@ class _FluxerSelectableRowState extends State<FluxerSelectableRow> {
         : (_pressed || widget.isActive)
         ? context.colors.listItemPressedBg
         : null;
-    final Color? borderColor = widget.isSelected
+    final Color? borderColor = widget.isSelected && !isFluxerMobileOs
         ? widget.selectedBorderColor
         : null;
     final Widget row = Padding(

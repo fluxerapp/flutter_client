@@ -594,7 +594,6 @@ class _MembersFilterPill extends StatelessWidget {
     final background = isActive
         ? colors.brandPrimary
         : FluxerBottomSheet.cardColorOf(context);
-    final borderColor = isActive ? colors.brandPrimary : colors.borderColor;
     final labelColor = isActive ? Colors.white : colors.textSecondary;
 
     final Widget chip = Material(
@@ -604,10 +603,6 @@ class _MembersFilterPill extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor),
-            borderRadius: BorderRadius.circular(20),
-          ),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           alignment: Alignment.center,
           child: Text(

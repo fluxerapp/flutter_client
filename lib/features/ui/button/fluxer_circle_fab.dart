@@ -36,11 +36,9 @@ class FluxerCircleFab extends StatelessWidget {
           decoration: BoxDecoration(
             color: isHovered ? colors.brandSecondary : colors.brandPrimary,
             shape: BoxShape.circle,
-            border: Border.all(
-              color: FluxerButtonVariant.primary.borderColor(
-                colors,
-                hovered: isHovered,
-              )!,
+            border: FluxerButtonVariant.primary.border(
+              colors,
+              hovered: isHovered,
             ),
             boxShadow: const <BoxShadow>[
               BoxShadow(

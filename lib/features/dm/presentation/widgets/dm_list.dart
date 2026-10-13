@@ -491,11 +491,9 @@ class _DMListState extends ConsumerState<DMList> {
                 ? colors.backgroundSecondaryAlt
                 : colors.guildListForeground,
             borderRadius: borderRadius,
-            border: Border.all(
-              color: FluxerButtonVariant.secondary.borderColor(
-                colors,
-                hovered: isHovered,
-              )!,
+            border: FluxerButtonVariant.secondary.border(
+              colors,
+              hovered: isHovered,
             ),
           ),
           alignment: width != null || height != null ? Alignment.center : null,

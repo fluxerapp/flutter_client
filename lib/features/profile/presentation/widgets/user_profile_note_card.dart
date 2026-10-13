@@ -70,9 +70,7 @@ class UserProfileNoteCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.backgroundTertiary,
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: FluxerButtonVariant.secondary.borderColor(colors)!,
-                  ),
+                  border: FluxerButtonVariant.secondary.border(colors),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(layout.s2),

@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -46,7 +47,10 @@ class AddGuildActionButton extends StatelessWidget {
                   ? colors.backgroundSecondaryAlt
                   : colors.backgroundSecondary,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: colors.backgroundModifierAccent),
+              border: FluxerButtonVariant.secondary.border(
+                colors,
+                hovered: isHovered,
+              ),
             ),
             child: isRowLayout
                 ? Row(

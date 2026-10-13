@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
@@ -405,7 +406,7 @@ class _FluxerButtonState extends State<FluxerButton> {
 
   Color? _resolveBorderColor(FluxerColorTheme colors, {required bool hovered}) {
     if (widget._isMediaOverlayStyle) {
-      return colors.backgroundModifierAccent;
+      return isFluxerMobileOs ? null : colors.backgroundModifierAccent;
     }
     return widget._variant.borderColor(colors, hovered: hovered);
   }

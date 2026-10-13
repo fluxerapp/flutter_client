@@ -436,8 +436,7 @@ class _ChannelFilterRow extends StatelessWidget {
     final accent = colors.brandPrimaryLight;
     final background = isSelected
         ? accent.withValues(alpha: 0.10)
-        : Colors.transparent;
-    final borderColor = isSelected ? accent : colors.borderColor;
+        : FluxerBottomSheet.cardColorOf(context);
 
     return Material(
       color: background,
@@ -445,11 +444,7 @@ class _ChannelFilterRow extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor),
-            borderRadius: BorderRadius.circular(12),
-          ),
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
             children: [

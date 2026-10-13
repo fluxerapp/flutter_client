@@ -751,12 +751,6 @@ class _DeviceActionButtonState extends State<_DeviceActionButton> {
                       : (hovered || pressed)
                       ? colors.textPrimary
                       : colors.textTertiary;
-                  final Color borderColor =
-                      FluxerButtonVariant.secondary.borderColor(
-                        colors,
-                        hovered: hovered,
-                      ) ??
-                      colors.backgroundModifierAccent;
                   return Container(
                     width: _kDeviceActionSize,
                     height: _kDeviceActionSize,
@@ -764,7 +758,10 @@ class _DeviceActionButtonState extends State<_DeviceActionButton> {
                     decoration: BoxDecoration(
                       color: background,
                       borderRadius: radius,
-                      border: Border.all(color: borderColor),
+                      border: FluxerButtonVariant.secondary.border(
+                        colors,
+                        hovered: hovered,
+                      ),
                     ),
                     child: PhosphorIcon(
                       widget.icon,

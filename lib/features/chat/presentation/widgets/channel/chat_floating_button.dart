@@ -1,5 +1,4 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -42,9 +41,6 @@ class ChatFloatingButton extends StatelessWidget {
                 shape: RoundedSuperellipseBorder(
                   borderRadius: BorderRadius.circular(
                     kChatFloatingButtonRadius,
-                  ),
-                  side: BorderSide(
-                    color: wideComposerRingColor(context, focused: false),
                   ),
                 ),
               ),

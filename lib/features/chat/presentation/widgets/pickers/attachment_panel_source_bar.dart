@@ -23,7 +23,6 @@ class AttachmentPanelSourceBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colors.backgroundFloating,
         borderRadius: layout.radiusFull,
-        border: Border.all(color: const Color(0x14FFFFFF)),
         boxShadow: const <BoxShadow>[
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.18),

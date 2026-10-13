@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel_permission_overwrite_update.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -34,7 +35,7 @@ class PermissionStateButtons extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: surfaceColor,
-        border: Border.all(color: borderColor),
+        border: FluxerButtonVariant.secondary.border(context.colors),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

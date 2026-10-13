@@ -23,7 +23,6 @@ class _SearchFilterChip extends StatelessWidget {
     final background = isActive
         ? colors.brandPrimary
         : colors.backgroundSecondaryAlt;
-    final borderColor = isActive ? colors.brandPrimary : colors.borderColor;
     final labelColor = isActive ? Colors.white : colors.textSecondary;
     final valueColor = isActive ? Colors.white : colors.textPrimary;
     final iconColor = isActive ? Colors.white : colors.textSecondary;
@@ -34,11 +33,7 @@ class _SearchFilterChip extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor),
-            borderRadius: BorderRadius.circular(20),
-          ),
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           child: Row(
             mainAxisSize: MainAxisSize.min,

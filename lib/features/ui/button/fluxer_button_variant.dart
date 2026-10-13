@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -42,6 +43,8 @@ enum FluxerButtonVariant {
 
   Color? borderColor(FluxerColorTheme colors, {bool hovered = false}) =>
       switch (this) {
+        invertedOutline => colors.buttonOutlineBorder,
+        _ when isFluxerMobileOs => null,
         primary => Color.lerp(
           Colors.white,
           hovered ? colors.brandSecondary : colors.brandPrimary,
@@ -55,7 +58,11 @@ enum FluxerButtonVariant {
                   0.88,
                 )
               : colors.backgroundModifierAccent,
-        invertedOutline => colors.buttonOutlineBorder,
         _ => null,
       };
+
+  Border? border(FluxerColorTheme colors, {bool hovered = false}) {
+    final Color? color = borderColor(colors, hovered: hovered);
+    return color == null ? null : Border.all(color: color);
+  }
 }

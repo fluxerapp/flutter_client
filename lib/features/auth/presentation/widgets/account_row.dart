@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -47,7 +48,7 @@ class AccountRow extends StatelessWidget {
                 ? colors.backgroundTertiary
                 : colors.backgroundSecondary,
             borderRadius: layout.radiusMd,
-            border: Border.all(color: colors.borderColor),
+            border: FluxerButtonVariant.secondary.border(colors),
           ),
           child: Row(
             children: [
