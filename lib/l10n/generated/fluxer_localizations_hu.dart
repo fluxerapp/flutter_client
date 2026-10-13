@@ -7458,6 +7458,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Matricák';
 
   @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
+
+  @override
   String get composerAutocompleteGifsHeading => 'GIF-ek';
 
   @override

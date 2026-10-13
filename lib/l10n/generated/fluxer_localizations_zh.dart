@@ -6970,6 +6970,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => '贴纸';
 
   @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
+
+  @override
   String get composerAutocompleteGifsHeading => 'GIF';
 
   @override

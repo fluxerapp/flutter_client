@@ -8,6 +8,8 @@ import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates;
 
+const double kInlineEmojiLineHeight = 1.375;
+
 final RegExp _customWirePattern = RegExp(r'<(a?):([a-zA-Z0-9_]+):(\d+)>');
 final RegExp _skinToneShortcodePattern = RegExp(
   r':([a-zA-Z0-9_+\-]+)::skin-tone-([1-5]):',
@@ -160,7 +162,7 @@ class _EmojiChip extends StatelessWidget {
   final String wireText;
   final TextStyle? baseStyle;
 
-  double get _size => (baseStyle?.fontSize ?? 16) * 1.5;
+  double get _size => (baseStyle?.fontSize ?? 16) * kInlineEmojiLineHeight;
 
   @override
   Widget build(BuildContext context) {

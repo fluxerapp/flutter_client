@@ -33,32 +33,35 @@ class ChatFloatingButton extends StatelessWidget {
       onTap: isLoading ? null : onTap,
       enabled: onTap != null && !isLoading,
       semanticLabel: semanticLabel,
-      builder: (BuildContext context, Set<WidgetState> states) => SizedBox.square(
-        dimension: kChatFloatingButtonExtent,
-        child: DecoratedBox(
-          decoration: ShapeDecoration(
-            color: colors.backgroundTextarea,
-            shape: RoundedSuperellipseBorder(
-              borderRadius: BorderRadius.circular(kChatFloatingButtonRadius),
-              side: BorderSide(
-                color: wideComposerRingColor(context, focused: false),
+      builder: (BuildContext context, Set<WidgetState> states) =>
+          SizedBox.square(
+            dimension: kChatFloatingButtonExtent,
+            child: DecoratedBox(
+              decoration: ShapeDecoration(
+                color: colors.backgroundTextarea,
+                shape: RoundedSuperellipseBorder(
+                  borderRadius: BorderRadius.circular(
+                    kChatFloatingButtonRadius,
+                  ),
+                  side: BorderSide(
+                    color: wideComposerRingColor(context, focused: false),
+                  ),
+                ),
+              ),
+              child: Center(
+                child: isLoading
+                    ? FluxerLoadingSpinner(
+                        size: FluxerLoadingSpinnerSize.small,
+                        color: colors.textTertiary,
+                      )
+                    : PhosphorIcon(
+                        icon,
+                        size: iconSize,
+                        color: colors.textTertiary,
+                      ),
               ),
             ),
           ),
-          child: Center(
-            child: isLoading
-                ? FluxerLoadingSpinner(
-                    size: FluxerLoadingSpinnerSize.small,
-                    color: colors.textTertiary,
-                  )
-                : PhosphorIcon(
-                    icon,
-                    size: iconSize,
-                    color: colors.textTertiary,
-                  ),
-          ),
-        ),
-      ),
     );
   }
 }

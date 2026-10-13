@@ -177,7 +177,10 @@ InputDecoration _composerTouchInputDecoration({
     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
     border: _composerTouchInputOutlineBorder(context, focused: false),
     enabledBorder: _composerTouchInputOutlineBorder(context, focused: false),
-    focusedBorder: _composerTouchInputOutlineBorder(context, focused: true),
+    focusedBorder: _composerTouchInputOutlineBorder(
+      context,
+      focused: !isFluxerMobileOs,
+    ),
     disabledBorder: _composerTouchInputOutlineBorder(context, focused: false),
     isDense: true,
   );
@@ -1113,7 +1116,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               listenable: _voiceRecording,
               builder: (BuildContext context, Widget? _) {
                 return WideComposerFloatingBox(
-                  focused: _composerFocused,
+                  focused: _composerFocused && !isFluxerMobileOs,
                   clipBehavior: _voiceRecording.isActive
                       ? Clip.none
                       : Clip.antiAlias,
@@ -1696,7 +1699,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           children: <Widget>[
             MobileComposerBar(
               key: const ValueKey<String>('mobile-composer-bar'),
-              focused: _composerFocused,
               header: header,
               child: _voiceComposerMorph(
                 recording: recording,
@@ -1759,16 +1761,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         ),
                       ),
                       Expanded(
-                        child: _buildComposerField(
-                          context: context,
-                          channelId: channelId,
-                          perms: perms,
-                          maxMessageLength: maxMessageLength,
-                          premiumMaxLength: premiumMaxLength,
-                          minLines: 1,
-                          maxLines: MobileComposerLayout.maxLines,
-                          decoration: mobileDecoration,
-                          cursorColor: context.colors.interactiveNormal,
+                        child: MobileComposerTextGrowth(
+                          child: _buildComposerField(
+                            context: context,
+                            channelId: channelId,
+                            perms: perms,
+                            maxMessageLength: maxMessageLength,
+                            premiumMaxLength: premiumMaxLength,
+                            minLines: 1,
+                            maxLines: MobileComposerLayout.maxLines,
+                            decoration: mobileDecoration,
+                            cursorColor: context.colors.interactiveNormal,
+                          ),
                         ),
                       ),
                       const SizedBox(width: MobileComposerLayout.trailingGap),

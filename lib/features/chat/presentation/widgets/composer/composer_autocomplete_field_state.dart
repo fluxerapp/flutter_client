@@ -1126,7 +1126,7 @@ class ComposerAutocompleteFieldState
           ),
         },
     ];
-    _setRows(rows);
+    _setRows(rows, heading: l10n.composerAutocompleteEmojisHeading);
   }
 
   Future<void> _syncCommands(

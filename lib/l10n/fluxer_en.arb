@@ -9378,6 +9378,10 @@
     "@composerAutocompleteStickersHeading": {
         "description": "Section heading in composer autocomplete for stickers."
     },
+    "composerAutocompleteEmojisHeading": "Emojis",
+    "@composerAutocompleteEmojisHeading": {
+        "description": "Section heading in composer autocomplete for emoji suggestions."
+    },
     "composerAutocompleteGifsHeading": "GIFs",
     "@composerAutocompleteGifsHeading": {
         "description": "Heading above GIF autocomplete results."

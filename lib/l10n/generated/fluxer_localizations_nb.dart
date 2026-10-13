@@ -7397,6 +7397,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Klistremerker';
 
   @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
+
+  @override
   String get composerAutocompleteGifsHeading => 'GIF-er';
 
   @override

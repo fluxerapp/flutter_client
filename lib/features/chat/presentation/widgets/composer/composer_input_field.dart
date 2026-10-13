@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/services/composer_mention_controller.da
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_clipboard_paste.dart';
+import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -136,8 +137,9 @@ class ComposerInputField extends ConsumerWidget {
                                     enabled: perms.isComposerEnabled,
                                     style: context.textStyles.inputText,
                                     strutStyle: boundedStrutFor(
-                                      context.textStyles.inputText,
-                                      forceHeight: false,
+                                      context.textStyles.inputText.copyWith(
+                                        height: kInlineEmojiLineHeight,
+                                      ),
                                     ),
                                     minLines: minLines,
                                     maxLines: maxLines,

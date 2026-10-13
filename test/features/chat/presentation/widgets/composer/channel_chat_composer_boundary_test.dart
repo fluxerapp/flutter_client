@@ -65,37 +65,7 @@ void main() {
     });
   });
 
-  testWidgets('ChannelChatComposerBoundary paints the composer fade overlay', (
-    WidgetTester tester,
-  ) async {
-    final FluxerColorTheme colorTheme = buildDarkColorTheme();
-    await tester.pumpWidget(
-      ProviderScope(
-        child: MaterialApp(
-          theme: buildFluxerTheme(
-            colorTheme: colorTheme,
-            textTheme: FluxerTextTheme.fromColors(colorTheme),
-            layoutTheme: FluxerLayoutTheme.scaled(),
-          ),
-          home: const Scaffold(
-            body: SizedBox(
-              height: WideComposerLayout.fadeHeight,
-              width: 400,
-              child: ChannelChatComposerBoundary(
-                leadingStatus: Text('typing'),
-                trailingStatuses: <Widget>[],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    expect(find.byType(WideComposerFade), findsOneWidget);
-    expect(find.text('typing'), findsOneWidget);
-  });
-
-  testWidgets('paints the fade overlay at the mobile status-safe height', (
+  testWidgets('ChannelChatComposerBoundary hides the fade with no status', (
     WidgetTester tester,
   ) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -114,9 +84,11 @@ void main() {
           ),
           home: const Scaffold(
             body: SizedBox(
-              height: WideComposerLayout.mobileFadeHeight,
+              height: WideComposerLayout.statusFadeScrolledHeight,
               width: 390,
               child: ChannelChatComposerBoundary(
+                channelId: '',
+                applyWallpaper: false,
                 leadingStatus: Text('typing'),
                 trailingStatuses: <Widget>[Text('slowmode')],
               ),
@@ -126,10 +98,8 @@ void main() {
       ),
     );
 
-    expect(find.byType(WideComposerFade), findsOneWidget);
+    expect(find.byType(WideComposerFade), findsNothing);
     expect(find.text('typing'), findsOneWidget);
     expect(find.text('slowmode'), findsOneWidget);
-    final Size fadeSize = tester.getSize(find.byType(WideComposerFade));
-    expect(fadeSize.height, WideComposerLayout.mobileFadeHeight);
   });
 }

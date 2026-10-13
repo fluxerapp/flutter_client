@@ -4,6 +4,8 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -133,11 +135,13 @@ class ComposerAutocompletePanelStrip extends StatelessWidget {
   const ComposerAutocompletePanelStrip({
     required this.host,
     required this.scrollController,
+    this.radius = _kAutocompleteBorderRadius,
     super.key,
   });
 
   final ComposerAutocompletePanelHost host;
   final ScrollController scrollController;
+  final double radius;
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +181,7 @@ class ComposerAutocompletePanelStrip extends StatelessWidget {
                                 snap: snap,
                                 scrollController: scrollController,
                                 maxHeight: maxHeight,
+                                radius: radius,
                               ),
                             )
                           : SizedBox(width: width, height: 0),
@@ -203,12 +208,19 @@ class ComposerAutocompletePanelLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool mobile = isMobileLayout(context);
     return Positioned.fill(
+      top: mobile ? kComposerAutocompletePanelSafeGap : 0,
+      left: mobile ? MobileComposerLayout.sideInset : 0,
+      right: mobile ? MobileComposerLayout.sideInset : 0,
       child: Align(
         alignment: Alignment.bottomCenter,
         child: ComposerAutocompletePanelStrip(
           host: host,
           scrollController: scrollController,
+          radius: mobile
+              ? MobileComposerLayout.radius
+              : _kAutocompleteBorderRadius,
         ),
       ),
     );
@@ -220,12 +232,14 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
     required this.snap,
     required this.scrollController,
     this.maxHeight = kComposerAutocompletePanelMaxHeight,
+    this.radius = _kAutocompleteBorderRadius,
     super.key,
   });
 
   final ComposerAutocompletePanelSnapshot snap;
   final ScrollController scrollController;
   final double maxHeight;
+  final double radius;
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +253,7 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: panelBg,
-            borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
+            borderRadius: BorderRadius.circular(radius),
             border: Border.all(color: accent),
             boxShadow: const <BoxShadow>[
               BoxShadow(
@@ -250,7 +264,7 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
+            borderRadius: BorderRadius.circular(radius),
             child: Material(
               color: panelBg,
               shadowColor: Colors.transparent,
@@ -317,6 +331,10 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                           }
                           final int selectedIndex = snap.selectedIndex;
                           return ComposerAutocompletePanelListTile(
+                            radius: math.max(
+                              _kAutocompleteBorderRadius,
+                              radius - _kAutocompleteButtonHorizontalPadding,
+                            ),
                             title: row.title,
                             isSelected: i == selectedIndex,
                             onTap: row.onTap,
@@ -375,6 +393,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
     this.emojiCacheKey,
     this.mediaPreviewUrl,
     this.mediaPreviewCacheKey,
+    this.radius = _kAutocompleteBorderRadius,
     super.key,
   });
 
@@ -382,6 +401,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
   final String? subtitle;
   final Color? titleColor;
   final bool isSelected;
+  final double radius;
   final VoidCallback onTap;
   final ChannelType? channelRowType;
   final String? userAvatarUserId;
@@ -425,112 +445,153 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
       ),
       child: Material(
         color: isSelected ? hoverFill : Colors.transparent,
-        borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
+        borderRadius: BorderRadius.circular(radius),
         child: InkWell(
-          borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
+          borderRadius: BorderRadius.circular(radius),
           onTap: onTap,
           hoverColor: hoverFill,
           child: Padding(
             padding: const EdgeInsets.all(_kAutocompleteRowInnerPadding),
             child: Row(
               children: <Widget>[
-                Expanded(
-                  child: Row(
-                    children: [
-                      if (_showsUserAvatar) ...<Widget>[
-                        FluxerAvatar.userPresence(
-                          imageUrl: userAvatarImageUrl,
-                          fallbackText: userAvatarFallbackText,
-                          userId:
-                              _snowflakeUserIdForDefaultAvatar(
-                                userAvatarUserId,
-                              ) ??
-                              userAvatarUserId ??
-                              '',
-                          avatarColor: userAvatarColor,
-                          size: _kAutocompleteAvatarSize,
-                        ),
-                        const SizedBox(width: _kAutocompleteAvatarGap),
-                      ],
-                      if (_showsChannelGlyph) ...<Widget>[
-                        ChannelIcon(
-                          type: channelRowType!,
-                          size: 16,
-                          color: context.colors.textTertiary,
-                        ),
-                        const SizedBox(width: _kAutocompleteAvatarGap),
-                      ],
-                      if (_showsMediaPreview) ...<Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: SizedBox(
-                            width: _kAutocompleteMediaPreviewSize,
-                            height: _kAutocompleteMediaPreviewSize,
-                            child: CachedNetworkImage(
-                              imageUrl: mediaPreviewUrl!,
-                              cacheKey: mediaPreviewCacheKey,
-                              width: _kAutocompleteMediaPreviewSize,
-                              height: _kAutocompleteMediaPreviewSize,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: _kAutocompleteAvatarGap),
-                      ],
-                      if (_showsEmojiPreview) ...<Widget>[
-                        SizedBox(
-                          width: _kAutocompleteEmojiPreviewSize,
-                          height: _kAutocompleteEmojiPreviewSize,
-                          child: emojiSurrogates != null
-                              ? UnicodeEmojiWidget(
-                                  emoji: emojiSurrogates!,
-                                  size: _kAutocompleteEmojiPreviewSize,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl: emojiImageUrl!,
-                                  cacheKey: emojiCacheKey,
-                                  width: _kAutocompleteEmojiPreviewSize,
-                                  height: _kAutocompleteEmojiPreviewSize,
-                                ),
-                        ),
-                        const SizedBox(width: _kAutocompleteAvatarGap),
-                      ],
-                      Expanded(
-                        child: Text(
-                          title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: titleStyle,
-                        ),
-                      ),
-                    ],
+                if (_showsUserAvatar) ...<Widget>[
+                  FluxerAvatar.userPresence(
+                    imageUrl: userAvatarImageUrl,
+                    fallbackText: userAvatarFallbackText,
+                    userId:
+                        _snowflakeUserIdForDefaultAvatar(userAvatarUserId) ??
+                        userAvatarUserId ??
+                        '',
+                    avatarColor: userAvatarColor,
+                    size: _kAutocompleteAvatarSize,
                   ),
-                ),
-                if (subtitle != null &&
-                    subtitle!.trim().isNotEmpty) ...<Widget>[
-                  const SizedBox(width: _kAutocompleteDescMarginLeft),
-                  Flexible(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        subtitle!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.end,
-                        style: context.textStyles.timestamp.copyWith(
-                          fontSize: _kAutocompleteDescFontSize,
-                          height: 1.33,
-                          color: context.colors.textPrimaryMuted,
-                        ),
+                  const SizedBox(width: _kAutocompleteAvatarGap),
+                ],
+                if (_showsChannelGlyph) ...<Widget>[
+                  ChannelIcon(
+                    type: channelRowType!,
+                    size: 16,
+                    color: context.colors.textTertiary,
+                  ),
+                  const SizedBox(width: _kAutocompleteAvatarGap),
+                ],
+                if (_showsMediaPreview) ...<Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: SizedBox(
+                      width: _kAutocompleteMediaPreviewSize,
+                      height: _kAutocompleteMediaPreviewSize,
+                      child: CachedNetworkImage(
+                        imageUrl: mediaPreviewUrl!,
+                        cacheKey: mediaPreviewCacheKey,
+                        width: _kAutocompleteMediaPreviewSize,
+                        height: _kAutocompleteMediaPreviewSize,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
+                  const SizedBox(width: _kAutocompleteAvatarGap),
                 ],
+                if (_showsEmojiPreview) ...<Widget>[
+                  SizedBox(
+                    width: _kAutocompleteEmojiPreviewSize,
+                    height: _kAutocompleteEmojiPreviewSize,
+                    child: emojiSurrogates != null
+                        ? UnicodeEmojiWidget(
+                            emoji: emojiSurrogates!,
+                            size: _kAutocompleteEmojiPreviewSize,
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: emojiImageUrl!,
+                            cacheKey: emojiCacheKey,
+                            width: _kAutocompleteEmojiPreviewSize,
+                            height: _kAutocompleteEmojiPreviewSize,
+                          ),
+                  ),
+                  const SizedBox(width: _kAutocompleteAvatarGap),
+                ],
+                Expanded(
+                  child: _AutocompleteNameAndDescription(
+                    title: title,
+                    titleStyle: titleStyle,
+                    description: subtitle,
+                    descriptionStyle: context.textStyles.timestamp.copyWith(
+                      fontSize: _kAutocompleteDescFontSize,
+                      height: 1.33,
+                      color: context.colors.textPrimaryMuted,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AutocompleteNameAndDescription extends StatelessWidget {
+  const _AutocompleteNameAndDescription({
+    required this.title,
+    required this.titleStyle,
+    required this.description,
+    required this.descriptionStyle,
+  });
+
+  final String title;
+  final TextStyle titleStyle;
+  final String? description;
+  final TextStyle descriptionStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget name = Text(
+      title,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: titleStyle,
+    );
+    final String? text = description?.trim();
+    if (text == null || text.isEmpty) {
+      return name;
+    }
+    final TextPainter descriptionMinPainter = TextPainter(
+      text: TextSpan(text: '0' * 10, style: descriptionStyle),
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    final double descriptionMin = descriptionMinPainter.width.ceilToDouble();
+    descriptionMinPainter.dispose();
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Row(
+          children: <Widget>[
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: math.max(
+                  0,
+                  constraints.maxWidth -
+                      _kAutocompleteDescMarginLeft -
+                      descriptionMin,
+                ),
+              ),
+              child: name,
+            ),
+            const SizedBox(width: _kAutocompleteDescMarginLeft),
+            Expanded(
+              child: Text(
+                text,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.end,
+                style: descriptionStyle,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

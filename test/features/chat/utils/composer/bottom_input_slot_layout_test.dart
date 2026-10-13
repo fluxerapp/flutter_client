@@ -414,13 +414,17 @@ void main() {
   });
 
   group('keyboard panel transition helpers', () {
-    test('transition lock uses max of live keyboard and anchor', () {
+    test('transition lock uses the live keyboard height', () {
       expect(
         resolveTransitionLockHeight(liveKeyboardHeight: 336, anchorHeight: 291),
         336,
       );
       expect(
-        resolveTransitionLockHeight(liveKeyboardHeight: 200, anchorHeight: 336),
+        resolveTransitionLockHeight(liveKeyboardHeight: 291, anchorHeight: 371),
+        291,
+      );
+      expect(
+        resolveTransitionLockHeight(liveKeyboardHeight: 0, anchorHeight: 336),
         336,
       );
     });

@@ -7396,6 +7396,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Nhãn dán';
 
   @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
+
+  @override
   String get composerAutocompleteGifsHeading => 'Ảnh GIF';
 
   @override

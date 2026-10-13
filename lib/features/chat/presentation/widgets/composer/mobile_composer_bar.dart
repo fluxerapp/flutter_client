@@ -7,7 +7,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 abstract final class MobileComposerLayout {
   const MobileComposerLayout._();
   static const double sideInset = 16;
-  static const double topInset = 4;
+  static const double topInset = WideComposerLayout.mobileComposerTopInset;
   static const double bottomGap = kMobileComposerBottomGap;
   static const double radius = 16;
   static const double minHeight = 58;
@@ -30,29 +30,21 @@ abstract final class MobileComposerLayout {
   static const double pressedOpacity = 0.3;
   static const double attachOpenTurns = 0.125;
   static const double sendPopFromScale = 0.7;
-  static const Duration resize = Duration(milliseconds: 120);
+  static const Duration resize = Duration(milliseconds: 100);
   static const Duration attachRotation = Duration(milliseconds: 130);
   static const Duration sendPop = Duration(milliseconds: 180);
   static const Duration pressFade = Duration(milliseconds: 60);
 }
 
 class MobileComposerBar extends StatelessWidget {
-  const MobileComposerBar({
-    required this.focused,
-    required this.child,
-    this.header,
-    super.key,
-  });
+  const MobileComposerBar({required this.child, this.header, super.key});
 
-  final bool focused;
   final Widget? header;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: WideComposerLayout.ringTransition,
-      curve: Curves.easeInOut,
+    return Container(
       constraints: const BoxConstraints(
         minHeight: MobileComposerLayout.minHeight,
       ),
@@ -61,20 +53,39 @@ class MobileComposerBar extends StatelessWidget {
         shape: RoundedSuperellipseBorder(
           borderRadius: BorderRadius.circular(MobileComposerLayout.radius),
           side: BorderSide(
-            color: wideComposerRingColor(context, focused: focused),
+            color: wideComposerRingColor(context, focused: false),
           ),
         ),
       ),
       clipBehavior: Clip.antiAlias,
-      child: AnimatedSize(
-        duration: MobileComposerLayout.resize,
-        curve: Curves.easeOut,
-        alignment: Alignment.bottomCenter,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[?header, child],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          AnimatedSize(
+            duration: MobileComposerLayout.resize,
+            curve: Curves.easeOut,
+            alignment: Alignment.bottomCenter,
+            child: header ?? const SizedBox(width: double.infinity, height: 0),
+          ),
+          child,
+        ],
       ),
+    );
+  }
+}
+
+class MobileComposerTextGrowth extends StatelessWidget {
+  const MobileComposerTextGrowth({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSize(
+      duration: MobileComposerLayout.resize,
+      curve: Curves.easeOut,
+      alignment: Alignment.topCenter,
+      child: child,
     );
   }
 }

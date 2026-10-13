@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/composer/typing_indicator_text.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
-import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_typing_dots.dart';
@@ -37,22 +36,9 @@ class TypingIndicatorBar extends ConsumerWidget {
     if (channelId.isEmpty) {
       return const SizedBox.shrink();
     }
-    final List<String> userIds = ref.watch(
-      typingUsersInChannelProvider(channelId),
+    final List<String> activeUserIds = ref.watch(
+      presentableTypingUsersInChannelProvider(channelId),
     );
-    if (userIds.isEmpty) {
-      return const SizedBox.shrink();
-    }
-    final blocked = ref.watch(blockedUsersViewModelProvider).value;
-    final Set<String> blockedIds = blocked == null
-        ? const <String>{}
-        : {for (final f in blocked) f.id};
-    final List<String> activeUserIds = blockedIds.isEmpty
-        ? userIds
-        : <String>[
-            for (final String id in userIds)
-              if (!blockedIds.contains(id)) id,
-          ];
     if (activeUserIds.isEmpty) {
       return const SizedBox.shrink();
     }

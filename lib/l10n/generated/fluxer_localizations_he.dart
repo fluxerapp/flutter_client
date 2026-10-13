@@ -7307,6 +7307,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'מדבקות';
 
   @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
+
+  @override
   String get composerAutocompleteGifsHeading => 'קובצי GIF';
 
   @override

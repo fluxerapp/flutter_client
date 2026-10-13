@@ -245,7 +245,9 @@ double resolveTransitionLockHeight({
   required double liveKeyboardHeight,
   required double anchorHeight,
 }) {
-  return math.max(liveKeyboardHeight, anchorHeight);
+  return isImeKeyboardHeight(liveKeyboardHeight)
+      ? liveKeyboardHeight
+      : anchorHeight;
 }
 
 double resolveKeyboardSpacerRawHeight({

@@ -12049,6 +12049,12 @@ abstract class FluxerLocalizations {
   /// **'Stickers'**
   String get composerAutocompleteStickersHeading;
 
+  /// Section heading in composer autocomplete for emoji suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Emojis'**
+  String get composerAutocompleteEmojisHeading;
+
   /// Heading above GIF autocomplete results.
   ///
   /// In en, this message translates to:

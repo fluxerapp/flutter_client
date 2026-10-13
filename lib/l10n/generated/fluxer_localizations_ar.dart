@@ -7357,6 +7357,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'الملصقات';
 
   @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
+
+  @override
   String get composerAutocompleteGifsHeading => 'صور GIF';
 
   @override

@@ -7470,6 +7470,9 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Sticker';
 
   @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
+
+  @override
   String get composerAutocompleteGifsHeading => 'GIFs';
 
   @override

@@ -57,7 +57,9 @@ class ChatWallpaperBackdrop extends ConsumerWidget {
 }
 
 class ChatWallpaperComposerFade extends ConsumerWidget {
-  const ChatWallpaperComposerFade({super.key});
+  const ChatWallpaperComposerFade({required this.solidFrom, super.key});
+
+  final double solidFrom;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,6 +71,7 @@ class ChatWallpaperComposerFade extends ConsumerWidget {
       themeBackground: themeBackground,
     );
     return WideComposerFade(
+      solidFrom: solidFrom,
       surfaceColor: chatWallpaperComposerFadeColor(
         paint: paint,
         resolved: resolved,
