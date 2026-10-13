@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_attribution.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
@@ -12,13 +13,14 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const double _kEmojiPreviewSize = 65.6;
+const double _kEmojiPreviewSize = 36.7;
 
 class EmojiInfoBottomSheet {
   EmojiInfoBottomSheet._();
@@ -90,6 +92,9 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
         favoriteKey != null && favoriteKeys.contains(favoriteKey);
     final showGuildSection = resolved.attribution.guild != null;
 
+    final EmojiEntry? toneEntry = emoji.unicodeEntry;
+    final bool showSkinTones = toneEntry != null && toneEntry.hasDiversity;
+
     return Padding(
       padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s6),
       child: Column(
@@ -99,8 +104,11 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _EmojiPreview(emoji: emoji),
-              SizedBox(width: layout.s3),
+              Padding(
+                padding: const EdgeInsets.only(left: 2, top: 2),
+                child: _EmojiPreview(emoji: emoji),
+              ),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,34 +116,24 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
                     Text(
                       emoji.displayName,
                       style: context.textStyles.heading.copyWith(
-                        fontSize: 18,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                         color: context.colors.textPrimary,
                       ),
                     ),
-                    SizedBox(height: layout.s1),
+                    const SizedBox(height: 2),
                     Text(
                       emojiAttributionDescription(l10n, resolved.attribution),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: context.textStyles.bodySmall.copyWith(
+                        fontSize: 16,
                         color: context.colors.textSecondary,
                       ),
                     ),
                   ],
                 ),
               ),
-              if (favoriteKey != null)
-                _FavoriteButton(
-                  isFavorite: isFavorite,
-                  onToggle: () {
-                    FluxerHaptics.selection();
-                    unawaited(
-                      ref
-                          .read(favoriteEmojiKeysProvider.notifier)
-                          .toggle(favoriteKey),
-                    );
-                  },
-                  addLabel: l10n.emojiInfoAddToFavorites,
-                  removeLabel: l10n.emojiInfoRemoveFromFavorites,
-                ),
             ],
           ),
           if (showGuildSection) ...[
@@ -155,8 +153,78 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
               isVerified: resolved.attribution.isVerified,
             ),
           ],
+          if (showSkinTones) ...[
+            SizedBox(height: layout.s4),
+            _SkinToneRow(entry: toneEntry),
+          ],
+          if (favoriteKey != null) ...[
+            SizedBox(height: layout.s4),
+            Divider(color: context.colors.borderColor, height: 1),
+            SizedBox(height: layout.s4),
+            if (isFavorite)
+              FluxerButton.secondary(
+                label: l10n.emojiInfoRemoveFromFavorites,
+                size: FluxerButtonSize.small,
+                onPressed: () => _toggleFavorite(ref, favoriteKey),
+              )
+            else
+              FluxerButton.primary(
+                label: l10n.emojiInfoAddToFavorites,
+                size: FluxerButtonSize.small,
+                onPressed: () => _toggleFavorite(ref, favoriteKey),
+              ),
+          ],
         ],
       ),
+    );
+  }
+}
+
+void _toggleFavorite(WidgetRef ref, String favoriteKey) {
+  FluxerHaptics.selection();
+  unawaited(ref.read(favoriteEmojiKeysProvider.notifier).toggle(favoriteKey));
+}
+
+class _SkinToneRow extends ConsumerWidget {
+  const _SkinToneRow({required this.entry});
+
+  final EmojiEntry entry;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String selected = ref.watch(emojiSkinToneProvider).value ?? '';
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        for (final String tone in <String>['', ...kSkinToneSurrogates])
+          Semantics(
+            button: true,
+            selected: tone == selected,
+            label: skinToneToName(tone) ?? entry.primaryName,
+            child: FluxerGestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                FluxerHaptics.selection();
+                unawaited(ref.read(emojiSkinToneProvider.notifier).set(tone));
+              },
+              child: Container(
+                width: 48,
+                height: 48,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: tone == selected
+                      ? context.colors.backgroundModifierSelected
+                      : null,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: UnicodeEmojiWidget(
+                  emoji: EmojiRegistry.resolveSkinToneSurrogates(entry, tone),
+                  size: 32,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
@@ -187,41 +255,6 @@ class _EmojiPreview extends StatelessWidget {
       child: UnicodeEmojiWidget(
         emoji: emoji.unicodeSurrogate,
         size: _kEmojiPreviewSize,
-      ),
-    );
-  }
-}
-
-class _FavoriteButton extends StatelessWidget {
-  const _FavoriteButton({
-    required this.isFavorite,
-    required this.onToggle,
-    required this.addLabel,
-    required this.removeLabel,
-  });
-
-  final bool isFavorite;
-  final VoidCallback onToggle;
-  final String addLabel;
-  final String removeLabel;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: isFavorite ? removeLabel : addLabel,
-      child: FluxerGestureDetector(
-        onTap: onToggle,
-        child: Padding(
-          padding: EdgeInsets.all(context.layout.s1),
-          child: Icon(
-            isFavorite ? PhosphorIconsFill.star : PhosphorIconsBold.star,
-            size: 24,
-            color: isFavorite
-                ? context.colors.statusWarning
-                : context.colors.textSecondary,
-          ),
-        ),
       ),
     );
   }
