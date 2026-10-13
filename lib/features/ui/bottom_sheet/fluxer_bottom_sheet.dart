@@ -798,6 +798,9 @@ class _FluxerDraggableScrollableSheetState
   bool _dismissed = false;
   bool _routeDidEnter = false;
   bool _snapQueued = false;
+  bool _settleCheckQueued = false;
+  int _programmaticMoveUntilUs = 0;
+  bool _userResized = false;
   int _activePointers = 0;
   double _pointerDownSize = 0;
   Offset _pointerDownPosition = Offset.zero;
@@ -868,17 +871,28 @@ class _FluxerDraggableScrollableSheetState
             this) {
       return;
     }
+    _moveTo(widget.maxChildSize);
+  }
+
+  void _moveTo(double target) {
     final FluxerMotionTheme motion = widget.sheetContext.motion;
     if (motion.panel <= Duration.zero) {
-      _sheetController.jumpTo(widget.maxChildSize);
+      _sheetController.jumpTo(target);
       return;
     }
+    _programmaticMoveUntilUs =
+        DateTime.now().microsecondsSinceEpoch +
+        motion.panel.inMicroseconds +
+        Duration.microsecondsPerSecond ~/ 60;
     _sheetController.animateTo(
-      widget.maxChildSize,
+      target,
       duration: motion.panel,
       curve: motion.curve,
     );
   }
+
+  bool get _programmaticMove =>
+      DateTime.now().microsecondsSinceEpoch < _programmaticMoveUntilUs;
 
   @override
   void dispose() {
@@ -939,6 +953,55 @@ class _FluxerDraggableScrollableSheetState
     _lastSize = size;
     _lastSizeUs = now;
     _reportBackdrop();
+    _queueSettleCheck();
+  }
+
+  void _queueSettleCheck() {
+    if (_settleCheckQueued ||
+        !_userResized ||
+        _activePointers > 0 ||
+        _dismissed) {
+      return;
+    }
+    _settleCheckQueued = true;
+    final double sizeAtQueue = _sheetController.size;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _settleCheckQueued = false;
+      if (!mounted ||
+          _dismissed ||
+          _activePointers > 0 ||
+          !_sheetController.isAttached) {
+        return;
+      }
+      if (_snapQueued ||
+          _programmaticMove ||
+          (_sheetController.size - sizeAtQueue).abs() > _kSheetSizeEpsilon) {
+        _queueSettleCheck();
+        return;
+      }
+      _settleAtSnap();
+    });
+    WidgetsBinding.instance.ensureVisualUpdate();
+  }
+
+  void _settleAtSnap() {
+    final double size = _sheetController.size;
+    if (size <= 0) {
+      return;
+    }
+    final double? target = fluxerBottomSheetSnapTarget(
+      size: size,
+      halfSize: widget.halfChildSize,
+      fullSize: widget.maxChildSize,
+    );
+    if (target == null) {
+      _dismiss();
+      return;
+    }
+    if ((size - target).abs() < _kSheetSizeEpsilon) {
+      return;
+    }
+    _moveTo(target);
   }
 
   void _dismiss() {
@@ -962,6 +1025,7 @@ class _FluxerDraggableScrollableSheetState
 
   void _onPointerDown(PointerDownEvent event) {
     _activePointers++;
+    _programmaticMoveUntilUs = 0;
     if (_activePointers == 1) {
       _sizePerSecond = 0;
       _releaseDownVelocity = 0;
@@ -985,6 +1049,7 @@ class _FluxerDraggableScrollableSheetState
     }
     if (travel.distance > _kSheetPointerDragSlop) {
       _pointerDragged = true;
+      _userResized = true;
     }
   }
 
@@ -1054,16 +1119,7 @@ class _FluxerDraggableScrollableSheetState
     if ((size - target).abs() < _kSheetSizeEpsilon) {
       return;
     }
-    final FluxerMotionTheme motion = widget.sheetContext.motion;
-    if (motion.panel <= Duration.zero) {
-      _sheetController.jumpTo(target);
-      return;
-    }
-    _sheetController.animateTo(
-      target,
-      duration: motion.panel,
-      curve: motion.curve,
-    );
+    _moveTo(target);
   }
 
   @override
