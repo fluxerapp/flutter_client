@@ -1411,7 +1411,8 @@ class _MarkdownInlineRenderer {
       final widget = config.linkWidgetBuilder?.call(context, href, style);
       if (widget != null) {
         return WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
           child: MediaQuery.withNoTextScaling(child: widget),
         );
       }
@@ -1475,7 +1476,8 @@ class _MarkdownInlineRenderer {
     final widget = config.linkWidgetBuilder?.call(context, href, style);
     if (widget != null) {
       return WidgetSpan(
-        alignment: PlaceholderAlignment.middle,
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
         child: MediaQuery.withNoTextScaling(child: widget),
       );
     }
@@ -1490,7 +1492,8 @@ class _MarkdownInlineRenderer {
   }) {
     if (builder != null) {
       return WidgetSpan(
-        alignment: PlaceholderAlignment.middle,
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
         child: MediaQuery.withNoTextScaling(
           child: builder(context, element.textContent, style),
         ),
@@ -1506,7 +1509,8 @@ class _MarkdownInlineRenderer {
   InlineSpan _buildEveryoneMention(md.Element element, TextStyle style) {
     if (config.everyoneMentionBuilder != null) {
       return WidgetSpan(
-        alignment: PlaceholderAlignment.middle,
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
         child: MediaQuery.withNoTextScaling(
           child: config.everyoneMentionBuilder!(
             context,
@@ -1528,7 +1532,8 @@ class _MarkdownInlineRenderer {
     final String? applicationId = element.attributes['id'];
     if (config.commandMentionBuilder != null && applicationId != null) {
       return WidgetSpan(
-        alignment: PlaceholderAlignment.middle,
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
         child: MediaQuery.withNoTextScaling(
           child: config.commandMentionBuilder!(
             context,
@@ -1555,7 +1560,8 @@ class _MarkdownInlineRenderer {
     final String? navigationId = element.attributes['nav-id'];
     if (config.guildNavigationMentionBuilder != null && navType != null) {
       return WidgetSpan(
-        alignment: PlaceholderAlignment.middle,
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
         child: MediaQuery.withNoTextScaling(
           child: config.guildNavigationMentionBuilder!(
             context,
