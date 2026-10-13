@@ -204,6 +204,7 @@ class GuildNavigationMention extends StatelessWidget {
 const double _kMentionPillHorizontalPadding = 2;
 const double _kMentionPillBorderRadius = 3;
 const double _kMentionDividerOpacity = 0.64;
+const double _kMentionPillLineHeight = 1.25;
 
 double _mentionIconSize(TextStyle style) => style.fontSize ?? 16;
 
@@ -212,10 +213,14 @@ double _mentionInlineGap(TextStyle style) => _mentionIconSize(style) * 0.125;
 double _mentionDividerSize(TextStyle style) => _mentionIconSize(style) * 0.7;
 
 TextStyle _mentionTextStyle(TextStyle base, Color color) {
+  final double? baseHeight = base.height;
   return base.copyWith(
     color: color,
     fontWeight: FontWeight.w500,
-    height: kTextHeightNone,
+    height: baseHeight == null || baseHeight > _kMentionPillLineHeight
+        ? _kMentionPillLineHeight
+        : baseHeight,
+    leadingDistribution: TextLeadingDistribution.even,
   );
 }
 
