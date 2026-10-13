@@ -2904,6 +2904,10 @@ class ChatViewModel extends _$ChatViewModel {
         channelId,
         limit: _kInitialPageSize,
       );
+      final Future<db.Channel?> channelRowFuture = ref
+          .read(fluxerDatabaseProvider)
+          .channelDao
+          .getChannelById(channelId);
       final _ParkedChannelWindow? parked = _parkedWindows[channelId];
       if (parked != null && parked.messages.isNotEmpty) {
         final bool hasUnread = await unreadFuture;
@@ -3033,6 +3037,37 @@ class ChatViewModel extends _$ChatViewModel {
         }
       }
       if (state.channelId != channelId) {
+        return;
+      }
+      final db.Channel? channelRow = await channelRowFuture;
+      if (!isCurrentSwitch() || state.channelId != channelId) {
+        return;
+      }
+      if (cached.isEmpty &&
+          !hasUnread &&
+          channelRow != null &&
+          channelRow.lastMessageId == null) {
+        _replaceLiveWindow(
+          channelId: channelId,
+          messages: const <Message>[],
+          isLoading: false,
+          isSyncingMessages: false,
+          hasMoreMessages: false,
+          hasMoreNewerMessages: false,
+        );
+        unawaited(
+          _refreshMessagesFromNetwork(
+            channelId,
+            isDirectLatestLoad: true,
+            shouldApplyResult: isCurrentSwitch,
+          ),
+        );
+        await _applyReadComposerDraft(
+          channelId: channelId,
+          draftFuture: draftFuture,
+          isCurrentSwitch: isCurrentSwitch,
+          mark: mark,
+        );
         return;
       }
       if (!_isBlankLoadingFor(channelId)) {
