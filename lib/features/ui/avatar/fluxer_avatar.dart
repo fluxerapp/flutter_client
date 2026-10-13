@@ -2,10 +2,12 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
+import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_status_badge.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -249,10 +251,13 @@ class _FluxerUserPresenceAvatar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenceUser = watchLastKnownUserPresence(ref, userId);
+    final String? selfStatus = ref.watch(currentUserIdProvider) == userId
+        ? ref.watch(userSettingsStatusProvider)?.status
+        : null;
     return FluxerAvatar.user(
       imageUrl: imageUrl,
       fallbackText: fallbackText,
-      status: presenceUser?.status,
+      status: presenceUser?.status ?? selfStatus ?? 'offline',
       size: size,
       showStatus: showStatus,
       isTyping: isTyping,
