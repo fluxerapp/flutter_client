@@ -62,7 +62,6 @@ class FluxerPageSheet {
           foregroundColor: foregroundColor,
           presentation: presentation,
           canDismissNotifier: canDismissNotifier,
-          useRootNavigator: useRootNavigator,
         );
       }
       return _showMaterialScrollable<T>(
@@ -83,7 +82,6 @@ class FluxerPageSheet {
     BuildContext context, {
     required FluxerScrollablePageSheetBuilder builder,
     required FluxerPageSheetPresentation presentation,
-    required bool useRootNavigator,
     String? title,
     Widget? titleTrailing,
     Color? backgroundColor,
@@ -117,7 +115,7 @@ class FluxerPageSheet {
                 CupertinoSheetRoute.popSheet(sheetContext);
                 return;
               }
-              Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+              _closePageRoute(sheetContext);
             }
 
             return _buildPageSheetWithBackHandler(
@@ -229,7 +227,7 @@ class _FluxerPageSheetScrollableHostState<T>
 
   @override
   Widget build(BuildContext context) {
-    void close() => Navigator.of(context).pop<T>();
+    void close() => _closePageRoute(context);
 
     return _buildPageSheetWithBackHandler(
       canDismissNotifier: widget.canDismissNotifier,
@@ -299,6 +297,22 @@ class _FluxerPageSheetScaffold extends StatelessWidget {
       body: child,
     );
   }
+}
+
+void _closePageRoute(BuildContext context) {
+  if (!context.mounted) {
+    return;
+  }
+  final ModalRoute<dynamic>? route = ModalRoute.of(context);
+  if (route == null || !route.isActive) {
+    return;
+  }
+  final NavigatorState navigator = Navigator.of(context);
+  if (route.isCurrent) {
+    navigator.pop();
+    return;
+  }
+  navigator.removeRoute(route);
 }
 
 Widget _buildPageSheetWithBackHandler({

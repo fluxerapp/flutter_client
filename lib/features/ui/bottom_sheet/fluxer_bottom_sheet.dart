@@ -93,28 +93,58 @@ Future<T?> _pushFluxerSheetRoute<T>(
     rootNavigator: useRootNavigator,
   );
   final MaterialLocalizations localizations = MaterialLocalizations.of(context);
-  return navigator.push(
-    FluxerSheetRoute<T>(
-      builder: builder,
-      navigator: navigator,
-      capturedThemes: InheritedTheme.capture(
-        from: context,
-        to: navigator.context,
-      ),
-      isScrollControlled: true,
-      barrierLabel: localizations.scrimLabel,
-      barrierOnTapHint: localizations.scrimOnTapHint(
-        localizations.bottomSheetLabel,
-      ),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      isDismissible: isDismissible,
-      modalBarrierColor: context.colors.modalScrim,
-      enableDrag: false,
-      useSafeArea: useSafeArea,
-      sheetAnimationStyle: animationStyle,
+  final Route<dynamic>? origin = ModalRoute.of(context);
+  final FluxerSheetRoute<dynamic>? last = _lastSheetByNavigator[navigator];
+  if (last != null &&
+      origin != null &&
+      identical(last.origin, origin) &&
+      last.isCurrent &&
+      last.isEntering) {
+    return Future<T?>.value();
+  }
+  final Duration lead = animationStyle.duration! - context.motion.sheet;
+  final FluxerSheetRoute<T> route = FluxerSheetRoute<T>(
+    builder: builder,
+    navigator: navigator,
+    origin: origin,
+    inputLockout: animationStyle.duration! > Duration.zero
+        ? lead + kFluxerSheetInputLockout
+        : Duration.zero,
+    capturedThemes: InheritedTheme.capture(
+      from: context,
+      to: navigator.context,
     ),
+    isScrollControlled: true,
+    barrierLabel: localizations.scrimLabel,
+    barrierOnTapHint: localizations.scrimOnTapHint(
+      localizations.bottomSheetLabel,
+    ),
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    isDismissible: isDismissible,
+    modalBarrierColor: context.colors.modalScrim,
+    enableDrag: false,
+    useSafeArea: useSafeArea,
+    sheetAnimationStyle: animationStyle,
   );
+  _lastSheetByNavigator[navigator] = route;
+  return navigator.push(route);
+}
+
+final Expando<FluxerSheetRoute<dynamic>> _lastSheetByNavigator =
+    Expando<FluxerSheetRoute<dynamic>>();
+
+void _closeSheet(BuildContext sheetContext) {
+  final ModalRoute<dynamic>? route = sheetContext.mounted
+      ? ModalRoute.of(sheetContext)
+      : null;
+  if (route is FluxerSheetRoute) {
+    route.closeSelf();
+    return;
+  }
+  if (route != null && route.isActive) {
+    Navigator.of(sheetContext).pop();
+  }
 }
 
 /// Shows a styled modal bottom sheet with the app's standard appearance.
@@ -220,8 +250,7 @@ class FluxerBottomSheet {
         animationStyle: fluxerBottomSheetAnimationStyle(context),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() =>
-              Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+          void close() => _closeSheet(sheetContext);
 
           final mediaQuery = MediaQuery.of(sheetContext);
           final topPadding = mediaQuery.viewPadding.top;
@@ -361,8 +390,7 @@ class FluxerBottomSheet {
         ),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() =>
-              Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+          void close() => _closeSheet(sheetContext);
 
           final mediaQuery = MediaQuery.of(sheetContext);
           final double keyboardInset = manageKeyboardInset
@@ -1010,14 +1038,6 @@ class _FluxerDraggableScrollableSheetState
     }
     _dismissed = true;
     if (!mounted) {
-      return;
-    }
-    final ModalRoute<dynamic>? route = ModalRoute.of(context);
-    final AnimationStatus? status = _routeAnimation?.status;
-    // Exit animation keeps this route isCurrent; don't pop the route below.
-    if (status == AnimationStatus.reverse ||
-        (_routeDidEnter && status == AnimationStatus.dismissed) ||
-        (route != null && !route.isCurrent)) {
       return;
     }
     widget.onDismiss();

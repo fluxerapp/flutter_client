@@ -8,6 +8,7 @@ const double kFluxerSheetOvershootBleed = 48;
 const Duration kFluxerSheetCloseDuration = Duration(milliseconds: 110);
 const Duration kFluxerSheetScrimOpenDuration = Duration(milliseconds: 125);
 const Duration kFluxerSheetBackdropLead = Duration(milliseconds: 70);
+const Duration kFluxerSheetInputLockout = Duration(milliseconds: 300);
 const double kFluxerSheetBackdropSpringOmega = 18.5;
 
 const double kFluxerSheetBackdropScale = 0.924;
@@ -52,6 +53,8 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
     required super.builder,
     required super.isScrollControlled,
     required NavigatorState navigator,
+    this.origin,
+    this.inputLockout = Duration.zero,
     super.capturedThemes,
     super.barrierLabel,
     super.barrierOnTapHint,
@@ -62,12 +65,72 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
     super.enableDrag,
     super.useSafeArea,
     super.sheetAnimationStyle,
-  }) : _backdrop = FluxerSheetBackdropProgress.of(navigator);
+  }) : _backdrop = FluxerSheetBackdropProgress.of(navigator),
+       _inputLocked = ValueNotifier<bool>(inputLockout > Duration.zero);
 
+  final Route<dynamic>? origin;
+  final Duration inputLockout;
   final FluxerSheetBackdropProgress _backdrop;
   final ValueNotifier<double> _scrimTravel = ValueNotifier<double>(1);
+  final ValueNotifier<bool> _inputLocked;
   bool _travelFlushScheduled = false;
   double _pendingTravel = 1;
+
+  bool get isEntering => _inputLocked.value;
+
+  @override
+  void install() {
+    super.install();
+    animation?.addListener(_syncInputLock);
+    animation?.addStatusListener(_syncInputLockStatus);
+    _syncInputLock();
+  }
+
+  void _syncInputLock() {
+    if (!_inputLocked.value) {
+      return;
+    }
+    final Animation<double>? routeAnimation = animation;
+    if (routeAnimation == null) {
+      return;
+    }
+    final AnimationStatus status = routeAnimation.status;
+    final double elapsedUs =
+        routeAnimation.value * transitionDuration.inMicroseconds;
+    if (status == AnimationStatus.completed ||
+        status == AnimationStatus.reverse ||
+        elapsedUs >= inputLockout.inMicroseconds) {
+      _inputLocked.value = false;
+    }
+  }
+
+  void _syncInputLockStatus(AnimationStatus status) => _syncInputLock();
+
+  void closeSelf([T? result]) {
+    final NavigatorState? nav = navigator;
+    if (nav == null || !nav.mounted || !isActive) {
+      return;
+    }
+    if (isCurrent) {
+      nav.pop<T>(result);
+      return;
+    }
+    nav.removeRoute<T>(this, result);
+  }
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _inputLocked,
+      child: super.buildPage(context, animation, secondaryAnimation),
+      builder: (BuildContext context, bool locked, Widget? child) =>
+          AbsorbPointer(absorbing: locked, child: child),
+    );
+  }
 
   void setScrimTravel(double travel) {
     _pendingTravel = travel.clamp(0, 1);
@@ -100,6 +163,7 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
         routeAnimation,
         _scrimTravel,
         _backdrop,
+        _inputLocked,
       ]),
       builder: (BuildContext context, Widget? _) {
         final double opacity =
@@ -112,7 +176,7 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
           color: opacity >= 1
               ? tinted
               : tinted.withValues(alpha: tinted.a * opacity),
-          dismissible: barrierDismissible,
+          dismissible: barrierDismissible && !_inputLocked.value,
           semanticsLabel: barrierLabel,
           semanticsOnTapHint: barrierOnTapHint,
         );
@@ -122,7 +186,10 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
 
   @override
   void dispose() {
+    animation?.removeListener(_syncInputLock);
+    animation?.removeStatusListener(_syncInputLockStatus);
     _scrimTravel.dispose();
+    _inputLocked.dispose();
     super.dispose();
   }
 }
