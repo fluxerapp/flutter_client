@@ -214,6 +214,18 @@ class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
   @override
   Color? get barrierColor => _kPageSheetBarrierColor;
 
+  bool get _reducedMotion {
+    final NavigatorState? nav = navigator;
+    return nav != null && MediaQuery.disableAnimationsOf(nav.context);
+  }
+
+  @override
+  Duration get transitionDuration =>
+      _reducedMotion ? Duration.zero : super.transitionDuration;
+
+  Duration get _settleDuration =>
+      _reducedMotion ? Duration.zero : _kPageSheetSettleDuration;
+
   @override
   DelegatedTransitionBuilder? get delegatedTransition =>
       _dimmedDelegatedTransition;
@@ -262,17 +274,9 @@ class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
       if (isCurrent) {
         nav.pop();
       }
-      sheet.animateBack(
-        0,
-        duration: _kPageSheetSettleDuration,
-        curve: Curves.easeOut,
-      );
+      sheet.animateBack(0, duration: _settleDuration, curve: Curves.easeOut);
     } else {
-      sheet.animateTo(
-        1,
-        duration: _kPageSheetSettleDuration,
-        curve: Curves.easeOut,
-      );
+      sheet.animateTo(1, duration: _settleDuration, curve: Curves.easeOut);
     }
     if (!sheet.isAnimating) {
       nav.didStopUserGesture();

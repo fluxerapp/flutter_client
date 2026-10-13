@@ -150,6 +150,59 @@ void main() {
       expect(tester.getSize(pip), kVoicePipCompactSize);
     });
 
+    testWidgets('reduced motion drops the pip on its edge without a spring', (
+      tester,
+    ) async {
+      final colorTheme = buildDarkColorTheme();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: <Override>[
+            voiceSessionProvider.overrideWith(_ConnectedGuildVoice.new),
+            voicePipFeaturedTileIdProvider.overrideWith(_FixedFeatured.new),
+            voicePipCallViewObscuredProvider.overrideWithValue(false),
+            routeStateProvider.overrideWithValue(
+              const RouteState(
+                location: '/channels/g1/text',
+                activeBranchLocation: '/channels/g1/text',
+                activeBranchIndex: 0,
+                kind: RouteKind.chat,
+                guildId: 'g1',
+                channelId: 'text',
+              ),
+            ),
+          ],
+          child: MaterialApp(
+            locale: kTestLocale,
+            localizationsDelegates: fluxerLocalizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: colorTheme,
+              textTheme: FluxerTextTheme.fromColors(colorTheme),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            builder: (BuildContext context, Widget? child) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(disableAnimations: true),
+              child: child!,
+            ),
+            home: const VoicePipLayer(child: SizedBox.expand()),
+          ),
+        ),
+      );
+      await tester.pump();
+      final Finder pip = find.byKey(kVoiceInAppPipKey);
+      await tester.timedDrag(
+        pip,
+        const Offset(-90, -140),
+        const Duration(milliseconds: 500),
+      );
+      await tester.pump();
+      final Offset dropped = tester.getTopLeft(pip);
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(tester.getTopLeft(pip), dropped);
+      await tester.pumpAndSettle();
+      expect(tester.getTopLeft(pip), dropped);
+    });
+
     testWidgets('hero flight grows from the pip into the voice card slot', (
       tester,
     ) async {

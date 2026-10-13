@@ -182,6 +182,12 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       _markPaint();
       return;
     }
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _stopMove();
+      _visualOrigin = target;
+      _markPaint();
+      return;
+    }
     _moveTween = Tween<Offset>(begin: start, end: target);
     final double along =
         (velocity.dx * delta.dx + velocity.dy * delta.dy) / distance;
