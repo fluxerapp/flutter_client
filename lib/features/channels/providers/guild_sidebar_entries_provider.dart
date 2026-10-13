@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
@@ -251,6 +252,16 @@ bool _isFirstLoad(AsyncValue<Object?> value) {
 }
 
 @riverpod
+class GuildSidebarWaitExpired extends _$GuildSidebarWaitExpired {
+  @override
+  bool build(String guildId) {
+    final Timer timer = Timer(kGuildUnreadPrimeLimit, () => state = true);
+    ref.onDispose(timer.cancel);
+    return false;
+  }
+}
+
+@riverpod
 List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   final String? guildId = ref.watch(activeGuildIdProvider);
   final Guild? guild = ref.watch(
@@ -271,10 +282,12 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   final AsyncValue<Set<String>> collapsedCategories = ref.watch(
     guildCollapsedCategoriesProvider(guild.id),
   );
-  if (_isFirstLoad(guildMute) ||
-      _isFirstLoad(muted) ||
-      _isFirstLoad(collapsedCategories) ||
-      !ref.watch(guildChannelUnreadKnownProvider(guildId))) {
+  final bool waitExpired = ref.watch(guildSidebarWaitExpiredProvider(guildId));
+  if (!waitExpired &&
+      (_isFirstLoad(guildMute) ||
+          _isFirstLoad(muted) ||
+          _isFirstLoad(collapsedCategories) ||
+          !ref.watch(guildChannelUnreadKnownProvider(guildId)))) {
     return const <GuildSidebarEntry>[];
   }
   final bool hideMutedChannels = guildMute.value?.hideMutedChannels ?? false;

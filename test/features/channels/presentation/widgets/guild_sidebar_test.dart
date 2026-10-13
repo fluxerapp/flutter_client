@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -1273,6 +1275,66 @@ void main() {
     });
   });
 
+  group('GuildSidebar unread gate fallback', () {
+    Future<void> expectChannelsAfterWait(WidgetTester tester) async {
+      await tester.pump();
+      expect(find.text('general'), findsNothing);
+      await tester.pump(kGuildUnreadPrimeLimit);
+      await tester.pump();
+      expect(find.text('general'), findsOneWidget);
+      expect(find.text('random'), findsOneWidget);
+      await releaseTestWidgetTree(tester);
+    }
+
+    testWidgets('shows channels when an unread state never resolves', (
+      tester,
+    ) async {
+      final StreamController<UnreadState> never =
+          StreamController<UnreadState>();
+      addTearDown(() => unawaited(never.close()));
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState()},
+            unreadStreams: {'c2': never.stream},
+          ),
+        ),
+      );
+      await expectChannelsAfterWait(tester);
+    });
+
+    testWidgets('shows channels when an unread state fails', (tester) async {
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState()},
+            unreadStreams: {
+              'c2': Stream<UnreadState>.error(StateError('unread failed')),
+            },
+          ),
+        ),
+      );
+      await expectChannelsAfterWait(tester);
+    });
+
+    testWidgets('shows channels when guild settings never load', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+            mutedValue: const AsyncLoading<Set<String>>(),
+          ),
+        ),
+      );
+      await expectChannelsAfterWait(tester);
+    });
+  });
+
   group('GuildSidebar voice session isolation', () {
     testWidgets(
       'keeps text channels visible when voice session is connecting',
@@ -1409,6 +1471,8 @@ List<Override> _buildOverrides({
   Set<String> muted = const {},
   bool hideMuted = false,
   Map<String, UnreadState> unread = const {},
+  Map<String, Stream<UnreadState>> unreadStreams = const {},
+  AsyncValue<Set<String>>? mutedValue,
   Map<String, GuildReadStateEntry> guildReadState = const {},
   Map<String, int> permissionBits = const {},
   Map<String, int?> sidebarConnectBits = const {},
@@ -1468,7 +1532,7 @@ List<Override> _buildOverrides({
     ),
     mutedChannelIdsProvider(
       _guildId,
-    ).overrideWithValue(AsyncData<Set<String>>(muted)),
+    ).overrideWithValue(mutedValue ?? AsyncData<Set<String>>(muted)),
     guildCollapsedCategoriesProvider(
       _guildId,
     ).overrideWithValue(AsyncData<Set<String>>(collapsed)),
@@ -1490,6 +1554,8 @@ List<Override> _buildOverrides({
       channelUnreadProvider(
         entry.key,
       ).overrideWith((ref) => Stream.value(entry.value)),
+    for (final entry in unreadStreams.entries)
+      channelUnreadProvider(entry.key).overrideWith((ref) => entry.value),
     guildReadStateProvider.overrideWithValue(guildReadState),
   ];
 }

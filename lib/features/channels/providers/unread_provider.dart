@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
@@ -276,6 +277,12 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
         recomputeAgain = false;
         await recompute();
       } while (recomputeAgain && !disposed);
+    } on Object catch (error, stackTrace) {
+      talker.error(
+        '[Unread] recompute failed for $channelId',
+        error,
+        stackTrace,
+      );
     } finally {
       recomputeRunning = false;
     }

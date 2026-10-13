@@ -300,7 +300,6 @@ class GuildReadState extends _$GuildReadState {
     _recomputeGeneration++;
     _clearCaches();
     final guilds = await db.guildDao.getServers();
-    ref.read(guildChannelUnreadFoldProvider.notifier).reset();
     final allChannels = await db.channelDao.getAllChannels(
       includeThreads: true,
     );
@@ -392,7 +391,7 @@ class GuildReadState extends _$GuildReadState {
         now: now,
       );
     }
-    _publishChannelUnreadPatch(unreadPatch);
+    ref.read(guildChannelUnreadFoldProvider.notifier).replace(unreadPatch);
     _emitForGuilds(guilds.map((g) => g.id).toSet());
     _isInitialSeedComplete = true;
     if (_pendingSeedChannelIds.isNotEmpty) {

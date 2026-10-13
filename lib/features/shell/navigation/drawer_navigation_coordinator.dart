@@ -58,7 +58,11 @@ class DrawerNavigationCoordinator {
   ) async {
     talker.debug('[DrawerNavigation] selectGuild guildId=$guildId');
     final int generation = ++_selectGuildGeneration;
-    await primeGuildChannelUnreads(container, guildId);
+    try {
+      await primeGuildChannelUnreads(container, guildId);
+    } on Object catch (error, stackTrace) {
+      talker.error('[DrawerNavigation] unread prime failed', error, stackTrace);
+    }
     if (generation != _selectGuildGeneration) {
       return;
     }
