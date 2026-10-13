@@ -156,5 +156,26 @@ void main() {
         full,
       );
     });
+
+    test('a sheet whose only snap is half still closes from a drag', () {
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.2, halfSize: 0.5, fullSize: 0.5),
+        isNull,
+      );
+      expect(
+        fluxerBottomSheetSnapTarget(
+          size: 0.45,
+          halfSize: 0.5,
+          fullSize: 0.5,
+          velocity: 1200,
+          availablePixels: 800,
+        ),
+        isNull,
+      );
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.4, halfSize: 0.5, fullSize: 0.5),
+        0.5,
+      );
+    });
   });
 }

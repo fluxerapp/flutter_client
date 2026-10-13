@@ -42,7 +42,10 @@ double? fluxerBottomSheetSnapTarget({
   double availablePixels = 1,
 }) {
   if (fullSize - halfSize <= _kSnapEpsilon) {
-    return fullSize;
+    final bool closes =
+        velocity > kFluxerBottomSheetDismissVelocity ||
+        size < fullSize * kFluxerBottomSheetDismissHeightFraction;
+    return closes ? null : fullSize;
   }
 
   final bool atOrBelowHalf = size <= halfSize + _kSnapEpsilon;
