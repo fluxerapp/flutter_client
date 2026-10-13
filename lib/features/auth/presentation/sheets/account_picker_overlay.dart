@@ -384,6 +384,13 @@ class _AccountPickerPanel extends ConsumerWidget {
                       ),
                     ),
                   ),
+                _StaggeredPickerTile(
+                  index: accounts.length,
+                  controller: enterController,
+                  child: _AddAccountTile(
+                    onTap: () => _handleAddAccount(onRequestClose),
+                  ),
+                ),
               ],
             ),
           ),
@@ -422,6 +429,20 @@ class _AccountPickerPanel extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _handleAddAccount(Future<void> Function() onRequestClose) async {
+    await onRequestClose();
+    final BuildContext? rootContext = rootNavigatorKey.currentContext;
+    if (rootContext == null || !rootContext.mounted) {
+      return;
+    }
+    await Navigator.of(rootContext, rootNavigator: true).push<void>(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (_) => const AddAccountScreen(),
+      ),
     );
   }
 
@@ -486,6 +507,59 @@ class _StaggeredPickerTile extends StatelessWidget {
     return FadeTransition(
       opacity: opacity,
       child: SizedBox(width: _kTileWidth, child: child),
+    );
+  }
+}
+
+class _AddAccountTile extends StatelessWidget {
+  const _AddAccountTile({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerColorTheme colors = context.colors;
+
+    return FluxerTappable(
+      onTap: onTap,
+      builder: (BuildContext context, Set<WidgetState> states) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: _kGridAvatarSize,
+              height: _kGridAvatarSize,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: colors.backgroundTertiary,
+                  border: Border.all(
+                    color: _pickerAvatarBorderColor(colors),
+                    width: _kAvatarBorderWidth,
+                  ),
+                ),
+                child: Center(
+                  child: PhosphorIcon(
+                    PhosphorIconsBold.plus,
+                    size: 28,
+                    color: colors.textPrimary,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              FluxerLocalizations.of(context).accountAdd,
+              style: context.textStyles.bodyMedium.copyWith(
+                color: colors.textPrimary,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+      },
     );
   }
 }
