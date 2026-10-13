@@ -102,6 +102,7 @@ void _updateViewport(
   required bool nearLoadedTail,
   String channelId = 'channel-1',
   double distanceFromBottom = 0,
+  bool followsLiveTail = false,
 }) {
   final ChatViewState chat = container.read(chatViewModelProvider);
   container
@@ -113,6 +114,7 @@ void _updateViewport(
         sampledTailId: chat.channelId == channelId
             ? newestServerBackedMessageId(chat.messages)
             : null,
+        followsLiveTail: followsLiveTail,
       );
 }
 
@@ -3549,6 +3551,109 @@ void main() {
     final readState = await db.readStateDao.getReadState('channel-1');
     expect(readState?.lastMessageId, liveId);
     expect(adapter.ackedMessageIds.last, liveId);
+  });
+
+  Future<(FluxerDatabase, _ChatAdapter, ProviderContainer, String)>
+  openBusyChannelAtTail({required bool followsLiveTail}) async {
+    final db = openTestDatabase();
+    final String priorId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final String tailId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(tailId),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(priorId),
+        mentionCount: const Value(0),
+      ),
+    );
+    final adapter = _ChatAdapter(
+      initialMessages: <Map<String, Object?>>[
+        _messageJson(id: tailId, channelId: 'channel-1', authorId: 'other'),
+        _messageJson(id: priorId, channelId: 'channel-1', authorId: 'other'),
+      ],
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+    await container
+        .read(chatViewModelProvider.notifier)
+        .switchChannel('channel-1');
+    _setViewportActive(container, channelId: 'channel-1');
+    await _flushAsync();
+    _updateViewport(
+      container,
+      nearLoadedTail: true,
+      followsLiveTail: followsLiveTail,
+    );
+    await _flushAsync();
+    expect(adapter.ackedMessageIds, <String>[tailId]);
+    return (db, adapter, container, tailId);
+  }
+
+  void emitLiveCreate(ProviderContainer container, String id) {
+    container
+        .read(messageRealtimeBusProvider)
+        .emit(
+          testMessageCreated(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(id: id, channelId: 'channel-1', authorId: 'other'),
+              ),
+            ),
+          ),
+        );
+  }
+
+  test(
+    'a pinned tail keeps acking a busy channel before the list re-measures',
+    () async {
+      final (db, adapter, container, _) = await openBusyChannelAtTail(
+        followsLiveTail: true,
+      );
+      final List<String> arrivals = <String>[
+        for (int minute = 1; minute <= 5; minute++)
+          _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, minute)),
+      ];
+      for (final String id in arrivals) {
+        emitLiveCreate(container, id);
+        await _flushAsync();
+      }
+      await container
+          .read(chatViewModelProvider.notifier)
+          .flushScheduledReadAckRetryForTest();
+      await _flushAsync();
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.lastMessageId, arrivals.last);
+      expect(adapter.ackedMessageIds.last, arrivals.last);
+      expect(
+        container.read(chatReadViewportProvider).sampledTailId,
+        arrivals.last,
+      );
+    },
+  );
+
+  test('an unpinned tail waits for the list to measure new arrivals', () async {
+    final (db, adapter, container, tailId) = await openBusyChannelAtTail(
+      followsLiveTail: false,
+    );
+    final String liveId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+    emitLiveCreate(container, liveId);
+    await _flushAsync();
+    await container
+        .read(chatViewModelProvider.notifier)
+        .flushScheduledReadAckRetryForTest();
+    await _flushAsync();
+
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(readState?.lastMessageId, tailId);
+    expect(adapter.ackedMessageIds, <String>[tailId]);
   });
 
   test(

@@ -16,6 +16,7 @@ class ChatReadViewportState {
     this.distanceFromBottom = 0,
     this.foreground = false,
     this.sampledTailId,
+    this.followsLiveTail = false,
   });
 
   final String channelId;
@@ -25,6 +26,7 @@ class ChatReadViewportState {
   final bool foreground;
 
   final String? sampledTailId;
+  final bool followsLiveTail;
 
   bool get canAutoAck => viewportActive && foreground;
 
@@ -36,7 +38,8 @@ class ChatReadViewportState {
       other.nearLoadedTail == nearLoadedTail &&
       other.distanceFromBottom == distanceFromBottom &&
       other.foreground == foreground &&
-      other.sampledTailId == sampledTailId;
+      other.sampledTailId == sampledTailId &&
+      other.followsLiveTail == followsLiveTail;
 
   @override
   int get hashCode => Object.hash(
@@ -46,6 +49,7 @@ class ChatReadViewportState {
     distanceFromBottom,
     foreground,
     sampledTailId,
+    followsLiveTail,
   );
 }
 
@@ -56,6 +60,7 @@ class ChatReadViewport extends _$ChatReadViewport {
   bool _nearLoadedTail = false;
   double _distanceFromBottom = 0;
   String? _sampledTailId;
+  bool _followsLiveTail = false;
 
   @override
   ChatReadViewportState build() =>
@@ -71,6 +76,7 @@ class ChatReadViewport extends _$ChatReadViewport {
         _nearLoadedTail = false;
         _distanceFromBottom = 0;
         _sampledTailId = null;
+        _followsLiveTail = false;
         _emit();
       }),
     );
@@ -100,6 +106,7 @@ class ChatReadViewport extends _$ChatReadViewport {
     required bool nearLoadedTail,
     required double distanceFromBottom,
     required String? sampledTailId,
+    bool followsLiveTail = false,
   }) {
     unawaited(
       Future<void>.microtask(() {
@@ -111,15 +118,32 @@ class ChatReadViewport extends _$ChatReadViewport {
         );
         if (_nearLoadedTail == nearLoadedTail &&
             _distanceFromBottom == quantizedDistance &&
-            _sampledTailId == sampledTailId) {
+            _sampledTailId == sampledTailId &&
+            _followsLiveTail == followsLiveTail) {
           return;
         }
         _nearLoadedTail = nearLoadedTail;
         _distanceFromBottom = quantizedDistance;
         _sampledTailId = sampledTailId;
+        _followsLiveTail = followsLiveTail;
         _emit();
       }),
     );
+  }
+
+  void followLiveTail({
+    required String channelId,
+    required String? previousTailId,
+    required String nextTailId,
+  }) {
+    if (_channelId != channelId ||
+        !_nearLoadedTail ||
+        !_followsLiveTail ||
+        _sampledTailId != previousTailId) {
+      return;
+    }
+    _sampledTailId = nextTailId;
+    _emit();
   }
 
   ChatReadViewportState _snapshot({required bool foreground}) =>
@@ -131,6 +155,7 @@ class ChatReadViewport extends _$ChatReadViewport {
         distanceFromBottom: _distanceFromBottom,
         foreground: foreground,
         sampledTailId: _sampledTailId,
+        followsLiveTail: _followsLiveTail,
       );
 
   void _emit() {

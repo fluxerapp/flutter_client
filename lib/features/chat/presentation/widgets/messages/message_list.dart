@@ -2944,6 +2944,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         nearLoadedTail: true,
         distanceFromBottom: 0,
         sampledTailId: null,
+        followsLiveTail: true,
       );
       return;
     }
@@ -2962,6 +2963,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           ),
       distanceFromBottom: distanceFromTrailingEdge,
       sampledTailId: newestServerBackedMessageId(chatState.messages),
+      followsLiveTail: !jumpOwnsViewport && _pin.pinned && !_followDisarmed,
     );
   }
 

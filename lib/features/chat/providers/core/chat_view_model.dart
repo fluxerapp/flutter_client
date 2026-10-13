@@ -691,6 +691,7 @@ class ChatViewModel extends _$ChatViewModel {
   bool _pendingSessionResync = false;
   void Function()? _removeReadAckStateListener;
   bool _autoAckEligible = false;
+  bool _followingLiveTail = false;
   int _foregroundResyncGeneration = 0;
   int _connectivityGapGeneration = 0;
   final Map<String, int> _lastReconciledGatewayGenerationByChannel =
@@ -849,6 +850,9 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void _syncReadAckEligibility(ChatReadViewportState viewport) {
+    if (_followingLiveTail) {
+      return;
+    }
     final bool viewportAtTail =
         viewport.channelId == state.channelId &&
         viewport.nearLoadedTail &&
@@ -872,6 +876,30 @@ class ChatViewModel extends _$ChatViewModel {
       unawaited(ackCurrentChannel());
     } else if (!nextEligible) {
       _readAckRetryTimer?.cancel();
+    }
+  }
+
+  void _followLiveTailAppend(List<Message> nextMessages) {
+    if (state.hasMoreNewerMessages) {
+      return;
+    }
+    final String? previousTailId = newestServerBackedMessageId(state.messages);
+    final String? nextTailId = newestServerBackedMessageId(nextMessages);
+    if (nextTailId == null ||
+        compareSnowflakeIds(nextTailId, previousTailId) <= 0) {
+      return;
+    }
+    _followingLiveTail = true;
+    try {
+      ref
+          .read(chatReadViewportProvider.notifier)
+          .followLiveTail(
+            channelId: state.channelId,
+            previousTailId: previousTailId,
+            nextTailId: nextTailId,
+          );
+    } finally {
+      _followingLiveTail = false;
     }
   }
 
@@ -1502,6 +1530,7 @@ class ChatViewModel extends _$ChatViewModel {
     if (compareSnowflakeIds(ackWatermark, pendingAutoAckMessageId) > 0) {
       pendingAutoAckMessageId = ackWatermark;
     }
+    _followLiveTailAppend(workingMessages);
     state = state.copyWith(
       write: (messages: workingMessages, origin: MessagesOrigin.liveCreate),
       hasMoreMessages: droppedOlder || state.hasMoreMessages,
@@ -1560,6 +1589,9 @@ class ChatViewModel extends _$ChatViewModel {
           compareSnowflakeIds(ev.event.message.id, pendingAutoAckMessageId) >
               0) {
         pendingAutoAckMessageId = ev.event.message.id;
+      }
+      if (ev is MessageCreated) {
+        _followLiveTailAppend(nextMessages);
       }
       state = state.copyWith(
         write: (
