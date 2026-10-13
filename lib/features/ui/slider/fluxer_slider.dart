@@ -89,7 +89,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
     }
   }
 
-  double get _effectiveValue => widget.value ?? _value;
+  double get _effectiveValue => _isDragging ? _value : (widget.value ?? _value);
 
   double get _thumbSize => widget.mini ? _kThumbSizeMini : _kThumbSize;
 
@@ -203,7 +203,10 @@ class _FluxerSliderState extends State<FluxerSlider> {
     if (widget.disabled) {
       return;
     }
-    setState(() => _isDragging = true);
+    setState(() {
+      _value = _effectiveValue;
+      _isDragging = true;
+    });
     _showTooltip();
     if (widget.stickToMarkers) {
       _stickToMarkerIndex = _findClosestMarkerIndex(
@@ -269,6 +272,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
       return;
     }
 
+    final double draggedValue = _value;
     setState(() => _isDragging = false);
     if (!_isHovering) {
       _hideTooltip();
@@ -283,7 +287,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
       });
       widget.onValueChange?.call(newValue);
     } else {
-      widget.onValueChange?.call(_effectiveValue);
+      widget.onValueChange?.call(draggedValue);
     }
   }
 
