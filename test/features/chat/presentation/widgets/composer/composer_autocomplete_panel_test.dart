@@ -188,7 +188,7 @@ void main() {
     expect(find.byType(ListView), findsNothing);
   });
 
-  testWidgets('command heading renders uppercase above rows', (tester) async {
+  testWidgets('command heading renders above rows', (tester) async {
     final host = ComposerAutocompletePanelHost(null);
     addTearDown(host.dispose);
     final scrollController = ScrollController();
@@ -216,7 +216,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 250));
 
-    expect(find.text('COMMANDS'), findsOneWidget);
+    expect(find.text('Commands'), findsOneWidget);
     expect(find.text('/me'), findsOneWidget);
   });
 
