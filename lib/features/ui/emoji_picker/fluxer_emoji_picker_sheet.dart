@@ -12,7 +12,6 @@ import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-const Color kReactionPickerScrimColor = Color(0xCC000000);
 const Duration kReactionPickerRiseDuration = Duration(milliseconds: 400);
 const double kReactionPickerRiseStartFraction = 0.558;
 const Curve kReactionPickerRiseSpring = FluxerSpringCurve(
@@ -88,7 +87,7 @@ class FluxerEmojiPickerSheet {
       subtitle: subtitle,
       sheetHeight: sheetHeight,
       showDragHandle: !edgeHandle,
-      barrierColor: sheetHeight == null ? null : kReactionPickerScrimColor,
+      barrierColor: sheetHeight == null ? null : kFluxerSheetDarkScrimColor,
       holdFirstFrame: sheetHeight != null,
       animationStyle: sheetHeight == null
           ? null

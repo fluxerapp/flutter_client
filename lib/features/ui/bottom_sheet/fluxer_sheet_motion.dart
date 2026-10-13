@@ -20,6 +20,7 @@ const double kFluxerSheetBackdropMinCoverage = 0.6;
 const double kFluxerSheetBackdropFullCoverage = 0.9;
 const double kFluxerSheetBackdropCornerRampEnd = 0.25;
 const Color kFluxerSheetBackdropDimColor = Color(0x80000000);
+const Color kFluxerSheetDarkScrimColor = Color(0xCC000000);
 
 double _sheetOpenSeconds(Animation<double> animation, Duration forward) {
   return animation.value *

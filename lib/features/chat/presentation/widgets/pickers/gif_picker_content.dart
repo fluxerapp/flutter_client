@@ -27,12 +27,17 @@ import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -524,30 +529,23 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
   }
 
   void _showGifActions(GifPickerGif gif, _GifFavoriteLookup favoriteLookup) {
-    final isFavorite = favoriteLookup.isFavorite(gif);
+    FluxerHaptics.medium();
     unawaited(
       FluxerBottomSheet.show<void>(
         context,
-        title: gif.title.trim().isEmpty ? 'GIF' : gif.title.trim(),
-        variant: FluxerBottomSheetVariant.menu,
-        builder: (sheetContext, close) => FluxerBottomSheetContent(
-          scrollable: false,
-          child: FluxerMenuGroup(
-            children: [
-              FluxerBottomSheetMenuItem(
-                label: isFavorite
-                    ? 'Remove from Favorites'
-                    : 'Save to Favorites',
-                icon: isFavorite
-                    ? PhosphorIconsBold.star
-                    : PhosphorIconsFill.star,
-                onTap: () {
-                  close();
-                  unawaited(_toggleGifFavorite(gif, favoriteLookup));
-                },
-              ),
-            ],
-          ),
+        showDragHandle: false,
+        barrierColor: kFluxerSheetDarkScrimColor,
+        builder: (sheetContext, close) => _GifActionsSheet(
+          gif: gif,
+          isFavorite: favoriteLookup.isFavorite(gif),
+          onToggleFavorite: () {
+            close();
+            unawaited(_toggleGifFavorite(gif, favoriteLookup));
+          },
+          onCopyLink: () {
+            close();
+            unawaited(copyToClipboard(context: context, value: gif.url));
+          },
         ),
       ),
     );
@@ -1671,6 +1669,71 @@ class _PoweredByLabel extends StatelessWidget {
         fontSize: 11,
         fontWeight: FontWeight.w700,
         letterSpacing: 0.2,
+      ),
+    );
+  }
+}
+
+class _GifActionsSheet extends StatelessWidget {
+  const _GifActionsSheet({
+    required this.gif,
+    required this.isFavorite,
+    required this.onToggleFavorite,
+    required this.onCopyLink,
+  });
+
+  final GifPickerGif gif;
+  final bool isFavorite;
+  final VoidCallback onToggleFavorite;
+  final VoidCallback onCopyLink;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final double maxPreviewHeight = MediaQuery.sizeOf(context).height * 0.5;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const FluxerBottomSheetEdgeHandle(height: 31),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: maxPreviewHeight),
+            child: AspectRatio(
+              aspectRatio: _aspectRatioFromDimensions(gif.width, gif.height),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: _GifMediaPreview(
+                  url: gif.proxySrc,
+                  sourceUrl: gif.src,
+                  allowAnimatedImagePlayback: true,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          if (isFavorite)
+            FluxerButton.secondary(
+              label: l10n.favoritesRemoveFromFavorites,
+              size: FluxerButtonSize.small,
+              onPressed: onToggleFavorite,
+            )
+          else
+            FluxerButton.primary(
+              label: l10n.favoritesAddToFavorites,
+              size: FluxerButtonSize.small,
+              onPressed: onToggleFavorite,
+            ),
+          if (gif.url.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            FluxerButton.secondary(
+              label: l10n.mediaViewerCopyLink,
+              size: FluxerButtonSize.small,
+              onPressed: onCopyLink,
+            ),
+          ],
+        ],
       ),
     );
   }
