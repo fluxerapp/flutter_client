@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -73,7 +74,7 @@ class ChannelSearchOptionCard extends StatelessWidget {
               ),
               if (isSelected) ...[
                 const SizedBox(width: 12),
-                PhosphorIcon(PhosphorIconsBold.check, size: 20, color: accent),
+                const FluxerSelectedCheck(),
               ],
             ],
           ),

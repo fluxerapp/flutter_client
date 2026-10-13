@@ -322,7 +322,9 @@ class _WallpaperPresetCard extends StatelessWidget {
                         opacity: selected ? 1 : 0,
                         duration: motion.fast,
                         curve: motion.curve,
-                        child: const IgnorePointer(child: _SelectionCheck()),
+                        child: const IgnorePointer(
+                          child: FluxerSelectedCheck(),
+                        ),
                       ),
                     ),
                   ),
@@ -528,30 +530,6 @@ class _WallpaperSkeletonShape extends StatelessWidget {
           borderRadius: shape == BoxShape.circle
               ? null
               : BorderRadius.circular(999),
-        ),
-      ),
-    );
-  }
-}
-
-class _SelectionCheck extends StatelessWidget {
-  const _SelectionCheck();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Container(
-      width: 22,
-      height: 22,
-      decoration: BoxDecoration(
-        color: colors.textPrimary,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: PhosphorIcon(
-          PhosphorIconsBold.check,
-          size: 12,
-          color: colors.backgroundPrimary,
         ),
       ),
     );

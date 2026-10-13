@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_scroll.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
+import 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -1763,11 +1764,7 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
                     trailing!,
                   ] else if (isSelected) ...[
                     const SizedBox(width: 12),
-                    PhosphorIcon(
-                      PhosphorIconsBold.check,
-                      size: 20,
-                      color: colors.brandPrimary,
-                    ),
+                    const FluxerSelectedCheck(),
                   ],
                 ],
               ),

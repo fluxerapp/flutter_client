@@ -853,28 +853,16 @@ class _DestinationTile extends StatelessWidget {
   }
 
   Widget _checkbox(FluxerColorTheme colors) {
+    if (isSelected) {
+      return const FluxerSelectedCheck();
+    }
     return Container(
       width: 22,
       height: 22,
       decoration: BoxDecoration(
-        border: Border.all(
-          color: isSelected
-              ? colors.brandPrimary
-              : colors.backgroundHeaderSecondary,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(11),
-        color: isSelected ? colors.brandPrimary : Colors.transparent,
+        shape: BoxShape.circle,
+        border: Border.all(color: colors.backgroundHeaderSecondary, width: 2),
       ),
-      child: isSelected
-          ? Center(
-              child: PhosphorIcon(
-                PhosphorIconsBold.check,
-                size: 13,
-                color: colors.textOnBrandPrimary,
-              ),
-            )
-          : null,
     );
   }
 }

@@ -473,7 +473,7 @@ class _ChannelFilterRow extends StatelessWidget {
               ),
               if (isSelected) ...[
                 const SizedBox(width: 12),
-                PhosphorIcon(PhosphorIconsBold.check, size: 20, color: accent),
+                const FluxerSelectedCheck(),
               ],
             ],
           ),

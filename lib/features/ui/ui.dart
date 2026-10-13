@@ -45,6 +45,7 @@ export 'package:fluxer_app/features/ui/qr_code/fluxer_qr_code.dart';
 export 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 export 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
 export 'package:fluxer_app/features/ui/select/fluxer_select.dart';
+export 'package:fluxer_app/features/ui/selected_check/fluxer_selected_check.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings.dart';
 export 'package:fluxer_app/features/ui/settings/fluxer_settings_configure_row.dart';
