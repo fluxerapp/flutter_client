@@ -201,11 +201,19 @@ void main() {
     expect(title, findsOneWidget);
     final double restTop = tester.getTopLeft(_handle).dy;
 
-    await tester.drag(title, const Offset(0, 80));
+    final TestGesture gesture = await tester.startGesture(
+      tester.getCenter(title),
+    );
+    await gesture.moveBy(const Offset(0, 40));
+    await gesture.moveBy(const Offset(0, 40));
+    await tester.pump();
+    expect(tester.getTopLeft(_handle).dy, greaterThan(restTop));
+
+    await gesture.up();
     await tester.pumpAndSettle();
 
-    expect(tester.getTopLeft(_handle).dy, greaterThan(restTop));
     expect(_handle, findsOneWidget);
+    expect(tester.getTopLeft(_handle).dy, closeTo(restTop, 0.5));
     expect(tester.takeException(), isNull);
   });
 }

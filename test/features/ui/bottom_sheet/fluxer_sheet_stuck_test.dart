@@ -434,11 +434,13 @@ void main() {
               child: const Text('Open'),
             ),
           ),
-        ),
-        GoRoute(
-          path: '/other',
-          builder: (BuildContext context, GoRouterState state) =>
-              const Scaffold(body: Text('Other')),
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'other',
+              builder: (BuildContext context, GoRouterState state) =>
+                  const Scaffold(body: Text('Other')),
+            ),
+          ],
         ),
       ],
     );
@@ -459,11 +461,11 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Sheet'), findsOneWidget);
 
-    unawaited(router.push('/other'));
+    router.go('/other');
     await tester.pumpAndSettle();
     expect(find.text('Other'), findsOneWidget);
 
-    router.pop();
+    router.go('/');
     await tester.pumpAndSettle();
 
     expect(find.text('Sheet'), findsNothing);
