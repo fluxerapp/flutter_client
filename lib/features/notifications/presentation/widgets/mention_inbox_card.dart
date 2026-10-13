@@ -5,7 +5,6 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
@@ -219,19 +218,17 @@ class MentionInboxCard extends ConsumerWidget {
                 ],
               ),
               NotificationQuote(
-                child: MentionPlainTextScope(
-                  child: MessageItem(
-                    message: msg,
-                    currentUserId: currentUserId,
-                    inboxPreviewMode: true,
-                    hideMentionHighlight: true,
-                    previewContentOnly: true,
-                    previewTextStyle: notificationQuoteStyle(
-                      context,
-                      unread: isUnread,
-                    ),
-                    previewRoleGuildId: roleGuildId,
+                child: MessageItem(
+                  message: msg,
+                  currentUserId: currentUserId,
+                  inboxPreviewMode: true,
+                  hideMentionHighlight: true,
+                  previewContentOnly: true,
+                  previewTextStyle: notificationQuoteStyle(
+                    context,
+                    unread: isUnread,
                   ),
+                  previewRoleGuildId: roleGuildId,
                 ),
               ),
               if (reply != null)

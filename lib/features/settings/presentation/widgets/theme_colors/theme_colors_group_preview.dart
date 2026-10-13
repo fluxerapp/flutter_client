@@ -283,7 +283,6 @@ class _EmbedPreview extends StatelessWidget {
           ),
           SizedBox(height: layout.s2),
           _MentionPill(
-            style: mentionStyle,
             child: Text(
               ThemeColorsPreviewContent.mentionLabel,
               style: mentionStyle,
@@ -296,23 +295,18 @@ class _EmbedPreview extends StatelessWidget {
 }
 
 class _MentionPill extends StatelessWidget {
-  const _MentionPill({required this.child, required this.style});
+  const _MentionPill({required this.child});
 
   final Widget child;
-  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final fontSize = style.fontSize ?? 14;
     return Container(
-      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: colors.markupMentionFill,
-        borderRadius: BorderRadius.circular(fontSize * (4 / 14)),
-        border: Border.all(color: colors.markupMentionBorder),
+        color: context.colors.markupMentionFill,
+        borderRadius: BorderRadius.circular(3),
       ),
-      padding: EdgeInsets.symmetric(horizontal: fontSize * (4 / 14)),
+      padding: const EdgeInsets.symmetric(horizontal: 2),
       child: child,
     );
   }
