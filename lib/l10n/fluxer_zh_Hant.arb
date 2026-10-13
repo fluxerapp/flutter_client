@@ -16513,5 +16513,92 @@
     },
     "channelUnsupportedTitle": "不支援的頻道類型",
     "channelUnsupportedBody": "此應用程式版本不支援此頻道類型。",
-    "channelDetailsUnsupportedChannel": "不支援的頻道"
+    "channelDetailsUnsupportedChannel": "不支援的頻道",
+    "forumPostNewBadge": "新訊息",
+    "@forumPostNewBadge": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostNewMessages": "{count, plural, one {# 則新訊息} other {# 則新訊息}}",
+    "@forumPostNewMessages": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatUnreadDividerNew": "新訊息",
+    "@chatUnreadDividerNew": {
+        "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
+    },
+    "chatNewMessagesBarNewSince": "自 {shortTime} 起有 {unreadCount, plural, other {# 則新訊息}}",
+    "@chatNewMessagesBarNewSince": {
+        "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewSinceEstimated": "自 {shortTime} 起有超過 {unreadCount} 則新訊息",
+    "@chatNewMessagesBarNewSinceEstimated": {
+        "description": "Compact new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewMessagesSince": "自 {compactTime} 起有 {unreadCount, plural, one {# 則新訊息} other {# 則新訊息}}",
+    "@chatNewMessagesBarNewMessagesSince": {
+        "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewMessagesSinceEstimated": "自 {compactTime} 起有超過 {unreadCount} 則新訊息",
+    "@chatNewMessagesBarNewMessagesSinceEstimated": {
+        "description": "Wide new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarMarkRead": "標示為已讀",
+    "@chatNewMessagesBarMarkRead": {
+        "description": "Compact new messages bar action."
+    },
+    "chatNewMessagesBarMarkAsRead": "標示為已讀",
+    "@chatNewMessagesBarMarkAsRead": {
+        "description": "Wide new messages bar action."
+    },
+    "chatNewMessagesBarJumpToFirstUnread": "跳到第一則未讀訊息",
+    "@chatNewMessagesBarJumpToFirstUnread": {
+        "description": "Accessible label for the new messages bar text button."
+    },
+    "chatViewingOlderMessages": "您正在檢視較舊的訊息",
+    "@chatViewingOlderMessages": {
+        "description": "Bottom bar text shown while the message list is detached from the present."
+    },
+    "chatJumpToPresent": "跳到最新訊息",
+    "@chatJumpToPresent": {
+        "description": "Bottom bar action that returns the message list to the newest messages."
+    }
 }

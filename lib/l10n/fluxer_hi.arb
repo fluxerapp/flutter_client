@@ -16538,5 +16538,92 @@
     },
     "channelUnsupportedTitle": "असमर्थित चैनल प्रकार",
     "channelUnsupportedBody": "ऐप का यह वर्शन इस चैनल प्रकार का समर्थन नहीं करता है।",
-    "channelDetailsUnsupportedChannel": "असमर्थित चैनल"
+    "channelDetailsUnsupportedChannel": "असमर्थित चैनल",
+    "forumPostNewBadge": "नया",
+    "@forumPostNewBadge": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostNewMessages": "{count, plural, one {# नया संदेश} other {# नए संदेश}}",
+    "@forumPostNewMessages": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatUnreadDividerNew": "नया",
+    "@chatUnreadDividerNew": {
+        "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
+    },
+    "chatNewMessagesBarNewSince": "{shortTime} से {unreadCount, plural, one {# नया मैसेज} other {# नए मैसेज}}",
+    "@chatNewMessagesBarNewSince": {
+        "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewSinceEstimated": "{shortTime} से {unreadCount}+ नए मैसेज",
+    "@chatNewMessagesBarNewSinceEstimated": {
+        "description": "Compact new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewMessagesSince": "{compactTime} से {unreadCount, plural, one {# नया मैसेज} other {# नए मैसेज}}",
+    "@chatNewMessagesBarNewMessagesSince": {
+        "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewMessagesSinceEstimated": "{compactTime} से {unreadCount}+ नए मैसेज",
+    "@chatNewMessagesBarNewMessagesSinceEstimated": {
+        "description": "Wide new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarMarkRead": "पढ़ा गया मार्क करें",
+    "@chatNewMessagesBarMarkRead": {
+        "description": "Compact new messages bar action."
+    },
+    "chatNewMessagesBarMarkAsRead": "पढ़ा गया मार्क करें",
+    "@chatNewMessagesBarMarkAsRead": {
+        "description": "Wide new messages bar action."
+    },
+    "chatNewMessagesBarJumpToFirstUnread": "पहले अपठित मैसेज पर जाएं",
+    "@chatNewMessagesBarJumpToFirstUnread": {
+        "description": "Accessible label for the new messages bar text button."
+    },
+    "chatViewingOlderMessages": "आप पुराने मैसेज देख रहे हैं",
+    "@chatViewingOlderMessages": {
+        "description": "Bottom bar text shown while the message list is detached from the present."
+    },
+    "chatJumpToPresent": "सबसे नए मैसेज पर जाएं",
+    "@chatJumpToPresent": {
+        "description": "Bottom bar action that returns the message list to the newest messages."
+    }
 }

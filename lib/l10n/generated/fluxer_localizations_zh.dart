@@ -12,6 +12,72 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get reconnectingTitle => '我们出错了！';
 
   @override
+  String get chatJumpToPresent => '跳转到最新消息';
+
+  @override
+  String get chatViewingOlderMessages => '你正在查看较早的消息';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread => '跳转到第一条未读消息';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => '标为已读';
+
+  @override
+  String get chatNewMessagesBarMarkRead => '标为已读';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$compactTime 以来有 $unreadCountString+ 条新消息';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# 条新消息',
+    );
+    return '$compactTime 以来有 $_temp0';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$shortTime 以来有 $unreadCountString+ 条新消息';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# 条新消息',
+    );
+    return '$shortTime 以来有 $_temp0';
+  }
+
+  @override
   String get reconnectingBody => '实例出现问题。\n很快就会修复！';
 
   @override
@@ -10169,6 +10235,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatJumpToBottom => '跳至底部';
 
   @override
+  String get chatUnreadDividerNew => '新消息';
+
+  @override
   String get uiConfirm => '确认';
 
   @override
@@ -13966,7 +14035,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => '新消息';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -13981,8 +14050,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# 条新消息',
+      one: '# 条新消息',
     );
     return '$_temp0';
   }
@@ -14299,6 +14368,73 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get reconnectingTitle => '我們出錯了！';
+
+  @override
+  String get chatJumpToPresent => '跳到最新訊息';
+
+  @override
+  String get chatViewingOlderMessages => '您正在檢視較舊的訊息';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread => '跳到第一則未讀訊息';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => '標示為已讀';
+
+  @override
+  String get chatNewMessagesBarMarkRead => '標示為已讀';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '自 $compactTime 起有超過 $unreadCountString 則新訊息';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# 則新訊息',
+      one: '# 則新訊息',
+    );
+    return '自 $compactTime 起有 $_temp0';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '自 $shortTime 起有超過 $unreadCountString 則新訊息';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# 則新訊息',
+    );
+    return '自 $shortTime 起有 $_temp0';
+  }
 
   @override
   String get reconnectingBody => '連線發生問題。\n幾秒鐘內就會修復！';
@@ -24227,6 +24363,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatJumpToBottom => '跳至底部';
 
   @override
+  String get chatUnreadDividerNew => '新訊息';
+
+  @override
   String get uiConfirm => '確定';
 
   @override
@@ -27539,4 +27678,18 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get channelDetailsUnsupportedChannel => '不支援的頻道';
+
+  @override
+  String get forumPostNewBadge => '新訊息';
+
+  @override
+  String forumPostNewMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# 則新訊息',
+      one: '# 則新訊息',
+    );
+    return '$_temp0';
+  }
 }

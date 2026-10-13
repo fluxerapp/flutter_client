@@ -12,6 +12,76 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get reconnectingTitle => 'הסתבכנו!';
 
   @override
+  String get chatJumpToPresent => 'קפוץ להודעה האחרונה';
+
+  @override
+  String get chatViewingOlderMessages => 'אתה מציג הודעות ישנות יותר';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'קפיצה להודעה הראשונה שלא נקראה';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'סמן כנקרא';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'סמן כנקרא';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ הודעות חדשות מאז $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# הודעות חדשות',
+      one: '# הודעה חדשה',
+    );
+    return '$_temp0 מאז $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ חדשות מאז $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# הודעות חדשות',
+      two: '# הודעות חדשות',
+      one: 'הודעה חדשה אחת',
+    );
+    return '$_temp0 מאז $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'משהו השתבש עם המופע.\nזה אמור להסתדר תוך שנייה!';
 
@@ -10700,6 +10770,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get chatJumpToBottom => 'קפוץ לתחתית';
 
   @override
+  String get chatUnreadDividerNew => 'חדש';
+
+  @override
   String get uiConfirm => 'אישור';
 
   @override
@@ -14644,7 +14717,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'חדש';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14659,8 +14732,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# הודעות חדשות',
+      one: '# הודעה חדשה',
     );
     return '$_temp0';
   }

@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/locale_upper_case.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -314,16 +315,18 @@ class _ForumPostTitle extends StatelessWidget {
         ],
         if (data.isNew) ...<Widget>[
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
             decoration: BoxDecoration(
-              color: colors.brandPrimary,
+              color: colors.statusDanger,
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text(
-              l10n.forumPostNewBadge,
+              localeUpperCase(context, l10n.forumPostNewBadge),
               style: context.textStyles.smallText.copyWith(
                 color: colors.textOnBrandPrimary,
+                fontSize: 11,
                 fontWeight: FontWeight.w700,
+                height: 18 / 11,
               ),
             ),
           ),
@@ -438,7 +441,7 @@ class _ForumPostMeta extends StatelessWidget {
                   color: Theme.of(context).brightness == Brightness.light
                       ? colors.brandPrimary
                       : colors.brandPrimaryLight,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 )
               : style,
         ),

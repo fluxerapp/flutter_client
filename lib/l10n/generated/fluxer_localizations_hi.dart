@@ -12,6 +12,74 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get reconnectingTitle => 'हम गड़बड़ हो गए!';
 
   @override
+  String get chatJumpToPresent => 'सबसे नए मैसेज पर जाएं';
+
+  @override
+  String get chatViewingOlderMessages => 'आप पुराने मैसेज देख रहे हैं';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread => 'पहले अपठित मैसेज पर जाएं';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'पढ़ा गया मार्क करें';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'पढ़ा गया मार्क करें';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$compactTime से $unreadCountString+ नए मैसेज';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# नए मैसेज',
+      one: '# नया मैसेज',
+    );
+    return '$compactTime से $_temp0';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$shortTime से $unreadCountString+ नए मैसेज';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# नए मैसेज',
+      one: '# नया मैसेज',
+    );
+    return '$shortTime से $_temp0';
+  }
+
+  @override
   String get reconnectingBody =>
       'इंस्टेंस में कुछ समस्या है।\nएक सेकंड में ठीक हो जाएगा!';
 
@@ -10837,6 +10905,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatJumpToBottom => 'नीचे पर जाएँ';
 
   @override
+  String get chatUnreadDividerNew => 'नया';
+
+  @override
   String get uiConfirm => 'पुष्टि करें';
 
   @override
@@ -14834,7 +14905,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'नया';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14849,8 +14920,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# नए संदेश',
+      one: '# नया संदेश',
     );
     return '$_temp0';
   }

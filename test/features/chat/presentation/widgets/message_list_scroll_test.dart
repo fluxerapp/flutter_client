@@ -1844,7 +1844,7 @@ void main() {
           reason: 'a disarmed leave must not follow the live arrival',
         );
 
-        await tester.tap(find.text('Mark Read'));
+        await tester.tap(find.textContaining(RegExp(r'^Mark (as )?read$')));
         await pumpFluxerFrames(tester);
 
         final ScrollPosition landed = messageListScrollPosition(tester);

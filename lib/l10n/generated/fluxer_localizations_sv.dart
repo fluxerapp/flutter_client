@@ -12,6 +12,75 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get reconnectingTitle => 'Vi har klantat till det!';
 
   @override
+  String get chatJumpToPresent => 'Gå till de senaste meddelandena';
+
+  @override
+  String get chatViewingOlderMessages => 'Du visar äldre meddelanden';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Hoppa till det första olästa meddelandet';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Markera som läst';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Markera som läst';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nya meddelanden sedan $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nya meddelanden',
+      one: '# nytt meddelande',
+    );
+    return '$_temp0 sedan $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nya sedan $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nya',
+      one: '# nytt',
+    );
+    return '$_temp0 sedan $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Något är fel med instansen.\nBör vara fixat om en sekund!';
 
@@ -10870,6 +10939,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatJumpToBottom => 'Hoppa till botten';
 
   @override
+  String get chatUnreadDividerNew => 'Nytt';
+
+  @override
   String get uiConfirm => 'Bekräfta';
 
   @override
@@ -14890,7 +14962,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Nytt';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14905,8 +14977,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# nya meddelanden',
+      one: '# nytt meddelande',
     );
     return '$_temp0';
   }

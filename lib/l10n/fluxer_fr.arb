@@ -16513,5 +16513,92 @@
     },
     "channelUnsupportedTitle": "Type de salon non pris en charge",
     "channelUnsupportedBody": "Cette version de l'application ne prend pas en charge ce type de salon.",
-    "channelDetailsUnsupportedChannel": "Salon non pris en charge"
+    "channelDetailsUnsupportedChannel": "Salon non pris en charge",
+    "forumPostNewBadge": "Nouveau",
+    "@forumPostNewBadge": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostNewMessages": "{count, plural, one {# nouveau message} other {# nouveaux messages}}",
+    "@forumPostNewMessages": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatUnreadDividerNew": "Nouveau",
+    "@chatUnreadDividerNew": {
+        "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
+    },
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# nouveau} many {# nouveaux} other {# nouveaux}} depuis {shortTime}",
+    "@chatNewMessagesBarNewSince": {
+        "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewSinceEstimated": "{unreadCount}+ nouveaux depuis {shortTime}",
+    "@chatNewMessagesBarNewSinceEstimated": {
+        "description": "Compact new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# nouveau message} other {# nouveaux messages}} depuis {compactTime}",
+    "@chatNewMessagesBarNewMessagesSince": {
+        "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewMessagesSinceEstimated": "{unreadCount}+ nouveaux messages depuis {compactTime}",
+    "@chatNewMessagesBarNewMessagesSinceEstimated": {
+        "description": "Wide new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarMarkRead": "Marquer comme lu",
+    "@chatNewMessagesBarMarkRead": {
+        "description": "Compact new messages bar action."
+    },
+    "chatNewMessagesBarMarkAsRead": "Marquer comme lu",
+    "@chatNewMessagesBarMarkAsRead": {
+        "description": "Wide new messages bar action."
+    },
+    "chatNewMessagesBarJumpToFirstUnread": "Aller au premier message non lu",
+    "@chatNewMessagesBarJumpToFirstUnread": {
+        "description": "Accessible label for the new messages bar text button."
+    },
+    "chatViewingOlderMessages": "Vous consultez des messages plus anciens",
+    "@chatViewingOlderMessages": {
+        "description": "Bottom bar text shown while the message list is detached from the present."
+    },
+    "chatJumpToPresent": "Aller aux messages récents",
+    "@chatJumpToPresent": {
+        "description": "Bottom bar action that returns the message list to the newest messages."
+    }
 }

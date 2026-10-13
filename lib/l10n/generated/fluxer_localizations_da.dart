@@ -12,6 +12,75 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get reconnectingTitle => 'Vi er gået galt!';
 
   @override
+  String get chatJumpToPresent => 'Gå til nyeste';
+
+  @override
+  String get chatViewingOlderMessages => 'Du ser ældre beskeder';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Gå til første ulæste besked';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Markér som læst';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Markér som læst';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nye beskeder siden $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nye beskeder',
+      one: '# ny besked',
+    );
+    return '$_temp0 siden $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nye siden $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nye',
+      one: '# ny',
+    );
+    return '$_temp0 siden $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Noget er galt med instansen.\nDet burde være fikset om et øjeblik!';
 
@@ -10855,6 +10924,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatJumpToBottom => 'Spring til bunden';
 
   @override
+  String get chatUnreadDividerNew => 'Ny';
+
+  @override
   String get uiConfirm => 'Bekræft';
 
   @override
@@ -14873,7 +14945,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Ny';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14888,8 +14960,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# nye beskeder',
+      one: '# ny besked',
     );
     return '$_temp0';
   }

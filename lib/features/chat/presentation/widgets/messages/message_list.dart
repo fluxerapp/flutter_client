@@ -112,7 +112,9 @@ import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
+import 'package:fluxer_app/shared/utils/locale_upper_case.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -167,21 +169,6 @@ final _cachedUnreadCountProvider = StreamProvider.autoDispose
         key.ackId,
       );
     });
-
-const _kMonthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
 
 /// Viewport fraction where the NEW divider sits on unread opens.
 const double _kUnreadOpenAnchor = 0.5;
@@ -4157,10 +4144,10 @@ class _MessageListState extends ConsumerState<MessageList>
 
   Widget _buildUnreadDateSeparator(BuildContext context, DateTime date) {
     final Color danger = context.colors.statusDanger;
-    final DateTime local = date.toLocal();
-    final String formatted =
-        '${_kMonthNames[local.month - 1]} ${local.day},'
-        ' ${local.year}';
+    final String formatted = formatUserFullDate(
+      date.toLocal(),
+      Localizations.localeOf(context).toString(),
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: SizedBox(
@@ -4203,7 +4190,10 @@ class _MessageListState extends ConsumerState<MessageList>
         borderRadius: BorderRadius.circular(3),
       ),
       child: Text(
-        'NEW',
+        localeUpperCase(
+          context,
+          FluxerLocalizations.of(context).chatUnreadDividerNew,
+        ),
         maxLines: 1,
         style: context.textStyles.smallText.copyWith(
           color: Colors.white.withValues(alpha: 0.9),
@@ -4217,10 +4207,10 @@ class _MessageListState extends ConsumerState<MessageList>
   }
 
   Widget _buildDateSeparator(BuildContext context, DateTime date) {
-    final DateTime local = date.toLocal();
-    final String formatted =
-        '${_kMonthNames[local.month - 1]} ${local.day},'
-        ' ${local.year}';
+    final String formatted = formatUserFullDate(
+      date.toLocal(),
+      Localizations.localeOf(context).toString(),
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(

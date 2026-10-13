@@ -4,6 +4,76 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / instance error screen."
     },
+    "chatJumpToPresent": "Jump to present",
+    "@chatJumpToPresent": {
+        "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "chatViewingOlderMessages": "You're viewing older messages",
+    "@chatViewingOlderMessages": {
+        "description": "Bottom bar text shown while the message list is detached from the present."
+    },
+    "chatNewMessagesBarJumpToFirstUnread": "Jump to first unread message",
+    "@chatNewMessagesBarJumpToFirstUnread": {
+        "description": "Accessible label for the new messages bar text button."
+    },
+    "chatNewMessagesBarMarkAsRead": "Mark as read",
+    "@chatNewMessagesBarMarkAsRead": {
+        "description": "Wide new messages bar action."
+    },
+    "chatNewMessagesBarMarkRead": "Mark read",
+    "@chatNewMessagesBarMarkRead": {
+        "description": "Compact new messages bar action."
+    },
+    "chatNewMessagesBarNewMessagesSinceEstimated": "{unreadCount}+ new messages since {compactTime}",
+    "@chatNewMessagesBarNewMessagesSinceEstimated": {
+        "description": "Wide new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewMessagesSince": "{unreadCount, plural, one {# new message} other {# new messages}} since {compactTime}",
+    "@chatNewMessagesBarNewMessagesSince": {
+        "description": "Wide new messages bar label. compactTime is the date and time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "compactTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewSinceEstimated": "{unreadCount}+ new since {shortTime}",
+    "@chatNewMessagesBarNewSinceEstimated": {
+        "description": "Compact new messages bar label when the unread count is a lower bound.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int",
+                "format": "decimalPattern"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
+    "chatNewMessagesBarNewSince": "{unreadCount, plural, one {# new} other {# new}} since {shortTime}",
+    "@chatNewMessagesBarNewSince": {
+        "description": "Compact new messages bar label. shortTime is the time of the oldest unread message.",
+        "placeholders": {
+            "unreadCount": {
+                "type": "int"
+            },
+            "shortTime": {
+                "type": "String"
+            }
+        }
+    },
     "reconnectingBody": "Something is wrong with the instance.\nShould be fixed in a second!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining a temporary instance outage."
@@ -12845,6 +12915,10 @@
     "@chatJumpToBottom": {
         "description": "Accessible label for the chat jump-to-bottom button."
     },
+    "chatUnreadDividerNew": "New",
+    "@chatUnreadDividerNew": {
+        "description": "Badge on the unread divider line in the message list. Rendered in uppercase."
+    },
     "uiConfirm": "Confirm",
     "@uiConfirm": {
         "description": "Generic confirm action label for modals and sheets."
@@ -17463,7 +17537,7 @@
     "@forumPostArchived": {
         "description": "Forum and media channel UI."
     },
-    "forumPostNewBadge": "NEW",
+    "forumPostNewBadge": "New",
     "@forumPostNewBadge": {
         "description": "Forum and media channel UI."
     },
@@ -17483,7 +17557,7 @@
             }
         }
     },
-    "forumPostNewMessages": "{count, plural, =1{1 new message} other{{count} new messages}}",
+    "forumPostNewMessages": "{count, plural, one {# new message} other {# new messages}}",
     "@forumPostNewMessages": {
         "description": "Forum and media channel UI.",
         "placeholders": {

@@ -12,6 +12,75 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get reconnectingTitle => 'Valami elromlott!';
 
   @override
+  String get chatJumpToPresent => 'Ugrás a jelenlegi üzenetekhez';
+
+  @override
+  String get chatViewingOlderMessages => 'Régebbi üzeneteket nézel';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Ugrás az első olvasatlan üzenetre';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Megjelölés olvasottként';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Megjelölés olvasottként';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ új üzenet $compactTime óta';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# új üzenet',
+      one: '# új üzenet',
+    );
+    return '$_temp0 $compactTime óta';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ új üzenet $shortTime óta';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# új üzenet',
+      one: '# új üzenet',
+    );
+    return '$_temp0 $shortTime óta';
+  }
+
+  @override
   String get reconnectingBody =>
       'Valami hiba történt az instanciával.\nHamarosan javítjuk!';
 
@@ -10959,6 +11028,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatJumpToBottom => 'Ugrás alulra';
 
   @override
+  String get chatUnreadDividerNew => 'Új';
+
+  @override
   String get uiConfirm => 'Megerősítés';
 
   @override
@@ -14994,7 +15066,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Új';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -15009,8 +15081,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# új üzenet',
+      one: '# új üzenet',
     );
     return '$_temp0';
   }

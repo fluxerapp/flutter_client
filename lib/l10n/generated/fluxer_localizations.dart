@@ -167,6 +167,66 @@ abstract class FluxerLocalizations {
   /// **'We fluxed up!'**
   String get reconnectingTitle;
 
+  /// Bottom bar action that returns the message list to the newest messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to present'**
+  String get chatJumpToPresent;
+
+  /// Bottom bar text shown while the message list is detached from the present.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re viewing older messages'**
+  String get chatViewingOlderMessages;
+
+  /// Accessible label for the new messages bar text button.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to first unread message'**
+  String get chatNewMessagesBarJumpToFirstUnread;
+
+  /// Wide new messages bar action.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get chatNewMessagesBarMarkAsRead;
+
+  /// Compact new messages bar action.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark read'**
+  String get chatNewMessagesBarMarkRead;
+
+  /// Wide new messages bar label when the unread count is a lower bound.
+  ///
+  /// In en, this message translates to:
+  /// **'{unreadCount}+ new messages since {compactTime}'**
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  );
+
+  /// Wide new messages bar label. compactTime is the date and time of the oldest unread message.
+  ///
+  /// In en, this message translates to:
+  /// **'{unreadCount, plural, one {# new message} other {# new messages}} since {compactTime}'**
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  );
+
+  /// Compact new messages bar label when the unread count is a lower bound.
+  ///
+  /// In en, this message translates to:
+  /// **'{unreadCount}+ new since {shortTime}'**
+  String chatNewMessagesBarNewSinceEstimated(int unreadCount, String shortTime);
+
+  /// Compact new messages bar label. shortTime is the time of the oldest unread message.
+  ///
+  /// In en, this message translates to:
+  /// **'{unreadCount, plural, one {# new} other {# new}} since {shortTime}'**
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime);
+
   /// Subtitle on the reconnecting screen explaining a temporary instance outage.
   ///
   /// In en, this message translates to:
@@ -17981,6 +18041,12 @@ abstract class FluxerLocalizations {
   /// **'Jump to bottom'**
   String get chatJumpToBottom;
 
+  /// Badge on the unread divider line in the message list. Rendered in uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get chatUnreadDividerNew;
+
   /// Generic confirm action label for modals and sheets.
   ///
   /// In en, this message translates to:
@@ -24633,7 +24699,7 @@ abstract class FluxerLocalizations {
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
-  /// **'NEW'**
+  /// **'New'**
   String get forumPostNewBadge;
 
   /// Forum and media channel UI.
@@ -24651,7 +24717,7 @@ abstract class FluxerLocalizations {
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{1 new message} other{{count} new messages}}'**
+  /// **'{count, plural, one {# new message} other {# new messages}}'**
   String forumPostNewMessages(int count);
 
   /// Forum and media channel UI.

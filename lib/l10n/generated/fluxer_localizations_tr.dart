@@ -12,6 +12,74 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get reconnectingTitle => 'Bir şeyler ters gitti!';
 
   @override
+  String get chatJumpToPresent => 'Şimdiye atla';
+
+  @override
+  String get chatViewingOlderMessages => 'Eski mesajları görüntülüyorsunuz';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread => 'İlk okunmamış mesaja atla';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Okundu olarak işaretle';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Okundu olarak işaretle';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$compactTime itibarıyla $unreadCountString+ yeni mesaj';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# yeni mesaj',
+      one: '# yeni mesaj',
+    );
+    return '$compactTime itibarıyla $_temp0';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$shortTime itibarıyla $unreadCountString+ yeni mesaj';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# yeni mesaj',
+      one: '# yeni mesaj',
+    );
+    return '$shortTime itibarıyla $_temp0';
+  }
+
+  @override
   String get reconnectingBody =>
       'Kurulumda bir sorun var.\nBirazdan düzelecek!';
 
@@ -10860,6 +10928,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatJumpToBottom => 'Aşağıya atla';
 
   @override
+  String get chatUnreadDividerNew => 'Yeni';
+
+  @override
   String get uiConfirm => 'Onayla';
 
   @override
@@ -14849,7 +14920,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Yeni';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14864,8 +14935,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# yeni mesaj',
+      one: '# yeni mesaj',
     );
     return '$_temp0';
   }

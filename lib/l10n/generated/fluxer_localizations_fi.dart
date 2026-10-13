@@ -12,6 +12,75 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get reconnectingTitle => 'Me mokasimme!';
 
   @override
+  String get chatJumpToPresent => 'Siirry nykyhetkeen';
+
+  @override
+  String get chatViewingOlderMessages => 'Katselet vanhempia viestejä';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Siirry ensimmäiseen lukemattomaan viestiin';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Merkitse luetuksi';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Merkitse luetuksi';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ uutta viestiä $compactTime alkaen';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# uutta viestiä',
+      one: '# uusi viesti',
+    );
+    return '$_temp0 $compactTime alkaen';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ uutta viestiä $shortTime alkaen';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# uutta viestiä',
+      one: '# uusi viesti',
+    );
+    return '$_temp0 $shortTime alkaen';
+  }
+
+  @override
   String get reconnectingBody =>
       'Jotain on vialla tässä instanssissa.\nPitäisi korjaantua hetken kuluttua!';
 
@@ -10872,6 +10941,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatJumpToBottom => 'Siirry alareunaan';
 
   @override
+  String get chatUnreadDividerNew => 'Uudet';
+
+  @override
   String get uiConfirm => 'Vahvista';
 
   @override
@@ -14886,7 +14958,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Uudet';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14901,8 +14973,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# uutta viestiä',
+      one: '# uusi viesti',
     );
     return '$_temp0';
   }

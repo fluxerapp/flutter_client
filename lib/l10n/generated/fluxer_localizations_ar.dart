@@ -12,6 +12,83 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get reconnectingTitle => 'لقد أخطأنا!';
 
   @override
+  String get chatJumpToPresent => 'الانتقال إلى أحدث الرسائل';
+
+  @override
+  String get chatViewingOlderMessages => 'أنت تشاهد رسائل أقدم';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'الانتقال إلى أول رسالة غير مقروءة';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'وضع علامة كمقروءة';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'وضع علامة كمقروءة';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return 'أكثر من $unreadCountString رسالة جديدة منذ $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# رسالة جديدة',
+      many: '# رسالة جديدة',
+      few: '# رسائل جديدة',
+      two: 'رسالتان جديدتان',
+      one: 'رسالة جديدة واحدة',
+      zero: '# رسالة جديدة',
+    );
+    return '$_temp0 منذ $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return 'أكثر من $unreadCountString رسالة جديدة منذ $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# رسالة جديدة',
+      many: '# رسالة جديدة',
+      few: '# رسائل جديدة',
+      two: 'رسالتان جديدتان',
+      one: 'رسالة جديدة واحدة',
+      zero: 'لا رسائل جديدة',
+    );
+    return '$_temp0 منذ $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'هناك مشكلة في الخادم.\nسيتم إصلاحها في ثانية!';
 
@@ -10767,6 +10844,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get chatJumpToBottom => 'الانتقال إلى الأسفل';
 
   @override
+  String get chatUnreadDividerNew => 'جديد';
+
+  @override
   String get uiConfirm => 'تأكيد';
 
   @override
@@ -14749,7 +14829,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'جديد';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14764,8 +14844,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# رسائل جديدة',
+      one: '# رسالة جديدة',
     );
     return '$_temp0';
   }

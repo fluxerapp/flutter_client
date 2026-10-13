@@ -12,6 +12,77 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get reconnectingTitle => 'Abbiamo fatto un pasticcio!';
 
   @override
+  String get chatJumpToPresent => 'Vai ai messaggi più recenti';
+
+  @override
+  String get chatViewingOlderMessages =>
+      'Stai visualizzando messaggi meno recenti';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Vai al primo messaggio non letto';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Segna come letto';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Segna come letto';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nuovi messaggi da $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nuovi messaggi',
+      one: '# nuovo messaggio',
+    );
+    return '$_temp0 da $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nuovi da $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nuovi',
+      many: '# nuovi',
+      one: '# nuovo',
+    );
+    return '$_temp0 da $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'C\'è un problema con l\'istanza.\nDovrebbe risolversi in un attimo!';
 
@@ -10931,6 +11002,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get chatJumpToBottom => 'Salta in fondo';
 
   @override
+  String get chatUnreadDividerNew => 'Nuovi';
+
+  @override
   String get uiConfirm => 'Conferma';
 
   @override
@@ -14963,7 +15037,7 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Nuovi';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14978,8 +15052,8 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# nuovi messaggi',
+      one: '# nuovo messaggio',
     );
     return '$_temp0';
   }

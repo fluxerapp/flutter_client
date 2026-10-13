@@ -133,13 +133,6 @@ void main() {
     expect(summary.displayUnreadCount, 0);
   });
 
-  test('formats exact and estimated unread count labels', () {
-    expect(unreadCountLabel(1, isEstimated: false), '1');
-    expect(unreadCountLabel(2, isEstimated: true), '2+');
-    expect(unreadCountLabel(100, isEstimated: false), '99+');
-    expect(unreadCountLabel(100, isEstimated: true), '99+');
-  });
-
   test(
     'marks summary estimated when channel pointer is ahead of loaded tail',
     () {

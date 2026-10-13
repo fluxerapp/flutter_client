@@ -70,6 +70,27 @@ String formatUserDateTime(
   ).format(localDateTime);
 }
 
+String formatUserCompactDateTime(
+  DateTime localDateTime,
+  String locale, {
+  required bool use12Hour,
+}) {
+  final String datePattern = DateFormat.yMd(
+    locale,
+  ).pattern!.replaceAll(RegExp('y+'), 'yy');
+  final String date = DateFormat(datePattern, locale).format(localDateTime);
+  final String time = formatUserTime(
+    localDateTime,
+    locale,
+    use12Hour: use12Hour,
+  );
+  return '$date, $time';
+}
+
+String formatUserFullDate(DateTime localDateTime, String locale) {
+  return DateFormat.yMMMMEEEEd(locale).format(localDateTime);
+}
+
 String formatUserMediumDate(DateTime localDateTime, String locale) {
   return DateFormat.yMMMd(locale).format(localDateTime);
 }

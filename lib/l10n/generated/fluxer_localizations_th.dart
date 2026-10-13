@@ -12,6 +12,74 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get reconnectingTitle => 'เรามีปัญหา!';
 
   @override
+  String get chatJumpToPresent => 'ไปยังข้อความล่าสุด';
+
+  @override
+  String get chatViewingOlderMessages => 'คุณกำลังดูข้อความเก่า';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'ข้ามไปยังข้อความแรกที่ยังไม่ได้อ่าน';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'ทำเครื่องหมายว่าอ่านแล้ว';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'ทำเครื่องหมายว่าอ่านแล้ว';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return 'ข้อความใหม่ $unreadCountString+ รายการ ตั้งแต่ $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: 'ข้อความใหม่ # รายการ',
+      one: 'ข้อความใหม่ # รายการ',
+    );
+    return '$_temp0 ตั้งแต่ $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return 'ใหม่ $unreadCountString+ ข้อความ ตั้งแต่ $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: 'ใหม่ # ข้อความ',
+    );
+    return '$_temp0 ตั้งแต่ $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'มีบางอย่างผิดปกติกับอินสแตนซ์\nน่าจะแก้ไขได้ในเร็วๆ นี้!';
 
@@ -10774,6 +10842,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatJumpToBottom => 'เลื่อนไปยังด้านล่าง';
 
   @override
+  String get chatUnreadDividerNew => 'ใหม่';
+
+  @override
   String get uiConfirm => 'ยืนยัน';
 
   @override
@@ -14731,7 +14802,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'ใหม่';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14746,8 +14817,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# ข้อความใหม่',
+      one: '# ข้อความใหม่',
     );
     return '$_temp0';
   }

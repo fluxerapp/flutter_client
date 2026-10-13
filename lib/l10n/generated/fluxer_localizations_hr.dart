@@ -12,6 +12,77 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get reconnectingTitle => 'Došlo je do greške!';
 
   @override
+  String get chatJumpToPresent => 'Skoči na najnovije';
+
+  @override
+  String get chatViewingOlderMessages => 'Pregledavate starije poruke';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Skoči na prvu nepročitanu poruku';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Označi kao pročitano';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Označi kao pročitano';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ novih poruka od $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# novih poruka',
+      few: '# nove poruke',
+      one: '# nova poruka',
+    );
+    return '$_temp0 od $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ novih od $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# novih',
+      few: '# nove',
+      one: '# nova',
+    );
+    return '$_temp0 od $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Nešto nije u redu s instancom.\nPopravit će se za sekundu!';
 
@@ -10894,6 +10965,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatJumpToBottom => 'Skoči na dno';
 
   @override
+  String get chatUnreadDividerNew => 'Novo';
+
+  @override
   String get uiConfirm => 'Potvrdi';
 
   @override
@@ -14917,7 +14991,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Novo';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14932,8 +15006,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# nove poruke',
+      one: '# nova poruka',
     );
     return '$_temp0';
   }

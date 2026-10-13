@@ -12,6 +12,75 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get reconnectingTitle => 'Τα θαλασσώσαμε!';
 
   @override
+  String get chatJumpToPresent => 'Μετάβαση στο παρόν';
+
+  @override
+  String get chatViewingOlderMessages => 'Βλέπετε παλιότερα μηνύματα';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Μετάβαση στο πρώτο μη αναγνωσμένο μήνυμα';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Σήμανση ως αναγνωσμένου';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Σήμανση ως αναγνωσμένου';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ νέα μηνύματα από $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# νέα μηνύματα',
+      one: '# νέο μήνυμα',
+    );
+    return '$_temp0 από $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ νέα από $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# νέα',
+      one: '# νέο',
+    );
+    return '$_temp0 από $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Κάτι πήγε στραβά με την παρουσία.\nΘα διορθωθεί σε μια στιγμή!';
 
@@ -10993,6 +11062,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatJumpToBottom => 'Μετάβαση στο κάτω μέρος';
 
   @override
+  String get chatUnreadDividerNew => 'Νέα';
+
+  @override
   String get uiConfirm => 'Επιβεβαίωση';
 
   @override
@@ -15054,7 +15126,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Νέα';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -15069,8 +15141,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# νέα μηνύματα',
+      one: '# νέο μήνυμα',
     );
     return '$_temp0';
   }

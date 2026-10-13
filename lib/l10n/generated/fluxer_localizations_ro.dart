@@ -12,6 +12,77 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get reconnectingTitle => 'Am dat-o în bară!';
 
   @override
+  String get chatJumpToPresent => 'Salt la prezent';
+
+  @override
+  String get chatViewingOlderMessages => 'Vizualizezi mesaje mai vechi';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Salt la primul mesaj necitit';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Marchează ca citit';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Marchează ca citit';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ mesaje noi de la $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# de mesaje noi',
+      few: '# mesaje noi',
+      one: '# mesaj nou',
+    );
+    return '$_temp0 de la $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ mesaje noi de la $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# de mesaje noi',
+      few: '# mesaje noi',
+      one: '# mesaj nou',
+    );
+    return '$_temp0 de la $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Ceva nu este în regulă cu instanța.\nAr trebui să se rezolve într-o secundă!';
 
@@ -10938,6 +11009,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatJumpToBottom => 'Mergi la ultimul mesaj';
 
   @override
+  String get chatUnreadDividerNew => 'Nou';
+
+  @override
   String get uiConfirm => 'Confirmă';
 
   @override
@@ -14978,7 +15052,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Nou';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14993,8 +15067,8 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# mesaje noi',
+      one: '# mesaj nou',
     );
     return '$_temp0';
   }

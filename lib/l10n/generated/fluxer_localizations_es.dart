@@ -12,6 +12,76 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get reconnectingTitle => '¡Hemos metido la pata!';
 
   @override
+  String get chatJumpToPresent => 'Ir a lo más reciente';
+
+  @override
+  String get chatViewingOlderMessages => 'Estás viendo mensajes antiguos';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Ir al primer mensaje no leído';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Marcar como leído';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Marcar como leído';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ mensajes nuevos desde $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# mensajes nuevos',
+      one: '# mensaje nuevo',
+    );
+    return '$_temp0 desde $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nuevos desde $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nuevos',
+      many: '# nuevos',
+      one: '# nuevo',
+    );
+    return '$_temp0 desde $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Algo va mal con la instancia.\n¡Se arreglará en un segundo!';
 
@@ -10985,6 +11055,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get chatJumpToBottom => 'Saltar al final';
 
   @override
+  String get chatUnreadDividerNew => 'Nuevo';
+
+  @override
   String get uiConfirm => 'Confirmar';
 
   @override
@@ -15031,7 +15104,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Nuevo';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -15046,8 +15119,8 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# mensajes nuevos',
+      one: '# mensaje nuevo',
     );
     return '$_temp0';
   }
@@ -15364,6 +15437,76 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get reconnectingTitle => '¡Fluxer ha dejado el grupo!';
+
+  @override
+  String get chatJumpToPresent => 'Ir a lo más reciente';
+
+  @override
+  String get chatViewingOlderMessages => 'Estás viendo mensajes antiguos';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Ir al primer mensaje no leído';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Marcar como leído';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Marcar como leído';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ mensajes nuevos desde $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# mensajes nuevos',
+      one: '# mensaje nuevo',
+    );
+    return '$_temp0 desde $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nuevos desde $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nuevos',
+      many: '# nuevos',
+      one: '# nuevo',
+    );
+    return '$_temp0 desde $shortTime';
+  }
 
   @override
   String get reconnectingBody =>
@@ -26092,6 +26235,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get chatJumpToBottom => 'Ir al final';
 
   @override
+  String get chatUnreadDividerNew => 'Nuevo';
+
+  @override
   String get uiConfirm => 'Confirmar';
 
   @override
@@ -29650,4 +29796,18 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get channelDetailsUnsupportedChannel => 'Canal no compatible';
+
+  @override
+  String get forumPostNewBadge => 'Nuevo';
+
+  @override
+  String forumPostNewMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# mensajes nuevos',
+      one: '# mensaje nuevo',
+    );
+    return '$_temp0';
+  }
 }

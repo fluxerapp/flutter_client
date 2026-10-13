@@ -12,6 +12,79 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get reconnectingTitle => 'Něco jsme pokazili!';
 
   @override
+  String get chatJumpToPresent => 'Přejít na aktuální zprávy';
+
+  @override
+  String get chatViewingOlderMessages => 'Zobrazujete starší zprávy';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Přejít na první nepřečtenou zprávu';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Označit jako přečtené';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Označit jako přečtené';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nových zpráv od $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nových zpráv',
+      many: '# nové zprávy',
+      few: '# nové zprávy',
+      one: '# nová zpráva',
+    );
+    return '$_temp0 od $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ nových od $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# nových',
+      many: '# nové',
+      few: '# nové',
+      one: '# nová',
+    );
+    return '$_temp0 od $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'S instancí je něco v nepořádku.\nMělo by se to za chvilku opravit!';
 
@@ -10895,6 +10968,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatJumpToBottom => 'Přejít dolů';
 
   @override
+  String get chatUnreadDividerNew => 'Nové';
+
+  @override
   String get uiConfirm => 'Potvrdit';
 
   @override
@@ -14912,7 +14988,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Nové';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14927,8 +15003,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# nových zpráv',
+      one: '# nová zpráva',
     );
     return '$_temp0';
   }

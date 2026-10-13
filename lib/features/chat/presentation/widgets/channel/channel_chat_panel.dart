@@ -30,6 +30,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/mobile_scaffold_resize_policy.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const double _kChannelChatNekoBottom = 0;
@@ -406,37 +407,131 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
           messageLoadFailed: messageLoadFailed,
         );
     final bool isMobile = isMobileLayout(context);
-    return Positioned(
-      right: 8,
-      bottom: channelChatJumpToBottomBottomOffset(
-        isMobile: isMobile,
-        showNeko: showNeko,
-        showSlowmode: showSlowmode,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+    final double bottom = channelChatJumpToBottomBottomOffset(
+      isMobile: isMobile,
+      showNeko: showNeko,
+      showSlowmode: showSlowmode,
+    );
+    void jumpToPresent() =>
+        ref.read(chatViewModelProvider.notifier).scrollToBottom();
+    return Positioned.fill(
+      child: Stack(
         children: <Widget>[
-          if (onClose != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5),
-              child: Material(
-                color: context.colors.backgroundPrimary,
-                shape: const CircleBorder(),
-                child: FluxerSheetCloseButton(onTap: onClose!),
-              ),
+          Positioned(
+            right: 8,
+            bottom: bottom,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                if (onClose != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Material(
+                      color: context.colors.backgroundPrimary,
+                      shape: const CircleBorder(),
+                      child: FluxerSheetCloseButton(onTap: onClose!),
+                    ),
+                  ),
+                if (loadMessages)
+                  ChannelChatJumpToBottomReveal(
+                    visible: showJumpToBottom && !hasMoreNewerMessages,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: FluxerJumpToBottomButton(
+                        isLoading: isSyncingMessages,
+                        onTap: jumpToPresent,
+                      ),
+                    ),
+                  ),
+              ],
             ),
+          ),
           if (loadMessages)
-            ChannelChatJumpToBottomReveal(
-              visible: showJumpToBottom,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: FluxerJumpToBottomButton(
-                  isLoading: isSyncingMessages,
-                  onTap: () =>
-                      ref.read(chatViewModelProvider.notifier).scrollToBottom(),
+            Positioned(
+              left: 8,
+              right: 8,
+              bottom: bottom + 10,
+              child: Center(
+                child: ChannelChatJumpToBottomReveal(
+                  visible: showJumpToBottom && hasMoreNewerMessages,
+                  child: ChannelChatJumpToPresentBar(
+                    isLoading: isSyncingMessages,
+                    onJumpToPresent: jumpToPresent,
+                  ),
                 ),
               ),
             ),
+        ],
+      ),
+    );
+  }
+}
+
+class ChannelChatJumpToPresentBar extends StatelessWidget {
+  const ChannelChatJumpToPresentBar({
+    required this.isLoading,
+    required this.onJumpToPresent,
+    super.key,
+  });
+
+  final bool isLoading;
+  final VoidCallback onJumpToPresent;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+    final bool isMobile = isMobileLayout(context);
+    return Container(
+      constraints: const BoxConstraints(minHeight: 44),
+      padding: EdgeInsetsDirectional.fromSTEB(isMobile ? 12 : 14, 6, 8, 6),
+      decoration: BoxDecoration(
+        color: Color.lerp(
+          colors.backgroundTextarea,
+          colors.backgroundTertiary,
+          0.1,
+        ),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: colors.backgroundModifierAccent.withValues(
+            alpha: colors.backgroundModifierAccent.a * 0.8,
+          ),
+        ),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.18),
+            blurRadius: 24,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 8,
+        children: <Widget>[
+          Flexible(
+            child: Text(
+              l10n.chatViewingOlderMessages,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textStyles.smallText.copyWith(
+                color: colors.textSecondary,
+                fontSize: isMobile ? 13 : 14,
+                fontWeight: FontWeight.w500,
+                height: 1.25,
+              ),
+            ),
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: FluxerButton.primary(
+              label: l10n.chatJumpToPresent,
+              size: FluxerButtonSize.compact,
+              fitContent: true,
+              isLoading: isLoading,
+              onPressed: onJumpToPresent,
+            ),
+          ),
         ],
       ),
     );

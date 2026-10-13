@@ -12,6 +12,79 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get reconnectingTitle => 'Щось пішло не так!';
 
   @override
+  String get chatJumpToPresent => 'Перейти до останніх повідомлень';
+
+  @override
+  String get chatViewingOlderMessages => 'Ви переглядаєте старіші повідомлення';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Перейти до першого непрочитаного повідомлення';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Позначити як прочитане';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Позначити прочитаним';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ нових повідомлень з $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# нових повідомлень',
+      many: '# нових повідомлень',
+      few: '# нові повідомлення',
+      one: '# нове повідомлення',
+    );
+    return '$_temp0 з $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ нових з $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# нового',
+      many: '# нових',
+      few: '# нові',
+      one: '# нове',
+    );
+    return '$_temp0 з $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Щось не так з інстансом.\nМає виправитись за секунду!';
 
@@ -10951,6 +11024,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatJumpToBottom => 'Перейти донизу';
 
   @override
+  String get chatUnreadDividerNew => 'Нове';
+
+  @override
   String get uiConfirm => 'Підтвердити';
 
   @override
@@ -14980,7 +15056,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Нове';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14995,8 +15071,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# нових повідомлень',
+      one: '# нове повідомлення',
     );
     return '$_temp0';
   }

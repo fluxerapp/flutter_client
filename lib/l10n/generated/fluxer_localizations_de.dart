@@ -12,6 +12,75 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get reconnectingTitle => 'Wir haben\'s vermasselt!';
 
   @override
+  String get chatJumpToPresent => 'Zum Ende springen';
+
+  @override
+  String get chatViewingOlderMessages => 'Du siehst dir ältere Nachrichten an';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Zur ersten ungelesenen Nachricht springen';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Als gelesen markieren';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Als gelesen markieren';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ neue Nachrichten seit $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# neue Nachrichten',
+      one: '# neue Nachricht',
+    );
+    return '$_temp0 seit $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ neue seit $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# neue',
+      one: '# neue',
+    );
+    return '$_temp0 seit $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Mit der Instanz stimmt etwas nicht.\nSollte gleich behoben sein!';
 
@@ -10975,6 +11044,9 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get chatJumpToBottom => 'Zum Ende springen';
 
   @override
+  String get chatUnreadDividerNew => 'Neu';
+
+  @override
   String get uiConfirm => 'Bestätigen';
 
   @override
@@ -15007,7 +15079,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Neu';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -15022,8 +15094,8 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# neue Nachrichten',
+      one: '# neue Nachricht',
     );
     return '$_temp0';
   }

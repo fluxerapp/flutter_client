@@ -12,6 +12,73 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get reconnectingTitle => '서버에 문제가 생겼어요!';
 
   @override
+  String get chatJumpToPresent => '현재 메시지로 이동';
+
+  @override
+  String get chatViewingOlderMessages => '이전 메시지를 보고 있습니다';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread => '읽지 않은 첫 메시지로 이동';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => '읽음으로 표시';
+
+  @override
+  String get chatNewMessagesBarMarkRead => '읽음으로 표시';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$compactTime 이후 새 메시지 $unreadCountString개 이상';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '새 메시지 #개',
+      one: '새 메시지 #개',
+    );
+    return '$compactTime 이후 $_temp0';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$shortTime 이후 새 메시지 $unreadCountString개 이상';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '새 메시지 #개',
+    );
+    return '$shortTime 이후 $_temp0';
+  }
+
+  @override
   String get reconnectingBody => '인스턴스에 문제가 발생했습니다.\n곧 해결될 것입니다!';
 
   @override
@@ -10384,6 +10451,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatJumpToBottom => '아래로 이동';
 
   @override
+  String get chatUnreadDividerNew => '새 메시지';
+
+  @override
   String get uiConfirm => '확인';
 
   @override
@@ -14241,7 +14311,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => '새 메시지';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14256,8 +14326,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '#개의 새 메시지',
+      one: '#개의 새 메시지',
     );
     return '$_temp0';
   }

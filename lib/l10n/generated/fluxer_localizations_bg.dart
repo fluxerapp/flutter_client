@@ -12,6 +12,75 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get reconnectingTitle => 'Сбъркахме!';
 
   @override
+  String get chatJumpToPresent => 'Към най-новите';
+
+  @override
+  String get chatViewingOlderMessages => 'Преглеждаш по-стари съобщения';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Към първото непрочетено съобщение';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Маркирай като прочетено';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Маркирай като прочетено';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ нови съобщения от $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# нови съобщения',
+      one: '# ново съобщение',
+    );
+    return '$_temp0 от $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ нови от $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# нови',
+      one: '# ново',
+    );
+    return '$_temp0 от $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Нещо не е наред с инстанцията.\nТрябва да се оправи за секунда!';
 
@@ -10973,6 +11042,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get chatJumpToBottom => 'Премини към дъното';
 
   @override
+  String get chatUnreadDividerNew => 'Нови';
+
+  @override
   String get uiConfirm => 'Потвърди';
 
   @override
@@ -15031,7 +15103,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Нови';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -15046,8 +15118,8 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# нови съобщения',
+      one: '# ново съобщение',
     );
     return '$_temp0';
   }

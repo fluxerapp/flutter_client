@@ -12,6 +12,73 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get reconnectingTitle => '接続に失敗しました！';
 
   @override
+  String get chatJumpToPresent => '最新のメッセージへ';
+
+  @override
+  String get chatViewingOlderMessages => '過去のメッセージを表示しています';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread => '未読の最初のメッセージに移動';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => '既読にする';
+
+  @override
+  String get chatNewMessagesBarMarkRead => '既読にする';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '新着メッセージ$unreadCountString件以上（$compactTime以降）';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '新着メッセージ#件',
+      one: '新着メッセージ#件',
+    );
+    return '$_temp0（$compactTime以降）';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '新着$unreadCountString件以上（$shortTime以降）';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '新着#件',
+    );
+    return '$_temp0（$shortTime以降）';
+  }
+
+  @override
   String get reconnectingBody => 'インスタンスに問題が発生しています。\nすぐに修正されます！';
 
   @override
@@ -10399,6 +10466,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatJumpToBottom => '一番下へ移動';
 
   @override
+  String get chatUnreadDividerNew => '新着';
+
+  @override
   String get uiConfirm => '確認';
 
   @override
@@ -14260,7 +14330,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => '新着';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14275,8 +14345,8 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# 件の新着メッセージ',
+      one: '# 件の新着メッセージ',
     );
     return '$_temp0';
   }

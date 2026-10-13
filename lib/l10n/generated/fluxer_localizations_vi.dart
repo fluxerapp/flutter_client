@@ -12,6 +12,74 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get reconnectingTitle => 'Chúng tôi đã gặp trục trặc!';
 
   @override
+  String get chatJumpToPresent => 'Đến tin nhắn mới nhất';
+
+  @override
+  String get chatViewingOlderMessages => 'Bạn đang xem tin nhắn cũ hơn';
+
+  @override
+  String get chatNewMessagesBarJumpToFirstUnread =>
+      'Chuyển đến tin nhắn chưa đọc đầu tiên';
+
+  @override
+  String get chatNewMessagesBarMarkAsRead => 'Đánh dấu đã đọc';
+
+  @override
+  String get chatNewMessagesBarMarkRead => 'Đánh dấu đã đọc';
+
+  @override
+  String chatNewMessagesBarNewMessagesSinceEstimated(
+    int unreadCount,
+    String compactTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ tin nhắn mới kể từ $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewMessagesSince(
+    int unreadCount,
+    String compactTime,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# tin nhắn mới',
+      one: '# tin nhắn mới',
+    );
+    return '$_temp0 kể từ $compactTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSinceEstimated(
+    int unreadCount,
+    String shortTime,
+  ) {
+    final intl.NumberFormat unreadCountNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unreadCountString = unreadCountNumberFormat.format(
+      unreadCount,
+    );
+
+    return '$unreadCountString+ tin nhắn mới kể từ $shortTime';
+  }
+
+  @override
+  String chatNewMessagesBarNewSince(int unreadCount, String shortTime) {
+    String _temp0 = intl.Intl.pluralLogic(
+      unreadCount,
+      locale: localeName,
+      other: '# tin nhắn mới',
+    );
+    return '$_temp0 từ $shortTime';
+  }
+
+  @override
   String get reconnectingBody =>
       'Có lỗi xảy ra với máy chủ này.\nSẽ được khắc phục trong giây lát!';
 
@@ -10860,6 +10928,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatJumpToBottom => 'Nhảy đến cuối';
 
   @override
+  String get chatUnreadDividerNew => 'Mới';
+
+  @override
   String get uiConfirm => 'Xác nhận';
 
   @override
@@ -14866,7 +14937,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get forumPostArchived => 'Archived';
 
   @override
-  String get forumPostNewBadge => 'NEW';
+  String get forumPostNewBadge => 'Mới';
 
   @override
   String get forumPostStarterDeleted => 'The original message was deleted.';
@@ -14881,8 +14952,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count new messages',
-      one: '1 new message',
+      other: '# tin nhắn mới',
+      one: '# tin nhắn mới',
     );
     return '$_temp0';
   }
