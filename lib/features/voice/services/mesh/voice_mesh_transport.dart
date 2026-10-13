@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_peer.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_signal.dart';
 import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_publish_options.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_dart/export.dart';
@@ -408,9 +409,16 @@ class VoiceMeshTransport extends ChangeNotifier implements VoiceMediaRoom {
             )
             .length;
         final int budget = _kScreenShareBudgetBps ~/ math.max(1, watchers);
+        final VideoDimensions? source = nativeMobileScreenCaptureDimensions();
         return RTCRtpEncoding(
           maxBitrate: math.min(params?.encoding?.maxBitrate ?? budget, budget),
           maxFramerate: params?.encoding?.maxFramerate,
+          scaleResolutionDownBy: source == null || params == null
+              ? 1
+              : screenShareScaleDownBy(
+                  source: source,
+                  target: params.dimensions,
+                ),
         );
     }
   }

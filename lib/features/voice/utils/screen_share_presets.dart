@@ -1,38 +1,75 @@
+import 'dart:math' as math;
+import 'dart:ui' as ui;
+
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:livekit_client/livekit_client.dart';
 
-const int kScreenShareMaxVideoBitrateBps = 9000000;
-
 const List<int> kSupportedScreenShareFrameRates = <int>[15, 30, 60];
+
+const DegradationPreference kScreenShareDegradationPreference =
+    DegradationPreference.maintainFramerate;
+
+const Map<ScreenshareResolution, Map<int, int>> _kScreenShareBitrateKbps =
+    <ScreenshareResolution, Map<int, int>>{
+      ScreenshareResolution.high: <int, int>{15: 3000, 30: 4500, 60: 6000},
+      ScreenshareResolution.medium: <int, int>{15: 2000, 30: 3000, 60: 4500},
+      ScreenshareResolution.low480p: <int, int>{15: 1200, 30: 2000, 60: 3000},
+    };
+
+VideoDimensions _screenShareTargetDimensions(ScreenshareResolution resolution) {
+  return switch (resolution) {
+    ScreenshareResolution.high => const VideoDimensions(1920, 1080),
+    ScreenshareResolution.medium => const VideoDimensions(1280, 720),
+    ScreenshareResolution.low480p => const VideoDimensions(854, 480),
+  };
+}
 
 VideoParameters screenShareVideoParameters({
   required ScreenshareResolution resolution,
   required int frameRate,
 }) {
   final int clampedFrameRate = _clampFrameRate(frameRate);
-  return switch (resolution) {
-    ScreenshareResolution.high => VideoParameters(
-      dimensions: const VideoDimensions(1920, 1080),
-      encoding: VideoEncoding(
-        maxBitrate: kScreenShareMaxVideoBitrateBps,
-        maxFramerate: clampedFrameRate,
-      ),
+  return VideoParameters(
+    dimensions: _screenShareTargetDimensions(resolution),
+    encoding: VideoEncoding(
+      maxBitrate:
+          _kScreenShareBitrateKbps[resolution]![clampedFrameRate]! * 1000,
+      maxFramerate: clampedFrameRate,
     ),
-    ScreenshareResolution.medium => VideoParameters(
-      dimensions: const VideoDimensions(1280, 720),
-      encoding: VideoEncoding(
-        maxBitrate: 2 * 1000 * 1000,
-        maxFramerate: clampedFrameRate,
-      ),
-    ),
-    ScreenshareResolution.low480p => VideoParameters(
-      dimensions: const VideoDimensions(854, 480),
-      encoding: VideoEncoding(
-        maxBitrate: 1 * 1000 * 1000,
-        maxFramerate: clampedFrameRate,
-      ),
-    ),
-  };
+  );
+}
+
+double screenShareScaleDownBy({
+  required VideoDimensions source,
+  required VideoDimensions target,
+}) {
+  final int sourceLong = math.max(source.width, source.height);
+  final int sourceShort = math.min(source.width, source.height);
+  final int targetLong = math.max(target.width, target.height);
+  final int targetShort = math.min(target.width, target.height);
+  if (sourceLong <= 0 || sourceShort <= 0) {
+    return 1;
+  }
+  return math.max(
+    1,
+    math.max(sourceLong / targetLong, sourceShort / targetShort),
+  );
+}
+
+VideoDimensions? nativeMobileScreenCaptureDimensions() {
+  if (!isFluxerNativeMobileOs) {
+    return null;
+  }
+  final ui.Display? display =
+      ui.PlatformDispatcher.instance.displays.firstOrNull;
+  if (display == null || display.size.isEmpty) {
+    return null;
+  }
+  return VideoDimensions(
+    display.size.width.round(),
+    display.size.height.round(),
+  );
 }
 
 ScreenShareCaptureOptions screenShareCaptureOptionsFor({

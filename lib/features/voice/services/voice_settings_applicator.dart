@@ -278,12 +278,19 @@ class VoiceSettingsApplicator {
   }
 
   VideoPublishOptions buildScreenSharePublishOptions(
-    VoiceSettingsState settings,
+    VoiceSettingsState configured,
   ) {
+    final VoiceSettingsState settings = _clampVideo(configured);
     return VideoPublishOptions(
       videoCodec: preferredScreenShareVideoCodec(
         settings.preferredScreenShareCodec,
       ),
+      screenShareEncoding: screenShareVideoParameters(
+        resolution: settings.screenshareResolution,
+        frameRate: settings.videoFrameRate,
+      ).encoding,
+      simulcast: false,
+      degradationPreference: kScreenShareDegradationPreference,
     );
   }
 
@@ -325,6 +332,43 @@ class VoiceSettingsApplicator {
       // LiveKit internal API.
       // ignore: invalid_use_of_internal_member
       room.engine.roomOptions = roomOptions;
+    }
+    final VideoDimensions? source = nativeMobileScreenCaptureDimensions();
+    if (source == null) {
+      return;
+    }
+    await applyScreenShareSenderScale(
+      participant: participant,
+      scaleResolutionDownBy: screenShareScaleDownBy(
+        source: source,
+        target: captureOptions.params.dimensions,
+      ),
+    );
+  }
+
+  Future<void> applyScreenShareSenderScale({
+    required LocalParticipant participant,
+    required double scaleResolutionDownBy,
+  }) async {
+    final Track? track = participant
+        .getTrackPublicationBySource(TrackSource.screenShareVideo)
+        ?.track;
+    final RTCRtpSender? sender = track?.sender;
+    if (sender == null) {
+      return;
+    }
+    final RTCRtpParameters parameters = sender.parameters;
+    final List<RTCRtpEncoding>? encodings = parameters.encodings;
+    if (encodings == null || encodings.isEmpty) {
+      return;
+    }
+    for (final RTCRtpEncoding encoding in encodings) {
+      encoding.scaleResolutionDownBy = scaleResolutionDownBy;
+    }
+    try {
+      await sender.setParameters(parameters);
+    } on Object {
+      return;
     }
   }
 

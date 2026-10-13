@@ -726,7 +726,12 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
       }
       try {
         await sender.setParameters(
-          RTCRtpParameters(encodings: <RTCRtpEncoding>[encoding]),
+          RTCRtpParameters(
+            encodings: <RTCRtpEncoding>[encoding],
+            degradationPreference: source == VoiceMeshSource.screenShare
+                ? RTCDegradationPreference.MAINTAIN_FRAMERATE
+                : null,
+          ),
         );
       } on Object catch (error) {
         talker.debug('[Voice][Mesh] setParameters failed: $error');
