@@ -13,7 +13,7 @@ class MessageLongPressHighlight extends StatelessWidget {
         opacity: active ? 1 : 0,
         duration: context.motion.fast,
         curve: context.motion.curve,
-        child: ColoredBox(color: context.colors.backgroundModifierSelected),
+        child: ColoredBox(color: context.colors.backgroundModifierHover),
       ),
     );
   }
