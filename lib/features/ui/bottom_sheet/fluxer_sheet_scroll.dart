@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart' show Drag;
+import 'package:flutter/physics.dart' show Tolerance, nearEqual;
 import 'package:fluxer_app/material_ui.dart';
 
 abstract interface class FluxerSheetDragTarget {
@@ -106,6 +107,32 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
       return;
     }
     super.applyUserOffset(delta);
+  }
+
+  @override
+  void correctBy(double correction) {
+    if (hasContentDimensions && _clampsOverscroll(pixels + correction)) {
+      return;
+    }
+    super.correctBy(correction);
+  }
+
+  bool _clampsOverscroll(double corrected) {
+    final bool clampsTrailing =
+        pixels > maxScrollExtent &&
+        nearEqual(
+          corrected,
+          maxScrollExtent,
+          Tolerance.defaultTolerance.distance,
+        );
+    final bool clampsLeading =
+        pixels < minScrollExtent &&
+        nearEqual(
+          corrected,
+          minScrollExtent,
+          Tolerance.defaultTolerance.distance,
+        );
+    return clampsTrailing || clampsLeading;
   }
 
   @override
