@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
 import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/gateway/gateway_presence_coordinator.dart';
@@ -32,6 +33,7 @@ import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.da
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
 import 'package:fluxer_app/core/quick_actions/pending_home_quick_action_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
@@ -39,6 +41,7 @@ import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
@@ -53,6 +56,7 @@ import 'package:fluxer_app/features/settings/providers/voice_settings_provider.d
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_maintenance_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_p2p_consent_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
@@ -130,6 +134,18 @@ class AppStartup extends _$AppStartup {
       ..invalidate(gatewayForegroundListenerProvider)
       ..invalidate(gatewayReconnectBannerListenerProvider)
       ..invalidate(gatewayConnectionProvider);
+  }
+
+  Future<void> _leaveBoundAccount(FluxerDatabase database) async {
+    if (ref.exists(voiceSessionProvider) &&
+        ref.read(voiceSessionProvider).isInVoice) {
+      await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
+    }
+    _invalidateGatewayBindings();
+    ref.read(syncedPreferencesStoreProvider).reset();
+    ref.read(slowmodeTrackerProvider.notifier).reset();
+    await database.clearAccountData();
+    ref.read(identifyInitialGuildIdProvider.notifier).set(null);
   }
 
   void _attachAuthenticatedBindings() {
@@ -225,6 +241,14 @@ class AppStartup extends _$AppStartup {
     while (session != null) {
       if (!ref.mounted) {
         return;
+      }
+      final String? boundUserId = ref.read(currentUserIdProvider);
+      if (boundUserId != null && boundUserId != session.userId) {
+        await restoreIdentifyGuildId;
+        await _leaveBoundAccount(database);
+        if (!ref.mounted) {
+          return;
+        }
       }
       ref.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
       ref.read(currentUserIdProvider.notifier).set(session.userId);

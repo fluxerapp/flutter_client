@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,7 +29,10 @@ class ChannelMemberCounts {
 @Riverpod(keepAlive: true)
 class ChannelMemberCountCache extends _$ChannelMemberCountCache {
   @override
-  Map<String, ChannelMemberCounts> build() => <String, ChannelMemberCounts>{};
+  Map<String, ChannelMemberCounts> build() {
+    ref.watch(currentUserIdProvider);
+    return <String, ChannelMemberCounts>{};
+  }
 
   static String cacheKey(String guildId, String channelId) =>
       '$guildId|$channelId';

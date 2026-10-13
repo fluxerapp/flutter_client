@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_permission_cache_provider.g.dart';
@@ -26,7 +27,10 @@ class ChannelPermissionCaches {
 @Riverpod(keepAlive: true)
 class ChannelPermissionCache extends _$ChannelPermissionCache {
   @override
-  ChannelPermissionCaches build() => const ChannelPermissionCaches();
+  ChannelPermissionCaches build() {
+    ref.watch(currentUserIdProvider);
+    return const ChannelPermissionCaches();
+  }
 
   /// Cached effective bits for [channelId], or `null` when not resolved yet.
   int? getChannelBits(String channelId) => state.effective[channelId];

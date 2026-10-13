@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/guilds/data/guild_order_repository.dart';
@@ -765,7 +766,10 @@ class FolderExpandedState extends _$FolderExpandedState {
   bool _isApplyingRemote = false;
 
   @override
-  Set<int> build() => {};
+  Set<int> build() {
+    ref.watch(currentUserIdProvider);
+    return {};
+  }
 
   Future<void> applySynced(Set<int> value) async {
     _isApplyingRemote = true;

@@ -51,7 +51,10 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
   final Set<String> _inFlightKeys = <String>{};
 
   @override
-  MessageReferencesState build() => const MessageReferencesState();
+  MessageReferencesState build() {
+    ref.watch(currentUserIdProvider);
+    return const MessageReferencesState();
+  }
 
   void clearChannel(String channelId) {
     final prefix = '$channelId:';

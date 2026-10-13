@@ -1597,6 +1597,13 @@ class FluxerDatabase extends _$FluxerDatabase {
   /// Clears all tables except auth sessions.
   Future<void> clearUserData() async {
     await transaction(() async {
+      await clearAccountData();
+      await userPreferencesDao.clearAll();
+    });
+  }
+
+  Future<void> clearAccountData() async {
+    await transaction(() async {
       await userDao.clearAll();
       await guildDao.clearAll();
       await channelDao.clearAll();
@@ -1605,7 +1612,6 @@ class FluxerDatabase extends _$FluxerDatabase {
       await memberDao.clearAll();
       await relationshipDao.clearAll();
       await dmChannelDao.clearAll();
-      await userPreferencesDao.clearAll();
       await readStateDao.clearAll();
       await guildLastChannelDao.clearAll();
       await composerDraftDao.clearAll();
@@ -1623,6 +1629,7 @@ class FluxerDatabase extends _$FluxerDatabase {
       await localSpamOverridesDao.clearAll();
       await threadDao.clearAll();
       await localMessageSendsDao.clearAll();
+      await dmFolderSettingsDao.clearAll();
     });
   }
 }

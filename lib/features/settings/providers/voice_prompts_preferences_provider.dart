@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -51,6 +52,7 @@ class VoicePromptsPreferencesState {
 class VoicePromptsPreferences extends _$VoicePromptsPreferences {
   @override
   VoicePromptsPreferencesState build() {
+    ref.watch(currentUserIdProvider);
     return const VoicePromptsPreferencesState();
   }
 

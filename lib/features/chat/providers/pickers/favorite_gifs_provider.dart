@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
@@ -20,7 +21,10 @@ class FavoriteGifsState {
 @Riverpod(keepAlive: true)
 class FavoriteGifs extends _$FavoriteGifs {
   @override
-  FavoriteGifsState build() => const FavoriteGifsState();
+  FavoriteGifsState build() {
+    ref.watch(currentUserIdProvider);
+    return const FavoriteGifsState();
+  }
 
   void applySynced({
     required List<FavoriteGifEntry> entries,

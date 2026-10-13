@@ -16,4 +16,6 @@ class DmFolderSettingsDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<void> upsertSettings(DmFolderSettingsTableCompanion companion) =>
       into(dmFolderSettingsTable).insertOnConflictUpdate(companion);
+
+  Future<void> clearAll() => delete(dmFolderSettingsTable).go();
 }

@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/constants/user_flags.dart';
 import 'package:fluxer_app/core/database/daos/local_spam_overrides_dao.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/moderation/data/local_user_spam_override_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -40,6 +41,7 @@ LocalUserSpamOverrideRepository localUserSpamOverrideRepository(Ref ref) {
 class LocalUserSpamOverride extends _$LocalUserSpamOverride {
   @override
   LocalUserSpamOverrideState build() {
+    ref.watch(currentUserIdProvider);
     unawaited(_loadInitialState());
     return LocalUserSpamOverrideState.empty;
   }

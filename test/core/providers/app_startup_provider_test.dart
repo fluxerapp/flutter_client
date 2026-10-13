@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -12,11 +13,17 @@ import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
+import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
+import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
+import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -316,6 +323,93 @@ void main() {
       expect(container.read(gatewayReadyProvider), isFalse);
     },
   );
+
+  test('switching accounts leaves nothing from the previous account', () async {
+    final db = openTestDatabase();
+    final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+    await db.authSessionDao.saveSessionMetadata(userId: 'user-a');
+    await tokens.saveToken(userId: 'user-a', token: 'token-a');
+    final container = _startupContainer(
+      db: db,
+      tokens: tokens,
+      apiBaseUrl: 'https://api.fluxer.app/v1',
+      statusCode: 503,
+    );
+    addTearDown(container.dispose);
+    await expectLater(
+      container.read(appStartupProvider.future),
+      throwsA(isA<ServiceUnavailableException>()),
+    );
+    expect(container.read(currentUserIdProvider), 'user-a');
+
+    await db.guildDao.upsertServer(
+      ServersCompanion.insert(id: 'guild-a', name: 'A community'),
+    );
+    await db.dmChannelDao.upsertDmChannels(<DmChannelsCompanion>[
+      DmChannelsCompanion.insert(id: 'dm-a', recipientId: 'friend-a'),
+    ]);
+    await db.composerDraftDao.upsertDraft(
+      channelId: 'dm-a',
+      content: 'draft from A',
+    );
+    await db.favoriteChannelsDao.addChannel(channelId: 'dm-a');
+    await db.guildLastChannelDao.setLastChannel('guild-a', 'channel-a');
+    await db.guildLastChannelDao.setLastChannel(
+      kAppLastLocationKey,
+      '/channels/guild-a/channel-a',
+    );
+    await db.dmFolderSettingsDao.upsertSettings(
+      const DmFolderSettingsTableCompanion(
+        allowlistedIdsJson: Value('["dm-a"]'),
+      ),
+    );
+    await db.userPreferencesDao.setEmojiSkinTone('user-a', '2');
+    container
+        .read(recentChannelVisitsProvider.notifier)
+        .recordVisit(channelId: 'dm-a');
+    container.read(knownGuildBansProvider.notifier).noteBan('guild-a', 'x');
+    container
+        .read(favoriteGifsProvider.notifier)
+        .applySynced(
+          entries: const <FavoriteGifEntry>[
+            FavoriteGifEntry(
+              url: 'https://a.example/gif',
+              proxyUrl: 'https://a.example/gif',
+              width: 1,
+              height: 1,
+            ),
+          ],
+          seenFirstTimePrompt: true,
+        );
+
+    await db.authSessionDao.saveSessionMetadata(userId: 'user-b');
+    await tokens.saveToken(userId: 'user-b', token: 'token-b');
+    await db.customStatement(
+      "UPDATE auth_sessions SET last_active = 0 WHERE user_id = 'user-a'",
+    );
+    container.invalidate(appStartupProvider);
+    await expectLater(
+      container.read(appStartupProvider.future),
+      throwsA(isA<ServiceUnavailableException>()),
+    );
+
+    expect(container.read(currentUserIdProvider), 'user-b');
+    expect(container.read(fluxerAuthTokenProvider), 'token-b');
+    expect(await db.guildDao.getServers(), isEmpty);
+    expect(await db.dmChannelDao.getDmChannels(), isEmpty);
+    expect(await db.composerDraftDao.getDraft('dm-a'), isNull);
+    expect(await db.favoriteChannelsDao.getChannel('dm-a'), isNull);
+    expect(await db.guildLastChannelDao.getLastChannel('guild-a'), isNull);
+    expect(await db.dmFolderSettingsDao.getSettings(), isNull);
+    expect(container.read(identifyInitialGuildIdProvider), isNull);
+    expect(container.read(recentChannelVisitsProvider), isEmpty);
+    expect(container.read(knownGuildBansProvider), isEmpty);
+    expect(container.read(favoriteGifsProvider).entries, isEmpty);
+    expect(
+      (await db.userPreferencesDao.getPreferences('user-a'))?.emojiSkinTone,
+      '2',
+    );
+  });
 
   test('401 against another host does not expire the session', () async {
     final db = openTestDatabase();

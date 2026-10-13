@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'known_guild_bans_provider.g.dart';
@@ -5,7 +6,10 @@ part 'known_guild_bans_provider.g.dart';
 @Riverpod(keepAlive: true)
 class KnownGuildBans extends _$KnownGuildBans {
   @override
-  Map<String, Set<String>> build() => <String, Set<String>>{};
+  Map<String, Set<String>> build() {
+    ref.watch(currentUserIdProvider);
+    return <String, Set<String>>{};
+  }
 
   void noteBan(String guildId, String userId) {
     final Set<String> existing = state[guildId] ?? <String>{};
