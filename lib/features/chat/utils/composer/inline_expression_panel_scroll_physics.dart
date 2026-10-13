@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 
@@ -10,11 +9,8 @@ double inlineExpressionPanelHomeIndicatorInset(MediaQueryData mediaQuery) {
 
 ScrollPhysics inlineExpressionPanelContentScrollPhysics({
   required bool isSheetExpanded,
+  required ScrollPhysics parent,
 }) {
-  final ScrollPhysics parent = switch (defaultTargetPlatform) {
-    TargetPlatform.iOS || TargetPlatform.macOS => const BouncingScrollPhysics(),
-    _ => const ClampingScrollPhysics(),
-  };
   if (!isSheetExpanded) {
     return InlineExpressionPanelDockedScrollPhysics(parent: parent);
   }

@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/presentation/reduced_motion_scope.dart';
 import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/recovery_kit/presentation/recovery_kit_gate.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -166,13 +167,10 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
           reducedMotionOverride: reducedMotionPrefs.override,
           platformReducedMotion: platformReducedMotion,
         );
-        Widget scaled = FluxerAppTextScale(child: content);
-        if (disableAnimations) {
-          scaled = MediaQuery(
-            data: MediaQuery.of(context).copyWith(disableAnimations: true),
-            child: scaled,
-          );
-        }
+        final Widget scaled = ReducedMotionScope(
+          enabled: disableAnimations,
+          child: FluxerAppTextScale(child: content),
+        );
         final ThemeData materialTheme = Theme.of(context);
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value:

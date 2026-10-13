@@ -174,6 +174,9 @@ void main() {
                   behavior: ScrollConfiguration.of(context).copyWith(
                     physics: inlineExpressionPanelContentScrollPhysics(
                       isSheetExpanded: true,
+                      parent: ScrollConfiguration.of(
+                        context,
+                      ).getScrollPhysics(context),
                     ),
                   ),
                   child: NotificationListener<ScrollNotification>(

@@ -910,25 +910,36 @@ class _ExpressionSheetBody extends StatefulWidget {
 }
 
 class _ExpressionSheetBodyState extends State<_ExpressionSheetBody> {
-  late final ScrollPhysics _dockedScrollPhysics;
-  late final ScrollPhysics _expandedScrollPhysics;
-  late ScrollPhysics _scrollPhysics;
+  ScrollPhysics? _parentScrollPhysics;
+  late ScrollPhysics _dockedScrollPhysics;
+  late ScrollPhysics _expandedScrollPhysics;
   late bool _isSheetExpanded;
 
   @override
   void initState() {
     super.initState();
+    _isSheetExpanded = _isExpandedHeight(widget.heightNotifier.value);
+    widget.heightNotifier.addListener(_onHeightChanged);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final ScrollPhysics parent = ScrollConfiguration.of(
+      context,
+    ).getScrollPhysics(context);
+    if (identical(parent, _parentScrollPhysics)) {
+      return;
+    }
+    _parentScrollPhysics = parent;
     _dockedScrollPhysics = inlineExpressionPanelContentScrollPhysics(
       isSheetExpanded: false,
+      parent: parent,
     );
     _expandedScrollPhysics = inlineExpressionPanelContentScrollPhysics(
       isSheetExpanded: true,
+      parent: parent,
     );
-    _isSheetExpanded = _isExpandedHeight(widget.heightNotifier.value);
-    _scrollPhysics = _isSheetExpanded
-        ? _expandedScrollPhysics
-        : _dockedScrollPhysics;
-    widget.heightNotifier.addListener(_onHeightChanged);
   }
 
   @override
@@ -938,12 +949,7 @@ class _ExpressionSheetBodyState extends State<_ExpressionSheetBody> {
       final double height = widget.heightNotifier.value;
       final bool nextExpanded = _isExpandedHeight(height);
       if (nextExpanded != _isSheetExpanded) {
-        setState(() {
-          _isSheetExpanded = nextExpanded;
-          _scrollPhysics = nextExpanded
-              ? _expandedScrollPhysics
-              : _dockedScrollPhysics;
-        });
+        setState(() => _isSheetExpanded = nextExpanded);
       }
     }
   }
@@ -963,12 +969,7 @@ class _ExpressionSheetBodyState extends State<_ExpressionSheetBody> {
     if (nextExpanded == _isSheetExpanded) {
       return;
     }
-    setState(() {
-      _isSheetExpanded = nextExpanded;
-      _scrollPhysics = nextExpanded
-          ? _expandedScrollPhysics
-          : _dockedScrollPhysics;
-    });
+    setState(() => _isSheetExpanded = nextExpanded);
   }
 
   @override
@@ -980,9 +981,11 @@ class _ExpressionSheetBodyState extends State<_ExpressionSheetBody> {
       onPointerUp: widget.onContentPointerEnd,
       onPointerCancel: widget.onContentPointerEnd,
       child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(
-          context,
-        ).copyWith(physics: _scrollPhysics),
+        behavior: ScrollConfiguration.of(context).copyWith(
+          physics: _isSheetExpanded
+              ? _expandedScrollPhysics
+              : _dockedScrollPhysics,
+        ),
         child: RepaintBoundary(
           child:
               widget.contentBuilder?.call(context, widget.scrollController) ??

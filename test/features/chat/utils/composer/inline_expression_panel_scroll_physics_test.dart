@@ -30,9 +30,11 @@ void main() {
   group('inlineExpressionPanelContentScrollPhysics', () {
     final ScrollPhysics docked = inlineExpressionPanelContentScrollPhysics(
       isSheetExpanded: false,
+      parent: const ClampingScrollPhysics(),
     );
     final ScrollPhysics expanded = inlineExpressionPanelContentScrollPhysics(
       isSheetExpanded: true,
+      parent: const ClampingScrollPhysics(),
     );
 
     test('docked list at top leaves an upward drag to the sheet', () {
@@ -51,6 +53,16 @@ void main() {
       );
       expect(docked.applyPhysicsToUserOffset(strip, -12), -12);
       expect(docked.createBallisticSimulation(strip, 800), isNotNull);
+    });
+
+    test('builds on the ambient physics instead of its own bounce', () {
+      expect(docked.parent, isA<ClampingScrollPhysics>());
+      expect(expanded.parent, isA<ClampingScrollPhysics>());
+      expect(
+        docked.applyBoundaryConditions(_metrics(), -20),
+        -20,
+        reason: 'a clamping parent stops the list at its leading edge',
+      );
     });
 
     test('expanded list at top scrolls immediately', () {
