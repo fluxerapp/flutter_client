@@ -63,6 +63,7 @@ class MobileChannelDrawerShell extends ConsumerWidget {
             : context.colors.backgroundPrimary,
         resizeToAvoidBottomInset: false,
         body: SidebarDrawer(
+          shellLocation: shellLocation,
           base: Column(
             children: <Widget>[
               Expanded(child: sidebar),

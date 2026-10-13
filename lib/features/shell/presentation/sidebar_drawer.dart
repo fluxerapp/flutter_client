@@ -19,6 +19,7 @@ import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 class SidebarDrawer extends ConsumerStatefulWidget {
   final Widget base;
   final Widget slider;
+  final String? shellLocation;
 
   final Duration? revealDuration;
   final Curve revealCurve;
@@ -28,6 +29,7 @@ class SidebarDrawer extends ConsumerStatefulWidget {
   const SidebarDrawer({
     required this.base,
     required this.slider,
+    this.shellLocation,
     this.revealDuration,
     this.revealCurve = kHorizontalSwipeCurve,
     this.snapBackDuration,
@@ -59,7 +61,18 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   @override
   void initState() {
     super.initState();
-    _currentSide = ref.read(currentRevealSideProvider);
+    final String? location = widget.shellLocation;
+    final RevealSide? routeSide = location == null
+        ? null
+        : syncedRevealSideFor(location);
+    _currentSide = routeSide ?? ref.read(currentRevealSideProvider);
+    if (routeSide != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          ref.read(currentRevealSideProvider.notifier).set(routeSide);
+        }
+      });
+    }
     _animationController = createHorizontalRevealController(vsync: this)
       ..addListener(_schedulePublishPastHalf)
       ..addListener(_syncPaneTickers)
