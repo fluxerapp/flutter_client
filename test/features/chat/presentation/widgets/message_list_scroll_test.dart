@@ -5572,6 +5572,73 @@ void main() {
   });
 
   group('live tail motion', () {
+    testWidgets('jump to present from an unread open keeps following arrivals '
+        'after it lands', (WidgetTester tester) async {
+      configureMessageListViewport(tester);
+      final AroundAckMessageListHarness harness =
+          await createAroundAckMessageListHarness(
+            messageCount: 70,
+            ackIndex: 30,
+          );
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+          disableMessageListAnimations: false,
+        ),
+      );
+      await pumpFluxerFrames(tester);
+      expect(find.text('NEW'), findsOneWidget);
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(MessageList)),
+      );
+
+      harness.chatViewModel.scrollToBottom();
+      for (int frame = 0; frame < 30; frame += 1) {
+        if (frame == 4) {
+          harness.appendRealtimeMessage(acknowledgedByGateway: false);
+        }
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      await pumpFluxerFrames(tester);
+
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+        reason: 'the jump lands at the live tail',
+      );
+      expect(
+        container.read(chatReadViewportProvider).followsLiveTail,
+        isTrue,
+        reason: 'a list resting at the live tail is pinned',
+      );
+
+      for (int arrival = 0; arrival < 3; arrival += 1) {
+        final String liveId = harness.appendRealtimeMessage(
+          acknowledgedByGateway: false,
+        );
+        await tester.pump();
+        await tester.pump(kMessageListTailFollowDuration);
+        await pumpFluxerFrames(tester);
+
+        expect(messageItemFor(liveId), findsOneWidget);
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+          reason: 'arrival $arrival must be followed',
+        );
+        final ChatReadViewportState viewport = container.read(
+          chatReadViewportProvider,
+        );
+        expect(viewport.followsLiveTail, isTrue);
+        expect(viewport.nearLoadedTail, isTrue);
+        expect(viewport.sampledTailId, liveId);
+      }
+
+      await disposeMessageList(tester);
+    });
+
     testWidgets('smooth follow lands at tail after motion completes', (
       WidgetTester tester,
     ) async {

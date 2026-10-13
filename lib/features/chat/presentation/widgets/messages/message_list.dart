@@ -1554,21 +1554,21 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (_unreadOpenSettling) {
       setState(() => _unreadOpenSettling = false);
     }
-    _pinIfSettledAtLiveTail();
+    _syncReadViewport();
   }
 
-  void _pinIfSettledAtLiveTail() {
-    if (!_scrollController.hasClients ||
-        ref.read(chatViewModelProvider).hasMoreNewerMessages) {
-      return;
-    }
-    if (_centerTrailingDistance(_scrollController.position) >
-        kMessageListPinEngageDistance) {
+  void _pinWhenRestingAtLiveTail({
+    required double distanceFromLiveTail,
+    required bool hasMoreNewerMessages,
+  }) {
+    if (hasMoreNewerMessages ||
+        _unreadOpenSettling ||
+        _isUserDrivenScroll ||
+        distanceFromLiveTail > kMessageListPinEngageDistance) {
       return;
     }
     _followDisarmed = false;
     _pin.onJumpToPresentLanded();
-    _syncReadViewport();
   }
 
   bool _applyUnreadOpenLayout() {
@@ -2289,7 +2289,9 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   void _onUserScrollSettled() {
     _setDeferHorizontalWhileCoasting(false);
-    if (!_anchorResolved || !_scrollController.hasClients) {
+    if (!_anchorResolved ||
+        !_scrollController.hasClients ||
+        _tailFollowOwnsScroll()) {
       _chatViewModel.setUserScrollActive(
         channelId: _viewportChannelId,
         active: false,
@@ -2954,6 +2956,12 @@ class _MessageListState extends ConsumerState<MessageList> {
     final bool jumpOwnsViewport = !ignoreJumpTarget && _isJumpOwningViewport();
     final ScrollPosition position = _scrollController.position;
     final double distanceFromTrailingEdge = _centerTrailingDistance(position);
+    if (!jumpOwnsViewport) {
+      _pinWhenRestingAtLiveTail(
+        distanceFromLiveTail: distanceFromTrailingEdge,
+        hasMoreNewerMessages: chatState.hasMoreNewerMessages,
+      );
+    }
     _readViewport.updateViewport(
       channelId: _viewportChannelId,
       nearLoadedTail:
