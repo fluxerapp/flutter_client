@@ -1237,6 +1237,10 @@ class _FluxerBottomSheetDragAreaState extends State<FluxerBottomSheetDragArea> {
     _dragDistance += details.delta.dy;
     final DraggableScrollableController? controller = _controller;
     if (controller == null || !controller.isAttached) {
+      if (_dragDistance > _kSheetPointerDragSlop &&
+          MediaQuery.viewInsetsOf(context).bottom > 0) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      }
       _presentation?.dragBy(details.delta.dy);
       return;
     }
