@@ -209,10 +209,11 @@ class _ContextMenuPage extends ConsumerWidget {
       appearancePreferencesProvider.select((s) => s.showSuppressEmbedsButton),
     );
 
+    final bool canReact =
+        !message.hasFailed && !message.isSending && permissions.canAddReactions;
+
     return [
-      if (!message.hasFailed &&
-          !message.isSending &&
-          permissions.canAddReactions)
+      if (canReact)
         if (quickReactionChannelId != null)
           MessageQuickReactionRow(
             channelId: quickReactionChannelId!,
@@ -230,13 +231,14 @@ class _ContextMenuPage extends ConsumerWidget {
               Navigator.of(context).pop();
             },
           ),
-      _MenuItem(
-        label: l10n.chatMessageAddReaction,
-        icon: PhosphorIconsBold.smiley,
-        trailing: PhosphorIconsBold.caretRight,
-        shortcut: shortcut('+'),
-        onTap: () => pop(MessageAction.addReaction),
-      ),
+      if (canReact)
+        _MenuItem(
+          label: l10n.chatMessageAddReaction,
+          icon: PhosphorIconsBold.smiley,
+          trailing: PhosphorIconsBold.caretRight,
+          shortcut: shortcut('+'),
+          onTap: () => pop(MessageAction.addReaction),
+        ),
       if (watchCanOfferMessageTranslate(ref, message))
         _MenuItem(
           label: l10n.chatMessageTranslate,
