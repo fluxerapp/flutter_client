@@ -239,6 +239,7 @@ class FluxerBottomSheet {
     bool isDismissible = true,
     bool reserveBottomInset = true,
     bool manageKeyboardInset = true,
+    Color? barrierColor,
   }) {
     final layout = context.layout;
 
@@ -248,6 +249,7 @@ class FluxerBottomSheet {
         context,
         useRootNavigator: useRootNavigator,
         isDismissible: isDismissible,
+        barrierColor: barrierColor,
         animationStyle: fluxerBottomSheetAnimationStyle(context),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
@@ -1383,6 +1385,35 @@ class _FluxerBottomSheetDragAreaState extends State<FluxerBottomSheetDragArea> {
       onVerticalDragUpdate: _canDrag ? _handleVerticalDragUpdate : null,
       onVerticalDragEnd: _canDrag ? _handleVerticalDragEnd : null,
       child: widget.child,
+    );
+  }
+}
+
+class FluxerBottomSheetEdgeHandle extends StatelessWidget {
+  const FluxerBottomSheetEdgeHandle({required this.height, super.key});
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerBottomSheetDragArea(
+      child: SizedBox(
+        height: height,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Container(
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: context.colors.backgroundModifierAccent,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

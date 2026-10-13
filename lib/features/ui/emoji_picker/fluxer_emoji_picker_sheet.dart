@@ -32,10 +32,8 @@ class ReactionPickerRiseCurve extends Curve {
 }
 
 double reactionPickerSheetHeight(BuildContext context) {
-  final MediaQueryData mediaQuery = MediaQuery.of(context);
-  return mediaQuery.size.height -
-      mediaQuery.viewPadding.top -
-      kMobileChannelHeaderHeight;
+  final MediaQueryData view = MediaQueryData.fromView(View.of(context));
+  return view.size.height - view.viewPadding.top - kMobileChannelHeaderHeight;
 }
 
 AnimationStyle? reactionPickerAnimationStyle(
@@ -80,6 +78,7 @@ class FluxerEmojiPickerSheet {
     final bool emojiOnly =
         visibleTabs.length == 1 &&
         visibleTabs.first == ExpressionPickerTab.emojis;
+    final bool edgeHandle = emojiOnly && title == null && subtitle == null;
     final double? sheetHeight = emojiOnly
         ? reactionPickerSheetHeight(context)
         : null;
@@ -88,6 +87,7 @@ class FluxerEmojiPickerSheet {
       title: title,
       subtitle: subtitle,
       sheetHeight: sheetHeight,
+      showDragHandle: !edgeHandle,
       barrierColor: sheetHeight == null ? null : kReactionPickerScrimColor,
       animationStyle: sheetHeight == null
           ? null
@@ -97,6 +97,7 @@ class FluxerEmojiPickerSheet {
           scrollController: scrollController,
           visibleTabs: visibleTabs,
           initialTab: initialTab,
+          showEdgeHandle: edgeHandle,
           onClose: close,
           onEmojiSelected: onEmojiSelected,
           onGifSelected: onGifSelected,
@@ -114,6 +115,7 @@ class _SheetContent extends StatefulWidget {
     required this.scrollController,
     required this.visibleTabs,
     required this.initialTab,
+    required this.showEdgeHandle,
     required this.onClose,
     this.onEmojiSelected,
     this.onGifSelected,
@@ -125,6 +127,7 @@ class _SheetContent extends StatefulWidget {
   final ScrollController scrollController;
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
+  final bool showEdgeHandle;
   final VoidCallback onClose;
   final ValueChanged<FluxerSelectedEmoji>? onEmojiSelected;
   final ValueChanged<FluxerSelectedGif>? onGifSelected;
@@ -153,6 +156,8 @@ class _SheetContentState extends State<_SheetContent> {
     child: Column(
       children: [
         if (widget.visibleTabs.length > 1) _buildSegmentedTabs(context),
+        if (widget.showEdgeHandle)
+          const FluxerBottomSheetEdgeHandle(height: 22),
         const SizedBox(height: 8),
         Expanded(
           child: ExpressionPicker(
