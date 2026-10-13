@@ -607,6 +607,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 140));
         expect(find.text('Choose'), findsOneWidget);
 
+        await tester.tap(find.text('Choose'), warnIfMissed: false);
+        await tester.pump();
+        expect(observer.pops, 0);
+
+        await tester.pump(const Duration(milliseconds: 240));
+        expect(find.text('Choose').hitTestable(), findsOneWidget);
         await tester.tap(find.text('Choose'));
         await tester.pumpAndSettle();
 
@@ -691,6 +697,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 140));
         expect(find.text('Choose'), findsOneWidget);
 
+        await tester.tap(find.text('Choose'), warnIfMissed: false);
+        await tester.pump();
+        expect(observer.pops, 0);
+
+        await tester.pump(const Duration(milliseconds: 240));
+        expect(find.text('Choose').hitTestable(), findsOneWidget);
         await tester.tap(find.text('Choose'));
         await tester.pumpAndSettle();
 
