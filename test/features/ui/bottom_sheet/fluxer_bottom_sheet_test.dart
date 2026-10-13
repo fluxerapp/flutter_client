@@ -223,63 +223,6 @@ void main() {
       expect(size.height, greaterThanOrEqualTo(24));
     });
 
-    testWidgets('scrollable sheet drag handle resizes the sheet', (
-      tester,
-    ) async {
-      final DraggableScrollableController sheetController =
-          DraggableScrollableController();
-      addTearDown(sheetController.dispose);
-
-      await tester.pumpWidget(
-        buildTestApp(
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: 800,
-              child: DraggableScrollableSheet(
-                expand: false,
-                controller: sheetController,
-                initialChildSize: 0.7,
-                minChildSize: 0.4,
-                maxChildSize: 0.95,
-                builder: (context, scrollController) {
-                  return Column(
-                    children: [
-                      FluxerBottomSheetDragHandle(
-                        sheetController: sheetController,
-                        minChildSize: 0.4,
-                        maxChildSize: 0.95,
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          controller: scrollController,
-                          itemCount: 40,
-                          itemBuilder: (context, index) =>
-                              ListTile(title: Text('Item $index')),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(sheetController.isAttached, isTrue);
-      final double initialSize = sheetController.size;
-
-      await tester.drag(
-        find.byType(FluxerBottomSheetDragHandle),
-        const Offset(0, 80),
-      );
-      await tester.pumpAndSettle();
-
-      expect(sheetController.size, lessThan(initialSize));
-    });
-
     testWidgets('scrollable sheet header drag resizes the sheet', (
       tester,
     ) async {

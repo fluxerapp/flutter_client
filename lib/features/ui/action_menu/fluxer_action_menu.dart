@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
     show
         FluxerBottomSheet,
-        FluxerBottomSheetDismissDragTarget,
         FluxerBottomSheetGroupColumn,
         FluxerBottomSheetMenuItem,
         FluxerBottomSheetSection,
@@ -57,44 +56,38 @@ class FluxerActionMenu {
       builder: (sheetContext, close) {
         final sections = _buildMobileSections(builder(sheetContext, close));
 
-        return FluxerBottomSheetDismissDragTarget(
-          onDismiss: close,
-          child: ListView(
-            shrinkWrap: true,
-            // Clamping physics lets the list scroll when needed; at the top,
-            // downward drags are handled by [FluxerBottomSheetDismissDragTarget].
-            physics: const ClampingScrollPhysics(),
-            padding: FluxerBottomSheet.scrollViewPadding(
-              sheetContext,
-              padding: EdgeInsets.only(
-                bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
-              ),
+        return ListView(
+          shrinkWrap: true,
+          padding: FluxerBottomSheet.scrollViewPadding(
+            sheetContext,
+            padding: EdgeInsets.only(
+              bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
             ),
-            children: [
-              FluxerBottomSheetGroupColumn(
-                children: [
-                  for (final section in sections)
-                    FluxerBottomSheetSection(
-                      title: section.title,
-                      child: FluxerMenuGroup(
-                        children: [
-                          for (final item in section.items)
-                            FluxerBottomSheetMenuItem(
-                              label: item.label,
-                              hint: item.hint,
-                              icon: item.icon,
-                              iconColor: item.iconColor,
-                              isDanger: item.isDanger,
-                              enabled: item.enabled,
-                              onTap: item.onPressed,
-                            ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-            ],
           ),
+          children: [
+            FluxerBottomSheetGroupColumn(
+              children: [
+                for (final section in sections)
+                  FluxerBottomSheetSection(
+                    title: section.title,
+                    child: FluxerMenuGroup(
+                      children: [
+                        for (final item in section.items)
+                          FluxerBottomSheetMenuItem(
+                            label: item.label,
+                            hint: item.hint,
+                            icon: item.icon,
+                            iconColor: item.iconColor,
+                            isDanger: item.isDanger,
+                            enabled: item.enabled,
+                            onTap: item.onPressed,
+                          ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ],
         );
       },
     );

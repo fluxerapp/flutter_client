@@ -22,7 +22,6 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
@@ -402,7 +401,6 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       FluxerBottomSheet.show<void>(
         context,
         showDragHandle: false,
-        barrierColor: kFluxerSheetDarkScrimColor,
         builder: (sheetContext, close) => _StickerActionsSheet(
           sticker: sticker,
           isFavorite: favoriteKeys.contains(key),

@@ -86,7 +86,7 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
             },
             child: CustomScrollView(
               controller: widget.scrollController,
-              physics: const ClampingScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               slivers: <Widget>[
                 SliverToBoxAdapter(
                   child: SizedBox(

@@ -225,7 +225,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       useRootNavigator: true,
       minChildSize: 0.5,
       showDragHandle: false,
-      disableTopPadding: true,
       builder: (sheetContext, scrollController, close) => UserProfileView(
         userId: userId,
         guildId: widget.guildId,
@@ -363,7 +362,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       ),
       child: CustomScrollView(
         controller: widget.scrollController,
-        physics: const ClampingScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: SizedBox(
@@ -392,10 +391,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       left: 0,
                       right: 0,
                       child: Padding(
-                        padding: EdgeInsets.only(top: layout.s3),
+                        padding: const EdgeInsets.only(top: 8),
                         child: Center(
                           child: Container(
-                            width: 40,
+                            width: 36,
                             height: 4,
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.5),

@@ -16,11 +16,10 @@ const double kFluxerSheetBackdropSpringOmega = 18.5;
 
 const double kFluxerSheetBackdropScale = 0.924;
 const double kFluxerSheetBackdropCornerRadius = 12;
-const double kFluxerSheetBackdropMinCoverage = 0.6;
-const double kFluxerSheetBackdropFullCoverage = 0.9;
+const double kFluxerSheetParallaxMinCoverage = 0.85;
 const double kFluxerSheetBackdropCornerRampEnd = 0.25;
-const Color kFluxerSheetBackdropDimColor = Color(0x80000000);
-const Color kFluxerSheetDarkScrimColor = Color(0xCC000000);
+const Color kFluxerSheetBackdropDimColor = Color(0x66000000);
+const Color kFluxerSheetScrimColor = Color(0xCC000000);
 
 double _sheetOpenSeconds(Animation<double> animation, Duration forward) {
   return animation.value *
@@ -59,7 +58,6 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
     required NavigatorState navigator,
     this.origin,
     this.inputLockout = Duration.zero,
-    this.holdFirstFrame = false,
     super.capturedThemes,
     super.barrierLabel,
     super.barrierOnTapHint,
@@ -75,7 +73,6 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
 
   final Route<dynamic>? origin;
   final Duration inputLockout;
-  final bool holdFirstFrame;
   final FluxerSheetBackdropProgress _backdrop;
   final ValueNotifier<double> _scrimTravel = ValueNotifier<double>(1);
   final ValueNotifier<bool> _inputLocked;
@@ -85,6 +82,19 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   String? _routerPath;
 
   bool get isEntering => _inputLocked.value;
+
+  bool _barrierDismissing = false;
+
+  bool get isBarrierDismissing => _barrierDismissing;
+
+  void _dismissFromBarrier() {
+    final NavigatorState? nav = navigator;
+    if (nav == null || !isCurrent) {
+      return;
+    }
+    _barrierDismissing = true;
+    unawaited(nav.maybePop().whenComplete(() => _barrierDismissing = false));
+  }
 
   @override
   void install() {
@@ -105,7 +115,7 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   TickerFuture didPush() {
     final TickerFuture entrance = super.didPush();
     final AnimationController? entranceController = controller;
-    if (!holdFirstFrame || entranceController == null) {
+    if (entranceController == null || transitionDuration <= Duration.zero) {
       return entrance;
     }
     entranceController.stop();
@@ -230,6 +240,7 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
               ? tinted
               : tinted.withValues(alpha: tinted.a * opacity),
           dismissible: barrierDismissible && !_inputLocked.value,
+          onDismiss: _dismissFromBarrier,
           semanticsLabel: barrierLabel,
           semanticsOnTapHint: barrierOnTapHint,
         );
@@ -301,23 +312,17 @@ class FluxerSheetBackdropLink {
   final NavigatorState _navigator;
   final FluxerSheetBackdropProgress _progress;
 
-  double reportVisibleHeight(double visibleHeight, double routeProgress) {
+  bool covers(double sheetHeight) {
     final RenderObject? box = _navigator.mounted
         ? _navigator.context.findRenderObject()
         : null;
     if (box is! RenderBox || !box.hasSize || box.size.height <= 0) {
-      return 0;
+      return false;
     }
-    final double coverage = visibleHeight / box.size.height;
-    final double strength =
-        ((coverage - kFluxerSheetBackdropMinCoverage) /
-                (kFluxerSheetBackdropFullCoverage -
-                    kFluxerSheetBackdropMinCoverage))
-            .clamp(0, 1) *
-        routeProgress;
-    _progress.report(this, strength);
-    return strength;
+    return sheetHeight / box.size.height >= kFluxerSheetParallaxMinCoverage;
   }
+
+  void report(double strength) => _progress.report(this, strength);
 
   void dispose() => _progress.remove(this);
 }

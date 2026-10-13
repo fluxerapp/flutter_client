@@ -139,7 +139,6 @@ void main() {
               FluxerBottomSheet.showScrollable<void>(
                 context,
                 minChildSize: 0.5,
-                disableTopPadding: true,
                 showDragHandle: false,
                 builder: (sheetContext, scrollController, close) =>
                     UserProfileLoadingSkeleton(

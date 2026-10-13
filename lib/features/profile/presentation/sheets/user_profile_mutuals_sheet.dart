@@ -69,7 +69,6 @@ class _MutualsSheetBody extends StatelessWidget {
     final layout = context.layout;
     return ListView(
       controller: scrollController,
-      physics: const ClampingScrollPhysics(),
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
         padding: EdgeInsets.fromLTRB(

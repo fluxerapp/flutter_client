@@ -185,76 +185,72 @@ class _ForumPostActions extends ConsumerWidget {
       run: _run,
       includeMarkRead: false,
     );
-    return FluxerBottomSheetDismissDragTarget(
-      onDismiss: close,
-      child: ListView(
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics(),
-        padding: FluxerBottomSheet.scrollViewPadding(
-          context,
-          padding: EdgeInsets.fromLTRB(
-            context.layout.s4,
-            0,
-            context.layout.s4,
-            FluxerBottomSheet.bottomGapOf(context),
-          ),
+    return ListView(
+      shrinkWrap: true,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.fromLTRB(
+          context.layout.s4,
+          0,
+          context.layout.s4,
+          FluxerBottomSheet.bottomGapOf(context),
         ),
-        children: <Widget>[
-          FluxerBottomSheetGroupColumn(
-            children: <Widget>[
-              FluxerMenuGroup(
-                children: <Widget>[
-                  FluxerBottomSheetMenuItem(
-                    icon: PhosphorIconsBold.arrowSquareOut,
-                    label: l10n.forumOpenPost,
-                    onTap: () =>
-                        _run(() => openForumPost(hostContext, hostRef, post)),
-                  ),
-                  if (canEditTags)
-                    FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsBold.tag,
-                      label: l10n.forumEditTags,
-                      onTap: () => _run(
-                        () => showForumPostTagsSheet(
-                          hostContext,
-                          forum: forum,
-                          post: post,
-                          moderator: moderator,
-                        ),
-                      ),
-                    ),
-                  if (canPin)
-                    FluxerBottomSheetMenuItem(
-                      icon: pinned
-                          ? PhosphorIconsBold.pushPinSlash
-                          : PhosphorIconsBold.pushPin,
-                      label: pinned ? l10n.forumUnpinPost : l10n.forumPinPost,
-                      onTap: () => _run(
-                        () => updateForumPost(
-                          hostContext,
-                          hostRef,
-                          post,
-                          <String, Object?>{
-                            'flags': pinned
-                                ? (post.flags ?? 0) & ~channelFlagPinned
-                                : (post.flags ?? 0) | channelFlagPinned,
-                          },
-                        ),
-                      ),
-                    ),
-                  FluxerBottomSheetMenuItem(
-                    icon: PhosphorIconsBold.checks,
-                    label: l10n.forumMarkPostRead,
-                    onTap: () => _run(() => markThreadRead(hostRef, post)),
-                  ),
-                ],
-              ),
-              for (final List<Widget> group in threadGroups)
-                if (group.isNotEmpty) FluxerMenuGroup(children: group),
-            ],
-          ),
-        ],
       ),
+      children: <Widget>[
+        FluxerBottomSheetGroupColumn(
+          children: <Widget>[
+            FluxerMenuGroup(
+              children: <Widget>[
+                FluxerBottomSheetMenuItem(
+                  icon: PhosphorIconsBold.arrowSquareOut,
+                  label: l10n.forumOpenPost,
+                  onTap: () =>
+                      _run(() => openForumPost(hostContext, hostRef, post)),
+                ),
+                if (canEditTags)
+                  FluxerBottomSheetMenuItem(
+                    icon: PhosphorIconsBold.tag,
+                    label: l10n.forumEditTags,
+                    onTap: () => _run(
+                      () => showForumPostTagsSheet(
+                        hostContext,
+                        forum: forum,
+                        post: post,
+                        moderator: moderator,
+                      ),
+                    ),
+                  ),
+                if (canPin)
+                  FluxerBottomSheetMenuItem(
+                    icon: pinned
+                        ? PhosphorIconsBold.pushPinSlash
+                        : PhosphorIconsBold.pushPin,
+                    label: pinned ? l10n.forumUnpinPost : l10n.forumPinPost,
+                    onTap: () => _run(
+                      () => updateForumPost(
+                        hostContext,
+                        hostRef,
+                        post,
+                        <String, Object?>{
+                          'flags': pinned
+                              ? (post.flags ?? 0) & ~channelFlagPinned
+                              : (post.flags ?? 0) | channelFlagPinned,
+                        },
+                      ),
+                    ),
+                  ),
+                FluxerBottomSheetMenuItem(
+                  icon: PhosphorIconsBold.checks,
+                  label: l10n.forumMarkPostRead,
+                  onTap: () => _run(() => markThreadRead(hostRef, post)),
+                ),
+              ],
+            ),
+            for (final List<Widget> group in threadGroups)
+              if (group.isNotEmpty) FluxerMenuGroup(children: group),
+          ],
+        ),
+      ],
     );
   }
 }

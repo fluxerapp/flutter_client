@@ -27,7 +27,6 @@ import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -519,7 +518,6 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       FluxerBottomSheet.show<void>(
         context,
         showDragHandle: false,
-        barrierColor: kFluxerSheetDarkScrimColor,
         builder: (sheetContext, close) => _GifActionsSheet(
           gif: gif,
           isFavorite: favoriteLookup.isFavorite(gif),

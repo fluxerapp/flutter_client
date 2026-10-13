@@ -3,6 +3,7 @@ import 'dart:ui' show clampDouble;
 import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoSliverRefreshControl, RefreshIndicatorMode;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -63,23 +64,24 @@ class FluxerRefreshScrollView extends StatelessWidget {
       controller: controller,
       physics: const AlwaysScrollableScrollPhysics(),
       slivers: <Widget>[
-        CupertinoSliverRefreshControl(
-          onRefresh: onRefresh,
-          builder:
-              (
-                BuildContext context,
-                RefreshIndicatorMode refreshState,
-                double pulledExtent,
-                double refreshTriggerPullDistance,
-                double refreshIndicatorExtent,
-              ) {
-                return buildSpinnerIndicator(
-                  refreshState: refreshState,
-                  pulledExtent: pulledExtent,
-                  refreshTriggerPullDistance: refreshTriggerPullDistance,
-                );
-              },
-        ),
+        if (!FluxerBottomSheet.isInSheet(context))
+          CupertinoSliverRefreshControl(
+            onRefresh: onRefresh,
+            builder:
+                (
+                  BuildContext context,
+                  RefreshIndicatorMode refreshState,
+                  double pulledExtent,
+                  double refreshTriggerPullDistance,
+                  double refreshIndicatorExtent,
+                ) {
+                  return buildSpinnerIndicator(
+                    refreshState: refreshState,
+                    pulledExtent: pulledExtent,
+                    refreshTriggerPullDistance: refreshTriggerPullDistance,
+                  );
+                },
+          ),
         ...slivers,
       ],
     );

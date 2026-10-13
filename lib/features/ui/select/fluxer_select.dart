@@ -211,7 +211,6 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
   }) {
     return ListView(
       shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
       padding: FluxerBottomSheet.scrollViewPadding(
         sheetContext,
         padding: EdgeInsets.only(
@@ -279,12 +278,9 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
         maxHeight: 0.58,
         useRootNavigator: useRootNavigator,
         variant: FluxerBottomSheetVariant.menu,
-        builder: (sheetContext, close) => FluxerBottomSheetDismissDragTarget(
-          onDismiss: close,
-          child: _buildStaticSelectBody(
-            sheetContext,
-            onSelected: (selected) => handleSelected(sheetContext, selected),
-          ),
+        builder: (sheetContext, close) => _buildStaticSelectBody(
+          sheetContext,
+          onSelected: (selected) => handleSelected(sheetContext, selected),
         ),
       );
     }

@@ -650,7 +650,6 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
             ),
             Flexible(
               child: SingleChildScrollView(
-                primary: false,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
                     layout.s4,

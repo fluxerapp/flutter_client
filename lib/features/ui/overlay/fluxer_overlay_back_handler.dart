@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 /// Handles the system back button for modal overlays such as FluxerBottomSheets
@@ -78,6 +79,13 @@ class _FluxerOverlayBackHandlerState extends State<_FluxerOverlayBackHandler> {
 
   void _handlePopInvoked(bool didPop) {
     if (didPop) {
+      return;
+    }
+    final ModalRoute<dynamic>? route = ModalRoute.of(context);
+    if (route is FluxerSheetRoute && route.isBarrierDismissing) {
+      if (widget.canDismiss) {
+        route.closeSelf();
+      }
       return;
     }
     if (_keyboardTakesBack && _unfocusEditableInOverlay()) {

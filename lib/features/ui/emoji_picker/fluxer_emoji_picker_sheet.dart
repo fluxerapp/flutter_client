@@ -87,8 +87,6 @@ class FluxerEmojiPickerSheet {
       subtitle: subtitle,
       sheetHeight: sheetHeight,
       showDragHandle: !edgeHandle,
-      barrierColor: sheetHeight == null ? null : kFluxerSheetDarkScrimColor,
-      holdFirstFrame: sheetHeight != null,
       animationStyle: sheetHeight == null
           ? null
           : reactionPickerAnimationStyle(context, sheetHeight: sheetHeight),
