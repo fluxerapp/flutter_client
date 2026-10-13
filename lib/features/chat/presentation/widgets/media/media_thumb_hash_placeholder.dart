@@ -38,12 +38,25 @@ class _MediaThumbHashPlaceholderState extends State<MediaThumbHashPlaceholder> {
     }
   }
 
+  static const int _maxDecoded = 256;
+  static final Map<String, ImageProvider> _decoded = <String, ImageProvider>{};
+
   static ImageProvider? _decode(String? thumbHash) {
     if (thumbHash == null || thumbHash.isEmpty) {
       return null;
     }
+    final ImageProvider? cached = _decoded.remove(thumbHash);
+    if (cached != null) {
+      _decoded[thumbHash] = cached;
+      return cached;
+    }
     try {
-      return ThumbHash.fromBase64(thumbHash).toImage();
+      final ImageProvider image = ThumbHash.fromBase64(thumbHash).toImage();
+      if (_decoded.length >= _maxDecoded) {
+        _decoded.remove(_decoded.keys.first);
+      }
+      _decoded[thumbHash] = image;
+      return image;
     } on FormatException {
       return null;
     }
