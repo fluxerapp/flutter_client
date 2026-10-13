@@ -35,15 +35,14 @@ void main() {
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(database),
           inputModalityProvider.overrideWith(_TouchPrimaryModality.new),
-          favoriteChannelGroupsProvider.overrideWithValue(
-            const <FavoriteChannelGroup>[
-              FavoriteChannelGroup(
-                categoryId: 'category-1',
-                title: 'Important',
-                entries: <ResolvedFavoriteEntry>[],
-              ),
-            ],
-          ),
+          favoriteChannelGroupsProvider
+              .overrideWithValue(const <FavoriteChannelGroup>[
+                FavoriteChannelGroup(
+                  categoryId: 'category-1',
+                  title: 'Important',
+                  entries: <ResolvedFavoriteEntry>[],
+                ),
+              ]),
         ],
         child: MaterialApp(
           locale: kTestLocale,
