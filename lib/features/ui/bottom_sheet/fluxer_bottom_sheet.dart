@@ -592,7 +592,9 @@ Widget _wrapBottomSheetSurface({
 }
 
 bool _fluxerSheetDrivesBackdrop(BuildContext context) {
-  return isMobileLayout(context) && !MediaQuery.disableAnimationsOf(context);
+  return isMobileLayout(context) &&
+      Theme.of(context).platform != TargetPlatform.android &&
+      !MediaQuery.disableAnimationsOf(context);
 }
 
 class _FluxerSheetKeyboardInset extends StatefulWidget {
