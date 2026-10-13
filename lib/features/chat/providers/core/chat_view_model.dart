@@ -3049,7 +3049,11 @@ class ChatViewModel extends _$ChatViewModel {
           channelRow.lastMessageId == null) {
         _replaceLiveWindow(
           channelId: channelId,
-          messages: const <Message>[],
+          messages: _finalizeLoadedMessages(
+            channelId,
+            const <Message>[],
+            cacheOrdinal,
+          ),
           isLoading: false,
           isSyncingMessages: false,
           hasMoreMessages: false,
