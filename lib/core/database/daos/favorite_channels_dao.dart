@@ -160,6 +160,56 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
     return true;
   }
 
+  Future<bool> renameCategory({
+    required String id,
+    required String name,
+  }) async {
+    final updated =
+        await (update(favoriteCategories)..where((t) => t.id.equals(id))).write(
+          FavoriteCategoriesCompanion(name: Value(name)),
+        );
+    return updated > 0;
+  }
+
+  Future<bool> removeCategory(String id) {
+    return transaction(() async {
+      final removed = await (delete(
+        favoriteCategories,
+      )..where((t) => t.id.equals(id))).go();
+      if (removed == 0) {
+        return false;
+      }
+      final orphans = await _channelsForParent(id);
+      var nextPosition = await _nextChannelPosition(null);
+      for (final channel in orphans) {
+        await (update(
+          favoriteChannels,
+        )..where((t) => t.channelId.equals(channel.channelId))).write(
+          FavoriteChannelsCompanion(
+            parentId: const Value(null),
+            position: Value(nextPosition++),
+          ),
+        );
+      }
+      final categories = await getCategories();
+      for (var i = 0; i < categories.length; i++) {
+        if (categories[i].position == i) {
+          continue;
+        }
+        await (update(favoriteCategories)
+              ..where((t) => t.id.equals(categories[i].id)))
+            .write(FavoriteCategoriesCompanion(position: Value(i)));
+      }
+      final settings = await getSettings();
+      await setCollapsedCategoryIds(
+        favoriteSettingsCollapsedCategoryIds(
+          settings,
+        ).where((categoryId) => categoryId != id).toList(),
+      );
+      return true;
+    });
+  }
+
   Stream<FavoriteSetting> watchSettings() async* {
     await _ensureSettings();
     yield* (select(

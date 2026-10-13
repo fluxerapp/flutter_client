@@ -16625,5 +16625,9 @@
     "chatJumpToPresent": "Към най-новите",
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "favoritesRenameCategory": "Преименуване на категория",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

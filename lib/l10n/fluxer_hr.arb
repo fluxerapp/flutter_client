@@ -16625,5 +16625,9 @@
     "chatJumpToPresent": "Skoči na najnovije",
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "favoritesRenameCategory": "Preimenuj kategoriju",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

@@ -16625,5 +16625,9 @@
     "chatJumpToPresent": "Đến tin nhắn mới nhất",
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "favoritesRenameCategory": "Đổi tên danh mục",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

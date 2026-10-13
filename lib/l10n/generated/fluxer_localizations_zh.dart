@@ -14371,6 +14371,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String voiceP2pPeerFailedTitle(String name) {
     return 'Cannot connect directly to $name';
   }
+
+  @override
+  String get favoritesRenameCategory => '重命名类别';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -27703,4 +27706,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     );
     return '$_temp0';
   }
+
+  @override
+  String get favoritesRenameCategory => '重新命名類別';
 }

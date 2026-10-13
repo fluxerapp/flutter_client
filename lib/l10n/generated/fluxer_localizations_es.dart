@@ -15440,6 +15440,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String voiceP2pPeerFailedTitle(String name) {
     return 'Cannot connect directly to $name';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Renombrar categoría';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -29821,4 +29824,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
     );
     return '$_temp0';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Renombrar categoría';
 }

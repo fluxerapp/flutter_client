@@ -17974,5 +17974,9 @@
                 "type": "String"
             }
         }
+    },
+    "favoritesRenameCategory": "Rename category",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

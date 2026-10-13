@@ -15178,6 +15178,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String voiceP2pPeerFailedTitle(String name) {
     return 'Cannot connect directly to $name';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Rename category';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -29307,6 +29310,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
     );
     return '$_temp0';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Rename category';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -42485,4 +42491,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
     );
     return '$_temp0';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Rename category';
 }

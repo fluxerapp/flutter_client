@@ -46,3 +46,46 @@ Future<void> showCreateFavoriteCategorySheet(BuildContext context) async {
     ),
   );
 }
+
+Future<void> showRenameFavoriteCategorySheet(
+  BuildContext context, {
+  required String categoryId,
+  required String currentName,
+}) async {
+  final l10n = FluxerLocalizations.of(context);
+  final controller = TextEditingController(text: currentName);
+  await FluxerBottomSheet.show<void>(
+    context,
+    title: l10n.favoritesRenameCategory,
+    builder: (sheetContext, close) => Consumer(
+      builder: (context, ref, _) {
+        return FluxerBottomSheetContent(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FluxerInput(
+                controller: controller,
+                label: l10n.favoritesCategoryNameLabel,
+              ),
+              const SizedBox(height: 16),
+              FluxerButton.primary(
+                label: l10n.save,
+                onPressed: () async {
+                  final name = controller.text.trim();
+                  if (name.isEmpty) {
+                    return;
+                  }
+                  await ref
+                      .read(favoriteChannelsRepositoryProvider)
+                      .renameCategory(id: categoryId, name: name);
+                  close();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  );
+}

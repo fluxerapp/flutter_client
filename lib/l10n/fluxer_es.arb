@@ -16599,5 +16599,9 @@
     "chatJumpToPresent": "Ir a lo más reciente",
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "favoritesRenameCategory": "Renombrar categoría",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

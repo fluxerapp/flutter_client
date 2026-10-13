@@ -8790,5 +8790,9 @@
     "lookAndFeelChatWallpaperPickFailed": "Não foi possível definir esta imagem como seu papel de parede.",
     "@lookAndFeelChatWallpaperPickFailed": {
         "description": "Toast shown when a custom wallpaper image cannot be decoded or saved."
+    },
+    "favoritesRenameCategory": "Renomear categoria",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

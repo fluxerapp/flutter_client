@@ -100,4 +100,61 @@ void main() {
     expect(settings.hideMuted, isTrue);
     expect(settings.muted, isTrue);
   });
+
+  test(
+    'removeCategory keeps its channels as uncategorized favorites',
+    () async {
+      await repository.addCategory(id: 'category-1', name: 'Important');
+      await repository.addCategory(id: 'category-2', name: 'Later');
+      await repository.addChannel(channelId: 'channel-root');
+      await repository.addChannel(
+        channelId: 'channel-a',
+        parentId: 'category-1',
+      );
+      await repository.addChannel(
+        channelId: 'channel-b',
+        parentId: 'category-1',
+      );
+      await repository.setCollapsedCategoryIds(['category-1', 'category-2']);
+
+      expect(await repository.removeCategory('category-1'), isTrue);
+      expect(await repository.removeCategory('category-1'), isFalse);
+
+      final categories = await database.favoriteChannelsDao.getCategories();
+      expect(categories.map((category) => category.id), ['category-2']);
+      expect(categories.single.position, 0);
+
+      final favorites = await database.favoriteChannelsDao.getChannels();
+      expect(
+        favorites.map(
+          (favorite) =>
+              (favorite.channelId, favorite.parentId, favorite.position),
+        ),
+        [
+          ('channel-root', null, 0),
+          ('channel-a', null, 1),
+          ('channel-b', null, 2),
+        ],
+      );
+
+      final settings = await database.favoriteChannelsDao.getSettings();
+      expect(favoriteSettingsCollapsedCategoryIds(settings), ['category-2']);
+    },
+  );
+
+  test('renameCategory updates the category name', () async {
+    await repository.addCategory(id: 'category-1', name: 'Important');
+
+    expect(
+      await repository.renameCategory(id: 'category-1', name: 'Urgent'),
+      isTrue,
+    );
+    expect(
+      await repository.renameCategory(id: 'missing', name: 'Nope'),
+      isFalse,
+    );
+
+    final categories = await database.favoriteChannelsDao.getCategories();
+    expect(categories.single.name, 'Urgent');
+  });
 }

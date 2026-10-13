@@ -15231,6 +15231,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String voiceP2pPeerFailedTitle(String name) {
     return 'Cannot connect directly to $name';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Renomear categoria';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -29555,4 +29558,7 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
     );
     return '$_temp0';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Renomear categoria';
 }

@@ -16625,5 +16625,9 @@
     "chatJumpToPresent": "सबसे नए मैसेज पर जाएं",
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "favoritesRenameCategory": "श्रेणी का नाम बदलें",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

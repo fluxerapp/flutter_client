@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/favorites/domain/resolved_favorite_entry.dart';
+import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_category_context_menu.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_channel_context_menu.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_list_context_menu.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channel_groups_provider.dart';
@@ -115,6 +116,22 @@ class FavoritesChannelList extends ConsumerWidget {
               onToggle: group.categoryId == null
                   ? null
                   : () => _toggleCategory(ref, collapsedIds, group.categoryId!),
+              onContextMenu:
+                  group.categoryId == null || group.categoryId == '__other__'
+                  ? null
+                  : (Offset position) => unawaited(
+                      showFavoritesCategoryMenu(
+                        context,
+                        ref,
+                        categoryId: group.categoryId!,
+                        categoryName: group.title,
+                        isCollapsed: collapsedIds.contains(group.categoryId),
+                        onToggleCollapsed: () => unawaited(
+                          _toggleCategory(ref, collapsedIds, group.categoryId!),
+                        ),
+                        position: position,
+                      ),
+                    ),
             ),
             if (group.categoryId == null ||
                 !collapsedIds.contains(group.categoryId))
@@ -282,25 +299,34 @@ class _FavoriteGroupEntries extends ConsumerWidget {
   }
 }
 
-class _FavoriteCategoryHeader extends StatelessWidget {
+class _FavoriteCategoryHeader extends ConsumerWidget {
   const _FavoriteCategoryHeader({
     required this.title,
     required this.isCollapsed,
     required this.onToggle,
+    this.onContextMenu,
   });
 
   final String title;
   final bool isCollapsed;
   final VoidCallback? onToggle;
+  final ValueChanged<Offset>? onContextMenu;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueChanged<Offset>? onContextMenu = this.onContextMenu;
     return Semantics(
       button: onToggle != null,
       expanded: onToggle != null ? !isCollapsed : null,
       label: title,
       child: InkWell(
         onTap: onToggle,
+        onSecondaryTapUp: onContextMenu == null
+            ? null
+            : (details) => onContextMenu(details.globalPosition),
+        onLongPress: onContextMenu != null && isTouchPrimaryInput(ref)
+            ? () => onContextMenu(contextMenuPositionAtCenter(context))
+            : null,
         child: ExcludeSemantics(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 14, 8, 4),

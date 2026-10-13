@@ -16600,5 +16600,9 @@
     "chatJumpToPresent": "Şimdiye atla",
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "favoritesRenameCategory": "Kategoriyi yeniden adlandır",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }

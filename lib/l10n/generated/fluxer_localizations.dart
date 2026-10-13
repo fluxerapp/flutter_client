@@ -25253,6 +25253,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Cannot connect directly to {name}'**
   String voiceP2pPeerFailedTitle(String name);
+
+  /// Favorites category context menu action and sheet title for renaming a favorites category.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename category'**
+  String get favoritesRenameCategory;
 }
 
 class _FluxerLocalizationsDelegate

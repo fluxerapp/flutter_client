@@ -15283,4 +15283,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String voiceP2pPeerFailedTitle(String name) {
     return 'Cannot connect directly to $name';
   }
+
+  @override
+  String get favoritesRenameCategory => 'Gi kategori nytt navn';
 }

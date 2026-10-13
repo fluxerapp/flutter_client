@@ -16625,5 +16625,9 @@
     "chatJumpToPresent": "Lompat ke pesan terbaru",
     "@chatJumpToPresent": {
         "description": "Bottom bar action that returns the message list to the newest messages."
+    },
+    "favoritesRenameCategory": "Ganti nama kategori",
+    "@favoritesRenameCategory": {
+        "description": "Favorites category context menu action and sheet title for renaming a favorites category."
     }
 }
