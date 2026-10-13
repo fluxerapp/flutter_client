@@ -193,3 +193,50 @@ class ChannelIcon extends StatelessWidget {
     }
   }
 }
+
+const List<String> _kSidebarChannelAssets = <String>[
+  _kAssetText,
+  _kAssetTextLocked,
+  _kAssetTextNsfw,
+  _kAssetVoice,
+  _kAssetVoiceLocked,
+  _kAssetVoiceNsfw,
+  _kAssetVoiceNoConnect,
+  _kAssetVoiceE2ee,
+  _kAssetLink,
+  _kAssetLinkLocked,
+  _kAssetLinkNsfw,
+  _kAssetAnnouncement,
+  _kAssetAnnouncementLocked,
+  _kAssetAnnouncementNsfw,
+];
+
+class ChannelIconPrewarm extends StatelessWidget {
+  const ChannelIconPrewarm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Color highlight = context.colors.textPrimary;
+    final Color idle = context.colors.textTertiaryMuted;
+    final List<Color> colors = <Color>[
+      highlight,
+      idle,
+      highlight.withValues(alpha: highlight.a * 0.5),
+      idle.withValues(alpha: idle.a * 0.5),
+    ];
+    return Offstage(
+      child: Wrap(
+        children: <Widget>[
+          for (final Color color in colors)
+            for (final String asset in _kSidebarChannelAssets)
+              SvgPicture.asset(
+                asset,
+                width: 1,
+                height: 1,
+                theme: SvgTheme(currentColor: color),
+              ),
+        ],
+      ),
+    );
+  }
+}

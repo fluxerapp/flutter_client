@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/input/presentation/keybind_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/shell_route_listeners.dart';
@@ -15,8 +16,14 @@ class AppLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ShellRouteListeners(
       child: SplashShellSettle(
-        child: KeybindScope(
-          child: AppLayoutShell(navigationShell: navigationShell),
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: <Widget>[
+            KeybindScope(
+              child: AppLayoutShell(navigationShell: navigationShell),
+            ),
+            const ChannelIconPrewarm(),
+          ],
         ),
       ),
     );
