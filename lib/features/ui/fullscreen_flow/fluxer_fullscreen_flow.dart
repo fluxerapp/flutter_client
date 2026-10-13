@@ -264,8 +264,10 @@ class FluxerPushPageAction extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        foregroundColor: colors.textLink,
-        disabledForegroundColor: colors.textPrimaryMuted,
+        foregroundColor: colors.brandPrimaryLight,
+        disabledForegroundColor: colors.brandPrimaryLight.withValues(
+          alpha: 0.5,
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         minimumSize: const Size(44, 44),
         splashFactory: NoSplash.splashFactory,

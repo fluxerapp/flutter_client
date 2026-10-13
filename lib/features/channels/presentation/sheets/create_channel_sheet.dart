@@ -398,7 +398,7 @@ class _CreateChannelMobileFlowState extends State<_CreateChannelMobileFlow> {
                     layout.s4,
                     layout.s4 + MediaQuery.paddingOf(context).bottom,
                   ),
-                  child: _CreateChannelFields(draft: draft),
+                  child: _CreateChannelFields(draft: draft, nameFirst: true),
                 ),
               ),
             ),
@@ -423,9 +423,10 @@ class _CreateChannelMobileFlowState extends State<_CreateChannelMobileFlow> {
 }
 
 class _CreateChannelFields extends StatelessWidget {
-  const _CreateChannelFields({required this.draft});
+  const _CreateChannelFields({required this.draft, this.nameFirst = false});
 
   final _ChannelDraft draft;
+  final bool nameFirst;
 
   FluxerRadioItem<int> _typeItem(
     BuildContext context,
@@ -461,73 +462,83 @@ class _CreateChannelFields extends StatelessWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     final ChannelType selectedType = ChannelType.fromWire(draft.type);
+    final List<Widget> typeSection = <Widget>[
+      FluxerFieldLabel(l10n.guildNavbarChannelType),
+      SizedBox(height: layout.s2),
+      Semantics(
+        label: l10n.guildNavbarChannelTypeSelection,
+        child: _FieldCard(
+          child: FluxerRadioGroup<int>(
+            value: draft.type,
+            itemSpacing: layout.s2,
+            onChanged: (int value) => draft.type = value,
+            items: <FluxerRadioItem<int>>[
+              _typeItem(
+                context,
+                ChannelType.guildText,
+                l10n.guildNavbarTextChannel,
+                l10n.guildNavbarTextChannelDescription,
+              ),
+              _typeItem(
+                context,
+                ChannelType.guildVoice,
+                l10n.guildNavbarVoiceChannel,
+                l10n.guildNavbarVoiceChannelDescription,
+              ),
+              _typeItem(
+                context,
+                ChannelType.guildAnnouncement,
+                l10n.guildNavbarAnnouncementChannel,
+                l10n.guildNavbarAnnouncementChannelDescription,
+              ),
+              _typeItem(
+                context,
+                ChannelType.guildForum,
+                l10n.forumChannelTypeForum,
+                l10n.forumChannelTypeForumDescription,
+              ),
+              _typeItem(
+                context,
+                ChannelType.guildMedia,
+                l10n.forumChannelTypeMedia,
+                l10n.forumChannelTypeMediaDescription,
+              ),
+              _typeItem(
+                context,
+                ChannelType.guildLink,
+                l10n.guildNavbarLinkChannel,
+                l10n.guildNavbarLinkChannelDescription,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
+    final Widget nameField = FluxerInput(
+      label: l10n.channelSettingsChannelName,
+      hint: l10n.guildNavbarNewChannelHint,
+      prefixIcon: Center(
+        widthFactor: 1,
+        heightFactor: 1,
+        child: ChannelIcon(type: selectedType, size: 18),
+      ),
+      maxLength: 100,
+      autofocus: true,
+      onChanged: (String value) => draft.name = value,
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        FluxerFieldLabel(l10n.guildNavbarChannelType),
-        SizedBox(height: layout.s2),
-        Semantics(
-          label: l10n.guildNavbarChannelTypeSelection,
-          child: _FieldCard(
-            child: FluxerRadioGroup<int>(
-              value: draft.type,
-              itemSpacing: layout.s2,
-              onChanged: (int value) => draft.type = value,
-              items: <FluxerRadioItem<int>>[
-                _typeItem(
-                  context,
-                  ChannelType.guildText,
-                  l10n.guildNavbarTextChannel,
-                  l10n.guildNavbarTextChannelDescription,
-                ),
-                _typeItem(
-                  context,
-                  ChannelType.guildVoice,
-                  l10n.guildNavbarVoiceChannel,
-                  l10n.guildNavbarVoiceChannelDescription,
-                ),
-                _typeItem(
-                  context,
-                  ChannelType.guildAnnouncement,
-                  l10n.guildNavbarAnnouncementChannel,
-                  l10n.guildNavbarAnnouncementChannelDescription,
-                ),
-                _typeItem(
-                  context,
-                  ChannelType.guildForum,
-                  l10n.forumChannelTypeForum,
-                  l10n.forumChannelTypeForumDescription,
-                ),
-                _typeItem(
-                  context,
-                  ChannelType.guildMedia,
-                  l10n.forumChannelTypeMedia,
-                  l10n.forumChannelTypeMediaDescription,
-                ),
-                _typeItem(
-                  context,
-                  ChannelType.guildLink,
-                  l10n.guildNavbarLinkChannel,
-                  l10n.guildNavbarLinkChannelDescription,
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: layout.s4),
-        FluxerInput(
-          label: l10n.channelSettingsChannelName,
-          hint: l10n.guildNavbarNewChannelHint,
-          prefixIcon: Center(
-            widthFactor: 1,
-            heightFactor: 1,
-            child: ChannelIcon(type: selectedType, size: 18),
-          ),
-          maxLength: 100,
-          autofocus: true,
-          onChanged: (String value) => draft.name = value,
-        ),
+        if (nameFirst) ...<Widget>[
+          nameField,
+          SizedBox(height: layout.s4),
+          ...typeSection,
+        ] else ...<Widget>[
+          ...typeSection,
+          SizedBox(height: layout.s4),
+          nameField,
+        ],
         if (isGuildLinkChannelType(draft.type)) ...<Widget>[
           SizedBox(height: layout.s4),
           FluxerInput(

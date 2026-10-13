@@ -86,6 +86,10 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
   String? _emojiName;
   bool _emojiAnimated = false;
   late TimeWindowKey _selectedExpiry;
+  late final String _initialText;
+  late final String? _initialEmojiId;
+  late final String? _initialEmojiName;
+  late final TimeWindowKey _initialExpiry;
 
   @override
   void initState() {
@@ -102,7 +106,17 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
       existing?.expiresAt,
       includeDeveloperOptions: includeDeveloperOptions,
     );
+    _initialText = _textController.text;
+    _initialEmojiId = _emojiId;
+    _initialEmojiName = _emojiName;
+    _initialExpiry = _selectedExpiry;
   }
+
+  bool get _isDirty =>
+      _textController.text != _initialText ||
+      _emojiId != _initialEmojiId ||
+      _emojiName != _initialEmojiName ||
+      _selectedExpiry != _initialExpiry;
 
   @override
   void dispose() {
@@ -254,7 +268,7 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
       closes: true,
       trailing: FluxerPushPageAction(
         label: l10n.customStatusSave,
-        onPressed: _save,
+        onPressed: _isDirty ? _save : null,
       ),
       body: ListView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -298,7 +312,11 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
                     textCapitalization: TextCapitalization.sentences,
                     maxLength: kCustomStatusTextLimit,
                     textInputAction: TextInputAction.done,
-                    onSubmitted: (_) => _save(),
+                    onSubmitted: (_) {
+                      if (_isDirty) {
+                        _save();
+                      }
+                    },
                     onChanged: (_) => setState(() {}),
                     style: context.textStyles.bodyMedium.copyWith(
                       fontSize: 16,

@@ -136,6 +136,7 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
               ? l10n.addFriendUsernameOnlyHint
               : l10n.addFriendUsernameHint,
           enabled: !_isLoading,
+          autofocus: true,
           onChanged: (_) {
             _clearResult();
             setState(() {});
