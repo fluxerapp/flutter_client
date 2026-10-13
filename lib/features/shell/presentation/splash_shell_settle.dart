@@ -86,12 +86,9 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
           reducedMotion: reducedMotion,
           useLogoZoomTransition: useLogoZoomTransition,
         );
-        if (scale == 1) {
-          return child!;
-        }
         return Transform.scale(
           scale: scale,
-          filterQuality: FilterQuality.low,
+          filterQuality: scale == 1 ? null : FilterQuality.low,
           child: child,
         );
       },
