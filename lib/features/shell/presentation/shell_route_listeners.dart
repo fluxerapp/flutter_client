@@ -26,6 +26,7 @@ import 'package:fluxer_app/core/share/pending_share_provider.dart';
 import 'package:fluxer_app/core/share/shared_media_payload.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/share_media_sheet.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
@@ -54,7 +55,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   @override
   void initState() {
     super.initState();
-    ref.read(notificationMentionFeedStreamProvider);
+    ref
+      ..read(notificationMentionFeedStreamProvider)
+      ..read(dmViewModelProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
