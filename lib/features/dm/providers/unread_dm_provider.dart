@@ -12,10 +12,12 @@ part 'unread_dm_provider.g.dart';
 class UnreadDmState {
   final List<DmChannel> channels;
   final Set<String> unreadChannelIds;
+  final bool loaded;
 
   const UnreadDmState({
     this.channels = const [],
     this.unreadChannelIds = const {},
+    this.loaded = false,
   });
 
   bool hasUnread(String channelId) => unreadChannelIds.contains(channelId);
@@ -168,6 +170,7 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     state = UnreadDmState(
       channels: _orderChannels({for (final c in unreadChannels) c.id: c}),
       unreadChannelIds: unreadChannels.map((c) => c.id).toSet(),
+      loaded: true,
     );
   }
 }

@@ -25,3 +25,27 @@ Map<String, UnreadState> guildChannelUnreadSnapshot(Ref ref, String guildId) {
   };
   return Map<String, UnreadState>.unmodifiable(snapshot);
 }
+
+@riverpod
+bool guildChannelUnreadKnown(Ref ref, String guildId) {
+  final List<ChannelCategory> categories = ref.watch(
+    channelListViewModelProvider.select(
+      (ChannelListState state) => state.guild?.id == guildId
+          ? state.categories
+          : const <ChannelCategory>[],
+    ),
+  );
+  for (final ChannelCategory category in categories) {
+    for (final Channel channel in category.channels) {
+      final bool known = ref.watch(
+        channelUnreadOrLastKnownProvider(
+          channel.id,
+        ).select((UnreadState? unread) => unread != null),
+      );
+      if (!known) {
+        return false;
+      }
+    }
+  }
+  return true;
+}

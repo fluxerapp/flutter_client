@@ -18,6 +18,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
+import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
@@ -50,6 +53,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   // incident text is ready when _statusPageDisplayDelay reveals it.
   static const Duration _statusPrefetchDelay = Duration(milliseconds: 3500);
   static const Duration _problemsDelay = Duration(seconds: 10);
+  static const Duration _hydrationWaitLimit = Duration(milliseconds: 1500);
   static const Duration _footerFadeDuration = Duration(milliseconds: 400);
   static const Color _splashMutedText = Color(0xFF9B94B8);
   static const Color _splashLinkText = Color(0xFFC4B8F0);
@@ -66,6 +70,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   bool _timersStarted = false;
   bool _serviceUnavailableOutage = false;
   bool _exitRevealStarted = false;
+  bool _hydrationWaitExpired = false;
+  Timer? _hydrationWaitTimer;
   bool _enteredForAccountSwitch = false;
   SplashRevealComplete? _revealComplete;
   final GlobalKey _logoKey = GlobalKey();
@@ -108,6 +114,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   void dispose() {
     _cancelSplashTimers();
+    _hydrationWaitTimer?.cancel();
     _pulseController.dispose();
     final SplashRevealComplete? revealComplete = _revealComplete;
     // dispose runs while the element tree is being finalized, when Riverpod
@@ -150,6 +157,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   void _prepareForRelaunch() {
     _exitRevealStarted = false;
+    _hydrationWaitExpired = false;
+    _hydrationWaitTimer?.cancel();
+    _hydrationWaitTimer = null;
     _enteredForAccountSwitch = ref.read(accountManagerProvider).isSwitching;
     _revealComplete ??= ref.read(splashRevealCompleteProvider.notifier);
     _revealComplete?.reset();
@@ -191,7 +201,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       _revealComplete?.complete();
       return;
     }
+    if (!_unreadsHydrated() && !_hydrationWaitExpired) {
+      _hydrationWaitTimer ??= Timer(_hydrationWaitLimit, () {
+        _hydrationWaitExpired = true;
+        _scheduleExitReveal();
+      });
+      return;
+    }
 
+    _hydrationWaitTimer?.cancel();
+    _hydrationWaitTimer = null;
     _exitRevealStarted = true;
     _cancelSplashTimers();
     _pulseController.stop();
@@ -222,6 +241,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _allowSplashExit();
     setState(() {});
   }
+
+  bool _unreadsHydrated() =>
+      ref.read(guildReadStateReadyProvider) &&
+      ref.read(unreadDmChannelsProvider).loaded;
 
   Offset? _logoCenterGlobal() {
     final RenderObject? renderObject = _logoKey.currentContext
@@ -365,6 +388,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         _cancelSplashIfReady();
         _scheduleExitReveal();
       })
+      ..listen<Map<String, GuildReadStateEntry>>(
+        guildReadStateProvider,
+        (_, _) {},
+      )
+      ..listen<bool>(guildReadStateReadyProvider, (bool? previous, bool _) {
+        _scheduleExitReveal();
+      })
+      ..listen<bool>(
+        unreadDmChannelsProvider.select((UnreadDmState state) => state.loaded),
+        (bool? previous, bool _) {
+          _scheduleExitReveal();
+        },
+      )
       ..listen<AsyncValue<void>>(appStartupProvider, (
         AsyncValue<void>? previous,
         AsyncValue<void> next,

@@ -273,7 +273,8 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   );
   if (_isFirstLoad(guildMute) ||
       _isFirstLoad(muted) ||
-      _isFirstLoad(collapsedCategories)) {
+      _isFirstLoad(collapsedCategories) ||
+      !ref.watch(guildChannelUnreadKnownProvider(guildId))) {
     return const <GuildSidebarEntry>[];
   }
   final bool hideMutedChannels = guildMute.value?.hideMutedChannels ?? false;
