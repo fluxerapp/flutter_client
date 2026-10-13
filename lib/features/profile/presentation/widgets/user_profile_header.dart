@@ -24,6 +24,7 @@ class UserProfileHeader extends ConsumerWidget {
     this.showUsername = true,
     this.isBot = false,
     this.isSystem = false,
+    this.isCurrentUser = false,
     this.onDisplayNameTap,
     super.key,
   });
@@ -41,6 +42,7 @@ class UserProfileHeader extends ConsumerWidget {
   final bool showUsername;
   final bool isBot;
   final bool isSystem;
+  final bool isCurrentUser;
   final VoidCallback? onDisplayNameTap;
 
   @override
@@ -101,7 +103,8 @@ class UserProfileHeader extends ConsumerWidget {
                 formatUserTag(
                   username,
                   discriminator,
-                  uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+                  uniqueUsernames:
+                      isCurrentUser || ref.watch(uniqueUsernamesProvider),
                   bot: isBot,
                 ),
                 style: textStyles.bodySmall.copyWith(

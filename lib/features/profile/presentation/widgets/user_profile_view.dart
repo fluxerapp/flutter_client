@@ -563,6 +563,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   showUsername: !isWebhook,
                   isBot: isBot || isWebhook,
                   isSystem: isSystem,
+                  isCurrentUser: isCurrentUser,
                   onDisplayNameTap: widget.useCurrentUserCache
                       ? _openProfileTabMenu
                       : null,

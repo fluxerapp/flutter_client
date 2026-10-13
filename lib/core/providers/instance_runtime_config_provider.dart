@@ -25,19 +25,21 @@ typedef AccountIdentityFlags = ({bool usernameSignIn, bool uniqueUsernames});
 class AccountIdentity extends _$AccountIdentity {
   @override
   AccountIdentityFlags build() {
-    return (usernameSignIn: false, uniqueUsernames: false);
+    return _flagsOf(ref.read(instanceRuntimeConfigProvider));
   }
 
   void sync(InstanceRuntimeConfig config) {
-    final AccountIdentityFlags next = (
-      usernameSignIn: config.usernameSignIn,
-      uniqueUsernames: config.uniqueUsernames,
-    );
+    final AccountIdentityFlags next = _flagsOf(config);
     if (next != state) {
       state = next;
     }
   }
 }
+
+AccountIdentityFlags _flagsOf(InstanceRuntimeConfig config) => (
+  usernameSignIn: config.usernameSignIn,
+  uniqueUsernames: config.uniqueUsernames,
+);
 
 @Riverpod(keepAlive: true)
 bool uniqueUsernames(Ref ref) {
