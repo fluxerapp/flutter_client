@@ -63,6 +63,9 @@ void main() {
 
       expect(find.text('Notifications'), findsOneWidget);
       expect(tester.takeException(), isNull);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump(const Duration(milliseconds: 1));
     });
 
     testWidgets('guild letter fallback stays inside fixed icon box', (

@@ -9,11 +9,16 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+import '../../../../../helpers/test_l10n.dart';
+
 void _noop() {}
 
 Widget _overlay({required bool showUnreadBar}) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    locale: kTestLocale,
+    localizationsDelegates: fluxerLocalizationsDelegates,
+    supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,
       textTheme: FluxerTextTheme.fromColors(colorTheme),
