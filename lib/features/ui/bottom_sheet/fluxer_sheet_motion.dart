@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 const double kFluxerSheetOvershootBleed = 48;
 
 const Duration kFluxerSheetCloseDuration = Duration(milliseconds: 110);
+const double kFluxerSheetHandoffRemaining = 0.45;
 const Duration kFluxerSheetScrimOpenDuration = Duration(milliseconds: 125);
 const Duration kFluxerSheetBackdropLead = Duration(milliseconds: 70);
 const Duration kFluxerSheetInputLockout = Duration(milliseconds: 300);
@@ -57,6 +58,7 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
     required NavigatorState navigator,
     this.origin,
     this.inputLockout = Duration.zero,
+    this.holdFirstFrame = false,
     super.capturedThemes,
     super.barrierLabel,
     super.barrierOnTapHint,
@@ -72,6 +74,7 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
 
   final Route<dynamic>? origin;
   final Duration inputLockout;
+  final bool holdFirstFrame;
   final FluxerSheetBackdropProgress _backdrop;
   final ValueNotifier<double> _scrimTravel = ValueNotifier<double>(1);
   final ValueNotifier<bool> _inputLocked;
@@ -95,6 +98,22 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
       _routerPath = _currentRouterPath(router);
       router.routerDelegate.addListener(_handleRouterChange);
     }
+  }
+
+  @override
+  TickerFuture didPush() {
+    final TickerFuture entrance = super.didPush();
+    final AnimationController? entranceController = controller;
+    if (!holdFirstFrame || entranceController == null) {
+      return entrance;
+    }
+    entranceController.stop();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (isActive && entranceController.status == AnimationStatus.forward) {
+        entranceController.forward();
+      }
+    });
+    return entrance;
   }
 
   void _syncInputLock() {

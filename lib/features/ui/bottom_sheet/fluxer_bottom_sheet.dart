@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,6 +89,7 @@ Future<T?> _pushFluxerSheetRoute<T>(
   required bool useSafeArea,
   required AnimationStyle animationStyle,
   Color? barrierColor,
+  bool holdFirstFrame = false,
 }) {
   final NavigatorState navigator = Navigator.of(
     context,
@@ -111,6 +113,7 @@ Future<T?> _pushFluxerSheetRoute<T>(
     inputLockout: animationStyle.duration! > Duration.zero
         ? lead + kFluxerSheetInputLockout
         : Duration.zero,
+    holdFirstFrame: holdFirstFrame,
     capturedThemes: InheritedTheme.capture(
       from: context,
       to: navigator.context,
@@ -134,6 +137,31 @@ Future<T?> _pushFluxerSheetRoute<T>(
 
 final Expando<FluxerSheetRoute<dynamic>> _lastSheetByNavigator =
     Expando<FluxerSheetRoute<dynamic>>();
+
+Future<void> waitForFluxerSheetExit(
+  BuildContext context, {
+  double remaining = 0,
+}) {
+  final NavigatorState? navigator = Navigator.maybeOf(context);
+  final Animation<double>? exit = navigator == null
+      ? null
+      : _lastSheetByNavigator[navigator]?.animation;
+  bool settled() =>
+      exit!.status != AnimationStatus.reverse || exit.value <= remaining;
+  if (exit == null || settled()) {
+    return Future<void>.value();
+  }
+  final Completer<void> done = Completer<void>();
+  void check() {
+    if (settled()) {
+      exit.removeListener(check);
+      done.complete();
+    }
+  }
+
+  exit.addListener(check);
+  return done.future;
+}
 
 void _closeSheet(BuildContext sheetContext) {
   final ModalRoute<dynamic>? route = sheetContext.mounted
@@ -378,6 +406,7 @@ class FluxerBottomSheet {
     double? sheetHeight,
     AnimationStyle? animationStyle,
     Color? barrierColor,
+    bool holdFirstFrame = false,
   }) {
     final layout = context.layout;
     final bool cardBackdrop = sheetHeight == null;
@@ -389,6 +418,7 @@ class FluxerBottomSheet {
         useRootNavigator: useRootNavigator,
         isDismissible: isDismissible,
         barrierColor: barrierColor,
+        holdFirstFrame: holdFirstFrame,
         animationStyle:
             animationStyle ??
             fluxerBottomSheetAnimationStyle(

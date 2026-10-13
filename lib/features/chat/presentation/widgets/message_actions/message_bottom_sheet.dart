@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/settings/providers/advanced_preferences_prov
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
@@ -201,7 +202,13 @@ Future<void> dispatchMessageAction({
         );
       }
     case MessageAction.addReaction:
-      callbacks.onAddReaction?.call();
+      await waitForFluxerSheetExit(
+        context,
+        remaining: kFluxerSheetHandoffRemaining,
+      );
+      if (context.mounted) {
+        callbacks.onAddReaction?.call();
+      }
     case MessageAction.markAsUnread:
       callbacks.onMarkAsUnread?.call();
     case MessageAction.suppressEmbeds:
