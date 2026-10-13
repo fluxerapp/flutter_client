@@ -25,7 +25,11 @@ typedef AccountIdentityFlags = ({bool usernameSignIn, bool uniqueUsernames});
 class AccountIdentity extends _$AccountIdentity {
   @override
   AccountIdentityFlags build() {
-    return _flagsOf(ref.read(instanceRuntimeConfigProvider));
+    return _flagsOf(
+      InstanceRuntimeConfig.fromWellKnown(
+        ref.read(activeInstanceProvider).wellKnown,
+      ),
+    );
   }
 
   void sync(InstanceRuntimeConfig config) {
