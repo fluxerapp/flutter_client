@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
@@ -10,6 +11,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker_chrome.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_banner.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
@@ -30,11 +32,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 const _kDesktopStickerColumns = 4;
 const _kMobileStickerColumns = 5;
 const _kDesktopStickerCellHeight = 92.0;
-const _kMobileStickerCellHeight = 72.0;
+const _kMobileStickerCellHeight = 64.0;
 const _kDesktopStickerImageSize = 76.0;
 const _kMobileStickerImageSize = 64.0;
 const _kStickerGridGap = 8.0;
 const _kCategoryHeaderHeight = 32.0;
+const _kMobileCategoryHeaderHeight = 36.0;
 const _kCategoryGap = 8.0;
 const _kStickerRequestSize = 160;
 
@@ -137,8 +140,23 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   double get _imageSize =>
       widget.isMobile ? _kMobileStickerImageSize : _kDesktopStickerImageSize;
 
-  EdgeInsets get _gridPadding =>
-      EdgeInsets.symmetric(horizontal: widget.isMobile ? 12 : 8);
+  EdgeInsets get _gridPadding => const EdgeInsets.symmetric(horizontal: 8);
+
+  double get _headerHeight =>
+      widget.isMobile ? _kMobileCategoryHeaderHeight : _kCategoryHeaderHeight;
+
+  SliverGridDelegate get _gridDelegate => widget.isMobile
+      ? const _FixedTileGridDelegate(
+          columns: _kMobileStickerColumns,
+          tileExtent: _kMobileStickerImageSize,
+          rowGap: _kStickerGridGap,
+        )
+      : SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: _columns,
+          mainAxisExtent: _cellHeight,
+          crossAxisSpacing: _kStickerGridGap,
+          mainAxisSpacing: _kStickerGridGap,
+        );
 
   double _gridHeightForItemCount(int itemCount) {
     if (itemCount == 0) {
@@ -302,7 +320,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
 
     var offset = 0.0;
     if (favoriteStickers.isNotEmpty) {
-      offset += _kCategoryHeaderHeight;
+      offset += _headerHeight;
       if (!collapsedCategories.contains('favorites')) {
         offset += _gridHeightForItemCount(favoriteStickers.length);
       }
@@ -317,7 +335,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       return;
     }
     if (frecent.isNotEmpty) {
-      offset += _kCategoryHeaderHeight;
+      offset += _headerHeight;
       if (!collapsedCategories.contains('frequently-used')) {
         offset += _gridHeightForItemCount(frecent.length);
       }
@@ -334,7 +352,12 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         );
         return;
       }
-      offset += _kCategoryGap + _kCategoryHeaderHeight;
+      final bool hasLeadingGap =
+          !widget.isMobile ||
+          offset > 0 ||
+          favoriteStickers.isNotEmpty ||
+          frecent.isNotEmpty;
+      offset += (hasLeadingGap ? _kCategoryGap : 0) + _headerHeight;
       if (!collapsedCategories.contains(entry.key.id)) {
         offset += _gridHeightForItemCount(entry.value.length);
       }
@@ -509,13 +532,8 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
 
     return GridView.builder(
       controller: _scrollController,
-      padding: _gridPadding.copyWith(top: 0, bottom: 4),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _columns,
-        mainAxisExtent: _cellHeight,
-        crossAxisSpacing: _kStickerGridGap,
-        mainAxisSpacing: _kStickerGridGap,
-      ),
+      padding: _gridPadding.copyWith(top: widget.isMobile ? 14 : 0, bottom: 4),
+      gridDelegate: _gridDelegate,
       itemCount: stickers.length,
       itemBuilder: (context, index) =>
           _buildStickerCell(stickers[index], colors),
@@ -533,7 +551,8 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        const SliverToBoxAdapter(child: SizedBox(height: 4)),
+        if (!widget.isMobile)
+          const SliverToBoxAdapter(child: SizedBox(height: 4)),
         SliverPadding(
           padding: _gridPadding,
           sliver: SliverToBoxAdapter(child: _buildUpsellBanner(context, data)),
@@ -566,8 +585,13 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
               sliver: _buildStickerGridSliver(data.frecent, colors),
             ),
         ],
-        for (final entry in guildEntries) ...[
-          const SliverToBoxAdapter(child: SizedBox(height: _kCategoryGap)),
+        for (final (int index, MapEntry<Guild, List<StickerEntry>> entry)
+            in guildEntries.indexed) ...[
+          if (!widget.isMobile ||
+              index > 0 ||
+              favoriteStickers.isNotEmpty ||
+              data.frecent.isNotEmpty)
+            const SliverToBoxAdapter(child: SizedBox(height: _kCategoryGap)),
           SliverPadding(
             padding: _gridPadding,
             sliver: SliverToBoxAdapter(
@@ -636,12 +660,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     List<StickerEntry> stickers,
     FluxerColorTheme colors,
   ) => SliverGrid(
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: _columns,
-      mainAxisExtent: _cellHeight,
-      crossAxisSpacing: _kStickerGridGap,
-      mainAxisSpacing: _kStickerGridGap,
-    ),
+    gridDelegate: _gridDelegate,
     delegate: SliverChildBuilderDelegate(
       (context, index) => _buildStickerCell(stickers[index], colors),
       childCount: stickers.length,
@@ -655,15 +674,23 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     String? labelOverride,
     Guild? guild,
   }) {
-    final collapsedCategories =
-        ref.watch(collapsedStickerPickerCategoriesProvider).value ??
-        const <String>[];
-    final isCollapsed = collapsedCategories.contains(category);
     final label =
         labelOverride ??
         (category == 'favorites'
             ? 'Favorites'
             : FluxerLocalizations.of(context).emojiFrequentlyUsed);
+    if (widget.isMobile) {
+      return ExpressionSectionHeader(
+        label: label,
+        height: _kMobileCategoryHeaderHeight,
+        textTop: 11,
+        horizontalInset: 0,
+      );
+    }
+    final collapsedCategories =
+        ref.watch(collapsedStickerPickerCategoriesProvider).value ??
+        const <String>[];
+    final isCollapsed = collapsedCategories.contains(category);
     final leadingIcon = guild != null
         ? _StickerGuildIcon(guild: guild, size: 16)
         : category == 'favorites'
@@ -805,28 +832,33 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     BuildContext context,
     FluxerColorTheme colors,
     _StickerPickerData data,
-  ) => Container(
-    height: 44,
-    decoration: BoxDecoration(
-      border: Border(top: BorderSide(color: colors.backgroundModifierAccent)),
-    ),
+  ) => ExpressionRail(
     child: ListView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      itemExtent: kExpressionRailPitch,
+      padding: const EdgeInsets.symmetric(
+        horizontal: kExpressionRailSidePadding,
+      ),
       children: [
         if (data.favoriteStickers.isNotEmpty)
-          _StickerCategoryButton(
+          ExpressionRailButton(
+            label: 'Favorites',
             icon: PhosphorIconsFill.star,
             onTap: () => _scrollToCategory('favorites'),
           ),
         if (data.frecent.isNotEmpty)
-          _StickerCategoryButton(
+          ExpressionRailButton(
+            label: FluxerLocalizations.of(context).emojiFrequentlyUsed,
             icon: PhosphorIconsFill.clock,
             onTap: () => _scrollToCategory('frequently-used'),
           ),
         ...data.stickersByGuild.keys.map(
-          (guild) => _StickerGuildCategoryButton(
-            guild: guild,
+          (guild) => ExpressionRailButton(
+            label: guild.name,
+            image: _StickerGuildIcon(
+              guild: guild,
+              size: kExpressionRailGuildIconSize,
+            ),
             onTap: () => _scrollToCategory('guild-${guild.id}'),
           ),
         ),
@@ -1010,4 +1042,37 @@ class _StickerEmptyState extends StatelessWidget {
       ),
     );
   }
+}
+
+class _FixedTileGridDelegate extends SliverGridDelegate {
+  const _FixedTileGridDelegate({
+    required this.columns,
+    required this.tileExtent,
+    required this.rowGap,
+  });
+
+  final int columns;
+  final double tileExtent;
+  final double rowGap;
+
+  @override
+  SliverGridLayout getLayout(SliverConstraints constraints) {
+    final double stride = columns <= 1
+        ? tileExtent
+        : (constraints.crossAxisExtent - tileExtent) / (columns - 1);
+    return SliverGridRegularTileLayout(
+      crossAxisCount: columns,
+      mainAxisStride: tileExtent + rowGap,
+      crossAxisStride: stride,
+      childMainAxisExtent: tileExtent,
+      childCrossAxisExtent: tileExtent,
+      reverseCrossAxis: axisDirectionIsReversed(constraints.crossAxisDirection),
+    );
+  }
+
+  @override
+  bool shouldRelayout(_FixedTileGridDelegate oldDelegate) =>
+      oldDelegate.columns != columns ||
+      oldDelegate.tileExtent != tileExtent ||
+      oldDelegate.rowGap != rowGap;
 }
