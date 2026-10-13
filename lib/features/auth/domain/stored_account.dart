@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 
 class StoredAccount {
   final String userId;
@@ -24,8 +25,13 @@ class StoredAccount {
 
   String get displayName => username ?? userId;
 
-  String get identifier =>
-      discriminator != null ? '$displayName#$discriminator' : displayName;
+  String get identifier {
+    final String? tag = discriminator;
+    if (tag == null || !shouldShowDiscriminator(tag, uniqueUsernames: true)) {
+      return displayName;
+    }
+    return '$displayName#$tag';
+  }
 
   String? avatarUrl({int size = MediaProxySizes.avatarDefault}) {
     return FluxerMediaUrl.userAvatar(
