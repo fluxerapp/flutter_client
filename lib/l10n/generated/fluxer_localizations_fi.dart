@@ -344,6 +344,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get next => 'Seuraava';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Kaksivaiheinen todennus';
 
   @override

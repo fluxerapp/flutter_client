@@ -344,6 +344,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get next => 'Volgende';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Tweefactorauthenticatie';
 
   @override

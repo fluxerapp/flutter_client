@@ -352,6 +352,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get next => 'التالي';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'المصادقة الثنائية';
 
   @override

@@ -343,6 +343,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get next => 'ถัดไป';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'การยืนยันตัวตนแบบสองชั้น';
 
   @override

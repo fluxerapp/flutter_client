@@ -344,6 +344,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get next => 'Επόμενο';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Έλεγχος ταυτότητας δύο παραγόντων';
 
   @override

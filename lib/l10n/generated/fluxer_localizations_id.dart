@@ -343,6 +343,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get next => 'Berikutnya';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Autentikasi dua faktor';
 
   @override

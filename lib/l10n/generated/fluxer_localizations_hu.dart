@@ -345,6 +345,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get next => 'Tovább';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Kétlépcsős azonosítás';
 
   @override

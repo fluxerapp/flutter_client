@@ -343,6 +343,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get next => 'आगे';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'दो-कारक प्रमाणीकरण';
 
   @override

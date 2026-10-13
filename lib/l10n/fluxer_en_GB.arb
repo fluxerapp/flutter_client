@@ -11909,6 +11909,7 @@
         }
     },
     "next": "Next",
+    "create": "Create",
     "@next": {
         "description": "Generic next button label."
     },

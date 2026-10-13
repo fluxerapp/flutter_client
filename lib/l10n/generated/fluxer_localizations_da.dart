@@ -344,6 +344,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get next => 'Næste';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Tofaktorgodkendelse';
 
   @override

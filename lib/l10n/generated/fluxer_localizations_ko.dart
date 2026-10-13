@@ -333,6 +333,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get next => '다음';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => '2단계 인증';
 
   @override

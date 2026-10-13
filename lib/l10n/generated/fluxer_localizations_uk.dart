@@ -349,6 +349,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get next => 'Далі';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Двофакторна автентифікація';
 
   @override

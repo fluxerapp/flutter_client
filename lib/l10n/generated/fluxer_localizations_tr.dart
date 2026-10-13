@@ -344,6 +344,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get next => 'İleri';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'İki faktörlü kimlik doğrulama';
 
   @override

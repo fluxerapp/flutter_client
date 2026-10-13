@@ -346,6 +346,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get next => 'Dalje';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Dvostruka provjera autentičnosti';
 
   @override

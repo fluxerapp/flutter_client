@@ -1,4 +1,3 @@
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_action_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -19,24 +18,14 @@ class AddGuildLandingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final textStyles = context.textStyles;
-    final colors = context.colors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          l10n.addGuildModalLandingDescription,
-          style: textStyles.bodySmall.copyWith(
-            color: colors.textSecondary,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 24),
         Row(
           children: <Widget>[
             Expanded(
               child: AddGuildActionButton(
-                icon: PhosphorIconsBold.house,
+                icon: PhosphorIconsFill.house,
                 label: l10n.addGuildCreateCommunity,
                 onTap: onCreateTap,
               ),

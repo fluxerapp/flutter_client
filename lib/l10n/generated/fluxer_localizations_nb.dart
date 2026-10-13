@@ -344,6 +344,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get next => 'Neste';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Tofaktorautentisering';
 
   @override

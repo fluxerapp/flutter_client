@@ -331,6 +331,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get next => '下一步';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => '双重认证';
 
   @override

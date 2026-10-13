@@ -348,6 +348,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get next => 'Další';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Dvoufaktorové ověřování';
 
   @override

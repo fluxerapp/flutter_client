@@ -650,6 +650,12 @@ abstract class FluxerLocalizations {
   /// **'Next'**
   String get next;
 
+  /// Generic create action label in a full-screen form header.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
   /// Title for the MFA challenge screen.
   ///
   /// In en, this message translates to:

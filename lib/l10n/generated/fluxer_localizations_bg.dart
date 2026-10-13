@@ -344,6 +344,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get next => 'Напред';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Двуфакторно удостоверяване';
 
   @override

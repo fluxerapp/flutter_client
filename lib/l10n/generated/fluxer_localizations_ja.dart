@@ -334,6 +334,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get next => '次へ';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => '2段階認証';
 
   @override

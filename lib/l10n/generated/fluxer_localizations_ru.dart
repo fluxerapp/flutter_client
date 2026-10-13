@@ -349,6 +349,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get next => 'Далее';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Двухфакторная аутентификация';
 
   @override

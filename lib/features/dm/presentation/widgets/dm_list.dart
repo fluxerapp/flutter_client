@@ -56,7 +56,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/sheets/add_friend_sheet.dart';
+import 'package:fluxer_app/shared/pages/add_friend_page.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
@@ -548,7 +548,7 @@ class _DMListState extends ConsumerState<DMList> {
                 children: [
                   _buildDmListSurfaceButton(
                     context,
-                    onTap: () => AddFriendSheet.show(context),
+                    onTap: () => AddFriendPage.show(context),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 8,

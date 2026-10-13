@@ -8,7 +8,7 @@ import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/data/discord_template_fetcher.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_create_view.dart';
-import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_import_template_view.dart';
+import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_import_views.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_landing_view.dart';
 import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.dart';
 import 'package:fluxer_app/features/guilds/services/create_community_service.dart';
@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/fullscreen_flow/fluxer_fullscreen_flow.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/stepped_carousel/fluxer_stepped_carousel.dart';
@@ -27,29 +28,21 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-enum _AddGuildModalView { landing, create, join, importTemplate }
+enum _AddGuildModalView { landing, create, join, importUrl, importCreate }
 
-const List<_AddGuildModalView> _addGuildViewOrder = <_AddGuildModalView>[
-  _AddGuildModalView.landing,
-  _AddGuildModalView.create,
-  _AddGuildModalView.join,
-  _AddGuildModalView.importTemplate,
-];
-
-enum _AddGuildPresentation { modal, bottomSheet }
+enum _AddGuildPresentation { modal, fullscreen }
 
 Future<void> showAddGuildModal(BuildContext context, WidgetRef ref) {
   if (!ref.read(addGuildEnabledProvider)) {
     return Future<void>.value();
   }
   if (isMobileLayout(context)) {
-    return FluxerBottomSheet.show<void>(
+    return FluxerFullscreenFlow.show<void>(
       context,
-      useRootNavigator: true,
-      builder: (BuildContext sheetContext, VoidCallback close) {
+      builder: (BuildContext routeContext) {
         return _AddGuildFlow(
-          presentation: _AddGuildPresentation.bottomSheet,
-          onClose: close,
+          presentation: _AddGuildPresentation.fullscreen,
+          onClose: () => Navigator.of(routeContext).pop(),
         );
       },
     );
@@ -77,16 +70,17 @@ class _AddGuildFlow extends ConsumerStatefulWidget {
 }
 
 class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
-  _AddGuildModalView _view = _AddGuildModalView.landing;
-  AddGuildImportStep _importStep = AddGuildImportStep.url;
+  List<_AddGuildModalView> _stack = const <_AddGuildModalView>[
+    _AddGuildModalView.landing,
+  ];
   final TextEditingController _inviteController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _templateUrlController = TextEditingController();
   final TextEditingController _importNameController = TextEditingController();
   final GlobalKey<AddGuildCreateViewState> _createViewKey =
       GlobalKey<AddGuildCreateViewState>();
-  final GlobalKey<AddGuildImportTemplateViewState> _importViewKey =
-      GlobalKey<AddGuildImportTemplateViewState>();
+  final GlobalKey<AddGuildImportCreateViewState> _importViewKey =
+      GlobalKey<AddGuildImportCreateViewState>();
   String? _inviteErrorText;
   String? _createErrorText;
   String? _templateUrlErrorText;
@@ -247,54 +241,59 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     widget.onClose();
   }
 
-  void _goToLanding() {
+  _AddGuildModalView get _view => _stack.last;
+
+  void _push(_AddGuildModalView view) {
+    setState(() {
+      _stack = <_AddGuildModalView>[..._stack, view];
+      _inviteErrorText = null;
+      _createErrorText = null;
+      _templateUrlErrorText = null;
+      _importCreateErrorText = null;
+    });
+  }
+
+  void _pop() {
+    if (_stack.length < 2) {
+      return;
+    }
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
-      _view = _AddGuildModalView.landing;
+      _stack = _stack.sublist(0, _stack.length - 1);
       _inviteErrorText = null;
       _createErrorText = null;
       _templateUrlErrorText = null;
       _importCreateErrorText = null;
-      _importStep = AddGuildImportStep.url;
     });
   }
 
-  void _goToCreate() {
+  void _onDidRemovePage(Page<Object?> page) {
+    final LocalKey? key = page.key;
+    if (key is! ValueKey<_AddGuildModalView> || !_stack.contains(key.value)) {
+      return;
+    }
     setState(() {
-      _view = _AddGuildModalView.create;
-      _createErrorText = null;
+      _stack = _stack.sublist(0, _stack.indexOf(key.value));
     });
   }
 
-  void _goToJoin() {
-    setState(() {
-      _view = _AddGuildModalView.join;
-      _inviteErrorText = null;
-    });
-  }
+  String _title(FluxerLocalizations l10n, _AddGuildModalView view) =>
+      switch (view) {
+        _AddGuildModalView.landing => l10n.addGuildModalTitle,
+        _AddGuildModalView.create => l10n.addGuildCreateTitle,
+        _AddGuildModalView.join => l10n.addGuildJoinTitle,
+        _AddGuildModalView.importUrl ||
+        _AddGuildModalView.importCreate => l10n.addGuildImportDiscordTemplate,
+      };
 
-  void _goToImport() {
-    setState(() {
-      _view = _AddGuildModalView.importTemplate;
-      _importStep = AddGuildImportStep.url;
-      _templateUrlErrorText = null;
-      _importCreateErrorText = null;
-    });
-  }
-
-  void _goToImportUrl() {
-    setState(() {
-      _importStep = AddGuildImportStep.url;
-      _importCreateErrorText = null;
-    });
-  }
-
-  String _title(FluxerLocalizations l10n) => switch (_view) {
-    _AddGuildModalView.landing => l10n.addGuildModalTitle,
-    _AddGuildModalView.create => l10n.addGuildCreateTitle,
-    _AddGuildModalView.join => l10n.addGuildJoinTitle,
-    _AddGuildModalView.importTemplate => l10n.addGuildImportDiscordTemplate,
-  };
+  String? _description(FluxerLocalizations l10n, _AddGuildModalView view) =>
+      switch (view) {
+        _AddGuildModalView.landing => l10n.addGuildModalLandingDescription,
+        _AddGuildModalView.create => l10n.addGuildCreateDescription,
+        _AddGuildModalView.join => l10n.addGuildJoinDescription,
+        _AddGuildModalView.importUrl => l10n.addGuildImportDescription,
+        _AddGuildModalView.importCreate => null,
+      };
 
   bool get _canSubmitJoin {
     return !_isSubmitting && _inviteCodeValid;
@@ -414,10 +413,9 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
       }
       setState(() {
         _importedTemplate = template;
-        _importStep = AddGuildImportStep.create;
-        _importCreateErrorText = null;
         _isFetchingTemplate = false;
       });
+      _push(_AddGuildModalView.importCreate);
     } on DiscordTemplateFetchException catch (e) {
       if (!mounted) {
         return;
@@ -507,15 +505,115 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     }
   }
 
+  Widget _body(_AddGuildModalView view, bool centered) {
+    return switch (view) {
+      _AddGuildModalView.landing => AddGuildLandingView(
+        onCreateTap: () => _push(_AddGuildModalView.create),
+        onJoinTap: () => _push(_AddGuildModalView.join),
+        onImportTap: () => _push(_AddGuildModalView.importUrl),
+      ),
+      _AddGuildModalView.create => AddGuildCreateView(
+        key: _createViewKey,
+        nameController: _nameController,
+        centered: centered,
+        errorText: _createErrorText,
+        enabled: !_isSubmitting,
+      ),
+      _AddGuildModalView.join => FluxerInput(
+        controller: _inviteController,
+        label: FluxerLocalizations.of(context).addGuildInviteLinkLabel,
+        hint: _invitePlaceholder.isEmpty ? null : _invitePlaceholder,
+        errorText: _inviteErrorText,
+        autofocus: true,
+        maxLength: 100,
+        enabled: !_isSubmitting,
+        onSubmitted: (_) => unawaited(_submitJoin()),
+      ),
+      _AddGuildModalView.importUrl => AddGuildImportUrlView(
+        urlController: _templateUrlController,
+        urlErrorText: _templateUrlErrorText,
+        enabled: !_isSubmitting && !_isFetchingTemplate,
+        onUrlSubmitted: () => unawaited(_fetchTemplate()),
+      ),
+      _AddGuildModalView.importCreate => AddGuildImportCreateView(
+        key: _importViewKey,
+        nameController: _importNameController,
+        template: _importedTemplate!,
+        centered: centered,
+        createErrorText: _importCreateErrorText,
+        enabled: !_isSubmitting,
+      ),
+    };
+  }
+
+  Widget? _primaryAction(_AddGuildModalView view, FluxerLocalizations l10n) {
+    final UserSettingsViewState settings = ref.watch(
+      userSettingsViewModelProvider,
+    );
+    final bool canCreate = _canCreateCommunities(settings);
+    return switch (view) {
+      _AddGuildModalView.landing => null,
+      _AddGuildModalView.create =>
+        canCreate
+            ? FluxerButton.primary(
+                onPressed: _canSubmitCreate(settings)
+                    ? () => unawaited(_submitCreate())
+                    : null,
+                isLoading: _isSubmitting,
+                label: l10n.addGuildCreateSubmit,
+              )
+            : null,
+      _AddGuildModalView.join => FluxerButton.primary(
+        onPressed: _canSubmitJoin ? () => unawaited(_submitJoin()) : null,
+        isLoading: _isSubmitting,
+        label: l10n.addGuildJoinSubmit,
+      ),
+      _AddGuildModalView.importUrl =>
+        canCreate
+            ? FluxerButton.primary(
+                onPressed: _canFetchTemplate
+                    ? () => unawaited(_fetchTemplate())
+                    : null,
+                isLoading: _isFetchingTemplate,
+                label: l10n.next,
+              )
+            : null,
+      _AddGuildModalView.importCreate => FluxerButton.primary(
+        onPressed: _canSubmitImportCreate(settings)
+            ? () => unawaited(_submitImportCreate())
+            : null,
+        isLoading: _isSubmitting,
+        label: l10n.addGuildCreateSubmit,
+      ),
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final UserSettingsViewState userSettings = ref.watch(
-      userSettingsViewModelProvider,
-    );
-    final bool showingCreateForm = _canCreateCommunities(userSettings);
-    final bool canSubmitCreate = _canSubmitCreate(userSettings);
-    final bool canSubmitImportCreate = _canSubmitImportCreate(userSettings);
+    if (widget.presentation == _AddGuildPresentation.fullscreen) {
+      return FluxerFlowNavigator(
+        onDidRemovePage: _onDidRemovePage,
+        pages: <Page<void>>[
+          for (final _AddGuildModalView view in _stack)
+            fluxerFlowPage(
+              key: ValueKey<_AddGuildModalView>(view),
+              child: FluxerFlowStep(
+                title: _title(l10n, view),
+                description: _description(l10n, view),
+                isFirst: view == _AddGuildModalView.landing,
+                onLeading: view == _AddGuildModalView.landing ? _close : _pop,
+                action: _primaryAction(view, l10n),
+                child: _body(view, true),
+              ),
+            ),
+        ],
+      );
+    }
+    return _buildDialog(context, l10n);
+  }
+
+  Widget _buildDialog(BuildContext context, FluxerLocalizations l10n) {
     final layout = context.layout;
     final dialogTheme = DialogTheme.of(context);
     final themeShape = dialogTheme.shape as RoundedRectangleBorder?;
@@ -523,120 +621,25 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     final double keyboardInset = mediaQuery.viewInsets.bottom;
     final double maxModalHeight =
         mediaQuery.size.height - mediaQuery.viewPadding.top - layout.s2;
-    final bool isBottomSheet =
-        widget.presentation == _AddGuildPresentation.bottomSheet;
-    final closeButton = Opacity(
-      opacity: 0.7,
-      child: FluxerButton.ghost(
-        onPressed: _close,
-        icon: PhosphorIconsBold.x,
-        isSquare: true,
-      ),
-    );
-    final Widget body = switch (_view) {
-      _AddGuildModalView.landing => AddGuildLandingView(
-        onCreateTap: _goToCreate,
-        onJoinTap: _goToJoin,
-        onImportTap: _goToImport,
-      ),
-      _AddGuildModalView.create => AddGuildCreateView(
-        key: _createViewKey,
-        nameController: _nameController,
-        errorText: _createErrorText,
-        enabled: !_isSubmitting,
-      ),
-      _AddGuildModalView.join => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(
-            l10n.addGuildJoinDescription,
-            style: context.textStyles.bodySmall.copyWith(
-              color: context.colors.textSecondary,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 12),
-          FluxerInput(
-            controller: _inviteController,
-            label: l10n.addGuildInviteLinkLabel,
-            hint: _invitePlaceholder.isEmpty ? null : _invitePlaceholder,
-            errorText: _inviteErrorText,
-            autofocus: true,
-            maxLength: 100,
-            enabled: !_isSubmitting,
-            onSubmitted: (_) => unawaited(_submitJoin()),
-          ),
-        ],
-      ),
-      _AddGuildModalView.importTemplate => AddGuildImportTemplateView(
-        key: _importViewKey,
-        urlController: _templateUrlController,
-        nameController: _importNameController,
-        step: _importStep,
-        template: _importedTemplate,
-        urlErrorText: _templateUrlErrorText,
-        createErrorText: _importCreateErrorText,
-        enabled: !_isSubmitting && !_isFetchingTemplate,
-        onUrlSubmitted: () => unawaited(_fetchTemplate()),
-      ),
-    };
-    final List<Widget> footerActions = switch (_view) {
-      _AddGuildModalView.landing => const <Widget>[],
-      _AddGuildModalView.create => <Widget>[
+    final String? description = _description(l10n, _view);
+    final Widget? primary = _primaryAction(_view, l10n);
+    final List<Widget> footerActions = <Widget>[
+      if (_view != _AddGuildModalView.landing &&
+          _view != _AddGuildModalView.join)
         FluxerButton.secondary(
-          onPressed: _isSubmitting ? null : _goToLanding,
+          onPressed: _isSubmitting || _isFetchingTemplate ? null : _pop,
           label: l10n.back,
         ),
-        if (showingCreateForm)
-          FluxerButton.primary(
-            onPressed: canSubmitCreate
-                ? () => unawaited(_submitCreate())
-                : null,
-            isLoading: _isSubmitting,
-            label: l10n.addGuildCreateSubmit,
-          ),
-      ],
-      _AddGuildModalView.join => <Widget>[
-        FluxerButton.primary(
-          onPressed: _canSubmitJoin ? () => unawaited(_submitJoin()) : null,
-          isLoading: _isSubmitting,
-          label: l10n.addGuildJoinSubmit,
-        ),
-      ],
-      _AddGuildModalView.importTemplate => <Widget>[
-        FluxerButton.secondary(
-          onPressed: _isSubmitting || _isFetchingTemplate
-              ? null
-              : _importStep == AddGuildImportStep.create
-              ? _goToImportUrl
-              : _goToLanding,
-          label: l10n.back,
-        ),
-        if (showingCreateForm)
-          switch (_importStep) {
-            AddGuildImportStep.url => FluxerButton.primary(
-              onPressed: _canFetchTemplate
-                  ? () => unawaited(_fetchTemplate())
-                  : null,
-              isLoading: _isFetchingTemplate,
-              label: l10n.next,
-            ),
-            AddGuildImportStep.create => FluxerButton.primary(
-              onPressed: canSubmitImportCreate
-                  ? () => unawaited(_submitImportCreate())
-                  : null,
-              isLoading: _isSubmitting,
-              label: l10n.addGuildCreateSubmit,
-            ),
-          },
-      ],
-    };
-    Widget buildFlowContent() {
-      return ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: isBottomSheet ? double.infinity : 400,
-          maxHeight: maxModalHeight,
-        ),
+      ?primary,
+    ];
+    final Widget dialog = Dialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      shape: RoundedRectangleBorder(
+        borderRadius: layout.radiusXxl,
+        side: themeShape?.side ?? BorderSide.none,
+      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 400, maxHeight: maxModalHeight),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -644,8 +647,15 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
             Padding(
               padding: EdgeInsets.only(top: layout.s4, bottom: layout.s4),
               child: FluxerBottomSheetHeader(
-                title: _title(l10n),
-                trailing: isBottomSheet ? null : closeButton,
+                title: _title(l10n, _view),
+                trailing: Opacity(
+                  opacity: 0.7,
+                  child: FluxerButton.ghost(
+                    onPressed: _close,
+                    icon: PhosphorIconsBold.x,
+                    isSquare: true,
+                  ),
+                ),
               ),
             ),
             Flexible(
@@ -659,8 +669,27 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
                   ),
                   child: FluxerSteppedCarousel<_AddGuildModalView>(
                     step: _view,
-                    steps: _addGuildViewOrder,
-                    child: body,
+                    steps: _AddGuildModalView.values,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        if (description != null) ...<Widget>[
+                          Text(
+                            description,
+                            style: context.textStyles.bodySmall.copyWith(
+                              color: context.colors.textSecondary,
+                              height: 1.4,
+                            ),
+                          ),
+                          SizedBox(
+                            height: _view == _AddGuildModalView.landing
+                                ? 24
+                                : 12,
+                          ),
+                        ],
+                        _body(_view, false),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -693,55 +722,40 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
             ),
           ],
         ),
-      );
-    }
-
-    final Widget flowContent = buildFlowContent();
-    final Widget dialog = Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      shape: RoundedRectangleBorder(
-        borderRadius: layout.radiusXxl,
-        side: themeShape?.side ?? BorderSide.none,
       ),
-      child: flowContent,
     );
     return wrapFluxerOverlayBackHandler(
       canDismiss: true,
-      onBack: _view == _AddGuildModalView.landing ? null : _goToLanding,
+      onBack: _view == _AddGuildModalView.landing ? null : _pop,
       onDismiss: _close,
-      child: isBottomSheet
-          ? flowContent
-          : Stack(
-              children: <Widget>[
-                Positioned.fill(
-                  child: FluxerGestureDetector(
-                    onTap: _close,
-                    child: ColoredBox(
-                      color: Colors.black.withValues(alpha: 0.35),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                        child: const SizedBox.expand(),
-                      ),
-                    ),
-                  ),
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: FluxerGestureDetector(
+              onTap: _close,
+              child: ColoredBox(
+                color: Colors.black.withValues(alpha: 0.35),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: const SizedBox.expand(),
                 ),
-                AnimatedPadding(
-                  duration: context.motion.normal,
-                  curve: context.motion.curve,
-                  padding: EdgeInsets.only(bottom: keyboardInset),
-                  child: MediaQuery.removeViewInsets(
-                    context: context,
-                    removeBottom: true,
-                    child: keyboardInset > 0
-                        ? Align(
-                            alignment: Alignment.bottomCenter,
-                            child: dialog,
-                          )
-                        : Center(child: dialog),
-                  ),
-                ),
-              ],
+              ),
             ),
+          ),
+          AnimatedPadding(
+            duration: context.motion.normal,
+            curve: context.motion.curve,
+            padding: EdgeInsets.only(bottom: keyboardInset),
+            child: MediaQuery.removeViewInsets(
+              context: context,
+              removeBottom: true,
+              child: keyboardInset > 0
+                  ? Align(alignment: Alignment.bottomCenter, child: dialog)
+                  : Center(child: dialog),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

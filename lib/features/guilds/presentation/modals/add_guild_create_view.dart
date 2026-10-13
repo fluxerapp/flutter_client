@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
@@ -16,12 +17,13 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/text/fluxer_hint_text.dart';
-import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -77,12 +79,14 @@ Future<String?> pickAddGuildIconDataUri({
 class AddGuildCreateView extends ConsumerStatefulWidget {
   const AddGuildCreateView({
     required this.nameController,
+    required this.centered,
     this.errorText,
     this.enabled = true,
     super.key,
   });
 
   final TextEditingController nameController;
+  final bool centered;
   final String? errorText;
   final bool enabled;
 
@@ -95,79 +99,25 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
 
   String? get iconDataUri => _iconDataUri;
 
-  Future<void> _handleIconUpload() async {
-    final String? dataUri = await pickAddGuildIconDataUri(
-      context: context,
-      ref: ref,
-    );
-    if (dataUri == null || !mounted) {
-      return;
-    }
-    setState(() => _iconDataUri = dataUri);
-  }
-
-  void _clearIcon() {
-    setState(() => _iconDataUri = null);
-  }
-
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final UserSettingsViewState settings = ref.watch(
-      userSettingsViewModelProvider,
-    );
-    if (!settings.isProfileLoaded) {
-      return const Center(child: FluxerLoadingSpinner());
+    final Widget? gate = buildAddGuildCreateGate(context, ref);
+    if (gate != null) {
+      return gate;
     }
-    if (!settings.isClaimed) {
-      return AddGuildCreateGate(
-        icon: PhosphorIconsFill.shieldWarning,
-        title: l10n.addGuildCreateClaimTitle,
-        description: l10n.addGuildCreateClaimDescription,
-        actionLabel: l10n.claimAccount,
-        onAction: () => ClaimAccountSheet.show(context, ref),
-      );
-    }
-    if (!settings.isVerified) {
-      return AddGuildCreateGate(
-        icon: PhosphorIconsFill.envelopeSimple,
-        title: l10n.addGuildCreateVerifyTitle,
-        description: l10n.addGuildCreateVerifyDescription,
-        actionLabel: l10n.addFriendVerifyEmail,
-        onAction: () =>
-            UserSettingsModal.show(context, openSecuritySection: true),
-      );
-    }
-    final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.watch(
-      wellKnownProvider,
-    );
-    final String productName = wellKnown.maybeWhen(
-      data: (WellKnownFluxerResponse response) =>
-          InstanceRuntimeConfig.fromWellKnown(response).productName,
-      orElse: () => InstanceConstants.defaultProductName,
-    );
-    final String? guidelinesUrl = wellKnown.maybeWhen(
-      data: (WellKnownFluxerResponse response) {
-        final String marketing = response.endpoints.marketing.trim();
-        if (marketing.isEmpty) {
-          return null;
-        }
-        return '${marketing.replaceAll(RegExp(r'/+$'), '')}/guidelines';
-      },
-      orElse: () => null,
-    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          l10n.addGuildCreateDescription,
-          style: context.textStyles.bodySmall.copyWith(
-            color: context.colors.textSecondary,
-            height: 1.4,
-          ),
+        AddGuildIconField(
+          nameController: widget.nameController,
+          iconDataUri: _iconDataUri,
+          centered: widget.centered,
+          enabled: widget.enabled,
+          removeLabel: l10n.guildSettingsOverviewRemoveImage,
+          onChanged: (String? dataUri) =>
+              setState(() => _iconDataUri = dataUri),
         ),
-        const SizedBox(height: 24),
-        _buildIconSection(context, l10n),
         const SizedBox(height: 16),
         FluxerInput(
           controller: widget.nameController,
@@ -178,12 +128,148 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
           enabled: widget.enabled,
         ),
         const SizedBox(height: 12),
-        _buildGuidelines(context, l10n, productName, guidelinesUrl),
+        const AddGuildGuidelines(),
       ],
     );
   }
+}
 
-  Widget _buildIconSection(BuildContext context, FluxerLocalizations l10n) {
+Widget? buildAddGuildCreateGate(BuildContext context, WidgetRef ref) {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final UserSettingsViewState settings = ref.watch(
+    userSettingsViewModelProvider,
+  );
+  if (!settings.isProfileLoaded) {
+    return const Center(child: FluxerLoadingSpinner());
+  }
+  if (!settings.isClaimed) {
+    return AddGuildCreateGate(
+      icon: PhosphorIconsFill.shieldWarning,
+      title: l10n.addGuildCreateClaimTitle,
+      description: l10n.addGuildCreateClaimDescription,
+      actionLabel: l10n.claimAccount,
+      onAction: () => ClaimAccountSheet.show(context, ref),
+    );
+  }
+  if (!settings.isVerified) {
+    return AddGuildCreateGate(
+      icon: PhosphorIconsFill.envelopeSimple,
+      title: l10n.addGuildCreateVerifyTitle,
+      description: l10n.addGuildCreateVerifyDescription,
+      actionLabel: l10n.addFriendVerifyEmail,
+      onAction: () =>
+          UserSettingsModal.show(context, openSecuritySection: true),
+    );
+  }
+  return null;
+}
+
+class AddGuildIconField extends ConsumerWidget {
+  const AddGuildIconField({
+    required this.nameController,
+    required this.iconDataUri,
+    required this.centered,
+    required this.enabled,
+    required this.removeLabel,
+    required this.onChanged,
+    super.key,
+  });
+
+  final TextEditingController nameController;
+  final String? iconDataUri;
+  final bool centered;
+  final bool enabled;
+  final String removeLabel;
+  final ValueChanged<String?> onChanged;
+
+  Future<void> _pick(BuildContext context, WidgetRef ref) async {
+    final String? dataUri = await pickAddGuildIconDataUri(
+      context: context,
+      ref: ref,
+    );
+    if (dataUri == null) {
+      return;
+    }
+    onChanged(dataUri);
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final Widget preview = ListenableBuilder(
+      listenable: nameController,
+      builder: (BuildContext context, Widget? child) {
+        return AddGuildIconPreview(
+          name: nameController.text,
+          iconDataUri: iconDataUri,
+        );
+      },
+    );
+    final Widget removeButton = FluxerButton.secondary(
+      onPressed: enabled ? () => onChanged(null) : null,
+      label: removeLabel,
+      size: FluxerButtonSize.small,
+      fitContent: true,
+    );
+    if (centered) {
+      return Column(
+        children: <Widget>[
+          FluxerTappable(
+            enabled: enabled,
+            onTap: () => unawaited(_pick(context, ref)),
+            semanticLabel: iconDataUri == null
+                ? l10n.guildSettingsOverviewUploadIcon
+                : l10n.addGuildCreateChangeIcon,
+            builder: (BuildContext context, Set<WidgetState> states) {
+              return Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  ListenableBuilder(
+                    listenable: nameController,
+                    builder: (BuildContext context, Widget? child) {
+                      final bool empty =
+                          iconDataUri == null &&
+                          nameController.text.trim().isEmpty;
+                      return empty
+                          ? const _AddGuildIconPlaceholder()
+                          : AddGuildIconPreview(
+                              name: nameController.text,
+                              iconDataUri: iconDataUri,
+                            );
+                    },
+                  ),
+                  PositionedDirectional(
+                    top: -4,
+                    end: -4,
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: context.colors.brandPrimary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: PhosphorIcon(
+                          iconDataUri == null
+                              ? PhosphorIconsBold.plus
+                              : PhosphorIconsBold.pencilSimple,
+                          size: 16,
+                          color: context.colors.brandPrimaryFill,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          if (iconDataUri != null) ...<Widget>[
+            const SizedBox(height: 12),
+            removeButton,
+          ],
+        ],
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -197,15 +283,7 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ListenableBuilder(
-              listenable: widget.nameController,
-              builder: (BuildContext context, Widget? child) {
-                return AddGuildIconPreview(
-                  name: widget.nameController.text,
-                  iconDataUri: _iconDataUri,
-                );
-              },
-            ),
+            preview,
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -216,22 +294,16 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
                     runSpacing: 8,
                     children: <Widget>[
                       FluxerButton.secondary(
-                        onPressed: widget.enabled
-                            ? () => unawaited(_handleIconUpload())
+                        onPressed: enabled
+                            ? () => unawaited(_pick(context, ref))
                             : null,
-                        label: _iconDataUri == null
+                        label: iconDataUri == null
                             ? l10n.guildSettingsOverviewUploadIcon
                             : l10n.addGuildCreateChangeIcon,
                         size: FluxerButtonSize.small,
                         fitContent: true,
                       ),
-                      if (_iconDataUri != null)
-                        FluxerButton.secondary(
-                          onPressed: widget.enabled ? _clearIcon : null,
-                          label: l10n.guildSettingsOverviewRemoveImage,
-                          size: FluxerButtonSize.small,
-                          fitContent: true,
-                        ),
+                      if (iconDataUri != null) removeButton,
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -244,31 +316,88 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
       ],
     );
   }
+}
 
-  Widget _buildGuidelines(
-    BuildContext context,
-    FluxerLocalizations l10n,
-    String productName,
-    String? guidelinesUrl,
-  ) {
+class _AddGuildIconPlaceholder extends StatelessWidget {
+  const _AddGuildIconPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: AddGuildIconPreview.size,
+      height: AddGuildIconPreview.size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: context.colors.textPrimaryMuted, width: 2),
+      ),
+      child: Center(
+        child: PhosphorIcon(
+          PhosphorIconsFill.camera,
+          size: 28,
+          color: context.colors.textPrimary,
+        ),
+      ),
+    );
+  }
+}
+
+class AddGuildGuidelines extends ConsumerStatefulWidget {
+  const AddGuildGuidelines({super.key});
+
+  @override
+  ConsumerState<AddGuildGuidelines> createState() => _AddGuildGuidelinesState();
+}
+
+class _AddGuildGuidelinesState extends ConsumerState<AddGuildGuidelines> {
+  final TapGestureRecognizer _recognizer = TapGestureRecognizer();
+
+  @override
+  void dispose() {
+    _recognizer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final WellKnownFluxerResponse? wellKnown = ref
+        .watch(wellKnownProvider)
+        .asData
+        ?.value;
+    final String productName = wellKnown == null
+        ? InstanceConstants.defaultProductName
+        : InstanceRuntimeConfig.fromWellKnown(wellKnown).productName;
+    final String marketing =
+        wellKnown?.endpoints.marketing.trim().replaceAll(RegExp(r'/+$'), '') ??
+        '';
+    final String? guidelinesUrl = marketing.isEmpty
+        ? null
+        : '$marketing/guidelines';
     final TextStyle style = context.textStyles.bodySmall.copyWith(
       color: context.colors.textSecondary,
       height: 1.4,
     );
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: <Widget>[
-        Text(l10n.addGuildCreateGuidelinesBefore, style: style),
-        if (guidelinesUrl != null)
-          FluxerTextLink(
+    _recognizer.onTap = guidelinesUrl == null
+        ? null
+        : () => unawaited(handleExternalLinkTap(context, guidelinesUrl));
+    return Text.rich(
+      TextSpan(
+        style: style,
+        children: <InlineSpan>[
+          TextSpan(text: l10n.addGuildCreateGuidelinesBefore),
+          TextSpan(
             text: l10n.addGuildCreateGuidelinesLink(productName),
-            url: guidelinesUrl,
-            style: style,
-          )
-        else
-          Text(l10n.addGuildCreateGuidelinesLink(productName), style: style),
-        Text('.', style: style),
-      ],
+            style: guidelinesUrl == null
+                ? null
+                : TextStyle(color: context.colors.textLink),
+            mouseCursor: guidelinesUrl == null
+                ? null
+                : SystemMouseCursors.click,
+            recognizer: guidelinesUrl == null ? null : _recognizer,
+          ),
+          const TextSpan(text: '.'),
+        ],
+      ),
     );
   }
 }
@@ -280,7 +409,7 @@ class AddGuildIconPreview extends StatelessWidget {
     super.key,
   });
 
-  static const double _size = 80;
+  static const double size = 80;
 
   final String name;
   final String? iconDataUri;
@@ -293,8 +422,8 @@ class AddGuildIconPreview extends StatelessWidget {
         context,
         child: Image.memory(
           bytes,
-          width: _size,
-          height: _size,
+          width: size,
+          height: size,
           fit: BoxFit.cover,
         ),
       );
@@ -307,8 +436,8 @@ class AddGuildIconPreview extends StatelessWidget {
 
   Widget _buildCircle(BuildContext context, {Widget? child}) {
     return Container(
-      width: _size,
-      height: _size,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         color: context.colors.backgroundTertiary,
         shape: BoxShape.circle,

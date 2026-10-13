@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -94,9 +95,13 @@ class _SteppedCarouselTransition extends StatelessWidget {
 
   static const double _slideDistance = 24;
 
+  static bool get _isTouchPlatform =>
+      defaultTargetPlatform == TargetPlatform.iOS ||
+      defaultTargetPlatform == TargetPlatform.android;
+
   @override
   Widget build(BuildContext context) {
-    if (reduceMotion) {
+    if (reduceMotion || _isTouchPlatform) {
       return FadeTransition(opacity: animation, child: child);
     }
 

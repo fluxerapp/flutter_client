@@ -463,6 +463,10 @@
     "@next": {
         "description": "Generic next button label."
     },
+    "create": "Create",
+    "@create": {
+        "description": "Generic create action label in a full-screen form header."
+    },
     "mfaTitle": "Two-factor authentication",
     "@mfaTitle": {
         "description": "Title for the MFA challenge screen."

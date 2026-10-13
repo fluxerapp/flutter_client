@@ -349,6 +349,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get next => 'Dalej';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Uwierzytelnianie dwuskładnikowe';
 
   @override

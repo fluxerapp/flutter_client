@@ -343,6 +343,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get next => 'Tiếp';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Xác thực hai yếu tố';
 
   @override

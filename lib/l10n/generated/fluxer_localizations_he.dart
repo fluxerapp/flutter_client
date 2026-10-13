@@ -344,6 +344,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get next => 'הבא';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'אימות דו-שלבי';
 
   @override

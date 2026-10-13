@@ -344,6 +344,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get next => 'Next';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Two-factor authentication';
 
   @override
@@ -15515,6 +15518,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get next => 'Next';
+
+  @override
+  String get create => 'Create';
 
   @override
   String get mfaTitle => 'Two-factor authentication';

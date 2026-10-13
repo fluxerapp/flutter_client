@@ -348,6 +348,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get next => 'Kitas';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Dviejų veiksnių autentifikavimas';
 
   @override

@@ -348,6 +348,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get next => 'Suivant';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Authentification à deux facteurs';
 
   @override

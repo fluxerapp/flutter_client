@@ -344,6 +344,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get next => 'Next';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Autenticação de dois fatores';
 
   @override

@@ -343,6 +343,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get next => 'Nästa';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Tvåfaktorsautentisering';
 
   @override

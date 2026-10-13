@@ -346,6 +346,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get next => 'Înainte';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Autentificare în doi pași';
 
   @override

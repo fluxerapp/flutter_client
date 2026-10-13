@@ -2,33 +2,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/fullscreen_flow/fluxer_fullscreen_flow.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/add_friend_form.dart';
 import 'package:fluxer_app/shared/widgets/friend_request_sheet_item.dart';
 
-class AddFriendSheet {
-  AddFriendSheet._();
+class AddFriendPage {
+  AddFriendPage._();
 
   static Future<void> show(BuildContext context) {
-    final l10n = FluxerLocalizations.of(context);
-    return FluxerBottomSheet.showScrollable<void>(
+    return FluxerFullscreenFlow.push<void>(
       context,
-      title: l10n.addFriendSheetTitle,
-      useRootNavigator: true,
-      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
-      builder: (sheetContext, scrollController, close) {
-        return _AddFriendSheetBody(scrollController: scrollController);
-      },
+      builder: (BuildContext pageContext) => FluxerPushPage(
+        title: FluxerLocalizations.of(pageContext).addFriendSheetTitle,
+        body: const _AddFriendPageBody(),
+      ),
     );
   }
 }
 
-class _AddFriendSheetBody extends ConsumerWidget {
-  const _AddFriendSheetBody({required this.scrollController});
-
-  final ScrollController scrollController;
+class _AddFriendPageBody extends ConsumerWidget {
+  const _AddFriendPageBody();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,15 +37,12 @@ class _AddFriendSheetBody extends ConsumerWidget {
         .toList();
     final hasPendingRequests = incoming.isNotEmpty || outgoing.isNotEmpty;
     return ListView(
-      controller: scrollController,
-      padding: FluxerBottomSheet.scrollViewPadding(
-        context,
-        padding: EdgeInsets.fromLTRB(
-          context.layout.s4,
-          0,
-          context.layout.s4,
-          FluxerBottomSheet.bottomGapOf(context),
-        ),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      padding: EdgeInsets.fromLTRB(
+        context.layout.s4,
+        context.layout.s2,
+        context.layout.s4,
+        context.layout.s4 + MediaQuery.paddingOf(context).bottom,
       ),
       children: [
         const AddFriendForm(),
