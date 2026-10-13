@@ -22,11 +22,15 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kDesktopStickerColumns = 4;
@@ -393,32 +397,21 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     final key = sticker.favoriteKey;
     final favoriteKeys =
         ref.read(favoriteStickerKeysProvider).value ?? const <String>[];
-    final isFavorite = favoriteKeys.contains(key);
+    FluxerHaptics.medium();
     unawaited(
       FluxerBottomSheet.show<void>(
         context,
-        title: ':${sticker.name}:',
-        variant: FluxerBottomSheetVariant.menu,
-        builder: (sheetContext, close) => FluxerBottomSheetContent(
-          scrollable: false,
-          child: FluxerMenuGroup(
-            children: [
-              FluxerBottomSheetMenuItem(
-                label: isFavorite
-                    ? 'Remove from Favorites'
-                    : 'Add to Favorites',
-                icon: isFavorite
-                    ? PhosphorIconsBold.star
-                    : PhosphorIconsFill.star,
-                onTap: () {
-                  close();
-                  unawaited(
-                    ref.read(favoriteStickerKeysProvider.notifier).toggle(key),
-                  );
-                },
-              ),
-            ],
-          ),
+        showDragHandle: false,
+        barrierColor: kFluxerSheetDarkScrimColor,
+        builder: (sheetContext, close) => _StickerActionsSheet(
+          sticker: sticker,
+          isFavorite: favoriteKeys.contains(key),
+          onToggleFavorite: () {
+            close();
+            unawaited(
+              ref.read(favoriteStickerKeysProvider.notifier).toggle(key),
+            );
+          },
         ),
       ),
     );
@@ -1075,4 +1068,80 @@ class _FixedTileGridDelegate extends SliverGridDelegate {
       oldDelegate.columns != columns ||
       oldDelegate.tileExtent != tileExtent ||
       oldDelegate.rowGap != rowGap;
+}
+
+const double _kStickerSheetPreviewSize = 160;
+
+class _StickerActionsSheet extends StatelessWidget {
+  const _StickerActionsSheet({
+    required this.sticker,
+    required this.isFavorite,
+    required this.onToggleFavorite,
+  });
+
+  final StickerEntry sticker;
+  final bool isFavorite;
+  final VoidCallback onToggleFavorite;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final int requestSize =
+        (_kStickerSheetPreviewSize * MediaQuery.devicePixelRatioOf(context))
+            .round();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const FluxerBottomSheetEdgeHandle(height: 31),
+          Center(
+            child: SizedBox.square(
+              dimension: _kStickerSheetPreviewSize,
+              child: sticker.animated
+                  ? EmbedAnimatedImage(
+                      animatedUrl: sticker.urlForSize(requestSize),
+                      staticUrl: FluxerMediaUrl.sticker(id: sticker.id),
+                      useStickerAnimationPreference: true,
+                      fit: BoxFit.contain,
+                      placeholder: const SizedBox.shrink(),
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: sticker.urlForSize(requestSize),
+                      cacheKey: sticker.cacheKeyForSize(requestSize),
+                      memCacheWidth: requestSize,
+                      fit: BoxFit.contain,
+                      fadeInDuration: Duration.zero,
+                      fadeOutDuration: Duration.zero,
+                    ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            ':${sticker.name}:',
+            textAlign: TextAlign.center,
+            style: context.textStyles.heading.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: context.colors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          if (isFavorite)
+            FluxerButton.secondary(
+              label: l10n.favoritesRemoveFromFavorites,
+              size: FluxerButtonSize.small,
+              onPressed: onToggleFavorite,
+            )
+          else
+            FluxerButton.primary(
+              label: l10n.favoritesAddToFavorites,
+              size: FluxerButtonSize.small,
+              onPressed: onToggleFavorite,
+            ),
+        ],
+      ),
+    );
+  }
 }
