@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
@@ -12,6 +13,9 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_prov
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'quick_reaction_loader.g.dart';
 
 const int kQuickReactionCount = 4;
 
@@ -22,6 +26,74 @@ const List<String> kDefaultQuickReactionNames = [
   'heart',
 ];
 
+typedef ResolvedQuickReactions = ({
+  String? userId,
+  String channelId,
+  String? guildId,
+  List<QuickReactionItem> items,
+});
+
+@Riverpod(keepAlive: true)
+class LastResolvedQuickReactions extends _$LastResolvedQuickReactions {
+  @override
+  ResolvedQuickReactions? build() => null;
+
+  void remember({
+    required String? userId,
+    required String channelId,
+    required String? guildId,
+    required List<QuickReactionItem> items,
+  }) {
+    state = (
+      userId: userId,
+      channelId: channelId,
+      guildId: guildId,
+      items: items,
+    );
+  }
+}
+
+List<QuickReactionItem> quickReactionItemsFor(
+  ResolvedQuickReactions? last, {
+  required String? userId,
+  required String channelId,
+  required String? guildId,
+}) {
+  if (last == null || last.userId != userId) {
+    return const <QuickReactionItem>[];
+  }
+  if (last.channelId == channelId && last.guildId == guildId) {
+    return last.items;
+  }
+  return _withDefaults(
+    last.items.where(
+      (item) => switch (item) {
+        UnicodeQuickReaction() => true,
+        CustomQuickReaction(:final emoji) => emoji.guildId == guildId,
+      },
+    ),
+  );
+}
+
+List<QuickReactionItem> _withDefaults(Iterable<QuickReactionItem> items) {
+  final result = <QuickReactionItem>[];
+  final seenSurrogates = <String>{};
+  final seenCustomIds = <String>{};
+  for (final item in items.followedBy(kQuickReactionDefaults)) {
+    if (result.length >= kQuickReactionCount) {
+      break;
+    }
+    final bool isNew = switch (item) {
+      UnicodeQuickReaction(:final emoji) => seenSurrogates.add(emoji),
+      CustomQuickReaction(:final emoji) => seenCustomIds.add(emoji.id),
+    };
+    if (isNew) {
+      result.add(item);
+    }
+  }
+  return result;
+}
+
 Future<List<QuickReactionItem>?> loadQuickReactionItems(
   WidgetRef ref, {
   required String channelId,
@@ -30,7 +102,7 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
   try {
     final db = ref.read(fluxerDatabaseProvider);
     final keysFuture = ref.read(rankedEmojiUsageKeysProvider.future);
-    await ref.read(emojiRegistryLoadedProvider.future);
+    await EmojiRegistry.ensureLoaded();
     final keys = await keysFuture;
     final hasGlobalEmojiAccess =
         ref.read(
@@ -144,61 +216,49 @@ class MessageQuickReactionRow extends ConsumerStatefulWidget {
 
 class _MessageQuickReactionRowState
     extends ConsumerState<MessageQuickReactionRow> {
-  List<QuickReactionItem> _items = const <QuickReactionItem>[];
-  String? _lastLoadedGuildKey;
+  String? _requestedScope;
 
-  @override
-  void initState() {
-    super.initState();
-    unawaited(_refreshItems());
-  }
-
-  @override
-  void didUpdateWidget(MessageQuickReactionRow oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.channelId != widget.channelId ||
-        oldWidget.guildId != widget.guildId) {
-      _lastLoadedGuildKey = null;
-      unawaited(_refreshItems());
-    }
-  }
-
-  String? _resolvedGuildId() {
-    return widget.guildId ?? resolveGuildIdForChannel(ref, widget.channelId);
-  }
-
-  String _guildLoadKey(String? guildId) =>
-      '${widget.channelId}:${guildId ?? ''}';
-
-  Future<void> _refreshItems() async {
-    final String? guildId = _resolvedGuildId();
-    final String loadKey = _guildLoadKey(guildId);
-    _lastLoadedGuildKey = loadKey;
-    final loaded = await loadQuickReactionItems(
+  Future<void> _load(String? guildId) async {
+    final LastResolvedQuickReactions cache = ref.read(
+      lastResolvedQuickReactionsProvider.notifier,
+    );
+    final String? userId = ref.read(currentUserIdProvider);
+    final String channelId = widget.channelId;
+    final List<QuickReactionItem>? items = await loadQuickReactionItems(
       ref,
-      channelId: widget.channelId,
+      channelId: channelId,
       guildId: guildId,
     );
-    if (!mounted ||
-        loaded == null ||
-        _guildLoadKey(_resolvedGuildId()) != loadKey) {
+    if (items == null) {
       return;
     }
-    setState(() => _items = loaded);
+    cache.remember(
+      userId: userId,
+      channelId: channelId,
+      guildId: guildId,
+      items: items,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final String? guildId =
+        widget.guildId ?? resolveGuildIdForChannel(ref, widget.channelId);
     ref.listen(rankedEmojiUsageKeysProvider, (_, _) {
-      _lastLoadedGuildKey = null;
-      unawaited(_refreshItems());
+      unawaited(_load(guildId));
     });
-    final String loadKey = _guildLoadKey(_resolvedGuildId());
-    if (loadKey != _lastLoadedGuildKey) {
-      unawaited(_refreshItems());
+    final String scope = '${widget.channelId}:${guildId ?? ''}';
+    if (scope != _requestedScope) {
+      _requestedScope = scope;
+      unawaited(_load(guildId));
     }
     return QuickReactionRow(
-      items: _items,
+      items: quickReactionItemsFor(
+        ref.watch(lastResolvedQuickReactionsProvider),
+        userId: ref.watch(currentUserIdProvider),
+        channelId: widget.channelId,
+        guildId: guildId,
+      ),
       onReaction: widget.onReaction,
       onAddMore: widget.onAddMore,
     );
