@@ -56,67 +56,64 @@ class _UserProfileAccountSwitchCardState
         .toList();
     final bool canSwitch = others.isNotEmpty;
 
-    return Semantics(
-      button: true,
-      child: FluxerTappable(
-        onTap: canSwitch
-            ? () => unawaited(ProfileTabMenuSheet.show(context, ref))
-            : () => unawaited(_addAccount()),
-        builder: (context, _) => DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.backgroundSecondary,
-            borderRadius: layout.radiusXl,
+    return FluxerTappable(
+      onTap: canSwitch
+          ? () => unawaited(ProfileTabMenuSheet.show(context, ref))
+          : () => unawaited(_addAccount()),
+      builder: (context, _) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.backgroundSecondary,
+          borderRadius: layout.radiusXl,
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: layout.s4,
+            vertical: layout.s3,
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: layout.s4,
-              vertical: layout.s3,
-            ),
-            child: Row(
-              children: [
-                if (canSwitch)
-                  ExcludeSemantics(child: _StackedAccountAvatars(others))
-                else
-                  SizedBox(
-                    width: _kStackAvatarSize,
-                    height: _kStackAvatarSize,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: colors.backgroundTertiary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: PhosphorIcon(
-                          PhosphorIconsBold.plus,
-                          size: 14,
-                          color: colors.textPrimary,
-                        ),
+          child: Row(
+            children: [
+              if (canSwitch)
+                ExcludeSemantics(child: _StackedAccountAvatars(others))
+              else
+                SizedBox(
+                  width: _kStackAvatarSize,
+                  height: _kStackAvatarSize,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.backgroundTertiary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: PhosphorIcon(
+                        PhosphorIconsBold.plus,
+                        size: 14,
+                        color: colors.textPrimary,
                       ),
                     ),
                   ),
-                SizedBox(width: layout.s3),
-                Expanded(
-                  child: Text(
-                    canSwitch
-                        ? l10n.profileTabMenuSwitchAccounts
-                        : l10n.accountAdd,
-                    style: textStyles.label.copyWith(
-                      color: colors.textPrimary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                ),
+              SizedBox(width: layout.s3),
+              Expanded(
+                child: Text(
+                  canSwitch
+                      ? l10n.profileTabMenuSwitchAccounts
+                      : l10n.accountAdd,
+                  style: textStyles.label.copyWith(
+                    color: colors.textPrimary,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(width: layout.s2),
-                PhosphorIcon(
-                  PhosphorIconsBold.caretRight,
-                  size: 18,
-                  color: colors.textPrimaryMuted,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(width: layout.s2),
+              PhosphorIcon(
+                PhosphorIconsBold.caretRight,
+                size: 18,
+                color: colors.textPrimaryMuted,
+              ),
+            ],
           ),
         ),
       ),
