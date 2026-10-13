@@ -7,6 +7,8 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -43,36 +45,45 @@ class UserNotificationsTtsSection extends ConsumerWidget {
               ),
             ),
             SizedBox(height: layout.s3),
-            Text.rich(
-              TextSpan(
-                style: textStyles.smallText.copyWith(
-                  color: colors.textSecondary,
-                ),
-                children: [
-                  TextSpan(text: l10n.notificationsTtsAccessibilityLinkPrefix),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.baseline,
-                    baseline: TextBaseline.alphabetic,
-                    child: MediaQuery.withNoTextScaling(
-                      child: FluxerGestureDetector(
-                        onTap: () => unawaited(
-                          UserSettingsModal.show(
-                            context,
-                            initialSection: UserSettingsSection.accessibility,
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobileLayout(context) ? layout.s3 : 0,
+              ),
+              child: Text.rich(
+                TextSpan(
+                  style: textStyles.smallText.copyWith(
+                    color: colors.textSecondary,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: l10n.notificationsTtsAccessibilityLinkPrefix,
+                    ),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.baseline,
+                      baseline: TextBaseline.alphabetic,
+                      child: MediaQuery.withNoTextScaling(
+                        child: FluxerGestureDetector(
+                          onTap: () => unawaited(
+                            UserSettingsModal.show(
+                              context,
+                              initialSection: UserSettingsSection.accessibility,
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          l10n.notificationsTtsAccessibilityLinkLabel,
-                          style: textStyles.smallText.copyWith(
-                            color: colors.textLink,
-                            decoration: TextDecoration.underline,
+                          child: Text(
+                            l10n.notificationsTtsAccessibilityLinkLabel,
+                            style: textStyles.smallText.copyWith(
+                              color: colors.textLink,
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  TextSpan(text: l10n.notificationsTtsAccessibilityLinkSuffix),
-                ],
+                    TextSpan(
+                      text: l10n.notificationsTtsAccessibilityLinkSuffix,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

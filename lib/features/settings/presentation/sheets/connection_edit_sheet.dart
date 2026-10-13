@@ -78,27 +78,30 @@ class _ConnectionEditBodyState extends ConsumerState<_ConnectionEditBody> {
             ),
           ),
           SizedBox(height: layout.s3),
-          FluxerToggleSwitch(
-            label: l10n.connectionVisibilityEveryone,
-            description: l10n.connectionVisibilityEveryoneDesc,
-            value: everyoneEnabled,
-            onChanged: (v) => _toggle(_VisibilityFlag.everyone, v),
-          ),
-          SizedBox(height: layout.s3),
-          FluxerToggleSwitch(
-            label: l10n.connectionVisibilityFriends,
-            description: l10n.connectionVisibilityFriendsDesc,
-            value: everyoneEnabled || _hasFlag(_VisibilityFlag.friends),
-            onChanged: (v) => _toggle(_VisibilityFlag.friends, v),
-            enabled: !everyoneEnabled,
-          ),
-          SizedBox(height: layout.s3),
-          FluxerToggleSwitch(
-            label: l10n.connectionVisibilityCommunityMembers,
-            description: l10n.connectionVisibilityCommunityMembersDesc,
-            value: everyoneEnabled || _hasFlag(_VisibilityFlag.mutualGuilds),
-            onChanged: (v) => _toggle(_VisibilityFlag.mutualGuilds, v),
-            enabled: !everyoneEnabled,
+          FluxerMenuGroup(
+            children: [
+              FluxerToggleSwitch(
+                label: l10n.connectionVisibilityEveryone,
+                description: l10n.connectionVisibilityEveryoneDesc,
+                value: everyoneEnabled,
+                onChanged: (v) => _toggle(_VisibilityFlag.everyone, v),
+              ),
+              FluxerToggleSwitch(
+                label: l10n.connectionVisibilityFriends,
+                description: l10n.connectionVisibilityFriendsDesc,
+                value: everyoneEnabled || _hasFlag(_VisibilityFlag.friends),
+                onChanged: (v) => _toggle(_VisibilityFlag.friends, v),
+                enabled: !everyoneEnabled,
+              ),
+              FluxerToggleSwitch(
+                label: l10n.connectionVisibilityCommunityMembers,
+                description: l10n.connectionVisibilityCommunityMembersDesc,
+                value:
+                    everyoneEnabled || _hasFlag(_VisibilityFlag.mutualGuilds),
+                onChanged: (v) => _toggle(_VisibilityFlag.mutualGuilds, v),
+                enabled: !everyoneEnabled,
+              ),
+            ],
           ),
           SizedBox(height: layout.s4),
           FluxerButton.primary(label: l10n.save, onPressedAsync: _save),

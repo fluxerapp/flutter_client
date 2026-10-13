@@ -1,4 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -26,6 +29,23 @@ class FluxerSettingsConfigureRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isMobileLayout(context)) {
+      return FluxerMenuGroup.ensureGrouped(
+        context,
+        FluxerBottomSheetMenuItem(
+          label: title,
+          hint: description,
+          onTap: onConfigure,
+          trailing:
+              trailing ??
+              PhosphorIcon(
+                PhosphorIconsBold.caretRight,
+                size: 16,
+                color: context.colors.textSecondary,
+              ),
+        ),
+      );
+    }
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;

@@ -92,8 +92,6 @@ class InvitePeopleFlow {
       return StatefulBuilder(
         builder:
             (BuildContext context, void Function(void Function()) setState) {
-              final colors = context.colors;
-              final textStyles = context.textStyles;
               final layout = context.layout;
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -168,25 +166,11 @@ class InvitePeopleFlow {
                     ],
                     onChanged: (int v) => setState(() => maxUses = v),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      FluxerToggleSwitch(
-                        value: temporary,
-                        onChanged: (bool v) => setState(() => temporary = v),
-                        label: l10n.guildNavbarGrantTemporaryMembership,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: layout.s1),
-                        child: Text(
-                          l10n.guildNavbarTemporaryMembershipDescription,
-                          style: textStyles.timestamp.copyWith(
-                            color: colors.textSecondary,
-                          ),
-                        ),
-                      ),
-                    ],
+                  FluxerToggleSwitch(
+                    value: temporary,
+                    onChanged: (bool v) => setState(() => temporary = v),
+                    label: l10n.guildNavbarGrantTemporaryMembership,
+                    description: l10n.guildNavbarTemporaryMembershipDescription,
                   ),
                 ],
               );

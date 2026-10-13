@@ -2,8 +2,13 @@ import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_deep_link_scope.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_section_scroll.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_settings_configure_row.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_heading_link_button.dart';
+import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 /// Vertical density of the section's children.
@@ -73,10 +78,36 @@ class FluxerSettingsSection extends StatelessWidget {
       ),
     };
 
+    final Key? scrollKey = sectionId == null
+        ? null
+        : UserSettingsSectionScrollKeys.keyFor(sectionId!);
+
+    if (isMobileLayout(context)) {
+      final List<Widget> grouped = groupSettingsMenuRows(children);
+      return KeyedSubtree(
+        key: scrollKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FluxerSettingsGroupLabel(
+              title: title,
+              description: description,
+              trailing: headerTrailing,
+            ),
+            SizedBox(height: layout.s2),
+            for (int i = 0; i < grouped.length; i++) ...[
+              grouped[i],
+              if (i < grouped.length - 1) SizedBox(height: layout.s4),
+            ],
+            SizedBox(height: layout.s6),
+          ],
+        ),
+      );
+    }
+
     return KeyedSubtree(
-      key: sectionId == null
-          ? null
-          : UserSettingsSectionScrollKeys.keyFor(sectionId!),
+      key: scrollKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -119,6 +150,84 @@ class FluxerSettingsSection extends StatelessWidget {
     );
   }
 }
+
+class FluxerSettingsGroupLabel extends StatelessWidget {
+  const FluxerSettingsGroupLabel({
+    required this.title,
+    this.description,
+    this.trailing,
+    super.key,
+  });
+
+  final String title;
+  final String? description;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = context.layout;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: layout.s3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Semantics(
+                  header: true,
+                  child: Text(title, style: context.textStyles.categoryName),
+                ),
+              ),
+              ?trailing,
+            ],
+          ),
+          if (description != null)
+            Padding(
+              padding: EdgeInsets.only(top: layout.s1),
+              child: Text(
+                description!,
+                style: context.textStyles.timestamp.copyWith(
+                  color: context.colors.textTertiary,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+List<Widget> groupSettingsMenuRows(List<Widget> children) {
+  final List<Widget> result = <Widget>[];
+  List<Widget> run = <Widget>[];
+  void flush() {
+    if (run.isNotEmpty) {
+      result.add(FluxerMenuGroup(children: run));
+      run = <Widget>[];
+    }
+  }
+
+  for (final Widget child in children) {
+    if (_isSettingsMenuRow(child)) {
+      run.add(child);
+    } else {
+      flush();
+      result.add(child);
+    }
+  }
+  flush();
+  return result;
+}
+
+bool _isSettingsMenuRow(Widget widget) =>
+    widget is FluxerSettingsSwitchItem ||
+    widget is FluxerSettingsConfigureRow ||
+    widget is FluxerSettingsAccessoryRow ||
+    widget is FluxerSwitchGroupItem ||
+    widget is FluxerBottomSheetMenuItem ||
+    widget is FluxerBottomSheetSubmenuItem;
 
 @FluxerWidgetPreview(name: 'Default', group: 'FluxerSettingsSection')
 Widget fluxerSettingsSectionPreview() {

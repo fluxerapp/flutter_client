@@ -1,4 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/text/fluxer_field_label.dart';
@@ -49,13 +52,28 @@ class FluxerRadioGroup<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final layout = context.layout;
 
-    final group = Flex(
-      direction: direction,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: itemSpacing ?? layout.s1_5,
-      children: [for (final item in items) _buildOption(context, item)],
-    );
+    final Widget group = isMobileLayout(context) && direction == Axis.vertical
+        ? FluxerMenuGroup(
+            children: [
+              for (final item in items)
+                FluxerBottomSheetMenuItem(
+                  label: item.label,
+                  labelColor: item.labelColor,
+                  hint: item.description,
+                  leading: item.leading,
+                  enabled: item.enabled,
+                  isSelected: value == item.value,
+                  onTap: () => _onChanged(item.value),
+                ),
+            ],
+          )
+        : Flex(
+            direction: direction,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: itemSpacing ?? layout.s1_5,
+            children: [for (final item in items) _buildOption(context, item)],
+          );
 
     if (label == null) {
       return group;

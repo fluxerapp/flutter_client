@@ -18,6 +18,9 @@ import 'package:fluxer_app/features/settings/presentation/sheets/totp_enable_she
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
@@ -32,6 +35,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kMaxPasskeys = 10;
 
@@ -118,6 +122,15 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         ] else ...[
           _responsiveRow(
             label: l10n.securityLoginEmailAddressLabel,
+            detail: _emailRevealed ? s.email! : _maskEmail(s.email!),
+            actionLabel: l10n.securityLoginChangeEmail,
+            onAction: () => EmailChangeSheet.show(context, ref),
+            mobileAccessory: FluxerTextLink(
+              text: _emailRevealed
+                  ? l10n.securityLoginHide
+                  : l10n.securityLoginReveal,
+              onTap: () => setState(() => _emailRevealed = !_emailRevealed),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -174,6 +187,9 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         ] else
           _responsiveRow(
             label: l10n.securityLoginCurrentPasswordLabel,
+            detail: _passwordLastChanged(s, l10n),
+            actionLabel: l10n.securityLoginChangePassword,
+            onAction: () => PasswordChangeSheet.show(context, ref),
             child: Text(
               _passwordLastChanged(s, l10n),
               style: context.textStyles.bodySmall,
@@ -239,7 +255,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildTfaSubsection(s, colors, l10n),
-        SizedBox(height: layout.s8),
+        SizedBox(height: isMobileLayout(context) ? layout.s4 : layout.s8),
         _buildPasskeysSubsection(s, passkeyState, colors, l10n),
       ],
     );
@@ -256,6 +272,13 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       children: [
         _responsiveRow(
           label: l10n.securityTfaAuthenticatorApp,
+          detail: s.hasTotpMfa
+              ? l10n.securityTfaAuthenticatorEnabled
+              : l10n.securityTfaAuthenticatorDisabled,
+          actionLabel: s.hasTotpMfa ? l10n.disable : l10n.enable,
+          onAction: s.hasTotpMfa
+              ? () => TotpDisableSheet.show(context, ref)
+              : () => TotpEnableSheet.show(context, ref),
           child: Text(
             s.hasTotpMfa
                 ? l10n.securityTfaAuthenticatorEnabled
@@ -277,6 +300,9 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         if (s.hasTotpMfa)
           _responsiveRow(
             label: l10n.securityTfaBackupCodes,
+            detail: l10n.securityTfaBackupCodesDescription,
+            actionLabel: l10n.securityTfaViewCodes,
+            onAction: () => BackupCodesSheet.showView(context, ref),
             child: Text(
               l10n.securityTfaBackupCodesDescription,
               style: context.textStyles.bodySmall,
@@ -305,6 +331,13 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       children: [
         _responsiveRow(
           label: l10n.securityPasskeysRegistered,
+          detail: count == 0
+              ? l10n.securityPasskeysNone
+              : l10n.securityPasskeysCount(count),
+          actionLabel: l10n.securityPasskeysAdd,
+          onAction: passkeyState.isLoading || count >= _kMaxPasskeys
+              ? null
+              : _handleAddPasskey,
           child: Text(
             count == 0
                 ? l10n.securityPasskeysNone
@@ -460,48 +493,109 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       title: l10n.dangerZoneSectionTitle,
       description: l10n.dangerZoneSectionDescription,
       children: [
-        if (s.isClaimed)
+        if (isMobileLayout(context)) ...[
+          if (s.isClaimed)
+            FluxerBottomSheetMenuItem(
+              label: l10n.dangerZoneDisableTitle,
+              hint: l10n.dangerZoneDisableDescription,
+              isDanger: true,
+              onTap: () => unawaited(AccountDisableSheet.show(context, ref)),
+            ),
+          FluxerBottomSheetMenuItem(
+            label: l10n.dangerZoneDeleteTitle,
+            hint: s.hasActiveSubscription
+                ? l10n.dangerZoneDeleteCancelSubscription
+                : l10n.dangerZoneDeleteDescription,
+            isDanger: true,
+            enabled: !s.hasActiveSubscription,
+            onTap: () => unawaited(AccountDeleteSheet.show(context, ref)),
+          ),
+        ] else ...[
+          if (s.isClaimed)
+            FluxerSettingsSubsection(
+              title: l10n.dangerZoneDisableTitle,
+              description: l10n.dangerZoneDisableDescription,
+              children: [
+                FluxerButton.dangerPrimary(
+                  onPressedAsync: () => AccountDisableSheet.show(context, ref),
+                  label: l10n.dangerZoneDisableTitle,
+                  size: FluxerButtonSize.small,
+                ),
+              ],
+            ),
           FluxerSettingsSubsection(
-            title: l10n.dangerZoneDisableTitle,
-            description: l10n.dangerZoneDisableDescription,
+            title: l10n.dangerZoneDeleteTitle,
+            description: l10n.dangerZoneDeleteDescription,
             children: [
+              if (s.hasActiveSubscription)
+                Text(
+                  l10n.dangerZoneDeleteCancelSubscription,
+                  style: context.textStyles.bodySmall.copyWith(
+                    fontSize: 13,
+                    color: colors.statusWarning,
+                  ),
+                ),
               FluxerButton.dangerPrimary(
-                onPressedAsync: () => AccountDisableSheet.show(context, ref),
-                label: l10n.dangerZoneDisableTitle,
+                onPressedAsync: s.hasActiveSubscription
+                    ? null
+                    : () => AccountDeleteSheet.show(context, ref),
+                label: l10n.dangerZoneDeleteTitle,
                 size: FluxerButtonSize.small,
               ),
             ],
           ),
-        FluxerSettingsSubsection(
-          title: l10n.dangerZoneDeleteTitle,
-          description: l10n.dangerZoneDeleteDescription,
-          children: [
-            if (s.hasActiveSubscription)
-              Text(
-                l10n.dangerZoneDeleteCancelSubscription,
-                style: context.textStyles.bodySmall.copyWith(
-                  fontSize: 13,
-                  color: colors.statusWarning,
-                ),
-              ),
-            FluxerButton.dangerPrimary(
-              onPressedAsync: s.hasActiveSubscription
-                  ? null
-                  : () => AccountDeleteSheet.show(context, ref),
-              label: l10n.dangerZoneDeleteTitle,
-              size: FluxerButtonSize.small,
-            ),
-          ],
-        ),
+        ],
       ],
     );
   }
 
   Widget _responsiveRow({
     required String label,
+    required String detail,
+    required String actionLabel,
+    required Future<void> Function()? onAction,
     required Widget child,
     required Widget button,
+    Widget? mobileAccessory,
   }) {
+    if (isMobileLayout(context)) {
+      final colors = context.colors;
+      final layout = context.layout;
+      return FluxerMenuGroup.ensureGrouped(
+        context,
+        FluxerBottomSheetMenuItem(
+          label: label,
+          hint: detail,
+          enabled: onAction != null,
+          onTap: () {
+            if (onAction != null) {
+              unawaited(onAction());
+            }
+          },
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (mobileAccessory != null) ...[
+                mobileAccessory,
+                SizedBox(width: layout.s3),
+              ],
+              Text(
+                actionLabel,
+                style: context.textStyles.timestamp.copyWith(
+                  color: colors.textSecondary,
+                ),
+              ),
+              SizedBox(width: layout.s1),
+              PhosphorIcon(
+                PhosphorIconsBold.caretRight,
+                size: 16,
+                color: colors.textSecondary,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return LayoutBuilder(
       builder: (context, constraints) {
         final layout = context.layout;

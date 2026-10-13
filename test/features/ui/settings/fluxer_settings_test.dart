@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -63,17 +64,18 @@ void main() {
       await tester.pumpWidget(
         buildTestApp(
           Material(
-            child: FluxerSettingsGroup(
+            child: FluxerMenuGroup(
               children: [
-                FluxerSettingsRow(
-                  title: 'Notifications',
-                  description: 'Push, desktop, and badge settings.',
+                FluxerBottomSheetMenuItem(
+                  label: 'Notifications',
+                  hint: 'Push, desktop, and badge settings.',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => tapped = true,
                 ),
-                const FluxerSettingsRow(
-                  title: 'Appearance',
-                  description: 'Theme, density, and font sizing.',
+                FluxerBottomSheetMenuItem(
+                  label: 'Appearance',
+                  hint: 'Theme, density, and font sizing.',
+                  onTap: () {},
                 ),
               ],
             ),

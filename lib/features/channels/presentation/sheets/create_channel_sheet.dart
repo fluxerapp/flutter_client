@@ -671,6 +671,9 @@ class _FieldCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isMobileLayout(context)) {
+      return child;
+    }
     final layout = context.layout;
     return DecoratedBox(
       decoration: BoxDecoration(

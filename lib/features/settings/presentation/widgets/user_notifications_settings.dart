@@ -22,6 +22,8 @@ import 'package:fluxer_app/features/settings/providers/mention_preference_provid
 import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
 import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -172,10 +174,15 @@ class UserNotificationsSettings extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(height: layout.s2),
-                    FluxerTextLink(
-                      text: l10n.pushRelayConsentNoticeLink,
-                      url: kPushRelayNoticeUrl,
-                      style: textStyles.smallText,
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isMobileLayout(context) ? layout.s3 : 0,
+                      ),
+                      child: FluxerTextLink(
+                        text: l10n.pushRelayConsentNoticeLink,
+                        url: kPushRelayNoticeUrl,
+                        style: textStyles.smallText,
+                      ),
                     ),
                   ],
                 ),

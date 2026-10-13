@@ -432,8 +432,6 @@ class _GuildListItemState extends State<_GuildListItem>
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       builder: (sheetContext, scrollController, close) {
         final layout = sheetContext.layout;
-        final colors = sheetContext.colors;
-        final textStyles = sheetContext.textStyles;
 
         return SingleChildScrollView(
           controller: scrollController,
@@ -447,7 +445,7 @@ class _GuildListItemState extends State<_GuildListItem>
             children: [
               ValueListenableBuilder<bool>(
                 valueListenable: muted,
-                builder: (_, isMuted, _) => _PrivacySwitchRow(
+                builder: (_, isMuted, _) => FluxerToggleSwitch(
                   label: l10n.notificationMuteGuild(widget.guild!.name),
                   description: l10n.notificationMuteDescription,
                   value: isMuted,
@@ -459,12 +457,8 @@ class _GuildListItemState extends State<_GuildListItem>
               ),
 
               SizedBox(height: layout.s6),
-              Text(
-                l10n.notificationCommunitySettings,
-                style: textStyles.bodySmall.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: FontWeight.w600,
-                ),
+              FluxerSettingsGroupLabel(
+                title: l10n.notificationCommunitySettings,
               ),
               SizedBox(height: layout.s3),
               ValueListenableBuilder<int>(
@@ -545,13 +539,7 @@ class _GuildListItemState extends State<_GuildListItem>
               ),
 
               SizedBox(height: layout.s6),
-              Text(
-                l10n.notificationOverrides,
-                style: textStyles.bodySmall.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              FluxerSettingsGroupLabel(title: l10n.notificationOverrides),
               SizedBox(height: layout.s3),
               ValueListenableBuilder<
                 Map<String, ({int messageNotifications, bool muted})>
@@ -681,160 +669,138 @@ class _GuildListItemState extends State<_GuildListItem>
 
     return Padding(
       padding: EdgeInsets.only(bottom: layout.s3),
-      child: Material(
-        color: FluxerBottomSheet.cardColorOf(context),
-        borderRadius: layout.radiusLg,
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: EdgeInsets.all(layout.s3),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  _GuildNotificationChannelIcon(
-                    channelId: channelId,
-                    fallbackType: ChannelType.fromWire(channel.type),
-                    color: colors.textTertiary,
-                  ),
-                  SizedBox(width: layout.s2),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
+      child: FluxerMenuGroup(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                _GuildNotificationChannelIcon(
+                  channelId: channelId,
+                  fallbackType: ChannelType.fromWire(channel.type),
+                  color: colors.textTertiary,
+                ),
+                SizedBox(width: layout.s2),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        channel.name,
+                        style: textStyles.bodySmall.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: colors.textPrimary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (!isCategory)
                         Text(
-                          channel.name,
-                          style: textStyles.bodySmall.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: colors.textPrimary,
+                          category?.name ?? l10n.notificationNoCategory,
+                          style: textStyles.smallText.copyWith(
+                            color: colors.textTertiary,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (!isCategory)
-                          Text(
-                            category?.name ?? l10n.notificationNoCategory,
-                            style: textStyles.smallText.copyWith(
-                              color: colors.textTertiary,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: layout.s2),
-                  FluxerTappable(
-                    onTap: () {
-                      final updated = Map.of(overrides.value)
-                        ..remove(channelId);
-                      overrides.value = updated;
-                      widget.onRemoveChannelOverride?.call(channelId);
-                    },
-                    semanticLabel: l10n.guildNavbarRemoveOverride,
-                    builder: (_, _) => Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: colors.backgroundTertiary,
-                      ),
-                      child: Center(
-                        child: PhosphorIcon(
-                          PhosphorIconsBold.x,
-                          size: 14,
-                          color: colors.textTertiary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: layout.s3),
-                child: Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: colors.backgroundHeaderSecondary.withValues(
-                    alpha: 0.3,
+                    ],
                   ),
                 ),
-              ),
-
-              FluxerToggleSwitch(
-                label: l10n.notificationAllMessages,
-                value: resolved == 0,
-                onChanged: (_) {
-                  final updated = Map.of(overrides.value);
-                  updated[channelId] = (
-                    messageNotifications: 0,
-                    muted: channelOverride.muted,
-                  );
-                  overrides.value = updated;
-                  widget.onUpdateChannelOverride?.call(
-                    channelId,
-                    0,
-                    muted: channelOverride.muted,
-                  );
-                },
-              ),
-              SizedBox(height: layout.s3),
-              FluxerToggleSwitch(
-                label: l10n.notificationOnlyAtMentions,
-                value: resolved == 1,
-                onChanged: (_) {
-                  final updated = Map.of(overrides.value);
-                  updated[channelId] = (
-                    messageNotifications: 1,
-                    muted: channelOverride.muted,
-                  );
-                  overrides.value = updated;
-                  widget.onUpdateChannelOverride?.call(
-                    channelId,
-                    1,
-                    muted: channelOverride.muted,
-                  );
-                },
-              ),
-              SizedBox(height: layout.s3),
-              FluxerToggleSwitch(
-                label: l10n.notificationNothing,
-                value: resolved == 2,
-                onChanged: (_) {
-                  final updated = Map.of(overrides.value);
-                  updated[channelId] = (
-                    messageNotifications: 2,
-                    muted: channelOverride.muted,
-                  );
-                  overrides.value = updated;
-                  widget.onUpdateChannelOverride?.call(
-                    channelId,
-                    2,
-                    muted: channelOverride.muted,
-                  );
-                },
-              ),
-              SizedBox(height: layout.s3),
-              FluxerToggleSwitch(
-                label: l10n.notificationMuteChannel,
-                value: channelOverride.muted,
-                onChanged: (value) {
-                  final updated = Map.of(overrides.value);
-                  updated[channelId] = (
-                    messageNotifications: channelOverride.messageNotifications,
-                    muted: value,
-                  );
-                  overrides.value = updated;
-                  widget.onUpdateChannelOverride?.call(
-                    channelId,
-                    channelOverride.messageNotifications,
-                    muted: value,
-                  );
-                },
-              ),
-            ],
+                SizedBox(width: layout.s2),
+                FluxerTappable(
+                  onTap: () {
+                    final updated = Map.of(overrides.value)..remove(channelId);
+                    overrides.value = updated;
+                    widget.onRemoveChannelOverride?.call(channelId);
+                  },
+                  semanticLabel: l10n.guildNavbarRemoveOverride,
+                  builder: (_, _) => Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: colors.backgroundTertiary,
+                    ),
+                    child: Center(
+                      child: PhosphorIcon(
+                        PhosphorIconsBold.x,
+                        size: 14,
+                        color: colors.textTertiary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+          FluxerToggleSwitch(
+            label: l10n.notificationAllMessages,
+            value: resolved == 0,
+            onChanged: (_) {
+              final updated = Map.of(overrides.value);
+              updated[channelId] = (
+                messageNotifications: 0,
+                muted: channelOverride.muted,
+              );
+              overrides.value = updated;
+              widget.onUpdateChannelOverride?.call(
+                channelId,
+                0,
+                muted: channelOverride.muted,
+              );
+            },
+          ),
+          FluxerToggleSwitch(
+            label: l10n.notificationOnlyAtMentions,
+            value: resolved == 1,
+            onChanged: (_) {
+              final updated = Map.of(overrides.value);
+              updated[channelId] = (
+                messageNotifications: 1,
+                muted: channelOverride.muted,
+              );
+              overrides.value = updated;
+              widget.onUpdateChannelOverride?.call(
+                channelId,
+                1,
+                muted: channelOverride.muted,
+              );
+            },
+          ),
+          FluxerToggleSwitch(
+            label: l10n.notificationNothing,
+            value: resolved == 2,
+            onChanged: (_) {
+              final updated = Map.of(overrides.value);
+              updated[channelId] = (
+                messageNotifications: 2,
+                muted: channelOverride.muted,
+              );
+              overrides.value = updated;
+              widget.onUpdateChannelOverride?.call(
+                channelId,
+                2,
+                muted: channelOverride.muted,
+              );
+            },
+          ),
+          FluxerToggleSwitch(
+            label: l10n.notificationMuteChannel,
+            value: channelOverride.muted,
+            onChanged: (value) {
+              final updated = Map.of(overrides.value);
+              updated[channelId] = (
+                messageNotifications: channelOverride.messageNotifications,
+                muted: value,
+              );
+              overrides.value = updated;
+              widget.onUpdateChannelOverride?.call(
+                channelId,
+                channelOverride.messageNotifications,
+                muted: value,
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -873,30 +839,33 @@ class _GuildListItemState extends State<_GuildListItem>
                 FluxerWarningAlert(message: l10n.privacyMutualDmsDisabled),
                 SizedBox(height: layout.s4),
               ],
-              ValueListenableBuilder<bool>(
-                valueListenable: isDmsAllowed,
-                builder: (_, allowed, _) => _PrivacySwitchRow(
-                  label: l10n.privacyDirectMessages,
-                  description: l10n.privacyDirectMessagesDescription,
-                  value: allowed,
-                  onChanged: (allowed) {
-                    isDmsAllowed.value = allowed;
-                    widget.onToggleDms?.call(allowed: allowed);
-                  },
-                ),
-              ),
-              SizedBox(height: layout.s4),
-              ValueListenableBuilder<bool>(
-                valueListenable: isBotDmsAllowed,
-                builder: (_, allowed, _) => _PrivacySwitchRow(
-                  label: l10n.privacyBotDirectMessages,
-                  description: l10n.privacyBotDirectMessagesDescription,
-                  value: allowed,
-                  onChanged: (allowed) {
-                    isBotDmsAllowed.value = allowed;
-                    widget.onToggleBotDms?.call(allowed: allowed);
-                  },
-                ),
+              FluxerMenuGroup(
+                children: [
+                  ValueListenableBuilder<bool>(
+                    valueListenable: isDmsAllowed,
+                    builder: (_, allowed, _) => FluxerToggleSwitch(
+                      label: l10n.privacyDirectMessages,
+                      description: l10n.privacyDirectMessagesDescription,
+                      value: allowed,
+                      onChanged: (allowed) {
+                        isDmsAllowed.value = allowed;
+                        widget.onToggleDms?.call(allowed: allowed);
+                      },
+                    ),
+                  ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: isBotDmsAllowed,
+                    builder: (_, allowed, _) => FluxerToggleSwitch(
+                      label: l10n.privacyBotDirectMessages,
+                      description: l10n.privacyBotDirectMessagesDescription,
+                      value: allowed,
+                      onChanged: (allowed) {
+                        isBotDmsAllowed.value = allowed;
+                        widget.onToggleBotDms?.call(allowed: allowed);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

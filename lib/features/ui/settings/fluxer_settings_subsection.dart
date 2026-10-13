@@ -1,5 +1,8 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_settings_section.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class FluxerSettingsSubsection extends StatelessWidget {
@@ -18,6 +21,24 @@ class FluxerSettingsSubsection extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
+    if (isMobileLayout(context)) {
+      final List<Widget> items = groupSettingsMenuRows(children);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (title != null) ...[
+            SizedBox(height: layout.s2),
+            FluxerSettingsGroupLabel(title: title!, description: description),
+            SizedBox(height: layout.s2),
+          ],
+          for (int i = 0; i < items.length; i++) ...[
+            items[i],
+            if (i < items.length - 1) SizedBox(height: layout.s3),
+          ],
+        ],
+      );
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

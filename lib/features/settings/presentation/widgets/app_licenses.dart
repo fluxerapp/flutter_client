@@ -129,22 +129,17 @@ class _AppLicensesList extends StatelessWidget {
       isFirst: true,
       density: FluxerSettingsSectionDensity.compact,
       children: [
-        FluxerSettingsGroup(
+        FluxerMenuGroup(
           children: [
             for (final String packageName in data.packages)
-              FluxerSettingsRow(
-                title: packageName,
-                description: l10n.userSettingsAppLicensesPackageCount(
+              FluxerBottomSheetSubmenuItem(
+                label: packageName,
+                hint: l10n.userSettingsAppLicensesPackageCount(
                   data.licenseCountForPackage(packageName),
                 ),
                 onTap: () => onPackageSelected(
                   packageName,
                   data.entriesForPackage(packageName),
-                ),
-                trailing: PhosphorIcon(
-                  PhosphorIconsBold.caretRight,
-                  size: 18,
-                  color: context.colors.textPrimaryMuted,
                 ),
               ),
           ],

@@ -9,6 +9,8 @@ import 'package:fluxer_app/features/settings/providers/sound_preferences_provide
 import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
 import 'package:fluxer_app/features/settings/utils/sound_type_utils.dart';
 import 'package:fluxer_app/features/settings/utils/sound_volume_utils.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -98,13 +100,13 @@ class _UserNotificationsSoundSettingsSectionState
     final bool allDisabled = soundPrefs.allSoundsDisabled;
     final bool enabled = soundPrefs.isSoundTypeEnabled(soundType);
     final FluxerSfxClip? clip = fluxerSfxClipForSoundType(soundType);
+    final bool mobile = isMobileLayout(context);
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 68),
+      constraints: BoxConstraints(minHeight: mobile ? 56 : 68),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: layout.s4,
-          vertical: layout.s3,
-        ),
+        padding: mobile
+            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+            : EdgeInsets.symmetric(horizontal: layout.s4, vertical: layout.s3),
         child: Row(
           children: [
             Expanded(
@@ -114,12 +116,17 @@ class _UserNotificationsSoundSettingsSectionState
                 children: [
                   Text(
                     label,
-                    style: textStyles.bodyMedium.copyWith(
-                      color: allDisabled
-                          ? colors.textTertiary
-                          : colors.textPrimary,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style:
+                        (mobile
+                                ? textStyles.username
+                                : textStyles.bodyMedium.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ))
+                            .copyWith(
+                              color: allDisabled
+                                  ? colors.textTertiary
+                                  : colors.textPrimary,
+                            ),
                   ),
                   if (clip != null)
                     FluxerTappable(
@@ -196,11 +203,13 @@ class _UserNotificationsSoundSettingsSectionState
                 isHovered: isHovered,
               ),
               borderRadius: BorderRadius.circular(999),
-              border: Border.all(
-                color: isHovered
-                    ? colors.backgroundModifierHover
-                    : colors.backgroundModifierAccent,
-              ),
+              border: isMobileLayout(context)
+                  ? null
+                  : Border.all(
+                      color: isHovered
+                          ? colors.backgroundModifierHover
+                          : colors.backgroundModifierAccent,
+                    ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.12),
@@ -251,55 +260,60 @@ class _UserNotificationsSoundSettingsSectionState
     ];
     final bool hasAdditionalSounds = _additionalSoundTypes.isNotEmpty;
     final bool showListFade = hasAdditionalSounds && !_additionalSoundsExpanded;
+    final bool mobile = isMobileLayout(context);
+    final Color surface = mobile
+        ? FluxerBottomSheet.cardColorOf(context)
+        : colors.backgroundSecondaryAlt;
+    final BorderRadius radius = mobile ? layout.radiusXxl : layout.radiusXl;
+    final List<Widget> rows = [
+      for (final String soundType in visibleSoundTypes)
+        FluxerTappable(
+          enabled: !soundPrefs.allSoundsDisabled,
+          onTap: () => unawaited(
+            soundNotifier.setSoundTypeEnabled(
+              soundType: soundType,
+              enabled: !soundPrefs.isSoundTypeEnabled(soundType),
+            ),
+          ),
+          semanticLabel: notificationSoundTypeLabel(l10n, soundType),
+          toggled: soundPrefs.isSoundTypeEnabled(soundType),
+          excludeChildSemantics: true,
+          builder: (context, states) {
+            return _buildSoundToggleRow(
+              soundType: soundType,
+              soundPrefs: soundPrefs,
+              soundNotifier: soundNotifier,
+              l10n: l10n,
+            );
+          },
+        ),
+    ];
     return Column(
       children: [
         Stack(
           clipBehavior: Clip.none,
           children: [
-            Material(
-              color: colors.backgroundSecondaryAlt,
-              shape: RoundedRectangleBorder(
-                borderRadius: layout.radiusXl,
-                side: BorderSide(color: colors.backgroundModifierAccent),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (int i = 0; i < visibleSoundTypes.length; i++) ...[
-                    if (i > 0) Divider(height: 1, color: colors.borderColor),
-                    FluxerTappable(
-                      enabled: !soundPrefs.allSoundsDisabled,
-                      onTap: () => unawaited(
-                        soundNotifier.setSoundTypeEnabled(
-                          soundType: visibleSoundTypes[i],
-                          enabled: !soundPrefs.isSoundTypeEnabled(
-                            visibleSoundTypes[i],
-                          ),
-                        ),
-                      ),
-                      semanticLabel: notificationSoundTypeLabel(
-                        l10n,
-                        visibleSoundTypes[i],
-                      ),
-                      toggled: soundPrefs.isSoundTypeEnabled(
-                        visibleSoundTypes[i],
-                      ),
-                      excludeChildSemantics: true,
-                      builder: (context, states) {
-                        return _buildSoundToggleRow(
-                          soundType: visibleSoundTypes[i],
-                          soundPrefs: soundPrefs,
-                          soundNotifier: soundNotifier,
-                          l10n: l10n,
-                        );
-                      },
-                    ),
+            if (mobile)
+              FluxerMenuGroup(children: rows)
+            else
+              Material(
+                color: surface,
+                shape: RoundedRectangleBorder(
+                  borderRadius: radius,
+                  side: BorderSide(color: colors.backgroundModifierAccent),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (int i = 0; i < rows.length; i++) ...[
+                      if (i > 0) Divider(height: 1, color: colors.borderColor),
+                      rows[i],
+                    ],
+                    if (showListFade) SizedBox(height: layout.s1),
                   ],
-                  if (showListFade) SizedBox(height: layout.s1),
-                ],
+                ),
               ),
-            ),
             if (showListFade)
               Positioned(
                 left: 0,
@@ -310,14 +324,14 @@ class _UserNotificationsSoundSettingsSectionState
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.vertical(
-                        bottom: layout.radiusXl.bottomLeft,
+                        bottom: radius.bottomLeft,
                       ),
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          colors.backgroundSecondaryAlt.withValues(alpha: 0),
-                          colors.backgroundSecondaryAlt.withValues(alpha: 0.88),
+                          surface.withValues(alpha: 0),
+                          surface.withValues(alpha: 0.88),
                         ],
                       ),
                     ),
@@ -446,6 +460,7 @@ class _UserNotificationsSoundSettingsSectionState
     final int overrideCount = soundPrefs.soundOverrides.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: isMobileLayout(context) ? layout.s4 : 0,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,

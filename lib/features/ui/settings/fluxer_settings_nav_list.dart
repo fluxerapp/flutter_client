@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_settings_section.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -81,10 +82,7 @@ class FluxerSettingsNavList extends StatelessWidget {
           if (remaining == 0) {
             return Padding(
               padding: EdgeInsets.only(bottom: layout.s4),
-              child: FluxerMenuGroup(
-                bordered: true,
-                children: [profileSection!],
-              ),
+              child: FluxerMenuGroup(children: [profileSection!]),
             );
           }
           remaining--;
@@ -119,17 +117,11 @@ class _FluxerSettingsNavGroupWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (group.label != null)
-            Padding(
-              padding: EdgeInsets.only(
-                bottom: layout.s1_5,
-                left: layout.s2 + layout.s1,
-                right: layout.s2 + layout.s1,
-              ),
-              child: Text(group.label!, style: context.textStyles.categoryName),
-            ),
+          if (group.label case final String label) ...[
+            FluxerSettingsGroupLabel(title: label),
+            SizedBox(height: layout.s2),
+          ],
           FluxerMenuGroup(
-            bordered: true,
             children: [
               for (final item in group.items)
                 _FluxerSettingsNavItemWidget(item: item),
@@ -167,8 +159,8 @@ class _FluxerSettingsNavItemWidget extends StatelessWidget {
         enabled: false,
         trailing: PhosphorIcon(
           PhosphorIconsBold.caretRight,
-          size: 20,
-          color: context.colors.textPrimaryMuted,
+          size: 16,
+          color: context.colors.textSecondary,
         ),
       );
     }

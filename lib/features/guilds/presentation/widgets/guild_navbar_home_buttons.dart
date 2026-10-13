@@ -73,27 +73,3 @@ class _FavoritesButton extends ConsumerWidget {
     );
   }
 }
-
-class _PrivacySwitchRow extends StatelessWidget {
-  const _PrivacySwitchRow({
-    required this.label,
-    required this.description,
-    required this.value,
-    required this.onChanged,
-  });
-
-  final String label;
-  final String description;
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return FluxerToggleSwitch(
-      label: label,
-      description: description,
-      value: value,
-      onChanged: onChanged,
-    );
-  }
-}

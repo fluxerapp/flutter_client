@@ -1602,13 +1602,15 @@ class FluxerBottomSheetFooter extends StatelessWidget {
 
 class FluxerMenuGroup extends StatelessWidget {
   final List<Widget> children;
-  final bool bordered;
 
-  const FluxerMenuGroup({
-    required this.children,
-    this.bordered = false,
-    super.key,
-  });
+  const FluxerMenuGroup({required this.children, super.key});
+
+  static bool isGrouped(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_FluxerMenuGroupScope>() !=
+      null;
+
+  static Widget ensureGrouped(BuildContext context, Widget row) =>
+      isGrouped(context) ? row : FluxerMenuGroup(children: [row]);
 
   @override
   Widget build(BuildContext context) {
@@ -1616,31 +1618,32 @@ class FluxerMenuGroup extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final colors = context.colors;
     final layout = context.layout;
-    final dividerInset = bordered ? layout.s3 : 16.0;
 
     return Material(
       color: FluxerBottomSheet.cardColorOf(context),
       surfaceTintColor: Colors.transparent,
-      shape: bordered
-          ? RoundedRectangleBorder(
-              borderRadius: layout.radiusXxl,
-              side: BorderSide(color: colors.backgroundModifierAccent),
-            )
-          : null,
-      borderRadius: bordered ? null : layout.radiusXxl,
+      borderRadius: layout.radiusXxl,
       clipBehavior: Clip.antiAlias,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: _intersperseDividers(
-          children,
-          dividerColor: colors.backgroundModifierAccent,
-          dividerInset: dividerInset,
+      child: _FluxerMenuGroupScope(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: _intersperseDividers(
+            children,
+            dividerColor: context.colors.backgroundModifierAccent,
+            dividerInset: 16,
+          ),
         ),
       ),
     );
   }
+}
+
+class _FluxerMenuGroupScope extends InheritedWidget {
+  const _FluxerMenuGroupScope({required super.child});
+
+  @override
+  bool updateShouldNotify(_FluxerMenuGroupScope oldWidget) => false;
 }
 
 List<Widget> _intersperseDividers(
@@ -1678,6 +1681,8 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
   final bool isSelected;
   final bool enabled;
   final Widget? trailing;
+  final bool? toggled;
+  final Color? labelColor;
 
   const FluxerBottomSheetMenuItem({
     required this.label,
@@ -1691,17 +1696,21 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
     this.isSelected = false,
     this.enabled = true,
     this.trailing,
+    this.toggled,
+    this.labelColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final baseColor = isDanger ? colors.menuDangerText : colors.textPrimary;
+    final baseColor =
+        labelColor ?? (isDanger ? colors.menuDangerText : colors.textPrimary);
 
     return FluxerTappable(
       enabled: enabled,
       onTap: onTap,
       selected: isSelected,
+      toggled: toggled,
       semanticLabel: hint != null ? '$label. $hint' : label,
       excludeChildSemantics: true,
       builder: (context, states) {
