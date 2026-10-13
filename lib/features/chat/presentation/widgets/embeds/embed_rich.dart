@@ -171,7 +171,6 @@ class EmbedRich extends StatelessWidget {
                               source: videoLaunchContext!.source,
                               launchContext: videoLaunchContext,
                               dimensionSize: dimensionSize,
-                              posterFit: BoxFit.contain,
                             ),
                           ),
                         )

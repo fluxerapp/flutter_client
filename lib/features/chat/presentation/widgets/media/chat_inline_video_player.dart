@@ -33,7 +33,6 @@ class ChatInlineVideoPlayer extends ConsumerStatefulWidget {
     this.launchContext,
     this.dimensionSize = MediaDimensionSize.small,
     this.controlsBuilder,
-    this.posterFit = BoxFit.cover,
     this.applyMaxHeight = true,
     super.key,
   });
@@ -42,7 +41,6 @@ class ChatInlineVideoPlayer extends ConsumerStatefulWidget {
   final ChatFullscreenVideoLaunchContext? launchContext;
   final MediaDimensionSize dimensionSize;
   final ChatVideoControlsBuilder? controlsBuilder;
-  final BoxFit posterFit;
   final bool applyMaxHeight;
 
   @override
@@ -491,24 +489,16 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double dpr = MediaQuery.devicePixelRatioOf(context);
-        final cache = widget.posterFit == BoxFit.cover
-            ? coverDecodeCacheSize(
-                cellWidth: constraints.maxWidth,
-                cellHeight: constraints.maxHeight,
-                devicePixelRatio: dpr,
-                sourceWidth: source.width,
-                sourceHeight: source.height,
-              )
-            : containDecodeCacheSize(
-                cellWidth: constraints.maxWidth,
-                cellHeight: constraints.maxHeight,
-                devicePixelRatio: dpr,
-                sourceWidth: source.width,
-                sourceHeight: source.height,
-              );
+        final cache = coverDecodeCacheSize(
+          cellWidth: constraints.maxWidth,
+          cellHeight: constraints.maxHeight,
+          devicePixelRatio: dpr,
+          sourceWidth: source.width,
+          sourceHeight: source.height,
+        );
         return ChatNetworkImage(
           imageUrl: posterUrl,
-          fit: widget.posterFit,
+          fit: BoxFit.cover,
           memCacheWidth: cache.width,
           memCacheHeight: cache.height,
           placeholder: base,

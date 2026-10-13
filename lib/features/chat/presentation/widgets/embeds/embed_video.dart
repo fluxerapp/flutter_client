@@ -82,7 +82,6 @@ class EmbedVideo extends StatelessWidget {
                 source: launchContext.source,
                 launchContext: launchContext,
                 dimensionSize: dimensionSize,
-                posterFit: isMediaOnly ? BoxFit.cover : BoxFit.contain,
               );
         final Widget media = MatureMediaOverlay(
           channelId: channelId,

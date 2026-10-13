@@ -63,6 +63,7 @@ class ChatVideoSource {
       directMediaUrl: directMediaUrl,
       pageUrl: pageUrl,
       posterUrl: posterUrl,
+      placeholder: embed.video?.placeholder ?? embed.thumbnail?.placeholder,
       width: width,
       height: height,
       fallbackUrl: fallbackUrl,
