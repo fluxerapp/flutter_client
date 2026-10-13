@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -955,7 +956,7 @@ class _FluxerDraggableScrollableSheetState
       return;
     }
     _programmaticMoveUntilUs =
-        DateTime.now().microsecondsSinceEpoch +
+        _frameClockUs() +
         motion.panel.inMicroseconds +
         Duration.microsecondsPerSecond ~/ 60;
     _sheetController.animateTo(
@@ -965,8 +966,10 @@ class _FluxerDraggableScrollableSheetState
     );
   }
 
-  bool get _programmaticMove =>
-      DateTime.now().microsecondsSinceEpoch < _programmaticMoveUntilUs;
+  bool get _programmaticMove => _frameClockUs() < _programmaticMoveUntilUs;
+
+  static int _frameClockUs() =>
+      SchedulerBinding.instance.currentSystemFrameTimeStamp.inMicroseconds;
 
   @override
   void dispose() {
