@@ -39,7 +39,7 @@ class UnreadInboxCardPreview extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        NotificationQuote(child: _buildBody(context, ref, items)),
+        NotificationQuote(barGap: 0, child: _buildBody(context, ref, items)),
         if (showViewAllUnread)
           NotificationRowButton(
             label: FluxerLocalizations.of(context).notificationsViewAllUnread,

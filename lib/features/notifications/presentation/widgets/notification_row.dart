@@ -183,9 +183,14 @@ class _NotificationRowSurfaceState extends State<NotificationRowSurface> {
 }
 
 class NotificationQuote extends StatelessWidget {
-  const NotificationQuote({required this.child, super.key});
+  const NotificationQuote({
+    required this.child,
+    this.barGap = kNotificationQuoteBarGap,
+    super.key,
+  });
 
   final Widget child;
+  final double barGap;
 
   @override
   Widget build(BuildContext context) {
@@ -201,8 +206,8 @@ class NotificationQuote extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.only(
-            start: kNotificationQuoteBarWidth + kNotificationQuoteBarGap,
+          padding: EdgeInsetsDirectional.only(
+            start: kNotificationQuoteBarWidth + barGap,
           ),
           child: child,
         ),

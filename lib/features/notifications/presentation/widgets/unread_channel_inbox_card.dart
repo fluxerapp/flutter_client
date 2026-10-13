@@ -188,61 +188,61 @@ class _UnreadChannelInboxCardState
       child: NotificationRowSurface(
         onTap: _jump,
         semanticLabel: meta?.channelTitle,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (meta == null)
-              const NotificationsSkeletonBlock(
-                width: kNotificationRowLeadingSize,
-                height: kNotificationRowLeadingSize,
-              )
-            else
-              ExcludeSemantics(
-                child: UnreadInboxCardLeading(entry: widget.entry, meta: meta),
-              ),
-            const SizedBox(width: kNotificationRowLeadingGap),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  if (meta == null)
-                    const NotificationsSkeletonBlock(
-                      height: kNotificationRowLeadingSize,
-                    )
-                  else
-                    UnreadInboxCardHeader(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                if (meta == null)
+                  const NotificationsSkeletonBlock(
+                    width: kNotificationRowLeadingSize,
+                    height: kNotificationRowLeadingSize,
+                  )
+                else
+                  ExcludeSemantics(
+                    child: UnreadInboxCardLeading(
                       entry: widget.entry,
                       meta: meta,
-                      collapsed: collapsed,
-                      onToggleCollapsed:
-                          isThreadFeatureChannelType(
-                            meta.guildChannelVisualType.wireValue,
-                          )
-                          ? null
-                          : () => unawaited(_toggleCollapsed()),
-                      onMarkRead: () => setState(() => _markingRead = true),
-                      onOpenGuildNotificationSettings: () =>
-                          unawaited(_openGuildNotificationSettings()),
                     ),
-                  AnimatedSize(
-                    duration: _animateSize
-                        ? context.motion.normal
-                        : Duration.zero,
-                    curve: context.motion.curve,
-                    alignment: Alignment.topCenter,
-                    child: collapsed
-                        ? const SizedBox(width: double.infinity)
-                        : UnreadInboxCardPreview(
-                            preview: data?.messages,
-                            isLoading: data == null && !_loadFailed,
-                            showViewAllUnread: data?.hasMoreUnread ?? false,
-                            previewRoleGuildId: widget.entry.guildId,
-                            onViewAllUnread: (Message m) =>
-                                _jump(explicitMessageId: m.id),
-                          ),
                   ),
-                ],
-              ),
+                const SizedBox(width: kNotificationRowLeadingGap),
+                Expanded(
+                  child: meta == null
+                      ? const NotificationsSkeletonBlock(
+                          height: kNotificationRowLeadingSize,
+                        )
+                      : UnreadInboxCardHeader(
+                          entry: widget.entry,
+                          meta: meta,
+                          collapsed: collapsed,
+                          onToggleCollapsed:
+                              isThreadFeatureChannelType(
+                                meta.guildChannelVisualType.wireValue,
+                              )
+                              ? null
+                              : () => unawaited(_toggleCollapsed()),
+                          onMarkRead: () => setState(() => _markingRead = true),
+                          onOpenGuildNotificationSettings: () =>
+                              unawaited(_openGuildNotificationSettings()),
+                        ),
+                ),
+              ],
+            ),
+            AnimatedSize(
+              duration: _animateSize ? context.motion.normal : Duration.zero,
+              curve: context.motion.curve,
+              alignment: Alignment.topCenter,
+              child: collapsed
+                  ? const SizedBox(width: double.infinity)
+                  : UnreadInboxCardPreview(
+                      preview: data?.messages,
+                      isLoading: data == null && !_loadFailed,
+                      showViewAllUnread: data?.hasMoreUnread ?? false,
+                      previewRoleGuildId: widget.entry.guildId,
+                      onViewAllUnread: (Message m) =>
+                          _jump(explicitMessageId: m.id),
+                    ),
             ),
           ],
         ),
