@@ -1350,6 +1350,8 @@ class GatewayEventHandler {
         }
       }
 
+      await database.threadDao.pruneArchived(now: DateTime.now());
+
       if (keepCachedMessages) {
         await database.messageDao.deleteMessagesOutsideKnownChannels();
         await database.messageDao.keepNewestMessagesPerChannel(
@@ -1364,7 +1366,6 @@ class GatewayEventHandler {
     _lastReadyUserId = event.user.id;
     _hasCommittedReady = true;
     final hydratedSettings = event.userSettings;
-    unawaited(database.threadDao.pruneArchived(now: DateTime.now()));
     if (!hasUnavailableGuilds) {
       unawaited(readStateRepository?.cleanupStaleReadStates());
     }
