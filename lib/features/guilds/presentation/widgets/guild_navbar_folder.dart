@@ -408,7 +408,12 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             developerMode: developerMode,
             enableLongPressMenu: !isMobileLayout(context),
             onTap: () {
-              DrawerNavigationCoordinator.selectGuild(ref.container, guild.id);
+              unawaited(
+                DrawerNavigationCoordinator.selectGuild(
+                  ref.container,
+                  guild.id,
+                ),
+              );
             },
             onMenuOpened: () {
               ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);

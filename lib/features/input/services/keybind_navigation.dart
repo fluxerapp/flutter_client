@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -44,7 +46,7 @@ class KeybindNavigation {
     _ref
         .read(lastGuildBeforeDmsProvider.notifier)
         .remember(_ref.read(activeGuildIdProvider));
-    DrawerNavigationCoordinator.selectGuild(_container, guildId);
+    unawaited(DrawerNavigationCoordinator.selectGuild(_container, guildId));
   }
 
   void goToGuildSlot(int slot) {

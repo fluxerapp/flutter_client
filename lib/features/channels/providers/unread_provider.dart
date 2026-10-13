@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as local;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -311,4 +312,46 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   });
 
   return controller.stream;
+}
+
+const Duration kGuildUnreadPrimeLimit = Duration(milliseconds: 150);
+
+Future<void> primeGuildChannelUnreads(
+  ProviderContainer container,
+  String guildId,
+) async {
+  final List<local.Channel> channels = await container
+      .read(fluxerDatabaseProvider)
+      .channelDao
+      .getChannels(guildId);
+  final Map<String, UnreadState> lastKnown = container.read(
+    channelUnreadLastKnownProvider,
+  );
+  final List<String> missing = <String>[
+    for (final local.Channel channel in channels)
+      if (!lastKnown.containsKey(channel.id)) channel.id,
+  ];
+  if (missing.isEmpty) {
+    return;
+  }
+  final List<ProviderSubscription<AsyncValue<UnreadState>>> subs =
+      <ProviderSubscription<AsyncValue<UnreadState>>>[
+        for (final String channelId in missing)
+          container.listen<AsyncValue<UnreadState>>(
+            channelUnreadProvider(channelId),
+            (_, _) {},
+          ),
+      ];
+  try {
+    await Future.wait<UnreadState>(<Future<UnreadState>>[
+      for (final String channelId in missing)
+        container.read(channelUnreadProvider(channelId).future),
+    ]).timeout(kGuildUnreadPrimeLimit);
+  } on TimeoutException {
+    return;
+  } finally {
+    for (final ProviderSubscription<Object?> sub in subs) {
+      sub.close();
+    }
+  }
 }
