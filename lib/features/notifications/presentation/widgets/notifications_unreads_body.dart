@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/notifications/data/unread_inbox_snapshot.dart';
+import 'package:fluxer_app/features/notifications/data/unread_inbox_view.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_empty_state.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_list_states.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_channel_inbox_card.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
@@ -14,8 +14,12 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+const double _kLoadMoreExtent = 600;
+
 class NotificationsUnreadsBody extends ConsumerStatefulWidget {
-  const NotificationsUnreadsBody({super.key});
+  const NotificationsUnreadsBody({super.key, this.selected = true});
+
+  final bool selected;
 
   @override
   ConsumerState<NotificationsUnreadsBody> createState() =>
@@ -24,190 +28,168 @@ class NotificationsUnreadsBody extends ConsumerStatefulWidget {
 
 class _NotificationsUnreadsBodyState
     extends ConsumerState<NotificationsUnreadsBody> {
-  UnreadInboxSnapshot? _snapshot;
-  List<UnreadInboxEntry>? _live;
-  List<UnreadInboxEntry> _rows = const <UnreadInboxEntry>[];
-  Object? _error;
-  bool _hasShownFrozenRows = false;
+  late final AppLifecycleListener _lifecycle;
+  late UnreadInboxView _view;
   bool _active = false;
-  int _refreshEpoch = 0;
-  Timer? _cooldownTimer;
 
   @override
   void initState() {
     super.initState();
+    _lifecycle = AppLifecycleListener(onShow: _syncActive, onHide: _syncActive);
+    _view = ref.read(unreadInboxViewProvider);
     ref
+      ..listenManual<UnreadInboxView>(unreadInboxViewProvider, (
+        UnreadInboxView? _,
+        UnreadInboxView next,
+      ) {
+        _active = false;
+        setState(() => _view = next);
+        _feedLive(ref.read(unreadInboxChannelListProvider));
+        _syncActive();
+      })
       ..listenManual<AsyncValue<List<UnreadInboxEntry>>>(
         unreadInboxChannelListProvider,
-        (_, AsyncValue<List<UnreadInboxEntry>> next) => _onLive(next),
+        (_, AsyncValue<List<UnreadInboxEntry>> next) => _feedLive(next),
         fireImmediately: true,
-      )
-      ..listenManual<NotificationsInboxTab>(notificationsInboxSegmentProvider, (
-        NotificationsInboxTab? previous,
-        NotificationsInboxTab next,
-      ) {
-        if (next == NotificationsInboxTab.unreads && previous != next) {
-          _refreeze();
-        }
-      });
+      );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bool active = TickerMode.valuesOf(context).enabled;
-    if (active && !_active) {
-      _refreeze();
-    }
-    _active = active;
+    _syncActive();
+  }
+
+  @override
+  void didUpdateWidget(NotificationsUnreadsBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _syncActive();
   }
 
   @override
   void dispose() {
-    _cooldownTimer?.cancel();
+    _lifecycle.dispose();
+    _view.leave();
     super.dispose();
   }
 
-  void _onLive(AsyncValue<List<UnreadInboxEntry>> next) {
-    final List<UnreadInboxEntry>? live = next.value
-        ?.where((UnreadInboxEntry entry) => !entry.isThreadOnly)
-        .toList();
-    final Object? error = next.hasError && live == null ? next.error : null;
-    if (live == null) {
-      if (error != _error && mounted) {
-        setState(() => _error = error);
-      }
-      return;
-    }
-    final bool first = _live == null;
-    _live = live;
-    _error = null;
-    _reconcile(forceRebuild: first);
-  }
-
-  void _refreeze() {
-    _snapshot = null;
-    _hasShownFrozenRows = false;
-    _cooldownTimer?.cancel();
-    if (_live != null) {
-      _reconcile();
-    }
-  }
-
-  void _reconcile({bool forceRebuild = false}) {
-    final List<UnreadInboxEntry> live = _live!;
-    final DateTime now = DateTime.now();
-    UnreadInboxSnapshot snapshot = _snapshot ??= UnreadInboxSnapshot(
-      live,
-      takenAt: now,
-    );
-    List<UnreadInboxEntry> rows = snapshot.select(live);
-    if (rows.isNotEmpty) {
-      _hasShownFrozenRows = true;
-    } else if (live.isEmpty) {
-      snapshot = _snapshot = UnreadInboxSnapshot(live, takenAt: now);
-    } else {
-      final Duration heldFor = now.difference(snapshot.takenAt);
-      if (_hasShownFrozenRows && heldFor < kUnreadInboxRefreezeCooldown) {
-        _cooldownTimer?.cancel();
-        _cooldownTimer = Timer(kUnreadInboxRefreezeCooldown - heldFor, () {
-          if (mounted && _live != null) {
-            _reconcile();
-          }
-        });
-      } else {
-        snapshot = _snapshot = UnreadInboxSnapshot(live, takenAt: now);
-        _hasShownFrozenRows = false;
-        rows = snapshot.select(live);
-      }
-    }
-    if (!forceRebuild && sameUnreadInboxRows(rows, _rows)) {
-      return;
-    }
-    _rows = rows;
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  Future<void> _refresh() async {
-    ref.read(unreadInboxCardCacheProvider).clear();
-    ref.invalidate(unreadInboxChannelListProvider);
-    try {
-      _live = (await ref.read(
-        unreadInboxChannelListProvider.future,
-      )).where((UnreadInboxEntry entry) => !entry.isThreadOnly).toList();
-    } on Object catch (_) {
-      return;
-    }
+  void _syncActive() {
     if (!mounted) {
       return;
     }
-    _refreshEpoch++;
-    _snapshot = null;
-    _hasShownFrozenRows = false;
-    _cooldownTimer?.cancel();
-    _reconcile(forceRebuild: true);
+    final AppLifecycleState? lifecycle = WidgetsBinding.instance.lifecycleState;
+    final bool active =
+        widget.selected &&
+        TickerMode.valuesOf(context).enabled &&
+        (lifecycle == null || lifecycle == AppLifecycleState.resumed);
+    if (active == _active) {
+      return;
+    }
+    _active = active;
+    if (active) {
+      _view.enter();
+    } else {
+      _view.leave();
+    }
+  }
+
+  void _feedLive(AsyncValue<List<UnreadInboxEntry>> next) {
+    final List<UnreadInboxEntry>? live = next.value;
+    if (live != null) {
+      _view.updateLive(_withoutThreadOnly(live));
+    }
+  }
+
+  static List<UnreadInboxEntry> _withoutThreadOnly(
+    List<UnreadInboxEntry> live,
+  ) => live.where((UnreadInboxEntry entry) => !entry.isThreadOnly).toList();
+
+  Future<void> _refresh() async {
+    final UnreadInboxView view = _view;
+    ref.read(unreadInboxCardCacheProvider).clear();
+    ref.invalidate(unreadInboxChannelListProvider);
+    final List<UnreadInboxEntry> live;
+    try {
+      live = await ref.read(unreadInboxChannelListProvider.future);
+    } on Object catch (_) {
+      return;
+    }
+    await view.refresh(_withoutThreadOnly(live));
+  }
+
+  bool _onScroll(ScrollNotification notification) {
+    final ScrollMetrics metrics = notification.metrics;
+    if (metrics.axis == Axis.vertical &&
+        metrics.extentAfter < _kLoadMoreExtent) {
+      unawaited(_view.loadMore());
+    }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<UnreadInboxEntry> rows = _rows;
-    if (_live == null) {
-      final Object? error = _error;
-      return FluxerRefreshScrollView(
+    return ListenableBuilder(
+      listenable: _view,
+      builder: (BuildContext context, Widget? _) => _buildBody(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    final UnreadInboxView view = _view;
+    final List<UnreadInboxRow> rows = view.rows;
+    final Object? error = view.error;
+    return NotificationListener<ScrollNotification>(
+      onNotification: _onScroll,
+      child: FluxerRefreshScrollView(
         onRefresh: _refresh,
         slivers: <Widget>[
-          if (error == null)
-            const SliverToBoxAdapter(child: NotificationsSkeletonList())
-          else
+          if (rows.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _UnreadsError(
-                error: error,
-                onRetry: () => unawaited(_refresh()),
+              child: !view.loaded
+                  ? const NotificationsLoadingState()
+                  : error != null
+                  ? _UnreadsError(
+                      error: error,
+                      onRetry: () => unawaited(_refresh()),
+                    )
+                  : const _UnreadsEmptyState(),
+            )
+          else
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 12),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext _, int i) {
+                    if (i == rows.length) {
+                      return const NotificationsLoadMoreFooter();
+                    }
+                    final UnreadInboxRow row = rows[i];
+                    return UnreadChannelInboxCard(
+                      key: ValueKey<String>(row.channelId),
+                      row: row,
+                      onCollapsedChanged: (bool collapsed) => view.setCollapsed(
+                        row.channelId,
+                        collapsed: collapsed,
+                      ),
+                      onDismissed: () => view.dismiss(row.channelId),
+                    );
+                  },
+                  childCount: rows.length + (view.hasMore ? 1 : 0),
+                  findChildIndexCallback: (Key key) {
+                    if (key is! ValueKey<String>) {
+                      return null;
+                    }
+                    final int index = rows.indexWhere(
+                      (UnreadInboxRow row) => row.channelId == key.value,
+                    );
+                    return index < 0 ? null : index;
+                  },
+                ),
               ),
             ),
         ],
-      );
-    }
-    if (rows.isEmpty) {
-      return FluxerRefreshScrollView(
-        onRefresh: _refresh,
-        slivers: const <Widget>[
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: _UnreadsEmptyState(),
-          ),
-        ],
-      );
-    }
-    return FluxerRefreshScrollView(
-      onRefresh: _refresh,
-      slivers: <Widget>[
-        SliverPadding(
-          padding: const EdgeInsets.only(bottom: 12),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext _, int i) => UnreadChannelInboxCard(
-                key: ValueKey<String>(rows[i].channelId),
-                entry: rows[i],
-                refreshEpoch: _refreshEpoch,
-              ),
-              childCount: rows.length,
-              findChildIndexCallback: (Key key) {
-                if (key is! ValueKey<String>) {
-                  return null;
-                }
-                final int index = rows.indexWhere(
-                  (UnreadInboxEntry e) => e.channelId == key.value,
-                );
-                return index < 0 ? null : index;
-              },
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

@@ -9,10 +9,12 @@ import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/notifications/data/inbox_visit.dart';
 import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_calculator.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_cache.dart';
+import 'package:fluxer_app/features/notifications/data/unread_inbox_view.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -70,6 +72,27 @@ class MentionSeenBoundary extends _$MentionSeenBoundary {
   }
 }
 
+class MentionInboxVisitState {
+  final InboxVisit visit = InboxVisit();
+  final Set<String> readThisVisit = <String>{};
+  String? boundaryId;
+  bool boundaryResolved = false;
+  String? ceilingId;
+
+  void start() {
+    readThisVisit.clear();
+    boundaryId = null;
+    boundaryResolved = false;
+    ceilingId = null;
+  }
+}
+
+@Riverpod(keepAlive: true)
+MentionInboxVisitState mentionInboxVisit(Ref ref) {
+  ref.watch(currentUserIdProvider);
+  return MentionInboxVisitState();
+}
+
 @Riverpod(keepAlive: true)
 class NotificationsInboxSegment extends _$NotificationsInboxSegment {
   @override
@@ -99,6 +122,14 @@ UnreadInboxCardCache unreadInboxCardCache(Ref ref) {
     database: ref.watch(fluxerDatabaseProvider),
     repository: ref.watch(notificationsRepositoryProvider),
   );
+}
+
+@Riverpod(keepAlive: true)
+UnreadInboxView unreadInboxView(Ref ref) {
+  final UnreadInboxCardCache cache = ref.watch(unreadInboxCardCacheProvider);
+  final UnreadInboxView view = UnreadInboxView(loadCard: cache.load);
+  ref.onDispose(view.dispose);
+  return view;
 }
 
 @Riverpod()

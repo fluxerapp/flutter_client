@@ -64,6 +64,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
     required this.entry,
     required this.meta,
     required this.collapsed,
+    required this.read,
     required this.onToggleCollapsed,
     required this.onMarkRead,
     required this.onOpenGuildNotificationSettings,
@@ -73,6 +74,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
   final UnreadInboxEntry entry;
   final UnreadInboxCardMeta meta;
   final bool collapsed;
+  final bool read;
   final VoidCallback? onToggleCollapsed;
   final VoidCallback onMarkRead;
   final VoidCallback onOpenGuildNotificationSettings;
@@ -82,9 +84,10 @@ class UnreadInboxCardHeader extends StatelessWidget {
     final colors = context.colors;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final VoidCallback? toggle = onToggleCollapsed;
-    final TextStyle titleStyle = notificationTitleStyle(
-      context,
-    ).copyWith(fontWeight: FontWeight.w500, color: colors.textPrimary);
+    final TextStyle titleStyle = notificationTitleStyle(context).copyWith(
+      fontWeight: FontWeight.w500,
+      color: read ? colors.textPrimaryMuted : colors.textPrimary,
+    );
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: kNotificationRowLeadingSize),
       child: Row(
@@ -112,7 +115,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
                         style: titleStyle,
                       ),
                     ),
-                    if (entry.mentionCount > 0) ...<Widget>[
+                    if (!read && entry.mentionCount > 0) ...<Widget>[
                       const SizedBox(width: 8),
                       FluxerBadge.count(count: entry.mentionCount),
                     ],
@@ -138,11 +141,12 @@ class UnreadInboxCardHeader extends StatelessWidget {
               tooltip: l10n.notificationSettings,
               onPressed: onOpenGuildNotificationSettings,
             ),
-          _RowAction(
-            icon: const Icon(PhosphorIconsBold.check),
-            tooltip: l10n.notificationsMarkAsRead,
-            onPressed: onMarkRead,
-          ),
+          if (!read)
+            _RowAction(
+              icon: const Icon(PhosphorIconsBold.check),
+              tooltip: l10n.notificationsMarkAsRead,
+              onPressed: onMarkRead,
+            ),
           if (toggle != null)
             _RowAction(
               icon: Icon(

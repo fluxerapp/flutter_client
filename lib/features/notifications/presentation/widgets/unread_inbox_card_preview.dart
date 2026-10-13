@@ -4,36 +4,29 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class UnreadInboxCardPreview extends ConsumerWidget {
   const UnreadInboxCardPreview({
     required this.preview,
-    required this.isLoading,
+    required this.read,
     required this.showViewAllUnread,
     required this.previewRoleGuildId,
     required this.onViewAllUnread,
     super.key,
   });
 
-  final List<Message>? preview;
-  final bool isLoading;
+  final List<Message> preview;
+  final bool read;
   final bool showViewAllUnread;
   final String? previewRoleGuildId;
   final ValueChanged<Message> onViewAllUnread;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (isLoading) {
-      return const Padding(
-        padding: EdgeInsets.only(top: kNotificationQuoteTopGap),
-        child: NotificationsSkeletonBlock(),
-      );
-    }
-    final List<Message>? items = preview;
-    if (items == null || items.isEmpty) {
+    final List<Message> items = preview;
+    if (items.isEmpty) {
       return const SizedBox.shrink();
     }
     return Column(
@@ -63,7 +56,7 @@ class UnreadInboxCardPreview extends ConsumerWidget {
             ),
             currentUserId: currentUserId,
             inboxPreviewMode: true,
-            previewTextStyle: notificationQuoteStyle(context, unread: true),
+            previewTextStyle: notificationQuoteStyle(context, unread: !read),
             previewRoleGuildId: previewRoleGuildId,
           ),
       ],

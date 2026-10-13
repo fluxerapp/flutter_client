@@ -214,7 +214,13 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                 controller: _pages,
                 onPageChanged: _select,
                 children: <Widget>[
-                  const _KeepAlivePage(child: NotificationsUnreadsBody()),
+                  _KeepAlivePage(
+                    child: NotificationsUnreadsBody(
+                      selected:
+                          ref.watch(notificationsInboxSegmentProvider) ==
+                          NotificationsInboxTab.unreads,
+                    ),
+                  ),
                   _KeepAlivePage(
                     child: NotificationsMentionsBody(
                       selected:

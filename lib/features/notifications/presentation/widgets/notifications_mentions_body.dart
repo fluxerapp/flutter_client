@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
@@ -16,7 +17,7 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/mention_i
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_empty_state.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_end_footer.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
+import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_list_states.dart';
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
@@ -24,8 +25,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const double _kLoadMoreScrollThreshold = 0.8;
-
-const int _kLoadMoreSkeletonRows = 2;
 
 class NotificationsMentionsBody extends ConsumerStatefulWidget {
   const NotificationsMentionsBody({super.key, this.selected = true});
@@ -43,7 +42,6 @@ class _NotificationsMentionsBodyState
   final Map<String, Message?> _messageById = <String, Message?>{};
   final Set<String> _skippedMessageIds = <String>{};
   final Set<String> _removedMessageIds = <String>{};
-  final Set<String> _readThisVisit = <String>{};
   final Map<String, MentionHeader> _mentionHeaderByChannelId =
       <String, MentionHeader>{};
 
@@ -51,15 +49,17 @@ class _NotificationsMentionsBodyState
   /// member role colors in the inline preview.
   final Map<String, String> _guildIdPreviewByChannelId = <String, String>{};
 
+  late final AppLifecycleListener _lifecycle;
+  late MentionInboxVisitState _memory = ref.read(mentionInboxVisitProvider);
   int _hydrateGeneration = 0;
   bool _feedHydrationPending = false;
+  Completer<void>? _hydrated;
   bool _active = false;
-  bool _visitBoundaryResolved = false;
-  String? _visitBoundaryId;
 
   @override
   void initState() {
     super.initState();
+    _lifecycle = AppLifecycleListener(onShow: _syncActive, onHide: _syncActive);
     _scroll.addListener(_onScrollNearEnd);
     ref
       ..listenManual<AsyncValue<List<drift_db.NotificationMentionFeedData>>>(
@@ -76,11 +76,19 @@ class _NotificationsMentionsBodyState
         },
         fireImmediately: true,
       )
+      ..listenManual<MentionInboxVisitState>(mentionInboxVisitProvider, (
+        _,
+        MentionInboxVisitState next,
+      ) {
+        _active = false;
+        setState(() => _memory = next);
+        _syncActive();
+      })
       ..listenManual<MentionSeenBoundaryState>(mentionSeenBoundaryProvider, (
         _,
         MentionSeenBoundaryState next,
       ) {
-        if (!_visitBoundaryResolved && next.loaded && mounted) {
+        if (!_memory.boundaryResolved && next.loaded && mounted) {
           setState(_resolveVisitBoundary);
         }
       })
@@ -117,14 +125,33 @@ class _NotificationsMentionsBodyState
   }
 
   void _syncActive() {
-    final bool active = widget.selected && TickerMode.valuesOf(context).enabled;
-    final bool entered = active && !_active;
-    _active = active;
-    if (entered) {
-      _readThisVisit.clear();
-      _visitBoundaryResolved = false;
-      _resolveVisitBoundary();
+    if (!mounted) {
+      return;
     }
+    final AppLifecycleState? lifecycle = WidgetsBinding.instance.lifecycleState;
+    final bool active =
+        widget.selected &&
+        TickerMode.valuesOf(context).enabled &&
+        (lifecycle == null || lifecycle == AppLifecycleState.resumed);
+    if (active == _active) {
+      return;
+    }
+    _active = active;
+    if (!active) {
+      _memory.visit.leave();
+      return;
+    }
+    if (_memory.visit.enter()) {
+      _startVisit();
+    } else {
+      _markNewestSeen();
+    }
+  }
+
+  void _startVisit() {
+    _memory.start();
+    _pinCeiling();
+    _resolveVisitBoundary();
   }
 
   void _resolveVisitBoundary() {
@@ -132,13 +159,32 @@ class _NotificationsMentionsBodyState
     if (!seen.loaded) {
       return;
     }
-    _visitBoundaryId = seen.messageId;
-    _visitBoundaryResolved = true;
+    _memory
+      ..boundaryId = seen.messageId
+      ..boundaryResolved = true;
     _markNewestSeen();
   }
 
+  void _pinCeiling() {
+    if (_memory.ceilingId != null ||
+        !ref.read(mentionFeedCoordinatorProvider).fetched) {
+      return;
+    }
+    final List<drift_db.NotificationMentionFeedData>? rows = ref
+        .read(notificationMentionFeedStreamProvider)
+        .value;
+    if (rows == null) {
+      return;
+    }
+    for (final drift_db.NotificationMentionFeedData row in _visibleRows(rows)) {
+      if (compareSnowflakeIds(row.messageId, _memory.ceilingId) > 0) {
+        _memory.ceilingId = row.messageId;
+      }
+    }
+  }
+
   void _markNewestSeen() {
-    if (!_active || !_visitBoundaryResolved || _feedHydrationPending) {
+    if (!_active || !_memory.boundaryResolved || _feedHydrationPending) {
       return;
     }
     final List<drift_db.NotificationMentionFeedData>? rows = ref
@@ -156,19 +202,23 @@ class _NotificationsMentionsBodyState
     if (newest == null) {
       return;
     }
-    _visitBoundaryId ??= newest;
+    _memory.boundaryId ??= newest;
     ref.read(mentionSeenBoundaryProvider.notifier).markSeen(newest);
   }
 
   bool _isNew(String messageId) {
-    final String? boundary = _visitBoundaryId;
-    return _visitBoundaryResolved &&
+    final String? boundary = _memory.boundaryId;
+    return _memory.boundaryResolved &&
         boundary != null &&
         compareSnowflakeIds(messageId, boundary) > 0;
   }
 
   @override
   void dispose() {
+    _lifecycle.dispose();
+    if (_active) {
+      _memory.visit.leave();
+    }
     _scroll
       ..removeListener(_onScrollNearEnd)
       ..dispose();
@@ -177,6 +227,18 @@ class _NotificationsMentionsBodyState
 
   Future<void> _refresh() {
     return ref.read(mentionFeedCoordinatorProvider.notifier).refresh();
+  }
+
+  Future<void> _pullToRefresh() async {
+    await _refresh();
+    if (_feedHydrationPending) {
+      await (_hydrated ??= Completer<void>()).future;
+    }
+    if (!mounted) {
+      return;
+    }
+    _memory.visit.renew();
+    setState(_startVisit);
   }
 
   Future<void> _reconcile(
@@ -200,7 +262,7 @@ class _NotificationsMentionsBodyState
         (String k, Message? _) => !wantedIds.contains(k),
       );
       _removedMessageIds.retainAll(wantedIds);
-      _readThisVisit.retainAll(wantedIds);
+      _memory.readThisVisit.retainAll(wantedIds);
       final Set<String> skipped = <String>{};
       final Set<String> retainedChannelIds = <String>{};
 
@@ -261,13 +323,16 @@ class _NotificationsMentionsBodyState
         }
       }
 
-      if (ticket != _hydrateGeneration || !mounted) {
-        return;
-      }
+      await prefetchMessageStickerAspectRatios(
+        _messageById.values.whereType<Message>(),
+      );
     } finally {
       if (ticket == _hydrateGeneration && mounted) {
         _feedHydrationPending = false;
+        _pinCeiling();
         _markNewestSeen();
+        _hydrated?.complete();
+        _hydrated = null;
         setState(() {});
       }
     }
@@ -338,7 +403,7 @@ class _NotificationsMentionsBodyState
   }
 
   Future<void> _jumpToMessage(BuildContext outerContext, Message msg) async {
-    if (_readThisVisit.add(msg.id)) {
+    if (_memory.readThisVisit.add(msg.id)) {
       setState(() {});
     }
     final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
@@ -378,6 +443,8 @@ class _NotificationsMentionsBodyState
     List<drift_db.NotificationMentionFeedData> rows,
   ) => rows.where(
     (drift_db.NotificationMentionFeedData r) =>
+        compareSnowflakeIds(r.messageId, _memory.ceilingId ?? r.messageId) <=
+            0 &&
         !_skippedMessageIds.contains(r.messageId) &&
         !_removedMessageIds.contains(r.messageId) &&
         _isHydrated(r),
@@ -395,7 +462,7 @@ class _NotificationsMentionsBodyState
       message: msg,
       header: _mentionHeaderByChannelId[channelKey],
       previewGuildId: _guildIdPreviewByChannelId[channelKey],
-      isUnread: isNew && !_readThisVisit.contains(row.messageId),
+      isUnread: isNew && !_memory.readThisVisit.contains(row.messageId),
       onJump: (Message m) => unawaited(_jumpToMessage(context, m)),
       onReply: isNew
           ? (Message m) => unawaited(_replyToMessage(context, m))
@@ -434,16 +501,21 @@ class _NotificationsMentionsBodyState
 
   Widget _buildLoading() {
     return FluxerRefreshScrollView(
-      onRefresh: _refresh,
+      controller: _scroll,
+      onRefresh: _pullToRefresh,
       slivers: const <Widget>[
-        SliverToBoxAdapter(child: NotificationsSkeletonList()),
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: NotificationsLoadingState(),
+        ),
       ],
     );
   }
 
   Widget _buildError(Object error, FluxerLocalizations l10n) {
     return FluxerRefreshScrollView(
-      onRefresh: _refresh,
+      controller: _scroll,
+      onRefresh: _pullToRefresh,
       slivers: <Widget>[
         SliverFillRemaining(
           hasScrollBody: false,
@@ -482,7 +554,7 @@ class _NotificationsMentionsBodyState
     final List<drift_db.NotificationMentionFeedData> visible = _visibleRows(
       rows,
     ).toList();
-    if (visible.isEmpty && (!sync.fetched || sync.busy)) {
+    if (!sync.fetched || (visible.isEmpty && sync.busy)) {
       return _buildLoading();
     }
     if (visible.isEmpty && _feedHydrationPending && rows.isNotEmpty) {
@@ -496,7 +568,8 @@ class _NotificationsMentionsBodyState
     }
     if (visible.isEmpty) {
       return FluxerRefreshScrollView(
-        onRefresh: _refresh,
+        controller: _scroll,
+        onRefresh: _pullToRefresh,
         slivers: const <Widget>[
           SliverFillRemaining(
             hasScrollBody: false,
@@ -509,7 +582,7 @@ class _NotificationsMentionsBodyState
     final bool showLoadBusy = sync.busy && sync.hasMore;
     return FluxerRefreshScrollView(
       controller: _scroll,
-      onRefresh: _refresh,
+      onRefresh: _pullToRefresh,
       slivers: <Widget>[
         SliverPadding(
           padding: const EdgeInsets.only(bottom: 12),
@@ -523,9 +596,7 @@ class _NotificationsMentionsBodyState
                   );
                 }
                 if (showLoadBusy) {
-                  return const NotificationsSkeletonList(
-                    rowCount: _kLoadMoreSkeletonRows,
-                  );
+                  return const NotificationsLoadMoreFooter();
                 }
                 return const Padding(
                   padding: EdgeInsets.symmetric(

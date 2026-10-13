@@ -14,10 +14,10 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_cache.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_meta.dart';
+import 'package:fluxer_app/features/notifications/data/unread_inbox_view.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_removable_row.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
-import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_skeleton.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_preview.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
@@ -26,13 +26,15 @@ import 'package:go_router/go_router.dart';
 
 class UnreadChannelInboxCard extends ConsumerStatefulWidget {
   const UnreadChannelInboxCard({
-    required this.entry,
-    required this.refreshEpoch,
+    required this.row,
+    required this.onCollapsedChanged,
+    required this.onDismissed,
     super.key,
   });
 
-  final UnreadInboxEntry entry;
-  final int refreshEpoch;
+  final UnreadInboxRow row;
+  final ValueChanged<bool> onCollapsedChanged;
+  final VoidCallback onDismissed;
 
   @override
   ConsumerState<UnreadChannelInboxCard> createState() =>
@@ -41,64 +43,24 @@ class UnreadChannelInboxCard extends ConsumerStatefulWidget {
 
 class _UnreadChannelInboxCardState
     extends ConsumerState<UnreadChannelInboxCard> {
-  UnreadInboxCardData? _data;
-  bool _loadFailed = false;
   bool _markingRead = false;
   bool _animateSize = false;
-  int _loadGeneration = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    final UnreadInboxCardCache cache = ref.read(unreadInboxCardCacheProvider);
-    _data = cache.latest(widget.entry.channelId);
-    if (!cache.isFresh(widget.entry)) {
-      unawaited(_load());
-    }
-  }
-
-  @override
-  void didUpdateWidget(UnreadChannelInboxCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.entry.ackMessageId != widget.entry.ackMessageId ||
-        oldWidget.refreshEpoch != widget.refreshEpoch) {
-      unawaited(_load());
-    }
-  }
-
-  Future<void> _load() async {
-    final int generation = ++_loadGeneration;
-    try {
-      final UnreadInboxCardData data = await ref
-          .read(unreadInboxCardCacheProvider)
-          .load(widget.entry);
-      if (!mounted || generation != _loadGeneration) {
-        return;
-      }
-      setState(() {
-        _data = data;
-        _loadFailed = false;
-      });
-    } on Object catch (_) {
-      if (!mounted || generation != _loadGeneration) {
-        return;
-      }
-      setState(() => _loadFailed = true);
-    }
-  }
+  UnreadInboxEntry get _entry => widget.row.entry;
 
   Future<void> _toggleCollapsed() async {
     final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
-    final bool nextCollapsed = !widget.entry.isCollapsed;
-    _animateSize = true;
+    final bool nextCollapsed = !widget.row.collapsed;
     final drift_db.Channel? channel = await db.channelDao.getChannelById(
-      widget.entry.channelId,
+      _entry.channelId,
     );
     if (channel != null && isThreadFeatureChannelType(channel.type)) {
       return;
     }
+    _animateSize = true;
+    widget.onCollapsedChanged(nextCollapsed);
     await db.notificationDao.upsertUnreadCollapsed(
-      channelId: widget.entry.channelId,
+      channelId: _entry.channelId,
       isCollapsed: nextCollapsed,
     );
     ref
@@ -111,7 +73,9 @@ class _UnreadChannelInboxCardState
     try {
       marked = await _markReadNow();
     } finally {
-      if (!marked && mounted) {
+      if (marked) {
+        widget.onDismissed();
+      } else if (mounted) {
         setState(() => _markingRead = false);
       }
     }
@@ -121,33 +85,32 @@ class _UnreadChannelInboxCardState
     final NotificationsRepository repo = ref.read(
       notificationsRepositoryProvider,
     );
-    String? messageId = await repo.resolveMarkReadMessageId(
-      widget.entry.channelId,
-    );
-    final List<Message> preview = _data?.messages ?? const <Message>[];
+    String? messageId = await repo.resolveMarkReadMessageId(_entry.channelId);
+    final List<Message> preview = widget.row.data.messages;
     messageId ??= preview.isNotEmpty ? preview.last.id : null;
     if (messageId == null || messageId.isEmpty) {
       return false;
     }
     await repo.markChannelRead(
-      channelId: widget.entry.channelId,
+      channelId: _entry.channelId,
       messageId: messageId,
     );
     return true;
   }
 
   void _jump({String? explicitMessageId}) {
-    final String? guildId = widget.entry.guildId;
-    final List<Message> preview = _data?.messages ?? const <Message>[];
+    final UnreadInboxEntry entry = _entry;
+    final String? guildId = entry.guildId;
+    final List<Message> preview = widget.row.data.messages;
     final String? resolved =
         explicitMessageId ?? (preview.isNotEmpty ? preview.first.id : null);
 
-    if (widget.entry.isDm) {
+    if (entry.isDm) {
       navigateToContent(
         context,
         resolved != null
-            ? RoutePaths.dmChannelMessage(widget.entry.channelId, resolved)
-            : RoutePaths.dmChannel(widget.entry.channelId),
+            ? RoutePaths.dmChannelMessage(entry.channelId, resolved)
+            : RoutePaths.dmChannel(entry.channelId),
       );
       return;
     }
@@ -157,17 +120,13 @@ class _UnreadChannelInboxCardState
     navigateToContent(
       context,
       resolved != null
-          ? RoutePaths.guildChannelMessage(
-              guildId,
-              widget.entry.channelId,
-              resolved,
-            )
-          : RoutePaths.guildChannel(guildId, widget.entry.channelId),
+          ? RoutePaths.guildChannelMessage(guildId, entry.channelId, resolved)
+          : RoutePaths.guildChannel(guildId, entry.channelId),
     );
   }
 
   Future<void> _openGuildNotificationSettings() async {
-    final String? guildId = widget.entry.guildId;
+    final String? guildId = _entry.guildId;
     if (guildId == null) {
       return;
     }
@@ -176,56 +135,41 @@ class _UnreadChannelInboxCardState
 
   @override
   Widget build(BuildContext context) {
-    final UnreadInboxCardData? data = _data;
-    if (data != null && data.messages.isEmpty) {
-      return const SizedBox.shrink();
-    }
-    final bool collapsed = widget.entry.isCollapsed;
-    final UnreadInboxCardMeta? meta = data?.meta;
+    final UnreadInboxRow row = widget.row;
+    final UnreadInboxCardData data = row.data;
+    final UnreadInboxCardMeta meta = data.meta;
     return NotificationRemovableRow(
       removing: _markingRead,
       onRemoved: () => unawaited(_markRead()),
       child: NotificationRowSurface(
         onTap: _jump,
-        semanticLabel: meta?.channelTitle,
+        semanticLabel: meta.channelTitle,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                if (meta == null)
-                  const NotificationsSkeletonBlock(
-                    width: kNotificationRowLeadingSize,
-                    height: kNotificationRowLeadingSize,
-                  )
-                else
-                  ExcludeSemantics(
-                    child: UnreadInboxCardLeading(
-                      entry: widget.entry,
-                      meta: meta,
-                    ),
-                  ),
+                ExcludeSemantics(
+                  child: UnreadInboxCardLeading(entry: row.entry, meta: meta),
+                ),
                 const SizedBox(width: kNotificationRowLeadingGap),
                 Expanded(
-                  child: meta == null
-                      ? const NotificationsSkeletonBlock(
-                          height: kNotificationRowLeadingSize,
+                  child: UnreadInboxCardHeader(
+                    entry: row.entry,
+                    meta: meta,
+                    collapsed: row.collapsed,
+                    read: row.read,
+                    onToggleCollapsed:
+                        isThreadFeatureChannelType(
+                          meta.guildChannelVisualType.wireValue,
                         )
-                      : UnreadInboxCardHeader(
-                          entry: widget.entry,
-                          meta: meta,
-                          collapsed: collapsed,
-                          onToggleCollapsed:
-                              isThreadFeatureChannelType(
-                                meta.guildChannelVisualType.wireValue,
-                              )
-                              ? null
-                              : () => unawaited(_toggleCollapsed()),
-                          onMarkRead: () => setState(() => _markingRead = true),
-                          onOpenGuildNotificationSettings: () =>
-                              unawaited(_openGuildNotificationSettings()),
-                        ),
+                        ? null
+                        : () => unawaited(_toggleCollapsed()),
+                    onMarkRead: () => setState(() => _markingRead = true),
+                    onOpenGuildNotificationSettings: () =>
+                        unawaited(_openGuildNotificationSettings()),
+                  ),
                 ),
               ],
             ),
@@ -233,13 +177,13 @@ class _UnreadChannelInboxCardState
               duration: _animateSize ? context.motion.normal : Duration.zero,
               curve: context.motion.curve,
               alignment: Alignment.topCenter,
-              child: collapsed
+              child: row.collapsed
                   ? const SizedBox(width: double.infinity)
                   : UnreadInboxCardPreview(
-                      preview: data?.messages,
-                      isLoading: data == null && !_loadFailed,
-                      showViewAllUnread: data?.hasMoreUnread ?? false,
-                      previewRoleGuildId: widget.entry.guildId,
+                      preview: data.messages,
+                      read: row.read,
+                      showViewAllUnread: data.hasMoreUnread,
+                      previewRoleGuildId: row.entry.guildId,
                       onViewAllUnread: (Message m) =>
                           _jump(explicitMessageId: m.id),
                     ),
