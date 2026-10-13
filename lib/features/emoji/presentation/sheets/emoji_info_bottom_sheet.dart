@@ -33,6 +33,7 @@ class EmojiInfoBottomSheet {
     return FluxerBottomSheet.show<void>(
       context,
       maxHeight: 0.45,
+      showDragHandle: false,
       builder: (sheetContext, close) {
         return _EmojiInfoBottomSheetContent(emoji: emoji);
       },
@@ -101,6 +102,7 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const _EmojiInfoHandle(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -327,6 +329,33 @@ class _GuildSourceRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _EmojiInfoHandle extends StatelessWidget {
+  const _EmojiInfoHandle();
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerBottomSheetDragArea(
+      child: SizedBox(
+        height: 33,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Container(
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: context.colors.backgroundModifierAccent,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
