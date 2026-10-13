@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/favorite_gif_first_time_prompt_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
@@ -37,12 +39,20 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 const _kSearchDebounce = Duration(milliseconds: 400);
 const _kMaxSearchLength = 100;
 const _kMasonryMinColumnWidth = 227.0;
-const _kMasonryHorizontalPadding = 10.0;
+const _kMasonryHorizontalPadding = 8.0;
 const _kMasonryCacheExtent = 700.0;
 const double _kCategoryTileAspectRatio = 200 / 96;
-const double _kCompactCategoryTileAspectRatio = 16 / 10;
+const double _kCompactCategoryTileAspectRatio = 189 / 82;
 const double _kCompactCategoryTileBreakpoint = 600;
 const _kSkeletonTileCount = 12;
+const List<double> _kSkeletonAspectRatios = <double>[
+  1,
+  1.78,
+  0.8,
+  1.33,
+  1.5,
+  0.75,
+];
 
 enum _GifPickerView { landing, trending, favorites }
 
@@ -277,37 +287,35 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     final layout = context.layout;
 
     if (_view != _GifPickerView.landing) {
-      return Padding(
-        padding: EdgeInsets.fromLTRB(
-          layout.s3,
-          layout.s3,
-          layout.s3,
-          layout.s2,
-        ),
-        child: Row(
-          children: [
-            FluxerTappable(
-              onTap: _goToLanding,
-              minSize: const Size(36, 36),
-              builder: (context, states) => Center(
-                child: PhosphorIcon(
-                  PhosphorIconsBold.arrowLeft,
-                  size: 20,
-                  color: colors.textPrimary,
+      return _wrapSearchHeader(
+        SizedBox(
+          height: 56,
+          child: Row(
+            children: [
+              FluxerTappable(
+                onTap: _goToLanding,
+                minSize: const Size(40, 44),
+                builder: (context, states) => Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 10),
+                  child: PhosphorIcon(
+                    PhosphorIconsBold.caretLeft,
+                    size: 16,
+                    color: colors.textPrimary,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(width: layout.s2),
-            Text(
-              _view == _GifPickerView.trending
-                  ? l10n.gifPickerTrending
-                  : l10n.gifPickerFavorites,
-              style: context.textStyles.channelName.copyWith(
-                color: colors.textPrimary,
-                fontWeight: FontWeight.w700,
+              Text(
+                _view == _GifPickerView.trending
+                    ? l10n.gifPickerTrending
+                    : l10n.gifPickerFavorites,
+                style: context.textStyles.channelName.copyWith(
+                  color: colors.textPrimary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }
@@ -325,7 +333,10 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
         rightCustomElement: _gifAttributionLabel(context, provider),
         horizontalPadding: widget.searchHorizontalPadding ?? layout.s4,
         topPadding: widget.searchTopPadding ?? layout.s3,
-        bottomPadding: widget.searchBottomPadding ?? layout.s3,
+        bottomPadding: math.max(
+          widget.searchBottomPadding ?? layout.s3,
+          layout.s2,
+        ),
         onSubmitted: _flushSearch,
         focusNode: widget.searchFocusNode,
         onActivated: widget.onSearchActivated,
@@ -1345,7 +1356,7 @@ class _GifTile extends StatelessWidget {
             (isCategory
                 ? (isLight
                       ? const Color.fromRGBO(255, 255, 255, 0.56)
-                      : const Color.fromRGBO(0, 0, 0, 0.68))
+                      : const Color.fromRGBO(0, 0, 0, 0.6))
                 : (isLight
                       ? const Color.fromRGBO(255, 255, 255, 0.16)
                       : const Color.fromRGBO(0, 0, 0, 0.18)));
@@ -1385,8 +1396,8 @@ class _GifTile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (icon != null) ...[
-                            PhosphorIcon(icon!, size: 20, color: textColor),
-                            SizedBox(width: layout.s1),
+                            PhosphorIcon(icon!, size: 16, color: textColor),
+                            const SizedBox(width: 6),
                           ],
                           Flexible(
                             child: Text(
@@ -1396,6 +1407,8 @@ class _GifTile extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: context.textStyles.channelName.copyWith(
                                 color: textColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
                                 height: 1,
                                 shadows: isLight
                                     ? null
@@ -1550,7 +1563,9 @@ class _GifSkeletonGrid extends StatelessWidget {
   Widget build(BuildContext context) => _VirtualMasonryGrid(
     key: const ValueKey<String>('gif-picker-skeleton-grid'),
     items: List<Object>.generate(_kSkeletonTileCount, _GifSkeletonItem.new),
-    aspectRatioFor: (_) => 1,
+    aspectRatioFor: (item) =>
+        _kSkeletonAspectRatios[(item as _GifSkeletonItem).index %
+            _kSkeletonAspectRatios.length],
     itemKeyFor: (item) => 'gif-skeleton-${(item as _GifSkeletonItem).index}',
     itemBuilder: (context, item, {required isAnimatedImagePlaybackAllowed}) {
       return _GifSkeletonTile(index: (item as _GifSkeletonItem).index);
@@ -1571,12 +1586,11 @@ class _GifSkeletonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
     final layout = context.layout;
     return DecoratedBox(
       key: ValueKey<String>('gif-picker-skeleton-tile-$index'),
       decoration: BoxDecoration(
-        color: colors.backgroundModifierAccent,
+        color: expressionTabsTrackColor(context),
         borderRadius: layout.radiusSm,
       ),
     );
