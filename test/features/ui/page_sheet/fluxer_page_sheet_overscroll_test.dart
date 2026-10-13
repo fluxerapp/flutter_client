@@ -98,19 +98,20 @@ void main() {
       FluxerPageSheet.showScrollable<void>(
         ctx,
         title: 'Profile',
-        builder: (BuildContext c, ScrollController controller, VoidCallback close) {
-          sc = controller;
-          return SingleChildScrollView(
-            controller: controller,
-            child: Column(
-              children: <Widget>[
-                const _Ticking(),
-                for (int i = 0; i < 40; i++)
-                  SizedBox(height: 60, child: Text('Row $i')),
-              ],
-            ),
-          );
-        },
+        builder:
+            (BuildContext c, ScrollController controller, VoidCallback close) {
+              sc = controller;
+              return SingleChildScrollView(
+                controller: controller,
+                child: Column(
+                  children: <Widget>[
+                    const _Ticking(),
+                    for (int i = 0; i < 40; i++)
+                      SizedBox(height: 60, child: Text('Row $i')),
+                  ],
+                ),
+              );
+            },
       ),
     );
     await tester.pump();
