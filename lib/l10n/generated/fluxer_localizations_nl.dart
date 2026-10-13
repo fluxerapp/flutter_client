@@ -2512,10 +2512,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Verwijder je account en alle bijbehorende gegevens permanent. Deze actie kan niet ongedaan worden gemaakt.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Annuleer je actieve Plutonium-abonnement in de Plutonium-instellingen voordat je je account verwijdert.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Account kan niet worden verwijderd';
 

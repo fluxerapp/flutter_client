@@ -2497,10 +2497,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Permanently delete your account and all associated data. This action cannot be undone.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
 
   @override
@@ -17668,10 +17664,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Permanently delete your account and all associated data. This action cannot be undone.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
 
   @override
@@ -31795,10 +31787,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get dangerZoneDeleteDescription =>
       'Permanently delete your account and all associated data. This action cannot be undone.';
-
-  @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
 
   @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';

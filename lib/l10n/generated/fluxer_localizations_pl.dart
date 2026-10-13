@@ -2528,10 +2528,6 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Trwale usuń swoje konto i wszystkie powiązane dane. Tej operacji nie można cofnąć.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Anuluj swoją aktywną subskrypcję Plutonium w ustawieniach Plutonium przed usunięciem konta.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Nie można usunąć konta';
 
   @override

@@ -2525,10 +2525,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Șterge definitiv contul și toate datele asociate. Această acțiune nu poate fi anulată.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Anulează abonamentul tău activ Plutonium din setările Plutonium înainte de a-ți șterge contul.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Nu se poate șterge contul';
 
   @override

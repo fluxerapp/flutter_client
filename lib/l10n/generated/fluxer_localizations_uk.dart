@@ -2519,10 +2519,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Безповоротно видалити свій обліковий запис та всі пов\'язані дані. Цю дію не можна скасувати.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Скасуйте свою активну підписку Plutonium у налаштуваннях Plutonium перед видаленням облікового запису.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Неможливо видалити обліковий запис';
 

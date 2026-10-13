@@ -2474,10 +2474,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'מחיקה לצמיתות של החשבון וכל הנתונים המשויכים אליו. לא ניתן לבטל פעולה זו.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'בטל את מנוי ה-Plutonium הפעיל שלך בהגדרות ה-Plutonium לפני מחיקת חשבונך.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'לא ניתן למחוק את החשבון';
 
   @override

@@ -2403,10 +2403,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'アカウントと関連データをすべて完全に削除します。この操作は元に戻せません。';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'アカウントを削除する前に、Plutoniumの設定でアクティブなPlutoniumサブスクリプションをキャンセルしてください。';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'アカウントを削除できません';
 
   @override

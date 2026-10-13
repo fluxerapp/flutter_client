@@ -2505,10 +2505,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Hesabınızı ve ilgili tüm verileri kalıcı olarak silin. Bu işlem geri alınamaz.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Hesabınızı silmeden önce Plutonium ayarlarından aktif Plutonium aboneliğinizi iptal edin.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Hesap silinemiyor';
 
   @override

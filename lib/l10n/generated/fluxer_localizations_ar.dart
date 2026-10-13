@@ -2500,10 +2500,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'احذف حسابك وجميع البيانات المرتبطة به نهائيًا. لا يمكن التراجع عن هذا الإجراء.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'قم بإلغاء اشتراك Plutonium النشط الخاص بك في إعدادات Plutonium قبل حذف حسابك.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'لا يمكن حذف الحساب';
 
   @override

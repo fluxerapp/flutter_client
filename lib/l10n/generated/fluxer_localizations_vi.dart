@@ -2499,10 +2499,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Xóa vĩnh viễn tài khoản và tất cả dữ liệu liên quan. Thao tác này không thể hoàn tác.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Hủy gói đăng ký Plutonium đang hoạt động của bạn trong cài đặt Plutonium trước khi xóa tài khoản.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Không thể xóa tài khoản';
 
   @override

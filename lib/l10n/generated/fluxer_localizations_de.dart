@@ -2527,10 +2527,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Deinen Account und alle damit verbundenen Daten dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Kündige dein aktives Plutonium-Abo in den Plutonium-Einstellungen, bevor du deinen Account löschst.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Account kann nicht gelöscht werden';
 

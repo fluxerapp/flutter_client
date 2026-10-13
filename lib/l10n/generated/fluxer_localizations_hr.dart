@@ -2517,10 +2517,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Trajno izbrišite svoj račun i sve povezane podatke. Ova se radnja ne može poništiti.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Otkažite svoju aktivnu Plutonium pretplatu u postavkama Plutoniuma prije brisanja računa.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Nije moguće izbrisati račun';
 

@@ -2519,10 +2519,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Изтрий завинаги акаунта си и всички свързани данни. Това действие не може да бъде отменено.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Отменете активния си Plutonium абонамент в настройките на Plutonium, преди да изтриете акаунта си.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Акаунтът не може да бъде изтрит';
 

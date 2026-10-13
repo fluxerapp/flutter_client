@@ -2485,10 +2485,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ลบบัญชีและข้อมูลทั้งหมดที่เกี่ยวข้องอย่างถาวร การดำเนินการนี้ไม่สามารถเลิกทำได้';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'ยกเลิกการสมัครใช้งาน Plutonium ที่ใช้งานอยู่ของคุณในการตั้งค่า Plutonium ก่อนที่จะลบบัญชีของคุณ';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'ไม่สามารถลบบัญชีได้';
 
   @override

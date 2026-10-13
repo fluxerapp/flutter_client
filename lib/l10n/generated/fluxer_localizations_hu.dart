@@ -2530,10 +2530,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Véglegesen törli a fiókodat és minden kapcsolódó adatot. Ez nem vonható vissza.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'A fiókod törlése előtt mondd le az aktív Plutonium előfizetésedet a Plutonium beállításaiban.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'A fiók nem törölhető';
 
   @override

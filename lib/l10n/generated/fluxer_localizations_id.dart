@@ -2505,10 +2505,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Hapus permanen akunmu dan semua data terkait. Tindakan ini tidak dapat dibatalkan.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Batalkan langganan Plutonium Anda yang aktif di pengaturan Plutonium sebelum menghapus akun Anda.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Tidak bisa menghapus akun';
 
   @override

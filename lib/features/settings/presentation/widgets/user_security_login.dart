@@ -503,11 +503,8 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             ),
           FluxerBottomSheetMenuItem(
             label: l10n.dangerZoneDeleteTitle,
-            hint: s.hasActiveSubscription
-                ? l10n.dangerZoneDeleteCancelSubscription
-                : l10n.dangerZoneDeleteDescription,
+            hint: l10n.dangerZoneDeleteDescription,
             isDanger: true,
-            enabled: !s.hasActiveSubscription,
             onTap: () => unawaited(AccountDeleteSheet.show(context, ref)),
           ),
         ] else ...[
@@ -527,18 +524,8 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             title: l10n.dangerZoneDeleteTitle,
             description: l10n.dangerZoneDeleteDescription,
             children: [
-              if (s.hasActiveSubscription)
-                Text(
-                  l10n.dangerZoneDeleteCancelSubscription,
-                  style: context.textStyles.bodySmall.copyWith(
-                    fontSize: 13,
-                    color: colors.statusWarning,
-                  ),
-                ),
               FluxerButton.dangerPrimary(
-                onPressedAsync: s.hasActiveSubscription
-                    ? null
-                    : () => AccountDeleteSheet.show(context, ref),
+                onPressedAsync: () => AccountDeleteSheet.show(context, ref),
                 label: l10n.dangerZoneDeleteTitle,
                 size: FluxerButtonSize.small,
               ),

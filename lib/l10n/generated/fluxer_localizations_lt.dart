@@ -2523,10 +2523,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Visam laikui ištrinkite savo paskyrą ir visus susijusius duomenis. Šio veiksmo anuliuoti negalima.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Prieš ištrindami paskyrą, atšaukite aktyvią Plutonium prenumeratą Plutonium nustatymuose.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Negalima ištrinti paskyros';
 

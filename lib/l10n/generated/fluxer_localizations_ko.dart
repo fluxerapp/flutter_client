@@ -2404,10 +2404,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '회원님의 계정과 모든 관련 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      '계정을 삭제하기 전에 Plutonium 설정에서 활성 Plutonium 구독을 취소하세요.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '계정을 삭제할 수 없습니다';
 
   @override

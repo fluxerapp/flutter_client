@@ -2362,10 +2362,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dangerZoneDeleteDescription => '永久删除你的账号和所有相关数据。此操作无法撤销。';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      '在删除账号前，请在 Plutonium 设置中取消您的有效 Plutonium 订阅。';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '无法删除账号';
 
   @override
@@ -16722,10 +16718,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get dangerZoneDeleteDescription => '永久刪除您的帳號和所有相關資料。此動作無法復原。';
-
-  @override
-  String get dangerZoneDeleteCancelSubscription =>
-      '刪除帳號前，請先在 Plutonium 設定中取消您的 Plutonium 付費方案。';
 
   @override
   String get dangerZoneDeleteCannotDeleteAccount => '無法刪除帳號';

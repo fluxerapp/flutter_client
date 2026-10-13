@@ -2546,10 +2546,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Supprimer définitivement votre compte et toutes les données associées. Cette action est irréversible.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Annulez votre abonnement Plutonium actif dans les paramètres Plutonium avant de supprimer votre compte.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Impossible de supprimer le compte';
 

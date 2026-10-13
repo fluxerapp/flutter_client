@@ -4364,12 +4364,6 @@ abstract class FluxerLocalizations {
   /// **'Permanently delete your account and all associated data. This action cannot be undone.'**
   String get dangerZoneDeleteDescription;
 
-  /// Warning about active subscription before deletion.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.'**
-  String get dangerZoneDeleteCancelSubscription;
-
   /// Title for the guild ownership warning modal when trying to delete account.
   ///
   /// In en, this message translates to:

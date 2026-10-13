@@ -2507,10 +2507,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Exclua permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Cancele sua assinatura ativa do Plutonium nas configurações do Plutonium antes de excluir sua conta.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Não é possível excluir a conta';
 
@@ -17731,10 +17727,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get dangerZoneDeleteDescription =>
       'Excluir permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.';
-
-  @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Cancele sua assinatura ativa do Plutonium nas configurações do Plutonium antes de excluir sua conta.';
 
   @override
   String get dangerZoneDeleteCannotDeleteAccount =>

@@ -2503,10 +2503,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Slet din konto og alle tilknyttede data permanent. Denne handling kan ikke fortrydes.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Annuller dit aktive Plutonium-abonnement i Plutonium-indstillingerne, før du sletter din konto.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Kan ikke slette konto';
 
   @override

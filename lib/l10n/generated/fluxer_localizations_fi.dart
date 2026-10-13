@@ -2513,10 +2513,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Poista tilisi ja kaikki siihen liittyvät tiedot pysyvästi. Tätä toimintoa ei voi kumota.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Peruuta aktiivinen Plutonium-tilauksesi Plutonium-asetuksista ennen tilin poistamista.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Tiliä ei voi poistaa';
 
   @override

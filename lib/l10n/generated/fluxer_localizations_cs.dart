@@ -2513,10 +2513,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Trvale smazat váš účet a všechna související data. Tuto akci nelze vrátit zpět.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Před smazáním účtu zrušte svou aktivní předplatné Plutonium v nastavení Plutonium.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Účet nelze smazat';
 
   @override

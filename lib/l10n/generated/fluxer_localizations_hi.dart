@@ -2507,10 +2507,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'अपना अकाउंट और उससे जुड़ा सारा डेटा हमेशा के लिए मिटा दें। इस कार्रवाई को पहले जैसा नहीं किया जा सकता।';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'अपना खाता हटाने से पहले Plutonium सेटिंग में अपनी सक्रिय Plutonium सदस्यता रद्द करें।';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'अकाउंट नहीं मिटाया जा सकता';
 

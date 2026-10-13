@@ -315,9 +315,6 @@ class UserSettingsViewState {
 
   bool get hasTotpMfa => authenticatorTypes.contains(0);
 
-  bool get hasActiveSubscription =>
-      premiumType == UserPremiumTypes.subscription.json && !premiumWillCancel;
-
   bool get trustAllDomains =>
       external_link_utils.trustAllDomains(trustedDomains);
 

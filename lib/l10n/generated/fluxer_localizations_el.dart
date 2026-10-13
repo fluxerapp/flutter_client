@@ -2527,10 +2527,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Διαγράψτε οριστικά τον λογαριασμό σας και όλα τα σχετικά δεδομένα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Ακυρώστε την ενεργή συνδρομή σας στο Plutonium στις ρυθμίσεις του Plutonium πριν διαγράψετε τον λογαριασμό σας.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Δεν είναι δυνατή η διαγραφή λογαριασμού';
 

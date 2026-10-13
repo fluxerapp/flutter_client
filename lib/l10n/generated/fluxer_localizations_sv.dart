@@ -2507,10 +2507,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Radera ditt konto och all tillhörande data permanent. Den här åtgärden kan inte ångras.';
 
   @override
-  String get dangerZoneDeleteCancelSubscription =>
-      'Avbryt din aktiva Plutonium-prenumeration i Plutonium-inställningarna innan du tar bort ditt konto.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Kan inte radera konto';
 
   @override
