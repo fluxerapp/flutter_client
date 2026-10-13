@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_frame.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 void main() {
@@ -45,6 +46,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(route!.transitionDuration, FluxerMotionTheme.sheetDuration);
-    expect(route!.reverseTransitionDuration, FluxerMotionTheme.popDuration);
+    expect(route!.reverseTransitionDuration, kFluxerSheetCloseDuration);
   });
 }
