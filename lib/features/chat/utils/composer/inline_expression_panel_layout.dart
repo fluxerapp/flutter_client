@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 const double kMobileChannelHeaderHeight = 64;
+const double kExpressionSheetTopInset = 56;
 const double kInlineExpressionPanelDragHandleHitHeight = 16;
 const double kInlineExpressionPanelDragHandleTop = 8;
 const double kInlineExpressionPanelDragHandleWidth = 31;

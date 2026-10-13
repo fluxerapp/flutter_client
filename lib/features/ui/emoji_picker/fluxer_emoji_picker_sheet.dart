@@ -15,8 +15,8 @@ import 'package:fluxer_app/material_ui.dart';
 const Duration kReactionPickerRiseDuration = Duration(milliseconds: 400);
 const double kReactionPickerRiseStartFraction = 0.558;
 const Curve kReactionPickerRiseSpring = FluxerSpringCurve(
-  stiffness: 900,
-  damping: 42,
+  stiffness: 870,
+  damping: 38.4,
   duration: kReactionPickerRiseDuration,
 );
 
@@ -32,7 +32,7 @@ class ReactionPickerRiseCurve extends Curve {
 
 double reactionPickerSheetHeight(BuildContext context) {
   final MediaQueryData view = MediaQueryData.fromView(View.of(context));
-  return view.size.height - view.viewPadding.top - kMobileChannelHeaderHeight;
+  return view.size.height - view.viewPadding.top - kExpressionSheetTopInset;
 }
 
 AnimationStyle? reactionPickerAnimationStyle(

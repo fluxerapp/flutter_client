@@ -250,7 +250,7 @@ class ChatExpressionExpandableSheetState
       availableHeight: screenHeight,
       screenHeight: screenHeight,
       keyboardInset: 0,
-      topPadding: mediaQuery.viewPadding.top + kMobileChannelHeaderHeight,
+      topPadding: mediaQuery.viewPadding.top + kExpressionSheetTopInset,
       topMargin: 0,
       viewPaddingBottom: mediaQuery.viewPadding.bottom,
     );
