@@ -42,12 +42,14 @@ class _GuildSidebarChannelListHostState
         for (final MapEntry<String, Guild> entry in _guildsById.entries)
           Offstage(
             offstage: entry.key != widget.activeGuildId,
-            child: _GuildSidebarChannelList(
+            child: FluxerEntranceSettleScope(
               key: ValueKey<String>(entry.key),
-              guildId: entry.key,
-              guild: entry.value,
-              isActive: entry.key == widget.activeGuildId,
-              onHeaderTap: widget.onHeaderTap,
+              child: _GuildSidebarChannelList(
+                guildId: entry.key,
+                guild: entry.value,
+                isActive: entry.key == widget.activeGuildId,
+                onHeaderTap: widget.onHeaderTap,
+              ),
             ),
           ),
       ],
@@ -61,7 +63,6 @@ class _GuildSidebarChannelList extends ConsumerStatefulWidget {
     required this.guild,
     required this.isActive,
     required this.onHeaderTap,
-    super.key,
   });
 
   final String guildId;
