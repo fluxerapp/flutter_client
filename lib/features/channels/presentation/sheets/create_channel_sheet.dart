@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart'
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/fullscreen_flow/fluxer_fullscreen_flow.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
@@ -176,20 +177,14 @@ class CreateChannelSheet {
     );
     final Future<ChannelCreateRequest?> result;
     if (isMobileLayout(context)) {
-      result = FluxerBottomSheet.show<ChannelCreateRequest>(
+      result = FluxerFullscreenFlow.show<ChannelCreateRequest>(
         context,
-        title: l10n.guildNavbarCreateChannel,
-        useRootNavigator: true,
-        builder: (BuildContext _, VoidCallback _) {
-          return _CreateChannelForm(
-            draft: draft,
-            actions: _CreateChannelActions(
-              draft: draft,
-              parentId: parentId,
-              useRootNavigator: true,
-            ),
-          );
-        },
+        builder: (BuildContext routeContext) => _CreateChannelMobileFlow(
+          draft: draft,
+          parentId: parentId,
+          onDone: (ChannelCreateRequest? request) =>
+              Navigator.of(routeContext).pop(request),
+        ),
       );
     } else {
       result = FluxerModal.show<ChannelCreateRequest>(
@@ -297,10 +292,9 @@ class _ChannelDraft extends ChangeNotifier {
 }
 
 class _CreateChannelForm extends StatefulWidget {
-  const _CreateChannelForm({required this.draft, this.actions});
+  const _CreateChannelForm({required this.draft});
 
   final _ChannelDraft draft;
-  final Widget? actions;
 
   @override
   State<_CreateChannelForm> createState() => _CreateChannelFormState();
@@ -315,28 +309,115 @@ class _CreateChannelFormState extends State<_CreateChannelForm> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget fields = ListenableBuilder(
+    return ListenableBuilder(
       listenable: widget.draft,
       builder: (BuildContext _, Widget? _) =>
           _CreateChannelFields(draft: widget.draft),
     );
-    final Widget? actions = widget.actions;
-    if (actions == null) {
-      return fields;
-    }
+  }
+}
 
+class _CreateChannelMobileFlow extends StatefulWidget {
+  const _CreateChannelMobileFlow({
+    required this.draft,
+    required this.parentId,
+    required this.onDone,
+  });
+
+  final _ChannelDraft draft;
+  final String? parentId;
+  final ValueChanged<ChannelCreateRequest?> onDone;
+
+  @override
+  State<_CreateChannelMobileFlow> createState() =>
+      _CreateChannelMobileFlowState();
+}
+
+class _CreateChannelMobileFlowState extends State<_CreateChannelMobileFlow> {
+  static const ValueKey<String> _formKey = ValueKey<String>('form');
+  static const ValueKey<String> _accessKey = ValueKey<String>('access');
+
+  bool _showAccess = false;
+
+  @override
+  void dispose() {
+    widget.draft.dispose();
+    super.dispose();
+  }
+
+  void _create() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    widget.onDone(widget.draft.request(widget.parentId));
+  }
+
+  void _next() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() => _showAccess = true);
+  }
+
+  void _back() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() => _showAccess = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final _ChannelDraft draft = widget.draft;
     final layout = context.layout;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Flexible(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s2),
-            child: fields,
-          ),
-        ),
-        FluxerBottomSheetFooter(child: actions),
-      ],
+    return ListenableBuilder(
+      listenable: draft,
+      builder: (BuildContext context, Widget? _) {
+        return FluxerFlowNavigator(
+          onDidRemovePage: (Page<Object?> page) {
+            if (page.key == _accessKey) {
+              setState(() => _showAccess = false);
+            }
+          },
+          pages: <Page<void>>[
+            fluxerFlowPage(
+              key: _formKey,
+              child: FluxerPushPage(
+                title: l10n.guildNavbarCreateChannel,
+                closes: true,
+                onLeading: () => widget.onDone(null),
+                trailing: FluxerPushPageAction(
+                  label: draft.isPrivate ? l10n.next : l10n.create,
+                  onPressed: !draft.valid
+                      ? null
+                      : draft.isPrivate
+                      ? _next
+                      : _create,
+                ),
+                body: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: EdgeInsets.fromLTRB(
+                    layout.s4,
+                    layout.s2,
+                    layout.s4,
+                    layout.s4 + MediaQuery.paddingOf(context).bottom,
+                  ),
+                  child: _CreateChannelFields(draft: draft),
+                ),
+              ),
+            ),
+            if (_showAccess)
+              fluxerFlowPage(
+                key: _accessKey,
+                child: FluxerPushPage(
+                  title: l10n.guildNavbarAddMembersOrRoles,
+                  onLeading: _back,
+                  trailing: FluxerPushPageAction(
+                    label: draft.hasAccess ? l10n.create : l10n.skip,
+                    onPressed: _create,
+                  ),
+                  body: _ChannelAccessPicker(draft: draft, onClose: _back),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }
@@ -475,27 +556,26 @@ class _CreateChannelFields extends StatelessWidget {
 }
 
 class _CreateChannelActions extends StatelessWidget {
-  const _CreateChannelActions({
-    required this.draft,
-    required this.parentId,
-    this.useRootNavigator = false,
-  });
+  const _CreateChannelActions({required this.draft, required this.parentId});
 
   final _ChannelDraft draft;
   final String? parentId;
-  final bool useRootNavigator;
 
   Future<void> _chooseAccess(BuildContext context) async {
-    final bool? create = await _ChannelAccessStep.show(
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool? create = await FluxerModal.show<bool>(
       context,
-      draft: draft,
-      useRootNavigator: useRootNavigator,
+      title: l10n.guildNavbarAddMembersOrRoles,
+      builder: (BuildContext _, VoidCallback close) {
+        return SizedBox(
+          height: 360,
+          child: _ChannelAccessPicker(draft: draft, onClose: close),
+        );
+      },
+      actions: <Widget>[_ChannelAccessActions(draft: draft)],
     );
     if ((create ?? false) && context.mounted) {
-      Navigator.of(
-        context,
-        rootNavigator: useRootNavigator,
-      ).pop(draft.request(parentId));
+      Navigator.of(context).pop(draft.request(parentId));
     }
   }
 
@@ -508,8 +588,7 @@ class _CreateChannelActions extends StatelessWidget {
         final bool isPrivate = draft.isPrivate;
         return _FooterRow(
           secondary: FluxerButton.secondary(
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: useRootNavigator).pop(),
+            onPressed: () => Navigator.of(context).pop(),
             label: l10n.cancel,
           ),
           primary: FluxerButton.primary(
@@ -517,10 +596,7 @@ class _CreateChannelActions extends StatelessWidget {
                 ? null
                 : isPrivate
                 ? () => unawaited(_chooseAccess(context))
-                : () => Navigator.of(
-                    context,
-                    rootNavigator: useRootNavigator,
-                  ).pop(draft.request(parentId)),
+                : () => Navigator.of(context).pop(draft.request(parentId)),
             label: isPrivate ? l10n.next : l10n.guildNavbarCreateChannel,
           ),
         );
@@ -529,66 +605,11 @@ class _CreateChannelActions extends StatelessWidget {
   }
 }
 
-class _ChannelAccessStep {
-  _ChannelAccessStep._();
-
-  static Future<bool?> show(
-    BuildContext context, {
-    required _ChannelDraft draft,
-    required bool useRootNavigator,
-  }) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    if (isMobileLayout(context)) {
-      return FluxerBottomSheet.showScrollable<bool>(
-        context,
-        title: l10n.guildNavbarAddMembersOrRoles,
-        useRootNavigator: true,
-        builder:
-            (
-              BuildContext sheetContext,
-              ScrollController scrollController,
-              VoidCallback close,
-            ) {
-              return _ChannelAccessPicker(
-                draft: draft,
-                onClose: close,
-                scrollController: scrollController,
-                footer: FluxerBottomSheetFooter(
-                  child: _ChannelAccessActions(
-                    draft: draft,
-                    useRootNavigator: true,
-                  ),
-                ),
-              );
-            },
-      );
-    }
-    return FluxerModal.show<bool>(
-      context,
-      title: l10n.guildNavbarAddMembersOrRoles,
-      builder: (BuildContext _, VoidCallback close) {
-        return SizedBox(
-          height: 360,
-          child: _ChannelAccessPicker(draft: draft, onClose: close),
-        );
-      },
-      actions: <Widget>[_ChannelAccessActions(draft: draft)],
-    );
-  }
-}
-
 class _ChannelAccessPicker extends ConsumerWidget {
-  const _ChannelAccessPicker({
-    required this.draft,
-    required this.onClose,
-    this.scrollController,
-    this.footer,
-  });
+  const _ChannelAccessPicker({required this.draft, required this.onClose});
 
   final _ChannelDraft draft;
   final VoidCallback onClose;
-  final ScrollController? scrollController;
-  final Widget? footer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -607,9 +628,7 @@ class _ChannelAccessPicker extends ConsumerWidget {
           searchHint: FluxerLocalizations.of(
             context,
           ).guildNavbarAddMembersOrRolesHint,
-          scrollController: scrollController,
           isBottomSheet: true,
-          footer: footer,
           onSelect: (String id, int type, String _) =>
               draft.toggleAccess(id, type),
           onClose: onClose,
@@ -620,13 +639,9 @@ class _ChannelAccessPicker extends ConsumerWidget {
 }
 
 class _ChannelAccessActions extends StatelessWidget {
-  const _ChannelAccessActions({
-    required this.draft,
-    this.useRootNavigator = false,
-  });
+  const _ChannelAccessActions({required this.draft});
 
   final _ChannelDraft draft;
-  final bool useRootNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -636,15 +651,11 @@ class _ChannelAccessActions extends StatelessWidget {
       builder: (BuildContext _, Widget? _) {
         return _FooterRow(
           secondary: FluxerButton.secondary(
-            onPressed: () =>
-                Navigator.of(context, rootNavigator: useRootNavigator).pop(),
+            onPressed: () => Navigator.of(context).pop(),
             label: l10n.back,
           ),
           primary: FluxerButton.primary(
-            onPressed: () => Navigator.of(
-              context,
-              rootNavigator: useRootNavigator,
-            ).pop(true),
+            onPressed: () => Navigator.of(context).pop(true),
             label: draft.hasAccess ? l10n.guildNavbarCreateChannel : l10n.skip,
           ),
         );
