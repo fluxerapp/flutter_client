@@ -494,6 +494,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       chatViewModelProvider.select((ChatViewState state) => state.channelId),
     );
     final String? routeChannelId = ref.read(activeChannelIdProvider);
+    if (resolveGuildChannel(ref, vmChannelId)?.type == ChannelType.guildVoice) {
+      return vmChannelId;
+    }
     if (routeChannelId != null &&
         routeChannelId.isNotEmpty &&
         routeChannelId != vmChannelId) {
