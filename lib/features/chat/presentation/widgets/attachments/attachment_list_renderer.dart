@@ -50,7 +50,7 @@ class AttachmentListRenderer extends StatelessWidget {
         .where(
           (Attachment attachment) =>
               inlineAttachmentMedia &&
-              attachment.isPreviewMedia &&
+              attachment.isInlineMedia &&
               attachmentHasLoadableUrl(attachment),
         )
         .toList();
@@ -61,7 +61,7 @@ class AttachmentListRenderer extends StatelessWidget {
     for (final Attachment attachment in attachments) {
       final bool isMediaAttachment =
           inlineAttachmentMedia &&
-          attachment.isPreviewMedia &&
+          attachment.isInlineMedia &&
           attachmentHasLoadableUrl(attachment);
       if (shouldRenderMediaGrid && isMediaAttachment) {
         if (!hasRenderedGrid) {

@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
@@ -50,13 +51,24 @@ class EmbedVideo extends StatelessWidget {
               )
             : null;
         final ChatFullscreenVideoLaunchContext? launchContext =
-            youtubeLaunchContext == null
+            youtubeLaunchContext == null && isValidEmbedMedia(embed.video)
             ? ChatFullscreenVideoLaunchContext.fromEmbed(
                 embed: embed,
                 embedIndex: embedIndex,
                 actionScope: videoActionScope,
               )
             : null;
+        if (isMediaOnly &&
+            youtubeLaunchContext == null &&
+            launchContext == null) {
+          return EmbedImage(
+            embed: embed,
+            dimensionSize: dimensionSize,
+            channelId: channelId,
+            embedIndex: embedIndex,
+            mediaActionScope: videoActionScope,
+          );
+        }
         final double mediaRadius = isMediaOnly ? 8 : 4;
         final Widget player = youtubeLaunchContext != null
             ? EmbedYouTube(

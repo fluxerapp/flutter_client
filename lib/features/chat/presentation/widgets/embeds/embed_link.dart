@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -111,7 +112,7 @@ class EmbedLink extends StatelessWidget {
                       messageId: messageId,
                     ),
                   )
-                else if (embed.thumbnail != null)
+                else if (isValidEmbedMedia(embed.thumbnail))
                   Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4),
                     child: FluxerGestureDetector(
@@ -170,18 +171,15 @@ class EmbedLink extends StatelessWidget {
     required EmbedMedia thumbnail,
     required FluxerMediaDimensions dimensions,
   }) {
-    final Size? displaySize = constrainMediaSize(
+    final Size displaySize = constrainMediaSize(
       dimensions: dimensions,
       width: thumbnail.width,
       height: thumbnail.height,
-    );
-    final double dpr = MediaQuery.devicePixelRatioOf(context);
-    final double cellWidth = displaySize?.width ?? dimensions.maxWidth;
-    final double cellHeight = displaySize?.height ?? kEmbedMediaFallbackHeight;
+    )!;
     final ({int? width, int? height}) cache = coverDecodeCacheSize(
-      cellWidth: cellWidth,
-      cellHeight: cellHeight,
-      devicePixelRatio: dpr,
+      cellWidth: displaySize.width,
+      cellHeight: displaySize.height,
+      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
       sourceWidth: thumbnail.width,
       sourceHeight: thumbnail.height,
     );
@@ -193,16 +191,9 @@ class EmbedLink extends StatelessWidget {
       memCacheWidth: cache.width,
       memCacheHeight: cache.height,
     );
-    if (displaySize != null) {
-      return SizedBox(
-        width: displaySize.width,
-        height: displaySize.height,
-        child: image,
-      );
-    }
     return SizedBox(
-      width: double.infinity,
-      height: kEmbedMediaFallbackHeight,
+      width: displaySize.width,
+      height: displaySize.height,
       child: image,
     );
   }

@@ -514,6 +514,8 @@ class Attachment {
   }
 
   bool get isPreviewMedia => isImage || isVideo;
+  bool get hasRenderableDimensions => (width ?? 0) > 0 && (height ?? 0) > 0;
+  bool get isInlineMedia => isPreviewMedia && hasRenderableDimensions;
   bool get isSavableMedia => isImage || isVideo || isAudio;
   bool get isSpoiler => (flags & attachmentFlagIsSpoiler) != 0;
   bool get isMatureMedia =>

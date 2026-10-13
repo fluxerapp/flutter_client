@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
-import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -150,7 +149,7 @@ void main() {
     );
   });
 
-  testWidgets('static embed without dimensions keeps the fixed fallback box', (
+  testWidgets('static embed without dimensions renders nothing', (
     tester,
   ) async {
     await tester.pumpWidget(
@@ -168,13 +167,6 @@ void main() {
     );
     await tester.pump();
 
-    final Size box = tester.getSize(find.byType(CachedNetworkImage));
-    expect(box.height, kEmbedMediaFallbackHeight);
-    await tester.pump(const Duration(seconds: 1));
-    expect(
-      tester.getSize(find.byType(CachedNetworkImage)),
-      box,
-      reason: 'placeholder and loaded states must agree on the extent',
-    );
+    expect(find.byType(CachedNetworkImage), findsNothing);
   });
 }

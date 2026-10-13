@@ -149,11 +149,11 @@ void main() {
       );
     });
 
-    testWidgets('reserves the fixed fallback when dimensions are missing', (
+    testWidgets('renders no thumbnail when dimensions are missing', (
       tester,
     ) async {
       await pumpLink(tester, _media());
-      expect(_imageBox(tester).height, kEmbedMediaFallbackHeight);
+      expect(find.byType(CachedNetworkImage), findsNothing);
     });
 
     testWidgets('opens the media viewer when tapped', (tester) async {

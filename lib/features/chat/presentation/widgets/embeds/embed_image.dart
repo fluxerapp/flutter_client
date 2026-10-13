@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animat
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
@@ -37,7 +38,7 @@ class EmbedImage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final EmbedMedia? media = embed.image ?? embed.thumbnail;
+    final EmbedMedia? media = galleryMediaForEmbed(embed);
     if (media == null) {
       return const SizedBox.shrink();
     }
@@ -66,14 +67,14 @@ class EmbedImage extends ConsumerWidget {
     required HdrDisplayMode hdrDisplayMode,
     required FluxerMediaDimensions dimensions,
   }) {
-    final Size? displaySize = constrainMediaSize(
+    final Size displaySize = constrainMediaSize(
       dimensions: dimensions,
       width: media.width,
       height: media.height,
-    );
+    )!;
     final bool animate = embed.type == EmbedType.gifv || media.isAnimated;
-    final double cellWidth = displaySize?.width ?? dimensions.maxWidth;
-    final double cellHeight = displaySize?.height ?? kEmbedMediaFallbackHeight;
+    final double cellWidth = displaySize.width;
+    final double cellHeight = displaySize.height;
     final Widget placeholder = ColoredBox(
       color: context.colors.backgroundSecondaryAlt,
       child: SizedBox(width: cellWidth, height: cellHeight),

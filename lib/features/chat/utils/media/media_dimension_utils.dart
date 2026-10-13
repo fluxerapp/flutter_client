@@ -44,11 +44,6 @@ FluxerMediaDimensions mediaDimensionsWithinWidth(
   );
 }
 
-/// Reserved height for embed media whose intrinsic dimensions are unknown:
-/// the box must exist before bytes arrive and must not change when they do,
-/// or late-loading images shift the chat under the reader.
-const double kEmbedMediaFallbackHeight = 200;
-
 /// Animated WebP cannot be resized by Flutter's decoder, so proxy requests
 /// cap at 2x. Extra pixels on 3x screens do not pay off for GIF content.
 const double kAnimatedImageMaxDevicePixelRatio = 2;

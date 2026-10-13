@@ -24,18 +24,20 @@ AttachmentRenderState buildAttachmentRenderState({
 }) {
   final bool hasUrl = attachmentHasLoadableUrl(attachment);
   final bool canRenderInlineMedia = inlineAttachmentMedia && hasUrl;
+  final bool canRenderInlineVisualMedia =
+      canRenderInlineMedia && attachment.hasRenderableDimensions;
   if (attachment.isImage) {
     return AttachmentRenderState(
       attachment: attachment,
       type: AttachmentRenderType.image,
-      canRenderInlineMedia: canRenderInlineMedia,
+      canRenderInlineMedia: canRenderInlineVisualMedia,
     );
   }
   if (attachment.isVideo) {
     return AttachmentRenderState(
       attachment: attachment,
       type: AttachmentRenderType.video,
-      canRenderInlineMedia: canRenderInlineMedia,
+      canRenderInlineMedia: canRenderInlineVisualMedia,
     );
   }
   if (_isAudioAttachment(attachment)) {
