@@ -1620,7 +1620,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get emojiSearchEmpty => 'Емоджі не знайдено за вашим запитом';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Стандартний емодзі';
+  String get emojiAutocompleteDefaultLabel => 'Стандартний емоджі';
 
   @override
   String emojiInfoDefaultDescription(String productName) {
@@ -1640,7 +1640,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Це власне емоджі зі спільноти. Щоб використовувати це емоджі, попросіть автора надіслати запрошення.';
 
   @override
-  String get emojiInfoFromHeader => 'Цей емодзі з';
+  String get emojiInfoFromHeader => 'Цей емоджі з';
 
   @override
   String get emojiInfoDiscoverableCommunity => 'Спільнота в Discovery';
@@ -2028,7 +2028,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get aboutMeHelperText =>
-      'Можна використовувати посилання, емодзі та Markdown.';
+      'Можна використовувати посилання, емоджі та Markdown.';
 
   @override
   String get emojiPickerTitle => 'Емоджі';
@@ -5284,7 +5284,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Показувати стандартні емодзі в автозаповненні виразів';
+      'Показувати стандартні емоджі в автозаповненні виразів';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
@@ -6832,7 +6832,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get doubleTapReactionEditSubtitle =>
-      'Виберіть емодзі для подвійного дотику';
+      'Виберіть емоджі для подвійного дотику';
 
   @override
   String get messagesMediaGesturesSectionTitle => 'Gestures';
@@ -9515,11 +9515,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get storePlutoniumPriceOr => 'або';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Ваші емодзі всюди';
+  String get storePlutoniumEmojiTitle => 'Ваші емоджі всюди';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Додавайте власні емодзі та стікери з будь-яких спільнот до кожного чату та спільноти, в яких ви перебуваєте.';
+      'Додавайте власні емоджі та стікери з будь-яких спільнот до кожного чату та спільноти, в яких ви перебуваєте.';
 
   @override
   String get storePlutoniumProfileTitle => 'Профіль, що виділяється';
@@ -9585,11 +9585,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get storePlutoniumCompareAnimatedEmoji =>
-      'Використовуйте анімовані емодзі в повідомленнях';
+      'Використовуйте анімовані емоджі в повідомленнях';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Використовуйте власні емодзі та стікери в будь-якій спільноті';
+      'Використовуйте власні емоджі та стікери в будь-якій спільноті';
 
   @override
   String get storePlutoniumCompareVideo =>
@@ -9631,7 +9631,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get storePlutoniumHighlightEmoji =>
-      'Власні емодзі та стікери в будь-якому чаті';
+      'Власні емоджі та стікери в будь-якому чаті';
 
   @override
   String get storePlutoniumHighlightProfile =>
@@ -10555,7 +10555,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
-      'Показувати стандартні емодзі в автозаповненні виразів';
+      'Показувати стандартні емоджі в автозаповненні виразів';
 
   @override
   String get advancedSettingShowCustomEmojisAutocompleteLabel =>
@@ -10735,7 +10735,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Увімкніть або вимкніть вбудовані сервіси зворотного пошуку зображень. Увімкнені сервіси з\'являються в контекстному меню зображень, аватарів, банерів, стікерів та емодзі.';
+      'Увімкніть або вимкніть вбудовані сервіси зворотного пошуку зображень. Увімкнені сервіси з\'являються в контекстному меню зображень, аватарів, банерів, стікерів та емоджі.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12108,10 +12108,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionCreateEmojiStickersDescription =>
-      'Завантажувати нові емодзі та стікери, а також керувати власними творіннями.';
+      'Завантажувати нові емоджі та стікери, а також керувати власними творіннями.';
 
   @override
-  String get permissionManageEmojiStickers => 'Керувати емодзі та стікерами';
+  String get permissionManageEmojiStickers => 'Керувати емоджі та стікерами';
 
   @override
   String get permissionManageEmojiStickersDescription =>
@@ -14088,7 +14088,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Назви емодзі мають містити щонайменше 2 символи та можуть складатися з літер, цифр і підкреслень. Розмір емодзі має бути меншим за $maxSize. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емодзі та SVG мають одразу відповідати обмеженню.';
+    return 'Назви емоджі мають містити щонайменше 2 символи та можуть складатися з літер, цифр і підкреслень. Розмір емоджі має бути меншим за $maxSize. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емоджі та SVG мають одразу відповідати обмеженню.';
   }
 
   @override

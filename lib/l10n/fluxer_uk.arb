@@ -1515,7 +1515,7 @@
     "@emojiSearchEmpty": {
         "description": "Emoji picker empty search state."
     },
-    "emojiAutocompleteDefaultLabel": "Стандартний емодзі",
+    "emojiAutocompleteDefaultLabel": "Стандартний емоджі",
     "@emojiAutocompleteDefaultLabel": {
         "description": "Short right-side label in the chat composer emoji autocomplete shown for built-in (unicode) emoji; custom emoji show their guild name instead. Keep it concise."
     },
@@ -1973,7 +1973,7 @@
     "@aboutMeLabel": {
         "description": "Label for the bio text area."
     },
-    "aboutMeHelperText": "Можна використовувати посилання, емодзі та Markdown.",
+    "aboutMeHelperText": "Можна використовувати посилання, емоджі та Markdown.",
     "@aboutMeHelperText": {
         "description": "Helper text below the bio text area."
     },
@@ -4836,7 +4836,7 @@
     "@messagesMediaAutocompleteSectionDescription": {
         "description": "Section description for expression autocomplete settings."
     },
-    "messagesMediaAutocompleteDefaultEmojisLabel": "Показувати стандартні емодзі в автозаповненні виразів",
+    "messagesMediaAutocompleteDefaultEmojisLabel": "Показувати стандартні емоджі в автозаповненні виразів",
     "@messagesMediaAutocompleteDefaultEmojisLabel": {
         "description": "Toggle label for default emojis in expression autocomplete."
     },
@@ -9680,11 +9680,11 @@
     "@permissionChangeOwnNicknameDescription": {
         "description": "Permission description."
     },
-    "permissionCreateEmojiStickersDescription": "Завантажувати нові емодзі та стікери, а також керувати власними творіннями.",
+    "permissionCreateEmojiStickersDescription": "Завантажувати нові емоджі та стікери, а також керувати власними творіннями.",
     "@permissionCreateEmojiStickersDescription": {
         "description": "Permission description."
     },
-    "permissionManageEmojiStickers": "Керувати емодзі та стікерами",
+    "permissionManageEmojiStickers": "Керувати емоджі та стікерами",
     "@permissionManageEmojiStickers": {
         "description": "Permission name."
     },
@@ -12184,7 +12184,7 @@
     "@emojiInfoCustomInviteRequiredDescription": {
         "description": "Emoji info sheet description when the user is not in the source community."
     },
-    "emojiInfoFromHeader": "Цей емодзі з",
+    "emojiInfoFromHeader": "Цей емоджі з",
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
@@ -14689,8 +14689,8 @@
     "storePlutoniumMonthSuffix": "/міс.",
     "storePlutoniumYearSuffix": "/рік",
     "storePlutoniumPriceOr": "або",
-    "storePlutoniumEmojiTitle": "Ваші емодзі всюди",
-    "storePlutoniumEmojiBody": "Додавайте власні емодзі та стікери з будь-яких спільнот до кожного чату та спільноти, в яких ви перебуваєте.",
+    "storePlutoniumEmojiTitle": "Ваші емоджі всюди",
+    "storePlutoniumEmojiBody": "Додавайте власні емоджі та стікери з будь-яких спільнот до кожного чату та спільноти, в яких ви перебуваєте.",
     "storePlutoniumProfileTitle": "Профіль, що виділяється",
     "storePlutoniumProfileBody": "Отримайте анімований аватар і банер, значок підписника, бажаний чотиризначний тег після імені користувача*, а також окремий профіль для кожної спільноти.",
     "storePlutoniumFilesTitle": "Надсилайте файли розміром до 500 МБ",
@@ -14708,8 +14708,8 @@
     "storePlutoniumCompareBookmarks": "Повідомлення, які можна додати до закладок",
     "storePlutoniumCompareUpload": "Найбільший файл, який ви можете завантажити",
     "storePlutoniumCompareSavedMedia": "Медіафайли, які можна зберегти на потім",
-    "storePlutoniumCompareAnimatedEmoji": "Використовуйте анімовані емодзі в повідомленнях",
-    "storePlutoniumCompareCustomEmoji": "Використовуйте власні емодзі та стікери в будь-якій спільноті",
+    "storePlutoniumCompareAnimatedEmoji": "Використовуйте анімовані емоджі в повідомленнях",
+    "storePlutoniumCompareCustomEmoji": "Використовуйте власні емоджі та стікери в будь-якій спільноті",
     "storePlutoniumCompareVideo": "Якість відеодзвінків і демонстрації екрана",
     "storePlutoniumCompareAvatar": "Анімований аватар і банер профілю",
     "storePlutoniumCompareEarlyAccess": "Ранній доступ до нових функцій",
@@ -14721,7 +14721,7 @@
     "storePlutoniumDonatePrompt": "Хочете просто підтримати розробку Fluxer з відкритим кодом? ",
     "storePlutoniumDonateLink": "Зробити пожертву.",
     "storePlutoniumHighlightsLead": "Підписка фінансує Fluxer і розблоковує",
-    "storePlutoniumHighlightEmoji": "Власні емодзі та стікери в будь-якому чаті",
+    "storePlutoniumHighlightEmoji": "Власні емоджі та стікери в будь-якому чаті",
     "storePlutoniumHighlightProfile": "Анімований профіль, значок і вибраний 4-значний номер",
     "storePlutoniumHighlightFiles": "Завантаження до 500 МБ",
     "storePlutoniumHighlightMessages": "Надсилайте повідомлення до 4000 символів",
@@ -14924,7 +14924,7 @@
     "advancedSettingShowOnlyMoreButtonLabel": "Показувати лише кнопку \"Більше\"",
     "advancedSettingShowQuickReactionsLabel": "Показувати швидкі реакції",
     "advancedSettingEnableShiftToExpandLabel": "Увімкнути Shift для розгортання",
-    "advancedSettingShowDefaultEmojisAutocompleteLabel": "Показувати стандартні емодзі в автозаповненні виразів",
+    "advancedSettingShowDefaultEmojisAutocompleteLabel": "Показувати стандартні емоджі в автозаповненні виразів",
     "advancedSettingShowCustomEmojisAutocompleteLabel": "Показувати власні емоджі в автозаповненні виразів",
     "advancedSettingShowStickersAutocompleteLabel": "Показувати стікери в автозаповненні виразів",
     "advancedSettingShowSavedMediaAutocompleteLabel": "Показувати збережені медіа в автозаповненні виразів",
@@ -14972,7 +14972,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Зворотний пошук зображень за замовчуванням",
     "advancedSettingDefaultReverseImageSearchDescription": "Виберіть сервіс зворотного пошуку зображень, який використовуватиметься за замовчуванням під час пошуку зображення.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Вбудований зворотний пошук зображень",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Увімкніть або вимкніть вбудовані сервіси зворотного пошуку зображень. Увімкнені сервіси з'являються в контекстному меню зображень, аватарів, банерів, стікерів та емодзі.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Увімкніть або вимкніть вбудовані сервіси зворотного пошуку зображень. Увімкнені сервіси з'являються в контекстному меню зображень, аватарів, банерів, стікерів та емоджі.",
     "advancedSettingCustomReverseImageSearchLabel": "Власний зворотний пошук зображень",
     "advancedSettingCustomReverseImageSearchDescription": "Додайте власні пошукові системи для зворотного пошуку зображень із шаблоном URL. Використовуйте '{url}' як заповнювач для URL зображення.",
     "advancedSettingAddReverseImageSearchLabel": "Додати зворотний пошук зображень",
@@ -15673,7 +15673,7 @@
     "guildSettingsEmojiLoadFailed": "Не вдалося завантажити емоджі. Спробуйте пізніше.",
     "guildSettingsEmojiSearchEmpty": "Не знайдено емоджі, що відповідають вашому пошуку.",
     "guildSettingsEmojiSlotsFull": "Ви досягли максимальної кількості емоджі. Видаліть деякі наявні емоджі, щоб звільнити місце.",
-    "guildSettingsEmojiUploadRequirements": "Назви емодзі мають містити щонайменше 2 символи та можуть складатися з літер, цифр і підкреслень. Розмір емодзі має бути меншим за {maxSize}. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емодзі та SVG мають одразу відповідати обмеженню.",
+    "guildSettingsEmojiUploadRequirements": "Назви емоджі мають містити щонайменше 2 символи та можуть складатися з літер, цифр і підкреслень. Розмір емоджі має бути меншим за {maxSize}. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емоджі та SVG мають одразу відповідати обмеженню.",
     "@guildSettingsEmojiUploadRequirements": {
         "placeholders": {
             "maxSize": {
@@ -16292,7 +16292,7 @@
     "@doubleTapReactionEditTitle": {
         "description": "Title of the double-tap default emoji picker sheet."
     },
-    "doubleTapReactionEditSubtitle": "Виберіть емодзі для подвійного дотику",
+    "doubleTapReactionEditSubtitle": "Виберіть емоджі для подвійного дотику",
     "@doubleTapReactionEditSubtitle": {
         "description": "Subtitle of the double-tap default emoji picker sheet."
     },
