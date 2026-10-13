@@ -23,7 +23,6 @@ import 'package:fluxer_app/features/forum/providers/forum_first_messages_provide
 import 'package:fluxer_app/features/forum/providers/forum_post_unreads_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_posts_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -34,13 +33,8 @@ import 'package:fluxer_dart/gateway.dart' show GatewayState;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ForumChannelView extends ConsumerStatefulWidget {
-  const ForumChannelView({
-    required this.guildId,
-    required this.channelId,
-    super.key,
-  });
+  const ForumChannelView({required this.channelId, super.key});
 
-  final String guildId;
   final String channelId;
 
   @override
@@ -105,7 +99,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
   }
 
   Future<void> _begin() async {
-    if (!mounted || !ref.read(threadsGateProvider).isActive(widget.guildId)) {
+    if (!mounted) {
       return;
     }
     final String forumId = widget.channelId;
@@ -153,19 +147,10 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<bool>(threadChannelsActiveProvider(widget.guildId), (
-      bool? previous,
-      bool next,
-    ) {
-      if (next && previous != true && !_snapshotTaken) {
-        unawaited(_begin());
-      }
-    });
-    final bool active = ref.watch(threadChannelsActiveProvider(widget.guildId));
     final Channel? forum = ref
         .watch(channelByIdProvider(widget.channelId))
         .value;
-    if (!active || forum == null || !forum.isThreadOnly) {
+    if (forum == null || !forum.isThreadOnly) {
       return const SizedBox.shrink();
     }
     ref.listen<AsyncValue<UnreadState>>(channelUnreadProvider(forum.id), (

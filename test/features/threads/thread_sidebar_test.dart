@@ -6,9 +6,7 @@ import 'package:fluxer_app/features/channels/providers/guild_sidebar_entries_pro
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_composer_gate.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
-import 'package:riverpod/riverpod.dart';
 
 const Channel _general = Channel(
   id: '100',
@@ -128,13 +126,6 @@ void main() {
         '102',
         '103',
       ]);
-    });
-
-    test('an inactive guild yields no sidebar threads', () {
-      final ProviderContainer container = ProviderContainer();
-      addTearDown(container.dispose);
-      expect(container.read(sidebarThreadsByParentProvider('g1')), isEmpty);
-      expect(container.read(threadsGateProvider).isActive('g1'), isFalse);
     });
   });
 

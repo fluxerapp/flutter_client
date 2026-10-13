@@ -59,19 +59,11 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       return;
     }
     unawaited(
-      _navigateToPath(
-        path,
-        targetUserId: normalized['target_user_id'],
-        threadParent: resolvePushNotificationThreadParent(normalized),
-      ),
+      _navigateToPath(path, targetUserId: normalized['target_user_id']),
     );
   }
 
-  Future<void> _navigateToPath(
-    String path, {
-    String? targetUserId,
-    ({String guildId, String parentId})? threadParent,
-  }) async {
+  Future<void> _navigateToPath(String path, {String? targetUserId}) async {
     final String? currentUserId = ref.read(currentUserIdProvider);
     if (targetUserId != null &&
         targetUserId.isNotEmpty &&
@@ -88,7 +80,7 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       }
       ref
           .read(pendingPushNotificationPathProvider.notifier)
-          .store(path, accountUserId: targetUserId, threadParent: threadParent);
+          .store(path, accountUserId: targetUserId);
       try {
         await ref
             .read(accountManagerProvider.notifier)
@@ -108,14 +100,10 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
     );
     if (!ready) {
-      ref
-          .read(pendingPushNotificationPathProvider.notifier)
-          .store(path, threadParent: threadParent);
+      ref.read(pendingPushNotificationPathProvider.notifier).store(path);
       return;
     }
-    ref
-        .read(pendingPushNotificationPathProvider.notifier)
-        .open(path, threadParent: threadParent);
+    ref.read(pendingPushNotificationPathProvider.notifier).open(path);
   }
 
   Future<bool> _isKnownValidAccount(String userId) async {

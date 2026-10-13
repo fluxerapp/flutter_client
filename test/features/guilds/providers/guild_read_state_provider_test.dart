@@ -17,7 +17,6 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/data/message_write_batcher.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart' show MessageDeleteEvent;
@@ -1325,7 +1324,6 @@ void main() {
     Future<ProviderContainer> seedThread(
       FluxerDatabase db, {
       bool memberMuted = false,
-      bool threadsActive = true,
       List<String> mutedOverrides = const <String>[],
     }) async {
       final lastMessageId = _recentSnowflake();
@@ -1375,9 +1373,6 @@ void main() {
       }
       final container = _container(db);
       addTearDown(container.dispose);
-      container
-          .read(threadsGateProvider)
-          .apply('guild-1', active: threadsActive);
       container.read(gatewayReadyProvider.notifier).setReady();
       final sub = container.listen(
         guildReadStateProvider,
@@ -1398,30 +1393,6 @@ void main() {
         isTrue,
       );
     });
-
-    test(
-      'a joined thread lights the guild only while the gate is on',
-      () async {
-        final db = openTestDatabase();
-        final container = await seedThread(db, threadsActive: false);
-        expect(
-          container.read(guildReadStateProvider)['guild-1']?.hasUnread ?? false,
-          isFalse,
-        );
-        container.read(threadsGateProvider).apply('guild-1', active: true);
-        await _waitFor(
-          () =>
-              container.read(guildReadStateProvider)['guild-1']?.hasUnread ??
-              false,
-        );
-        container.read(threadsGateProvider).resetConnection();
-        await _waitFor(
-          () =>
-              container.read(guildReadStateProvider)['guild-1']?.hasUnread ==
-              false,
-        );
-      },
-    );
 
     test('a muted joined thread does not light the guild', () async {
       final db = openTestDatabase();

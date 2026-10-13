@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 96;
+  int get schemaVersion => 97;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1493,13 +1493,6 @@ class FluxerDatabase extends _$FluxerDatabase {
         }
         if (!await _tableHasColumn(
           m.database,
-          tableName: 'servers',
-          columnName: 'thread_channels_active',
-        )) {
-          await m.addColumn(servers, servers.threadChannelsActive);
-        }
-        if (!await _tableHasColumn(
-          m.database,
           tableName: 'messages',
           columnName: 'thread_json',
         )) {
@@ -1587,6 +1580,16 @@ class FluxerDatabase extends _$FluxerDatabase {
       }
       if (from < 96) {
         await _createTableIfNotExists(m, localMessageSends);
+      }
+      if (from < 97 &&
+          await _tableHasColumn(
+            m.database,
+            tableName: 'servers',
+            columnName: 'thread_channels_active',
+          )) {
+        await customStatement(
+          'ALTER TABLE servers DROP COLUMN thread_channels_active',
+        );
       }
     },
   );

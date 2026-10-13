@@ -15,7 +15,6 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -52,14 +51,10 @@ bool canStartThreadFromMessage({
 }
 
 bool watchCanCreateThreadFromMessage(WidgetRef ref, Message message) {
-  if (!ref.watch(anyThreadChannelsActiveProvider)) {
-    return false;
-  }
   final Channel? parent = ref
       .watch(channelByIdProvider(message.channelId))
       .value;
-  if (parent == null ||
-      !ref.watch(threadChannelsActiveProvider(parent.guildId))) {
+  if (parent == null) {
     return false;
   }
   return canStartThreadFromMessage(
@@ -304,9 +299,6 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final Channel parent = widget.parent;
     final Message? source = widget.sourceMessage;
-    if (!ref.watch(threadChannelsActiveProvider(parent.guildId))) {
-      return const SizedBox.shrink();
-    }
     final ThreadActor? actor = ref.watch(
       parentThreadActorProvider(parent.guildId, parent.id),
     );

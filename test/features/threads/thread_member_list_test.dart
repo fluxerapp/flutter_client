@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_member_list_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 
@@ -29,9 +28,6 @@ void main() {
         overrides: [gatewayConnectionProvider.overrideWithValue(connection)],
       );
       addTearDown(container.dispose);
-      final ThreadsGate gate = container.read(threadsGateProvider);
-      container.read(threadGuildGateProvider);
-      gate.apply('g1', active: true);
       final ProviderSubscription<void> sub = container.listen<void>(
         threadMemberListSubscriptionProvider('g1', 't1'),
         (_, _) {},
@@ -43,9 +39,6 @@ void main() {
         <String>['t1'],
       ]);
 
-      gate
-        ..resetConnection()
-        ..apply('g1', active: true);
       container.read(threadMemberListsProvider.notifier).clearAll();
       container.read(gatewayFullRecoveryProvider.notifier).bump();
       await Future<void>.delayed(Duration.zero);
@@ -70,29 +63,5 @@ void main() {
     expect(lists.unsubscribe('g1', 'b'), isEmpty);
     expect(lists.unsubscribe('g1', 'b'), isEmpty);
     expect(lists.subscribe('g2', 'd'), unorderedEquals(<String>['c', 'd']));
-  });
-
-  test('clearing one guild keeps the lists of other guilds', () {
-    final ProviderContainer container = ProviderContainer();
-    addTearDown(container.dispose);
-    container.read(threadMemberListsProvider.notifier)
-      ..subscribe('g1', 'a')
-      ..subscribe('g2', 'b')
-      ..apply(
-        const ThreadMemberListUpdateEvent(
-          guildId: 'g1',
-          threadId: 'a',
-          members: <ThreadMemberEntry>[],
-        ),
-      )
-      ..apply(
-        const ThreadMemberListUpdateEvent(
-          guildId: 'g2',
-          threadId: 'b',
-          members: <ThreadMemberEntry>[],
-        ),
-      )
-      ..clearGuild('g1');
-    expect(container.read(threadMemberListsProvider).keys, <String>['b']);
   });
 }

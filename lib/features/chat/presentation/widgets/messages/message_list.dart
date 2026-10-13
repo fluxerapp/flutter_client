@@ -3741,9 +3741,7 @@ class _MessageListState extends ConsumerState<MessageList>
           isNewDay: isNewDay,
           visualUnreadId: prependUnreadSeparator ? null : visualUnreadId,
           leadingGroupSpacing: leading,
-          child: isThreadCreated
-              ? ThreadMessageGate(guildId: guildId, child: systemMessage)
-              : systemMessage,
+          child: systemMessage,
         );
       }
       final bool canDelete = canDeleteMessage(

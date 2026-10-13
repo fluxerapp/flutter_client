@@ -9,14 +9,11 @@ const List<AuditLogActionType> _threadActions = <AuditLogActionType>[
 ];
 
 void main() {
-  test('thread actions are filterable only when threads are active', () {
-    final List<AuditLogActionType> control =
-        GuildAuditLogConstants.filterableActions(includeThreads: false);
-    final List<AuditLogActionType> active =
-        GuildAuditLogConstants.filterableActions(includeThreads: true);
-    expect(control.where(_threadActions.contains), isEmpty);
-    expect(active.where(_threadActions.contains), _threadActions);
-    expect(active.length, control.length + _threadActions.length);
+  test('thread actions are filterable', () {
+    expect(
+      GuildAuditLogConstants.filterableActions.where(_threadActions.contains),
+      _threadActions,
+    );
   });
 
   test(

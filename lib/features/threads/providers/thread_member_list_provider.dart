@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -52,15 +51,6 @@ class ThreadMemberLists extends _$ThreadMemberLists {
     }
     state = const <String, List<ThreadMemberEntry>>{};
   }
-
-  void clearGuild(String guildId) {
-    final Set<String>? ids = _subscribed[guildId];
-    if (ids == null || !ids.any(state.containsKey)) {
-      return;
-    }
-    state = Map<String, List<ThreadMemberEntry>>.of(state)
-      ..removeWhere((String threadId, _) => ids.contains(threadId));
-  }
 }
 
 @riverpod
@@ -89,8 +79,7 @@ void threadMemberListSubscription(Ref ref, String guildId, String threadId) {
       return;
     }
     final GatewayConnection connection = ref.read(gatewayConnectionProvider);
-    final bool active = ref.read(threadChannelsActiveProvider(guildId));
-    if (!active || connection.state != GatewayState.connected) {
+    if (connection.state != GatewayState.connected) {
       lists.unsubscribe(guildId, threadId);
       subscribedConnection = null;
       return;
@@ -104,10 +93,6 @@ void threadMemberListSubscription(Ref ref, String guildId, String threadId) {
       gatewayConnectionProvider.select(
         (GatewayConnection c) => c.state == GatewayState.connected,
       ),
-      (_, _) => scheduleMicrotask(sync),
-    )
-    ..listen<bool>(
-      threadChannelsActiveProvider(guildId),
       (_, _) => scheduleMicrotask(sync),
     )
     ..listen<int>(

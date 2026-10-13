@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 class ForumPostUnread {
@@ -46,9 +45,6 @@ class ForumPostUnreads extends Notifier<Map<String, ForumPostUnread>> {
     required String forumId,
     required List<String> postIds,
   }) async {
-    if (!ref.read(threadsGateProvider).isActive(guildId)) {
-      return;
-    }
     final GatewayConnection connection = ref.read(gatewayConnectionProvider);
     if (connection.state != GatewayState.connected || postIds.isEmpty) {
       return;
@@ -161,17 +157,6 @@ class ForumPostUnreads extends Notifier<Map<String, ForumPostUnread>> {
     _queue.clear();
     _awaiting.clear();
     _sentAcks.clear();
-  }
-
-  void clearGuild(String guildId) {
-    _queue.removeWhere(
-      (String _, _QueuedAck queued) => queued.guildId == guildId,
-    );
-    if (!state.values.any((ForumPostUnread e) => e.guildId == guildId)) {
-      return;
-    }
-    state = Map<String, ForumPostUnread>.of(state)
-      ..removeWhere((String _, ForumPostUnread e) => e.guildId == guildId);
   }
 }
 

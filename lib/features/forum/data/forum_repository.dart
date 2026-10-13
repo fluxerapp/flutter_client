@@ -11,8 +11,6 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
-import 'package:fluxer_app/features/threads/data/threads_repository.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -118,8 +116,7 @@ class ForumRepository {
   const ForumRepository(
     this._client,
     this._dio,
-    this._db,
-    this._gate, {
+    this._db, {
     this._currentUserId,
     this._gatewaySessionId,
   });
@@ -127,21 +124,10 @@ class ForumRepository {
   final FluxerClient _client;
   final Dio _dio;
   final db.FluxerDatabase _db;
-  final ThreadsGate _gate;
   final String? _currentUserId;
   final String? Function()? _gatewaySessionId;
 
-  Future<T> _guard<T>(String guildId, Future<T> Function() call) {
-    if (!_gate.isActive(guildId)) {
-      return Future<T>.error(ThreadsInactiveException(guildId));
-    }
-    return call();
-  }
-
   Future<void> _storeChannel(String guildId, ChannelResponse channel) async {
-    if (!_gate.isActive(guildId)) {
-      throw ThreadsInactiveException(guildId);
-    }
     await _db.channelDao.upsertChannel(channelFromSdk(channel, guildId));
   }
 
@@ -161,9 +147,6 @@ class ForumRepository {
       );
       rows.add(channelFromSdk(thread, guildId));
       ids.add(thread.id);
-    }
-    if (!_gate.isActive(guildId)) {
-      throw ThreadsInactiveException(guildId);
     }
     await _db.transaction(() async {
       if (rows.isNotEmpty) {
@@ -210,7 +193,7 @@ class ForumRepository {
     required String guildId,
     required String forumId,
     required ForumSearchQuery query,
-  }) => _guard(guildId, () async {
+  }) async {
     final ThreadSearchResult result;
     try {
       result = await _client.channels.searchThreads(
@@ -246,13 +229,13 @@ class ForumRepository {
       hasMore: json['has_more'] == true,
       firstMessages: _firstMessages(json['first_messages']),
     );
-  });
+  }
 
   Future<ForumSearchPage> listArchivedPosts({
     required String guildId,
     required String forumId,
     String? before,
-  }) => _guard(guildId, () async {
+  }) async {
     final Response<Map<String, dynamic>> response = await _dio
         .get<Map<String, dynamic>>(
           '/channels/$forumId/threads/archived/public',
@@ -272,13 +255,13 @@ class ForumRepository {
       hasMore: json['has_more'] == true,
       firstMessages: const <String, Message>{},
     );
-  });
+  }
 
   Future<Map<String, Message?>> fetchPostData({
     required String guildId,
     required String forumId,
     required List<String> postIds,
-  }) => _guard(guildId, () async {
+  }) async {
     final ThreadPostDataResponse response = await _client.channels
         .getChannelPostData(
           channelId: forumId,
@@ -294,13 +277,13 @@ class ForumRepository {
           null => null,
         },
     };
-  });
+  }
 
   Future<({String postId, Message? firstMessage})> createPost({
     required String guildId,
     required String forumId,
     required ForumPostDraft draft,
-  }) => _guard(guildId, () async {
+  }) async {
     final Map<String, dynamic> message = <String, dynamic>{
       if (draft.content.trim().isNotEmpty) 'content': draft.content.trim(),
       if (draft.files.isNotEmpty)
@@ -379,91 +362,88 @@ class ForumRepository {
             )
           : null,
     );
-  });
+  }
 
   Future<void> updateForum({
     required String guildId,
     required String forumId,
     required Map<String, Object?> patch,
-  }) => _guard(guildId, () async {
+  }) async {
     final ChannelResponse channel = await _client.channels.updateChannel(
       channelId: forumId,
       body: ChannelUpdateRequestBody(patch),
     );
     await _storeChannel(guildId, channel);
-  });
+  }
 
   Future<void> createTag({
     required String guildId,
     required String forumId,
     required ForumTagDraft tag,
-  }) => _guard(guildId, () async {
+  }) async {
     final ChannelResponse channel = await _client.channels.createForumTag(
       channelId: forumId,
       body: tag.toRequest(),
     );
     await _storeChannel(guildId, channel);
-  });
+  }
 
   Future<void> updateTag({
     required String guildId,
     required String forumId,
     required String tagId,
     required ForumTagDraft tag,
-  }) => _guard(guildId, () async {
+  }) async {
     final ChannelResponse channel = await _client.channels.updateForumTag(
       channelId: forumId,
       tagId: tagId,
       body: tag.toRequest(),
     );
     await _storeChannel(guildId, channel);
-  });
+  }
 
   Future<void> deleteTag({
     required String guildId,
     required String forumId,
     required String tagId,
-  }) => _guard(guildId, () async {
+  }) async {
     final ChannelResponse channel = await _client.channels.deleteForumTag(
       channelId: forumId,
       tagId: tagId,
     );
     await _storeChannel(guildId, channel);
-  });
+  }
 
   Future<void> updatePost({
     required String guildId,
     required String postId,
     required Map<String, Object?> patch,
-  }) => _guard(guildId, () async {
+  }) async {
     final ChannelResponse channel = await _client.channels.updateChannel(
       channelId: postId,
       body: ChannelUpdateRequestBody(patch),
     );
     await _storeChannel(guildId, channel);
-  });
+  }
 
   Future<void> reactToPost({
     required String guildId,
     required String postId,
     required String emoji,
     required bool add,
-  }) => _guard(
-    guildId,
-    () => add
-        ? _client.channels.addReaction(
-            channelId: postId,
-            messageId: postId,
-            emoji: emoji,
-            sessionId: _gatewaySessionId?.call(),
-          )
-        : _client.channels.removeOwnReaction(
-            channelId: postId,
-            messageId: postId,
-            emoji: emoji,
-            sessionId: _gatewaySessionId?.call(),
-          ),
-  );
+  }) => add
+      ? _client.channels.addReaction(
+          channelId: postId,
+          messageId: postId,
+          emoji: emoji,
+          sessionId: _gatewaySessionId?.call(),
+        )
+      : _client.channels.removeOwnReaction(
+          channelId: postId,
+          messageId: postId,
+          emoji: emoji,
+          sessionId: _gatewaySessionId?.call(),
+        );
 }
 
 String _uploadName(ComposerUploadFile upload) =>
@@ -475,7 +455,6 @@ final Provider<ForumRepository> forumRepositoryProvider =
         ref.watch(fluxerClientProvider),
         ref.watch(fluxerDioProvider),
         ref.watch(fluxerDatabaseProvider),
-        ref.watch(threadsGateProvider),
         currentUserId: ref.watch(currentUserIdProvider),
         gatewaySessionId: () => readGatewaySessionId(ref),
       ),

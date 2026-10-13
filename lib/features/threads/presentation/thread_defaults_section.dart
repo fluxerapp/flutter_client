@@ -6,7 +6,6 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_settings_sheet.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -51,8 +50,7 @@ class _ThreadDefaultsSectionState extends ConsumerState<ThreadDefaultsSection> {
 
   @override
   Widget build(BuildContext context) {
-    if (!isTextThreadParentType(widget.channel.type) ||
-        !ref.watch(threadChannelsActiveProvider(widget.channel.guildId))) {
+    if (!isTextThreadParentType(widget.channel.type)) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);

@@ -89,7 +89,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
       children: [
         if (channel != null && !isPersonalNotes && !channel!.isThread)
           buildChannelNotificationButton(channel: channel!),
-        if (channel != null && showsThreadHeaderActions(ref, channel))
+        if (channel != null && showsThreadHeaderActions(channel))
           ThreadHeaderToolbarButtons(channel: channel!),
         ..._buildCallButtons(context, ref),
         if (canOfferAnnouncementFollow(

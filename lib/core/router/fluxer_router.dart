@@ -62,7 +62,6 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_route_gate.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
     deferred as dm_voice_call;
@@ -278,7 +277,6 @@ GoRouter fluxerRouter(Ref ref) {
               preferredPath: currentAccountPendingNavigationPath(
                 pending: ref.read(pendingPushNotificationPathProvider),
                 currentUserId: ref.read(currentUserIdProvider),
-                threadsActive: ref.read(threadsGateProvider).isActive,
               ),
             );
       }
@@ -307,7 +305,6 @@ GoRouter fluxerRouter(Ref ref) {
               preferredPath: currentAccountPendingNavigationPath(
                 pending: ref.read(pendingPushNotificationPathProvider),
                 currentUserId: ref.read(currentUserIdProvider),
-                threadsActive: ref.read(threadsGateProvider).isActive,
               ),
             );
       }
@@ -813,11 +810,6 @@ GoRouter fluxerRouter(Ref ref) {
                     trackedUnavailableGuildIds: ref.read(
                       guildAvailabilityProvider,
                     ),
-                    restoreThreadChannels:
-                        !ref.read(gatewayReadyProvider) ||
-                        ref
-                            .read(threadsGateProvider)
-                            .isActive(state.pathParameters['guildId']),
                   );
                 },
                 pageBuilder: (context, state) => shellFadeTransitionPage(

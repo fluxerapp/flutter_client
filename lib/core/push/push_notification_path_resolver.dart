@@ -11,17 +11,6 @@ String? resolvePushNotificationPath(Map<String, String> payload) {
   return _pathFromIds(payload);
 }
 
-({String guildId, String parentId})? resolvePushNotificationThreadParent(
-  Map<String, String> payload,
-) {
-  final String? parentId = _nonEmpty(payload['parent_id']);
-  final String? guildId = _nonEmpty(payload['guild_id']);
-  if (parentId == null || guildId == null || isDmPushPayload(payload)) {
-    return null;
-  }
-  return (guildId: guildId, parentId: parentId);
-}
-
 String? _pathFromUrl(String? rawUrl) {
   if (rawUrl == null || rawUrl.isEmpty) {
     return null;

@@ -23,7 +23,6 @@ import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -67,13 +66,7 @@ class ChannelMention extends ConsumerWidget {
       );
     }
     final bool clickable =
-        channel != null &&
-        isClickableChannelMention(
-          channel,
-          threadsActive:
-              (channel.isThread || channel.isThreadOnly) &&
-              ref.watch(threadChannelsActiveProvider(channel.guildId)),
-        );
+        channel != null && isClickableChannelMention(channel);
     if (channel != null && !clickable) {
       return _buildUnknownMentionPill(
         context,

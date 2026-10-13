@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -21,24 +20,6 @@ bool isThreadSystemMessageType(int type) =>
 
 bool messageMayCarryThread(Message message) =>
     message.threadJson != null || message.flags & messageFlagHasThread != 0;
-
-class ThreadMessageGate extends ConsumerWidget {
-  const ThreadMessageGate({
-    required this.guildId,
-    required this.child,
-    super.key,
-  });
-
-  final String? guildId;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(threadChannelsActiveProvider(guildId))
-        ? child
-        : const SizedBox.shrink();
-  }
-}
 
 Future<void> openThreadById(
   BuildContext context,
@@ -64,9 +45,6 @@ class ThreadStarterMessage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!ref.watch(threadChannelsActiveProvider(guildId))) {
-      return const SizedBox.shrink();
-    }
     final MessageReference? reference = message.messageReference;
     final String? sourceChannelId = reference?.channelId;
     final String? sourceMessageId = reference?.messageId;
@@ -160,23 +138,12 @@ class ThreadStarterDeletedNotice extends StatelessWidget {
 }
 
 class ThreadFailedToMentionRolesNote extends ConsumerWidget {
-  const ThreadFailedToMentionRolesNote({
-    required this.message,
-    required this.guildId,
-    super.key,
-  });
+  const ThreadFailedToMentionRolesNote({required this.message, super.key});
 
   final Message message;
-  final String? guildId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? resolvedGuildId =
-        guildId ?? ref.watch(channelGuildIdProvider(message.channelId)).value;
-    if (resolvedGuildId == null ||
-        !ref.watch(threadChannelsActiveProvider(resolvedGuildId))) {
-      return const SizedBox.shrink();
-    }
     final Channel? channel = ref
         .watch(channelByIdProvider(message.channelId))
         .value;
@@ -209,8 +176,7 @@ class MessageThreadChip extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String? resolvedGuildId =
         guildId ?? ref.watch(channelGuildIdProvider(message.channelId)).value;
-    if (resolvedGuildId == null ||
-        !ref.watch(threadChannelsActiveProvider(resolvedGuildId))) {
+    if (resolvedGuildId == null) {
       return const SizedBox.shrink();
     }
     final Channel? thread = ref.watch(channelByIdProvider(message.id)).value;

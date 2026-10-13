@@ -5,16 +5,14 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 List<GuildPermissionCategorySpec> generateChannelPermissionSpec(
   FluxerLocalizations l10n,
-  ChannelType channelType, {
-  bool threads = false,
-}) {
+  ChannelType channelType,
+) {
   final bool includeThreadPermissions =
-      threads &&
-      (channelType == ChannelType.guildText ||
-          channelType == ChannelType.guildAnnouncement ||
-          channelType == ChannelType.guildCategory ||
-          channelType == ChannelType.guildForum ||
-          channelType == ChannelType.guildMedia);
+      channelType == ChannelType.guildText ||
+      channelType == ChannelType.guildAnnouncement ||
+      channelType == ChannelType.guildCategory ||
+      channelType == ChannelType.guildForum ||
+      channelType == ChannelType.guildMedia;
   final bool includeVoicePermissions =
       channelType == ChannelType.guildVoice ||
       channelType == ChannelType.guildCategory;

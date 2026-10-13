@@ -170,16 +170,8 @@ class GuildAuditLogConstants {
     };
   }
 
-  static List<AuditLogActionType> filterableActions({
-    required bool includeThreads,
-  }) => <AuditLogActionType>[
-    for (final AuditLogActionType action in AuditLogActionType.$valuesDefined)
-      if (includeThreads ||
-          (action != AuditLogActionType.threadCreate &&
-              action != AuditLogActionType.threadUpdate &&
-              action != AuditLogActionType.threadDelete))
-        action,
-  ];
+  static List<AuditLogActionType> get filterableActions =>
+      AuditLogActionType.$valuesDefined;
 
   static const Map<AuditLogActionType, IconData> _actionIconMap =
       <AuditLogActionType, IconData>{

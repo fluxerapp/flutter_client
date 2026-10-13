@@ -2,7 +2,6 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_providers.g.dart';
@@ -19,12 +18,7 @@ ChannelRepository channelRepository(Ref ref) {
   final client = ref.watch(fluxerClientProvider);
   final dio = ref.watch(fluxerDioProvider);
   final db = ref.watch(fluxerDatabaseProvider);
-  return ChannelRepository(
-    client,
-    dio,
-    db,
-    threadsGate: ref.watch(threadsGateProvider),
-  );
+  return ChannelRepository(client, dio, db);
 }
 
 @riverpod

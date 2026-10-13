@@ -1414,14 +1414,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ),
         ),
       if (msg.flags & messageFlagFailedToMentionSomeRolesInThread != 0)
-        wrapPart(
-          ThreadFailedToMentionRolesNote(
-            message: msg,
-            guildId:
-                widget.previewRoleGuildId ??
-                widget.renderSettings?.activeGuildId,
-          ),
-        ),
+        wrapPart(ThreadFailedToMentionRolesNote(message: msg)),
       if (msg.hasFailed) wrapPart(_buildDeliveryStatus(context, msg)),
     ];
   }

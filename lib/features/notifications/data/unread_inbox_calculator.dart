@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
         isGuildCategoryChannelType,
         isGuildVoiceChannelType,
         isThreadChannelType,
-        isThreadFeatureChannelType,
         isThreadOnlyChannelType;
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart'
     show forumNewPostsUnreadEnabled;
@@ -59,7 +58,6 @@ class UnreadInboxCalculator {
     required Map<String, bool> collapsedByChannelId,
     String? currentUserId,
     bool unreadBadgeCustomizationEnabled = false,
-    Set<String> threadGuildIds = const <String>{},
   }) async {
     final int nowMs = DateTime.now().millisecondsSinceEpoch;
     final List<UnreadInboxEntry> entries = <UnreadInboxEntry>[];
@@ -120,10 +118,6 @@ class UnreadInboxCalculator {
 
     for (final Channel channel in allChannels) {
       if (isGuildCategoryChannelType(channel.type)) {
-        continue;
-      }
-      if (isThreadFeatureChannelType(channel.type) &&
-          !threadGuildIds.contains(channel.guildId)) {
         continue;
       }
       if (!await canReadChannelForUnread(

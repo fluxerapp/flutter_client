@@ -450,10 +450,6 @@ void main() {
           expect(channel.flags, isNull);
           expect(channel.availableTagsJson, isNull);
         }
-        expect(
-          (await db.guildDao.getServerById('g1'))?.threadChannelsActive,
-          false,
-        );
         final ReadState? readState = await db.readStateDao.getReadState('c1');
         expect(readState?.lastMessageId, '10');
         expect(readState?.mentionCount, 2);

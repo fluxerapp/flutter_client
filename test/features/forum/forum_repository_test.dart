@@ -11,8 +11,6 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
-import 'package:fluxer_app/features/threads/data/threads_repository.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -22,7 +20,6 @@ class _Adapter implements HttpClientAdapter {
   final List<String> bodies = <String>[];
   int status = 200;
   Object body = <String, Object?>{};
-  void Function()? onFetch;
 
   @override
   Future<ResponseBody> fetch(
@@ -31,7 +28,6 @@ class _Adapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     requests.add(options);
-    onFetch?.call();
     final List<int> sent = <int>[];
     if (requestStream != null) {
       await for (final Uint8List chunk in requestStream) {
@@ -102,7 +98,6 @@ Map<String, Object?> _message(String id) => <String, Object?>{
 void main() {
   late _Adapter adapter;
   late FluxerDatabase db;
-  late ThreadsGate gate;
   late ForumRepository repository;
 
   setUp(() {
@@ -110,48 +105,10 @@ void main() {
     final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
       ..httpClientAdapter = adapter;
     db = openTestDatabase();
-    gate = ThreadsGate();
-    repository = ForumRepository(FluxerClient(dio), dio, db, gate);
-  });
-
-  test('nothing is sent while the guild is inactive', () async {
-    await expectLater(
-      repository.searchPosts(
-        guildId: 'g1',
-        forumId: 'f1',
-        query: const ForumSearchQuery(archived: true),
-      ),
-      throwsA(isA<ThreadsInactiveException>()),
-    );
-    await expectLater(
-      repository.createPost(
-        guildId: 'g1',
-        forumId: 'f1',
-        draft: const ForumPostDraft(name: 'x', content: 'y'),
-      ),
-      throwsA(isA<ThreadsInactiveException>()),
-    );
-    expect(adapter.requests, isEmpty);
-  });
-
-  test('a gate flip during the request writes nothing', () async {
-    gate.apply('g1', active: true);
-    adapter
-      ..body = _thread('p9')
-      ..onFetch = () => gate.apply('g1', active: false);
-    await expectLater(
-      repository.updatePost(
-        guildId: 'g1',
-        postId: 'p9',
-        patch: const <String, Object?>{'name': 'x'},
-      ),
-      throwsA(isA<ThreadsInactiveException>()),
-    );
-    expect(await db.channelDao.getChannelById('p9'), isNull);
+    repository = ForumRepository(FluxerClient(dio), dio, db);
   });
 
   test('a 202 reply asks the caller to retry', () async {
-    gate.apply('g1', active: true);
     adapter
       ..status = 202
       ..body = <String, Object?>{
@@ -174,7 +131,6 @@ void main() {
   });
 
   test('a search page stores posts, members and first messages', () async {
-    gate.apply('g1', active: true);
     adapter.body = <String, Object?>{
       'threads': <Object?>[_thread('p1', archived: true), _thread('p2')],
       'members': <Object?>[
@@ -212,7 +168,6 @@ void main() {
   });
 
   test('a disabled search index is reported, not thrown', () async {
-    gate.apply('g1', active: true);
     adapter
       ..status = 403
       ..body = <String, Object?>{
@@ -230,7 +185,6 @@ void main() {
   });
 
   test('a post without files is JSON', () async {
-    gate.apply('g1', active: true);
     adapter
       ..status = 201
       ..body = <String, Object?>{..._thread('p9'), 'message': _message('p9')};
@@ -255,7 +209,6 @@ void main() {
   });
 
   test('a post carries the forum default archive duration', () async {
-    gate.apply('g1', active: true);
     adapter
       ..status = 201
       ..body = _thread('p9');
@@ -276,7 +229,6 @@ void main() {
   });
 
   test('a post with files is multipart with payload_json', () async {
-    gate.apply('g1', active: true);
     final Directory dir = await Directory.systemTemp.createTemp('forum');
     addTearDown(() => dir.delete(recursive: true));
     final File file = File('${dir.path}/cat.png')
@@ -318,14 +270,12 @@ void main() {
   });
 
   test('post reactions name the gateway session so it gets no echo', () async {
-    gate.apply('g1', active: true);
     final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
       ..httpClientAdapter = adapter;
     final ForumRepository withSession = ForumRepository(
       FluxerClient(dio),
       dio,
       db,
-      gate,
       gatewaySessionId: () => 'session-1',
     );
 

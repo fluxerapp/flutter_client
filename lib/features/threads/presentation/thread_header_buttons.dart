@@ -6,20 +6,15 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/cha
 import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_members_sheet.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-bool showsThreadHeaderActions(WidgetRef ref, Channel? channel) {
-  if (channel == null ||
-      !(isTextThreadParentType(channel.type) || channel.isThread)) {
-    return false;
-  }
-  return ref.watch(threadChannelsActiveProvider(channel.guildId));
-}
+bool showsThreadHeaderActions(Channel? channel) =>
+    channel != null &&
+    (isTextThreadParentType(channel.type) || channel.isThread);
 
 class ThreadHeaderMobileButton extends ConsumerWidget {
   const ThreadHeaderMobileButton({required this.channel, super.key});
@@ -28,7 +23,7 @@ class ThreadHeaderMobileButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!showsThreadHeaderActions(ref, channel)) {
+    if (!showsThreadHeaderActions(channel)) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -55,7 +50,7 @@ class ThreadHeaderToolbarButtons extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!showsThreadHeaderActions(ref, channel)) {
+    if (!showsThreadHeaderActions(channel)) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);

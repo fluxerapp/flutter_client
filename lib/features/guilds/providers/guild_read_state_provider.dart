@@ -12,17 +12,12 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
-    show
-        isGuildTextBasedChannel,
-        isThreadChannelType,
-        isThreadFeatureChannelType,
-        isThreadOnlyChannelType;
+    show isGuildTextBasedChannel, isThreadChannelType, isThreadOnlyChannelType;
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart'
     show forumNewPostsUnreadEnabled;
 import 'package:fluxer_app/features/guilds/domain/guild_read_state_contribution.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -230,17 +225,6 @@ class GuildReadState extends _$GuildReadState {
       if (!(prev ?? false) && next) {
         _requestSeed(db, currentUserId);
       }
-    });
-
-    ref.listen<Set<String>>(threadGuildGateProvider, (
-      Set<String>? prev,
-      Set<String> next,
-    ) {
-      final Set<String> previous = prev ?? const <String>{};
-      _emitForGuilds(<String>{
-        ...next.difference(previous),
-        ...previous.difference(next),
-      });
     });
 
     if (ref.read(gatewayReadyProvider)) {
@@ -541,11 +525,8 @@ class GuildReadState extends _$GuildReadState {
     String? firstUnreadChannelId;
     var firstUnreadPosition = 0;
     final mentionCountByChannel = <String, int>{};
-    final bool threadsActive = ref.read(threadsGateProvider).isActive(guildId);
     for (final channel in _channelSnapshot.values) {
-      if (channel.guildId != guildId ||
-          !_tracksUnread(channel.type) ||
-          (!threadsActive && isThreadFeatureChannelType(channel.type))) {
+      if (channel.guildId != guildId || !_tracksUnread(channel.type)) {
         continue;
       }
       final contribution = _channelContributions[channel.id];

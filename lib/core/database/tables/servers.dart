@@ -28,8 +28,6 @@ class Servers extends Table {
   IntColumn get defaultMessageNotifications =>
       integer().withDefault(const Constant(0))();
   TextColumn get vanityUrlCode => text().nullable()();
-  BoolColumn get threadChannelsActive =>
-      boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};

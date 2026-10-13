@@ -8,7 +8,6 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -26,12 +25,10 @@ String _snowflakeForUtc(DateTime utc) =>
     ((utc.millisecondsSinceEpoch - kSnowflakeEpochMs) << 22).toString();
 
 class _Harness {
-  _Harness(this.database, this.gate, this.handler, this.flips);
+  _Harness(this.database, this.handler);
 
   final FluxerDatabase database;
-  final ThreadsGate gate;
   final GatewayEventHandler handler;
-  final List<({String guildId, bool active})> flips;
 }
 
 _Harness _build({
@@ -41,20 +38,14 @@ _Harness _build({
   String? Function()? openChannelId,
 }) {
   final FluxerDatabase database = openTestDatabase();
-  final ThreadsGate gate = ThreadsGate();
-  final List<({String guildId, bool active})> flips =
-      <({String guildId, bool active})>[];
   final GatewayEventHandler handler = GatewayEventHandler(
     database: database,
     currentUserId: '100',
-    threadsGate: gate,
     resolveParentThreadActor: resolveParentThreadActor,
     openChannelId: openChannelId,
     onMessageCreate: onMessageCreate,
-    onThreadGateChanged: (String guildId, {required bool active}) =>
-        flips.add((guildId: guildId, active: active)),
   );
-  return _Harness(database, gate, handler, flips);
+  return _Harness(database, handler);
 }
 
 Map<String, Object?> _channel(String id, int type, {String? parentId}) =>
@@ -236,194 +227,11 @@ Future<void> _storeGuildSettings(
 );
 
 void main() {
-  group('gate off', () {
-    test(
-      'READY without threads drops gated channel types and stays inactive',
-      () async {
-        final _Harness h = _build();
-        await _ready(h.handler, withThreads: false);
-
-        expect(h.gate.isActive(_guildId), isFalse);
-        expect(await h.database.channelDao.getChannelById(_textId), isNotNull);
-        expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-        expect(await h.database.threadDao.getJoinedThreadIds(), isEmpty);
-        final Server? server = await h.database.guildDao.getServerById(
-          _guildId,
-        );
-        expect(server?.threadChannelsActive, isFalse);
-      },
-    );
-
-    test('thread events and gated channel upserts are dropped', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: false);
-
-      await h.handler.handle(
-        ThreadCreateEvent(
-          channel: ChannelResponse.fromJson(_thread(_threadId)),
-        ),
-      );
-      await h.handler.handle(
-        ChannelCreateEvent(
-          channel: ChannelResponse.fromJson(_channel('1002', 16)),
-        ),
-      );
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-
-      expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-      expect(await h.database.channelDao.getChannelById('1002'), isNull);
-      expect(await h.database.threadDao.getMember(_threadId), isNull);
-    });
-
-    test('GUILD_CREATE without threads drops every gated type', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: false);
-      await _guildCreate(h.handler, withThreads: false);
-
-      expect(h.gate.isActive(_guildId), isFalse);
-      expect(h.flips, isEmpty);
-      expect(await h.database.channelDao.getChannelById(_textId), isNotNull);
-      expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-      expect(
-        await h.database.channelDao.getChannels(_guildId, includeThreads: true),
-        hasLength(2),
-      );
-    });
-
-    test('bulk channel updates drop every gated type', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: false);
-
-      await h.handler.handle(
-        ChannelUpdateBulkEvent(
-          channels: <ChannelResponse>[
-            for (final int type in <int>[10, 11, 12, 15, 16])
-              ChannelResponse.fromJson(
-                _channel('30$type', type, parentId: _textId),
-              ),
-            ChannelResponse.fromJson(_channel('3000', 0)),
-          ],
-        ),
-      );
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-
-      final List<Channel> stored = await h.database.channelDao.getChannels(
-        _guildId,
-        includeThreads: true,
-      );
-      expect(
-        stored.map((Channel c) => c.type).toSet().intersection(<int>{
-          10,
-          11,
-          12,
-          15,
-          16,
-        }),
-        isEmpty,
-      );
-      expect(await h.database.channelDao.getChannelById('3000'), isNotNull);
-    });
-
-    test('thread list, member and delete events write nothing', () async {
-      final List<ThreadMemberListUpdateEvent> memberLists =
-          <ThreadMemberListUpdateEvent>[];
-      final List<String> deleted = <String>[];
-      final FluxerDatabase database = openTestDatabase();
-      final GatewayEventHandler handler = GatewayEventHandler(
-        database: database,
-        currentUserId: '100',
-        threadsGate: ThreadsGate(),
-        onThreadMemberListUpdate: memberLists.add,
-        onChannelDelete: deleted.add,
-      );
-      await _ready(handler, withThreads: false);
-
-      await handler.handle(
-        ThreadListSyncEvent(
-          guildId: _guildId,
-          threads: <ChannelResponse>[
-            ChannelResponse.fromJson(_thread(_threadId)),
-          ],
-          members: const <ThreadMemberResponse>[],
-        ),
-      );
-      await handler.handle(
-        ThreadUpdateEvent(
-          channel: ChannelResponse.fromJson(_thread(_threadId)),
-        ),
-      );
-      await handler.handle(
-        const ThreadMembersUpdateEvent(
-          id: _threadId,
-          guildId: _guildId,
-          memberCount: 4,
-        ),
-      );
-      await handler.handle(
-        const ThreadDeleteEvent(
-          id: _threadId,
-          guildId: _guildId,
-          parentId: _textId,
-          type: ChannelType.publicThread,
-        ),
-      );
-      await handler.handle(
-        const ThreadMemberListUpdateEvent(
-          guildId: _guildId,
-          threadId: _threadId,
-          members: <ThreadMemberEntry>[],
-        ),
-      );
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-
-      expect(
-        await database.channelDao.getChannels(_guildId, includeThreads: true),
-        hasLength(2),
-      );
-      expect(await database.threadDao.getJoinedThreadIds(), isEmpty);
-      expect(memberLists, isEmpty);
-      expect(deleted, isEmpty);
-    });
-
-    test('a message in an unknown channel creates no thread state', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: false);
-
-      await h.handler.handle(
-        MessageCreateEvent(
-          message: _message(
-            _snowflakeForUtc(DateTime.utc(2026, 9, 28, 3)),
-            _threadId,
-          ),
-          guildId: _guildId,
-          channelType: 11,
-        ),
-      );
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-
-      expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-      expect(await h.database.threadDao.getMember(_threadId), isNull);
-    });
-
-    test('a handler without a gate never activates', () async {
-      final FluxerDatabase database = openTestDatabase();
-      final GatewayEventHandler handler = GatewayEventHandler(
-        database: database,
-        currentUserId: '100',
-      );
-      await _ready(handler, withThreads: true);
-
-      expect(await database.channelDao.getChannelById(_forumId), isNull);
-      expect(await database.channelDao.getChannelById(_threadId), isNull);
-    });
-  });
-
-  group('gate on', () {
+  group('threads', () {
     test('READY with threads stores threads, forums and membership', () async {
       final _Harness h = _build();
       await _ready(h.handler, withThreads: true);
 
-      expect(h.gate.isActive(_guildId), isTrue);
       final Channel? thread = await h.database.channelDao.getChannelById(
         _threadId,
       );
@@ -433,12 +241,6 @@ void main() {
       expect(thread?.threadArchived, isFalse);
       expect(await h.database.channelDao.getChannelById(_forumId), isNotNull);
       expect(await h.database.threadDao.getMember(_threadId), isNotNull);
-      expect(
-        (await h.database.guildDao.getServerById(
-          _guildId,
-        ))?.threadChannelsActive,
-        isTrue,
-      );
       final List<String> listed = <String>[
         for (final Channel c in await h.database.channelDao.getChannels(
           _guildId,
@@ -1224,220 +1026,6 @@ void main() {
       expect((await h.database.channelDao.getChannelById(_threadId))?.type, 10);
       expect((await h.database.channelDao.getChannelById(_textId))?.type, 5);
     });
-  });
-
-  group('flips', () {
-    test('GUILD_CREATE without threads purges and reports the flip', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: true);
-
-      await _guildCreate(h.handler, withThreads: false);
-
-      expect(h.gate.isActive(_guildId), isFalse);
-      expect(h.flips, [
-        (guildId: _guildId, active: true),
-        (guildId: _guildId, active: false),
-      ]);
-      expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-      expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-      expect(await h.database.channelDao.getChannelById(_textId), isNotNull);
-      expect(await h.database.threadDao.getJoinedThreadIds(), isEmpty);
-    });
-
-    test('GUILD_CREATE with threads activates and reports the flip', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: false);
-
-      await _guildCreate(h.handler, withThreads: true);
-
-      expect(h.gate.isActive(_guildId), isTrue);
-      expect(h.flips, [(guildId: _guildId, active: true)]);
-      expect(await h.database.channelDao.getChannelById(_threadId), isNotNull);
-      expect(await h.database.channelDao.getChannelById(_forumId), isNotNull);
-    });
-
-    test('READY with threads reports the activation', () async {
-      final _Harness h = _build();
-
-      await _ready(h.handler, withThreads: true);
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-
-      expect(h.gate.isActive(_guildId), isTrue);
-      expect(h.flips, [(guildId: _guildId, active: true)]);
-    });
-
-    test('a reconnect READY reports only real flips', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: true);
-
-      await _ready(h.handler, withThreads: true, sessionId: 'session-2');
-      await _ready(h.handler, withThreads: false, sessionId: 'session-3');
-
-      expect(h.flips, [
-        (guildId: _guildId, active: true),
-        (guildId: _guildId, active: false),
-      ]);
-    });
-
-    test('an unchanged GUILD_CREATE reports nothing', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: false);
-
-      await _guildCreate(h.handler, withThreads: false);
-
-      expect(h.flips, isEmpty);
-    });
-
-    test(
-      'a reconnect READY without threads purges stored thread data',
-      () async {
-        final _Harness h = _build();
-        await _ready(h.handler, withThreads: true);
-
-        await _ready(h.handler, withThreads: false, sessionId: 'session-2');
-
-        expect(h.gate.isActive(_guildId), isFalse);
-        expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-        expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-        expect(await h.database.threadDao.getJoinedThreadIds(), isEmpty);
-        expect(
-          (await h.database.guildDao.getServerById(
-            _guildId,
-          ))?.threadChannelsActive,
-          isFalse,
-        );
-      },
-    );
-
-    test(
-      'a cold start READY without threads purges stored thread data',
-      () async {
-        final _Harness h = _build();
-        await _ready(h.handler, withThreads: true);
-        await h.database.messageDao.upsertMessage(
-          MessagesCompanion.insert(
-            id: '9001',
-            channelId: _threadId,
-            authorId: '300',
-            content: 'in thread',
-            timestamp: DateTime.utc(2026, 9, 27),
-          ),
-        );
-
-        final GatewayEventHandler restarted = GatewayEventHandler(
-          database: h.database,
-          currentUserId: '100',
-        );
-        await _ready(restarted, withThreads: false);
-
-        expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-        expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-        expect(await h.database.channelDao.getChannelById(_textId), isNotNull);
-        expect(await h.database.threadDao.getJoinedThreadIds(), isEmpty);
-        expect(await h.database.messageDao.getMessage('9001'), isNull);
-        expect(
-          (await h.database.guildDao.getServerById(
-            _guildId,
-          ))?.threadChannelsActive,
-          isFalse,
-        );
-      },
-    );
-
-    test(
-      'a reconnect READY with the guild unavailable keeps thread data',
-      () async {
-        final _Harness h = _build();
-        await _ready(h.handler, withThreads: true);
-
-        await _ready(
-          h.handler,
-          withThreads: false,
-          sessionId: 'session-2',
-          unavailable: true,
-        );
-
-        expect(
-          await h.database.channelDao.getChannelById(_threadId),
-          isNotNull,
-        );
-        expect(await h.database.channelDao.getChannelById(_forumId), isNotNull);
-      },
-    );
-
-    test(
-      'GUILD_CREATE without threads after an unavailable READY purges stored thread data',
-      () async {
-        final _Harness h = _build();
-        await _ready(h.handler, withThreads: true);
-        await _ready(
-          h.handler,
-          withThreads: false,
-          sessionId: 'session-2',
-          unavailable: true,
-        );
-
-        await _guildCreate(h.handler, withThreads: false);
-
-        expect(h.gate.isActive(_guildId), isFalse);
-        expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-        expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-        expect(await h.database.channelDao.getChannelById(_textId), isNotNull);
-        expect(await h.database.threadDao.getJoinedThreadIds(), isEmpty);
-        expect(await h.database.threadDao.getMember(_threadId), isNull);
-        expect(
-          (await h.database.guildDao.getServerById(
-            _guildId,
-          ))?.threadChannelsActive,
-          isFalse,
-        );
-      },
-    );
-
-    test(
-      'a new connection purges thread data persisted by an earlier one',
-      () async {
-        final _Harness h = _build();
-        await _ready(h.handler, withThreads: true);
-        final ThreadsGate gate = ThreadsGate();
-        final GatewayEventHandler next = GatewayEventHandler(
-          database: h.database,
-          currentUserId: '100',
-          threadsGate: gate,
-        );
-        await _ready(
-          next,
-          withThreads: false,
-          sessionId: 'session-2',
-          unavailable: true,
-        );
-
-        await _guildCreate(next, withThreads: false);
-
-        expect(gate.isActive(_guildId), isFalse);
-        expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-        expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-        expect(await h.database.threadDao.getMember(_threadId), isNull);
-      },
-    );
-
-    test(
-      'GUILD_CREATE without a prior READY purges from the stored column',
-      () async {
-        final _Harness h = _build();
-        await _ready(h.handler, withThreads: true);
-        final GatewayEventHandler next = GatewayEventHandler(
-          database: h.database,
-          currentUserId: '100',
-          threadsGate: ThreadsGate(),
-        );
-
-        await _guildCreate(next, withThreads: false);
-
-        expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-        expect(await h.database.channelDao.getChannelById(_forumId), isNull);
-      },
-    );
   });
 }
 

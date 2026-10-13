@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -162,21 +161,19 @@ Future<List<ForwardDestination>> forwardDestinations(
     );
   }
 
-  final ThreadsGate threadsGate = ref.watch(threadsGateProvider);
-  final List<Channel> threadDestinations = <Channel>[];
-  if (threadsGate.anyActive) {
-    final Set<String> joined = await database.threadDao.getJoinedThreadIds();
-    for (final String guildId in threadsGate.activeGuildIds) {
+  final Set<String> joined = await database.threadDao.getJoinedThreadIds();
+  final List<Channel> threadDestinations = <Channel>[
+    for (final String guildId in guildsById.keys)
       for (final db.Channel row in await database.threadDao.getThreadsForGuild(
         guildId,
-      )) {
-        final Channel thread = Channel.fromRow(row);
-        if (isForwardableThread(thread, joined: joined.contains(thread.id))) {
-          threadDestinations.add(thread);
-        }
-      }
-    }
-  }
+      ))
+        if (Channel.fromRow(row) case final Channel thread
+            when isForwardableThread(
+              thread,
+              joined: joined.contains(thread.id),
+            ))
+          thread,
+  ];
   final List<Channel> guildChannels =
       <Channel>[
         ...allChannels.where(

@@ -1,16 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_unavailable_screen.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ThreadRouteGate extends ConsumerStatefulWidget {
@@ -81,7 +78,6 @@ class _ThreadRouteGateState extends ConsumerState<ThreadRouteGate> {
 
   @override
   Widget build(BuildContext context) {
-    final bool active = ref.watch(threadChannelsActiveProvider(widget.guildId));
     final AsyncValue<Channel?> channelAsync = ref.watch(
       channelByIdProvider(widget.channelId),
     );
@@ -95,30 +91,15 @@ class _ThreadRouteGateState extends ConsumerState<ThreadRouteGate> {
           ? null
           : threadParentId;
       _seenThread = (key: _key, parentId: parentId);
-      if (active) {
-        _redirectKey = null;
-        return widget.child;
-      }
-      if (!ref.watch(gatewayReadyProvider) ||
-          ref.watch(
-            guildAvailabilityProvider.select(
-              (Set<String> ids) => ids.contains(widget.guildId),
-            ),
-          )) {
-        return _loading();
-      }
-      _redirect(parentId);
-      return _loading();
+      _redirectKey = null;
+      return widget.child;
     }
     final ({String key, String? parentId})? seen = _seenThread;
     if (channel == null && channelAsync.hasValue && seen?.key == _key) {
       _redirect(seen?.parentId);
       return _loading();
     }
-    if (active &&
-        channel == null &&
-        channelAsync.hasValue &&
-        _settledKey != _key) {
+    if (channel == null && channelAsync.hasValue && _settledKey != _key) {
       _fetch();
       return _loading();
     }

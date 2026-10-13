@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_consta
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_state.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_audit_log_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -60,9 +59,7 @@ class GuildAuditLogFilterRow extends ConsumerWidget {
             label: l10n.guildSettingsAuditLogFilterAllActions,
             icon: PhosphorIconsFill.funnelSimple,
           ),
-          ...GuildAuditLogConstants.filterableActions(
-            includeThreads: ref.watch(threadChannelsActiveProvider(guildId)),
-          ).map(
+          ...GuildAuditLogConstants.filterableActions.map(
             (AuditLogActionType action) => FluxerSelectItem<String>(
               value: action.json?.toString() ?? '',
               label: GuildAuditLogConstants.getActionLabel(action, l10n),

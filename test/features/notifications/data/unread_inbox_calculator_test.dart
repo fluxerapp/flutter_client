@@ -556,8 +556,7 @@ void main() {
       return db;
     }
 
-    test('lists mentioned and joined unread threads when threads are '
-        'active', () async {
+    test('lists mentioned and joined unread threads', () async {
       final FluxerDatabase db = await seed();
 
       final List<UnreadInboxEntry> entries =
@@ -565,7 +564,6 @@ void main() {
             db,
             collapsedByChannelId: <String, bool>{},
             currentUserId: userId,
-            threadGuildIds: <String>{guildId},
           );
 
       expect(entries.map((UnreadInboxEntry e) => e.channelId).toSet(), <String>{
@@ -580,19 +578,6 @@ void main() {
             .mentionCount,
         2,
       );
-    });
-
-    test('skips threads when threads are not active in the guild', () async {
-      final FluxerDatabase db = await seed();
-
-      final List<UnreadInboxEntry> entries =
-          await UnreadInboxCalculator.compute(
-            db,
-            collapsedByChannelId: <String, bool>{},
-            currentUserId: userId,
-          );
-
-      expect(entries, isEmpty);
     });
 
     test('skips a joined thread the user muted', () async {
@@ -610,7 +595,6 @@ void main() {
             db,
             collapsedByChannelId: <String, bool>{},
             currentUserId: userId,
-            threadGuildIds: <String>{guildId},
           );
 
       expect(entries.map((UnreadInboxEntry e) => e.channelId), <String>[

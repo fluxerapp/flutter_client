@@ -5,7 +5,6 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -40,18 +39,13 @@ class ThreadComposerGate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!ref.watch(anyThreadChannelsActiveProvider)) {
-      return _layout(null, showChild: true);
-    }
     final String channelId = ref.watch(
       chatViewModelProvider.select((s) => s.channelId),
     );
     final Channel? thread = channelId.isEmpty
         ? null
         : ref.watch(channelByIdProvider(channelId)).value;
-    if (thread == null ||
-        !thread.isThread ||
-        !ref.watch(threadChannelsActiveProvider(thread.guildId))) {
+    if (thread == null || !thread.isThread) {
       return _layout(null, showChild: true);
     }
     final ThreadMembership? member = ref

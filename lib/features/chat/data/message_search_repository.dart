@@ -1,12 +1,9 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
-import 'package:fluxer_app/features/channels/domain/channel.dart'
-    show isThreadFeatureChannelType;
 import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -181,14 +178,12 @@ class MessageSearchRepository {
   const MessageSearchRepository(
     this._client,
     this._database,
-    this._currentUserId, {
-    this._threadsGate,
-  });
+    this._currentUserId,
+  );
 
   final FluxerClient _client;
   final db.FluxerDatabase _database;
   final String? _currentUserId;
-  final ThreadsGate? _threadsGate;
 
   Future<MessageSearchPage> searchMessages(MessageSearchQuery query) async {
     final response = await _client.search.searchMessages(
@@ -277,10 +272,6 @@ class MessageSearchRepository {
     for (final channel in channels) {
       final guildId = channel.guildId;
       if (guildId == null || guildId.isEmpty) {
-        continue;
-      }
-      if (isThreadFeatureChannelType(channel.type.json ?? -1) &&
-          !(_threadsGate?.isActive(guildId) ?? false)) {
         continue;
       }
       companions.add(channelFromSdk(channel, guildId));

@@ -12,7 +12,6 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -77,7 +76,6 @@ void main() {
       pumpFluxerApp(
         overrides: <Override>[
           forumRepositoryProvider.overrideWithValue(repository),
-          threadChannelsActiveProvider('g1').overrideWithValue(true),
           parentThreadActorProvider('g1', '100').overrideWithValue(
             ThreadActor(
               permissions:

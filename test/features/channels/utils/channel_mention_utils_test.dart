@@ -48,24 +48,12 @@ void main() {
       ChannelType.guildMedia,
     ];
 
-    test('stay unknown while threads are inactive for the guild', () {
+    test('are clickable', () {
       for (final ChannelType type in threadFeatureTypes) {
-        expect(isClickableChannelMention(_channel(type)), isFalse);
-      }
-    });
-
-    test('become clickable once threads are active for the guild', () {
-      for (final ChannelType type in threadFeatureTypes) {
-        expect(
-          isClickableChannelMention(_channel(type), threadsActive: true),
-          isTrue,
-        );
+        expect(isClickableChannelMention(_channel(type)), isTrue);
       }
       expect(
-        isClickableChannelMention(
-          _channel(ChannelType.guildCategory),
-          threadsActive: true,
-        ),
+        isClickableChannelMention(_channel(ChannelType.guildCategory)),
         isFalse,
       );
     });

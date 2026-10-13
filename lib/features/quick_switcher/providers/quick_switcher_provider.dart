@@ -25,7 +25,6 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.d
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_providers.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -197,9 +196,7 @@ class QuickSwitcher extends _$QuickSwitcher {
     final guilds = ref.read(guildListViewModelProvider).guilds;
     final List<Channel> channels = await ref
         .read(quickSwitcherRepositoryProvider)
-        .getGuildChannels(
-          threadGuildIds: ref.read(threadsGateProvider).activeGuildIds,
-        );
+        .getGuildChannels();
     final favorites = ref.read(favoriteChannelsProvider).value ?? const [];
     final String? selectedGuildId = ref.read(activeGuildIdProvider);
     List<Member> guildMembers = const <Member>[];

@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_dart/export.dart' show FluxerClient;
 
 import '../../helpers/open_test_database.dart';
@@ -78,7 +77,6 @@ void main() {
       final ThreadsRepository repository = ThreadsRepository(
         FluxerClient(dio),
         database,
-        ThreadsGate()..apply('g1', active: true),
       );
 
       final ArchivedThreadPage page = await repository.listArchived(

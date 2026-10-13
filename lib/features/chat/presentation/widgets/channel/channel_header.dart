@@ -477,7 +477,7 @@ class ChannelHeader extends ConsumerWidget {
                       ),
                   if (showMessageActions &&
                       channel != null &&
-                      showsThreadHeaderActions(ref, channel))
+                      showsThreadHeaderActions(channel))
                     ThreadHeaderMobileButton(channel: channel),
                   if (channel != null &&
                       channel.type == ChannelType.guildVoice) ...[

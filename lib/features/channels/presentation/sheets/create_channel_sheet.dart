@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/channels/presentation/channel_settings/widge
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -174,9 +173,6 @@ class CreateChannelSheet {
     final _ChannelDraft draft = _ChannelDraft(
       guildId: guildId,
       currentUserId: container.read(currentUserIdProvider),
-      threadChannelsActive: container
-          .read(threadsGateProvider)
-          .isActive(guildId),
     );
     final Future<ChannelCreateRequest?> result;
     if (isMobileLayout(context)) {
@@ -219,15 +215,10 @@ typedef CreateChannelOverwrite = ({
 });
 
 class _ChannelDraft extends ChangeNotifier {
-  _ChannelDraft({
-    required this.guildId,
-    required this.currentUserId,
-    required this.threadChannelsActive,
-  });
+  _ChannelDraft({required this.guildId, required this.currentUserId});
 
   final String? guildId;
   final String? currentUserId;
-  final bool threadChannelsActive;
   String _name = '';
   String _url = '';
   int _type = ChannelType.guildText.wireValue;
@@ -421,20 +412,18 @@ class _CreateChannelFields extends StatelessWidget {
                   l10n.guildNavbarAnnouncementChannel,
                   l10n.guildNavbarAnnouncementChannelDescription,
                 ),
-                if (draft.threadChannelsActive) ...<FluxerRadioItem<int>>[
-                  _typeItem(
-                    context,
-                    ChannelType.guildForum,
-                    l10n.forumChannelTypeForum,
-                    l10n.forumChannelTypeForumDescription,
-                  ),
-                  _typeItem(
-                    context,
-                    ChannelType.guildMedia,
-                    l10n.forumChannelTypeMedia,
-                    l10n.forumChannelTypeMediaDescription,
-                  ),
-                ],
+                _typeItem(
+                  context,
+                  ChannelType.guildForum,
+                  l10n.forumChannelTypeForum,
+                  l10n.forumChannelTypeForumDescription,
+                ),
+                _typeItem(
+                  context,
+                  ChannelType.guildMedia,
+                  l10n.forumChannelTypeMedia,
+                  l10n.forumChannelTypeMediaDescription,
+                ),
                 _typeItem(
                   context,
                   ChannelType.guildLink,

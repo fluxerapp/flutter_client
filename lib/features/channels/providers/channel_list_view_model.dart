@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_list_view_model.g.dart';
@@ -84,7 +83,6 @@ class ChannelListViewModel extends _$ChannelListViewModel {
   String? _currentGuildId;
   StreamSubscription<List<Channel>>? _subscription;
   StreamSubscription<Guild?>? _guildSubscription;
-  List<Channel>? _channels;
   final Map<String, List<ChannelCategory>> _categoryCache =
       <String, List<ChannelCategory>>{};
 
@@ -98,27 +96,6 @@ class ChannelListViewModel extends _$ChannelListViewModel {
         return;
       }
       _categoryCache.clear();
-    });
-    ref.listen<Set<String>>(threadGuildGateProvider, (
-      Set<String>? previous,
-      Set<String> next,
-    ) {
-      final Set<String> prior = previous ?? const <String>{};
-      final Set<String> changed = <String>{
-        ...next.difference(prior),
-        ...prior.difference(next),
-      };
-      _categoryCache.removeWhere(
-        (String guildId, _) => changed.contains(guildId),
-      );
-      final String? guildId = _currentGuildId;
-      final List<Channel>? channels = _channels;
-      if (guildId == null || channels == null || !changed.contains(guildId)) {
-        return;
-      }
-      final List<ChannelCategory> categories = _groupVisible(guildId, channels);
-      _categoryCache[guildId] = categories;
-      state = state.copyWith(categories: categories);
     });
     ref.onDispose(() {
       unawaited(_subscription?.cancel());
@@ -142,7 +119,6 @@ class ChannelListViewModel extends _$ChannelListViewModel {
       _categoryCache[_currentGuildId!] = state.categories;
     }
     _currentGuildId = guildId;
-    _channels = null;
     final List<ChannelCategory> cachedCategories =
         _categoryCache[guildId] ?? const <ChannelCategory>[];
     state = ChannelListState(
@@ -160,8 +136,7 @@ class ChannelListViewModel extends _$ChannelListViewModel {
         .watchChannels(guildId)
         .listen(
           (channels) {
-            _channels = channels;
-            final categories = _groupVisible(guildId, channels);
+            final categories = groupChannelsIntoCategories(channels);
             _categoryCache[guildId] = categories;
             state = state.copyWith(
               categories: categories,
@@ -202,16 +177,6 @@ class ChannelListViewModel extends _$ChannelListViewModel {
             debugPrint('[ChannelListViewModel] Guild watch error: $error');
           },
         );
-  }
-
-  List<ChannelCategory> _groupVisible(String guildId, List<Channel> channels) {
-    if (ref.read(threadsGateProvider).isActive(guildId)) {
-      return groupChannelsIntoCategories(channels);
-    }
-    return groupChannelsIntoCategories(<Channel>[
-      for (final Channel channel in channels)
-        if (!isThreadOnlyChannelType(channel.type.wireValue)) channel,
-    ]);
   }
 
   void toggleMemberList({

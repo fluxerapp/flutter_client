@@ -18,17 +18,10 @@ void main() {
     );
   });
 
-  test('thread permissions appear only when threads are active', () {
-    Iterable<Permission> flags(List<GuildPermissionCategorySpec> specs) =>
-        specs.expand((spec) => spec.permissions).map((entry) => entry.flag);
-
-    expect(
-      flags(generateGuildPermissionSpec(l10n)),
-      isNot(contains(Permission.manageThreads)),
-    );
-    final List<Permission> threaded = flags(
-      generateGuildPermissionSpec(l10n, threads: true),
-    ).toList();
+  test('thread permissions are listed', () {
+    final List<Permission> threaded = generateGuildPermissionSpec(
+      l10n,
+    ).expand((spec) => spec.permissions).map((entry) => entry.flag).toList();
     expect(
       threaded.where(threadPermissionOrder.contains).toList(),
       threadPermissionOrder,

@@ -13,7 +13,6 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -50,9 +49,6 @@ Stream<ThreadMembership?> threadMembership(Ref ref, String threadId) {
 
 @riverpod
 Stream<List<Channel>> activeGuildThreads(Ref ref, String guildId) {
-  if (!ref.watch(threadChannelsActiveProvider(guildId))) {
-    return Stream<List<Channel>>.value(const <Channel>[]);
-  }
   return ref
       .watch(fluxerDatabaseProvider)
       .threadDao
@@ -62,9 +58,6 @@ Stream<List<Channel>> activeGuildThreads(Ref ref, String guildId) {
 
 @riverpod
 Stream<List<Channel>> parentThreads(Ref ref, String guildId, String parentId) {
-  if (!ref.watch(threadChannelsActiveProvider(guildId))) {
-    return Stream<List<Channel>>.value(const <Channel>[]);
-  }
   return ref
       .watch(fluxerDatabaseProvider)
       .threadDao
@@ -105,9 +98,6 @@ Map<String, List<Channel>> groupSidebarThreads({
 
 @riverpod
 Map<String, List<Channel>> sidebarThreadsByParent(Ref ref, String guildId) {
-  if (!ref.watch(threadChannelsActiveProvider(guildId))) {
-    return const <String, List<Channel>>{};
-  }
   final List<Channel> threads =
       ref.watch(activeGuildThreadsProvider(guildId)).value ?? const <Channel>[];
   final Set<String> joined =

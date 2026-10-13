@@ -203,7 +203,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
             child: const SizedBox.shrink(),
           )
         : channel != null && channel.isThreadOnly
-        ? ForumChannelView(guildId: widget.guildId, channelId: widget.channelId)
+        ? ForumChannelView(channelId: widget.channelId)
         : isVoiceChannel
         ? VoiceChannelPageView(
             guildId: widget.guildId,

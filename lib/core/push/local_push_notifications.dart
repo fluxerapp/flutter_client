@@ -165,25 +165,15 @@ final class LocalPushNotifications {
         sound: kPushNotificationDirectMessageAndroidSound,
       ),
     );
-  }
-
-  Future<void> ensureForumThreadCreatedChannel() async {
-    if (!_initialized || defaultTargetPlatform != TargetPlatform.android) {
-      return;
-    }
-    await _plugin
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.createNotificationChannel(
-          const AndroidNotificationChannel(
-            kAndroidPushForumThreadCreatedChannelId,
-            kAndroidPushForumThreadCreatedChannelName,
-            description: kAndroidPushChannelDescription,
-            importance: Importance.high,
-            sound: kPushNotificationMessageAndroidSound,
-          ),
-        );
+    await android.createNotificationChannel(
+      const AndroidNotificationChannel(
+        kAndroidPushForumThreadCreatedChannelId,
+        kAndroidPushForumThreadCreatedChannelName,
+        description: kAndroidPushChannelDescription,
+        importance: Importance.high,
+        sound: kPushNotificationMessageAndroidSound,
+      ),
+    );
   }
 
   void _onNotificationResponse(NotificationResponse response) {

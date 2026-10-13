@@ -101,7 +101,7 @@ void main() {
       ),
     );
 
-    await markGuildAsRead('g1', db, FluxerClient(dio), threadsActive: true);
+    await markGuildAsRead('g1', db, FluxerClient(dio));
 
     expect((await db.readStateDao.getReadState('c1'))?.lastMessageId, '10');
     expect((await db.readStateDao.getReadState('t1'))?.lastMessageId, '11');

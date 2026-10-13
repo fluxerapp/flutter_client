@@ -15,7 +15,6 @@ import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
-import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -36,7 +35,6 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_pro
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
-import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_post_unreads_provider.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/channel_member_count_cache_provider.dart';
@@ -57,7 +55,6 @@ import 'package:fluxer_app/features/settings/providers/premium_settings_state_pr
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
-import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_member_list_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
@@ -568,32 +565,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onEntranceSoundPlay: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
     }),
-    threadsGate: ref.read(threadsGateProvider),
     resolveParentThreadActor: (String guildId, String parentId) => ref.mounted
         // One-off snapshot; read does not retain the autoDispose family.
         // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
         ? ref.read(parentThreadActorProvider(guildId, parentId))
         : null,
     openChannelId: () => ref.mounted ? ref.read(activeChannelIdProvider) : null,
-    onThreadGateChanged: (guildId, {required active}) => ifMounted(() {
-      if (!active) {
-        ref.read(threadMemberListsProvider.notifier).clearGuild(guildId);
-        ref.read(forumPostUnreadsProvider.notifier).clearGuild(guildId);
-        ref.read(forumFirstMessagesProvider.notifier).clear();
-      } else {
-        unawaited(
-          LocalPushNotifications().ensureForumThreadCreatedChannel().catchError(
-            (Object _) {},
-          ),
-        );
-      }
-      ref
-          .read(guildSyncProvider.notifier)
-          .handleThreadGateChanged(guildId, active: active);
-      unawaited(
-        ref.read(channelPermissionCacheProvider.notifier).rebuildGuild(guildId),
-      );
-    }),
     onThreadMemberListUpdate: (event) => ifMounted(() {
       ref.read(threadMemberListsProvider.notifier).apply(event);
     }),

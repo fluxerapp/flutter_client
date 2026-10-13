@@ -31,9 +31,8 @@ const List<Permission> threadPermissionOrder = <Permission>[
 ];
 
 List<GuildPermissionCategorySpec> generateGuildPermissionSpec(
-  FluxerLocalizations l10n, {
-  bool threads = false,
-}) {
+  FluxerLocalizations l10n,
+) {
   return <GuildPermissionCategorySpec>[
     GuildPermissionCategorySpec(
       title: l10n.permissionCategoryCommunityWide,
@@ -75,9 +74,8 @@ List<GuildPermissionCategorySpec> generateGuildPermissionSpec(
         _entry(l10n, Permission.useExternalStickers),
         _entry(l10n, Permission.addReactions),
         _entry(l10n, Permission.bypassSlowmode),
-        if (threads)
-          for (final Permission permission in threadPermissionOrder)
-            _entry(l10n, permission),
+        for (final Permission permission in threadPermissionOrder)
+          _entry(l10n, permission),
       ],
     ),
     GuildPermissionCategorySpec(

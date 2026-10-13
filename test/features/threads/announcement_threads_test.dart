@@ -146,30 +146,18 @@ void main() {
     final FluxerLocalizations l10n = lookupFluxerLocalizations(
       const Locale('en'),
     );
-    Set<Permission> flags(ChannelType type, {required bool threads}) =>
-        <Permission>{
-          for (final category in generateChannelPermissionSpec(
-            l10n,
-            type,
-            threads: threads,
-          ))
-            for (final entry in category.permissions) entry.flag,
-        };
-    final Set<Permission> announcement = flags(
-      ChannelType.guildAnnouncement,
-      threads: true,
-    );
+    Set<Permission> flags(ChannelType type) => <Permission>{
+      for (final category in generateChannelPermissionSpec(l10n, type))
+        for (final entry in category.permissions) entry.flag,
+    };
+    final Set<Permission> announcement = flags(ChannelType.guildAnnouncement);
     expect(announcement, contains(Permission.createPublicThreads));
     expect(announcement, contains(Permission.sendMessagesInThreads));
     expect(announcement, contains(Permission.manageThreads));
     expect(announcement, isNot(contains(Permission.createPrivateThreads)));
     expect(
-      flags(ChannelType.guildText, threads: true),
+      flags(ChannelType.guildText),
       contains(Permission.createPrivateThreads),
-    );
-    expect(
-      flags(ChannelType.guildAnnouncement, threads: false),
-      isNot(contains(Permission.createPublicThreads)),
     );
   });
 }
