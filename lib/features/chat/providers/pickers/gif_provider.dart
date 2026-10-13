@@ -49,11 +49,3 @@ gifSearchProvider = FutureProvider.autoDispose
           .watch(gifRepositoryProvider)
           .search(query: request.query, locale: request.locale);
     });
-
-final FutureProviderFamily<List<String>, GifSearchRequest>
-gifSuggestionsProvider = FutureProvider.autoDispose
-    .family<List<String>, GifSearchRequest>((ref, request) {
-      return ref
-          .watch(gifRepositoryProvider)
-          .suggest(query: request.query, locale: request.locale);
-    });

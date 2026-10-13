@@ -337,8 +337,6 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
           GifProviderKind.tenor => l10n.gifPickerSearchTenor,
           null => l10n.gifPickerSearch,
         },
-        showBackButton: _searchController.text.isNotEmpty,
-        onBackButtonClick: _searchController.clear,
         rightCustomElement: _gifAttributionLabel(context, provider),
         horizontalPadding: widget.searchHorizontalPadding ?? layout.s4,
         topPadding: widget.searchTopPadding ?? layout.s3,
@@ -408,43 +406,23 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     final rawQuery = _searchController.text.trim();
     if (rawQuery.isNotEmpty) {
       final searchIsPending = rawQuery != _debouncedQuery;
-      return Column(
-        children: [
-          if (_debouncedQuery.isNotEmpty)
-            _SuggestionChips(
-              suggestions: ref.watch(
-                gifSuggestionsProvider((
-                  query: _debouncedQuery,
-                  locale: locale,
-                )),
+      return searchIsPending || _debouncedQuery.isEmpty
+          ? const _GifLoadingState()
+          : _AsyncGifGrid(
+              scrollController: widget.scrollController,
+              gifs: ref.watch(
+                gifSearchProvider((query: _debouncedQuery, locale: locale)),
               ),
-              onSuggestionTap: _setSearchTerm,
-            ),
-          Expanded(
-            child: searchIsPending || _debouncedQuery.isEmpty
-                ? const _GifLoadingState()
-                : _AsyncGifGrid(
-                    scrollController: widget.scrollController,
-                    gifs: ref.watch(
-                      gifSearchProvider((
-                        query: _debouncedQuery,
-                        locale: locale,
-                      )),
-                    ),
-                    emptyTitle: FluxerLocalizations.of(
-                      context,
-                    ).gifPickerNoResultsTitle,
-                    emptyDescription: FluxerLocalizations.of(
-                      context,
-                    ).gifPickerNoResultsDescription,
-                    onGifTap: (gif) => _selectGif(gif, locale),
-                    isGifFavorite: favoriteLookup.isFavorite,
-                    onGifLongPress: (gif) =>
-                        _showGifActions(gif, favoriteLookup),
-                  ),
-          ),
-        ],
-      );
+              emptyTitle: FluxerLocalizations.of(
+                context,
+              ).gifPickerNoResultsTitle,
+              emptyDescription: FluxerLocalizations.of(
+                context,
+              ).gifPickerNoResultsDescription,
+              onGifTap: (gif) => _selectGif(gif, locale),
+              isGifFavorite: favoriteLookup.isFavorite,
+              onGifLongPress: (gif) => _showGifActions(gif, favoriteLookup),
+            );
     }
 
     final featured = ref.watch(gifFeaturedProvider(locale));
@@ -1486,70 +1464,6 @@ double _aspectRatioFromDimensions(int width, int height) {
     return 1;
   }
   return width / height;
-}
-
-class _SuggestionChips extends StatelessWidget {
-  const _SuggestionChips({
-    required this.suggestions,
-    required this.onSuggestionTap,
-  });
-
-  final AsyncValue<List<String>> suggestions;
-  final ValueChanged<String> onSuggestionTap;
-
-  @override
-  Widget build(BuildContext context) => suggestions.maybeWhen(
-    data: (items) {
-      if (items.isEmpty) {
-        return const SizedBox.shrink();
-      }
-
-      final layout = context.layout;
-      final colors = context.colors;
-      return SizedBox(
-        height: 46,
-        child: ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: layout.s3),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            final suggestion = items[index];
-            return Center(
-              child: FluxerTappable(
-                onTap: () => onSuggestionTap(suggestion),
-                builder: (context, states) {
-                  final hovered = states.contains(WidgetState.hovered);
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: hovered
-                          ? colors.backgroundModifierHover
-                          : colors.backgroundModifierAccent,
-                      borderRadius: layout.radiusFull,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: layout.s2,
-                        vertical: layout.s1,
-                      ),
-                      child: Text(
-                        suggestion,
-                        style: context.textStyles.smallText.copyWith(
-                          color: colors.textPrimary,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-          },
-          separatorBuilder: (context, index) => SizedBox(width: layout.s1),
-          itemCount: items.length,
-        ),
-      );
-    },
-    orElse: () => const SizedBox.shrink(),
-  );
 }
 
 class _GifLoadingState extends StatelessWidget {

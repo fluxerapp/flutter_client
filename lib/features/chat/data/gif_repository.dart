@@ -13,12 +13,10 @@ typedef GifActiveProviderLoader = Future<GifProviderKind> Function();
 const _kFeaturedCacheCapacity = 8;
 const _kTrendingCacheCapacity = 8;
 const _kSearchCacheCapacity = 40;
-const _kSuggestionCacheCapacity = 40;
 
 const _kGifsFeaturedPath = '/gifs/featured';
 const _kGifsRegisterSharePath = '/gifs/register-share';
 const _kGifsSearchPath = '/gifs/search';
-const _kGifsSuggestPath = '/gifs/suggest';
 const _kGifsTrendingPath = '/gifs/trending';
 
 class GifRepository {
@@ -37,10 +35,6 @@ class GifRepository {
   final BoundedLruCache<String, List<GifPickerGif>> _trendingCache =
       BoundedLruCache<String, List<GifPickerGif>>(
         capacity: _kTrendingCacheCapacity,
-      );
-  final BoundedLruCache<String, List<String>> _suggestionCache =
-      BoundedLruCache<String, List<String>>(
-        capacity: _kSuggestionCacheCapacity,
       );
   GifProviderKind? _activeProvider;
 
@@ -119,31 +113,6 @@ class GifRepository {
     return gifs;
   }
 
-  Future<List<String>> suggest({
-    required String query,
-    required sdk.Locale locale,
-  }) async {
-    final trimmed = query.trim();
-    if (trimmed.isEmpty) {
-      return const <String>[];
-    }
-
-    final provider = await getActiveProvider();
-    final key = _cacheKey(provider, locale, trimmed);
-    final cached = _suggestionCache.get(key);
-    if (cached != null) {
-      return cached;
-    }
-
-    final suggestions = await _getStringList(
-      _kGifsSuggestPath,
-      locale,
-      queryParameters: <String, Object?>{'q': trimmed},
-    );
-    _suggestionCache.set(key, suggestions);
-    return suggestions;
-  }
-
   Future<void> registerShare({
     required GifProviderKind provider,
     required String id,
@@ -191,25 +160,6 @@ class GifRepository {
       response.data,
       path,
     ).map(_GifApiGif.fromJson).toList();
-  }
-
-  Future<List<String>> _getStringList(
-    String path,
-    sdk.Locale locale, {
-    Map<String, Object?> queryParameters = const <String, Object?>{},
-  }) async {
-    final response = await _dio.get<Object?>(
-      path,
-      queryParameters: <String, Object?>{
-        ...queryParameters,
-        'locale': _localeQueryValue(locale),
-      },
-    );
-    final data = response.data;
-    if (data is List<Object?>) {
-      return data.map((value) => value.toString()).toList(growable: false);
-    }
-    throw FormatException('Expected $path to be a list');
   }
 
   List<GifPickerGif> _mapGifs(

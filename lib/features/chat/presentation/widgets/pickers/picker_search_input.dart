@@ -12,8 +12,6 @@ class PickerSearchInput extends StatefulWidget {
   const PickerSearchInput({
     required this.hintText,
     this.controller,
-    this.showBackButton = false,
-    this.onBackButtonClick,
     this.rightCustomElement,
     this.horizontalPadding = 12,
     this.rightPadding,
@@ -43,17 +41,13 @@ class PickerSearchInput extends StatefulWidget {
     this.autofocus = false,
     this.enabled = true,
     super.key,
-  }) : showBackButton = false,
-       onBackButtonClick = null,
-       horizontalPadding = 0,
+  }) : horizontalPadding = 0,
        rightPadding = null,
        topPadding = 0,
        bottomPadding = 0;
 
   final TextEditingController? controller;
   final String hintText;
-  final bool showBackButton;
-  final VoidCallback? onBackButtonClick;
   final Widget? rightCustomElement;
   final double horizontalPadding;
   final double? rightPadding;
@@ -152,23 +146,6 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
       ),
       child: Row(
         children: [
-          if (widget.showBackButton && widget.onBackButtonClick != null) ...[
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: FluxerGestureDetector(
-                onTap: widget.onBackButtonClick,
-                behavior: HitTestBehavior.opaque,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Icon(
-                    PhosphorIconsBold.arrowLeft,
-                    size: 20,
-                    color: colors.textPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ],
           Expanded(
             child: FluxerClipboardScope(
               controller: _controller,
