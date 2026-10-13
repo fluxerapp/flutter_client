@@ -382,6 +382,11 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'การดำเนินการนี้จะลบเซสชันที่บันทึกไว้สำหรับบัญชีนี้';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'หมดอายุแล้ว';
 
   @override

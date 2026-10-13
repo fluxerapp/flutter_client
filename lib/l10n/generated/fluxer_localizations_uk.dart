@@ -388,6 +388,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Це видалить збережений сеанс для цього облікового запису.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Термін дії закінчився';
 
   @override

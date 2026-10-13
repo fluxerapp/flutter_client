@@ -370,6 +370,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get accountRemoveDescription => 'このアカウントの保存済みセッションが削除されます。';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => '期限切れ';
 
   @override

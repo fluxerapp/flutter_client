@@ -384,6 +384,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tämä poistaa tallennetun istunnon tältä tililtä.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Vanhentunut';
 
   @override

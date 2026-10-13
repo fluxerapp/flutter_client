@@ -511,6 +511,15 @@
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
     },
+    "accountSignOutTitle": "Sign out of {identifier}?",
+    "@accountSignOutTitle": {
+        "description": "Title of the confirmation before signing out of one saved account. The identifier is the account's username.",
+        "placeholders": {
+            "identifier": {
+                "type": "String"
+            }
+        }
+    },
     "accountExpired": "Expired",
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."

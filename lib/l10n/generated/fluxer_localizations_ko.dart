@@ -369,6 +369,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get accountRemoveDescription => '이 계정의 저장된 세션이 제거됩니다.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => '만료됨';
 
   @override

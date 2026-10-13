@@ -382,6 +382,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Detta tar bort den sparade sessionen för det här kontot.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Utgånget';
 
   @override

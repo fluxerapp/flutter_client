@@ -48,7 +48,7 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     await FluxerConfirmModal.show(
       context,
-      title: l10n.signOut,
+      title: l10n.accountSignOutTitle(account.identifier),
       description: l10n.accountRemoveDescription,
       confirmLabel: l10n.signOut,
       isDanger: true,

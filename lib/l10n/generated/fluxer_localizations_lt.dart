@@ -388,6 +388,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Tai pašalins išsaugotą šios paskyros seansą.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Baigėsi';
 
   @override

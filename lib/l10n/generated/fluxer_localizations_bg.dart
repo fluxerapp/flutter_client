@@ -384,6 +384,11 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Това ще премахне запазената сесия за този акаунт.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Изтекло';
 
   @override

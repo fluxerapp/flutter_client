@@ -722,6 +722,12 @@ abstract class FluxerLocalizations {
   /// **'This will remove the saved session for this account.'**
   String get accountRemoveDescription;
 
+  /// Title of the confirmation before signing out of one saved account. The identifier is the account's username.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of {identifier}?'**
+  String accountSignOutTitle(String identifier);
+
   /// Label shown on accounts with expired sessions.
   ///
   /// In en, this message translates to:

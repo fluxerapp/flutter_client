@@ -392,6 +392,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'سيؤدي هذا إلى إزالة الجلسة المحفوظة لهذا الحساب.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'انتهت الصلاحية';
 
   @override

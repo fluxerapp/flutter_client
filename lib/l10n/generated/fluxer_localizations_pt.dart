@@ -383,6 +383,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Isso removerá a sessão salva para esta conta.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Expirada';
 
   @override

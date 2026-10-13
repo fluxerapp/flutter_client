@@ -382,6 +382,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Ini akan menghapus sesi tersimpan untuk akun ini.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Kedaluwarsa';
 
   @override

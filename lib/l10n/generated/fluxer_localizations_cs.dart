@@ -387,6 +387,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Tímto odstraníte uloženou relaci pro tento účet.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Vypršela platnost';
 
   @override

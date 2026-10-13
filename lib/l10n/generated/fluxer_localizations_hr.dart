@@ -386,6 +386,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ovo će ukloniti spremljenu sesiju za ovaj račun.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Isteklo';
 
   @override

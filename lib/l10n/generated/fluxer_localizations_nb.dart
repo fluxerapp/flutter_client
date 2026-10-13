@@ -383,6 +383,11 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Dette vil fjerne den lagrede økten for denne kontoen.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Utløpt';
 
   @override

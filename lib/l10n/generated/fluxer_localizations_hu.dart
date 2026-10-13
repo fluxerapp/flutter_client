@@ -385,6 +385,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ezzel eltávolítja a mentett munkamenetet ehhez a fiókhoz.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Lejárt';
 
   @override

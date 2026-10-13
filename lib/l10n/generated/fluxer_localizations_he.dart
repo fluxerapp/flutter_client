@@ -383,6 +383,11 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'פעולה זו תסיר את הסשן השמור עבור חשבון זה.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'פג תוקף';
 
   @override

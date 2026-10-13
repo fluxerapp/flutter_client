@@ -384,6 +384,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτό θα καταργήσει την αποθηκευμένη συνεδρία για αυτόν τον λογαριασμό.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Έληξε';
 
   @override

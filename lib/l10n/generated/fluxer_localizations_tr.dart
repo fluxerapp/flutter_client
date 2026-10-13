@@ -384,6 +384,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu işlem, bu hesap için kayıtlı oturumu kaldıracaktır.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Süresi doldu';
 
   @override

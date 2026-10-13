@@ -382,6 +382,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Thao tác này sẽ xóa phiên đã lưu cho tài khoản này.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Đã hết hạn';
 
   @override

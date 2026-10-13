@@ -389,6 +389,11 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Это удалит сохраненную сессию для этого аккаунта.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Истек срок действия';
 
   @override

@@ -383,6 +383,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Dette fjerner den gemte session for denne konto.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Udløbet';
 
   @override

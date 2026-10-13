@@ -389,6 +389,11 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Spowoduje to usunięcie zapisanej sesji dla tego konta.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Wygasło';
 
   @override

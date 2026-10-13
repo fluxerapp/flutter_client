@@ -367,6 +367,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get accountRemoveDescription => '这会移除此账号的已保存会话。';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => '已过期';
 
   @override

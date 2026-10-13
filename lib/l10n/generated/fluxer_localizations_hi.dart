@@ -382,6 +382,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'इससे इस अकाउंट का सेव किया गया सेशन हट जाएगा।';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'समय-सीमा समाप्त';
 
   @override

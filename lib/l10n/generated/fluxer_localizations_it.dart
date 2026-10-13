@@ -385,6 +385,11 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'La sessione salvata per questo account verrà rimossa.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Scaduto';
 
   @override
