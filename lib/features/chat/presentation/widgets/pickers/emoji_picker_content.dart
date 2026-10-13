@@ -172,35 +172,36 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   final Set<String> _prefetchedAheadIds = <String>{};
   String? _lastEnsuredCategoryKey;
 
-  List<Guild>? _cachedGuilds;
-  String? _cachedActiveGuildId;
-  bool? _cachedIsPremium;
-  bool? _cachedCanUseExternalEmojis;
-  List<GuildEmojiEntry>? _cachedAllGuildEmojis;
-  Map<Guild, List<GuildEmojiEntry>>? _cachedGroupedEmojis;
-  List<String>? _cachedFavoriteKeys;
-  Map<Guild, List<GuildEmojiEntry>>? _cachedFavoriteGuildEmojisByGuild;
-  List<_FavoriteEmojiItem>? _cachedFavoriteItems;
-  List<GuildNavbarItem>? _cachedOrganizedItems;
-  String? _cachedPickerGuildsActiveId;
-  List<Guild>? _cachedPickerGuilds;
-  List<String>? _cachedRankedUsageKeys;
+  static List<Guild>? _cachedGuilds;
+  static String? _cachedActiveGuildId;
+  static bool? _cachedIsPremium;
+  static bool? _cachedCanUseExternalEmojis;
+  static List<GuildEmojiEntry>? _cachedAllGuildEmojis;
+  static Map<Guild, List<GuildEmojiEntry>>? _cachedGroupedEmojis;
+  static List<String>? _cachedFavoriteKeys;
+  static Map<Guild, List<GuildEmojiEntry>>? _cachedFavoriteGuildEmojisByGuild;
+  static List<_FavoriteEmojiItem>? _cachedFavoriteItems;
+  static List<GuildNavbarItem>? _cachedOrganizedItems;
+  static String? _cachedPickerGuildsActiveId;
+  static List<Guild>? _cachedPickerGuilds;
+  static List<String>? _cachedRankedUsageKeys;
   List<String>? _pinnedRanking;
-  List<String>? _cachedCollapsedSource;
-  Map<Guild, List<GuildEmojiEntry>>? _cachedCollapsedGuilds;
-  List<String>? _cachedCollapsedSectionKeys;
-  Map<Guild, List<GuildEmojiEntry>>? _cachedFrecentSource;
-  List<FrecentEmojiItem>? _cachedFrecent;
-  Map<String, List<EmojiEntry>>? _cachedFrecentUnicode;
-  Map<String, List<EmojiEntry>>? _cachedFavoriteUnicode;
-  List<_FavoriteEmojiItem>? _cachedLayoutFavorites;
-  List<FrecentEmojiItem>? _cachedLayoutFrecent;
-  Map<Guild, List<GuildEmojiEntry>>? _cachedLayoutGuildEmojis;
-  List<String>? _cachedLayoutCollapsed;
-  Map<String, List<EmojiEntry>>? _cachedLayoutUnicode;
-  int? _cachedLayoutColumns;
-  bool? _cachedLayoutIncludeUpsell;
-  EmojiPickerLayoutIndex? _cachedLayoutIndex;
+  static List<String>? _cachedCollapsedSource;
+  static Map<Guild, List<GuildEmojiEntry>>? _cachedCollapsedGuilds;
+  static List<String>? _cachedCollapsedSectionKeys;
+  static Map<Guild, List<GuildEmojiEntry>>? _cachedFrecentSource;
+  static List<FrecentEmojiItem>? _cachedFrecent;
+  static Map<String, List<EmojiEntry>>? _cachedFrecentUnicode;
+  static Map<String, List<EmojiEntry>>? _cachedFavoriteUnicode;
+  static List<_FavoriteEmojiItem>? _cachedLayoutFavorites;
+  static List<FrecentEmojiItem>? _cachedLayoutFrecent;
+  static Map<Guild, List<GuildEmojiEntry>>? _cachedLayoutGuildEmojis;
+  static List<String>? _cachedLayoutCollapsed;
+  static Map<String, List<EmojiEntry>>? _cachedLayoutUnicode;
+  static int? _cachedLayoutColumns;
+  static EmojiPickerGridMetrics? _cachedLayoutMetrics;
+  static bool? _cachedLayoutIncludeUpsell;
+  static EmojiPickerLayoutIndex? _cachedLayoutIndex;
 
   late final int _upsellPreviewSeed;
 
@@ -605,6 +606,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         identical(_cachedLayoutGuildEmojis, data.guildEmojisByGuild) &&
         identical(_cachedLayoutCollapsed, data.collapsedCategories) &&
         _cachedLayoutColumns == _columns &&
+        identical(_cachedLayoutMetrics, _metrics) &&
         _cachedLayoutIncludeUpsell == includeUpsell) {
       return cached;
     }
@@ -624,6 +626,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     _cachedLayoutGuildEmojis = data.guildEmojisByGuild;
     _cachedLayoutCollapsed = data.collapsedCategories;
     _cachedLayoutColumns = _columns;
+    _cachedLayoutMetrics = _metrics;
     _cachedLayoutIncludeUpsell = includeUpsell;
     _cachedLayoutIndex = index;
     return index;
