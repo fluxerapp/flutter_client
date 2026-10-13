@@ -47,6 +47,10 @@ const _kMasonryMinColumnWidth = 227.0;
 const _kMasonryHorizontalPadding = 8.0;
 const _kMasonryCacheExtent = 700.0;
 const _kGifTileFadeInDuration = Duration(milliseconds: 100);
+const _kGifCategoryPressHold = Duration(milliseconds: 60);
+const Color _kGifCategoryPressDim = Color.fromRGBO(0, 0, 0, 0.42);
+const Color _kGifFavoritesTileOverlay = Color.fromRGBO(76, 70, 218, 0.6);
+const Color _kGifFavoritesEmptyTileOverlay = Color.fromRGBO(76, 70, 218, 1);
 const double _kCategoryTileAspectRatio = 200 / 96;
 const double _kCompactCategoryTileAspectRatio = 189 / 82;
 const double _kCompactCategoryTileBreakpoint = 600;
@@ -430,6 +434,9 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       data: (data) => _FeaturedGifLanding(
         scrollController: widget.scrollController,
         featured: data,
+        favoritePreview: urlFavorites.isEmpty
+            ? null
+            : _favoriteEntryToPickerGif(urlFavorites.last),
         onFavoritesTap: _onFavoritesTileTap,
         onTrendingTap: _showTrending,
         onCategoryTap: _setSearchTerm,
@@ -590,10 +597,12 @@ class _FeaturedGifLanding extends StatelessWidget {
     required this.onTrendingTap,
     required this.onCategoryTap,
     required this.onFavoritesTap,
+    this.favoritePreview,
     this.scrollController,
   });
 
   final GifPickerFeatured featured;
+  final GifPickerGif? favoritePreview;
   final VoidCallback onFavoritesTap;
   final VoidCallback onTrendingTap;
   final ValueChanged<String> onCategoryTap;
@@ -605,10 +614,12 @@ class _FeaturedGifLanding extends StatelessWidget {
     final categories = <_GifCategoryData>[
       _GifCategoryData(
         title: l10n.gifPickerFavorites,
-        previewUrl: '',
-        sourceUrl: '',
+        previewUrl: _bestPreviewUrl(favoritePreview),
+        sourceUrl: _bestSourceUrl(favoritePreview),
         icon: PhosphorIconsFill.star,
-        overlayColor: const Color.fromRGBO(76, 70, 218, 0.6),
+        overlayColor: favoritePreview == null
+            ? _kGifFavoritesEmptyTileOverlay
+            : _kGifFavoritesTileOverlay,
         onTap: onFavoritesTap,
       ),
       _GifCategoryData(
@@ -770,6 +781,8 @@ class _CategoryGrid extends StatefulWidget {
 class _CategoryGridState extends State<_CategoryGrid> {
   ScrollController? _ownedScrollController;
   var _scrollUpdateScheduled = false;
+  int? _pressedIndex;
+  Timer? _pressTimer;
 
   ScrollController get _scrollController =>
       widget.scrollController ??
@@ -783,11 +796,26 @@ class _CategoryGridState extends State<_CategoryGrid> {
 
   @override
   void dispose() {
+    _pressTimer?.cancel();
     _scrollController.removeListener(_scheduleScrollUpdate);
     if (widget.scrollController == null) {
       _ownedScrollController?.dispose();
     }
     super.dispose();
+  }
+
+  void _onCategoryTap(int index) {
+    if (_pressedIndex != null) {
+      return;
+    }
+    final VoidCallback onTap = widget.categories[index].onTap;
+    setState(() => _pressedIndex = index);
+    _pressTimer = Timer(_kGifCategoryPressHold, () {
+      onTap();
+      if (mounted) {
+        setState(() => _pressedIndex = null);
+      }
+    });
   }
 
   void _scheduleScrollUpdate() {
@@ -906,7 +934,8 @@ class _CategoryGridState extends State<_CategoryGrid> {
           isCategory: true,
           categoryOverlayColor: category.overlayColor,
           allowAnimatedImagePlayback: allowAnimatedImagePlayback,
-          onTap: category.onTap,
+          dimmed: index == _pressedIndex,
+          onTap: () => _onCategoryTap(index),
         ),
       ),
     );
@@ -1305,6 +1334,7 @@ class _GifTile extends StatelessWidget {
     this.categoryOverlayColor,
     this.isFavorite = false,
     this.allowAnimatedImagePlayback = true,
+    this.dimmed = false,
   });
 
   final String title;
@@ -1317,6 +1347,7 @@ class _GifTile extends StatelessWidget {
   final Color? categoryOverlayColor;
   final bool isFavorite;
   final bool allowAnimatedImagePlayback;
+  final bool dimmed;
 
   @override
   Widget build(BuildContext context) {
@@ -1405,6 +1436,7 @@ class _GifTile extends StatelessWidget {
                       ),
                     ),
                   ),
+                if (dimmed) const ColoredBox(color: _kGifCategoryPressDim),
                 if (!isCategory && isFavorite)
                   Positioned(
                     top: layout.s2,
