@@ -82,7 +82,7 @@ double resolveBottomInputSlotHeight({
   double? heldSlotHeightOverride,
   bool unmeasuredKeyboardReserved = false,
 }) {
-  if (heldSlotHeightOverride != null && heldSlotHeightOverride > 0) {
+  if (heldSlotHeightOverride != null) {
     return heldSlotHeightOverride;
   }
   if (transition != BottomInputTransition.idle) {
@@ -302,10 +302,7 @@ double resolvePanelReservedLayoutHeight({
   required double grossAnchorHeight,
   bool useExactSlotHeight = false,
 }) {
-  if (useExactSlotHeight && slotHeight > 0) {
-    return slotHeight;
-  }
-  if (slotHeight > 0) {
+  if (useExactSlotHeight || slotHeight > 0) {
     return slotHeight;
   }
   if (netAnchorHeight > 0) {

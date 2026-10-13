@@ -231,7 +231,7 @@ void main() {
       );
     });
 
-    test('keeps anchor when held slot height is zero during panel close', () {
+    test('uses zero slot height while held during panel close', () {
       expect(
         resolvePanelReservedLayoutHeight(
           slotHeight: 0,
@@ -239,7 +239,7 @@ void main() {
           grossAnchorHeight: 336,
           useExactSlotHeight: true,
         ),
-        302,
+        0,
       );
     });
 
@@ -531,7 +531,7 @@ void main() {
       );
     });
 
-    test('held zero override keeps panel anchor instead of collapsing', () {
+    test('held slot height override can collapse to zero', () {
       expect(
         resolveBottomInputSlotHeight(
           isPanelOpen: true,
@@ -543,7 +543,7 @@ void main() {
           isKeyboardVisible: false,
           heldSlotHeightOverride: 0,
         ),
-        336,
+        0,
       );
     });
 
