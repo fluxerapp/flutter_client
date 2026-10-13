@@ -452,12 +452,24 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _resetComposerInputAfterSend() {
-    ref.read(attachmentPanelProvider.notifier).close();
+    _closeAttachmentPanelAfterSend();
     _clearSlashSession();
     if (_showComposerCounter.value) {
       _showComposerCounter.value = false;
     }
     _textSession.resetAfterSend();
+  }
+
+  void _closeAttachmentPanelAfterSend() {
+    if (!ref.read(attachmentPanelProvider)) {
+      return;
+    }
+    ref
+        .read(composerPanelDismissRequestProvider.notifier)
+        .requestAnimatedClose();
+    if (!ref.read(composerPanelClosingProvider)) {
+      ref.read(attachmentPanelProvider.notifier).close();
+    }
   }
 
   void _onComposerChannelChanged() {
