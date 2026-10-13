@@ -5,8 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
-
+const Duration kMessageListTailFollowDuration = Duration(milliseconds: 300);
+const Curve kMessageListTailFollowCurve = Curves.ease;
 const Duration _kSettleDelay = Duration(milliseconds: 80);
 const double _kFollowTau = 0.03;
 const double _kMinTickDt = 1 / 120;
@@ -48,8 +48,8 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
 
   void followTailTo(
     double target, {
-    Duration duration = kMessageListLiveTailMotionDuration,
-    Curve curve = Curves.easeOutCubic,
+    Duration duration = kMessageListTailFollowDuration,
+    Curve curve = kMessageListTailFollowCurve,
     VoidCallback? onComplete,
     double Function()? resolveTarget,
   }) {

@@ -5000,9 +5000,6 @@ class ChatViewModel extends _$ChatViewModel {
         _readAckGate.clearManualUnread(channelId);
       }
       final hadMentions = (readState?.mentionCount ?? 0) > 0;
-      if (!force) {
-        await _ensureUnreadBoundaryLoaded(channelId, readState: readState);
-      }
       if (_stickySnapshotArmed &&
           _viewportWasAtTail &&
           state.channelId == channelId) {
@@ -5041,6 +5038,9 @@ class ChatViewModel extends _$ChatViewModel {
             );
       }
       _readAckGate.clearManualUnread(channelId);
+      if (!force) {
+        unawaited(_ensureUnreadBoundaryLoaded(channelId, readState: readState));
+      }
     } on Exception catch (e) {
       debugPrint('[ChatViewModel] Failed to ack channel: $e');
     } finally {

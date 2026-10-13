@@ -102,7 +102,6 @@ void _updateViewport(
   required bool nearLoadedTail,
   String channelId = 'channel-1',
   double distanceFromBottom = 0,
-  double viewportHeight = 0,
 }) {
   final ChatViewState chat = container.read(chatViewModelProvider);
   container
@@ -111,7 +110,6 @@ void _updateViewport(
         channelId: channelId,
         nearLoadedTail: nearLoadedTail,
         distanceFromBottom: distanceFromBottom,
-        viewportHeight: viewportHeight,
         // Production-faithful: a publication samples the tail its geometry
         // was measured against.
         sampledTailId: chat.channelId == channelId
@@ -2508,12 +2506,7 @@ void main() {
     final opened = await openReadChannelAtTail(tailId);
     final ProviderContainer container = opened.container;
 
-    _updateViewport(
-      container,
-      nearLoadedTail: false,
-      distanceFromBottom: 4000,
-      viewportHeight: 800,
-    );
+    _updateViewport(container, nearLoadedTail: false, distanceFromBottom: 4000);
     await _flushAsync();
     emitLiveMessage(container, firstAwayId);
     emitLiveMessage(container, secondAwayId);
@@ -2550,12 +2543,7 @@ void main() {
     await _flushAsync();
 
     final Future<void> inFlight = notifier.flushScheduledReadAckRetryForTest();
-    _updateViewport(
-      container,
-      nearLoadedTail: false,
-      distanceFromBottom: 4000,
-      viewportHeight: 800,
-    );
+    _updateViewport(container, nearLoadedTail: false, distanceFromBottom: 4000);
     await inFlight;
     await _flushAsync();
     expect(container.read(chatViewModelProvider).stickyUnreadMessageId, null);
@@ -3259,7 +3247,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: true,
           distanceFromBottom: 0,
-          viewportHeight: 600,
           sampledTailId: null,
         );
     await _flushAsync();

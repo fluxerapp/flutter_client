@@ -149,31 +149,3 @@ class FluxerSheetCloseButton extends StatelessWidget {
     );
   }
 }
-
-/// Scroll-to-bottom affordance for chat message lists.
-class FluxerJumpToBottomButton extends StatelessWidget {
-  const FluxerJumpToBottomButton({
-    required this.onTap,
-    this.enabled = true,
-    this.isLoading = false,
-    super.key,
-  });
-
-  final VoidCallback onTap;
-  final bool enabled;
-  final bool isLoading;
-
-  @override
-  Widget build(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return FluxerButton.circle(
-      icon: PhosphorIconsBold.arrowDown,
-      variant: FluxerButtonVariant.inverted,
-      size: FluxerButtonSize.small,
-      iconSize: 18,
-      isLoading: isLoading,
-      onPressed: enabled ? onTap : null,
-      semanticLabel: l10n.chatJumpToBottom,
-    );
-  }
-}

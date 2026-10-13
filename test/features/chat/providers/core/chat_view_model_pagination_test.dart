@@ -313,7 +313,6 @@ void main() {
             channelId: 'channel-1',
             nearLoadedTail: false,
             distanceFromBottom: 1000,
-            viewportHeight: 600,
             sampledTailId: newestServerBackedMessageId(
               container.read(chatViewModelProvider).messages,
             ),
@@ -341,7 +340,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: true,
           distanceFromBottom: 0,
-          viewportHeight: 600,
           sampledTailId: newestServerBackedMessageId(
             container.read(chatViewModelProvider).messages,
           ),
@@ -366,7 +364,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: false,
           distanceFromBottom: 1000,
-          viewportHeight: 600,
           sampledTailId: newestServerBackedMessageId(
             container.read(chatViewModelProvider).messages,
           ),
@@ -404,7 +401,6 @@ void main() {
             channelId: 'channel-1',
             nearLoadedTail: false,
             distanceFromBottom: 1000,
-            viewportHeight: 600,
             sampledTailId: newestServerBackedMessageId(
               container.read(chatViewModelProvider).messages,
             ),

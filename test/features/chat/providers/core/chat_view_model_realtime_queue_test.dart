@@ -2736,7 +2736,6 @@ void main() {
           channelId: _channelId,
           nearLoadedTail: true,
           distanceFromBottom: 0,
-          viewportHeight: 600,
           sampledTailId: null,
         );
     await _flushAsync();
@@ -5944,7 +5943,6 @@ void _activateViewport(ProviderContainer container) {
       channelId: _channelId,
       nearLoadedTail: true,
       distanceFromBottom: 0,
-      viewportHeight: 600,
       sampledTailId: newestServerBackedMessageId(
         container.read(chatViewModelProvider).messages,
       ),

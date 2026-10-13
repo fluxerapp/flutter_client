@@ -15,8 +15,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_m
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_demand_source.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_overlay.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_scroll_position.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
@@ -299,7 +299,6 @@ void main() {
                 channelId: messageListChannelId,
                 nearLoadedTail: false,
                 distanceFromBottom: double.infinity,
-                viewportHeight: 0,
                 sampledTailId: null,
               );
         });
@@ -1828,7 +1827,7 @@ void main() {
         );
         expect(
           distance,
-          lessThan(position.viewportDimension * kJumpToBottomViewportFraction),
+          lessThan(kJumpToBottomDistance),
           reason:
               'mark-read is the only to-tail intent reachable from inside '
               'the jump button threshold',
@@ -2947,11 +2946,6 @@ void main() {
           chatReadViewportProvider,
         );
         expect(
-          parked.viewportHeight,
-          greaterThan(0),
-          reason: 'a parked target must still publish viewport geometry',
-        );
-        expect(
           parked.distanceFromBottom,
           isNot(double.infinity),
           reason: 'a parked target must still publish the scroll distance',
@@ -3009,7 +3003,6 @@ void main() {
               channelId: messageListChannelId,
               nearLoadedTail: false,
               distanceFromBottom: double.infinity,
-              viewportHeight: 0,
               sampledTailId: null,
             );
 
@@ -3022,7 +3015,6 @@ void main() {
         );
         expect(after.channelId, messageListChannelId);
         expect(after.nearLoadedTail, isTrue);
-        expect(after.viewportHeight, greaterThan(0));
         expect(after.distanceFromBottom, isNot(double.infinity));
 
         await disposeMessageList(tester);
@@ -3557,17 +3549,11 @@ void main() {
           chatReadViewportProvider,
         );
         expect(
-          viewport.viewportHeight,
-          greaterThan(0),
-          reason: 'a settled neighbour jump must publish viewport geometry',
-        );
-        expect(
           shouldShowJumpToBottomButton(
             hasMessages: true,
             isLoading: false,
             isActiveReadChannel: true,
             distanceFromBottom: viewport.distanceFromBottom,
-            viewportHeight: viewport.viewportHeight,
             hasMoreNewerMessages: chatViewModel.testState.hasMoreNewerMessages,
             messageLoadFailed: chatViewModel.testState.messageLoadFailed,
           ),
@@ -3619,9 +3605,7 @@ void main() {
       await pumpFluxerFrames(tester);
       expect(
         scrolled.maxScrollExtent - scrolled.pixels,
-        greaterThanOrEqualTo(
-          scrolled.viewportDimension * kJumpToBottomViewportFraction,
-        ),
+        greaterThanOrEqualTo(kJumpToBottomDistance),
         reason: 'the jump button only renders beyond its own threshold',
       );
 
@@ -5804,7 +5788,7 @@ void main() {
         reason: 'mid-follow must not snap early',
       );
 
-      await tester.pump(kMessageListLiveTailMotionDuration);
+      await tester.pump(kMessageListTailFollowDuration);
       await tester.pump();
 
       expect(messageItemFor(live.single.id), findsOneWidget);
@@ -5846,7 +5830,7 @@ void main() {
         reason: 'own send must smooth-follow at the pinned tail',
       );
 
-      await tester.pump(kMessageListLiveTailMotionDuration);
+      await tester.pump(kMessageListTailFollowDuration);
       await tester.pump();
 
       expect(messageItemFor(sent.single.id), findsOneWidget);
@@ -5890,7 +5874,7 @@ void main() {
       );
       await tester.pump();
       await tester.pump();
-      await tester.pump(kMessageListLiveTailMotionDuration);
+      await tester.pump(kMessageListTailFollowDuration);
       for (int i = 0; i < 4; i += 1) {
         await tester.pump();
       }

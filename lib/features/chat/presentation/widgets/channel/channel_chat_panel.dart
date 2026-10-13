@@ -2,8 +2,10 @@ import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_floating_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_status_row.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
@@ -49,7 +51,9 @@ double channelChatJumpToBottomBottomOffset({
     isMobile: isMobile,
   );
   if (!showNeko) {
-    return fadeHeight;
+    return isMobile && !showSlowmode
+        ? kChatFloatingButtonGap - MobileComposerLayout.topInset
+        : fadeHeight;
   }
   final double nekoBottom = showSlowmode
       ? _kChannelChatNekoBottomAboveSlowmode
@@ -381,13 +385,11 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
     final bool isSyncingMessages = ref.watch(
       chatViewModelProvider.select((ChatViewState s) => s.isSyncingMessages),
     );
-    final ({String channelId, double distanceFromBottom, double viewportHeight})
-    viewport = ref.watch(
+    final ({String channelId, double distanceFromBottom}) viewport = ref.watch(
       chatReadViewportProvider.select(
         (ChatReadViewportState state) => (
           channelId: state.channelId,
           distanceFromBottom: state.distanceFromBottom,
-          viewportHeight: state.viewportHeight,
         ),
       ),
     );
@@ -400,7 +402,6 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
           isLoading: isLoading,
           isActiveReadChannel: isActiveReadChannel,
           distanceFromBottom: viewport.distanceFromBottom,
-          viewportHeight: viewport.viewportHeight,
           hasMoreNewerMessages: hasMoreNewerMessages,
           messageLoadFailed: messageLoadFailed,
         );
@@ -412,50 +413,38 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
     );
     void jumpToPresent() =>
         ref.read(chatViewModelProvider.notifier).scrollToBottom();
+    final bool showPresentBar =
+        loadMessages && !isMobile && showJumpToBottom && hasMoreNewerMessages;
+    final bool showButton =
+        loadMessages && showJumpToBottom && (isMobile || !hasMoreNewerMessages);
     return Positioned.fill(
       child: Stack(
         children: <Widget>[
           Positioned(
-            right: 8,
-            bottom: bottom,
+            right: isMobile ? MobileComposerLayout.sideInset : 8,
+            bottom: isMobile ? bottom : bottom + 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
+              spacing: kChatFloatingButtonGap,
               children: <Widget>[
-                if (onClose != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5),
-                    child: Material(
-                      color: context.colors.backgroundPrimary,
-                      shape: const CircleBorder(),
-                      child: FluxerSheetCloseButton(onTap: onClose!),
-                    ),
+                if (showButton)
+                  ChatJumpToBottomButton(
+                    isLoading: isSyncingMessages,
+                    onTap: jumpToPresent,
                   ),
-                if (loadMessages)
-                  ChannelChatJumpToBottomReveal(
-                    visible: showJumpToBottom && !hasMoreNewerMessages,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: FluxerJumpToBottomButton(
-                        isLoading: isSyncingMessages,
-                        onTap: jumpToPresent,
-                      ),
-                    ),
-                  ),
+                if (onClose != null) ChatCloseButton(onTap: onClose!),
               ],
             ),
           ),
-          if (loadMessages)
+          if (showPresentBar)
             Positioned(
               left: 8,
               right: 8,
               bottom: bottom + 10,
               child: Center(
-                child: ChannelChatJumpToBottomReveal(
-                  visible: showJumpToBottom && hasMoreNewerMessages,
-                  child: ChannelChatJumpToPresentBar(
-                    isLoading: isSyncingMessages,
-                    onJumpToPresent: jumpToPresent,
-                  ),
+                child: ChannelChatJumpToPresentBar(
+                  isLoading: isSyncingMessages,
+                  onJumpToPresent: jumpToPresent,
                 ),
               ),
             ),
@@ -531,37 +520,6 @@ class ChannelChatJumpToPresentBar extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-const double kJumpToBottomHiddenScale = 0.8;
-
-class ChannelChatJumpToBottomReveal extends StatelessWidget {
-  const ChannelChatJumpToBottomReveal({
-    required this.visible,
-    required this.child,
-    super.key,
-  });
-
-  final bool visible;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      ignoring: !visible,
-      child: AnimatedOpacity(
-        opacity: visible ? 1 : 0,
-        duration: context.motion.fast,
-        curve: context.motion.curve,
-        child: AnimatedScale(
-          scale: visible ? 1 : kJumpToBottomHiddenScale,
-          duration: context.motion.fast,
-          curve: context.motion.curve,
-          child: child,
-        ),
       ),
     );
   }

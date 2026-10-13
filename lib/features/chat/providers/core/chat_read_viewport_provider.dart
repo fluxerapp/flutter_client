@@ -14,7 +14,6 @@ class ChatReadViewportState {
     this.viewportActive = false,
     this.nearLoadedTail = false,
     this.distanceFromBottom = 0,
-    this.viewportHeight = 0,
     this.foreground = false,
     this.sampledTailId,
   });
@@ -23,7 +22,6 @@ class ChatReadViewportState {
   final bool viewportActive;
   final bool nearLoadedTail;
   final double distanceFromBottom;
-  final double viewportHeight;
   final bool foreground;
 
   /// The newest server-backed message id the published geometry was measured
@@ -41,7 +39,6 @@ class ChatReadViewportState {
       other.viewportActive == viewportActive &&
       other.nearLoadedTail == nearLoadedTail &&
       other.distanceFromBottom == distanceFromBottom &&
-      other.viewportHeight == viewportHeight &&
       other.foreground == foreground &&
       other.sampledTailId == sampledTailId;
 
@@ -51,7 +48,6 @@ class ChatReadViewportState {
     viewportActive,
     nearLoadedTail,
     distanceFromBottom,
-    viewportHeight,
     foreground,
     sampledTailId,
   );
@@ -63,7 +59,6 @@ class ChatReadViewport extends _$ChatReadViewport {
   String? _visibleChannelId;
   bool _nearLoadedTail = false;
   double _distanceFromBottom = 0;
-  double _viewportHeight = 0;
   String? _sampledTailId;
 
   @override
@@ -79,7 +74,6 @@ class ChatReadViewport extends _$ChatReadViewport {
         _channelId = channelId;
         _nearLoadedTail = false;
         _distanceFromBottom = 0;
-        _viewportHeight = 0;
         _sampledTailId = null;
         _emit();
       }),
@@ -110,7 +104,6 @@ class ChatReadViewport extends _$ChatReadViewport {
     required String channelId,
     required bool nearLoadedTail,
     required double distanceFromBottom,
-    required double viewportHeight,
     required String? sampledTailId,
   }) {
     // Deferred like the mutators above: the widget publishes from
@@ -126,13 +119,11 @@ class ChatReadViewport extends _$ChatReadViewport {
         );
         if (_nearLoadedTail == nearLoadedTail &&
             _distanceFromBottom == quantizedDistance &&
-            _viewportHeight == viewportHeight &&
             _sampledTailId == sampledTailId) {
           return;
         }
         _nearLoadedTail = nearLoadedTail;
         _distanceFromBottom = quantizedDistance;
-        _viewportHeight = viewportHeight;
         _sampledTailId = sampledTailId;
         _emit();
       }),
@@ -146,7 +137,6 @@ class ChatReadViewport extends _$ChatReadViewport {
             _channelId.isNotEmpty && _visibleChannelId == _channelId,
         nearLoadedTail: _nearLoadedTail,
         distanceFromBottom: _distanceFromBottom,
-        viewportHeight: _viewportHeight,
         foreground: foreground,
         sampledTailId: _sampledTailId,
       );

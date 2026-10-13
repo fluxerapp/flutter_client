@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_scroll_position.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -341,7 +340,7 @@ void main() {
     expect(position.pixels, greaterThan(beforeExtentChange));
     expect(position.pixels, lessThan(position.maxScrollExtent));
 
-    await tester.pump(kMessageListLiveTailMotionDuration);
+    await tester.pump(kMessageListTailFollowDuration);
     await tester.pump();
 
     expect(position.isFollowingTail, isFalse);

@@ -1,5 +1,6 @@
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
 import 'package:fluxer_app/material_ui.dart';
+
+const Duration kMessageListLiveTailMotionDuration = Duration(milliseconds: 200);
 
 class MessageListRowResize extends StatelessWidget {
   const MessageListRowResize({

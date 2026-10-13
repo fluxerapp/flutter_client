@@ -1443,7 +1443,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: true,
           distanceFromBottom: 0,
-          viewportHeight: 600,
           sampledTailId: newestServerBackedMessageId(
             container.read(chatViewModelProvider).messages,
           ),

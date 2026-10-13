@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_row_motion.dart';
 import 'package:fluxer_app/material_ui.dart';
 

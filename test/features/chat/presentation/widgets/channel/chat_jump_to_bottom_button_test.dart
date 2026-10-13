@@ -3,11 +3,11 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_identity_header.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_floating_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-import '../../../helpers/test_l10n.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 Widget _buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -25,29 +25,15 @@ Widget _buildTestApp(Widget child) {
 }
 
 void main() {
-  group('FluxerJumpToBottomButton', () {
+  group('ChatJumpToBottomButton', () {
     testWidgets('calls onTap when tapped', (WidgetTester tester) async {
       var tapped = false;
       await tester.pumpWidget(
-        _buildTestApp(FluxerJumpToBottomButton(onTap: () => tapped = true)),
+        _buildTestApp(ChatJumpToBottomButton(onTap: () => tapped = true)),
       );
 
-      await tester.tap(find.byType(FluxerJumpToBottomButton));
+      await tester.tap(find.byType(ChatJumpToBottomButton));
       expect(tapped, isTrue);
-    });
-
-    testWidgets('does not call onTap when disabled', (
-      WidgetTester tester,
-    ) async {
-      var tapped = false;
-      await tester.pumpWidget(
-        _buildTestApp(
-          FluxerJumpToBottomButton(enabled: false, onTap: () => tapped = true),
-        ),
-      );
-
-      await tester.tap(find.byType(FluxerJumpToBottomButton));
-      expect(tapped, isFalse);
     });
 
     testWidgets('shows loading spinner and does not call onTap when loading', (
@@ -56,12 +42,12 @@ void main() {
       var tapped = false;
       await tester.pumpWidget(
         _buildTestApp(
-          FluxerJumpToBottomButton(isLoading: true, onTap: () => tapped = true),
+          ChatJumpToBottomButton(isLoading: true, onTap: () => tapped = true),
         ),
       );
 
       expect(find.byType(FluxerLoadingSpinner), findsOneWidget);
-      await tester.tap(find.byType(FluxerJumpToBottomButton));
+      await tester.tap(find.byType(ChatJumpToBottomButton));
       expect(tapped, isFalse);
     });
   });

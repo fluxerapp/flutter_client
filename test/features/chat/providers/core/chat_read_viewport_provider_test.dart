@@ -148,7 +148,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: true,
           distanceFromBottom: 240,
-          viewportHeight: 600,
           sampledTailId: null,
         );
 
@@ -162,7 +161,6 @@ void main() {
     expect(state.viewportActive, isFalse);
     expect(state.nearLoadedTail, isFalse);
     expect(state.distanceFromBottom, 0);
-    expect(state.viewportHeight, 0);
   });
 
   test('updateViewport quantizes distance before emitting', () async {
@@ -179,7 +177,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: false,
           distanceFromBottom: 50,
-          viewportHeight: 720,
           sampledTailId: null,
         );
     await _flushMicrotasks();
@@ -192,7 +189,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: false,
           distanceFromBottom: 70,
-          viewportHeight: 720,
           sampledTailId: null,
         );
     await _flushMicrotasks();
@@ -218,7 +214,6 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: true,
           distanceFromBottom: 64,
-          viewportHeight: 640,
           sampledTailId: null,
         );
 
@@ -230,7 +225,6 @@ void main() {
     expect(state.viewportActive, isTrue);
     expect(state.nearLoadedTail, isTrue);
     expect(state.distanceFromBottom, 48);
-    expect(state.viewportHeight, 640);
     expect(state.foreground, isFalse);
     expect(state.canAutoAck, isFalse);
   });
@@ -253,7 +247,6 @@ void main() {
             channelId: 'channel-1',
             nearLoadedTail: true,
             distanceFromBottom: 20,
-            viewportHeight: 640,
             sampledTailId: null,
           );
       await _flushMicrotasks();

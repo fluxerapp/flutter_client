@@ -1,9 +1,8 @@
-/// Read-viewport and unread-indicator decisions for the message list.
 library;
 
 const double kMessageListReadBottomThreshold = 48;
 
-const double kJumpToBottomViewportFraction = 0.5;
+const double kJumpToBottomDistance = 1100;
 const double kChatReadViewportDistanceStep = 48;
 
 double quantizeReadViewportDistance(double distance) {
@@ -24,32 +23,8 @@ bool isNearTrailingEdge({
   return distanceFromTrailingEdge <= threshold;
 }
 
-bool isBeyondJumpToBottomThreshold({
-  required double distanceFromBottom,
-  required double viewportHeight,
-}) {
-  return viewportHeight > 0 &&
-      distanceFromBottom >= viewportHeight * kJumpToBottomViewportFraction;
-}
-
-/// Visibility of the top "new messages" bar: driven by the unread count and
-/// suppressed at the bottom of the latest page.
-bool shouldShowUnreadBar({
-  required bool hasUnread,
-  required bool liveNearBottom,
-  required bool hasMoreNewerMessages,
-  required bool isManualReadState,
-}) {
-  if (!hasUnread) {
-    return false;
-  }
-  if (isManualReadState) {
-    return true;
-  }
-  if (liveNearBottom && !hasMoreNewerMessages) {
-    return false;
-  }
-  return true;
+bool isBeyondJumpToBottomThreshold({required double distanceFromBottom}) {
+  return distanceFromBottom >= kJumpToBottomDistance;
 }
 
 /// Channel welcome header at the top of the list (true channel start only).
@@ -66,7 +41,6 @@ bool shouldShowJumpToBottomButton({
   required bool isLoading,
   required bool isActiveReadChannel,
   required double distanceFromBottom,
-  required double viewportHeight,
   required bool hasMoreNewerMessages,
   required bool messageLoadFailed,
 }) {
@@ -76,8 +50,5 @@ bool shouldShowJumpToBottomButton({
   if (hasMoreNewerMessages) {
     return true;
   }
-  return isBeyondJumpToBottomThreshold(
-    distanceFromBottom: distanceFromBottom,
-    viewportHeight: viewportHeight,
-  );
+  return isBeyondJumpToBottomThreshold(distanceFromBottom: distanceFromBottom);
 }

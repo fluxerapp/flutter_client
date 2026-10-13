@@ -6,6 +6,8 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_floating_button.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -27,7 +29,7 @@ void main() {
           showNeko: false,
           showSlowmode: false,
         ),
-        WideComposerLayout.mobileFadeHeight,
+        kChatFloatingButtonGap - MobileComposerLayout.topInset,
       );
     });
 
