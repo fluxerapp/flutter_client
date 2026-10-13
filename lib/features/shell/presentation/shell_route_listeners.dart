@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
+import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
@@ -53,6 +54,7 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   @override
   void initState() {
     super.initState();
+    ref.read(notificationMentionFeedStreamProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
