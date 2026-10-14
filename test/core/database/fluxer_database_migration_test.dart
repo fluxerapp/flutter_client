@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 97;
+const int _expectedSchemaVersion = 98;
 
 const int _guardedBaselineVersion = 67;
 
@@ -457,6 +457,93 @@ void main() {
         isNot(contains('thread_channels_active')),
       );
       expect((await db.guildDao.getServerById('g1'))?.name, 'Guild');
+      expect(_userVersion(raw), _expectedSchemaVersion);
+    });
+
+    test('upgrade from 97 keys messages by channel and id', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 97);
+      raw
+        ..execute('DROP TABLE messages')
+        ..execute(
+          'CREATE TABLE messages (id TEXT NOT NULL PRIMARY KEY, '
+          'channel_id TEXT NOT NULL, author_id TEXT NOT NULL, '
+          "author_name TEXT NOT NULL DEFAULT '', author_avatar TEXT, "
+          'author_avatar_color INTEGER, '
+          'author_is_bot INTEGER NOT NULL DEFAULT 0, '
+          'author_is_system INTEGER NOT NULL DEFAULT 0, '
+          'author_public_flags INTEGER NOT NULL DEFAULT 0, '
+          'webhook_id TEXT, content TEXT NOT NULL, '
+          'timestamp INTEGER NOT NULL, edited_timestamp INTEGER, '
+          "embeds_json TEXT NOT NULL DEFAULT '[]', "
+          "attachments_json TEXT NOT NULL DEFAULT '[]', "
+          "stickers_json TEXT NOT NULL DEFAULT '[]', "
+          "reactions_json TEXT NOT NULL DEFAULT '[]', "
+          'reply_to_id TEXT, forwarded_from TEXT, '
+          'message_reference_json TEXT, '
+          "message_snapshots_json TEXT NOT NULL DEFAULT '[]', "
+          'pinned INTEGER NOT NULL DEFAULT 0, '
+          'is_mentioned INTEGER NOT NULL DEFAULT 0, '
+          "mentioned_user_ids_json TEXT NOT NULL DEFAULT '[]', "
+          "mention_channels_json TEXT NOT NULL DEFAULT '[]', "
+          'type INTEGER NOT NULL DEFAULT 0, '
+          'flags INTEGER NOT NULL DEFAULT 0, '
+          'delivery_state INTEGER NOT NULL DEFAULT 1, '
+          'client_nonce TEXT, send_error TEXT, call_json TEXT, '
+          'thread_json TEXT, translated_content TEXT, '
+          'translation_source_language TEXT, '
+          'translated_source_content TEXT, '
+          'translation_target_language TEXT, '
+          'translation_show_original INTEGER NOT NULL DEFAULT 0)',
+        )
+        ..execute('CREATE INDEX idx_messages_channel ON messages (channel_id)')
+        ..execute('CREATE INDEX idx_messages_author ON messages (author_id)')
+        ..execute(
+          'CREATE INDEX idx_messages_channel_timestamp '
+          'ON messages (channel_id, timestamp)',
+        )
+        ..execute(
+          'INSERT INTO messages (id, channel_id, author_id, content, '
+          "timestamp, client_nonce) VALUES ('500', 'c1', 'u1', 'kept', "
+          "1700000000, 'n1')",
+        );
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+
+      final Message? kept = await db.messageDao.getMessage('c1', '500');
+      expect(kept?.content, 'kept');
+      expect(kept?.clientNonce, 'n1');
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: '500',
+          channelId: '500',
+          authorId: 'u1',
+          content: '',
+          timestamp: DateTime.utc(2026),
+          type: const drift.Value(21),
+        ),
+      );
+      expect((await db.messageDao.getMessage('c1', '500'))?.content, 'kept');
+      expect(await db.messageDao.getMessage('500', '500'), isNotNull);
+      expect(
+        raw
+            .select('PRAGMA table_info(messages)')
+            .where((Row row) => (row['pk'] as int) > 0)
+            .map((Row row) => row['name'] as String),
+        <String>['id', 'channel_id'],
+      );
+      expect(
+        _schemaIndexes(raw),
+        containsAll(<String>[
+          'idx_messages_channel',
+          'idx_messages_author',
+          'idx_messages_channel_timestamp',
+        ]),
+      );
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
 

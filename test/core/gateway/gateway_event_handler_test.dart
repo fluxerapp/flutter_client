@@ -46,7 +46,7 @@ void main() {
     }
 
     Future<domain.Reaction?> loadReaction(FluxerDatabase database) async {
-      final row = await database.messageDao.getMessage(messageId);
+      final row = await database.messageDao.getMessage(channelId, messageId);
       expect(row, isNotNull);
       final reactions = (jsonDecode(row!.reactionsJson) as List<dynamic>)
           .cast<Map<String, dynamic>>();
@@ -286,8 +286,8 @@ void main() {
 
       await GatewayEventHandler(database: database).handle(readyWithChannel());
 
-      expect(await database.messageDao.getMessage('501'), isNotNull);
-      expect(await database.messageDao.getMessage('502'), isNull);
+      expect(await database.messageDao.getMessage('210', '501'), isNotNull);
+      expect(await database.messageDao.getMessage('999', '502'), isNull);
     });
 
     test(
@@ -303,9 +303,9 @@ void main() {
           database: database,
         ).handle(readyWithChannel());
 
-        expect(await database.messageDao.getMessage('1000'), isNull);
-        expect(await database.messageDao.getMessage('1001'), isNotNull);
-        expect(await database.messageDao.getMessage('1100'), isNotNull);
+        expect(await database.messageDao.getMessage('210', '1000'), isNull);
+        expect(await database.messageDao.getMessage('210', '1001'), isNotNull);
+        expect(await database.messageDao.getMessage('210', '1100'), isNotNull);
       },
     );
 
@@ -316,7 +316,7 @@ void main() {
 
       await GatewayEventHandler(database: database).handle(readyWithChannel());
 
-      expect(await database.messageDao.getMessage('501'), isNull);
+      expect(await database.messageDao.getMessage('210', '501'), isNull);
     });
   });
 
@@ -1148,8 +1148,8 @@ void main() {
 
       final Channel? row = await database.channelDao.getChannelById('c1');
       expect(row?.lastMessageId, tailId);
-      expect(await database.messageDao.getMessage(tailId), isNull);
-      expect(await database.messageDao.getMessage(olderId), isNotNull);
+      expect(await database.messageDao.getMessage('c1', tailId), isNull);
+      expect(await database.messageDao.getMessage('c1', olderId), isNotNull);
     });
 
     test('tail delete with empty cache leaves pointer untouched', () async {
@@ -1199,8 +1199,8 @@ void main() {
 
       final Channel? row = await database.channelDao.getChannelById('c1');
       expect(row?.lastMessageId, tailId);
-      expect(await database.messageDao.getMessage(olderId), isNull);
-      expect(await database.messageDao.getMessage(tailId), isNotNull);
+      expect(await database.messageDao.getMessage('c1', olderId), isNull);
+      expect(await database.messageDao.getMessage('c1', tailId), isNotNull);
     });
   });
 

@@ -68,6 +68,7 @@ class MessageTranslationService {
         targetLanguageCode: result.targetLanguageCode,
       );
       await _messageDao.saveTranslation(
+        channelId: message.channelId,
         messageId: message.id,
         translation: translation,
       );
@@ -90,7 +91,11 @@ class MessageTranslationService {
     final MessageTranslation next = translation.copyWith(
       showOriginal: showOriginal,
     );
-    await _messageDao.saveTranslation(messageId: message.id, translation: next);
+    await _messageDao.saveTranslation(
+      channelId: message.channelId,
+      messageId: message.id,
+      translation: next,
+    );
     return message.copyWith(translation: next);
   }
 

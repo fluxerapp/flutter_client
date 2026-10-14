@@ -6,6 +6,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
+import 'package:fluxer_app/core/database/daos/message_dao.dart' show MessageKey;
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -582,7 +583,7 @@ class MessageRepository {
       localMessageIds: localRows.map((db.Message row) => row.id),
       networkPage: networkPage,
     );
-    await _db.messageDao.deleteMessages(staleIds);
+    await _db.messageDao.deleteMessages(channelId, staleIds);
     if (isLatestPage &&
         localTailBeforeFetch != null &&
         compareSnowflakeIds(localTailBeforeFetch, newestId) > 0) {
@@ -775,7 +776,7 @@ class MessageRepository {
           !listEquals(names, expectedNames)) {
         continue;
       }
-      if (await _db.messageDao.getMessage(message.id) != null) {
+      if (await _db.messageDao.getMessage(channelId, message.id) != null) {
         continue;
       }
       return message.id;
@@ -974,10 +975,10 @@ class MessageRepository {
         channelId: channelId,
         messageId: messageId,
       );
-      await _db.messageDao.deleteMessages([messageId]);
+      await _db.messageDao.deleteMessages(channelId, [messageId]);
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
-        await _db.messageDao.deleteMessages([messageId]);
+        await _db.messageDao.deleteMessages(channelId, [messageId]);
         return;
       }
       throw Exception(e.response?.statusMessage ?? 'Failed to delete message');
@@ -990,18 +991,21 @@ class MessageRepository {
     if (messages.isEmpty) {
       return messages;
     }
-    final Map<String, MessageTranslationSnapshot> snapshots = await _db
+    final Map<MessageKey, MessageTranslationSnapshot> snapshots = await _db
         .messageDao
-        .getTranslationSnapshots(
-          messages.map((Message message) => message.id).toList(),
-        );
+        .getTranslationSnapshots(<MessageKey>[
+          for (final Message message in messages)
+            (channelId: message.channelId, id: message.id),
+        ]);
     await _db.messageDao.upsertMessages(
       messages.map((Message message) => message.toCompanion()).toList(),
       snapshots: snapshots,
     );
     return <Message>[
       for (final Message message in messages)
-        message.withStoredTranslation(snapshots[message.id]),
+        message.withStoredTranslation(
+          snapshots[(channelId: message.channelId, id: message.id)],
+        ),
     ];
   }
 

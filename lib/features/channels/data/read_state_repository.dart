@@ -347,7 +347,7 @@ class ReadStateRepository {
     if (previous != null) {
       return previous.id;
     }
-    final reference = await _db.messageDao.getMessage(messageId);
+    final reference = await _db.messageDao.getMessage(channelId, messageId);
     if (reference != null) {
       return snowflakeAtPreviousMillisecond(messageId);
     }

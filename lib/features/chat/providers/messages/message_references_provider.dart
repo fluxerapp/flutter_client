@@ -134,7 +134,10 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     );
     final messageDao = ref.read(fluxerDatabaseProvider).messageDao;
     final rows = await Future.wait(
-      missing.map((refEntry) => messageDao.getMessage(refEntry.messageId)),
+      missing.map(
+        (refEntry) =>
+            messageDao.getMessage(refEntry.channelId, refEntry.messageId),
+      ),
     );
     if (!ref.mounted) {
       return;
@@ -149,7 +152,6 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     for (var i = 0; i < missing.length; i++) {
       final row = rows[i];
       if (row != null &&
-          row.channelId == missing[i].channelId &&
           _cacheMessage(
             nextCached,
             row.channelId,
@@ -329,8 +331,8 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
       final row = await ref
           .read(fluxerDatabaseProvider)
           .messageDao
-          .getMessage(messageId);
-      if (row != null && row.channelId == channelId) {
+          .getMessage(channelId, messageId);
+      if (row != null) {
         _failedAttempts.remove(key);
         _setCachedMessage(Message.fromRow(row));
         return;

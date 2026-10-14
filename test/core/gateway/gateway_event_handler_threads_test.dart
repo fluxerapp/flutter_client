@@ -289,7 +289,10 @@ void main() {
           await h.database.channelDao.getChannelById(_otherThreadId),
           isNotNull,
         );
-        expect(await h.database.messageDao.getMessage(messageId), isNotNull);
+        expect(
+          await h.database.messageDao.getMessage(_otherThreadId, messageId),
+          isNotNull,
+        );
         expect(
           await h.database.channelDao.getChannelById(_threadId),
           isNotNull,
@@ -322,7 +325,10 @@ void main() {
 
         expect(await h.database.channelDao.getChannelById(_threadId), isNull);
         expect(await h.database.threadDao.getMember(_threadId), isNull);
-        expect(await h.database.messageDao.getMessage('9002'), isNull);
+        expect(
+          await h.database.messageDao.getMessage(_threadId, '9002'),
+          isNull,
+        );
         expect(await h.database.channelDao.getChannelById(_textId), isNotNull);
       },
     );
@@ -531,6 +537,16 @@ void main() {
           threadJson: const Value('{"id":"2000"}'),
         ),
       );
+      await h.database.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: _threadId,
+          channelId: _threadId,
+          authorId: '300',
+          content: '',
+          timestamp: DateTime.utc(2026, 9, 27),
+          type: const Value(21),
+        ),
+      );
 
       await h.handler.handle(
         const ThreadDeleteEvent(
@@ -544,8 +560,14 @@ void main() {
       expect(await h.database.channelDao.getChannelById(_threadId), isNull);
       expect(await h.database.threadDao.getMember(_threadId), isNull);
       expect(await h.database.readStateDao.getReadState(_threadId), isNotNull);
+      final Message? source = await h.database.messageDao.getMessage(
+        _textId,
+        _threadId,
+      );
+      expect(source?.content, 'source');
+      expect(source?.threadJson, isNull);
       expect(
-        (await h.database.messageDao.getMessage(_threadId))?.threadJson,
+        await h.database.messageDao.getMessage(_threadId, _threadId),
         isNull,
       );
     });
@@ -693,7 +715,10 @@ void main() {
           MessageUpdateEvent(message: _message(messageId, _textId)),
         );
 
-        final stored = await h.database.messageDao.getMessage(messageId);
+        final stored = await h.database.messageDao.getMessage(
+          _textId,
+          messageId,
+        );
         expect(stored?.content, 'hello $messageId');
         expect(stored?.threadJson, '{"id":"2000"}');
       },

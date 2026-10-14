@@ -854,8 +854,8 @@ void main() {
       final state = container.read(chatViewModelProvider);
       expect(state.isLoading, isFalse);
       expect(state.messages.map((m) => m.id), [anchorId, keptId]);
-      expect(await db.messageDao.getMessage(deletedId), null);
-      expect(await db.messageDao.getMessage(keptId), isNot(null));
+      expect(await db.messageDao.getMessage('channel-1', deletedId), null);
+      expect(await db.messageDao.getMessage('channel-1', keptId), isNot(null));
     },
   );
 
@@ -988,7 +988,7 @@ void main() {
 
       final state = container.read(chatViewModelProvider);
       expect(state.messages.map((m) => m.id), [anchorId, keptId]);
-      expect(await db.messageDao.getMessage(deletedId), null);
+      expect(await db.messageDao.getMessage('channel-1', deletedId), null);
     },
   );
 
@@ -1143,7 +1143,7 @@ void main() {
         anchorId,
         keptId,
       ]);
-      expect(await db.messageDao.getMessage(deletedId), null);
+      expect(await db.messageDao.getMessage('channel-1', deletedId), null);
     },
   );
 
@@ -1682,7 +1682,7 @@ void main() {
 
       final state = container.read(chatViewModelProvider);
       expect(state.messages.map((m) => m.id), [anchorId, keptId]);
-      expect(await db.messageDao.getMessage(deletedId), null);
+      expect(await db.messageDao.getMessage('channel-1', deletedId), null);
     },
   );
 
@@ -1773,7 +1773,7 @@ void main() {
 
       final state = container.read(chatViewModelProvider);
       expect(state.messages.map((m) => m.id), liveIds);
-      expect(await db.messageDao.getMessage(deletedTailId), null);
+      expect(await db.messageDao.getMessage('channel-1', deletedTailId), null);
       expect(adapter.aroundQueries, isEmpty);
       expect(anchorlessRequests('channel-1'), 1);
 

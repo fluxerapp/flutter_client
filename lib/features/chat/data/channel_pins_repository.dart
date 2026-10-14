@@ -107,7 +107,7 @@ class ChannelPinsRepository {
       messageId: messageId,
     );
 
-    final row = await _database.messageDao.getMessage(messageId);
+    final row = await _database.messageDao.getMessage(channelId, messageId);
     if (row == null) {
       return;
     }
@@ -125,7 +125,7 @@ class ChannelPinsRepository {
       messageId: messageId,
     );
 
-    final row = await _database.messageDao.getMessage(messageId);
+    final row = await _database.messageDao.getMessage(channelId, messageId);
     if (row == null) {
       return;
     }

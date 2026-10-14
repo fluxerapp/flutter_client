@@ -9,6 +9,8 @@ import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 
 part 'message_dao.g.dart';
 
+typedef MessageKey = ({String channelId, String id});
+
 @DriftAccessor(tables: [Messages])
 class MessageDao extends DatabaseAccessor<FluxerDatabase>
     with _$MessageDaoMixin {
@@ -28,9 +30,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       ..limit(limit);
 
     if (beforeId != null) {
-      final beforeMsg = await (select(
-        messages,
-      )..where((m) => m.id.equals(beforeId))).getSingleOrNull();
+      final beforeMsg = await getMessage(channelId, beforeId);
       if (beforeMsg != null) {
         final int beforeSnowflake = int.parse(beforeId);
         query.where(
@@ -46,59 +46,37 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return results.reversed.toList();
   }
 
-  Future<void> upsertMessage(MessagesCompanion message) async {
-    String? existingContent;
-    String? existingNonce;
-    if (message.id.present) {
-      if (message.content.present) {
-        existingContent = (await getTranslationSnapshots(<String>[
-          message.id.value,
-        ]))[message.id.value]?.content;
-      }
-      if (!message.clientNonce.present || message.clientNonce.value == null) {
-        existingNonce = (await _clientNoncesById(<String>[
-          message.id.value,
-        ]))[message.id.value];
-      }
-    }
-    await into(messages).insertOnConflictUpdate(
-      _keepExistingNonce(
-        _clearStaleTranslation(message, existingContent),
-        existingNonce,
-      ),
-    );
-  }
+  Future<void> upsertMessage(MessagesCompanion message) =>
+      upsertMessages(<MessagesCompanion>[message]);
 
   Future<void> upsertMessages(
     List<MessagesCompanion> messageList, {
-    Map<String, MessageTranslationSnapshot>? snapshots,
+    Map<MessageKey, MessageTranslationSnapshot>? snapshots,
   }) async {
     if (messageList.isEmpty) {
       return;
     }
-    final List<String> ids = <String>[
+    final List<MessageKey> keys = <MessageKey>[
       for (final MessagesCompanion message in messageList)
-        if (message.id.present) message.id.value,
+        if (_keyOf(message) case final MessageKey key) key,
     ];
-    final Map<String, MessageTranslationSnapshot> existing =
-        snapshots ?? await getTranslationSnapshots(ids);
-    final List<String> nonceLookupIds = <String>[
+    final Map<MessageKey, MessageTranslationSnapshot> existing =
+        snapshots ?? await getTranslationSnapshots(keys);
+    final List<MessageKey> nonceLookupKeys = <MessageKey>[
       for (final MessagesCompanion message in messageList)
-        if (message.id.present &&
-            (!message.clientNonce.present || message.clientNonce.value == null))
-          message.id.value,
+        if (_keyOf(message) case final MessageKey key
+            when !message.clientNonce.present ||
+                message.clientNonce.value == null)
+          key,
     ];
-    final Map<String, String> existingNonces = await _clientNoncesById(
-      nonceLookupIds,
+    final Map<MessageKey, String> existingNonces = await _clientNonces(
+      nonceLookupKeys,
     );
     final List<MessagesCompanion> companions = <MessagesCompanion>[
       for (final MessagesCompanion message in messageList)
         _keepExistingNonce(
-          _clearStaleTranslation(
-            message,
-            message.id.present ? existing[message.id.value]?.content : null,
-          ),
-          message.id.present ? existingNonces[message.id.value] : null,
+          _clearStaleTranslation(message, existing[_keyOf(message)]?.content),
+          existingNonces[_keyOf(message)],
         ),
     ];
     await batch((b) {
@@ -108,11 +86,33 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     });
   }
 
+  MessageKey? _keyOf(MessagesCompanion message) =>
+      message.channelId.present && message.id.present
+      ? (channelId: message.channelId.value, id: message.id.value)
+      : null;
+
+  Expression<bool> _matchesKeys(Iterable<MessageKey> keys) {
+    final Map<String, List<String>> idsByChannel = <String, List<String>>{};
+    for (final MessageKey key in keys) {
+      (idsByChannel[key.channelId] ??= <String>[]).add(key.id);
+    }
+    return Expression.or(<Expression<bool>>[
+      for (final MapEntry<String, List<String>> entry in idsByChannel.entries)
+        messages.channelId.equals(entry.key) & messages.id.isIn(entry.value),
+    ]);
+  }
+
+  Expression<bool> _matchesKey(String channelId, String id) =>
+      messages.channelId.equals(channelId) & messages.id.equals(id);
+
   Future<void> saveTranslation({
+    required String channelId,
     required String messageId,
     required MessageTranslation? translation,
   }) {
-    return (update(messages)..where((m) => m.id.equals(messageId))).write(
+    return (update(
+      messages,
+    )..where((_) => _matchesKey(channelId, messageId))).write(
       translation == null
           ? const MessagesCompanion(
               translatedContent: Value(null),
@@ -131,14 +131,15 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     );
   }
 
-  Future<Map<String, MessageTranslationSnapshot>> getTranslationSnapshots(
-    List<String> ids,
+  Future<Map<MessageKey, MessageTranslationSnapshot>> getTranslationSnapshots(
+    List<MessageKey> keys,
   ) async {
-    if (ids.isEmpty) {
-      return <String, MessageTranslationSnapshot>{};
+    if (keys.isEmpty) {
+      return <MessageKey, MessageTranslationSnapshot>{};
     }
     final query = selectOnly(messages)
       ..addColumns([
+        messages.channelId,
         messages.id,
         messages.content,
         messages.translatedContent,
@@ -147,11 +148,14 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
         messages.translationTargetLanguage,
         messages.translationShowOriginal,
       ])
-      ..where(messages.id.isIn(ids));
+      ..where(_matchesKeys(keys));
     final List<TypedResult> rows = await query.get();
-    return <String, MessageTranslationSnapshot>{
+    return <MessageKey, MessageTranslationSnapshot>{
       for (final TypedResult row in rows)
-        row.read(messages.id)!: MessageTranslationSnapshot(
+        (
+          channelId: row.read(messages.channelId)!,
+          id: row.read(messages.id)!,
+        ): MessageTranslationSnapshot(
           content: row.read(messages.content)!,
           translation: MessageTranslation.tryParse(
             translatedContent: row.read(messages.translatedContent),
@@ -195,41 +199,50 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return message.copyWith(clientNonce: Value(existingNonce));
   }
 
-  Future<Map<String, String>> _clientNoncesById(List<String> ids) async {
-    if (ids.isEmpty) {
-      return const <String, String>{};
+  Future<Map<MessageKey, String>> _clientNonces(List<MessageKey> keys) async {
+    if (keys.isEmpty) {
+      return const <MessageKey, String>{};
     }
     final query = selectOnly(messages)
-      ..addColumns([messages.id, messages.clientNonce])
-      ..where(messages.id.isIn(ids) & messages.clientNonce.isNotNull());
+      ..addColumns([messages.channelId, messages.id, messages.clientNonce])
+      ..where(_matchesKeys(keys) & messages.clientNonce.isNotNull());
     final List<TypedResult> rows = await query.get();
-    final Map<String, String> nonces = <String, String>{};
+    final Map<MessageKey, String> nonces = <MessageKey, String>{};
     for (final TypedResult row in rows) {
       final String? nonce = row.read(messages.clientNonce);
       if (nonce == null || nonce.isEmpty) {
         continue;
       }
-      nonces[row.read(messages.id)!] = nonce;
+      nonces[(
+            channelId: row.read(messages.channelId)!,
+            id: row.read(messages.id)!,
+          )] =
+          nonce;
     }
     return nonces;
   }
 
-  Future<Message?> getMessage(String id) =>
-      (select(messages)..where((m) => m.id.equals(id))).getSingleOrNull();
+  Future<Message?> getMessage(String channelId, String id) => (select(
+    messages,
+  )..where((_) => _matchesKey(channelId, id))).getSingleOrNull();
 
-  Future<Set<String>> getExistingMessageIds(Iterable<String> ids) async {
-    final List<String> idList = ids.toList();
-    if (idList.isEmpty) {
-      return const <String>{};
+  Future<Set<MessageKey>> getExistingMessageKeys(
+    Iterable<MessageKey> keys,
+  ) async {
+    if (keys.isEmpty) {
+      return const <MessageKey>{};
     }
-    final List<Message> rows = await (select(
-      messages,
-    )..where((m) => m.id.isIn(idList))).get();
-    return <String>{for (final Message row in rows) row.id};
+    final query = selectOnly(messages)
+      ..addColumns([messages.channelId, messages.id])
+      ..where(_matchesKeys(keys));
+    return <MessageKey>{
+      for (final TypedResult row in await query.get())
+        (channelId: row.read(messages.channelId)!, id: row.read(messages.id)!),
+    };
   }
 
-  Stream<Message?> watchMessage(String id) =>
-      (select(messages)..where((m) => m.id.equals(id)))
+  Stream<Message?> watchMessage(String channelId, String id) =>
+      (select(messages)..where((_) => _matchesKey(channelId, id)))
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
@@ -291,9 +304,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     String afterId, {
     int limit = 30,
   }) async {
-    final afterMsg = await (select(
-      messages,
-    )..where((m) => m.id.equals(afterId))).getSingleOrNull();
+    final afterMsg = await getMessage(channelId, afterId);
     final query = select(messages)
       ..where((m) => m.channelId.equals(channelId))
       ..orderBy([
@@ -329,9 +340,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
           .get();
 
   Future<Message?> getPreviousMessage(String channelId, String beforeId) async {
-    final reference = await (select(
-      messages,
-    )..where((m) => m.id.equals(beforeId))).getSingleOrNull();
+    final reference = await getMessage(channelId, beforeId);
     if (reference == null) {
       return null;
     }
@@ -346,26 +355,27 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
         .getSingleOrNull();
   }
 
-  Future<void> updateReactions(String messageId, String json) =>
-      (update(messages)..where((m) => m.id.equals(messageId))).write(
-        MessagesCompanion(reactionsJson: Value(json)),
-      );
+  Future<void> updateReactions(
+    String channelId,
+    String messageId,
+    String json,
+  ) => (update(messages)..where((_) => _matchesKey(channelId, messageId)))
+      .write(MessagesCompanion(reactionsJson: Value(json)));
 
   Future<void> updateThreadJson({
     required String messageId,
     required String channelId,
     required String? json,
-  }) =>
-      (update(messages)..where(
-            (m) => m.id.equals(messageId) & m.channelId.equals(channelId),
-          ))
-          .write(MessagesCompanion(threadJson: Value(json)));
+  }) => (update(messages)..where((_) => _matchesKey(channelId, messageId)))
+      .write(MessagesCompanion(threadJson: Value(json)));
 
-  Future<void> deleteMessages(List<String> ids) {
+  Future<void> deleteMessages(String channelId, List<String> ids) {
     if (ids.isEmpty) {
       return Future.value();
     }
-    return (delete(messages)..where((m) => m.id.isIn(ids))).go();
+    return (delete(
+      messages,
+    )..where((m) => m.channelId.equals(channelId) & m.id.isIn(ids))).go();
   }
 
   // Drops tail rows deleted on the server while offline: https://feedback.fluxer.com/p/1863
@@ -415,9 +425,9 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<int> keepNewestMessagesPerChannel(int limit) => customUpdate(
     '''
-    DELETE FROM messages WHERE id IN (
-      SELECT id FROM (
-        SELECT id, ROW_NUMBER() OVER (
+    DELETE FROM messages WHERE rowid IN (
+      SELECT rowid FROM (
+        SELECT rowid, ROW_NUMBER() OVER (
           PARTITION BY channel_id
           ORDER BY timestamp DESC, CAST(id AS INTEGER) DESC
         ) AS position

@@ -58,7 +58,7 @@ class ForumFirstMessages extends Notifier<Map<String, Message?>> {
     final db.Message? row = await ref
         .read(fluxerDatabaseProvider)
         .messageDao
-        .getMessage(messageId);
+        .getMessage(messageId, messageId);
     if (row != null && ref.mounted && state[messageId] != null) {
       put(Message.fromRow(row));
     }
@@ -214,6 +214,7 @@ class ForumFirstMessages extends Notifier<Map<String, Message?>> {
           .read(fluxerDatabaseProvider)
           .messageDao
           .updateReactions(
+            postId,
             postId,
             jsonEncode(
               reactions.map((Reaction reaction) => reaction.toJson()).toList(),

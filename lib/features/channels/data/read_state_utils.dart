@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/database/daos/message_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
@@ -69,7 +70,7 @@ Future<({String? id, bool existsInCache})> resolveLatestMessageIdForChannel(
   var channelLastExists = false;
   if (channelLastMessageId != null && channelLastMessageId.isNotEmpty) {
     channelLastExists =
-        await db.messageDao.getMessage(channelLastMessageId) != null;
+        await db.messageDao.getMessage(channelId, channelLastMessageId) != null;
   }
   final id = resolveLatestMessageId(
     channelLastMessageId: channelLastMessageId,
@@ -92,7 +93,7 @@ resolveLatestMessageIdsForChannelsBulk(
   }
   final Map<String, Message> lastByChannel = await db.messageDao
       .getLastMessageForChannels(channelList.map((Channel c) => c.id).toList());
-  final Set<String> pointersToVerify = <String>{};
+  final Set<MessageKey> pointersToVerify = <MessageKey>{};
   for (final Channel channel in channelList) {
     final String? pointer = channel.lastMessageId;
     if (pointer == null || pointer.isEmpty) {
@@ -100,11 +101,11 @@ resolveLatestMessageIdsForChannelsBulk(
     }
     final String? cachedId = lastByChannel[channel.id]?.id;
     if (cachedId != pointer) {
-      pointersToVerify.add(pointer);
+      pointersToVerify.add((channelId: channel.id, id: pointer));
     }
   }
-  final Set<String> existingPointers = await db.messageDao
-      .getExistingMessageIds(pointersToVerify);
+  final Set<MessageKey> existingPointers = await db.messageDao
+      .getExistingMessageKeys(pointersToVerify);
   final Map<String, ChannelLatestMessageResolution> out =
       <String, ChannelLatestMessageResolution>{};
   for (final Channel channel in channelList) {
@@ -112,7 +113,9 @@ resolveLatestMessageIdsForChannelsBulk(
     var existsInCache = false;
     if (pointer != null && pointer.isNotEmpty) {
       final String? cachedId = lastByChannel[channel.id]?.id;
-      existsInCache = pointer == cachedId || existingPointers.contains(pointer);
+      existsInCache =
+          pointer == cachedId ||
+          existingPointers.contains((channelId: channel.id, id: pointer));
     }
     final String? id = resolveLatestMessageId(
       channelLastMessageId: pointer,

@@ -275,7 +275,7 @@ void main() {
 
     await repo.loadMessagePage(channelId: 'channel-1');
 
-    final row = await db.messageDao.getMessage(messageId);
+    final row = await db.messageDao.getMessage('channel-1', messageId);
     expect(row?.isMentioned, isTrue);
   });
 
@@ -356,9 +356,9 @@ void main() {
 
     await repo.loadMessagePage(channelId: 'channel-1');
 
-    expect(await db.messageDao.getMessage(anchorId), isNotNull);
-    expect(await db.messageDao.getMessage(deletedId), isNull);
-    expect(await db.messageDao.getMessage(keptId), isNotNull);
+    expect(await db.messageDao.getMessage('channel-1', anchorId), isNotNull);
+    expect(await db.messageDao.getMessage('channel-1', deletedId), isNull);
+    expect(await db.messageDao.getMessage('channel-1', keptId), isNotNull);
   });
 
   test('latest page removes a cached tail the server no longer has', () async {
@@ -386,8 +386,8 @@ void main() {
 
     await repo.loadMessagePage(channelId: 'channel-1');
 
-    expect(await db.messageDao.getMessage(anchorId), isNotNull);
-    expect(await db.messageDao.getMessage(deletedTailId), isNull);
+    expect(await db.messageDao.getMessage('channel-1', anchorId), isNotNull);
+    expect(await db.messageDao.getMessage('channel-1', deletedTailId), isNull);
   });
 
   test('around page keeps a cached row newer than the page', () async {
@@ -415,8 +415,8 @@ void main() {
 
     await repo.loadMessagePage(channelId: 'channel-1', around: anchorId);
 
-    expect(await db.messageDao.getMessage(anchorId), isNotNull);
-    expect(await db.messageDao.getMessage(newerId), isNotNull);
+    expect(await db.messageDao.getMessage('channel-1', anchorId), isNotNull);
+    expect(await db.messageDao.getMessage('channel-1', newerId), isNotNull);
   });
 
   test('latest page keeps a row persisted while it was in flight', () async {
@@ -454,9 +454,9 @@ void main() {
 
     await repo.loadMessagePage(channelId: 'channel-1');
 
-    expect(await db.messageDao.getMessage(anchorId), isNotNull);
-    expect(await db.messageDao.getMessage(deletedTailId), isNull);
-    expect(await db.messageDao.getMessage(inFlightId), isNotNull);
+    expect(await db.messageDao.getMessage('channel-1', anchorId), isNotNull);
+    expect(await db.messageDao.getMessage('channel-1', deletedTailId), isNull);
+    expect(await db.messageDao.getMessage('channel-1', inFlightId), isNotNull);
   });
 
   test('deleteMessage removes local row when server succeeds', () async {
@@ -479,7 +479,7 @@ void main() {
 
     await repo.deleteMessage(channelId: 'channel-1', messageId: messageId);
 
-    expect(await db.messageDao.getMessage(messageId), isNull);
+    expect(await db.messageDao.getMessage('channel-1', messageId), isNull);
   });
 
   test('deleteMessage removes local row when server returns 404', () async {
@@ -502,7 +502,7 @@ void main() {
 
     await repo.deleteMessage(channelId: 'channel-1', messageId: messageId);
 
-    expect(await db.messageDao.getMessage(messageId), isNull);
+    expect(await db.messageDao.getMessage('channel-1', messageId), isNull);
   });
 
   test('deleteAttachment sends DELETE to attachment endpoint', () async {

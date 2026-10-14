@@ -51,5 +51,5 @@ class Messages extends Table {
       boolean().withDefault(const Constant(false))();
 
   @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {channelId, id};
 }

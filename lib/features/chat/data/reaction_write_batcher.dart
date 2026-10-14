@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fluxer_app/core/database/daos/message_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/reaction_delta_utils.dart';
@@ -21,9 +22,9 @@ class ReactionWriteBatcher {
   final FluxerDatabase _database;
   final Duration _window;
   ReactionWriteBatcherFlushCallback? onFlush;
-  final Map<String, _PendingReactionBatch> _pending =
-      <String, _PendingReactionBatch>{};
-  final Map<String, Future<void>> _flushing = <String, Future<void>>{};
+  final Map<MessageKey, _PendingReactionBatch> _pending =
+      <MessageKey, _PendingReactionBatch>{};
+  final Map<MessageKey, Future<void>> _flushing = <MessageKey, Future<void>>{};
 
   void enqueue({
     required String messageId,
@@ -33,11 +34,10 @@ class ReactionWriteBatcher {
     required bool isCurrentUser,
   }) {
     final _PendingReactionBatch batch = _pending.putIfAbsent(
-      messageId,
+      (channelId: channelId, id: messageId),
       () => _PendingReactionBatch(
-        channelId: channelId,
         timer: Timer(_window, () {
-          unawaited(flush(messageId));
+          unawaited(flush(channelId, messageId));
         }),
       ),
     );
@@ -46,28 +46,32 @@ class ReactionWriteBatcher {
     );
   }
 
-  Future<void> flush(String messageId) {
-    final Future<void>? inFlight = _flushing[messageId];
+  Future<void> flush(String channelId, String messageId) {
+    final MessageKey key = (channelId: channelId, id: messageId);
+    final Future<void>? inFlight = _flushing[key];
     if (inFlight != null) {
-      return inFlight.then((_) => flush(messageId));
+      return inFlight.then((_) => flush(channelId, messageId));
     }
-    final Future<void> future = _drain(messageId);
-    _flushing[messageId] = future;
-    return future.whenComplete(() => _flushing.remove(messageId));
+    final Future<void> future = _drain(key);
+    _flushing[key] = future;
+    return future.whenComplete(() => _flushing.remove(key));
   }
 
   Future<void> flushAll() async {
-    final Set<String> ids = <String>{..._pending.keys, ..._flushing.keys};
-    for (final String messageId in ids) {
-      await flush(messageId);
+    final Set<MessageKey> keys = <MessageKey>{
+      ..._pending.keys,
+      ..._flushing.keys,
+    };
+    for (final MessageKey key in keys) {
+      await flush(key.channelId, key.id);
     }
   }
 
   Future<void> dispose() => flushAll();
 
-  Future<void> _drain(String messageId) async {
+  Future<void> _drain(MessageKey key) async {
     while (true) {
-      final _PendingReactionBatch? batch = _pending.remove(messageId);
+      final _PendingReactionBatch? batch = _pending.remove(key);
       if (batch == null) {
         return;
       }
@@ -75,16 +79,17 @@ class ReactionWriteBatcher {
       if (batch.deltas.isEmpty) {
         continue;
       }
-      await _applyFlush(messageId, batch);
+      await _applyFlush(key, batch);
     }
   }
 
-  Future<void> _applyFlush(
-    String messageId,
-    _PendingReactionBatch batch,
-  ) async {
+  Future<void> _applyFlush(MessageKey key, _PendingReactionBatch batch) async {
+    final String messageId = key.id;
     try {
-      final message = await _database.messageDao.getMessage(messageId);
+      final message = await _database.messageDao.getMessage(
+        key.channelId,
+        messageId,
+      );
       if (message == null) {
         return;
       }
@@ -105,10 +110,11 @@ class ReactionWriteBatcher {
         return;
       }
       await _database.messageDao.updateReactions(
+        key.channelId,
         messageId,
         jsonEncode(reactions),
       );
-      onFlush?.call(batch.channelId, messageId);
+      onFlush?.call(key.channelId, messageId);
     } on Object catch (e, st) {
       talker.error('[ReactionWriteBatcher] flush failed for $messageId', e, st);
     }
@@ -116,9 +122,8 @@ class ReactionWriteBatcher {
 }
 
 class _PendingReactionBatch {
-  _PendingReactionBatch({required this.channelId, required this.timer});
+  _PendingReactionBatch({required this.timer});
 
-  final String channelId;
   final Timer timer;
   final List<_ReactionDelta> deltas = <_ReactionDelta>[];
 }

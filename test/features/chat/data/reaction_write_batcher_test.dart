@@ -32,7 +32,7 @@ void main() {
   }
 
   Future<Map<String?, int?>> reactionCounts() async {
-    final row = await db.messageDao.getMessage(messageId);
+    final row = await db.messageDao.getMessage(channelId, messageId);
     final list = (jsonDecode(row!.reactionsJson) as List<dynamic>)
         .cast<Map<String, dynamic>>();
     return {for (final r in list) r['emoji'] as String?: r['count'] as int?};
@@ -69,7 +69,7 @@ void main() {
     expect(flushes, isEmpty);
     expect(await reactionCounts(), isEmpty);
 
-    await batcher.flush(messageId);
+    await batcher.flush(channelId, messageId);
 
     expect(flushes, <(String, String)>[(channelId, messageId)]);
     expect(await reactionCounts(), <String?, int?>{'👍': 1});
@@ -89,7 +89,7 @@ void main() {
         isAdd: true,
         isCurrentUser: false,
       );
-      await batcher.flush(messageId);
+      await batcher.flush(channelId, messageId);
       expect(await reactionCounts(), <String?, int?>{'👍': 1});
 
       batcher.enqueue(
@@ -99,7 +99,7 @@ void main() {
         isAdd: true,
         isCurrentUser: false,
       );
-      await batcher.flush(messageId);
+      await batcher.flush(channelId, messageId);
       expect(await reactionCounts(), <String?, int?>{'👍': 1, '❤️': 1});
 
       batcher.enqueue(
@@ -109,7 +109,7 @@ void main() {
         isAdd: false,
         isCurrentUser: false,
       );
-      await batcher.flush(messageId);
+      await batcher.flush(channelId, messageId);
       expect(await reactionCounts(), <String?, int?>{'👍': 1});
       expect(flushes.length, 3);
     },
@@ -129,7 +129,7 @@ void main() {
         isAdd: true,
         isCurrentUser: false,
       );
-      final Future<void> inFlight = batcher.flush(messageId);
+      final Future<void> inFlight = batcher.flush(channelId, messageId);
       batcher.enqueue(
         messageId: messageId,
         channelId: channelId,

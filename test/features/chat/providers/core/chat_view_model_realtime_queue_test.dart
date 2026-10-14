@@ -1294,7 +1294,7 @@ void main() {
 
     await notifier.switchChannel(_otherChannelId, loadMessages: false);
     await _flushAsync();
-    await database.messageDao.deleteMessages(<String>[targetId]);
+    await database.messageDao.deleteMessages(_channelId, <String>[targetId]);
     adapter.messages.removeWhere(
       (Map<String, Object?> m) => m['id'] == targetId,
     );
@@ -1916,7 +1916,7 @@ void main() {
         .messages
         .first
         .id;
-    await database.messageDao.deleteMessages(<String>[oldest]);
+    await database.messageDao.deleteMessages(_channelId, <String>[oldest]);
     _emitDeleted(container, id: oldest);
     await _flushAsync();
 
@@ -2693,7 +2693,10 @@ void main() {
       'edited remotely',
       reason: 'an operation must not overwrite a field it does not own',
     );
-    final db.Message? row = await database.messageDao.getMessage(messageId);
+    final db.Message? row = await database.messageDao.getMessage(
+      _channelId,
+      messageId,
+    );
     expect(
       row?.content,
       'edited remotely',
@@ -3299,7 +3302,10 @@ void main() {
       await notifier.switchChannel(_channelId);
       await _flushAsync();
       expect(
-        await database.messageDao.getMessage(_snowflakeForIndex(399)),
+        await database.messageDao.getMessage(
+          _channelId,
+          _snowflakeForIndex(399),
+        ),
         isNotNull,
         reason: 'the first open cached the pointer row',
       );
@@ -5156,12 +5162,12 @@ class _GatedMessageDao extends MessageDao {
   final _MessageDaoGate _gate;
 
   @override
-  Future<db.Message?> getMessage(String id) async {
+  Future<db.Message?> getMessage(String channelId, String id) async {
     final _GatedRead? read = _gate.register(id);
     if (read != null) {
       await read.completer.future;
     }
-    final db.Message? row = await super.getMessage(id);
+    final db.Message? row = await super.getMessage(channelId, id);
     final String? content = _gate.contentFor(id);
     if (row == null || content == null) {
       return row;

@@ -211,6 +211,7 @@ void main() {
           );
       await paginationFlushAsync();
       await container.read(fluxerDatabaseProvider).messageDao.deleteMessages(
+        'channel-1',
         <String>[replyId, mentionId],
       );
       container

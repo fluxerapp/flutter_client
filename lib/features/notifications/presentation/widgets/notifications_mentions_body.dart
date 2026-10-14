@@ -267,6 +267,7 @@ class _NotificationsMentionsBodyState
       for (final drift_db.NotificationMentionFeedData r in rows) {
         if (reload || _messageById[r.messageId] == null) {
           final drift_db.Message? row = await db.messageDao.getMessage(
+            r.channelId,
             r.messageId,
           );
           _messageById[r.messageId] = row == null ? null : Message.fromRow(row);

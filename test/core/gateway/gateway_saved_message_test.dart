@@ -58,7 +58,7 @@ void main() {
       );
 
       expect(await database.savedMessageDao.isSaved('m1'), isTrue);
-      final Message? row = await database.messageDao.getMessage('m1');
+      final Message? row = await database.messageDao.getMessage('c1', 'm1');
       expect(row, isNotNull);
       expect(row!.content, 'from desktop');
       expect(row.channelId, 'c1');

@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 97;
+  int get schemaVersion => 98;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1571,6 +1571,9 @@ class FluxerDatabase extends _$FluxerDatabase {
         await customStatement(
           'ALTER TABLE servers DROP COLUMN thread_channels_active',
         );
+      }
+      if (from < 98) {
+        await m.alterTable(TableMigration(messages));
       }
     },
   );

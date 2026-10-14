@@ -2171,7 +2171,7 @@ class GatewayEventHandler {
       for (final messageId in messageIds) {
         await database.notificationDao.deleteMentionRow(messageId);
       }
-      await database.messageDao.deleteMessages(messageIds);
+      await database.messageDao.deleteMessages(channelId, messageIds);
     });
 
     final repository = readStateRepository;
@@ -2946,13 +2946,23 @@ class GatewayEventHandler {
       );
       return;
     }
-    await _modifyReaction(messageId, emoji, isAdd: isAdd, userId: userId);
+    await _modifyReaction(
+      channelId,
+      messageId,
+      emoji,
+      isAdd: isAdd,
+      userId: userId,
+    );
   }
 
   void _handleReactionRemoveAll(MessageReactionRemoveAllEvent event) {
     unawaited(() async {
-      await reactionWriteBatcher?.flush(event.messageId);
-      await database.messageDao.updateReactions(event.messageId, '[]');
+      await reactionWriteBatcher?.flush(event.channelId, event.messageId);
+      await database.messageDao.updateReactions(
+        event.channelId,
+        event.messageId,
+        '[]',
+      );
       _emit(
         () => onMessageReactionChange?.call(event.channelId, event.messageId),
       );
@@ -2961,8 +2971,9 @@ class GatewayEventHandler {
 
   void _handleReactionRemoveEmoji(MessageReactionRemoveEmojiEvent event) {
     unawaited(() async {
-      await reactionWriteBatcher?.flush(event.messageId);
+      await reactionWriteBatcher?.flush(event.channelId, event.messageId);
       await _removeEmojiReaction(
+        event.channelId,
         event.messageId,
         event.emoji.name,
         event.emoji.id,
@@ -2974,12 +2985,13 @@ class GatewayEventHandler {
   }
 
   Future<void> _modifyReaction(
+    String channelId,
     String messageId,
     ReactionEmoji emoji, {
     required bool isAdd,
     String? userId,
   }) async {
-    final msg = await database.messageDao.getMessage(messageId);
+    final msg = await database.messageDao.getMessage(channelId, messageId);
     if (msg == null) {
       return;
     }
@@ -2997,15 +3009,20 @@ class GatewayEventHandler {
       return;
     }
 
-    await database.messageDao.updateReactions(messageId, jsonEncode(reactions));
+    await database.messageDao.updateReactions(
+      channelId,
+      messageId,
+      jsonEncode(reactions),
+    );
   }
 
   Future<void> _removeEmojiReaction(
+    String channelId,
     String messageId,
     String emojiName,
     String? emojiId,
   ) async {
-    final msg = await database.messageDao.getMessage(messageId);
+    final msg = await database.messageDao.getMessage(channelId, messageId);
     if (msg == null) {
       return;
     }
@@ -3016,7 +3033,11 @@ class GatewayEventHandler {
             (r['emoji'] as String?) == emojiName &&
             (r['emojiId'] as String?) == emojiId,
       );
-    await database.messageDao.updateReactions(messageId, jsonEncode(reactions));
+    await database.messageDao.updateReactions(
+      channelId,
+      messageId,
+      jsonEncode(reactions),
+    );
   }
 
   Future<void> _handleMessageAck(MessageAckEvent event) async {
@@ -3107,8 +3128,11 @@ class GatewayEventHandler {
 
   void _handleReactionAddMany(MessageReactionAddManyEvent event) {
     unawaited(() async {
-      await reactionWriteBatcher?.flush(event.messageId);
-      final msg = await database.messageDao.getMessage(event.messageId);
+      await reactionWriteBatcher?.flush(event.channelId, event.messageId);
+      final msg = await database.messageDao.getMessage(
+        event.channelId,
+        event.messageId,
+      );
       if (msg == null) {
         return;
       }
@@ -3129,6 +3153,7 @@ class GatewayEventHandler {
         );
       }
       await database.messageDao.updateReactions(
+        event.channelId,
         event.messageId,
         jsonEncode(reactions),
       );

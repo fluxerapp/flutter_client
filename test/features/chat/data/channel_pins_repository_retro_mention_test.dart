@@ -157,7 +157,7 @@ void main() {
 
       await repo.listPinnedMessages(channelId: 'channel-1');
 
-      final row = await db.messageDao.getMessage(pinId);
+      final row = await db.messageDao.getMessage('channel-1', pinId);
       expect(row?.content, 'message $pinId');
       expect(row?.pinned, isTrue);
       expect(jsonDecode(row!.reactionsJson), jsonDecode(stored));

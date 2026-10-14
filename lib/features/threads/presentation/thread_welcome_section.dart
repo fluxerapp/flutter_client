@@ -18,7 +18,7 @@ part 'thread_welcome_section.g.dart';
 Stream<bool> threadStarterMissing(Ref ref, String threadId) => ref
     .watch(fluxerDatabaseProvider)
     .messageDao
-    .watchMessage(threadId)
+    .watchMessage(threadId, threadId)
     .map((db.Message? row) => row == null)
     .distinct();
 

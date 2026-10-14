@@ -1816,12 +1816,12 @@ class ChatViewModel extends _$ChatViewModel {
             !_isMessageInLoadedWindow(messageId)) {
           return null;
         }
-        return dao.getMessage(messageId);
+        return dao.getMessage(event.message.channelId, messageId);
       case MessageReactionsChanged(:final channelId, :final messageId):
         if (channelId != state.channelId) {
           return null;
         }
-        return dao.getMessage(messageId);
+        return dao.getMessage(channelId, messageId);
       case MessageCreated():
       case MessageDeleted():
       case MessagesDeletedBulk():
@@ -2148,6 +2148,7 @@ class ChatViewModel extends _$ChatViewModel {
     Message? reply;
     if (row.replyToMessageId != null) {
       final db.Message? dbMsg = await messageDao.getMessage(
+        channelId,
         row.replyToMessageId!,
       );
       reply = dbMsg == null ? null : Message.fromRow(dbMsg);
@@ -4630,7 +4631,10 @@ class ChatViewModel extends _$ChatViewModel {
         ? null
         : _normalizeOutgoing(comment);
     final int flags = normalizedComment?.flags ?? 0;
-    final Message? sourceMessage = await _loadForwardSource(sourceMessageId);
+    final Message? sourceMessage = await _loadForwardSource(
+      sourceChannelId,
+      sourceMessageId,
+    );
     final MessageSnapshot? snapshot = sourceMessage?.toForwardSnapshot(
       attachmentIds: attachmentIds,
       embedIndices: embedIndices,
@@ -4715,16 +4719,19 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
-  Future<Message?> _loadForwardSource(String messageId) async {
+  Future<Message?> _loadForwardSource(
+    String channelId,
+    String messageId,
+  ) async {
     for (final Message message in state.messages) {
-      if (message.id == messageId) {
+      if (message.channelId == channelId && message.id == messageId) {
         return message;
       }
     }
     final db.Message? row = await ref
         .read(fluxerDatabaseProvider)
         .messageDao
-        .getMessage(messageId);
+        .getMessage(channelId, messageId);
     return row == null ? null : Message.fromRow(row);
   }
 
@@ -7218,6 +7225,7 @@ class ChatViewModel extends _$ChatViewModel {
           .read(fluxerDatabaseProvider)
           .messageDao
           .updateReactions(
+            msg.channelId,
             messageId,
             jsonEncode(updatedReactions.map((r) => r.toJson()).toList()),
           ),
@@ -7273,6 +7281,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final List<Message> rollback = List<Message>.from(state.messages);
+    final String channelId = rollback[rollbackIndex].channelId;
     rollback[rollbackIndex] = rollback[rollbackIndex].copyWith(
       reactions: reactions,
     );
@@ -7285,6 +7294,7 @@ class ChatViewModel extends _$ChatViewModel {
           .read(fluxerDatabaseProvider)
           .messageDao
           .updateReactions(
+            channelId,
             messageId,
             jsonEncode(reactions.map((Reaction r) => r.toJson()).toList()),
           ),

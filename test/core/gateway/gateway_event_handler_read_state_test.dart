@@ -734,7 +734,7 @@ void main() {
     );
 
     final readState = await db.readStateDao.getReadState('channel-1');
-    final message = await db.messageDao.getMessage(messageId);
+    final message = await db.messageDao.getMessage('channel-1', messageId);
     final mentionRows = await db.notificationDao.getMentionFeedOrdered();
     expect(readState?.mentionCount, 1);
     expect(message?.isMentioned, isTrue);
@@ -792,7 +792,7 @@ void main() {
     );
 
     final readState = await db.readStateDao.getReadState('channel-1');
-    final message = await db.messageDao.getMessage(messageId);
+    final message = await db.messageDao.getMessage('channel-1', messageId);
     final mentionRows = await db.notificationDao.getMentionFeedOrdered();
     expect(readState, isNotNull);
     expect(readState?.mentionCount, 0);
@@ -957,7 +957,7 @@ void main() {
     final readState = await db.readStateDao.getReadState('channel-1');
     final channel = await db.channelDao.getChannelById('channel-1');
     final mentionRows = await db.notificationDao.getMentionFeedOrdered();
-    expect(await db.messageDao.getMessage(mentionId), isNull);
+    expect(await db.messageDao.getMessage('channel-1', mentionId), isNull);
     expect(channel?.lastMessageId, mentionId);
     expect(readState?.lastMessageId, ackId);
     expect(readState?.mentionCount, 1);

@@ -56,11 +56,12 @@ void main() {
     );
     await database.messageDao.updateReactions(
       'p1',
+      'p1',
       jsonEncode(<Map<String, dynamic>>[
         const Reaction(emoji: '👍', count: 1).toJson(),
       ]),
     );
-    final db.Message row = (await database.messageDao.getMessage('p1'))!;
+    final db.Message row = (await database.messageDao.getMessage('p1', 'p1'))!;
     container.listen(forumFirstMessagesProvider, (_, _) {});
     container
         .read(forumFirstMessagesProvider.notifier)

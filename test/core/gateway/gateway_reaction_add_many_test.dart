@@ -32,7 +32,7 @@ void main() {
   }
 
   Future<Map<String?, int?>> reactionCountsOf(FluxerDatabase db) async {
-    final row = await db.messageDao.getMessage(messageId);
+    final row = await db.messageDao.getMessage(channelId, messageId);
     final list = (jsonDecode(row!.reactionsJson) as List<dynamic>)
         .cast<Map<String, dynamic>>();
     return {for (final r in list) r['emoji'] as String?: r['count'] as int?};
@@ -132,7 +132,7 @@ void main() {
       expect(changes, isEmpty);
       expect(await reactionCountsOf(db), isEmpty);
 
-      await batcher.flush(messageId);
+      await batcher.flush(channelId, messageId);
 
       expect(changes, <(String, String)>[(channelId, messageId)]);
       expect(await reactionCountsOf(db), <String?, int?>{'👍': 1, '❤️': 1});

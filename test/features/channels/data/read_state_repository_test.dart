@@ -904,7 +904,7 @@ void main() {
         mentionCount: const Value(1),
       ),
     );
-    await db.messageDao.deleteMessages([mentionId]);
+    await db.messageDao.deleteMessages('channel-1', [mentionId]);
 
     await ReadStateRepository(
       FluxerClient(dio),

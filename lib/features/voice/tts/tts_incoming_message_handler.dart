@@ -162,6 +162,7 @@ Future<String?> buildIncomingTtsText({
   String? replyAuthorName;
   if (message.replyToId != null) {
     final db.Message? replyRow = await database.messageDao.getMessage(
+      message.messageReference?.channelId ?? message.channelId,
       message.replyToId!,
     );
     if (replyRow != null) {

@@ -76,7 +76,7 @@ void main() {
         ),
       );
 
-      final Message? stored = await database.messageDao.getMessage('m1');
+      final Message? stored = await database.messageDao.getMessage('c1', 'm1');
       expect(stored?.content, 'after');
       expect(stored?.pinned, isTrue);
       expect(jsonDecode(stored!.reactionsJson), jsonDecode(_storedReactions));
