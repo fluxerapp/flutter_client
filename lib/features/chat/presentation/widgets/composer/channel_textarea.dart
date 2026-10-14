@@ -55,11 +55,13 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_s
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/services/composer_keyboard_session.dart';
 import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/services/composer_text_session.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/paste_text_attachment.dart';
@@ -2522,17 +2524,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!mounted) {
       return;
     }
-    final String? message = fileUploadValidationMessage(
+    final FileUploadValidationCopy? copy = fileUploadValidationCopy(
       FluxerLocalizations.of(context),
       result,
+      maxAttachments: kMaxAttachmentsPerMessage,
+      maxFileBytes: ref.read(maxAttachmentFileBytesProvider),
     );
-    if (message == null) {
+    if (copy == null) {
       return;
     }
-    ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(message: message, variant: FluxerToastVariant.warning),
-        );
+    unawaited(showErrorDialog(context, title: copy.title, body: copy.body));
   }
 }

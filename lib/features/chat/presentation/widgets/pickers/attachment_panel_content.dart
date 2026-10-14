@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_source_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
@@ -22,10 +23,9 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dar
 import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AttachmentPanelContent extends ConsumerStatefulWidget {
@@ -243,18 +243,16 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     if (!mounted) {
       return;
     }
-    final String? message = fileUploadValidationMessage(
+    final FileUploadValidationCopy? copy = fileUploadValidationCopy(
       FluxerLocalizations.of(context),
       result,
+      maxAttachments: kMaxAttachmentsPerMessage,
+      maxFileBytes: ref.read(maxAttachmentFileBytesProvider),
     );
-    if (message == null) {
+    if (copy == null) {
       return;
     }
-    ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(message: message, variant: FluxerToastVariant.warning),
-        );
+    unawaited(showErrorDialog(context, title: copy.title, body: copy.body));
   }
 
   Future<void> _onAssetPressed(AttachmentGalleryItem item) async {

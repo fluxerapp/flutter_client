@@ -65,7 +65,9 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_s
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/services/upload_keep_alive.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
@@ -91,6 +93,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/guild_member_prefetch.dart';
 import 'package:fluxer_app/shared/utils/message_member_load_utils.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -5772,8 +5775,54 @@ class ChatViewModel extends _$ChatViewModel {
     }
     state = state.copyWith(
       write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
-      errorMessage: failedMessage,
     );
+    if (!isSlowmodeRateLimitedError(error)) {
+      unawaited(_showSendFailureDialog(error, apiErrorCode));
+    }
+  }
+
+  Future<void> _showSendFailureDialog(
+    Object error,
+    String? apiErrorCode,
+  ) async {
+    final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
+    final ApiErrorChannelKind channelKind = await _channelKindFor(
+      state.channelId,
+    );
+    final String? subject = switch (apiErrorCode) {
+      'EXPLICIT_CONTENT_CANNOT_BE_SENT' =>
+        '${l10n.quickSwitcherUserSettingsLabel} > '
+            '${l10n.userSettingsNavPrivacyDashboard} > '
+            '${l10n.privacyDashboardSensitiveContentSection}',
+      'FILE_SIZE_TOO_LARGE' => formatAttachmentByteSize(
+        ref.read(maxAttachmentFileBytesProvider),
+      ),
+      _ => null,
+    };
+    await showApiErrorFromRoot(
+      ApiErrorAction.sendMessage,
+      error,
+      details: ApiErrorDetails(channelKind: channelKind, subject: subject),
+    );
+  }
+
+  Future<ApiErrorChannelKind> _channelKindFor(String channelId) async {
+    final database = ref.read(fluxerDatabaseProvider);
+    if (await database.channelDao.getChannelById(channelId) != null) {
+      return ApiErrorChannelKind.guild;
+    }
+    final db.DmChannel? dm = await database.dmChannelDao.getDmChannelById(
+      channelId,
+    );
+    return dm != null && isDmGroupType(dm.type)
+        ? ApiErrorChannelKind.groupDm
+        : ApiErrorChannelKind.dm;
+  }
+
+  bool _isAlreadyDeleted(Object error) {
+    return error is DioException &&
+        (error.response?.statusCode == 404 ||
+            apiErrorCodeFromDioException(error) == 'UNKNOWN_MESSAGE');
   }
 
   bool _shouldAwaitReconnect(Object error) {
@@ -6238,6 +6287,10 @@ class ChatViewModel extends _$ChatViewModel {
         _acknowledgeLocalMutation(messageId, mutationOrdinal);
       } on Exception catch (e) {
         debugPrint('[ChatViewModel] Failed to delete message: $e');
+        if (_isAlreadyDeleted(e)) {
+          _acknowledgeLocalMutation(messageId, mutationOrdinal);
+          return;
+        }
         _withdrawLocalMutation(messageId, mutationOrdinal);
         if (state.channelId != channelId) {
           return;
@@ -6248,11 +6301,9 @@ class ChatViewModel extends _$ChatViewModel {
               messages: mergeMessagesSorted(state.messages, [deletedSnapshot]),
               origin: MessagesOrigin.localMutation,
             ),
-            errorMessage: 'Failed to delete message',
           );
-        } else {
-          state = state.copyWith(errorMessage: 'Failed to delete message');
         }
+        unawaited(showApiErrorFromRoot(ApiErrorAction.deleteMessage, e));
       } finally {
         unawaited(_pendingDeleteFutures.remove(messageId));
       }
@@ -6370,10 +6421,13 @@ class ChatViewModel extends _$ChatViewModel {
         debugPrint('[ChatViewModel] Attachment mutation failed: $e');
         _withdrawLocalMutation(messageId, op.overlayOrdinal);
         if (state.channelId == channelId) {
-          state = state.copyWith(
-            errorMessage: op.kind == _LocalMutationKind.removeAttachment
-                ? 'Failed to delete attachment'
-                : 'Failed to edit attachment alt text',
+          unawaited(
+            showApiErrorFromRoot(
+              op.kind == _LocalMutationKind.removeAttachment
+                  ? ApiErrorAction.deleteAttachment
+                  : ApiErrorAction.updateAltText,
+              e,
+            ),
           );
         }
       }
@@ -6934,8 +6988,11 @@ class ChatViewModel extends _$ChatViewModel {
         editedContent: editedContent,
       );
       debugPrint('[ChatViewModel] Failed to edit message: $error');
-      if (apiErrorCodeFromDioException(error) ==
-          kPublishedMessageEditRateLimited) {
+      final String? code = apiErrorCodeFromDioException(error);
+      final bool explained =
+          code == kPublishedMessageEditRateLimited ||
+          _explainedEditErrorCodes.contains(code);
+      if (code == kPublishedMessageEditRateLimited) {
         final BuildContext? sheetContext = rootNavigatorKey.currentContext;
         if (sheetContext != null && sheetContext.mounted) {
           unawaited(
@@ -6945,12 +7002,23 @@ class ChatViewModel extends _$ChatViewModel {
             ),
           );
         }
+      } else if (explained) {
+        unawaited(
+          showApiErrorFromRoot(
+            ApiErrorAction.editMessage,
+            error,
+            details: ApiErrorDetails(
+              selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
+            ),
+          ),
+        );
       }
       await editEnded;
       _recoverFailedEdit(
         channelId: channelId,
         messageId: messageId,
         editedContent: editedContent,
+        announce: !explained,
       );
     } on Exception catch (e) {
       _revertOptimisticEdit(
@@ -6969,10 +7037,19 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  static const Set<String> _explainedEditErrorCodes = <String>{
+    'RATE_LIMITED',
+    'FEATURE_TEMPORARILY_DISABLED',
+    'CONTENT_BLOCKED',
+    'ACCOUNT_LIMITED',
+    'NEW_CONVERSATIONS_LIMITED',
+  };
+
   void _recoverFailedEdit({
     required String channelId,
     required String messageId,
     required String editedContent,
+    bool announce = true,
   }) {
     final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
     final bool inChannel =
@@ -6990,7 +7067,12 @@ class ChatViewModel extends _$ChatViewModel {
       );
     } else if (composerEmpty) {
       _resumeFailedEdit(channelId, messageId, editedContent);
+      if (!announce) {
+        return;
+      }
       action = null;
+    } else if (!announce) {
+      return;
     } else {
       action = FluxerToastAction(
         label: l10n.chatEditFailedEditAgain,
@@ -7138,7 +7220,7 @@ class ChatViewModel extends _$ChatViewModel {
       );
     } on Exception catch (e) {
       debugPrint('[ChatViewModel] Failed to apply replace command: $e');
-      state = state.copyWith(errorMessage: 'Failed to edit message');
+      unawaited(showApiErrorFromRoot(ApiErrorAction.editMessage, e));
     }
   }
 
@@ -7269,25 +7351,19 @@ class ChatViewModel extends _$ChatViewModel {
       }
     } on Exception catch (e) {
       talker.error('[ChatViewModel] Reaction failed', e);
-      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
-      final String fallback = hasReacted
-          ? l10n.chatReactionRemoveFailed
-          : l10n.chatReactionAddFailed;
-      _restoreMessageReactions(
-        messageId,
-        previousReactions,
-        errorMessage: e is DioException
-            ? userFacingErrorMessage(e, fallback)
-            : fallback,
+      _restoreMessageReactions(messageId, previousReactions);
+      unawaited(
+        showApiErrorFromRoot(
+          hasReacted
+              ? ApiErrorAction.removeReaction
+              : ApiErrorAction.addReaction,
+          e,
+        ),
       );
     }
   }
 
-  void _restoreMessageReactions(
-    String messageId,
-    List<Reaction> reactions, {
-    String? errorMessage,
-  }) {
+  void _restoreMessageReactions(String messageId, List<Reaction> reactions) {
     final int rollbackIndex = state.messages.indexWhere(
       (Message m) => m.id == messageId,
     );
@@ -7301,7 +7377,6 @@ class ChatViewModel extends _$ChatViewModel {
     );
     state = state.copyWith(
       write: (messages: rollback, origin: MessagesOrigin.localMutation),
-      errorMessage: errorMessage,
     );
     unawaited(
       ref

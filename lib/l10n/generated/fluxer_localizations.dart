@@ -6506,18 +6506,6 @@ abstract class FluxerLocalizations {
   /// **'Country: {country}'**
   String messagingPausedHelpCountryLine(String country);
 
-  /// Shown when adding files would exceed the per-message attachment limit.
-  ///
-  /// In en, this message translates to:
-  /// **'Too many attachments (max {max})'**
-  String chatAttachmentTooMany(int max);
-
-  /// Shown when a selected file is larger than allowed.
-  ///
-  /// In en, this message translates to:
-  /// **'{fileName} exceeds the size limit ({fileSize})'**
-  String chatAttachmentFileTooLarge(String fileName, String fileSize);
-
   /// Shown when the estimated multipart request exceeds the limit.
   ///
   /// In en, this message translates to:
@@ -25787,6 +25775,234 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t leave right now. Try again in a moment.'**
   String get leaveCommunityFailedMessage;
+
+  /// Title of the dialog shown when sending a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message didn\'t send'**
+  String get chatSendFailedTitle;
+
+  /// Body of the dialog shown when sending a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Try sending your message again.'**
+  String get chatSendFailedMessage;
+
+  /// Title of the dialog shown when sending is rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re sending messages too quickly'**
+  String get chatSendTooQuickTitle;
+
+  /// Body of the dialog shown when a message action is rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow down — wait a moment before trying again.'**
+  String get chatRateLimitedMessage;
+
+  /// Title of the dialog shown when a message with mature content is rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content not allowed'**
+  String get chatMatureContentTitle;
+
+  /// Body of the mature content dialog in a community channel.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.'**
+  String get chatMatureContentGuildMessage;
+
+  /// Body of the mature content dialog in a direct message. settingsPath is the settings location, such as User settings > Privacy dashboard > Sensitive content.
+  ///
+  /// In en, this message translates to:
+  /// **'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in {settingsPath}.'**
+  String chatMatureContentDmMessage(String settingsPath);
+
+  /// Body of the mature content dialog in a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.'**
+  String get chatMatureContentGroupDmMessage;
+
+  /// Title of the dialog shown when an attachment is over the size limit.
+  ///
+  /// In en, this message translates to:
+  /// **'File size too large'**
+  String get chatFileTooLargeTitle;
+
+  /// Body of the dialog shown when an attachment is over the size limit. maxSize is a formatted size such as 25 MB.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more files you\'re trying to upload exceed the maximum size limit of {maxSize} per file.'**
+  String chatFileTooLargeMessage(String maxSize);
+
+  /// Title of the dialog shown when a message has too many reactions or too many files are attached.
+  ///
+  /// In en, this message translates to:
+  /// **'Whoa, this is heavy'**
+  String get chatHeavyTitle;
+
+  /// Body of the dialog shown when a message has the maximum number of reactions.
+  ///
+  /// In en, this message translates to:
+  /// **'This is one heavy message. Some reactions need to be removed before you can add more.'**
+  String get chatReactionsHeavyMessage;
+
+  /// Toast shown when adding a reaction fails because the user is timed out.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t add new reactions while you\'re timed out.'**
+  String get chatReactionTimedOut;
+
+  /// Body of the dialog shown when too many files are attached to one message.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only upload {count, plural, one {{count} file} other {{count} files}} at a time. Try again with fewer files.'**
+  String chatTooManyAttachmentsMessage(int count);
+
+  /// Title of the dialog shown when editing is rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re editing messages too quickly'**
+  String get chatEditTooQuickTitle;
+
+  /// Body of the dialog shown when editing a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Try editing your message again.'**
+  String get chatEditFailedMessage;
+
+  /// Title of the dialog shown when deleting is rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re deleting messages too quickly'**
+  String get chatDeleteTooQuickTitle;
+
+  /// Body of the dialog shown when deleting is rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait a moment before deleting more messages.'**
+  String get chatDeleteTooQuickMessage;
+
+  /// Title of the dialog shown when deleting a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'That message couldn\'t be deleted'**
+  String get chatDeleteFailedTitle;
+
+  /// Body of the dialog shown when deleting a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Try deleting that message again.'**
+  String get chatDeleteFailedMessage;
+
+  /// Title of the dialog shown when deleting an attachment from a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete attachment'**
+  String get chatAttachmentDeleteFailedTitle;
+
+  /// Body of the dialog shown when deleting an attachment from a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Try deleting that attachment again.'**
+  String get chatAttachmentDeleteFailedMessage;
+
+  /// Title of the dialog shown when updating attachment alt text fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update alt text'**
+  String get chatAltTextFailedTitle;
+
+  /// Body of the alt text error dialog when the message was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This message no longer exists.'**
+  String get chatAltTextUnknownMessage;
+
+  /// Body of the alt text error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t edit this message.'**
+  String get chatAltTextNoPermission;
+
+  /// Body of the alt text error dialog when editing is paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing is temporarily unavailable. Please try again later.'**
+  String get chatAltTextUnavailable;
+
+  /// Fallback body of the alt text error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update the alt text. Please try again.'**
+  String get chatAltTextFailedMessage;
+
+  /// Title of the dialog shown when pinning a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to pin message'**
+  String get chatPinFailedTitle;
+
+  /// Title of the dialog shown when unpinning a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to unpin message'**
+  String get chatUnpinFailedTitle;
+
+  /// Body of the dialog shown when pinning or unpinning a message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again later.'**
+  String get chatPinFailedMessage;
+
+  /// Body of the pin error dialog when the other user can't be interacted with.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot interact with this user right now.'**
+  String get chatPinBlockedMessage;
+
+  /// Title of the dialog shown when the bookmark limit is reached.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark limit reached'**
+  String get bookmarkLimitTitle;
+
+  /// Body of the dialog shown when the bookmark limit is reached.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re at {count, plural, one {{count} bookmark} other {{count} bookmarks}}. Remove one to add another.'**
+  String bookmarkLimitMessage(int count);
+
+  /// Title of the dialog shown when the saved media limit is reached.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved media limit reached'**
+  String get savedMediaLimitTitle;
+
+  /// Body of the dialog shown when the saved media limit is reached.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re at the cap of {count, plural, one {{count} saved media item} other {{count} saved media items}}. Remove one to add another.'**
+  String savedMediaLimitMessage(int count);
+
+  /// Title of the dialog shown when an action is flagged by safety systems.
+  ///
+  /// In en, this message translates to:
+  /// **'Content blocked'**
+  String get errorContentBlockedTitle;
+
+  /// Body of the content blocked dialog on the official instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.'**
+  String get errorContentBlockedMessage;
+
+  /// Body of the content blocked dialog on a self-hosted instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.'**
+  String get errorContentBlockedSelfHostedMessage;
 }
 
 class _FluxerLocalizationsDelegate

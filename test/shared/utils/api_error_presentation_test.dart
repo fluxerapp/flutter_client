@@ -475,6 +475,192 @@ void main() {
     });
   });
 
+  group('message errors', () {
+    test('send failures explain mature content per channel kind', () {
+      final ApiErrorDialog guild =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.sendMessage,
+                code: 'EXPLICIT_CONTENT_CANNOT_BE_SENT',
+              )
+              as ApiErrorDialog;
+      expect(guild.title, 'Mature content not allowed');
+      expect(guild.body, startsWith('This channel is not marked'));
+      final ApiErrorDialog dm =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.sendMessage,
+                code: 'EXPLICIT_CONTENT_CANNOT_BE_SENT',
+                details: const ApiErrorDetails(
+                  channelKind: ApiErrorChannelKind.dm,
+                  subject: 'Settings > Sensitive content',
+                ),
+              )
+              as ApiErrorDialog;
+      expect(dm.body, endsWith('change this in Settings > Sensitive content.'));
+      final ApiErrorDialog group =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.sendMessage,
+                code: 'EXPLICIT_CONTENT_CANNOT_BE_SENT',
+                details: const ApiErrorDetails(
+                  channelKind: ApiErrorChannelKind.groupDm,
+                ),
+              )
+              as ApiErrorDialog;
+      expect(group.body, startsWith('This group is not marked'));
+    });
+
+    test('send failures map size, rate limits and pauses', () {
+      final ApiErrorDialog size =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.sendMessage,
+                code: 'FILE_SIZE_TOO_LARGE',
+                details: const ApiErrorDetails(subject: '25 MB'),
+              )
+              as ApiErrorDialog;
+      expect(size.title, 'File size too large');
+      expect(size.body, contains('25 MB'));
+      _expectCopy(
+        ApiErrorAction.sendMessage,
+        'RATE_LIMITED',
+        "You're sending messages too quickly",
+        'Slow down — wait a moment before trying again.',
+      );
+      _expectCopy(
+        ApiErrorAction.sendMessage,
+        'FEATURE_TEMPORARILY_DISABLED',
+        'Feature temporarily disabled',
+        'This feature is paused. Try again later.',
+      );
+      _expectCopy(
+        ApiErrorAction.sendMessage,
+        'SOMETHING_NEW',
+        "Your message didn't send",
+        'Try sending your message again.',
+      );
+    });
+
+    test('edit, delete and alt text use the web copy', () {
+      _expectCopy(
+        ApiErrorAction.editMessage,
+        'RATE_LIMITED',
+        "You're editing messages too quickly",
+        'Slow down — wait a moment before trying again.',
+      );
+      _expectCopy(
+        ApiErrorAction.editMessage,
+        'CONTENT_BLOCKED',
+        'Content blocked',
+        'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.',
+      );
+      _expectCopy(
+        ApiErrorAction.editMessage,
+        null,
+        "Your message didn't update",
+        'Try editing your message again.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteMessage,
+        'RATE_LIMITED',
+        "You're deleting messages too quickly",
+        'Wait a moment before deleting more messages.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteMessage,
+        null,
+        "That message couldn't be deleted",
+        'Try deleting that message again.',
+      );
+      _expectCopy(
+        ApiErrorAction.updateAltText,
+        'UNKNOWN_MESSAGE',
+        "Couldn't update alt text",
+        'This message no longer exists.',
+      );
+      _expectCopy(
+        ApiErrorAction.updateAltText,
+        'MISSING_PERMISSIONS',
+        "Couldn't update alt text",
+        "You can't edit this message.",
+      );
+      _expectCopy(
+        ApiErrorAction.updateAltText,
+        null,
+        "Couldn't update alt text",
+        "Couldn't update the alt text. Please try again.",
+      );
+    });
+
+    test('reactions use a dialog for limits and a toast otherwise', () {
+      _expectCopy(
+        ApiErrorAction.addReaction,
+        'MAX_REACTIONS',
+        'Whoa, this is heavy',
+        'This is one heavy message. Some reactions need to be removed before you can add more.',
+      );
+      final ApiErrorPresentation timedOut = presentApiError(
+        testL10n,
+        ApiErrorAction.addReaction,
+        code: 'COMMUNICATION_DISABLED',
+      );
+      expect(timedOut, isA<ApiErrorToast>());
+      expect(
+        timedOut.body,
+        "You can't add new reactions while you're timed out.",
+      );
+      final ApiErrorPresentation other = presentApiError(
+        testL10n,
+        ApiErrorAction.removeReaction,
+        code: 'MISSING_PERMISSIONS',
+      );
+      expect(other, isA<ApiErrorToast>());
+      expect(other.body, 'Failed to remove reaction');
+    });
+
+    test('pins, bookmarks and saved media name the limit', () {
+      _expectCopy(
+        ApiErrorAction.pinMessage,
+        null,
+        'Failed to pin message',
+        'Something went wrong. Try again later.',
+      );
+      _expectCopy(
+        ApiErrorAction.unpinMessage,
+        'CANNOT_SEND_MESSAGES_TO_USER',
+        'Failed to unpin message',
+        'You cannot interact with this user right now.',
+      );
+      final ApiErrorDialog bookmarks =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.saveBookmark,
+                code: 'MAX_BOOKMARKS',
+                details: const ApiErrorDetails(count: 50),
+              )
+              as ApiErrorDialog;
+      expect(bookmarks.title, 'Bookmark limit reached');
+      expect(
+        bookmarks.body,
+        "You're at 50 bookmarks. Remove one to add another.",
+      );
+      final ApiErrorDialog media =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.saveFavoriteMedia,
+                code: 'MAX_FAVORITE_MEMES',
+                details: const ApiErrorDetails(count: 1),
+              )
+              as ApiErrorDialog;
+      expect(media.title, 'Saved media limit reached');
+      expect(
+        media.body,
+        "You're at the cap of 1 saved media item. Remove one to add another.",
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {

@@ -3851,19 +3851,6 @@
             }
         }
     },
-    "chatAttachmentTooMany": "Too many attachments (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} exceeds the size limit ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
-    },
     "chatAttachmentPayloadTooLarge": "Those files are too large to send together",
     "@chatAttachmentPayloadTooLarge": {
         "description": "Shown when the estimated multipart request exceeds the limit."
@@ -16173,5 +16160,182 @@
     "leaveCommunityFailedMessage": "Couldn't leave right now. Try again in a moment.",
     "@leaveCommunityFailedMessage": {
         "description": "Body of the dialog shown when leaving a community fails."
+    },
+    "chatSendFailedTitle": "Your message didn't send",
+    "@chatSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a message fails."
+    },
+    "chatSendFailedMessage": "Try sending your message again.",
+    "@chatSendFailedMessage": {
+        "description": "Body of the dialog shown when sending a message fails."
+    },
+    "chatSendTooQuickTitle": "You're sending messages too quickly",
+    "@chatSendTooQuickTitle": {
+        "description": "Title of the dialog shown when sending is rate limited."
+    },
+    "chatRateLimitedMessage": "Slow down — wait a moment before trying again.",
+    "@chatRateLimitedMessage": {
+        "description": "Body of the dialog shown when a message action is rate limited."
+    },
+    "chatMatureContentTitle": "Mature content not allowed",
+    "@chatMatureContentTitle": {
+        "description": "Title of the dialog shown when a message with mature content is rejected."
+    },
+    "chatMatureContentGuildMessage": "This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.",
+    "@chatMatureContentGuildMessage": {
+        "description": "Body of the mature content dialog in a community channel."
+    },
+    "chatMatureContentDmMessage": "You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in {settingsPath}.",
+    "@chatMatureContentDmMessage": {
+        "description": "Body of the mature content dialog in a direct message. settingsPath is the settings location, such as User settings > Privacy dashboard > Sensitive content.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMatureContentGroupDmMessage": "This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.",
+    "@chatMatureContentGroupDmMessage": {
+        "description": "Body of the mature content dialog in a group DM."
+    },
+    "chatFileTooLargeTitle": "File size too large",
+    "@chatFileTooLargeTitle": {
+        "description": "Title of the dialog shown when an attachment is over the size limit."
+    },
+    "chatFileTooLargeMessage": "One or more files you're trying to upload exceed the maximum size limit of {maxSize} per file.",
+    "@chatFileTooLargeMessage": {
+        "description": "Body of the dialog shown when an attachment is over the size limit. maxSize is a formatted size such as 25 MB.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "chatHeavyTitle": "Whoa, this is heavy",
+    "@chatHeavyTitle": {
+        "description": "Title of the dialog shown when a message has too many reactions or too many files are attached."
+    },
+    "chatReactionsHeavyMessage": "This is one heavy message. Some reactions need to be removed before you can add more.",
+    "@chatReactionsHeavyMessage": {
+        "description": "Body of the dialog shown when a message has the maximum number of reactions."
+    },
+    "chatReactionTimedOut": "You can't add new reactions while you're timed out.",
+    "@chatReactionTimedOut": {
+        "description": "Toast shown when adding a reaction fails because the user is timed out."
+    },
+    "chatTooManyAttachmentsMessage": "You can only upload {count, plural, one {{count} file} other {{count} files}} at a time. Try again with fewer files.",
+    "@chatTooManyAttachmentsMessage": {
+        "description": "Body of the dialog shown when too many files are attached to one message.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatEditTooQuickTitle": "You're editing messages too quickly",
+    "@chatEditTooQuickTitle": {
+        "description": "Title of the dialog shown when editing is rate limited."
+    },
+    "chatEditFailedMessage": "Try editing your message again.",
+    "@chatEditFailedMessage": {
+        "description": "Body of the dialog shown when editing a message fails."
+    },
+    "chatDeleteTooQuickTitle": "You're deleting messages too quickly",
+    "@chatDeleteTooQuickTitle": {
+        "description": "Title of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteTooQuickMessage": "Wait a moment before deleting more messages.",
+    "@chatDeleteTooQuickMessage": {
+        "description": "Body of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteFailedTitle": "That message couldn't be deleted",
+    "@chatDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a message fails."
+    },
+    "chatDeleteFailedMessage": "Try deleting that message again.",
+    "@chatDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting a message fails."
+    },
+    "chatAttachmentDeleteFailedTitle": "Couldn't delete attachment",
+    "@chatAttachmentDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting an attachment from a message fails."
+    },
+    "chatAttachmentDeleteFailedMessage": "Try deleting that attachment again.",
+    "@chatAttachmentDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting an attachment from a message fails."
+    },
+    "chatAltTextFailedTitle": "Couldn't update alt text",
+    "@chatAltTextFailedTitle": {
+        "description": "Title of the dialog shown when updating attachment alt text fails."
+    },
+    "chatAltTextUnknownMessage": "This message no longer exists.",
+    "@chatAltTextUnknownMessage": {
+        "description": "Body of the alt text error dialog when the message was deleted."
+    },
+    "chatAltTextNoPermission": "You can't edit this message.",
+    "@chatAltTextNoPermission": {
+        "description": "Body of the alt text error dialog when the user lacks permission."
+    },
+    "chatAltTextUnavailable": "Editing is temporarily unavailable. Please try again later.",
+    "@chatAltTextUnavailable": {
+        "description": "Body of the alt text error dialog when editing is paused."
+    },
+    "chatAltTextFailedMessage": "Couldn't update the alt text. Please try again.",
+    "@chatAltTextFailedMessage": {
+        "description": "Fallback body of the alt text error dialog."
+    },
+    "chatPinFailedTitle": "Failed to pin message",
+    "@chatPinFailedTitle": {
+        "description": "Title of the dialog shown when pinning a message fails."
+    },
+    "chatUnpinFailedTitle": "Failed to unpin message",
+    "@chatUnpinFailedTitle": {
+        "description": "Title of the dialog shown when unpinning a message fails."
+    },
+    "chatPinFailedMessage": "Something went wrong. Try again later.",
+    "@chatPinFailedMessage": {
+        "description": "Body of the dialog shown when pinning or unpinning a message fails."
+    },
+    "chatPinBlockedMessage": "You cannot interact with this user right now.",
+    "@chatPinBlockedMessage": {
+        "description": "Body of the pin error dialog when the other user can't be interacted with."
+    },
+    "bookmarkLimitTitle": "Bookmark limit reached",
+    "@bookmarkLimitTitle": {
+        "description": "Title of the dialog shown when the bookmark limit is reached."
+    },
+    "bookmarkLimitMessage": "You're at {count, plural, one {{count} bookmark} other {{count} bookmarks}}. Remove one to add another.",
+    "@bookmarkLimitMessage": {
+        "description": "Body of the dialog shown when the bookmark limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "savedMediaLimitTitle": "Saved media limit reached",
+    "@savedMediaLimitTitle": {
+        "description": "Title of the dialog shown when the saved media limit is reached."
+    },
+    "savedMediaLimitMessage": "You're at the cap of {count, plural, one {{count} saved media item} other {{count} saved media items}}. Remove one to add another.",
+    "@savedMediaLimitMessage": {
+        "description": "Body of the dialog shown when the saved media limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "errorContentBlockedTitle": "Content blocked",
+    "@errorContentBlockedTitle": {
+        "description": "Title of the dialog shown when an action is flagged by safety systems."
+    },
+    "errorContentBlockedMessage": "Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.",
+    "@errorContentBlockedMessage": {
+        "description": "Body of the content blocked dialog on the official instance."
+    },
+    "errorContentBlockedSelfHostedMessage": "Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.",
+    "@errorContentBlockedSelfHostedMessage": {
+        "description": "Body of the content blocked dialog on a self-hosted instance."
     }
 }

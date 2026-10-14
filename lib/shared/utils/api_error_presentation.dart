@@ -28,7 +28,20 @@ enum ApiErrorAction {
   leaveCommunity,
   createInvite,
   revokeInvite,
+  sendMessage,
+  editMessage,
+  deleteMessage,
+  deleteAttachment,
+  updateAltText,
+  addReaction,
+  removeReaction,
+  pinMessage,
+  unpinMessage,
+  saveBookmark,
+  saveFavoriteMedia,
 }
+
+enum ApiErrorChannelKind { guild, dm, groupDm }
 
 sealed class ApiErrorPresentation {
   const ApiErrorPresentation({required this.body});
@@ -60,10 +73,15 @@ ApiErrorPresentation presentApiError(
   ApiErrorAction action, {
   String? code,
   String? apiMessage,
+  ApiErrorDetails details = const ApiErrorDetails(),
 }) {
+  final ApiErrorToast? toast = _toastFor(l10n, action, code, apiMessage);
+  if (toast != null) {
+    return toast;
+  }
   final _ErrorCopy copy =
       _accountStateCopy(l10n, action, code, apiMessage) ??
-      _copyFor(l10n, action, code, apiMessage);
+      _copyFor(l10n, action, code, apiMessage, details);
   return ApiErrorDialog(
     title: copy.title,
     body: copy.body,
@@ -71,11 +89,53 @@ ApiErrorPresentation presentApiError(
   );
 }
 
+final class ApiErrorDetails {
+  const ApiErrorDetails({
+    this.channelKind = ApiErrorChannelKind.guild,
+    this.subject,
+    this.count,
+    this.selfHosted = false,
+  });
+
+  final ApiErrorChannelKind channelKind;
+  final bool selfHosted;
+  final String? subject;
+  final int? count;
+}
+
+ApiErrorToast? _toastFor(
+  FluxerLocalizations l10n,
+  ApiErrorAction action,
+  String? code,
+  String? apiMessage,
+) {
+  if (action != ApiErrorAction.addReaction &&
+      action != ApiErrorAction.removeReaction) {
+    return null;
+  }
+  return switch (code) {
+    'MAX_REACTIONS' ||
+    'ACCOUNT_LIMITED' ||
+    'NEW_CONVERSATIONS_LIMITED' ||
+    'FEATURE_TEMPORARILY_DISABLED' => null,
+    'COMMUNICATION_DISABLED' => ApiErrorToast(body: l10n.chatReactionTimedOut),
+    _ => ApiErrorToast(
+      body: _apiMessageOr(
+        apiMessage,
+        action == ApiErrorAction.addReaction
+            ? l10n.chatReactionAddFailed
+            : l10n.chatReactionRemoveFailed,
+      ),
+    ),
+  };
+}
+
 _ErrorCopy _copyFor(
   FluxerLocalizations l10n,
   ApiErrorAction action,
   String? code,
   String? apiMessage,
+  ApiErrorDetails details,
 ) {
   return switch (action) {
     ApiErrorAction.generic => (
@@ -152,6 +212,75 @@ _ErrorCopy _copyFor(
       title: l10n.guildSettingsInvitesRevokeFailedTitle,
       body: l10n.guildSettingsInvitesRevokeFailedDescription,
     ),
+    ApiErrorAction.sendMessage => _sendMessageCopy(l10n, code, details),
+    ApiErrorAction.editMessage => switch (code) {
+      'RATE_LIMITED' => (
+        title: l10n.chatEditTooQuickTitle,
+        body: l10n.chatRateLimitedMessage,
+      ),
+      'CONTENT_BLOCKED' => (
+        title: l10n.errorContentBlockedTitle,
+        body: details.selfHosted
+            ? l10n.errorContentBlockedSelfHostedMessage
+            : l10n.errorContentBlockedMessage,
+      ),
+      _ => (title: l10n.chatEditFailed, body: l10n.chatEditFailedMessage),
+    },
+    ApiErrorAction.deleteMessage =>
+      code == 'RATE_LIMITED'
+          ? (
+              title: l10n.chatDeleteTooQuickTitle,
+              body: l10n.chatDeleteTooQuickMessage,
+            )
+          : (
+              title: l10n.chatDeleteFailedTitle,
+              body: l10n.chatDeleteFailedMessage,
+            ),
+    ApiErrorAction.deleteAttachment => (
+      title: l10n.chatAttachmentDeleteFailedTitle,
+      body: l10n.chatAttachmentDeleteFailedMessage,
+    ),
+    ApiErrorAction.updateAltText => (
+      title: l10n.chatAltTextFailedTitle,
+      body: switch (code) {
+        'UNKNOWN_MESSAGE' => l10n.chatAltTextUnknownMessage,
+        'MISSING_PERMISSIONS' => l10n.chatAltTextNoPermission,
+        'FEATURE_TEMPORARILY_DISABLED' => l10n.chatAltTextUnavailable,
+        _ => l10n.chatAltTextFailedMessage,
+      },
+    ),
+    ApiErrorAction.addReaction || ApiErrorAction.removeReaction => (
+      title: l10n.chatHeavyTitle,
+      body: l10n.chatReactionsHeavyMessage,
+    ),
+    ApiErrorAction.pinMessage || ApiErrorAction.unpinMessage => (
+      title: action == ApiErrorAction.pinMessage
+          ? l10n.chatPinFailedTitle
+          : l10n.chatUnpinFailedTitle,
+      body: code == 'CANNOT_SEND_MESSAGES_TO_USER'
+          ? l10n.chatPinBlockedMessage
+          : l10n.chatPinFailedMessage,
+    ),
+    ApiErrorAction.saveBookmark =>
+      code == 'MAX_BOOKMARKS'
+          ? (
+              title: l10n.bookmarkLimitTitle,
+              body: l10n.bookmarkLimitMessage(details.count ?? 0),
+            )
+          : (
+              title: l10n.errorSomethingWentWrongTitle,
+              body: _apiMessageOr(apiMessage, l10n.errorUnexpectedTryAgain),
+            ),
+    ApiErrorAction.saveFavoriteMedia =>
+      code == 'MAX_FAVORITE_MEMES'
+          ? (
+              title: l10n.savedMediaLimitTitle,
+              body: l10n.savedMediaLimitMessage(details.count ?? 0),
+            )
+          : (
+              title: l10n.errorSomethingWentWrongTitle,
+              body: _apiMessageOr(apiMessage, l10n.savedMediaSaveError),
+            ),
     ApiErrorAction.createInvite => (
       title: l10n.groupDmInviteFailedTitle,
       body: switch (code) {
@@ -161,6 +290,34 @@ _ErrorCopy _copyFor(
         _ => l10n.guildNavbarCreateInviteFailed,
       },
     ),
+  };
+}
+
+_ErrorCopy _sendMessageCopy(
+  FluxerLocalizations l10n,
+  String? code,
+  ApiErrorDetails details,
+) {
+  return switch (code) {
+    'RATE_LIMITED' => (
+      title: l10n.chatSendTooQuickTitle,
+      body: l10n.chatRateLimitedMessage,
+    ),
+    'EXPLICIT_CONTENT_CANNOT_BE_SENT' => (
+      title: l10n.chatMatureContentTitle,
+      body: switch (details.channelKind) {
+        ApiErrorChannelKind.guild => l10n.chatMatureContentGuildMessage,
+        ApiErrorChannelKind.dm => l10n.chatMatureContentDmMessage(
+          details.subject ?? '',
+        ),
+        ApiErrorChannelKind.groupDm => l10n.chatMatureContentGroupDmMessage,
+      },
+    ),
+    'FILE_SIZE_TOO_LARGE' => (
+      title: l10n.chatFileTooLargeTitle,
+      body: l10n.chatFileTooLargeMessage(details.subject ?? ''),
+    ),
+    _ => (title: l10n.chatSendFailedTitle, body: l10n.chatSendFailedMessage),
   };
 }
 
@@ -237,6 +394,11 @@ _ErrorCopy _joinDiscoveryCopy(FluxerLocalizations l10n, String? code) {
 }
 
 const Set<ApiErrorAction> _accountStateActions = <ApiErrorAction>{
+  ApiErrorAction.sendMessage,
+  ApiErrorAction.editMessage,
+  ApiErrorAction.deleteMessage,
+  ApiErrorAction.addReaction,
+  ApiErrorAction.removeReaction,
   ApiErrorAction.openDm,
   ApiErrorAction.addToGroupDm,
   ApiErrorAction.createGroupDmInvite,
@@ -311,30 +473,37 @@ _ErrorCopy _openDmCopy(FluxerLocalizations l10n, String? code) {
 ApiErrorPresentation presentApiErrorFrom(
   FluxerLocalizations l10n,
   ApiErrorAction action,
-  Object error,
-) {
-  final ApiException details = ApiException.from(error);
+  Object error, {
+  ApiErrorDetails details = const ApiErrorDetails(),
+}) {
+  final ApiException exception = ApiException.from(error);
   return presentApiError(
     l10n,
     action,
-    code: details.code,
-    apiMessage: details.message,
+    code: exception.code,
+    apiMessage: exception.message,
+    details: details,
   );
 }
 
-Future<void> showApiErrorFromRoot(ApiErrorAction action, Object error) async {
+Future<void> showApiErrorFromRoot(
+  ApiErrorAction action,
+  Object error, {
+  ApiErrorDetails details = const ApiErrorDetails(),
+}) async {
   final BuildContext? context = rootNavigatorKey.currentContext;
   if (context == null || !context.mounted) {
     return;
   }
-  await showApiError(context, action, error);
+  await showApiError(context, action, error, details: details);
 }
 
 Future<void> showApiError(
   BuildContext context,
   ApiErrorAction action,
-  Object error,
-) async {
+  Object error, {
+  ApiErrorDetails details = const ApiErrorDetails(),
+}) async {
   if (ApiException.from(error).code == _sudoModeRequiredCode) {
     return;
   }
@@ -342,6 +511,7 @@ Future<void> showApiError(
     FluxerLocalizations.of(context),
     action,
     error,
+    details: details,
   );
   switch (presentation) {
     case ApiErrorDialog():

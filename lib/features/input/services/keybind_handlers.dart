@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/channels/providers/read_state_repository_pro
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/modals/pin_message_confirm_modal.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
@@ -408,9 +409,10 @@ void registerKeybindHandlers({
     })
     ..register(KeybindAction.messageDelete, () {
       return withFocusedMessage((Message message) async {
-        await ref
-            .read(chatViewModelProvider.notifier)
-            .deleteMessage(message.id);
+        if (!context.mounted) {
+          return false;
+        }
+        await showDeleteMessageConfirmSheet(context, ref, message: message);
         return true;
       });
     })

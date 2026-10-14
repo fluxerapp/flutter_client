@@ -3999,16 +3999,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   }
 
   @override
-  String chatAttachmentTooMany(int max) {
-    return 'Terlalu banyak lampiran (maks $max)';
-  }
-
-  @override
-  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
-    return '$fileName melebihi batas ukuran ($fileSize)';
-  }
-
-  @override
   String get chatAttachmentPayloadTooLarge =>
       'File-file tersebut terlalu besar untuk dikirim bersamaan';
 
@@ -15586,4 +15576,158 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String get leaveCommunityFailedMessage =>
       'Couldn\'t leave right now. Try again in a moment.';
+
+  @override
+  String get chatSendFailedTitle => 'Your message didn\'t send';
+
+  @override
+  String get chatSendFailedMessage => 'Try sending your message again.';
+
+  @override
+  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+
+  @override
+  String get chatRateLimitedMessage =>
+      'Slow down — wait a moment before trying again.';
+
+  @override
+  String get chatMatureContentTitle => 'Mature content not allowed';
+
+  @override
+  String get chatMatureContentGuildMessage =>
+      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+
+  @override
+  String chatMatureContentDmMessage(String settingsPath) {
+    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+  }
+
+  @override
+  String get chatMatureContentGroupDmMessage =>
+      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+
+  @override
+  String get chatFileTooLargeTitle => 'File size too large';
+
+  @override
+  String chatFileTooLargeMessage(String maxSize) {
+    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+  }
+
+  @override
+  String get chatHeavyTitle => 'Whoa, this is heavy';
+
+  @override
+  String get chatReactionsHeavyMessage =>
+      'This is one heavy message. Some reactions need to be removed before you can add more.';
+
+  @override
+  String get chatReactionTimedOut =>
+      'You can\'t add new reactions while you\'re timed out.';
+
+  @override
+  String chatTooManyAttachmentsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files',
+      one: '$count file',
+    );
+    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+  }
+
+  @override
+  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+
+  @override
+  String get chatEditFailedMessage => 'Try editing your message again.';
+
+  @override
+  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+
+  @override
+  String get chatDeleteTooQuickMessage =>
+      'Wait a moment before deleting more messages.';
+
+  @override
+  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+
+  @override
+  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+
+  @override
+  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+
+  @override
+  String get chatAttachmentDeleteFailedMessage =>
+      'Try deleting that attachment again.';
+
+  @override
+  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+
+  @override
+  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+
+  @override
+  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+
+  @override
+  String get chatAltTextUnavailable =>
+      'Editing is temporarily unavailable. Please try again later.';
+
+  @override
+  String get chatAltTextFailedMessage =>
+      'Couldn\'t update the alt text. Please try again.';
+
+  @override
+  String get chatPinFailedTitle => 'Failed to pin message';
+
+  @override
+  String get chatUnpinFailedTitle => 'Failed to unpin message';
+
+  @override
+  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+
+  @override
+  String get chatPinBlockedMessage =>
+      'You cannot interact with this user right now.';
+
+  @override
+  String get bookmarkLimitTitle => 'Bookmark limit reached';
+
+  @override
+  String bookmarkLimitMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bookmarks',
+      one: '$count bookmark',
+    );
+    return 'You\'re at $_temp0. Remove one to add another.';
+  }
+
+  @override
+  String get savedMediaLimitTitle => 'Saved media limit reached';
+
+  @override
+  String savedMediaLimitMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count saved media items',
+      one: '$count saved media item',
+    );
+    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+  }
+
+  @override
+  String get errorContentBlockedTitle => 'Content blocked';
+
+  @override
+  String get errorContentBlockedMessage =>
+      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+
+  @override
+  String get errorContentBlockedSelfHostedMessage =>
+      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
 }

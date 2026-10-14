@@ -1,6 +1,5 @@
 import 'package:cross_file/cross_file.dart';
 
-import 'package:fluxer_app/features/chat/utils/attachments/attachment_filename_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/multipart_utils.dart';
 
 enum FileUploadValidationError {
@@ -11,23 +10,14 @@ enum FileUploadValidationError {
 }
 
 class FileUploadValidationResult {
-  const FileUploadValidationResult.success()
-    : isValid = true,
-      error = null,
-      fileName = null,
-      fileSizeBytes = null;
+  const FileUploadValidationResult.success() : isValid = true, error = null;
 
-  const FileUploadValidationResult.failure(
-    FileUploadValidationError err, {
-    this.fileName,
-    this.fileSizeBytes,
-  }) : isValid = false,
-       error = err;
+  const FileUploadValidationResult.failure(FileUploadValidationError err)
+    : isValid = false,
+      error = err;
 
   final bool isValid;
   final FileUploadValidationError? error;
-  final String? fileName;
-  final int? fileSizeBytes;
 }
 
 class FileUploadValidator {
@@ -59,10 +49,8 @@ class FileUploadValidator {
     for (final XFile x in newFiles) {
       final int len = await x.length();
       if (len > maxFileBytes) {
-        return FileUploadValidationResult.failure(
+        return const FileUploadValidationResult.failure(
           FileUploadValidationError.fileTooLarge,
-          fileName: resolveUploadFilename(file: x),
-          fileSizeBytes: len,
         );
       }
     }

@@ -128,7 +128,7 @@ Future<void> showPublishLimitSheet(
       );
     },
     actionsBuilder: (void Function([void]) pop) => <Widget>[
-      FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
+      FluxerButton.primary(onPressed: () => pop(), label: l10n.uiUnderstood),
     ],
   );
 }
@@ -152,7 +152,7 @@ Future<void> showPublishedEditLimitSheet(
       );
     },
     actionsBuilder: (void Function([void]) pop) => <Widget>[
-      FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
+      FluxerButton.primary(onPressed: () => pop(), label: l10n.uiUnderstood),
     ],
   );
 }
@@ -173,7 +173,7 @@ Future<void> _showPublishFailed(
       );
     },
     actionsBuilder: (void Function([void]) pop) => <Widget>[
-      FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
+      FluxerButton.primary(onPressed: () => pop(), label: l10n.uiUnderstood),
     ],
   );
 }
