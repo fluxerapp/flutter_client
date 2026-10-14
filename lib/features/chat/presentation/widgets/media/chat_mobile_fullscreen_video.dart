@@ -85,11 +85,6 @@ Widget _fadeTransition(
   return FadeTransition(opacity: animation, child: child);
 }
 
-/// Opaque once its open transition settles, so the routes below are not laid
-/// out or painted while video frames arrive. On Android every video frame
-/// re-rasters the whole surface, chat included, unless it is hidden.
-///
-/// [revealsRoutesBelow] makes it see-through again for the dismiss drag.
 class _ChatFullscreenVideoRoute extends RawDialogRoute<void> {
   _ChatFullscreenVideoRoute({
     required super.pageBuilder,
@@ -108,8 +103,6 @@ class _ChatFullscreenVideoRoute extends RawDialogRoute<void> {
       return;
     }
     _revealsRoutesBelow = value;
-    // TransitionRoute copies [opaque] to the entry only when its animation
-    // completes. Mid-transition the entry is already see-through.
     if (overlayEntries.isNotEmpty && (animation?.isCompleted ?? false)) {
       overlayEntries.first.opaque = opaque;
     }
@@ -946,10 +939,6 @@ class _MobileVideoHud extends StatelessWidget {
   }
 }
 
-/// Seek bar and elapsed / total label of the fullscreen video HUD.
-///
-/// Listens to [position] and [duration] itself, so a position update rebuilds
-/// this row instead of the whole fullscreen page.
 class MobileVideoHudProgress extends StatelessWidget {
   const MobileVideoHudProgress({
     required this.position,

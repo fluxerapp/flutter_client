@@ -11,10 +11,6 @@ const _kNonDiversitySpritesPerRow = 42;
 const _kDiversitySpritesPerRow = 10;
 const _kSpriteAssetDir = 'assets/emoji-sprites';
 
-/// How long decoded sheets outlive the last mounted [SpriteEmoji].
-///
-/// The default sheet decodes to 2688x3008 RGBA plus mipmaps, about 41 MiB of
-/// GPU memory, so it is only kept while something can paint it.
 const Duration kEmojiSpriteSheetReleaseDelay = Duration(seconds: 30);
 
 const Map<String, String> _kSpriteSheetNames = {
@@ -46,17 +42,10 @@ class EmojiSpriteSheet {
   static int _users = 0;
   static Timer? _releaseTimer;
 
-  /// Starts decoding the sheet for [skinTone] without waiting for it.
-  ///
-  /// A failure is not reported here. The next [ensureLoaded] retries.
   static Future<void> preload({String? skinTone}) => ensureLoaded(
     skinTone: skinTone,
   ).then<void>((ui.Image _) {}, onError: (Object _) {});
 
-  /// Returns the decoded sheet for [skinTone].
-  ///
-  /// Concurrent callers share one decode. A failed decode is forgotten so the
-  /// next call tries again.
   static Future<ui.Image> ensureLoaded({String? skinTone}) {
     final key = _spriteSheetKeyForSkinTone(skinTone);
     final existing = _images[key];
@@ -69,10 +58,6 @@ class EmojiSpriteSheet {
   static ui.Image? imageFor({String? skinTone}) =>
       _images[_spriteSheetKeyForSkinTone(skinTone)];
 
-  /// Disposes every decoded sheet and discards decodes still in flight.
-  ///
-  /// Mounted [SpriteEmoji] switch to the system glyph and decode again on
-  /// their next build.
   static void release() {
     _releaseTimer?.cancel();
     _releaseTimer = null;
@@ -91,8 +76,6 @@ class EmojiSpriteSheet {
     final int generation = _releases.value;
     try {
       final ui.Image image = await _load(key);
-      // A release (app backgrounded) during the decode must not leave the
-      // sheet resident. Widgets ask again on their next resumed build.
       if (generation != _releases.value) {
         image.dispose();
         throw StateError('Emoji sprite sheet released while decoding');
@@ -179,9 +162,6 @@ class EmojiSpritePainter extends CustomPainter {
       !identical(oldDelegate.image, image);
 }
 
-/// Paints a unicode emoji from the sprite sheet, decoding the sheet on demand.
-///
-/// Shows [emoji] in the system font until the sheet is ready.
 class SpriteEmoji extends StatefulWidget {
   const SpriteEmoji({
     required this.emoji,
@@ -203,8 +183,6 @@ class SpriteEmoji extends StatefulWidget {
 }
 
 class _SpriteEmojiState extends State<SpriteEmoji> {
-  // Each state paints its own clone, so releasing the shared sheet never
-  // disposes an image this widget can still paint.
   ui.Image? _sheet;
   bool _needsSheet = true;
 
@@ -280,8 +258,6 @@ class _SpriteEmojiState extends State<SpriteEmoji> {
 
   @override
   Widget build(BuildContext context) {
-    // Requested from build so a sheet released while backgrounded decodes
-    // again only once frames resume.
     if (_needsSheet) {
       _requestSheet();
     }

@@ -44,8 +44,6 @@ const ChatVideoSource _source = ChatVideoSource(
 
 const String _chatBeneath = 'chat beneath';
 
-/// Opens the fullscreen video over a page showing [_chatBeneath] and lets the
-/// 200 ms open transition finish.
 Future<void> _openSettledFullscreenVideo(WidgetTester tester) async {
   tester.view.physicalSize = const Size(400, 800);
   tester.view.devicePixelRatio = 1.0;
@@ -78,8 +76,6 @@ Future<void> _openSettledFullscreenVideo(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 250));
 }
 
-/// Starts a downward dismiss drag on the fullscreen video, short of the
-/// 144 px (18% of 800) dismiss threshold.
 Future<TestGesture> _startShortDismissDrag(WidgetTester tester) async {
   final TestGesture gesture = await tester.startGesture(
     tester.getCenter(find.byType(MediaViewerDismissible)),

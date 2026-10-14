@@ -57,7 +57,6 @@ void main() {
 
       final int frames = await _countRequestedFrames(tester);
 
-      // 2000 ms of 100 ms steps is 20 frames. A per-vsync ticker asks for 125.
       expect(frames, inInclusiveRange(18, 20));
     },
   );

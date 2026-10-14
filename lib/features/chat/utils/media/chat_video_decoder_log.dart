@@ -7,9 +7,6 @@ import 'package:media_kit/media_kit.dart';
 
 enum ChatVideoSurface { inline, fullscreen }
 
-// The first sized video params arrive before mpv settles on a decoder. On a
-// moto g54 that read still said mediacodec-copy with no pixel format, while a
-// read 3 s later showed the decoder that actually ran.
 const Duration _decoderSettleDelay = Duration(seconds: 3);
 
 const List<String> _decoderProperties = <String>[
@@ -20,11 +17,6 @@ const List<String> _decoderProperties = <String>[
   'video-params/h',
 ];
 
-/// Logs once which decoder mpv uses for [player], shortly after the video's
-/// frame size is first known.
-///
-/// Never throws. It ends silently when [player] is disposed first, and a
-/// property mpv cannot report is logged empty.
 Future<void> logChatVideoDecoder(
   Player player, {
   required ChatVideoSurface surface,

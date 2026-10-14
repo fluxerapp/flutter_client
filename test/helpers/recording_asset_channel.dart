@@ -5,16 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 
-/// Serves bundled assets from `UNIT_TEST_ASSETS` the way flutter_test does,
-/// while recording every requested key.
-///
-/// [respond] can override the reply for a key: return `null` to serve the
-/// file, or a future to stand in for it (completing with `null` fails the
-/// load).
 final class RecordingAssetChannel {
   RecordingAssetChannel._();
 
-  /// Replaces the `flutter/assets` handler until the next install.
   factory RecordingAssetChannel.install() {
     final RecordingAssetChannel channel = RecordingAssetChannel._();
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -39,8 +32,6 @@ final class RecordingAssetChannel {
   }
 }
 
-/// Reads [key] the way flutter_test's mockFlutterAssets does, including the
-/// package-prefix fallback.
 Future<ByteData?>? serveBundledTestAsset(String key) {
   final String assetFolderPath = Platform.environment['UNIT_TEST_ASSETS']!;
   final String prefix = 'packages/${Platform.environment['APP_NAME']!}/';

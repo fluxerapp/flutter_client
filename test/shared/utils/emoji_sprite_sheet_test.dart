@@ -27,8 +27,6 @@ Iterable<EmojiSpritePainter> _spritePainters(WidgetTester tester) => tester
     .map((CustomPaint paint) => paint.painter)
     .whereType<EmojiSpritePainter>();
 
-/// Gives the engine real time to decode, then flushes the fake zone, until
-/// [count] sprite painters are on screen.
 Future<void> _pumpUntilPainted(WidgetTester tester, int count) async {
   for (int i = 0; i < 300 && _spritePainters(tester).length < count; i++) {
     await tester.runAsync(

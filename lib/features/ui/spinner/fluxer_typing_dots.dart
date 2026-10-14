@@ -9,14 +9,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 const int kFluxerTypingDotCount = 3;
 const double kFluxerTypingDotSize = 6;
 const double kFluxerTypingDotSpacing = 2;
-const Duration kFluxerTypingDotDuration = Duration(milliseconds: 1400);
 const List<double> kFluxerTypingDotDelays = <double>[0, 0.2 / 1.4, 0.4 / 1.4];
 
-/// Discrete positions per [kFluxerTypingDotDuration] cycle.
-///
-/// Android rasterizes the whole surface for every scheduled frame (partial
-/// repaint is off), so a per-vsync ticker costs a full-screen raster every
-/// vsync. 14 steps of 100 ms keep the 1400 ms wave seamless at 10 fps.
 const int kFluxerTypingDotStepsPerCycle = 14;
 const Duration kFluxerTypingDotStepInterval = Duration(milliseconds: 100);
 
@@ -33,7 +27,6 @@ double fluxerTypingDotWave(double progress, double delay) {
   return (math.cos(phase * 2 * math.pi) + 1) / 2;
 }
 
-/// Shared step clock so every visible indicator advances in the same frame.
 class _FluxerTypingDotsClock {
   _FluxerTypingDotsClock._();
 

@@ -25,7 +25,6 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   await testMain();
 }
 
-// Real-time sprite decodes in fake-async tests leak the 30 s release timer.
 void _failSpriteSheetLoads() {
   if (BindingBase.debugBindingType() == null ||
       ServicesBinding.instance.defaultBinaryMessenger

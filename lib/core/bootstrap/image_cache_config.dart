@@ -24,11 +24,6 @@ void configureFluxerImageCache() {
   );
 }
 
-/// Caps Skia's GPU resource cache on Android.
-///
-/// The engine defaults to screen pixels * 48 bytes (about 119 MiB at
-/// 1080x2400). The `flutter/skia` override is sticky in the rasterizer, so
-/// later viewport changes do not recompute it.
 void configureFluxerGpuResourceCache() {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
     return;

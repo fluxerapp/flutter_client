@@ -5,9 +5,6 @@ import 'package:media_kit/media_kit.dart';
 
 bool _mediaKitInitialized = false;
 
-/// Loads libmpv and ffmpeg.
-///
-/// A failed attempt is not memoized, so the next call retries.
 void ensureMediaKitInitialized() {
   if (_mediaKitInitialized) {
     return;
@@ -19,8 +16,6 @@ void ensureMediaKitInitialized() {
   _mediaKitInitialized = true;
 }
 
-/// Owns every media_kit [Player] in the app, so it is the only place that
-/// has to trigger native initialization.
 class MediaKitPlayerLifecycleCoordinator {
   MediaKitPlayerLifecycleCoordinator({
     this._ensureInitialized = ensureMediaKitInitialized,

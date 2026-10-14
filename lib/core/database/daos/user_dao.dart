@@ -70,8 +70,6 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
     ),
   );
 
-  /// Writes only rows whose stored presence differs, so an unchanged batch
-  /// leaves `users` watchers silent. The last entry per user wins.
   Future<void> updateUserPresencesBatch(
     List<({String userId, String status, String? customStatus, bool mobile})>
     updates,
