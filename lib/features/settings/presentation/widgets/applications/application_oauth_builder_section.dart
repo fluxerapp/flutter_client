@@ -122,7 +122,7 @@ class ApplicationOauthBuilderSection extends StatelessWidget {
             onPressed: authorizeUrl.isEmpty ? null : onCopyUrl,
             semanticLabel: l10n.applicationsCopyAuthorizeUrl,
             icon: PhosphorIconsBold.copy,
-            size: FluxerButtonSize.small,
+            size: FluxerButtonSize.compact,
             isSquare: true,
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/applications/application_read_only_input.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -70,17 +71,24 @@ class _SecretRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return ApplicationReadOnlyInput(
-      text: value ?? '',
-      label: label,
-      hint: ApplicationSecretsSection._placeholder,
-      trailing: FluxerButton.primary(
-        onPressed: isLoading ? null : onRegenerate,
-        label: l10n.applicationsRegenerate,
-        size: FluxerButtonSize.small,
-        isLoading: isLoading,
-        fitContent: true,
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ApplicationReadOnlyInput(
+          text: value ?? '',
+          label: label,
+          hint: ApplicationSecretsSection._placeholder,
+        ),
+        SizedBox(height: context.layout.s2),
+        FluxerButton.primary(
+          onPressed: isLoading ? null : onRegenerate,
+          label: l10n.applicationsRegenerate,
+          size: FluxerButtonSize.compact,
+          isLoading: isLoading,
+          fitContent: true,
+        ),
+      ],
     );
   }
 }

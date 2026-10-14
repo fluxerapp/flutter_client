@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -49,7 +50,16 @@ class _ApplicationReadOnlyInputState extends State<ApplicationReadOnlyInput> {
       hint: widget.hint,
       readOnly: true,
       enabled: widget.enabled,
-      trailing: widget.trailing,
+      suffixIcon: widget.trailing == null
+          ? null
+          : Padding(
+              padding: EdgeInsetsDirectional.only(end: context.layout.s2),
+              child: Align(
+                widthFactor: 1,
+                heightFactor: 1,
+                child: widget.trailing,
+              ),
+            ),
     );
   }
 }

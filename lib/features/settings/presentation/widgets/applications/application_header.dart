@@ -48,7 +48,7 @@ class ApplicationHeader extends StatelessWidget {
             onPressed: onCopyId,
             label: l10n.applicationsCopyId,
             icon: PhosphorIconsBold.copy,
-            size: FluxerButtonSize.small,
+            size: FluxerButtonSize.compact,
             fitContent: true,
           ),
         ),
