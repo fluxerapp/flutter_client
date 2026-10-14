@@ -215,5 +215,52 @@ void main() {
         );
       },
     );
+
+    test(
+      'a refinement replaces the entry it narrows and nothing else',
+      () async {
+        SharedPreferences.setMockInitialValues(<String, Object>{});
+        final ChannelSearchHistoryRepository repository =
+            ChannelSearchHistoryRepository(
+              await SharedPreferences.getInstance(),
+            );
+        const ChannelSearchToken from = ChannelSearchToken(
+          kind: ChannelSearchTokenKind.from,
+          value: userId,
+        );
+        const ChannelSearchToken link = ChannelSearchToken(
+          kind: ChannelSearchTokenKind.has,
+          value: 'link',
+        );
+        final ChannelSearchHistoryEntry older = entryFor(
+          const <ChannelSearchToken>[],
+          text: 'release',
+        );
+        final ChannelSearchHistoryEntry first = entryFor(
+          const <ChannelSearchToken>[from],
+        );
+        final ChannelSearchHistoryEntry refined = entryFor(
+          const <ChannelSearchToken>[from, link],
+          text: 'cats',
+        );
+        final ChannelSearchHistoryEntry unrelated = entryFor(
+          const <ChannelSearchToken>[link],
+        );
+
+        await repository.addEntry(older);
+        await repository.addEntry(first);
+        await repository.addEntry(refined, replacing: first);
+        expect(
+          repository.readForContext(context).map((e) => e.signature),
+          <String>[refined.signature, older.signature],
+        );
+
+        await repository.addEntry(unrelated, replacing: refined);
+        expect(
+          repository.readForContext(context).map((e) => e.signature),
+          <String>[unrelated.signature, refined.signature, older.signature],
+        );
+      },
+    );
   });
 }

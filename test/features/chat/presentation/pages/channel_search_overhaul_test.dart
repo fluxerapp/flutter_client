@@ -443,6 +443,72 @@ void main() {
     await _finish(tester);
   });
 
+  testWidgets('refining a search keeps one recent for it', (tester) async {
+    final ProviderContainer container = await _container(
+      tester,
+      history: <Map<String, dynamic>>[_structuredRecent()],
+    );
+    addTearDown(container.dispose);
+
+    await _open(tester, container);
+    final FluxerLocalizations l10n = _l10n(tester);
+
+    await tester.tap(find.text(l10n.channelSearchFilterFromLabel));
+    await _settle(tester);
+    await tester.tap(
+      find.byKey(const ValueKey<String>('search-user-$_userId')),
+    );
+    await _settle(tester);
+    await tester.enterText(find.byType(EditableText), 'has:link');
+    await tester.testTextInput.receiveAction(TextInputAction.search);
+    await _settle(tester);
+
+    final List<ChannelSearchHistoryEntry>? saved = await tester.runAsync(
+      () async =>
+          (await container.read(
+            channelSearchHistoryRepositoryProvider.future,
+          )).readForContext(
+            channelSearchContextKey(channelId: _channelId, guildId: _guildId),
+          ),
+    );
+    expect(
+      saved?.map((ChannelSearchHistoryEntry e) => e.query.tokens.length),
+      <int>[2, 1],
+    );
+    expect(saved?.last.query.text, 'release');
+    await _finish(tester);
+  });
+
+  testWidgets('the search key keeps settled results without a rerun', (
+    tester,
+  ) async {
+    final ProviderContainer container = await _container(tester);
+    addTearDown(container.dispose);
+
+    await _open(tester, container);
+    await tester.enterText(find.byType(EditableText), 'cats');
+    await tester.pump(const Duration(milliseconds: 350));
+    await _settle(tester);
+    final int before = _queries.length;
+
+    await tester.testTextInput.receiveAction(TextInputAction.search);
+    await _settle(tester);
+
+    expect(_queries.length, before);
+    expect(find.text('Messages (1)'), findsOneWidget);
+    expect(_editable(tester).focusNode.hasFocus, isFalse);
+    final List<ChannelSearchHistoryEntry>? saved = await tester.runAsync(
+      () async =>
+          (await container.read(
+            channelSearchHistoryRepositoryProvider.future,
+          )).readForContext(
+            channelSearchContextKey(channelId: _channelId, guildId: _guildId),
+          ),
+    );
+    expect(saved?.single.query.text, 'cats');
+    await _finish(tester);
+  });
+
   testWidgets('tapping a result pops with a jump request', (tester) async {
     final ProviderContainer container = await _container(tester);
     addTearDown(container.dispose);

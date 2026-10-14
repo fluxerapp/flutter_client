@@ -105,6 +105,21 @@ class ChannelSearchHistoryEntry {
     );
   }
 
+  bool refines(ChannelSearchHistoryEntry other) {
+    if (contextKey != other.contextKey || signature == other.signature) {
+      return false;
+    }
+    final ({String text, List<ChannelSearchToken> tokens}) mine = query;
+    final ({String text, List<ChannelSearchToken> tokens}) theirs = other.query;
+    final Set<String> myTokens = <String>{
+      for (final ChannelSearchToken token in mine.tokens) token.signature,
+    };
+    return theirs.tokens.every(
+          (ChannelSearchToken token) => myTokens.contains(token.signature),
+        ) &&
+        mine.text.trim().startsWith(theirs.text.trim());
+  }
+
   bool get isEmpty {
     final ({String text, List<ChannelSearchToken> tokens}) resolved = query;
     return resolved.text.trim().isEmpty && resolved.tokens.isEmpty;
@@ -375,15 +390,22 @@ class ChannelSearchHistoryRepository {
         .toList();
   }
 
-  Future<void> addEntry(ChannelSearchHistoryEntry entry) async {
+  Future<void> addEntry(
+    ChannelSearchHistoryEntry entry, {
+    ChannelSearchHistoryEntry? replacing,
+  }) async {
     if (entry.isEmpty) {
       return;
     }
-    final String signature = entry.signature;
+    final Set<String> signatures = <String>{
+      entry.signature,
+      if (replacing != null && entry.refines(replacing)) replacing.signature,
+    };
     final List<ChannelSearchHistoryEntry> all = _readAll()
       ..removeWhere(
         (ChannelSearchHistoryEntry e) =>
-            e.contextKey == entry.contextKey && e.signature == signature,
+            e.contextKey == entry.contextKey &&
+            signatures.contains(e.signature),
       )
       ..insert(0, entry);
     await _write(all.take(_kMaxHistoryEntries).toList());

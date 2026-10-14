@@ -97,6 +97,8 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
   Timer? _searchDebounce;
   bool _typingPending = false;
   String _lastText = '';
+  String? _lastSearchSignature;
+  ChannelSearchHistoryEntry? _sessionRecent;
 
   ChannelSearchProvider get _provider =>
       channelSearchProvider(widget.channelId, widget.guildId);
@@ -250,19 +252,39 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     });
   }
 
+  String get _searchSignature => <String>[
+    channelSearchQuerySignature(
+      text: _committedText,
+      tokens: <ChannelSearchToken>[..._tokens, ?_tab.filter],
+    ),
+    '${_scope.index}',
+    '${_sort.index}',
+  ].join('|');
+
   void _runSearch({bool remember = false}) {
     _searchDebounce?.cancel();
     if (_typingPending) {
       setState(() => _typingPending = false);
     }
     final MessageSearchQuery query = _buildQuery();
+    _lastSearchSignature = _searchSignature;
     unawaited(ref.read(_provider.notifier).search(query: query));
     if (remember && query.hasSearchTerms) {
       unawaited(_remember());
     }
   }
 
-  Future<void> _remember() async {
+  bool get _showsSettledResults {
+    final ChannelSearchState state = ref.read(_provider);
+    return !_typingPending &&
+        state.hasSearched &&
+        !state.isSearching &&
+        !state.indexing &&
+        state.errorMessage == null &&
+        _lastSearchSignature == _searchSignature;
+  }
+
+  Future<void> _remember({bool refinable = true}) async {
     if (!_hasQuery) {
       return;
     }
@@ -274,10 +296,12 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
       sortIndex: _sort.index,
       timestampMs: DateTime.now().millisecondsSinceEpoch,
     );
+    final ChannelSearchHistoryEntry? previous = _sessionRecent;
+    _sessionRecent = refinable ? entry : null;
     final ChannelSearchHistoryRepository repository = await ref.read(
       channelSearchHistoryRepositoryProvider.future,
     );
-    await repository.addEntry(entry);
+    await repository.addEntry(entry, replacing: previous);
     await _loadRecents();
   }
 
@@ -291,7 +315,11 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
       _focusNode.requestFocus();
       return;
     }
-    _runSearch(remember: true);
+    if (_showsSettledResults) {
+      unawaited(_remember());
+    } else {
+      _runSearch(remember: true);
+    }
     _focusNode.unfocus();
   }
 
@@ -362,6 +390,7 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
 
   void _clearAll() {
     _searchDebounce?.cancel();
+    _sessionRecent = null;
     _lastText = '';
     _textController.clear();
     setState(() {
@@ -425,7 +454,8 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
       _scope = MessageSearchScopeFilter.values[entry.scopeIndex];
       _sort = MessageSearchSortFilter.values[entry.sortIndex];
     });
-    _runSearch(remember: true);
+    _runSearch();
+    unawaited(_remember(refinable: false));
     _focusNode.unfocus();
   }
 
