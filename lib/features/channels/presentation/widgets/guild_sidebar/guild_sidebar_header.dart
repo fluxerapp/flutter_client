@@ -147,126 +147,126 @@ class GuildSidebarHeaderBody extends StatelessWidget {
           ]
         : const <Shadow>[];
 
-    final Widget headerRow = FluxerGestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Row(
-        children: [
-          if (guild != null &&
-              !outageUnavailable &&
-              (guild!.isPartnered ||
-                  guild!.isVerified ||
-                  guild!.isDiscoverable))
-            Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: FluxerGuildBadge(
-                features: guild!.features,
-                shadows: bannerShadows,
-                color: bannerForeground > 0.5 ? Colors.white : null,
-                forceBrightness: bannerForeground > 0.5
-                    ? Brightness.dark
-                    : null,
-              ),
-            ),
-          Expanded(
-            child: Text(
-              headerTitle,
-              style: context.textStyles.channelName.copyWith(
-                color: titleColor,
-                shadows: bannerShadows,
-                height: 1.25,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textHeightBehavior: const TextHeightBehavior(
-                applyHeightToFirstAscent: false,
-                applyHeightToLastDescent: false,
-              ),
+    final Widget headerRow = Row(
+      children: [
+        if (guild != null &&
+            !outageUnavailable &&
+            (guild!.isPartnered || guild!.isVerified || guild!.isDiscoverable))
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: FluxerGuildBadge(
+              features: guild!.features,
+              shadows: bannerShadows,
+              color: bannerForeground > 0.5 ? Colors.white : null,
+              forceBrightness: bannerForeground > 0.5 ? Brightness.dark : null,
             ),
           ),
-          if (!outageUnavailable)
-            PhosphorIcon(
-              PhosphorIconsBold.caretDown,
-              color: caretColor,
-              size: 16,
+        Expanded(
+          child: Text(
+            headerTitle,
+            style: context.textStyles.channelName.copyWith(
+              color: titleColor,
               shadows: bannerShadows,
+              height: 1.25,
             ),
-        ],
-      ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textHeightBehavior: const TextHeightBehavior(
+              applyHeightToFirstAscent: false,
+              applyHeightToLastDescent: false,
+            ),
+          ),
+        ),
+        if (!outageUnavailable)
+          PhosphorIcon(
+            PhosphorIconsBold.caretDown,
+            color: caretColor,
+            size: 16,
+            shadows: bannerShadows,
+          ),
+      ],
     );
 
     final bool overlayTitleOnBanner = showBannerImage;
 
-    return SizedBox(
-      height: height,
-      width: double.infinity,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: sidebarBackground,
-          border: Border(bottom: BorderSide(color: context.colors.borderColor)),
-        ),
-        child: ClipRect(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              if (showBannerImage)
-                Positioned.fill(
-                  child: Opacity(
-                    opacity: bannerForeground,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(guild!.bannerUrl!),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              if (showBannerImage && bannerForeground > 0)
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 40,
-                  child: IgnorePointer(
+    return FluxerGestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: SizedBox(
+        height: height,
+        width: double.infinity,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: sidebarBackground,
+            border: Border(
+              bottom: BorderSide(color: context.colors.borderColor),
+            ),
+          ),
+          child: ClipRect(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                if (showBannerImage)
+                  Positioned.fill(
                     child: Opacity(
                       opacity: bannerForeground,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: <Color>[
-                              context.colors.guildBannerGradient,
-                              Colors.transparent,
-                            ],
+                          image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                              guild!.bannerUrl!,
+                            ),
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              if (overlayTitleOnBanner)
-                Positioned(
-                  top: kGuildSidebarHeaderTopInset,
-                  left: 16,
-                  right: 16,
-                  child: headerRow,
-                )
-              else
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: kGuildSidebarHeaderMinHeight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Center(child: headerRow),
+                if (showBannerImage && bannerForeground > 0)
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 40,
+                    child: IgnorePointer(
+                      child: Opacity(
+                        opacity: bannerForeground,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                context.colors.guildBannerGradient,
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-            ],
+                if (overlayTitleOnBanner)
+                  Positioned(
+                    top: kGuildSidebarHeaderTopInset,
+                    left: 16,
+                    right: 16,
+                    child: headerRow,
+                  )
+                else
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: kGuildSidebarHeaderMinHeight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Center(child: headerRow),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
