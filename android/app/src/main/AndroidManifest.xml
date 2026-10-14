@@ -159,6 +159,42 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
+            android:name="${appIconAliasPrefix}.starfield"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:icon="@mipmap/fluxer_icon_starfield"
+            android:label="${appLabel}"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name="${appIconAliasPrefix}.sweden"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:icon="@mipmap/fluxer_icon_sweden"
+            android:label="${appLabel}"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name="${appIconAliasPrefix}.waves"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:icon="@mipmap/fluxer_icon_waves"
+            android:label="${appLabel}"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
             android:name="${appIconAliasPrefix}.greyscale"
             android:targetActivity=".MainActivity"
             android:exported="true"

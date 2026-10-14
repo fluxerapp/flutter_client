@@ -17,8 +17,11 @@ abstract final class AppIconPreviewAssets {
   static const String iosCanaryBrutalist =
       '$iosRoot/default_canary_brutalist.png';
 
+  static const String androidStarfield = '$androidRoot/starfield.png';
+  static const String androidSweden = '$androidRoot/sweden.png';
   static const String androidGreyscale = '$androidRoot/greyscale.png';
   static const String androidRainbow = '$androidRoot/rainbow.png';
+  static const String androidWaves = '$androidRoot/waves.png';
   static const String androidChromaticAberration =
       '$androidRoot/chromatic_aberration.png';
   static const String androidDefaultBrutalist =
