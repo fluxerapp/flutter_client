@@ -1,5 +1,3 @@
-import 'dart:ui' show ImageFilter;
-
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -13,12 +11,7 @@ class PremiumStorePanel extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-            child: DecoratedBox(
-              decoration: PremiumStoreStyle.of(context).panel,
-            ),
-          ),
+          child: DecoratedBox(decoration: PremiumStoreStyle.of(context).panel),
         ),
         Positioned(
           top: -1,
