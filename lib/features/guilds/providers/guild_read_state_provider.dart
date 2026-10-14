@@ -115,6 +115,8 @@ class GuildReadState extends _$GuildReadState {
   StreamSubscription<Map<String, String>>? _lastMessageIndexSub;
   Map<String, ThreadMember> _joinedThreadMembers = <String, ThreadMember>{};
   final Map<String, List<String>> _channelIdsByGuild = <String, List<String>>{};
+  Map<String, String> _roleSignatureByGuild = <String, String>{};
+  Map<String, String> _memberSignatureByGuild = <String, String>{};
   @override
   Map<String, GuildReadStateEntry> build() {
     final db = ref.watch(fluxerDatabaseProvider);
@@ -180,7 +182,10 @@ class GuildReadState extends _$GuildReadState {
           );
           _channelSnapshot = next;
           _rebuildChannelIdsByGuild();
-          final allTouched = <String>{...touched, ...staleLastMessageIds};
+          final allTouched = <String>{
+            ..._withDescendants(touched),
+            ...staleLastMessageIds,
+          };
           if (allTouched.isNotEmpty) {
             _enqueueChannels(
               allTouched,
@@ -230,6 +235,34 @@ class GuildReadState extends _$GuildReadState {
         _enqueueChannels(channelIds, db, currentUserId, refreshLatest: false);
       }
     });
+
+    final roleSub = db.roleDao.watchAllRoles().listen((List<Role> rows) {
+      final Map<String, String> next = _accessSignatureByGuild(
+        rows.map(
+          (Role role) => (role.guildId, '${role.id}:${role.permissions}'),
+        ),
+      );
+      final Set<String> changed = _diffSignatures(_roleSignatureByGuild, next);
+      _roleSignatureByGuild = next;
+      _enqueueGuilds(changed, db, currentUserId);
+    });
+
+    final memberSub = currentUserId == null || currentUserId.isEmpty
+        ? null
+        : db.memberDao.watchMembersForUser(currentUserId).listen((
+            List<Member> rows,
+          ) {
+            final Map<String, String> next = <String, String>{
+              for (final Member member in rows)
+                member.guildId: member.roleIdsJson,
+            };
+            final Set<String> changed = _diffSignatures(
+              _memberSignatureByGuild,
+              next,
+            );
+            _memberSignatureByGuild = next;
+            _enqueueGuilds(changed, db, currentUserId);
+          });
 
     final guildSub = db.guildDao.watchServers().listen((guilds) {
       _guildNotificationContexts
@@ -282,6 +315,8 @@ class GuildReadState extends _$GuildReadState {
       unawaited(_lastMessageIndexSub?.cancel());
       unawaited(settingsSub.cancel());
       unawaited(guildSub.cancel());
+      unawaited(roleSub.cancel());
+      unawaited(memberSub?.cancel());
       _clearCaches();
       _pendingSeedChannelIds.clear();
     });
@@ -744,6 +779,35 @@ class GuildReadState extends _$GuildReadState {
     _pendingTrustIndex.clear();
   }
 
+  void _enqueueGuilds(
+    Set<String> guildIds,
+    FluxerDatabase db,
+    String? currentUserId,
+  ) {
+    final Set<String> channelIds = <String>{
+      for (final String guildId in guildIds) ...?_channelIdsByGuild[guildId],
+    };
+    if (channelIds.isNotEmpty) {
+      _enqueueChannels(channelIds, db, currentUserId, refreshLatest: false);
+    }
+  }
+
+  Set<String> _withDescendants(Set<String> channelIds) {
+    final Set<String> result = <String>{...channelIds};
+    var frontier = channelIds;
+    while (frontier.isNotEmpty) {
+      final Set<String> children = <String>{
+        for (final Channel channel in _channelSnapshot.values)
+          if (frontier.contains(channel.parentId) &&
+              !result.contains(channel.id))
+            channel.id,
+      };
+      result.addAll(children);
+      frontier = children;
+    }
+    return result;
+  }
+
   void _rebuildChannelIdsByGuild() {
     _channelIdsByGuild.clear();
     for (final Channel channel in _channelSnapshot.values) {
@@ -983,8 +1047,31 @@ Set<String> _diffChannels(
   return changed;
 }
 
+Map<String, String> _accessSignatureByGuild(
+  Iterable<(String, String)> entries,
+) {
+  final Map<String, List<String>> parts = <String, List<String>>{};
+  for (final (String guildId, String part) in entries) {
+    (parts[guildId] ??= <String>[]).add(part);
+  }
+  return <String, String>{
+    for (final MapEntry<String, List<String>> entry in parts.entries)
+      entry.key: (entry.value..sort()).join(','),
+  };
+}
+
+Set<String> _diffSignatures(
+  Map<String, String> previous,
+  Map<String, String> next,
+) => <String>{
+  for (final MapEntry<String, String> entry in next.entries)
+    if (previous.containsKey(entry.key) && previous[entry.key] != entry.value)
+      entry.key,
+};
+
 bool _channelEqualsExceptLastMessage(Channel a, Channel b) =>
     a.guildId == b.guildId &&
+    a.permissionOverwritesJson == b.permissionOverwritesJson &&
     a.lastPinTimestamp == b.lastPinTimestamp &&
     a.type == b.type &&
     a.parentId == b.parentId &&
@@ -992,6 +1079,7 @@ bool _channelEqualsExceptLastMessage(Channel a, Channel b) =>
 
 bool _channelEquals(Channel a, Channel b) =>
     a.guildId == b.guildId &&
+    a.permissionOverwritesJson == b.permissionOverwritesJson &&
     a.lastMessageId == b.lastMessageId &&
     a.lastPinTimestamp == b.lastPinTimestamp &&
     a.type == b.type &&

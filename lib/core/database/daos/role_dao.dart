@@ -23,6 +23,9 @@ class RoleDao extends DatabaseAccessor<FluxerDatabase> with _$RoleDaoMixin {
           .watch()
           .suppressDriftCancellation;
 
+  Stream<List<Role>> watchAllRoles() =>
+      select(roles).watch().suppressDriftCancellation;
+
   Future<Role?> getRoleById(String id) =>
       (select(roles)..where((r) => r.id.equals(id))).getSingleOrNull();
 

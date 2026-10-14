@@ -24,6 +24,10 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
+  Stream<List<Member>> watchMembersForUser(String userId) => (select(
+    members,
+  )..where((m) => m.userId.equals(userId))).watch().suppressDriftCancellation;
+
   Future<List<Member>> getMembers(String guildId) =>
       (select(members)..where((m) => m.guildId.equals(guildId))).get();
 
