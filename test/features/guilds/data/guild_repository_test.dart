@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
@@ -26,7 +30,72 @@ GuildResponse _apiGuild(String id) => GuildResponse.fromJson({
   'disabled_operations': 0,
 });
 
+class _HeldGuildsAdapter implements HttpClientAdapter {
+  final Completer<List<Map<String, Object?>>> guilds =
+      Completer<List<Map<String, Object?>>>();
+  final Completer<void> guildsRequested = Completer<void>();
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    if (options.path.endsWith('/users/@me/guilds')) {
+      guildsRequested.complete();
+      return ResponseBody.fromString(
+        jsonEncode(await guilds.future),
+        200,
+        headers: <String, List<String>>{
+          Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+        },
+      );
+    }
+    return ResponseBody.fromString('{}', 404);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
 void main() {
+  group('GuildRepository.syncServers', () {
+    test(
+      'drops the result when the account changed during the fetch',
+      () async {
+        final FluxerDatabase db = openTestDatabase();
+        await db.authSessionDao.saveSessionMetadata(userId: 'user-a');
+        await db.authSessionDao.touchSession('user-a');
+        final _HeldGuildsAdapter adapter = _HeldGuildsAdapter();
+        final Dio dio = Dio(BaseOptions(baseUrl: 'https://a.example/api'))
+          ..httpClientAdapter = adapter;
+        final Future<void> sync = GuildRepository(
+          FluxerClient(dio),
+          db,
+        ).syncServers();
+        await adapter.guildsRequested.future;
+
+        await db.authSessionDao.saveSessionMetadata(userId: 'user-b');
+        await db.customStatement(
+          "UPDATE auth_sessions SET last_active = 0 WHERE user_id = 'user-a'",
+        );
+        await db.clearAccountData();
+        await db.guildDao.upsertServer(
+          ServersCompanion.insert(id: 'guild-b', name: 'B community'),
+        );
+        adapter.guilds.complete(<Map<String, Object?>>[
+          _apiGuild('guild-a1').toJson(),
+          _apiGuild('guild-a2').toJson(),
+        ]);
+        await sync;
+
+        expect((await db.guildDao.getServers()).map((row) => row.id), <String>[
+          'guild-b',
+        ]);
+      },
+    );
+  });
+
   group('GuildRepository.getOwnedGuilds', () {
     late FluxerDatabase db;
     late GuildRepository repository;
