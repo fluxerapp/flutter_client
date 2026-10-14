@@ -455,9 +455,9 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
 
   @override
   void dispose() {
+    _removeFeedbackOverlay();
     _liftController.dispose();
     _releaseController.dispose();
-    _removeFeedbackOverlay();
     super.dispose();
   }
 

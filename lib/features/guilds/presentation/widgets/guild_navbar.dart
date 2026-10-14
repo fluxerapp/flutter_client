@@ -174,11 +174,17 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       hideTopWhen: (double scrollOffset) => scrollOffset < 80,
       orderedIds: _indicatorOrder,
     )..attach();
+    final GuildPermissions permissions = ref.read(
+      guildPermissionsProvider.notifier,
+    );
+    final List<GuildNavbarItem> initialItems = ref.read(
+      organizedGuildListProvider,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
-      _prefetchGuildPermissions(ref.read(organizedGuildListProvider));
+      _prefetchGuildPermissions(permissions, initialItems);
       _clampScrollOffset();
       _scrollIndicator.scheduleUpdate();
     });
@@ -239,10 +245,10 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     });
   }
 
-  void _prefetchGuildPermissions(List<GuildNavbarItem> items) {
-    final GuildPermissions permissionsNotifier = ref.read(
-      guildPermissionsProvider.notifier,
-    );
+  void _prefetchGuildPermissions(
+    GuildPermissions permissionsNotifier,
+    List<GuildNavbarItem> items,
+  ) {
     for (final GuildNavbarItem item in items) {
       switch (item) {
         case GuildNavbarGuild(:final Guild guild):
@@ -443,11 +449,14 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         List<GuildNavbarItem> next,
       ) {
         if (previous != next) {
+          final GuildPermissions permissions = ref.read(
+            guildPermissionsProvider.notifier,
+          );
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (!mounted) {
               return;
             }
-            _prefetchGuildPermissions(next);
+            _prefetchGuildPermissions(permissions, next);
           });
         }
         if (_needsScrollClamp && next.isNotEmpty) {
