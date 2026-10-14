@@ -1,9 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
+import 'package:fluxer_app/features/ui/input/utf16_length_limiting_formatter.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+
+const int kUserNoteMaxLength = 256;
 
 class UserProfileNoteEditSheet {
   UserProfileNoteEditSheet._();
@@ -122,7 +125,11 @@ class _NoteEditorState extends ConsumerState<_NoteEditor> {
           FluxerInput.multiline(
             controller: _controller,
             textCapitalization: TextCapitalization.sentences,
-            maxLength: 256,
+            inputFormatters: [
+              Utf16LengthLimitingTextInputFormatter(kUserNoteMaxLength),
+            ],
+            showCounter: true,
+            counterMax: kUserNoteMaxLength,
             minLines: 4,
             maxLines: 8,
           ),
