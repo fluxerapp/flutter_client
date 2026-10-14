@@ -13809,6 +13809,126 @@ abstract class FluxerLocalizations {
   /// **'Remove from recent searches'**
   String get channelSearchRemoveRecent;
 
+  /// Tooltip and accessibility label for the filter button next to the mobile message search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get channelSearchFiltersButton;
+
+  /// Section title in the mobile message search filter menu, above the list of filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter results'**
+  String get channelSearchFilterMenuTitle;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'From a specific person'**
+  String get channelSearchFilterFromLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions a specific person'**
+  String get channelSearchFilterMentionsLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Has a link, file or embed'**
+  String get channelSearchFilterHasLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'In a specific channel'**
+  String get channelSearchFilterInLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent on a date'**
+  String get channelSearchFilterDuringLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent before a date'**
+  String get channelSearchFilterBeforeLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent after a date'**
+  String get channelSearchFilterAfterLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned or not pinned'**
+  String get channelSearchFilterPinnedLabel;
+
+  /// Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'By author type'**
+  String get channelSearchFilterAuthorTypeLabel;
+
+  /// Date suggestion in mobile message search for the before, after and on filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get channelSearchDateToday;
+
+  /// Date suggestion in mobile message search for the before, after and on filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get channelSearchDateYesterday;
+
+  /// Result tab in mobile message search showing every matching message.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get channelSearchTabMessages;
+
+  /// Result tab in mobile message search showing matching messages with an image upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get channelSearchTabImages;
+
+  /// Result tab in mobile message search showing matching pinned messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Pins'**
+  String get channelSearchTabPins;
+
+  /// Result tab in mobile message search showing matching messages with a link.
+  ///
+  /// In en, this message translates to:
+  /// **'Links'**
+  String get channelSearchTabLinks;
+
+  /// Result tab in mobile message search showing matching messages with a file upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get channelSearchTabFiles;
+
+  /// Selected result tab label with the number of results, for example Messages (12). Preserve {label} and {count}.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} ({count})'**
+  String channelSearchTabCount(String label, int count);
+
+  /// Hint in the mobile message search field. channelName is the channel name with its # prefix, for example Search #general. Preserve {channelName}.
+  ///
+  /// In en, this message translates to:
+  /// **'Search {channelName}'**
+  String channelSearchHintIn(String channelName);
+
   /// Description for the from: search filter.
   ///
   /// In en, this message translates to:

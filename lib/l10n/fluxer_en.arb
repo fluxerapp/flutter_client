@@ -10703,6 +10703,100 @@
     "@channelSearchRemoveRecent": {
         "description": "Accessibility label for the x button on a recent search row in mobile message search. Removes that one entry from the recent searches list."
     },
+    "channelSearchFiltersButton": "Filters",
+    "@channelSearchFiltersButton": {
+        "description": "Tooltip and accessibility label for the filter button next to the mobile message search field."
+    },
+    "channelSearchFilterMenuTitle": "Filter results",
+    "@channelSearchFilterMenuTitle": {
+        "description": "Section title in the mobile message search filter menu, above the list of filters."
+    },
+    "channelSearchFilterFromLabel": "From a specific person",
+    "@channelSearchFilterFromLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterMentionsLabel": "Mentions a specific person",
+    "@channelSearchFilterMentionsLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterHasLabel": "Has a link, file or embed",
+    "@channelSearchFilterHasLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterInLabel": "In a specific channel",
+    "@channelSearchFilterInLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterDuringLabel": "Sent on a date",
+    "@channelSearchFilterDuringLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterBeforeLabel": "Sent before a date",
+    "@channelSearchFilterBeforeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAfterLabel": "Sent after a date",
+    "@channelSearchFilterAfterLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterPinnedLabel": "Pinned or not pinned",
+    "@channelSearchFilterPinnedLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAuthorTypeLabel": "By author type",
+    "@channelSearchFilterAuthorTypeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchDateToday": "Today",
+    "@channelSearchDateToday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchDateYesterday": "Yesterday",
+    "@channelSearchDateYesterday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchTabMessages": "Messages",
+    "@channelSearchTabMessages": {
+        "description": "Result tab in mobile message search showing every matching message."
+    },
+    "channelSearchTabImages": "Images",
+    "@channelSearchTabImages": {
+        "description": "Result tab in mobile message search showing matching messages with an image upload."
+    },
+    "channelSearchTabPins": "Pins",
+    "@channelSearchTabPins": {
+        "description": "Result tab in mobile message search showing matching pinned messages."
+    },
+    "channelSearchTabLinks": "Links",
+    "@channelSearchTabLinks": {
+        "description": "Result tab in mobile message search showing matching messages with a link."
+    },
+    "channelSearchTabFiles": "Files",
+    "@channelSearchTabFiles": {
+        "description": "Result tab in mobile message search showing matching messages with a file upload."
+    },
+    "channelSearchTabCount": "{label} ({count})",
+    "@channelSearchTabCount": {
+        "description": "Selected result tab label with the number of results, for example Messages (12). Preserve {label} and {count}.",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
+    "channelSearchHintIn": "Search {channelName}",
+    "@channelSearchHintIn": {
+        "description": "Hint in the mobile message search field. channelName is the channel name with its # prefix, for example Search #general. Preserve {channelName}.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
     "channelHeaderSearchFilterDescFrom": "a user",
     "@channelHeaderSearchFilterDescFrom": {
         "description": "Description for the from: search filter."

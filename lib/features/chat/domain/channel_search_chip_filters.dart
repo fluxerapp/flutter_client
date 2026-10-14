@@ -12,8 +12,7 @@ class ChannelSearchChipFilters {
     this.linkHostname,
     this.fileName,
     this.fileExtension,
-    this.dateFilterKey,
-    this.dateValue,
+    this.dates = const <(String, String)>[],
   });
 
   final List<String> authorIds;
@@ -25,8 +24,7 @@ class ChannelSearchChipFilters {
   final String? linkHostname;
   final String? fileName;
   final String? fileExtension;
-  final String? dateFilterKey;
-  final String? dateValue;
+  final List<(String, String)> dates;
 
   bool get isEmpty =>
       authorIds.isEmpty &&
@@ -38,7 +36,7 @@ class ChannelSearchChipFilters {
       (linkHostname == null || linkHostname!.trim().isEmpty) &&
       (fileName == null || fileName!.trim().isEmpty) &&
       (fileExtension == null || fileExtension!.trim().isEmpty) &&
-      (dateFilterKey == null || dateValue == null || dateValue!.trim().isEmpty);
+      dates.every(((String, String) date) => date.$2.trim().isEmpty);
 }
 
 extension ChannelSearchChipFiltersMerge on ParsedChannelSearchParams {
@@ -129,14 +127,14 @@ extension ChannelSearchChipFiltersMerge on ParsedChannelSearchParams {
       );
     }
 
-    if (chips.dateFilterKey != null &&
-        chips.dateValue != null &&
-        chips.dateValue!.trim().isNotEmpty) {
-      next = applyChannelSearchDateChip(
-        next,
-        filterKey: chips.dateFilterKey!,
-        value: chips.dateValue!.trim(),
-      );
+    for (final (String key, String value) in chips.dates) {
+      if (value.trim().isNotEmpty) {
+        next = applyChannelSearchDateChip(
+          next,
+          filterKey: key,
+          value: value.trim(),
+        );
+      }
     }
 
     return next;

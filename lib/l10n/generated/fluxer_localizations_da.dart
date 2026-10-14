@@ -8432,6 +8432,74 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get channelSearchRemoveRecent => 'Remove from recent searches';
 
   @override
+  String get channelSearchFiltersButton => 'Filters';
+
+  @override
+  String get channelSearchFilterMenuTitle => 'Filter results';
+
+  @override
+  String get channelSearchFilterFromLabel => 'From a specific person';
+
+  @override
+  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+
+  @override
+  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+
+  @override
+  String get channelSearchFilterInLabel => 'In a specific channel';
+
+  @override
+  String get channelSearchFilterDuringLabel => 'Sent on a date';
+
+  @override
+  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+
+  @override
+  String get channelSearchFilterAfterLabel => 'Sent after a date';
+
+  @override
+  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+
+  @override
+  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+
+  @override
+  String get channelSearchDateToday => 'Today';
+
+  @override
+  String get channelSearchDateYesterday => 'Yesterday';
+
+  @override
+  String get channelSearchTabMessages => 'Messages';
+
+  @override
+  String get channelSearchTabImages => 'Images';
+
+  @override
+  String get channelSearchTabPins => 'Pins';
+
+  @override
+  String get channelSearchTabLinks => 'Links';
+
+  @override
+  String get channelSearchTabFiles => 'Files';
+
+  @override
+  String channelSearchTabCount(String label, int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$label ($countString)';
+  }
+
+  @override
+  String channelSearchHintIn(String channelName) {
+    return 'Search $channelName';
+  }
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'en bruger';
 
   @override

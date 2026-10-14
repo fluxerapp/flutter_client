@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_field.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -48,7 +49,7 @@ class _SeededSearch extends ChannelSearch {
             channelName: i == 0 ? 'general' : null,
             message: Message(
               id: '100000000000000000$i',
-              channelId: channelId,
+              channelId: i == 0 ? 'chan_2' : channelId,
               authorId: '1000000000000000009',
               authorName: 'Author',
               content: 'hello $i',
@@ -137,11 +138,9 @@ void main() {
     final FluxerLocalizations l10n = FluxerLocalizations.of(
       tester.element(find.byType(ChannelSearchPage)),
     );
-    expect(
-      find.widgetWithText(AppBar, l10n.channelDetailsSearchTitle),
-      findsOneWidget,
-    );
-    expect(find.text(l10n.channelDetailsSearchEmptyTitle), findsOneWidget);
+    expect(find.byType(AppBar), findsNothing);
+    expect(find.byType(ChannelSearchField), findsOneWidget);
+    expect(find.text(l10n.channelHeaderSearchFiltersTitle), findsOneWidget);
   });
 
   testWidgets('search back button pops the page', (tester) async {
@@ -174,7 +173,7 @@ void main() {
     expect(find.byType(FluxerDraggableScrollableSheet), findsNothing);
   });
 
-  testWidgets('search result labels name the channel without a timestamp', (
+  testWidgets('search result labels name only results from other channels', (
     tester,
   ) async {
     final FluxerDatabase database = openTestDatabase();

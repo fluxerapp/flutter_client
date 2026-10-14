@@ -239,6 +239,7 @@ class MessagePreviewTile extends StatelessWidget {
     this.label,
     this.onLongPress,
     this.guildId,
+    this.flat = false,
     super.key,
   });
 
@@ -247,19 +248,23 @@ class MessagePreviewTile extends StatelessWidget {
   final String? guildId;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
+  final bool flat;
 
   @override
   Widget build(BuildContext context) {
     final hasLabel = label != null && label!.isNotEmpty;
+    final BorderRadius radius = BorderRadius.circular(flat ? 0 : 14);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: flat ? 0 : 12),
       child: Material(
-        color: context.colors.backgroundModifierHover,
-        borderRadius: BorderRadius.circular(14),
+        color: flat
+            ? Colors.transparent
+            : context.colors.backgroundModifierHover,
+        borderRadius: radius,
         child: InkWell(
           onTap: onTap,
           onLongPress: onLongPress,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: radius,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Column(

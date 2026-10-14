@@ -1,5 +1,9 @@
 part of '../sheets/channel_details_sheet.dart';
 
+const Duration _kSearchTypingDebounce = Duration(milliseconds: 300);
+const int _kRecentSearchDisplayLimit = 5;
+const int _kSearchSkeletonRows = 6;
+
 Route<T> _channelSearchPageRoute<T>(Widget page) {
   if (defaultTargetPlatform == TargetPlatform.iOS) {
     return CupertinoPageRoute<T>(builder: (_) => page);
@@ -45,6 +49,26 @@ Future<void> showChannelSearchPageAndJump(
   );
 }
 
+enum ChannelSearchResultTab {
+  messages(null),
+  images(ChannelSearchToken(kind: ChannelSearchTokenKind.has, value: 'image')),
+  pins(ChannelSearchToken(kind: ChannelSearchTokenKind.pinned, value: 'true')),
+  links(ChannelSearchToken(kind: ChannelSearchTokenKind.has, value: 'link')),
+  files(ChannelSearchToken(kind: ChannelSearchTokenKind.has, value: 'file'));
+
+  const ChannelSearchResultTab(this.filter);
+
+  final ChannelSearchToken? filter;
+
+  String label(FluxerLocalizations l10n) => switch (this) {
+    ChannelSearchResultTab.messages => l10n.channelSearchTabMessages,
+    ChannelSearchResultTab.images => l10n.channelSearchTabImages,
+    ChannelSearchResultTab.pins => l10n.channelSearchTabPins,
+    ChannelSearchResultTab.links => l10n.channelSearchTabLinks,
+    ChannelSearchResultTab.files => l10n.channelSearchTabFiles,
+  };
+}
+
 class ChannelSearchPage extends ConsumerStatefulWidget {
   const ChannelSearchPage({
     required this.channelId,
@@ -63,28 +87,52 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
   late final TextEditingController _textController;
   late final FocusNode _focusNode;
   late final ScrollController _scrollController;
-  ChannelSearchMobileChipState _chipState =
-      const ChannelSearchMobileChipState();
+  List<ChannelSearchToken> _tokens = const <ChannelSearchToken>[];
+  ChannelSearchResultTab _tab = ChannelSearchResultTab.messages;
+  MessageSearchScopeFilter _scope = MessageSearchScopeFilter.current;
+  MessageSearchSortFilter _sort = MessageSearchSortFilter.newest;
+  ChannelSearchActiveFilter? _activeFilter;
+  List<ChannelSearchHistoryEntry> _recents =
+      const <ChannelSearchHistoryEntry>[];
+  Timer? _searchDebounce;
+  bool _typingPending = false;
+  String _lastText = '';
+
+  ChannelSearchProvider get _provider =>
+      channelSearchProvider(widget.channelId, widget.guildId);
+
+  bool get _isGuild => widget.guildId?.isNotEmpty ?? false;
+
+  String get _contextKey => channelSearchContextKey(
+    channelId: widget.channelId,
+    guildId: widget.guildId,
+  );
 
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController();
+    final ChannelSearchState existing = ref.read(_provider);
+    _lastText = existing.hasSearched ? existing.query.rawQuery : '';
+    _scope = existing.query.uiScope;
+    _sort = existing.query.uiSort;
+    _textController = TextEditingController(text: _lastText);
     _focusNode = FocusNode();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
+    _scrollController = ScrollController()..addListener(_onScroll);
     _textController.addListener(_onTextChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _focusNode.requestFocus();
       }
     });
+    unawaited(_loadRecents());
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    _searchDebounce?.cancel();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     _textController
       ..removeListener(_onTextChanged)
       ..dispose();
@@ -92,8 +140,17 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     super.dispose();
   }
 
-  void _onTextChanged() {
-    setState(() {});
+  Future<void> _loadRecents() async {
+    if (!mounted) {
+      return;
+    }
+    final ChannelSearchHistoryRepository repository = await ref.read(
+      channelSearchHistoryRepositoryProvider.future,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() => _recents = repository.readForContext(_contextKey));
   }
 
   void _onScroll() {
@@ -103,185 +160,68 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     final ScrollPosition position = _scrollController.position;
     if (position.pixels >=
         position.maxScrollExtent - _kSheetLoadMoreThreshold) {
-      unawaited(
-        ref
-            .read(
-              channelSearchProvider(widget.channelId, widget.guildId).notifier,
-            )
-            .loadMore(),
-      );
+      unawaited(ref.read(_provider.notifier).loadMore());
     }
   }
 
-  String get _authorIdsValue => _chipState.authorIds.join(',');
+  void _onTextChanged() {
+    final ChannelSearchActiveFilter? active = channelSearchActiveFilter(
+      _textController.value,
+      isGuildChannel: _isGuild,
+    );
+    final bool textChanged = _textController.text != _lastText;
+    _lastText = _textController.text;
+    if (active?.kind != _activeFilter?.kind ||
+        active?.query != _activeFilter?.query ||
+        textChanged) {
+      setState(() => _activeFilter = active);
+    }
+    if (!textChanged) {
+      return;
+    }
+    if (active != null) {
+      _searchDebounce?.cancel();
+      _typingPending = false;
+      return;
+    }
+    _scheduleSearch();
+  }
 
-  String _watchTokenLabel(
-    FluxerLocalizations l10n,
-    ChannelSearchTokenKind kind,
-    String id,
-    Map<String, String> snapshots,
-  ) {
-    return watchChannelSearchTokenValueLabel(
-      ref,
-      l10n,
-      ChannelSearchToken(kind: kind, value: id, label: snapshots[id]),
+  String get _committedText {
+    final ChannelSearchActiveFilter? active = _activeFilter;
+    if (active == null) {
+      return _textController.text.trim();
+    }
+    return channelSearchRemoveRange(
+      _textController.value,
+      active.start,
+      active.end,
+    ).text.trim();
+  }
+
+  bool get _hasQuery => _committedText.isNotEmpty || _tokens.isNotEmpty;
+
+  MessageSearchQuery _buildQuery() {
+    final ChannelSearchToken? tabFilter = _tab.filter;
+    return MessageSearchQuery.build(
+      channelId: widget.channelId,
       guildId: widget.guildId,
-    );
-  }
-
-  String? _authorChipValue(FluxerLocalizations l10n) {
-    if (_chipState.authorIds.isEmpty) {
-      return null;
-    }
-    return channelSearchMobileChipSummary(
-      count: _chipState.authorIds.length,
-      singleLabel: _watchTokenLabel(
-        l10n,
-        ChannelSearchTokenKind.from,
-        _chipState.authorIds.first,
-        _chipState.authorNames,
+      rawQuery: _committedText,
+      uiScope: _scope,
+      uiSort: _sort,
+      context: ChannelSearchParseContext(
+        currentUserId: ref.read(currentUserIdProvider),
+        resolveChannelByName: _resolveChannelName,
       ),
-      multipleLabel: l10n.channelDetailsSearchUsersCount(
-        _chipState.authorIds.length,
+      chipFilters: channelSearchChipFiltersForTokens(
+        _tokens,
+        extra: <ChannelSearchToken>[?tabFilter],
       ),
     );
-  }
-
-  String? _mentionChipValue(FluxerLocalizations l10n) {
-    if (_chipState.mentionIds.isEmpty) {
-      return null;
-    }
-    return channelSearchMobileChipSummary(
-      count: _chipState.mentionIds.length,
-      singleLabel: _watchTokenLabel(
-        l10n,
-        ChannelSearchTokenKind.mentions,
-        _chipState.mentionIds.first,
-        _chipState.mentionNames,
-      ),
-      multipleLabel: l10n.channelDetailsSearchUsersCount(
-        _chipState.mentionIds.length,
-      ),
-    );
-  }
-
-  String? _channelChipValue(FluxerLocalizations l10n) {
-    if (_chipState.channelIds.isEmpty) {
-      return null;
-    }
-    if (_chipState.channelIds.length == 1) {
-      return _watchTokenLabel(
-        l10n,
-        ChannelSearchTokenKind.channel,
-        _chipState.channelIds.first,
-        _chipState.channelNames,
-      ).substring(1);
-    }
-    return l10n.channelDetailsSearchChannelsCount(_chipState.channelIds.length);
-  }
-
-  String? _moreChipValue(FluxerLocalizations l10n) {
-    if (!_chipState.hasMoreFilters) {
-      return null;
-    }
-    return l10n.channelDetailsSearchMoreFiltersActive;
-  }
-
-  void _setAuthorSelection(List<_PickerUser> selectedUsers) {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        authorIds: selectedUsers.map((_PickerUser u) => u.id).toSet(),
-        authorNames: <String, String>{
-          for (final _PickerUser user in selectedUsers)
-            user.id: user.displayName,
-        },
-        usersByTag: <String, String>{
-          for (final _PickerUser user in selectedUsers) user.username: user.id,
-        },
-      );
-    });
-    _runSearch();
-  }
-
-  void _clearAuthorSelection() {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        authorIds: const <String>{},
-        authorNames: const <String, String>{},
-        usersByTag: const <String, String>{},
-      );
-    });
-    _runSearch();
-  }
-
-  void _setChannelSelection(List<Channel> channels) {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        channelIds: channels.map((Channel c) => c.id).toSet(),
-        channelNames: <String, String>{
-          for (final Channel channel in channels) channel.id: channel.name,
-        },
-      );
-    });
-    _runSearch();
-  }
-
-  void _clearChannelSelection() {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        channelIds: const <String>{},
-        channelNames: const <String, String>{},
-      );
-    });
-    _runSearch();
-  }
-
-  void _setMentionSelection(List<_PickerUser> selectedUsers) {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        mentionIds: selectedUsers.map((_PickerUser u) => u.id).toSet(),
-        mentionNames: <String, String>{
-          for (final _PickerUser user in selectedUsers)
-            user.id: user.displayName,
-        },
-      );
-    });
-    _runSearch();
-  }
-
-  void _applyMoreFilters(ChannelSearchMoreFiltersResult result) {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        pinned: result.pinned,
-        authorTypes: result.authorTypes,
-        linkHostname: result.linkHostname,
-        fileName: result.fileName,
-        fileExtension: result.fileExtension,
-        dateFilterKey: result.dateFilterKey,
-        dateValue: result.dateValue,
-      );
-    });
-    _runSearch();
-  }
-
-  void _clearMoreFilters() {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        pinned: null,
-        authorTypes: const <String>{},
-        linkHostname: null,
-        fileName: null,
-        fileExtension: null,
-        dateFilterKey: null,
-        dateValue: null,
-      );
-    });
-    _runSearch();
   }
 
   String? _resolveChannelName(String channelName) {
-    final String? guildId = widget.guildId;
-    if (guildId == null) {
+    if (!_isGuild) {
       return null;
     }
     return resolveChannelIdByName(
@@ -290,630 +230,487 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     );
   }
 
-  MessageSearchQuery _buildSearchQuery({
-    MessageSearchScopeFilter? scope,
-    MessageSearchSortFilter? sort,
-    Set<MessageSearchContentFilter>? contentTypes,
-  }) {
-    final ChannelSearchState state = ref.read(
-      channelSearchProvider(widget.channelId, widget.guildId),
-    );
-    return MessageSearchQuery.build(
-      channelId: widget.channelId,
-      guildId: widget.guildId,
-      rawQuery: _textController.text,
-      uiScope: scope ?? state.query.uiScope,
-      uiSort: sort ?? state.query.uiSort,
-      hints: ChannelSearchParseHints(
-        usersByTag: _chipState.usersByTag,
-        channelsByName: _chipState.channelNames,
-      ),
-      context: ChannelSearchParseContext(
-        currentUserId: ref.read(currentUserIdProvider),
-        resolveChannelByName: _resolveChannelName,
-      ),
-      chipAuthorId: _authorIdsValue.isEmpty ? null : _authorIdsValue,
-      chipContentTypes: contentTypes ?? state.query.contentTypes,
-      chipFilters: _chipState.toChipFilters(),
-    );
-  }
-
-  void _runSearch() {
-    final MessageSearchQuery query = _buildSearchQuery();
-    if (!query.hasSearchTerms) {
+  void _scheduleSearch() {
+    _searchDebounce?.cancel();
+    if (!_hasQuery) {
+      setState(() {
+        _typingPending = false;
+        _tab = ChannelSearchResultTab.messages;
+      });
+      unawaited(ref.read(_provider.notifier).search(query: _buildQuery()));
       return;
     }
-    unawaited(
-      ref
-          .read(
-            channelSearchProvider(widget.channelId, widget.guildId).notifier,
-          )
-          .search(query: query),
-    );
-    unawaited(_saveSearchHistory(query));
+    setState(() => _typingPending = true);
+    _searchDebounce = Timer(_kSearchTypingDebounce, () {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _typingPending = false);
+      _runSearch();
+    });
   }
 
-  Future<void> _saveSearchHistory(MessageSearchQuery query) async {
-    final AsyncValue<ChannelSearchHistoryRepository> repoAsync = ref.read(
-      channelSearchHistoryRepositoryProvider,
-    );
-    final ChannelSearchHistoryRepository? repo = repoAsync.value;
-    if (repo == null) {
+  void _runSearch({bool remember = false}) {
+    _searchDebounce?.cancel();
+    if (_typingPending) {
+      setState(() => _typingPending = false);
+    }
+    final MessageSearchQuery query = _buildQuery();
+    unawaited(ref.read(_provider.notifier).search(query: query));
+    if (remember && query.hasSearchTerms) {
+      unawaited(_remember());
+    }
+  }
+
+  Future<void> _remember() async {
+    if (!_hasQuery) {
       return;
     }
-    await repo.addEntry(
-      _chipState.toHistoryEntry(
-        contextKey: channelSearchContextKey(
-          channelId: widget.channelId,
-          guildId: widget.guildId,
-        ),
-        displayText: _textController.text,
-        scopeIndex: query.uiScope.index,
-        sortIndex: query.uiSort.index,
-        contentTypes: query.contentTypes,
-      ),
+    final ChannelSearchHistoryEntry entry = ChannelSearchHistoryEntry.fromQuery(
+      contextKey: _contextKey,
+      text: _committedText,
+      tokens: _tokens,
+      scopeIndex: _scope.index,
+      sortIndex: _sort.index,
+      timestampMs: DateTime.now().millisecondsSinceEpoch,
     );
-    if (mounted) {
-      setState(() {});
-    }
+    final ChannelSearchHistoryRepository repository = await ref.read(
+      channelSearchHistoryRepositoryProvider.future,
+    );
+    await repository.addEntry(entry);
+    await _loadRecents();
   }
 
-  Future<void> _removeHistoryEntry(ChannelSearchHistoryEntry entry) async {
-    await ref
-        .read(channelSearchHistoryRepositoryProvider)
-        .value
-        ?.removeEntry(entry);
-    if (mounted) {
-      setState(() {});
+  void _onSubmitted(String _) {
+    final ChannelSearchActiveFilter? active = _activeFilter;
+    if (active != null) {
+      final ChannelSearchToken? token = _resolveTypedFilter(active);
+      if (token != null) {
+        _addToken(token);
+      }
+      _focusNode.requestFocus();
+      return;
     }
+    _runSearch(remember: true);
+    _focusNode.unfocus();
   }
 
-  Future<void> _clearHistory() async {
-    await ref
-        .read(channelSearchHistoryRepositoryProvider)
-        .value
-        ?.clearForContext(
-          channelSearchContextKey(
-            channelId: widget.channelId,
-            guildId: widget.guildId,
-          ),
+  ChannelSearchToken? _resolveTypedFilter(ChannelSearchActiveFilter active) {
+    final String query = active.query.trim();
+    switch (active.kind) {
+      case ChannelSearchTokenKind.has:
+        final MessageSearchContentFilter? filter =
+            channelSearchContentFilterForValue(query);
+        return filter == null ? null : channelSearchHasToken(filter);
+      case ChannelSearchTokenKind.pinned:
+      case ChannelSearchTokenKind.authorType:
+        final List<String> values = channelSearchValueSuggestions(
+          active.kind,
+          query,
         );
-    if (mounted) {
-      setState(() {});
+        return values.length == 1
+            ? ChannelSearchToken(kind: active.kind, value: values.single)
+            : null;
+      case ChannelSearchTokenKind.before:
+      case ChannelSearchTokenKind.during:
+      case ChannelSearchTokenKind.after:
+        final DateTime? date = channelSearchParseDate(query);
+        return date == null
+            ? null
+            : ChannelSearchToken(
+                kind: active.kind,
+                value: formatChannelSearchDate(date),
+              );
+      case ChannelSearchTokenKind.from:
+      case ChannelSearchTokenKind.mentions:
+      case ChannelSearchTokenKind.channel:
+        return null;
+    }
+  }
+
+  void _addToken(ChannelSearchToken token) {
+    final ChannelSearchActiveFilter? active = _activeFilter;
+    if (active != null) {
+      final TextEditingValue stripped = channelSearchRemoveRange(
+        _textController.value,
+        active.start,
+        active.end,
+      );
+      _lastText = stripped.text;
+      _textController.value = stripped;
+    }
+    setState(() {
+      _activeFilter = null;
+      _tokens = channelSearchAddToken(_tokens, token);
+    });
+    _runSearch(remember: true);
+  }
+
+  void _removeToken(ChannelSearchToken token) {
+    setState(() {
+      _tokens = <ChannelSearchToken>[
+        for (final ChannelSearchToken existing in _tokens)
+          if (existing != token) existing,
+      ];
+    });
+    if (_hasQuery) {
+      _runSearch();
+    } else {
+      _scheduleSearch();
     }
   }
 
   void _clearAll() {
+    _searchDebounce?.cancel();
+    _lastText = '';
     _textController.clear();
     setState(() {
-      _chipState = const ChannelSearchMobileChipState();
+      _tokens = const <ChannelSearchToken>[];
+      _activeFilter = null;
+      _typingPending = false;
+      _tab = ChannelSearchResultTab.messages;
     });
-    _updateFilters(
-      scope: MessageSearchScopeFilter.current,
-      sort: MessageSearchSortFilter.newest,
-      contentTypes: const <MessageSearchContentFilter>{},
-    );
+    unawaited(ref.read(_provider.notifier).search(query: _buildQuery()));
   }
 
-  bool get _hasActiveFilters {
-    final ChannelSearchState state = ref.read(
-      channelSearchProvider(widget.channelId, widget.guildId),
+  void _startFilter(ChannelSearchTokenKind kind) {
+    _textController.value = channelSearchInsertFilterPrefix(
+      _textController.value,
+      kind,
     );
-    return _chipState.hasChipFilters || state.query.contentTypes.isNotEmpty;
+    _focusNode.requestFocus();
   }
 
-  bool _canSearch(ChannelSearchState state) {
-    return channelSearchMobileCanSearch(
-      rawQuery: _textController.text,
-      hasChipFilters: _chipState.hasChipFilters,
-      contentTypes: state.query.contentTypes,
-    );
-  }
-
-  void _clearMentionSelection() {
-    setState(() {
-      _chipState = _chipState.copyWith(
-        mentionIds: const <String>{},
-        mentionNames: const <String, String>{},
-      );
-    });
+  void _selectTab(ChannelSearchResultTab tab) {
+    if (tab == _tab) {
+      return;
+    }
+    setState(() => _tab = tab);
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
     _runSearch();
   }
 
-  void _restoreHistoryEntry(ChannelSearchHistoryEntry entry) {
+  Future<void> _pickDate(ChannelSearchTokenKind kind) async {
+    _focusNode.unfocus();
+    final DateTime now = DateTime.now();
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: DateTime(2015),
+      lastDate: now,
+    );
+    if (!mounted || picked == null) {
+      return;
+    }
+    _addToken(
+      ChannelSearchToken(kind: kind, value: formatChannelSearchDate(picked)),
+    );
+  }
+
+  void _restoreRecent(ChannelSearchHistoryEntry entry) {
     final ({String text, List<ChannelSearchToken> tokens}) query = entry.query;
+    _searchDebounce?.cancel();
+    _lastText = query.text;
+    _textController.value = TextEditingValue(
+      text: query.text,
+      selection: TextSelection.collapsed(offset: query.text.length),
+    );
     setState(() {
-      _textController.text = query.text;
-      _chipState = ChannelSearchMobileChipState.fromHistoryEntry(entry);
+      _tokens = query.tokens;
+      _activeFilter = null;
+      _typingPending = false;
+      _tab = ChannelSearchResultTab.messages;
+      _scope = MessageSearchScopeFilter.values[entry.scopeIndex];
+      _sort = MessageSearchSortFilter.values[entry.sortIndex];
     });
-    _updateFilters(
-      scope: MessageSearchScopeFilter.values[entry.scopeIndex],
-      sort: MessageSearchSortFilter.values[entry.sortIndex],
-      contentTypes: <MessageSearchContentFilter>{
-        for (final ChannelSearchToken token in query.tokens)
-          if (token.kind == ChannelSearchTokenKind.has)
-            ?channelSearchContentFilterForValue(token.value),
+    _runSearch(remember: true);
+    _focusNode.unfocus();
+  }
+
+  Future<void> _removeRecent(ChannelSearchHistoryEntry entry) async {
+    final ChannelSearchHistoryRepository repository = await ref.read(
+      channelSearchHistoryRepositoryProvider.future,
+    );
+    await repository.removeEntry(entry);
+    await _loadRecents();
+  }
+
+  Future<void> _clearRecents() async {
+    final ChannelSearchHistoryRepository repository = await ref.read(
+      channelSearchHistoryRepositoryProvider.future,
+    );
+    await repository.clearForContext(_contextKey);
+    await _loadRecents();
+  }
+
+  void _openResult(MessageSearchResultEntry entry) {
+    unawaited(_remember());
+    _popWithJumpRequest(
+      context,
+      message: entry.message,
+      guildId: entry.guildId,
+    );
+  }
+
+  Future<void> _openFilterMenu() async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final List<MessageSearchScopeFilter> scopes = channelSearchScopeOptions(
+      isGuildChannel: _isGuild,
+    );
+    await FluxerBottomSheet.show<void>(
+      context,
+      variant: FluxerBottomSheetVariant.menu,
+      builder: (BuildContext sheetContext, VoidCallback close) {
+        void pick(VoidCallback action) {
+          Navigator.of(sheetContext).pop();
+          action();
+        }
+
+        return ListView(
+          shrinkWrap: true,
+          padding: FluxerBottomSheet.scrollViewPadding(
+            sheetContext,
+            padding: EdgeInsets.only(
+              bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
+            ),
+          ),
+          children: <Widget>[
+            FluxerBottomSheetGroupColumn(
+              children: <Widget>[
+                FluxerBottomSheetSection(
+                  title: l10n.channelSearchFilterMenuTitle,
+                  child: FluxerMenuGroup(
+                    children: <Widget>[
+                      for (final ChannelSearchTokenKind kind
+                          in channelSearchMenuFilters(isGuildChannel: _isGuild))
+                        FluxerBottomSheetMenuItem(
+                          key: ValueKey<String>('search-menu-${kind.key}'),
+                          label: channelSearchFilterLabel(l10n, kind),
+                          icon: channelSearchFilterIcon(kind),
+                          onTap: () => pick(() => _startFilter(kind)),
+                        ),
+                    ],
+                  ),
+                ),
+                FluxerBottomSheetSection(
+                  title: l10n.channelDetailsSearchSortBy,
+                  child: FluxerMenuGroup(
+                    children: <Widget>[
+                      for (final MessageSearchSortFilter sort
+                          in MessageSearchSortFilter.values)
+                        FluxerBottomSheetMenuItem(
+                          label: channelSearchSortLabel(l10n, sort),
+                          icon: channelSearchSortIcon(sort),
+                          isSelected: sort == _sort,
+                          onTap: () => pick(() {
+                            setState(() => _sort = sort);
+                            if (_hasQuery) {
+                              _runSearch();
+                            }
+                          }),
+                        ),
+                    ],
+                  ),
+                ),
+                FluxerBottomSheetSection(
+                  title: l10n.channelDetailsSearchIn,
+                  child: FluxerMenuGroup(
+                    children: <Widget>[
+                      for (final MessageSearchScopeFilter scope in scopes)
+                        FluxerBottomSheetMenuItem(
+                          label: channelSearchScopeLabel(
+                            l10n,
+                            scope,
+                            isGuildChannel: _isGuild,
+                          ),
+                          icon: channelSearchScopeIcon(scope),
+                          isSelected: scope == _scope,
+                          onTap: () => pick(() {
+                            setState(() => _scope = scope);
+                            if (_hasQuery) {
+                              _runSearch();
+                            }
+                          }),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
       },
     );
+  }
+
+  String _hintText(FluxerLocalizations l10n) {
+    if (!_isGuild) {
+      return l10n.channelDetailsSearchHint;
+    }
+    final String? name = ref
+        .watch(channelByIdProvider(widget.channelId))
+        .value
+        ?.name;
+    if (name == null || name.isEmpty) {
+      return l10n.channelDetailsSearchHint;
+    }
+    return l10n.channelSearchHintIn('#$name');
   }
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
-    final ChannelSearchState state = ref.watch(
-      channelSearchProvider(widget.channelId, widget.guildId),
-    );
-    final bool scopeIsCustom =
-        state.query.uiScope != MessageSearchScopeFilter.current;
-    final bool showFilterReset =
-        _textController.text.isEmpty &&
-        (_hasActiveFilters ||
-            scopeIsCustom ||
-            state.query.uiSort != MessageSearchSortFilter.newest);
-    final bool showResultCount =
-        state.hasSearched && !state.isSearching && state.total > 0;
-    final AsyncValue<ChannelSearchHistoryRepository> historyRepo = ref.watch(
-      channelSearchHistoryRepositoryProvider,
-    );
-    final List<ChannelSearchHistoryEntry> recentHistory =
-        historyRepo.value?.readForContext(
-          channelSearchContextKey(
-            channelId: widget.channelId,
-            guildId: widget.guildId,
-          ),
-        ) ??
-        const <ChannelSearchHistoryEntry>[];
-    final List<Widget> filterChips = _filterChips(l10n, state);
+    final ChannelSearchState state = ref.watch(_provider);
     final Color background = context.colors.backgroundSecondary;
+    final bool showTabs = _activeFilter == null && _hasQuery;
+    final bool isSearching =
+        _typingPending || state.isSearching || state.indexing;
 
     return Scaffold(
       backgroundColor: background,
-      appBar: AppBar(
-        backgroundColor: background,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
-          tooltip: l10n.back,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(l10n.channelDetailsSearchTitle),
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(layout.s4, layout.s3, layout.s4, 0),
-            child: PickerSearchInput.inline(
-              controller: _textController,
-              focusNode: _focusNode,
-              hintText: l10n.channelDetailsSearchHint,
-              onSubmitted: (_) => _runSearch(),
-              onCleared: _clearAll,
-              rightCustomElement: showFilterReset
-                  ? FluxerGestureDetector(
-                      onTap: _clearAll,
-                      behavior: HitTestBehavior.opaque,
-                      child: PhosphorIcon(
-                        PhosphorIconsFill.xCircle,
-                        size: 16,
-                        color: context.colors.textTertiary,
-                      ),
-                    )
-                  : null,
-            ),
-          ),
-          SizedBox(height: layout.s3),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: layout.s4),
-            child: Row(
-              children: <Widget>[
-                for (final (int index, Widget chip)
-                    in filterChips.indexed) ...<Widget>[
-                  if (index > 0) SizedBox(width: layout.s2),
-                  chip,
-                ],
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              layout.s4,
-              layout.s3,
-              layout.s4,
-              layout.s3,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                FluxerButton.primary(
-                  label: l10n.channelDetailsActionSearch,
-                  onPressed: _canSearch(state) ? _runSearch : null,
-                ),
-                if (!state.hasSearched && recentHistory.isNotEmpty)
-                  _RecentSearchHistory(
-                    entries: recentHistory,
-                    guildId: widget.guildId,
-                    onSelect: _restoreHistoryEntry,
-                    onRemove: (ChannelSearchHistoryEntry entry) =>
-                        unawaited(_removeHistoryEntry(entry)),
-                    onClear: () => unawaited(_clearHistory()),
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                layout.s1,
+                layout.s2,
+                layout.s1,
+                layout.s2,
+              ),
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: const PhosphorIcon(PhosphorIconsBold.caretLeft),
+                    iconSize: 20,
+                    color: context.colors.textSecondary,
+                    tooltip: l10n.back,
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
-                if (showResultCount) ...<Widget>[
-                  SizedBox(height: layout.s2),
-                  Text(
-                    l10n.channelDetailsSearchResultCount(state.total),
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.textSecondary,
+                  Expanded(
+                    child: ChannelSearchField(
+                      controller: _textController,
+                      focusNode: _focusNode,
+                      tokens: _tokens,
+                      guildId: widget.guildId,
+                      hintText: _hintText(l10n),
+                      isSearching: isSearching && _hasQuery,
+                      onSubmitted: _onSubmitted,
+                      onRemoveToken: _removeToken,
+                      onClear: _clearAll,
                     ),
                   ),
+                  IconButton(
+                    key: const ValueKey<String>('search-filter-button'),
+                    icon: const PhosphorIcon(
+                      PhosphorIconsBold.slidersHorizontal,
+                    ),
+                    iconSize: 20,
+                    color: context.colors.textPrimary,
+                    tooltip: l10n.channelSearchFiltersButton,
+                    onPressed: () => unawaited(_openFilterMenu()),
+                  ),
                 ],
-              ],
+              ),
             ),
-          ),
-          Expanded(child: _buildResults(context, state)),
-        ],
+            if (showTabs) _buildTabs(context, l10n, state),
+            Expanded(
+              child: AnimatedSwitcher(
+                duration: context.motion.fast,
+                child: KeyedSubtree(
+                  key: ValueKey<String>(_bodyKey(state)),
+                  child: _buildBody(context, l10n, state),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  List<Widget> _filterChips(
+  bool _showsSkeleton(ChannelSearchState state) =>
+      _typingPending || (state.isSearching && state.results.isEmpty);
+
+  String _bodyKey(ChannelSearchState state) {
+    final ChannelSearchActiveFilter? active = _activeFilter;
+    if (active != null) {
+      return 'suggest-${active.kind.key}';
+    }
+    if (!_hasQuery) {
+      return 'landing';
+    }
+    return _showsSkeleton(state) ? 'loading' : 'results';
+  }
+
+  Widget _buildTabs(
+    BuildContext context,
     FluxerLocalizations l10n,
     ChannelSearchState state,
   ) {
-    final bool hasAuthorFilter = _chipState.authorIds.isNotEmpty;
-    final bool hasChannelFilter = _chipState.channelIds.isNotEmpty;
-    final bool hasContentFilter = state.query.contentTypes.isNotEmpty;
-    final bool hasMentions = _chipState.mentionIds.isNotEmpty;
-    return <Widget>[
-      _SearchFilterChip(
-        label: l10n.channelDetailsSearchFilterFrom,
-        value: _authorChipValue(l10n),
-        icon: PhosphorIconsFill.user,
-        isActive: hasAuthorFilter,
-        onTap: _openFromSheet,
-        onRemove: hasAuthorFilter ? _clearAuthorSelection : null,
-      ),
-      if (widget.guildId != null)
-        _SearchFilterChip(
-          label: l10n.channelDetailsSearchFilterIn,
-          value: _channelChipValue(l10n),
-          icon: PhosphorIconsBold.hash,
-          isActive: hasChannelFilter,
-          onTap: _openInSheet,
-          onRemove: hasChannelFilter ? _clearChannelSelection : null,
-        ),
-      _SearchFilterChip(
-        label: l10n.channelDetailsSearchFilterMentions,
-        value: _mentionChipValue(l10n),
-        icon: PhosphorIconsBold.at,
-        isActive: hasMentions,
-        onTap: _openMentionsSheet,
-        onRemove: hasMentions ? _clearMentionSelection : null,
-      ),
-      _SearchFilterChip(
-        label: l10n.channelDetailsSearchFilterHas,
-        value: _hasChipValue(l10n, state.query.contentTypes),
-        icon: PhosphorIconsFill.funnel,
-        isActive: hasContentFilter,
-        onTap: _openHasSheet,
-        onRemove: hasContentFilter
-            ? () => _updateFilters(
-                contentTypes: const <MessageSearchContentFilter>{},
-              )
-            : null,
-      ),
-      _SearchFilterChip(
-        label: l10n.channelDetailsSearchFilterMore,
-        value: _moreChipValue(l10n),
-        icon: PhosphorIconsFill.slidersHorizontal,
-        isActive: _chipState.hasMoreFilters,
-        onTap: _openMoreFiltersSheet,
-        onRemove: _chipState.hasMoreFilters ? _clearMoreFilters : null,
-      ),
-      _SearchFilterChip(
-        label: l10n.channelDetailsSearchFilterSort,
-        value: channelSearchSortLabel(l10n, state.query.sort),
-        icon: channelSearchSortIcon(state.query.sort),
-        onTap: _openSortSheet,
-      ),
-      _SearchFilterChip(
-        label: channelSearchScopeLabel(
-          l10n,
-          state.query.uiScope,
-          isGuildChannel: widget.guildId != null,
-        ),
-        icon: channelSearchScopeIcon(state.query.uiScope),
-        isActive: state.query.uiScope != MessageSearchScopeFilter.current,
-        onTap: _openScopeSheet,
-      ),
-    ];
-  }
-
-  void _updateFilters({
-    MessageSearchScopeFilter? scope,
-    MessageSearchSortFilter? sort,
-    Set<MessageSearchContentFilter>? contentTypes,
-  }) {
-    final MessageSearchQuery query = _buildSearchQuery(
-      scope: scope,
-      sort: sort,
-      contentTypes: contentTypes,
-    );
-    unawaited(
-      ref
-          .read(
-            channelSearchProvider(widget.channelId, widget.guildId).notifier,
-          )
-          .search(query: query),
-    );
-    if (query.hasSearchTerms) {
-      unawaited(_saveSearchHistory(query));
-    }
-  }
-
-  String? _hasChipValue(
-    FluxerLocalizations l10n,
-    Set<MessageSearchContentFilter> contentTypes,
-  ) {
-    if (contentTypes.isEmpty) {
-      return null;
-    }
-    if (contentTypes.length == 1) {
-      return channelSearchContentLabel(l10n, contentTypes.first);
-    }
-    return l10n.channelDetailsSearchContentTypesCount(contentTypes.length);
-  }
-
-  Future<void> _openInSheet() async {
-    if (widget.guildId == null || !mounted) {
-      return;
-    }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final List<Channel>? selected =
-        await FluxerBottomSheet.showScrollable<List<Channel>>(
-          context,
-          title: l10n.channelDetailsSearchFilterByChannel,
-          minChildSize: 0.5,
-          builder: (sheetContext, scrollController, close) {
-            return ChannelSearchChannelFilterSheet(
-              initialSelectedIds: _chipState.channelIds,
-              scrollController: scrollController,
-              onDone: (List<Channel> chosen) =>
-                  Navigator.of(sheetContext).pop(chosen),
-            );
-          },
-        );
-    if (selected != null) {
-      _setChannelSelection(selected);
-    }
-  }
-
-  Future<void> _openMentionsSheet() async {
-    final String? guildId = widget.guildId;
-    if (!mounted) {
-      return;
-    }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final List<_PickerUser>? selected =
-        await FluxerBottomSheet.showScrollable<List<_PickerUser>>(
-          context,
-          title: l10n.channelDetailsSearchFilterMentions,
-          minChildSize: 0.5,
-          builder: (sheetContext, scrollController, close) {
-            if (guildId != null) {
-              return _GuildUserSearchFilterSheet(
-                guildId: guildId,
-                initialSelectedIds: _chipState.mentionIds,
-                scrollController: scrollController,
-                onDone: (List<_PickerUser> chosen) =>
-                    Navigator.of(sheetContext).pop(chosen),
-              );
-            }
-            return _DmUserFilterSheetLoader(
-              channelId: widget.channelId,
-              initialSelectedIds: _chipState.mentionIds,
-              scrollController: scrollController,
-              onDone: (List<_PickerUser> chosen) =>
-                  Navigator.of(sheetContext).pop(chosen),
-            );
-          },
-        );
-    if (selected != null) {
-      _setMentionSelection(selected);
-    }
-  }
-
-  Future<void> _openMoreFiltersSheet() async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final ChannelSearchMoreFiltersResult? result =
-        await FluxerBottomSheet.showScrollable<ChannelSearchMoreFiltersResult>(
-          context,
-          title: l10n.channelDetailsSearchFilterMore,
-          minChildSize: 0.5,
-          builder: (sheetContext, scrollController, close) {
-            return ChannelSearchMoreFiltersSheet(
-              initial: ChannelSearchMoreFiltersResult(
-                pinned: _chipState.pinned,
-                authorTypes: _chipState.authorTypes,
-                linkHostname: _chipState.linkHostname,
-                fileName: _chipState.fileName,
-                fileExtension: _chipState.fileExtension,
-                dateFilterKey: _chipState.dateFilterKey,
-                dateValue: _chipState.dateValue,
-              ),
-              scrollController: scrollController,
-              onDone: (ChannelSearchMoreFiltersResult chosen) {
-                Navigator.of(sheetContext).pop(chosen);
-              },
-            );
-          },
-        );
-    if (result != null) {
-      _applyMoreFilters(result);
-    }
-  }
-
-  Future<void> _openFromSheet() async {
-    final String? guildId = widget.guildId;
-    if (!mounted) {
-      return;
-    }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final List<_PickerUser>? selected =
-        await FluxerBottomSheet.showScrollable<List<_PickerUser>>(
-          context,
-          title: l10n.channelDetailsSearchFilterByUser,
-          minChildSize: 0.5,
-          builder: (sheetContext, scrollController, close) {
-            if (guildId != null) {
-              return _GuildUserSearchFilterSheet(
-                guildId: guildId,
-                initialSelectedIds: _chipState.authorIds,
-                scrollController: scrollController,
-                onDone: (List<_PickerUser> chosen) =>
-                    Navigator.of(sheetContext).pop(chosen),
-              );
-            }
-            return _DmUserFilterSheetLoader(
-              channelId: widget.channelId,
-              initialSelectedIds: _chipState.authorIds,
-              scrollController: scrollController,
-              onDone: (List<_PickerUser> chosen) =>
-                  Navigator.of(sheetContext).pop(chosen),
-            );
-          },
-        );
-    if (selected != null) {
-      _setAuthorSelection(selected);
-    }
-  }
-
-  Future<void> _openHasSheet() async {
-    final ChannelSearchState state = ref.read(
-      channelSearchProvider(widget.channelId, widget.guildId),
-    );
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final Set<MessageSearchContentFilter>? selected =
-        await FluxerBottomSheet.showScrollable<Set<MessageSearchContentFilter>>(
-          context,
-          title: l10n.channelDetailsSearchFilterByContent,
-          minChildSize: 0.5,
-          builder: (sheetContext, scrollController, close) => _HasFilterSheet(
-            initialSelected: state.query.contentTypes,
-            scrollController: scrollController,
-            onDone: (Set<MessageSearchContentFilter> chosen) =>
-                Navigator.of(sheetContext).pop(chosen),
-          ),
-        );
-    if (selected != null) {
-      _updateFilters(contentTypes: selected);
-    }
-  }
-
-  Future<void> _openSortSheet() async {
-    final ChannelSearchState state = ref.read(
-      channelSearchProvider(widget.channelId, widget.guildId),
-    );
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final MessageSearchSortFilter? selected =
-        await FluxerBottomSheet.show<MessageSearchSortFilter>(
-          context,
-          title: l10n.channelDetailsSearchSortBy,
-          builder: (sheetContext, close) => FluxerBottomSheetContent(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                for (final MessageSearchSortFilter value
-                    in MessageSearchSortFilter.values) ...<Widget>[
-                  ChannelSearchOptionCard(
-                    icon: channelSearchSortIcon(value),
-                    label: channelSearchSortLabel(l10n, value),
-                    description: channelSearchSortDescription(l10n, value),
-                    isSelected: state.query.sort == value,
-                    onTap: () => Navigator.of(sheetContext).pop(value),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-              ],
-            ),
-          ),
-        );
-    if (selected != null) {
-      _updateFilters(sort: selected);
-    }
-  }
-
-  Future<void> _openScopeSheet() async {
-    final ChannelSearchState state = ref.read(
-      channelSearchProvider(widget.channelId, widget.guildId),
-    );
-    final bool isGuildChannel = widget.guildId != null;
-    final List<MessageSearchScopeFilter> options = channelSearchScopeOptions(
-      isGuildChannel: isGuildChannel,
-    );
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final MessageSearchScopeFilter? selected =
-        await FluxerBottomSheet.show<MessageSearchScopeFilter>(
-          context,
-          title: l10n.channelDetailsSearchIn,
-          builder: (sheetContext, close) => FluxerBottomSheetContent(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                for (final MessageSearchScopeFilter value
-                    in options) ...<Widget>[
-                  ChannelSearchOptionCard(
-                    icon: channelSearchScopeIcon(value),
-                    label: channelSearchScopeLabel(
-                      l10n,
-                      value,
-                      isGuildChannel: isGuildChannel,
-                    ),
-                    description: channelSearchScopeDescription(
-                      l10n,
-                      value,
-                      isGuildChannel: isGuildChannel,
-                    ),
-                    isSelected: state.query.uiScope == value,
-                    onTap: () => Navigator.of(sheetContext).pop(value),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-              ],
-            ),
-          ),
-        );
-    if (selected != null) {
-      _updateFilters(scope: selected);
-    }
-  }
-
-  void _retrySearch() => _runSearch();
-
-  Widget _buildResults(BuildContext context, ChannelSearchState state) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
     final layout = context.layout;
-    if (!state.hasSearched) {
-      return _EmptySheetState(
-        icon: PhosphorIconsBold.magnifyingGlass,
-        title: l10n.channelDetailsSearchEmptyTitle,
-        body: l10n.channelDetailsSearchEmptyBody,
+    final bool settled =
+        state.hasSearched &&
+        !state.isSearching &&
+        !state.indexing &&
+        !_typingPending &&
+        state.errorMessage == null;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: colors.backgroundModifierAccent),
+        ),
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+        child: Row(
+          children: <Widget>[
+            for (final ChannelSearchResultTab tab
+                in ChannelSearchResultTab.values)
+              _SearchResultTab(
+                key: ValueKey<String>('search-tab-${tab.name}'),
+                label: tab == _tab && settled
+                    ? l10n.channelSearchTabCount(tab.label(l10n), state.total)
+                    : tab.label(l10n),
+                selected: tab == _tab,
+                onTap: () => _selectTab(tab),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    FluxerLocalizations l10n,
+    ChannelSearchState state,
+  ) {
+    final ChannelSearchActiveFilter? active = _activeFilter;
+    if (active != null) {
+      return ChannelSearchFilterSuggestions(
+        filter: active,
+        channelId: widget.channelId,
+        guildId: widget.guildId,
+        onPick: _addToken,
+        onPickDate: (ChannelSearchTokenKind kind) => unawaited(_pickDate(kind)),
       );
     }
-    if (state.isSearching) {
-      return const Center(child: FluxerLoadingSpinner());
+    if (!_hasQuery) {
+      return _buildLanding(context, l10n);
     }
-    if (state.errorMessage != null) {
-      return _ErrorSheetState(
-        title: state.errorMessage!,
-        onRetry: _retrySearch,
-      );
+    if (_showsSkeleton(state)) {
+      return const _SearchResultSkeleton();
+    }
+    final String? error = state.errorMessage;
+    if (error != null && state.results.isEmpty) {
+      return _ErrorSheetState(title: error, onRetry: _runSearch);
     }
     if (state.indexing) {
       return _EmptySheetState(
@@ -929,94 +726,188 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         body: l10n.channelDetailsSearchNoResultsBody,
       );
     }
-
-    return ListView.builder(
+    final layout = context.layout;
+    return ListView.separated(
       controller: _scrollController,
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+      padding: EdgeInsets.only(top: layout.s2, bottom: layout.s4),
       itemCount: state.results.length + (state.isLoadingMore ? 1 : 0),
-      itemBuilder: (context, index) {
+      separatorBuilder: (BuildContext context, int index) => Divider(
+        height: 1,
+        thickness: 1,
+        indent: layout.s4,
+        endIndent: layout.s4,
+        color: context.colors.backgroundModifierAccent,
+      ),
+      itemBuilder: (BuildContext context, int index) {
         if (index >= state.results.length) {
           return Padding(
             padding: EdgeInsets.symmetric(vertical: layout.s4),
             child: const Center(child: FluxerLoadingSpinner()),
           );
         }
-        final entry = state.results[index];
+        final MessageSearchResultEntry entry = state.results[index];
+        final String? channelName = entry.channelName;
+        final bool otherChannel = entry.message.channelId != widget.channelId;
         return MessagePreviewTile(
           message: entry.message,
-          label: entry.channelName == null ? null : '#${entry.channelName}',
+          flat: true,
+          label: channelName != null && otherChannel ? '#$channelName' : null,
           guildId: entry.guildId,
-          onTap: () => _popWithJumpRequest(
-            context,
-            message: entry.message,
-            guildId: entry.guildId,
-          ),
+          onTap: () => _openResult(entry),
           onLongPress: () =>
               _showSearchMessageActions(context, ref, entry: entry),
         );
       },
     );
   }
+
+  Widget _buildLanding(BuildContext context, FluxerLocalizations l10n) {
+    final layout = context.layout;
+    final List<ChannelSearchHistoryEntry> recents = _recents
+        .take(_kRecentSearchDisplayLimit)
+        .toList();
+    return ListView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s2, layout.s4),
+      children: <Widget>[
+        if (recents.isNotEmpty) ...<Widget>[
+          ChannelSearchSectionHeader(
+            title: l10n.channelHeaderSearchRecentTitle,
+            actionLabel: l10n.channelHeaderSearchClearHistory,
+            onAction: () => unawaited(_clearRecents()),
+          ),
+          for (final ChannelSearchHistoryEntry entry in recents)
+            ChannelSearchRecentRow(
+              key: ValueKey<String>('recent-${entry.signature}'),
+              entry: entry,
+              guildId: widget.guildId,
+              onTap: () => _restoreRecent(entry),
+              onRemove: () => unawaited(_removeRecent(entry)),
+            ),
+        ],
+        ChannelSearchSectionHeader(title: l10n.channelHeaderSearchFiltersTitle),
+        for (final ChannelSearchTokenKind kind in channelSearchMenuFilters(
+          isGuildChannel: _isGuild,
+        ))
+          ChannelSearchSuggestionRow(
+            key: ValueKey<String>('search-filter-${kind.key}'),
+            leading: PhosphorIcon(
+              channelSearchFilterIcon(kind),
+              size: 20,
+              color: context.colors.textSecondary,
+            ),
+            title: channelSearchFilterLabel(l10n, kind),
+            trailing: '${kind.key}:',
+            onTap: () => _startFilter(kind),
+          ),
+      ],
+    );
+  }
 }
 
-class _RecentSearchHistory extends StatelessWidget {
-  const _RecentSearchHistory({
-    required this.entries,
-    required this.guildId,
-    required this.onSelect,
-    required this.onRemove,
-    required this.onClear,
+class _SearchResultTab extends StatelessWidget {
+  const _SearchResultTab({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    super.key,
   });
 
-  final List<ChannelSearchHistoryEntry> entries;
-  final String? guildId;
-  final ValueChanged<ChannelSearchHistoryEntry> onSelect;
-  final ValueChanged<ChannelSearchHistoryEntry> onRemove;
-  final VoidCallback onClear;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final layout = context.layout;
+    final Color color = selected
+        ? colors.brandPrimaryLight
+        : colors.textSecondary;
+    return Semantics(
+      selected: selected,
+      button: true,
+      child: FluxerGestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsetsDirectional.only(end: layout.s5),
+          child: IntrinsicWidth(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: layout.s3),
+                  child: AnimatedDefaultTextStyle(
+                    duration: context.motion.fast,
+                    style: context.textStyles.bodyMedium.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    child: Text(label, maxLines: 1),
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: context.motion.fast,
+                  height: 2,
+                  color: selected
+                      ? colors.brandPrimaryLight
+                      : Colors.transparent,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchResultSkeleton extends StatelessWidget {
+  const _SearchResultSkeleton();
 
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
-    final colors = context.colors;
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        SizedBox(height: layout.s3),
-        Row(
+    final Color tile = context.colors.backgroundModifierHover;
+    Widget bar(double width, double height) => Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(color: tile, borderRadius: layout.radiusSm),
+    );
+    return ListView.builder(
+      key: const ValueKey<String>('search-skeleton'),
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.fromLTRB(layout.s4, layout.s3, layout.s4, 0),
+      itemCount: _kSearchSkeletonRows,
+      itemBuilder: (BuildContext context, int index) => Padding(
+        padding: EdgeInsets.only(bottom: layout.s5),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Expanded(
-              child: Text(
-                l10n.channelHeaderSearchRecentTitle,
-                style: context.textStyles.bodySmall.copyWith(
-                  color: colors.textSecondary,
-                ),
-              ),
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(color: tile, shape: BoxShape.circle),
             ),
-            FluxerGestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: onClear,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: layout.s1),
-                child: Text(
-                  l10n.channelHeaderSearchClearHistory,
-                  style: context.textStyles.bodySmall.copyWith(
-                    color: colors.textLink,
-                  ),
-                ),
+            SizedBox(width: layout.s3),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  bar(96 + (index % 3) * 24, 12),
+                  SizedBox(height: layout.s2),
+                  bar(double.infinity, 10),
+                  SizedBox(height: layout.s1_5),
+                  bar(140 + (index % 2) * 60, 10),
+                ],
               ),
             ),
           ],
         ),
-        for (final ChannelSearchHistoryEntry entry in entries.take(5))
-          ChannelSearchRecentRow(
-            entry: entry,
-            guildId: guildId,
-            onTap: () => onSelect(entry),
-            onRemove: () => onRemove(entry),
-          ),
-      ],
+      ),
     );
   }
 }

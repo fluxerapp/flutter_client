@@ -23,8 +23,7 @@ void main() {
           linkHostname: 'example.com',
           fileName: 'screenshot',
           fileExtension: 'png',
-          dateFilterKey: 'before',
-          dateValue: '2024-01-15',
+          dates: <(String, String)>[('before', '2024-01-15')],
         ),
       );
 
