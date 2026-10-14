@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart' as material;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -1155,6 +1156,26 @@ void main() {
       await tester.tap(find.byIcon(Icons.add));
       await tester.pump();
       expect(trailingPressed, 1);
+    });
+
+    testWidgets('header clips combining marks in the title', (tester) async {
+      const String zalgo =
+          'z\u030d\u030e\u0304\u0305\u033f\u0311\u0316\u0317\u0318\u0319al';
+      await tester.pumpWidget(
+        buildTestApp(
+          const Material(child: FluxerBottomSheetHeader(title: zalgo)),
+        ),
+      );
+
+      final Finder title = find.byWidgetPredicate((Widget widget) {
+        return widget is material.RichText &&
+            widget.text.toPlainText() == zalgo;
+      });
+      expect(tester.widget<material.RichText>(title).maxLines, 2);
+      expect(
+        find.ancestor(of: title, matching: find.byType(ClipRect)),
+        findsWidgets,
+      );
     });
 
     testWidgets('section and footer provide reusable sheet structure', (

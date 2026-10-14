@@ -1423,6 +1423,8 @@ class FluxerBottomSheetHeader extends StatelessWidget {
                       style: context.textStyles.channelName.copyWith(
                         color: colors.textPrimary,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       textAlign: alignStart
                           ? TextAlign.start
                           : TextAlign.center,
