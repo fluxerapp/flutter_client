@@ -69,13 +69,13 @@ int resolveVoiceStreamLabelHeight({
   int publicationHeight = 0,
 }) {
   if (statsHeight > 0) {
-    return statsHeight;
+    return _landscapeEquivalentHeight(statsWidth, statsHeight);
   }
   if (settingsHeight > 0) {
-    return settingsHeight;
+    return _landscapeEquivalentHeight(settingsWidth, settingsHeight);
   }
   if (publicationHeight > 0) {
-    return publicationHeight;
+    return _landscapeEquivalentHeight(publicationWidth, publicationHeight);
   }
   return firstPositiveFrameRate(<int>[
     statsWidth,
@@ -84,7 +84,14 @@ int resolveVoiceStreamLabelHeight({
   ]);
 }
 
-int voiceStreamHeightFromLargestFrame({
+int _landscapeEquivalentHeight(int width, int height) {
+  if (width <= 0 || height <= width) {
+    return height;
+  }
+  return math.max(width, (height * 9 / 16).round());
+}
+
+({int width, int height}) voiceStreamLargestFrame({
   required Iterable<num?> widths,
   required Iterable<num?> heights,
 }) {
@@ -92,7 +99,7 @@ int voiceStreamHeightFromLargestFrame({
   final List<num?> heightList = heights.toList(growable: false);
   final int count = math.min(widthList.length, heightList.length);
   var bestArea = 0;
-  var bestHeight = 0;
+  var best = (width: 0, height: 0);
   for (int i = 0; i < count; i++) {
     final int width = parsePositiveInt(widthList[i]);
     final int height = parsePositiveInt(heightList[i]);
@@ -102,10 +109,10 @@ int voiceStreamHeightFromLargestFrame({
     final int area = width * height;
     if (area > bestArea) {
       bestArea = area;
-      bestHeight = height;
+      best = (width: width, height: height);
     }
   }
-  return bestHeight;
+  return best;
 }
 
 int voiceStreamFpsFromSettings(Map<String, dynamic> settings) {

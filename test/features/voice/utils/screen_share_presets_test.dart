@@ -105,6 +105,30 @@ void main() {
     );
   });
 
+  test('phones cap screen share at 720p30 even with higher quality', () {
+    const VoiceSettingsState settings = VoiceSettingsState(
+      screenshareResolution: ScreenshareResolution.high,
+      videoFrameRate: 60,
+    );
+    final VoiceSettingsState phone = clampVoiceVideoSettings(
+      settings,
+      higherVideoQuality: true,
+      meshPhoneCap: false,
+      phoneScreenShareCap: true,
+    );
+    expect(phone.screenshareResolution, ScreenshareResolution.medium);
+    expect(phone.videoFrameRate, 30);
+
+    final VoiceSettingsState desktop = clampVoiceVideoSettings(
+      settings,
+      higherVideoQuality: true,
+      meshPhoneCap: false,
+      phoneScreenShareCap: false,
+    );
+    expect(desktop.screenshareResolution, ScreenshareResolution.high);
+    expect(desktop.videoFrameRate, 60);
+  });
+
   test('every resolution and frame rate has a bitrate', () {
     for (final ScreenshareResolution resolution
         in ScreenshareResolution.values) {

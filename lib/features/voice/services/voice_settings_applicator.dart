@@ -45,6 +45,7 @@ class VoiceSettingsApplicator {
       settings,
       higherVideoQuality: higherVideoQuality,
       meshPhoneCap: meshPhoneCap,
+      phoneScreenShareCap: isFluxerNativeMobileOs,
     );
   }
 

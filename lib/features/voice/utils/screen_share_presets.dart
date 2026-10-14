@@ -116,15 +116,16 @@ VoiceSettingsState clampVoiceVideoSettings(
   VoiceSettingsState settings, {
   required bool higherVideoQuality,
   required bool meshPhoneCap,
+  required bool phoneScreenShareCap,
 }) {
   final bool capCamera =
       (!higherVideoQuality || meshPhoneCap) &&
       isHigherVideoQualityCameraResolution(settings.cameraResolution);
   final bool capScreenShare =
-      !higherVideoQuality &&
+      (!higherVideoQuality || phoneScreenShareCap) &&
       isHigherVideoQualityScreenShareResolution(settings.screenshareResolution);
   final bool capFrameRate =
-      (!higherVideoQuality || meshPhoneCap) &&
+      (!higherVideoQuality || meshPhoneCap || phoneScreenShareCap) &&
       isHigherVideoQualityFrameRate(settings.videoFrameRate);
   return settings.copyWith(
     cameraResolution: capCamera ? CameraResolution.medium : null,

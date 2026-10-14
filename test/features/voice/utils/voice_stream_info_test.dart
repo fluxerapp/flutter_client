@@ -79,6 +79,33 @@ void main() {
       );
     });
 
+    test('labels a portrait frame by its landscape class', () {
+      expect(
+        resolveVoiceStreamLabelHeight(statsWidth: 576, statsHeight: 1280),
+        720,
+      );
+      expect(
+        resolveVoiceStreamLabelHeight(statsWidth: 857, statsHeight: 1920),
+        1080,
+      );
+      expect(
+        voiceStreamResolutionLabel(
+          resolveVoiceStreamLabelHeight(statsWidth: 1080, statsHeight: 2424),
+        ),
+        '1440p',
+      );
+    });
+
+    test('picks the largest sender frame', () {
+      expect(
+        voiceStreamLargestFrame(
+          widths: <num?>[320, 576, null],
+          heights: <num?>[720, 1280, 2160],
+        ),
+        (width: 576, height: 1280),
+      );
+    });
+
     test('uses video height, not the short side', () {
       expect(
         resolveVoiceStreamLabelHeight(

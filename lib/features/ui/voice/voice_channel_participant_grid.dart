@@ -2296,11 +2296,13 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
         }
       }
       var statsFps = 0;
+      var statsWidth = 0;
       var statsHeight = 0;
       if (track is RemoteVideoTrack) {
         try {
           final stats = await track.getReceiverStats();
           statsFps = parsePositiveFrameRate(stats?.framesPerSecond);
+          statsWidth = parsePositiveInt(stats?.frameWidth);
           statsHeight = parsePositiveInt(stats?.frameHeight);
         } on Object {
           statsFps = 0;
@@ -2311,10 +2313,12 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
           statsFps = maxPositiveFrameRate(
             stats.map((item) => item.framesPerSecond),
           );
-          statsHeight = voiceStreamHeightFromLargestFrame(
+          final ({int width, int height}) frame = voiceStreamLargestFrame(
             widths: stats.map((item) => item.frameWidth),
             heights: stats.map((item) => item.frameHeight),
           );
+          statsWidth = frame.width;
+          statsHeight = frame.height;
         } on Object {
           statsFps = 0;
         }
@@ -2329,6 +2333,7 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
       }
       _apply(
         height: resolveVoiceStreamLabelHeight(
+          statsWidth: statsWidth,
           statsHeight: statsHeight,
           settingsWidth: settingsWidth,
           settingsHeight: settingsHeight,
