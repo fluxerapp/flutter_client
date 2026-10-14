@@ -160,9 +160,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   final Map<String, UnreadState> lastKnown = ref.watch(
     channelUnreadLastKnownProvider,
   );
-  ref
-    ..watch(gatewayReadyProvider)
-    ..watch(readStateOverlayVersionProvider);
+  ref.watch(gatewayReadyProvider);
   final bool? canView = ref.watch(channelUnreadCanViewProvider(channelId));
   final ProviderContainer container = ref.container;
   final readStateWriteBatcher = ref.read(readStateWriteBatcherProvider);
@@ -175,6 +173,8 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   ProviderSubscription<AsyncValue<String?>>? settingsSub;
   StreamSubscription<Object?>? threadMemberSub;
   UnreadState? lastEmitted;
+  local.ReadState? lastReadState;
+  ({String? lastMessageId, int mentionCount})? lastEffective;
 
   void emit(UnreadState next) {
     if (disposed || next == lastEmitted) {
@@ -209,6 +209,11 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     final effective = readStateWriteBatcher.effectiveFields(
       channelId,
       readState,
+    );
+    lastReadState = readState;
+    lastEffective = (
+      lastMessageId: effective.lastMessageId,
+      mentionCount: effective.mentionCount,
     );
     final mentionCount = effective.mentionCount;
     final ackLastMessageId = effective.lastMessageId;
@@ -341,6 +346,24 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       .flushStream
       .where((Map<String, String> updates) => updates.containsKey(channelId))
       .listen((_) => scheduleRecompute());
+  ref.listen<int>(readStateOverlayVersionProvider, (_, _) {
+    if (canView == false) {
+      return;
+    }
+    final ({String? lastMessageId, int mentionCount})? used = lastEffective;
+    if (used == null) {
+      scheduleRecompute();
+      return;
+    }
+    final next = readStateWriteBatcher.effectiveFields(
+      channelId,
+      lastReadState,
+    );
+    if (next.lastMessageId != used.lastMessageId ||
+        next.mentionCount != used.mentionCount) {
+      scheduleRecompute();
+    }
+  });
 
   scheduleRecompute();
 

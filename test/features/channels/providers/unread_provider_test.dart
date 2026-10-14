@@ -670,6 +670,91 @@ void main() {
     );
   });
 
+  test('read state overlay changes leave retained channels idle', () async {
+    final _SelectLog log = _SelectLog();
+    final FluxerDatabase db = FluxerDatabase.forTesting(
+      NativeDatabase.memory().interceptWith(log),
+    );
+    addTearDown(db.close);
+    const guildId = 'guild-1';
+    final List<String> ids = <String>[for (int i = 0; i < 30; i++) 'ch-$i'];
+    final String newest = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+    for (final String id in ids) {
+      await _seedUnreadChannel(
+        db: db,
+        guildId: guildId,
+        channelId: id,
+        userId: 'me',
+        lastMessageId: newest,
+        ackId: newest,
+      );
+      await db.messageDao.upsertMessage(_messageRow(newest, id));
+    }
+    final container = _container(db: db, userId: 'me', guildId: guildId);
+    addTearDown(container.dispose);
+    container.read(gatewayReadyProvider.notifier).setReady();
+    container
+        .read(recentGuildUnreadRetentionProvider.notifier)
+        .retain(guildId, ids);
+    await _waitFor(
+      () => ids.every(
+        (String id) => container.read(channelUnreadProvider(id)).hasValue,
+      ),
+    );
+    await _waitForQuiet(log);
+
+    int mark = log.completed.length;
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    expect(log.completed.length - mark, 0, reason: 'idle');
+
+    mark = log.completed.length;
+    for (int i = 0; i < 3; i++) {
+      container.read(readStateOverlayVersionProvider.notifier).bump();
+      await Future<void>.delayed(Duration.zero);
+    }
+    await _waitForQuiet(log);
+    expect(
+      log.completed.length - mark,
+      0,
+      reason: 'an overlay bump that changes no channel must not requery',
+    );
+
+    mark = log.completed.length;
+    await primeGuildChannelUnreads(container, guildId);
+    container
+        .read(recentGuildUnreadRetentionProvider.notifier)
+        .retain(guildId, ids);
+    await _waitForQuiet(log);
+    expect(
+      log.completed.length - mark,
+      lessThanOrEqualTo(1),
+      reason: 'opening a warm community',
+    );
+
+    final Map<String, int> readsBefore = <String, int>{
+      for (final String id in ids) id: log.channelReads(id),
+    };
+    container
+        .read(readStateWriteBatcherProvider)
+        .enqueueUnread(
+          channelId: 'ch-0',
+          messageId: _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11)),
+          shouldMention: true,
+          isDm: false,
+          seedAckCandidate: null,
+        );
+    await _waitFor(
+      () =>
+          container.read(channelUnreadProvider('ch-0')).value?.mentionCount ==
+          1,
+    );
+    await _waitForQuiet(log);
+    expect(log.channelReads('ch-0'), greaterThan(readsBefore['ch-0']!));
+    for (final String id in ids.skip(1)) {
+      expect(log.channelReads(id), readsBefore[id], reason: id);
+    }
+  });
+
   test('a live message in channel B recomputes only channel B', () async {
     final watched = await _watchTwoChannels();
     final _SelectLog log = watched.log;
