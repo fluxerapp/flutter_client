@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -65,7 +66,7 @@ class ThreadStarterMessage extends ConsumerWidget {
     final Message? source = resolution.message;
     return switch (resolution.state) {
       MessageReferenceState.deleted => const ThreadStarterDeletedNotice(),
-      MessageReferenceState.notLoaded => const SizedBox(height: 48),
+      MessageReferenceState.notLoaded => const MessageSkeletonRow(),
       MessageReferenceState.loaded when source != null => Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kMessageRowPaddingHorizontal - 8,

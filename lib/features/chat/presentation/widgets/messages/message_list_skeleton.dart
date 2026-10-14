@@ -84,6 +84,33 @@ class MessageListSkeleton extends ConsumerWidget {
   }
 }
 
+class MessageSkeletonRow extends StatelessWidget {
+  const MessageSkeletonRow({this.lineCount = 2, super.key});
+
+  final int lineCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: FluxerLocalizations.of(context).chatLoadingMessages,
+      child: ExcludeSemantics(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kMessageRowPaddingHorizontal,
+            vertical: kMessageRowPaddingVertical,
+          ),
+          child: _MessageListSkeletonGroup(
+            groupIndex: 0,
+            messageLineCount: lineCount,
+            attachment: null,
+            groupSpacing: 0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MessageListEdgeFiller extends StatelessWidget {
   const MessageListEdgeFiller({
     required this.specs,

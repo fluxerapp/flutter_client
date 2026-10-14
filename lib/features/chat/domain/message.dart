@@ -618,6 +618,17 @@ class MessageReference {
     );
   }
 
+  factory MessageReference.fromReferencedSdk(
+    MessageResponseSchemaReferencedMessageMessageReference sdk,
+  ) {
+    return MessageReference(
+      channelId: sdk.channelId,
+      messageId: sdk.messageId ?? '',
+      guildId: sdk.guildId,
+      type: sdk.type,
+    );
+  }
+
   factory MessageReference.fromPinSdk(
     ChannelPinResponseMessageMessageReference sdk,
   ) {
@@ -1090,6 +1101,13 @@ class Message {
           sdk.attachments?.map(Attachment.fromSdk).toList() ?? const [],
       stickers: sdk.stickers?.map(MessageSticker.fromSdk).toList() ?? const [],
       reactions: sdk.reactions?.map(Reaction.fromSdk).toList() ?? const [],
+      replyToId: sdk.messageReference?.messageId,
+      messageReference: sdk.messageReference != null
+          ? MessageReference.fromReferencedSdk(sdk.messageReference!)
+          : null,
+      messageSnapshots:
+          sdk.messageSnapshots?.map(MessageSnapshot.fromSdk).toList() ??
+          const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
       mentionEveryone: mentionMetadata.mentionEveryone,
@@ -1099,6 +1117,7 @@ class Message {
       mentionChannels: parseMessageChannelMentions(sdk.mentionChannels),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
+      clientNonce: sdk.nonce,
       call: messageCallFromReferencedSdk(sdk.call),
       threadJson: _encodeThread(sdk.thread),
     );
