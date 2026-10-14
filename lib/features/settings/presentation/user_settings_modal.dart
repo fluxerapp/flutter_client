@@ -344,7 +344,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
               Expanded(
                 child: ColoredBox(
                   color: storePane
-                      ? PremiumStoreStyle.spaceTop
+                      ? PremiumStoreStyle.of(context).spaceTop
                       : Colors.transparent,
                   child: Column(
                     children: [
@@ -361,7 +361,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                               selectedEntry.displayLabel(l10n),
                               style: storePane
                                   ? context.textStyles.heading.copyWith(
-                                      color: PremiumStoreStyle.ink,
+                                      color: PremiumStoreStyle.of(context).ink,
                                     )
                                   : context.textStyles.heading,
                             ),
@@ -389,7 +389,9 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                             ],
                             const Spacer(),
                             _buildCloseButton(
-                              color: storePane ? PremiumStoreStyle.ink : null,
+                              color: storePane
+                                  ? PremiumStoreStyle.of(context).ink
+                                  : null,
                             ),
                           ],
                         ),
@@ -827,8 +829,8 @@ Future<void> _showMobileSettingsSection(
             href: pageLink,
             target: FluxerSettingsHeadingLinkTarget.page,
           ),
-    backgroundColor: storePage ? PremiumStoreStyle.spaceTop : null,
-    foregroundColor: storePage ? PremiumStoreStyle.ink : null,
+    backgroundColor: storePage ? PremiumStoreStyle.of(context).spaceTop : null,
+    foregroundColor: storePage ? PremiumStoreStyle.of(context).ink : null,
     presentation: presentation,
     canDismissNotifier: canDismiss,
     builder: (sheetContext, scrollController, close) =>

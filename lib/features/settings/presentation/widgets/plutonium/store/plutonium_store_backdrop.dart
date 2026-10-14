@@ -67,10 +67,11 @@ class _PremiumStoreBackdropState extends State<PremiumStoreBackdrop> {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final double extent = _extent <= 0 ? _viewport : _extent;
     final Color barColor = extent <= 0
-        ? PremiumStoreStyle.spaceTop
-        : _colorAt((_offset + _viewport) / extent);
+        ? style.spaceTop
+        : _colorAt(style, (_offset + _viewport) / extent);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -81,6 +82,7 @@ class _PremiumStoreBackdropState extends State<PremiumStoreBackdrop> {
                 child: RepaintBoundary(
                   child: CustomPaint(
                     painter: _PageGradientPainter(
+                      style: style,
                       offset: _offset,
                       extent: extent,
                     ),
@@ -100,25 +102,22 @@ class _PremiumStoreBackdropState extends State<PremiumStoreBackdrop> {
   }
 }
 
-Color _colorAt(double t) {
+Color _colorAt(PremiumStoreStyle style, double t) {
   final double clamped = t.clamp(0.0, 1.0);
   if (clamped <= 0.5) {
-    return Color.lerp(
-      PremiumStoreStyle.spaceTop,
-      PremiumStoreStyle.spaceMid,
-      clamped / 0.5,
-    )!;
+    return Color.lerp(style.spaceTop, style.spaceMid, clamped / 0.5)!;
   }
-  return Color.lerp(
-    PremiumStoreStyle.spaceMid,
-    PremiumStoreStyle.spaceBottom,
-    (clamped - 0.5) / 0.5,
-  )!;
+  return Color.lerp(style.spaceMid, style.spaceBottom, (clamped - 0.5) / 0.5)!;
 }
 
 class _PageGradientPainter extends CustomPainter {
-  const _PageGradientPainter({required this.offset, required this.extent});
+  const _PageGradientPainter({
+    required this.style,
+    required this.offset,
+    required this.extent,
+  });
 
+  final PremiumStoreStyle style;
   final double offset;
   final double extent;
 
@@ -126,21 +125,19 @@ class _PageGradientPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final double span = extent <= 0 ? size.height : extent;
     final Paint paint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [
-          PremiumStoreStyle.spaceTop,
-          PremiumStoreStyle.spaceMid,
-          PremiumStoreStyle.spaceBottom,
-        ],
-        stops: [0, 0.45, 1],
+        colors: [style.spaceTop, style.spaceMid, style.spaceBottom],
+        stops: const [0, 0.45, 1],
       ).createShader(Rect.fromLTWH(0, -offset, size.width, span));
     canvas.drawRect(Offset.zero & size, paint);
   }
 
   @override
   bool shouldRepaint(_PageGradientPainter oldDelegate) {
-    return oldDelegate.offset != offset || oldDelegate.extent != extent;
+    return oldDelegate.style != style ||
+        oldDelegate.offset != offset ||
+        oldDelegate.extent != extent;
   }
 }

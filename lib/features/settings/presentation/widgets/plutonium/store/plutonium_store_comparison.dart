@@ -11,6 +11,7 @@ class PremiumStoreComparison extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<_Row> rows = [
       _Row(
@@ -113,9 +114,7 @@ class PremiumStoreComparison extends StatelessWidget {
             Text(
               l10n.storePlutoniumCompareTitle,
               textAlign: TextAlign.center,
-              style: context.textStyles.heading.copyWith(
-                color: PremiumStoreStyle.ink,
-              ),
+              style: context.textStyles.heading.copyWith(color: style.ink),
             ),
             const SizedBox(height: 8),
             _CompareTable(rows: rows),
@@ -124,7 +123,7 @@ class PremiumStoreComparison extends StatelessWidget {
               l10n.storePlutoniumCompareMobileNote,
               textAlign: TextAlign.center,
               style: context.textStyles.bodySmall.copyWith(
-                color: PremiumStoreStyle.inkMuted,
+                color: style.inkMuted,
               ),
             ),
           ],
@@ -171,6 +170,7 @@ class _CompareTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Column(
       children: [
@@ -179,16 +179,12 @@ class _CompareTable extends StatelessWidget {
           free: Text(
             l10n.premiumFreeColumn,
             textAlign: TextAlign.center,
-            style: context.textStyles.label.copyWith(
-              color: PremiumStoreStyle.inkMuted,
-            ),
+            style: context.textStyles.label.copyWith(color: style.inkMuted),
           ),
           plutonium: Text(
             kPremiumProductName,
             textAlign: TextAlign.center,
-            style: context.textStyles.label.copyWith(
-              color: PremiumStoreStyle.accent,
-            ),
+            style: context.textStyles.label.copyWith(color: style.accent),
           ),
           header: true,
         ),
@@ -224,12 +220,11 @@ class _TableLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        border: last
-            ? null
-            : const Border(bottom: BorderSide(color: PremiumStoreStyle.line)),
+        border: last ? null : Border(bottom: BorderSide(color: style.line)),
       ),
       child: Row(
         children: [
@@ -239,24 +234,20 @@ class _TableLine extends StatelessWidget {
                 ? Text(
                     label,
                     style: context.textStyles.label.copyWith(
-                      color: PremiumStoreStyle.inkMuted,
+                      color: style.inkMuted,
                     ),
                   )
                 : Row(
                     children: [
                       if (icon != null) ...[
-                        PhosphorIcon(
-                          icon!,
-                          size: 22,
-                          color: PremiumStoreStyle.accent,
-                        ),
+                        PhosphorIcon(icon!, size: 22, color: style.accent),
                         const SizedBox(width: 14),
                       ],
                       Expanded(
                         child: Text(
                           label,
                           style: context.textStyles.label.copyWith(
-                            color: PremiumStoreStyle.ink,
+                            color: style.ink,
                           ),
                         ),
                       ),
@@ -281,13 +272,14 @@ class _ValueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return switch (value) {
       _Text(:final String text) => Text(
         text,
         textAlign: TextAlign.center,
         style: context.textStyles.bodySmall.copyWith(
-          color: plutonium ? PremiumStoreStyle.ink : PremiumStoreStyle.inkMuted,
+          color: plutonium ? style.ink : style.inkMuted,
         ),
       ),
       _Mark(:final bool on) => Semantics(
@@ -298,10 +290,10 @@ class _ValueView extends StatelessWidget {
           on ? PhosphorIconsBold.check : PhosphorIconsBold.x,
           size: 18,
           color: on && plutonium
-              ? PremiumStoreStyle.accent
+              ? style.accent
               : on
-              ? PremiumStoreStyle.inkMuted
-              : PremiumStoreStyle.inkFaint,
+              ? style.inkMuted
+              : style.inkFaint,
         ),
       ),
     };

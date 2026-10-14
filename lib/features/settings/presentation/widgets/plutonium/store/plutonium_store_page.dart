@@ -59,6 +59,7 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final PremiumStoreState store = ref.watch(premiumStoreProvider);
     ref.listen(premiumStoreProvider, (
@@ -123,7 +124,7 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
     );
 
     return ColoredBox(
-      color: PremiumStoreStyle.spaceTop,
+      color: style.spaceTop,
       child: PremiumStoreBackdrop(
         controller: _scrollController,
         bar: PremiumStoreBar(
@@ -221,9 +222,10 @@ class _DonateLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted = context.textStyles.bodySmall.copyWith(
-      color: PremiumStoreStyle.inkMuted,
+      color: style.inkMuted,
     );
     return Text.rich(
       TextSpan(
@@ -238,9 +240,9 @@ class _DonateLine extends StatelessWidget {
                 text: l10n.storePlutoniumDonateLink,
                 url: _kDonateUrl,
                 style: muted.copyWith(
-                  color: PremiumStoreStyle.ink,
+                  color: style.ink,
                   decoration: TextDecoration.underline,
-                  decorationColor: PremiumStoreStyle.inkFaint,
+                  decorationColor: style.inkFaint,
                 ),
               ),
             ),
@@ -257,9 +259,10 @@ class _TagFootnote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted = context.textStyles.timestamp.copyWith(
-      color: PremiumStoreStyle.inkMuted,
+      color: style.inkMuted,
     );
     return Text.rich(
       TextSpan(
@@ -273,7 +276,7 @@ class _TagFootnote extends StatelessWidget {
               child: FluxerTextLink(
                 text: l10n.storePlutoniumLearnVisionary,
                 url: _kVisionaryUrl,
-                style: muted.copyWith(color: PremiumStoreStyle.accent),
+                style: muted.copyWith(color: style.accent),
               ),
             ),
           ),

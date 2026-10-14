@@ -18,6 +18,7 @@ class PremiumStoreHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -51,21 +52,17 @@ class PremiumStoreHero extends StatelessWidget {
                   children: [
                     Text(
                       monthlyPrice!,
-                      style: textStyles.channelName.copyWith(
-                        color: PremiumStoreStyle.ink,
-                      ),
+                      style: textStyles.channelName.copyWith(color: style.ink),
                     ),
                     Text(
                       l10n.storePlutoniumPriceOr,
                       style: textStyles.bodySmall.copyWith(
-                        color: PremiumStoreStyle.inkMuted,
+                        color: style.inkMuted,
                       ),
                     ),
                     Text(
                       yearlyPrice!,
-                      style: textStyles.channelName.copyWith(
-                        color: PremiumStoreStyle.ink,
-                      ),
+                      style: textStyles.channelName.copyWith(color: style.ink),
                     ),
                   ],
                 ),

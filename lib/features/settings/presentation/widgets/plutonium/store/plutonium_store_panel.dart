@@ -15,7 +15,9 @@ class PremiumStorePanel extends StatelessWidget {
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-            child: const DecoratedBox(decoration: PremiumStoreStyle.panel),
+            child: DecoratedBox(
+              decoration: PremiumStoreStyle.of(context).panel,
+            ),
           ),
         ),
         Positioned(

@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const double _kWaveWidth = 1200;
@@ -78,6 +79,7 @@ class PremiumStoreWaves extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color color = PremiumStoreStyle.of(context).wave;
     return IgnorePointer(
       child: RepaintBoundary(
         child: AnimatedBuilder(
@@ -85,7 +87,7 @@ class PremiumStoreWaves extends StatelessWidget {
           builder: (BuildContext context, Widget? child) {
             final double offset = controller.hasClients ? controller.offset : 0;
             return CustomPaint(
-              painter: _PageWavesPainter(offset: offset),
+              painter: _PageWavesPainter(color: color, offset: offset),
               child: child,
             );
           },
@@ -104,8 +106,9 @@ class _WavePath {
 }
 
 class _PageWavesPainter extends CustomPainter {
-  _PageWavesPainter({required this.offset});
+  _PageWavesPainter({required this.color, required this.offset});
 
+  final Color color;
   final double offset;
 
   static final List<Path> _paths = _buildPaths();
@@ -173,9 +176,7 @@ class _PageWavesPainter extends CustomPainter {
           ..save()
           ..translate(dx, dy);
         for (int p = 0; p < _paths.length; p++) {
-          paint.color = const Color(
-            0xFFFFFFFF,
-          ).withValues(alpha: _wavePaths[p].opacity * 0.075);
+          paint.color = color.withValues(alpha: _wavePaths[p].opacity * 0.075);
           canvas.drawPath(_paths[p], paint);
         }
         canvas.restore();
@@ -187,5 +188,5 @@ class _PageWavesPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_PageWavesPainter oldDelegate) =>
-      oldDelegate.offset != offset;
+      oldDelegate.color != color || oldDelegate.offset != offset;
 }

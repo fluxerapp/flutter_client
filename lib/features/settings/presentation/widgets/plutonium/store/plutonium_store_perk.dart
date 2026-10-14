@@ -63,22 +63,15 @@ class _PerkCopy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final textStyles = context.textStyles;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          title,
-          style: textStyles.heading.copyWith(color: PremiumStoreStyle.ink),
-        ),
+        Text(title, style: textStyles.heading.copyWith(color: style.ink)),
         const SizedBox(height: 10),
-        Text(
-          body,
-          style: textStyles.bodyMedium.copyWith(
-            color: PremiumStoreStyle.inkSoft,
-          ),
-        ),
+        Text(body, style: textStyles.bodyMedium.copyWith(color: style.inkSoft)),
       ],
     );
   }

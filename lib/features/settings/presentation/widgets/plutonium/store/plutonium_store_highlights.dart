@@ -10,6 +10,7 @@ class PremiumStoreHighlights extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return PremiumStorePanel(
       child: Padding(
@@ -19,9 +20,7 @@ class PremiumStoreHighlights extends StatelessWidget {
             Text(
               l10n.storePlutoniumHighlightsLead,
               textAlign: TextAlign.center,
-              style: context.textStyles.bodyMedium.copyWith(
-                color: PremiumStoreStyle.ink,
-              ),
+              style: context.textStyles.bodyMedium.copyWith(color: style.ink),
             ),
             const SizedBox(height: 14),
             _Highlight(
@@ -53,7 +52,7 @@ class PremiumStoreHighlights extends StatelessWidget {
               l10n.storePlutoniumHighlightsMore,
               textAlign: TextAlign.center,
               style: context.textStyles.bodySmall.copyWith(
-                color: PremiumStoreStyle.inkMuted,
+                color: style.inkMuted,
               ),
             ),
           ],
@@ -71,16 +70,15 @@ class _Highlight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     return Row(
       children: [
-        PhosphorIcon(icon, size: 20, color: PremiumStoreStyle.accent),
+        PhosphorIcon(icon, size: 20, color: style.accent),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
             label,
-            style: context.textStyles.bodySmall.copyWith(
-              color: PremiumStoreStyle.inkSoft,
-            ),
+            style: context.textStyles.bodySmall.copyWith(color: style.inkSoft),
           ),
         ),
       ],
