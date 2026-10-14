@@ -765,6 +765,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required int maxLines,
     TextAlignVertical? textAlignVertical,
     Color? cursorColor,
+    bool fitLinesToHeight = false,
   }) {
     return _composerOpacity(
       context: context,
@@ -795,6 +796,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         onUpgradePressed: () => _showPlutoniumSheet(context),
         textAlignVertical: textAlignVertical,
         cursorColor: cursorColor,
+        fitLinesToHeight: fitLinesToHeight,
       ),
     );
   }
@@ -1042,67 +1044,82 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             hasAttachments ||
             _slashSession.focusedSlot != null);
     final bool slashParamBarVisible = _slashSession.focusedSlot != null;
-    final Widget composerInput = _buildComposerInput(
-      context: context,
-      chatNotifier: chatNotifier,
-      perms: perms,
-      channelId: channelId,
-      isPanelOpen: isPanelOpen,
-      mobileHeader:
-          mobileComposer &&
-              (slashParamBarVisible ||
-                  replyTo != null ||
-                  editingMessage != null ||
-                  hasAttachments)
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                if (slashParamBarVisible)
-                  SlashCommandParamBar(
-                    session: _slashSession,
-                    onClear: _clearSlashSession,
-                  ),
-                if (replyTo != null)
-                  ReplyInputBar(
-                    replyTo: replyTo,
-                    guildId: guildId,
-                    shouldReplyMention: replyMentioning,
-                    onToggleMention: (bool mentioning) =>
-                        chatNotifier.setReplyMentioning(mentioning: mentioning),
-                    onCancel: chatNotifier.cancelReply,
-                  ),
-                if (editingMessage != null)
-                  EditingInputBar(onCancel: chatNotifier.cancelEdit),
-                if (hasAttachments)
-                  ChannelAttachmentArea(
-                    channelId: channelId,
-                    animateSize: false,
-                  ),
-              ],
-            )
-          : null,
-    );
+    Widget buildComposerInput({double mobileMaxHeight = double.infinity}) =>
+        _buildComposerInput(
+          context: context,
+          chatNotifier: chatNotifier,
+          perms: perms,
+          channelId: channelId,
+          isPanelOpen: isPanelOpen,
+          mobileMaxHeight: mobileMaxHeight,
+          mobileHeader:
+              mobileComposer &&
+                  (slashParamBarVisible ||
+                      replyTo != null ||
+                      editingMessage != null ||
+                      hasAttachments)
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    if (slashParamBarVisible)
+                      SlashCommandParamBar(
+                        session: _slashSession,
+                        onClear: _clearSlashSession,
+                      ),
+                    if (replyTo != null)
+                      ReplyInputBar(
+                        replyTo: replyTo,
+                        guildId: guildId,
+                        shouldReplyMention: replyMentioning,
+                        onToggleMention: (bool mentioning) => chatNotifier
+                            .setReplyMentioning(mentioning: mentioning),
+                        onCancel: chatNotifier.cancelReply,
+                      ),
+                    if (editingMessage != null)
+                      EditingInputBar(onCancel: chatNotifier.cancelEdit),
+                    if (hasAttachments)
+                      ChannelAttachmentArea(
+                        channelId: channelId,
+                        animateSize: false,
+                      ),
+                  ],
+                )
+              : null,
+        );
 
     if (mobileComposer) {
-      final double mobileSafeBarHeight =
-          safeAreaBottom - MobileComposerLayout.bottomGap;
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              MobileComposerLayout.sideInset,
-              MobileComposerLayout.topInset,
-              MobileComposerLayout.sideInset,
-              MobileComposerLayout.bottomGap,
-            ),
-            child: composerInput,
-          ),
-          if (showComposerSafeBar && mobileSafeBarHeight > 0)
-            SizedBox(height: mobileSafeBarHeight),
-        ],
+      final double mobileSafeBarHeight = showComposerSafeBar
+          ? math.max(0, safeAreaBottom - MobileComposerLayout.bottomGap)
+          : 0;
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  MobileComposerLayout.sideInset,
+                  MobileComposerLayout.topInset,
+                  MobileComposerLayout.sideInset,
+                  MobileComposerLayout.bottomGap,
+                ),
+                child: buildComposerInput(
+                  mobileMaxHeight:
+                      constraints.maxHeight -
+                      MobileComposerLayout.topInset -
+                      MobileComposerLayout.bottomGap -
+                      mobileSafeBarHeight,
+                ),
+              ),
+              if (mobileSafeBarHeight > 0)
+                SizedBox(height: mobileSafeBarHeight),
+            ],
+          );
+        },
       );
     }
+
+    final Widget composerInput = buildComposerInput();
 
     final Widget? composerSafeBar = showComposerSafeBar
         ? Container(
@@ -1659,6 +1676,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required String channelId,
     required bool isPanelOpen,
     required Widget? mobileHeader,
+    double mobileMaxHeight = double.infinity,
   }) {
     final Widget composerField = ComposerAutocompleteField(
       key: _composerFieldKey,
@@ -1682,7 +1700,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         );
       },
       child: isMobileLayout(context)
-          ? _buildMobileLayout(context, perms, header: mobileHeader)
+          ? _buildMobileLayout(
+              context,
+              perms,
+              header: mobileHeader,
+              maxHeight: mobileMaxHeight,
+            )
           : _buildLargeLayout(context, perms),
     );
     final bool panelClosing = ref.watch(composerPanelClosingProvider);
@@ -1696,6 +1719,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     BuildContext context,
     ChannelMessagePermissions perms, {
     required Widget? header,
+    required double maxHeight,
   }) {
     final String channelId = ref.watch(
       chatViewModelProvider.select((s) => s.channelId),
@@ -1727,6 +1751,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             MobileComposerBar(
               key: const ValueKey<String>('mobile-composer-bar'),
               header: header,
+              maxHeight: maxHeight,
               headerMaxHeight: mobileComposerHeaderMaxHeight(
                 screenHeight: MediaQuery.sizeOf(context).height,
                 topInset: MediaQuery.paddingOf(context).top,
@@ -1808,6 +1833,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                             maxLines: MobileComposerLayout.maxLines,
                             decoration: mobileDecoration,
                             cursorColor: context.colors.interactiveNormal,
+                            fitLinesToHeight: true,
                           ),
                         ),
                       ),

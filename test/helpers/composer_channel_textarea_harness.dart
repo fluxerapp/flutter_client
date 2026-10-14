@@ -162,6 +162,7 @@ Future<ProviderContainer> pumpComposerChannelTextareaHarness(
   List<Override> extraOverrides = const <Override>[],
   FluxerDatabase? database,
   ChannelMessagePermissions? guildChannelPermissions,
+  Widget home = const Scaffold(body: ChannelTextarea()),
 }) async {
   final FluxerDatabase db = database ?? openTestDatabase();
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
@@ -192,7 +193,7 @@ Future<ProviderContainer> pumpComposerChannelTextareaHarness(
           textTheme: FluxerTextTheme.fromColors(colorTheme),
           layoutTheme: FluxerLayoutTheme.scaled(),
         ),
-        home: const Scaffold(body: ChannelTextarea()),
+        home: home,
       ),
     ),
   );

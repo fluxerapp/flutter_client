@@ -156,13 +156,15 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        RepaintBoundary(
-          child: ThreadComposerGate(
-            child: ChannelTextarea(
-              key: ValueKey<String>(_composerChannelKey),
-              autocompletePanelHost: widget.autocompletePanelHost,
-              autocompletePanelScrollController:
-                  widget.autocompletePanelScrollController,
+        Flexible(
+          child: RepaintBoundary(
+            child: ThreadComposerGate(
+              child: ChannelTextarea(
+                key: ValueKey<String>(_composerChannelKey),
+                autocompletePanelHost: widget.autocompletePanelHost,
+                autocompletePanelScrollController:
+                    widget.autocompletePanelScrollController,
+              ),
             ),
           ),
         ),

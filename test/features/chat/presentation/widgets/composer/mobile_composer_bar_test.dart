@@ -238,7 +238,7 @@ void main() {
     await _release(tester);
   });
 
-  testWidgets('a long message stops growing after nine lines', (tester) async {
+  testWidgets('a long message stops growing after five lines', (tester) async {
     await _pumpEmpty(tester);
     await tester.enterText(channelComposerField(), 'x');
     await tester.pumpAndSettle();
@@ -248,7 +248,7 @@ void main() {
       List<String>.generate(30, (int i) => 'line $i').join('\n'),
     );
     await tester.pumpAndSettle();
-    expect(tester.getRect(_bar()).height, closeTo(line * 9 + 36, 1));
+    expect(tester.getRect(_bar()).height, closeTo(line * 5 + 36, 1));
     await _release(tester);
   });
 

@@ -91,7 +91,7 @@ class ThreadComposerGate extends ConsumerWidget {
           SafeArea(top: false, child: bar)
         else
           bar ?? const SizedBox.shrink(),
-        if (showChild) child,
+        if (showChild) Flexible(child: child),
       ],
     );
   }

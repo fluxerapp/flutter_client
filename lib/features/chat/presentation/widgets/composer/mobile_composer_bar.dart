@@ -68,18 +68,32 @@ class MobileComposerBar extends StatelessWidget {
     required this.child,
     this.header,
     this.headerMaxHeight = double.infinity,
+    this.maxHeight = double.infinity,
     super.key,
   });
 
   final Widget? header;
   final double headerMaxHeight;
+  final double maxHeight;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
+    final bool bounded = maxHeight.isFinite;
+    final double barMaxHeight = math.max(
+      MobileComposerLayout.minHeight,
+      maxHeight,
+    );
+    final double headerCap = bounded
+        ? math.min(
+            headerMaxHeight,
+            barMaxHeight - MobileComposerLayout.minHeight,
+          )
+        : headerMaxHeight;
     return Container(
-      constraints: const BoxConstraints(
+      constraints: BoxConstraints(
         minHeight: MobileComposerLayout.minHeight,
+        maxHeight: barMaxHeight,
       ),
       decoration: ShapeDecoration(
         color: context.colors.backgroundTextarea,
@@ -101,7 +115,7 @@ class MobileComposerBar extends StatelessWidget {
             child: header == null
                 ? const SizedBox(width: double.infinity, height: 0)
                 : ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: headerMaxHeight),
+                    constraints: BoxConstraints(maxHeight: headerCap),
                     child: SingleChildScrollView(
                       key: const ValueKey<String>('mobile-composer-header'),
                       physics: const ClampingScrollPhysics(),
@@ -109,7 +123,7 @@ class MobileComposerBar extends StatelessWidget {
                     ),
                   ),
           ),
-          child,
+          if (bounded) Flexible(child: child) else child,
         ],
       ),
     );

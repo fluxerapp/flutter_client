@@ -315,10 +315,19 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         ],
                       ),
                     ),
-                    ChatComposerColumn(
-                      autocompletePanelHost: _composerAutocompletePanelHost,
-                      autocompletePanelScrollController:
-                          _composerAutocompletePanelScroll,
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: math.max(
+                          0,
+                          constraints.maxHeight -
+                              WideComposerLayout.statusRowHeight,
+                        ),
+                      ),
+                      child: ChatComposerColumn(
+                        autocompletePanelHost: _composerAutocompletePanelHost,
+                        autocompletePanelScrollController:
+                            _composerAutocompletePanelScroll,
+                      ),
                     ),
                   ],
                 ),

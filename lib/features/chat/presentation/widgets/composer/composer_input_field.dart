@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui' show BoxWidthStyle;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,6 +45,7 @@ class ComposerInputField extends ConsumerWidget {
     required this.onUpgradePressed,
     this.textAlignVertical,
     this.cursorColor,
+    this.fitLinesToHeight = false,
     super.key,
   });
 
@@ -71,6 +73,7 @@ class ComposerInputField extends ConsumerWidget {
   final VoidCallback onUpgradePressed;
   final TextAlignVertical? textAlignVertical;
   final Color? cursorColor;
+  final bool fitLinesToHeight;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,76 +124,89 @@ class ComposerInputField extends ConsumerWidget {
                           )
                         : ValueListenableBuilder<bool>(
                             valueListenable: showComposerCounter,
-                            builder:
-                                (
-                                  BuildContext context,
-                                  bool showCounter,
-                                  Widget? _,
-                                ) {
-                                  return TextField(
-                                    key: const ValueKey<String>(
-                                      'channel-composer-field',
+                            builder: (BuildContext context, bool showCounter, Widget? _) {
+                              final EdgeInsets padding = showCounter
+                                  ? basePadding +
+                                        const EdgeInsets.only(
+                                          right: 28,
+                                          bottom: 18,
+                                        )
+                                  : basePadding;
+                              Widget field(int lines) {
+                                return TextField(
+                                  key: const ValueKey<String>(
+                                    'channel-composer-field',
+                                  ),
+                                  controller: controller,
+                                  focusNode: fieldFocusNode,
+                                  scrollController: composerScrollController,
+                                  enabled: perms.isComposerEnabled,
+                                  style: context.textStyles.inputText,
+                                  strutStyle: boundedStrutFor(
+                                    context.textStyles.inputText.copyWith(
+                                      height: kInlineEmojiLineHeight,
                                     ),
-                                    controller: controller,
-                                    focusNode: fieldFocusNode,
-                                    scrollController: composerScrollController,
-                                    enabled: perms.isComposerEnabled,
-                                    style: context.textStyles.inputText,
-                                    strutStyle: boundedStrutFor(
-                                      context.textStyles.inputText.copyWith(
-                                        height: kInlineEmojiLineHeight,
+                                  ),
+                                  minLines: math.min(minLines, lines),
+                                  maxLines: lines,
+                                  selectionWidthStyle: BoxWidthStyle.tight,
+                                  decoration: decoration.copyWith(
+                                    contentPadding: padding,
+                                  ),
+                                  textAlignVertical: textAlignVertical,
+                                  cursorColor: cursorColor,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  autocorrect: true,
+                                  enableInlinePrediction: true,
+                                  contextMenuBuilder:
+                                      clipboardScope.buildContextMenu,
+                                  contentInsertionConfiguration:
+                                      perms.isAttachEnabled
+                                      ? ContentInsertionConfiguration(
+                                          onContentInserted:
+                                              (
+                                                KeyboardInsertedContent content,
+                                              ) {
+                                                unawaited(() async {
+                                                  final FileUploadValidationResult?
+                                                  result =
+                                                      await handleComposerContentInserted(
+                                                        ref: ref,
+                                                        channelId: channelId,
+                                                        content: content,
+                                                        isAttachEnabled: perms
+                                                            .isAttachEnabled,
+                                                      );
+                                                  if (result != null) {
+                                                    onValidationResult(result);
+                                                  }
+                                                }());
+                                              },
+                                        )
+                                      : null,
+                                  onTap: onComposerFieldTap,
+                                );
+                              }
+
+                              if (!fitLinesToHeight) {
+                                return field(maxLines);
+                              }
+                              return LayoutBuilder(
+                                builder:
+                                    (
+                                      BuildContext context,
+                                      BoxConstraints constraints,
+                                    ) => field(
+                                      composerLinesThatFit(
+                                        maxHeight: constraints.maxHeight,
+                                        verticalPadding: padding.vertical,
+                                        lineHeight: composerLineHeight(context),
+                                        maxLines: maxLines,
                                       ),
                                     ),
-                                    minLines: minLines,
-                                    maxLines: maxLines,
-                                    selectionWidthStyle: BoxWidthStyle.tight,
-                                    decoration: decoration.copyWith(
-                                      contentPadding: showCounter
-                                          ? basePadding +
-                                                const EdgeInsets.only(
-                                                  right: 28,
-                                                  bottom: 18,
-                                                )
-                                          : basePadding,
-                                    ),
-                                    textAlignVertical: textAlignVertical,
-                                    cursorColor: cursorColor,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    autocorrect: true,
-                                    enableInlinePrediction: true,
-                                    contextMenuBuilder:
-                                        clipboardScope.buildContextMenu,
-                                    contentInsertionConfiguration:
-                                        perms.isAttachEnabled
-                                        ? ContentInsertionConfiguration(
-                                            onContentInserted:
-                                                (
-                                                  KeyboardInsertedContent
-                                                  content,
-                                                ) {
-                                                  unawaited(() async {
-                                                    final FileUploadValidationResult?
-                                                    result =
-                                                        await handleComposerContentInserted(
-                                                          ref: ref,
-                                                          channelId: channelId,
-                                                          content: content,
-                                                          isAttachEnabled: perms
-                                                              .isAttachEnabled,
-                                                        );
-                                                    if (result != null) {
-                                                      onValidationResult(
-                                                        result,
-                                                      );
-                                                    }
-                                                  }());
-                                                },
-                                          )
-                                        : null,
-                                    onTap: onComposerFieldTap,
-                                  );
-                                },
+                              );
+                            },
                           ),
                   ),
                 ),
@@ -215,4 +231,23 @@ class ComposerInputField extends ConsumerWidget {
           },
     );
   }
+}
+
+double composerLineHeight(BuildContext context) {
+  final double fontSize = context.textStyles.inputText.fontSize ?? 16;
+  return MediaQuery.textScalerOf(context).scale(fontSize) *
+      kInlineEmojiLineHeight;
+}
+
+int composerLinesThatFit({
+  required double maxHeight,
+  required double verticalPadding,
+  required double lineHeight,
+  required int maxLines,
+}) {
+  if (!maxHeight.isFinite || lineHeight <= 0) {
+    return maxLines;
+  }
+  final int fit = ((maxHeight - verticalPadding + 0.01) / lineHeight).floor();
+  return fit.clamp(1, maxLines);
 }
