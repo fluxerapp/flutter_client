@@ -476,9 +476,14 @@ class GuildReadState extends _$GuildReadState {
     if (!added) {
       return;
     }
-    _pendingRecompute ??= Future.microtask(() async {
-      _pendingRecompute = null;
-      await _runRecompute(db: db, currentUserId: currentUserId);
+    _pendingRecompute ??= Future<void>.microtask(() async {
+      try {
+        while (_pendingChannelIds.isNotEmpty) {
+          await _runRecompute(db: db, currentUserId: currentUserId);
+        }
+      } finally {
+        _pendingRecompute = null;
+      }
     });
   }
 
@@ -486,7 +491,7 @@ class GuildReadState extends _$GuildReadState {
     required FluxerDatabase db,
     required String? currentUserId,
   }) async {
-    final generation = ++_recomputeGeneration;
+    final int generation = _recomputeGeneration;
     final ChannelLastMessageIndex lastMessageIndex = ref.read(
       channelLastMessageIndexProvider,
     );
@@ -588,11 +593,11 @@ class GuildReadState extends _$GuildReadState {
       );
     }
     if (generation != _recomputeGeneration) {
-      _pendingChannelIds.addAll(pending);
-      _pendingRecompute ??= Future.microtask(() async {
-        _pendingRecompute = null;
-        await _runRecompute(db: db, currentUserId: currentUserId);
-      });
+      if (_isInitialSeedComplete) {
+        _pendingChannelIds.addAll(pending);
+      } else {
+        _pendingSeedChannelIds.addAll(pending);
+      }
       return;
     }
     _publishChannelUnreadPatch(unreadPatch);
