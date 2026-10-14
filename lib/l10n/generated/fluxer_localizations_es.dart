@@ -8521,6 +8521,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Borrar';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'un usuario';
 
   @override

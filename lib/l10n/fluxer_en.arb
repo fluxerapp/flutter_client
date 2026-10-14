@@ -10699,6 +10699,10 @@
     "@channelHeaderSearchClearHistory": {
         "description": "Button to clear recent channel search history."
     },
+    "channelSearchRemoveRecent": "Remove from recent searches",
+    "@channelSearchRemoveRecent": {
+        "description": "Accessibility label for the x button on a recent search row in mobile message search. Removes that one entry from the recent searches list."
+    },
     "channelHeaderSearchFilterDescFrom": "a user",
     "@channelHeaderSearchFilterDescFrom": {
         "description": "Description for the from: search filter."

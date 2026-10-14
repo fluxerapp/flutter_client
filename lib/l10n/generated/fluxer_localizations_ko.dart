@@ -8101,6 +8101,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => '지우기';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => '사용자';
 
   @override

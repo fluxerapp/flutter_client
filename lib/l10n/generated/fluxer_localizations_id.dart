@@ -8429,6 +8429,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Hapus';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'pengguna';
 
   @override

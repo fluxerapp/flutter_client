@@ -8500,6 +8500,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Очистити';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'користувач';
 
   @override

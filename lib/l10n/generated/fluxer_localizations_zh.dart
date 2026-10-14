@@ -7935,6 +7935,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => '清除';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => '某个用户';
 
   @override

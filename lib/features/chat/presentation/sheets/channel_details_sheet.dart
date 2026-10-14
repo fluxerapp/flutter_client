@@ -36,9 +36,12 @@ import 'package:fluxer_app/features/chat/data/channel_search_history_repository.
 import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_mobile_state.dart';
+import 'package:fluxer_app/features/chat/domain/channel_search_token.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_search_mobile_sheets.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_option_card.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_recent_row.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_token_chip.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';

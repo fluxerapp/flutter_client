@@ -8439,6 +8439,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Tøm';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'en bruker';
 
   @override

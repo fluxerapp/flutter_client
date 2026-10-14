@@ -115,15 +115,32 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
 
   String get _authorIdsValue => _chipState.authorIds.join(',');
 
+  String _watchTokenLabel(
+    FluxerLocalizations l10n,
+    ChannelSearchTokenKind kind,
+    String id,
+    Map<String, String> snapshots,
+  ) {
+    return watchChannelSearchTokenValueLabel(
+      ref,
+      l10n,
+      ChannelSearchToken(kind: kind, value: id, label: snapshots[id]),
+      guildId: widget.guildId,
+    );
+  }
+
   String? _authorChipValue(FluxerLocalizations l10n) {
     if (_chipState.authorIds.isEmpty) {
       return null;
     }
     return channelSearchMobileChipSummary(
       count: _chipState.authorIds.length,
-      singleLabel:
-          _chipState.authorNames[_chipState.authorIds.first] ??
-          _chipState.authorIds.first,
+      singleLabel: _watchTokenLabel(
+        l10n,
+        ChannelSearchTokenKind.from,
+        _chipState.authorIds.first,
+        _chipState.authorNames,
+      ),
       multipleLabel: l10n.channelDetailsSearchUsersCount(
         _chipState.authorIds.length,
       ),
@@ -136,7 +153,12 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     }
     return channelSearchMobileChipSummary(
       count: _chipState.mentionIds.length,
-      singleLabel: _chipState.mentionNames.values.first,
+      singleLabel: _watchTokenLabel(
+        l10n,
+        ChannelSearchTokenKind.mentions,
+        _chipState.mentionIds.first,
+        _chipState.mentionNames,
+      ),
       multipleLabel: l10n.channelDetailsSearchUsersCount(
         _chipState.mentionIds.length,
       ),
@@ -148,7 +170,12 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
       return null;
     }
     if (_chipState.channelIds.length == 1) {
-      return _chipState.channelNames.values.first;
+      return _watchTokenLabel(
+        l10n,
+        ChannelSearchTokenKind.channel,
+        _chipState.channelIds.first,
+        _chipState.channelNames,
+      ).substring(1);
     }
     return l10n.channelDetailsSearchChannelsCount(_chipState.channelIds.length);
   }
@@ -323,11 +350,37 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         displayText: _textController.text,
         scopeIndex: query.uiScope.index,
         sortIndex: query.uiSort.index,
-        contentTypeIndices: query.contentTypes
-            .map((MessageSearchContentFilter f) => f.index)
-            .toList(),
+        contentTypes: query.contentTypes,
       ),
     );
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _removeHistoryEntry(ChannelSearchHistoryEntry entry) async {
+    await ref
+        .read(channelSearchHistoryRepositoryProvider)
+        .value
+        ?.removeEntry(entry);
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _clearHistory() async {
+    await ref
+        .read(channelSearchHistoryRepositoryProvider)
+        .value
+        ?.clearForContext(
+          channelSearchContextKey(
+            channelId: widget.channelId,
+            guildId: widget.guildId,
+          ),
+        );
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _clearAll() {
@@ -368,35 +421,19 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
   }
 
   void _restoreHistoryEntry(ChannelSearchHistoryEntry entry) {
+    final ({String text, List<ChannelSearchToken> tokens}) query = entry.query;
     setState(() {
-      _textController.text = entry.displayText;
+      _textController.text = query.text;
       _chipState = ChannelSearchMobileChipState.fromHistoryEntry(entry);
     });
-    unawaited(
-      ref
-          .read(
-            channelSearchProvider(widget.channelId, widget.guildId).notifier,
-          )
-          .search(
-            query: MessageSearchQuery.build(
-              channelId: widget.channelId,
-              guildId: widget.guildId,
-              rawQuery: entry.displayText,
-              uiScope: MessageSearchScopeFilter.values[entry.scopeIndex],
-              uiSort: MessageSearchSortFilter.values[entry.sortIndex],
-              hints: ChannelSearchParseHints(
-                usersByTag: entry.usersByTag,
-                channelsByName: entry.channelsByName,
-              ),
-              chipAuthorId: entry.authorId.isEmpty ? null : entry.authorId,
-              chipContentTypes: entry.contentTypeIndices
-                  .map((int index) => MessageSearchContentFilter.values[index])
-                  .toSet(),
-              chipFilters: ChannelSearchMobileChipState.fromHistoryEntry(
-                entry,
-              ).toChipFilters(),
-            ),
-          ),
+    _updateFilters(
+      scope: MessageSearchScopeFilter.values[entry.scopeIndex],
+      sort: MessageSearchSortFilter.values[entry.sortIndex],
+      contentTypes: <MessageSearchContentFilter>{
+        for (final ChannelSearchToken token in query.tokens)
+          if (token.kind == ChannelSearchTokenKind.has)
+            ?channelSearchContentFilterForValue(token.value),
+      },
     );
   }
 
@@ -499,7 +536,11 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
                 if (!state.hasSearched && recentHistory.isNotEmpty)
                   _RecentSearchHistory(
                     entries: recentHistory,
+                    guildId: widget.guildId,
                     onSelect: _restoreHistoryEntry,
+                    onRemove: (ChannelSearchHistoryEntry entry) =>
+                        unawaited(_removeHistoryEntry(entry)),
+                    onClear: () => unawaited(_clearHistory()),
                   ),
                 if (showResultCount) ...<Widget>[
                   SizedBox(height: layout.s2),
@@ -920,40 +961,61 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
 }
 
 class _RecentSearchHistory extends StatelessWidget {
-  const _RecentSearchHistory({required this.entries, required this.onSelect});
+  const _RecentSearchHistory({
+    required this.entries,
+    required this.guildId,
+    required this.onSelect,
+    required this.onRemove,
+    required this.onClear,
+  });
 
   final List<ChannelSearchHistoryEntry> entries;
+  final String? guildId;
   final ValueChanged<ChannelSearchHistoryEntry> onSelect;
+  final ValueChanged<ChannelSearchHistoryEntry> onRemove;
+  final VoidCallback onClear;
 
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
+    final colors = context.colors;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         SizedBox(height: layout.s3),
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: Text(
-            l10n.channelHeaderSearchRecentTitle,
-            style: context.textStyles.bodySmall.copyWith(
-              color: context.colors.textSecondary,
-            ),
-          ),
-        ),
-        SizedBox(height: layout.s2),
-        Wrap(
-          spacing: layout.s2,
-          runSpacing: layout.s2,
+        Row(
           children: <Widget>[
-            for (final ChannelSearchHistoryEntry entry in entries.take(5))
-              ActionChip(
-                label: Text(entry.displayText, overflow: TextOverflow.ellipsis),
-                onPressed: () => onSelect(entry),
+            Expanded(
+              child: Text(
+                l10n.channelHeaderSearchRecentTitle,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: colors.textSecondary,
+                ),
               ),
+            ),
+            FluxerGestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: onClear,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: layout.s1),
+                child: Text(
+                  l10n.channelHeaderSearchClearHistory,
+                  style: context.textStyles.bodySmall.copyWith(
+                    color: colors.textLink,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
+        for (final ChannelSearchHistoryEntry entry in entries.take(5))
+          ChannelSearchRecentRow(
+            entry: entry,
+            guildId: guildId,
+            onTap: () => onSelect(entry),
+            onRemove: () => onRemove(entry),
+          ),
       ],
     );
   }

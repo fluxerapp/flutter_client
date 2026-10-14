@@ -1,6 +1,7 @@
 import 'package:fluxer_app/features/chat/data/channel_search_history_repository.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart';
+import 'package:fluxer_app/features/chat/domain/channel_search_token.dart';
 
 class ChannelSearchMobileChipState {
   const ChannelSearchMobileChipState({
@@ -103,24 +104,100 @@ class ChannelSearchMobileChipState {
   factory ChannelSearchMobileChipState.fromHistoryEntry(
     ChannelSearchHistoryEntry entry,
   ) {
-    final List<String> authorIds = entry.authorId
-        .split(',')
-        .map((String id) => id.trim())
-        .where((String id) => id.isNotEmpty)
-        .toList();
+    final List<ChannelSearchToken> tokens = entry.query.tokens;
+    Iterable<ChannelSearchToken> ofKind(ChannelSearchTokenKind kind) =>
+        tokens.where((ChannelSearchToken token) => token.kind == kind);
+    Map<String, String> labels(ChannelSearchTokenKind kind) => <String, String>{
+      for (final ChannelSearchToken token in ofKind(kind))
+        if (token.label != null) token.value: token.label!,
+    };
+    final ChannelSearchToken? pinnedToken = ofKind(
+      ChannelSearchTokenKind.pinned,
+    ).firstOrNull;
+    final ChannelSearchToken? dateToken = tokens
+        .where((ChannelSearchToken token) => token.kind.isDate)
+        .firstOrNull;
     return ChannelSearchMobileChipState(
-      authorIds: authorIds.toSet(),
+      authorIds: ofKind(
+        ChannelSearchTokenKind.from,
+      ).map((ChannelSearchToken token) => token.value).toSet(),
+      authorNames: labels(ChannelSearchTokenKind.from),
+      channelIds: ofKind(
+        ChannelSearchTokenKind.channel,
+      ).map((ChannelSearchToken token) => token.value).toSet(),
+      channelNames: labels(ChannelSearchTokenKind.channel),
+      mentionIds: ofKind(
+        ChannelSearchTokenKind.mentions,
+      ).map((ChannelSearchToken token) => token.value).toSet(),
+      mentionNames: labels(ChannelSearchTokenKind.mentions),
+      pinned: pinnedToken == null ? null : pinnedToken.value == 'true',
+      authorTypes: ofKind(
+        ChannelSearchTokenKind.authorType,
+      ).map((ChannelSearchToken token) => token.value).toSet(),
+      linkHostname: entry.isStructured ? null : entry.linkHostname,
+      fileName: entry.isStructured ? null : entry.fileName,
+      fileExtension: entry.isStructured ? null : entry.fileExtension,
       usersByTag: entry.usersByTag,
-      channelIds: entry.channelIds.toSet(),
-      mentionIds: entry.mentionIds.toSet(),
-      pinned: entry.pinned,
-      authorTypes: entry.authorTypes.toSet(),
-      linkHostname: entry.linkHostname,
-      fileName: entry.fileName,
-      fileExtension: entry.fileExtension,
-      dateFilterKey: entry.dateFilterKey,
-      dateValue: entry.dateValue,
+      dateFilterKey: dateToken?.kind.key,
+      dateValue: dateToken?.value,
     );
+  }
+
+  List<ChannelSearchToken> toTokens({
+    required Set<MessageSearchContentFilter> contentTypes,
+  }) {
+    final String? date = dateValue?.trim();
+    final ChannelSearchTokenKind? dateKind = dateFilterKey == null
+        ? null
+        : ChannelSearchTokenKind.fromKey(dateFilterKey!);
+    return <ChannelSearchToken>[
+      for (final String id in authorIds)
+        ChannelSearchToken(
+          kind: ChannelSearchTokenKind.from,
+          value: id,
+          label: authorNames[id],
+        ),
+      for (final String id in mentionIds)
+        ChannelSearchToken(
+          kind: ChannelSearchTokenKind.mentions,
+          value: id,
+          label: mentionNames[id],
+        ),
+      for (final String id in channelIds)
+        ChannelSearchToken(
+          kind: ChannelSearchTokenKind.channel,
+          value: id,
+          label: channelNames[id],
+        ),
+      for (final MessageSearchContentFilter filter in contentTypes)
+        channelSearchHasToken(filter),
+      if (pinned != null)
+        ChannelSearchToken(
+          kind: ChannelSearchTokenKind.pinned,
+          value: pinned.toString(),
+        ),
+      for (final String type in authorTypes)
+        ChannelSearchToken(
+          kind: ChannelSearchTokenKind.authorType,
+          value: type,
+        ),
+      if (dateKind != null &&
+          dateKind.isDate &&
+          date != null &&
+          date.isNotEmpty)
+        ChannelSearchToken(kind: dateKind, value: date),
+    ];
+  }
+
+  String historyText(String rawText) {
+    return <String>[
+      rawText.trim(),
+      if (linkHostname?.trim().isNotEmpty ?? false)
+        'link-from:${linkHostname!.trim()}',
+      if (fileName?.trim().isNotEmpty ?? false) 'file-name:${fileName!.trim()}',
+      if (fileExtension?.trim().isNotEmpty ?? false)
+        'file-type:${fileExtension!.trim()}',
+    ].where((String part) => part.isNotEmpty).join(' ');
   }
 
   ChannelSearchHistoryEntry toHistoryEntry({
@@ -128,27 +205,15 @@ class ChannelSearchMobileChipState {
     required String displayText,
     required int scopeIndex,
     required int sortIndex,
-    required List<int> contentTypeIndices,
+    required Set<MessageSearchContentFilter> contentTypes,
   }) {
-    return ChannelSearchHistoryEntry(
+    return ChannelSearchHistoryEntry.fromQuery(
       contextKey: contextKey,
-      displayText: displayText,
-      authorId: authorIds.join(','),
+      text: historyText(displayText),
+      tokens: toTokens(contentTypes: contentTypes),
       scopeIndex: scopeIndex,
       sortIndex: sortIndex,
-      contentTypeIndices: contentTypeIndices,
       timestampMs: DateTime.now().millisecondsSinceEpoch,
-      channelIds: channelIds.toList(),
-      mentionIds: mentionIds.toList(),
-      pinned: pinned,
-      authorTypes: authorTypes.toList(),
-      linkHostname: linkHostname,
-      fileName: fileName,
-      fileExtension: fileExtension,
-      dateFilterKey: dateFilterKey,
-      dateValue: dateValue,
-      usersByTag: usersByTag,
-      channelsByName: channelNames,
     );
   }
 }

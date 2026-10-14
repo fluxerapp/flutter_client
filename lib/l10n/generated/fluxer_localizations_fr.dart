@@ -8541,6 +8541,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Effacer';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'un utilisateur';
 
   @override

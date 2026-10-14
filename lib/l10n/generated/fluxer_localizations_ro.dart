@@ -8483,6 +8483,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Șterge';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'un utilizator';
 
   @override

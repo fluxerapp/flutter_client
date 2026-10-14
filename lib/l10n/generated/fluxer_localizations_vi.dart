@@ -8427,6 +8427,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Xóa';
 
   @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
   String get channelHeaderSearchFilterDescFrom => 'một người dùng';
 
   @override

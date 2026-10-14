@@ -13803,6 +13803,12 @@ abstract class FluxerLocalizations {
   /// **'Clear'**
   String get channelHeaderSearchClearHistory;
 
+  /// Accessibility label for the x button on a recent search row in mobile message search. Removes that one entry from the recent searches list.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from recent searches'**
+  String get channelSearchRemoveRecent;
+
   /// Description for the from: search filter.
   ///
   /// In en, this message translates to:
