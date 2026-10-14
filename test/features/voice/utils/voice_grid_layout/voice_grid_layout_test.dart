@@ -1,4 +1,4 @@
-import 'dart:ui' show Rect;
+import 'dart:ui' show Offset, Rect;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout.dart';
@@ -21,6 +21,28 @@ double _usedHeight(VoiceGridPackedLayoutMetrics packed) {
 }
 
 void main() {
+  group('voiceGridFitAspect', () {
+    test('centers a 16:9 box in a tall cell', () {
+      final Rect fitted = voiceGridFitAspect(
+        const Rect.fromLTWH(0, 100, 320, 480),
+        16 / 9,
+      );
+      expect(fitted.width, 320);
+      expect(fitted.height, closeTo(180, _epsilon));
+      expect(fitted.center, const Offset(160, 340));
+    });
+
+    test('centers a 16:9 box in a wide cell', () {
+      final Rect fitted = voiceGridFitAspect(
+        const Rect.fromLTWH(0, 0, 800, 180),
+        16 / 9,
+      );
+      expect(fitted.height, 180);
+      expect(fitted.width, closeTo(320, _epsilon));
+      expect(fitted.left, closeTo(240, _epsilon));
+    });
+  });
+
   group('voiceGridRowCount', () {
     test('emits stable row counts for every selectable column count', () {
       expect(

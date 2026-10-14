@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/gestures.dart';
@@ -60,13 +61,28 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
         (VoiceCallOverlayState state) => state.showsOverlay,
       ),
     );
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final double controlsFootprint =
+        voiceChannelControlMorphingHeaderHeight() +
+        kVoiceControlBarVerticalPadding * 2 +
+        mediaQuery.viewPadding.bottom;
     return VoiceCallSystemUiSync(
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              child,
+              MediaQuery(
+                data: mediaQuery.copyWith(
+                  padding: mediaQuery.padding.copyWith(
+                    bottom: math.max(
+                      mediaQuery.padding.bottom,
+                      controlsFootprint,
+                    ),
+                  ),
+                ),
+                child: child,
+              ),
               Positioned(
                 left: 0,
                 right: 0,

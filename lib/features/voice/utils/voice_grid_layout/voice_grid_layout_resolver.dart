@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' show Rect;
 
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout_config.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout_metrics.dart';
@@ -16,6 +17,15 @@ import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_lay
     return (width: side, height: side);
   }
   return (width: width, height: height);
+}
+
+Rect voiceGridFitAspect(Rect cell, double aspectRatio) {
+  if (cell.isEmpty || aspectRatio <= 0) {
+    return cell;
+  }
+  final double width = math.min(cell.width, cell.height * aspectRatio);
+  final double height = width / aspectRatio;
+  return Rect.fromCenter(center: cell.center, width: width, height: height);
 }
 
 int _sanitizeCount(int tileCount) => math.max(0, tileCount);

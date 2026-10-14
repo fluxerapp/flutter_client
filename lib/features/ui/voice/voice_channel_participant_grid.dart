@@ -520,6 +520,10 @@ class _VoiceChannelParticipantGridState
           .read(voiceScreenShareWatchTileProvider)
           .contains(item.tileId);
       _watchStream(item);
+      if (isFocusMain && alreadyWatching && isPhoneVoiceOverlay(context)) {
+        _toggleCallOverlay();
+        return;
+      }
       if (isFocusMain && alreadyWatching) {
         ref
             .read(voiceCallLayoutProvider.notifier)
@@ -530,6 +534,10 @@ class _VoiceChannelParticipantGridState
         ref.read(voiceCallLayoutProvider.notifier).pin(item.tileId);
         _revealOverlay();
       }
+      return;
+    }
+    if (isFocusMain && isPhoneVoiceOverlay(context)) {
+      _toggleCallOverlay();
       return;
     }
     if (isFocusMain) {
@@ -869,7 +877,8 @@ class _VoiceChannelParticipantGridState
       );
     }
 
-    final _VoiceGridTileItem mainTile = pinned ?? _autoMainTile(tiles, me: me);
+    final _VoiceGridTileItem mainTile =
+        pinned ?? _autoMainTile(tiles, watchedTileIds: watchedTileIds, me: me);
     final List<_VoiceGridTileItem> secondary = tiles
         .where((_VoiceGridTileItem t) => t.tileId != mainTile.tileId)
         .toList();
@@ -937,13 +946,26 @@ class _VoiceChannelParticipantGridState
 
   _VoiceGridTileItem _autoMainTile(
     List<_VoiceGridTileItem> tiles, {
+    required Set<String> watchedTileIds,
     String? me,
   }) {
+    final Iterable<_VoiceGridTileItem> screenShares = tiles.where(
+      (_VoiceGridTileItem tile) =>
+          tile.source == VoiceParticipantTileSource.screenShare,
+    );
+    final _VoiceGridTileItem? watchedScreenShare = screenShares
+        .where(
+          (_VoiceGridTileItem tile) => watchedTileIds.contains(tile.tileId),
+        )
+        .firstOrNull;
+    if (watchedScreenShare != null) {
+      return watchedScreenShare;
+    }
+    if (screenShares.isNotEmpty) {
+      return screenShares.first;
+    }
     _VoiceGridTileItem? selfCamera;
     for (final _VoiceGridTileItem tile in tiles) {
-      if (tile.source == VoiceParticipantTileSource.screenShare) {
-        continue;
-      }
       final bool isSelfCamera =
           me != null &&
           tile.data.userId == me &&
@@ -1050,9 +1072,10 @@ class _VoiceChannelParticipantGridState
         containerHeight: maxHeight,
         compact: compact,
       );
-      final Rect pinnedRect = _equalTileRects(
-        metrics: packed.metrics,
-        tiles: <_VoiceGridTileItem>[pinnedTile],
+      final List<_VoiceGridTileItem> only = <_VoiceGridTileItem>[pinnedTile];
+      final Rect pinnedRect = _fitScreenShareRects(
+        only,
+        _equalTileRects(metrics: packed.metrics, tiles: only),
       ).first;
       return SizedBox(
         width: maxWidth,
@@ -1158,11 +1181,11 @@ class _VoiceChannelParticipantGridState
       pinnedTile,
       ...secondaryTiles,
     ];
-    final List<Rect> rects = <Rect>[
+    final List<Rect> rects = _fitScreenShareRects(ordered, <Rect>[
       geometry.pinnedRect,
       for (int i = 0; i < geometry.secondaryRects.length; i++)
         geometry.secondaryRects[i].shift(Offset(0, geometry.gridTop)),
-    ];
+    ]);
 
     return SizedBox(
       width: maxWidth,
@@ -1282,7 +1305,10 @@ class _VoiceChannelParticipantGridState
   }) {
     final List<Rect> rects = compactLayout != null
         ? compactLayout.rects
-        : _equalTileRects(metrics: metrics!, tiles: tiles);
+        : _fitScreenShareRects(
+            tiles,
+            _equalTileRects(metrics: metrics!, tiles: tiles),
+          );
     if (compactLayout != null && rects.length == tiles.length) {
       _syncPlacedTiles(tiles, rects);
     }
@@ -1398,6 +1424,20 @@ class _VoiceChannelParticipantGridState
     return rects;
   }
 
+  List<Rect> _fitScreenShareRects(
+    List<_VoiceGridTileItem> tiles,
+    List<Rect> cells,
+  ) {
+    return <Rect>[
+      for (int i = 0; i < cells.length; i++)
+        if (i < tiles.length &&
+            tiles[i].source == VoiceParticipantTileSource.screenShare)
+          voiceGridFitAspect(cells[i], voiceGridTileAspectRatio)
+        else
+          cells[i],
+    ];
+  }
+
   Widget _placedGridTile({
     required BuildContext context,
     required Key tileKey,
@@ -1462,19 +1502,20 @@ class _VoiceChannelParticipantGridState
     final bool landscape = maxWidth > maxHeight;
     final bool isScreenShareMain =
         mainTile.source == VoiceParticipantTileSource.screenShare;
-    final bool hasSecondary = secondary.isNotEmpty && !isScreenShareMain;
+    final bool hasSecondary = secondary.isNotEmpty;
     final double filmstripCrossAxis = voiceFocusFilmstripCrossAxis(
       compact: compact,
       landscape: landscape,
     );
-    final EdgeInsets mainPadding = isScreenShareMain
-        ? EdgeInsets.zero
-        : EdgeInsets.fromLTRB(
-            voiceGridEdgePaddingPx,
-            voiceGridEdgePaddingPx,
-            landscape && hasSecondary ? 0 : voiceGridEdgePaddingPx,
-            !landscape && hasSecondary ? 0 : voiceGridEdgePaddingPx,
-          );
+    final double mainSidePadding = isScreenShareMain && !landscape
+        ? 0
+        : voiceGridEdgePaddingPx;
+    final EdgeInsets mainPadding = EdgeInsets.fromLTRB(
+      mainSidePadding,
+      voiceGridEdgePaddingPx,
+      landscape && hasSecondary ? 0 : mainSidePadding,
+      !landscape && hasSecondary ? 0 : voiceGridEdgePaddingPx,
+    );
     final Widget mainStage = RepaintBoundary(
       child: _buildCard(
         context: context,
@@ -1487,17 +1528,15 @@ class _VoiceChannelParticipantGridState
         isFocusMain: true,
         isActiveScreenShare: watchedTileIds.contains(mainTile.tileId),
         fillContainer: true,
-        edgeToEdge: isScreenShareMain,
+        edgeToEdge: mainSidePadding == 0,
       ),
     );
-    final Widget mainExpanded = isScreenShareMain
-        ? mainStage
-        : Align(
-            child: AspectRatio(
-              aspectRatio: voiceGridTileAspectRatio,
-              child: mainStage,
-            ),
-          );
+    final Widget mainExpanded = Align(
+      child: AspectRatio(
+        aspectRatio: voiceGridTileAspectRatio,
+        child: mainStage,
+      ),
+    );
     Widget filmstripTile(_VoiceGridTileItem tile) {
       final bool isFocusedMirror = tile.tileId == mainTile.tileId;
       return KeyedSubtree(
