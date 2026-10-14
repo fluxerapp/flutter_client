@@ -8,18 +8,34 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
-const double _categoryTabRowHeight = 36;
+const double _categoryTabVerticalPadding = 8;
 
-double discoveryCategoryTabsExtent(FluxerLayoutTheme layout) {
-  return layout.s3 + layout.s2 + _categoryTabRowHeight;
+TextStyle _categoryTabLabelStyle(FluxerTextTheme textStyles) {
+  return textStyles.bodySmall.copyWith(fontWeight: FontWeight.w600);
+}
+
+double discoveryCategoryTabsExtent(BuildContext context) {
+  final FluxerLayoutTheme layout = context.layout;
+  final TextPainter painter = TextPainter(
+    text: TextSpan(
+      text: 'Ag',
+      style: DefaultTextStyle.of(
+        context,
+      ).style.merge(_categoryTabLabelStyle(context.textStyles)),
+    ),
+    textDirection: TextDirection.ltr,
+    textScaler: MediaQuery.textScalerOf(context),
+  )..layout();
+  final double labelHeight = painter.height.ceilToDouble();
+  painter.dispose();
+  return layout.s3 + layout.s2 + labelHeight + _categoryTabVerticalPadding * 2;
 }
 
 SliverPersistentHeader buildDiscoveryCategoryTabsSliver(BuildContext context) {
-  final FluxerLayoutTheme layout = context.layout;
   return SliverPersistentHeader(
     pinned: true,
     delegate: _DiscoveryCategoryTabsHeaderDelegate(
-      extent: discoveryCategoryTabsExtent(layout),
+      extent: discoveryCategoryTabsExtent(context),
     ),
   );
 }
@@ -70,7 +86,7 @@ class DiscoveryCategoryTabs extends ConsumerWidget {
     return Container(
       color: colors.backgroundPrimary,
       padding: EdgeInsets.fromLTRB(layout.s4, layout.s3, layout.s4, layout.s2),
-      height: discoveryCategoryTabsExtent(layout),
+      height: discoveryCategoryTabsExtent(context),
       child: Align(
         alignment: Alignment.centerLeft,
         child: SingleChildScrollView(
@@ -138,10 +154,13 @@ class _DiscoveryCategoryTab extends StatelessWidget {
           borderRadius: BorderRadius.circular(999),
           child: ExcludeSemantics(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: _categoryTabVerticalPadding,
+              ),
               child: Text(
                 label,
-                style: textStyles.bodySmall.copyWith(
+                style: _categoryTabLabelStyle(textStyles).copyWith(
                   color: isSelected ? colors.textPrimary : colors.textSecondary,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 ),
