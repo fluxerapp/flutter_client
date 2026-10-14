@@ -115,6 +115,16 @@ class _HarnessDmViewModel extends DmViewModel {
   );
 }
 
+class _GuildChannelDmViewModel extends DmViewModel {
+  @override
+  DmViewState build() => const DmViewState(
+    conversations: <DmConversation>[],
+    friendsList: [],
+    activeTab: FriendsTab.online,
+    searchQuery: '',
+  );
+}
+
 class _EmptyGuildListViewModel extends GuildListViewModel {
   @override
   GuildListViewState build() => const GuildListViewState(guilds: <Guild>[]);
@@ -122,10 +132,15 @@ class _EmptyGuildListViewModel extends GuildListViewModel {
 
 List<Override> composerChannelTextareaOverrides({
   required FluxerDatabase database,
+  ChannelMessagePermissions? guildChannelPermissions,
 }) {
   return <Override>[
     chatViewModelProvider.overrideWith(MutableChatViewModel.new),
-    dmViewModelProvider.overrideWith(_HarnessDmViewModel.new),
+    dmViewModelProvider.overrideWith(
+      guildChannelPermissions == null
+          ? _HarnessDmViewModel.new
+          : _GuildChannelDmViewModel.new,
+    ),
     guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
     blockedUserIdsProvider.overrideWithValue(<String>{}),
     currentUserIdProvider.overrideWithValue(kComposerHarnessUserId),
@@ -133,9 +148,9 @@ List<Override> composerChannelTextareaOverrides({
     wellKnownProvider.overrideWith(FakeWellKnown.new),
     instanceRuntimeConfigOverride(),
     maxMessageLengthProvider.overrideWithValue(2000),
-    channelMessagePermissionsProvider(
-      kComposerHarnessChannelA,
-    ).overrideWith((ref) => ChannelMessagePermissions.all),
+    channelMessagePermissionsProvider(kComposerHarnessChannelA).overrideWith(
+      (ref) => guildChannelPermissions ?? ChannelMessagePermissions.all,
+    ),
     channelMessagePermissionsProvider(
       kComposerHarnessChannelB,
     ).overrideWith((ref) => ChannelMessagePermissions.all),
@@ -146,12 +161,16 @@ Future<ProviderContainer> pumpComposerChannelTextareaHarness(
   WidgetTester tester, {
   List<Override> extraOverrides = const <Override>[],
   FluxerDatabase? database,
+  ChannelMessagePermissions? guildChannelPermissions,
 }) async {
   final FluxerDatabase db = database ?? openTestDatabase();
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
   final ProviderContainer container = ProviderContainer(
     overrides: <Override>[
-      ...composerChannelTextareaOverrides(database: db),
+      ...composerChannelTextareaOverrides(
+        database: db,
+        guildChannelPermissions: guildChannelPermissions,
+      ),
       ...extraOverrides,
     ],
   );

@@ -85,9 +85,9 @@ void main() {
     );
   });
 
-  test('shows send fallback when empty composer and attachments denied', () {
+  test('shows send when empty composer and attachments denied', () {
     expect(
-      shouldShowComposerSendButtonFallback(
+      shouldShowComposerSendButton(
         permissions: const ChannelMessagePermissions(
           isResolved: true,
           canSendMessages: true,
@@ -105,9 +105,9 @@ void main() {
     );
   });
 
-  test('hides send fallback when attachments are allowed', () {
+  test('hides send when empty composer and attachments are allowed', () {
     expect(
-      shouldShowComposerSendButtonFallback(
+      shouldShowComposerSendButton(
         permissions: ChannelMessagePermissions.all,
         hasSendable: _emptyComposer.hasSendable,
         isEditing: _emptyComposer.isEditing,
@@ -115,6 +115,72 @@ void main() {
             _emptyComposer.showMessageSendButtonPreference,
       ),
       isFalse,
+    );
+  });
+
+  for (final bool canAttachFiles in <bool>[true, false]) {
+    final ChannelMessagePermissions readOnly = ChannelMessagePermissions(
+      isResolved: true,
+      canSendMessages: false,
+      canAttachFiles: canAttachFiles,
+      canEmbedLinks: true,
+      canUseExternalEmojis: true,
+      canUseExternalStickers: true,
+    );
+
+    for (final bool isTouchPrimary in <bool>[true, false]) {
+      test('read-only composer shows neither send nor voice '
+          '(attach $canAttachFiles, touch $isTouchPrimary)', () {
+        for (final bool hasSendable in <bool>[true, false]) {
+          for (final bool preference in <bool>[true, false]) {
+            expect(
+              shouldShowComposerVoiceButton(
+                permissions: readOnly,
+                hasSendable: hasSendable,
+                isEditing: false,
+                showMessageSendButtonPreference: preference,
+                isTouchPrimary: isTouchPrimary,
+              ),
+              isFalse,
+            );
+            expect(
+              shouldShowComposerSendButton(
+                permissions: readOnly,
+                hasSendable: hasSendable,
+                isEditing: false,
+                showMessageSendButtonPreference: preference,
+                isTouchPrimary: isTouchPrimary,
+              ),
+              isFalse,
+            );
+          }
+        }
+      });
+    }
+  }
+
+  test('shows send when composer has sendable content', () {
+    expect(
+      shouldShowComposerSendButton(
+        permissions: ChannelMessagePermissions.all,
+        hasSendable: true,
+        isEditing: false,
+        showMessageSendButtonPreference: false,
+        isTouchPrimary: true,
+      ),
+      isTrue,
+    );
+  });
+
+  test('shows send on desktop when send button preference is enabled', () {
+    expect(
+      shouldShowComposerSendButton(
+        permissions: ChannelMessagePermissions.all,
+        hasSendable: false,
+        isEditing: false,
+        showMessageSendButtonPreference: true,
+      ),
+      isTrue,
     );
   });
 }

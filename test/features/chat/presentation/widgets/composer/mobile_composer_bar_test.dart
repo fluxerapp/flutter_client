@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -187,6 +188,32 @@ void main() {
     expect(_voice(), findsOneWidget);
     await _release(tester);
   });
+
+  for (final bool canAttachFiles in <bool>[true, false]) {
+    testWidgets(
+      'a read-only channel shows neither send nor mic (attach $canAttachFiles)',
+      (tester) async {
+        await pumpComposerChannelTextareaHarness(
+          tester,
+          guildChannelPermissions: ChannelMessagePermissions(
+            isResolved: true,
+            canSendMessages: false,
+            canAttachFiles: canAttachFiles,
+            canEmbedLinks: true,
+            canUseExternalEmojis: true,
+            canUseExternalStickers: true,
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(_send(), findsNothing);
+        expect(_voice(), findsNothing);
+        final Rect bar = tester.getRect(_bar());
+        final Rect emoji = tester.getRect(_emoji());
+        expect(emoji.right, bar.right - 11);
+        await _release(tester);
+      },
+    );
+  }
 
   testWidgets('new lines grow the bar and keep controls on the bottom row', (
     tester,

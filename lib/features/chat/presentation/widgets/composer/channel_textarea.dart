@@ -1815,34 +1815,48 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       _mobileComposerButtonCell(
                         _buildMobilePickerButton(context, perms),
                       ),
-                      const SizedBox(width: MobileComposerLayout.trailingGap),
-                      SizedBox.square(
-                        dimension: MobileComposerLayout.sendExtent,
-                        child: ListenableBuilder(
-                          listenable: _controller,
-                          builder: (BuildContext context, Widget? child) {
-                            final String sendableWire = _sendableWireText();
-                            final bool hasSendable =
-                                composerHasSendableContent(
-                                  ref,
-                                  channelId,
-                                  sendableWire,
-                                ) ||
-                                _slashSession.isActive;
-                            final bool isOverCharacterLimit =
-                                _composerContentLength(sendableWire) >
-                                maxMessageLength;
-                            return ComposerSendAndVoiceButton(
-                              perms: perms,
-                              hasSendable: hasSendable,
-                              isOverCharacterLimit: isOverCharacterLimit,
-                              size: FluxerButtonSize.small,
-                              useHoldToRecord: true,
-                              voiceRecording: _voiceRecording,
-                              onSend: () => unawaited(_onSendPressed()),
-                              onNoSendPermission: _showNoSendPermissionToast,
-                            );
-                          },
+                      _composerSlot(
+                        context: context,
+                        visible: perms.isComposerEnabled,
+                        alignment: Alignment.centerRight,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const SizedBox(
+                              width: MobileComposerLayout.trailingGap,
+                            ),
+                            SizedBox.square(
+                              dimension: MobileComposerLayout.sendExtent,
+                              child: ListenableBuilder(
+                                listenable: _controller,
+                                builder: (BuildContext context, Widget? child) {
+                                  final String sendableWire =
+                                      _sendableWireText();
+                                  final bool hasSendable =
+                                      composerHasSendableContent(
+                                        ref,
+                                        channelId,
+                                        sendableWire,
+                                      ) ||
+                                      _slashSession.isActive;
+                                  final bool isOverCharacterLimit =
+                                      _composerContentLength(sendableWire) >
+                                      maxMessageLength;
+                                  return ComposerSendAndVoiceButton(
+                                    perms: perms,
+                                    hasSendable: hasSendable,
+                                    isOverCharacterLimit: isOverCharacterLimit,
+                                    size: FluxerButtonSize.small,
+                                    useHoldToRecord: true,
+                                    voiceRecording: _voiceRecording,
+                                    onSend: () => unawaited(_onSendPressed()),
+                                    onNoSendPermission:
+                                        _showNoSendPermissionToast,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

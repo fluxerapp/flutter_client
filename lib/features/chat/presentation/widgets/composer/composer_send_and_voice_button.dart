@@ -70,16 +70,13 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
       showMessageSendButtonPreference: showSendButtonPreference,
       isTouchPrimary: touchActions,
     );
-    final bool showSendButton =
-        hasSendable ||
-        (!touchActions && showSendButtonPreference) ||
-        shouldShowComposerSendButtonFallback(
-          permissions: perms,
-          hasSendable: hasSendable,
-          isEditing: isEditing,
-          showMessageSendButtonPreference: showSendButtonPreference,
-          isTouchPrimary: touchActions,
-        );
+    final bool showSendButton = shouldShowComposerSendButton(
+      permissions: perms,
+      hasSendable: hasSendable,
+      isEditing: isEditing,
+      showMessageSendButtonPreference: showSendButtonPreference,
+      isTouchPrimary: touchActions,
+    );
     final bool voiceDisabled =
         !canUseVoice || !perms.isComposerEnabled || isOverCharacterLimit;
     final VoidCallback? sendOnPressed = !hasSendable || isOverCharacterLimit

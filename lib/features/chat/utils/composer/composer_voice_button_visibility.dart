@@ -18,7 +18,8 @@ bool shouldShowComposerVoiceButton({
   required bool showMessageSendButtonPreference,
   bool isTouchPrimary = false,
 }) {
-  return _isEmptyComposerActionSlot(
+  return permissions.isComposerEnabled &&
+      _isEmptyComposerActionSlot(
         showMessageSendButtonPreference: showMessageSendButtonPreference,
         hasSendable: hasSendable,
         isEditing: isEditing,
@@ -27,13 +28,19 @@ bool shouldShowComposerVoiceButton({
       permissions.canAttachFiles;
 }
 
-bool shouldShowComposerSendButtonFallback({
+bool shouldShowComposerSendButton({
   required ChannelMessagePermissions permissions,
   required bool hasSendable,
   required bool isEditing,
   required bool showMessageSendButtonPreference,
   bool isTouchPrimary = false,
 }) {
+  if (!permissions.isComposerEnabled) {
+    return false;
+  }
+  if (hasSendable || (!isTouchPrimary && showMessageSendButtonPreference)) {
+    return true;
+  }
   return _isEmptyComposerActionSlot(
         showMessageSendButtonPreference: showMessageSendButtonPreference,
         hasSendable: hasSendable,
