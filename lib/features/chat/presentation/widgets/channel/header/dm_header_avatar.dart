@@ -94,9 +94,7 @@ class GroupDmMemberCountSubtitle extends StatelessWidget {
         const SizedBox(width: 4),
         Flexible(
           child: Text(
-            FluxerLocalizations.of(
-              context,
-            ).dmGroupMemberCount(dm.remoteRecipientIds.length),
+            FluxerLocalizations.of(context).dmGroupMemberCount(dm.memberCount),
             style: context.textStyles.timestamp.copyWith(
               color: color,
               fontSize: 14,

@@ -57,7 +57,11 @@ void main() {
   });
 
   group('GroupDmMemberCountSubtitle', () {
-    Future<void> pump(WidgetTester tester, List<String> recipients) {
+    Future<void> pump(
+      WidgetTester tester, {
+      required List<String> recipients,
+      required int recipientCount,
+    }) {
       final colorTheme = buildDarkColorTheme();
       return tester.pumpWidget(
         MaterialApp(
@@ -77,6 +81,7 @@ void main() {
                 recipientName: '',
                 lastMessage: '',
                 lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
+                recipientCount: recipientCount,
                 remoteRecipientIds: recipients,
               ),
             ),
@@ -85,19 +90,20 @@ void main() {
       );
     }
 
-    testWidgets('counts the other members', (tester) async {
-      await pump(tester, const <String>['11', '12']);
-      expect(find.text('2 Members'), findsOneWidget);
+    testWidgets('counts every member including the current user', (
+      tester,
+    ) async {
+      await pump(
+        tester,
+        recipients: const <String>['11', '12'],
+        recipientCount: 3,
+      );
+      expect(find.text('3 Members'), findsOneWidget);
     });
 
-    testWidgets('uses the singular for one member', (tester) async {
-      await pump(tester, const <String>['11']);
+    testWidgets('uses the singular for a self-only group', (tester) async {
+      await pump(tester, recipients: const <String>[], recipientCount: 1);
       expect(find.text('1 Member'), findsOneWidget);
-    });
-
-    testWidgets('shows zero for a self-only group', (tester) async {
-      await pump(tester, const <String>[]);
-      expect(find.text('0 Members'), findsOneWidget);
     });
   });
 }
