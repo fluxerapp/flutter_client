@@ -260,5 +260,54 @@ void main() {
       expect(find.byTooltip('Acme Plutonium'), findsOneWidget);
       expect(find.text('#42'), findsNothing);
     });
+
+    testWidgets('names the instance premium product on self-hosted', (
+      tester,
+    ) async {
+      const InstanceRuntimeConfig selfHosted = InstanceRuntimeConfig(
+        productName: 'Acme',
+        premiumProductName: 'Premium',
+        selfHosted: true,
+        premiumEnabled: true,
+        stripeEnabled: false,
+        emailsEnabled: true,
+        voiceEnabled: true,
+        presignedAttachmentUploads: true,
+        gifEnabled: true,
+        blueskyEnabled: true,
+        gifAttributionRequired: false,
+        singleCommunity: false,
+        directMessagesDisabled: false,
+        registrationClosed: false,
+        adminRegistrationUrlsEnabled: false,
+        collectDateOfBirth: true,
+      );
+      await tester.pumpWidget(
+        _buildApp(
+          const UserProfileBadges(flags: 0, hasPlutonium: true),
+          config: selfHosted,
+        ),
+      );
+      expect(find.byTooltip('Acme Premium'), findsOneWidget);
+      expect(find.byTooltip('Acme Plutonium'), findsNothing);
+
+      await tester.pumpWidget(
+        _buildApp(
+          const UserProfileBadges(
+            flags: 0,
+            hasPlutonium: true,
+            premiumSince: '2026-10-14',
+          ),
+          config: selfHosted,
+        ),
+      );
+      await tester.tap(find.byType(SvgPicture));
+      await tester.pump();
+
+      expect(
+        find.text('Acme Premium subscriber since Oct 14, 2026'),
+        findsOneWidget,
+      );
+    });
   });
 }

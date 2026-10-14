@@ -5282,18 +5282,12 @@ abstract class FluxerLocalizations {
   /// **'{productName} Bug Hunter'**
   String userProfileBugHunterBadgeTooltip(String productName);
 
-  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
+  /// Badge label with a date in the user profile badges popout. Preserve {premiumProductFullName} and {date}; they are inserted by code. premiumProductFullName is the instance product name followed by its premium product name, for example Fluxer Plutonium. In English, keep "subscriber since" lowercase. Other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'{productName} Plutonium'**
-  String userProfilePlutoniumBadgeTooltip(String productName);
-
-  /// Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep "subscriber since" lowercase. Other locales should use natural local capitalization.
-  ///
-  /// In en, this message translates to:
-  /// **'{productName} Plutonium subscriber since {date}'**
-  String userProfilePlutoniumSubscriberSinceTooltip(
-    String productName,
+  /// **'{premiumProductFullName} subscriber since {date}'**
+  String userProfilePremiumSubscriberSinceTooltip(
+    String premiumProductFullName,
     String date,
   );
 

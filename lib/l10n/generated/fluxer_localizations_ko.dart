@@ -3010,16 +3010,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String userProfilePlutoniumBadgeTooltip(String productName) {
-    return '$productName 플루토늄';
-  }
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(
-    String productName,
+  String userProfilePremiumSubscriberSinceTooltip(
+    String premiumProductFullName,
     String date,
   ) {
-    return '$date부터 $productName 플루토늄 구독자';
+    return '$premiumProductFullName 구독 시작일: $date';
   }
 
   @override

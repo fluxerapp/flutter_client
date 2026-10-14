@@ -3136,16 +3136,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   }
 
   @override
-  String userProfilePlutoniumBadgeTooltip(String productName) {
-    return '$productName Plutonium';
-  }
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(
-    String productName,
+  String userProfilePremiumSubscriberSinceTooltip(
+    String premiumProductFullName,
     String date,
   ) {
-    return 'Assinante Plutonium do $productName desde $date';
+    return 'Assinante $premiumProductFullName desde $date';
   }
 
   @override
@@ -18371,16 +18366,11 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   }
 
   @override
-  String userProfilePlutoniumBadgeTooltip(String productName) {
-    return '$productName Plutonium';
-  }
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(
-    String productName,
+  String userProfilePremiumSubscriberSinceTooltip(
+    String premiumProductFullName,
     String date,
   ) {
-    return 'Assinante Plutonium do $productName desde $date';
+    return 'Assinante $premiumProductFullName desde $date';
   }
 
   @override

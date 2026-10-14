@@ -3533,20 +3533,11 @@
             }
         }
     },
-    "userProfilePlutoniumBadgeTooltip": "Plutonium od {productName}",
-    "@userProfilePlutoniumBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+    "userProfilePremiumSubscriberSinceTooltip": "Pretplatnik na {premiumProductFullName} od {date}",
+    "@userProfilePremiumSubscriberSinceTooltip": {
+        "description": "Badge label with a date in the user profile badges popout. Preserve {premiumProductFullName} and {date}; they are inserted by code. premiumProductFullName is the instance product name followed by its premium product name, for example Fluxer Plutonium. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
         "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "userProfilePlutoniumSubscriberSinceTooltip": "{productName} Plutonium pretplatnik od {date}",
-    "@userProfilePlutoniumSubscriberSinceTooltip": {
-        "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
-        "placeholders": {
-            "productName": {
+            "premiumProductFullName": {
                 "type": "String"
             },
             "date": {

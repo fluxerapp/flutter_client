@@ -156,7 +156,8 @@ class UserProfileBadges extends ConsumerWidget {
 
   String _premiumTooltip(
     FluxerLocalizations l10n,
-    String productName, {
+    String productName,
+    String premiumProductName, {
     required bool visionary,
   }) {
     final String? since = _formatPremiumSince(premiumSince, l10n.localeName);
@@ -165,9 +166,13 @@ class UserProfileBadges extends ConsumerWidget {
           ? l10n.userProfileVisionaryBadgeTooltip(productName)
           : l10n.userProfileVisionaryBadgeSinceTooltip(productName, since);
     }
+    final String premiumProductFullName = '$productName $premiumProductName';
     return since == null
-        ? l10n.userProfilePlutoniumBadgeTooltip(productName)
-        : l10n.userProfilePlutoniumSubscriberSinceTooltip(productName, since);
+        ? premiumProductFullName
+        : l10n.userProfilePremiumSubscriberSinceTooltip(
+            premiumProductFullName,
+            since,
+          );
   }
 
   static String? _formatPremiumSince(String? premiumSince, String localeName) {
@@ -184,16 +189,22 @@ class UserProfileBadges extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final ({bool selfHosted, bool showsPremium, String productName}) branding =
-        ref.watch(
-          instanceRuntimeConfigProvider.select(
-            (config) => (
-              selfHosted: config.selfHosted,
-              showsPremium: config.showsPremiumFeatures,
-              productName: config.productName,
-            ),
-          ),
-        );
+    final ({
+      bool selfHosted,
+      bool showsPremium,
+      String productName,
+      String premiumProductName,
+    })
+    branding = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => (
+          selfHosted: config.selfHosted,
+          showsPremium: config.showsPremiumFeatures,
+          productName: config.productName,
+          premiumProductName: config.premiumProductName,
+        ),
+      ),
+    );
     final List<Widget> children = <Widget>[];
 
     for (final badge in _kFlagBadgeSpecs) {
@@ -221,6 +232,7 @@ class UserProfileBadges extends ConsumerWidget {
           tooltip: _premiumTooltip(
             l10n,
             branding.productName,
+            branding.premiumProductName,
             visionary: isLifetimePlutonium && !branding.selfHosted,
           ),
         ),

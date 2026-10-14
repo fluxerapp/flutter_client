@@ -2953,16 +2953,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String userProfilePlutoniumBadgeTooltip(String productName) {
-    return '$productName Plutonium';
-  }
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(
-    String productName,
+  String userProfilePremiumSubscriberSinceTooltip(
+    String premiumProductFullName,
     String date,
   ) {
-    return '$productName Plutonium 订阅者，始于 $date';
+    return '$premiumProductFullName 订阅者，自 $date 起';
   }
 
   @override
@@ -17319,16 +17314,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
-  String userProfilePlutoniumBadgeTooltip(String productName) {
-    return '$productName Plutonium';
-  }
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(
-    String productName,
+  String userProfilePremiumSubscriberSinceTooltip(
+    String premiumProductFullName,
     String date,
   ) {
-    return '$productName Plutonium 訂閱者自 $date 起';
+    return '自 $date 起訂閱 $premiumProductFullName';
   }
 
   @override

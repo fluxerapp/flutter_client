@@ -3137,16 +3137,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String userProfilePlutoniumBadgeTooltip(String productName) {
-    return '$productName Plutonium';
-  }
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(
-    String productName,
+  String userProfilePremiumSubscriberSinceTooltip(
+    String premiumProductFullName,
     String date,
   ) {
-    return '$productName Plutonium-prenumerant sedan $date';
+    return 'Abonnent på $premiumProductFullName sedan $date';
   }
 
   @override
