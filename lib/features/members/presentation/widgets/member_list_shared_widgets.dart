@@ -313,7 +313,13 @@ class MemberListDetailsMemberShell extends StatelessWidget {
               ? null
               : Border(top: BorderSide(color: dividerColor)),
         ),
-        child: child,
+        child: ClipRRect(
+          borderRadius: borderRadius,
+          clipBehavior: isFirstInGroup || isLastInGroup
+              ? Clip.antiAlias
+              : Clip.none,
+          child: child,
+        ),
       ),
     );
   }
