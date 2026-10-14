@@ -113,10 +113,12 @@ class GuildScrollIndicatorController {
       return;
     }
     _updateScheduled = true;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateScheduled = false;
-      update();
-    });
+    WidgetsBinding.instance
+      ..addPostFrameCallback((_) {
+        _updateScheduled = false;
+        update();
+      })
+      ..ensureVisualUpdate();
   }
 
   bool get _canMeasure {
@@ -415,7 +417,7 @@ class GuildScrollIndicatorController {
   }
 }
 
-class GuildScrollIndicatorLayer extends StatelessWidget {
+class GuildScrollIndicatorLayer extends StatefulWidget {
   const GuildScrollIndicatorLayer({
     required this.controller,
     required this.label,
@@ -434,10 +436,41 @@ class GuildScrollIndicatorLayer extends StatelessWidget {
   final double bottomInset;
 
   @override
+  State<GuildScrollIndicatorLayer> createState() =>
+      _GuildScrollIndicatorLayerState();
+}
+
+class _GuildScrollIndicatorLayerState extends State<GuildScrollIndicatorLayer> {
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.scheduleUpdate();
+  }
+
+  @override
+  void didUpdateWidget(GuildScrollIndicatorLayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    widget.controller.scheduleUpdate();
+  }
+
+  bool _handleScrollMetrics(ScrollMetricsNotification notification) {
+    widget.controller.scheduleUpdate();
+    return false;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final GuildScrollIndicatorController controller = widget.controller;
+    final String label = widget.label;
+    final bool animated = widget.animated;
+    final double topInset = widget.topInset;
+    final double bottomInset = widget.bottomInset;
     return Stack(
       children: [
-        child,
+        NotificationListener<ScrollMetricsNotification>(
+          onNotification: _handleScrollMetrics,
+          child: widget.child,
+        ),
         Positioned(
           top: topInset - _kPillHitSlop,
           left: 0,

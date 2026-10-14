@@ -1,6 +1,10 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme.dart';
+import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -416,6 +420,187 @@ void main() {
         ..update();
       expect(indicatorController.bottomIndicator.value.show, isTrue);
       expect(indicatorController.bottomIndicator.value.animate, isFalse);
+    });
+  });
+
+  testWidgets('scheduleUpdate requests a frame while the app is idle', (
+    WidgetTester tester,
+  ) async {
+    final scrollController = ScrollController();
+    final itemKeys = <String, GlobalKey>{'below': GlobalKey()};
+    final indicatorController = _createController(
+      scrollController: scrollController,
+      itemKeys: itemKeys,
+    );
+    addTearDown(() {
+      indicatorController.detach();
+      scrollController.dispose();
+    });
+    await tester.pumpWidget(
+      _buildScrollable(
+        scrollController: scrollController,
+        children: <Widget>[
+          const SizedBox(height: 260),
+          SizedBox(key: itemKeys['below'], height: 40),
+        ],
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(tester.binding.hasScheduledFrame, isFalse);
+
+    indicatorController.scheduleUpdate();
+
+    expect(tester.binding.hasScheduledFrame, isTrue);
+    await tester.pump();
+    expect(indicatorController.bottomIndicator.value.show, isTrue);
+  });
+
+  group('GuildScrollIndicatorLayer', () {
+    Widget layer({
+      required GuildScrollIndicatorController controller,
+      required ScrollController scrollController,
+      required Map<String, GlobalKey> itemKeys,
+      required ValueNotifier<double> spacer,
+      required double outerSpacer,
+    }) {
+      final colorTheme = buildDarkColorTheme();
+      return MaterialApp(
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Center(
+          child: SizedBox(
+            width: 240,
+            height: 120,
+            child: GuildScrollIndicatorLayer(
+              controller: controller,
+              label: 'New',
+              child: ListView(
+                controller: scrollController,
+                children: <Widget>[
+                  SizedBox(height: outerSpacer),
+                  ValueListenableBuilder<double>(
+                    valueListenable: spacer,
+                    builder: (BuildContext context, double height, _) =>
+                        SizedBox(height: height),
+                  ),
+                  SizedBox(key: itemKeys['unread'], height: 40),
+                  const SizedBox(height: 400),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    testWidgets('evaluates once the list is laid out on mount', (
+      WidgetTester tester,
+    ) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{'unread': GlobalKey()};
+      final spacer = ValueNotifier<double>(0);
+      final indicatorController = _createController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+        spacer.dispose();
+      });
+
+      await tester.pumpWidget(
+        layer(
+          controller: indicatorController,
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+          spacer: spacer,
+          outerSpacer: 200,
+        ),
+      );
+      await tester.pump();
+
+      expect(indicatorController.bottomIndicator.value.show, isTrue);
+    });
+
+    testWidgets('re-evaluates when an item above moves the target into view', (
+      WidgetTester tester,
+    ) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{'unread': GlobalKey()};
+      final spacer = ValueNotifier<double>(200);
+      final indicatorController = _createController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+        spacer.dispose();
+      });
+
+      await tester.pumpWidget(
+        layer(
+          controller: indicatorController,
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+          spacer: spacer,
+          outerSpacer: 0,
+        ),
+      );
+      indicatorController.update();
+      expect(indicatorController.bottomIndicator.value.show, isTrue);
+
+      spacer.value = 0;
+      await tester.pump();
+      await tester.pump();
+
+      expect(indicatorController.bottomIndicator.value.show, isFalse);
+    });
+
+    testWidgets('re-evaluates when the host rebuilds with a new layout', (
+      WidgetTester tester,
+    ) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{'unread': GlobalKey()};
+      final spacer = ValueNotifier<double>(0);
+      final indicatorController = _createController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+        spacer.dispose();
+      });
+
+      await tester.pumpWidget(
+        layer(
+          controller: indicatorController,
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+          spacer: spacer,
+          outerSpacer: 200,
+        ),
+      );
+      indicatorController.update();
+      expect(indicatorController.bottomIndicator.value.show, isTrue);
+
+      await tester.pumpWidget(
+        layer(
+          controller: indicatorController,
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+          spacer: spacer,
+          outerSpacer: 0,
+        ),
+      );
+      await tester.pump();
+
+      expect(indicatorController.bottomIndicator.value.show, isFalse);
     });
   });
 }
