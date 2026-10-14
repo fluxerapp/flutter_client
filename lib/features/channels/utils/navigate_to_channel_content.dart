@@ -151,11 +151,12 @@ Future<void> openGuildChannelContent({
   int? effectivePermissionBits,
   String? targetMessageId,
 }) async {
-  if (await tryOpenLinkChannel(
-    context: context,
-    container: ref.container,
-    channel: channel,
-  )) {
+  if (channel.type == ChannelType.guildLink) {
+    await tryOpenLinkChannel(
+      context: context,
+      container: ref.container,
+      channel: channel,
+    );
     return;
   }
   if (!context.mounted) {
