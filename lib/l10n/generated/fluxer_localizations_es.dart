@@ -6834,6 +6834,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Toca dos veces un mensaje para';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Editar';
 
   @override

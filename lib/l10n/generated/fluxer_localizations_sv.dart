@@ -6770,6 +6770,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Dubbeltryck på ett meddelande för att';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Redigera';
 
   @override

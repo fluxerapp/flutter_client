@@ -14,6 +14,7 @@ class FluxerTextLink extends StatelessWidget {
     this.style,
     this.color,
     this.selectable = false,
+    this.underline = false,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class FluxerTextLink extends StatelessWidget {
   final TextStyle? style;
   final Color? color;
   final bool selectable;
+  final bool underline;
 
   void _handleTap(BuildContext context) {
     if (onTap != null) {
@@ -51,7 +53,7 @@ class FluxerTextLink extends StatelessWidget {
       builder: (context, states) {
         final isHovered = states.contains(WidgetState.hovered);
         final linkStyle = baseStyle.copyWith(
-          decoration: isHovered
+          decoration: underline || isHovered
               ? TextDecoration.underline
               : TextDecoration.none,
           decorationColor: baseStyle.color,

@@ -6773,6 +6773,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Kaksoisnapauta viestiä reagoidaksesi';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Muokkaa';
 
   @override

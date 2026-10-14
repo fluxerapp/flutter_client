@@ -6803,6 +6803,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Atinge de două ori un mesaj pentru a';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Editează';
 
   @override

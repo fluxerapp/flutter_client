@@ -6789,6 +6789,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Dvojitým klepnutím na zprávu reagujete';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Upravit';
 
   @override

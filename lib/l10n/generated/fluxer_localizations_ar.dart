@@ -6730,6 +6730,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get doubleTapReactionHint => 'انقر نقرًا مزدوجًا على رسالة للتفاعل بـ';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'تعديل';
 
   @override

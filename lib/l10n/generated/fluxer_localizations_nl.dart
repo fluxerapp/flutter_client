@@ -6785,6 +6785,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Dubbeltik op een bericht om';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Bewerken';
 
   @override

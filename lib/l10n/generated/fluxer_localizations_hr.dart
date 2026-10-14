@@ -6783,6 +6783,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Dvaput dodirnite poruku za reakciju';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Uredi';
 
   @override

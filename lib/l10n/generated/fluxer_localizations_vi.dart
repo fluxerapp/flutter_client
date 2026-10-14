@@ -6760,6 +6760,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Chạm hai lần vào tin nhắn để bày tỏ cảm xúc';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Chỉnh sửa';
 
   @override

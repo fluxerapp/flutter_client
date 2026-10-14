@@ -6816,6 +6816,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Koppints duplán egy üzenetre, hogy reagálj ezzel:';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Szerkesztés';
 
   @override

@@ -6830,6 +6830,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Πατήστε δύο φορές ένα μήνυμα για να';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Επεξεργασία';
 
   @override

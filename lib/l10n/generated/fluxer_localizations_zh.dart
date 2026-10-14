@@ -6364,6 +6364,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get doubleTapReactionHint => '双击消息即可回应';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => '编辑';
 
   @override

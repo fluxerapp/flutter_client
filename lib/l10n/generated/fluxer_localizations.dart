@@ -10957,6 +10957,12 @@ abstract class FluxerLocalizations {
   /// **'Double tap a message to'**
   String get doubleTapReactionHint;
 
+  /// Hint under quick reactions in the message actions sheet when the double-tap action is set to edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Double tap your own message to edit it'**
+  String get doubleTapEditHint;
+
   /// Button that opens the double-tap default emoji picker.
   ///
   /// In en, this message translates to:

@@ -8554,6 +8554,10 @@
     "@doubleTapReactionHint": {
         "description": "Hint under quick reactions explaining double-tap to react."
     },
+    "doubleTapEditHint": "Double tap your own message to edit it",
+    "@doubleTapEditHint": {
+        "description": "Hint under quick reactions in the message actions sheet when the double-tap action is set to edit."
+    },
     "doubleTapReactionEdit": "Edit",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
