@@ -520,6 +520,138 @@ void main() {
       expect(images[1].loadAnimated, isTrue);
     });
 
+    testWidgets('paused stickers leave the playback budget to gifs', (
+      tester,
+    ) async {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(
+            maxActiveVideos: kMaxActiveChatAnimatedImages,
+          );
+      await tester.pumpWidget(
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 100,
+                  child: EmbedAnimatedImage(
+                    animatedUrl: 'https://x/gif.webp',
+                    staticUrl: 'https://x/gif.png',
+                  ),
+                ),
+                for (
+                  int index = 0;
+                  index < kMaxActiveChatAnimatedImages;
+                  index += 1
+                )
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: EmbedAnimatedImage(
+                      animatedUrl: 'https://x/sticker-$index.webp',
+                      staticUrl: 'https://x/sticker-$index.png',
+                      useStickerAnimationPreference: true,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          animateStickers: StickerAnimationOptions.animateOnInteraction,
+        ),
+      );
+      await tester.pump();
+
+      FluxerAnimatedImage image(String url) => tester
+          .widgetList<FluxerAnimatedImage>(find.byType(FluxerAnimatedImage))
+          .singleWhere((FluxerAnimatedImage image) => image.animatedUrl == url);
+
+      expect(image('https://x/gif.webp').playing, isTrue);
+
+      final TestGesture gesture = await tester.startGesture(
+        tester.getCenter(
+          find.byWidgetPredicate(
+            (Widget widget) =>
+                widget is EmbedAnimatedImage &&
+                widget.animatedUrl == 'https://x/sticker-1.webp',
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(image('https://x/sticker-1.webp').playing, isTrue);
+      expect(image('https://x/gif.webp').playing, isTrue);
+
+      await gesture.up();
+      await tester.pump();
+      expect(image('https://x/sticker-1.webp').playing, isFalse);
+      expect(image('https://x/gif.webp').playing, isTrue);
+    });
+
+    testWidgets('a pressed sticker plays when gifs fill the budget', (
+      tester,
+    ) async {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(
+            maxActiveVideos: kMaxActiveChatAnimatedImages,
+          );
+      await tester.pumpWidget(
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: EmbedAnimatedImage(
+                    animatedUrl: 'https://x/sticker.webp',
+                    staticUrl: 'https://x/sticker.png',
+                    useStickerAnimationPreference: true,
+                  ),
+                ),
+                for (
+                  int index = 0;
+                  index < kMaxActiveChatAnimatedImages;
+                  index += 1
+                )
+                  SizedBox(
+                    height: 100,
+                    child: EmbedAnimatedImage(
+                      animatedUrl: 'https://x/gif-$index.webp',
+                      staticUrl: 'https://x/gif-$index.png',
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          animateStickers: StickerAnimationOptions.animateOnInteraction,
+        ),
+      );
+      await tester.pump();
+
+      FluxerAnimatedImage image(String url) => tester
+          .widgetList<FluxerAnimatedImage>(find.byType(FluxerAnimatedImage))
+          .singleWhere((FluxerAnimatedImage image) => image.animatedUrl == url);
+
+      final TestGesture gesture = await tester.startGesture(
+        tester.getCenter(
+          find.byWidgetPredicate(
+            (Widget widget) =>
+                widget is EmbedAnimatedImage &&
+                widget.animatedUrl == 'https://x/sticker.webp',
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(image('https://x/sticker.webp').playing, isTrue);
+      await gesture.up();
+      await tester.pump();
+      expect(<bool>[
+        for (int index = 0; index < kMaxActiveChatAnimatedImages; index += 1)
+          image('https://x/gif-$index.webp').playing,
+      ], everyElement(isTrue));
+    });
+
     testWidgets('stays playing across a transient hide blip', (tester) async {
       await tester.pumpWidget(
         _wrap(

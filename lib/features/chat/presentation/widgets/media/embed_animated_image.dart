@@ -38,6 +38,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
   AnimatedImagePlaybackController? _controller;
   late final ValueNotifier<({bool playing, bool loadAnimated})> _playback;
   bool _localVisible = false;
+  double _visibleFraction = 0;
   bool _hideScheduled = false;
   bool _interacting = false;
   bool _gifAutoPlay = true;
@@ -63,7 +64,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     _controller?.unregister(this);
     _controller?.removeListener(_onControllerChanged);
     _controller = controller;
-    _controller?.register(this, _localVisible ? 1 : 0);
+    _controller?.register(this, _budgetFraction);
     _controller?.addListener(_onControllerChanged);
     _syncPlaying();
   }
@@ -89,7 +90,14 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
       return;
     }
     _interacting = value;
+    _reportBudget();
     _syncPlaying();
+  }
+
+  double get _budgetFraction => _playbackAllowed ? _visibleFraction : 0;
+
+  void _reportBudget() {
+    _controller?.updateVisibility(this, _budgetFraction);
   }
 
   bool get _playbackAllowed {
@@ -118,6 +126,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     _stickerMode = motion.effectiveAnimateStickers;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
+        _reportBudget();
         _syncPlaying();
       }
     });
@@ -140,7 +149,8 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
 
   void _applyVisibility(VisibilityInfo info, {required bool visible}) {
     _localVisible = visible;
-    _controller?.updateVisibility(this, info.visibleFraction);
+    _visibleFraction = info.visibleFraction;
+    _reportBudget();
     _syncPlaying();
   }
 
