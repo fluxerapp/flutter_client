@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/change_nickname_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 Future<void> showChangeFriendNicknameSheet(
   BuildContext context,
@@ -32,12 +33,9 @@ Future<void> showChangeFriendNicknameSheet(
         variant: FluxerToastVariant.success,
       ),
     );
-  } on Object {
-    toast.show(
-      FluxerToast(
-        message: l10n.userProfileActionFailed,
-        variant: FluxerToastVariant.danger,
-      ),
-    );
+  } on Object catch (e) {
+    if (context.mounted) {
+      await showApiError(context, ref, ApiErrorAction.generic, e);
+    }
   }
 }

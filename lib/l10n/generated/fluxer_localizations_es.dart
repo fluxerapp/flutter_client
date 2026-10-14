@@ -1467,23 +1467,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Solicitud de amistad enviada';
 
   @override
-  String get dmAcceptFriendRequestFailed =>
-      'Error al aceptar la solicitud de amistad';
-
-  @override
-  String get dmRemoveFriendFailed => 'Error al eliminar al amigo';
-
-  @override
-  String get dmBlockFailed => 'Error al bloquear al usuario';
-
-  @override
-  String get dmUnblockFailed => 'Error al desbloquear al usuario';
-
-  @override
-  String get dmIgnoreFriendRequestFailed =>
-      'Error al ignorar la solicitud de amistad';
-
-  @override
   String get dmAddFriends => 'Añadir amigos';
 
   @override
@@ -15620,6 +15603,66 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get favoritesRenameCategory => 'Renombrar categoría';
+
+  @override
+  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+
+  @override
+  String get friendAcceptUnavailable =>
+      'That friend request is no longer available. Refresh and try again.';
+
+  @override
+  String get friendAcceptClaimToAccept =>
+      'Finish signing up to accept friend requests.';
+
+  @override
+  String get friendAcceptFailedMessage =>
+      'Couldn\'t accept the friend request. Try again.';
+
+  @override
+  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+
+  @override
+  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+
+  @override
+  String get friendIgnoreFailedMessage =>
+      'Couldn\'t ignore the friend request. Try again.';
+
+  @override
+  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+
+  @override
+  String get friendRemoveFailedMessage =>
+      'Couldn\'t remove this friend. Try again.';
+
+  @override
+  String get userBlockFailedTitle => 'Couldn\'t block user';
+
+  @override
+  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+
+  @override
+  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+
+  @override
+  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+
+  @override
+  String get userUnblockFailedMessage =>
+      'Couldn\'t unblock this user. Try again.';
+
+  @override
+  String friendCancelRequestConfirmDescription(String userName) {
+    return 'Cancel your friend request to $userName?';
+  }
+
+  @override
+  String get errorSomethingWentWrongTitle => 'Something went wrong';
+
+  @override
+  String get errorUnexpectedTryAgain =>
+      'An unexpected error occurred. Try again.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -17075,23 +17118,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get dmFriendRequestSentToast => 'Solicitud de amistad enviada';
-
-  @override
-  String get dmAcceptFriendRequestFailed =>
-      'No se pudo aceptar la solicitud de amistad';
-
-  @override
-  String get dmRemoveFriendFailed => 'No se pudo eliminar de tus amigos';
-
-  @override
-  String get dmBlockFailed => 'No se pudo bloquear al usuario';
-
-  @override
-  String get dmUnblockFailed => 'No se pudo desbloquear al usuario';
-
-  @override
-  String get dmIgnoreFriendRequestFailed =>
-      'No se pudo ignorar la solicitud de amistad';
 
   @override
   String get dmAddFriends => 'Agregar amigos';

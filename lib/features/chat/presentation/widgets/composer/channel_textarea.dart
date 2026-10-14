@@ -93,6 +93,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -590,18 +591,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
     try {
       await ref.read(friendRepositoryProvider).removeRelationship(userId);
-    } on Object catch (_) {
-      if (!mounted) {
+    } on Object catch (e) {
+      if (!context.mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.dmUnblockFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ref, ApiErrorAction.unblockUser, e);
     }
   }
 

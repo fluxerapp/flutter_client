@@ -1379,21 +1379,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dmFriendRequestSentToast => '已发送好友请求';
 
   @override
-  String get dmAcceptFriendRequestFailed => '接受好友请求失败';
-
-  @override
-  String get dmRemoveFriendFailed => '移除好友失败';
-
-  @override
-  String get dmBlockFailed => '屏蔽用户失败';
-
-  @override
-  String get dmUnblockFailed => '解除屏蔽用户失败';
-
-  @override
-  String get dmIgnoreFriendRequestFailed => '忽略好友请求失败';
-
-  @override
   String get dmAddFriends => '添加好友';
 
   @override
@@ -14550,6 +14535,66 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get favoritesRenameCategory => '重命名类别';
+
+  @override
+  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+
+  @override
+  String get friendAcceptUnavailable =>
+      'That friend request is no longer available. Refresh and try again.';
+
+  @override
+  String get friendAcceptClaimToAccept =>
+      'Finish signing up to accept friend requests.';
+
+  @override
+  String get friendAcceptFailedMessage =>
+      'Couldn\'t accept the friend request. Try again.';
+
+  @override
+  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+
+  @override
+  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+
+  @override
+  String get friendIgnoreFailedMessage =>
+      'Couldn\'t ignore the friend request. Try again.';
+
+  @override
+  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+
+  @override
+  String get friendRemoveFailedMessage =>
+      'Couldn\'t remove this friend. Try again.';
+
+  @override
+  String get userBlockFailedTitle => 'Couldn\'t block user';
+
+  @override
+  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+
+  @override
+  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+
+  @override
+  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+
+  @override
+  String get userUnblockFailedMessage =>
+      'Couldn\'t unblock this user. Try again.';
+
+  @override
+  String friendCancelRequestConfirmDescription(String userName) {
+    return 'Cancel your friend request to $userName?';
+  }
+
+  @override
+  String get errorSomethingWentWrongTitle => 'Something went wrong';
+
+  @override
+  String get errorUnexpectedTryAgain =>
+      'An unexpected error occurred. Try again.';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -15918,21 +15963,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get dmFriendRequestSentToast => '已送出好友邀請';
-
-  @override
-  String get dmAcceptFriendRequestFailed => '接受朋友要求失敗';
-
-  @override
-  String get dmRemoveFriendFailed => '移除朋友失敗';
-
-  @override
-  String get dmBlockFailed => '封鎖使用者失敗';
-
-  @override
-  String get dmUnblockFailed => '解除封鎖使用者失敗';
-
-  @override
-  String get dmIgnoreFriendRequestFailed => '忽略朋友要求失敗';
 
   @override
   String get dmAddFriends => '新增好友';

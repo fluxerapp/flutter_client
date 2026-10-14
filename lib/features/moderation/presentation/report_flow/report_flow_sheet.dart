@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 class ReportFlowSheet extends ConsumerStatefulWidget {
   const ReportFlowSheet({required this.target, required this.close, super.key});
@@ -237,7 +238,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
     } on Object catch (error, stack) {
       talker.error('[ReportFlow] block failed', error, stack);
       if (mounted) {
-        _showToast(l10n.userProfileActionFailed, FluxerToastVariant.danger);
+        await showApiError(context, ref, ApiErrorAction.blockUser, error);
       }
     } finally {
       if (mounted) {

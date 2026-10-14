@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FriendRequestSheetItem extends ConsumerWidget {
@@ -164,34 +165,35 @@ class FriendRequestSheetItem extends ConsumerWidget {
   }
 
   Future<void> _acceptRequest(WidgetRef ref) async {
-    final l10n = FluxerLocalizations.of(ref.context);
-    try {
-      await ref.read(friendRepositoryProvider).acceptFriendRequest(friend.id);
-    } on Exception catch (_) {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.dmAcceptFriendRequestFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
-    }
+    await _runRelationshipAction(
+      ref,
+      ApiErrorAction.acceptFriendRequest,
+      () => ref.read(friendRepositoryProvider).acceptFriendRequest(friend.id),
+    );
   }
 
   Future<void> _cancelRequest(WidgetRef ref) async {
-    final l10n = FluxerLocalizations.of(ref.context);
+    await _runRelationshipAction(
+      ref,
+      _isIncoming
+          ? ApiErrorAction.ignoreFriendRequest
+          : ApiErrorAction.cancelFriendRequest,
+      () => ref.read(friendRepositoryProvider).removeRelationship(friend.id),
+    );
+  }
+
+  Future<void> _runRelationshipAction(
+    WidgetRef ref,
+    ApiErrorAction errorAction,
+    Future<void> Function() call,
+  ) async {
     try {
-      await ref.read(friendRepositoryProvider).removeRelationship(friend.id);
-    } on Exception catch (_) {
-      final String message = _isIncoming
-          ? l10n.dmIgnoreFriendRequestFailed
-          : l10n.addFriendCancelRequestFailed;
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(message: message, variant: FluxerToastVariant.danger),
-          );
+      await call();
+    } on Object catch (e) {
+      if (!ref.context.mounted) {
+        return;
+      }
+      await showApiError(ref.context, ref, errorAction, e);
     }
   }
 }

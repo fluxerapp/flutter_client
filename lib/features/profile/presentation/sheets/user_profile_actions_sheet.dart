@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
@@ -249,7 +250,7 @@ class UserProfileActionsSheet {
                   if (ok) {
                     await _runRepoAction(
                       ref,
-                      l10n.userProfileActionFailed,
+                      ApiErrorAction.removeFriend,
                       () => ref
                           .read(friendRepositoryProvider)
                           .removeRelationship(user.id),
@@ -324,7 +325,7 @@ class UserProfileActionsSheet {
                     if (ok) {
                       await _runRepoAction(
                         ref,
-                        l10n.userProfileActionFailed,
+                        ApiErrorAction.unblockUser,
                         () => ref
                             .read(friendRepositoryProvider)
                             .removeRelationship(user.id),
@@ -353,7 +354,7 @@ class UserProfileActionsSheet {
                     if (ok) {
                       await _runRepoAction(
                         ref,
-                        l10n.userProfileActionFailed,
+                        ApiErrorAction.blockUser,
                         () => ref
                             .read(friendRepositoryProvider)
                             .blockUser(user.id),
@@ -524,7 +525,7 @@ class UserProfileActionsSheet {
 
   static Future<void> _runRepoAction(
     WidgetRef ref,
-    String errorMessage,
+    ApiErrorAction errorAction,
     Future<void> Function() action,
   ) async {
     try {
@@ -532,14 +533,10 @@ class UserProfileActionsSheet {
       ref.invalidate(friendsListProvider);
     } on Object catch (e, st) {
       talker.error('[UserProfileActionsSheet] action failed: $e', e, st);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: errorMessage,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      if (!ref.context.mounted) {
+        return;
+      }
+      await showApiError(ref.context, ref, errorAction, e);
     }
   }
 }

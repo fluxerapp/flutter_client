@@ -41,9 +41,7 @@ class FriendRepository {
       });
       return relationships.map(Friend.fromSdk).toList();
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.statusMessage ?? 'Failed to fetch relationships',
-      );
+      throw ApiException.fromDio(e);
     }
   }
 
@@ -87,9 +85,7 @@ class FriendRepository {
           );
       await _upsertRelationship(relationship);
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.statusMessage ?? 'Failed to accept friend request',
-      );
+      throw ApiException.fromDio(e);
     }
   }
 
@@ -105,7 +101,7 @@ class FriendRepository {
           );
       await _upsertRelationship(relationship);
     } on DioException catch (e) {
-      throw Exception(e.response?.statusMessage ?? 'Failed to update nickname');
+      throw ApiException.fromDio(e);
     }
   }
 
@@ -114,9 +110,7 @@ class FriendRepository {
       await _client.users.removeRelationship(userId: userId);
       await _db.relationshipDao.deleteRelationship(userId);
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.statusMessage ?? 'Failed to remove relationship',
-      );
+      throw ApiException.fromDio(e);
     }
   }
 
@@ -131,7 +125,7 @@ class FriendRepository {
           );
       await _upsertRelationship(relationship);
     } on DioException catch (e) {
-      throw Exception(e.response?.statusMessage ?? 'Failed to block user');
+      throw ApiException.fromDio(e);
     }
   }
 

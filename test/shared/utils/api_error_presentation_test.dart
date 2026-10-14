@@ -14,14 +14,44 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import '../../helpers/test_l10n.dart';
 
 ApiErrorDialog _dialog(String? code, {String? apiMessage}) {
+  return _dialogFor(
+    ApiErrorAction.sendFriendRequest,
+    code,
+    apiMessage: apiMessage,
+  );
+}
+
+ApiErrorDialog _dialogFor(
+  ApiErrorAction action,
+  String? code, {
+  String? apiMessage,
+}) {
   final ApiErrorPresentation presentation = presentApiError(
     testL10n,
-    ApiErrorAction.sendFriendRequest,
+    action,
     code: code,
     apiMessage: apiMessage,
   );
   expect(presentation, isA<ApiErrorDialog>());
-  return presentation as ApiErrorDialog;
+  final ApiErrorDialog dialog = presentation as ApiErrorDialog;
+  expect(dialog.buttonLabel, 'Understood');
+  return dialog;
+}
+
+void _expectCopy(
+  ApiErrorAction action,
+  String? code,
+  String title,
+  String body, {
+  String? apiMessage,
+}) {
+  final ApiErrorDialog dialog = _dialogFor(
+    action,
+    code,
+    apiMessage: apiMessage,
+  );
+  expect(dialog.title, title, reason: '$action $code title');
+  expect(dialog.body, body, reason: '$action $code body');
 }
 
 void main() {
@@ -123,6 +153,103 @@ void main() {
           StateError('offline'),
         ).body,
         "Couldn't send the friend request. Try again.",
+      );
+    });
+  });
+
+  group('relationship action errors', () {
+    test('accept maps each code to the web copy', () {
+      const String title = "Couldn't accept friend request";
+      const String unavailable =
+          'That friend request is no longer available. Refresh and try again.';
+      _expectCopy(
+        ApiErrorAction.acceptFriendRequest,
+        'UNKNOWN_USER',
+        title,
+        unavailable,
+      );
+      _expectCopy(
+        ApiErrorAction.acceptFriendRequest,
+        'FRIEND_REQUEST_BLOCKED',
+        title,
+        unavailable,
+      );
+      _expectCopy(
+        ApiErrorAction.acceptFriendRequest,
+        'UNCLAIMED_ACCOUNT_CANNOT_ACCEPT_FRIEND_REQUESTS',
+        title,
+        'Finish signing up to accept friend requests.',
+      );
+      _expectCopy(
+        ApiErrorAction.acceptFriendRequest,
+        'MAX_FRIENDS',
+        title,
+        'Your friends list is full, or theirs is. Remove someone and try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.acceptFriendRequest,
+        'SOMETHING_NEW',
+        title,
+        "Couldn't accept the friend request. Try again.",
+        apiMessage: 'Server text',
+      );
+    });
+
+    test('block explains system accounts and falls back otherwise', () {
+      _expectCopy(
+        ApiErrorAction.blockUser,
+        'CANNOT_BLOCK_SYSTEM_USER',
+        "Couldn't block user",
+        "This account can't be blocked.",
+      );
+      _expectCopy(
+        ApiErrorAction.blockUser,
+        null,
+        "Couldn't block user",
+        "Couldn't block this user. Try again.",
+      );
+    });
+
+    test('other relationship actions use their own title and body', () {
+      _expectCopy(
+        ApiErrorAction.cancelFriendRequest,
+        null,
+        "Couldn't cancel friend request",
+        "Couldn't cancel the friend request. Try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.ignoreFriendRequest,
+        null,
+        "Couldn't ignore friend request",
+        "Couldn't ignore the friend request. Try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.removeFriend,
+        null,
+        "Couldn't remove friend",
+        "Couldn't remove this friend. Try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.unblockUser,
+        null,
+        "Couldn't unblock user",
+        "Couldn't unblock this user. Try again.",
+      );
+    });
+
+    test('generic shows the server message or an unexpected error', () {
+      _expectCopy(
+        ApiErrorAction.generic,
+        'INVALID_FORM_BODY',
+        'Something went wrong',
+        'Nickname is too long.',
+        apiMessage: 'Nickname is too long.',
+      );
+      _expectCopy(
+        ApiErrorAction.generic,
+        null,
+        'Something went wrong',
+        'An unexpected error occurred. Try again.',
       );
     });
   });

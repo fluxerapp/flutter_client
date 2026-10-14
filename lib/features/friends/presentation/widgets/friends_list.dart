@@ -25,6 +25,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/pages/add_friend_page.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -549,9 +550,14 @@ class FriendsList extends ConsumerWidget {
                         context,
                       ).friendsAcceptRequest,
                       onPressed: () => unawaited(
-                        ref
-                            .read(friendRepositoryProvider)
-                            .acceptFriendRequest(friend.id),
+                        _runRelationshipAction(
+                          context,
+                          ref,
+                          ApiErrorAction.acceptFriendRequest,
+                          () => ref
+                              .read(friendRepositoryProvider)
+                              .acceptFriendRequest(friend.id),
+                        ),
                       ),
                     ),
                     SizedBox(width: context.layout.s2),
@@ -693,27 +699,37 @@ class FriendsList extends ConsumerWidget {
     WidgetRef ref,
     Friend friend,
   ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String title = l10n.addFriendIgnoreTitle;
+    final String description = l10n.addFriendIgnoreConfirmDescription(
+      friend.displayName,
+    );
     final bool? confirmed = isMobileLayout(context)
         ? await FluxerConfirmSheet.show(
             context,
-            title: 'Ignore friend request',
-            description:
-                'Ignore the friend request from ${friend.displayName}?',
-            confirmLabel: 'Ignore',
+            title: title,
+            description: description,
+            confirmLabel: l10n.addFriendIgnore,
+            isDanger: true,
             onConfirm: () {},
           )
         : await FluxerConfirmModal.show(
             context,
-            title: 'Ignore friend request',
-            description:
-                'Ignore the friend request from ${friend.displayName}?',
-            confirmLabel: 'Ignore',
+            title: title,
+            description: description,
+            confirmLabel: l10n.addFriendIgnore,
+            isDanger: true,
             onConfirm: () {},
           );
     if (confirmed != true || !context.mounted) {
       return;
     }
-    await ref.read(friendRepositoryProvider).removeRelationship(friend.id);
+    await _runRelationshipAction(
+      context,
+      ref,
+      ApiErrorAction.ignoreFriendRequest,
+      () => ref.read(friendRepositoryProvider).removeRelationship(friend.id),
+    );
   }
 
   Future<void> _confirmCancelOutgoingRequest(
@@ -721,24 +737,52 @@ class FriendsList extends ConsumerWidget {
     WidgetRef ref,
     Friend friend,
   ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String title = l10n.friendsCancelRequest;
+    final String description = l10n.friendCancelRequestConfirmDescription(
+      friend.displayName,
+    );
     final bool? confirmed = isMobileLayout(context)
         ? await FluxerConfirmSheet.show(
             context,
-            title: 'Cancel friend request',
-            description: 'Cancel your friend request to ${friend.displayName}?',
-            confirmLabel: 'Cancel request',
+            title: title,
+            description: description,
+            confirmLabel: l10n.friendsCancelRequest,
+            isDanger: true,
             onConfirm: () {},
           )
         : await FluxerConfirmModal.show(
             context,
-            title: 'Cancel friend request',
-            description: 'Cancel your friend request to ${friend.displayName}?',
-            confirmLabel: 'Cancel request',
+            title: title,
+            description: description,
+            confirmLabel: l10n.friendsCancelRequest,
+            isDanger: true,
             onConfirm: () {},
           );
     if (confirmed != true || !context.mounted) {
       return;
     }
-    await ref.read(friendRepositoryProvider).removeRelationship(friend.id);
+    await _runRelationshipAction(
+      context,
+      ref,
+      ApiErrorAction.cancelFriendRequest,
+      () => ref.read(friendRepositoryProvider).removeRelationship(friend.id),
+    );
+  }
+
+  Future<void> _runRelationshipAction(
+    BuildContext context,
+    WidgetRef ref,
+    ApiErrorAction errorAction,
+    Future<void> Function() call,
+  ) async {
+    try {
+      await call();
+    } on Object catch (e) {
+      if (!context.mounted) {
+        return;
+      }
+      await showApiError(context, ref, errorAction, e);
+    }
   }
 }

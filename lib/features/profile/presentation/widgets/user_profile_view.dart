@@ -250,13 +250,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
 
   Future<void> _handleRelationshipAction({
     required Future<void> Function() repoCall,
-    ApiErrorAction? errorAction,
+    required ApiErrorAction errorAction,
     String? confirmTitle,
     String? confirmDescription,
     String? confirmPrimary,
     FluxerButtonVariant? confirmVariant,
   }) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (confirmTitle != null) {
       final bool ok = await UserProfileConfirmationSheet.show(
         context,
@@ -280,18 +279,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       if (!mounted) {
         return;
       }
-      if (errorAction != null) {
-        await showApiError(context, ref, errorAction, err);
-        return;
-      }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.userProfileActionFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ref, errorAction, err);
     }
   }
 
@@ -451,6 +439,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                               repoCall: () => ref
                                   .read(friendRepositoryProvider)
                                   .removeRelationship(userId),
+                              errorAction: ApiErrorAction.unblockUser,
                               confirmTitle: FluxerLocalizations.of(
                                 context,
                               ).userProfileUnblockConfirmTitle,
@@ -466,6 +455,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                               repoCall: () => ref
                                   .read(friendRepositoryProvider)
                                   .removeRelationship(userId),
+                              errorAction: ApiErrorAction.removeFriend,
                               confirmTitle: FluxerLocalizations.of(
                                 context,
                               ).userProfileRemoveFriendConfirmTitle,
@@ -484,11 +474,13 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                               repoCall: () => ref
                                   .read(friendRepositoryProvider)
                                   .acceptFriendRequest(userId),
+                              errorAction: ApiErrorAction.acceptFriendRequest,
                             ),
                             onCancelRequest: () => _handleRelationshipAction(
                               repoCall: () => ref
                                   .read(friendRepositoryProvider)
                                   .removeRelationship(userId),
+                              errorAction: ApiErrorAction.cancelFriendRequest,
                             ),
                             onSendFriendRequest: () =>
                                 _handleRelationshipAction(

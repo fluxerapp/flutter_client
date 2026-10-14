@@ -1459,21 +1459,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'تم إرسال طلب الصداقة';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'فشل قبول طلب الصداقة';
-
-  @override
-  String get dmRemoveFriendFailed => 'فشل إزالة الصديق';
-
-  @override
-  String get dmBlockFailed => 'فشل حظر المستخدم';
-
-  @override
-  String get dmUnblockFailed => 'فشل إلغاء حظر المستخدم';
-
-  @override
-  String get dmIgnoreFriendRequestFailed => 'فشل تجاهل طلب الصداقة';
-
-  @override
   String get dmAddFriends => 'إضافة أصدقاء';
 
   @override
@@ -15345,4 +15330,64 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get favoritesRenameCategory => 'إعادة تسمية الفئة';
+
+  @override
+  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+
+  @override
+  String get friendAcceptUnavailable =>
+      'That friend request is no longer available. Refresh and try again.';
+
+  @override
+  String get friendAcceptClaimToAccept =>
+      'Finish signing up to accept friend requests.';
+
+  @override
+  String get friendAcceptFailedMessage =>
+      'Couldn\'t accept the friend request. Try again.';
+
+  @override
+  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+
+  @override
+  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+
+  @override
+  String get friendIgnoreFailedMessage =>
+      'Couldn\'t ignore the friend request. Try again.';
+
+  @override
+  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+
+  @override
+  String get friendRemoveFailedMessage =>
+      'Couldn\'t remove this friend. Try again.';
+
+  @override
+  String get userBlockFailedTitle => 'Couldn\'t block user';
+
+  @override
+  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+
+  @override
+  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+
+  @override
+  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+
+  @override
+  String get userUnblockFailedMessage =>
+      'Couldn\'t unblock this user. Try again.';
+
+  @override
+  String friendCancelRequestConfirmDescription(String userName) {
+    return 'Cancel your friend request to $userName?';
+  }
+
+  @override
+  String get errorSomethingWentWrongTitle => 'Something went wrong';
+
+  @override
+  String get errorUnexpectedTryAgain =>
+      'An unexpected error occurred. Try again.';
 }

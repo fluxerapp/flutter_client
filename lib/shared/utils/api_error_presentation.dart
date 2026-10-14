@@ -8,7 +8,16 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-enum ApiErrorAction { sendFriendRequest }
+enum ApiErrorAction {
+  generic,
+  sendFriendRequest,
+  acceptFriendRequest,
+  cancelFriendRequest,
+  ignoreFriendRequest,
+  removeFriend,
+  blockUser,
+  unblockUser,
+}
 
 sealed class ApiErrorPresentation {
   const ApiErrorPresentation({required this.body});
@@ -31,19 +40,71 @@ final class ApiErrorToast extends ApiErrorPresentation {
   const ApiErrorToast({required super.body});
 }
 
+typedef _ErrorCopy = ({String title, String body});
+
 ApiErrorPresentation presentApiError(
   FluxerLocalizations l10n,
   ApiErrorAction action, {
   String? code,
   String? apiMessage,
 }) {
+  final _ErrorCopy copy = _copyFor(l10n, action, code, apiMessage);
+  return ApiErrorDialog(
+    title: copy.title,
+    body: copy.body,
+    buttonLabel: l10n.uiUnderstood,
+  );
+}
+
+_ErrorCopy _copyFor(
+  FluxerLocalizations l10n,
+  ApiErrorAction action,
+  String? code,
+  String? apiMessage,
+) {
   return switch (action) {
-    ApiErrorAction.sendFriendRequest => ApiErrorDialog(
+    ApiErrorAction.generic => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: _apiMessageOr(apiMessage, l10n.errorUnexpectedTryAgain),
+    ),
+    ApiErrorAction.sendFriendRequest => (
       title: l10n.addFriendSendFailedTitle,
       body:
           _sendFriendRequestBody(l10n, code) ??
           _apiMessageOr(apiMessage, l10n.addFriendSendFailedMessage),
-      buttonLabel: l10n.uiUnderstood,
+    ),
+    ApiErrorAction.acceptFriendRequest => (
+      title: l10n.friendAcceptFailedTitle,
+      body: switch (code) {
+        'UNKNOWN_USER' ||
+        'FRIEND_REQUEST_BLOCKED' => l10n.friendAcceptUnavailable,
+        'UNCLAIMED_ACCOUNT_CANNOT_ACCEPT_FRIEND_REQUESTS' =>
+          l10n.friendAcceptClaimToAccept,
+        'MAX_FRIENDS' => l10n.addFriendFriendsListFull,
+        _ => l10n.friendAcceptFailedMessage,
+      },
+    ),
+    ApiErrorAction.cancelFriendRequest => (
+      title: l10n.friendCancelFailedTitle,
+      body: l10n.addFriendCancelRequestFailed,
+    ),
+    ApiErrorAction.ignoreFriendRequest => (
+      title: l10n.friendIgnoreFailedTitle,
+      body: l10n.friendIgnoreFailedMessage,
+    ),
+    ApiErrorAction.removeFriend => (
+      title: l10n.friendRemoveFailedTitle,
+      body: l10n.friendRemoveFailedMessage,
+    ),
+    ApiErrorAction.blockUser => (
+      title: l10n.userBlockFailedTitle,
+      body: code == 'CANNOT_BLOCK_SYSTEM_USER'
+          ? l10n.userBlockSystemAccount
+          : l10n.userBlockFailedMessage,
+    ),
+    ApiErrorAction.unblockUser => (
+      title: l10n.userUnblockFailedTitle,
+      body: l10n.userUnblockFailedMessage,
     ),
   };
 }

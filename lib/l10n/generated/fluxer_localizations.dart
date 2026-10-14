@@ -2576,36 +2576,6 @@ abstract class FluxerLocalizations {
   /// **'Friend request sent'**
   String get dmFriendRequestSentToast;
 
-  /// Toast message when accepting a friend request fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to accept friend request'**
-  String get dmAcceptFriendRequestFailed;
-
-  /// Toast message when removing a friend fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to remove friend'**
-  String get dmRemoveFriendFailed;
-
-  /// Toast message when blocking a user fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to block user'**
-  String get dmBlockFailed;
-
-  /// Toast message when unblocking a user fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to unblock user'**
-  String get dmUnblockFailed;
-
-  /// Toast message when ignoring a friend request fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to ignore friend request'**
-  String get dmIgnoreFriendRequestFailed;
-
   /// Mobile DM list header button to open the add friends sheet.
   ///
   /// In en, this message translates to:
@@ -25553,6 +25523,108 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Rename category'**
   String get favoritesRenameCategory;
+
+  /// Title of the dialog shown when accepting a friend request fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t accept friend request'**
+  String get friendAcceptFailedTitle;
+
+  /// Body of the accept friend request error dialog when the request no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'That friend request is no longer available. Refresh and try again.'**
+  String get friendAcceptUnavailable;
+
+  /// Body of the accept friend request error dialog when the account is unclaimed.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish signing up to accept friend requests.'**
+  String get friendAcceptClaimToAccept;
+
+  /// Fallback body of the accept friend request error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t accept the friend request. Try again.'**
+  String get friendAcceptFailedMessage;
+
+  /// Title of the dialog shown when cancelling an outgoing friend request fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t cancel friend request'**
+  String get friendCancelFailedTitle;
+
+  /// Title of the dialog shown when ignoring an incoming friend request fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t ignore friend request'**
+  String get friendIgnoreFailedTitle;
+
+  /// Body of the ignore friend request error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t ignore the friend request. Try again.'**
+  String get friendIgnoreFailedMessage;
+
+  /// Title of the dialog shown when removing a friend fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t remove friend'**
+  String get friendRemoveFailedTitle;
+
+  /// Body of the remove friend error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t remove this friend. Try again.'**
+  String get friendRemoveFailedMessage;
+
+  /// Title of the dialog shown when blocking a user fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t block user'**
+  String get userBlockFailedTitle;
+
+  /// Body of the block user error dialog when the target is a system account.
+  ///
+  /// In en, this message translates to:
+  /// **'This account can\'t be blocked.'**
+  String get userBlockSystemAccount;
+
+  /// Fallback body of the block user error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t block this user. Try again.'**
+  String get userBlockFailedMessage;
+
+  /// Title of the dialog shown when unblocking a user fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t unblock user'**
+  String get userUnblockFailedTitle;
+
+  /// Body of the unblock user error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t unblock this user. Try again.'**
+  String get userUnblockFailedMessage;
+
+  /// Confirmation body before cancelling an outgoing friend request.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel your friend request to {userName}?'**
+  String friendCancelRequestConfirmDescription(String userName);
+
+  /// Title of a generic error dialog when an action fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get errorSomethingWentWrongTitle;
+
+  /// Fallback body of a generic error dialog when the server gives no reason.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Try again.'**
+  String get errorUnexpectedTryAgain;
 }
 
 class _FluxerLocalizationsDelegate

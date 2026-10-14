@@ -1896,26 +1896,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmAcceptFriendRequestFailed": "Failed to accept friend request",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Failed to remove friend",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Failed to block user",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Failed to unblock user",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Failed to ignore friend request",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Add friends",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -18218,5 +18198,78 @@
     "favoritesRenameCategory": "Rename category",
     "@favoritesRenameCategory": {
         "description": "Favorites category context menu action and sheet title for renaming a favorites category."
+    },
+    "friendAcceptFailedTitle": "Couldn't accept friend request",
+    "@friendAcceptFailedTitle": {
+        "description": "Title of the dialog shown when accepting a friend request fails."
+    },
+    "friendAcceptUnavailable": "That friend request is no longer available. Refresh and try again.",
+    "@friendAcceptUnavailable": {
+        "description": "Body of the accept friend request error dialog when the request no longer exists."
+    },
+    "friendAcceptClaimToAccept": "Finish signing up to accept friend requests.",
+    "@friendAcceptClaimToAccept": {
+        "description": "Body of the accept friend request error dialog when the account is unclaimed."
+    },
+    "friendAcceptFailedMessage": "Couldn't accept the friend request. Try again.",
+    "@friendAcceptFailedMessage": {
+        "description": "Fallback body of the accept friend request error dialog."
+    },
+    "friendCancelFailedTitle": "Couldn't cancel friend request",
+    "@friendCancelFailedTitle": {
+        "description": "Title of the dialog shown when cancelling an outgoing friend request fails."
+    },
+    "friendIgnoreFailedTitle": "Couldn't ignore friend request",
+    "@friendIgnoreFailedTitle": {
+        "description": "Title of the dialog shown when ignoring an incoming friend request fails."
+    },
+    "friendIgnoreFailedMessage": "Couldn't ignore the friend request. Try again.",
+    "@friendIgnoreFailedMessage": {
+        "description": "Body of the ignore friend request error dialog."
+    },
+    "friendRemoveFailedTitle": "Couldn't remove friend",
+    "@friendRemoveFailedTitle": {
+        "description": "Title of the dialog shown when removing a friend fails."
+    },
+    "friendRemoveFailedMessage": "Couldn't remove this friend. Try again.",
+    "@friendRemoveFailedMessage": {
+        "description": "Body of the remove friend error dialog."
+    },
+    "userBlockFailedTitle": "Couldn't block user",
+    "@userBlockFailedTitle": {
+        "description": "Title of the dialog shown when blocking a user fails."
+    },
+    "userBlockSystemAccount": "This account can't be blocked.",
+    "@userBlockSystemAccount": {
+        "description": "Body of the block user error dialog when the target is a system account."
+    },
+    "userBlockFailedMessage": "Couldn't block this user. Try again.",
+    "@userBlockFailedMessage": {
+        "description": "Fallback body of the block user error dialog."
+    },
+    "userUnblockFailedTitle": "Couldn't unblock user",
+    "@userUnblockFailedTitle": {
+        "description": "Title of the dialog shown when unblocking a user fails."
+    },
+    "userUnblockFailedMessage": "Couldn't unblock this user. Try again.",
+    "@userUnblockFailedMessage": {
+        "description": "Body of the unblock user error dialog."
+    },
+    "friendCancelRequestConfirmDescription": "Cancel your friend request to {userName}?",
+    "@friendCancelRequestConfirmDescription": {
+        "description": "Confirmation body before cancelling an outgoing friend request.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorSomethingWentWrongTitle": "Something went wrong",
+    "@errorSomethingWentWrongTitle": {
+        "description": "Title of a generic error dialog when an action fails."
+    },
+    "errorUnexpectedTryAgain": "An unexpected error occurred. Try again.",
+    "@errorUnexpectedTryAgain": {
+        "description": "Fallback body of a generic error dialog when the server gives no reason."
     }
 }
