@@ -177,7 +177,6 @@ class UserBlockedUsers extends ConsumerWidget {
                     if (context.mounted) {
                       await showApiError(
                         context,
-                        ref,
                         ApiErrorAction.unblockUser,
                         e,
                       );

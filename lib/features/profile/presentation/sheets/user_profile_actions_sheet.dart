@@ -536,7 +536,7 @@ class UserProfileActionsSheet {
       if (!ref.context.mounted) {
         return;
       }
-      await showApiError(ref.context, ref, errorAction, e);
+      await showApiError(ref.context, errorAction, e);
     }
   }
 }

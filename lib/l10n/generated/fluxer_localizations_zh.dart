@@ -3215,9 +3215,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileFailedOpenDm => '无法打开私信';
-
-  @override
   String get userProfileFailedSaveNote => '无法保存备注';
 
   @override
@@ -13609,9 +13606,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get createDmUnaddableGroupDisabled => '不允许被添加到群聊';
 
   @override
-  String get createDmFailed => '无法创建对话。请重试。';
-
-  @override
   String get dmListMessagesTitle => '消息';
 
   @override
@@ -14595,6 +14589,66 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   @override
   String get errorUnexpectedTryAgain =>
       'An unexpected error occurred. Try again.';
+
+  @override
+  String get errorMessagingPausedTitle => 'Messaging is paused';
+
+  @override
+  String get errorMessagingPausedMessage =>
+      'Messaging is paused on your account. Check your email for a quick step to continue.';
+
+  @override
+  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+
+  @override
+  String get errorFeatureDisabledMessage =>
+      'This feature is paused. Try again later.';
+
+  @override
+  String get dmErrorStartConversationTitle =>
+      'Couldn\'t start this conversation';
+
+  @override
+  String get dmErrorCannotMessageMessage =>
+      'They might not be accepting messages from you, or you no longer share a community.';
+
+  @override
+  String get dmErrorUnknownUserMessage =>
+      'This user no longer exists. Refresh and try again.';
+
+  @override
+  String get dmErrorClaimMessage =>
+      'You need to claim your account before you can start a direct message.';
+
+  @override
+  String get dmErrorVerifyEmailMessage =>
+      'You need to verify your email address before you can start a direct message.';
+
+  @override
+  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+
+  @override
+  String get dmErrorTooManyRecipientsMessage =>
+      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+
+  @override
+  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+
+  @override
+  String get dmErrorMaxGroupDmsMessage =>
+      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+
+  @override
+  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+
+  @override
+  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+
+  @override
+  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+
+  @override
+  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -17792,9 +17846,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String userProfileRemoveFriendConfirmDescription(String username) {
     return '確定要將 $username 移除好友嗎？';
   }
-
-  @override
-  String get userProfileFailedOpenDm => '無法開啟私訊';
 
   @override
   String get userProfileFailedSaveNote => '無法儲存備註';
@@ -27388,9 +27439,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get createDmUnaddableGroupDisabled => '不允許被加入群組私訊';
-
-  @override
-  String get createDmFailed => '無法建立對話。請再試一次。';
 
   @override
   String get dmListMessagesTitle => '訊息';

@@ -150,14 +150,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       navigateToContent(context, RoutePaths.dmChannel(channelId));
     } on Object catch (err, st) {
       talker.error('[UserProfileSheet] Failed to open DM: $err', err, st);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.userProfileFailedOpenDm,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      if (mounted) {
+        await showApiError(context, ApiErrorAction.openDm, err);
+      }
     }
   }
 
@@ -180,13 +175,21 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         return;
       }
     }
+    final String channelId;
     try {
-      final String channelId = await ref
+      channelId = await ref
           .read(dmRepositoryProvider)
           .ensureDmChannel(peerUserId);
-      if (!mounted) {
-        return;
+    } on Object catch (err) {
+      if (mounted) {
+        await showApiError(context, ApiErrorAction.openDm, err);
       }
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    try {
       final String? selfId = ref.read(currentUserIdProvider);
       final List<String> ringTargets = <String>[
         peerUserId,
@@ -202,27 +205,28 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         return;
       }
       if (!result.ok && !result.microphoneDenied && !result.cameraDenied) {
-        final String? snackMessage = result.notEligible
+        final String? failureMessage = result.notEligible
             ? l10n.directVoiceCallNotEligible
             : result.joinAttemptFailed
             ? l10n.voiceJoinCallFailed
             : null;
-        if (snackMessage != null) {
-          ScaffoldMessenger.of(
+        if (failureMessage != null) {
+          await showErrorDialog(
             context,
-          ).showSnackBar(SnackBar(content: Text(snackMessage)));
+            title: l10n.voiceJoinFailedTitle,
+            body: failureMessage,
+          );
         }
       }
     } on Object catch (err, st) {
       talker.error('[UserProfileSheet] Failed to start call: $err', err, st);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.userProfileFailedOpenDm,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      if (mounted) {
+        await showErrorDialog(
+          context,
+          title: l10n.voiceJoinFailedTitle,
+          body: l10n.voiceJoinCallFailed,
+        );
+      }
     }
   }
 
@@ -279,7 +283,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       if (!mounted) {
         return;
       }
-      await showApiError(context, ref, errorAction, err);
+      await showApiError(context, errorAction, err);
     }
   }
 

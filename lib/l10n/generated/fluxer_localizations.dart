@@ -5654,12 +5654,6 @@ abstract class FluxerLocalizations {
   /// **'Are you sure you want to remove {username} as a friend?'**
   String userProfileRemoveFriendConfirmDescription(String username);
 
-  /// Toast shown when opening a DM channel fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to open DM'**
-  String get userProfileFailedOpenDm;
-
   /// Toast shown when saving the user note fails.
   ///
   /// In en, this message translates to:
@@ -23886,12 +23880,6 @@ abstract class FluxerLocalizations {
   /// **'Doesn\'t allow being added to group DMs'**
   String get createDmUnaddableGroupDisabled;
 
-  /// Generic error when DM or group DM creation fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t create the conversation. Try again.'**
-  String get createDmFailed;
-
   /// Mobile header title for the DM list.
   ///
   /// In en, this message translates to:
@@ -25625,6 +25613,108 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'An unexpected error occurred. Try again.'**
   String get errorUnexpectedTryAgain;
+
+  /// Title of the dialog shown when the account is temporarily limited from messaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Messaging is paused'**
+  String get errorMessagingPausedTitle;
+
+  /// Fallback body of the messaging paused dialog when the server gives no reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Messaging is paused on your account. Check your email for a quick step to continue.'**
+  String get errorMessagingPausedMessage;
+
+  /// Title of the dialog shown when the server has paused a feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature temporarily disabled'**
+  String get errorFeatureDisabledTitle;
+
+  /// Body of the feature temporarily disabled dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is paused. Try again later.'**
+  String get errorFeatureDisabledMessage;
+
+  /// Title of the dialog shown when opening or creating a direct message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t start this conversation'**
+  String get dmErrorStartConversationTitle;
+
+  /// Body of the open DM error dialog when the user can't be messaged.
+  ///
+  /// In en, this message translates to:
+  /// **'They might not be accepting messages from you, or you no longer share a community.'**
+  String get dmErrorCannotMessageMessage;
+
+  /// Body of the open DM error dialog when the user no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'This user no longer exists. Refresh and try again.'**
+  String get dmErrorUnknownUserMessage;
+
+  /// Body of the open DM error dialog when the account is unclaimed.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to claim your account before you can start a direct message.'**
+  String get dmErrorClaimMessage;
+
+  /// Body of the open DM error dialog when the email is unverified.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to verify your email address before you can start a direct message.'**
+  String get dmErrorVerifyEmailMessage;
+
+  /// Title of the create group DM error dialog when too many people were added.
+  ///
+  /// In en, this message translates to:
+  /// **'This group has too many people'**
+  String get dmErrorTooManyRecipientsTitle;
+
+  /// Body of the create group DM error dialog when too many people were added.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve added more people than a group DM allows. Remove a few and try again.'**
+  String get dmErrorTooManyRecipientsMessage;
+
+  /// Title of the create group DM error dialog when someone has too many group DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached the group DM limit'**
+  String get dmErrorMaxGroupDmsTitle;
+
+  /// Body of the create group DM error dialog when someone has too many group DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.'**
+  String get dmErrorMaxGroupDmsMessage;
+
+  /// Title of the dialog shown when adding a friend to a group DM fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t add to group'**
+  String get groupDmAddFailedTitle;
+
+  /// Title of the dialog shown when creating a group DM invite link fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create invite link'**
+  String get groupDmInviteFailedTitle;
+
+  /// Title of the dialog shown when closing a direct message fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t close DM'**
+  String get dmCloseFailedTitle;
+
+  /// Title of the dialog shown when leaving a group DM fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t leave group'**
+  String get groupDmLeaveFailedTitle;
 }
 
 class _FluxerLocalizationsDelegate

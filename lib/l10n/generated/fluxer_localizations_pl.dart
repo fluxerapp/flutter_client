@@ -3429,9 +3429,6 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Nie udało się otworzyć DM';
-
-  @override
   String get userProfileFailedSaveNote => 'Nie udało się zapisać notatki';
 
   @override
@@ -14582,10 +14579,6 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Nie zezwala na dodawanie do czatów grupowych';
 
   @override
-  String get createDmFailed =>
-      'Nie udało się utworzyć rozmowy. Spróbuj ponownie.';
-
-  @override
   String get dmListMessagesTitle => 'Wiadomości';
 
   @override
@@ -15638,4 +15631,64 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   @override
   String get errorUnexpectedTryAgain =>
       'An unexpected error occurred. Try again.';
+
+  @override
+  String get errorMessagingPausedTitle => 'Messaging is paused';
+
+  @override
+  String get errorMessagingPausedMessage =>
+      'Messaging is paused on your account. Check your email for a quick step to continue.';
+
+  @override
+  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+
+  @override
+  String get errorFeatureDisabledMessage =>
+      'This feature is paused. Try again later.';
+
+  @override
+  String get dmErrorStartConversationTitle =>
+      'Couldn\'t start this conversation';
+
+  @override
+  String get dmErrorCannotMessageMessage =>
+      'They might not be accepting messages from you, or you no longer share a community.';
+
+  @override
+  String get dmErrorUnknownUserMessage =>
+      'This user no longer exists. Refresh and try again.';
+
+  @override
+  String get dmErrorClaimMessage =>
+      'You need to claim your account before you can start a direct message.';
+
+  @override
+  String get dmErrorVerifyEmailMessage =>
+      'You need to verify your email address before you can start a direct message.';
+
+  @override
+  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+
+  @override
+  String get dmErrorTooManyRecipientsMessage =>
+      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+
+  @override
+  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+
+  @override
+  String get dmErrorMaxGroupDmsMessage =>
+      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+
+  @override
+  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+
+  @override
+  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+
+  @override
+  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+
+  @override
+  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
 }

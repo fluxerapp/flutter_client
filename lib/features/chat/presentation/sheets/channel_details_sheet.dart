@@ -399,7 +399,11 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
       confirmLabel: dm.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
       isDanger: true,
       onConfirm: () {
-        unawaited(ref.read(dmViewModelProvider.notifier).closeDmChannel(dm.id));
+        unawaited(
+          ref
+              .read(dmViewModelProvider.notifier)
+              .closeDmChannel(dm.id, isGroup: dm.isGroup),
+        );
         widget.close();
       },
     );

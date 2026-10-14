@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dm_view_model.g.dart';
@@ -147,13 +148,15 @@ class DmViewModel extends _$DmViewModel {
   Future<void> markAsRead(String channelId) =>
       ref.read(dmRepositoryProvider).markAsRead(channelId);
 
-  Future<bool> closeDmChannel(String channelId) async {
+  Future<void> closeDmChannel(String channelId, {required bool isGroup}) async {
     try {
       await ref.read(dmRepositoryProvider).closeDmChannel(channelId);
-      return true;
-    } on Exception catch (e) {
+    } on Object catch (e) {
       talker.error('[DmViewModel] Failed to close DM: $e');
-      return false;
+      await showApiErrorFromRoot(
+        isGroup ? ApiErrorAction.leaveGroupDm : ApiErrorAction.closeDm,
+        e,
+      );
     }
   }
 }

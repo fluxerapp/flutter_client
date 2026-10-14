@@ -35,7 +35,7 @@ Future<void> showChangeFriendNicknameSheet(
     );
   } on Object catch (e) {
     if (context.mounted) {
-      await showApiError(context, ref, ApiErrorAction.generic, e);
+      await showApiError(context, ApiErrorAction.generic, e);
     }
   }
 }

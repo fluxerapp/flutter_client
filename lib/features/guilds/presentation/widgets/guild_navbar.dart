@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/dm/providers/dm_folder_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorites_unread_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -780,14 +781,21 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       return;
     }
 
+    final bool isGroup = isDmGroupType(dm.type);
     await FluxerConfirmModal.show(
       context,
-      title: l10n.dmCloseDmConfirmTitle,
-      description: l10n.dmCloseDmConfirmDescription(username),
-      confirmLabel: l10n.dmCloseDm,
+      title: isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDmConfirmTitle,
+      description: isGroup
+          ? l10n.channelDetailsLeaveGroupDescription(username)
+          : l10n.dmCloseDmConfirmDescription(username),
+      confirmLabel: isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
       isDanger: true,
       onConfirm: () {
-        unawaited(ref.read(dmRepositoryProvider).closeDmChannel(dm.id));
+        unawaited(
+          ref
+              .read(dmViewModelProvider.notifier)
+              .closeDmChannel(dm.id, isGroup: isGroup),
+        );
       },
     );
   }

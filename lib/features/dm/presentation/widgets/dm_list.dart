@@ -1023,7 +1023,7 @@ class _DMListState extends ConsumerState<DMList> {
       if (!mounted) {
         return;
       }
-      await showApiError(context, ref, errorAction, e);
+      await showApiError(context, errorAction, e);
     }
   }
 
@@ -1298,12 +1298,7 @@ class _DMListState extends ConsumerState<DMList> {
           if (!mounted) {
             break;
           }
-          await showApiError(
-            this.context,
-            ref,
-            ApiErrorAction.sendFriendRequest,
-            e,
-          );
+          await showApiError(this.context, ApiErrorAction.sendFriendRequest, e);
         }
       case _DmAction.acceptFriendRequest:
         await _runRelationshipAction(
@@ -1380,17 +1375,20 @@ class _DMListState extends ConsumerState<DMList> {
           break;
         }
         final l10n = FluxerLocalizations.of(context);
+        final String closeName = convo.displayNameWith(rel?.nickname);
         final confirmed = await FluxerConfirmModal.show(
           context,
-          title: l10n.dmCloseDmConfirmTitle,
-          description: l10n.dmCloseDmConfirmDescription(
-            convo.displayNameWith(rel?.nickname),
-          ),
-          confirmLabel: l10n.dmCloseDm,
+          title: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDmConfirmTitle,
+          description: convo.isGroup
+              ? l10n.channelDetailsLeaveGroupDescription(closeName)
+              : l10n.dmCloseDmConfirmDescription(closeName),
+          confirmLabel: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
           isDanger: true,
           onConfirm: () {
             unawaited(
-              ref.read(dmViewModelProvider.notifier).closeDmChannel(convo.id),
+              ref
+                  .read(dmViewModelProvider.notifier)
+                  .closeDmChannel(convo.id, isGroup: convo.isGroup),
             );
           },
         );

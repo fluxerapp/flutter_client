@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.d
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:go_router/go_router.dart';
 
 String settingsTargetPath(QuickSwitcherSettingsTarget target) =>
@@ -54,9 +55,17 @@ Future<void> executeQuickSwitcherResult({
         );
         return;
       }
-      final String channelId = await ref
-          .read(dmRepositoryProvider)
-          .ensureDmChannel(userId);
+      final String channelId;
+      try {
+        channelId = await ref
+            .read(dmRepositoryProvider)
+            .ensureDmChannel(userId);
+      } on Object catch (e) {
+        if (context.mounted) {
+          await showApiError(context, ApiErrorAction.openDm, e);
+        }
+        return;
+      }
       if (!context.mounted) {
         return;
       }

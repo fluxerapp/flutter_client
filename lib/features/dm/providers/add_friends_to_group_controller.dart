@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
@@ -9,10 +8,10 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/utils/create_dm_api_errors.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_create_errors.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
 class AddFriendsToGroupController extends ChangeNotifier {
@@ -96,7 +95,7 @@ class AddFriendsToGroupController extends ChangeNotifier {
           if (!context.mounted) {
             return;
           }
-          _showAddError(context, error);
+          await _showAddError(context, error);
         }
       }
       selectedUserIds = <String>[];
@@ -149,19 +148,7 @@ class AddFriendsToGroupController extends ChangeNotifier {
       return link;
     } on Object catch (error) {
       if (context.mounted) {
-        final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-        _container
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: inviteCreateFailureMessage(
-                  error: error,
-                  l10n: l10n,
-                  isGroupDm: true,
-                ),
-                variant: FluxerToastVariant.danger,
-              ),
-            );
+        await showApiError(context, ApiErrorAction.createGroupDmInvite, error);
       }
       return null;
     } finally {
@@ -199,35 +186,10 @@ class AddFriendsToGroupController extends ChangeNotifier {
     return '$trimmedBase/$code';
   }
 
-  void _showAddError(BuildContext context, Object error) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final UnaddableRecipientsError? unaddable = parseUnaddableRecipientsError(
-      error,
-    );
-    if (unaddable != null) {
+  Future<void> _showAddError(BuildContext context, Object error) async {
+    if (parseUnaddableRecipientsError(error) != null) {
       return;
     }
-    String message = l10n.groupDmAddFriendFailed;
-    if (error is DioException) {
-      final String? code = _readErrorCode(error);
-      if (code == 'GROUP_DM_FULL') {
-        message = l10n.groupDmGroupFull;
-      } else if (code == 'RATE_LIMITED') {
-        message = l10n.groupDmRateLimited;
-      }
-    }
-    _container
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(message: message, variant: FluxerToastVariant.danger),
-        );
-  }
-
-  String? _readErrorCode(DioException error) {
-    final Object? data = error.response?.data;
-    if (data is Map<String, dynamic>) {
-      return data['code']?.toString();
-    }
-    return null;
+    await showApiError(context, ApiErrorAction.addToGroupDm, error);
   }
 }

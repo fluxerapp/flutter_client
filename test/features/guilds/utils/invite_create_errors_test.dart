@@ -63,16 +63,5 @@ void main() {
         l10n.guildNavbarCreateInviteFailed,
       );
     });
-
-    test('uses group DM fallback', () {
-      expect(
-        inviteCreateFailureMessage(
-          error: Exception('nope'),
-          l10n: l10n,
-          isGroupDm: true,
-        ),
-        l10n.groupDmCreateInviteFailedBody,
-      );
-    });
   });
 }

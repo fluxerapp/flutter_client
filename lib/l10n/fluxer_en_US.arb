@@ -3091,10 +3091,6 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Failed to open DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Failed to save note",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
@@ -11582,10 +11578,6 @@
     "@createDmUnaddableNotFriends": {
         "description": "Reason when a recipient is not a friend."
     },
-    "createDmFailed": "Couldn't create the conversation. Try again.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "sessionExpiredToast": "Your session has expired. Please sign in again.",
     "@sessionExpiredToast": {
         "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
@@ -16065,5 +16057,73 @@
     "errorUnexpectedTryAgain": "An unexpected error occurred. Try again.",
     "@errorUnexpectedTryAgain": {
         "description": "Fallback body of a generic error dialog when the server gives no reason."
+    },
+    "errorMessagingPausedTitle": "Messaging is paused",
+    "@errorMessagingPausedTitle": {
+        "description": "Title of the dialog shown when the account is temporarily limited from messaging."
+    },
+    "errorMessagingPausedMessage": "Messaging is paused on your account. Check your email for a quick step to continue.",
+    "@errorMessagingPausedMessage": {
+        "description": "Fallback body of the messaging paused dialog when the server gives no reason."
+    },
+    "errorFeatureDisabledTitle": "Feature temporarily disabled",
+    "@errorFeatureDisabledTitle": {
+        "description": "Title of the dialog shown when the server has paused a feature."
+    },
+    "errorFeatureDisabledMessage": "This feature is paused. Try again later.",
+    "@errorFeatureDisabledMessage": {
+        "description": "Body of the feature temporarily disabled dialog."
+    },
+    "dmErrorStartConversationTitle": "Couldn't start this conversation",
+    "@dmErrorStartConversationTitle": {
+        "description": "Title of the dialog shown when opening or creating a direct message fails."
+    },
+    "dmErrorCannotMessageMessage": "They might not be accepting messages from you, or you no longer share a community.",
+    "@dmErrorCannotMessageMessage": {
+        "description": "Body of the open DM error dialog when the user can't be messaged."
+    },
+    "dmErrorUnknownUserMessage": "This user no longer exists. Refresh and try again.",
+    "@dmErrorUnknownUserMessage": {
+        "description": "Body of the open DM error dialog when the user no longer exists."
+    },
+    "dmErrorClaimMessage": "You need to claim your account before you can start a direct message.",
+    "@dmErrorClaimMessage": {
+        "description": "Body of the open DM error dialog when the account is unclaimed."
+    },
+    "dmErrorVerifyEmailMessage": "You need to verify your email address before you can start a direct message.",
+    "@dmErrorVerifyEmailMessage": {
+        "description": "Body of the open DM error dialog when the email is unverified."
+    },
+    "dmErrorTooManyRecipientsTitle": "This group has too many people",
+    "@dmErrorTooManyRecipientsTitle": {
+        "description": "Title of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorTooManyRecipientsMessage": "You've added more people than a group DM allows. Remove a few and try again.",
+    "@dmErrorTooManyRecipientsMessage": {
+        "description": "Body of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorMaxGroupDmsTitle": "You've reached the group DM limit",
+    "@dmErrorMaxGroupDmsTitle": {
+        "description": "Title of the create group DM error dialog when someone has too many group DMs."
+    },
+    "dmErrorMaxGroupDmsMessage": "You or someone you're adding already has the maximum number of group DMs open. Leave one and try again.",
+    "@dmErrorMaxGroupDmsMessage": {
+        "description": "Body of the create group DM error dialog when someone has too many group DMs."
+    },
+    "groupDmAddFailedTitle": "Couldn't add to group",
+    "@groupDmAddFailedTitle": {
+        "description": "Title of the dialog shown when adding a friend to a group DM fails."
+    },
+    "groupDmInviteFailedTitle": "Couldn't create invite link",
+    "@groupDmInviteFailedTitle": {
+        "description": "Title of the dialog shown when creating a group DM invite link fails."
+    },
+    "dmCloseFailedTitle": "Couldn't close DM",
+    "@dmCloseFailedTitle": {
+        "description": "Title of the dialog shown when closing a direct message fails."
+    },
+    "groupDmLeaveFailedTitle": "Couldn't leave group",
+    "@groupDmLeaveFailedTitle": {
+        "description": "Title of the dialog shown when leaving a group DM fails."
     }
 }

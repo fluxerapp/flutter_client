@@ -238,7 +238,7 @@ class _ReportFlowSheetState extends ConsumerState<ReportFlowSheet> {
     } on Object catch (error, stack) {
       talker.error('[ReportFlow] block failed', error, stack);
       if (mounted) {
-        await showApiError(context, ref, ApiErrorAction.blockUser, error);
+        await showApiError(context, ApiErrorAction.blockUser, error);
       }
     } finally {
       if (mounted) {

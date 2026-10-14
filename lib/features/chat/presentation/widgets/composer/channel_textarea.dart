@@ -595,7 +595,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       if (!context.mounted) {
         return;
       }
-      await showApiError(context, ref, ApiErrorAction.unblockUser, e);
+      await showApiError(context, ApiErrorAction.unblockUser, e);
     }
   }
 

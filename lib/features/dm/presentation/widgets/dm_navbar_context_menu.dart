@@ -155,7 +155,7 @@ List<FluxerBottomSheetMenuItem> _buildBottomSheetItems({
     ),
     FluxerBottomSheetMenuItem(
       icon: PhosphorIconsBold.x,
-      label: l10n.dmCloseDm,
+      label: isGroupDm ? l10n.dmLeaveGroup : l10n.dmCloseDm,
       isDanger: true,
       onTap: () => pop(DmNavbarAction.closeDm),
     ),
@@ -348,7 +348,7 @@ List<Widget> _buildMenuItems({
     ),
     ContextMenuItem(
       icon: PhosphorIconsBold.x,
-      label: l10n.dmCloseDm,
+      label: isGroupDm ? l10n.dmLeaveGroup : l10n.dmCloseDm,
       isDanger: true,
       onTap: () => pop(DmNavbarAction.closeDm),
     ),

@@ -655,9 +655,17 @@ class FriendsList extends ConsumerWidget {
     if (ref.read(instanceRuntimeConfigProvider).directMessagesDisabled) {
       return;
     }
-    final String channelId = await ref
-        .read(dmRepositoryProvider)
-        .ensureDmChannel(friend.id);
+    final String channelId;
+    try {
+      channelId = await ref
+          .read(dmRepositoryProvider)
+          .ensureDmChannel(friend.id);
+    } on Object catch (e) {
+      if (context.mounted) {
+        await showApiError(context, ApiErrorAction.openDm, e);
+      }
+      return;
+    }
     if (!context.mounted) {
       return;
     }
@@ -782,7 +790,7 @@ class FriendsList extends ConsumerWidget {
       if (!context.mounted) {
         return;
       }
-      await showApiError(context, ref, errorAction, e);
+      await showApiError(context, errorAction, e);
     }
   }
 }

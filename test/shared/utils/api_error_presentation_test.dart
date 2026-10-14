@@ -254,6 +254,125 @@ void main() {
     });
   });
 
+  group('direct message errors', () {
+    test('open DM maps each code to the web copy', () {
+      const Map<String, (String, String)> expected = <String, (String, String)>{
+        'CANNOT_SEND_MESSAGES_TO_USER': (
+          "You can't message this user",
+          'They might not be accepting messages from you, or you no longer share a community.',
+        ),
+        'UNKNOWN_USER': (
+          'User not found',
+          'This user no longer exists. Refresh and try again.',
+        ),
+        'RATE_LIMITED': (
+          "You're going too fast",
+          'Please wait a moment and try again.',
+        ),
+        'UNCLAIMED_ACCOUNT_CANNOT_SEND_DIRECT_MESSAGES': (
+          'Claim your account',
+          'You need to claim your account before you can start a direct message.',
+        ),
+        'DIRECT_MESSAGE_EMAIL_VERIFICATION_REQUIRED': (
+          'Verify your email',
+          'You need to verify your email address before you can start a direct message.',
+        ),
+        'MAX_GROUP_DM_RECIPIENTS': (
+          'This group has too many people',
+          "You've added more people than a group DM allows. Remove a few and try again.",
+        ),
+        'MAX_GROUP_DMS': (
+          "You've reached the group DM limit",
+          "You or someone you're adding already has the maximum number of group DMs open. Leave one and try again.",
+        ),
+        'SOMETHING_NEW': (
+          "Couldn't start this conversation",
+          'Something went wrong. Please try again in a moment.',
+        ),
+      };
+      for (final MapEntry<String, (String, String)> entry in expected.entries) {
+        _expectCopy(
+          ApiErrorAction.openDm,
+          entry.key,
+          entry.value.$1,
+          entry.value.$2,
+        );
+      }
+    });
+
+    test('account state codes use the server message when present', () {
+      _expectCopy(
+        ApiErrorAction.openDm,
+        'ACCOUNT_LIMITED',
+        'Messaging is paused',
+        'Check your inbox.',
+        apiMessage: 'Check your inbox.',
+      );
+      _expectCopy(
+        ApiErrorAction.openDm,
+        'ACCOUNT_LIMITED',
+        'Messaging is paused',
+        'Messaging is paused on your account. Check your email for a quick step to continue.',
+      );
+      _expectCopy(
+        ApiErrorAction.openDm,
+        'NEW_CONVERSATIONS_LIMITED',
+        "Couldn't start this conversation",
+        'Slow down on new conversations.',
+        apiMessage: 'Slow down on new conversations.',
+      );
+      _expectCopy(
+        ApiErrorAction.addToGroupDm,
+        'FEATURE_TEMPORARILY_DISABLED',
+        'Feature temporarily disabled',
+        'This feature is paused. Try again later.',
+      );
+    });
+
+    test('add to group maps full, rate limited and fallback', () {
+      const String title = "Couldn't add to group";
+      _expectCopy(
+        ApiErrorAction.addToGroupDm,
+        'MAX_GROUP_DM_RECIPIENTS',
+        title,
+        'This group is full. Remove someone before adding more people.',
+      );
+      _expectCopy(
+        ApiErrorAction.addToGroupDm,
+        'RATE_LIMITED',
+        title,
+        "You're going too fast. Wait a moment and try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.addToGroupDm,
+        null,
+        title,
+        "Couldn't add this friend to the group. Please try again.",
+      );
+    });
+
+    test('invite, close and leave use their own copy', () {
+      _expectCopy(
+        ApiErrorAction.createGroupDmInvite,
+        null,
+        "Couldn't create invite link",
+        "Couldn't generate an invite link. Please try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.closeDm,
+        null,
+        "Couldn't close DM",
+        'Try again in a moment.',
+      );
+      _expectCopy(
+        ApiErrorAction.leaveGroupDm,
+        null,
+        "Couldn't leave group",
+        'Try again in a moment.',
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {
@@ -276,7 +395,6 @@ void main() {
                   onPressed: () => unawaited(
                     showApiError(
                       context,
-                      ref,
                       ApiErrorAction.sendFriendRequest,
                       const ApiException(code: 'FRIEND_REQUEST_BLOCKED'),
                     ),

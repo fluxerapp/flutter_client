@@ -5,7 +5,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 String inviteCreateFailureMessage({
   required Object error,
   required FluxerLocalizations l10n,
-  bool isGroupDm = false,
 }) {
   if (error is DioException) {
     final String? code = apiErrorCodeFromDioException(error);
@@ -19,9 +18,6 @@ String inviteCreateFailureMessage({
       case 'INVITES_DISABLED':
         return l10n.guildNavbarInvitesPaused;
     }
-  }
-  if (isGroupDm) {
-    return l10n.groupDmCreateInviteFailedBody;
   }
   return l10n.guildNavbarCreateInviteFailed;
 }

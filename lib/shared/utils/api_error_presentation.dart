@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/api_exception.dart';
+import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
@@ -17,6 +18,11 @@ enum ApiErrorAction {
   removeFriend,
   blockUser,
   unblockUser,
+  openDm,
+  addToGroupDm,
+  createGroupDmInvite,
+  closeDm,
+  leaveGroupDm,
 }
 
 sealed class ApiErrorPresentation {
@@ -48,7 +54,9 @@ ApiErrorPresentation presentApiError(
   String? code,
   String? apiMessage,
 }) {
-  final _ErrorCopy copy = _copyFor(l10n, action, code, apiMessage);
+  final _ErrorCopy copy =
+      _accountStateCopy(l10n, action, code, apiMessage) ??
+      _copyFor(l10n, action, code, apiMessage);
   return ApiErrorDialog(
     title: copy.title,
     body: copy.body,
@@ -106,6 +114,96 @@ _ErrorCopy _copyFor(
       title: l10n.userUnblockFailedTitle,
       body: l10n.userUnblockFailedMessage,
     ),
+    ApiErrorAction.openDm => _openDmCopy(l10n, code),
+    ApiErrorAction.addToGroupDm => (
+      title: l10n.groupDmAddFailedTitle,
+      body: switch (code) {
+        'MAX_GROUP_DM_RECIPIENTS' => l10n.groupDmGroupFull,
+        'RATE_LIMITED' => l10n.groupDmRateLimited,
+        _ => l10n.groupDmAddFriendFailed,
+      },
+    ),
+    ApiErrorAction.createGroupDmInvite => (
+      title: l10n.groupDmInviteFailedTitle,
+      body: l10n.groupDmCreateInviteFailedBody,
+    ),
+    ApiErrorAction.closeDm => (
+      title: l10n.dmCloseFailedTitle,
+      body: l10n.guildSettingsRolesTryAgainInAMoment,
+    ),
+    ApiErrorAction.leaveGroupDm => (
+      title: l10n.groupDmLeaveFailedTitle,
+      body: l10n.guildSettingsRolesTryAgainInAMoment,
+    ),
+  };
+}
+
+const Set<ApiErrorAction> _accountStateActions = <ApiErrorAction>{
+  ApiErrorAction.openDm,
+  ApiErrorAction.addToGroupDm,
+  ApiErrorAction.createGroupDmInvite,
+};
+
+_ErrorCopy? _accountStateCopy(
+  FluxerLocalizations l10n,
+  ApiErrorAction action,
+  String? code,
+  String? apiMessage,
+) {
+  if (!_accountStateActions.contains(action)) {
+    return null;
+  }
+  return switch (code) {
+    'ACCOUNT_LIMITED' => (
+      title: l10n.errorMessagingPausedTitle,
+      body: _apiMessageOr(apiMessage, l10n.errorMessagingPausedMessage),
+    ),
+    'NEW_CONVERSATIONS_LIMITED' => (
+      title: l10n.dmErrorStartConversationTitle,
+      body: _apiMessageOr(apiMessage, l10n.discoveryJoinErrorGenericMessage),
+    ),
+    'FEATURE_TEMPORARILY_DISABLED' => (
+      title: l10n.errorFeatureDisabledTitle,
+      body: l10n.errorFeatureDisabledMessage,
+    ),
+    _ => null,
+  };
+}
+
+_ErrorCopy _openDmCopy(FluxerLocalizations l10n, String? code) {
+  return switch (code) {
+    'CANNOT_SEND_MESSAGES_TO_USER' => (
+      title: l10n.createDmUnaddableBlocked,
+      body: l10n.dmErrorCannotMessageMessage,
+    ),
+    'UNKNOWN_USER' => (
+      title: l10n.createDmUnaddableUserNotFound,
+      body: l10n.dmErrorUnknownUserMessage,
+    ),
+    'RATE_LIMITED' => (
+      title: l10n.discoveryJoinErrorRateLimitTitle,
+      body: l10n.discoveryJoinErrorRateLimitMessage,
+    ),
+    'UNCLAIMED_ACCOUNT_CANNOT_SEND_DIRECT_MESSAGES' => (
+      title: l10n.addFriendClaimTitle,
+      body: l10n.dmErrorClaimMessage,
+    ),
+    'DIRECT_MESSAGE_EMAIL_VERIFICATION_REQUIRED' => (
+      title: l10n.addFriendVerifyTitle,
+      body: l10n.dmErrorVerifyEmailMessage,
+    ),
+    'MAX_GROUP_DM_RECIPIENTS' => (
+      title: l10n.dmErrorTooManyRecipientsTitle,
+      body: l10n.dmErrorTooManyRecipientsMessage,
+    ),
+    'MAX_GROUP_DMS' => (
+      title: l10n.dmErrorMaxGroupDmsTitle,
+      body: l10n.dmErrorMaxGroupDmsMessage,
+    ),
+    _ => (
+      title: l10n.dmErrorStartConversationTitle,
+      body: l10n.discoveryJoinErrorGenericMessage,
+    ),
   };
 }
 
@@ -123,9 +221,16 @@ ApiErrorPresentation presentApiErrorFrom(
   );
 }
 
+Future<void> showApiErrorFromRoot(ApiErrorAction action, Object error) async {
+  final BuildContext? context = rootNavigatorKey.currentContext;
+  if (context == null || !context.mounted) {
+    return;
+  }
+  await showApiError(context, action, error);
+}
+
 Future<void> showApiError(
   BuildContext context,
-  WidgetRef ref,
   ApiErrorAction action,
   Object error,
 ) async {
@@ -136,24 +241,13 @@ Future<void> showApiError(
   );
   switch (presentation) {
     case ApiErrorDialog():
-      await FluxerModal.show<void>(
+      await showErrorDialog(
         context,
         title: presentation.title,
-        centered: true,
-        useRootNavigator: true,
-        builder: (BuildContext dialogContext, VoidCallback close) => Text(
-          presentation.body,
-          style: dialogContext.textStyles.bodySmall.copyWith(height: 1.4),
-        ),
-        actionsBuilder: (void Function([void result]) pop) => [
-          FluxerButton.primary(
-            onPressed: () => pop(),
-            label: presentation.buttonLabel,
-          ),
-        ],
+        body: presentation.body,
       );
     case ApiErrorToast():
-      ref
+      ProviderScope.containerOf(context, listen: false)
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -162,6 +256,27 @@ Future<void> showApiError(
             ),
           );
   }
+}
+
+Future<void> showErrorDialog(
+  BuildContext context, {
+  required String title,
+  required String body,
+}) {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  return FluxerModal.show<void>(
+    context,
+    title: title,
+    centered: true,
+    useRootNavigator: true,
+    builder: (BuildContext dialogContext, VoidCallback close) => Text(
+      body,
+      style: dialogContext.textStyles.bodySmall.copyWith(height: 1.4),
+    ),
+    actionsBuilder: (void Function([void result]) pop) => [
+      FluxerButton.primary(onPressed: () => pop(), label: l10n.uiUnderstood),
+    ],
+  );
 }
 
 String? _sendFriendRequestBody(FluxerLocalizations l10n, String? code) {
