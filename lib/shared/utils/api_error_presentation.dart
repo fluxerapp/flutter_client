@@ -40,10 +40,9 @@ ApiErrorPresentation presentApiError(
   return switch (action) {
     ApiErrorAction.sendFriendRequest => ApiErrorDialog(
       title: l10n.addFriendSendFailedTitle,
-      body: _sendFriendRequestBody(l10n, code) ?? _apiMessageOr(
-        apiMessage,
-        l10n.addFriendSendFailedMessage,
-      ),
+      body:
+          _sendFriendRequestBody(l10n, code) ??
+          _apiMessageOr(apiMessage, l10n.addFriendSendFailedMessage),
       buttonLabel: l10n.uiUnderstood,
     ),
   };

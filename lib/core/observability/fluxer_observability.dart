@@ -39,9 +39,7 @@ class FluxerObservability {
     }
     await _ensureMeasureInitialized();
     if (!_measureInitialized) {
-      talker.warning(
-        '[Measure] Native API key/URL missing',
-      );
+      talker.warning('[Measure] Native API key/URL missing');
     }
   }
 
