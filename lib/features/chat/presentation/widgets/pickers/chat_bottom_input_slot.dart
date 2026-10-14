@@ -82,9 +82,7 @@ class BottomInputSpacer extends ConsumerWidget {
           ? metrics.viewInsetsKeyboardHeight
           : 0,
       viewInsetOwnsSpacer:
-          slotTracksKeyboard &&
-          !metrics.unmeasuredKeyboardReserved &&
-          defaultTargetPlatform == TargetPlatform.android,
+          slotTracksKeyboard && defaultTargetPlatform == TargetPlatform.android,
     );
     return KeyboardResizeSpacer(height: math.max(0, spacerHeight));
   }

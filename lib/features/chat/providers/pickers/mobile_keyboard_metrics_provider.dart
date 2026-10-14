@@ -464,7 +464,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void reserveUnmeasuredKeyboard() {
-    if (!ref.mounted || state.liveKeyboardHeight > 0) {
+    if (!_isIos || !ref.mounted || state.liveKeyboardHeight > 0) {
       return;
     }
     if (state.unmeasuredKeyboardReserved) {

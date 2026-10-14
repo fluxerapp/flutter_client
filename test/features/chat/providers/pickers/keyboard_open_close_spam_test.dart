@@ -348,9 +348,9 @@ void main() {
               (_, _) {},
               fireImmediately: true,
             );
-        focused
-            .read(mobileKeyboardMetricsProvider.notifier)
-            .reserveUnmeasuredKeyboard();
+        focused.read(mobileKeyboardMetricsProvider.notifier)
+          ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+          ..reserveUnmeasuredKeyboard();
         expect(
           focused
               .read(mobileKeyboardMetricsProvider)

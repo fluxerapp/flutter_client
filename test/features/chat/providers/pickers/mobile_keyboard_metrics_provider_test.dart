@@ -242,15 +242,33 @@ void main() {
   });
 
   group('unmeasured keyboard reservation', () {
+    test('android never reserves an unmeasured keyboard', () async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.listen(mobileKeyboardMetricsProvider, (_, _) {});
+      await Future<void>.value();
+
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: false)
+        ..reserveUnmeasuredKeyboard();
+
+      expect(
+        container
+            .read(mobileKeyboardMetricsProvider)
+            .unmeasuredKeyboardReserved,
+        isFalse,
+      );
+    });
+
     test('reserve sets flag when live height is zero', () async {
       final ProviderContainer container = ProviderContainer();
       addTearDown(container.dispose);
       container.listen(mobileKeyboardMetricsProvider, (_, _) {});
       await Future<void>.value();
 
-      container
-          .read(mobileKeyboardMetricsProvider.notifier)
-          .reserveUnmeasuredKeyboard();
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+        ..reserveUnmeasuredKeyboard();
 
       expect(
         container
@@ -292,9 +310,9 @@ void main() {
       container.listen(mobileKeyboardMetricsProvider, (_, _) {});
       await Future<void>.value();
 
-      container
-          .read(mobileKeyboardMetricsProvider.notifier)
-          .reserveUnmeasuredKeyboard();
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+        ..reserveUnmeasuredKeyboard();
       expect(
         container
             .read(mobileKeyboardMetricsProvider)
