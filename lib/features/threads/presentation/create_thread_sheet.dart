@@ -156,6 +156,7 @@ class _CreateThreadBody extends ConsumerStatefulWidget {
 class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _message = TextEditingController();
+  final FocusNode _nameFocus = FocusNode();
   Timer? _ticker;
   bool _private = false;
   bool _submitting = false;
@@ -180,6 +181,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     _ticker?.cancel();
     _name.dispose();
     _message.dispose();
+    _nameFocus.dispose();
     super.dispose();
   }
 
@@ -412,20 +414,23 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
             ),
             SizedBox(height: context.layout.s3),
           ],
-          FluxerInput(
-            controller: _name,
-            label: l10n.threadName,
-            hint: _sourcePreview.isNotEmpty
-                ? _sourcePreview
-                : l10n.threadNewThreadPlaceholder,
-            maxLength: threadNameMaxLength,
-            autofocus: true,
-            errorText: _nameError,
-            onChanged: (_) {
-              if (_nameError != null) {
-                setState(() => _nameError = null);
-              }
-            },
+          FluxerFocusAfterEntrance(
+            focusNode: _nameFocus,
+            child: FluxerInput(
+              controller: _name,
+              focusNode: _nameFocus,
+              label: l10n.threadName,
+              hint: _sourcePreview.isNotEmpty
+                  ? _sourcePreview
+                  : l10n.threadNewThreadPlaceholder,
+              maxLength: threadNameMaxLength,
+              errorText: _nameError,
+              onChanged: (_) {
+                if (_nameError != null) {
+                  setState(() => _nameError = null);
+                }
+              },
+            ),
           ),
           if (canPrivate && canPublic) ...<Widget>[
             SizedBox(height: context.layout.s3),

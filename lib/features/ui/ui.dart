@@ -24,6 +24,7 @@ export 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.d
 export 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 export 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 export 'package:fluxer_app/features/ui/focus_ring/fluxer_focus_ring.dart';
+export 'package:fluxer_app/features/ui/input/fluxer_focus_after_entrance.dart';
 export 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 export 'package:fluxer_app/features/ui/list/fluxer_list_row.dart';
 export 'package:fluxer_app/features/ui/list/fluxer_list_section.dart';
