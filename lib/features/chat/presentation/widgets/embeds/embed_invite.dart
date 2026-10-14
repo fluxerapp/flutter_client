@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -147,20 +148,11 @@ class _GuildInviteCard extends StatelessWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     try {
       await joinCommunityViaInvite(ref: ref, rawInput: code, l10n: l10n);
-    } on JoinCommunityException catch (error) {
+    } on Object catch (error) {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.message)));
-    } on Object {
-      if (!context.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.addGuildJoinFailed)));
+      await showApiError(context, ApiErrorAction.acceptInvite, error);
     }
   }
 
@@ -308,18 +300,19 @@ class _GroupDmInviteCard extends StatelessWidget {
     );
   }
 
-  void _onJoin() {
-    unawaited(
-      ref
+  Future<void> _joinGroup(BuildContext context) async {
+    try {
+      await ref
           .read(fluxerClientProvider)
           .invites
-          .acceptInvite(inviteCode: code)
-          .then((_) {
-            ref
-                .read(fluxerRouterProvider)
-                .go(RoutePaths.dmChannel(invite.channel.id));
-          }),
-    );
+          .acceptInvite(inviteCode: code);
+    } on Object catch (error) {
+      if (context.mounted) {
+        await showApiError(context, ApiErrorAction.acceptInvite, error);
+      }
+      return;
+    }
+    ref.read(fluxerRouterProvider).go(RoutePaths.dmChannel(invite.channel.id));
   }
 
   @override
@@ -375,7 +368,9 @@ class _GroupDmInviteCard extends StatelessWidget {
           ],
         ),
         footer: FluxerButton.primary(
-          onPressed: isAlreadyJoined ? null : _onJoin,
+          onPressed: isAlreadyJoined
+              ? null
+              : () => unawaited(_joinGroup(context)),
           label: isAlreadyJoined
               ? l10n.embedInviteAlreadyJoined
               : l10n.embedInviteJoinGroup,

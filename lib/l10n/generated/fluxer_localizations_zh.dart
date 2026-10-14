@@ -7127,9 +7127,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get addGuildInviteInvalid => '此邀请无效或已过期。';
 
   @override
-  String get addGuildJoinFailed => '无法加入社区。请重试。';
-
-  @override
   String get addGuildCreateTitle => '创建社区';
 
   @override
@@ -8404,9 +8401,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildNavbarCreateInviteMaxInvites => '此社区已达到邀请上限。';
-
-  @override
-  String get guildNavbarCreateInviteTemporarilyDisabled => '创建邀请功能在此社区暂时被禁用。';
 
   @override
   String get groupDmCopyInviteFailed => '复制邀请链接失败';
@@ -14649,6 +14643,55 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+
+  @override
+  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+
+  @override
+  String get inviteErrorPausedMessage =>
+      'Admins paused invites — you can\'t join right now.';
+
+  @override
+  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+
+  @override
+  String get inviteErrorAtCapacityMessage =>
+      'This community has reached its maximum member limit and is not accepting new members at this time.';
+
+  @override
+  String get inviteErrorPresenceTitle => 'Gateway connection required';
+
+  @override
+  String get inviteErrorPresenceMessage =>
+      'Temporary invites need a live connection. Check yours and try again.';
+
+  @override
+  String get inviteErrorBannedTitle => 'You\'re banned';
+
+  @override
+  String get inviteErrorBannedMessage =>
+      'You are banned from this community and cannot join.';
+
+  @override
+  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+
+  @override
+  String get inviteErrorIpBannedMessage =>
+      'Your IP address is banned from this community and you cannot join.';
+
+  @override
+  String get inviteErrorClaimTitle => 'Account verification required';
+
+  @override
+  String get inviteErrorClaimMessage =>
+      'Add an email and password to your account first.';
+
+  @override
+  String get leaveCommunityFailedTitle => 'Failed to leave community';
+
+  @override
+  String get leaveCommunityFailedMessage =>
+      'Couldn\'t leave right now. Try again in a moment.';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -21566,9 +21609,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get addGuildInviteInvalid => '此邀請無效或已過期。';
 
   @override
-  String get addGuildJoinFailed => '無法加入社群。請再試一次。';
-
-  @override
   String get addGuildCreateTitle => '建立社群';
 
   @override
@@ -22775,9 +22815,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildNavbarCreateInviteMaxInvites => '這個社群已達到邀請上限。';
-
-  @override
-  String get guildNavbarCreateInviteTemporarilyDisabled => '暫時無法為此社群建立邀請。';
 
   @override
   String get groupDmCopyInviteFailed => '無法複製邀請連結';

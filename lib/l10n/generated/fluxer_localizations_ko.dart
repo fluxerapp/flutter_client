@@ -7274,9 +7274,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get addGuildInviteInvalid => '이 초대는 유효하지 않거나 만료되었습니다.';
 
   @override
-  String get addGuildJoinFailed => '커뮤니티에 참여할 수 없습니다. 다시 시도하세요.';
-
-  @override
   String get addGuildCreateTitle => '커뮤니티 만들기';
 
   @override
@@ -8578,10 +8575,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildNavbarCreateInviteMaxInvites => '이 커뮤니티는 초대 제한에 도달했습니다.';
-
-  @override
-  String get guildNavbarCreateInviteTemporarilyDisabled =>
-      '이 커뮤니티의 초대 생성 기능이 일시적으로 비활성화되었습니다.';
 
   @override
   String get groupDmCopyInviteFailed => '초대 링크 복사 실패';
@@ -14926,4 +14919,53 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+
+  @override
+  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+
+  @override
+  String get inviteErrorPausedMessage =>
+      'Admins paused invites — you can\'t join right now.';
+
+  @override
+  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+
+  @override
+  String get inviteErrorAtCapacityMessage =>
+      'This community has reached its maximum member limit and is not accepting new members at this time.';
+
+  @override
+  String get inviteErrorPresenceTitle => 'Gateway connection required';
+
+  @override
+  String get inviteErrorPresenceMessage =>
+      'Temporary invites need a live connection. Check yours and try again.';
+
+  @override
+  String get inviteErrorBannedTitle => 'You\'re banned';
+
+  @override
+  String get inviteErrorBannedMessage =>
+      'You are banned from this community and cannot join.';
+
+  @override
+  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+
+  @override
+  String get inviteErrorIpBannedMessage =>
+      'Your IP address is banned from this community and you cannot join.';
+
+  @override
+  String get inviteErrorClaimTitle => 'Account verification required';
+
+  @override
+  String get inviteErrorClaimMessage =>
+      'Add an email and password to your account first.';
+
+  @override
+  String get leaveCommunityFailedTitle => 'Failed to leave community';
+
+  @override
+  String get leaveCommunityFailedMessage =>
+      'Couldn\'t leave right now. Try again in a moment.';
 }

@@ -373,6 +373,108 @@ void main() {
     });
   });
 
+  group('invite and community errors', () {
+    test('accept invite maps each code to the web copy', () {
+      const Map<String?, (String, String)>
+      expected = <String?, (String, String)>{
+        'INVITES_DISABLED': (
+          'Invites paused',
+          "Admins paused invites — you can't join right now.",
+        ),
+        'MAX_GUILD_MEMBERS': (
+          'Community at capacity',
+          'This community has reached its maximum member limit and is not accepting new members at this time.',
+        ),
+        'MAX_GUILDS': (
+          "You've reached the community limit",
+          "You're in the maximum number of communities. Leave one and try again.",
+        ),
+        'TEMPORARY_INVITE_REQUIRES_PRESENCE': (
+          'Gateway connection required',
+          'Temporary invites need a live connection. Check yours and try again.',
+        ),
+        'USER_BANNED_FROM_GUILD': (
+          "You're banned",
+          'You are banned from this community and cannot join.',
+        ),
+        'USER_IP_BANNED_FROM_GUILD': (
+          'Your IP is banned',
+          'Your IP address is banned from this community and you cannot join.',
+        ),
+        'UNCLAIMED_ACCOUNT_CANNOT_JOIN_GROUP_DMS': (
+          'Account verification required',
+          'Add an email and password to your account first.',
+        ),
+        'UNKNOWN_INVITE': (
+          'Invite not found',
+          'This invite may have expired or been deleted.',
+        ),
+        'FEATURE_TEMPORARILY_DISABLED': (
+          'Feature temporarily disabled',
+          'This feature is paused. Try again later.',
+        ),
+        null: ("Couldn't join community", 'Try again in a moment.'),
+      };
+      for (final MapEntry<String?, (String, String)> entry
+          in expected.entries) {
+        _expectCopy(
+          ApiErrorAction.acceptInvite,
+          entry.key,
+          entry.value.$1,
+          entry.value.$2,
+        );
+      }
+    });
+
+    test('discovery join keeps its own copy and handles limits', () {
+      _expectCopy(
+        ApiErrorAction.joinDiscoveryCommunity,
+        'USER_IP_BANNED_FROM_GUILD',
+        "You can't join this community",
+        'You have been banned from this community.',
+      );
+      _expectCopy(
+        ApiErrorAction.joinDiscoveryCommunity,
+        'ACCOUNT_LIMITED',
+        'Messaging is paused',
+        'Messaging is paused on your account. Check your email for a quick step to continue.',
+      );
+      _expectCopy(
+        ApiErrorAction.joinDiscoveryCommunity,
+        null,
+        "Couldn't join this community",
+        'Something went wrong. Please try again in a moment.',
+      );
+    });
+
+    test('leave, create and revoke use their own copy', () {
+      _expectCopy(
+        ApiErrorAction.leaveCommunity,
+        null,
+        'Failed to leave community',
+        "Couldn't leave right now. Try again in a moment.",
+      );
+      _expectCopy(
+        ApiErrorAction.createInvite,
+        'MAX_INVITES',
+        "Couldn't create invite link",
+        'This community has reached its invite limit.',
+      );
+      _expectCopy(
+        ApiErrorAction.createInvite,
+        null,
+        "Couldn't create invite link",
+        "Couldn't create an invite link. Please try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.revokeInvite,
+        null,
+        "Couldn't revoke invite",
+        'The link may still work. Try again in a moment.',
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {

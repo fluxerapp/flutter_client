@@ -884,11 +884,11 @@
     "@inviteAcceptInvitesPaused": {
         "description": "Disabled action label when community invites are paused."
     },
-    "inviteAcceptNotFoundTitle": "Invite invalid",
+    "inviteAcceptNotFoundTitle": "Invite not found",
     "@inviteAcceptNotFoundTitle": {
         "description": "Title when an invite link is expired or invalid."
     },
-    "inviteAcceptNotFoundDescription": "This invite may be expired or invalid.",
+    "inviteAcceptNotFoundDescription": "This invite may have expired or been deleted.",
     "@inviteAcceptNotFoundDescription": {
         "description": "Description when an invite link is expired or invalid."
     },
@@ -6041,10 +6041,6 @@
     "addGuildInviteInvalid": "This invite is invalid or has expired.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Could not join community. Please try again.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Remove all reactions",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -14607,10 +14603,6 @@
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
     },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Invite creation is temporarily disabled for this community.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
-    },
     "composerCloseAttachmentPanel": "Close attachment picker",
     "@composerCloseAttachmentPanel": {
         "description": "Accessibility label for the composer button that closes the attachment gallery panel."
@@ -16125,5 +16117,61 @@
     "groupDmLeaveFailedTitle": "Couldn't leave group",
     "@groupDmLeaveFailedTitle": {
         "description": "Title of the dialog shown when leaving a group DM fails."
+    },
+    "inviteJoinFailedTitle": "Couldn't join community",
+    "@inviteJoinFailedTitle": {
+        "description": "Title of the dialog shown when accepting an invite fails for an unknown reason."
+    },
+    "inviteErrorPausedMessage": "Admins paused invites — you can't join right now.",
+    "@inviteErrorPausedMessage": {
+        "description": "Body of the invite error dialog when the community has paused invites."
+    },
+    "inviteErrorAtCapacityTitle": "Community at capacity",
+    "@inviteErrorAtCapacityTitle": {
+        "description": "Title of the invite error dialog when the community is full."
+    },
+    "inviteErrorAtCapacityMessage": "This community has reached its maximum member limit and is not accepting new members at this time.",
+    "@inviteErrorAtCapacityMessage": {
+        "description": "Body of the invite error dialog when the community is full."
+    },
+    "inviteErrorPresenceTitle": "Gateway connection required",
+    "@inviteErrorPresenceTitle": {
+        "description": "Title of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorPresenceMessage": "Temporary invites need a live connection. Check yours and try again.",
+    "@inviteErrorPresenceMessage": {
+        "description": "Body of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorBannedTitle": "You're banned",
+    "@inviteErrorBannedTitle": {
+        "description": "Title of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorBannedMessage": "You are banned from this community and cannot join.",
+    "@inviteErrorBannedMessage": {
+        "description": "Body of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorIpBannedTitle": "Your IP is banned",
+    "@inviteErrorIpBannedTitle": {
+        "description": "Title of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorIpBannedMessage": "Your IP address is banned from this community and you cannot join.",
+    "@inviteErrorIpBannedMessage": {
+        "description": "Body of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorClaimTitle": "Account verification required",
+    "@inviteErrorClaimTitle": {
+        "description": "Title of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "inviteErrorClaimMessage": "Add an email and password to your account first.",
+    "@inviteErrorClaimMessage": {
+        "description": "Body of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "leaveCommunityFailedTitle": "Failed to leave community",
+    "@leaveCommunityFailedTitle": {
+        "description": "Title of the dialog shown when leaving a community fails."
+    },
+    "leaveCommunityFailedMessage": "Couldn't leave right now. Try again in a moment.",
+    "@leaveCommunityFailedMessage": {
+        "description": "Body of the dialog shown when leaving a community fails."
     }
 }

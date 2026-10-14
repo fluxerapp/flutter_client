@@ -7569,10 +7569,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get addGuildInviteInvalid => 'Este convite é inválido ou expirou.';
 
   @override
-  String get addGuildJoinFailed =>
-      'Não foi possível entrar na comunidade. Por favor, tente novamente.';
-
-  @override
   String get addGuildCreateTitle => 'Criar uma comunidade';
 
   @override
@@ -8930,10 +8926,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String get guildNavbarCreateInviteMaxInvites =>
       'This community has reached its invite limit.';
-
-  @override
-  String get guildNavbarCreateInviteTemporarilyDisabled =>
-      'Invite creation is temporarily disabled for this community.';
 
   @override
   String get groupDmCopyInviteFailed => 'Falha ao copiar link de convite';
@@ -15508,6 +15500,55 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+
+  @override
+  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+
+  @override
+  String get inviteErrorPausedMessage =>
+      'Admins paused invites — you can\'t join right now.';
+
+  @override
+  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+
+  @override
+  String get inviteErrorAtCapacityMessage =>
+      'This community has reached its maximum member limit and is not accepting new members at this time.';
+
+  @override
+  String get inviteErrorPresenceTitle => 'Gateway connection required';
+
+  @override
+  String get inviteErrorPresenceMessage =>
+      'Temporary invites need a live connection. Check yours and try again.';
+
+  @override
+  String get inviteErrorBannedTitle => 'You\'re banned';
+
+  @override
+  String get inviteErrorBannedMessage =>
+      'You are banned from this community and cannot join.';
+
+  @override
+  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+
+  @override
+  String get inviteErrorIpBannedMessage =>
+      'Your IP address is banned from this community and you cannot join.';
+
+  @override
+  String get inviteErrorClaimTitle => 'Account verification required';
+
+  @override
+  String get inviteErrorClaimMessage =>
+      'Add an email and password to your account first.';
+
+  @override
+  String get leaveCommunityFailedTitle => 'Failed to leave community';
+
+  @override
+  String get leaveCommunityFailedMessage =>
+      'Couldn\'t leave right now. Try again in a moment.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -22899,10 +22940,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get addGuildInviteInvalid => 'Este convite é inválido ou expirou.';
 
   @override
-  String get addGuildJoinFailed =>
-      'Não foi possível entrar na comunidade. Por favor, tente novamente.';
-
-  @override
   String get addGuildCreateTitle => 'Criar uma comunidade';
 
   @override
@@ -24217,10 +24254,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get guildNavbarCreateInviteMaxInvites =>
       'Esta comunidade atingiu o limite de convites.';
-
-  @override
-  String get guildNavbarCreateInviteTemporarilyDisabled =>
-      'A criação de convites está temporariamente desativada para esta comunidade.';
 
   @override
   String get groupDmCopyInviteFailed =>

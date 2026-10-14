@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/ui/stepped_carousel/fluxer_stepped_carousel.
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum _AddGuildModalView { landing, create, join, importUrl, importCreate }
@@ -319,11 +320,11 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
         return;
       }
       setState(() => _inviteErrorText = e.message);
-    } on Object {
+    } on Object catch (e) {
       if (!mounted) {
         return;
       }
-      setState(() => _inviteErrorText = l10n.addGuildJoinFailed);
+      await showApiError(context, ApiErrorAction.acceptInvite, e);
     } finally {
       if (mounted) {
         setState(() => _isSubmitting = false);

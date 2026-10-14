@@ -23,6 +23,11 @@ enum ApiErrorAction {
   createGroupDmInvite,
   closeDm,
   leaveGroupDm,
+  acceptInvite,
+  joinDiscoveryCommunity,
+  leaveCommunity,
+  createInvite,
+  revokeInvite,
 }
 
 sealed class ApiErrorPresentation {
@@ -45,6 +50,8 @@ final class ApiErrorDialog extends ApiErrorPresentation {
 final class ApiErrorToast extends ApiErrorPresentation {
   const ApiErrorToast({required super.body});
 }
+
+const String _sudoModeRequiredCode = 'SUDO_MODE_REQUIRED';
 
 typedef _ErrorCopy = ({String title, String body});
 
@@ -135,6 +142,97 @@ _ErrorCopy _copyFor(
       title: l10n.groupDmLeaveFailedTitle,
       body: l10n.guildSettingsRolesTryAgainInAMoment,
     ),
+    ApiErrorAction.acceptInvite => _acceptInviteCopy(l10n, code),
+    ApiErrorAction.joinDiscoveryCommunity => _joinDiscoveryCopy(l10n, code),
+    ApiErrorAction.leaveCommunity => (
+      title: l10n.leaveCommunityFailedTitle,
+      body: l10n.leaveCommunityFailedMessage,
+    ),
+    ApiErrorAction.revokeInvite => (
+      title: l10n.guildSettingsInvitesRevokeFailedTitle,
+      body: l10n.guildSettingsInvitesRevokeFailedDescription,
+    ),
+    ApiErrorAction.createInvite => (
+      title: l10n.groupDmInviteFailedTitle,
+      body: switch (code) {
+        'MISSING_PERMISSIONS' => l10n.guildNavbarCreateInviteMissingPermissions,
+        'MAX_INVITES' => l10n.guildNavbarCreateInviteMaxInvites,
+        'INVITES_DISABLED' => l10n.guildNavbarInvitesPaused,
+        _ => l10n.guildNavbarCreateInviteFailed,
+      },
+    ),
+  };
+}
+
+_ErrorCopy _acceptInviteCopy(FluxerLocalizations l10n, String? code) {
+  return switch (code) {
+    'INVITES_DISABLED' => (
+      title: l10n.inviteAcceptInvitesPaused,
+      body: l10n.inviteErrorPausedMessage,
+    ),
+    'MAX_GUILD_MEMBERS' => (
+      title: l10n.inviteErrorAtCapacityTitle,
+      body: l10n.inviteErrorAtCapacityMessage,
+    ),
+    'MAX_GUILDS' => (
+      title: l10n.discoveryJoinErrorMaxGuildsTitle,
+      body: l10n.discoveryJoinErrorMaxGuildsMessage,
+    ),
+    'TEMPORARY_INVITE_REQUIRES_PRESENCE' => (
+      title: l10n.inviteErrorPresenceTitle,
+      body: l10n.inviteErrorPresenceMessage,
+    ),
+    'USER_BANNED_FROM_GUILD' => (
+      title: l10n.inviteErrorBannedTitle,
+      body: l10n.inviteErrorBannedMessage,
+    ),
+    'USER_IP_BANNED_FROM_GUILD' => (
+      title: l10n.inviteErrorIpBannedTitle,
+      body: l10n.inviteErrorIpBannedMessage,
+    ),
+    'UNCLAIMED_ACCOUNT_CANNOT_JOIN_GROUP_DMS' => (
+      title: l10n.inviteErrorClaimTitle,
+      body: l10n.inviteErrorClaimMessage,
+    ),
+    'UNKNOWN_INVITE' => (
+      title: l10n.inviteAcceptNotFoundTitle,
+      body: l10n.inviteAcceptNotFoundDescription,
+    ),
+    _ => (
+      title: l10n.inviteJoinFailedTitle,
+      body: l10n.guildSettingsRolesTryAgainInAMoment,
+    ),
+  };
+}
+
+_ErrorCopy _joinDiscoveryCopy(FluxerLocalizations l10n, String? code) {
+  return switch (code) {
+    'MAX_GUILD_MEMBERS' => (
+      title: l10n.discoveryJoinErrorFullTitle,
+      body: l10n.discoveryJoinErrorFullMessage,
+    ),
+    'MAX_GUILDS' => (
+      title: l10n.discoveryJoinErrorMaxGuildsTitle,
+      body: l10n.discoveryJoinErrorMaxGuildsMessage,
+    ),
+    'USER_BANNED_FROM_GUILD' || 'USER_IP_BANNED_FROM_GUILD' => (
+      title: l10n.discoveryJoinErrorBannedTitle,
+      body: l10n.discoveryJoinErrorBannedMessage,
+    ),
+    'DISCOVERY_NOT_DISCOVERABLE' ||
+    'DISCOVERY_DISABLED' ||
+    'INVITES_DISABLED' => (
+      title: l10n.discoveryJoinErrorNotAvailableTitle,
+      body: l10n.discoveryJoinErrorNotAvailableMessage,
+    ),
+    'RATE_LIMITED' => (
+      title: l10n.discoveryJoinErrorRateLimitTitle,
+      body: l10n.discoveryJoinErrorRateLimitMessage,
+    ),
+    _ => (
+      title: l10n.discoveryJoinErrorGenericTitle,
+      body: l10n.discoveryJoinErrorGenericMessage,
+    ),
   };
 }
 
@@ -142,6 +240,9 @@ const Set<ApiErrorAction> _accountStateActions = <ApiErrorAction>{
   ApiErrorAction.openDm,
   ApiErrorAction.addToGroupDm,
   ApiErrorAction.createGroupDmInvite,
+  ApiErrorAction.acceptInvite,
+  ApiErrorAction.joinDiscoveryCommunity,
+  ApiErrorAction.createInvite,
 };
 
 _ErrorCopy? _accountStateCopy(
@@ -234,6 +335,9 @@ Future<void> showApiError(
   ApiErrorAction action,
   Object error,
 ) async {
+  if (ApiException.from(error).code == _sudoModeRequiredCode) {
+    return;
+  }
   final ApiErrorPresentation presentation = presentApiErrorFrom(
     FluxerLocalizations.of(context),
     action,

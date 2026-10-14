@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart'
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -140,22 +141,12 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
     setState(() => _isAccepting = true);
     try {
       await joinCommunityViaInvite(ref: ref, rawInput: widget.code, l10n: l10n);
-    } on JoinCommunityException catch (e) {
+    } on Object catch (e) {
       if (!mounted) {
         return;
       }
       setState(() => _isAccepting = false);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.message)));
-    } on Object {
-      if (!mounted) {
-        return;
-      }
-      setState(() => _isAccepting = false);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.addGuildJoinFailed)));
+      await showApiError(context, ApiErrorAction.acceptInvite, e);
     }
   }
 

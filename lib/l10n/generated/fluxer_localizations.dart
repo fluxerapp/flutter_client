@@ -1721,13 +1721,13 @@ abstract class FluxerLocalizations {
   /// Title when an invite link is expired or invalid.
   ///
   /// In en, this message translates to:
-  /// **'Invite invalid'**
+  /// **'Invite not found'**
   String get inviteAcceptNotFoundTitle;
 
   /// Description when an invite link is expired or invalid.
   ///
   /// In en, this message translates to:
-  /// **'This invite may be expired or invalid.'**
+  /// **'This invite may have expired or been deleted.'**
   String get inviteAcceptNotFoundDescription;
 
   /// Title when a deep link or route cannot be opened in the app.
@@ -12328,12 +12328,6 @@ abstract class FluxerLocalizations {
   /// **'This invite is invalid or has expired.'**
   String get addGuildInviteInvalid;
 
-  /// Generic error when joining a community via invite fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not join community. Please try again.'**
-  String get addGuildJoinFailed;
-
   /// Title of the create-community sub-view in the add community modal.
   ///
   /// In en, this message translates to:
@@ -14660,12 +14654,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This community has reached its invite limit.'**
   String get guildNavbarCreateInviteMaxInvites;
-
-  /// Error when instant invites are temporarily disabled.
-  ///
-  /// In en, this message translates to:
-  /// **'Invite creation is temporarily disabled for this community.'**
-  String get guildNavbarCreateInviteTemporarilyDisabled;
 
   /// Error when copying a group DM invite link fails.
   ///
@@ -25715,6 +25703,90 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t leave group'**
   String get groupDmLeaveFailedTitle;
+
+  /// Title of the dialog shown when accepting an invite fails for an unknown reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t join community'**
+  String get inviteJoinFailedTitle;
+
+  /// Body of the invite error dialog when the community has paused invites.
+  ///
+  /// In en, this message translates to:
+  /// **'Admins paused invites — you can\'t join right now.'**
+  String get inviteErrorPausedMessage;
+
+  /// Title of the invite error dialog when the community is full.
+  ///
+  /// In en, this message translates to:
+  /// **'Community at capacity'**
+  String get inviteErrorAtCapacityTitle;
+
+  /// Body of the invite error dialog when the community is full.
+  ///
+  /// In en, this message translates to:
+  /// **'This community has reached its maximum member limit and is not accepting new members at this time.'**
+  String get inviteErrorAtCapacityMessage;
+
+  /// Title of the invite error dialog when a temporary invite needs a live connection.
+  ///
+  /// In en, this message translates to:
+  /// **'Gateway connection required'**
+  String get inviteErrorPresenceTitle;
+
+  /// Body of the invite error dialog when a temporary invite needs a live connection.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary invites need a live connection. Check yours and try again.'**
+  String get inviteErrorPresenceMessage;
+
+  /// Title of the invite error dialog when the user is banned from the community.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re banned'**
+  String get inviteErrorBannedTitle;
+
+  /// Body of the invite error dialog when the user is banned from the community.
+  ///
+  /// In en, this message translates to:
+  /// **'You are banned from this community and cannot join.'**
+  String get inviteErrorBannedMessage;
+
+  /// Title of the invite error dialog when the user's IP address is banned.
+  ///
+  /// In en, this message translates to:
+  /// **'Your IP is banned'**
+  String get inviteErrorIpBannedTitle;
+
+  /// Body of the invite error dialog when the user's IP address is banned.
+  ///
+  /// In en, this message translates to:
+  /// **'Your IP address is banned from this community and you cannot join.'**
+  String get inviteErrorIpBannedMessage;
+
+  /// Title of the invite error dialog when an unclaimed account tries to join a group.
+  ///
+  /// In en, this message translates to:
+  /// **'Account verification required'**
+  String get inviteErrorClaimTitle;
+
+  /// Body of the invite error dialog when an unclaimed account tries to join a group.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an email and password to your account first.'**
+  String get inviteErrorClaimMessage;
+
+  /// Title of the dialog shown when leaving a community fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to leave community'**
+  String get leaveCommunityFailedTitle;
+
+  /// Body of the dialog shown when leaving a community fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t leave right now. Try again in a moment.'**
+  String get leaveCommunityFailedMessage;
 }
 
 class _FluxerLocalizationsDelegate

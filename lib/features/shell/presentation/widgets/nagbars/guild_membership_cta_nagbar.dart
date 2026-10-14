@@ -7,10 +7,9 @@ import 'package:fluxer_app/features/shell/providers/nagbar_dismissals_provider.d
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_button.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 const String kProductCommunityName = 'Fluxer HQ';
 
@@ -43,15 +42,10 @@ class _GuildMembershipCtaNagbarState
           .read(nagbarDismissalsProvider.notifier)
           .dismissGuildMembershipCta();
       ref.invalidate(guildMembershipCtaVisibleProvider);
-    } on JoinCommunityException catch (error) {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: error.message,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+    } on Object catch (error) {
+      if (mounted) {
+        await showApiError(context, ApiErrorAction.acceptInvite, error);
+      }
     } finally {
       if (mounted) {
         setState(() => _isSubmitting = false);

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_hash.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
@@ -9,7 +8,6 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/domain/discovery_category_labels.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_context_menu.dart';
-import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_join_error_dialog.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -22,6 +20,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -289,11 +288,11 @@ class DiscoveryGuildCard extends ConsumerWidget {
         return;
       }
       context.go(RoutePaths.guild(guildId));
-    } on DioException catch (error) {
+    } on Object catch (error) {
       if (!context.mounted) {
         return;
       }
-      await DiscoveryJoinErrorDialog.show(context, error: error);
+      await showApiError(context, ApiErrorAction.joinDiscoveryCommunity, error);
     }
   }
 }

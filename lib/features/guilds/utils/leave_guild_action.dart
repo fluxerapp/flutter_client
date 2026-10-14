@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 
 Future<void> leaveGuildAndCleanup(WidgetRef ref, String guildId) async {
@@ -22,10 +23,16 @@ Future<void> leaveGuildAndCleanup(WidgetRef ref, String guildId) async {
     channelPermissionCacheProvider.notifier,
   );
 
-  await client.guilds.leaveGuild(
-    guildId: guildId,
-    body: const SudoVerificationSchema(),
-  );
+  try {
+    await client.guilds.leaveGuild(
+      guildId: guildId,
+      body: const SudoVerificationSchema(),
+    );
+  } on Object catch (error, stack) {
+    talker.error('[Guild] Leave failed', error, stack);
+    await showApiErrorFromRoot(ApiErrorAction.leaveCommunity, error);
+    return;
+  }
   await _removeGuildLocallyAndEvict(
     guildId: guildId,
     guildRepository: guildRepository,

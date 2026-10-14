@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
@@ -38,29 +36,20 @@ Future<void> joinCommunityViaInvite({
   if (parsedCode == null || parsedCode.isEmpty) {
     throw JoinCommunityException(message: l10n.addGuildInviteInvalid);
   }
-  try {
-    final InviteResponseSchema schema = await client.invites.getInvite(
-      inviteCode: parsedCode,
+  final InviteResponseSchema schema = await client.invites.getInvite(
+    inviteCode: parsedCode,
+  );
+  if (inviteResponseIsGuild(schema)) {
+    await _joinGuildInvite(
+      ref: ref,
+      invite: schema.toGuildInviteResponse(),
+      code: parsedCode,
     );
-    if (inviteResponseIsGuild(schema)) {
-      await _joinGuildInvite(
-        ref: ref,
-        invite: schema.toGuildInviteResponse(),
-        code: parsedCode,
-        l10n: l10n,
-      );
-    } else {
-      await _joinGroupDmInvite(
-        ref: ref,
-        invite: schema.toGroupDmInviteResponse(),
-        code: parsedCode,
-      );
-    }
-  } on JoinCommunityException {
-    rethrow;
-  } on DioException catch (e) {
-    throw JoinCommunityException(
-      message: userFacingErrorMessage(e, l10n.addGuildJoinFailed),
+  } else {
+    await _joinGroupDmInvite(
+      ref: ref,
+      invite: schema.toGroupDmInviteResponse(),
+      code: parsedCode,
     );
   }
 }
@@ -69,7 +58,6 @@ Future<void> _joinGuildInvite({
   required WidgetRef ref,
   required InviteResponseSchemaGuildInviteResponse invite,
   required String code,
-  required FluxerLocalizations l10n,
 }) async {
   final String guildId = invite.guild.id;
   final String channelId = invite.channel.id;

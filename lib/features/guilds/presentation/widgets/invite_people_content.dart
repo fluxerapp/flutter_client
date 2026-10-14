@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_create_errors.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
 class InvitePeopleContent extends StatefulWidget {
@@ -103,7 +104,7 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
         return;
       }
       if (result == null) {
-        _showCreateFailed();
+        _showCreateFailed(const ApiException());
         return;
       }
       _inviteState.value = (
@@ -133,13 +134,8 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
         .show(FluxerToast(message: message, variant: variant));
   }
 
-  void _showCreateFailed([Object? error]) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    _showToast(
-      error == null
-          ? l10n.guildNavbarCreateInviteFailed
-          : inviteCreateFailureMessage(error: error, l10n: l10n),
-    );
+  void _showCreateFailed(Object error) {
+    unawaited(showApiError(context, ApiErrorAction.createInvite, error));
   }
 
   Future<void> _copyLink() async {
