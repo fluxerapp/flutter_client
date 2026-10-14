@@ -252,11 +252,8 @@ Future<void> dispatchMessageAction({
         _translateMessage(ref: ref, context: context, message: message),
       );
     case MessageAction.createThread:
-      _runAfterModalSettles(
-        context,
-        () => unawaited(
-          showCreateThreadSheetForMessage(context, ref, message: message),
-        ),
+      unawaited(
+        showCreateThreadSheetForMessage(context, ref, message: message),
       );
   }
 }

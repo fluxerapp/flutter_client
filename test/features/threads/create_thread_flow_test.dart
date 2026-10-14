@@ -271,10 +271,10 @@ void main() {
       );
       expect(chat.switched, <String>[_sourceId]);
       expect(chat.forgotten, <String>[_sourceId]);
-      final List<String> threadRows = (await tester.runAsync(
+      final List<int> threadRows = (await tester.runAsync(
         () => database.messageDao.getMessages(_sourceId),
-      ))!.map((row) => row.content).toList();
-      expect(threadRows, isEmpty);
+      ))!.map((row) => row.type).toList();
+      expect(threadRows, <int>[messageTypeThreadStarterMessage]);
       expect(
         await tester.runAsync(
           () => database.messageDao.getMessage(_parentId, _sourceId),

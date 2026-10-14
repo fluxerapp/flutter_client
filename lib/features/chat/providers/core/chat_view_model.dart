@@ -2728,7 +2728,8 @@ class ChatViewModel extends _$ChatViewModel {
             messages: _finalizeLoadedMessages(channelId, cached, cacheOrdinal),
             isLoading: false,
             isSyncingMessages: willRefresh,
-            hasMoreMessages: incompleteCache || cached.length >= _kPageSize,
+            hasMoreMessages:
+                cached.first.type != messageTypeThreadStarterMessage,
             hasMoreNewerMessages: false,
           );
           _invalidateMessageCacheTrust();
