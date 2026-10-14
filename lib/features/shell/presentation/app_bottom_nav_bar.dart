@@ -163,7 +163,7 @@ class _AppBottomNavItemState extends State<_AppBottomNavItem> {
                 clipBehavior: Clip.none,
                 children: [
                   PhosphorIcon(widget.config.icon!, color: itemColor, size: 24),
-                  if (widget.config.showsUnreadBadge)
+                  if (widget.config.showsUnreadBadge && !widget.isSelected)
                     const PositionedDirectional(
                       top: -6,
                       start: 14,

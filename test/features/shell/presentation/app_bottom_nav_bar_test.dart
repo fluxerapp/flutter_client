@@ -49,6 +49,7 @@ _pumpNav(
   required Size size,
   bool constrainToPeekWidth = false,
   AppIconBadgeValue? badge,
+  int currentIndex = 0,
 }) async {
   await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -65,7 +66,10 @@ _pumpNav(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Divider(height: 1, color: context.colors.borderColor),
-                AppBottomNavBar(currentIndex: 0, onBranchSelected: (_) {}),
+                AppBottomNavBar(
+                  currentIndex: currentIndex,
+                  onBranchSelected: (_) {},
+                ),
               ],
             );
             return Scaffold(
@@ -147,6 +151,7 @@ void main() {
       tester,
       size: _kPhoneSize,
       badge: const AppIconBadgeValue(count: 120),
+      currentIndex: 1,
     );
     await tester.pumpAndSettle();
 
@@ -156,6 +161,19 @@ void main() {
     final Rect badgeRect = tester.getRect(badge);
     expect(badgeRect.bottom, lessThan(home.top));
     expect(badgeRect.height, FluxerBadge.height);
+  });
+
+  testWidgets('home tab hides its unread count while home is selected', (
+    WidgetTester tester,
+  ) async {
+    await _pumpNav(
+      tester,
+      size: _kPhoneSize,
+      badge: const AppIconBadgeValue(count: 3),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(FluxerBadge), findsNothing);
   });
 
   testWidgets('no badge without unread state', (WidgetTester tester) async {
