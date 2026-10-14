@@ -88,7 +88,8 @@ class _DMListState extends ConsumerState<DMList> {
   void initState() {
     super.initState();
     _scrollStore = ref.read(dmListScrollStoreProvider);
-    _needsScrollRestore = _scrollStore.offset > 0;
+    final double? savedOffset = _scrollStore.offset;
+    _needsScrollRestore = savedOffset == null || savedOffset > 0;
     _scrollController = ScrollController()..addListener(_persistScroll);
   }
 
@@ -116,7 +117,11 @@ class _DMListState extends ConsumerState<DMList> {
     }
   }
 
-  void _scheduleScrollRestore() {
+  void _scheduleScrollRestore({
+    required int? selectedRowIndex,
+    required double rowExtent,
+    required double topPadding,
+  }) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || !_needsScrollRestore) {
         return;
@@ -125,12 +130,25 @@ class _DMListState extends ConsumerState<DMList> {
       if (!_scrollController.hasClients) {
         return;
       }
-      final double maxExtent = _scrollController.position.maxScrollExtent;
+      final ScrollPosition position = _scrollController.position;
+      final double maxExtent = position.maxScrollExtent;
       if (maxExtent <= 0) {
         return;
       }
+      final double? savedOffset = _scrollStore.offset;
+      final double target;
+      if (savedOffset != null) {
+        target = savedOffset;
+      } else if (selectedRowIndex != null) {
+        target =
+            topPadding +
+            (selectedRowIndex + 0.5) * rowExtent -
+            position.viewportDimension / 2;
+      } else {
+        return;
+      }
       _restoringScroll = true;
-      _scrollController.jumpTo(_scrollStore.offset.clamp(0.0, maxExtent));
+      _scrollController.jumpTo(target.clamp(0.0, maxExtent));
       _restoringScroll = false;
     });
   }
@@ -616,11 +634,20 @@ class _DMListState extends ConsumerState<DMList> {
     final listPadding = isMobile
         ? EdgeInsets.only(top: context.layout.s1, bottom: 96)
         : EdgeInsets.zero;
+    final int leadingRows = isMobile ? 1 : 0;
     if (_needsScrollRestore && convos.isNotEmpty) {
-      _scheduleScrollRestore();
+      final int selectedConvoIndex = convos.indexWhere(
+        (DmConversation c) => c.id == selectedId,
+      );
+      _scheduleScrollRestore(
+        selectedRowIndex: selectedConvoIndex >= 0
+            ? selectedConvoIndex + leadingRows
+            : null,
+        rowExtent: isMobile ? _kMobileRowExtent : _kDesktopRowExtent,
+        topPadding: listPadding.top,
+      );
     }
 
-    final int leadingRows = isMobile ? 1 : 0;
     return ListView.builder(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),

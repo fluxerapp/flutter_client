@@ -1143,6 +1143,53 @@ void main() {
           .position;
       expect(position.pixels, position.maxScrollExtent);
     });
+
+    testWidgets('opens centered on the selected conversation without a saved '
+        'offset', (tester) async {
+      _setMobileSurface(tester);
+      final DmListScrollStore scrollStore = DmListScrollStore();
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: <Override>[
+            ..._buildOverrides(
+              conversations: _manyConversations(40),
+              selectedChannelId: '1030',
+            ),
+            dmListScrollStoreProvider.overrideWithValue(scrollStore),
+          ],
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Rect list = tester.getRect(find.byType(ListView));
+      expect(
+        tester.getCenter(find.text('Friend 30')).dy,
+        closeTo(list.center.dy, 40),
+      );
+    });
+
+    testWidgets('a saved offset wins over the selected conversation', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      final DmListScrollStore scrollStore = DmListScrollStore()..offset = 0;
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: <Override>[
+            ..._buildOverrides(
+              conversations: _manyConversations(40),
+              selectedChannelId: '1030',
+            ),
+            dmListScrollStoreProvider.overrideWithValue(scrollStore),
+          ],
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(_dmListScrollOffset(tester), 0);
+    });
   });
 }
 

@@ -1275,6 +1275,55 @@ void main() {
     });
   });
 
+  group('GuildSidebar selected channel anchoring', () {
+    testWidgets('opens centered on the selected channel without a saved '
+        'scroll position', (tester) async {
+      tester.view.physicalSize = const Size(390, 400);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final List<Channel> channels = List<Channel>.generate(
+        40,
+        (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+      );
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: ChannelListState(
+              guild: const Guild(id: _guildId, name: 'Test Guild'),
+              categories: <ChannelCategory>[
+                ChannelCategory(
+                  id: 'cat1',
+                  name: 'My Category',
+                  channels: channels,
+                ),
+              ],
+              selectedChannelId: 'c30',
+              hasReceivedInitialChannelList: true,
+            ),
+            selectedChannelId: 'c30',
+            unread: <String, UnreadState>{
+              for (final Channel channel in channels)
+                channel.id: const UnreadState(),
+            },
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+
+      final Finder selected = find.text('channel-30');
+      expect(selected, findsOneWidget);
+      final Rect list = tester.getRect(find.byType(Scrollable).first);
+      final double visibleCenter = (list.top + 56 + list.bottom) / 2;
+      expect(tester.getCenter(selected).dy, closeTo(visibleCenter, 24));
+      await releaseTestWidgetTree(tester);
+    });
+  });
+
   group('GuildSidebar unread gate fallback', () {
     Future<void> expectChannelsAfterWait(WidgetTester tester) async {
       await tester.pump();
