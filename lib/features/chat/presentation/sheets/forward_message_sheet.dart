@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int kForwardSelectionLimit = 5;
@@ -319,6 +320,7 @@ class _ForwardMessageSheetBodyState
     if (!isSelected && _selected.length >= kForwardSelectionLimit) {
       return;
     }
+    FluxerHaptics.selection();
     setState(() {
       if (isSelected) {
         _selected.remove(destination.channelId);
@@ -819,7 +821,7 @@ class _DestinationTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              _checkbox(colors),
+              _checkbox(context, colors),
             ],
           ),
         ),
@@ -828,7 +830,15 @@ class _DestinationTile extends StatelessWidget {
     return FluxerTappable(
       onTap: disabled ? null : onTap,
       enabled: !disabled,
-      builder: (BuildContext context, Set<WidgetState> states) => row,
+      builder: (BuildContext context, Set<WidgetState> states) =>
+          AnimatedContainer(
+            duration: context.motion.fast,
+            curve: context.motion.curve,
+            color: states.contains(WidgetState.pressed)
+                ? colors.listItemPressedBg
+                : Colors.transparent,
+            child: row,
+          ),
     );
   }
 
@@ -836,17 +846,30 @@ class _DestinationTile extends StatelessWidget {
     return ForwardDestinationAvatar(destination: destination);
   }
 
-  Widget _checkbox(FluxerColorTheme colors) {
-    if (isSelected) {
-      return const FluxerSelectedCheck();
-    }
-    return Container(
-      width: 22,
-      height: 22,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: colors.backgroundHeaderSecondary, width: 2),
-      ),
+  Widget _checkbox(BuildContext context, FluxerColorTheme colors) {
+    return AnimatedSwitcher(
+      duration: context.motion.fast,
+      switchInCurve: context.motion.curve,
+      switchOutCurve: context.motion.curve,
+      transitionBuilder: (Widget child, Animation<double> animation) =>
+          ScaleTransition(
+            scale: Tween<double>(begin: 0.6, end: 1).animate(animation),
+            child: FadeTransition(opacity: animation, child: child),
+          ),
+      child: isSelected
+          ? const FluxerSelectedCheck(key: ValueKey<bool>(true))
+          : Container(
+              key: const ValueKey<bool>(false),
+              width: 22,
+              height: 22,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: colors.backgroundHeaderSecondary,
+                  width: 2,
+                ),
+              ),
+            ),
     );
   }
 }

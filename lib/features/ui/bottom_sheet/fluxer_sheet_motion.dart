@@ -71,10 +71,15 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   }) : _backdrop = FluxerSheetBackdropProgress.of(navigator),
        _inputLocked = ValueNotifier<bool>(inputLockout > Duration.zero);
 
+  static FluxerSheetRoute<dynamic>? _scrimHandoff;
+
   final Route<dynamic>? origin;
   final Duration inputLockout;
   final FluxerSheetBackdropProgress _backdrop;
   final ValueNotifier<double> _scrimTravel = ValueNotifier<double>(1);
+  final ValueNotifier<double?> _scrimPin = ValueNotifier<double?>(null);
+  double _scrimFloor = 0;
+  bool _disposed = false;
   final ValueNotifier<bool> _inputLocked;
   bool _travelFlushScheduled = false;
   double _pendingTravel = 1;
@@ -96,9 +101,62 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
     unawaited(nav.maybePop().whenComplete(() => _barrierDismissing = false));
   }
 
+  void holdScrimForHandoff() {
+    final Animation<double>? routeAnimation = animation;
+    if (routeAnimation == null ||
+        routeAnimation.status != AnimationStatus.reverse) {
+      return;
+    }
+    _scrimPin.value = _scrimOpacity(routeAnimation);
+    _scrimHandoff = this;
+  }
+
+  void _adoptScrimHandoff() {
+    final FluxerSheetRoute<dynamic>? held = _scrimHandoff;
+    _scrimHandoff = null;
+    final double? pinned = held?._scrimPin.value;
+    if (held == null || identical(held, this)) {
+      return;
+    }
+    if (pinned == null || pinned <= 0) {
+      return;
+    }
+    _scrimFloor = pinned;
+    held._releaseScrim();
+  }
+
+  void _releaseScrim() {
+    if (SchedulerBinding.instance.schedulerPhase !=
+        SchedulerPhase.persistentCallbacks) {
+      _scrimPin.value = 0;
+      return;
+    }
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (!_disposed) {
+        _scrimPin.value = 0;
+      }
+    });
+  }
+
+  double _scrimOpacity(Animation<double> routeAnimation) {
+    final double? pinned = _scrimPin.value;
+    if (pinned != null) {
+      return pinned;
+    }
+    final double opacity =
+        fluxerSheetScrimOpacity(routeAnimation, transitionDuration) *
+        _scrimTravel.value;
+    if (routeAnimation.status == AnimationStatus.forward &&
+        opacity < _scrimFloor) {
+      return _scrimFloor;
+    }
+    return opacity;
+  }
+
   @override
   void install() {
     super.install();
+    _adoptScrimHandoff();
     animation?.addListener(_syncInputLock);
     animation?.addStatusListener(_syncInputLockStatus);
     _syncInputLock();
@@ -225,13 +283,12 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
       listenable: Listenable.merge(<Listenable>[
         routeAnimation,
         _scrimTravel,
+        _scrimPin,
         _backdrop,
         _inputLocked,
       ]),
       builder: (BuildContext context, Widget? _) {
-        final double opacity =
-            fluxerSheetScrimOpacity(routeAnimation, transitionDuration) *
-            _scrimTravel.value;
+        final double opacity = _scrimOpacity(routeAnimation);
         final Color tinted = _backdrop.value <= 0
             ? base
             : Color.lerp(base, kFluxerSheetBackdropDimColor, _backdrop.value)!;
@@ -250,10 +307,15 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
 
   @override
   void dispose() {
+    _disposed = true;
     _detachRouter();
+    if (identical(_scrimHandoff, this)) {
+      _scrimHandoff = null;
+    }
     animation?.removeListener(_syncInputLock);
     animation?.removeStatusListener(_syncInputLockStatus);
     _scrimTravel.dispose();
+    _scrimPin.dispose();
     _inputLocked.dispose();
     super.dispose();
   }

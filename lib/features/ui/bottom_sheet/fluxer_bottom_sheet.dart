@@ -130,16 +130,16 @@ Future<T?> _pushFluxerSheetRoute<T>(
 final Expando<FluxerSheetRoute<dynamic>> _lastSheetByNavigator =
     Expando<FluxerSheetRoute<dynamic>>();
 
-Future<void> waitForFluxerSheetExit(
-  BuildContext context, {
-  double remaining = 0,
-}) {
+Future<void> handOffFluxerSheet(BuildContext context) {
   final NavigatorState? navigator = Navigator.maybeOf(context);
-  final Animation<double>? exit = navigator == null
+  final FluxerSheetRoute<dynamic>? closing = navigator == null
       ? null
-      : _lastSheetByNavigator[navigator]?.animation;
+      : _lastSheetByNavigator[navigator];
+  closing?.holdScrimForHandoff();
+  final Animation<double>? exit = closing?.animation;
   bool settled() =>
-      exit!.status != AnimationStatus.reverse || exit.value <= remaining;
+      exit!.status != AnimationStatus.reverse ||
+      exit.value <= kFluxerSheetHandoffRemaining;
   if (exit == null || settled()) {
     return Future<void>.value();
   }
@@ -410,7 +410,7 @@ class FluxerBottomSheet {
             animationStyle ??
             fluxerBottomSheetAnimationStyle(
               context,
-              leadBackdrop: parallax && isMobileLayout(context),
+              leadBackdrop: parallax && _fluxerSheetDrivesBackdrop(context),
             ),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {

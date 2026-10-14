@@ -26,7 +26,6 @@ import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
@@ -139,7 +138,10 @@ Future<void> dispatchMessageAction({
     case MessageAction.reply:
       callbacks.onReply?.call();
     case MessageAction.forward:
-      _runAfterModalSettles(context, () => callbacks.onForward?.call());
+      await handOffFluxerSheet(context);
+      if (context.mounted) {
+        callbacks.onForward?.call();
+      }
     case MessageAction.edit:
       callbacks.onEdit?.call();
     case MessageAction.delete:
@@ -201,10 +203,7 @@ Future<void> dispatchMessageAction({
         );
       }
     case MessageAction.addReaction:
-      await waitForFluxerSheetExit(
-        context,
-        remaining: kFluxerSheetHandoffRemaining,
-      );
+      await handOffFluxerSheet(context);
       if (context.mounted) {
         callbacks.onAddReaction?.call();
       }
