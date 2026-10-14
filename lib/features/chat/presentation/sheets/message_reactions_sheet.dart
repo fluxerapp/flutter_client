@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_reactors_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
@@ -277,17 +278,21 @@ class _ReactionTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final Color card = FluxerBottomSheet.cardColorOf(context);
+    final SelectedReactionChipColors selected = selectedReactionChipColors(
+      context,
+      surface: card,
+    );
     return FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
+        key: ValueKey<String>('reaction-tab-${reaction.apiParam}'),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected
-              ? colors.brandPrimary.withValues(alpha: 0.2)
-              : FluxerBottomSheet.cardColorOf(context),
+          color: isSelected ? selected.background : card,
           border: Border.all(
-            color: isSelected ? colors.brandPrimary : Colors.transparent,
+            color: isSelected ? selected.border : Colors.transparent,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -313,7 +318,7 @@ class _ReactionTab extends StatelessWidget {
             Text(
               '${reaction.count}',
               style: context.textStyles.label.copyWith(
-                color: isSelected ? colors.brandPrimary : colors.textChat,
+                color: isSelected ? selected.foreground : colors.textChat,
                 fontWeight: FontWeight.w600,
               ),
             ),

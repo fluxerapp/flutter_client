@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
@@ -168,7 +169,7 @@ class _ReactionChip extends StatelessWidget {
   Color _chipBackground(BuildContext context, {required bool hasReacted}) {
     final colors = context.colors;
     if (hasReacted) {
-      return Color.lerp(colors.backgroundSecondary, colors.brandPrimary, 0.36)!;
+      return selectedReactionChipColors(context).background;
     }
     final isLight = Theme.of(context).brightness == Brightness.light;
     if (isLight) {
@@ -187,7 +188,7 @@ class _ReactionChip extends StatelessWidget {
   Color _chipBorderColor(BuildContext context, {required bool hasReacted}) {
     final colors = context.colors;
     if (hasReacted) {
-      return colors.brandPrimary;
+      return selectedReactionChipColors(context).border;
     }
     if (Theme.of(context).brightness == Brightness.light) {
       return Color.lerp(
@@ -200,12 +201,10 @@ class _ReactionChip extends StatelessWidget {
   }
 
   Color _chipCountColor(BuildContext context, {required bool hasReacted}) {
-    final colors = context.colors;
     if (!hasReacted) {
-      return colors.textTertiary;
+      return context.colors.textTertiary;
     }
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    return isLight ? colors.brandPrimary : colors.textOnBrandPrimary;
+    return selectedReactionChipColors(context).foreground;
   }
 }
 

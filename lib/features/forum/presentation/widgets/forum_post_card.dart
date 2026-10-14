@@ -2,6 +2,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -491,6 +492,10 @@ class _DefaultReactionButton extends StatelessWidget {
     final colors = context.colors;
     final Color cardBackground = forumPostCardBackgroundColor(colors);
     final bool light = Theme.of(context).brightness == Brightness.light;
+    final SelectedReactionChipColors selected = selectedReactionChipColors(
+      context,
+      surface: cardBackground,
+    );
     return Padding(
       padding: EdgeInsets.only(left: context.layout.s2),
       child: FluxerTappable(
@@ -501,14 +506,14 @@ class _DefaultReactionButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
           decoration: BoxDecoration(
             color: me
-                ? Color.lerp(cardBackground, colors.brandPrimary, 0.36)
+                ? selected.background
                 : light
                 ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.06)
                 : colors.backgroundPrimary,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: me
-                  ? colors.brandPrimary
+                  ? selected.border
                   : light
                   ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.10)!
                   : Colors.transparent,
@@ -527,11 +532,7 @@ class _DefaultReactionButton extends StatelessWidget {
                 Text(
                   '$count',
                   style: context.textStyles.smallText.copyWith(
-                    color: !me
-                        ? colors.textTertiary
-                        : light
-                        ? colors.brandPrimary
-                        : colors.textOnBrandPrimary,
+                    color: me ? selected.foreground : colors.textTertiary,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
