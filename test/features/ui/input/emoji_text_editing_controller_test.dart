@@ -726,7 +726,7 @@ void main() {
         expect(textSpans[1].text, ' world');
         expect(textSpans[1].style?.decoration, TextDecoration.none);
         expect(textSpans[1].style?.color, typedColor.withValues(alpha: 0.45));
-      });
+      }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
       testWidgets(
         'keeps emoji chip when composing range spans sentinel offset',

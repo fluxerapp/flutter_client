@@ -92,7 +92,7 @@ class ComposerMentionController extends InlineTokenTextEditingController {
 
   void _endComposingForForcedApply(bool force) {
     if (force && value.composing.isValid) {
-      super.value = value.copyWith(composing: TextRange.empty);
+      super.value = acceptedValue.copyWith(composing: TextRange.empty);
     }
   }
 

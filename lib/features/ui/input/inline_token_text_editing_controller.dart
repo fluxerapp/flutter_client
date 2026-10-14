@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
@@ -47,6 +48,34 @@ class InlineTokenTextEditingController extends TextEditingController {
   }
 
   String toWireText() => toWireTextRange(0, text.length);
+
+  static bool isInlinePrediction(TextEditingValue value) {
+    return defaultTargetPlatform == TargetPlatform.iOS &&
+        value.selection.isCollapsed &&
+        value.composing.isValid &&
+        !value.composing.isCollapsed &&
+        value.composing.start == value.selection.baseOffset;
+  }
+
+  TextEditingValue get acceptedValue {
+    if (!isInlinePrediction(value)) {
+      return value;
+    }
+    final TextRange prediction = value.composing;
+    return TextEditingValue(
+      text: text.replaceRange(prediction.start, prediction.end, ''),
+      selection: TextSelection.collapsed(offset: prediction.start),
+    );
+  }
+
+  String toAcceptedWireText() {
+    if (!isInlinePrediction(value)) {
+      return toWireText();
+    }
+    final TextRange prediction = value.composing;
+    return toWireTextRange(0, prediction.start) +
+        toWireTextRange(prediction.end, text.length);
+  }
 
   String toWireTextRange(int start, int end) {
     final StringBuffer buffer = StringBuffer();
@@ -487,10 +516,7 @@ class InlineTokenTextEditingController extends TextEditingController {
     TextStyle? style,
     TextEditingValue value,
   ) {
-    final bool inlinePrediction =
-        value.selection.isCollapsed &&
-        value.composing.start == value.selection.baseOffset;
-    if (inlinePrediction) {
+    if (isInlinePrediction(value)) {
       final Color muted =
           Theme.of(context).extension<FluxerColorTheme>()?.textChatMuted ??
           style?.color?.withValues(alpha: 0.45) ??

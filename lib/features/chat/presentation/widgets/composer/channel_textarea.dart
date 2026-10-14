@@ -516,7 +516,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_slashSession.isActive) {
       return _slashSession.toWireText();
     }
-    return stripPrivateUseCharacters(_controller.toWireText());
+    return stripPrivateUseCharacters(_controller.toAcceptedWireText());
   }
 
   Duration? _activeSlowmodeRemainingForSend(String channelId) {
@@ -2018,7 +2018,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
     final String rawWireText = _slashSession.isActive
         ? _slashSession.toWireText()
-        : _controller.toWireText();
+        : _controller.toAcceptedWireText();
     final String wireText = _slashSession.isActive
         ? rawWireText
         : _sendableWireText();
