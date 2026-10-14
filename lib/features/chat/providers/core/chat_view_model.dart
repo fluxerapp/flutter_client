@@ -709,6 +709,7 @@ class ChatViewModel extends _$ChatViewModel {
   Future<void>? _switchInFlightFuture;
   final LinkedHashMap<String, _ParkedChannelWindow> _parkedWindows =
       LinkedHashMap<String, _ParkedChannelWindow>();
+  String? _forgottenLiveChannelId;
   ({String channelId, String messageId})? _pendingTrimAround;
   int _windowGeneration = 0;
   bool _jumpToLatestActive = false;
@@ -745,6 +746,7 @@ class ChatViewModel extends _$ChatViewModel {
     _channelSwitchGeneration++;
     _windowGeneration++;
     _parkedWindows.clear();
+    _forgottenLiveChannelId = null;
     _displayWarmer.releaseAll();
     _pendingTrimAround = null;
     _lastReconciledGatewayGenerationByChannel.clear();
@@ -2036,10 +2038,21 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
+  void forgetChannel(String channelId) {
+    if (channelId == state.channelId) {
+      _forgottenLiveChannelId = channelId;
+    }
+    _dropParkedWindow(channelId);
+  }
+
   void _parkLoadedWindow(String channelId) {
     final ({String channelId, String messageId})? pendingTrim =
         _pendingTrimAround;
     _pendingTrimAround = null;
+    if (_forgottenLiveChannelId == channelId) {
+      _forgottenLiveChannelId = null;
+      return;
+    }
     if (channelId.isEmpty || state.messages.isEmpty) {
       return;
     }

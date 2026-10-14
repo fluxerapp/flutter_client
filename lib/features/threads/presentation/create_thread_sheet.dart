@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -14,6 +16,7 @@ import 'package:fluxer_app/features/channels/providers/read_state_repository_pro
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
@@ -255,10 +258,12 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       return;
     }
     final ChannelResponse created = ChannelResponse.fromJson(json);
-    await ref
-        .read(fluxerDatabaseProvider)
-        .channelDao
-        .upsertChannel(channelFromSdk(created, parent.guildId));
+    final FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+    await database.messageDao.deleteMessagesForChannel(created.id);
+    ref.read(chatViewModelProvider.notifier).forgetChannel(created.id);
+    await database.channelDao.upsertChannel(
+      channelFromSdk(created, parent.guildId),
+    );
     final Message? source = widget.sourceMessage;
     if (source != null) {
       ref.read(messageReferencesProvider.notifier).seed(source);

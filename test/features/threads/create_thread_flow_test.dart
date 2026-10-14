@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
-    show FluxerDatabase, ReadState;
+    show FluxerDatabase, MessagesCompanion, ReadState;
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -136,6 +136,10 @@ class _MainRevealSide extends CurrentRevealSide {
 
 class _FakeChatViewModel extends ChatViewModel {
   final List<String> switched = <String>[];
+  final List<String> forgotten = <String>[];
+
+  @override
+  void forgetChannel(String channelId) => forgotten.add(channelId);
 
   @override
   ChatViewState build() => const ChatViewState(
@@ -175,6 +179,17 @@ void main() {
       final _RecordingRouter router = _RecordingRouter(() => container!);
       final _FakeChatViewModel chat = _FakeChatViewModel();
       final colorTheme = buildDarkColorTheme();
+      await database.messageDao.upsertMessages(<MessagesCompanion>[
+        _forwardSource.toCompanion(),
+        Message(
+          id: '1700',
+          channelId: _sourceId,
+          authorId: '42',
+          authorName: 'Fullest',
+          content: 'whoa',
+          timestamp: DateTime.utc(2026, 10, 14, 12, 22),
+        ).toCompanion(),
+      ]);
 
       await tester.pumpWidget(
         ProviderScope(
@@ -255,6 +270,17 @@ void main() {
         '[fluxer:main] 1 new commit',
       );
       expect(chat.switched, <String>[_sourceId]);
+      expect(chat.forgotten, <String>[_sourceId]);
+      final List<String> threadRows = (await tester.runAsync(
+        () => database.messageDao.getMessages(_sourceId),
+      ))!.map((row) => row.content).toList();
+      expect(threadRows, isEmpty);
+      expect(
+        await tester.runAsync(
+          () => database.messageDao.getMessage(_parentId, _sourceId),
+        ),
+        isNotNull,
+      );
       expect(find.text(testL10n.threadName), findsNothing);
 
       final ReadState? readState = await tester.runAsync<ReadState?>(
