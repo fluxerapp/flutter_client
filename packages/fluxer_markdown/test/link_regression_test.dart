@@ -192,5 +192,57 @@ void main() {
       await tester.tapOnText(find.textRange.ofSubstring('https://example.com'));
       expect(tappedHref, 'https://example.com');
     });
+
+    testWidgets('code-labelled masked links in alert headings stay links', (
+      tester,
+    ) async {
+      String? tappedHref;
+      const Color linkColor = Color(0xFF00AAFF);
+      const Color codeColor = Color(0xFFFF0000);
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        linkColor: linkColor,
+        inlineCodeTextColor: codeColor,
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data:
+                  '> [!TIP]\n'
+                  '> You have been gifted **1-year of Happiness**!\n'
+                  '> \n'
+                  '> #               **[`Claim Voucher`](<https://fluxer.app/>)**',
+              config: config,
+            ),
+          ),
+        ),
+      );
+
+      TextSpan? labelSpan;
+      for (final RichText richText in tester.widgetList<RichText>(
+        find.byType(RichText),
+      )) {
+        richText.text.visitChildren((InlineSpan span) {
+          if (span is TextSpan && span.text == 'Claim Voucher') {
+            labelSpan = span;
+            return false;
+          }
+          return true;
+        });
+      }
+      expect(labelSpan, isNotNull);
+      expect(labelSpan!.style?.color, linkColor);
+      expect(labelSpan!.recognizer, isNotNull);
+
+      await tester.tapOnText(find.textRange.ofSubstring('Claim Voucher'));
+      expect(tappedHref, 'https://fluxer.app/');
+    });
   });
 }

@@ -1197,6 +1197,7 @@ class _MarkdownInlineRenderer {
   final _SpoilerIndexCounter spoilerIndexCounter;
   final int? maxLines;
   final TextOverflow? overflow;
+  int _linkDepth = 0;
 
   List<InlineSpan> build(List<md.Node> nodes, {TextStyle? style}) {
     final effectiveStyle = style ?? baseStyle;
@@ -1275,14 +1276,22 @@ class _MarkdownInlineRenderer {
           children: build(node.children ?? const [], style: underlineStyle),
         );
       case 'code':
+        final TextStyle codeStyle = codeTextStyleFrom(
+          effectiveStyle,
+          codeTextStyle: config.codeTextStyle,
+          color: _linkDepth > 0
+              ? effectiveStyle.color
+              : config.inlineCodeTextColor,
+          backgroundColor: config.inlineCodeBackgroundColor,
+        );
         return TextSpan(
           text: node.textContent,
-          style: codeTextStyleFrom(
-            effectiveStyle,
-            codeTextStyle: config.codeTextStyle,
-            color: config.inlineCodeTextColor,
-            backgroundColor: config.inlineCodeBackgroundColor,
-          ),
+          style: _linkDepth > 0
+              ? codeStyle.copyWith(
+                  decoration: effectiveStyle.decoration,
+                  decorationColor: effectiveStyle.decorationColor,
+                )
+              : codeStyle,
         );
       case 'br':
         return const TextSpan(text: '\n');
@@ -1422,10 +1431,14 @@ class _MarkdownInlineRenderer {
           : style.decoration ?? TextDecoration.none,
       decorationColor: linkColor,
     );
-    final children = _attachLinkRecognizers(
-      build(element.children ?? [md.Text(text)], style: linkStyle),
-      href,
-    );
+    _linkDepth++;
+    final List<InlineSpan> labelSpans;
+    try {
+      labelSpans = build(element.children ?? [md.Text(text)], style: linkStyle);
+    } finally {
+      _linkDepth--;
+    }
+    final children = _attachLinkRecognizers(labelSpans, href);
     return TextSpan(style: linkStyle, children: children);
   }
 
