@@ -21666,6 +21666,78 @@ abstract class FluxerLocalizations {
   /// **'Updated the community icon.'**
   String get auditLogChangeUpdatedCommunityIcon;
 
+  /// Guild change detail sentence shown when invites were paused. Pausing invites disables every invite link of the community until they are resumed. Past tense record, not a command.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused invites.'**
+  String get auditLogChangePausedInvites;
+
+  /// Guild change detail sentence shown when paused invites were enabled again. Past tense record, not a command.
+  ///
+  /// In en, this message translates to:
+  /// **'Resumed invites.'**
+  String get auditLogChangeResumedInvites;
+
+  /// Guild change detail sentence shown when the detached banner setting was turned on.
+  ///
+  /// In en, this message translates to:
+  /// **'Turned on the detached banner.'**
+  String get auditLogChangeTurnedOnDetachedBanner;
+
+  /// Guild change detail sentence shown when the detached banner setting was turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Turned off the detached banner.'**
+  String get auditLogChangeTurnedOffDetachedBanner;
+
+  /// Guild change detail sentence shown when flexible text channel names were allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed flexible text channel names.'**
+  String get auditLogChangeAllowedFlexibleChannelNames;
+
+  /// Guild change detail sentence shown when flexible text channel names were no longer allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped allowing flexible text channel names.'**
+  String get auditLogChangeDisallowedFlexibleChannelNames;
+
+  /// Guild change detail sentence shown when the crown next to the community owner was hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hid the community owner crown.'**
+  String get auditLogChangeHidOwnerCrown;
+
+  /// Guild change detail sentence shown when the crown next to the community owner was shown again.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped hiding the community owner crown.'**
+  String get auditLogChangeShowedOwnerCrown;
+
+  /// Guild change detail sentence shown when other communities were allowed to clone this community's emojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed others to clone this community\'s emojis.'**
+  String get auditLogChangeAllowedEmojiCloning;
+
+  /// Guild change detail sentence shown when cloning this community's emojis was no longer allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped allowing others to clone this community\'s emojis.'**
+  String get auditLogChangeStoppedEmojiCloning;
+
+  /// Guild change detail sentence shown when other communities were allowed to clone this community's stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed others to clone this community\'s stickers.'**
+  String get auditLogChangeAllowedStickerCloning;
+
+  /// Guild change detail sentence shown when cloning this community's stickers was no longer allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped allowing others to clone this community\'s stickers.'**
+  String get auditLogChangeStoppedStickerCloning;
+
   /// Channel change detail sentence.
   ///
   /// In en, this message translates to:

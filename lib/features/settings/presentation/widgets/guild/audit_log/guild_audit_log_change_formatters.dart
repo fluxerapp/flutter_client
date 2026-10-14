@@ -6,7 +6,31 @@ import 'package:fluxer_dart/export.dart';
 class GuildAuditLogChangeFormatters {
   GuildAuditLogChangeFormatters._();
 
-  static String formatChange({
+  static List<String> formatChangeLines({
+    required GuildAuditLogChange change,
+    required AuditLogActionType actionType,
+    required FluxerLocalizations l10n,
+    required Map<String, String> channelNames,
+    required Map<String, String> roleNames,
+    required Map<String, String> userNames,
+  }) {
+    if (change.key == 'features' &&
+        actionType == AuditLogActionType.guildUpdate) {
+      return _formatFeatureChanges(change, l10n);
+    }
+    return <String>[
+      _formatChange(
+        change: change,
+        actionType: actionType,
+        l10n: l10n,
+        channelNames: channelNames,
+        roleNames: roleNames,
+        userNames: userNames,
+      ),
+    ];
+  }
+
+  static String _formatChange({
     required GuildAuditLogChange change,
     required AuditLogActionType actionType,
     required FluxerLocalizations l10n,
@@ -135,6 +159,72 @@ class GuildAuditLogChangeFormatters {
       r'$remove' => _formatRoleDiff(change, l10n, roleNames, isAdd: false),
       _ => null,
     };
+  }
+
+  static List<String> _formatFeatureChanges(
+    GuildAuditLogChange change,
+    FluxerLocalizations l10n,
+  ) {
+    if (change.oldValue is! List<Object?> ||
+        change.newValue is! List<Object?>) {
+      return const <String>[];
+    }
+    final Set<String> previous = _normalizeStringList(change.oldValue).toSet();
+    final Set<String> next = _normalizeStringList(change.newValue).toSet();
+    bool? added(String feature) {
+      final bool had = previous.contains(feature);
+      final bool has = next.contains(feature);
+      return had == has ? null : has;
+    }
+
+    bool? cloningAllowed(String enabledFeature, String disabledFeature) {
+      final bool? enabled = added(enabledFeature);
+      if (enabled != null) {
+        return enabled;
+      }
+      final bool? disabled = added(disabledFeature);
+      return disabled == null ? null : !disabled;
+    }
+
+    final List<(bool?, String, String)> toggles = <(bool?, String, String)>[
+      (
+        added('DETACHED_BANNER'),
+        l10n.auditLogChangeTurnedOnDetachedBanner,
+        l10n.auditLogChangeTurnedOffDetachedBanner,
+      ),
+      (
+        added('TEXT_CHANNEL_FLEXIBLE_NAMES'),
+        l10n.auditLogChangeAllowedFlexibleChannelNames,
+        l10n.auditLogChangeDisallowedFlexibleChannelNames,
+      ),
+      (
+        added('HIDE_OWNER_CROWN'),
+        l10n.auditLogChangeHidOwnerCrown,
+        l10n.auditLogChangeShowedOwnerCrown,
+      ),
+      (
+        added('INVITES_DISABLED'),
+        l10n.auditLogChangePausedInvites,
+        l10n.auditLogChangeResumedInvites,
+      ),
+      (
+        cloningAllowed('CLONE_EMOJI_ENABLED', 'CLONE_EMOJI_DISABLED'),
+        l10n.auditLogChangeAllowedEmojiCloning,
+        l10n.auditLogChangeStoppedEmojiCloning,
+      ),
+      (
+        cloningAllowed('CLONE_STICKER_ENABLED', 'CLONE_STICKER_DISABLED'),
+        l10n.auditLogChangeAllowedStickerCloning,
+        l10n.auditLogChangeStoppedStickerCloning,
+      ),
+    ];
+    final List<String> lines = <String>[];
+    for (final (bool? on, String onText, String offText) in toggles) {
+      if (on != null) {
+        lines.add(on ? onText : offText);
+      }
+    }
+    return lines;
   }
 
   static String _formatFallbackChange(

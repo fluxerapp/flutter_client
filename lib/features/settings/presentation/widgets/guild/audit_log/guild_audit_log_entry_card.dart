@@ -252,8 +252,8 @@ class GuildAuditLogEntryCard extends StatelessWidget {
       if (change.key.isEmpty) {
         continue;
       }
-      lines.add(
-        GuildAuditLogChangeFormatters.formatChange(
+      lines.addAll(
+        GuildAuditLogChangeFormatters.formatChangeLines(
           change: change,
           actionType: entry.actionType,
           l10n: l10n,
