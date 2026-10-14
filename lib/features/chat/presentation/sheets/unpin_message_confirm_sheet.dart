@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 Future<bool?> showUnpinMessageConfirmSheet(
   BuildContext context,
@@ -23,7 +24,11 @@ Future<bool?> showUnpinMessageConfirmSheet(
       unawaited(
         ref
             .read(channelPinsRepositoryProvider)
-            .unpinMessage(channelId: channelId, messageId: messageId),
+            .unpinMessage(channelId: channelId, messageId: messageId)
+            .catchError(
+              (Object error) =>
+                  showApiErrorFromRoot(ApiErrorAction.unpinMessage, error),
+            ),
       );
     },
   );

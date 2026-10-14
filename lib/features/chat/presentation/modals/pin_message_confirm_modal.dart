@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 Future<bool?> showPinMessageConfirmModal(
   BuildContext context,
@@ -25,7 +26,11 @@ Future<bool?> showPinMessageConfirmModal(
       unawaited(
         ref
             .read(channelPinsRepositoryProvider)
-            .pinMessage(channelId: message.channelId, messageId: message.id),
+            .pinMessage(channelId: message.channelId, messageId: message.id)
+            .catchError(
+              (Object error) =>
+                  showApiErrorFromRoot(ApiErrorAction.pinMessage, error),
+            ),
       );
     },
   );

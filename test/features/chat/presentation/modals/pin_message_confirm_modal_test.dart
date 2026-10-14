@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -180,6 +181,27 @@ void main() {
     }
   });
 
+  testWidgets('a failed pin explains itself in a dialog', (tester) async {
+    recorder.failure = const ApiException(code: 'UNKNOWN_MESSAGE');
+    await tester.pumpWidget(
+      _buildTestApp(db: db, recorder: recorder, home: _openModalButton()),
+    );
+    try {
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      await tester.tap(_confirmButton);
+      await tester.pumpAndSettle();
+
+      expect(find.text(testL10n.chatPinFailedTitle), findsOneWidget);
+      expect(find.text(testL10n.chatPinFailedMessage), findsOneWidget);
+      await tester.tap(find.text(testL10n.uiUnderstood));
+      await tester.pumpAndSettle();
+      expect(find.text(testL10n.chatPinFailedTitle), findsNothing);
+    } finally {
+      await _pumpOut(tester);
+    }
+  });
+
   testWidgets('cancel does not pin', (tester) async {
     await tester.pumpWidget(
       _buildTestApp(db: db, recorder: recorder, home: _openModalButton()),
@@ -227,12 +249,17 @@ class _RecordingPinsRepository extends ChannelPinsRepository {
     : super(FluxerClient(Dio()), db, 'user-1');
 
   final List<String> pinnedIds = <String>[];
+  ApiException? failure;
 
   @override
   Future<void> pinMessage({
     required String channelId,
     required String messageId,
   }) async {
+    final ApiException? error = failure;
+    if (error != null) {
+      throw error;
+    }
     pinnedIds.add(messageId);
   }
 }

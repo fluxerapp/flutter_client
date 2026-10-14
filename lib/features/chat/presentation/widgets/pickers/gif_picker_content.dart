@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/l10n/api_locale.dart';
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
@@ -30,11 +32,10 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
@@ -575,15 +576,17 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
         return;
       }
       await addFavorite();
-    } on Object {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            const FluxerToast(
-              message: 'Could not update GIF favorite.',
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+    } on Object catch (error) {
+      if (mounted) {
+        await showApiError(
+          context,
+          ApiErrorAction.saveFavoriteMedia,
+          error,
+          details: ApiErrorDetails(
+            count: ref.read(instanceLimitProvider(LimitKeys.maxFavoriteMemes)),
+          ),
+        );
+      }
     }
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/api_exception.dart';
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/saved_media/saved_media_form_content.dart';
@@ -11,6 +14,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 Future<void> showAddFavoriteMediaSheet({
   required BuildContext context,
@@ -109,13 +113,24 @@ class _AddFavoriteMediaBodyState extends ConsumerState<_AddFavoriteMediaBody> {
             ),
           );
       widget.onClose();
-    } on Object {
-      if (mounted) {
-        setState(
-          () =>
-              _errorText = FluxerLocalizations.of(context).savedMediaSaveError,
-        );
+    } on Object catch (error) {
+      if (!mounted) {
+        return;
       }
+      if (ApiException.from(error).code == 'MAX_FAVORITE_MEMES') {
+        await showApiError(
+          context,
+          ApiErrorAction.saveFavoriteMedia,
+          error,
+          details: ApiErrorDetails(
+            count: ref.read(instanceLimitProvider(LimitKeys.maxFavoriteMemes)),
+          ),
+        );
+        return;
+      }
+      setState(
+        () => _errorText = FluxerLocalizations.of(context).savedMediaSaveError,
+      );
     }
   }
 

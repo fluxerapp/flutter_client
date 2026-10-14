@@ -381,7 +381,24 @@ Future<void> _showPinnedMessageActions(
     case _PinnedMessageAction.jump:
       _popWithJumpRequest(context, message: entry.message, guildId: guildId);
     case _PinnedMessageAction.unpin:
-      await ref.read(channelPinsProvider(channelId).notifier).unpin(entry);
+      final bool? confirmed = await FluxerConfirmSheet.show(
+        context,
+        title: l10n.chatMessageUnpinConfirmTitle,
+        description: l10n.chatMessageUnpinConfirmDescription,
+        confirmLabel: l10n.chatMessageUnpinIt,
+        isDanger: true,
+      );
+      if (confirmed != true || !context.mounted) {
+        return;
+      }
+      try {
+        await ref.read(channelPinsProvider(channelId).notifier).unpin(entry);
+      } on Object catch (error) {
+        if (context.mounted) {
+          await showApiError(context, ApiErrorAction.unpinMessage, error);
+        }
+        return;
+      }
       ref
           .read(toastProvider.notifier)
           .show(
