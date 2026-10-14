@@ -53,19 +53,6 @@ double animatedImagePixelRatio(double devicePixelRatio) {
   return math.min(devicePixelRatio, kAnimatedImageMaxDevicePixelRatio);
 }
 
-const double kMinUsefulInlineMediaSize = 40;
-
-bool isUsefulInlineMediaSize(int? width, int? height) {
-  final Size? fitted = constrainMediaSize(
-    dimensions: comfortableMediaDimensions,
-    width: width,
-    height: height,
-  );
-  return fitted != null &&
-      fitted.width >= kMinUsefulInlineMediaSize &&
-      fitted.height >= kMinUsefulInlineMediaSize;
-}
-
 Size? constrainMediaSize({
   required FluxerMediaDimensions dimensions,
   required int? width,

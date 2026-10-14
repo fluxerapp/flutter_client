@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
 import 'package:fluxer_app/features/themes/utils/shared_theme_links.dart';
@@ -510,7 +509,7 @@ class Attachment {
   }
 
   bool get isPreviewMedia => isImage || isVideo;
-  bool get hasRenderableDimensions => isUsefulInlineMediaSize(width, height);
+  bool get hasRenderableDimensions => (width ?? 0) > 0 && (height ?? 0) > 0;
   bool get isInlineMedia => isPreviewMedia && hasRenderableDimensions;
   bool get isSavableMedia => isImage || isVideo || isAudio;
   bool get isSpoiler => (flags & attachmentFlagIsSpoiler) != 0;

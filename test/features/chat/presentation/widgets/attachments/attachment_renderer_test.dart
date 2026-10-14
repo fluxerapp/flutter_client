@@ -229,6 +229,39 @@ void main() {
     expect(spoilerOverlay.initiallyRevealed, isFalse);
   });
 
+  testWidgets('renders a short wide image inline instead of as a file', (
+    tester,
+  ) async {
+    final Attachment attachment = Attachment.fromJson(<String, dynamic>{
+      'id': '1560002449727561730',
+      'filename': 'image.png',
+      'title': 'image.png',
+      'description': null,
+      'content_type': 'image/png',
+      'size': 6825,
+      'url':
+          'https://fluxerusercontent.com/attachments/1516372227916824576/1560002449727561730/image.png',
+      'width': 605,
+      'height': 31,
+      'placeholder': 'UigGA4CLaGZvdYd3iX+T+Dc=',
+      'flags': 0,
+      'nsfw': false,
+      'expires_at': '2029-10-13T18:52:49.892Z',
+    });
+    await tester.pumpWidget(
+      _buildTestApp(
+        child: AttachmentListRenderer(
+          attachments: <Attachment>[attachment],
+          inlineAttachmentMedia: true,
+          dimensionSize: MediaDimensionSize.small,
+          revealSpoilers: false,
+        ),
+      ),
+    );
+    expect(find.byType(AttachmentImage), findsOneWidget);
+    expect(find.byType(AttachmentFile), findsNothing);
+  });
+
   testWidgets('renders image grid when there are multiple inline images', (
     tester,
   ) async {
