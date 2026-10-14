@@ -119,6 +119,81 @@ void main() {
     });
   });
 
+  group('Android engine started without a visible activity', () {
+    ProviderContainer startEngine(_RecordingGatewayConnection connection) {
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          gatewayConnectionProvider.overrideWithValue(connection),
+        ],
+      );
+      addTearDown(container.dispose);
+      container.read(gatewayConnectBindingProvider);
+      return container;
+    }
+
+    final TargetPlatformVariant android = TargetPlatformVariant.only(
+      TargetPlatform.android,
+    );
+
+    testWidgets('no lifecycle yet keeps the gateway offline', (
+      WidgetTester tester,
+    ) async {
+      expect(tester.binding.lifecycleState, isNull);
+      final connection = _RecordingGatewayConnection();
+
+      startEngine(connection);
+
+      expect(connection.connectCalls, 0);
+      expect(connection.suspendCalls, 1);
+    }, variant: android);
+
+    for (final AppLifecycleState state in <AppLifecycleState>[
+      AppLifecycleState.detached,
+      AppLifecycleState.hidden,
+      AppLifecycleState.paused,
+      AppLifecycleState.inactive,
+    ]) {
+      testWidgets('a start reporting ${state.name} keeps the gateway offline', (
+        WidgetTester tester,
+      ) async {
+        tester.binding.handleAppLifecycleStateChanged(state);
+        final connection = _RecordingGatewayConnection();
+
+        startEngine(connection);
+
+        expect(connection.connectCalls, 0);
+        expect(connection.suspendCalls, 1);
+      }, variant: android);
+    }
+
+    testWidgets('a start that is already resumed connects', (
+      WidgetTester tester,
+    ) async {
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      final connection = _RecordingGatewayConnection();
+
+      startEngine(connection);
+
+      expect(connection.connectCalls, 1);
+      expect(connection.suspendCalls, 0);
+    }, variant: android);
+
+    testWidgets('a socket dropped while hidden is suspended, not resumed', (
+      WidgetTester tester,
+    ) async {
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      final connection = _RecordingGatewayConnection();
+      final ProviderContainer container = startEngine(connection);
+      expect(connection.connectCalls, 1);
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      container.read(appUiForegroundProvider.notifier).setResumed(false);
+      connection.emit(GatewayState.reconnecting);
+
+      expect(connection.suspendCalls, 1);
+    }, variant: android);
+  });
+
   testWidgets('a launch still reporting inactive keeps the gateway suspended', (
     WidgetTester tester,
   ) async {

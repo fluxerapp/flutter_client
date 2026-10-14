@@ -4,6 +4,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:audioplayers/audioplayers.dart' as audioplayers;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 
 void main() {
   late List<Object> calls;
@@ -204,6 +205,55 @@ void main() {
 
         await session.setForeground(foreground: true);
         await session.setForeground(foreground: false);
+
+        expect(calls, <Object>[
+          kAppMediaAudioContext,
+          kAppMediaAudioSessionConfig,
+        ]);
+      },
+    );
+
+    test('minimising and reopening during a call leaves the call audio alone '
+        'so the route and echo cancellation survive', () async {
+      final AppMediaAudioSession session = buildSession(
+        platform: AppAudioSessionPlatform.android,
+      );
+      await session.setForeground(foreground: true);
+      calls.clear();
+      claimedElsewhere = true;
+
+      await session.setForeground(foreground: false);
+      await session.setForeground(foreground: true);
+      await session.setForeground(foreground: false);
+      await session.setForeground(foreground: true);
+
+      expect(calls, isEmpty);
+    });
+
+    test('the app session counts a joined call as holding the audio', () async {
+      ChatAttachmentAudioSession.instance.resetForTest();
+      addTearDown(ChatAttachmentAudioSession.instance.resetForTest);
+      expect(AppMediaAudioSession.instance.isClaimedElsewhere(), isFalse);
+
+      await ChatAttachmentAudioSession.instance.clearForVoiceCall();
+      expect(AppMediaAudioSession.instance.isClaimedElsewhere(), isTrue);
+
+      ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
+      expect(AppMediaAudioSession.instance.isClaimedElsewhere(), isFalse);
+    });
+
+    test(
+      'the media session comes back on the first resume after the call',
+      () async {
+        final AppMediaAudioSession session = buildSession(
+          platform: AppAudioSessionPlatform.android,
+        );
+        claimedElsewhere = true;
+        await session.setForeground(foreground: true);
+        await session.setForeground(foreground: false);
+        claimedElsewhere = false;
+
+        await session.setForeground(foreground: true);
 
         expect(calls, <Object>[
           kAppMediaAudioContext,
