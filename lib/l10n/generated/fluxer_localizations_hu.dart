@@ -9726,6 +9726,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az App Store-on keresztül automatikusan megújul, amíg le nem mondod.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'Már van Fluxer Plutonium előfizetésed.';
 

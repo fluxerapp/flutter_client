@@ -9066,6 +9066,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get storePlutoniumRenewsThroughAppStore => '通过 App Store 自动续订，直到你取消。';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed => '你已拥有 Fluxer Plutonium 订阅。';
 
   @override

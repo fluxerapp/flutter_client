@@ -9256,6 +9256,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '취소할 때까지 App Store를 통해 자동 갱신됩니다.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed => '이미 Fluxer Plutonium을 구독 중입니다.';
 
   @override

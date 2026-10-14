@@ -9647,6 +9647,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Siz iptal edene kadar App Store üzerinden otomatik olarak yenilenir.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'Zaten bir Fluxer Plutonium aboneliğiniz var.';
 

@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/stor
 import 'package:fluxer_app/features/settings/providers/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/services/premium_checkout_service.dart';
 import 'package:fluxer_app/features/settings/utils/plutonium_store_bar_mode.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
@@ -135,6 +136,11 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
             unawaited(ref.read(premiumStoreProvider.notifier).buy(plan));
           },
           onManage: onManage,
+          onRestore:
+              store.billingStore == PremiumBillingStore.appStore &&
+                  !store.storeUnavailable
+              ? ref.read(premiumStoreProvider.notifier).restore
+              : null,
           otherStoreNotice: otherStoreNotice,
         ),
         child: SingleChildScrollView(

@@ -9646,6 +9646,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tự động gia hạn qua App Store cho đến khi bạn hủy.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'Bạn đã có gói đăng ký Fluxer Plutonium.';
 

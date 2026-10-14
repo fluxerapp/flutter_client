@@ -44,6 +44,9 @@ class AndroidPremiumStorePurchaseClient implements PremiumStorePurchaseClient {
   bool get supportsPurchases => true;
 
   @override
+  PremiumBillingStore get billingStore => PremiumBillingStore.googlePlay;
+
+  @override
   Future<bool> isStoreAvailable() => _billing.isAvailable();
 
   @override
@@ -130,6 +133,9 @@ class IosPremiumStorePurchaseClient implements PremiumStorePurchaseClient {
 
   @override
   bool get supportsPurchases => true;
+
+  @override
+  PremiumBillingStore get billingStore => PremiumBillingStore.appStore;
 
   @override
   Future<bool> isStoreAvailable() => _billing.isAvailable();
@@ -220,6 +226,7 @@ PremiumStorePurchaseUpdate _mapPurchase(PurchaseDetails purchase) {
     productId: purchase.productID,
     purchaseId: purchase.purchaseID,
     pendingCompletePurchase: purchase.pendingCompletePurchase,
+    serverVerificationData: purchase.verificationData.serverVerificationData,
     status: switch (purchase.status) {
       PurchaseStatus.pending => PremiumStorePurchaseStatus.pending,
       PurchaseStatus.purchased => PremiumStorePurchaseStatus.purchased,

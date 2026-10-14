@@ -10,6 +10,8 @@ export 'package:fluxer_app/features/settings/services/premium_store_product_matc
 abstract class PremiumStorePurchaseClient {
   bool get supportsPurchases;
 
+  PremiumBillingStore? get billingStore;
+
   Future<bool> isStoreAvailable();
 
   Future<PremiumStoreProductSet> loadProducts(PremiumStoreCatalog catalog);
@@ -29,6 +31,9 @@ class UnavailablePremiumStorePurchaseClient
 
   @override
   bool get supportsPurchases => false;
+
+  @override
+  PremiumBillingStore? get billingStore => null;
 
   @override
   Future<bool> isStoreAvailable() async => false;

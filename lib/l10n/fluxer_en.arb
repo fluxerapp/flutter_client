@@ -11825,6 +11825,10 @@
     "storePlutoniumHighlightsMore": "And more",
     "storePlutoniumRenewsThroughPlay": "Renews automatically through Google Play until you cancel.",
     "storePlutoniumRenewsThroughAppStore": "Renews automatically through the App Store until you cancel.",
+    "storePlutoniumRestorePurchases": "Restore purchases",
+    "@storePlutoniumRestorePurchases": {
+        "description": "Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID."
+    },
     "storePlutoniumAlreadySubscribed": "You already have a Fluxer Plutonium subscription.",
     "storePlutoniumSavePercent": "Save {percent}%",
     "@storePlutoniumSavePercent": {

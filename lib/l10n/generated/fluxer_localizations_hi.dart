@@ -9641,6 +9641,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'जब तक आप रद्द नहीं करते, तब तक App Store के माध्यम से अपने आप नवीनीकृत होता रहता है।';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'आपके पास पहले से ही Fluxer Plutonium की सदस्यता है।';
 

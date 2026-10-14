@@ -9734,6 +9734,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Automatiškai atnaujinama per App Store, kol neatšauksite.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'Jau turite Fluxer Plutonium prenumeratą.';
 

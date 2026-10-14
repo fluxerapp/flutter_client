@@ -9725,6 +9725,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Автоматично поновлюється через App Store, доки ви не скасуєте підписку.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'У вас уже є підписка Fluxer Plutonium.';
 

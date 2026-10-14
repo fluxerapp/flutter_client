@@ -9709,6 +9709,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Se reînnoiește automat prin App Store până la anulare.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'Ai deja un abonament Fluxer Plutonium.';
 

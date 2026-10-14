@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
@@ -99,6 +101,8 @@ class _Keep {
 
 const Object _keep = _Keep();
 
+enum _AppStoreClaim { claimed, rejected, retryLater }
+
 final premiumStorePurchaseClientProvider = Provider<PremiumStorePurchaseClient>(
   (Ref ref) {
     return createPremiumStorePurchaseClient();
@@ -122,21 +126,20 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     final AsyncValue<StoreBillingContextResponse?> billing = ref.watch(
       storeBillingContextProvider,
     );
-    if (!isPremiumStorePageActive() || !client.supportsPurchases) {
+    if (!ref.watch(premiumStorePurchasesEnabledProvider) ||
+        !client.supportsPurchases) {
       return const PremiumStoreState(storeUnavailable: true);
     }
-    if (premiumStorePurchasesEnabled) {
-      final StreamSubscription<List<PremiumStorePurchaseUpdate>> purchases =
-          client.purchaseUpdates.listen(
-            _onPurchases,
-            onError: (Object error, StackTrace stackTrace) {
-              _bumpError();
-            },
-          );
-      ref.onDispose(() {
-        unawaited(purchases.cancel());
-      });
-    }
+    final StreamSubscription<List<PremiumStorePurchaseUpdate>> purchases =
+        client.purchaseUpdates.listen(
+          _onPurchases,
+          onError: (Object error, StackTrace stackTrace) {
+            _bumpError();
+          },
+        );
+    ref.onDispose(() {
+      unawaited(purchases.cancel());
+    });
     if (billing.isLoading) {
       return const PremiumStoreState(loading: true);
     }
@@ -144,7 +147,7 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     if (context == null) {
       return const PremiumStoreState(storeUnavailable: true);
     }
-    final PremiumBillingStore? platform = currentPremiumBillingStore();
+    final PremiumBillingStore? platform = client.billingStore;
     final PremiumStoreCatalog? catalog = premiumStoreCatalog(
       context: context,
       store: platform,
@@ -168,7 +171,9 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
   }
 
   Future<void> buy(PremiumStorePlan plan) async {
-    if (!premiumStorePurchasesEnabled || state.subscriptionPurchaseBlocked) {
+    if (!ref.read(premiumStorePurchasesEnabledProvider) ||
+        state.storeUnavailable ||
+        state.subscriptionPurchaseBlocked) {
       return;
     }
     final PremiumStoreProduct? product = switch (plan) {
@@ -203,6 +208,18 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     }
   }
 
+  Future<void> restore() async {
+    if (!ref.read(premiumStorePurchasesEnabledProvider) ||
+        state.storeUnavailable) {
+      return;
+    }
+    try {
+      await ref.read(premiumStorePurchaseClientProvider).restore();
+    } on Object {
+      _bumpError();
+    }
+  }
+
   Future<void> _start(
     PremiumStorePurchaseClient client,
     PremiumStoreCatalog catalog,
@@ -216,12 +233,10 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
       state = state.copyWith(loading: false, storeUnavailable: true);
       return;
     }
-    if (premiumStorePurchasesEnabled) {
-      try {
-        await client.restore();
-      } on Object {
-        // Billing can still list products if restore fails.
-      }
+    try {
+      await client.restore();
+    } on Object {
+      // Billing can still list products if restore fails.
     }
     if (!ref.mounted || generation != _loadGeneration) {
       return;
@@ -270,13 +285,35 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
   Future<void> _finish(PremiumStorePurchaseUpdate purchase) async {
     final String? purchaseId = purchase.purchaseId;
     if (purchaseId != null && !_finishedPurchaseIds.add(purchaseId)) {
-      if (purchase.pendingCompletePurchase) {
+      if (purchase.pendingCompletePurchase &&
+          state.billingStore != PremiumBillingStore.appStore) {
         await _complete(purchase);
       }
       return;
     }
     state = state.copyWith(purchasingPlan: null, purchasePending: true);
-    await _complete(purchase);
+    final _AppStoreClaim claim = await _claimAppStore(purchase);
+    if (!ref.mounted) {
+      return;
+    }
+    switch (claim) {
+      case _AppStoreClaim.claimed:
+        await _complete(purchase);
+      case _AppStoreClaim.rejected:
+        await _complete(purchase);
+        if (!ref.mounted) {
+          return;
+        }
+        state = state.copyWith(purchasePending: false);
+        if (purchase.status == PremiumStorePurchaseStatus.purchased) {
+          _bumpError();
+        }
+        return;
+      case _AppStoreClaim.retryLater:
+        if (purchaseId != null) {
+          _finishedPurchaseIds.remove(purchaseId);
+        }
+    }
     await _refreshEntitlements();
     if (!ref.mounted) {
       return;
@@ -295,6 +332,37 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     }
     if (ref.read(currentUserEntitlementsProvider).isEffectivelyPremium) {
       state = state.copyWith(purchasePending: false);
+    }
+  }
+
+  Future<_AppStoreClaim> _claimAppStore(
+    PremiumStorePurchaseUpdate purchase,
+  ) async {
+    if (state.billingStore != PremiumBillingStore.appStore) {
+      return _AppStoreClaim.claimed;
+    }
+    final String signedTransaction = purchase.serverVerificationData;
+    if (signedTransaction.isEmpty) {
+      return _AppStoreClaim.retryLater;
+    }
+    try {
+      await ref
+          .read(fluxerClientProvider)
+          .premium
+          .claimAppStoreTransaction(
+            body: ClaimAppStoreTransactionRequest(
+              signedTransaction: signedTransaction,
+            ),
+          );
+      return _AppStoreClaim.claimed;
+    } on DioException catch (error) {
+      final int? status = error.response?.statusCode;
+      if (status == 400 || status == 403) {
+        return _AppStoreClaim.rejected;
+      }
+      return _AppStoreClaim.retryLater;
+    } on Object {
+      return _AppStoreClaim.retryLater;
     }
   }
 

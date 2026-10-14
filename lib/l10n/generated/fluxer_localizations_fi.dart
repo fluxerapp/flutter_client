@@ -9662,6 +9662,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Uusiutuu automaattisesti App Storen kautta, kunnes peruutat tilauksen.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'Sinulla on jo Fluxer Plutonium -tilaus.';
 

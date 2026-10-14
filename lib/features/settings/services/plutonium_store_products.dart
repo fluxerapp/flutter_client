@@ -1,7 +1,4 @@
-import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_dart/export.dart';
-
-bool get premiumStorePurchasesEnabled => isPremiumStorePurchasesEnabled();
 
 enum PremiumBillingStore { appStore, googlePlay }
 

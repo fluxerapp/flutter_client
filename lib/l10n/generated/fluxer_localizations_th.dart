@@ -9570,6 +9570,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ต่ออายุอัตโนมัติผ่าน App Store จนกว่าคุณจะยกเลิก';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'คุณมีการสมัครสมาชิก Fluxer Plutonium อยู่แล้ว';
 

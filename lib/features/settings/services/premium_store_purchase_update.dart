@@ -12,10 +12,12 @@ class PremiumStorePurchaseUpdate {
     required this.status,
     this.purchaseId,
     this.pendingCompletePurchase = false,
+    this.serverVerificationData = '',
   });
 
   final String productId;
   final PremiumStorePurchaseStatus status;
   final String? purchaseId;
   final bool pendingCompletePurchase;
+  final String serverVerificationData;
 }

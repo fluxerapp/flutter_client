@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/settings/utils/premium_purchases_disabled_l1
 import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -24,6 +25,7 @@ class PremiumStoreBar extends StatelessWidget {
     required this.purchaseDisabledMessage,
     required this.onBuy,
     required this.onManage,
+    this.onRestore,
     this.otherStoreNotice,
     super.key,
   });
@@ -35,6 +37,7 @@ class PremiumStoreBar extends StatelessWidget {
   final String? purchaseDisabledMessage;
   final void Function(PremiumStorePlan plan) onBuy;
   final VoidCallback? onManage;
+  final Future<void> Function()? onRestore;
   final String? otherStoreNotice;
 
   @override
@@ -65,6 +68,7 @@ class PremiumStoreBar extends StatelessWidget {
             purchaseDisabledMessage: purchaseDisabledMessage,
             otherStoreNotice: otherStoreNotice,
             onBuy: onBuy,
+            onRestore: onRestore,
             statusLines: [
               _giftText(l10n),
               l10n.premiumGiftTimeAddedAfterSubscription,
@@ -84,6 +88,7 @@ class PremiumStoreBar extends StatelessWidget {
             purchaseDisabledMessage: purchaseDisabledMessage,
             otherStoreNotice: otherStoreNotice,
             onBuy: onBuy,
+            onRestore: onRestore,
           ),
         },
       ),
@@ -228,6 +233,7 @@ class _SubscribeActions extends ConsumerWidget {
     required this.purchaseDisabledMessage,
     required this.otherStoreNotice,
     required this.onBuy,
+    required this.onRestore,
     this.statusLines = const [],
   });
 
@@ -237,6 +243,7 @@ class _SubscribeActions extends ConsumerWidget {
   final String? purchaseDisabledMessage;
   final String? otherStoreNotice;
   final void Function(PremiumStorePlan plan) onBuy;
+  final Future<void> Function()? onRestore;
   final List<String> statusLines;
 
   @override
@@ -344,6 +351,14 @@ class _SubscribeActions extends ConsumerWidget {
           ],
           SizedBox(height: layout.s3),
           const _PurchaseTerms(),
+        ],
+        if (onRestore != null) ...[
+          SizedBox(height: layout.s2),
+          FluxerButton.ghost(
+            size: FluxerButtonSize.compact,
+            label: l10n.storePlutoniumRestorePurchases,
+            onPressedAsync: onRestore,
+          ),
         ],
       ],
     );

@@ -9687,6 +9687,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Automaticky se obnovuje přes App Store, dokud předplatné nezrušíte.';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'Už máte předplatné Fluxer Plutonium.';
 

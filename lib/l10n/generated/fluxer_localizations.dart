@@ -15885,6 +15885,12 @@ abstract class FluxerLocalizations {
   /// **'Renews automatically through the App Store until you cancel.'**
   String get storePlutoniumRenewsThroughAppStore;
 
+  /// Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get storePlutoniumRestorePurchases;
+
   /// No description provided for @storePlutoniumAlreadySubscribed.
   ///
   /// In en, this message translates to:

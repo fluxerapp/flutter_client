@@ -9264,6 +9264,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'キャンセルしない限り、App Storeを通じて自動的に更新されます。';
 
   @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
   String get storePlutoniumAlreadySubscribed =>
       'すでにFluxer Plutoniumサブスクリプションをご利用中です。';
 
