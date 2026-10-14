@@ -110,6 +110,57 @@ void main() {
       );
     });
 
+    test('system back on a root list exits the app', () {
+      for (final String location in <String>[
+        '/channels/@me',
+        '/channels/@favorites',
+        '/channels/guild',
+      ]) {
+        for (final RevealSide side in RevealSide.values) {
+          expect(
+            resolveShellBackAction(
+              hasPopupOverlay: false,
+              hasManualGestureBlock: false,
+              hasExpressionPanelOpen: false,
+              hasChannelDetailsDrawerOpen: false,
+              revealSide: side,
+              shellLocation: location,
+              isSystemBack: true,
+            ),
+            ShellBackAction.exitApp,
+            reason: '$location $side',
+          );
+        }
+      }
+    });
+
+    test('system back on a root list closes overlays before exiting', () {
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: true,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          hasChannelDetailsDrawerOpen: false,
+          revealSide: RevealSide.left,
+          shellLocation: '/channels/@me',
+          isSystemBack: true,
+        ),
+        ShellBackAction.popOverlay,
+      );
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: true,
+          hasExpressionPanelOpen: false,
+          hasChannelDetailsDrawerOpen: false,
+          revealSide: RevealSide.left,
+          shellLocation: '/channels/@me',
+          isSystemBack: true,
+        ),
+        ShellBackAction.blockManualGesture,
+      );
+    });
+
     test('reveals drawer when chat is visible', () {
       expect(
         resolveShellBackAction(

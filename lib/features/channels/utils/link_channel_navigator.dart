@@ -11,6 +11,7 @@ Future<bool> tryOpenLinkChannel({
   required ProviderContainer container,
   required Channel channel,
   bool skipGate = false,
+  bool openChannelLinksInApp = true,
 }) async {
   if (channel.type != ChannelType.guildLink) {
     return false;
@@ -31,6 +32,12 @@ Future<bool> tryOpenLinkChannel({
       return false;
     }
   }
-  unawaited(handleExternalLinkTap(context, channelUrl));
+  unawaited(
+    handleExternalLinkTap(
+      context,
+      channelUrl,
+      openChannelLinksInApp: openChannelLinksInApp,
+    ),
+  );
   return true;
 }

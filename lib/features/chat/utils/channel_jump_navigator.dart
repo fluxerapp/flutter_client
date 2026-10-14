@@ -181,6 +181,24 @@ ChannelJumpResolution _resolveNavigation({
   );
 }
 
+Future<bool> _urlTargetsLinkChannel(
+  ProviderContainer container,
+  String? url,
+) async {
+  final ChannelJumpLink? link = url == null
+      ? null
+      : parseChannelJumpLink(url.trim());
+  if (link == null || link.isDm) {
+    return false;
+  }
+  final db.Channel? target = await container
+      .read(fluxerDatabaseProvider)
+      .channelDao
+      .getChannelById(link.channelId);
+  return target != null &&
+      ChannelType.fromWire(target.type) == ChannelType.guildLink;
+}
+
 Future<void> _applyChannelJumpResolution({
   required ProviderContainer container,
   required ChannelJumpResolution resolution,
@@ -219,6 +237,10 @@ Future<void> _applyChannelJumpResolution({
       if (channel == null) {
         return;
       }
+      final bool targetsLinkChannel = await _urlTargetsLinkChannel(
+        container,
+        channel.url,
+      );
       final BuildContext? linkContext = (context != null && context.mounted)
           ? context
           : _rootContext();
@@ -229,6 +251,7 @@ Future<void> _applyChannelJumpResolution({
         context: linkContext,
         container: container,
         channel: Channel.fromRow(channel),
+        openChannelLinksInApp: !targetsLinkChannel,
       );
     case ChannelJumpRedirectGuild(:final guildId):
       if (dismissCoveringPages) {

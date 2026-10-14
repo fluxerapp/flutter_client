@@ -75,6 +75,29 @@ class ComposerInputField extends ConsumerWidget {
   final Color? cursorColor;
   final bool fitLinesToHeight;
 
+  TextMagnifierConfiguration get _magnifierConfiguration =>
+      TextMagnifierConfiguration(
+        shouldDisplayHandlesInMagnifier: TextMagnifier
+            .adaptiveMagnifierConfiguration
+            .shouldDisplayHandlesInMagnifier,
+        magnifierBuilder:
+            (
+              BuildContext context,
+              MagnifierController magnifierController,
+              ValueNotifier<MagnifierInfo> magnifierInfo,
+            ) {
+              if (controller.text.isEmpty) {
+                return null;
+              }
+              return TextMagnifier.adaptiveMagnifierConfiguration
+                  .magnifierBuilder(
+                    context,
+                    magnifierController,
+                    magnifierInfo,
+                  );
+            },
+      );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final EdgeInsets basePadding = decoration.contentPadding is EdgeInsets
@@ -150,6 +173,8 @@ class ComposerInputField extends ConsumerWidget {
                                   minLines: math.min(minLines, lines),
                                   maxLines: lines,
                                   selectionWidthStyle: BoxWidthStyle.tight,
+                                  magnifierConfiguration:
+                                      _magnifierConfiguration,
                                   decoration: decoration.copyWith(
                                     contentPadding: padding,
                                   ),

@@ -14745,6 +14745,36 @@ abstract class FluxerLocalizations {
   /// **'Invite revoked'**
   String get groupDmInviteRevoked;
 
+  /// Group DM member action and confirm title for removing the selected member from the group.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from group'**
+  String get groupDmRemoveFromGroup;
+
+  /// Confirm dialog body before removing a member from a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {userName} from the group?'**
+  String groupDmRemoveFromGroupConfirm(String userName);
+
+  /// Confirm button that removes the selected member from a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get groupDmRemoveFromGroupAction;
+
+  /// Toast confirming the selected member was removed from the group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from group'**
+  String get groupDmRemovedFromGroup;
+
+  /// Error shown when removing a member from a group DM fails.
+  ///
+  /// In en, this message translates to:
+  /// **'{userName} is still in the group. Try again in a moment.'**
+  String groupDmRemoveFromGroupFailed(String userName);
+
   /// Mobile group invite row subtitle.
   ///
   /// In en, this message translates to:

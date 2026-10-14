@@ -39,6 +39,8 @@ class MainActivity : AudioServiceActivity() {
         super.onDestroy()
     }
 
+    override fun popSystemNavigator(): Boolean = moveTaskToBack(true)
+
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (imeEditingShortcutBridge.dispatch(event)) {
             return true

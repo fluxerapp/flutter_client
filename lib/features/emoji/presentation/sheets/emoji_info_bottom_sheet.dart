@@ -56,6 +56,7 @@ void handleFluxerMarkdownEmojiLongPress(
   required bool animated,
   required bool isCustom,
 }) {
+  FocusManager.instance.primaryFocus?.unfocus();
   openEmojiInfoBottomSheet(
     context,
     emoji: EmojiInfoData.fromMarkdownLongPress(

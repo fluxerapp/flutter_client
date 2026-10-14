@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/dm/data/dm_repository.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
@@ -119,6 +121,103 @@ void main() {
       expect(body['name'], 'Renamed');
     });
 
+    test('updateGroupDm clears name and icon with explicit nulls', () async {
+      RequestOptions? captured;
+      final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+      dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest:
+              (RequestOptions options, RequestInterceptorHandler handler) {
+                captured = options;
+                handler.resolve(
+                  Response<Map<String, dynamic>>(
+                    requestOptions: options,
+                    data: <String, dynamic>{
+                      'id': 'group-1',
+                      'type': 3,
+                      'name': null,
+                      'icon': null,
+                      'owner_id': 'user-1',
+                      'recipients': <Map<String, dynamic>>[],
+                    },
+                  ),
+                );
+              },
+        ),
+      );
+
+      final FluxerDatabase database = openTestDatabase();
+      await database.dmChannelDao.upsertDmChannels(<DmChannelsCompanion>[
+        DmChannelsCompanion.insert(
+          id: 'group-1',
+          recipientId: 'user-1',
+          type: const Value<int>(3),
+          name: const Value<String?>('Old name'),
+          icon: const Value<String?>('old-icon'),
+        ),
+      ]);
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
+          fluxerClientProvider.overrideWithValue(FluxerClient(dio)),
+        ],
+      );
+      final DmRepository repo = DmRepository(
+        container.read(fluxerClientProvider),
+        database,
+        container.read(guildUserSettingsRepositoryProvider),
+      );
+      await repo.updateGroupDm(
+        channelId: 'group-1',
+        name: null,
+        removeIcon: true,
+      );
+
+      final Map<String, dynamic> body = captured!.data as Map<String, dynamic>;
+      expect(body.containsKey('name'), isTrue);
+      expect(body['name'], isNull);
+      expect(body.containsKey('icon'), isTrue);
+      expect(body['icon'], isNull);
+      final DmChannel? row = await database.dmChannelDao.getDmChannelById(
+        'group-1',
+      );
+      expect(row?.name, isNull);
+      expect(row?.icon, isNull);
+    });
+
+    test('updateGroupDm leaves the icon out when it is unchanged', () async {
+      RequestOptions? captured;
+      final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+      dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest:
+              (RequestOptions options, RequestInterceptorHandler handler) {
+                captured = options;
+                handler.resolve(
+                  Response<Map<String, dynamic>>(
+                    requestOptions: options,
+                    data: <String, dynamic>{
+                      'id': 'group-1',
+                      'type': 3,
+                      'name': 'Renamed',
+                      'icon': 'abc',
+                      'owner_id': 'user-1',
+                      'recipients': <Map<String, dynamic>>[],
+                    },
+                  ),
+                );
+              },
+        ),
+      );
+
+      final DmRepository repo = _createRepository(dio);
+      await repo.updateGroupDm(channelId: 'group-1', name: 'Renamed');
+
+      final Map<String, dynamic> body = captured!.data as Map<String, dynamic>;
+      expect(body['name'], 'Renamed');
+      expect(body.containsKey('icon'), isFalse);
+    });
+
     test('addGroupDmMember sends PUT recipient request', () async {
       RequestOptions? captured;
       final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
@@ -136,6 +235,26 @@ void main() {
       await repo.addGroupDmMember(channelId: 'group-1', userId: 'user-2');
 
       expect(captured?.method, 'PUT');
+      expect(captured?.path, endsWith('/channels/group-1/recipients/user-2'));
+    });
+
+    test('removeGroupDmMember sends DELETE recipient request', () async {
+      RequestOptions? captured;
+      final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+      dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest:
+              (RequestOptions options, RequestInterceptorHandler handler) {
+                captured = options;
+                handler.resolve(Response<void>(requestOptions: options));
+              },
+        ),
+      );
+
+      final DmRepository repo = _createRepository(dio);
+      await repo.removeGroupDmMember(channelId: 'group-1', userId: 'user-2');
+
+      expect(captured?.method, 'DELETE');
       expect(captured?.path, endsWith('/channels/group-1/recipients/user-2'));
     });
 

@@ -11,6 +11,7 @@ enum ShellBackAction {
   revealDrawer,
   leaveChat,
   minimizePhoneVoiceCall,
+  exitApp,
   noop,
 }
 
@@ -22,6 +23,7 @@ ShellBackAction resolveShellBackAction({
   required RevealSide revealSide,
   required String shellLocation,
   bool minimizePhoneVoiceCall = false,
+  bool isSystemBack = false,
 }) {
   if (hasPopupOverlay) {
     return ShellBackAction.popOverlay;
@@ -39,7 +41,7 @@ ShellBackAction resolveShellBackAction({
     return ShellBackAction.minimizePhoneVoiceCall;
   }
   if (isSidebarDrawerLockedForLocation(shellLocation)) {
-    return ShellBackAction.noop;
+    return isSystemBack ? ShellBackAction.exitApp : ShellBackAction.noop;
   }
   if (revealSide == RevealSide.left) {
     if (classifyRoute(shellLocation) == RouteKind.chat) {

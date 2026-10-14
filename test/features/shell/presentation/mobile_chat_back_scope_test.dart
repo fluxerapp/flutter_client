@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -44,6 +45,60 @@ void main() {
       router.routerDelegate.currentConfiguration.uri.path,
       '/channels/@me',
     );
+  });
+
+  testWidgets('mobile back on the dm list leaves the app', (tester) async {
+    final List<String> platformCalls = _recordPlatformCalls(tester);
+    final router = _routerFor('/channels/@me');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(_buildBackScopeApp(container, router));
+    await tester.pumpAndSettle();
+
+    final bool handled = await tester.binding.handlePopRoute();
+    await tester.pump();
+
+    expect(handled, isTrue);
+    expect(platformCalls, <String>['SystemNavigator.pop']);
+    expect(
+      router.routerDelegate.currentConfiguration.uri.path,
+      '/channels/@me',
+    );
+  });
+
+  testWidgets('mobile back on a community channel list leaves the app', (
+    tester,
+  ) async {
+    final List<String> platformCalls = _recordPlatformCalls(tester);
+    final router = _routerFor('/channels/guild');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(_buildBackScopeApp(container, router));
+    await tester.pumpAndSettle();
+
+    final bool handled = await tester.binding.handlePopRoute();
+    await tester.pump();
+
+    expect(handled, isTrue);
+    expect(platformCalls, <String>['SystemNavigator.pop']);
+  });
+
+  testWidgets('mobile back from chat does not leave the app', (tester) async {
+    final List<String> platformCalls = _recordPlatformCalls(tester);
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(_buildBackScopeApp(container, router));
+    await tester.pumpAndSettle();
+
+    await tester.binding.handlePopRoute();
+    await tester.pump();
+
+    expect(platformCalls, isEmpty);
+    expect(container.read(currentRevealSideProvider), RevealSide.left);
   });
 
   testWidgets('mobile back closes the expression panel before the drawer', (
@@ -181,6 +236,26 @@ void main() {
   });
 }
 
+List<String> _recordPlatformCalls(WidgetTester tester) {
+  final List<String> calls = <String>[];
+  tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+    SystemChannels.platform,
+    (MethodCall call) async {
+      if (call.method == 'SystemNavigator.pop') {
+        calls.add(call.method);
+      }
+      return null;
+    },
+  );
+  addTearDown(
+    () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      null,
+    ),
+  );
+  return calls;
+}
+
 GoRouter _routerFor(
   String initialLocation, {
   List<NavigatorObserver> navigatorObservers = const <NavigatorObserver>[],
@@ -191,7 +266,8 @@ GoRouter _routerFor(
     routes: [
       GoRoute(
         path: '/channels/@me',
-        builder: (context, state) => const Text('dms'),
+        builder: (context, state) =>
+            const MobileChatBackScope(child: Text('dms')),
       ),
       GoRoute(
         path: '/channels/:guildId',

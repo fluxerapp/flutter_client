@@ -50,6 +50,7 @@ class MobileChatBackScope extends ConsumerWidget {
             revealSide: ref.read(currentRevealSideProvider),
             shellLocation: ref.read(shellLocationProvider),
             minimizePhoneVoiceCall: shouldMinimizePhoneVoiceCall(context, ref),
+            isSystemBack: true,
           ),
           closeExpressionPanel: () {
             ref.read(expressionPanelProvider.notifier).close();

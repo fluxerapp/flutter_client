@@ -66,6 +66,19 @@ class _DmMemberGroups extends ConsumerWidget {
                     context,
                     userId: participant.id,
                   ),
+                  onLongPress: dm.isGroup
+                      ? (Offset position) => unawaited(
+                          GroupDmMemberContextMenu.show(
+                            context,
+                            ref,
+                            position: position,
+                            channelId: dm.id,
+                            ownerId: dm.ownerId,
+                            userId: participant.id,
+                            displayName: participant.name,
+                          ),
+                        )
+                      : null,
                 ),
             ],
           ),
@@ -182,6 +195,7 @@ class _SimpleMemberRow extends StatelessWidget {
     this.isSystem = false,
     this.isCurrentUser = false,
     this.onTap,
+    this.onLongPress,
     this.customStatus,
   });
 
@@ -194,9 +208,11 @@ class _SimpleMemberRow extends StatelessWidget {
   final bool isCurrentUser;
   final String? customStatus;
   final VoidCallback? onTap;
+  final ValueChanged<Offset>? onLongPress;
 
   @override
   Widget build(BuildContext context) {
+    final ValueChanged<Offset>? longPress = onLongPress;
     return FluxerListRow(
       leading: FluxerAvatar.userPresence(
         fallbackText: name,
@@ -211,6 +227,9 @@ class _SimpleMemberRow extends StatelessWidget {
           ? CustomStatusDisplay(stored: customStatus, maxLines: 1)
           : null,
       onTap: onTap,
+      onLongPress: longPress == null
+          ? null
+          : () => longPress(contextMenuPositionAtCenter(context)),
       titleAdornments: [
         if (isCurrentUser)
           _MemberTag(

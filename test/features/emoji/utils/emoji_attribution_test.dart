@@ -20,9 +20,10 @@ void main() {
       expect(attribution.guild, isNull);
     });
 
-    test('returns customGuild when guild is resolved', () {
+    test('returns customGuild when the emoji is from the current guild', () {
       final attribution = resolveEmojiAttribution(
         memberGuildIds: memberGuildIds,
+        currentGuildId: 'guild-1',
         emojiId: 'emoji-1',
         guildId: 'guild-1',
         guild: guild,
@@ -31,6 +32,31 @@ void main() {
       expect(attribution.type, EmojiAttributionType.customGuild);
       expect(attribution.guild, guild);
       expect(attribution.isVerified, isFalse);
+    });
+
+    test('returns customCommunity when the emoji is from another guild', () {
+      final attribution = resolveEmojiAttribution(
+        memberGuildIds: memberGuildIds,
+        currentGuildId: 'guild-2',
+        emojiId: 'emoji-1',
+        guildId: 'guild-1',
+        guild: guild,
+      );
+
+      expect(attribution.type, EmojiAttributionType.customCommunity);
+      expect(attribution.guild, guild);
+    });
+
+    test('returns customCommunity outside a guild', () {
+      final attribution = resolveEmojiAttribution(
+        memberGuildIds: memberGuildIds,
+        emojiId: 'emoji-1',
+        guildId: 'guild-1',
+        guild: guild,
+      );
+
+      expect(attribution.type, EmojiAttributionType.customCommunity);
+      expect(attribution.guild, guild);
     });
 
     test(
@@ -47,14 +73,14 @@ void main() {
       },
     );
 
-    test('returns customUnknown when guild cannot be resolved', () {
+    test('returns customCommunity when guild cannot be resolved', () {
       final attribution = resolveEmojiAttribution(
         memberGuildIds: memberGuildIds,
         emojiId: 'emoji-1',
         guildId: 'guild-1',
       );
 
-      expect(attribution.type, EmojiAttributionType.customUnknown);
+      expect(attribution.type, EmojiAttributionType.customCommunity);
       expect(attribution.guild, isNull);
     });
 

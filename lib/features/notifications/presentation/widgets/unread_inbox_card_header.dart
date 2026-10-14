@@ -1,5 +1,9 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/channels/providers/channel_notification_menu_provider.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_notification_settings_button.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_meta.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
@@ -67,7 +71,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
     required this.read,
     required this.onToggleCollapsed,
     required this.onMarkRead,
-    required this.onOpenGuildNotificationSettings,
+    required this.channel,
     super.key,
   });
 
@@ -77,7 +81,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
   final bool read;
   final VoidCallback? onToggleCollapsed;
   final VoidCallback onMarkRead;
-  final VoidCallback onOpenGuildNotificationSettings;
+  final Channel? channel;
 
   @override
   Widget build(BuildContext context) {
@@ -135,12 +139,8 @@ class UnreadInboxCardHeader extends StatelessWidget {
               ],
             ),
           ),
-          if (!entry.isDm && entry.guildId != null)
-            _RowAction(
-              icon: const Icon(PhosphorIconsBold.bellSimple),
-              tooltip: l10n.notificationSettings,
-              onPressed: onOpenGuildNotificationSettings,
-            ),
+          if (channel case final Channel channel)
+            _NotificationSettingsAction(channel: channel),
           if (!read)
             _RowAction(
               icon: const Icon(PhosphorIconsBold.check),
@@ -161,6 +161,48 @@ class UnreadInboxCardHeader extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _NotificationSettingsAction extends StatelessWidget {
+  const _NotificationSettingsAction({required this.channel});
+
+  final Channel channel;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return ChannelNotificationSettingsButton(
+      channel: channel,
+      anchorBuilder:
+          (
+            BuildContext context, {
+            required bool isOpen,
+            required VoidCallback toggle,
+          }) {
+            return Consumer(
+              builder: (BuildContext context, WidgetRef ref, _) {
+                final bool isMuted =
+                    ref
+                        .watch(channelNotificationMenuStateProvider(channel))
+                        .value
+                        ?.isMuted ??
+                    false;
+                return _RowAction(
+                  icon: Icon(
+                    isMuted
+                        ? PhosphorIconsBold.bellSimpleSlash
+                        : PhosphorIconsBold.bellSimple,
+                  ),
+                  tooltip: isMuted
+                      ? l10n.channelHeaderNotificationSettingsMuted
+                      : l10n.notificationSettings,
+                  onPressed: toggle,
+                );
+              },
+            );
+          },
     );
   }
 }

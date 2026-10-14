@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadFeatureChannelType;
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_cache.dart';
@@ -22,7 +23,6 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/unread_in
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_preview.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:go_router/go_router.dart';
 
 class UnreadChannelInboxCard extends ConsumerStatefulWidget {
   const UnreadChannelInboxCard({
@@ -125,14 +125,6 @@ class _UnreadChannelInboxCardState
     );
   }
 
-  Future<void> _openGuildNotificationSettings() async {
-    final String? guildId = _entry.guildId;
-    if (guildId == null) {
-      return;
-    }
-    await context.push(RoutePaths.guildSettingsPath(guildId));
-  }
-
   @override
   Widget build(BuildContext context) {
     final UnreadInboxRow row = widget.row;
@@ -167,8 +159,9 @@ class _UnreadChannelInboxCardState
                         ? null
                         : () => unawaited(_toggleCollapsed()),
                     onMarkRead: () => setState(() => _markingRead = true),
-                    onOpenGuildNotificationSettings: () =>
-                        unawaited(_openGuildNotificationSettings()),
+                    channel: ref
+                        .watch(channelByIdProvider(row.entry.channelId))
+                        .value,
                   ),
                 ),
               ],

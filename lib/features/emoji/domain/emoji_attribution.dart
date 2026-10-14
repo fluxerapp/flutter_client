@@ -6,7 +6,7 @@ enum EmojiAttributionType {
   defaultEmoji,
   customGuild,
   customInviteRequired,
-  customUnknown,
+  customCommunity,
 }
 
 class EmojiAttribution {
@@ -20,6 +20,7 @@ class EmojiAttribution {
 
 EmojiAttribution resolveEmojiAttribution({
   required Set<String> memberGuildIds,
+  String? currentGuildId,
   String? emojiId,
   String? guildId,
   Guild? guild,
@@ -30,13 +31,15 @@ EmojiAttribution resolveEmojiAttribution({
 
   if (guild != null) {
     return EmojiAttribution(
-      type: EmojiAttributionType.customGuild,
+      type: guild.id == currentGuildId
+          ? EmojiAttributionType.customGuild
+          : EmojiAttributionType.customCommunity,
       guild: guild,
     );
   }
 
   if (guildId != null && memberGuildIds.contains(guildId)) {
-    return const EmojiAttribution(type: EmojiAttributionType.customUnknown);
+    return const EmojiAttribution(type: EmojiAttributionType.customCommunity);
   }
 
   return const EmojiAttribution(
@@ -56,7 +59,7 @@ String emojiAttributionDescription(
     EmojiAttributionType.customGuild => l10n.emojiInfoCustomGuildDescription,
     EmojiAttributionType.customInviteRequired =>
       l10n.emojiInfoCustomInviteRequiredDescription,
-    EmojiAttributionType.customUnknown =>
+    EmojiAttributionType.customCommunity =>
       l10n.emojiInfoCustomUnknownDescription,
   };
 }

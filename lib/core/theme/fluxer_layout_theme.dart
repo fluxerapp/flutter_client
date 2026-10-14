@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:fluxer_app/material_ui.dart';
 
 class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
@@ -66,7 +68,7 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
       sidebarWidth: s(270),
       headerHeight: s(56),
       guildListWidth: s(72),
-      mobileBottomNavHeight: s(60),
+      mobileBottomNavHeight: math.max(60, s(60)),
       userAreaHeight: s(72),
       switchTrackWidth: s(44),
       switchTrackHeight: s(24),

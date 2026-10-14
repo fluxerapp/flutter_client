@@ -378,19 +378,17 @@ class DmRepository {
 
   Future<ChannelResponse> updateGroupDm({
     required String channelId,
-    String? name,
+    required String? name,
     String? icon,
     bool removeIcon = false,
   }) async {
     try {
       final ChannelResponse response = await _client.channels.updateChannel(
         channelId: channelId,
-        body: ChannelUpdateRequestBody(
-          ChannelUpdateRequestBodyVariant5(
-            name: name,
-            icon: removeIcon ? null : icon,
-          ).toJson(),
-        ),
+        body: ChannelUpdateRequestBody(<String, dynamic>{
+          'name': name,
+          if (removeIcon) 'icon': null else 'icon': ?icon,
+        }),
       );
       final db.DmChannelsCompanion? companion = await _buildDmChannelCompanion(
         response,
@@ -418,6 +416,16 @@ class DmRepository {
         e.response?.statusMessage ?? 'Failed to add group member',
       );
     }
+  }
+
+  Future<void> removeGroupDmMember({
+    required String channelId,
+    required String userId,
+  }) {
+    return _client.channels.removeGroupDmRecipient(
+      channelId: channelId,
+      userId: userId,
+    );
   }
 
   Future<String> createGroupDmInvite({required String channelId}) async {

@@ -42,4 +42,36 @@ void main() {
       expect(isGroupDmOwner(ownerId: 'user-1', currentUserId: null), isFalse);
     });
   });
+
+  group('canRemoveGroupDmMember', () {
+    test('lets the owner remove another member', () {
+      expect(
+        canRemoveGroupDmMember(
+          ownerId: 'owner',
+          currentUserId: 'owner',
+          memberId: 'member',
+        ),
+        isTrue,
+      );
+    });
+
+    test('hides removal from non-owners and for the owner themself', () {
+      expect(
+        canRemoveGroupDmMember(
+          ownerId: 'owner',
+          currentUserId: 'member',
+          memberId: 'other',
+        ),
+        isFalse,
+      );
+      expect(
+        canRemoveGroupDmMember(
+          ownerId: 'owner',
+          currentUserId: 'owner',
+          memberId: 'owner',
+        ),
+        isFalse,
+      );
+    });
+  });
 }

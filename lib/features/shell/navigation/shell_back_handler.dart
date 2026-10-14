@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
@@ -35,5 +38,8 @@ void applyShellBackAction({
     case ShellBackAction.minimizePhoneVoiceCall:
       FocusManager.instance.primaryFocus?.unfocus();
       minimizePhoneVoiceCall(context: context, container: container);
+    case ShellBackAction.exitApp:
+      FocusManager.instance.primaryFocus?.unfocus();
+      unawaited(SystemNavigator.pop());
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_attribution.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -26,6 +27,7 @@ emojiInfoResolvedProvider = FutureProvider.autoDispose
         );
       }
 
+      final currentGuildId = ref.watch(contextualGuildIdProvider);
       String? guildId = data.guildId;
       if (guildId == null || guildId.isEmpty) {
         final row = await ref
@@ -49,6 +51,7 @@ emojiInfoResolvedProvider = FutureProvider.autoDispose
       return EmojiInfoResolved(
         attribution: resolveEmojiAttribution(
           memberGuildIds: memberGuildIds,
+          currentGuildId: currentGuildId,
           emojiId: data.id,
           guildId: guildId,
           guild: guild,

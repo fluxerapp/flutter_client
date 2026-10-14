@@ -79,3 +79,12 @@ bool isGroupDmOwner({
 }) {
   return ownerId != null && currentUserId != null && ownerId == currentUserId;
 }
+
+bool canRemoveGroupDmMember({
+  required String? ownerId,
+  required String? currentUserId,
+  required String memberId,
+}) {
+  return isGroupDmOwner(ownerId: ownerId, currentUserId: currentUserId) &&
+      memberId != currentUserId;
+}

@@ -11382,6 +11382,36 @@
     "@groupDmInviteRevoked": {
         "description": "Success toast after revoking a group DM invite."
     },
+    "groupDmRemoveFromGroup": "Remove from group",
+    "@groupDmRemoveFromGroup": {
+        "description": "Group DM member action and confirm title for removing the selected member from the group."
+    },
+    "groupDmRemoveFromGroupConfirm": "Remove {userName} from the group?",
+    "@groupDmRemoveFromGroupConfirm": {
+        "description": "Confirm dialog body before removing a member from a group DM.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmRemoveFromGroupAction": "Remove",
+    "@groupDmRemoveFromGroupAction": {
+        "description": "Confirm button that removes the selected member from a group DM."
+    },
+    "groupDmRemovedFromGroup": "Removed from group",
+    "@groupDmRemovedFromGroup": {
+        "description": "Toast confirming the selected member was removed from the group DM."
+    },
+    "groupDmRemoveFromGroupFailed": "{userName} is still in the group. Try again in a moment.",
+    "@groupDmRemoveFromGroupFailed": {
+        "description": "Error shown when removing a member from a group DM fails.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
     "groupDmInviteCreatedByExpires": "Created by {name}. Expires in {time}.",
     "@groupDmInviteCreatedByExpires": {
         "description": "Mobile group invite row subtitle.",
