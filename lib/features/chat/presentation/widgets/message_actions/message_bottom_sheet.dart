@@ -235,17 +235,29 @@ Future<void> dispatchMessageAction({
     case MessageAction.debugMessage:
       unawaited(showMessageDebugSheet(context, message: message));
     case MessageAction.speak:
+      final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+      final FluxerTtsService tts = ref.read(fluxerTtsServiceProvider.notifier);
+      if (!ref.read(fluxerTtsServiceProvider).isSpeakingMessage(message.id) &&
+          !await tts.isSupported()) {
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.accessibilityTtsUnsupportedDescription,
+                variant: FluxerToastVariant.warning,
+              ),
+            );
+        return;
+      }
       final AppearancePreferencesState appearance = ref.read(
         appearancePreferencesProvider,
       );
       unawaited(
-        ref
-            .read(fluxerTtsServiceProvider.notifier)
-            .speakMessage(
-              message: message,
-              rate: appearance.ttsRate,
-              locale: formatTtsLocaleTag(ref.read(effectiveAppLocaleProvider)),
-            ),
+        tts.speakMessage(
+          message: message,
+          rate: appearance.ttsRate,
+          locale: formatTtsLocaleTag(ref.read(effectiveAppLocaleProvider)),
+        ),
       );
     case MessageAction.translate:
       unawaited(

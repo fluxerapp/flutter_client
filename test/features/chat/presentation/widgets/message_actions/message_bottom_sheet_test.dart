@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provid
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod/src/framework.dart' show Override;
@@ -48,6 +49,28 @@ class _FakeSavedMessagesRepository extends SavedMessagesRepository {
   @override
   Future<void> unsaveMessage(String messageId) async {
     await _db.savedMessageDao.removeSavedMessage(messageId);
+  }
+}
+
+class _FakeTtsService extends FluxerTtsService {
+  _FakeTtsService({required this.supported});
+
+  final bool supported;
+  final List<String> spokenMessageIds = <String>[];
+
+  @override
+  FluxerTtsSpeakingState build() => const FluxerTtsSpeakingState();
+
+  @override
+  Future<bool> isSupported() async => supported;
+
+  @override
+  Future<void> speakMessage({
+    required Message message,
+    required double rate,
+    String? locale,
+  }) async {
+    spokenMessageIds.add(message.id);
   }
 }
 
@@ -627,5 +650,66 @@ void main() {
       await tester.pump(const Duration(seconds: 5));
       await releaseTestWidgetTree(tester);
     });
+
+    for (final bool supported in <bool>[false, true]) {
+      testWidgets('speak with speech synthesis '
+          '${supported ? 'available speaks' : 'unavailable says so'}', (
+        tester,
+      ) async {
+        final _FakeTtsService tts = _FakeTtsService(supported: supported);
+        late WidgetRef capturedRef;
+        late BuildContext capturedContext;
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: baseOverrides(
+              message.id,
+              extra: <Override>[
+                fluxerTtsServiceProvider.overrideWith(() => tts),
+              ],
+            ),
+            child: MaterialApp(
+              locale: kTestLocale,
+              localizationsDelegates: fluxerLocalizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: buildDarkColorTheme(),
+                textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  capturedRef = ref;
+                  capturedContext = context;
+                  return const SizedBox();
+                },
+              ),
+            ),
+          ),
+        );
+
+        await dispatchMessageAction(
+          ref: capturedRef,
+          context: capturedContext,
+          message: message,
+          action: MessageAction.speak,
+          callbacks: const MessageActionCallbacks(),
+        );
+        await tester.pump();
+
+        if (supported) {
+          expect(tts.spokenMessageIds, <String>[message.id]);
+          expect(capturedRef.read(toastProvider), isEmpty);
+        } else {
+          expect(tts.spokenMessageIds, isEmpty);
+          expect(
+            capturedRef.read(toastProvider).single.toast.message,
+            testL10n.accessibilityTtsUnsupportedDescription,
+          );
+        }
+        await tester.pump(const Duration(seconds: 5));
+        await releaseTestWidgetTree(tester);
+      });
+    }
   });
 }
