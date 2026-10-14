@@ -14416,15 +14416,6 @@
             }
         }
     },
-    "channelSearchHintIn": "Search {channelName}",
-    "@channelSearchHintIn": {
-        "description": "Hint in the mobile message search field. channelName is the channel name with its # prefix, for example Search #general. Preserve {channelName}.",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
-    },
     "channelHeaderSearchFilterDescFrom": "a user",
     "@channelHeaderSearchFilterDescFrom": {
         "description": "Description for the from: search filter."

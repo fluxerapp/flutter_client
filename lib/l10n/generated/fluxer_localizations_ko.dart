@@ -8167,11 +8167,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String channelSearchHintIn(String channelName) {
-    return 'Search $channelName';
-  }
-
-  @override
   String get channelHeaderSearchFilterDescFrom => '사용자';
 
   @override

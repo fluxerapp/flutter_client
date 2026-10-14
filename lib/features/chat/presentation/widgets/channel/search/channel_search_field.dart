@@ -223,7 +223,16 @@ class _ChannelSearchFieldState extends State<ChannelSearchField> {
                 color: colors.textPrimary,
                 height: 1.25,
               ),
-              decoration: InputDecoration.collapsed(
+              decoration: InputDecoration(
+                isCollapsed: true,
+                filled: false,
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+                contentPadding: EdgeInsets.zero,
                 hintText: widget.tokens.isEmpty ? widget.hintText : null,
                 hintStyle: context.textStyles.inputHint.copyWith(
                   color: colors.textTertiary,

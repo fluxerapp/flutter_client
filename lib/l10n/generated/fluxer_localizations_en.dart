@@ -8466,11 +8466,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   }
 
   @override
-  String channelSearchHintIn(String channelName) {
-    return 'Search $channelName';
-  }
-
-  @override
   String get channelHeaderSearchFilterDescFrom => 'a user';
 
   @override
@@ -37223,11 +37218,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
     final String countString = countNumberFormat.format(count);
 
     return '$label ($countString)';
-  }
-
-  @override
-  String channelSearchHintIn(String channelName) {
-    return 'Search $channelName';
   }
 
   @override

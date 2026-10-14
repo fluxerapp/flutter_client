@@ -8513,11 +8513,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String channelSearchHintIn(String channelName) {
-    return 'Search $channelName';
-  }
-
-  @override
   String get channelHeaderSearchFilterDescFrom => 'käyttäjä';
 
   @override

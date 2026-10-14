@@ -13923,12 +13923,6 @@ abstract class FluxerLocalizations {
   /// **'{label} ({count})'**
   String channelSearchTabCount(String label, int count);
 
-  /// Hint in the mobile message search field. channelName is the channel name with its # prefix, for example Search #general. Preserve {channelName}.
-  ///
-  /// In en, this message translates to:
-  /// **'Search {channelName}'**
-  String channelSearchHintIn(String channelName);
-
   /// Description for the from: search filter.
   ///
   /// In en, this message translates to:

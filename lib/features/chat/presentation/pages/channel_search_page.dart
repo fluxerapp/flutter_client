@@ -545,20 +545,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     );
   }
 
-  String _hintText(FluxerLocalizations l10n) {
-    if (!_isGuild) {
-      return l10n.channelDetailsSearchHint;
-    }
-    final String? name = ref
-        .watch(channelByIdProvider(widget.channelId))
-        .value
-        ?.name;
-    if (name == null || name.isEmpty) {
-      return l10n.channelDetailsSearchHint;
-    }
-    return l10n.channelSearchHintIn('#$name');
-  }
-
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -597,7 +583,7 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
                       focusNode: _focusNode,
                       tokens: _tokens,
                       guildId: widget.guildId,
-                      hintText: _hintText(l10n),
+                      hintText: l10n.channelDetailsSearchHint,
                       isSearching: isSearching && _hasQuery,
                       onSubmitted: _onSubmitted,
                       onRemoveToken: _removeToken,

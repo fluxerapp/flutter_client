@@ -8444,11 +8444,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String channelSearchHintIn(String channelName) {
-    return 'Search $channelName';
-  }
-
-  @override
   String get channelHeaderSearchFilterDescFrom => 'مستخدم';
 
   @override

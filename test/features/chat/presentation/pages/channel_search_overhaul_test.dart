@@ -414,6 +414,35 @@ void main() {
     await _finish(tester);
   });
 
+  testWidgets('the field draws one outline and a scope-neutral hint', (
+    tester,
+  ) async {
+    final ProviderContainer container = await _container(tester);
+    addTearDown(container.dispose);
+
+    await _open(tester, container);
+    final FluxerLocalizations l10n = _l10n(tester);
+
+    final InputDecoration decoration = tester
+        .widget<InputDecorator>(
+          find.descendant(
+            of: find.byType(ChannelSearchPage),
+            matching: find.byType(InputDecorator),
+          ),
+        )
+        .decoration;
+    expect(decoration.filled, isFalse);
+    for (final InputBorder? border in <InputBorder?>[
+      decoration.border,
+      decoration.enabledBorder,
+      decoration.focusedBorder,
+    ]) {
+      expect(border, InputBorder.none);
+    }
+    expect(decoration.hintText, l10n.channelDetailsSearchHint);
+    await _finish(tester);
+  });
+
   testWidgets('tapping a result pops with a jump request', (tester) async {
     final ProviderContainer container = await _container(tester);
     addTearDown(container.dispose);
