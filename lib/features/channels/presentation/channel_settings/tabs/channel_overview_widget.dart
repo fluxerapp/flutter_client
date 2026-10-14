@@ -21,12 +21,10 @@ import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permi
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_defaults_section.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
-import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
-import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
@@ -34,6 +32,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -150,39 +149,21 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
     setState(() => _current = next);
   }
 
-  Future<void> _showVoiceRegionsLoadFailedModal() async {
+  Future<void> _showVoiceRegionsLoadFailedModal() {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    await FluxerModal.show<void>(
+    return showErrorDialog(
       context,
       title: l10n.channelSettingsVoiceRegionsLoadFailed,
-      centered: true,
-      builder: (BuildContext dialogContext, VoidCallback close) {
-        return Text(
-          l10n.channelSettingsVoiceRegionsLoadFailedDescription,
-          style: dialogContext.textStyles.bodySmall,
-        );
-      },
-      actionsBuilder: (void Function([void]) pop) => <Widget>[
-        FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
-      ],
+      body: l10n.channelSettingsVoiceRegionsLoadFailedDescription,
     );
   }
 
-  Future<void> _showTopicTooLongModal() async {
+  Future<void> _showTopicTooLongModal() {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    await FluxerModal.show<void>(
+    return showErrorDialog(
       context,
       title: l10n.channelSettingsTopicTooLongTitle,
-      centered: true,
-      builder: (BuildContext dialogContext, VoidCallback close) {
-        return Text(
-          l10n.channelSettingsTopicTooLongMessage,
-          style: dialogContext.textStyles.bodySmall,
-        );
-      },
-      actionsBuilder: (void Function([void]) pop) => <Widget>[
-        FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
-      ],
+      body: l10n.channelSettingsTopicTooLongMessage,
     );
   }
 
@@ -240,26 +221,12 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
         );
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ApiErrorAction.saveChannelSettings, error);
     } on Object catch (error) {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ApiErrorAction.saveChannelSettings, error);
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);
@@ -297,17 +264,10 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
   }
 
   Future<void> _showConvertFailedModal(String message) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return FluxerModal.show<void>(
+    return showErrorDialog(
       context,
-      title: l10n.channelSettingsConvertFailed,
-      centered: true,
-      builder: (BuildContext dialogContext, VoidCallback close) {
-        return Text(message, style: dialogContext.textStyles.bodySmall);
-      },
-      actionsBuilder: (void Function([void]) pop) => <Widget>[
-        FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
-      ],
+      title: FluxerLocalizations.of(context).channelSettingsConvertFailed,
+      body: message,
     );
   }
 

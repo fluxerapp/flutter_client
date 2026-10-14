@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 class GuildRolesSettingsWidget extends ConsumerStatefulWidget {
   const GuildRolesSettingsWidget({
@@ -942,18 +943,7 @@ class _GuildRolesSettingsWidgetState
   Future<void> _showErrorModal({
     required String title,
     required String message,
-  }) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    await FluxerModal.show<void>(
-      context,
-      title: title,
-      centered: true,
-      builder: (BuildContext dialogContext, VoidCallback close) {
-        return Text(message, style: dialogContext.textStyles.bodySmall);
-      },
-      actionsBuilder: (void Function([void]) pop) => <Widget>[
-        FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
-      ],
-    );
+  }) {
+    return showErrorDialog(context, title: title, body: message);
   }
 }

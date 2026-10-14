@@ -13,11 +13,11 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
-import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
@@ -137,7 +137,7 @@ class _ChannelWebhookListItemState
     );
   }
 
-  Future<void> _updateWebhook({
+  Future<bool> _updateWebhook({
     String? name,
     String? avatar,
     String? channelId,
@@ -151,16 +151,24 @@ class _ChannelWebhookListItemState
         channelId: channelId,
         clearAvatar: clearAvatar,
       );
-      return;
+      return true;
     }
-    await ref
-        .read(channelWebhooksProvider(widget.channelId).notifier)
-        .updateWebhook(
-          webhookId: widget.webhook.id,
-          name: name,
-          avatar: clearAvatar ? '' : avatar,
-          channelId: channelId,
-        );
+    try {
+      await ref
+          .read(channelWebhooksProvider(widget.channelId).notifier)
+          .updateWebhook(
+            webhookId: widget.webhook.id,
+            name: name,
+            avatar: clearAvatar ? '' : avatar,
+            channelId: channelId,
+          );
+    } on Object catch (error) {
+      if (mounted) {
+        await showApiError(context, ApiErrorAction.updateWebhook, error);
+      }
+      return false;
+    }
+    return true;
   }
 
   Future<void> _handleAvatarUpload() async {
@@ -174,41 +182,35 @@ class _ChannelWebhookListItemState
       if (!mounted) {
         return;
       }
-      await FluxerModal.show<void>(
+      await showErrorDialog(
         context,
-        title: l10n.imageFileTooLarge,
-        centered: true,
-        builder: (BuildContext dialogContext, VoidCallback close) {
-          return const SizedBox.shrink();
-        },
+        title: l10n.errorSomethingWentWrongTitle,
+        body: l10n.imageFileTooLarge,
       );
       return;
     }
-    setState(() => _isUpdatingAvatar = true);
-    try {
-      final String dataUri = ImageUtils.toDataUri(picked.bytes);
-      setState(() => _localAvatarOverride = dataUri);
-      await _updateWebhook(avatar: dataUri);
-    } on Object {
-      if (!mounted) {
-        return;
-      }
-      setState(() => _localAvatarOverride = null);
-    } finally {
-      if (mounted) {
-        setState(() => _isUpdatingAvatar = false);
-      }
+    final String dataUri = ImageUtils.toDataUri(picked.bytes);
+    setState(() {
+      _isUpdatingAvatar = true;
+      _localAvatarOverride = dataUri;
+    });
+    final bool updated = await _updateWebhook(avatar: dataUri);
+    if (!mounted) {
+      return;
     }
+    setState(() {
+      _isUpdatingAvatar = false;
+      if (!updated) {
+        _localAvatarOverride = null;
+      }
+    });
   }
 
   Future<void> _handleClearAvatar() async {
     setState(() => _localAvatarOverride = '');
-    try {
-      await _updateWebhook(clearAvatar: true);
-    } on Object {
-      if (mounted) {
-        setState(() => _localAvatarOverride = null);
-      }
+    final bool updated = await _updateWebhook(clearAvatar: true);
+    if (!updated && mounted) {
+      setState(() => _localAvatarOverride = null);
     }
   }
 
@@ -245,16 +247,10 @@ class _ChannelWebhookListItemState
       if (!mounted) {
         return;
       }
-      await FluxerModal.show<void>(
+      await showErrorDialog(
         context,
-        title: l10n.discoveryJoinErrorGenericMessage,
-        centered: true,
-        builder: (BuildContext dialogContext, VoidCallback close) {
-          return Text(
-            l10n.channelSettingsWebhooksDeleteFailed,
-            style: dialogContext.textStyles.bodySmall.copyWith(height: 1.4),
-          );
-        },
+        title: l10n.errorSomethingWentWrongTitle,
+        body: l10n.channelSettingsWebhooksDeleteFailed,
       );
     } finally {
       if (mounted) {

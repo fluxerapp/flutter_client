@@ -81,7 +81,10 @@ class _GuildMessageHistoryThresholdSheetState
           .updateGuild(
             GuildUpdateRequest(messageHistoryCutoff: JsonNullable.of(cutoff)),
           );
-      if (!mounted) {
+      if (!mounted ||
+          ref
+              .read(guildSettingsOverviewActionsProvider(widget.guildId))
+              .hasError) {
         return;
       }
       ref

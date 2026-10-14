@@ -11898,7 +11898,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String guildSettingsRolesDeleteFailedBody(String name) {
-    return '\"$name\" wouldn\'t delete. Try again.';
+    return 'We couldn\'t delete \"$name\". Try again.';
   }
 
   @override
@@ -15642,6 +15642,49 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get errorContentBlockedSelfHostedMessage =>
       'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+
+  @override
+  String get channelDeletedToast => 'Channel deleted';
+
+  @override
+  String get categoryDeletedToast => 'Category deleted';
+
+  @override
+  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+
+  @override
+  String get channelDeleteNoPermissionChannel =>
+      'You don\'t have permission to delete this channel.';
+
+  @override
+  String get channelDeleteNoPermissionCategory =>
+      'You don\'t have permission to delete this category.';
+
+  @override
+  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+
+  @override
+  String get channelDeleteAlreadyDeletedChannel =>
+      'This channel no longer exists. It may have already been deleted.';
+
+  @override
+  String get channelDeleteAlreadyDeletedCategory =>
+      'This category no longer exists. It may have already been deleted.';
+
+  @override
+  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+
+  @override
+  String get channelDeleteFailedCategoryTitle =>
+      'Couldn\'t delete this category';
+
+  @override
+  String get channelPermissionsUpdateFailedTitle =>
+      'Couldn\'t update channel permissions';
+
+  @override
+  String get channelSettingsSaveFailedTitle =>
+      'Couldn\'t save channel settings';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -40791,7 +40834,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String guildSettingsRolesDeleteFailedBody(String name) {
-    return '\"$name\" wouldn\'t delete. Try again.';
+    return 'We couldn\'t delete \"$name\". Try again.';
   }
 
   @override
@@ -43442,4 +43485,47 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get errorContentBlockedSelfHostedMessage =>
       'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+
+  @override
+  String get channelDeletedToast => 'Channel deleted';
+
+  @override
+  String get categoryDeletedToast => 'Category deleted';
+
+  @override
+  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+
+  @override
+  String get channelDeleteNoPermissionChannel =>
+      'You don\'t have permission to delete this channel.';
+
+  @override
+  String get channelDeleteNoPermissionCategory =>
+      'You don\'t have permission to delete this category.';
+
+  @override
+  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+
+  @override
+  String get channelDeleteAlreadyDeletedChannel =>
+      'This channel no longer exists. It may have already been deleted.';
+
+  @override
+  String get channelDeleteAlreadyDeletedCategory =>
+      'This category no longer exists. It may have already been deleted.';
+
+  @override
+  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+
+  @override
+  String get channelDeleteFailedCategoryTitle =>
+      'Couldn\'t delete this category';
+
+  @override
+  String get channelPermissionsUpdateFailedTitle =>
+      'Couldn\'t update channel permissions';
+
+  @override
+  String get channelSettingsSaveFailedTitle =>
+      'Couldn\'t save channel settings';
 }

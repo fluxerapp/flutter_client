@@ -11,12 +11,12 @@ import 'package:fluxer_app/features/channels/utils/webhook_utils.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
-import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -349,21 +349,11 @@ class ChannelWebhooksWidget extends ConsumerWidget {
               variant: FluxerToastVariant.success,
             ),
           );
-    } on Object {
+    } on Object catch (error) {
       if (!context.mounted) {
         return;
       }
-      await FluxerModal.show<void>(
-        context,
-        title: l10n.channelSettingsWebhookCreateFailed,
-        centered: true,
-        builder: (BuildContext dialogContext, VoidCallback close) {
-          return Text(
-            l10n.channelSettingsWebhookTryAgainInAMoment,
-            style: dialogContext.textStyles.bodySmall.copyWith(height: 1.4),
-          );
-        },
-      );
+      await showApiError(context, ApiErrorAction.createWebhook, error);
     }
   }
 }

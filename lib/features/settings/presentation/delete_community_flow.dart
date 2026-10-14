@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -11,6 +10,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:go_router/go_router.dart';
 
 class DeleteCommunityFlow {
@@ -57,15 +57,9 @@ class DeleteCommunityFlow {
       await deleteGuildAndCleanup(ref, guildId);
     } on Object catch (error, stack) {
       talker.error('[Guild] Failed to delete community', error, stack);
-      toast.show(
-        FluxerToast(
-          message: userFacingErrorMessage(
-            error,
-            l10n.guildSettingsDeleteCommunityFailed,
-          ),
-          variant: FluxerToastVariant.danger,
-        ),
-      );
+      if (context.mounted) {
+        await showApiError(context, ApiErrorAction.deleteCommunity, error);
+      }
       return;
     }
 

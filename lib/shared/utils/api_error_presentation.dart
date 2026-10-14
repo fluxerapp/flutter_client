@@ -39,6 +39,13 @@ enum ApiErrorAction {
   unpinMessage,
   saveBookmark,
   saveFavoriteMedia,
+  deleteChannel,
+  deleteCategory,
+  updateChannelPermissions,
+  saveChannelSettings,
+  deleteCommunity,
+  createWebhook,
+  updateWebhook,
 }
 
 enum ApiErrorChannelKind { guild, dm, groupDm }
@@ -281,6 +288,36 @@ _ErrorCopy _copyFor(
               title: l10n.errorSomethingWentWrongTitle,
               body: _apiMessageOr(apiMessage, l10n.savedMediaSaveError),
             ),
+    ApiErrorAction.deleteChannel => _deleteChannelCopy(
+      l10n,
+      code,
+      isCategory: false,
+    ),
+    ApiErrorAction.deleteCategory => _deleteChannelCopy(
+      l10n,
+      code,
+      isCategory: true,
+    ),
+    ApiErrorAction.updateChannelPermissions => (
+      title: l10n.channelPermissionsUpdateFailedTitle,
+      body: l10n.guildSettingsRolesTryAgainInAMoment,
+    ),
+    ApiErrorAction.saveChannelSettings => (
+      title: l10n.channelSettingsSaveFailedTitle,
+      body: _apiMessageOr(apiMessage, l10n.guildSettingsRolesTryAgainInAMoment),
+    ),
+    ApiErrorAction.deleteCommunity => (
+      title: l10n.guildSettingsDeleteCommunityFailed,
+      body: _apiMessageOr(apiMessage, l10n.errorUnexpectedTryAgain),
+    ),
+    ApiErrorAction.createWebhook => (
+      title: l10n.channelSettingsWebhookCreateFailed,
+      body: l10n.guildSettingsRolesTryAgainInAMoment,
+    ),
+    ApiErrorAction.updateWebhook => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: _apiMessageOr(apiMessage, l10n.guildSettingsWebhooksUpdateFailed),
+    ),
     ApiErrorAction.createInvite => (
       title: l10n.groupDmInviteFailedTitle,
       body: switch (code) {
@@ -318,6 +355,37 @@ _ErrorCopy _sendMessageCopy(
       body: l10n.chatFileTooLargeMessage(details.subject ?? ''),
     ),
     _ => (title: l10n.chatSendFailedTitle, body: l10n.chatSendFailedMessage),
+  };
+}
+
+_ErrorCopy _deleteChannelCopy(
+  FluxerLocalizations l10n,
+  String? code, {
+  required bool isCategory,
+}) {
+  return switch (code) {
+    'MISSING_PERMISSIONS' => (
+      title: l10n.channelDeleteNoPermissionTitle,
+      body: isCategory
+          ? l10n.channelDeleteNoPermissionCategory
+          : l10n.channelDeleteNoPermissionChannel,
+    ),
+    'UNKNOWN_CHANNEL' => (
+      title: l10n.channelDeleteAlreadyDeletedTitle,
+      body: isCategory
+          ? l10n.channelDeleteAlreadyDeletedCategory
+          : l10n.channelDeleteAlreadyDeletedChannel,
+    ),
+    'RATE_LIMITED' => (
+      title: l10n.discoveryJoinErrorRateLimitTitle,
+      body: l10n.discoveryJoinErrorRateLimitMessage,
+    ),
+    _ => (
+      title: isCategory
+          ? l10n.channelDeleteFailedCategoryTitle
+          : l10n.channelDeleteFailedChannelTitle,
+      body: l10n.discoveryJoinErrorGenericMessage,
+    ),
   };
 }
 
@@ -405,6 +473,7 @@ const Set<ApiErrorAction> _accountStateActions = <ApiErrorAction>{
   ApiErrorAction.acceptInvite,
   ApiErrorAction.joinDiscoveryCommunity,
   ApiErrorAction.createInvite,
+  ApiErrorAction.createWebhook,
 };
 
 _ErrorCopy? _accountStateCopy(

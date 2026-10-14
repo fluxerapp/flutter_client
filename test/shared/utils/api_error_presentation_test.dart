@@ -661,6 +661,81 @@ void main() {
     });
   });
 
+  group('settings errors', () {
+    test('channel and category delete map each code', () {
+      _expectCopy(
+        ApiErrorAction.deleteChannel,
+        'MISSING_PERMISSIONS',
+        "You can't delete this",
+        "You don't have permission to delete this channel.",
+      );
+      _expectCopy(
+        ApiErrorAction.deleteCategory,
+        'MISSING_PERMISSIONS',
+        "You can't delete this",
+        "You don't have permission to delete this category.",
+      );
+      _expectCopy(
+        ApiErrorAction.deleteChannel,
+        'UNKNOWN_CHANNEL',
+        'Already deleted',
+        'This channel no longer exists. It may have already been deleted.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteCategory,
+        'RATE_LIMITED',
+        "You're going too fast",
+        'Please wait a moment and try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteCategory,
+        null,
+        "Couldn't delete this category",
+        'Something went wrong. Please try again in a moment.',
+      );
+    });
+
+    test('saves show the server reason or a fallback', () {
+      _expectCopy(
+        ApiErrorAction.updateChannelPermissions,
+        'MISSING_PERMISSIONS',
+        "Couldn't update channel permissions",
+        'Try again in a moment.',
+      );
+      _expectCopy(
+        ApiErrorAction.saveChannelSettings,
+        'INVALID_FORM_BODY',
+        "Couldn't save channel settings",
+        'Topic is too long.',
+        apiMessage: 'Topic is too long.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteCommunity,
+        null,
+        "Couldn't delete this community",
+        'An unexpected error occurred. Try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.createWebhook,
+        'ACCOUNT_LIMITED',
+        'Messaging is paused',
+        'Messaging is paused on your account. Check your email for a quick step to continue.',
+      );
+      _expectCopy(
+        ApiErrorAction.createWebhook,
+        'MAX_WEBHOOKS_PER_CHANNEL',
+        'Failed to create webhook',
+        'Try again in a moment.',
+      );
+      _expectCopy(
+        ApiErrorAction.updateWebhook,
+        null,
+        'Something went wrong',
+        'Failed to update webhooks',
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {

@@ -73,7 +73,6 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_sidebar_tile.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_p2p_sheets.dart';

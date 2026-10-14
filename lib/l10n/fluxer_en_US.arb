@@ -9917,7 +9917,7 @@
     "@guildSettingsRolesUpdatedSuccess": {
         "description": "Toast after saving role changes."
     },
-    "guildSettingsRolesDeleteFailedBody": "\"{name}\" wouldn't delete. Try again.",
+    "guildSettingsRolesDeleteFailedBody": "We couldn't delete \"{name}\". Try again.",
     "@guildSettingsRolesDeleteFailedBody": {
         "description": "Error modal body when role deletion fails.",
         "placeholders": {
@@ -16337,5 +16337,53 @@
     "errorContentBlockedSelfHostedMessage": "Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.",
     "@errorContentBlockedSelfHostedMessage": {
         "description": "Body of the content blocked dialog on a self-hosted instance."
+    },
+    "channelDeletedToast": "Channel deleted",
+    "@channelDeletedToast": {
+        "description": "Toast shown after a channel is deleted."
+    },
+    "categoryDeletedToast": "Category deleted",
+    "@categoryDeletedToast": {
+        "description": "Toast shown after a category is deleted."
+    },
+    "channelDeleteNoPermissionTitle": "You can't delete this",
+    "@channelDeleteNoPermissionTitle": {
+        "description": "Title of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionChannel": "You don't have permission to delete this channel.",
+    "@channelDeleteNoPermissionChannel": {
+        "description": "Body of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionCategory": "You don't have permission to delete this category.",
+    "@channelDeleteNoPermissionCategory": {
+        "description": "Body of the delete category error dialog when the user lacks permission."
+    },
+    "channelDeleteAlreadyDeletedTitle": "Already deleted",
+    "@channelDeleteAlreadyDeletedTitle": {
+        "description": "Title of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedChannel": "This channel no longer exists. It may have already been deleted.",
+    "@channelDeleteAlreadyDeletedChannel": {
+        "description": "Body of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedCategory": "This category no longer exists. It may have already been deleted.",
+    "@channelDeleteAlreadyDeletedCategory": {
+        "description": "Body of the delete category error dialog when the category no longer exists."
+    },
+    "channelDeleteFailedChannelTitle": "Couldn't delete this channel",
+    "@channelDeleteFailedChannelTitle": {
+        "description": "Title of the delete channel error dialog for other failures."
+    },
+    "channelDeleteFailedCategoryTitle": "Couldn't delete this category",
+    "@channelDeleteFailedCategoryTitle": {
+        "description": "Title of the delete category error dialog for other failures."
+    },
+    "channelPermissionsUpdateFailedTitle": "Couldn't update channel permissions",
+    "@channelPermissionsUpdateFailedTitle": {
+        "description": "Title of the dialog shown when saving channel permissions fails."
+    },
+    "channelSettingsSaveFailedTitle": "Couldn't save channel settings",
+    "@channelSettingsSaveFailedTitle": {
+        "description": "Title of the dialog shown when saving channel settings fails."
     }
 }

@@ -19868,7 +19868,7 @@ abstract class FluxerLocalizations {
   /// Error modal body when role deletion fails.
   ///
   /// In en, this message translates to:
-  /// **'\"{name}\" wouldn\'t delete. Try again.'**
+  /// **'We couldn\'t delete \"{name}\". Try again.'**
   String guildSettingsRolesDeleteFailedBody(String name);
 
   /// Error modal title when hoist reset fails.
@@ -26003,6 +26003,78 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.'**
   String get errorContentBlockedSelfHostedMessage;
+
+  /// Toast shown after a channel is deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel deleted'**
+  String get channelDeletedToast;
+
+  /// Toast shown after a category is deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Category deleted'**
+  String get categoryDeletedToast;
+
+  /// Title of the delete channel error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t delete this'**
+  String get channelDeleteNoPermissionTitle;
+
+  /// Body of the delete channel error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to delete this channel.'**
+  String get channelDeleteNoPermissionChannel;
+
+  /// Body of the delete category error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to delete this category.'**
+  String get channelDeleteNoPermissionCategory;
+
+  /// Title of the delete channel error dialog when the channel no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'Already deleted'**
+  String get channelDeleteAlreadyDeletedTitle;
+
+  /// Body of the delete channel error dialog when the channel no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel no longer exists. It may have already been deleted.'**
+  String get channelDeleteAlreadyDeletedChannel;
+
+  /// Body of the delete category error dialog when the category no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'This category no longer exists. It may have already been deleted.'**
+  String get channelDeleteAlreadyDeletedCategory;
+
+  /// Title of the delete channel error dialog for other failures.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete this channel'**
+  String get channelDeleteFailedChannelTitle;
+
+  /// Title of the delete category error dialog for other failures.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete this category'**
+  String get channelDeleteFailedCategoryTitle;
+
+  /// Title of the dialog shown when saving channel permissions fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update channel permissions'**
+  String get channelPermissionsUpdateFailedTitle;
+
+  /// Title of the dialog shown when saving channel settings fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save channel settings'**
+  String get channelSettingsSaveFailedTitle;
 }
 
 class _FluxerLocalizationsDelegate

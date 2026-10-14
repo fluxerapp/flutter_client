@@ -93,6 +93,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
@@ -761,6 +762,14 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     }
   }
 
+  Future<void> _createChannelOrExplain(Future<Object?> request) async {
+    try {
+      await request;
+    } on Object catch (error) {
+      await showApiErrorFromRoot(ApiErrorAction.generic, error);
+    }
+  }
+
   Future<void> _confirmCloseDm(
     BuildContext context, {
     required DmChannel dm,
@@ -892,27 +901,31 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           },
           onCreateCategory: (name) {
             unawaited(
-              ref
-                  .read(fluxerClientProvider)
-                  .guilds
-                  .createGuildChannel(
-                    guildId: guild.id,
-                    body: ChannelCreateRequest4(
-                      name: name,
-                      type: GuildCategoryChannelCreateRequestTypeType
-                          .guildCategory,
-                      permissionOverwrites: [],
-                      contentWarningLevel: ContentWarningLevelInput.inherit,
+              _createChannelOrExplain(
+                ref
+                    .read(fluxerClientProvider)
+                    .guilds
+                    .createGuildChannel(
+                      guildId: guild.id,
+                      body: ChannelCreateRequest4(
+                        name: name,
+                        type: GuildCategoryChannelCreateRequestTypeType
+                            .guildCategory,
+                        permissionOverwrites: [],
+                        contentWarningLevel: ContentWarningLevelInput.inherit,
+                      ),
                     ),
-                  ),
+              ),
             );
           },
           onCreateChannel: (request) {
             unawaited(
-              ref
-                  .read(fluxerClientProvider)
-                  .guilds
-                  .createGuildChannel(guildId: guild.id, body: request),
+              _createChannelOrExplain(
+                ref
+                    .read(fluxerClientProvider)
+                    .guilds
+                    .createGuildChannel(guildId: guild.id, body: request),
+              ),
             );
           },
           onCreateInvite:

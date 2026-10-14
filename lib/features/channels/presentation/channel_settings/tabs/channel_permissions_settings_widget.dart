@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 class ChannelPermissionsSettingsWidget extends ConsumerStatefulWidget {
   const ChannelPermissionsSettingsWidget({
@@ -210,14 +211,11 @@ class _ChannelPermissionsSettingsWidgetState
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(
+        context,
+        ApiErrorAction.updateChannelPermissions,
+        error,
+      );
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);
@@ -301,14 +299,11 @@ class _ChannelPermissionsSettingsWidgetState
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(
+        context,
+        ApiErrorAction.updateChannelPermissions,
+        error,
+      );
     } finally {
       if (mounted) {
         setState(() => _isSyncing = false);

@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 class DeleteChannelFlow {
@@ -37,21 +38,27 @@ class DeleteChannelFlow {
               channelId: channel.id,
               body: const SudoVerificationSchema(),
             );
-        onDeleted?.call();
-        if (context.mounted) {
-          Navigator.of(context).maybePop();
-        }
-        toast.show(
-          FluxerToast(message: title, variant: FluxerToastVariant.success),
+      } on Object catch (error) {
+        await showApiErrorFromRoot(
+          channel.isCategory
+              ? ApiErrorAction.deleteCategory
+              : ApiErrorAction.deleteChannel,
+          error,
         );
-      } on Object {
-        toast.show(
-          const FluxerToast(
-            message: 'Failed to delete channel',
-            variant: FluxerToastVariant.danger,
-          ),
-        );
+        return;
       }
+      onDeleted?.call();
+      if (context.mounted) {
+        Navigator.of(context).maybePop();
+      }
+      toast.show(
+        FluxerToast(
+          message: channel.isCategory
+              ? l10n.categoryDeletedToast
+              : l10n.channelDeletedToast,
+          variant: FluxerToastVariant.success,
+        ),
+      );
     }
 
     final bool isMobile = isMobileLayout(context);

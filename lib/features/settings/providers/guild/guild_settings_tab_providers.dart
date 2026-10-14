@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -8,18 +10,24 @@ import 'package:fluxer_app/features/settings/data/guild_settings_converters.dart
 import 'package:fluxer_app/features/settings/data/guild_settings_repository.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_details.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_settings_tab_providers.g.dart';
 
-Future<T> _runGuildSettingsActionWithKeepAlive<T>(
+Future<AsyncValue<void>> _runGuildSettingsActionWithKeepAlive(
   Ref ref,
-  Future<T> Function() operation,
+  Future<AsyncValue<void>> Function() operation,
 ) async {
   final keepAlive = ref.keepAlive();
   try {
-    return await operation();
+    final AsyncValue<void> result = await operation();
+    final Object? error = result.error;
+    if (error != null) {
+      unawaited(showApiErrorFromRoot(ApiErrorAction.generic, error));
+    }
+    return result;
   } finally {
     keepAlive.close();
   }

@@ -523,46 +523,8 @@ class _ChannelTile extends ConsumerWidget {
         title: FluxerLocalizations.of(context).dmDebugChannel,
       );
 
-  Future<void> _confirmDeleteChannel(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    await FluxerConfirmSheet.show(
-      context,
-      title: 'Delete Channel',
-      description:
-          'Are you sure you want to delete #${channel.name}? '
-          'This action cannot be undone.',
-      confirmLabel: 'Delete Channel',
-      isDanger: true,
-      onConfirm: () => unawaited(_deleteChannel(ref)),
-    );
-  }
-
-  Future<void> _deleteChannel(WidgetRef ref) async {
-    final toast = ref.read(toastProvider.notifier);
-    try {
-      await ref
-          .read(fluxerClientProvider)
-          .channels
-          .deleteChannel(
-            channelId: channel.id,
-            body: const SudoVerificationSchema(),
-          );
-      toast.show(
-        const FluxerToast(
-          message: 'Channel deleted',
-          variant: FluxerToastVariant.success,
-        ),
-      );
-    } on Object {
-      toast.show(
-        const FluxerToast(
-          message: 'Failed to delete channel',
-          variant: FluxerToastVariant.danger,
-        ),
-      );
-    }
+  Future<void> _confirmDeleteChannel(BuildContext context, WidgetRef ref) {
+    return DeleteChannelFlow.confirmAndDelete(context, ref, channel: channel);
   }
 
   Future<void> _openChannelMuteSheet(
