@@ -14,7 +14,8 @@ final Uint8List _png = base64Decode(
 );
 
 class _FlakyCacheManager implements BaseCacheManager {
-  _FlakyCacheManager({this.failures = 0, Uint8List? body}) : body = body ?? _png;
+  _FlakyCacheManager({this.failures = 0, Uint8List? body})
+    : body = body ?? _png;
 
   int failures;
   final Uint8List body;
@@ -30,11 +31,7 @@ class _FlakyCacheManager implements BaseCacheManager {
   }) async* {
     requests.add(url);
     if (requests.length <= failures) {
-      throw HttpExceptionWithStatus(
-        502,
-        'Bad Gateway',
-        uri: Uri.parse(url),
-      );
+      throw HttpExceptionWithStatus(502, 'Bad Gateway', uri: Uri.parse(url));
     }
     final File file = _fs.file('/image_${requests.length}')
       ..writeAsBytesSync(body);
