@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_effective.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -280,6 +281,12 @@ class GuildReadState extends _$GuildReadState {
 
     ref.listen<bool>(gatewayReadyProvider, (prev, next) {
       if (!(prev ?? false) && next) {
+        _requestSeed(db, currentUserId);
+      }
+    });
+
+    ref.listen<int>(gatewayFullRecoveryProvider, (int? prev, int next) {
+      if ((prev ?? 0) > 0 && prev != next && ref.read(gatewayReadyProvider)) {
         _requestSeed(db, currentUserId);
       }
     });

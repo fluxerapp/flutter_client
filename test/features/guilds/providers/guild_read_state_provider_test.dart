@@ -898,6 +898,60 @@ void main() {
     },
   );
 
+  test('a READY on the same connection reseeds the guild fold', () async {
+    final db = openTestDatabase();
+    final lastMessageId = _recentSnowflake();
+    await _seedGuild(
+      db,
+      'guild-1',
+      channels: [
+        (
+          id: 'channel-1',
+          name: 'general',
+          type: 0,
+          lastMessageId: lastMessageId,
+        ),
+      ],
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(lastMessageId),
+      ),
+    );
+
+    final container = _container(db);
+    addTearDown(container.dispose);
+    container.read(gatewayReadyProvider.notifier).setReady();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
+    final sub = container.listen(
+      guildReadStateProvider,
+      (_, _) {},
+      fireImmediately: true,
+    );
+    addTearDown(sub.close);
+    await _waitFor(() => container.read(guildReadStateReadyProvider));
+    expect(
+      container.read(guildReadStateProvider)['guild-1']?.hasUnread ?? false,
+      isFalse,
+    );
+
+    await db.messageDao.upsertMessage(
+      _cachedMessage(
+        id: _recentSnowflake(ago: const Duration(minutes: 5)),
+        channelId: 'channel-1',
+      ),
+    );
+    container.read(gatewayReadyProvider.notifier).setReady();
+    container.read(gatewayFullRecoveryProvider.notifier).bump();
+
+    await _waitForGuildState(container, 'guild-1');
+    expect(
+      container.read(guildReadStateProvider)['guild-1']!.hasUnread,
+      isTrue,
+    );
+  });
+
   test('gateway ready reseeds guild fold from database truth', () async {
     final db = openTestDatabase();
     final lastMessageId = _recentSnowflake();
