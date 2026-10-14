@@ -1379,9 +1379,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get dmFriendRequestSentToast => '已发送好友请求';
 
   @override
-  String get dmFriendRequestFailed => '发送好友请求失败';
-
-  @override
   String get dmAcceptFriendRequestFailed => '接受好友请求失败';
 
   @override
@@ -1502,6 +1499,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get addFriendFriendsListFull => '你的好友列表已满，或者对方的已满。请移除一些好友后重试。';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -10360,6 +10364,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get uiConfirm => '确认';
 
   @override
+  String get uiUnderstood => 'Understood';
+
+  @override
   String get uiLoading => '加载中';
 
   @override
@@ -15892,9 +15899,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get dmFriendRequestSentToast => '已送出好友邀請';
-
-  @override
-  String get dmFriendRequestFailed => '傳送朋友要求失敗';
 
   @override
   String get dmAcceptFriendRequestFailed => '接受朋友要求失敗';

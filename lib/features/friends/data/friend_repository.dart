@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/friends/domain/friend.dart';
-import 'package:fluxer_app/features/friends/domain/friend_request_exception.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -62,7 +61,7 @@ class FriendRepository {
           );
       await _upsertRelationship(relationship);
     } on DioException catch (e) {
-      throw _parseFriendRequestError(e);
+      throw ApiException.fromDio(e);
     }
   }
 
@@ -75,9 +74,7 @@ class FriendRepository {
           );
       await _upsertRelationship(relationship);
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.statusMessage ?? 'Failed to send friend request',
-      );
+      throw ApiException.fromDio(e);
     }
   }
 
@@ -157,15 +154,4 @@ class FriendRepository {
   }
 
   static int _typeToInt(RelationshipTypes type) => type.json ?? 1;
-
-  static FriendRequestException _parseFriendRequestError(DioException e) {
-    final data = e.response?.data;
-    if (data is Map<String, dynamic>) {
-      return FriendRequestException(
-        code: data['code'] as String?,
-        message: data['message'] as String?,
-      );
-    }
-    return FriendRequestException(message: apiMessageFromDioException(e));
-  }
 }

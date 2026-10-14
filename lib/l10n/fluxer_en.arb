@@ -1896,10 +1896,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Failed to send friend request",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
     "dmAcceptFriendRequestFailed": "Failed to accept friend request",
     "@dmAcceptFriendRequestFailed": {
         "description": "Toast message when accepting a friend request fails."
@@ -2071,6 +2067,14 @@
     "addFriendFriendsListFull": "Your friends list is full, or theirs is. Remove someone and try again.",
     "@addFriendFriendsListFull": {
         "description": "Error when either user's friends list is at the limit."
+    },
+    "addFriendSendFailedTitle": "Couldn't send friend request",
+    "@addFriendSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a friend request fails."
+    },
+    "addFriendSendFailedMessage": "Couldn't send the friend request. Try again.",
+    "@addFriendSendFailedMessage": {
+        "description": "Fallback body of the send friend request error dialog when the error has no specific message."
     },
     "userTagBot": "BOT",
     "@userTagBot": {
@@ -13097,6 +13101,10 @@
     "uiConfirm": "Confirm",
     "@uiConfirm": {
         "description": "Generic confirm action label for modals and sheets."
+    },
+    "uiUnderstood": "Understood",
+    "@uiUnderstood": {
+        "description": "Label of the single button that dismisses an error or info dialog after reading it."
     },
     "uiLoading": "Loading",
     "@uiLoading": {

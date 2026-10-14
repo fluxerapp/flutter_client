@@ -1470,9 +1470,6 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Запрос на добавление в друзья отправлен';
 
   @override
-  String get dmFriendRequestFailed => 'Не удалось отправить запрос в друзья';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Не удалось принять запрос в друзья';
 
@@ -1607,6 +1604,13 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Ваш список друзей заполнен, или заполнен список другого пользователя. Удалите кого-нибудь и попробуйте снова.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11148,6 +11152,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Подтвердить';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Загрузка';

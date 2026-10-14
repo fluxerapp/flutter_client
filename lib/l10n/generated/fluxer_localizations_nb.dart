@@ -1454,9 +1454,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Venneforespørsel sendt';
 
   @override
-  String get dmFriendRequestFailed => 'Kunne ikke sende venneforespørsel';
-
-  @override
   String get dmAcceptFriendRequestFailed => 'Kunne ikke godta venneforespørsel';
 
   @override
@@ -1590,6 +1587,13 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Enten vennelisten din eller den andres er full. Fjern noen og prøv igjen.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11057,6 +11061,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Bekreft';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Laster inn';

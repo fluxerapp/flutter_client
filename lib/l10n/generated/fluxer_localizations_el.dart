@@ -1465,9 +1465,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Το αίτημα φιλίας στάλθηκε';
 
   @override
-  String get dmFriendRequestFailed => 'Αποτυχία αποστολής αιτήματος φιλίας';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Αποτυχία αποδοχής αιτήματος φιλίας';
 
@@ -1601,6 +1598,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Η λίστα φίλων σας ή η δική τους είναι πλήρης. Αφαιρέστε κάποιον και δοκιμάστε ξανά.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11186,6 +11190,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Επιβεβαίωση';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Φόρτωση';

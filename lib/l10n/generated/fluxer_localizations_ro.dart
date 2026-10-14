@@ -1462,10 +1462,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Cerere de prietenie trimisă';
 
   @override
-  String get dmFriendRequestFailed =>
-      'Nu s-a putut trimite cererea de prietenie';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Nu am putut accepta cererea de prietenie';
 
@@ -1600,6 +1596,13 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Lista ta de prieteni sau a lor este plină. Elimină pe cineva și încearcă din nou.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11133,6 +11136,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Confirmă';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Se încarcă';

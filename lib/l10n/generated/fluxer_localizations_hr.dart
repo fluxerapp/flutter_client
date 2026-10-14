@@ -1460,10 +1460,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Zahtjev za prijateljstvo poslan';
 
   @override
-  String get dmFriendRequestFailed =>
-      'Neuspješno slanje zahtjeva za prijateljstvo';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Neuspješno prihvaćanje zahtjeva za prijateljstvo';
 
@@ -1597,6 +1593,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Vaš ili njihov popis prijatelja je pun. Uklonite nekoga i pokušajte ponovno.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11089,6 +11092,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Potvrdi';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Učitavanje';

@@ -1460,10 +1460,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Поканата за приятелство е изпратена';
 
   @override
-  String get dmFriendRequestFailed =>
-      'Неуспешно изпращане на заявка за приятелство';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Неуспешно приемане на заявка за приятелство';
 
@@ -1597,6 +1593,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Твоят списък с приятели или този на другия потребител е пълен. Премахни някого и опитай отново.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11166,6 +11169,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Потвърди';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Зареждане';

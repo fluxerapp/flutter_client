@@ -1465,9 +1465,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Ismerősjelölés elküldve';
 
   @override
-  String get dmFriendRequestFailed => 'Nem sikerült elküldeni a barát kérést';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Nem sikerült elfogadni a barát kérést';
 
@@ -1603,6 +1600,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Megtelt az ismerőslistád vagy az övé. Távolíts el valakit, és próbáld újra.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11152,6 +11156,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Megerősítés';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Betöltés';

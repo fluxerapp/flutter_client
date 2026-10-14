@@ -2576,12 +2576,6 @@ abstract class FluxerLocalizations {
   /// **'Friend request sent'**
   String get dmFriendRequestSentToast;
 
-  /// Toast message when sending a friend request fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to send friend request'**
-  String get dmFriendRequestFailed;
-
   /// Toast message when accepting a friend request fails.
   ///
   /// In en, this message translates to:
@@ -2809,6 +2803,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Your friends list is full, or theirs is. Remove someone and try again.'**
   String get addFriendFriendsListFull;
+
+  /// Title of the dialog shown when sending a friend request fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send friend request'**
+  String get addFriendSendFailedTitle;
+
+  /// Fallback body of the send friend request error dialog when the error has no specific message.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send the friend request. Try again.'**
+  String get addFriendSendFailedMessage;
 
   /// Tag label shown next to bot user names.
   ///
@@ -18256,6 +18262,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get uiConfirm;
+
+  /// Label of the single button that dismisses an error or info dialog after reading it.
+  ///
+  /// In en, this message translates to:
+  /// **'Understood'**
+  String get uiUnderstood;
 
   /// Accessible label announced while a control is loading.
   ///

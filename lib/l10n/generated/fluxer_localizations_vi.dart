@@ -1453,9 +1453,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Đã gửi lời mời kết bạn';
 
   @override
-  String get dmFriendRequestFailed => 'Không gửi được lời mời kết bạn';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Không thể chấp nhận lời mời kết bạn';
 
@@ -1587,6 +1584,13 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Danh sách bạn bè của bạn hoặc của họ đã đầy. Hãy xóa bớt một người và thử lại.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11053,6 +11057,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Xác nhận';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Đang tải';

@@ -1404,9 +1404,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get dmFriendRequestSentToast => '친구 요청 보냄';
 
   @override
-  String get dmFriendRequestFailed => '친구 요청 보내기 실패';
-
-  @override
   String get dmAcceptFriendRequestFailed => '친구 요청 수락 실패';
 
   @override
@@ -1528,6 +1525,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       '친구 목록이 가득 찼거나 상대방의 친구 목록이 가득 찼습니다. 친구를 삭제하고 다시 시도해 주세요.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -10575,6 +10579,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get uiConfirm => '확인';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => '로드 중';

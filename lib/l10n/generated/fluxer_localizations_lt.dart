@@ -1467,9 +1467,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Draugystės užklausa išsiųsta';
 
   @override
-  String get dmFriendRequestFailed => 'Nepavyko išsiųsti draugo užklausos';
-
-  @override
   String get dmAcceptFriendRequestFailed => 'Nepavyko priimti draugo užklausos';
 
   @override
@@ -1602,6 +1599,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Jūsų arba to naudotojo draugų sąrašas pilnas. Pašalinkite ką nors ir bandykite dar kartą.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11149,6 +11153,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Patvirtinti';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Įkeliama';

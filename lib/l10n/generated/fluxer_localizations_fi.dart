@@ -1458,9 +1458,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Kaveripyyntö lähetetty';
 
   @override
-  String get dmFriendRequestFailed => 'Kaveripyynnön lähettäminen epäonnistui';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Kaveripyynnön hyväksyminen epäonnistui';
 
@@ -1594,6 +1591,13 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Kaverilistasi on täynnä, tai sitten heidän listansa. Poista joku ja yritä uudelleen.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11066,6 +11070,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Vahvista';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Ladataan';

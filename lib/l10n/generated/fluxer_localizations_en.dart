@@ -1456,9 +1456,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Friend request sent';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
-
-  @override
   String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
 
   @override
@@ -1590,6 +1587,13 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Your friends list is full, or theirs is. Remove someone and try again.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -10994,6 +10998,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get uiConfirm => 'Confirm';
 
   @override
+  String get uiUnderstood => 'Understood';
+
+  @override
   String get uiLoading => 'Loading';
 
   @override
@@ -16779,9 +16786,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get dmFriendRequestSentToast => 'Friend request sent';
-
-  @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
 
   @override
   String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
@@ -30984,9 +30988,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get dmFriendRequestSentToast => 'Friend request sent';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
-
-  @override
   String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
 
   @override
@@ -31118,6 +31119,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get addFriendFriendsListFull =>
       'Your friends list is full, or theirs is. Remove someone and try again.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -39665,6 +39673,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get uiConfirm => 'Confirm';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Loading';

@@ -1442,9 +1442,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'ส่งคำขอเป็นเพื่อนแล้ว';
 
   @override
-  String get dmFriendRequestFailed => 'ส่งคำขอเป็นเพื่อนไม่สำเร็จ';
-
-  @override
   String get dmAcceptFriendRequestFailed => 'ยอมรับคำขอเป็นเพื่อนไม่สำเร็จ';
 
   @override
@@ -1573,6 +1570,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'รายชื่อเพื่อนของคุณหรือของอีกฝ่ายเต็มแล้ว ลบเพื่อนบางคนออกแล้วลองอีกครั้ง';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -10966,6 +10970,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'ยืนยัน';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'กำลังโหลด';

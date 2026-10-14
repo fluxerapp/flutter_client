@@ -1460,9 +1460,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Žádost o přátelství odeslána';
 
   @override
-  String get dmFriendRequestFailed => 'Odeslání žádosti o přátelství selhalo';
-
-  @override
   String get dmAcceptFriendRequestFailed =>
       'Přijetí žádosti o přátelství selhalo';
 
@@ -1596,6 +1593,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Váš seznam přátel nebo seznam druhého uživatele je plný. Někoho odeberte a zkuste to znovu.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11092,6 +11096,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Potvrdit';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Načítání';

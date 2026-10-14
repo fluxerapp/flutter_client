@@ -57,6 +57,7 @@ import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/pages/add_friend_page.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
@@ -1288,18 +1289,16 @@ class _DMListState extends ConsumerState<DMList> {
                   variant: FluxerToastVariant.success,
                 ),
               );
-        } on Object catch (_) {
+        } on Object catch (e) {
           if (!mounted) {
             break;
           }
-          ref
-              .read(toastProvider.notifier)
-              .show(
-                FluxerToast(
-                  message: l10n.dmFriendRequestFailed,
-                  variant: FluxerToastVariant.danger,
-                ),
-              );
+          await showApiError(
+            this.context,
+            ref,
+            ApiErrorAction.sendFriendRequest,
+            e,
+          );
         }
       case _DmAction.acceptFriendRequest:
         final l10n = FluxerLocalizations.of(context);

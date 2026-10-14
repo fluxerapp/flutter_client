@@ -1452,9 +1452,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get dmFriendRequestSentToast => 'Arkadaşlık isteği gönderildi';
 
   @override
-  String get dmFriendRequestFailed => 'Arkadaşlık isteği gönderilemedi';
-
-  @override
   String get dmAcceptFriendRequestFailed => 'Arkadaşlık isteği kabul edilemedi';
 
   @override
@@ -1586,6 +1583,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get addFriendFriendsListFull =>
       'Arkadaş listeniz veya karşı tarafın arkadaş listesi dolu. Birini çıkarıp tekrar deneyin.';
+
+  @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -11052,6 +11056,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get uiConfirm => 'Onayla';
+
+  @override
+  String get uiUnderstood => 'Understood';
 
   @override
   String get uiLoading => 'Yükleniyor';

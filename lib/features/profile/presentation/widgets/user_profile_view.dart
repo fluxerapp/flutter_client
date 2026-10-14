@@ -49,6 +49,7 @@ import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -249,6 +250,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
 
   Future<void> _handleRelationshipAction({
     required Future<void> Function() repoCall,
+    ApiErrorAction? errorAction,
     String? confirmTitle,
     String? confirmDescription,
     String? confirmPrimary,
@@ -275,6 +277,13 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         err,
         st,
       );
+      if (!mounted) {
+        return;
+      }
+      if (errorAction != null) {
+        await showApiError(context, ref, errorAction, err);
+        return;
+      }
       ref
           .read(toastProvider.notifier)
           .show(
@@ -486,6 +495,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                                   repoCall: () => ref
                                       .read(friendRepositoryProvider)
                                       .sendFriendRequest(userId),
+                                  errorAction: ApiErrorAction.sendFriendRequest,
                                 ),
                           ),
                           SizedBox(width: layout.s2),
