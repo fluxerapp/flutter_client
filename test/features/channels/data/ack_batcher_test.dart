@@ -78,6 +78,45 @@ FluxerClient _client(_BulkAckAdapter adapter) {
   return FluxerClient(dio);
 }
 
+class _HeldAckAdapter implements HttpClientAdapter {
+  final List<List<String>> sent = <List<String>>[];
+  Completer<void>? hold;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    final builder = BytesBuilder();
+    if (requestStream != null) {
+      await for (final chunk in requestStream) {
+        builder.add(chunk);
+      }
+    }
+    final body =
+        jsonDecode(utf8.decode(builder.takeBytes())) as Map<String, Object?>;
+    sent.add(<String>[
+      for (final Object? entry in body['read_states']! as List<Object?>)
+        (entry! as Map<String, Object?>)['message_id']! as String,
+    ]);
+    final Completer<void>? gate = hold;
+    if (gate != null) {
+      await gate.future;
+    }
+    return ResponseBody.fromString(
+      '{"read_states":[],"read_state_proto":""}',
+      200,
+      headers: {
+        Headers.contentTypeHeader: [Headers.jsonContentType],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
 void main() {
   test(
     'coalesces multiple acks into a single bulk HTTP after the delay',
@@ -374,6 +413,103 @@ void main() {
         unawaited(batcher.dispose());
         async.flushMicrotasks();
       });
+    });
+  });
+
+  group('acks queued while a request is in flight', () {
+    late _HeldAckAdapter adapter;
+    late AckBatcher batcher;
+
+    setUp(() {
+      adapter = _HeldAckAdapter()..hold = Completer<void>();
+      batcher = AckBatcher(
+        client: FluxerClient(
+          Dio(BaseOptions(baseUrl: 'https://example.test/v1'))
+            ..httpClientAdapter = adapter,
+        ),
+        batchDelay: Duration.zero,
+      );
+      addTearDown(batcher.dispose);
+    });
+
+    Future<void> release() async {
+      final Completer<void> gate = adapter.hold!;
+      adapter.hold = null;
+      gate.complete();
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      await batcher.flushPending(force: true);
+    }
+
+    test('a newer ack is sent after the request finishes', () async {
+      batcher.queue(
+        channelId: 'c',
+        messageId: '9',
+        immediate: true,
+        hadMentions: false,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      expect(adapter.sent, [
+        ['9'],
+      ]);
+
+      batcher.queue(
+        channelId: 'c',
+        messageId: '10',
+        immediate: true,
+        hadMentions: false,
+      );
+      await release();
+
+      expect(adapter.sent, [
+        ['9'],
+        ['10'],
+      ]);
+    });
+
+    test('the same ack queued again is not sent twice', () async {
+      batcher.queue(
+        channelId: 'c',
+        messageId: '9',
+        immediate: true,
+        hadMentions: false,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      batcher.queue(
+        channelId: 'c',
+        messageId: '9',
+        immediate: true,
+        hadMentions: false,
+      );
+      await release();
+
+      expect(adapter.sent, [
+        ['9'],
+      ]);
+    });
+
+    test('flushes waiting on the request do not resend', () async {
+      batcher.queue(
+        channelId: 'c',
+        messageId: '9',
+        immediate: true,
+        hadMentions: false,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      batcher.queue(
+        channelId: 'd',
+        messageId: '20',
+        immediate: true,
+        hadMentions: false,
+      );
+      final Future<void> first = batcher.flushPending(force: true);
+      final Future<void> second = batcher.flushPending(force: true);
+      await release();
+      await Future.wait(<Future<void>>[first, second]);
+
+      expect(adapter.sent, [
+        ['9'],
+        ['20'],
+      ]);
     });
   });
 }

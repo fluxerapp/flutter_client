@@ -14,6 +14,8 @@ const int kAckBatchSize = 100;
 const Duration kAckRetryBaseDelay = Duration(seconds: 5);
 const Duration kAckRetryMaxDelay = Duration(seconds: 60);
 
+typedef _SentAck = ({String channelId, String messageId});
+
 class _PendingAck {
   _PendingAck({required this.messageId, required this.deadline});
 
@@ -45,6 +47,7 @@ class AckBatcher {
   final Random _random;
 
   final Map<String, _PendingAck> _pending = {};
+  final Map<String, String> _inFlight = {};
   Timer? _flushTimer;
   Future<void>? _inflightFlush;
   bool _disposed = false;
@@ -79,6 +82,9 @@ class AckBatcher {
         ? now
         : now.add(_queueBatchDelay);
     final existing = _pending[channelId];
+    if (existing == null && _inFlight[channelId] == messageId) {
+      return;
+    }
     if (existing == null) {
       _pending[channelId] = _PendingAck(
         messageId: messageId,
@@ -95,12 +101,14 @@ class AckBatcher {
 
   void clear() {
     _pending.clear();
+    _inFlight.clear();
     _flushTimer?.cancel();
     _flushTimer = null;
   }
 
   void cancel(String channelId) {
     _pending.remove(channelId);
+    _inFlight.remove(channelId);
     if (_pending.isEmpty) {
       _flushTimer?.cancel();
       _flushTimer = null;
@@ -108,7 +116,7 @@ class AckBatcher {
   }
 
   Future<void> flushPending({bool force = false}) async {
-    if (_inflightFlush != null) {
+    while (_inflightFlush != null) {
       await _inflightFlush;
     }
     if (_pending.isEmpty) {
@@ -173,34 +181,41 @@ class AckBatcher {
       _rescheduleTimer();
       return;
     }
-    final due = Map<String, _PendingAck>.from(_pending);
+    final List<_SentAck> due = <_SentAck>[
+      for (final MapEntry<String, _PendingAck> entry in _pending.entries)
+        (channelId: entry.key, messageId: entry.value.messageId),
+    ];
 
-    final chunks = <List<MapEntry<String, _PendingAck>>>[];
-    final dueEntries = due.entries.toList();
-    for (var i = 0; i < dueEntries.length; i += batchSize) {
-      final end = (i + batchSize).clamp(0, dueEntries.length);
-      chunks.add(dueEntries.sublist(i, end));
+    final chunks = <List<_SentAck>>[];
+    for (var i = 0; i < due.length; i += batchSize) {
+      final end = (i + batchSize).clamp(0, due.length);
+      chunks.add(due.sublist(i, end));
     }
 
     for (final chunk in chunks) {
       final body = ReadStateAckRequest(
         readStates: chunk
             .map(
-              (e) => ReadStateAckRequestReadStates(
-                channelId: e.key,
-                messageId: e.value.messageId,
+              (_SentAck e) => ReadStateAckRequestReadStates(
+                channelId: e.channelId,
+                messageId: e.messageId,
               ),
             )
             .toList(),
       );
+      for (final _SentAck entry in chunk) {
+        _inFlight[entry.channelId] = entry.messageId;
+      }
       try {
         final response = await _client.readStates.ackReadStates(body: body);
+        _clearInFlight(chunk);
         _removeSent(chunk);
         final onResponse = this.onResponse;
         if (onResponse != null) {
           await onResponse(response);
         }
       } on Object catch (e, s) {
+        _clearInFlight(chunk);
         _logFailure('bulk ack chunk failed', e, s);
         if (_isRejected(e)) {
           _removeSent(chunk);
@@ -209,9 +224,9 @@ class AckBatcher {
         final int retryAfterMs = e is DioException
             ? retryAfterMsFromDioException(e) ?? 0
             : 0;
-        for (final entry in chunk) {
-          final current = _pending[entry.key];
-          if (current == null) {
+        for (final _SentAck entry in chunk) {
+          final current = _pending[entry.channelId];
+          if (current == null || current.messageId != entry.messageId) {
             continue;
           }
           current.attempt += 1;
@@ -225,11 +240,19 @@ class AckBatcher {
     _rescheduleTimer();
   }
 
-  void _removeSent(List<MapEntry<String, _PendingAck>> chunk) {
-    for (final entry in chunk) {
-      final current = _pending[entry.key];
-      if (current != null && current.messageId == entry.value.messageId) {
-        _pending.remove(entry.key);
+  void _removeSent(List<_SentAck> chunk) {
+    for (final _SentAck entry in chunk) {
+      final current = _pending[entry.channelId];
+      if (current != null && current.messageId == entry.messageId) {
+        _pending.remove(entry.channelId);
+      }
+    }
+  }
+
+  void _clearInFlight(List<_SentAck> chunk) {
+    for (final _SentAck entry in chunk) {
+      if (_inFlight[entry.channelId] == entry.messageId) {
+        _inFlight.remove(entry.channelId);
       }
     }
   }
