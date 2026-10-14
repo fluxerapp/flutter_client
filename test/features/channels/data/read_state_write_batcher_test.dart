@@ -130,20 +130,63 @@ void main() {
     expect(batcher.hasPending(channelId), isTrue);
   });
 
-  test(
-    'held overlay clears after reconcile matches persisted read state',
-    () async {
-      const channelId = 'guild-channel-reconcile';
-      enqueue(channelId, '200', mention: true, seed: '100');
-      await batcher.flush(channelId);
+  test('held overlay clears once the flush write lands', () async {
+    const channelId = 'guild-channel-reconcile';
+    enqueue(channelId, '200', mention: true, seed: '100');
+    expect(batcher.effectiveFields(channelId, null).mentionCount, 1);
 
-      batcher.reconcilePersisted(
-        channelId,
-        await db.readStateDao.getReadState(channelId),
-      );
-      expect(batcher.overlayChannelIds(), isEmpty);
-    },
-  );
+    await batcher.flush(channelId);
+    expect(batcher.overlayChannelIds(), isEmpty);
+    expect((await db.readStateDao.getReadState(channelId))?.mentionCount, 1);
+  });
+
+  test('a flush that writes nothing leaves no overlay behind', () async {
+    const channelId = 'guild-channel-plain';
+    await db.readStateDao.upsertReadState(
+      const ReadStatesCompanion(
+        channelId: Value(channelId),
+        lastMessageId: Value('100'),
+        mentionCount: Value(1),
+      ),
+    );
+    enqueue(channelId, '200', mention: false);
+    await batcher.flush(channelId);
+    expect(batcher.overlayChannelIds(), isEmpty);
+
+    const ReadState read = ReadState(
+      channelId: channelId,
+      lastMessageId: '200',
+      mentionCount: 0,
+      manual: false,
+    );
+    final effective = batcher.effectiveFields(channelId, read);
+    expect(effective.mentionCount, 0);
+    expect(effective.lastMessageId, '200');
+  });
+
+  test('an ack flush leaves no overlay over a later mark unread', () async {
+    const channelId = 'guild-channel-ack';
+    batcher.enqueueAck(
+      channelId: channelId,
+      messageId: '300',
+      isDm: false,
+      clearSticky: true,
+      markDmRead: false,
+    );
+    await batcher.flushAck(channelId);
+    expect(batcher.overlayChannelIds(), isEmpty);
+
+    const ReadState markedUnread = ReadState(
+      channelId: channelId,
+      lastMessageId: '200',
+      mentionCount: 0,
+      manual: true,
+    );
+    expect(
+      batcher.effectiveFields(channelId, markedUnread).lastMessageId,
+      '200',
+    );
+  });
 
   test('discard drops pending increments without writing', () async {
     const channelId = 'guild-channel-4';

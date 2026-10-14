@@ -38,7 +38,7 @@ class ReadStateWriteBatcher {
   final Map<String, _PendingAck> _pendingAcks = <String, _PendingAck>{};
   final Map<String, Future<void>> _flushing = <String, Future<void>>{};
   final Map<String, DateTime> _lastUnreadFlushAt = <String, DateTime>{};
-  final Map<String, _HeldReadStateOverlay> _heldUntilReconciled =
+  final Map<String, _HeldReadStateOverlay> _heldWhileWriting =
       <String, _HeldReadStateOverlay>{};
   bool _disposed = false;
 
@@ -52,13 +52,13 @@ class ReadStateWriteBatcher {
   Set<String> overlayChannelIds() => <String>{
     ..._pending.keys,
     ..._pendingAcks.keys,
-    ..._heldUntilReconciled.keys,
+    ..._heldWhileWriting.keys,
   };
 
   bool hasOverlay(String channelId) =>
       _pending.containsKey(channelId) ||
       _pendingAcks.containsKey(channelId) ||
-      _heldUntilReconciled.containsKey(channelId);
+      _heldWhileWriting.containsKey(channelId);
 
   ReadStateEffectiveFields effectiveFields(
     String channelId,
@@ -67,7 +67,7 @@ class ReadStateWriteBatcher {
     String? lastMessageId = persisted?.lastMessageId;
     var mentionCount = persisted?.mentionCount ?? 0;
 
-    final _HeldReadStateOverlay? held = _heldUntilReconciled[channelId];
+    final _HeldReadStateOverlay? held = _heldWhileWriting[channelId];
     if (held != null) {
       lastMessageId = held.lastMessageId ?? lastMessageId;
       mentionCount = held.mentionCount;
@@ -104,25 +104,6 @@ class ReadStateWriteBatcher {
       lastMessageId: lastMessageId,
       mentionCount: mentionCount,
     );
-  }
-
-  void reconcilePersisted(String channelId, ReadState? persisted) {
-    final _HeldReadStateOverlay? held = _heldUntilReconciled[channelId];
-    if (held == null) {
-      return;
-    }
-    final int persistedMentions = persisted?.mentionCount ?? 0;
-    if (persistedMentions < held.mentionCount) {
-      return;
-    }
-    final String? ack = persisted?.lastMessageId;
-    if (held.lastMessageId != null &&
-        held.lastMessageId!.isNotEmpty &&
-        (ack == null || compareSnowflakeIds(ack, held.lastMessageId) < 0)) {
-      return;
-    }
-    _heldUntilReconciled.remove(channelId);
-    _bumpOverlay();
   }
 
   void enqueueUnread({
@@ -216,10 +197,11 @@ class ReadStateWriteBatcher {
     if (messageId == null) {
       return Future<void>.value();
     }
-    _heldUntilReconciled[channelId] = _HeldReadStateOverlay(
+    final _HeldReadStateOverlay held = _HeldReadStateOverlay(
       lastMessageId: messageId,
       mentionCount: 0,
     );
+    _heldWhileWriting[channelId] = held;
     _bumpOverlay();
     final Future<void> future = _applyAckFlush(
       channelId: channelId,
@@ -229,7 +211,18 @@ class ReadStateWriteBatcher {
       markDmRead: pending.markDmRead,
     );
     _flushing['ack:$channelId'] = future;
-    return future.whenComplete(() => _flushing.remove('ack:$channelId'));
+    return future.whenComplete(() {
+      unawaited(_flushing.remove('ack:$channelId'));
+      _releaseHeld(channelId, held);
+    });
+  }
+
+  void _releaseHeld(String channelId, _HeldReadStateOverlay held) {
+    if (!identical(_heldWhileWriting[channelId], held)) {
+      return;
+    }
+    _heldWhileWriting.remove(channelId);
+    _bumpOverlay();
   }
 
   void discard(String channelId) {
@@ -237,7 +230,7 @@ class ReadStateWriteBatcher {
     pending?.timer.cancel();
     final _PendingAck? ack = _pendingAcks.remove(channelId);
     ack?.timer.cancel();
-    _heldUntilReconciled.remove(channelId);
+    _heldWhileWriting.remove(channelId);
     _bumpOverlay();
   }
 
@@ -259,7 +252,7 @@ class ReadStateWriteBatcher {
     }
     _pending.clear();
     _pendingAcks.clear();
-    _heldUntilReconciled.clear();
+    _heldWhileWriting.clear();
     _bumpOverlay();
   }
 
@@ -298,14 +291,18 @@ class ReadStateWriteBatcher {
           )
           .toList(),
     );
-    _heldUntilReconciled[channelId] = _HeldReadStateOverlay(
+    final _HeldReadStateOverlay held = _HeldReadStateOverlay(
       lastMessageId: preview.lastMessageId,
       mentionCount: preview.mentionCount,
     );
+    _heldWhileWriting[channelId] = held;
     _bumpOverlay();
     final Future<void> future = _applyFlush(channelId, pending);
     _flushing[channelId] = future;
-    await future.whenComplete(() => _flushing.remove(channelId));
+    await future.whenComplete(() {
+      unawaited(_flushing.remove(channelId));
+      _releaseHeld(channelId, held);
+    });
   }
 
   Future<void> _applyFlush(String channelId, _PendingUnread pending) async {
