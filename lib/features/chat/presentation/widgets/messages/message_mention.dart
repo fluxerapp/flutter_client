@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/channels/utils/channel_mention_utils.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_denied_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
@@ -280,12 +281,14 @@ class _MentionPillState extends State<_MentionPill> {
     return MouseRegion(
       onEnter: (_) => _setActive(true),
       onExit: (_) => _setActive(false),
-      child: FluxerGestureDetector(
-        onTap: onTap,
-        onTapDown: (_) => _setActive(true),
-        onTapUp: (_) => _setActive(false),
-        onTapCancel: () => _setActive(false),
-        child: pill,
+      child: MessageDoubleTapExempt(
+        child: FluxerGestureDetector(
+          onTap: onTap,
+          onTapDown: (_) => _setActive(true),
+          onTapUp: (_) => _setActive(false),
+          onTapCancel: () => _setActive(false),
+          child: pill,
+        ),
       ),
     );
   }

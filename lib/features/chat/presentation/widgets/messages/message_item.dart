@@ -2358,7 +2358,19 @@ class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {
 
   @override
   bool isPointerAllowed(PointerDownEvent event) =>
-      !ignoresPointer(event.pointer) && super.isPointerAllowed(event);
+      !ignoresPointer(event.pointer) &&
+      !_hitsTappableTextSpan(event) &&
+      super.isPointerAllowed(event);
+
+  static bool _hitsTappableTextSpan(PointerDownEvent event) {
+    final HitTestResult result = HitTestResult();
+    GestureBinding.instance.hitTestInView(result, event.position, event.viewId);
+    return result.path.any(
+      (HitTestEntry entry) =>
+          entry.target is TextSpan &&
+          (entry.target as TextSpan).recognizer != null,
+    );
+  }
 }
 
 class _MessageAuthorScope extends ConsumerWidget {
