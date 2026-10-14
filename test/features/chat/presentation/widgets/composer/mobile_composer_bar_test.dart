@@ -1,14 +1,19 @@
 import 'dart:math' as math;
 
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
@@ -35,6 +40,52 @@ double _lineHeight(WidgetTester tester) =>
 
 double _restHeight(WidgetTester tester) =>
     math.max(58, _lineHeight(tester) + 36);
+
+Finder _strip() => find.byKey(ChannelAttachmentArea.stripKey);
+
+class _Uploads extends CloudUploadController {
+  _Uploads(this._initial);
+
+  final List<PendingAttachment> _initial;
+
+  @override
+  CloudComposerAttachments build(String channelId) =>
+      CloudComposerAttachments(_initial);
+
+  void set(List<PendingAttachment> items) =>
+      state = CloudComposerAttachments(items);
+}
+
+PendingAttachment _file(int id) {
+  return PendingAttachment(
+    id: id,
+    channelId: kComposerHarnessChannelA,
+    file: XFile('/nowhere/notes-$id.txt'),
+    filename: 'notes-$id.txt',
+    size: 2048,
+    contentType: 'text/plain',
+    status: PendingAttachmentStatus.uploading,
+    uploadProgress: 0.5,
+  );
+}
+
+Future<(ProviderContainer, _Uploads)> _pumpWithUploads(
+  WidgetTester tester,
+  List<PendingAttachment> items,
+) async {
+  final _Uploads uploads = _Uploads(items);
+  final ProviderContainer container = await pumpComposerChannelTextareaHarness(
+    tester,
+    extraOverrides: [
+      cloudUploadControllerProvider(
+        kComposerHarnessChannelA,
+      ).overrideWith(() => uploads),
+    ],
+  );
+  await tester.enterText(channelComposerField(), '');
+  await tester.pumpAndSettle();
+  return (container, uploads);
+}
 
 Future<void> _release(WidgetTester tester) async {
   FocusManager.instance.primaryFocus?.unfocus();
@@ -267,6 +318,95 @@ void main() {
     await gesture.cancel();
     await tester.pump();
     expect(opacity(), 1);
+    await _release(tester);
+  });
+
+  testWidgets('pending attachments sit inside the bar above the text row', (
+    tester,
+  ) async {
+    final (ProviderContainer container, _) = await _pumpWithUploads(
+      tester,
+      <PendingAttachment>[_file(1)],
+    );
+    readMutableChatViewModel(container).setReplyingTo(_reply());
+    await tester.pumpAndSettle();
+
+    expect(find.descendant(of: _bar(), matching: _strip()), findsOneWidget);
+    expect(
+      find.descendant(
+        of: _bar(),
+        matching: find.byKey(ChannelAttachmentArea.uploadProgressKey),
+      ),
+      findsOneWidget,
+    );
+    final Rect bar = tester.getRect(_bar());
+    final Rect reply = tester.getRect(find.byType(ReplyInputBar));
+    final Rect strip = tester.getRect(_strip());
+    final Rect field = tester.getRect(channelComposerField());
+    expect(reply.top, greaterThanOrEqualTo(bar.top));
+    expect(strip.top, greaterThanOrEqualTo(reply.bottom));
+    expect(field.top, greaterThan(strip.bottom));
+    expect(bar.top - tester.getRect(find.byType(ChannelTextarea)).top, 4);
+    expect(tester.getRect(_attach()).center.dy, bar.bottom - 29);
+    await _release(tester);
+  });
+
+  testWidgets('adding and removing attachments animates the bar height', (
+    tester,
+  ) async {
+    final (_, _Uploads uploads) = await _pumpWithUploads(
+      tester,
+      const <PendingAttachment>[],
+    );
+    final double rest = tester.getRect(_bar()).height;
+
+    uploads.set(<PendingAttachment>[_file(1)]);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 80));
+    final double growing = tester.getRect(_bar()).height;
+    await tester.pumpAndSettle();
+    final double grown = tester.getRect(_bar()).height;
+    expect(grown, greaterThan(rest + 150));
+    expect(growing, greaterThan(rest));
+    expect(growing, lessThan(grown));
+
+    uploads.set(const <PendingAttachment>[]);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 80));
+    final double shrinking = tester.getRect(_bar()).height;
+    expect(shrinking, greaterThan(rest));
+    expect(shrinking, lessThan(grown));
+    await tester.pumpAndSettle();
+    expect(tester.getRect(_bar()).height, rest);
+    await _release(tester);
+  });
+
+  testWidgets('a tall header scrolls inside the bar with the keyboard up', (
+    tester,
+  ) async {
+    final (ProviderContainer container, _) = await _pumpWithUploads(
+      tester,
+      <PendingAttachment>[_file(1), _file(2)],
+    );
+    readMutableChatViewModel(container).setReplyingTo(_reply());
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.viewInsets = const FakeViewPadding(bottom: 260);
+    addTearDown(tester.view.resetViewInsets);
+    await tester.pumpAndSettle();
+
+    final Finder header = find.byKey(
+      const ValueKey<String>('mobile-composer-header'),
+    );
+    final double headerHeight = tester.getRect(header).height;
+    expect(headerHeight, closeTo((568 - 260) * 0.35, 0.5));
+    final ScrollableState scroll = tester.state<ScrollableState>(
+      find.descendant(of: header, matching: find.byType(Scrollable)).first,
+    );
+    expect(scroll.position.maxScrollExtent, greaterThan(0));
+    await tester.drag(header, const Offset(0, -200));
+    await tester.pumpAndSettle();
+    expect(scroll.position.pixels, scroll.position.maxScrollExtent);
+    expect(tester.takeException(), isNull);
     await _release(tester);
   });
 }

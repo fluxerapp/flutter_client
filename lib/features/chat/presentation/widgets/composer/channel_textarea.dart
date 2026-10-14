@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -1051,7 +1052,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           mobileComposer &&
               (slashParamBarVisible ||
                   replyTo != null ||
-                  editingMessage != null)
+                  editingMessage != null ||
+                  hasAttachments)
           ? Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -1071,6 +1073,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   ),
                 if (editingMessage != null)
                   EditingInputBar(onCancel: chatNotifier.cancelEdit),
+                if (hasAttachments)
+                  ChannelAttachmentArea(
+                    channelId: channelId,
+                    animateSize: false,
+                  ),
               ],
             )
           : null,
@@ -1082,7 +1089,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ChannelAttachmentArea(channelId: channelId),
           Padding(
             padding: const EdgeInsets.fromLTRB(
               MobileComposerLayout.sideInset,
@@ -1206,7 +1212,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                 wideComposerAction: true,
               ),
             ),
-          ChannelAttachmentArea(channelId: channelId, wideComposerAction: true),
+          ChannelAttachmentArea(channelId: channelId),
         ],
       ),
     );
@@ -1721,6 +1727,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             MobileComposerBar(
               key: const ValueKey<String>('mobile-composer-bar'),
               header: header,
+              headerMaxHeight: mobileComposerHeaderMaxHeight(
+                screenHeight: MediaQuery.sizeOf(context).height,
+                topInset: MediaQuery.paddingOf(context).top,
+                keyboardHeight: math.max(
+                  resolvedKeyboardInsetBottom(context),
+                  ref.watch(
+                    bottomInputSlotProvider.select(
+                      (BottomInputSlotState state) => state.slotHeight,
+                    ),
+                  ),
+                ),
+              ),
               child: _voiceComposerMorph(
                 recording: recording,
                 recordingChild: VoiceMessageRecordingBar(

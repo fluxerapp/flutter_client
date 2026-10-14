@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
@@ -37,6 +39,7 @@ abstract final class MobileComposerLayout {
   static const double textInsetY = 7;
   static const int maxLines = 9;
   static const double headerHeight = 32;
+  static const double headerMaxFraction = 0.35;
   static const double headerInsetStart = 13;
   static const double headerInsetEnd = 10;
   static const double pressedOpacity = 0.3;
@@ -48,10 +51,28 @@ abstract final class MobileComposerLayout {
   static const Duration pressFade = Duration(milliseconds: 60);
 }
 
+double mobileComposerHeaderMaxHeight({
+  required double screenHeight,
+  required double topInset,
+  required double keyboardHeight,
+}) {
+  final double available = screenHeight - topInset - keyboardHeight;
+  return math.max(
+    MobileComposerLayout.headerHeight,
+    available * MobileComposerLayout.headerMaxFraction,
+  );
+}
+
 class MobileComposerBar extends StatelessWidget {
-  const MobileComposerBar({required this.child, this.header, super.key});
+  const MobileComposerBar({
+    required this.child,
+    this.header,
+    this.headerMaxHeight = double.infinity,
+    super.key,
+  });
 
   final Widget? header;
+  final double headerMaxHeight;
   final Widget child;
 
   @override
@@ -74,10 +95,19 @@ class MobileComposerBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           AnimatedSize(
-            duration: MobileComposerLayout.resize,
-            curve: Curves.easeOut,
+            duration: context.motion.panel,
+            curve: Curves.easeOutCubic,
             alignment: Alignment.bottomCenter,
-            child: header ?? const SizedBox(width: double.infinity, height: 0),
+            child: header == null
+                ? const SizedBox(width: double.infinity, height: 0)
+                : ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: headerMaxHeight),
+                    child: SingleChildScrollView(
+                      key: const ValueKey<String>('mobile-composer-header'),
+                      physics: const ClampingScrollPhysics(),
+                      child: header,
+                    ),
+                  ),
           ),
           child,
         ],

@@ -15,14 +15,15 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class ChannelAttachmentArea extends ConsumerWidget {
   const ChannelAttachmentArea({
     required this.channelId,
-    this.wideComposerAction = false,
+    this.animateSize = true,
     super.key,
   });
 
   final String channelId;
-  final bool wideComposerAction;
+  final bool animateSize;
 
   static const Key uploadProgressKey = Key('composer-attachment-progress');
+  static const Key stripKey = Key('composer-attachment-strip');
   static const double _kAttachmentListHeight = 150;
 
   @override
@@ -30,19 +31,18 @@ class ChannelAttachmentArea extends ConsumerWidget {
     final List<PendingAttachment> attachments = ref
         .watch(cloudUploadControllerProvider(channelId))
         .items;
-    final bool hasAttachments = attachments.isNotEmpty;
+    final Widget body = attachments.isNotEmpty
+        ? _AttachmentAreaBody(channelId: channelId, attachments: attachments)
+        : const SizedBox(width: double.infinity, height: 0);
+    if (!animateSize) {
+      return body;
+    }
     return ClipRect(
       child: AnimatedSize(
         duration: context.motion.panel,
         curve: Curves.easeOutCubic,
         alignment: Alignment.bottomCenter,
-        child: hasAttachments
-            ? _AttachmentAreaBody(
-                channelId: channelId,
-                attachments: attachments,
-                wideComposerAction: wideComposerAction,
-              )
-            : const SizedBox(width: double.infinity, height: 0),
+        child: body,
       ),
     );
   }
@@ -52,12 +52,10 @@ class _AttachmentAreaBody extends ConsumerWidget {
   const _AttachmentAreaBody({
     required this.channelId,
     required this.attachments,
-    required this.wideComposerAction,
   });
 
   final String channelId;
   final List<PendingAttachment> attachments;
-  final bool wideComposerAction;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,11 +63,9 @@ class _AttachmentAreaBody extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (!wideComposerAction) const Divider(),
         Container(
-          margin: wideComposerAction
-              ? const EdgeInsets.only(bottom: 6, top: 6)
-              : const EdgeInsets.only(bottom: 6, top: 8),
+          key: ChannelAttachmentArea.stripKey,
+          margin: const EdgeInsets.symmetric(vertical: 6),
           height: ChannelAttachmentArea._kAttachmentListHeight,
           child: ReorderableListView.builder(
             scrollDirection: Axis.horizontal,
