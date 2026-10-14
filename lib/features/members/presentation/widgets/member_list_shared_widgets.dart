@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/utils/member_list_access.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -294,7 +295,7 @@ class MemberListDetailsMemberShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = context.colors.backgroundSecondaryAlt;
+    final Color backgroundColor = FluxerBottomSheet.cardColorOf(context);
     final Color dividerColor = context.colors.backgroundHeaderSecondary
         .withValues(alpha: 0.3);
     final BorderRadius borderRadius = BorderRadius.only(
