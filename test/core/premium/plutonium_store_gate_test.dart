@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
+import 'package:fluxer_app/core/premium/app_store_distribution.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 
 enum _Build { ios, androidFcm, androidOss }
@@ -143,6 +144,96 @@ void main() {
     });
   });
 
+  group('iOS App Store distribution', () {
+    const Map<AppStoreDistribution, bool> official =
+        <AppStoreDistribution, bool>{
+          AppStoreDistribution.production: true,
+          AppStoreDistribution.testflight: false,
+          AppStoreDistribution.development: false,
+          AppStoreDistribution.unknown: false,
+        };
+    const Map<AppStoreDistribution, bool> officialWithSandboxToggle =
+        <AppStoreDistribution, bool>{
+          AppStoreDistribution.production: true,
+          AppStoreDistribution.testflight: true,
+          AppStoreDistribution.development: false,
+          AppStoreDistribution.unknown: false,
+        };
+
+    bool resolve({
+      required AppStoreDistribution distribution,
+      required bool officialInstance,
+      required bool sandboxPurchases,
+    }) {
+      return resolvePremiumStorePurchasesEnabled(
+        isAndroid: false,
+        isIOS: true,
+        pushProvider: PushProviderKind.apple,
+        officialInstance: officialInstance,
+        appStoreDistribution: distribution,
+        sandboxPurchases: sandboxPurchases,
+      );
+    }
+
+    for (final AppStoreDistribution distribution
+        in AppStoreDistribution.values) {
+      test('${distribution.name} on official', () {
+        expect(
+          resolve(
+            distribution: distribution,
+            officialInstance: true,
+            sandboxPurchases: false,
+          ),
+          official[distribution],
+        );
+      });
+
+      test('${distribution.name} on official with the sandbox toggle', () {
+        expect(
+          resolve(
+            distribution: distribution,
+            officialInstance: true,
+            sandboxPurchases: true,
+          ),
+          officialWithSandboxToggle[distribution],
+        );
+      });
+
+      for (final bool sandboxPurchases in <bool>[false, true]) {
+        test(
+          '${distribution.name} on self-hosted, toggle $sandboxPurchases',
+          () {
+            expect(
+              resolve(
+                distribution: distribution,
+                officialInstance: false,
+                sandboxPurchases: sandboxPurchases,
+              ),
+              isFalse,
+            );
+          },
+        );
+      }
+    }
+
+    test('Android ignores the App Store distribution', () {
+      for (final AppStoreDistribution distribution
+          in AppStoreDistribution.values) {
+        expect(
+          resolvePremiumStorePurchasesEnabled(
+            isAndroid: true,
+            isIOS: false,
+            pushProvider: PushProviderKind.firebaseMessaging,
+            officialInstance: true,
+            appStoreDistribution: distribution,
+            sandboxPurchases: false,
+          ),
+          isTrue,
+        );
+      }
+    });
+  });
+
   group('purchase matrix', () {
     for (final _Cell cell in _matrix) {
       test('${cell.build.name} on ${cell.instance.name}', () {
@@ -155,6 +246,8 @@ void main() {
           isIOS: cell.build == _Build.ios,
           pushProvider: pushProvider,
           officialInstance: official,
+          appStoreDistribution: AppStoreDistribution.production,
+          sandboxPurchases: false,
         );
         final bool commerceVisible = resolvePremiumCommerceVisible(
           selfHosted: !official,
@@ -187,6 +280,8 @@ void main() {
             isIOS: false,
             pushProvider: pushProvider,
             officialInstance: true,
+            appStoreDistribution: AppStoreDistribution.production,
+            sandboxPurchases: true,
           ),
           isFalse,
         );

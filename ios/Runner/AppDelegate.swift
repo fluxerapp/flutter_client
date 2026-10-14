@@ -125,6 +125,9 @@ import flutter_callkit_incoming
     AttachmentMediaBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
+    AppStoreDistributionBridge.shared.register(
+      messenger: engineBridge.applicationRegistrar.messenger()
+    )
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {

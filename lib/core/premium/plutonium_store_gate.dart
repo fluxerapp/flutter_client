@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/premium/app_store_distribution.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 
 bool resolvePremiumStorePage({
@@ -31,6 +32,8 @@ bool resolvePremiumStorePurchasesEnabled({
   required bool isIOS,
   required PushProviderKind pushProvider,
   required bool officialInstance,
+  required AppStoreDistribution appStoreDistribution,
+  required bool sandboxPurchases,
 }) {
   if (!officialInstance) {
     return false;
@@ -39,9 +42,24 @@ bool resolvePremiumStorePurchasesEnabled({
     return pushProvider == PushProviderKind.firebaseMessaging;
   }
   if (isIOS) {
-    return pushProvider == PushProviderKind.apple;
+    return pushProvider == PushProviderKind.apple &&
+        resolveAppStorePurchaseDistribution(
+          distribution: appStoreDistribution,
+          sandboxPurchases: sandboxPurchases,
+        );
   }
   return false;
+}
+
+bool resolveAppStorePurchaseDistribution({
+  required AppStoreDistribution distribution,
+  required bool sandboxPurchases,
+}) {
+  return switch (distribution) {
+    AppStoreDistribution.production => true,
+    AppStoreDistribution.testflight => sandboxPurchases,
+    AppStoreDistribution.development || AppStoreDistribution.unknown => false,
+  };
 }
 
 bool resolvePremiumCommerceVisible({
@@ -71,10 +89,18 @@ bool resolvePremiumBillingNavVisible({
 }
 
 final premiumStorePurchasesEnabledProvider = Provider<bool>((Ref ref) {
+  final bool officialInstance = ref.watch(isActiveInstanceOfficialProvider);
+  final bool appStore = Platform.isIOS && officialInstance;
   return resolvePremiumStorePurchasesEnabled(
     isAndroid: Platform.isAndroid,
     isIOS: Platform.isIOS,
     pushProvider: AppBuildConfig.pushProvider,
-    officialInstance: ref.watch(isActiveInstanceOfficialProvider),
+    officialInstance: officialInstance,
+    appStoreDistribution: appStore
+        ? ref.watch(appStoreDistributionProvider).value ??
+              AppStoreDistribution.unknown
+        : AppStoreDistribution.unknown,
+    sandboxPurchases:
+        appStore && (ref.watch(sandboxStorePurchasesProvider).value ?? false),
   );
 });

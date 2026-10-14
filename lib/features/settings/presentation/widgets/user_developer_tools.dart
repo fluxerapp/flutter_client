@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/app_store_distribution.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/native_markdown_tester.dart';
@@ -262,6 +264,28 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
               ),
             ],
           ),
+          if (Platform.isIOS)
+            FluxerSettingsSection(
+              sectionId: 'developer-tools-sandbox-purchases',
+              title: 'App Store purchases',
+              description:
+                  'Install: ${ref.watch(appStoreDistributionProvider).value?.name ?? AppStoreDistribution.unknown.name}',
+              children: [
+                FluxerSettingsSwitchItem(
+                  label: 'Sandbox purchases in TestFlight',
+                  description:
+                      'Show Plutonium purchases in TestFlight builds to test '
+                      'sandbox purchases. Stays on this device.',
+                  value:
+                      ref.watch(sandboxStorePurchasesProvider).value ?? false,
+                  onChanged: (bool value) => unawaited(
+                    ref
+                        .read(sandboxStorePurchasesProvider.notifier)
+                        .setEnabled(value: value),
+                  ),
+                ),
+              ],
+            ),
           const FluxerSettingsSection(
             sectionId: 'developer-tools-native-markdown',
             title: 'Native markdown parser',

@@ -74,6 +74,7 @@
 		FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */; };
 		FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */; };
 		FBC1A0082F9E220100EA2F07 /* AttachmentMediaBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */; };
+		FBC1A00A2F9E220100EA2F09 /* AppStoreDistributionBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */; };
 		FBF7EE55306987EF00160D72 /* AppIconStarfield.icon in Resources */ = {isa = PBXBuildFile; fileRef = FBF7EE54306987EF00160D72 /* AppIconStarfield.icon */; };
 		FBF7EE57306989E000160D72 /* AppIconSweden.icon in Resources */ = {isa = PBXBuildFile; fileRef = FBF7EE56306989E000160D72 /* AppIconSweden.icon */; };
 		FBF9A1112F9E120000EA2D01 /* AppIconGreyscale.icon in Resources */ = {isa = PBXBuildFile; fileRef = FBF9A1012F9E120000EA2D01 /* AppIconGreyscale.icon */; };
@@ -291,6 +292,7 @@
 		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
 		FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSpeakerRoute.swift; sourceTree = "<group>"; };
 		FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentMediaBridge.swift; sourceTree = "<group>"; };
+		FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreDistributionBridge.swift; sourceTree = "<group>"; };
 		FBF7EE54306987EF00160D72 /* AppIconStarfield.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconStarfield.icon; sourceTree = "<group>"; };
 		FBF7EE56306989E000160D72 /* AppIconSweden.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconSweden.icon; sourceTree = "<group>"; };
 		FBF9A1012F9E120000EA2D01 /* AppIconGreyscale.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconGreyscale.icon; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 				FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */,
 				FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */,
 				FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */,
+				FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */,
 				FC0A55157A00000100000010 /* Assistant */,
 				7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
@@ -982,6 +985,7 @@
 				FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */,
 				FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */,
 				FBC1A0082F9E220100EA2F07 /* AttachmentMediaBridge.swift in Sources */,
+				FBC1A00A2F9E220100EA2F09 /* AppStoreDistributionBridge.swift in Sources */,
 				FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */,
 				FB0AE0222F5C96000078A522 /* SnowflakeTime.swift in Sources */,
 				FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */,

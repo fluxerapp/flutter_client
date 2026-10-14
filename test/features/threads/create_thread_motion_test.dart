@@ -441,9 +441,10 @@ Future<void> _expectClosesIntoThread(
 }
 
 void main() {
-  const TargetPlatformVariant phones = TargetPlatformVariant(
-    <TargetPlatform>{TargetPlatform.iOS, TargetPlatform.android},
-  );
+  const TargetPlatformVariant phones = TargetPlatformVariant(<TargetPlatform>{
+    TargetPlatform.iOS,
+    TargetPlatform.android,
+  });
 
   testWidgets('hands the action sheet scrim to the create sheet', (
     WidgetTester tester,
