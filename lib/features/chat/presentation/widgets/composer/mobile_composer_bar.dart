@@ -7,6 +7,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 abstract final class MobileComposerLayout {
   const MobileComposerLayout._();
   static const double sideInset = 16;
+  static const double nekoInsetEnd =
+      sideInset +
+      WideComposerLayout.mobileStatusRailPaddingInline -
+      WideComposerLayout.boxInset;
   static const double topInset = WideComposerLayout.mobileComposerTopInset;
   static const double bottomGap = kMobileComposerBottomGap;
   static const double radius = 16;

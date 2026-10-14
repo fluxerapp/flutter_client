@@ -102,4 +102,50 @@ void main() {
     expect(find.text('typing'), findsOneWidget);
     expect(find.text('slowmode'), findsOneWidget);
   });
+
+  testWidgets('neko sits over the mobile composer bar end corner', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final FluxerColorTheme colorTheme = buildDarkColorTheme();
+    const Key nekoKey = Key('neko');
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(
+            body: SizedBox(
+              height: WideComposerLayout.statusFadeScrolledHeight,
+              width: 390,
+              child: ChannelChatComposerBoundary(
+                channelId: '',
+                applyWallpaper: false,
+                leadingStatus: SizedBox.shrink(),
+                trailingStatuses: <Widget>[],
+                neko: SizedBox(
+                  key: nekoKey,
+                  width: kNekoSpriteSize,
+                  height: kNekoSpriteSize,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final Rect neko = tester.getRect(find.byKey(nekoKey));
+    final double barEnd = 390 - MobileComposerLayout.sideInset;
+    expect(neko.right, 390 - MobileComposerLayout.nekoInsetEnd);
+    expect(neko.right, lessThan(barEnd));
+    expect(barEnd - neko.right, lessThan(MobileComposerLayout.radius));
+  });
 }

@@ -601,7 +601,9 @@ class ChannelChatComposerBoundary extends ConsumerWidget {
         ),
         if (neko != null)
           Positioned(
-            right: statusRailPadding,
+            right: isMobile
+                ? MobileComposerLayout.nekoInsetEnd
+                : statusRailPadding,
             bottom: nekoBottom,
             child: neko!,
           ),
