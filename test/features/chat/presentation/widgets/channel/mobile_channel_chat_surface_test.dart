@@ -18,10 +18,12 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_details_drawer_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -31,11 +33,13 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_prov
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/swipe_right_to_left_action_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
@@ -882,6 +886,196 @@ void main() {
       },
     );
   });
+
+  group('DM channel details drawer', () {
+    testWidgets('a header tap in a group DM opens the details drawer', (
+      WidgetTester tester,
+    ) async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: _dmDrawerOverrides(),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const DMLayout(channelId: _channelId),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      await tester.tap(find.text(_groupDmName).first);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(container.read(channelDetailsDrawerProvider), isNotNull);
+      expect(find.byKey(kChannelDetailsDrawerPanelKey), findsOneWidget);
+      expect(
+        tester.getTopLeft(find.byKey(kChannelDetailsDrawerPanelKey)).dx,
+        0,
+      );
+
+      container.read(channelDetailsDrawerProvider.notifier).close();
+      await tester.pump(const Duration(milliseconds: 600));
+      await _disposeWidgetTree(tester);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+
+    testWidgets('a left swipe on a group DM message opens the drawer', (
+      WidgetTester tester,
+    ) async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: _dmDrawerOverrides(
+          messages: <Message>[
+            _message(id: '333333333333333333', content: 'Swipe me'),
+          ],
+        ),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const DMLayout(channelId: _channelId),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      await tester.fling(
+        find.textContaining('Swipe me', findRichText: true),
+        const Offset(-300, 0),
+        2000,
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(container.read(channelDetailsDrawerProvider), isNotNull);
+      expect(
+        tester.getTopLeft(find.byKey(kChannelDetailsDrawerPanelKey)).dx,
+        0,
+      );
+
+      container.read(channelDetailsDrawerProvider.notifier).close();
+      await tester.pump(const Duration(milliseconds: 600));
+      await _disposeWidgetTree(tester);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+
+    testWidgets('a right swipe on a group DM message leaves the drawer shut', (
+      WidgetTester tester,
+    ) async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: _dmDrawerOverrides(
+          messages: <Message>[
+            _message(id: '333333333333333333', content: 'Swipe me'),
+          ],
+        ),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const DMLayout(channelId: _channelId),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      await tester.fling(
+        find.textContaining('Swipe me', findRichText: true),
+        const Offset(300, 0),
+        2000,
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(container.read(channelDetailsDrawerProvider), isNull);
+      expect(container.read(channelDetailsDrawerIsOpenProvider), isFalse);
+      await _disposeWidgetTree(tester);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+
+    testWidgets('switching DMs closes an open drawer', (
+      WidgetTester tester,
+    ) async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          ..._dmDrawerOverrides(),
+          channelMessagePermissionsProvider(
+            _otherChannelId,
+          ).overrideWith((ref) => ChannelMessagePermissions.all),
+          messageListReadStateProvider(
+            _otherChannelId,
+          ).overrideWith((ref) => Stream<db.ReadState?>.value(null)),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      late StateSetter switchDm;
+      String channelId = _channelId;
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              switchDm = setState;
+              return DMLayout(channelId: channelId);
+            },
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.tap(find.text(_groupDmName).first);
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(container.read(channelDetailsDrawerProvider), isNotNull);
+
+      switchDm(() => channelId = _otherChannelId);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(container.read(channelDetailsDrawerProvider), isNull);
+      expect(container.read(channelDetailsDrawerIsOpenProvider), isFalse);
+      await _disposeWidgetTree(tester);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+  });
+}
+
+const String _groupDmName = 'Night owls';
+
+List<Override> _dmDrawerOverrides({
+  List<Message> messages = const <Message>[],
+}) {
+  final DmConversation groupDm = DmConversation(
+    id: _channelId,
+    type: ChannelType.groupDm.wireValue,
+    recipientId: _authorUserId,
+    recipientName: 'Hampus',
+    name: _groupDmName,
+    lastMessage: '',
+    lastMessageTime: DateTime.utc(2026, 10, 14),
+    groupMembers: const <GroupMemberInfo>[
+      GroupMemberInfo(id: _authorUserId, name: 'Hampus'),
+      GroupMemberInfo(id: _currentUserId, name: 'Tester'),
+    ],
+  );
+  return <Override>[
+    ..._contentOverrides(
+      recorder: _StaticChatViewModel(messages),
+      dmConversations: <DmConversation>[groupDm],
+    ),
+    swipeRightToLeftActionPreferencesProvider.overrideWith(
+      _ChannelDetailsSwipePreference.new,
+    ),
+  ];
+}
+
+class _ChannelDetailsSwipePreference extends SwipeRightToLeftActionPreferences {
+  @override
+  SwipeRightToLeftActionPreferencesState build() {
+    return const SwipeRightToLeftActionPreferencesState(
+      action: SwipeRightToLeftActionPreference.channelDetails,
+    );
+  }
 }
 
 Widget _panelMessageSurface(Widget messageList) {
@@ -1036,6 +1230,7 @@ List<Override> _jumpContentOverrides({required ChatViewModel recorder}) {
 List<Override> _contentOverrides({
   required ChatViewModel recorder,
   String? activeChannelId = _channelId,
+  List<DmConversation> dmConversations = const <DmConversation>[],
 }) {
   final db.FluxerDatabase database = openTestDatabase();
   return <Override>[
@@ -1075,9 +1270,9 @@ List<Override> _contentOverrides({
       const AppearancePreferencesState(),
     ),
     dmViewModelProvider.overrideWithValue(
-      const DmViewState(
-        conversations: <DmConversation>[],
-        friendsList: <Friend>[],
+      DmViewState(
+        conversations: dmConversations,
+        friendsList: const <Friend>[],
         activeTab: FriendsTab.online,
         searchQuery: '',
       ),
@@ -1511,4 +1706,32 @@ class _FakeWellKnown extends WellKnown {
       ),
     );
   }
+}
+
+class _StaticChatViewModel extends ChatViewModel {
+  _StaticChatViewModel(this._messages);
+
+  final List<Message> _messages;
+
+  @override
+  ChatViewState build() {
+    ref.read(chatReadViewportProvider.notifier).setActiveChannel(_channelId);
+    return _loadedState(channelId: _channelId, messages: _messages);
+  }
+
+  @override
+  Future<void> switchChannel(
+    String channelId, {
+    String? targetMessageId,
+    bool loadMessages = true,
+  }) async {
+    ref.read(chatReadViewportProvider.notifier).setActiveChannel(channelId);
+    state = _loadedState(
+      channelId: channelId,
+      messages: channelId == _channelId ? _messages : const <Message>[],
+    );
+  }
+
+  @override
+  void clearStickyUnreadAfterBuildForCurrentChannel() {}
 }

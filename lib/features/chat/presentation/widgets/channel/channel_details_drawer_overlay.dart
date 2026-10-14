@@ -16,7 +16,9 @@ import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 const Key kChannelDetailsDrawerPanelKey = Key('channel-details-drawer-panel');
 
 class ChannelDetailsDrawerOverlay extends ConsumerStatefulWidget {
-  const ChannelDetailsDrawerOverlay({super.key});
+  const ChannelDetailsDrawerOverlay({required this.channelId, super.key});
+
+  final String channelId;
 
   @override
   ConsumerState<ChannelDetailsDrawerOverlay> createState() =>
@@ -53,6 +55,18 @@ class _ChannelDetailsDrawerOverlayState
     _translateController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(ChannelDetailsDrawerOverlay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.channelId == widget.channelId) {
+      return;
+    }
+    final ChannelDetailsDrawer drawer = ref.read(
+      channelDetailsDrawerProvider.notifier,
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) => drawer.close());
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
@@ -13,7 +13,10 @@ import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 bool handheldChannelDetailsGesturesApply(BuildContext context) {
-  return isFluxerNativeMobileOs && !isDesktopLayout(context);
+  final bool handheldOs =
+      defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS;
+  return handheldOs && !isDesktopLayout(context);
 }
 
 bool handheldChannelDetailsUsesDrawer(WidgetRef ref, BuildContext context) {
