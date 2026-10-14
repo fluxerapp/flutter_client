@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_bottom_she
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_bottom_sheet_stats.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -30,12 +31,7 @@ Future<GuildAction?> showGuildBottomSheet(
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final String locale = Localizations.localeOf(context).toString();
-  final bool use12Hour = ProviderScope.containerOf(
-    context,
-  ).read(use12HourTimeFormatProvider);
-  final bool isTouchPrimary = ProviderScope.containerOf(
-    context,
-  ).read(inputModalityProvider);
+  final ProviderContainer container = ProviderScope.containerOf(context);
   final groups = buildGuildMenuGroups(
     l10n: l10n,
     hasUnread: hasUnread,
@@ -44,14 +40,17 @@ Future<GuildAction?> showGuildBottomSheet(
     permissions: permissions,
     canInvite: canInvite,
     locale: locale,
-    use12Hour: use12Hour,
+    use12Hour: container.read(use12HourTimeFormatProvider),
     muteEndTime: muteEndTime,
     hideMutedChannels: hideMutedChannels,
     developerMode: developerMode,
-    isTouchPrimary: isTouchPrimary,
-    isStockCommunity: ProviderScope.containerOf(
-      context,
-    ).read(instanceRuntimeConfigProvider).isStockCommunityGuild(guild.id),
+    isTouchPrimary: container.read(inputModalityProvider),
+    canEditCommunityProfile: !container
+        .read(userSettingsViewModelProvider)
+        .isKnownUnclaimed,
+    isStockCommunity: container
+        .read(instanceRuntimeConfigProvider)
+        .isStockCommunityGuild(guild.id),
     guild: guild,
   );
 

@@ -11753,9 +11753,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Đánh dấu đã đọc';
 
   @override
-  String get guildPeekMoreOptions => 'Tùy chọn khác';
-
-  @override
   String get guildMenuInviteMembers => 'Mời thành viên';
 
   @override

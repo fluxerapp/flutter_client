@@ -11764,9 +11764,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Merkitse luetuksi';
 
   @override
-  String get guildPeekMoreOptions => 'Lisää vaihtoehtoja';
-
-  @override
   String get guildMenuInviteMembers => 'Kutsu jäseniä';
 
   @override

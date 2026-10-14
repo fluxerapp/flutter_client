@@ -11747,9 +11747,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Tandai sudah dibaca';
 
   @override
-  String get guildPeekMoreOptions => 'Opsi lainnya';
-
-  @override
   String get guildMenuInviteMembers => 'Undang anggota';
 
   @override

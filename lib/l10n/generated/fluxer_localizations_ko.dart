@@ -11249,9 +11249,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildMenuMarkAsRead => '읽음으로 표시';
 
   @override
-  String get guildPeekMoreOptions => '더 보기';
-
-  @override
   String get guildMenuInviteMembers => '멤버 초대';
 
   @override

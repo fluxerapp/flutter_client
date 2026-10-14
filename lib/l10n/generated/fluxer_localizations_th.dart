@@ -11656,9 +11656,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'ทำเครื่องหมายว่าอ่านแล้ว';
 
   @override
-  String get guildPeekMoreOptions => 'ตัวเลือกเพิ่มเติม';
-
-  @override
   String get guildMenuInviteMembers => 'เชิญสมาชิก';
 
   @override

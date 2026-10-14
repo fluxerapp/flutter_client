@@ -11851,9 +11851,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Pažymėti kaip perskaitytą';
 
   @override
-  String get guildPeekMoreOptions => 'Daugiau parinkčių';
-
-  @override
   String get guildMenuInviteMembers => 'Kviesti narius';
 
   @override

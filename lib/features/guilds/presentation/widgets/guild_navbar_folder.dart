@@ -357,8 +357,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
         final bool isSelected = ref.watch(
           activeGuildIdProvider.select((String? id) => id == guild.id),
         );
-        final bool hasUnread =
-            !guild.unavailable && (unread?.hasUnread ?? false);
         return GuildDragWrapper(
           itemId: guild.id,
           isFolder: false,
@@ -368,18 +366,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             iconUrl: guild.iconUrl,
             isUnavailable: guild.unavailable,
           ),
-          peekMenu: buildGuildPeekMenuConfig(
-            context,
-            guild: guild,
-            hasUnread: hasUnread,
-            onAction:
-                (BuildContext actionContext, GuildIconPeekAction action) async {
-                  await itemKey.currentState?.handlePeekAction(
-                    actionContext,
-                    action,
-                  );
-                },
-          ),
+          onLongPressMenu: isMobileLayout(context)
+              ? () async => itemKey.currentState?.showActionSheet()
+              : null,
           child: _GuildListItem(
             key: itemKey,
             label: guild.name,

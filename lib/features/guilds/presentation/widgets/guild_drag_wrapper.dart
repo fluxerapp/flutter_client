@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_gesture_host.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_long_press_menu_host.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
@@ -144,7 +145,7 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
     required this.child,
     this.enabled = true,
     this.allowCombine = true,
-    this.peekMenu,
+    this.onLongPressMenu,
     this.folderPeekMenu,
     this.onPeekOpened,
     super.key,
@@ -156,7 +157,7 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
   final bool allowCombine;
   final Widget dragFeedback;
   final Widget child;
-  final SidebarPeekContent? peekMenu;
+  final Future<void> Function()? onLongPressMenu;
   final SidebarPeekContent? folderPeekMenu;
   final VoidCallback? onPeekOpened;
 
@@ -282,7 +283,8 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
                   ),
             onDragStarted: (double? anchorGlobalCenterX) {
               final bool hasLongPressOverlayHost =
-                  widget.peekMenu != null || widget.folderPeekMenu != null;
+                  widget.onLongPressMenu != null ||
+                  widget.folderPeekMenu != null;
               if (useTouchDrag && !hasLongPressOverlayHost) {
                 FluxerHaptics.medium();
               }
@@ -313,13 +315,20 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
             child: dragTarget,
           );
 
-    final SidebarPeekContent? peekContent =
-        widget.folderPeekMenu ?? widget.peekMenu;
-    if (peekContent != null && useTouchDrag) {
+    final SidebarPeekContent? folderPeekMenu = widget.folderPeekMenu;
+    if (folderPeekMenu != null && useTouchDrag) {
       return GuildIconPeekGestureHost(
         itemId: widget.itemId,
-        content: peekContent,
+        content: folderPeekMenu,
         onPeekOpened: widget.onPeekOpened,
+        child: peekHostChild,
+      );
+    }
+    final Future<void> Function()? onLongPressMenu = widget.onLongPressMenu;
+    if (onLongPressMenu != null && useTouchDrag) {
+      return GuildLongPressMenuHost(
+        itemId: widget.itemId,
+        onLongPressMenu: onLongPressMenu,
         child: peekHostChild,
       );
     }

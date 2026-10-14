@@ -19475,12 +19475,6 @@ abstract class FluxerLocalizations {
   /// **'Mark as read'**
   String get guildMenuMarkAsRead;
 
-  /// Guild peek menu action to open the full guild options sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'More options'**
-  String get guildPeekMoreOptions;
-
   /// Guild menu action to open the invite members flow.
   ///
   /// In en, this message translates to:

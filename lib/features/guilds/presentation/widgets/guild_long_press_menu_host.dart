@@ -7,30 +7,25 @@ import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
-typedef FolderLongPressMenuCallback =
-    Future<void> Function(Offset globalPosition);
-
-class GuildFolderLongPressMenuHost extends ConsumerStatefulWidget {
-  const GuildFolderLongPressMenuHost({
+class GuildLongPressMenuHost extends ConsumerStatefulWidget {
+  const GuildLongPressMenuHost({
     required this.itemId,
-    required this.menuAnchorKey,
     required this.onLongPressMenu,
     required this.child,
     super.key,
   });
 
   final String itemId;
-  final GlobalKey menuAnchorKey;
-  final FolderLongPressMenuCallback onLongPressMenu;
+  final Future<void> Function() onLongPressMenu;
   final Widget child;
 
   @override
-  ConsumerState<GuildFolderLongPressMenuHost> createState() =>
-      _GuildFolderLongPressMenuHostState();
+  ConsumerState<GuildLongPressMenuHost> createState() =>
+      _GuildLongPressMenuHostState();
 }
 
-class _GuildFolderLongPressMenuHostState
-    extends ConsumerState<GuildFolderLongPressMenuHost> {
+class _GuildLongPressMenuHostState
+    extends ConsumerState<GuildLongPressMenuHost> {
   Timer? _holdTimer;
   Offset? _pointerDownPosition;
   int? _activePointer;
@@ -82,12 +77,7 @@ class _GuildFolderLongPressMenuHostState
     if (!_holdThresholdReached || _suppressMenuForSession) {
       return;
     }
-    final BuildContext? anchorContext = widget.menuAnchorKey.currentContext;
-    final RenderBox? box = anchorContext?.findRenderObject() as RenderBox?;
-    if (box == null || !box.hasSize) {
-      return;
-    }
-    await widget.onLongPressMenu(sidebarPeekMenuAnchorPosition(box));
+    await widget.onLongPressMenu();
   }
 
   void _resetPointerSession() {

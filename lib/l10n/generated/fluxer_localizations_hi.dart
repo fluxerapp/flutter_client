@@ -11729,9 +11729,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'पढ़ा गया मार्क करें';
 
   @override
-  String get guildPeekMoreOptions => 'ज़्यादा विकल्प';
-
-  @override
   String get guildMenuInviteMembers => 'सदस्यों को आमंत्रित करें';
 
   @override

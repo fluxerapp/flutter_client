@@ -50,8 +50,6 @@ import 'package:fluxer_app/features/guilds/presentation/'
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_folder_settings_modal.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
-    'widgets/guild_icon_peek_menu.dart';
-import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_navbar_dm_transition.dart';
@@ -593,52 +591,28 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         final GuildNavbarGuild guildItem =
             entry.organizedItem! as GuildNavbarGuild;
         final Guild guild = guildItem.guild;
-        return Consumer(
-          builder: (context, ref, child) {
-            final unread = ref.watch(
-              guildReadStateProvider.select((s) => s[guild.id]),
-            );
-            final GlobalKey<_GuildListItemState> itemKey =
-                _itemKeys.putIfAbsent(
-                      guild.id,
-                      GlobalKey<_GuildListItemState>.new,
-                    )
-                    as GlobalKey<_GuildListItemState>;
-            final bool hasUnread =
-                !guild.unavailable && (unread?.hasUnread ?? false);
-            return GuildDragWrapper(
-              key: ValueKey<String>('guild-${guild.id}'),
-              itemId: guild.id,
-              isFolder: false,
-              enabled: !guild.unavailable,
-              dragFeedback: GuildDragFeedback(
-                label: guild.name,
-                iconUrl: guild.iconUrl,
-                isUnavailable: guild.unavailable,
-              ),
-              peekMenu: buildGuildPeekMenuConfig(
-                context,
-                guild: guild,
-                hasUnread: hasUnread,
-                onAction:
-                    (
-                      BuildContext actionContext,
-                      GuildIconPeekAction action,
-                    ) async {
-                      await itemKey.currentState?.handlePeekAction(
-                        actionContext,
-                        action,
-                      );
-                    },
-              ),
-              child: _buildGuildItem(
-                context,
-                guild: guild,
-                unavailableCount: unavailableCount,
-                itemKey: itemKey,
-              ),
-            );
-          },
+        final GlobalKey<_GuildListItemState> itemKey =
+            _itemKeys.putIfAbsent(guild.id, GlobalKey<_GuildListItemState>.new)
+                as GlobalKey<_GuildListItemState>;
+        return GuildDragWrapper(
+          key: ValueKey<String>('guild-${guild.id}'),
+          itemId: guild.id,
+          isFolder: false,
+          enabled: !guild.unavailable,
+          dragFeedback: GuildDragFeedback(
+            label: guild.name,
+            iconUrl: guild.iconUrl,
+            isUnavailable: guild.unavailable,
+          ),
+          onLongPressMenu: isMobileLayout(context)
+              ? () async => itemKey.currentState?.showActionSheet()
+              : null,
+          child: _buildGuildItem(
+            context,
+            guild: guild,
+            unavailableCount: unavailableCount,
+            itemKey: itemKey,
+          ),
         );
       case _NavbarListEntryKind.organizedFolder:
         final GuildNavbarFolder folderItem =

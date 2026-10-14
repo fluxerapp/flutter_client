@@ -11785,9 +11785,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Označi kao pročitano';
 
   @override
-  String get guildPeekMoreOptions => 'Više opcija';
-
-  @override
   String get guildMenuInviteMembers => 'Pozovi članove';
 
   @override

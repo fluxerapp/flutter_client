@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_context_me
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -41,12 +42,7 @@ Future<GuildAction?> showGuildContextMenu(
   final local = overlay.globalToLocal(position);
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final String locale = Localizations.localeOf(context).toString();
-  final bool use12Hour = ProviderScope.containerOf(
-    context,
-  ).read(use12HourTimeFormatProvider);
-  final bool isTouchPrimary = ProviderScope.containerOf(
-    context,
-  ).read(inputModalityProvider);
+  final ProviderContainer container = ProviderScope.containerOf(context);
   final groups = buildGuildMenuGroups(
     l10n: l10n,
     hasUnread: hasUnread,
@@ -55,14 +51,17 @@ Future<GuildAction?> showGuildContextMenu(
     permissions: permissions,
     canInvite: canInvite,
     locale: locale,
-    use12Hour: use12Hour,
+    use12Hour: container.read(use12HourTimeFormatProvider),
     muteEndTime: muteEndTime,
     hideMutedChannels: hideMutedChannels,
     developerMode: developerMode,
-    isTouchPrimary: isTouchPrimary,
-    isStockCommunity: ProviderScope.containerOf(
-      context,
-    ).read(instanceRuntimeConfigProvider).isStockCommunityGuild(guild.id),
+    isTouchPrimary: container.read(inputModalityProvider),
+    canEditCommunityProfile: !container
+        .read(userSettingsViewModelProvider)
+        .isKnownUnclaimed,
+    isStockCommunity: container
+        .read(instanceRuntimeConfigProvider)
+        .isStockCommunityGuild(guild.id),
     guild: guild,
   );
 

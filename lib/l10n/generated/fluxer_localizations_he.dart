@@ -11577,9 +11577,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'סמן כנקרא';
 
   @override
-  String get guildPeekMoreOptions => 'אפשרויות נוספות';
-
-  @override
   String get guildMenuInviteMembers => 'הזמנת חברים';
 
   @override

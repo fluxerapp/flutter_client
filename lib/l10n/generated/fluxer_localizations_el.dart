@@ -11892,9 +11892,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Σήμανση ως αναγνωσμένου';
 
   @override
-  String get guildPeekMoreOptions => 'Περισσότερες επιλογές';
-
-  @override
   String get guildMenuInviteMembers => 'Πρόσκληση μελών';
 
   @override

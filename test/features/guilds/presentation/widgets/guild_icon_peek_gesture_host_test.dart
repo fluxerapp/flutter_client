@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_context_menu.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_gesture_host.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -17,10 +19,11 @@ void main() {
           child: Scaffold(
             body: GuildIconPeekGestureHost(
               itemId: 'guild-1',
-              content: GuildIconPeekMenuConfig(
-                guildName: 'Test Guild',
+              content: GuildFolderPeekMenuConfig(
+                folderName: 'Test Folder',
+                guilds: const <Guild>[Guild(id: 'guild-1', name: 'Alpha')],
                 hasUnread: false,
-                onAction: (_, _) async {},
+                onAction: (_) async {},
               ),
               child: const SizedBox(
                 key: guildKey,
@@ -41,12 +44,12 @@ void main() {
       await hold.up();
       await tester.pumpAndSettle();
 
-      expect(find.byType(GuildIconPeekMenuPanel), findsOneWidget);
+      expect(find.byType(GuildFolderPeekMenuPanel), findsOneWidget);
 
       await tester.tapAt(const Offset(300, 300));
       await tester.pumpAndSettle();
 
-      expect(find.byType(GuildIconPeekMenuPanel), findsNothing);
+      expect(find.byType(GuildFolderPeekMenuPanel), findsNothing);
     });
 
     testWidgets(
@@ -59,14 +62,18 @@ void main() {
         await tester.pumpWidget(
           pumpFluxerApp(
             child: Scaffold(
-              body: Row(
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   GuildIconPeekGestureHost(
                     itemId: 'guild-1',
-                    content: GuildIconPeekMenuConfig(
-                      guildName: 'Test Guild',
+                    content: GuildFolderPeekMenuConfig(
+                      folderName: 'Test Folder',
+                      guilds: const <Guild>[
+                        Guild(id: 'guild-1', name: 'Alpha'),
+                      ],
                       hasUnread: false,
-                      onAction: (_, _) async {},
+                      onAction: (_) async {},
                     ),
                     child: const SizedBox(
                       key: guildKey,
@@ -75,6 +82,7 @@ void main() {
                       child: ColoredBox(color: Colors.blue),
                     ),
                   ),
+                  const SizedBox(height: 300),
                   GestureDetector(
                     key: dmKey,
                     onTap: () => dmTapCount++,
@@ -98,12 +106,12 @@ void main() {
         await hold.up();
         await tester.pumpAndSettle();
 
-        expect(find.byType(GuildIconPeekMenuPanel), findsOneWidget);
+        expect(find.byType(GuildFolderPeekMenuPanel), findsOneWidget);
 
         await tester.tap(find.byKey(dmKey), warnIfMissed: false);
         await tester.pumpAndSettle();
 
-        expect(find.byType(GuildIconPeekMenuPanel), findsNothing);
+        expect(find.byType(GuildFolderPeekMenuPanel), findsNothing);
 
         await tester.tap(find.byKey(dmKey));
         await tester.pumpAndSettle();

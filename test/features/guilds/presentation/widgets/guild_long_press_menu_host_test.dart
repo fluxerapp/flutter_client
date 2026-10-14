@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_long_press_menu_host.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_long_press_menu_host.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/pump_fluxer_app.dart';
 
 void main() {
-  group('GuildFolderLongPressMenuHost', () {
+  group('GuildLongPressMenuHost', () {
     testWidgets('does not open menu before peek hold delay on release', (
       WidgetTester tester,
     ) async {
@@ -16,10 +16,9 @@ void main() {
       await tester.pumpWidget(
         pumpFluxerApp(
           child: Scaffold(
-            body: GuildFolderLongPressMenuHost(
+            body: GuildLongPressMenuHost(
               itemId: 'folder-1',
-              menuAnchorKey: folderKey,
-              onLongPressMenu: (_) async {
+              onLongPressMenu: () async {
                 menuOpenCount++;
               },
               child: SizedBox(
@@ -52,10 +51,9 @@ void main() {
       await tester.pumpWidget(
         pumpFluxerApp(
           child: Scaffold(
-            body: GuildFolderLongPressMenuHost(
+            body: GuildLongPressMenuHost(
               itemId: 'folder-1',
-              menuAnchorKey: folderKey,
-              onLongPressMenu: (_) async {
+              onLongPressMenu: () async {
                 menuOpenCount++;
               },
               child: SizedBox(
@@ -88,10 +86,9 @@ void main() {
         await tester.pumpWidget(
           pumpFluxerApp(
             child: Scaffold(
-              body: GuildFolderLongPressMenuHost(
+              body: GuildLongPressMenuHost(
                 itemId: 'folder-1',
-                menuAnchorKey: folderKey,
-                onLongPressMenu: (_) async {
+                onLongPressMenu: () async {
                   menuOpenCount++;
                 },
                 child: SizedBox(

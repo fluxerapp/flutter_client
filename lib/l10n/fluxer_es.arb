@@ -7038,10 +7038,6 @@
     "@guildMenuMarkAsRead": {
         "description": "Guild menu action to mark all channels as read."
     },
-    "guildPeekMoreOptions": "Más opciones",
-    "@guildPeekMoreOptions": {
-        "description": "Guild peek menu action to open the full guild options sheet."
-    },
     "guildMenuInviteMembers": "Invitar a miembros",
     "@guildMenuInviteMembers": {
         "description": "Guild menu action to open the invite members flow."

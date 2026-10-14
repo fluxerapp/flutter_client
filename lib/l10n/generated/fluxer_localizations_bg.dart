@@ -11873,9 +11873,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Маркирай като прочетено';
 
   @override
-  String get guildPeekMoreOptions => 'Още опции';
-
-  @override
   String get guildMenuInviteMembers => 'Покани членове';
 
   @override

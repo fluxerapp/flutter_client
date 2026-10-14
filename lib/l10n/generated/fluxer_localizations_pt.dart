@@ -11725,9 +11725,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Marcar como lido';
 
   @override
-  String get guildPeekMoreOptions => 'Mais opções';
-
-  @override
   String get guildMenuInviteMembers => 'Convidar membros';
 
   @override
@@ -26842,9 +26839,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get guildMenuMarkAsRead => 'Marcar como lida';
-
-  @override
-  String get guildPeekMoreOptions => 'Mais opções';
 
   @override
   String get guildMenuInviteMembers => 'Convidar membros';

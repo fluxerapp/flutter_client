@@ -164,7 +164,7 @@ class _GuildListItemState extends State<_GuildListItem>
                       : null,
                   onLongPress:
                       widget.guild != null && widget.enableLongPressMenu
-                      ? () => unawaited(_showActionSheet(context))
+                      ? () => unawaited(showActionSheet())
                       : null,
                   child: SizedBox(
                     width: widget.opaqueHitTarget
@@ -267,7 +267,7 @@ class _GuildListItemState extends State<_GuildListItem>
     }
   }
 
-  Future<void> _showActionSheet(BuildContext context) async {
+  Future<void> showActionSheet() async {
     if (widget.guild == null) {
       return;
     }
@@ -282,7 +282,7 @@ class _GuildListItemState extends State<_GuildListItem>
     final bool canInvite = widget.resolveCanInvite != null
         ? await widget.resolveCanInvite!()
         : hasPermission(permissions, Permission.createInstantInvite);
-    if (!context.mounted) {
+    if (!mounted) {
       return;
     }
     final action = await showGuildBottomSheet(
@@ -297,7 +297,7 @@ class _GuildListItemState extends State<_GuildListItem>
       hideMutedChannels: widget.hideMutedChannels,
       developerMode: widget.developerMode,
     );
-    if (context.mounted && action != null) {
+    if (mounted && action != null) {
       _handleAction(context, action);
     }
   }
@@ -900,24 +900,6 @@ class _GuildListItemState extends State<_GuildListItem>
 
   void handleMenuAction(BuildContext context, GuildAction action) {
     _handleAction(context, action);
-  }
-
-  Future<void> handlePeekAction(
-    BuildContext context,
-    GuildIconPeekAction action,
-  ) async {
-    if (widget.guild == null) {
-      return;
-    }
-    widget.onMenuOpened?.call();
-    switch (action) {
-      case GuildIconPeekAction.markAsRead:
-        _handleAction(context, GuildAction.markAsRead);
-      case GuildIconPeekAction.notifications:
-        await _showNotificationSettingsSheet(context);
-      case GuildIconPeekAction.moreOptions:
-        await _showActionSheet(context);
-    }
   }
 
   void _handleAction(BuildContext context, GuildAction action) {

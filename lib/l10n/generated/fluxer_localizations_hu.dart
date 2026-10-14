@@ -11853,9 +11853,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Megjelölés olvasottként';
 
   @override
-  String get guildPeekMoreOptions => 'További lehetőségek';
-
-  @override
   String get guildMenuInviteMembers => 'Tagok meghívása';
 
   @override

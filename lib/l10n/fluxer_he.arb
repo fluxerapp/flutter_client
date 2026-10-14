@@ -12932,10 +12932,6 @@
     "@guildMenuMarkAsRead": {
         "description": "Guild menu action to mark all channels as read."
     },
-    "guildPeekMoreOptions": "אפשרויות נוספות",
-    "@guildPeekMoreOptions": {
-        "description": "Guild peek menu action to open the full guild options sheet."
-    },
     "guildMenuInviteMembers": "הזמנת חברים",
     "@guildMenuInviteMembers": {
         "description": "Guild menu action to open the invite members flow."

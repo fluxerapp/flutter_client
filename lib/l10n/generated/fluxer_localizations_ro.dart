@@ -11838,9 +11838,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Marchează ca citit';
 
   @override
-  String get guildPeekMoreOptions => 'Mai multe opțiuni';
-
-  @override
   String get guildMenuInviteMembers => 'Invită membri';
 
   @override

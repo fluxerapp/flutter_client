@@ -11786,9 +11786,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Označit jako přečtené';
 
   @override
-  String get guildPeekMoreOptions => 'Další možnosti';
-
-  @override
   String get guildMenuInviteMembers => 'Pozvat členy';
 
   @override

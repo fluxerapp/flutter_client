@@ -11027,9 +11027,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildMenuMarkAsRead => '标为已读';
 
   @override
-  String get guildPeekMoreOptions => '更多选项';
-
-  @override
   String get guildMenuInviteMembers => '邀请成员';
 
   @override
@@ -25185,9 +25182,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildMenuMarkAsRead => '標示為已讀';
-
-  @override
-  String get guildPeekMoreOptions => '更多選項';
 
   @override
   String get guildMenuInviteMembers => '邀請成員';

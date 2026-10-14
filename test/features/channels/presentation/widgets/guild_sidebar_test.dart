@@ -29,9 +29,12 @@ import 'package:fluxer_app/features/channels/providers/guild_collapsed_categorie
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_bottom_sheet_avatar.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_bottom_sheet_stats.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
@@ -351,6 +354,112 @@ void main() {
 
       expect(find.text('uncategorized'), findsOneWidget);
       expect(find.text('Channels'), findsNothing);
+      await releaseTestWidgetTree(tester);
+    });
+  });
+
+  group('GuildSidebar community header sheet', () {
+    ChannelListState stateFor({String? ownerId}) => ChannelListState(
+      guild: Guild(id: _guildId, name: 'Test Guild', ownerId: ownerId),
+      categories: _state().categories,
+      selectedChannelId: null,
+      hasReceivedInitialChannelList: true,
+    );
+
+    Future<void> openHeaderSheet(
+      WidgetTester tester, {
+      required ChannelListState state,
+      required int guildPermissions,
+    }) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: state,
+            guildPermissions: guildPermissions,
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+      await tester.tap(find.text('Test Guild'));
+      await _pumpSidebar(tester);
+    }
+
+    void expectInOrder(WidgetTester tester, List<String> labels) {
+      for (final String label in labels) {
+        expect(find.text(label), findsOneWidget, reason: label);
+      }
+      for (var i = 1; i < labels.length; i++) {
+        expect(
+          tester.getTopLeft(find.text(labels[i - 1])).dy,
+          lessThan(tester.getTopLeft(find.text(labels[i])).dy),
+          reason: '${labels[i - 1]} before ${labels[i]}',
+        );
+      }
+    }
+
+    testWidgets('owner gets the desktop dropdown items in a bottom sheet', (
+      tester,
+    ) async {
+      await openHeaderSheet(
+        tester,
+        state: stateFor(ownerId: 'me'),
+        guildPermissions: allPermissions,
+      );
+
+      expect(find.byType(GuildBottomSheetStats), findsOneWidget);
+      expect(find.byType(GuildBottomSheetAvatar), findsOneWidget);
+      expect(find.text('More options'), findsNothing);
+      expectInOrder(tester, <String>[
+        'Community settings',
+        'Create channel',
+        'Create category',
+        'Notification settings',
+        'Privacy settings',
+        'Edit community profile',
+        'Mute community',
+        'Hide muted channels',
+      ]);
+      expect(find.text('Delete my messages'), findsNothing);
+      expect(find.text('Leave community'), findsNothing);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('a plain member only gets the items they can use', (
+      tester,
+    ) async {
+      await openHeaderSheet(tester, state: stateFor(), guildPermissions: 0);
+
+      expect(find.text('More options'), findsNothing);
+      expect(find.text('Community settings'), findsNothing);
+      expect(find.text('Create channel'), findsNothing);
+      expect(find.text('Create category'), findsNothing);
+      expect(find.text('Invite members'), findsNothing);
+      expectInOrder(tester, <String>[
+        'Notification settings',
+        'Privacy settings',
+        'Edit community profile',
+        'Mute community',
+        'Hide muted channels',
+        'Delete my messages',
+        'Leave community',
+      ]);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('a channel manager also gets the create items', (tester) async {
+      await openHeaderSheet(
+        tester,
+        state: stateFor(),
+        guildPermissions: Permission.manageChannels.value,
+      );
+
+      expectInOrder(tester, <String>[
+        'Create channel',
+        'Create category',
+        'Notification settings',
+        'Leave community',
+      ]);
       await releaseTestWidgetTree(tester);
     });
   });
@@ -1637,6 +1746,7 @@ List<Override> _buildOverrides({
   VoiceSession Function()? voiceSessionFactory,
   String? Function(Ref ref)? activeGuildIdReader,
   ChannelListViewModel Function()? channelListViewModelFactory,
+  int guildPermissions = 0,
 }) {
   final db = openTestDatabase();
   final String routeLocation = selectedChannelId != null
@@ -1713,7 +1823,22 @@ List<Override> _buildOverrides({
     for (final entry in unreadStreams.entries)
       channelUnreadProvider(entry.key).overrideWith((ref) => entry.value),
     guildReadStateProvider.overrideWithValue(guildReadState),
+    guildPermissionsProvider.overrideWith(
+      () => _FakeGuildPermissions(<String, int>{_guildId: guildPermissions}),
+    ),
   ];
+}
+
+class _FakeGuildPermissions extends GuildPermissions {
+  _FakeGuildPermissions(this._initial);
+
+  final Map<String, int> _initial;
+
+  @override
+  Map<String, int> build() => _initial;
+
+  @override
+  Future<void> refreshPermissions(String guildId) async {}
 }
 
 Widget _buildTestApp({required List<Override> overrides}) {

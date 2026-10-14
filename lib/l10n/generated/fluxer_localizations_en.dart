@@ -11683,9 +11683,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get guildMenuMarkAsRead => 'Mark as read';
 
   @override
-  String get guildPeekMoreOptions => 'More options';
-
-  @override
   String get guildMenuInviteMembers => 'Invite members';
 
   @override
@@ -26643,9 +26640,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get guildMenuMarkAsRead => 'Mark as read';
 
   @override
-  String get guildPeekMoreOptions => 'More options';
-
-  @override
   String get guildMenuInviteMembers => 'Invite members';
 
   @override
@@ -40312,9 +40306,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get guildMenuMarkAsRead => 'Mark as read';
-
-  @override
-  String get guildPeekMoreOptions => 'More options';
 
   @override
   String get guildMenuInviteMembers => 'Invite members';

@@ -125,6 +125,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   bool developerMode = false,
   bool isTouchPrimary = false,
   bool isStockCommunity = false,
+  bool canEditCommunityProfile = true,
   bool? canInvite,
   Guild? guild,
 }) {
@@ -183,11 +184,12 @@ List<GuildMenuGroup> buildGuildMenuGroups({
         icon: PhosphorIconsFill.shield,
         action: GuildAction.privacySettings,
       ),
-      GuildMenuAction(
-        label: l10n.guildMenuEditCommunityProfile,
-        icon: PhosphorIconsFill.userCircle,
-        action: GuildAction.editCommunityProfile,
-      ),
+      if (canEditCommunityProfile)
+        GuildMenuAction(
+          label: l10n.guildMenuEditCommunityProfile,
+          icon: PhosphorIconsFill.userCircle,
+          action: GuildAction.editCommunityProfile,
+        ),
     ],
     [
       if (isMuted)

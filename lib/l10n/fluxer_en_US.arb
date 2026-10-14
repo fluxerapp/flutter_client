@@ -7203,10 +7203,6 @@
     "@guildMenuMarkAsRead": {
         "description": "Guild menu action to mark all channels as read."
     },
-    "guildPeekMoreOptions": "More options",
-    "@guildPeekMoreOptions": {
-        "description": "Guild peek menu action to open the full guild options sheet."
-    },
     "guildMenuInviteMembers": "Invite members",
     "@guildMenuInviteMembers": {
         "description": "Guild menu action to open the invite members flow."
