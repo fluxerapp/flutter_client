@@ -1,6 +1,6 @@
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/retrying_network_image.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -61,20 +61,19 @@ class FluxerAnimatedImage extends StatelessWidget {
         final Widget errorChild = errorPlaceholder ?? fallback;
         final Widget? poster = posterUrl == null
             ? null
-            : CachedNetworkImage(
+            : RetryingNetworkImage(
                 imageUrl: posterUrl,
                 fit: fit,
                 memCacheWidth: posterCache.width,
                 memCacheHeight: posterCache.height,
                 maxWidthDiskCache: posterCache.width,
                 maxHeightDiskCache: posterCache.height,
-                fadeInDuration: Duration.zero,
                 fadeOutDuration: placeholder == null
                     ? Duration.zero
                     : mediaPlaceholderFadeOutOf(context),
                 disablePlaceholderOnCacheHit: placeholder == null,
-                placeholder: (_, _) => fallback,
-                errorBuilder: (_, _, _) => errorChild,
+                placeholder: fallback,
+                errorPlaceholder: errorChild,
               );
         final Widget loading = poster ?? fallback;
         return SizedBox(
@@ -86,7 +85,7 @@ class FluxerAnimatedImage extends StatelessWidget {
                   child: TickerMode(
                     key: const ValueKey<String>('fluxer-animated-image-ticker'),
                     enabled: playing,
-                    child: CachedNetworkImage(
+                    child: RetryingNetworkImage(
                       imageUrl: buildMediaProxyUrl(
                         animatedUrl,
                         width: animatedProxySize.width,
@@ -94,10 +93,8 @@ class FluxerAnimatedImage extends StatelessWidget {
                       ),
                       fit: fit,
                       fadeInDuration: fadeInDuration,
-                      fadeOutDuration: Duration.zero,
-                      disablePlaceholderOnCacheHit: false,
-                      placeholder: (_, _) => loading,
-                      errorBuilder: (_, _, _) => errorChild,
+                      placeholder: loading,
+                      errorPlaceholder: poster ?? errorChild,
                     ),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/retrying_network_image.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 CachedNetworkImage _animatedNetworkImage(WidgetTester tester) {
@@ -230,9 +231,9 @@ void main() {
         tester.element(find.byType(FluxerAnimatedImage)),
         animated.imageUrl,
       );
-      expect(placeholder, isA<CachedNetworkImage>());
+      expect(placeholder, isA<RetryingNetworkImage>());
       expect(
-        (placeholder as CachedNetworkImage).imageUrl,
+        (placeholder as RetryingNetworkImage).imageUrl,
         contains('animated=false'),
       );
       expect(animated.errorBuilder, isNotNull);

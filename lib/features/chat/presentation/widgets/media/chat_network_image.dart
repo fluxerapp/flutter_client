@@ -1,6 +1,6 @@
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/retrying_network_image.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -52,22 +52,19 @@ class ChatNetworkImage extends StatelessWidget {
         errorBuilder: (_, _, _) => errorPlaceholder,
       );
     }
-    return CachedNetworkImage(
+    return RetryingNetworkImage(
       imageUrl: imageUrl,
       width: width,
       height: height,
       memCacheWidth: memCacheWidth,
       memCacheHeight: memCacheHeight,
       fit: fit,
-      fadeInDuration: Duration.zero,
       fadeOutDuration: boxedPlaceholder == null
           ? Duration.zero
           : mediaPlaceholderFadeOutOf(context),
       disablePlaceholderOnCacheHit: boxedPlaceholder == null,
-      placeholder: boxedPlaceholder == null
-          ? null
-          : (BuildContext _, String _) => boxedPlaceholder,
-      errorBuilder: (_, _, _) => errorPlaceholder,
+      placeholder: boxedPlaceholder,
+      errorPlaceholder: errorPlaceholder,
     );
   }
 }
