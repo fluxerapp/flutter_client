@@ -2,8 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 
@@ -32,14 +30,5 @@ Future<void> showChannelDebugSheet(
   if (data == null || !context.mounted) {
     return;
   }
-  await showDebugBottomSheet(
-    context,
-    title: title,
-    data: data,
-    onCopied: (message) => ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(message: message, variant: FluxerToastVariant.success),
-        ),
-  );
+  await showDebugBottomSheet(context, title: title, data: data);
 }

@@ -312,11 +312,6 @@ Future<void> _showDebugUserSheet(
       context,
       title: FluxerLocalizations.of(context).dmDebugUser,
       data: user.toJson(),
-      onCopied: (message) => ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(message: message, variant: FluxerToastVariant.success),
-          ),
     );
   } on Exception catch (_) {
     // Ignore — failed to fetch user.

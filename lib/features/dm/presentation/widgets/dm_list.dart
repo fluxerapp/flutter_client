@@ -1435,14 +1435,6 @@ class _DMListState extends ConsumerState<DMList> {
             context,
             title: FluxerLocalizations.of(context).dmDebugUser,
             data: user.toJson(),
-            onCopied: (message) => ref
-                .read(toastProvider.notifier)
-                .show(
-                  FluxerToast(
-                    message: message,
-                    variant: FluxerToastVariant.success,
-                  ),
-                ),
           );
         } on Exception catch (_) {
           // API fetch failed — ignore silently.

@@ -1,4 +1,3 @@
-import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
@@ -58,7 +57,7 @@ void main() {
     await tester.tap(find.text('open'));
     await tester.pumpAndSettle();
 
-    return tester.widget<HighlightView>(find.byType(HighlightView)).source;
+    return tester.widget<SelectableText>(find.byType(SelectableText)).data;
   }
 
   testWidgets('renders the voice channel record as wire-format JSON', (

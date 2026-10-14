@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/github.dart';
-import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -15,75 +12,84 @@ Future<void> showDebugBottomSheet(
   BuildContext context, {
   required String title,
   required Map<String, Object?> data,
-  void Function(String message)? onCopied,
-}) async {
-  final json = const JsonEncoder.withIndent('  ').convert(data);
-  final isDark = Theme.of(context).brightness == Brightness.dark;
-  final copied = ValueNotifier<bool>(false);
-
-  await FluxerBottomSheet.showScrollable<void>(
+  String? copiedMessage,
+}) {
+  final String json = const JsonEncoder.withIndent('  ').convert(data);
+  return FluxerBottomSheet.showScrollable<void>(
     context,
     title: title,
-    builder: (sheetContext, scrollController, close) {
-      final layout = sheetContext.layout;
-      final l10n = FluxerLocalizations.of(sheetContext);
-
-      return SingleChildScrollView(
-        controller: scrollController,
-        padding: FluxerBottomSheet.scrollViewPadding(
-          sheetContext,
-          padding: EdgeInsets.symmetric(horizontal: layout.s4),
-        ),
-        child: Stack(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                child: HighlightView(
-                  json,
-                  language: 'json',
-                  theme: isDark ? vs2015Theme : githubTheme,
-                  padding: const EdgeInsets.all(12),
-                  textStyle: sheetContext.textStyles.codeText.copyWith(
-                    fontSize: 13,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 4,
-              right: 4,
-              child: ValueListenableBuilder<bool>(
-                valueListenable: copied,
-                builder: (_, isCopied, _) => IconButton(
-                  icon: PhosphorIcon(
-                    isCopied ? PhosphorIconsBold.check : PhosphorIconsBold.copy,
-                    color: isCopied
-                        ? Colors.green
-                        : isDark
-                        ? Colors.white70
-                        : Colors.black54,
-                    size: 18,
-                  ),
-                  onPressed: isCopied
-                      ? null
-                      : () {
-                          unawaited(
-                            copyToClipboard(context: sheetContext, value: json),
-                          );
-                          copied.value = true;
-                          Future<void>.delayed(const Duration(seconds: 2), () {
-                            copied.value = false;
-                          });
-                          onCopied?.call(l10n.copiedToClipboard);
-                        },
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
+    minChildSize: 0.5,
+    builder: (sheetContext, scrollController, close) => _DebugSheetBody(
+      json: json,
+      copiedMessage: copiedMessage,
+      scrollController: scrollController,
+    ),
   );
+}
+
+class _DebugSheetBody extends StatelessWidget {
+  const _DebugSheetBody({
+    required this.json,
+    required this.copiedMessage,
+    required this.scrollController,
+  });
+
+  final String json;
+  final String? copiedMessage;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+    final layout = context.layout;
+
+    return SingleChildScrollView(
+      controller: scrollController,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FluxerMenuGroup(
+            children: [
+              FluxerBottomSheetMenuItem(
+                icon: PhosphorIconsFill.copy,
+                label: l10n.chatMessageDebugCopyJson,
+                onTap: () {
+                  unawaited(
+                    copyToClipboard(
+                      context: context,
+                      value: json,
+                      message: copiedMessage,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: layout.s3),
+          Container(
+            padding: EdgeInsets.all(layout.s3),
+            decoration: BoxDecoration(
+              color: FluxerBottomSheet.cardColorOf(context),
+              borderRadius: layout.radiusLg,
+            ),
+            child: SelectableText(
+              json,
+              style: context.textStyles.codeText.copyWith(
+                fontSize: 12,
+                height: 1.4,
+                color: colors.textPrimary,
+              ),
+            ),
+          ),
+          SizedBox(height: layout.s4),
+        ],
+      ),
+    );
+  }
 }

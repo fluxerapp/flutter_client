@@ -895,12 +895,6 @@ class _GuildListItemState extends State<_GuildListItem>
       context,
       title: l10n.communityDebug,
       data: guildJson,
-      onCopied: (_) => widget.onShowToast?.call(
-        FluxerToast(
-          message: l10n.copiedToClipboard,
-          variant: FluxerToastVariant.success,
-        ),
-      ),
     );
   }
 
