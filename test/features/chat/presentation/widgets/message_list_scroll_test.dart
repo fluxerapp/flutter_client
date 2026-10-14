@@ -8,6 +8,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
@@ -1685,6 +1686,60 @@ void main() {
           find.text('NEW'),
           findsNothing,
           reason: 'inline NEW divider appeared on frame $frame',
+        );
+      }
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('unacked append at bottom never flashes the unread bar', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final AroundAckMessageListHarness harness =
+          await createBottomMessageListHarness();
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+        ),
+      );
+      addTearDown(() async {
+        await disposeMessageList(tester);
+        await pumpFluxerFrames(tester);
+      });
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+      final ScrollPosition position = messageListScrollPosition(tester);
+      position.jumpTo(position.pixels - kMessageListReadBottomThreshold - 100);
+      await tester.pump();
+      position.jumpTo(position.maxScrollExtent);
+      await tester.pump();
+      await tester.pump();
+      expect(
+        position.maxScrollExtent - position.pixels,
+        lessThanOrEqualTo(kMessageListReadBottomThreshold),
+      );
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(MessageList)),
+      );
+      expect(container.read(chatReadViewportProvider).nearLoadedTail, isTrue);
+      container.read(appUiForegroundProvider.notifier).setResumed(true);
+      await tester.pump();
+      expect(container.read(chatReadViewportProvider).canAutoAck, isTrue);
+
+      harness.appendRealtimeMessage(acknowledgedByGateway: false);
+
+      for (var frame = 1; frame <= 5; frame += 1) {
+        await tester.pump();
+        expect(
+          find.byType(MessageListNewMessagesBar),
+          findsNothing,
+          reason: 'floating unread bar appeared on frame $frame',
         );
       }
       await disposeMessageList(tester);

@@ -656,6 +656,18 @@ class _MessageListState extends ConsumerState<MessageList> {
         ? const AsyncValue<drift_db.ReadState?>.data(null)
         : ref.watch(messageListReadStateProvider(channelId));
     final drift_db.ReadState? readState = readStateAsync.asData?.value;
+    final bool autoAckImminent =
+        channelId.isNotEmpty &&
+        !hasMoreNewerMessages &&
+        !(readState?.manual ?? false) &&
+        ref.watch(
+          chatReadViewportProvider.select(
+            (ChatReadViewportState viewport) =>
+                viewport.channelId == channelId &&
+                viewport.nearLoadedTail &&
+                viewport.canAutoAck,
+          ),
+        );
     final String? effectiveAckId = readState?.manual ?? false
         ? readState?.lastMessageId
         : compareSnowflakeIds(pendingAutoAckId, readState?.lastMessageId) > 0
@@ -1092,7 +1104,8 @@ class _MessageListState extends ConsumerState<MessageList> {
                 !isLoading &&
                 messages.isNotEmpty &&
                 unreadCount > 0 &&
-                !unreadOpenSettling;
+                !unreadOpenSettling &&
+                !autoAckImminent;
             final bool showLoadErrorBar =
                 messageLoadFailed && messages.isNotEmpty;
             final bool loadErrorRetryInFlight =
