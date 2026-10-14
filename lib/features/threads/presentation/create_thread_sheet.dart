@@ -10,9 +10,11 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
@@ -257,6 +259,14 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
         .read(fluxerDatabaseProvider)
         .channelDao
         .upsertChannel(channelFromSdk(created, parent.guildId));
+    final Message? source = widget.sourceMessage;
+    if (source != null) {
+      ref.read(messageReferencesProvider.notifier).seed(source);
+      await ref
+          .read(readStateRepositoryProvider)
+          .applyLocalAckUpTo(created.id, created.id);
+    }
+    final Channel? thread = await loadGuildChannelById(ref, created.id);
     ref
         .read(threadCreateCooldownsProvider.notifier)
         .start(parent.id, parent.rateLimitPerUser);
@@ -291,6 +301,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       ref: hostRef,
       guildId: parent.guildId,
       channelId: created.id,
+      channel: thread,
     );
   }
 
