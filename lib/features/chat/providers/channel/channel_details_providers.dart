@@ -249,6 +249,7 @@ class ChannelSearchState {
 class ChannelSearch extends _$ChannelSearch {
   Timer? _indexingPoll;
   int _indexingPollCount = 0;
+  int _generation = 0;
 
   @override
   ChannelSearchState build(String channelId, String? guildId) {
@@ -284,6 +285,7 @@ class ChannelSearch extends _$ChannelSearch {
           chipContentTypes: contentTypes,
           chipFilters: chipFilters,
         );
+    final int generation = ++_generation;
     _stopIndexingPoll();
     if (!nextQuery.hasSearchTerms) {
       state = ChannelSearchState(query: nextQuery);
@@ -301,12 +303,12 @@ class ChannelSearch extends _$ChannelSearch {
     try {
       final ({MessageSearchQuery query, MessageSearchPage page})? result =
           await _executeSearch(nextQuery);
-      if (!ref.mounted || result == null) {
+      if (!ref.mounted || result == null || generation != _generation) {
         return;
       }
       _setSearchPage(result.query, result.page);
     } on Exception {
-      if (!ref.mounted) {
+      if (!ref.mounted || generation != _generation) {
         return;
       }
       state = state.copyWith(isSearching: false, errorMessage: 'Search failed');
@@ -318,6 +320,7 @@ class ChannelSearch extends _$ChannelSearch {
     if (!currentQuery.hasSearchTerms || page < 1 || page == currentQuery.page) {
       return;
     }
+    final int generation = ++_generation;
     _stopIndexingPoll();
     final MessageSearchQuery nextQuery = currentQuery.copyWith(page: page);
     state = state.copyWith(
@@ -329,12 +332,12 @@ class ChannelSearch extends _$ChannelSearch {
     try {
       final ({MessageSearchQuery query, MessageSearchPage page})? result =
           await _executeSearch(nextQuery);
-      if (!ref.mounted || result == null) {
+      if (!ref.mounted || result == null || generation != _generation) {
         return;
       }
       _setSearchPage(result.query, result.page);
     } on Exception {
-      if (!ref.mounted) {
+      if (!ref.mounted || generation != _generation) {
         return;
       }
       state = state.copyWith(isSearching: false, errorMessage: 'Search failed');
@@ -352,11 +355,12 @@ class ChannelSearch extends _$ChannelSearch {
     final MessageSearchQuery nextQuery = currentQuery.copyWith(
       page: currentQuery.page + 1,
     );
+    final int generation = _generation;
     state = state.copyWith(isLoadingMore: true);
     try {
       final ({MessageSearchQuery query, MessageSearchPage page})? result =
           await _executeSearch(nextQuery);
-      if (!ref.mounted || result == null) {
+      if (!ref.mounted || result == null || generation != _generation) {
         return;
       }
       _setSearchPage(
@@ -365,7 +369,7 @@ class ChannelSearch extends _$ChannelSearch {
         results: [...state.results, ...result.page.results],
       );
     } on Exception {
-      if (!ref.mounted) {
+      if (!ref.mounted || generation != _generation) {
         return;
       }
       state = state.copyWith(

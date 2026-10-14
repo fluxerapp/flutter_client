@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
@@ -28,7 +30,22 @@ class _QueuedSearchRepository implements MessageSearchRepository {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-MessageSearchPage _resultsPage() => MessageSearchPage(
+class _HeldSearchRepository implements MessageSearchRepository {
+  final Map<String, Completer<MessageSearchPage>> pending =
+      <String, Completer<MessageSearchPage>>{};
+
+  @override
+  Future<MessageSearchPage> searchMessages(MessageSearchQuery query) {
+    return pending
+        .putIfAbsent(query.rawQuery, Completer<MessageSearchPage>.new)
+        .future;
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+MessageSearchPage _resultsPage({String content = 'hello'}) => MessageSearchPage(
   results: <MessageSearchResultEntry>[
     MessageSearchResultEntry(
       message: Message(
@@ -36,7 +53,7 @@ MessageSearchPage _resultsPage() => MessageSearchPage(
         channelId: _channelId,
         authorId: '1000000000000000009',
         authorName: 'Author',
-        content: 'hello',
+        content: content,
         timestamp: DateTime.utc(2024),
       ),
     ),
@@ -99,4 +116,69 @@ void main() {
       expect(repository.queries.last.rawQuery, 'hello');
     },
   );
+
+  group('stale responses', () {
+    late _HeldSearchRepository repository;
+    late ProviderContainer container;
+    final provider = channelSearchProvider(_channelId, null);
+
+    setUp(() {
+      final FluxerDatabase database = openTestDatabase();
+      addTearDown(database.close);
+      repository = _HeldSearchRepository();
+      container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
+          messageSearchRepositoryProvider.overrideWithValue(repository),
+          shouldShowMatureContentGateProvider(
+            _channelId,
+          ).overrideWith((Ref ref) => Future<bool>.value(false)),
+        ],
+      );
+      addTearDown(container.dispose);
+      final ProviderSubscription<ChannelSearchState> subscription = container
+          .listen(provider, (_, _) {});
+      addTearDown(subscription.close);
+    });
+
+    Future<void> waitForRequest(String rawQuery) async {
+      final DateTime deadline = DateTime.now().add(const Duration(seconds: 2));
+      while (!repository.pending.containsKey(rawQuery) &&
+          DateTime.now().isBefore(deadline)) {
+        await Future<void>.delayed(const Duration(milliseconds: 5));
+      }
+    }
+
+    test('a slower earlier keystroke never replaces newer results', () async {
+      final ChannelSearch notifier = container.read(provider.notifier);
+      final Future<void> first = notifier.search(rawQuery: 'he');
+      await waitForRequest('he');
+      final Future<void> second = notifier.search(rawQuery: 'hello');
+      await waitForRequest('hello');
+
+      repository.pending['hello']!.complete(_resultsPage(content: 'newer'));
+      await second;
+      repository.pending['he']!.complete(_resultsPage(content: 'older'));
+      await first;
+
+      final ChannelSearchState state = container.read(provider);
+      expect(state.query.rawQuery, 'hello');
+      expect(state.results.single.message.content, 'newer');
+      expect(state.isSearching, isFalse);
+    });
+
+    test('clearing the query drops a search still in flight', () async {
+      final ChannelSearch notifier = container.read(provider.notifier);
+      final Future<void> pending = notifier.search(rawQuery: 'hello');
+      await waitForRequest('hello');
+      await notifier.search(rawQuery: '');
+
+      repository.pending['hello']!.complete(_resultsPage());
+      await pending;
+
+      final ChannelSearchState state = container.read(provider);
+      expect(state.hasSearched, isFalse);
+      expect(state.results, isEmpty);
+    });
+  });
 }
