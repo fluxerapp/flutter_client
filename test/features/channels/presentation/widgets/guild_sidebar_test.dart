@@ -1141,6 +1141,113 @@ void main() {
       await releaseTestWidgetTree(tester);
     });
 
+    testWidgets('a restored channel list is never blank or hidden', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(390, 220);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final List<Channel> channels = List<Channel>.generate(
+        20,
+        (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+      );
+      final Map<String, UnreadState> unread = <String, UnreadState>{
+        for (int index = 1; index <= 20; index++)
+          'c$index': index == 20
+              ? const UnreadState(hasUnread: true, hasUnreadMessages: true)
+              : const UnreadState(),
+      };
+      final List<Override> overrides = _buildOverrides(
+        channelListState: ChannelListState(
+          guild: const Guild(id: _guildId, name: 'Test Guild'),
+          categories: [
+            ChannelCategory(
+              id: 'cat1',
+              name: 'My Category',
+              channels: channels,
+            ),
+          ],
+          selectedChannelId: 'c1',
+          hasReceivedInitialChannelList: true,
+        ),
+        selectedChannelId: 'c1',
+        unread: unread,
+      );
+      final ProviderContainer container = ProviderContainer(
+        overrides: overrides,
+      );
+      addTearDown(container.dispose);
+      final colorTheme = buildDarkColorTheme();
+      Future<void> pumpSidebar() async {
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: MaterialApp(
+              locale: kTestLocale,
+              localizationsDelegates: fluxerLocalizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: colorTheme,
+                textTheme: FluxerTextTheme.fromColors(colorTheme),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: const Scaffold(body: GuildSidebar()),
+            ),
+          ),
+        );
+        await _pumpSidebar(tester);
+        for (int i = 0; i < 4; i += 1) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+      }
+
+      await pumpSidebar();
+      await tester.scrollUntilVisible(
+        find.text('channel-20'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await _pumpSidebar(tester);
+      expect(find.text('channel-20'), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp(
+            locale: kTestLocale,
+            localizationsDelegates: fluxerLocalizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: colorTheme,
+              textTheme: FluxerTextTheme.fromColors(colorTheme),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: const Scaffold(body: GuildSidebar()),
+          ),
+        ),
+      );
+      for (int frame = 0; frame < 20; frame += 1) {
+        if (find.byType(GuildSidebarSkeleton).evaluate().isEmpty) {
+          final Finder channel = find.text('channel-20');
+          expect(channel, findsOneWidget, reason: 'frame $frame');
+          final Iterable<Opacity> opacities = tester.widgetList<Opacity>(
+            find.ancestor(of: channel, matching: find.byType(Opacity)),
+          );
+          expect(
+            opacities.every((Opacity o) => o.opacity == 1),
+            isTrue,
+            reason: 'frame $frame',
+          );
+        }
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      await releaseTestWidgetTree(tester);
+    });
+
     testWidgets('restores channel list scroll after switching guilds', (
       tester,
     ) async {
