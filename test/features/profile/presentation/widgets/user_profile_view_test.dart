@@ -314,6 +314,44 @@ void main() {
     expect(find.byType(ProfileTabMenuSheetBody), findsNothing);
   });
 
+  testWidgets('phone profile menu offers status and account switching', (
+    tester,
+  ) async {
+    final ScrollController scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    await tester.pumpWidget(_buildApp(scrollController));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Tester').first);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ProfileTabMenuSheetBody), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(ProfileTabMenuSheetBody),
+        matching: find.text(testL10n.statusOnline),
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(ProfileTabMenuSheetBody),
+        matching: find.text(testL10n.statusOnline),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(StatusChangeSheetBody), findsOneWidget);
+  });
+
   testWidgets('profile avatar is 80pt inside a 3.2pt sheet-coloured ring', (
     tester,
   ) async {

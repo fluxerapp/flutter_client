@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/profile/domain/presence_status_labels.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/status_change_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -20,11 +19,6 @@ class ProfileTabMenuSheet {
 
   static Future<void> show(BuildContext context, WidgetRef ref) async {
     unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());
-
-    if (!isDesktopLayout(context)) {
-      await AccountSwitcherSheet.show(context);
-      return;
-    }
 
     await FluxerBottomSheet.show<void>(
       context,

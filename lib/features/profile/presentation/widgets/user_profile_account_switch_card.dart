@@ -5,8 +5,8 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/add_account_screen.dart';
+import 'package:fluxer_app/features/auth/presentation/sheets/account_switcher_sheet.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
-import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -58,7 +58,7 @@ class _UserProfileAccountSwitchCardState
 
     return FluxerTappable(
       onTap: canSwitch
-          ? () => unawaited(ProfileTabMenuSheet.show(context, ref))
+          ? () => unawaited(AccountSwitcherSheet.show(context))
           : () => unawaited(_addAccount()),
       builder: (context, _) => DecoratedBox(
         decoration: BoxDecoration(
