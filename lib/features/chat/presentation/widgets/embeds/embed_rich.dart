@@ -111,11 +111,9 @@ class EmbedRich extends StatelessWidget {
                       if (embed.providerName != null)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
-                          child: EmbedInlineText(
-                            text: embed.providerName!,
-                            style: context.textStyles.embedFooter.copyWith(
-                              fontSize: 12,
-                            ),
+                          child: EmbedProvider(
+                            name: embed.providerName!,
+                            url: embed.providerUrl,
                           ),
                         ),
                       if (embed.author != null)

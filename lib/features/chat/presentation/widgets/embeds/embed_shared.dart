@@ -5,9 +5,11 @@ import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 class EmbedInlineText extends StatelessWidget {
@@ -26,17 +28,20 @@ class EmbedInlineText extends StatelessWidget {
   }
 }
 
-class EmbedTitle extends StatelessWidget {
-  final String title;
-  final String? url;
+class EmbedLinkText extends ConsumerWidget {
+  const EmbedLinkText({
+    required this.text,
+    required this.url,
+    required this.style,
+    super.key,
+  });
 
-  const EmbedTitle({required this.title, this.url, super.key});
+  final String text;
+  final String url;
+  final TextStyle style;
 
   Future<void> _launch(BuildContext context) async {
-    if (url == null) {
-      return;
-    }
-    final ChannelJumpLink? jump = parseChannelJumpLink(url!);
+    final ChannelJumpLink? jump = parseChannelJumpLink(url);
     if (jump != null) {
       await navigateToChannelJumpLink(
         container: ProviderScope.containerOf(context),
@@ -45,24 +50,67 @@ class EmbedTitle extends StatelessWidget {
       );
       return;
     }
-    await handleExternalLinkTap(context, url!);
+    await handleExternalLinkTap(context, url);
   }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool underline =
+        MessageMarkdownSettingsScope.maybeOf(context)?.alwaysUnderlineLinks ??
+        ref.watch(
+          appearancePreferencesProvider.select((s) => s.alwaysUnderlineLinks),
+        );
+    return FluxerGestureDetector(
+      onTap: () => _launch(context),
+      child: EmbedInlineText(
+        text: text,
+        style: underline
+            ? style.copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: style.color,
+              )
+            : style,
+      ),
+    );
+  }
+}
+
+class EmbedTitle extends StatelessWidget {
+  final String title;
+  final String? url;
+
+  const EmbedTitle({required this.title, this.url, super.key});
 
   @override
   Widget build(BuildContext context) {
     final baseStyle = context.textStyles.embedTitle;
-
-    if (url == null) {
+    final String? link = url;
+    if (link == null) {
       return EmbedInlineText(
         text: title,
         style: baseStyle.copyWith(color: context.colors.textPrimary),
       );
     }
+    return EmbedLinkText(text: title, url: link, style: baseStyle);
+  }
+}
 
-    return FluxerGestureDetector(
-      onTap: () => _launch(context),
-      child: EmbedInlineText(text: title, style: baseStyle),
+class EmbedProvider extends StatelessWidget {
+  final String name;
+  final String? url;
+
+  const EmbedProvider({required this.name, this.url, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle style = context.textStyles.embedFooter.copyWith(
+      fontSize: 12,
     );
+    final String? link = url;
+    if (link == null || link.isEmpty) {
+      return EmbedInlineText(text: name, style: style);
+    }
+    return EmbedLinkText(text: name, url: link, style: style);
   }
 }
 
@@ -91,17 +139,21 @@ class EmbedAuthorRow extends StatelessWidget {
         ),
         const SizedBox(width: 6),
       ],
-      Flexible(
-        child: EmbedInlineText(
-          text: author.name,
-          style: context.textStyles.smallText.copyWith(
-            color: context.colors.textPrimary,
-            fontSize: 13,
-          ),
-        ),
-      ),
+      Flexible(child: _name(context)),
     ],
   );
+
+  Widget _name(BuildContext context) {
+    final TextStyle style = context.textStyles.smallText.copyWith(
+      color: context.colors.textPrimary,
+      fontSize: 13,
+    );
+    final String? link = author.url;
+    if (link == null || link.isEmpty) {
+      return EmbedInlineText(text: author.name, style: style);
+    }
+    return EmbedLinkText(text: author.name, url: link, style: style);
+  }
 }
 
 class EmbedFooterRow extends StatelessWidget {
