@@ -3989,6 +3989,47 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Ověřit e-mail';
 
   @override
+  String get accountLimitedNotice =>
+      'U vašeho účtu je posílání zpráv na pauze. Podívejte se do e-mailu: stačí jeden rychlý krok a můžete pokračovat.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Moje SMS neprošla';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Napište na $supportEmail a někdo z týmu zkontroluje váš účet. Můžete také odpovědět na e-mail, který jsme vám poslali.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Země, ve které se nacházíte';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Kopírovat údaje';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Napsat podpoře';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID účtu: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Uživatelské jméno: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Účet vytvořen: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Země: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Příliš mnoho příloh (max $max)';
   }

@@ -104,6 +104,7 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
     canShowScheduledMaintenance: canShowScheduledMaintenance,
     userIsUnclaimed: userIsUnclaimed,
     userNeedsVerification: userNeedsVerification,
+    canShowAccountLimited: settings.accountLimited,
     canShowPremiumExpired: canShowPremiumExpired,
     canShowPremiumGracePeriod: canShowPremiumGracePeriod,
     canShowVoiceSessionRestore: false,

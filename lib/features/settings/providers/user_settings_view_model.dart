@@ -74,6 +74,7 @@ class UserSettingsViewState {
   final String? passwordLastChangedAt;
   final bool mfaEnabled;
   final List<String> requiredActions;
+  final bool accountLimited;
   final List<int> authenticatorTypes;
   final bool premiumWillCancel;
 
@@ -168,6 +169,7 @@ class UserSettingsViewState {
     this.passwordLastChangedAt,
     this.mfaEnabled = false,
     this.requiredActions = const <String>[],
+    this.accountLimited = false,
     this.authenticatorTypes = const [],
     this.premiumWillCancel = false,
     this.premiumType,
@@ -607,6 +609,7 @@ class UserSettingsViewState {
     Object? passwordLastChangedAt = _unset,
     bool? mfaEnabled,
     List<String>? requiredActions,
+    bool? accountLimited,
     List<int>? authenticatorTypes,
     bool? premiumWillCancel,
     Object? premiumType = _unset,
@@ -706,6 +709,7 @@ class UserSettingsViewState {
           : passwordLastChangedAt as String?,
       mfaEnabled: mfaEnabled ?? this.mfaEnabled,
       requiredActions: requiredActions ?? this.requiredActions,
+      accountLimited: accountLimited ?? this.accountLimited,
       authenticatorTypes: authenticatorTypes ?? this.authenticatorTypes,
       premiumWillCancel: premiumWillCancel ?? this.premiumWillCancel,
       premiumType: premiumType == _unset
@@ -1048,6 +1052,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       passwordLastChangedAt: profile.passwordLastChangedAt,
       mfaEnabled: profile.mfaEnabled,
       requiredActions: List<String>.from(profile.requiredActions),
+      accountLimited: profile.accountLimited ?? false,
       authenticatorTypes:
           profile.authenticatorTypes
               ?.map((t) => t.json)

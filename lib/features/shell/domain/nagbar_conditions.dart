@@ -5,6 +5,7 @@ class NagbarConditions {
     required this.canShowScheduledMaintenance,
     required this.userIsUnclaimed,
     required this.userNeedsVerification,
+    required this.canShowAccountLimited,
     required this.canShowPremiumExpired,
     required this.canShowPremiumGracePeriod,
     required this.canShowVoiceSessionRestore,
@@ -24,6 +25,7 @@ class NagbarConditions {
   final bool canShowScheduledMaintenance;
   final bool userIsUnclaimed;
   final bool userNeedsVerification;
+  final bool canShowAccountLimited;
   final bool canShowPremiumExpired;
   final bool canShowPremiumGracePeriod;
   final bool canShowVoiceSessionRestore;

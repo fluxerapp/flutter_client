@@ -4003,6 +4003,47 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Verifică adresa de e-mail';
 
   @override
+  String get accountLimitedNotice =>
+      'Trimiterea de mesaje este în pauză pentru contul tău. Uită-te în e-mail: te așteaptă un pas rapid ca să poți continua.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'SMS-ul meu nu a ajuns';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Scrie la $supportEmail și cineva din echipă îți va verifica contul. Poți și să răspunzi la e-mailul pe care ți l-am trimis.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Țara în care te afli';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Copiază detaliile';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Scrie echipei de suport';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID cont: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Nume de utilizator: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Cont creat: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Țară: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Prea multe atașamente (maxim $max)';
   }

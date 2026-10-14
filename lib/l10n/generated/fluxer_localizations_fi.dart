@@ -3989,6 +3989,48 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Vahvista sähköposti';
 
   @override
+  String get accountLimitedNotice =>
+      'Viestien lähettäminen on tililläsi tauolla. Löydät sähköpostistasi yhden nopean vaiheen, jolla pääset jatkamaan.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough =>
+      'Tekstiviestini ei mennyt perille';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Lähetä sähköpostia osoitteeseen $supportEmail, niin ihminen tarkistaa tilisi. Voit myös vastata sähköpostiin, jonka lähetimme sinulle.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Maa, jossa olet';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Kopioi tiedot';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Lähetä sähköpostia tukeen';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Tilin tunnus: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Käyttäjänimi: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Tili luotu: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Maa: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Liian monta liitettä (max $max)';
   }

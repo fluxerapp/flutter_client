@@ -33,6 +33,7 @@ int effectiveGuildVerificationLevel(
 }
 
 enum GuildComposerBlockReason {
+  accountLimited,
   unclaimedAccount,
   unverifiedEmail,
   accountTooNew,

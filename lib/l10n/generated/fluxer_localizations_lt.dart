@@ -4001,6 +4001,47 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Patvirtinti el. paštą';
 
   @override
+  String get accountLimitedNotice =>
+      'Žinučių siuntimas jūsų paskyroje pristabdytas. Peržiūrėkite el. paštą: tęsti galėsite atlikę vieną greitą žingsnį.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Mano SMS nebuvo pristatyta';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Parašykite adresu $supportEmail, ir mūsų komandos narys peržiūrės jūsų paskyrą. Taip pat galite atsakyti į mūsų atsiųstą el. laišką.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Šalis, kurioje esate';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Kopijuoti duomenis';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Rašyti pagalbai';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Paskyros ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Naudotojo vardas: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Paskyra sukurta: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Šalis: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Pernelyg daug priedų (daugiausia $max)';
   }

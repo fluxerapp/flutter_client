@@ -3992,6 +3992,47 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Potvrdite e-poštu';
 
   @override
+  String get accountLimitedNotice =>
+      'Slanje poruka na vašem računu je pauzirano. Pogledajte e-poštu: dovoljan je jedan brzi korak za nastavak.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Moj SMS nije prošao';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Pošaljite e-poruku na $supportEmail i netko iz tima pregledat će vaš račun. Možete i odgovoriti na e-poruku koju smo vam poslali.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Država u kojoj se nalazite';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Kopiraj podatke';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Pišite podršci';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID računa: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Korisničko ime: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Račun stvoren: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Država: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Previše privitaka (max $max)';
   }

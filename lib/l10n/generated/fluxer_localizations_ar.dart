@@ -3961,6 +3961,47 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'التحقق من البريد الإلكتروني';
 
   @override
+  String get accountLimitedNotice =>
+      'إرسال الرسائل متوقف مؤقتًا في حسابك. ستجد في بريدك الإلكتروني خطوة سريعة واحدة للمتابعة.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'لم تصل رسالتي النصية';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'راسل $supportEmail وسيراجع شخص من فريقنا حسابك. يمكنك أيضًا الرد على البريد الإلكتروني الذي أرسلناه إليك.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'البلد الذي تتواجد فيه';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'نسخ التفاصيل';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'مراسلة الدعم';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'معرّف الحساب: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'اسم المستخدم: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'تاريخ إنشاء الحساب: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'البلد: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'ملفات مرفقة كثيرة جدًا (الحد الأقصى $max)';
   }

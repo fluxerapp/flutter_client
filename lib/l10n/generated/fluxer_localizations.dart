@@ -6476,6 +6476,66 @@ abstract class FluxerLocalizations {
   /// **'Verify email'**
   String get channelComposerBarrierVerifyEmail;
 
+  /// Notice shown in place of the message composer and as a banner at the top of the app when messaging is paused on the current account until the user completes one quick step described in an email. Keep the tone calm and friendly.
+  ///
+  /// In en, this message translates to:
+  /// **'Messaging is paused on your account. Check your email for a quick step to continue.'**
+  String get accountLimitedNotice;
+
+  /// Button shown while messaging is paused on the current account, and the title of the help sheet it opens. The email describing the quick step asks the user to send a text message from their phone. This is for users who could not send that text, and also for users who sent it and nothing happened. The translation should cover both. Also used as the subject of the support email.
+  ///
+  /// In en, this message translates to:
+  /// **'My text didn\'t go through'**
+  String get messagingPausedTextDidNotGoThrough;
+
+  /// Body of the help sheet opened from "My text didn't go through" while messaging is paused on the account. supportEmail is the support email address. Keep it short, calm and neutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Email {supportEmail} and a person will check your account. You can also reply to the email we sent you.'**
+  String messagingPausedHelpBody(String supportEmail);
+
+  /// Field label in the help sheet opened from "My text didn't go through". The user types the country they are in so support can help.
+  ///
+  /// In en, this message translates to:
+  /// **'Country you\'re in'**
+  String get messagingPausedHelpCountryLabel;
+
+  /// Button in the help sheet opened from "My text didn't go through". Copies the account details for a support email to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy details'**
+  String get messagingPausedHelpCopyDetails;
+
+  /// Primary button in the help sheet opened from "My text didn't go through". Opens a new email to support with the account details filled in.
+  ///
+  /// In en, this message translates to:
+  /// **'Email support'**
+  String get messagingPausedHelpEmailSupport;
+
+  /// One line of the support email written for the user. accountId is the numeric account ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Account ID: {accountId}'**
+  String messagingPausedHelpAccountIdLine(String accountId);
+
+  /// One line of the support email written for the user. username is the account username with its tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Username: {username}'**
+  String messagingPausedHelpUsernameLine(String username);
+
+  /// One line of the support email written for the user. createdAt is the account creation time as an ISO 8601 UTC timestamp.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created: {createdAt}'**
+  String messagingPausedHelpAccountCreatedLine(String createdAt);
+
+  /// One line of the support email written for the user. country is the country the user typed.
+  ///
+  /// In en, this message translates to:
+  /// **'Country: {country}'**
+  String messagingPausedHelpCountryLine(String country);
+
   /// Shown when adding files would exceed the per-message attachment limit.
   ///
   /// In en, this message translates to:

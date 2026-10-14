@@ -108,6 +108,36 @@ void main() {
       },
     );
 
+    test('flags paused messaging on the account', () async {
+      final ProviderContainer container = _container(
+        settings: const UserSettingsViewState(
+          userId: '1',
+          username: 'user',
+          displayName: 'user',
+          discriminator: '0001',
+          avatar: null,
+          avatarColor: null,
+          memberSince: null,
+          status: 'online',
+          messageDisplayCompact: false,
+          developerMode: false,
+          trustedDomains: <String>[],
+          email: 'user@example.com',
+          verified: true,
+          isProfileLoaded: true,
+          accountLimited: true,
+        ),
+      );
+      addTearDown(container.dispose);
+      await container.read(wellKnownProvider.future);
+
+      final NagbarConditions conditions = await container.read(
+        nagbarConditionsProvider.future,
+      );
+
+      expect(conditions.canShowAccountLimited, isTrue);
+    });
+
     test('hides premium commerce on self-hosted instances', () async {
       final ProviderContainer container = _container(selfHosted: true);
       addTearDown(container.dispose);
@@ -153,12 +183,30 @@ void main() {
 
       expect(types, contains(NagbarType.unclaimedAccount));
     });
+
+    test('maps paused messaging to the account limited nagbar', () async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          nagbarConditionsProvider.overrideWith(
+            (Ref ref) => _emptyConditions(canShowAccountLimited: true),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final List<NagbarType> types = (await container.read(
+        visibleNagbarsProvider.future,
+      )).map((state) => state.type).toList();
+
+      expect(types, contains(NagbarType.accountLimited));
+    });
   });
 }
 
 NagbarConditions _emptyConditions({
   bool userIsUnclaimed = false,
   bool userNeedsVerification = false,
+  bool canShowAccountLimited = false,
   bool canShowScheduledMaintenance = false,
   bool canShowPremiumGracePeriod = false,
   bool canShowPremiumExpired = false,
@@ -170,6 +218,7 @@ NagbarConditions _emptyConditions({
     canShowScheduledMaintenance: canShowScheduledMaintenance,
     userIsUnclaimed: userIsUnclaimed,
     userNeedsVerification: userNeedsVerification,
+    canShowAccountLimited: canShowAccountLimited,
     canShowPremiumExpired: canShowPremiumExpired,
     canShowPremiumGracePeriod: canShowPremiumGracePeriod,
     canShowVoiceSessionRestore: false,

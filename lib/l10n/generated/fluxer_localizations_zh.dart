@@ -3774,6 +3774,46 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => '验证邮箱';
 
   @override
+  String get accountLimitedNotice => '你账号的消息功能已暂停。请查看邮箱，完成一个简单步骤即可继续使用。';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => '我的短信没有送达';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return '发送邮件至 $supportEmail，会有工作人员查看你的账号。你也可以直接回复我们发给你的邮件。';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => '你所在的国家/地区';
+
+  @override
+  String get messagingPausedHelpCopyDetails => '复制详情';
+
+  @override
+  String get messagingPausedHelpEmailSupport => '发邮件给客服';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return '账号 ID：$accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return '用户名：$username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return '账号创建时间：$createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return '国家/地区：$country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return '附件过多（最多 $max 个）';
   }
@@ -18205,6 +18245,46 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get channelComposerBarrierVerifyEmail => '驗證電子郵件';
+
+  @override
+  String get accountLimitedNotice => '您帳號的訊息功能已暫停。請查看電子郵件，完成一個簡單步驟即可繼續使用。';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => '我的簡訊沒有送達';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return '請寄信至 $supportEmail，會有專人查看您的帳號。您也可以直接回覆我們寄給您的信件。';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => '您所在的國家/地區';
+
+  @override
+  String get messagingPausedHelpCopyDetails => '複製詳細資訊';
+
+  @override
+  String get messagingPausedHelpEmailSupport => '寄信給客服';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return '帳號 ID：$accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return '使用者名稱：$username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return '帳號建立時間：$createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return '國家/地區：$country';
+  }
 
   @override
   String chatAttachmentTooMany(int max) {

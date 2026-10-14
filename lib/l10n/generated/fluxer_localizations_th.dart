@@ -3948,6 +3948,47 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'ยืนยันอีเมล';
 
   @override
+  String get accountLimitedNotice =>
+      'ขณะนี้การส่งข้อความในบัญชีของคุณหยุดชั่วคราว โปรดดูอีเมลของคุณ แล้วทำขั้นตอนง่าย ๆ เพียงขั้นตอนเดียวเพื่อใช้งานต่อ';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'SMS ของฉันส่งไม่ถึง';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'ส่งอีเมลไปที่ $supportEmail แล้วเจ้าหน้าที่จะตรวจสอบบัญชีของคุณ คุณยังตอบกลับอีเมลที่เราส่งให้คุณได้ด้วย';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'ประเทศที่คุณอยู่';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'คัดลอกรายละเอียด';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'ส่งอีเมลถึงฝ่ายสนับสนุน';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID บัญชี: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'ชื่อผู้ใช้: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'สร้างบัญชีเมื่อ: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'ประเทศ: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'ไฟล์แนบมากเกินไป (สูงสุด $max ไฟล์)';
   }

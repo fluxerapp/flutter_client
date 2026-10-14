@@ -3974,6 +3974,47 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Verifikasi email';
 
   @override
+  String get accountLimitedNotice =>
+      'Fitur pesan di akunmu sedang dijeda. Cek emailmu untuk satu langkah singkat agar bisa lanjut.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'SMS saya tidak sampai';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Kirim email ke $supportEmail dan seseorang dari tim kami akan memeriksa akunmu. Kamu juga bisa membalas email yang kami kirimkan.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Negara tempat kamu berada';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Salin detail';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Kirim email ke dukungan';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID akun: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Nama pengguna: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Akun dibuat: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Negara: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Terlalu banyak lampiran (maks $max)';
   }

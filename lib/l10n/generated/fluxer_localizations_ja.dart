@@ -3835,6 +3835,47 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'メールアドレスを確認';
 
   @override
+  String get accountLimitedNotice =>
+      'アカウントのメッセージ機能は一時停止中です。メールでご案内しているかんたんな手続きを済ませると、再開できます。';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'SMSが届きませんでした';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return '$supportEmail までメールでご連絡ください。担当者がアカウントを確認します。お送りしたメールに返信していただくこともできます。';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => '現在いる国';
+
+  @override
+  String get messagingPausedHelpCopyDetails => '詳細をコピー';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'サポートにメール';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'アカウントID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'ユーザー名: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'アカウント作成日時: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return '国: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return '添付ファイルが多すぎます（最大 $max 個）';
   }

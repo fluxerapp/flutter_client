@@ -3987,6 +3987,48 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'E-mailadres verifiëren';
 
   @override
+  String get accountLimitedNotice =>
+      'Berichten sturen is gepauzeerd voor je account. Kijk in je e-mail voor één snelle stap om verder te gaan.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough =>
+      'Mijn sms is niet aangekomen';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Mail $supportEmail en iemand van ons team bekijkt je account. Je kunt ook reageren op de e-mail die we je hebben gestuurd.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Land waar je bent';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Gegevens kopiëren';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Support mailen';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Account-ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Gebruikersnaam: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Account aangemaakt: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Land: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Te veel bijlagen (max $max)';
   }

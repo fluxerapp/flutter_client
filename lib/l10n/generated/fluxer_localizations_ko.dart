@@ -3838,6 +3838,47 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => '이메일 인증';
 
   @override
+  String get accountLimitedNotice =>
+      '계정의 메시지 기능이 잠시 멈춰 있어요. 이메일로 안내해 드린 간단한 단계 하나만 마치면 다시 이용할 수 있어요.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => '문자 메시지가 전달되지 않았습니다';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return '$supportEmail(으)로 이메일을 보내 주시면 담당자가 계정을 확인합니다. 보내 드린 이메일에 답장하셔도 됩니다.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => '현재 계신 국가';
+
+  @override
+  String get messagingPausedHelpCopyDetails => '세부 정보 복사';
+
+  @override
+  String get messagingPausedHelpEmailSupport => '지원팀에 이메일 보내기';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return '계정 ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return '사용자 이름: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return '계정 생성 일시: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return '국가: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return '첨부 파일이 너무 많습니다(최대 $max개)';
   }

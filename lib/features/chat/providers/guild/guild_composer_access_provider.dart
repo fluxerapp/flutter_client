@@ -20,14 +20,6 @@ AsyncValue<GuildComposerAccess> guildComposerAccess(Ref ref, String channelId) {
   if (channelId.isEmpty) {
     return const AsyncData<GuildComposerAccess>(GuildComposerAccess.allowed);
   }
-  final bool isDmChannel = ref.watch(
-    dmViewModelProvider.select(
-      (state) => findDmById(state.conversations, channelId) != null,
-    ),
-  );
-  if (isDmChannel) {
-    return const AsyncData<GuildComposerAccess>(GuildComposerAccess.allowed);
-  }
   final String? currentUserId = ref.watch(currentUserIdProvider);
   if (currentUserId == null ||
       currentUserId.isEmpty ||
@@ -35,6 +27,26 @@ AsyncValue<GuildComposerAccess> guildComposerAccess(Ref ref, String channelId) {
         channelId: channelId,
         currentUserId: currentUserId,
       )) {
+    return const AsyncData<GuildComposerAccess>(GuildComposerAccess.allowed);
+  }
+  if (ref.watch(
+    userSettingsViewModelProvider.select(
+      (UserSettingsViewState state) => state.accountLimited,
+    ),
+  )) {
+    return const AsyncData<GuildComposerAccess>(
+      GuildComposerAccess(
+        canAccess: false,
+        reason: GuildComposerBlockReason.accountLimited,
+      ),
+    );
+  }
+  final bool isDmChannel = ref.watch(
+    dmViewModelProvider.select(
+      (state) => findDmById(state.conversations, channelId) != null,
+    ),
+  );
+  if (isDmChannel) {
     return const AsyncData<GuildComposerAccess>(GuildComposerAccess.allowed);
   }
   final String? listedGuildId = ref.watch(

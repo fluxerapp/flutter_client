@@ -3964,6 +3964,47 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Verify email';
 
   @override
+  String get accountLimitedNotice =>
+      'Messaging is paused on your account. Check your email for a quick step to continue.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'My text didn\'t go through';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Email $supportEmail and a person will check your account. You can also reply to the email we sent you.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Country you\'re in';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Copy details';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Email support';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Account ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Username: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Account created: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Country: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Too many attachments (max $max)';
   }
@@ -19203,6 +19244,47 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get channelComposerBarrierVerifyEmail => 'Verify email';
 
   @override
+  String get accountLimitedNotice =>
+      'Messaging is paused on your account. Check your email for a quick step to continue.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'My text didn\'t go through';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Email $supportEmail and a person will check your account. You can also reply to the email we sent you.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Country you\'re in';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Copy details';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Email support';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Account ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Username: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Account created: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Country: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Too many attachments (max $max)';
   }
@@ -32956,6 +33038,47 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get channelComposerBarrierVerifyEmail => 'Verify email';
+
+  @override
+  String get accountLimitedNotice =>
+      'Messaging is paused on your account. Check your email for a quick step to continue.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'My text didn\'t go through';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Email $supportEmail and a person will check your account. You can also reply to the email we sent you.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Country you\'re in';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Copy details';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Email support';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Account ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Username: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Account created: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Country: $country';
+  }
 
   @override
   String chatAttachmentTooMany(int max) {

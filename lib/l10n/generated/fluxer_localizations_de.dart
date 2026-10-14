@@ -4011,6 +4011,48 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'E-Mail bestätigen';
 
   @override
+  String get accountLimitedNotice =>
+      'Das Senden von Nachrichten ist für deinen Account pausiert. Schau in deine E-Mails, dort erfährst du, wie es mit einem kurzen Schritt weitergeht.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough =>
+      'Meine SMS ist nicht angekommen';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Schreib an $supportEmail, dann sieht sich jemand aus dem Team dein Konto an. Du kannst auch auf die E-Mail antworten, die wir dir geschickt haben.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Land, in dem du bist';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Details kopieren';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Support anschreiben';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Konto-ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Benutzername: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Konto erstellt: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Land: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Zu viele Anhänge (max. $max)';
   }

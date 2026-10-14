@@ -6,6 +6,7 @@ String guildComposerBarrierMessage(
   GuildComposerBlockReason reason,
 ) {
   return switch (reason) {
+    GuildComposerBlockReason.accountLimited => l10n.accountLimitedNotice,
     GuildComposerBlockReason.guildSendDisabled =>
       l10n.channelComposerBarrierGuildSendDisabled,
     GuildComposerBlockReason.timedOut => l10n.channelComposerBarrierTimedOut,

@@ -4021,6 +4021,47 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Verificar correo electrónico';
 
   @override
+  String get accountLimitedNotice =>
+      'El envío de mensajes está en pausa en tu cuenta. Revisa tu correo electrónico para completar un paso rápido y continuar.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Mi SMS no ha llegado';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Escribe a $supportEmail y una persona revisará tu cuenta. También puedes responder al correo que te enviamos.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'País donde estás';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Copiar datos';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Escribir a soporte';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID de la cuenta: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Nombre de usuario: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Cuenta creada: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'País: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Demasiados archivos adjuntos (máx. $max)';
   }
@@ -19514,6 +19555,47 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get channelComposerBarrierVerifyEmail =>
       'Verificar correo electrónico';
+
+  @override
+  String get accountLimitedNotice =>
+      'El envío de mensajes está en pausa en tu cuenta. Revisa tu correo para completar un paso rápido y continuar.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Mi SMS no llegó';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Escribe a $supportEmail y una persona revisará tu cuenta. También puedes responder al correo que te enviamos.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'País donde estás';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Copiar datos';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Escribir a soporte';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID de la cuenta: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Nombre de usuario: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Cuenta creada: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'País: $country';
+  }
 
   @override
   String chatAttachmentTooMany(int max) {

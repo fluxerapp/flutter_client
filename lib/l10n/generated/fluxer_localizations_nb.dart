@@ -3973,6 +3973,47 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Bekreft e-post';
 
   @override
+  String get accountLimitedNotice =>
+      'Meldinger er satt på pause for kontoen din. Sjekk e-posten din for et raskt steg så du kan fortsette.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'SMS-en min kom ikke frem';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Send e-post til $supportEmail, så ser en person på kontoen din. Du kan også svare på e-posten vi sendte deg.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Landet du er i';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Kopier detaljer';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Send e-post til kundestøtte';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Konto-ID: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Brukernavn: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Konto opprettet: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Land: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'For mange vedlegg (maks $max)';
   }

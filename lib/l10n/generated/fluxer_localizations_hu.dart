@@ -4010,6 +4010,47 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'E-mail-cím megerősítése';
 
   @override
+  String get accountLimitedNotice =>
+      'Az üzenetküldés jelenleg szünetel a fiókodban. Nézd meg az e-mailjeidet: egy gyors lépés, és folytathatod.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Nem ment át az SMS-em';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Írj a(z) $supportEmail címre, és egy munkatársunk átnézi a fiókodat. Arra az e-mailre is válaszolhatsz, amit küldtünk neked.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Ország, ahol vagy';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Adatok másolása';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Írj az ügyfélszolgálatnak';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Fiókazonosító: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Felhasználónév: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Fiók létrehozva: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Ország: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Túl sok melléklet ($max max)';
   }

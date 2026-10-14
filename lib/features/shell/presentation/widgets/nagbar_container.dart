@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_state.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_type.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/account_limited_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/email_verification_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/gift_inventory_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/guild_membership_cta_nagbar.dart';
@@ -45,6 +46,7 @@ class NagbarContainer extends ConsumerWidget {
       NagbarType.scheduledMaintenance => const ScheduledMaintenanceNagbar(),
       NagbarType.unclaimedAccount => const UnclaimedAccountNagbar(),
       NagbarType.emailVerification => const EmailVerificationNagbar(),
+      NagbarType.accountLimited => const AccountLimitedNagbar(),
       NagbarType.premiumGracePeriod => const PremiumGracePeriodNagbar(),
       NagbarType.premiumExpired => const PremiumExpiredNagbar(),
       NagbarType.premiumOnboarding => const PremiumOnboardingNagbar(),

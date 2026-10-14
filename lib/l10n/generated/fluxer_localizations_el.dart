@@ -4018,6 +4018,47 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Επαλήθευση email';
 
   @override
+  String get accountLimitedNotice =>
+      'Η αποστολή μηνυμάτων από τον λογαριασμό σας είναι σε παύση. Ελέγξτε το email σας: ένα γρήγορο βήμα αρκεί για να συνεχίσετε.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Το SMS μου δεν έφτασε';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Στείλτε email στο $supportEmail και ένα άτομο της ομάδας μας θα ελέγξει τον λογαριασμό σας. Μπορείτε επίσης να απαντήσετε στο email που σας στείλαμε.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Χώρα όπου βρίσκεστε';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Αντιγραφή στοιχείων';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Email στην υποστήριξη';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID λογαριασμού: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Όνομα χρήστη: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Δημιουργία λογαριασμού: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Χώρα: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Πολλά συνημμένα (μέγιστο $max)';
   }

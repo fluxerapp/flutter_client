@@ -3998,6 +3998,47 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Підтвердити електронну пошту';
 
   @override
+  String get accountLimitedNotice =>
+      'Надсилання повідомлень у вашому обліковому записі на паузі. Загляньте в електронну пошту: щоб продовжити, потрібен лише один швидкий крок.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'Моє SMS не дійшло';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Напишіть на $supportEmail, і працівник перевірить ваш обліковий запис. Також можна відповісти на лист, який ми вам надіслали.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Країна, де ви перебуваєте';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Копіювати дані';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Написати в підтримку';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID облікового запису: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Ім\'я користувача: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Обліковий запис створено: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Країна: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Занадто багато вкладень (макс. $max)';
   }

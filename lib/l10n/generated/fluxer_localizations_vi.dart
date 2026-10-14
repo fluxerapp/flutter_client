@@ -3969,6 +3969,48 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'Xác minh email';
 
   @override
+  String get accountLimitedNotice =>
+      'Tính năng nhắn tin trên tài khoản của bạn đang tạm dừng. Hãy kiểm tra email và làm một bước đơn giản để tiếp tục.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough =>
+      'Tin nhắn SMS của tôi không đến nơi';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'Gửi email đến $supportEmail và một nhân viên sẽ kiểm tra tài khoản của bạn. Bạn cũng có thể trả lời email chúng tôi đã gửi cho bạn.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Quốc gia bạn đang ở';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Sao chép chi tiết';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Gửi email cho bộ phận hỗ trợ';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'ID tài khoản: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Tên người dùng: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Tài khoản được tạo: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Quốc gia: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Quá nhiều tệp đính kèm (tối đa $max)';
   }

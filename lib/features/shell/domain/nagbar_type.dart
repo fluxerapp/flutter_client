@@ -4,6 +4,7 @@ enum NagbarType {
   scheduledMaintenance,
   unclaimedAccount,
   emailVerification,
+  accountLimited,
   premiumExpired,
   premiumGracePeriod,
   voiceSessionRestore,

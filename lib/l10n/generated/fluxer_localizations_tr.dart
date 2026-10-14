@@ -3974,6 +3974,47 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'E-postayı doğrula';
 
   @override
+  String get accountLimitedNotice =>
+      'Hesabınızda mesajlaşma şimdilik duraklatıldı. Devam etmek için e-postanıza göz atın, sizi tek bir kısa adım bekliyor.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'SMS\'im gitmedi';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return '$supportEmail adresine e-posta gönderin, ekibimizden biri hesabınızı inceleyecek. Size gönderdiğimiz e-postayı da yanıtlayabilirsiniz.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'Bulunduğunuz ülke';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'Ayrıntıları kopyala';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'Desteğe e-posta gönder';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'Hesap kimliği: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'Kullanıcı adı: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'Hesap oluşturma: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'Ülke: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'Çok fazla dosya (en fazla $max)';
   }

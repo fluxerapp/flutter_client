@@ -44,6 +44,12 @@ Future<List<NagbarState>> visibleNagbars(Ref ref) async {
       dismissible: false,
     ),
     NagbarState(
+      type: NagbarType.accountLimited,
+      priority: -3.75,
+      visible: conditions.canShowAccountLimited,
+      dismissible: false,
+    ),
+    NagbarState(
       type: NagbarType.premiumExpired,
       priority: 0,
       visible: conditions.canShowPremiumExpired,

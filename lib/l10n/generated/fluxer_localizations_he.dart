@@ -3930,6 +3930,47 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get channelComposerBarrierVerifyEmail => 'אימות אימייל';
 
   @override
+  String get accountLimitedNotice =>
+      'שליחת ההודעות בחשבון שלך מושהית כרגע. באימייל שלך מחכה לך שלב קצר אחד כדי להמשיך.';
+
+  @override
+  String get messagingPausedTextDidNotGoThrough => 'ה-SMS שלי לא הגיע';
+
+  @override
+  String messagingPausedHelpBody(String supportEmail) {
+    return 'כתוב ל-$supportEmail ואדם מהצוות יבדוק את החשבון שלך. אפשר גם להשיב לאימייל ששלחנו לך.';
+  }
+
+  @override
+  String get messagingPausedHelpCountryLabel => 'המדינה שבה אתה נמצא';
+
+  @override
+  String get messagingPausedHelpCopyDetails => 'העתקת פרטים';
+
+  @override
+  String get messagingPausedHelpEmailSupport => 'פנייה לתמיכה באימייל';
+
+  @override
+  String messagingPausedHelpAccountIdLine(String accountId) {
+    return 'מזהה חשבון: $accountId';
+  }
+
+  @override
+  String messagingPausedHelpUsernameLine(String username) {
+    return 'שם משתמש: $username';
+  }
+
+  @override
+  String messagingPausedHelpAccountCreatedLine(String createdAt) {
+    return 'החשבון נוצר: $createdAt';
+  }
+
+  @override
+  String messagingPausedHelpCountryLine(String country) {
+    return 'מדינה: $country';
+  }
+
+  @override
   String chatAttachmentTooMany(int max) {
     return 'יותר מדי קבצים מצורפים (מקסימום $max)';
   }
