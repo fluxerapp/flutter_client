@@ -523,7 +523,7 @@ class _CreateChannelFields extends StatelessWidget {
         child: ChannelIcon(type: selectedType, size: 18),
       ),
       maxLength: 100,
-      autofocus: true,
+      autofocus: !nameFirst,
       onChanged: (String value) => draft.name = value,
     );
     return Column(

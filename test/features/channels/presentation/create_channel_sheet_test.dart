@@ -98,4 +98,51 @@ void main() {
       ],
     );
   });
+
+  testWidgets('phone create channel opens without raising the keyboard', (
+    WidgetTester tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(390, 844));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    late BuildContext host;
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
+          currentUserIdProvider.overrideWithValue(_selfId),
+          guildSyncProvider.overrideWith(_NoGuildSync.new),
+          guildMentionMemberSearchProvider.overrideWithValue(_NoMembers()),
+          guildRolesByIdProvider(
+            _guildId,
+          ).overrideWith((ref) => Stream<Map<String, db.Role>>.value({})),
+        ],
+        child: Scaffold(
+          body: Builder(
+            builder: (BuildContext context) {
+              host = context;
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      ),
+    );
+
+    final Future<ChannelCreateRequest?> result = CreateChannelSheet.show(
+      host,
+      guildId: _guildId,
+    );
+    await pumpFluxerFrames(tester);
+
+    expect(find.text(testL10n.guildNavbarCreateChannel), findsOneWidget);
+    expect(
+      tester
+          .widgetList<EditableText>(find.byType(EditableText))
+          .any((EditableText field) => field.focusNode.hasFocus),
+      isFalse,
+    );
+
+    Navigator.of(host).pop();
+    await pumpFluxerFrames(tester);
+    expect(await result, isNull);
+  });
 }
