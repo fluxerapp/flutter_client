@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/providers/channel_notification_menu_provider.dart';
@@ -73,10 +74,11 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
     FluxerLocalizations l10n,
     ChannelNotificationMenuState menuState,
   ) {
-    return Padding(
-      padding: FluxerBottomSheet.scrollViewPadding(
-        context,
-        padding: const EdgeInsets.symmetric(vertical: 4),
+    return FluxerBottomSheetContent(
+      scrollable: false,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.layout.pageGutter,
+        vertical: 4,
       ),
       child: FluxerBottomSheetGroupColumn(
         children: <Widget>[
