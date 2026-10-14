@@ -117,8 +117,17 @@ class UserSettingsModal extends ConsumerStatefulWidget {
     UserSettingsSection? initialSection,
     String? initialFieldId,
     String? guildId,
+    bool sectionOnly = false,
   }) {
     if (isMobileLayout(context)) {
+      if (sectionOnly && initialSection != null) {
+        return _showMobileSettingsSection(
+          context,
+          section: initialSection,
+          initialFieldId: initialFieldId,
+          presentation: FluxerPageSheetPresentation.root,
+        );
+      }
       return _showMobileSettings(
         context,
         openProfileSection: openProfileSection,
@@ -730,32 +739,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
         ref.read(inputModalityProvider)) {
       return;
     }
-    final l10n = FluxerLocalizations.of(context);
-    final bool storePage =
-        section == UserSettingsSection.fluxerPlutonium &&
-        isPremiumStorePageActive();
-    final String? pageLink = userSettingsPageDeepLinkHref(section);
-    final canDismiss = ValueNotifier<bool>(true);
     unawaited(
-      FluxerPageSheet.showScrollable<void>(
+      _showMobileSettingsSection(
         context,
-        title: userSettingsSectionLabel(l10n, section),
-        titleTrailing: pageLink == null
-            ? null
-            : FluxerSettingsHeadingLinkButton(
-                href: pageLink,
-                target: FluxerSettingsHeadingLinkTarget.page,
-              ),
-        backgroundColor: storePage ? PremiumStoreStyle.spaceTop : null,
-        foregroundColor: storePage ? PremiumStoreStyle.ink : null,
-        canDismissNotifier: canDismiss,
-        builder: (sheetContext, scrollController, close) =>
-            _MobileSettingsContentBody(
-              section: section,
-              scrollController: scrollController,
-              canDismissNotifier: canDismiss,
-              initialFieldId: initialFieldId,
-            ),
+        section: section,
+        initialFieldId: initialFieldId,
+        presentation: FluxerPageSheetPresentation.nested,
       ),
     );
   }
@@ -815,6 +804,41 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       Navigator.of(context, rootNavigator: true).pop();
     }
   }
+}
+
+Future<void> _showMobileSettingsSection(
+  BuildContext context, {
+  required UserSettingsSection section,
+  required FluxerPageSheetPresentation presentation,
+  String? initialFieldId,
+}) {
+  final l10n = FluxerLocalizations.of(context);
+  final bool storePage =
+      section == UserSettingsSection.fluxerPlutonium &&
+      isPremiumStorePageActive();
+  final String? pageLink = userSettingsPageDeepLinkHref(section);
+  final canDismiss = ValueNotifier<bool>(true);
+  return FluxerPageSheet.showScrollable<void>(
+    context,
+    title: userSettingsSectionLabel(l10n, section),
+    titleTrailing: pageLink == null
+        ? null
+        : FluxerSettingsHeadingLinkButton(
+            href: pageLink,
+            target: FluxerSettingsHeadingLinkTarget.page,
+          ),
+    backgroundColor: storePage ? PremiumStoreStyle.spaceTop : null,
+    foregroundColor: storePage ? PremiumStoreStyle.ink : null,
+    presentation: presentation,
+    canDismissNotifier: canDismiss,
+    builder: (sheetContext, scrollController, close) =>
+        _MobileSettingsContentBody(
+          section: section,
+          scrollController: scrollController,
+          canDismissNotifier: canDismiss,
+          initialFieldId: initialFieldId,
+        ),
+  );
 }
 
 class _MobileSettingsContentBody extends ConsumerStatefulWidget {

@@ -118,6 +118,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       UserSettingsModal.show(
                         context,
                         initialSection: UserSettingsSection.notifications,
+                        sectionOnly: true,
                       ),
                     );
                   },
