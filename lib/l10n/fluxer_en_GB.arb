@@ -4510,7 +4510,7 @@
     "@lookAndFeelEnableFavoritesLabel": {
         "description": "Toggle label — enable the Favorites feature."
     },
-    "lookAndFeelEnableFavoritesDescription": "When enabled, you can favourite channels and they'll appear in the Favorites section. When disabled, all favourite-related UI elements (buttons, menu items) will be hidden. Your existing favourites will be preserved.",
+    "lookAndFeelEnableFavoritesDescription": "When enabled, you can favourite channels and they'll appear in the favourites section. When disabled, all favourite-related UI elements (buttons, menu items) will be hidden. Your existing favourites will be preserved.",
     "@lookAndFeelEnableFavoritesDescription": {
         "description": "Toggle description for the Enable Favorites switch."
     },
@@ -16383,10 +16383,10 @@
     "assistantOkMessageSent": "Message sent.",
     "assistantOkCustomStatusSet": "Custom status updated.",
     "assistantOkCustomStatusCleared": "Custom status cleared.",
-    "guildNavbarAnnouncementChannel": "Announcement Channel",
+    "guildNavbarAnnouncementChannel": "Announcement",
     "guildNavbarAnnouncementChannelDescription": "Post updates that other communities can follow into their own channels",
-    "channelDetailsAnnouncementChannel": "Announcement Channel",
-    "channelSettingsAnnouncementChannel": "Announcement Channel",
+    "channelDetailsAnnouncementChannel": "Announcement channel",
+    "channelSettingsAnnouncementChannel": "Announcement channel",
     "channelSettingsAnnouncementChannelDescription": "Lets other communities follow this channel and get copies of what you publish.",
     "channelSettingsStopAnnouncementTitle": "Stop being an announcement channel?",
     "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 channel follows this channel. Converting it to a text channel removes that follow.} other{{count} channels follow this channel. Converting it to a text channel removes those follows.}}",
@@ -16401,7 +16401,7 @@
     "channelSettingsConvertChannel": "Convert",
     "channelSettingsConvertFailed": "Couldn't convert this channel",
     "channelSettingsChannelHasFollowers": "This channel still has followers. Remove those follows before converting it.",
-    "channelMenuFollow": "Follow Channel",
+    "channelMenuFollow": "Follow channel",
     "channelFollowTitle": "Follow this channel",
     "channelFollowBody": "Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.",
     "channelFollowCommunity": "Community",
@@ -16513,7 +16513,7 @@
     "channelSettingsUnfollow": "Unfollow",
     "crosspostCommunityTitle": "Community",
     "crosspostGoToCommunity": "Go to community",
-    "crosspostJoinCommunity": "Join Community",
+    "crosspostJoinCommunity": "Join community",
     "crosspostSourceFailed": "Couldn't load this community. Try again in a moment.",
     "crosspostMembers": "{count} members",
     "@crosspostMembers": {
