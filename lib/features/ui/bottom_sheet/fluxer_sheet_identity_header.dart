@@ -74,6 +74,7 @@ class FluxerSheetIdentityHeader extends StatelessWidget {
                                     title,
                                     style: context.textStyles.channelName
                                         .copyWith(fontSize: 18),
+                                    maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -90,6 +91,7 @@ class FluxerSheetIdentityHeader extends StatelessWidget {
                                 style: context.textStyles.bodySmall.copyWith(
                                   color: context.colors.textSecondary,
                                 ),
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],

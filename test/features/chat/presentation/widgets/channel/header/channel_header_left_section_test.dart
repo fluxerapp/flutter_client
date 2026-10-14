@@ -41,6 +41,21 @@ void main() {
     expect(topic.overflow, TextOverflow.ellipsis);
     expect(_hasBoldWelcome(topic.text), isTrue);
   });
+
+  testWidgets('clips the channel name to one line', (tester) async {
+    await tester.pumpWidget(_app(_header(topic: '')));
+    await tester.pumpAndSettle();
+
+    final Finder title = find.byWidgetPredicate((Widget widget) {
+      return widget is material.RichText &&
+          widget.text.toPlainText() == 'general';
+    });
+    expect(tester.widget<material.RichText>(title).maxLines, 1);
+    expect(
+      find.ancestor(of: title, matching: find.byType(ClipRect)),
+      findsWidgets,
+    );
+  });
 }
 
 bool _hasBoldWelcome(InlineSpan span) {

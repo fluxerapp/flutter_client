@@ -72,4 +72,25 @@ void main() {
     expect(icon.type, ChannelType.guildVoice);
     expect(icon.channel?.name, 'lounge');
   });
+
+  testWidgets('clips combining marks in the heading and body', (tester) async {
+    const String zalgo = 'à̶́̂̃̄̅̕';
+    await tester.pumpWidget(
+      _app(
+        const ChannelWelcomeSection(
+          channel: Channel(id: 'channel-1', guildId: 'guild-1', name: zalgo),
+        ),
+      ),
+    );
+
+    for (final String text in <String>[
+      testL10n.channelWelcomeHeading('#$zalgo'),
+      testL10n.channelWelcomeDescription('#$zalgo'),
+    ]) {
+      expect(
+        find.ancestor(of: find.text(text), matching: find.byType(ClipRect)),
+        findsWidgets,
+      );
+    }
+  });
 }

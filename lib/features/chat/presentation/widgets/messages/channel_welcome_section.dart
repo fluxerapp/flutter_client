@@ -48,15 +48,19 @@ class ChannelWelcomeSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            l10n.channelWelcomeHeading(displayName),
-            style: context.textStyles.heading.copyWith(fontSize: 24),
+          ClipRect(
+            child: Text(
+              l10n.channelWelcomeHeading(displayName),
+              style: context.textStyles.heading.copyWith(fontSize: 24),
+            ),
           ),
           const SizedBox(height: 4),
-          Text(
-            l10n.channelWelcomeDescription(displayName),
-            style: context.textStyles.bodyMedium.copyWith(
-              color: context.colors.textPrimaryMuted,
+          ClipRect(
+            child: Text(
+              l10n.channelWelcomeDescription(displayName),
+              style: context.textStyles.bodyMedium.copyWith(
+                color: context.colors.textPrimaryMuted,
+              ),
             ),
           ),
         ],

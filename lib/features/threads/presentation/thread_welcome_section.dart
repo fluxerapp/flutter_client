@@ -69,9 +69,11 @@ class ThreadWelcomeSection extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            thread.name,
-            style: context.textStyles.heading.copyWith(fontSize: 24),
+          ClipRect(
+            child: Text(
+              thread.name,
+              style: context.textStyles.heading.copyWith(fontSize: 24),
+            ),
           ),
           if (ownerName != null) ...<Widget>[
             const SizedBox(height: 4),

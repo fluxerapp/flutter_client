@@ -342,6 +342,7 @@ class ChannelHeader extends ConsumerWidget {
                                               style: context
                                                   .textStyles
                                                   .channelName,
+                                              maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),

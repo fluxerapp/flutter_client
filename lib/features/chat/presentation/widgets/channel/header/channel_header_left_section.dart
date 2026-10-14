@@ -101,6 +101,7 @@ class _ChannelHeaderLeftSectionState
                     style: context.textStyles.channelName.copyWith(
                       color: primaryColor,
                     ),
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
