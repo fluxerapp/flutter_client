@@ -3218,9 +3218,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userProfileFailedSaveNote => '无法保存备注';
 
   @override
-  String get userProfileActionFailed => '操作失败，请重试';
-
-  @override
   String get userProfileChangeNickname => '修改昵称';
 
   @override
@@ -5635,9 +5632,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get voiceParticipantMenuStopStreaming => '停止直播';
-
-  @override
-  String get voiceParticipantModerationFailed => '无法更新该成员。请重试。';
 
   @override
   String get voiceControlChat => '聊天';
@@ -12980,9 +12974,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRevokeBanError => '无法撤销封禁。请重试。';
-
-  @override
   String get guildSettingsCommunitySettings => '社区设置';
 
   @override
@@ -14944,6 +14935,51 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+
+  @override
+  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+
+  @override
+  String get moderationRemoveTimeoutFailed =>
+      'Failed to remove timeout. Try again.';
+
+  @override
+  String get moderationKickFailed => 'Failed to kick member. Try again.';
+
+  @override
+  String get moderationBanFailed => 'Failed to ban member. Try again.';
+
+  @override
+  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+
+  @override
+  String transferOwnershipFailedMessage(String username) {
+    return 'Ownership could not be transferred to $username at this time.';
+  }
+
+  @override
+  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+
+  @override
+  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+
+  @override
+  String get voiceModerationNoPermissionMessage =>
+      'You don\'t have permission to do this to this member.';
+
+  @override
+  String get voiceModerationLeftTitle => 'They left the call';
+
+  @override
+  String get voiceModerationLeftMessage =>
+      'This member isn\'t connected to voice anymore.';
+
+  @override
+  String get voiceModerationUnknownMemberTitle => 'Member not found';
+
+  @override
+  String get voiceModerationUnknownMemberMessage =>
+      'This member is no longer in the community. Refresh and try again.';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -18146,9 +18182,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get userProfileFailedSaveNote => '無法儲存備註';
 
   @override
-  String get userProfileActionFailed => '動作失敗，請再試一次';
-
-  @override
   String get userProfileChangeNickname => '更改暱稱';
 
   @override
@@ -20476,9 +20509,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get voiceParticipantMenuStopStreaming => '停止直播';
-
-  @override
-  String get voiceParticipantModerationFailed => '無法更新該成員。請再試一次。';
 
   @override
   String get voiceControlChat => '聊天';
@@ -27108,9 +27138,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String guildSettingsRevokeBanSuccess(String displayName) {
     return '已撤銷對 $displayName 的封鎖';
   }
-
-  @override
-  String get guildSettingsRevokeBanError => '無法撤銷封鎖。請再試一次。';
 
   @override
   String get guildSettingsCommunitySettings => '社群設定';

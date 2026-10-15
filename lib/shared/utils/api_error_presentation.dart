@@ -52,6 +52,13 @@ enum ApiErrorAction {
   createSticker,
   updateSticker,
   deleteSticker,
+  timeoutMember,
+  removeTimeout,
+  kickMember,
+  banMember,
+  transferOwnership,
+  revokeBan,
+  moderateVoiceMember,
 }
 
 enum ApiErrorChannelKind { guild, dm, groupDm }
@@ -328,6 +335,48 @@ _ErrorCopy _copyFor(
       title: l10n.errorSomethingWentWrongTitle,
       body: _apiMessageOr(apiMessage, l10n.channelFollowFailed),
     ),
+    ApiErrorAction.timeoutMember => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: l10n.moderationTimeoutFailed,
+    ),
+    ApiErrorAction.removeTimeout => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: l10n.moderationRemoveTimeoutFailed,
+    ),
+    ApiErrorAction.kickMember => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: l10n.moderationKickFailed,
+    ),
+    ApiErrorAction.banMember => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: l10n.moderationBanFailed,
+    ),
+    ApiErrorAction.transferOwnership => (
+      title: l10n.transferOwnershipFailedTitle,
+      body: l10n.transferOwnershipFailedMessage(details.subject ?? ''),
+    ),
+    ApiErrorAction.revokeBan => (
+      title: l10n.revokeBanFailedTitle,
+      body: l10n.guildSettingsRolesTryAgainInAMoment,
+    ),
+    ApiErrorAction.moderateVoiceMember => switch (code) {
+      'MISSING_PERMISSIONS' => (
+        title: l10n.voiceModerationNoPermissionTitle,
+        body: l10n.voiceModerationNoPermissionMessage,
+      ),
+      'USER_NOT_IN_VOICE' => (
+        title: l10n.voiceModerationLeftTitle,
+        body: l10n.voiceModerationLeftMessage,
+      ),
+      'UNKNOWN_MEMBER' => (
+        title: l10n.voiceModerationUnknownMemberTitle,
+        body: l10n.voiceModerationUnknownMemberMessage,
+      ),
+      _ => (
+        title: details.subject ?? l10n.errorSomethingWentWrongTitle,
+        body: l10n.discoveryJoinErrorGenericMessage,
+      ),
+    },
     ApiErrorAction.renameEmoji => switch (code) {
       'UNKNOWN_EMOJI' => (
         title: l10n.emojiErrorGoneTitle,

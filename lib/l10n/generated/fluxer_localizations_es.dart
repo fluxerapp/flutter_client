@@ -3440,9 +3440,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get userProfileFailedSaveNote => 'Error al guardar la nota';
 
   @override
-  String get userProfileActionFailed => 'La acción falló, inténtalo de nuevo';
-
-  @override
   String get userProfileChangeNickname => 'Cambiar apodo';
 
   @override
@@ -6028,10 +6025,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get voiceParticipantMenuStopStreaming => 'Dejar de compartir';
-
-  @override
-  String get voiceParticipantModerationFailed =>
-      'No se pudo actualizar a ese miembro. Por favor, inténtalo de nuevo.';
 
   @override
   String get voiceControlChat => 'Chat';
@@ -13923,10 +13916,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRevokeBanError =>
-      'No se pudo revocar el baneo. Inténtalo de nuevo.';
-
-  @override
   String get guildSettingsCommunitySettings => 'Ajustes de la comunidad';
 
   @override
@@ -16009,6 +15998,51 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+
+  @override
+  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+
+  @override
+  String get moderationRemoveTimeoutFailed =>
+      'Failed to remove timeout. Try again.';
+
+  @override
+  String get moderationKickFailed => 'Failed to kick member. Try again.';
+
+  @override
+  String get moderationBanFailed => 'Failed to ban member. Try again.';
+
+  @override
+  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+
+  @override
+  String transferOwnershipFailedMessage(String username) {
+    return 'Ownership could not be transferred to $username at this time.';
+  }
+
+  @override
+  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+
+  @override
+  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+
+  @override
+  String get voiceModerationNoPermissionMessage =>
+      'You don\'t have permission to do this to this member.';
+
+  @override
+  String get voiceModerationLeftTitle => 'They left the call';
+
+  @override
+  String get voiceModerationLeftMessage =>
+      'This member isn\'t connected to voice anymore.';
+
+  @override
+  String get voiceModerationUnknownMemberTitle => 'Member not found';
+
+  @override
+  String get voiceModerationUnknownMemberMessage =>
+      'This member is no longer in the community. Refresh and try again.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -19426,9 +19460,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get userProfileFailedSaveNote => 'No se pudo guardar la nota';
 
   @override
-  String get userProfileActionFailed => 'La acción falló, intenta de nuevo';
-
-  @override
   String get userProfileChangeNickname => 'Cambiar apodo';
 
   @override
@@ -21925,10 +21956,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get voiceParticipantMenuStopStreaming => 'Dejar de transmitir';
-
-  @override
-  String get voiceParticipantModerationFailed =>
-      'No se pudo actualizar a ese miembro. Inténtalo de nuevo.';
 
   @override
   String get voiceControlChat => 'Chat';
@@ -29098,10 +29125,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String guildSettingsRevokeBanSuccess(String displayName) {
     return 'Baneo revocado para $displayName';
   }
-
-  @override
-  String get guildSettingsRevokeBanError =>
-      'No se pudo revocar el baneo. Intenta de nuevo.';
 
   @override
   String get guildSettingsCommunitySettings => 'Configuración de la comunidad';

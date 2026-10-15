@@ -4339,10 +4339,6 @@
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
     },
-    "userProfileActionFailed": "Action failed, please try again",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
-    },
     "userProfileChangeNickname": "Change nickname",
     "@userProfileChangeNickname": {
         "description": "Three-dot menu item to change a member's nickname."
@@ -7617,10 +7613,6 @@
     "voiceParticipantMenuStopStreaming": "Stop streaming",
     "@voiceParticipantMenuStopStreaming": {
         "description": "Voice screen-share context menu action that stops the current user stream."
-    },
-    "voiceParticipantModerationFailed": "Couldn't update that member. Please try again.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "voiceControlChat": "Chat",
     "@voiceControlChat": {
@@ -16819,10 +16811,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Couldn't revoke ban. Try again.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Community settings",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -18660,5 +18648,62 @@
     "stickerUpdateFailedTitle": "Couldn't update this sticker",
     "@stickerUpdateFailedTitle": {
         "description": "Title of the dialog shown when editing a sticker fails."
+    },
+    "moderationTimeoutFailed": "Failed to time out member. Try again.",
+    "@moderationTimeoutFailed": {
+        "description": "Body of the dialog shown when timing out a member fails."
+    },
+    "moderationRemoveTimeoutFailed": "Failed to remove timeout. Try again.",
+    "@moderationRemoveTimeoutFailed": {
+        "description": "Body of the dialog shown when removing a member's timeout fails."
+    },
+    "moderationKickFailed": "Failed to kick member. Try again.",
+    "@moderationKickFailed": {
+        "description": "Body of the dialog shown when kicking a member fails."
+    },
+    "moderationBanFailed": "Failed to ban member. Try again.",
+    "@moderationBanFailed": {
+        "description": "Body of the dialog shown when banning a member fails."
+    },
+    "transferOwnershipFailedTitle": "Failed to transfer ownership",
+    "@transferOwnershipFailedTitle": {
+        "description": "Title of the dialog shown when transferring community ownership fails."
+    },
+    "transferOwnershipFailedMessage": "Ownership could not be transferred to {username} at this time.",
+    "@transferOwnershipFailedMessage": {
+        "description": "Body of the dialog shown when transferring community ownership fails.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "revokeBanFailedTitle": "Couldn't revoke ban",
+    "@revokeBanFailedTitle": {
+        "description": "Title of the dialog shown when revoking a ban fails."
+    },
+    "voiceModerationNoPermissionTitle": "You can't do that",
+    "@voiceModerationNoPermissionTitle": {
+        "description": "Title of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationNoPermissionMessage": "You don't have permission to do this to this member.",
+    "@voiceModerationNoPermissionMessage": {
+        "description": "Body of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationLeftTitle": "They left the call",
+    "@voiceModerationLeftTitle": {
+        "description": "Title of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationLeftMessage": "This member isn't connected to voice anymore.",
+    "@voiceModerationLeftMessage": {
+        "description": "Body of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationUnknownMemberTitle": "Member not found",
+    "@voiceModerationUnknownMemberTitle": {
+        "description": "Title of the voice moderation error dialog when the member left the community."
+    },
+    "voiceModerationUnknownMemberMessage": "This member is no longer in the community. Refresh and try again.",
+    "@voiceModerationUnknownMemberMessage": {
+        "description": "Body of the voice moderation error dialog when the member left the community."
     }
 }

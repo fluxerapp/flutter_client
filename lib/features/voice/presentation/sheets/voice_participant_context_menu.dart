@@ -114,7 +114,6 @@ class VoiceParticipantContextMenu {
   }) {
     final String? guildId = target.guildId;
     final String userId = target.participant.userId;
-    final String failureMessage = l10n.voiceParticipantModerationFailed;
     final List<VoiceParticipantMenuGroup> groups =
         buildVoiceParticipantMenuGroups(
           capabilities: capabilities,
@@ -173,7 +172,7 @@ class VoiceParticipantContextMenu {
                 guildId: guildId,
                 userId: userId,
                 muted: checked,
-                failureMessage: failureMessage,
+                actionLabel: l10n.voiceParticipantMenuCommunityMute,
               ),
             );
           },
@@ -187,7 +186,7 @@ class VoiceParticipantContextMenu {
                 guildId: guildId,
                 userId: userId,
                 deafened: checked,
-                failureMessage: failureMessage,
+                actionLabel: l10n.voiceParticipantMenuCommunityDeafen,
               ),
             );
           },
@@ -206,7 +205,7 @@ class VoiceParticipantContextMenu {
                 guildId: guildId,
                 userId: userId,
                 connectionId: target.participant.voice.connectionId,
-                failureMessage: failureMessage,
+                actionLabel: l10n.voiceControlDisconnect,
               ),
             );
           },

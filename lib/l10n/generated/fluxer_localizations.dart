@@ -5660,12 +5660,6 @@ abstract class FluxerLocalizations {
   /// **'Failed to save note'**
   String get userProfileFailedSaveNote;
 
-  /// Toast shown when a relationship action (block, unblock, friend request, etc.) fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Action failed, please try again'**
-  String get userProfileActionFailed;
-
   /// Three-dot menu item to change a member's nickname.
   ///
   /// In en, this message translates to:
@@ -9704,12 +9698,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Stop streaming'**
   String get voiceParticipantMenuStopStreaming;
-
-  /// Toast shown when a voice participant moderation action fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t update that member. Please try again.'**
-  String get voiceParticipantModerationFailed;
 
   /// Label for the chat button in voice lobby and call control surfaces.
   ///
@@ -22722,12 +22710,6 @@ abstract class FluxerLocalizations {
   /// **'Revoked ban for {displayName}'**
   String guildSettingsRevokeBanSuccess(String displayName);
 
-  /// Error when revoking a ban fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t revoke ban. Try again.'**
-  String get guildSettingsRevokeBanError;
-
   /// Title for guild settings modal.
   ///
   /// In en, this message translates to:
@@ -26183,6 +26165,84 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t update this sticker'**
   String get stickerUpdateFailedTitle;
+
+  /// Body of the dialog shown when timing out a member fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to time out member. Try again.'**
+  String get moderationTimeoutFailed;
+
+  /// Body of the dialog shown when removing a member's timeout fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove timeout. Try again.'**
+  String get moderationRemoveTimeoutFailed;
+
+  /// Body of the dialog shown when kicking a member fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to kick member. Try again.'**
+  String get moderationKickFailed;
+
+  /// Body of the dialog shown when banning a member fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to ban member. Try again.'**
+  String get moderationBanFailed;
+
+  /// Title of the dialog shown when transferring community ownership fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to transfer ownership'**
+  String get transferOwnershipFailedTitle;
+
+  /// Body of the dialog shown when transferring community ownership fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Ownership could not be transferred to {username} at this time.'**
+  String transferOwnershipFailedMessage(String username);
+
+  /// Title of the dialog shown when revoking a ban fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t revoke ban'**
+  String get revokeBanFailedTitle;
+
+  /// Title of the voice moderation error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t do that'**
+  String get voiceModerationNoPermissionTitle;
+
+  /// Body of the voice moderation error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to do this to this member.'**
+  String get voiceModerationNoPermissionMessage;
+
+  /// Title of the voice moderation error dialog when the member already left voice.
+  ///
+  /// In en, this message translates to:
+  /// **'They left the call'**
+  String get voiceModerationLeftTitle;
+
+  /// Body of the voice moderation error dialog when the member already left voice.
+  ///
+  /// In en, this message translates to:
+  /// **'This member isn\'t connected to voice anymore.'**
+  String get voiceModerationLeftMessage;
+
+  /// Title of the voice moderation error dialog when the member left the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Member not found'**
+  String get voiceModerationUnknownMemberTitle;
+
+  /// Body of the voice moderation error dialog when the member left the community.
+  ///
+  /// In en, this message translates to:
+  /// **'This member is no longer in the community. Refresh and try again.'**
+  String get voiceModerationUnknownMemberMessage;
 }
 
 class _FluxerLocalizationsDelegate

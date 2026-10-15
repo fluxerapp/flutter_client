@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 
 Future<void> runVoiceParticipantModeration(
   WidgetRef ref, {
-  required String failureMessage,
+  required String actionLabel,
   required Future<void> Function() action,
 }) async {
   try {
@@ -17,14 +17,11 @@ Future<void> runVoiceParticipantModeration(
       error,
       stackTrace,
     );
-    ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(
-            message: failureMessage,
-            variant: FluxerToastVariant.danger,
-          ),
-        );
+    await showApiErrorFromRoot(
+      ApiErrorAction.moderateVoiceMember,
+      error,
+      details: ApiErrorDetails(subject: actionLabel),
+    );
   }
 }
 
@@ -36,12 +33,12 @@ Future<void> _updateGuildMemberVoiceState({
   required WidgetRef ref,
   required String guildId,
   required String userId,
-  required String failureMessage,
+  required String actionLabel,
   required GuildMemberUpdateRequest body,
 }) {
   return runVoiceParticipantModeration(
     ref,
-    failureMessage: failureMessage,
+    actionLabel: actionLabel,
     action: () => ref
         .read(fluxerClientProvider)
         .guilds
@@ -60,13 +57,13 @@ Future<void> updateVoiceParticipantCommunityMute({
   required String guildId,
   required String userId,
   required bool muted,
-  required String failureMessage,
+  required String actionLabel,
 }) {
   return _updateGuildMemberVoiceState(
     ref: ref,
     guildId: guildId,
     userId: userId,
-    failureMessage: failureMessage,
+    actionLabel: actionLabel,
     body: _memberVoiceUpdate(mute: muted),
   );
 }
@@ -76,13 +73,13 @@ Future<void> updateVoiceParticipantCommunityDeafen({
   required String guildId,
   required String userId,
   required bool deafened,
-  required String failureMessage,
+  required String actionLabel,
 }) {
   return _updateGuildMemberVoiceState(
     ref: ref,
     guildId: guildId,
     userId: userId,
-    failureMessage: failureMessage,
+    actionLabel: actionLabel,
     body: _memberVoiceUpdate(deaf: deafened),
   );
 }
@@ -92,11 +89,11 @@ Future<void> disconnectVoiceParticipant({
   required String guildId,
   required String userId,
   required String? connectionId,
-  required String failureMessage,
+  required String actionLabel,
 }) {
   return runVoiceParticipantModeration(
     ref,
-    failureMessage: failureMessage,
+    actionLabel: actionLabel,
     action: () {
       return ref
           .read(fluxerDioProvider)

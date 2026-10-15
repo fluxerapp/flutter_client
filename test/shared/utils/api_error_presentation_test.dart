@@ -815,6 +815,86 @@ void main() {
     });
   });
 
+  group('moderation errors', () {
+    test('member actions name what failed', () {
+      _expectCopy(
+        ApiErrorAction.kickMember,
+        'MISSING_PERMISSIONS',
+        'Something went wrong',
+        'Failed to kick member. Try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.banMember,
+        null,
+        'Something went wrong',
+        'Failed to ban member. Try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.timeoutMember,
+        null,
+        'Something went wrong',
+        'Failed to time out member. Try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.removeTimeout,
+        null,
+        'Something went wrong',
+        'Failed to remove timeout. Try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.revokeBan,
+        null,
+        "Couldn't revoke ban",
+        'Try again in a moment.',
+      );
+      final ApiErrorDialog transfer =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.transferOwnership,
+                details: const ApiErrorDetails(subject: 'kozi'),
+              )
+              as ApiErrorDialog;
+      expect(transfer.title, 'Failed to transfer ownership');
+      expect(
+        transfer.body,
+        'Ownership could not be transferred to kozi at this time.',
+      );
+    });
+
+    test('voice moderation maps codes and falls back to the action', () {
+      _expectCopy(
+        ApiErrorAction.moderateVoiceMember,
+        'MISSING_PERMISSIONS',
+        "You can't do that",
+        "You don't have permission to do this to this member.",
+      );
+      _expectCopy(
+        ApiErrorAction.moderateVoiceMember,
+        'USER_NOT_IN_VOICE',
+        'They left the call',
+        "This member isn't connected to voice anymore.",
+      );
+      _expectCopy(
+        ApiErrorAction.moderateVoiceMember,
+        'UNKNOWN_MEMBER',
+        'Member not found',
+        'This member is no longer in the community. Refresh and try again.',
+      );
+      final ApiErrorDialog fallback =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.moderateVoiceMember,
+                details: const ApiErrorDetails(subject: 'Disconnect'),
+              )
+              as ApiErrorDialog;
+      expect(fallback.title, 'Disconnect');
+      expect(
+        fallback.body,
+        'Something went wrong. Please try again in a moment.',
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {

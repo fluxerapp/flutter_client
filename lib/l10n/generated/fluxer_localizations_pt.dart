@@ -3403,10 +3403,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get userProfileFailedSaveNote => 'Falha ao salvar nota';
 
   @override
-  String get userProfileActionFailed =>
-      'Ação falhou, por favor, tente novamente';
-
-  @override
   String get userProfileChangeNickname => 'Alterar apelido';
 
   @override
@@ -5970,10 +5966,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get voiceParticipantMenuStopStreaming => 'Stop streaming';
-
-  @override
-  String get voiceParticipantModerationFailed =>
-      'Couldn\'t update that member. Please try again.';
 
   @override
   String get voiceControlChat => 'Chat';
@@ -13743,10 +13735,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRevokeBanError =>
-      'Não foi possível revogar o banimento. Tente novamente.';
-
-  @override
   String get guildSettingsCommunitySettings => 'Configurações da Comunidade';
 
   @override
@@ -15801,6 +15789,51 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+
+  @override
+  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+
+  @override
+  String get moderationRemoveTimeoutFailed =>
+      'Failed to remove timeout. Try again.';
+
+  @override
+  String get moderationKickFailed => 'Failed to kick member. Try again.';
+
+  @override
+  String get moderationBanFailed => 'Failed to ban member. Try again.';
+
+  @override
+  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+
+  @override
+  String transferOwnershipFailedMessage(String username) {
+    return 'Ownership could not be transferred to $username at this time.';
+  }
+
+  @override
+  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+
+  @override
+  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+
+  @override
+  String get voiceModerationNoPermissionMessage =>
+      'You don\'t have permission to do this to this member.';
+
+  @override
+  String get voiceModerationLeftTitle => 'They left the call';
+
+  @override
+  String get voiceModerationLeftMessage =>
+      'This member isn\'t connected to voice anymore.';
+
+  @override
+  String get voiceModerationUnknownMemberTitle => 'Member not found';
+
+  @override
+  String get voiceModerationUnknownMemberMessage =>
+      'This member is no longer in the community. Refresh and try again.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -19197,10 +19230,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get userProfileFailedSaveNote => 'Falha ao salvar nota';
 
   @override
-  String get userProfileActionFailed =>
-      'Ação falhou, por favor, tente novamente';
-
-  @override
   String get userProfileChangeNickname => 'Alterar apelido';
 
   @override
@@ -21686,10 +21715,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get voiceParticipantMenuStopStreaming => 'Parar transmissão';
-
-  @override
-  String get voiceParticipantModerationFailed =>
-      'Não foi possível atualizar este membro. Tente novamente.';
 
   @override
   String get voiceControlChat => 'Chat';
@@ -28840,10 +28865,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String guildSettingsRevokeBanSuccess(String displayName) {
     return 'Banimento revogado para $displayName';
   }
-
-  @override
-  String get guildSettingsRevokeBanError =>
-      'Não foi possível revogar o banimento. Tente novamente.';
 
   @override
   String get guildSettingsCommunitySettings => 'Configurações da comunidade';

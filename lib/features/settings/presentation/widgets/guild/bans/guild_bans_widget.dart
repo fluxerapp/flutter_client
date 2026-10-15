@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -273,13 +274,11 @@ class _GuildBansWidgetState extends ConsumerState<GuildBansWidget> {
               message: l10n.guildSettingsRevokeBanSuccess(displayName),
             ),
           );
-    } on Object {
+    } on Object catch (error) {
       if (!context.mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(FluxerToast(message: l10n.guildSettingsRevokeBanError));
+      await showApiError(context, ApiErrorAction.revokeBan, error);
     }
   }
 }

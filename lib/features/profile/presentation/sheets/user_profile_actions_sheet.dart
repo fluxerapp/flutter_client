@@ -157,7 +157,8 @@ class UserProfileActionsSheet {
                     guildId: guildId,
                     userId: user.id,
                     successMessage: l10n.userProfileTransferSuccess,
-                    failureMessage: l10n.userProfileActionFailed,
+                    errorAction: ApiErrorAction.transferOwnership,
+                    errorSubject: user.username,
                     action: () => ref
                         .read(fluxerClientProvider)
                         .guilds
@@ -466,14 +467,14 @@ class UserProfileActionsSheet {
     required String guildId,
     required String userId,
     required String successMessage,
-    required String failureMessage,
+    required ApiErrorAction errorAction,
     required Future<void> Function() action,
   }) => _runGuildModeration(
     ref,
     guildId: guildId,
     userId: userId,
     successMessage: successMessage,
-    failureMessage: failureMessage,
+    errorAction: errorAction,
     action: action,
   );
 
@@ -496,8 +497,9 @@ class UserProfileActionsSheet {
     required String guildId,
     required String userId,
     required String successMessage,
-    required String failureMessage,
+    required ApiErrorAction errorAction,
     required Future<void> Function() action,
+    String? errorSubject,
   }) async {
     try {
       await action();
@@ -512,14 +514,11 @@ class UserProfileActionsSheet {
       ref.invalidate(userProfileProvider(userId: userId, guildId: guildId));
     } on Object catch (e, st) {
       talker.error('[UserProfileActionsSheet] moderation failed: $e', e, st);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: failureMessage,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiErrorFromRoot(
+        errorAction,
+        e,
+        details: ApiErrorDetails(subject: errorSubject),
+      );
     }
   }
 

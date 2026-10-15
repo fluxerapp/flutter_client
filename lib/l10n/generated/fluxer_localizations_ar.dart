@@ -3391,9 +3391,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get userProfileFailedSaveNote => 'فشل حفظ الملاحظة';
 
   @override
-  String get userProfileActionFailed => 'فشل الإجراء، يرجى المحاولة مرة أخرى';
-
-  @override
   String get userProfileChangeNickname => 'تغيير الاسم المستعار';
 
   @override
@@ -5937,10 +5934,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get voiceParticipantMenuStopStreaming => 'إيقاف البث';
-
-  @override
-  String get voiceParticipantModerationFailed =>
-      'تعذر تحديث هذا العضو. يُرجى المحاولة مرة أخرى.';
 
   @override
   String get voiceControlChat => 'الدردشة';
@@ -13665,9 +13658,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRevokeBanError => 'تعذر إلغاء الحظر. حاول مرة أخرى.';
-
-  @override
   String get guildSettingsCommunitySettings => 'إعدادات المجتمع';
 
   @override
@@ -15737,4 +15727,49 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+
+  @override
+  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+
+  @override
+  String get moderationRemoveTimeoutFailed =>
+      'Failed to remove timeout. Try again.';
+
+  @override
+  String get moderationKickFailed => 'Failed to kick member. Try again.';
+
+  @override
+  String get moderationBanFailed => 'Failed to ban member. Try again.';
+
+  @override
+  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+
+  @override
+  String transferOwnershipFailedMessage(String username) {
+    return 'Ownership could not be transferred to $username at this time.';
+  }
+
+  @override
+  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+
+  @override
+  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+
+  @override
+  String get voiceModerationNoPermissionMessage =>
+      'You don\'t have permission to do this to this member.';
+
+  @override
+  String get voiceModerationLeftTitle => 'They left the call';
+
+  @override
+  String get voiceModerationLeftMessage =>
+      'This member isn\'t connected to voice anymore.';
+
+  @override
+  String get voiceModerationUnknownMemberTitle => 'Member not found';
+
+  @override
+  String get voiceModerationUnknownMemberMessage =>
+      'This member is no longer in the community. Refresh and try again.';
 }

@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -47,7 +48,7 @@ void appendGuildMemberModerationMenuItems({
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileNicknameSuccess,
-            failureMessage: l10n.userProfileActionFailed,
+            errorAction: ApiErrorAction.generic,
             action: () => UserProfileActionsSheet.updateGuildMemberNickname(
               ref: ref,
               guildId: guildId,
@@ -85,7 +86,7 @@ void appendGuildMemberModerationMenuItems({
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileTimeoutSuccess(username),
-            failureMessage: l10n.userProfileActionFailed,
+            errorAction: ApiErrorAction.timeoutMember,
             action: () => ref
                 .read(fluxerClientProvider)
                 .guilds
@@ -132,7 +133,7 @@ void appendGuildMemberModerationMenuItems({
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileRemoveTimeoutSuccess(username),
-            failureMessage: l10n.userProfileActionFailed,
+            errorAction: ApiErrorAction.removeTimeout,
             action: () => ref
                 .read(fluxerClientProvider)
                 .guilds
@@ -174,7 +175,7 @@ void appendGuildMemberModerationMenuItems({
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileKickSuccess(username),
-            failureMessage: l10n.userProfileActionFailed,
+            errorAction: ApiErrorAction.kickMember,
             action: () => ref
                 .read(fluxerClientProvider)
                 .guilds
@@ -202,7 +203,7 @@ void appendGuildMemberModerationMenuItems({
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileBanSuccess(username),
-            failureMessage: l10n.userProfileActionFailed,
+            errorAction: ApiErrorAction.banMember,
             action: () => ref
                 .read(fluxerClientProvider)
                 .guilds
