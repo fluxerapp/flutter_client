@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
@@ -10,24 +9,53 @@ import 'package:fluxer_app/features/channels/presentation/sheets/channel_follow_
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 class ChannelFollowSheet {
   ChannelFollowSheet._();
 
   static Future<void> show(BuildContext context, {required Channel channel}) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    if (isMobileLayout(context)) {
+      return FluxerBottomSheet.show<void>(
+        context,
+        useRootNavigator: true,
+        title: l10n.channelFollowTitle,
+        builder: (BuildContext sheetContext, VoidCallback close) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: sheetContext.layout.s4),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  l10n.channelFollowBody,
+                  style: sheetContext.textStyles.bodySmall.copyWith(
+                    color: sheetContext.colors.textSecondary,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: sheetContext.layout.s4),
+                _ChannelFollowForm(source: channel, onClose: close),
+              ],
+            ),
+          );
+        },
+      );
+    }
     return FluxerModal.show<void>(
       context,
       title: l10n.channelFollowTitle,
       description: l10n.channelFollowBody,
+      centered: true,
       builder: (BuildContext dialogContext, VoidCallback close) {
         return _ChannelFollowForm(source: channel, onClose: close);
       },
@@ -149,7 +177,6 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
     if (channelId == null || _submitting) {
       return;
     }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     setState(() => _submitting = true);
     try {
       await ref
@@ -178,14 +205,7 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(error, l10n.channelFollowFailed),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ApiErrorAction.followChannel, error);
     } finally {
       if (mounted) {
         setState(() => _submitting = false);
@@ -283,14 +303,10 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
           ),
         ),
         SizedBox(height: context.layout.s4),
-        Align(
-          alignment: Alignment.centerRight,
-          child: FluxerButton.primary(
-            onPressed: _channelId == null || _submitting ? null : _submit,
-            label: l10n.channelFollowSubmit,
-            isLoading: _submitting,
-            fitContent: true,
-          ),
+        FluxerButton.primary(
+          onPressed: _channelId == null || _submitting ? null : _submit,
+          label: l10n.channelFollowSubmit,
+          isLoading: _submitting,
         ),
       ],
     );

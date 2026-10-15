@@ -111,7 +111,6 @@ class FluxerModal {
                   ),
                 if (footerActions.isNotEmpty)
                   FluxerBottomSheetFooter(
-                    showTopBorder: mobileFullscreen,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,

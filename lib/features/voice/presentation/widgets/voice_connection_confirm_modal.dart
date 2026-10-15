@@ -13,6 +13,7 @@ Future<VoiceConnectionConfirmResult?> showVoiceConnectionConfirmModal(
   return FluxerModal.show<VoiceConnectionConfirmResult?>(
     context,
     useRootNavigator: true,
+    centered: true,
     title: l10n.voiceConnectionConfirmTitle,
     description: l10n.voiceConnectionConfirmDescription(otherDeviceCount),
     builder: (BuildContext dialogContext, VoidCallback close) {
