@@ -121,7 +121,7 @@ class VoiceMessageRecordingBar extends StatelessWidget {
     required this.trailing,
     required this.actionSize,
     required this.contentPadding,
-    this.backgroundShape,
+    required this.backgroundShape,
     this.rowExtent,
     super.key,
   });
@@ -130,7 +130,7 @@ class VoiceMessageRecordingBar extends StatelessWidget {
   final Widget trailing;
   final FluxerButtonSize actionSize;
   final EdgeInsetsGeometry contentPadding;
-  final ShapeBorder? backgroundShape;
+  final ShapeBorder backgroundShape;
   final double? rowExtent;
 
   static double heightFor(
@@ -141,23 +141,24 @@ class VoiceMessageRecordingBar extends StatelessWidget {
   }
 
   static ShapeBorder wideBackgroundShape({required bool hasActionStack}) {
+    const Radius corner = Radius.circular(
+      WideComposerLayout.boxRadius - WideComposerLayout.ringWidth,
+    );
     return RoundedRectangleBorder(
       borderRadius: hasActionStack
-          ? const BorderRadius.vertical(
-              bottom: Radius.circular(WideComposerLayout.boxRadius),
-            )
-          : BorderRadius.circular(WideComposerLayout.boxRadius),
+          ? const BorderRadius.vertical(bottom: corner)
+          : const BorderRadius.all(corner),
     );
   }
 
-  static ShapeBorder? mobileBackgroundShape({required bool hasHeader}) {
-    if (!hasHeader) {
-      return null;
-    }
-    return const RoundedSuperellipseBorder(
-      borderRadius: BorderRadius.vertical(
-        bottom: Radius.circular(MobileComposerLayout.radius),
-      ),
+  static ShapeBorder mobileBackgroundShape({required bool hasHeader}) {
+    const Radius corner = Radius.circular(
+      MobileComposerLayout.radius - MobileComposerLayout.borderWidth,
+    );
+    return RoundedSuperellipseBorder(
+      borderRadius: hasHeader
+          ? const BorderRadius.vertical(bottom: corner)
+          : const BorderRadius.all(corner),
     );
   }
 
@@ -177,41 +178,40 @@ class VoiceMessageRecordingBar extends StatelessWidget {
       controller: controller,
       size: actionSize,
     );
-    final Widget stack = Stack(
-      fit: StackFit.passthrough,
-      children: <Widget>[
-        Positioned.fill(
-          child: VoiceMessageLiveGradient(
-            rmsLevel: controller.rmsLevel,
-            clipShape: backgroundShape,
-          ),
-        ),
-        Padding(
-          padding: contentPadding,
-          child: Row(
-            crossAxisAlignment: mobileRow
-                ? CrossAxisAlignment.center
-                : CrossAxisAlignment.end,
-            children: <Widget>[
-              if (mobileRow) _actionCell(discard) else discard,
-              const SizedBox(width: 8),
-              _RecordingIndicator(controller: controller, rowExtent: rowExtent),
-              const Spacer(),
-              if (mobileRow)
-                _actionCell(trailing, width: MobileComposerLayout.sendExtent)
-              else
-                trailing,
-            ],
-          ),
-        ),
-      ],
-    );
-    if (backgroundShape == null) {
-      return stack;
-    }
     return ClipPath(
-      clipper: _VoiceMessageRecordingBackgroundClipper(backgroundShape!),
-      child: stack,
+      clipper: _VoiceMessageRecordingBackgroundClipper(backgroundShape),
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: <Widget>[
+          Positioned.fill(
+            child: VoiceMessageLiveGradient(
+              rmsLevel: controller.rmsLevel,
+              clipShape: backgroundShape,
+            ),
+          ),
+          Padding(
+            padding: contentPadding,
+            child: Row(
+              crossAxisAlignment: mobileRow
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.end,
+              children: <Widget>[
+                if (mobileRow) _actionCell(discard) else discard,
+                const SizedBox(width: 8),
+                _RecordingIndicator(
+                  controller: controller,
+                  rowExtent: rowExtent,
+                ),
+                const Spacer(),
+                if (mobileRow)
+                  _actionCell(trailing, width: MobileComposerLayout.sendExtent)
+                else
+                  trailing,
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

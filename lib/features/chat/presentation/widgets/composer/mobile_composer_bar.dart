@@ -17,6 +17,7 @@ abstract final class MobileComposerLayout {
   static const double topInset = WideComposerLayout.mobileComposerTopInset;
   static const double bottomGap = kMobileComposerBottomGap;
   static const double radius = 16;
+  static const double borderWidth = 1;
   static const double minHeight = 58;
   static const double buttonExtent = 32;
   static const double sendExtent = 36;

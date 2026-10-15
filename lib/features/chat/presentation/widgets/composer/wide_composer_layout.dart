@@ -6,6 +6,7 @@ abstract final class WideComposerLayout {
   const WideComposerLayout._();
   static const double boxInset = 6;
   static const double boxRadius = 8;
+  static const double ringWidth = 1;
   static const double boxMinHeight = 58;
   static const double densePaddingY = 10;
   static const double denseColumnGap = 12;
