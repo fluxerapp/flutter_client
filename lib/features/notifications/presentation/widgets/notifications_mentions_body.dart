@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mention_inbox_card.dart';
@@ -446,7 +447,10 @@ class _NotificationsMentionsBodyState
             0 &&
         !_skippedMessageIds.contains(r.messageId) &&
         !_removedMessageIds.contains(r.messageId) &&
-        _isHydrated(r),
+        _isHydrated(r) &&
+        !ref
+            .read(blockedUserIdsProvider)
+            .contains(_messageById[r.messageId]?.authorId),
   );
 
   Widget _buildMentionTile(
@@ -484,6 +488,7 @@ class _NotificationsMentionsBodyState
   @override
   Widget build(BuildContext context) {
     final MentionFeedUiState sync = ref.watch(mentionFeedCoordinatorProvider);
+    ref.watch(blockedUserIdsProvider);
 
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final AsyncValue<List<drift_db.NotificationMentionFeedData>> rowsAsync = ref
