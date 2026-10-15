@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
+import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_path_patterns.dart';
 
@@ -90,7 +91,7 @@ String? normalizeMeasureScreenName(String? raw) {
   if (kGuildRootAppPath.hasMatch(path)) {
     return RouteNames.guild;
   }
-  return raw;
+  return scrubPathForMeasure(path);
 }
 
 String? _settingsScreenName(String path) {

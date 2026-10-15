@@ -112,7 +112,7 @@ class FluxerMeasureDioInterceptor extends Interceptor {
     if (description == null) {
       return null;
     }
-    return redactDomainsForMeasure(description);
+    return scrubForMeasure(description);
   }
 
   String _getRequestUrl(RequestOptions request) {

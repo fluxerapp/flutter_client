@@ -41,7 +41,6 @@ class FluxerObservability {
   bool _enabled = false;
   Future<void>? _measureInitFuture;
   bool _measureInitialized = false;
-  bool _platformErrorHandlerChained = false;
   bool _globalErrorHandlersInstalled = false;
   final ErrorLogRateLimiter _errorLogRateLimiter = ErrorLogRateLimiter();
 
@@ -210,9 +209,7 @@ class FluxerObservability {
     final Map<String, AttributeValue> attributes = <String, AttributeValue>{
       'exception.source': StringAttr(source),
       if (trimmedContext.isNotEmpty)
-        'exception.context': StringAttr(
-          redactDomainsForMeasure(trimmedContext),
-        ),
+        'exception.context': StringAttr(scrubForMeasure(trimmedContext)),
     };
     final StackTrace effectiveStack = stackTrace ?? StackTrace.current;
     _measure.trackHandledError(
@@ -242,13 +239,54 @@ class FluxerObservability {
     if (_measureInitialized) {
       return;
     }
-    _measureInitFuture ??= Measure.instance.init(
+    _measureInitFuture ??= _initializeMeasure();
+    await _measureInitFuture;
+  }
+
+  Future<void> _initializeMeasure() async {
+    final FlutterExceptionHandler? localHandler = FlutterError.onError;
+    FlutterError.onError = (FlutterErrorDetails details) {};
+    await Measure.instance.init(
       () {},
       config: const MeasureConfig(autoStart: false, enableLogging: kDebugMode),
     );
-    await _measureInitFuture;
-    _chainMeasurePlatformErrorHandler();
+    routeMeasureErrorHooksThroughScrubber(localHandler);
     _measureInitialized = Measure.instance.isInitialized;
+  }
+
+  @visibleForTesting
+  void routeMeasureErrorHooksThroughScrubber(
+    FlutterExceptionHandler? localHandler,
+  ) {
+    final FlutterExceptionHandler? measureFlutterHandler = FlutterError.onError;
+    FlutterError.onError = (FlutterErrorDetails details) {
+      localHandler?.call(details);
+      if (_shouldSendErrorsToMeasure) {
+        measureFlutterHandler?.call(sanitizeErrorDetailsForMeasure(details));
+      }
+    };
+    final bool Function(Object, StackTrace)? measurePlatformHandler =
+        PlatformDispatcher.instance.onError;
+    PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+      if (isDriftCancellation(error)) {
+        return true;
+      }
+      recordFlutterError(
+        FlutterErrorDetails(
+          exception: error,
+          stack: stack,
+          library: 'platform_dispatcher',
+        ),
+      );
+      if (_shouldSendErrorsToMeasure && measurePlatformHandler != null) {
+        measurePlatformHandler(
+          sanitizeErrorForMeasure(error),
+          sanitizeStackTraceForMeasure(stack),
+        );
+      }
+      forceFlush();
+      return false;
+    };
   }
 
   void _logErrorToTalker(
@@ -272,38 +310,12 @@ class FluxerObservability {
     );
   }
 
-  void _chainMeasurePlatformErrorHandler() {
-    if (_platformErrorHandlerChained) {
-      return;
-    }
-    _platformErrorHandlerChained = true;
-    final bool Function(Object, StackTrace)? measurePlatformHandler =
-        PlatformDispatcher.instance.onError;
-    PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-      if (isDriftCancellation(error)) {
-        return true;
-      }
-      recordFlutterError(
-        FlutterErrorDetails(
-          exception: error,
-          stack: stack,
-          library: 'platform_dispatcher',
-        ),
-      );
-      if (_shouldSendErrorsToMeasure && measurePlatformHandler != null) {
-        measurePlatformHandler(error, stack);
-      }
-      forceFlush();
-      return false;
-    };
-  }
-
   void _recordExceptionOnSpan(Span span, Object error, StackTrace stackTrace) {
     span
       ..setStatus(SpanStatus.error)
       ..setAttributeString(
         'exception.message',
-        redactDomainsForMeasure(error.toString()),
+        scrubForMeasure(error.toString()),
       );
     if (!_shouldSendErrorsToMeasure) {
       return;
@@ -335,7 +347,7 @@ class FluxerObservability {
         if (voiceBreadcrumb != null) {
           for (final MapEntry<String, String> entry
               in voiceBreadcrumb.entries) {
-            attributes.add(entry.key, redactDomainsForMeasure(entry.value));
+            attributes.add(entry.key, scrubForMeasure(entry.value));
           }
         }
         _measure.trackEvent(

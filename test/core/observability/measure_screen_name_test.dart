@@ -70,5 +70,14 @@ void main() {
       expect(normalizeMeasureScreenName('/invite/abc123'), RouteNames.invite);
       expect(normalizeMeasureScreenName('/gift/xyz'), RouteNames.gift);
     });
+
+    test('scrubs ids and values from unmatched paths', () {
+      expect(
+        normalizeMeasureScreenName(
+          '/unknown/1558633981610557440/AbCd3fG?ref=chat.example.org',
+        ),
+        '/unknown/:id/:value',
+      );
+    });
   });
 }
