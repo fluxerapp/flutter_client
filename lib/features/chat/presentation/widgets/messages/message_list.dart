@@ -64,8 +64,8 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_tile_cache.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/system_message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/unread_dividers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
-import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/core/message_pagination_coordinator.dart';
@@ -76,7 +76,6 @@ import 'package:fluxer_app/features/chat/utils/messages/message_action_permissio
 import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/messages/pinned_system_message_navigation.dart';
-import 'package:fluxer_app/features/chat/wallpaper/chat_wallpaper.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_welcome_section.dart';
@@ -110,7 +109,6 @@ import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
-import 'package:fluxer_app/shared/utils/locale_upper_case.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
@@ -119,8 +117,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 part 'message_list_settings_layer.dart';
 
-const _kUnreadDividerHeight = 16.0;
-const _kUnreadDateDividerHeight = 20.0;
 const _kMessageListScrollCacheExtent = 1200.0;
 const _kMessageListCompactScrollCacheExtent = 400.0;
 const _kOlderRevealRowsPerFrame = 2;
@@ -2968,7 +2964,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [_buildUnreadSeparator(context), child],
+      children: [const UnreadSeparator(), child],
     );
   }
 
@@ -3683,7 +3679,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           return const SizedBox.shrink();
         }
         if (item.dividerHasUnread) {
-          return _buildUnreadDateSeparator(context, item.dividerDate!);
+          return UnreadDateSeparator(date: item.dividerDate!);
         }
         return _buildDateSeparator(context, item.dividerDate!);
       case ChannelStreamType.messageGroupBlocked:
@@ -3892,7 +3888,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       return Column(
         children: [
           if (isUnreadBoundary)
-            _buildUnreadDateSeparator(context, message.timestamp)
+            UnreadDateSeparator(date: message.timestamp)
           else
             _buildDateSeparator(context, message.timestamp),
           child,
@@ -3900,7 +3896,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       );
     }
     if (isUnreadBoundary) {
-      return Column(children: [_buildUnreadSeparator(context), child]);
+      return Column(children: [const UnreadSeparator(), child]);
     }
     if (leadingGroupSpacing > 0) {
       return Column(
@@ -3912,86 +3908,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       );
     }
     return child;
-  }
-
-  Widget _buildUnreadSeparator(BuildContext context) {
-    final Color danger = context.colors.statusDanger;
-    return SizedBox(
-      height: _kUnreadDividerHeight,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            Expanded(child: _buildUnreadLine(danger)),
-            _buildUnreadBadge(context, danger, height: _kUnreadDividerHeight),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUnreadDateSeparator(BuildContext context, DateTime date) {
-    final Color danger = context.colors.statusDanger;
-    final String formatted = formatUserFullDate(
-      date.toLocal(),
-      Localizations.localeOf(context).toString(),
-    );
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: SizedBox(
-        height: _kUnreadDateDividerHeight,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Row(
-              children: [
-                Expanded(child: _buildUnreadLine(danger)),
-                _buildUnreadBadge(
-                  context,
-                  danger,
-                  height: _kUnreadDateDividerHeight,
-                ),
-              ],
-            ),
-            _UnreadDateLabel(formatted: formatted, danger: danger),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUnreadLine(Color color) {
-    return Container(height: 2, color: color.withValues(alpha: 0.4));
-  }
-
-  Widget _buildUnreadBadge(
-    BuildContext context,
-    Color color, {
-    required double height,
-  }) {
-    return Container(
-      height: height,
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(3),
-      ),
-      child: Text(
-        localeUpperCase(
-          context,
-          FluxerLocalizations.of(context).chatUnreadDividerNew,
-        ),
-        maxLines: 1,
-        style: context.textStyles.smallText.copyWith(
-          color: Colors.white.withValues(alpha: 0.9),
-          fontSize: 10,
-          fontWeight: FontWeight.w700,
-          height: 1,
-          letterSpacing: 0.5,
-        ),
-      ),
-    );
   }
 
   Widget _buildDateSeparator(BuildContext context, DateTime date) {
@@ -4010,45 +3926,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           ),
           Expanded(child: Divider(color: context.colors.borderColor)),
         ],
-      ),
-    );
-  }
-}
-
-class _UnreadDateLabel extends ConsumerWidget {
-  const _UnreadDateLabel({required this.formatted, required this.danger});
-
-  final String formatted;
-  final Color danger;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bool useOpaqueFill = ref.watch(
-      chatWallpaperProvider.select(
-        (ChatWallpaperSnapshot snapshot) => snapshot.resolved.isThemeBackground,
-      ),
-    );
-    return ColoredBox(
-      color: useOpaqueFill ? context.colors.chatBackground : Colors.transparent,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Text(
-          formatted,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: context.textStyles.smallText.copyWith(
-            color: danger,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            height: 1,
-            letterSpacing: 0,
-            shadows: useOpaqueFill
-                ? null
-                : const <Shadow>[
-                    Shadow(color: Color(0xCC000000), blurRadius: 4),
-                  ],
-          ),
-        ),
       ),
     );
   }
