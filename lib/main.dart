@@ -28,7 +28,6 @@ import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
-import 'package:measure_flutter/measure_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> _showDesktopWindow() async {
@@ -47,11 +46,9 @@ void _configureImagePicker() {
 }
 
 void _runFluxerApp(ProviderContainer container) {
-  Widget app = const FluxerApp();
-  if (AppBuildConfig.hasObservabilityConfig) {
-    app = MeasureWidget(child: app);
-  }
-  runApp(UncontrolledProviderScope(container: container, child: app));
+  runApp(
+    UncontrolledProviderScope(container: container, child: const FluxerApp()),
+  );
 }
 
 Future<void> _bootstrapFluxer(List<String> args) async {
