@@ -169,8 +169,9 @@ Future<ProviderContainer> _pumpCall(WidgetTester tester) async {
         (Ref ref, (String, String?) args) =>
             const AsyncValue<GuildUserDisplay?>.data(null),
       ),
-      voiceChannelGridStructureProvider(participantKey)
-          .overrideWith((Ref ref) => 'phone;desktop'),
+      voiceChannelGridStructureProvider(
+        participantKey,
+      ).overrideWith((Ref ref) => 'phone;desktop'),
       voiceChannelParticipantsProvider(participantKey).overrideWith(
         (Ref ref) => const <VoiceChannelParticipantData>[
           VoiceChannelParticipantData(userId: _me, voice: _phoneVoice),
