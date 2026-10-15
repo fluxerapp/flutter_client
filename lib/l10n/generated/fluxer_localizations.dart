@@ -26243,6 +26243,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This member is no longer in the community. Refresh and try again.'**
   String get voiceModerationUnknownMemberMessage;
+
+  /// Shown when joining a voice channel fails because the user is timed out.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t join while you\'re timed out.'**
+  String get voiceJoinTimedOut;
+
+  /// Shown when an unclaimed account tries to join a community voice channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account to join this voice channel.'**
+  String get voiceJoinClaimAccount;
+
+  /// Shown when an unclaimed account tries to start or join a direct call.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account to start or join 1:1 calls.'**
+  String get voiceJoinClaimAccountDirectCall;
+
+  /// Shown when joining a voice channel fails because it is full.
+  ///
+  /// In en, this message translates to:
+  /// **'This voice channel has reached its user limit. Try again later or join a different channel.'**
+  String get voiceJoinUserLimit;
+
+  /// Shown when joining a voice channel fails because the user has too many connections.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached this voice channel\'s connection limit.'**
+  String get voiceJoinConnectionLimit;
+
+  /// Shown when joining a voice channel fails because it no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'This voice channel is no longer available.'**
+  String get voiceJoinChannelUnavailable;
 }
 
 class _FluxerLocalizationsDelegate

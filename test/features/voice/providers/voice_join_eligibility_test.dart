@@ -169,5 +169,25 @@ void main() {
         isTrue,
       );
     });
+
+    test('names why a join was refused', () {
+      expect(
+        _resolve(isTimedOut: true).blockReason,
+        VoiceJoinBlockReason.timedOut,
+      );
+      expect(
+        _resolve(connectPermissionBits: 0).blockReason,
+        VoiceJoinBlockReason.noPermission,
+      );
+      expect(
+        _resolve(isUnclaimed: true).blockReason,
+        VoiceJoinBlockReason.unclaimed,
+      );
+      expect(
+        _resolve(userLimit: 2, occupiedConnectionCount: 2).blockReason,
+        VoiceJoinBlockReason.userLimit,
+      );
+      expect(_resolve().blockReason, isNull);
+    });
   });
 }

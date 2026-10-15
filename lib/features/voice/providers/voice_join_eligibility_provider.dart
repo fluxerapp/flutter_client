@@ -21,10 +21,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_join_eligibility_provider.g.dart';
 
+enum VoiceJoinBlockReason { timedOut, noPermission, unclaimed, userLimit }
+
 class VoiceJoinEligibility {
-  const VoiceJoinEligibility({required this.canJoin});
+  const VoiceJoinEligibility({required this.canJoin, this.blockReason});
 
   final bool canJoin;
+  final VoiceJoinBlockReason? blockReason;
 }
 
 bool canJoinGuildVoiceChannelFromBits({
@@ -79,26 +82,41 @@ VoiceJoinEligibility resolveVoiceJoinEligibility({
   }
   final bool inGuild = guildId.isNotEmpty;
   if (inGuild && isTimedOut) {
-    return const VoiceJoinEligibility(canJoin: false);
+    return const VoiceJoinEligibility(
+      canJoin: false,
+      blockReason: VoiceJoinBlockReason.timedOut,
+    );
   }
   if (!canJoinGuildVoiceChannelFromBits(
     guildId: guildId,
     channelType: channelType,
     permissionBits: connectPermissionBits,
   )) {
-    return const VoiceJoinEligibility(canJoin: false);
+    return const VoiceJoinEligibility(
+      canJoin: false,
+      blockReason: VoiceJoinBlockReason.noPermission,
+    );
   }
   if (isUnclaimed) {
     if (inGuild) {
       if (!isGuildOwner) {
-        return const VoiceJoinEligibility(canJoin: false);
+        return const VoiceJoinEligibility(
+          canJoin: false,
+          blockReason: VoiceJoinBlockReason.unclaimed,
+        );
       }
     } else if (channelType == ChannelType.dm) {
-      return const VoiceJoinEligibility(canJoin: false);
+      return const VoiceJoinEligibility(
+        canJoin: false,
+        blockReason: VoiceJoinBlockReason.unclaimed,
+      );
     }
   }
   if (inGuild && userLimit > 0 && occupiedConnectionCount >= userLimit) {
-    return const VoiceJoinEligibility(canJoin: false);
+    return const VoiceJoinEligibility(
+      canJoin: false,
+      blockReason: VoiceJoinBlockReason.userLimit,
+    );
   }
   return const VoiceJoinEligibility(canJoin: true);
 }
@@ -163,7 +181,10 @@ VoiceJoinEligibility readCachedPrivateVoiceConnectPreflight(
     return const VoiceJoinEligibility(canJoin: true);
   }
   if (isDmChannelType(dm.type)) {
-    return const VoiceJoinEligibility(canJoin: false);
+    return const VoiceJoinEligibility(
+      canJoin: false,
+      blockReason: VoiceJoinBlockReason.unclaimed,
+    );
   }
   return const VoiceJoinEligibility(canJoin: true);
 }

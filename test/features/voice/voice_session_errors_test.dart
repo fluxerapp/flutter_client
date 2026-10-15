@@ -106,5 +106,40 @@ void main() {
       const String raw = 'Voice server did not return connection details.';
       expect(resolveVoiceSessionErrorMessage(raw, l10n), raw);
     });
+
+    test('maps gateway join refusals to specific copy', () {
+      expect(
+        resolveVoiceSessionErrorMessage(
+          kVoiceGatewayJoinErrors['VOICE_MEMBER_TIMED_OUT']!,
+          l10n,
+        ),
+        "You can't join while you're timed out.",
+      );
+      expect(
+        resolveVoiceSessionErrorMessage(
+          kVoiceGatewayJoinErrors['VOICE_CONNECTION_LIMIT_REACHED']!,
+          l10n,
+        ),
+        "You've reached this voice channel's connection limit.",
+      );
+      expect(
+        resolveVoiceSessionErrorMessage(
+          kVoiceGatewayJoinErrors['VOICE_UNCLAIMED_ACCOUNT']!,
+          l10n,
+        ),
+        'Claim your account to join this voice channel.',
+      );
+      expect(
+        resolveVoiceSessionErrorMessage(
+          kVoiceGatewayJoinErrors['VOICE_CHANNEL_NOT_FOUND']!,
+          l10n,
+        ),
+        'This voice channel is no longer available.',
+      );
+      expect(
+        resolveVoiceSessionErrorMessage(kVoiceSessionErrorUserLimit, l10n),
+        'This voice channel has reached its user limit. Try again later or join a different channel.',
+      );
+    });
   });
 }

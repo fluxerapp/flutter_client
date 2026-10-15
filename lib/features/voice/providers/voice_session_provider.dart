@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
@@ -61,6 +62,7 @@ import 'package:fluxer_app/features/voice/utils/voice_server_update_decision.dar
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -535,9 +537,20 @@ class VoiceSession extends _$VoiceSession {
         '(channelId=$channelId, guildId=$guildId).',
       );
       state = state.copyWith(
-        errorMessage: isGuildVoiceJoin
-            ? kVoiceSessionErrorNoConnectPermission
-            : kVoiceSessionErrorDirectCallNotEligible,
+        errorMessage: switch (eligibility.blockReason) {
+          VoiceJoinBlockReason.timedOut => kVoiceSessionErrorTimedOut,
+          VoiceJoinBlockReason.unclaimed =>
+            isGuildVoiceJoin
+                ? kVoiceSessionErrorUnclaimed
+                : kVoiceSessionErrorUnclaimedDirectCall,
+          VoiceJoinBlockReason.userLimit => kVoiceSessionErrorUserLimit,
+          VoiceJoinBlockReason.noPermission =>
+            kVoiceSessionErrorNoConnectPermission,
+          null =>
+            isGuildVoiceJoin
+                ? kVoiceSessionErrorNoConnectPermission
+                : kVoiceSessionErrorDirectCallNotEligible,
+        },
       );
       return false;
     }
@@ -1958,6 +1971,11 @@ class VoiceSession extends _$VoiceSession {
       );
     } on Object catch (e) {
       talker.warning('[Voice] ringCallRecipients: $e');
+      final String? code = ApiException.from(e).code;
+      if (code == 'NEW_CONVERSATIONS_LIMITED' || code == 'ACCOUNT_LIMITED') {
+        unawaited(showApiErrorFromRoot(ApiErrorAction.openDm, e));
+        await leaveVoice();
+      }
     }
   }
 
