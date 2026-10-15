@@ -100,10 +100,25 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T>
 
   bool get isEntering => _inputLocked.value;
 
-  FluxerSheetBackdropProgress? get backdrop {
+  Route<dynamic>? get _host {
     final Route<dynamic>? previous = _previous;
-    if (previous != null && previous is FluxerSheetBackdropHost) {
-      return FluxerSheetBackdropProgress.of(previous);
+    if (previous is FluxerSheetBackdropHost) {
+      return previous;
+    }
+    final Route<dynamic>? opener = origin;
+    if (opener is FluxerSheetRoute &&
+        !identical(opener, this) &&
+        opener.isActive &&
+        (opener.animation?.isForwardOrCompleted ?? false)) {
+      return opener;
+    }
+    return null;
+  }
+
+  FluxerSheetBackdropProgress? get backdrop {
+    final Route<dynamic>? host = _host;
+    if (host != null) {
+      return FluxerSheetBackdropProgress.of(host);
     }
     final NavigatorState? nav = navigator;
     return nav == null ? null : FluxerSheetBackdropProgress.of(nav);
@@ -118,8 +133,8 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T>
       if (source != null) {
         sources.add(source);
       }
-      final Route<dynamic>? previous = route._previous;
-      route = previous is FluxerSheetRoute ? previous : null;
+      final Route<dynamic>? host = route._host;
+      route = host is FluxerSheetRoute ? host : null;
     }
     return sources;
   }

@@ -29,19 +29,29 @@ class _Stack {
   Rect get upper => tester.getRect(find.byKey(_upperKey));
 
   double get upperScrimAlpha {
-    final ModalBarrier barrier = tester.widgetList<ModalBarrier>(
-      find.byType(ModalBarrier),
-    ).last;
+    final ModalBarrier barrier = tester
+        .widgetList<ModalBarrier>(find.byType(ModalBarrier))
+        .last;
     return barrier.color?.a ?? 0;
   }
 
-  Future<void> pump({bool reduceMotion = false}) async {
+  Future<void> pump({bool reduceMotion = false, bool nested = false}) async {
     tester.view.physicalSize = const Size(402 * 3, 874 * 3);
     tester.view.devicePixelRatio = 3;
     tester.view.padding = const FakeViewPadding(top: 62 * 3);
     tester.view.viewPadding = const FakeViewPadding(top: 62 * 3);
     addTearDown(tester.view.reset);
     final colorTheme = buildDarkColorTheme();
+    final Widget shell = FluxerSheetBackdrop(
+      child: Scaffold(
+        body: Builder(
+          builder: (BuildContext c) {
+            shellContext = c;
+            return const SizedBox.expand(key: _shellKey);
+          },
+        ),
+      ),
+    );
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
@@ -59,16 +69,12 @@ class _Stack {
             ).copyWith(disableAnimations: reduceMotion),
             child: child!,
           ),
-          home: FluxerSheetBackdrop(
-            child: Scaffold(
-              body: Builder(
-                builder: (BuildContext c) {
-                  shellContext = c;
-                  return const SizedBox.expand(key: _shellKey);
-                },
-              ),
-            ),
-          ),
+          home: nested
+              ? Navigator(
+                  onGenerateRoute: (RouteSettings settings) =>
+                      MaterialPageRoute<void>(builder: (_) => shell),
+                )
+              : shell,
         ),
       ),
     );
@@ -84,7 +90,11 @@ class _Stack {
           lowerContext = c;
           return SingleChildScrollView(
             controller: controller,
-            child: const SizedBox(key: _lowerKey, width: double.infinity, height: 2000),
+            child: const SizedBox(
+              key: _lowerKey,
+              width: double.infinity,
+              height: 2000,
+            ),
           );
         },
       ),
@@ -92,16 +102,21 @@ class _Stack {
     await tester.pumpAndSettle();
   }
 
-  void openUpper() {
+  void openUpper({bool useRootNavigator = false}) {
     unawaited(
       FluxerBottomSheet.showScrollable<void>(
         lowerContext,
         title: 'Upper',
+        useRootNavigator: useRootNavigator,
         builder: (BuildContext c, ScrollController controller, _) {
           upperContext = c;
           return SingleChildScrollView(
             controller: controller,
-            child: const SizedBox(key: _upperKey, width: double.infinity, height: 2000),
+            child: const SizedBox(
+              key: _upperKey,
+              width: double.infinity,
+              height: 2000,
+            ),
           );
         },
       ),
@@ -154,6 +169,39 @@ void main() {
     final Rect shellBefore = stack.shell;
 
     stack.openUpper();
+    await tester.pumpAndSettle();
+
+    expect(stack.lower, rectMoreOrLessEquals(lowerBefore));
+    expect(stack.shell, rectMoreOrLessEquals(shellBefore));
+    expect(stack.upperScrimAlpha, greaterThan(0.2));
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
+
+  testWidgets('a root sheet over a nested sheet recedes the nested sheet', (
+    WidgetTester tester,
+  ) async {
+    final _Stack stack = _Stack(tester);
+    await stack.pump(nested: true);
+    await stack.openLower();
+    final Rect lowerBefore = stack.lower;
+    final Rect shellBefore = stack.shell;
+
+    stack.openUpper(useRootNavigator: true);
+    await tester.pumpAndSettle();
+
+    expect(stack.lower.width, lessThan(lowerBefore.width * 0.95));
+    expect(stack.shell.width, lessThan(shellBefore.width * 0.95));
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
+
+  testWidgets('a root sheet over a nested half sheet only dims', (
+    WidgetTester tester,
+  ) async {
+    final _Stack stack = _Stack(tester);
+    await stack.pump(nested: true);
+    await stack.openLower(initialChildSize: 0.5);
+    final Rect lowerBefore = stack.lower;
+    final Rect shellBefore = stack.shell;
+
+    stack.openUpper(useRootNavigator: true);
     await tester.pumpAndSettle();
 
     expect(stack.lower, rectMoreOrLessEquals(lowerBefore));
