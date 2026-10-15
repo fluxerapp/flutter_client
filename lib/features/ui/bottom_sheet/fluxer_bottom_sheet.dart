@@ -461,6 +461,7 @@ class FluxerBottomSheet {
                 halfChildSize: halfChildSize,
                 initialChildSize: effectiveInitialChildSize,
                 maxHeight: availableHeight,
+                fitContent: cardBackdrop,
                 showDragHandle: showDragHandle,
                 hasHeader: hasHeader,
                 onDismiss: close,
@@ -920,6 +921,7 @@ class FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.halfChildSize,
     required this.initialChildSize,
     required this.maxHeight,
+    required this.fitContent,
     required this.showDragHandle,
     required this.hasHeader,
     required this.onDismiss,
@@ -941,6 +943,7 @@ class FluxerDraggableScrollableSheet extends StatefulWidget {
   final double halfChildSize;
   final double initialChildSize;
   final double maxHeight;
+  final bool fitContent;
   final bool showDragHandle;
   final bool hasHeader;
   final VoidCallback onDismiss;
@@ -970,15 +973,30 @@ class _FluxerDraggableScrollableSheetState
   )..addListener(_reportBackdrop);
   final ValueNotifier<double> _recede = ValueNotifier<double>(0);
   late final FluxerSheetScrollController _scrollController =
-      FluxerSheetScrollController(this, dragsWhenShort: true);
+      FluxerSheetScrollController(
+        this,
+        dragsWhenShort: true,
+        onContentExtent: widget.fitContent ? _handleContentExtent : null,
+      );
 
   bool _dismissed = false;
   bool _routeDidEnter = false;
   bool _dragging = false;
+  bool _fitScheduled = false;
+  bool _shown = false;
   double _available = 0;
+  double _layoutHeight = 0;
+  double _contentHeight = 0;
+  late double _restingSize = widget.initialChildSize;
   Animation<double>? _routeAnimation;
   FluxerSheetBackdropLink? _backdrop;
   ModalRoute<dynamic>? _route;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _shown = true);
+  }
 
   @override
   void didChangeDependencies() {
@@ -1017,7 +1035,58 @@ class _FluxerDraggableScrollableSheetState
     super.didUpdateWidget(oldWidget);
     if (oldWidget.bottomInset <= 0 && widget.bottomInset > 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _expandForKeyboard());
+    } else if (widget.bottomInset < oldWidget.bottomInset) {
+      _scheduleFit();
     }
+  }
+
+  double get _maxSize {
+    if (_contentHeight <= 0 || _available <= 0) {
+      return widget.maxChildSize;
+    }
+    return math.min(
+      widget.maxChildSize,
+      (_contentHeight + widget.bottomInset) / _available,
+    );
+  }
+
+  double get _halfSize => math.min(widget.halfChildSize, _maxSize);
+
+  double get _restSize =>
+      math.min(_halfSize, math.min(widget.initialChildSize, _maxSize));
+
+  void _handleContentExtent(double viewportExtent, double contentExtent) {
+    if ((contentExtent - viewportExtent).abs() < 0.5) {
+      return;
+    }
+    final double height = _layoutHeight - viewportExtent + contentExtent;
+    if (height <= _contentHeight + 0.5) {
+      return;
+    }
+    _contentHeight = height;
+    _scheduleFit(jump: !_shown);
+  }
+
+  void _scheduleFit({bool jump = false}) {
+    if (_fitScheduled) {
+      return;
+    }
+    _fitScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fitScheduled = false;
+      if (!mounted || _dismissed || _dragging) {
+        return;
+      }
+      final double target = math.min(_restingSize, _maxSize);
+      if ((_size.value - target).abs() >= _kSheetSizeEpsilon) {
+        if (jump) {
+          _size.value = target;
+        } else {
+          _moveTo(target);
+        }
+      }
+      setState(() {});
+    });
   }
 
   @override
@@ -1049,7 +1118,8 @@ class _FluxerDraggableScrollableSheetState
             this) {
       return;
     }
-    _moveTo(widget.maxChildSize);
+    _restingSize = _maxSize;
+    _moveTo(_restingSize);
   }
 
   void _moveTo(double target) {
@@ -1080,10 +1150,7 @@ class _FluxerDraggableScrollableSheetState
     if (route == null || animation == null) {
       return;
     }
-    final double restSize = math.min(
-      widget.halfChildSize,
-      widget.initialChildSize,
-    );
+    final double restSize = _restSize;
     final double travel = restSize > 0
         ? (_size.value / restSize).clamp(0, 1)
         : 1;
@@ -1119,7 +1186,7 @@ class _FluxerDraggableScrollableSheetState
   }
 
   @override
-  bool get canExpand => _size.value < widget.maxChildSize - _kSheetSizeEpsilon;
+  bool get canExpand => _size.value < _maxSize - _kSheetSizeEpsilon;
 
   @override
   void dragBy(double deltaDy) {
@@ -1135,7 +1202,7 @@ class _FluxerDraggableScrollableSheetState
       deltaDy: deltaDy,
       availablePixels: _available,
       minChildSize: widget.minChildSize,
-      maxChildSize: widget.maxChildSize,
+      maxChildSize: _maxSize,
     );
   }
 
@@ -1148,8 +1215,8 @@ class _FluxerDraggableScrollableSheetState
     final double size = _size.value;
     final double? target = fluxerBottomSheetSnapTarget(
       size: size,
-      halfSize: widget.halfChildSize,
-      fullSize: widget.maxChildSize,
+      halfSize: _halfSize,
+      fullSize: _maxSize,
       velocity: velocityDy,
       availablePixels: _available,
     );
@@ -1157,6 +1224,7 @@ class _FluxerDraggableScrollableSheetState
       _dismiss();
       return;
     }
+    _restingSize = target;
     if ((size - target).abs() < _kSheetSizeEpsilon) {
       return;
     }
@@ -1173,13 +1241,15 @@ class _FluxerDraggableScrollableSheetState
         child: LayoutBuilder(
           builder: (context, constraints) {
             final double restHeight =
-                math.min(widget.halfChildSize, widget.initialChildSize) *
-                    _available -
-                widget.bottomInset;
+                _restSize * _available - widget.bottomInset;
             final double layoutHeight = math.max(
               constraints.maxHeight,
-              math.max(restHeight, 160),
+              math.max(
+                restHeight,
+                math.min(160, _maxSize * _available - widget.bottomInset),
+              ),
             );
+            _layoutHeight = layoutHeight;
             return OverflowBox(
               alignment: Alignment.topCenter,
               minHeight: layoutHeight,

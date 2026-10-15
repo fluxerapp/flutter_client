@@ -1749,5 +1749,125 @@ void main() {
 
       expect(capturedInset, 0);
     });
+
+    testWidgets('scrollable sheet with short content sizes to the content', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      title: 'Mutual communities',
+                      builder: (context, scrollController, close) {
+                        return ListView(
+                          controller: scrollController,
+                          children: <Widget>[
+                            for (int i = 0; i < 6; i++)
+                              SizedBox(height: 50, child: Text('Community $i')),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final double available = _sheetAvailableHeight(tester);
+      final Rect sheet = tester.getRect(
+        find.byType(FluxerDraggableScrollableSheet),
+      );
+      final Rect lastRow = tester.getRect(find.text('Community 5'));
+      expect(
+        sheet.height,
+        lessThan(available * FluxerBottomSheet.scrollableSheetSize - 150),
+      );
+      expect(sheet.bottom - lastRow.bottom, lessThan(60));
+      expect(lastRow.bottom, lessThanOrEqualTo(sheet.bottom));
+
+      await tester.drag(
+        find.byType(FluxerBottomSheetDragHandle),
+        const Offset(0, -200),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        tester.getRect(find.byType(FluxerDraggableScrollableSheet)).height,
+        closeTo(sheet.height, 1),
+      );
+    });
+
+    testWidgets('scrollable sheet grows when its content loads', (
+      tester,
+    ) async {
+      final ValueNotifier<int> count = ValueNotifier<int>(1);
+      addTearDown(count.dispose);
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      builder: (context, scrollController, close) {
+                        return ValueListenableBuilder<int>(
+                          valueListenable: count,
+                          builder: (context, value, _) => ListView(
+                            controller: scrollController,
+                            children: <Widget>[
+                              for (int i = 0; i < value; i++)
+                                SizedBox(height: 50, child: Text('Row $i')),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      final double shortHeight = tester
+          .getRect(find.byType(FluxerDraggableScrollableSheet))
+          .height;
+
+      count.value = 4;
+      await tester.pumpAndSettle();
+      final Rect sheet = tester.getRect(
+        find.byType(FluxerDraggableScrollableSheet),
+      );
+      expect(sheet.height, closeTo(shortHeight + 150, 1));
+      expect(
+        tester.getRect(find.text('Row 3')).bottom,
+        lessThanOrEqualTo(sheet.bottom),
+      );
+
+      count.value = 60;
+      await tester.pumpAndSettle();
+      expect(
+        tester.getRect(find.byType(FluxerDraggableScrollableSheet)).height,
+        closeTo(
+          _sheetAvailableHeight(tester) * FluxerBottomSheet.scrollableSheetSize,
+          2,
+        ),
+      );
+    });
   });
 }

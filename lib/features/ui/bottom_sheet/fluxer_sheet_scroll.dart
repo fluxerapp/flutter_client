@@ -1,6 +1,11 @@
 import 'package:flutter/gestures.dart' show Drag;
 import 'package:flutter/physics.dart' show Tolerance, nearEqual;
+import 'package:flutter/rendering.dart'
+    show RenderSliver, RenderViewportBase, SliverGeometry;
 import 'package:fluxer_app/material_ui.dart';
+
+typedef FluxerSheetContentExtentCallback =
+    void Function(double viewportExtent, double contentExtent);
 
 abstract interface class FluxerSheetDragTarget {
   bool get canExpand;
@@ -11,10 +16,15 @@ abstract interface class FluxerSheetDragTarget {
 }
 
 class FluxerSheetScrollController extends ScrollController {
-  FluxerSheetScrollController(this.target, {this.dragsWhenShort = false});
+  FluxerSheetScrollController(
+    this.target, {
+    this.dragsWhenShort = false,
+    this.onContentExtent,
+  });
 
   final FluxerSheetDragTarget target;
   final bool dragsWhenShort;
+  final FluxerSheetContentExtentCallback? onContentExtent;
 
   @override
   ScrollPosition createScrollPosition(
@@ -30,6 +40,7 @@ class FluxerSheetScrollController extends ScrollController {
       context: context,
       oldPosition: oldPosition,
       target: target,
+      onContentExtent: onContentExtent,
     );
   }
 }
@@ -65,11 +76,56 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
     required super.physics,
     required super.context,
     required this.target,
+    required this.onContentExtent,
     super.oldPosition,
   });
 
   final FluxerSheetDragTarget target;
+  final FluxerSheetContentExtentCallback? onContentExtent;
   _FluxerSheetDragOwner _owner = _FluxerSheetDragOwner.none;
+
+  @override
+  bool applyContentDimensions(double minScrollExtent, double maxScrollExtent) {
+    final FluxerSheetContentExtentCallback? report = onContentExtent;
+    if (report != null && hasViewportDimension && axis == Axis.vertical) {
+      final double? content = _sliverExtent();
+      if (content != null) {
+        report(viewportDimension, content);
+      }
+    }
+    return super.applyContentDimensions(minScrollExtent, maxScrollExtent);
+  }
+
+  double? _sliverExtent() {
+    RenderViewportBase? viewport;
+    void find(RenderObject child) {
+      if (viewport != null) {
+        return;
+      }
+      if (child is RenderViewportBase) {
+        viewport = child;
+        return;
+      }
+      child.visitChildren(find);
+    }
+
+    context.notificationContext?.findRenderObject()?.visitChildren(find);
+    final RenderViewportBase? found = viewport;
+    if (found == null) {
+      return null;
+    }
+    double extent = 0;
+    RenderSliver? sliver = found.firstChild;
+    while (sliver != null) {
+      final SliverGeometry? geometry = sliver.geometry;
+      if (geometry == null) {
+        return null;
+      }
+      extent += geometry.scrollExtent;
+      sliver = found.childAfter(sliver);
+    }
+    return extent;
+  }
 
   @override
   Drag drag(DragStartDetails details, VoidCallback dragCancelCallback) {
