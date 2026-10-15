@@ -1167,7 +1167,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Muting a community hides its unread badge and prevents notifications from appearing';
 
   @override
   String get notificationCommunitySettings => 'Community notification settings';
@@ -31243,7 +31243,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Muting a community hides its unread badge and prevents notifications from appearing';
 
   @override
   String get notificationCommunitySettings => 'Community notification settings';

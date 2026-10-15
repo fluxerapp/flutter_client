@@ -2051,7 +2051,7 @@ abstract class FluxerLocalizations {
   /// Description for the mute toggle in guild notification settings.
   ///
   /// In en, this message translates to:
-  /// **'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned'**
+  /// **'Muting a community hides its unread badge and prevents notifications from appearing'**
   String get notificationMuteDescription;
 
   /// Section title for notification frequency options.

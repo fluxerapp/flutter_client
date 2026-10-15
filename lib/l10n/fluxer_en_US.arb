@@ -986,7 +986,7 @@
             }
         }
     },
-    "notificationMuteDescription": "Muting a community prevents unread indicators and notifications from appearing unless you are mentioned",
+    "notificationMuteDescription": "Muting a community hides its unread badge and prevents notifications from appearing",
     "@notificationMuteDescription": {
         "description": "Description for the mute toggle in guild notification settings."
     },
