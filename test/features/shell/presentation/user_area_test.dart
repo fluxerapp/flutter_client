@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -47,6 +48,7 @@ List<Override> _userAreaOverrides({
     voiceStateForConnectionProvider(
       'conn-1',
     ).overrideWithValue(const VoiceState(userId: '1')),
+    accountManagerProvider.overrideWith(_FakeAccountManager.new),
   ];
 }
 
@@ -243,6 +245,48 @@ void main() {
     expect(safeArea.bottom, isTrue);
   });
 
+  testWidgets('UserArea menu offers switch accounts on a landscape tablet', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(1280, 720);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final colorTheme = buildDarkColorTheme();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: _userAreaOverrides(
+          voiceSession: _IdleVoiceSession.new,
+          localVoice: _FakeLocalVoiceState.new,
+        ),
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(
+            body: Align(alignment: Alignment.bottomLeft, child: UserArea()),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.text('Tester'));
+    await tester.pumpAndSettle();
+
+    final Finder switchAccounts = find.text('Switch accounts');
+    await tester.scrollUntilVisible(
+      switchAccounts,
+      100,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(switchAccounts.hitTestable(), findsOneWidget);
+  });
+
   testWidgets('UserArea skips bottom safe area on mobile layout', (
     WidgetTester tester,
   ) async {
@@ -356,4 +400,9 @@ class _EmptyDmViewModel extends DmViewModel {
 class _FakeVoiceSettings extends VoiceSettings {
   @override
   VoiceSettingsState build() => const VoiceSettingsState();
+}
+
+class _FakeAccountManager extends AccountManager {
+  @override
+  Future<void> loadAccounts() async {}
 }

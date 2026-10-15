@@ -79,7 +79,8 @@ class UserArea extends ConsumerWidget {
                       child: InkWell(
                         borderRadius: layout.radiusMd,
                         hoverColor: colors.textPrimary.withValues(alpha: 0.03),
-                        onTap: () => unawaited(UserAreaPopout.show(context)),
+                        onTap: () =>
+                            unawaited(UserAreaPopout.show(context, ref)),
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: layout.s2),
                           child: ConstrainedBox(
