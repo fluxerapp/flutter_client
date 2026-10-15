@@ -105,8 +105,10 @@ class FluxerMessageNotificationSfxEvaluator {
     )) {
       return null;
     }
-    final bool isFocusedViewingChannel =
-        foreground && viewingChannel && !hasObscuringOverlay;
+    if (!foreground) {
+      return null;
+    }
+    final bool isFocusedViewingChannel = viewingChannel && !hasObscuringOverlay;
     if (isFocusedViewingChannel) {
       if (!deduper.claim(message.id)) {
         return null;

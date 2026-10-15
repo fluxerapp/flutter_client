@@ -58,7 +58,7 @@ Future<MessageNotificationSfxPlayRequest?> _evaluate({
   MessagePersistSnapshot snapshot = _guildAllMessages,
   MessageNotificationSfxDeduper? deduper,
   bool selfIsDnd = false,
-  bool foreground = false,
+  bool foreground = true,
   bool viewingChannel = false,
   bool hasObscuringOverlay = false,
 }) {
@@ -161,7 +161,7 @@ void main() {
       expect(request, isNull);
     });
 
-    test('dnd is silent for background notifications', () async {
+    test('presence dnd is silent outside the viewed channel', () async {
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
         selfIsDnd: true,
         message: _message(
@@ -173,11 +173,53 @@ void main() {
       expect(request, isNull);
     });
 
+    test('backgrounded app never plays a message clip', () async {
+      final MessageNotificationSfxPlayRequest? request = await _evaluate(
+        foreground: false,
+        message: _message(
+          id: '1000000000000000020',
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+      );
+      expect(request, isNull);
+    });
+
+    test('backgrounded app never plays a direct message clip', () async {
+      final MessageNotificationSfxPlayRequest? request = await _evaluate(
+        foreground: false,
+        snapshot: const MessagePersistSnapshot(
+          mentionsCurrentUser: false,
+          isDm: true,
+          acknowledgedByGateway: false,
+          notificationLevel: UserNotificationSettings.allMessages,
+        ),
+        message: _message(
+          id: '1000000000000000021',
+          channelId: 'dm-1',
+          authorId: 'other',
+        ),
+      );
+      expect(request, isNull);
+    });
+
+    test('backgrounded app is silent for the last viewed channel', () async {
+      final MessageNotificationSfxPlayRequest? request = await _evaluate(
+        foreground: false,
+        viewingChannel: true,
+        message: _message(
+          id: '1000000000000000022',
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+      );
+      expect(request, isNull);
+    });
+
     test('dnd still allows same-channel clip while viewing channel', () async {
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
         snapshot: _guildOnlyMentions,
         selfIsDnd: true,
-        foreground: true,
         viewingChannel: true,
         message: _message(
           id: '1000000000000000013',
@@ -196,7 +238,6 @@ void main() {
       () async {
         final MessageNotificationSfxPlayRequest? request = await _evaluate(
           snapshot: _guildOnlyMentions,
-          foreground: true,
           viewingChannel: true,
           message: _message(
             id: '1000000000000000010',
@@ -216,7 +257,6 @@ void main() {
       () async {
         final MessageNotificationSfxPlayRequest? request = await _evaluate(
           snapshot: _guildOnlyMentions,
-          foreground: true,
           viewingChannel: true,
           hasObscuringOverlay: true,
           message: _message(
@@ -266,7 +306,7 @@ void main() {
             blockedUserIds: const <String>{},
             selfIsDnd: false,
             deduper: deduper,
-            foreground: false,
+            foreground: true,
             viewingChannel: false,
             hasObscuringOverlay: false,
           );

@@ -104,7 +104,12 @@ void fluxerMessageSfxBinding(Ref ref) {
 
   ref
     ..listen(soundPreferencesProvider, (_, _) => refreshQueuedSfx())
-    ..listen(notificationPreferencesProvider, (_, _) => refreshQueuedSfx());
+    ..listen(notificationPreferencesProvider, (_, _) => refreshQueuedSfx())
+    ..listen<bool>(appUiForegroundProvider, (_, bool foreground) {
+      if (!foreground) {
+        scheduler.dropPending();
+      }
+    });
   final StreamSubscription<MessageRealtimeEvent> sub = ref
       .read(messageRealtimeBusProvider)
       .stream
@@ -148,6 +153,9 @@ void fluxerMessageSfxBinding(Ref ref) {
           scheduler.schedule(
             clip: clip,
             play: (FluxerSfxClip scheduledClip) {
+              if (!ref.read(appUiForegroundProvider)) {
+                return;
+              }
               _playConfiguredSfx(ref, scheduledClip);
             },
           );
