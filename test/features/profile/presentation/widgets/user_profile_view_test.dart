@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/friends/data/friend_repository.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_vi
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
+import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
@@ -75,9 +77,13 @@ class _FakeCurrentUserFullProfile extends CurrentUserFullProfile {
 }
 
 class _FakeAccountManager extends AccountManager {
+  _FakeAccountManager([this._accounts = const <StoredAccount>[]]);
+
+  final List<StoredAccount> _accounts;
+
   @override
   AccountManagerState build() =>
-      const AccountManagerState(accounts: [], isSwitching: false);
+      AccountManagerState(accounts: _accounts, isSwitching: false);
 
   @override
   Future<void> loadAccounts() async {}
@@ -99,6 +105,50 @@ class _FakeFriendRepository implements FriendRepository {
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+UserSettingsResponse _settingsStatus({
+  required String status,
+  required String customStatusText,
+}) {
+  return UserSettingsResponse.fromJson(<String, Object?>{
+    'status': status,
+    'theme': 'dark',
+    'locale': 'en-US',
+    'synced_preferences': '',
+    'render_embeds': true,
+    'profile_privacy': 0,
+    'privacy_setup_version': 0,
+    'restricted_guilds': <String>[],
+    'bot_restricted_guilds': <String>[],
+    'default_guilds_restricted': false,
+    'bot_default_guilds_restricted': false,
+    'inline_attachment_media': true,
+    'inline_embed_media': true,
+    'gif_auto_play': true,
+    'render_reactions': true,
+    'animate_emoji': true,
+    'animate_stickers': 0,
+    'render_spoilers': 0,
+    'message_display_compact': false,
+    'friend_source_flags': 0,
+    'incoming_call_flags': 0,
+    'group_dm_add_permission_flags': 0,
+    'guild_folders': <Map<String, Object?>>[],
+    'custom_status': <String, Object?>{'text': customStatusText},
+    'afk_timeout': 600,
+    'default_share_voice_activity': false,
+    'developer_mode': false,
+    'trusted_domains': <String>[],
+    'default_hide_muted_channels': false,
+    'sensitive_content_friend_dm_filter': 0,
+    'sensitive_content_non_friend_dm_filter': 0,
+    'sensitive_content_guild_filter': 0,
+    'suppress_unprivileged_self_mentions': false,
+    'suppress_unprivileged_self_mentions_bypass_user_ids': <String>[],
+    'staff_dm_access_user_ids': <String>[],
+    'time_format': 0,
+  });
 }
 
 User _onlineUser() {
@@ -129,13 +179,19 @@ CurrentUserCachedProfile _cachedProfile() {
   );
 }
 
-List<Override> _overrides({UserSettingsViewModel Function()? settings}) {
+List<Override> _overrides({
+  UserSettingsViewModel Function()? settings,
+  UserSettingsResponse? settingsStatus,
+  List<StoredAccount> accounts = const <StoredAccount>[],
+}) {
   return <Override>[
+    if (settingsStatus != null)
+      userSettingsStatusProvider.overrideWithValue(settingsStatus),
     instanceRuntimeConfigOverride(),
     userSettingsViewModelProvider.overrideWith(
       settings ?? _FakeUserSettings.new,
     ),
-    accountManagerProvider.overrideWith(_FakeAccountManager.new),
+    accountManagerProvider.overrideWith(() => _FakeAccountManager(accounts)),
     friendRepositoryProvider.overrideWithValue(_FakeFriendRepository()),
     userPresenceProvider(
       _kUserId,
@@ -153,10 +209,16 @@ List<Override> _overrides({UserSettingsViewModel Function()? settings}) {
 Widget _buildApp(
   ScrollController scrollController, {
   UserSettingsViewModel Function()? settings,
+  UserSettingsResponse? settingsStatus,
+  List<StoredAccount> accounts = const <StoredAccount>[],
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: _overrides(settings: settings),
+    overrides: _overrides(
+      settings: settings,
+      settingsStatus: settingsStatus,
+      accounts: accounts,
+    ),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,
@@ -347,6 +409,45 @@ void main() {
         matching: find.text(testL10n.statusOnline),
       ),
     );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(StatusChangeSheetBody), findsOneWidget);
+  });
+
+  testWidgets('You tab shows a set status row with the current status', (
+    tester,
+  ) async {
+    final ScrollController scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    await tester.pumpWidget(
+      _buildApp(
+        scrollController,
+        settingsStatus: _settingsStatus(
+          status: 'dnd',
+          customStatusText: 'Out for lunch',
+        ),
+        accounts: const <StoredAccount>[
+          StoredAccount(userId: 'other-1', isValid: true, mediaBaseUrl: ''),
+          StoredAccount(userId: 'other-2', isValid: true, mediaBaseUrl: ''),
+        ],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final Finder row = find.text(testL10n.statusChangeSheetTitle);
+    expect(row, findsOneWidget);
+    expect(find.text('Out for lunch'), findsWidgets);
+    final Finder accountsRow = find.text(testL10n.profileTabMenuSwitchAccounts);
+    expect(tester.getTopLeft(row).dx, tester.getTopLeft(accountsRow).dx);
+
+    await tester.tap(row);
     await tester.pumpAndSettle();
 
     expect(find.byType(StatusChangeSheetBody), findsOneWidget);

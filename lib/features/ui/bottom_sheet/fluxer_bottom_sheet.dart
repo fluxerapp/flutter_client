@@ -1709,8 +1709,15 @@ class FluxerBottomSheetFooter extends StatelessWidget {
 
 class FluxerMenuGroup extends StatelessWidget {
   final List<Widget> children;
+  final Color? color;
+  final BorderRadius? borderRadius;
 
-  const FluxerMenuGroup({required this.children, super.key});
+  const FluxerMenuGroup({
+    required this.children,
+    this.color,
+    this.borderRadius,
+    super.key,
+  });
 
   static bool isGrouped(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_FluxerMenuGroupScope>() !=
@@ -1728,9 +1735,9 @@ class FluxerMenuGroup extends StatelessWidget {
     final layout = context.layout;
 
     return Material(
-      color: FluxerBottomSheet.cardColorOf(context),
+      color: color ?? FluxerBottomSheet.cardColorOf(context),
       surfaceTintColor: Colors.transparent,
-      borderRadius: layout.radiusXxl,
+      borderRadius: borderRadius ?? layout.radiusXxl,
       clipBehavior: Clip.antiAlias,
       child: _FluxerMenuGroupScope(
         child: Column(

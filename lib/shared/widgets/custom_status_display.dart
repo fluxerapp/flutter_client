@@ -13,6 +13,7 @@ class CustomStatusDisplay extends StatelessWidget {
     this.maxLines = 2,
     this.emojiSize = 16,
     this.textStyle,
+    this.trailing = false,
     super.key,
   });
 
@@ -20,6 +21,7 @@ class CustomStatusDisplay extends StatelessWidget {
   final int? maxLines;
   final double emojiSize;
   final TextStyle? textStyle;
+  final bool trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,20 @@ class CustomStatusDisplay extends StatelessWidget {
       return const SizedBox.shrink();
     }
     final bool clamp = maxLines != null;
+    final Widget? label = hasText
+        ? Text(
+            text,
+            style:
+                textStyle ??
+                context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textSecondary,
+                ),
+            maxLines: maxLines,
+            overflow: clamp ? TextOverflow.ellipsis : null,
+          )
+        : null;
     return Row(
+      mainAxisSize: trailing ? MainAxisSize.min : MainAxisSize.max,
       crossAxisAlignment: maxLines == 1
           ? CrossAxisAlignment.center
           : CrossAxisAlignment.start,
@@ -43,19 +58,8 @@ class CustomStatusDisplay extends StatelessWidget {
           emoji,
           if (hasText) const SizedBox(width: 4),
         ],
-        if (hasText)
-          Expanded(
-            child: Text(
-              text,
-              style:
-                  textStyle ??
-                  context.textStyles.bodySmall.copyWith(
-                    color: context.colors.textSecondary,
-                  ),
-              maxLines: maxLines,
-              overflow: clamp ? TextOverflow.ellipsis : null,
-            ),
-          ),
+        if (label != null)
+          if (trailing) Flexible(child: label) else Expanded(child: label),
       ],
     );
   }
