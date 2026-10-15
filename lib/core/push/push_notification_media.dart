@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
@@ -10,9 +11,28 @@ const int kPushPictureMaxEdge = 720;
 
 const Duration _kPushImageTimeout = Duration(seconds: 8);
 
-Future<String?> downloadPushNotificationImage(
+Future<String?> downloadPushNotificationImage(String rawUrl) {
+  return _downloadPushNotificationMedia(
+    rawUrl,
+    fileName: 'image.jpg',
+    encode: (Uint8List bytes) =>
+        encodePushNotificationImage(bytes, maxEdge: kPushPictureMaxEdge),
+  );
+}
+
+Future<String?> downloadPushNotificationAvatar(String rawUrl) {
+  return _downloadPushNotificationMedia(
+    rawUrl,
+    fileName: 'avatar.png',
+    encode: (Uint8List bytes) =>
+        encodePushNotificationAvatar(bytes, size: kPushAvatarMaxEdge),
+  );
+}
+
+Future<String?> _downloadPushNotificationMedia(
   String rawUrl, {
-  int maxEdge = kPushPictureMaxEdge,
+  required String fileName,
+  required Uint8List? Function(Uint8List bytes) encode,
 }) async {
   final Uri? uri = Uri.tryParse(rawUrl.trim());
   if (uri == null || (uri.scheme != 'https' && uri.scheme != 'http')) {
@@ -41,15 +61,12 @@ Future<String?> downloadPushNotificationImage(
     if (bytes.isEmpty) {
       return null;
     }
-    final Uint8List? encoded = encodePushNotificationImage(
-      bytes,
-      maxEdge: maxEdge,
-    );
+    final Uint8List? encoded = encode(bytes);
     if (encoded == null || encoded.isEmpty) {
       return null;
     }
     final Directory dir = await Directory.systemTemp.createTemp('fluxer_push_');
-    final File file = File('${dir.path}/image.jpg');
+    final File file = File('${dir.path}/$fileName');
     await file.writeAsBytes(encoded, flush: true);
     return file.path;
   } on Object {
@@ -114,6 +131,19 @@ Uint8List? encodePushNotificationImage(
     }
   }
   return Uint8List.fromList(img.encodeJpg(image, quality: 80));
+}
+
+Uint8List? encodePushNotificationAvatar(Uint8List bytes, {required int size}) {
+  final img.Image? decoded = img.decodeImage(bytes);
+  if (decoded == null) {
+    return null;
+  }
+  final img.Image square = img.copyResizeCropSquare(
+    decoded.convert(numChannels: 4),
+    size: math.min(size, math.min(decoded.width, decoded.height)),
+    interpolation: img.Interpolation.average,
+  );
+  return Uint8List.fromList(img.encodePng(img.copyCropCircle(square)));
 }
 
 String? pushAttachmentImageUrl(Map<String, String> payload) {

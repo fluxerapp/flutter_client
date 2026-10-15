@@ -331,9 +331,12 @@ final class LocalPushNotifications {
     final List<String?> media = await Future.wait<String?>(<Future<String?>>[
       _downloadOptional(
         pushAuthorAvatarUrl(payload),
-        maxEdge: kPushAvatarMaxEdge,
+        downloadPushNotificationAvatar,
       ),
-      _downloadOptional(pushAttachmentImageUrl(payload)),
+      _downloadOptional(
+        pushAttachmentImageUrl(payload),
+        downloadPushNotificationImage,
+      ),
     ]);
     final String senderName = resolvePushSenderName(title);
     final PushConversationLine line = PushConversationLine(
@@ -689,13 +692,13 @@ final class LocalPushNotifications {
     }
   }
 
-  Future<String?> _downloadOptional(String? url, {int? maxEdge}) async {
+  Future<String?> _downloadOptional(
+    String? url,
+    Future<String?> Function(String url) download,
+  ) async {
     if (url == null) {
       return null;
     }
-    if (maxEdge == null) {
-      return downloadPushNotificationImage(url);
-    }
-    return downloadPushNotificationImage(url, maxEdge: maxEdge);
+    return download(url);
   }
 }

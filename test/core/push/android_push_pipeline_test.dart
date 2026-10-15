@@ -182,6 +182,30 @@ void main() {
     expect(decoded!.width, lessThanOrEqualTo(16));
     expect(decoded.height, lessThanOrEqualTo(16));
   });
+
+  test('notification avatars are circular PNGs with transparent corners', () {
+    final img.Image opaque = img.Image(width: 60, height: 40)
+      ..clear(img.ColorRgb8(200, 30, 30));
+    final Uint8List? encoded = encodePushNotificationAvatar(
+      Uint8List.fromList(img.encodeJpg(opaque)),
+      size: 32,
+    );
+    expect(encoded, isNotNull);
+    final img.Image? decoded = img.decodePng(encoded!);
+    expect(decoded, isNotNull);
+    expect(decoded!.width, 32);
+    expect(decoded.height, 32);
+    expect(decoded.numChannels, 4);
+    for (final (int x, int y) in <(int, int)>[
+      (0, 0),
+      (31, 0),
+      (0, 31),
+      (31, 31),
+    ]) {
+      expect(decoded.getPixel(x, y).a, 0);
+    }
+    expect(decoded.getPixel(16, 16).a, 255);
+  });
 }
 
 WebPushKeyPair _pairFrom(WebPushAccountKeys keys) {
