@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -11,29 +13,169 @@ class FluxerFullscreenFlow {
   static Future<T?> show<T>(
     BuildContext context, {
     required WidgetBuilder builder,
-  }) => _push<T>(context, builder: builder, fullscreenDialog: true);
+  }) => _push<T>(context, _FluxerFlowRoute<T>(builder: builder));
 
   static Future<T?> push<T>(
     BuildContext context, {
     required WidgetBuilder builder,
-  }) => _push<T>(context, builder: builder, fullscreenDialog: false);
+  }) => _push<T>(context, MaterialPageRoute<T>(builder: builder));
 
-  static Future<T?> _push<T>(
-    BuildContext context, {
-    required WidgetBuilder builder,
-    required bool fullscreenDialog,
-  }) {
+  static Future<T?> _push<T>(BuildContext context, Route<T> route) {
     final ProviderContainer container = ProviderScope.containerOf(context);
     container.read(obscuringOverlayTrackerProvider.notifier).push();
-    final Route<T> route = MaterialPageRoute<T>(
-      fullscreenDialog: fullscreenDialog,
-      builder: builder,
-    );
     return Navigator.of(context, rootNavigator: true)
         .push<T>(route)
         .whenComplete(
           () => container.read(obscuringOverlayTrackerProvider.notifier).pop(),
         );
+  }
+}
+
+const double _kFlowDismissFlingVelocity = 2;
+const double _kFlowDismissCloseProgress = 0.52;
+const Duration _kFlowDismissSettleDuration = Duration(milliseconds: 300);
+
+class _FluxerFlowRoute<T> extends MaterialPageRoute<T> {
+  _FluxerFlowRoute({required super.builder}) : super(fullscreenDialog: true);
+
+  bool _dragging = false;
+
+  @override
+  Widget buildContent(BuildContext context) {
+    final Widget page = super.buildContent(context);
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      return page;
+    }
+    return _FluxerFlowDismissRegion(route: this, child: page);
+  }
+
+  double get _height {
+    final Size? size = navigator?.context.size;
+    if (size == null || size.height <= 0) {
+      return 1;
+    }
+    return size.height;
+  }
+
+  bool claimsScrollDrag(ScrollMetrics position, double delta) =>
+      isCurrent &&
+      (_dragging || (delta > 0 && position.pixels <= position.minScrollExtent));
+
+  void dragBy(double deltaDy) {
+    final AnimationController? route = controller;
+    final NavigatorState? nav = navigator;
+    if (route == null || nav == null || !isCurrent) {
+      return;
+    }
+    if (!_dragging) {
+      if (deltaDy <= 0 && route.value >= 1) {
+        return;
+      }
+      _dragging = true;
+      nav.didStartUserGesture();
+    }
+    route.value = (route.value - deltaDy / _height).clamp(0, 1);
+  }
+
+  void endDrag(double velocityDy) {
+    final AnimationController? route = controller;
+    final NavigatorState? nav = navigator;
+    if (!_dragging || route == null || nav == null) {
+      return;
+    }
+    _dragging = false;
+    final double velocity = velocityDy / _height;
+    final bool close = velocity.abs() >= _kFlowDismissFlingVelocity
+        ? velocity > 0
+        : route.value <= _kFlowDismissCloseProgress;
+    if (close) {
+      if (isCurrent) {
+        nav.pop();
+      }
+      route.animateBack(
+        0,
+        duration: _kFlowDismissSettleDuration,
+        curve: Curves.easeOut,
+      );
+    } else {
+      route.animateTo(
+        1,
+        duration: _kFlowDismissSettleDuration,
+        curve: Curves.easeOut,
+      );
+    }
+    if (!route.isAnimating) {
+      nav.didStopUserGesture();
+      return;
+    }
+    void stopGesture(AnimationStatus status) {
+      route.removeStatusListener(stopGesture);
+      nav.didStopUserGesture();
+    }
+
+    route.addStatusListener(stopGesture);
+  }
+}
+
+class _FluxerFlowDismissRegion extends StatelessWidget {
+  const _FluxerFlowDismissRegion({required this.route, required this.child});
+
+  final _FluxerFlowRoute<Object?> route;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final ScrollBehavior behavior = ScrollConfiguration.of(context);
+    return FluxerGestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onVerticalDragUpdate: (DragUpdateDetails details) =>
+          route.dragBy(details.delta.dy),
+      onVerticalDragEnd: (DragEndDetails details) =>
+          route.endDrag(details.primaryVelocity ?? 0),
+      onVerticalDragCancel: () => route.endDrag(0),
+      child: ScrollConfiguration(
+        behavior: behavior.copyWith(
+          physics: _FluxerFlowDismissPhysics(
+            route,
+            parent: behavior.getScrollPhysics(context),
+          ),
+        ),
+        child: child,
+      ),
+    );
+  }
+}
+
+class _FluxerFlowDismissPhysics extends ScrollPhysics {
+  const _FluxerFlowDismissPhysics(this.route, {super.parent});
+
+  final _FluxerFlowRoute<Object?> route;
+
+  @override
+  _FluxerFlowDismissPhysics applyTo(ScrollPhysics? ancestor) {
+    return _FluxerFlowDismissPhysics(route, parent: buildParent(ancestor));
+  }
+
+  @override
+  double applyPhysicsToUserOffset(ScrollMetrics position, double offset) {
+    if (position.axisDirection == AxisDirection.down &&
+        route.claimsScrollDrag(position, offset)) {
+      route.dragBy(offset);
+      return 0;
+    }
+    return super.applyPhysicsToUserOffset(position, offset);
+  }
+
+  @override
+  Simulation? createBallisticSimulation(
+    ScrollMetrics position,
+    double velocity,
+  ) {
+    if (position.axisDirection == AxisDirection.down && route._dragging) {
+      route.endDrag(-velocity);
+      return super.createBallisticSimulation(position, 0);
+    }
+    return super.createBallisticSimulation(position, velocity);
   }
 }
 
