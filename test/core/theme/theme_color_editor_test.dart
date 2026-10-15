@@ -71,6 +71,36 @@ void main() {
       expect(next, contains('--text-primary'));
     });
 
+    test('every editable token reads its own color', () {
+      for (final ThemeColorTokenDefinition token in kEditableThemeColorTokens) {
+        expect(
+          kThemePropertyColorReaders.containsKey(token.propertyName),
+          isTrue,
+          reason: token.propertyName,
+        );
+      }
+      expect(
+        effectiveThemeColorForProperty(
+          customThemeCss: '.theme-dark { --chat-background: #0000ff; }',
+          propertyName: 'chatBackground',
+          editingMode: FluxerThemeMode.dark,
+        ),
+        const Color(0xFF0000FF),
+      );
+      expect(
+        defaultThemeColorForProperty(
+          'markupMentionFill',
+          mode: FluxerThemeMode.dark,
+        ),
+        isNot(
+          defaultThemeColorForProperty(
+            'textPrimary',
+            mode: FluxerThemeMode.dark,
+          ),
+        ),
+      );
+    });
+
     test('effectiveThemeColorForProperty applies scoped override', () {
       const css = '.theme-dark { --brand-primary: #00ff00; }';
       final Color color = effectiveThemeColorForProperty(

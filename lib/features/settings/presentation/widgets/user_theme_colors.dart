@@ -271,6 +271,7 @@ class _UserThemeColorsState extends ConsumerState<UserThemeColors> {
       value: themeColorToPickerInt(effective),
       defaultValue: themeColorToPickerInt(defaultColor),
       isDefaultValue: !overridden,
+      swatchColor: effective,
       onChanged: (int value) {
         notifier.previewThemeColorOverride(
           editingMode: editingMode,

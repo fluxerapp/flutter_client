@@ -205,21 +205,141 @@ final Map<String, Color Function(FluxerColorTheme)> kThemePropertyColorReaders =
       'textChatMuted': (FluxerColorTheme t) => t.textChatMuted,
       'textLink': (FluxerColorTheme t) => t.textLink,
       'textOnBrandPrimary': (FluxerColorTheme t) => t.textOnBrandPrimary,
+      'textTertiaryMuted': (FluxerColorTheme t) => t.textTertiaryMuted,
+      'textTertiarySecondary': (FluxerColorTheme t) => t.textTertiarySecondary,
+      'textWarning': (FluxerColorTheme t) => t.textWarning,
+      'textDanger': (FluxerColorTheme t) => t.textDanger,
+      'textPositive': (FluxerColorTheme t) => t.textPositive,
+      'textCode': (FluxerColorTheme t) => t.textCode,
+      'borderColor': (FluxerColorTheme t) => t.borderColor,
+      'borderColorHover': (FluxerColorTheme t) => t.borderColorHover,
+      'borderColorFocus': (FluxerColorTheme t) => t.borderColorFocus,
       'accentPrimary': (FluxerColorTheme t) => t.accentPrimary,
       'accentSuccess': (FluxerColorTheme t) => t.accentSuccess,
       'accentWarning': (FluxerColorTheme t) => t.accentWarning,
       'accentDanger': (FluxerColorTheme t) => t.accentDanger,
       'accentInfo': (FluxerColorTheme t) => t.accentInfo,
+      'accentPurple': (FluxerColorTheme t) => t.accentPurple,
+      'alertNote': (FluxerColorTheme t) => t.alertNote,
+      'alertTip': (FluxerColorTheme t) => t.alertTip,
+      'alertImportant': (FluxerColorTheme t) => t.alertImportant,
+      'alertWarning': (FluxerColorTheme t) => t.alertWarning,
+      'alertCaution': (FluxerColorTheme t) => t.alertCaution,
       'markupMentionText': (FluxerColorTheme t) => t.markupMentionText,
+      'markupMentionFill': (FluxerColorTheme t) => t.markupMentionFill,
+      'markupMentionBorder': (FluxerColorTheme t) => t.markupMentionBorder,
       'markupInteractiveHoverText': (FluxerColorTheme t) =>
           t.markupInteractiveHoverText,
+      'markupInteractiveHoverFill': (FluxerColorTheme t) =>
+          t.markupInteractiveHoverFill,
       'markupJumpLinkText': (FluxerColorTheme t) => t.markupJumpLinkText,
-      'buttonSecondaryFill': (FluxerColorTheme t) => t.buttonSecondaryFill,
+      'markupJumpLinkFill': (FluxerColorTheme t) => t.markupJumpLinkFill,
+      'markupJumpLinkHoverFill': (FluxerColorTheme t) =>
+          t.markupJumpLinkHoverFill,
+      'markupEveryoneText': (FluxerColorTheme t) => t.markupEveryoneText,
+      'markupEveryoneFill': (FluxerColorTheme t) => t.markupEveryoneFill,
+      'markupEveryoneBorder': (FluxerColorTheme t) => t.markupEveryoneBorder,
+      'markupHereText': (FluxerColorTheme t) => t.markupHereText,
+      'markupHereFill': (FluxerColorTheme t) => t.markupHereFill,
+      'markupHereBorder': (FluxerColorTheme t) => t.markupHereBorder,
       'buttonPrimaryFill': (FluxerColorTheme t) => t.buttonPrimaryFill,
+      'buttonPrimaryActiveFill': (FluxerColorTheme t) =>
+          t.buttonPrimaryActiveFill,
+      'buttonPrimaryText': (FluxerColorTheme t) => t.buttonPrimaryText,
+      'buttonSecondaryFill': (FluxerColorTheme t) => t.buttonSecondaryFill,
+      'buttonSecondaryActiveFill': (FluxerColorTheme t) =>
+          t.buttonSecondaryActiveFill,
+      'buttonSecondaryText': (FluxerColorTheme t) => t.buttonSecondaryText,
+      'buttonSecondaryActiveText': (FluxerColorTheme t) =>
+          t.buttonSecondaryActiveText,
+      'buttonDangerFill': (FluxerColorTheme t) => t.buttonDangerFill,
+      'buttonDangerActiveFill': (FluxerColorTheme t) =>
+          t.buttonDangerActiveFill,
+      'buttonDangerText': (FluxerColorTheme t) => t.buttonDangerText,
+      'buttonDangerOutlineBorder': (FluxerColorTheme t) =>
+          t.buttonDangerOutlineBorder,
+      'buttonDangerOutlineText': (FluxerColorTheme t) =>
+          t.buttonDangerOutlineText,
+      'buttonDangerOutlineActiveFill': (FluxerColorTheme t) =>
+          t.buttonDangerOutlineActiveFill,
+      'buttonGhostText': (FluxerColorTheme t) => t.buttonGhostText,
+      'buttonInvertedFill': (FluxerColorTheme t) => t.buttonInvertedFill,
+      'buttonInvertedText': (FluxerColorTheme t) => t.buttonInvertedText,
+      'buttonOutlineBorder': (FluxerColorTheme t) => t.buttonOutlineBorder,
+      'buttonOutlineText': (FluxerColorTheme t) => t.buttonOutlineText,
+      'buttonOutlineActiveFill': (FluxerColorTheme t) =>
+          t.buttonOutlineActiveFill,
+      'panelControlBg': (FluxerColorTheme t) => t.panelControlBg,
+      'panelControlBorder': (FluxerColorTheme t) => t.panelControlBorder,
+      'panelControlDivider': (FluxerColorTheme t) => t.panelControlDivider,
+      'panelControlHighlight': (FluxerColorTheme t) => t.panelControlHighlight,
+      'controlButtonNormalBg': (FluxerColorTheme t) => t.controlButtonNormalBg,
+      'controlButtonNormalText': (FluxerColorTheme t) =>
+          t.controlButtonNormalText,
+      'controlButtonHoverBg': (FluxerColorTheme t) => t.controlButtonHoverBg,
+      'controlButtonHoverText': (FluxerColorTheme t) =>
+          t.controlButtonHoverText,
+      'controlButtonActiveBg': (FluxerColorTheme t) => t.controlButtonActiveBg,
+      'controlButtonActiveText': (FluxerColorTheme t) =>
+          t.controlButtonActiveText,
+      'controlButtonDangerText': (FluxerColorTheme t) =>
+          t.controlButtonDangerText,
+      'controlButtonDangerHoverBg': (FluxerColorTheme t) =>
+          t.controlButtonDangerHoverBg,
+      'switchTrackInactive': (FluxerColorTheme t) => t.switchTrackInactive,
+      'switchThumb': (FluxerColorTheme t) => t.switchThumb,
+      'switchThumbCheckedIcon': (FluxerColorTheme t) =>
+          t.switchThumbCheckedIcon,
+      'switchThumbUncheckedIcon': (FluxerColorTheme t) =>
+          t.switchThumbUncheckedIcon,
+      'menuDangerText': (FluxerColorTheme t) => t.menuDangerText,
+      'bgCode': (FluxerColorTheme t) => t.bgCode,
+      'bgCodeBlock': (FluxerColorTheme t) => t.bgCodeBlock,
+      'bgTableHeader': (FluxerColorTheme t) => t.bgTableHeader,
+      'bgTableRowOdd': (FluxerColorTheme t) => t.bgTableRowOdd,
+      'bgTableRowEven': (FluxerColorTheme t) => t.bgTableRowEven,
+      'surfaceInteractiveHoverBg': (FluxerColorTheme t) =>
+          t.surfaceInteractiveHoverBg,
+      'surfaceInteractiveSelectedBg': (FluxerColorTheme t) =>
+          t.surfaceInteractiveSelectedBg,
+      'surfaceInteractiveSelectedColor': (FluxerColorTheme t) =>
+          t.surfaceInteractiveSelectedColor,
+      'listItemSelectedBg': (FluxerColorTheme t) => t.listItemSelectedBg,
+      'listItemSelectedBorder': (FluxerColorTheme t) =>
+          t.listItemSelectedBorder,
+      'listItemPressedBg': (FluxerColorTheme t) => t.listItemPressedBg,
+      'scrollbarThumbBg': (FluxerColorTheme t) => t.scrollbarThumbBg,
+      'scrollbarThumbBgHover': (FluxerColorTheme t) => t.scrollbarThumbBgHover,
+      'scrollbarTrackBg': (FluxerColorTheme t) => t.scrollbarTrackBg,
+      'textSelection': (FluxerColorTheme t) => t.textSelection,
+      'chatBackground': (FluxerColorTheme t) => t.chatBackground,
+      'chatInputBackground': (FluxerColorTheme t) => t.chatInputBackground,
+      'serverSidebarBackground': (FluxerColorTheme t) =>
+          t.serverSidebarBackground,
+      'serverIconBackground': (FluxerColorTheme t) => t.serverIconBackground,
+      'serverIconActive': (FluxerColorTheme t) => t.serverIconActive,
+      'channelSidebarBackground': (FluxerColorTheme t) =>
+          t.channelSidebarBackground,
+      'memberListBackground': (FluxerColorTheme t) => t.memberListBackground,
+      'userPanelBackground': (FluxerColorTheme t) => t.userPanelBackground,
+      'userAreaDividerColor': (FluxerColorTheme t) => t.userAreaDividerColor,
+      'embedBackground': (FluxerColorTheme t) => t.embedBackground,
+      'embedBorder': (FluxerColorTheme t) => t.embedBorder,
+      'mentionBackground': (FluxerColorTheme t) => t.mentionBackground,
+      'spoilerBackground': (FluxerColorTheme t) => t.spoilerBackground,
+      'spoilerOverlayHoverColor': (FluxerColorTheme t) =>
+          t.spoilerOverlayHoverColor,
+      'modalScrim': (FluxerColorTheme t) => t.modalScrim,
+      'guildBannerGradient': (FluxerColorTheme t) => t.guildBannerGradient,
+      'focusPrimary': (FluxerColorTheme t) => t.focusPrimary,
+      'interactiveActive': (FluxerColorTheme t) => t.interactiveActive,
+      'interactiveNormal': (FluxerColorTheme t) => t.interactiveNormal,
+      'interactiveHover': (FluxerColorTheme t) => t.interactiveHover,
+      'interactiveMuted': (FluxerColorTheme t) => t.interactiveMuted,
     };
 
-Color? readThemeColorProperty(FluxerColorTheme theme, String propertyName) {
-  return kThemePropertyColorReaders[propertyName]?.call(theme);
+Color readThemeColorProperty(FluxerColorTheme theme, String propertyName) {
+  return kThemePropertyColorReaders[propertyName]!(theme);
 }
 
 String themeColorToCssHex(Color color) {
@@ -254,11 +374,7 @@ String resolveCssVariableReferences(
     if (propertyName == null) {
       return match.group(0)!;
     }
-    final Color? color = readThemeColorProperty(base, propertyName);
-    if (color == null) {
-      return match.group(0)!;
-    }
-    return themeColorToCssHex(color);
+    return themeColorToCssHex(readThemeColorProperty(base, propertyName));
   });
 }
 

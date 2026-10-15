@@ -74,6 +74,7 @@ class FluxerColorPickerField extends StatefulWidget {
     this.isDefaultValue = false,
     this.onReset,
     this.hideHelperText = false,
+    this.swatchColor,
     super.key,
   });
 
@@ -86,6 +87,7 @@ class FluxerColorPickerField extends StatefulWidget {
   final bool isDefaultValue;
   final VoidCallback? onReset;
   final bool hideHelperText;
+  final Color? swatchColor;
 
   @override
   State<FluxerColorPickerField> createState() => _FluxerColorPickerFieldState();
@@ -106,6 +108,9 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
       _isShowingDefault || widget.defaultValue != null || widget.value != 0;
 
   Color _swatchColor(BuildContext context) {
+    if (widget.swatchColor case final Color color) {
+      return color;
+    }
     if (_useLogicalSwatchColor) {
       return _intToColor(widget.value);
     }
@@ -118,7 +123,11 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
           ? Colors.white
           : Colors.black;
     }
-    return swatchColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+    final Color shown = Color.alphaBlend(
+      swatchColor,
+      context.colors.backgroundTertiary,
+    );
+    return shown.computeLuminance() > 0.5 ? Colors.black : Colors.white;
   }
 
   void _handleReset({VoidCallback? onClose}) {

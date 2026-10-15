@@ -49,6 +49,37 @@ void main() {
       expect(values, contains(0xFF0000));
     });
 
+    testWidgets('swatch keeps the alpha of a translucent color', (
+      tester,
+    ) async {
+      const Color translucent = Color(0x1AFFFFFF);
+      await tester.pumpWidget(
+        _wrap(
+          FluxerColorPickerField(
+            value: 0xFFFFFF,
+            swatchColor: translucent,
+            onChanged: (_) {},
+            label: 'Button Secondary Fill',
+          ),
+        ),
+      );
+
+      expect(
+        find.byWidgetPredicate(
+          (Widget widget) =>
+              widget is ColoredBox && widget.color == translucent,
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.byWidgetPredicate(
+          (Widget widget) =>
+              widget is ColoredBox && widget.color == const Color(0xFFFFFFFF),
+        ),
+        findsNothing,
+      );
+    });
+
     testWidgets('incomplete hex does not notify onChanged', (tester) async {
       final values = <int>[];
       await tester.pumpWidget(

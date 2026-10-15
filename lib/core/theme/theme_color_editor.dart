@@ -392,7 +392,7 @@ Color defaultThemeColorForProperty(
     mode,
     saturationFactor: saturationFactor,
   );
-  return readThemeColorProperty(base, propertyName) ?? base.textPrimary;
+  return readThemeColorProperty(base, propertyName);
 }
 
 Color effectiveThemeColorForProperty({
@@ -401,19 +401,13 @@ Color effectiveThemeColorForProperty({
   required FluxerThemeMode editingMode,
   double saturationFactor = 1,
 }) {
-  final FluxerColorTheme base = baseColorThemeForMode(
-    editingMode,
-    saturationFactor: saturationFactor,
-  );
   final FluxerColorTheme themed = applyCustomThemeCss(
-    base,
+    baseColorThemeForMode(editingMode, saturationFactor: saturationFactor),
     css: customThemeCss,
     saturationFactor: saturationFactor,
     mode: editingMode,
   );
-  return readThemeColorProperty(themed, propertyName) ??
-      readThemeColorProperty(base, propertyName) ??
-      base.textPrimary;
+  return readThemeColorProperty(themed, propertyName);
 }
 
 bool isThemeColorOverriddenForMode({
