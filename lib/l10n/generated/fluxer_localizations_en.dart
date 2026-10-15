@@ -4801,7 +4801,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Configure how direct messages and communities behave in the sidebar.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -4850,6 +4850,14 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String lookAndFeelCollapseDMsDescription(String productName) {
     return 'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the $productName button. Click the $productName button while on the DMs page to expand or collapse the folder.';
   }
+
+  @override
+  String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
+      'Open communities to your last channel';
+
+  @override
+  String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
+      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Channel list';
@@ -20629,7 +20637,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Configure how direct messages and communities behave in the sidebar.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -34405,7 +34413,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Configure how direct messages and communities behave in the sidebar.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -34454,6 +34462,14 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String lookAndFeelCollapseDMsDescription(String productName) {
     return 'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the $productName button. Click the $productName button while on the DMs page to expand or collapse the folder.';
   }
+
+  @override
+  String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
+      'Open communities to your last channel';
+
+  @override
+  String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
+      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Channel list';

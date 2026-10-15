@@ -6127,7 +6127,7 @@
     "@lookAndFeelGuildSidebarTitle": {
         "description": "Subsection title under Interface — guild sidebar config."
     },
-    "lookAndFeelGuildSidebarDescription": "Configure how the guild sidebar displays direct messages.",
+    "lookAndFeelGuildSidebarDescription": "Configure how direct messages and communities behave in the sidebar.",
     "@lookAndFeelGuildSidebarDescription": {
         "description": "Subsection description for guild sidebar config."
     },
@@ -6184,6 +6184,14 @@
                 "type": "String"
             }
         }
+    },
+    "lookAndFeelOpenCommunitiesToLastChannelLabel": "Open communities to your last channel",
+    "@lookAndFeelOpenCommunitiesToLastChannelLabel": {
+        "description": "Toggle label. When on, tapping a community in the community list opens the last channel the user viewed there instead of its channel list."
+    },
+    "lookAndFeelOpenCommunitiesToLastChannelDescription": "Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.",
+    "@lookAndFeelOpenCommunitiesToLastChannelDescription": {
+        "description": "Toggle description for opening communities to the last viewed channel."
     },
     "lookAndFeelChannelListSectionTitle": "Channel list",
     "@lookAndFeelChannelListSectionTitle": {

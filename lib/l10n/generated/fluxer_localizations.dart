@@ -7841,7 +7841,7 @@ abstract class FluxerLocalizations {
   /// Subsection description for guild sidebar config.
   ///
   /// In en, this message translates to:
-  /// **'Configure how the guild sidebar displays direct messages.'**
+  /// **'Configure how direct messages and communities behave in the sidebar.'**
   String get lookAndFeelGuildSidebarDescription;
 
   /// Tooltip on the aggregate outage badge in the guild sidebar when one or more communities are unavailable.
@@ -7900,6 +7900,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the {productName} button. Click the {productName} button while on the DMs page to expand or collapse the folder.'**
   String lookAndFeelCollapseDMsDescription(String productName);
+
+  /// Toggle label. When on, tapping a community in the community list opens the last channel the user viewed there instead of its channel list.
+  ///
+  /// In en, this message translates to:
+  /// **'Open communities to your last channel'**
+  String get lookAndFeelOpenCommunitiesToLastChannelLabel;
+
+  /// Toggle description for opening communities to the last viewed channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.'**
+  String get lookAndFeelOpenCommunitiesToLastChannelDescription;
 
   /// Section title for channel list options.
   ///

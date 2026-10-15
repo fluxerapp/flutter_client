@@ -4505,7 +4505,7 @@
     "@lookAndFeelGuildSidebarTitle": {
         "description": "Subsection title under Interface — guild sidebar config."
     },
-    "lookAndFeelGuildSidebarDescription": "Configure how the guild sidebar displays direct messages.",
+    "lookAndFeelGuildSidebarDescription": "Configure how direct messages and communities behave in the sidebar.",
     "@lookAndFeelGuildSidebarDescription": {
         "description": "Subsection description for guild sidebar config."
     },

@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/typing_indicat
 import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/open_communities_to_last_channel_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -332,6 +333,17 @@ class UserLookAndFeel extends ConsumerWidget {
                       ref
                           .read(appearancePreferencesProvider.notifier)
                           .setCollapseDMs(value: value),
+                    ),
+                  ),
+                  FluxerSwitchGroupItem(
+                    label: l10n.lookAndFeelOpenCommunitiesToLastChannelLabel,
+                    description:
+                        l10n.lookAndFeelOpenCommunitiesToLastChannelDescription,
+                    value: ref.watch(openCommunitiesToLastChannelProvider),
+                    onChanged: (value) => unawaited(
+                      ref
+                          .read(openCommunitiesToLastChannelProvider.notifier)
+                          .setEnabled(value: value),
                     ),
                   ),
                 ],

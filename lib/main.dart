@@ -24,6 +24,7 @@ import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/open_communities_to_last_channel_provider.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
@@ -85,6 +86,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
         container.read(observabilityReportingProvider.notifier).load(),
         container.read(pushRelayConsentProvider.notifier).load(),
         container.read(hapticsPreferencesProvider.notifier).load(),
+        container.read(openCommunitiesToLastChannelProvider.notifier).load(),
         loadMessageStickerAspectRatios(),
       ]);
       await FluxerObservability.instance.traceAsync(

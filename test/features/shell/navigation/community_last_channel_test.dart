@@ -12,11 +12,13 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/settings/providers/open_communities_to_last_channel_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -98,6 +100,7 @@ ProviderContainer _container(FluxerDatabase db, GoRouter router) {
     overrides: [
       fluxerRouterProvider.overrideWithValue(router),
       fluxerDatabaseProvider.overrideWithValue(db),
+      currentUserIdProvider.overrideWithValue(null),
       guildRepositoryProvider.overrideWithValue(GuildRepository(client, db)),
       channelRepositoryProvider.overrideWithValue(
         ChannelRepository(client, Dio(), db),
@@ -226,5 +229,79 @@ void main() {
     await _selectGuild(tester, container, 'g2');
 
     expect(_path(router), '/channels/g2/g2-general');
+  });
+
+  group('open communities to your last channel', () {
+    Future<(GoRouter, ProviderContainer)> start(
+      WidgetTester tester, {
+      required bool enabled,
+    }) async {
+      final FluxerDatabase db = await _seed();
+      addTearDown(db.close);
+      final GoRouter router = _router(db, '/channels/g2/g2-chat');
+      addTearDown(router.dispose);
+      final ProviderContainer container = _container(db, router);
+      addTearDown(container.dispose);
+      SharedPreferences.setMockInitialValues(<String, Object>{
+        'open_communities_to_last_channel': enabled,
+      });
+      await container
+          .read(openCommunitiesToLastChannelProvider.notifier)
+          .load();
+      await _pumpApp(tester, container, router);
+      router.go('/channels/g1/g1-general');
+      await _settle(tester);
+      DrawerNavigationCoordinator.revealDrawer(container);
+      await tester.pumpAndSettle();
+      expect(_chatDx(tester), 400);
+      return (router, container);
+    }
+
+    testWidgets('off: tapping a community shows its channel list', (
+      WidgetTester tester,
+    ) async {
+      final (GoRouter router, ProviderContainer container) = await start(
+        tester,
+        enabled: false,
+      );
+
+      await _selectGuild(tester, container, 'g2');
+
+      expect(_path(router), '/channels/g2/g2-chat');
+      expect(_chatDx(tester), 400);
+    });
+
+    testWidgets('on: tapping a community opens its last channel', (
+      WidgetTester tester,
+    ) async {
+      final (GoRouter router, ProviderContainer container) = await start(
+        tester,
+        enabled: true,
+      );
+
+      await _selectGuild(tester, container, 'g2');
+
+      expect(_path(router), '/channels/g2/g2-chat');
+      expect(_chatDx(tester), 0);
+      expect(find.text('chat:/channels/g2/g2-chat'), findsOneWidget);
+
+      await tester.dragFrom(const Offset(10, 400), const Offset(260, 0));
+      await tester.pumpAndSettle();
+      expect(_chatDx(tester), 400);
+    });
+
+    testWidgets('on: tapping the selected community shows its channel list', (
+      WidgetTester tester,
+    ) async {
+      final (GoRouter router, ProviderContainer container) = await start(
+        tester,
+        enabled: true,
+      );
+
+      await _selectGuild(tester, container, 'g1');
+
+      expect(_path(router), '/channels/g1/g1-general');
+      expect(_chatDx(tester), 400);
+    });
   });
 }
