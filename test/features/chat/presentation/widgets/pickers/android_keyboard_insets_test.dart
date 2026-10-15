@@ -576,6 +576,78 @@ void main() {
     });
   });
 
+  group('returning to a composer that had the keyboard up', () {
+    Iterable<String> textInputCalls(WidgetTester tester) =>
+        tester.testTextInput.log.map((call) => call.method);
+
+    testWidgets('the shade going back up shows the keyboard again', (
+      tester,
+    ) async {
+      final (_, FocusNode focusNode, _AndroidKeyboard keyboard) =
+          await _pumpHarness(tester);
+
+      focusNode.requestFocus();
+      await tester.pump();
+      await keyboard.open();
+      tester.testTextInput.log.clear();
+
+      await keyboard.lifecycle(_kShadeDown);
+      await keyboard.closeWithoutNativeHidden();
+      keyboard.native(visible: false);
+      await keyboard.lifecycle(_kShadeUp);
+      await tester.pump(const Duration(seconds: 1));
+
+      expect(focusNode.hasFocus, isTrue);
+      expect(textInputCalls(tester), contains('TextInput.show'));
+    });
+
+    testWidgets('reopening from recents shows the keyboard again', (
+      tester,
+    ) async {
+      final (_, FocusNode focusNode, _AndroidKeyboard keyboard) =
+          await _pumpHarness(tester);
+
+      focusNode.requestFocus();
+      await tester.pump();
+      await keyboard.open();
+      tester.testTextInput.log.clear();
+
+      await keyboard.lifecycle(<AppLifecycleState>[AppLifecycleState.inactive]);
+      await keyboard.closeWithoutNativeHidden();
+      keyboard.native(visible: false);
+      await keyboard.lifecycle(_kToRecents.sublist(1));
+      await tester.pump(const Duration(seconds: 3));
+      await keyboard.lifecycle(_kFromRecents);
+      await tester.pump();
+
+      expect(focusNode.hasFocus, isTrue);
+      expect(textInputCalls(tester), contains('TextInput.show'));
+    });
+
+    testWidgets('a keyboard closed with Back before leaving stays closed', (
+      tester,
+    ) async {
+      final (_, FocusNode focusNode, _AndroidKeyboard keyboard) =
+          await _pumpHarness(tester);
+
+      focusNode.requestFocus();
+      await tester.pump();
+      await keyboard.open();
+      await keyboard.closeWithoutNativeHidden();
+      keyboard.native(visible: false);
+      await tester.pump(const Duration(seconds: 1));
+      tester.testTextInput.log.clear();
+
+      await keyboard.lifecycle(_kToRecents);
+      await keyboard.lifecycle(_kFromRecents);
+      await tester.pump();
+
+      expect(focusNode.hasFocus, isTrue);
+      expect(textInputCalls(tester), isNot(contains('TextInput.show')));
+      expect(keyboard.composerGap(), _kRestGap);
+    });
+  });
+
   group('opening a channel and focusing the composer', () {
     Future<void> openChannelAndFocus(
       WidgetTester tester,

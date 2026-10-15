@@ -54,6 +54,7 @@ class ComposerKeyboardSession {
 
   ComposerKeyboardState _keyboardState = ComposerKeyboardState.idle;
   int _layoutResetGeneration = 0;
+  bool _reshowKeyboardOnResume = false;
 
   ComposerKeyboardState get keyboardState => _keyboardState;
   bool get hasPendingRestore => _keyboardRestore.hasPendingRestore;
@@ -141,15 +142,56 @@ class ComposerKeyboardSession {
     if (state == AppLifecycleState.resumed) {
       _keyboardState = ComposerKeyboardState.restoringAfterResume;
       _recordDebugBreadcrumb();
+    } else if (_androidKeyboardUpOnFocusedComposer()) {
+      _reshowKeyboardOnResume = true;
     }
     _keyboardRestore.handleLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       maybeReserveUnmeasuredKeyboard();
+      _scheduleKeyboardReshow();
       if (_keyboardState == ComposerKeyboardState.restoringAfterResume) {
         _keyboardState = _resolveIdleKeyboardState();
         _recordDebugBreadcrumb();
       }
     }
+  }
+
+  bool _androidKeyboardUpOnFocusedComposer() {
+    if (defaultTargetPlatform != TargetPlatform.android ||
+        !_isMounted() ||
+        !_isMobileLayout() ||
+        !_focusNode.hasFocus) {
+      return false;
+    }
+    final MobileKeyboardMetricsState metrics = _ref.read(
+      mobileKeyboardMetricsProvider,
+    );
+    return metrics.isKeyboardVisible &&
+        isImeKeyboardHeight(metrics.liveKeyboardHeight);
+  }
+
+  void _scheduleKeyboardReshow() {
+    if (!_reshowKeyboardOnResume) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_reshowKeyboardOnResume ||
+          WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed) {
+        return;
+      }
+      _reshowKeyboardOnResume = false;
+      if (!_isMounted() ||
+          !_focusNode.hasFocus ||
+          isComposerPanelOpen(
+            expressionPanelOpen: _ref.read(expressionPanelProvider),
+            attachmentPanelOpen: _ref.read(attachmentPanelProvider),
+          )) {
+        return;
+      }
+      _focusNode.context
+          ?.findAncestorStateOfType<EditableTextState>()
+          ?.requestKeyboard();
+    });
   }
 
   void handleFocusLost() {
@@ -275,6 +317,7 @@ class ComposerKeyboardSession {
   }
 
   void cancelPendingFocusRestore() {
+    _reshowKeyboardOnResume = false;
     _keyboardRestore.cancelPendingRestore();
   }
 
