@@ -9892,14 +9892,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
+      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
 
   @override
   String get advancedPerformanceReportingLabel => '충돌 및 성능 보고서 보내기';
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to. They don\'t include instance names, IDs or message content.';
 
   @override
   String get advancedSettingsConfigure => '구성';

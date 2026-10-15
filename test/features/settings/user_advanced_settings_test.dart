@@ -302,7 +302,8 @@ void main() {
       );
       final Finder destination = find.text(
         "Reports go to Fluxer's error tracker, whichever instance you're "
-        'signed in to.',
+        "signed in to. They don't include instance names, IDs or message "
+        'content.',
       );
       await tester.scrollUntilVisible(
         destination,
@@ -314,7 +315,7 @@ void main() {
       expect(
         find.text(
           'Help Fluxer fix bugs in this app by sharing crash and performance '
-          'data.',
+          'data. This is off by default.',
         ),
         findsOneWidget,
       );

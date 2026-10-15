@@ -17013,10 +17013,10 @@ abstract class FluxerLocalizations {
   /// **'Performance reporting'**
   String get advancedPerformanceReportingTitle;
 
-  /// Advanced settings section description for opt-in crash and performance reporting. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker.
+  /// Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker.
   ///
   /// In en, this message translates to:
-  /// **'Help Fluxer fix bugs in this app by sharing crash and performance data.'**
+  /// **'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.'**
   String get advancedCrashReportingSectionDescription;
 
   /// Toggle label for opting into crash and performance reporting.
@@ -17025,10 +17025,10 @@ abstract class FluxerLocalizations {
   /// **'Send crash and performance reports'**
   String get advancedPerformanceReportingLabel;
 
-  /// Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to. Keep the name Fluxer as is.
+  /// Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is.
   ///
   /// In en, this message translates to:
-  /// **'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.'**
+  /// **'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to. They don\'t include instance names, IDs or message content.'**
   String get advancedCrashReportingDescription;
 
   /// Button label that opens a dedicated advanced settings modal.

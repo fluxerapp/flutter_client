@@ -10408,7 +10408,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
+      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
 
   @override
   String get advancedPerformanceReportingLabel =>
@@ -10416,7 +10416,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to. They don\'t include instance names, IDs or message content.';
 
   @override
   String get advancedSettingsConfigure => 'Skonfiguruj';
