@@ -1201,6 +1201,84 @@ void main() {
       },
     );
 
+    testWidgets('acking a collapsed blocked run drops its NEW divider', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      const String blockedAuthorId = 'blocked-author';
+      final List<Message> messages = <Message>[
+        for (int index = 0; index < 3; index += 1)
+          harnessMessage(
+            id: snowflakeForUtc(DateTime.utc(2026, 10, 15, 12, index)),
+            content: 'read message $index',
+            timestamp: DateTime.utc(2026, 10, 15, 12, index),
+          ),
+        for (int index = 0; index < 6; index += 1)
+          harnessMessage(
+            id: snowflakeForUtc(DateTime.utc(2026, 10, 15, 13, index)),
+            authorId: blockedAuthorId,
+            content: 'blocked message $index',
+            timestamp: DateTime.utc(2026, 10, 15, 13, index),
+          ),
+      ];
+      final db.FluxerDatabase database = openTestDatabase();
+      await database.readStateDao.upsertReadState(
+        db.ReadStatesCompanion(
+          channelId: const Value<String>(messageListChannelId),
+          lastMessageId: Value<String?>(messages[2].id),
+        ),
+      );
+      final InstrumentedChatViewModel chatViewModel = InstrumentedChatViewModel(
+        ChatViewState(
+          channelId: messageListChannelId,
+          messages: messages,
+          replyingTo: null,
+          replyMentioning: false,
+          editingMessage: null,
+          messageText: '',
+          scrollToBottomSignal: 0,
+          isLoading: false,
+          isSyncingMessages: false,
+          isLoadingMore: false,
+          isLoadingNewer: false,
+          hasMoreMessages: false,
+          hasMoreNewerMessages: false,
+          errorMessage: null,
+        ),
+      );
+
+      await tester.pumpWidget(
+        messageListApp(
+          database: database,
+          chatViewModel: chatViewModel,
+          blockedUserIds: const <String>{blockedAuthorId},
+        ),
+      );
+      await pumpFluxerFrames(tester);
+
+      expect(find.text('6 blocked messages'), findsOneWidget);
+      expect(find.text('NEW'), findsOneWidget);
+
+      await tester.runAsync(
+        () => database.readStateDao.upsertReadState(
+          db.ReadStatesCompanion(
+            channelId: const Value<String>(messageListChannelId),
+            lastMessageId: Value<String?>(messages.last.id),
+          ),
+        ),
+      );
+      await pumpFluxerFrames(tester);
+
+      expect(find.text('6 blocked messages'), findsOneWidget);
+      expect(find.text('NEW'), findsNothing);
+
+      await disposeMessageList(tester);
+    });
+
     testWidgets(
       'short unread pack settles once without bouncing back toward mid',
       (WidgetTester tester) async {
