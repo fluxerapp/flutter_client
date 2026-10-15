@@ -106,6 +106,7 @@ class _ChannelNotificationSettingsButtonState
       context,
       title: l10n.notificationSettings,
       variant: FluxerBottomSheetVariant.menu,
+      useRootNavigator: true,
       builder: (sheetContext, close) => ChannelNotificationMenuContent(
         channel: widget.channel,
         onClose: close,
