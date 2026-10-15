@@ -3,11 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
-import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
-import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/app_bottom_nav_bar.dart';
@@ -15,7 +11,6 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/pump_fluxer_app.dart';
@@ -23,8 +18,6 @@ import '../../../helpers/test_l10n.dart';
 
 const Size _kCompactWideSize = Size(984, 800);
 const Size _kPhoneSize = Size(390, 844);
-const Size _kOneLineLabelPhoneSize = Size(500, 844);
-
 List<Override> _navOverrides({AppIconBadgeValue? badge}) {
   return <Override>[
     appIconBadgeProvider.overrideWithValue(badge),
@@ -49,15 +42,6 @@ List<Override> _navOverrides({AppIconBadgeValue? badge}) {
   ];
 }
 
-ThemeData _zoomedTheme(double zoom) {
-  final colorTheme = buildDarkColorTheme();
-  return buildFluxerTheme(
-    colorTheme: colorTheme,
-    textTheme: FluxerTextTheme.fromColors(colorTheme),
-    layoutTheme: FluxerLayoutTheme.scaled(scaleFactor: zoom),
-  );
-}
-
 Future<({double peekWidth, Size barSize, Rect home, Rect you, Rect divider})>
 _pumpNav(
   WidgetTester tester, {
@@ -65,7 +49,6 @@ _pumpNav(
   bool constrainToPeekWidth = false,
   AppIconBadgeValue? badge,
   int currentIndex = 0,
-  double zoom = 1,
 }) async {
   await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -101,7 +84,6 @@ _pumpNav(
         ),
       ),
       overrides: _navOverrides(badge: badge),
-      theme: _zoomedTheme(zoom),
     ),
   );
   await tester.pump();
@@ -216,33 +198,4 @@ void main() {
       findsNothing,
     );
   });
-
-  for (final double zoom in <double>[0.5, 0.75]) {
-    testWidgets('items keep the 100% padding at ${zoom * 100}% zoom', (
-      WidgetTester tester,
-    ) async {
-      Future<({Rect bar, Rect icon, Rect label})> layoutAt(double zoom) async {
-        await _pumpNav(tester, size: _kOneLineLabelPhoneSize, zoom: zoom);
-        await tester.pumpAndSettle();
-        return (
-          bar: tester.getRect(find.byType(AppBottomNavBar)),
-          icon: tester.getRect(find.byType(PhosphorIcon).first),
-          label: tester.getRect(find.text(testL10n.navHome)),
-        );
-      }
-
-      final reference = await layoutAt(1);
-      final zoomed = await layoutAt(zoom);
-
-      expect(zoomed.bar.height, reference.bar.height);
-      expect(
-        zoomed.icon.top - zoomed.bar.top,
-        reference.icon.top - reference.bar.top,
-      );
-      expect(
-        zoomed.bar.bottom - zoomed.label.bottom,
-        reference.bar.bottom - reference.label.bottom,
-      );
-    });
-  }
 }

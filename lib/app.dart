@@ -9,9 +9,11 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/quick_actions/home_quick_actions_binding.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/core/zoom/fluxer_app_zoom.dart';
 import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/accessibility/presentation/reduced_motion_scope.dart';
@@ -44,6 +46,13 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
   @override
   void initState() {
     super.initState();
+    ref.listenManual<double>(
+      themePreferenceProvider.select(
+        (ThemePreferenceState state) => state.scaleFactor,
+      ),
+      (double? previous, double next) => FluxerAppZoom.apply(next),
+      fireImmediately: true,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh());
     });
@@ -75,20 +84,20 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
         theme = buildFluxerTheme(
           colorTheme: themePref.lightColorTheme,
           textTheme: themePref.lightTextTheme,
-          layoutTheme: themePref.layoutTheme,
+          layoutTheme: FluxerLayoutTheme.scaled(),
           brightness: Brightness.light,
         );
         darkThemeData = buildFluxerTheme(
           colorTheme: themePref.darkColorTheme,
           textTheme: themePref.darkTextTheme,
-          layoutTheme: themePref.layoutTheme,
+          layoutTheme: FluxerLayoutTheme.scaled(),
         );
       case FluxerThemeMode.light:
         themeMode = ThemeMode.light;
         theme = buildFluxerTheme(
           colorTheme: themePref.colorTheme,
           textTheme: themePref.textTheme,
-          layoutTheme: themePref.layoutTheme,
+          layoutTheme: FluxerLayoutTheme.scaled(),
           brightness: Brightness.light,
         );
         darkThemeData = null;
@@ -99,7 +108,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
         theme = buildFluxerTheme(
           colorTheme: themePref.colorTheme,
           textTheme: themePref.textTheme,
-          layoutTheme: themePref.layoutTheme,
+          layoutTheme: FluxerLayoutTheme.scaled(),
         );
         darkThemeData = theme;
     }
@@ -111,77 +120,79 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
       unawaited(windowManager.setTitle(productName));
     }
 
-    return MaterialApp.router(
-      title: productName,
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: fluxerLocalizationsDelegates,
-      supportedLocales: FluxerLocalizations.supportedLocales,
-      locale: appLocale,
-      theme: theme,
-      darkTheme: darkThemeData,
-      themeMode: themeMode,
-      themeAnimationDuration: Duration.zero,
-      routerConfig: router,
-      builder: (context, child) {
-        final Widget layered = InputModalityListener(
-          child: AppUiLifecycleObserver(
-            child: AccountIdentitySync(
-              child: RecoveryKitGate(
-                child: IncomingVoiceCallLayer(
-                  child: VoicePipLayer(child: child!),
+    return FluxerAppZoomScope(
+      child: MaterialApp.router(
+        title: productName,
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        locale: appLocale,
+        theme: theme,
+        darkTheme: darkThemeData,
+        themeMode: themeMode,
+        themeAnimationDuration: Duration.zero,
+        routerConfig: router,
+        builder: (context, child) {
+          final Widget layered = InputModalityListener(
+            child: AppUiLifecycleObserver(
+              child: AccountIdentitySync(
+                child: RecoveryKitGate(
+                  child: IncomingVoiceCallLayer(
+                    child: VoicePipLayer(child: child!),
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-        Widget overlayStack(Widget child) {
-          return FluxerToastOverlay(
-            child: InstanceCompatibilityGate(
-              child: GatewayReconnectBannerOverlay(child: child),
-            ),
           );
-        }
-
-        final Widget content;
-        if (!isFluxerDesktopOs) {
-          content = BetaBanner(child: overlayStack(layered));
-        } else {
-          content = overlayStack(
-            DragToResizeArea(
-              child: Column(
-                children: [
-                  const NativeTitlebar(),
-                  Expanded(child: layered),
-                ],
+          Widget overlayStack(Widget child) {
+            return FluxerToastOverlay(
+              child: InstanceCompatibilityGate(
+                child: GatewayReconnectBannerOverlay(child: child),
               ),
-            ),
+            );
+          }
+
+          final Widget content;
+          if (!isFluxerDesktopOs) {
+            content = BetaBanner(child: overlayStack(layered));
+          } else {
+            content = overlayStack(
+              DragToResizeArea(
+                child: Column(
+                  children: [
+                    const NativeTitlebar(),
+                    Expanded(child: layered),
+                  ],
+                ),
+              ),
+            );
+          }
+
+          final bool platformReducedMotion = platformReducedMotionOf(
+            ref,
+            context,
           );
-        }
-
-        final bool platformReducedMotion = platformReducedMotionOf(
-          ref,
-          context,
-        );
-        final bool disableAnimations = resolveReducedMotion(
-          syncReducedMotionWithSystem: reducedMotionPrefs.sync,
-          reducedMotionOverride: reducedMotionPrefs.override,
-          platformReducedMotion: platformReducedMotion,
-        );
-        final Widget scaled = ReducedMotionScope(
-          enabled: disableAnimations,
-          child: FluxerAppTextScale(child: content),
-        );
-        final ThemeData materialTheme = Theme.of(context);
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value:
-              materialTheme.appBarTheme.systemOverlayStyle ??
-              fluxerSystemUiOverlayStyle(
-                brightness: materialTheme.brightness,
-                navigationBarColor: materialTheme.scaffoldBackgroundColor,
-              ),
-          child: scaled,
-        );
-      },
+          final bool disableAnimations = resolveReducedMotion(
+            syncReducedMotionWithSystem: reducedMotionPrefs.sync,
+            reducedMotionOverride: reducedMotionPrefs.override,
+            platformReducedMotion: platformReducedMotion,
+          );
+          final Widget scaled = ReducedMotionScope(
+            enabled: disableAnimations,
+            child: FluxerAppTextScale(child: content),
+          );
+          final ThemeData materialTheme = Theme.of(context);
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value:
+                materialTheme.appBarTheme.systemOverlayStyle ??
+                fluxerSystemUiOverlayStyle(
+                  brightness: materialTheme.brightness,
+                  navigationBarColor: materialTheme.scaffoldBackgroundColor,
+                ),
+            child: scaled,
+          );
+        },
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/zoom/fluxer_app_zoom.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_segmented_tabs.dart';
@@ -244,7 +245,7 @@ class ChatExpressionExpandableSheetState
   }
 
   void _refreshExpandedHeight() {
-    final MediaQueryData mediaQuery = MediaQueryData.fromView(View.of(context));
+    final MediaQueryData mediaQuery = FluxerAppZoom.mediaQueryOfView(context);
     final double screenHeight = mediaQuery.size.height;
     final double totalExpanded = inlineExpressionPanelExpandedHeight(
       availableHeight: screenHeight,

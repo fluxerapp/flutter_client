@@ -10,7 +10,6 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
-import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/theme_color_editor.dart';
@@ -200,7 +199,6 @@ class ThemePreferenceState {
       darkLegacyColorTheme: themes.darkLegacy,
       lightColorTheme: themes.light,
       coalColorTheme: themes.coal,
-      layoutTheme: FluxerLayoutTheme.scaled(scaleFactor: scaleFactor),
     );
   }
 
@@ -219,7 +217,6 @@ class ThemePreferenceState {
     required this.darkLegacyColorTheme,
     required this.lightColorTheme,
     required this.coalColorTheme,
-    required this.layoutTheme,
   });
 
   final FluxerThemeMode mode;
@@ -238,7 +235,6 @@ class ThemePreferenceState {
   final FluxerColorTheme darkLegacyColorTheme;
   final FluxerColorTheme lightColorTheme;
   final FluxerColorTheme coalColorTheme;
-  final FluxerLayoutTheme layoutTheme;
 
   bool get isSyncing => inflightTheme != null;
 
@@ -343,9 +339,6 @@ class ThemePreferenceState {
       darkLegacyColorTheme: themes.darkLegacy,
       lightColorTheme: themes.light,
       coalColorTheme: themes.coal,
-      layoutTheme: nextScaleFactor == this.scaleFactor
-          ? layoutTheme
-          : FluxerLayoutTheme.scaled(scaleFactor: nextScaleFactor),
     );
   }
 }

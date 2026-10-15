@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
@@ -68,7 +69,7 @@ class _SaturationHost extends ConsumerWidget {
     final theme = buildFluxerTheme(
       colorTheme: themePref.colorTheme,
       textTheme: themePref.textTheme,
-      layoutTheme: themePref.layoutTheme,
+      layoutTheme: FluxerLayoutTheme.scaled(),
       brightness: themePref.mode == FluxerThemeMode.light
           ? Brightness.light
           : Brightness.dark,

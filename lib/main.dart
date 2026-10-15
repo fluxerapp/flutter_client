@@ -21,6 +21,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/services/apple_push_service.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
+import 'package:fluxer_app/core/zoom/fluxer_app_zoom.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
@@ -53,7 +54,7 @@ void _runFluxerApp(ProviderContainer container) {
 }
 
 Future<void> _bootstrapFluxer(List<String> args) async {
-  WidgetsFlutterBinding.ensureInitialized();
+  FluxerAppZoomBinding.ensureInitialized();
   unawaited(ApplePushService.installReplyHandler());
   assertPushProviderBuildConfig();
   if (Platform.isAndroid &&

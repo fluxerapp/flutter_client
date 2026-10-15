@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart' show Value;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -17,6 +18,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_feel.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
+import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -204,6 +206,30 @@ void main() {
     expect(find.text('Channel list'), findsOneWidget);
     expect(find.text('Active now'), findsOneWidget);
     expect(find.text('Favorites'), findsOneWidget);
+  });
+
+  testWidgets('phone zoom slider ends at the largest zoom that still fits', (
+    tester,
+  ) async {
+    _ignoreSliderOverflows();
+    tester.view.physicalSize = const Size(1206, 2622);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+    await tester.pumpWidget(
+      _wrap(UserLookAndFeel(scrollController: ScrollController()), db: db),
+    );
+    await tester.pump();
+    final FluxerSlider slider = tester.widget<FluxerSlider>(
+      find.byWidgetPredicate(
+        (Widget w) => w is FluxerSlider && w.semanticLabel == 'App zoom level',
+      ),
+    );
+    debugDefaultTargetPlatformOverride = null;
+
+    expect(slider.maxValue, 111);
+    expect(slider.markers, <double>[50, 75, 100, 111]);
   });
 
   testWidgets('shows theme colors configure row', (tester) async {

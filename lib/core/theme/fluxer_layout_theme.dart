@@ -1,10 +1,7 @@
-import 'dart:math' as math;
-
 import 'package:fluxer_app/material_ui.dart';
 
 class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
   const FluxerLayoutTheme({
-    required this.scaleFactor,
     required this.s1,
     required this.s1_5,
     required this.s2,
@@ -40,13 +37,11 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
     required this.groupRowInset,
   });
 
-  factory FluxerLayoutTheme.scaled({double scaleFactor = 1.0}) {
-    double s(double base) => base * scaleFactor;
-    BorderRadius r(double base) =>
-        BorderRadius.all(Radius.circular(base * scaleFactor));
+  factory FluxerLayoutTheme.scaled() {
+    double s(double base) => base;
+    BorderRadius r(double base) => BorderRadius.all(Radius.circular(base));
 
     return FluxerLayoutTheme(
-      scaleFactor: scaleFactor,
       s1: s(4),
       s1_5: s(6),
       s2: s(8),
@@ -68,7 +63,7 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
       sidebarWidth: s(270),
       headerHeight: s(56),
       guildListWidth: s(72),
-      mobileBottomNavHeight: math.max(60, s(60)),
+      mobileBottomNavHeight: s(60),
       userAreaHeight: s(72),
       switchTrackWidth: s(44),
       switchTrackHeight: s(24),
@@ -82,8 +77,6 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
       groupRowInset: s(16),
     );
   }
-
-  final double scaleFactor;
 
   final double s1;
   final double s1_5;
@@ -126,21 +119,8 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
   final double groupRowInset;
 
   @override
-  FluxerLayoutTheme copyWith({double? scaleFactor}) {
-    if (scaleFactor != null && scaleFactor != this.scaleFactor) {
-      return FluxerLayoutTheme.scaled(scaleFactor: scaleFactor);
-    }
-    return this;
-  }
+  FluxerLayoutTheme copyWith() => this;
 
   @override
-  FluxerLayoutTheme lerp(FluxerLayoutTheme? other, double t) {
-    if (other is! FluxerLayoutTheme) {
-      return this;
-    }
-
-    final lerpedScaleFactor =
-        scaleFactor + (other.scaleFactor - scaleFactor) * t;
-    return FluxerLayoutTheme.scaled(scaleFactor: lerpedScaleFactor);
-  }
+  FluxerLayoutTheme lerp(FluxerLayoutTheme? other, double t) => this;
 }

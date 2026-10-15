@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
@@ -59,7 +60,7 @@ void main() {
       final ThemeData theme = buildFluxerTheme(
         colorTheme: state.colorTheme,
         textTheme: FluxerTextTheme.fromColors(state.colorTheme),
-        layoutTheme: state.layoutTheme,
+        layoutTheme: FluxerLayoutTheme.scaled(),
       );
       final FluxerColorTheme? colors = theme.extension<FluxerColorTheme>();
       expect(colors, isNotNull);

@@ -282,10 +282,8 @@ ThemeData buildFluxerTheme({
       backgroundColor: colorTheme.backgroundSecondaryAlt,
       modalBackgroundColor: colorTheme.backgroundSecondaryAlt,
       modalBarrierColor: colorTheme.modalScrim,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(24 * layoutTheme.scaleFactor),
-        ),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
     ),
 

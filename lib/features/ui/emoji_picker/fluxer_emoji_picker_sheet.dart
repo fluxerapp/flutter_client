@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/zoom/fluxer_app_zoom.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
@@ -31,7 +32,7 @@ class ReactionPickerRiseCurve extends Curve {
 }
 
 double reactionPickerSheetHeight(BuildContext context) {
-  final MediaQueryData view = MediaQueryData.fromView(View.of(context));
+  final MediaQueryData view = FluxerAppZoom.mediaQueryOfView(context);
   return view.size.height - view.viewPadding.top - kExpressionSheetTopInset;
 }
 

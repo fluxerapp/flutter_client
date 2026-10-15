@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/core/zoom/fluxer_app_zoom.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/chat_wallpaper_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_messages_section.dart';
@@ -37,6 +39,13 @@ class UserLookAndFeel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = FluxerLocalizations.of(context);
     final themePref = ref.watch(themePreferenceProvider);
+    final double appZoomMaxPercent =
+        (math.min(
+                  kMaxLayoutZoomLevel,
+                  FluxerAppZoom.maxZoomOfView(View.of(context)),
+                ) *
+                100)
+            .floorToDouble();
     final appearance = ref.watch(appearancePreferencesProvider);
     final platformBrightness = MediaQuery.platformBrightnessOf(context);
     final layout = context.layout;
@@ -193,11 +202,18 @@ class UserLookAndFeel extends ConsumerWidget {
             description: l10n.lookAndFeelAppZoomDescription,
             children: [
               FluxerSlider(
-                defaultValue: themePref.scaleFactor * 100,
+                defaultValue: math.min(
+                  themePref.scaleFactor * 100,
+                  appZoomMaxPercent,
+                ),
                 factoryDefaultValue: kDefaultLayoutZoomLevel * 100,
                 minValue: kMinLayoutZoomLevel * 100,
-                maxValue: kMaxLayoutZoomLevel * 100,
-                markers: _appZoomMarkerPercents,
+                maxValue: appZoomMaxPercent,
+                markers: <double>[
+                  for (final double marker in _appZoomMarkerPercents)
+                    if (marker < appZoomMaxPercent) marker,
+                  appZoomMaxPercent,
+                ],
                 step: 1,
                 markerLabelWidth: 36,
                 semanticLabel: l10n.lookAndFeelAppZoomTitle,

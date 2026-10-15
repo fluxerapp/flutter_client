@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/zoom/fluxer_app_zoom.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -201,11 +202,12 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void _applyNativeMetrics(KeyboardMetrics metrics) {
+    final double zoom = FluxerAppZoom.factor.value;
     _setNativeKeyboardHeight(
-      metrics.keyboardHeight,
+      metrics.keyboardHeight / zoom,
       visible: metrics.isKeyboardVisible,
     );
-    _nativeSafeAreaBottom = metrics.safeAreaBottom;
+    _nativeSafeAreaBottom = metrics.safeAreaBottom / zoom;
     _commitMergedHeights();
   }
 
