@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:altcha_lib/altcha_lib.dart';
-import 'package:fluxer_app/core/api/altcha_pbkdf2.dart';
+import 'package:fluxer_app/core/api/altcha_native_solver.dart';
 import 'package:fluxer_app/core/talker.dart';
 
 const Duration _kSolveTimeout = Duration(seconds: 60);
 const Duration _kSolveTimeoutGrace = Duration(seconds: 5);
-const int _kMaxSolverIsolates = 6;
+const int _kMaxSolverIsolates = 8;
 
 const int kAltchaMinCost = 1;
 const int kAltchaMaxCost = 500000;
@@ -170,17 +172,11 @@ Future<String?> solveAltchaChallenge(Map<String, dynamic> raw) async {
     final Map<String, dynamic> parameterMap = Map<String, dynamic>.from(
       challenge['parameters'] as Map,
     );
-    final Solution? solution = await solveChallengeIsolates(
-      challenge: Challenge.fromJson(<String, dynamic>{
+    final Solution? solution = await _solve(
+      Challenge.fromJson(<String, dynamic>{
         'parameters': parameterMap,
         'signature': challenge['signature'],
       }),
-      deriveKey: altchaDeriveKey,
-      concurrency: (Platform.numberOfProcessors - 1).clamp(
-        2,
-        _kMaxSolverIsolates,
-      ),
-      timeout: _kSolveTimeout,
     ).timeout(_kSolveTimeout + _kSolveTimeoutGrace, onTimeout: () => null);
     if (solution == null) {
       return null;
@@ -200,4 +196,48 @@ Future<String?> solveAltchaChallenge(Map<String, dynamic> raw) async {
     talker.warning('[AltchaSolver] Solve failed: $e\n$st');
     return null;
   }
+}
+
+int get _solverWorkers => min(Platform.numberOfProcessors, _kMaxSolverIsolates);
+
+Future<Solution?> _solve(Challenge challenge) async {
+  final ChallengeParameters parameters = challenge.parameters;
+  if (parameters.keyPrefix.length.isEven) {
+    final Uint8List nonce = hexToBuffer(parameters.nonce);
+    final Uint8List salt = hexToBuffer(parameters.salt);
+    final Uint8List prefix = hexToBuffer(parameters.keyPrefix);
+    if (altchaNativeSupports(
+      algorithm: parameters.algorithm,
+      keyLength: parameters.keyLength,
+      nonceLength: nonce.length,
+      saltLength: salt.length,
+      prefixLength: prefix.length,
+    )) {
+      try {
+        final AltchaNativeSolution? native = await solveAltchaNative(
+          nonce: nonce,
+          salt: salt,
+          cost: parameters.cost,
+          prefix: prefix,
+          workers: _solverWorkers,
+          timeout: _kSolveTimeout,
+        );
+        if (native == null) {
+          return null;
+        }
+        return Solution(
+          counter: native.counter,
+          derivedKey: bufferToHex(native.key.sublist(0, parameters.keyLength)),
+        );
+      } on Object catch (e) {
+        talker.warning('[AltchaSolver] Native solver unavailable: $e');
+      }
+    }
+  }
+  return solveChallengeIsolates(
+    challenge: challenge,
+    deriveKey: deriveKey,
+    concurrency: _solverWorkers,
+    timeout: _kSolveTimeout,
+  );
 }

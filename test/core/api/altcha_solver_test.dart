@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:altcha_lib/altcha_lib.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/api/altcha_pbkdf2.dart';
+import 'package:fluxer_app/core/api/altcha_native_solver.dart';
 import 'package:fluxer_app/core/api/altcha_solver.dart';
 
 const String _signatureSecret = 'test-signature-secret';
@@ -42,40 +43,55 @@ Map<String, dynamic> _validChallengeParameters([
 }
 
 void main() {
-  group('altchaDeriveKey', () {
-    final List<(ChallengeParameters, List<int>, List<int>)> vectors = [
-      (_parameters(cost: 1), _bytes(16, 1), _bytes(20, 2)),
-      (_parameters(cost: 2), _bytes(16, 3), _bytes(20, 4)),
-      (_parameters(cost: 1000), _bytes(16, 5), _bytes(20, 6)),
-      (_parameters(cost: 3000), _bytes(16, 7), _bytes(20, 8)),
-      (_parameters(cost: 17, keyLength: 16), _bytes(51, 9), _bytes(64, 10)),
-      (_parameters(cost: 5), _bytes(0, 0), _bytes(0, 0)),
-      (_parameters(cost: 9), _bytes(52, 11), _bytes(20, 12)),
-      (_parameters(cost: 9), _bytes(16, 13), _bytes(65, 14)),
-      (
-        _parameters(algorithm: 'PBKDF2/SHA-512', cost: 9, keyLength: 64),
-        _bytes(16, 15),
-        _bytes(20, 16),
-      ),
+  group('solveAltchaNative', () {
+    final List<(int cost, int nonceBytes, int saltBytes, int counter)> cases = [
+      (1, 16, 16, 0),
+      (2, 16, 16, 3),
+      (1000, 16, 16, 37),
+      (5000, 16, 16, 21),
+      (17, 0, 0, 9),
+      (9, 60, 51, 14),
+      (3, 1, 1, 64),
     ];
 
-    for (final (ChallengeParameters parameters, salt, password) in vectors) {
-      test('matches altcha_lib deriveKey for cost ${parameters.cost}, '
-          '${parameters.algorithm}, salt ${salt.length}, '
-          'password ${password.length}', () async {
-        final DeriveKeyResult fast = await altchaDeriveKey(
-          parameters,
+    for (final (int cost, int nonceBytes, int saltBytes, int counter)
+        in cases) {
+      test('finds counter $counter for cost $cost, nonce $nonceBytes, '
+          'salt $saltBytes', () async {
+        final Uint8List nonce = Uint8List.fromList(_bytes(nonceBytes, cost));
+        final Uint8List salt = Uint8List.fromList(_bytes(saltBytes, counter));
+        final DeriveKeyResult expected = await deriveKey(
+          _parameters(cost: cost),
           salt,
-          password,
+          <int>[
+            ...nonce,
+            ...(ByteData(4)..setUint32(0, counter)).buffer.asUint8List(),
+          ],
         );
-        final DeriveKeyResult reference = await deriveKey(
-          parameters,
-          salt,
-          password,
+        final AltchaNativeSolution? solution = await solveAltchaNative(
+          nonce: nonce,
+          salt: salt,
+          cost: cost,
+          prefix: Uint8List.fromList(expected.derivedKey.sublist(0, 16)),
+          workers: 3,
+          timeout: const Duration(seconds: 30),
         );
-        expect(fast.derivedKey, reference.derivedKey);
+        expect(solution?.counter, counter);
+        expect(solution?.key, expected.derivedKey);
       });
     }
+
+    test('stops at the deadline when no counter matches', () async {
+      final AltchaNativeSolution? solution = await solveAltchaNative(
+        nonce: Uint8List(16),
+        salt: Uint8List(16),
+        cost: 1000,
+        prefix: Uint8List(32)..fillRange(0, 32, 0xff),
+        workers: 2,
+        timeout: const Duration(milliseconds: 50),
+      );
+      expect(solution, isNull);
+    });
   });
 
   test('solves a signed challenge into a verifiable token', () async {
@@ -127,6 +143,34 @@ void main() {
       hmacSignatureSecret: _signatureSecret,
     );
     expect(viaDerivation.verified, isTrue);
+  });
+
+  test('solves challenges the native solver does not cover', () async {
+    final Challenge challenge = await createChallenge(
+      algorithm: 'PBKDF2/SHA-512',
+      cost: 10,
+      counter: 5,
+      deriveKey: deriveKey,
+      expiresAt: DateTime.now().add(const Duration(minutes: 10)),
+      hmacSignatureSecret: _signatureSecret,
+      hmacKeySignatureSecret: _keySignatureSecret,
+      keyLength: 64,
+    );
+
+    final String? token = await solveAltchaChallenge(challenge.toJson());
+    expect(token, isNotNull);
+
+    final Payload payload = Payload.fromJson(
+      jsonDecode(utf8.decode(base64Decode(token!))) as Map<String, dynamic>,
+    );
+    expect(payload.solution.counter, 5);
+    final VerifySolutionResult result = await verifySolution(
+      challenge: payload.challenge,
+      solution: payload.solution,
+      deriveKey: deriveKey,
+      hmacSignatureSecret: _signatureSecret,
+    );
+    expect(result.verified, isTrue);
   });
 
   test('ignores bodies without an altcha challenge', () {
