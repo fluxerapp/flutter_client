@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 const MethodChannel _androidNotificationsChannel = MethodChannel(
@@ -7,7 +6,7 @@ const MethodChannel _androidNotificationsChannel = MethodChannel(
 );
 
 Future<bool> isSystemNotificationSoundSuppressed() async {
-  if (!Platform.isAndroid) {
+  if (defaultTargetPlatform != TargetPlatform.android) {
     return false;
   }
   try {

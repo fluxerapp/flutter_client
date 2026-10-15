@@ -1,4 +1,6 @@
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
@@ -51,6 +53,10 @@ class _RecordingSfx implements FluxerSFX {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+const MethodChannel _androidNotificationsChannel = MethodChannel(
+  'fluxer_app/android_notifications',
+);
+
 const MessagePersistSnapshot _dmSnapshot = MessagePersistSnapshot(
   mentionsCurrentUser: false,
   isDm: true,
@@ -76,6 +82,24 @@ ProviderContainer _container(_RecordingSfx sfx, {required bool foreground}) {
   container.read(currentUserIdProvider.notifier).set('me');
   container.read(fluxerMessageSfxBindingProvider);
   return container;
+}
+
+void _mockAndroidSoundSuppressed({required bool suppressed}) {
+  debugDefaultTargetPlatformOverride = TargetPlatform.android;
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(_androidNotificationsChannel, (
+        MethodCall call,
+      ) async {
+        if (call.method == 'isNotificationSoundSuppressed') {
+          return suppressed;
+        }
+        return null;
+      });
+  addTearDown(() {
+    debugDefaultTargetPlatformOverride = null;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(_androidNotificationsChannel, null);
+  });
 }
 
 Future<void> _settle() async {
@@ -204,5 +228,34 @@ void main() {
     await _settle();
 
     expect(sfx.played, isEmpty);
+  });
+
+  test(
+    'android do not disturb or silent ringer mutes the foreground sound',
+    () async {
+      _mockAndroidSoundSuppressed(suppressed: true);
+      final _RecordingSfx sfx = _RecordingSfx();
+      final ProviderContainer container = _container(sfx, foreground: true);
+
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(testMessageCreated(_createEvent('14'), snapshot: _dmSnapshot));
+      await _settle();
+
+      expect(sfx.played, isEmpty);
+    },
+  );
+
+  test('android with sound allowed plays the foreground sound', () async {
+    _mockAndroidSoundSuppressed(suppressed: false);
+    final _RecordingSfx sfx = _RecordingSfx();
+    final ProviderContainer container = _container(sfx, foreground: true);
+
+    container
+        .read(messageRealtimeBusProvider)
+        .emit(testMessageCreated(_createEvent('15'), snapshot: _dmSnapshot));
+    await _settle();
+
+    expect(sfx.played, <FluxerSfxClip>[FluxerSfxClip.directMessage]);
   });
 }

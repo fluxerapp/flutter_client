@@ -2,6 +2,7 @@ package com.fluxer.notifications
 
 import android.app.NotificationManager
 import android.content.Context
+import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.service.notification.StatusBarNotification
@@ -235,7 +236,12 @@ class NotificationCancelPlugin : FlutterPlugin, MethodChannel.MethodCallHandler 
             val manager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
                     ?: return false
-            return manager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
+            if (manager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL) {
+                return true
+            }
+            val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
+                ?: return false
+            return audio.ringerMode != AudioManager.RINGER_MODE_NORMAL
         }
     }
 }
