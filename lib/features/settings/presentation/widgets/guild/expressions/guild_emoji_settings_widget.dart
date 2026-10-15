@@ -23,14 +23,15 @@ import 'package:fluxer_app/features/settings/utils/expression_file_picker.dart';
 import 'package:fluxer_app/features/settings/utils/guild_expression_limits.dart';
 import 'package:fluxer_app/features/settings/utils/guild_expression_name_validation.dart';
 import 'package:fluxer_app/features/settings/utils/guild_expression_permissions.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildEmojiSettingsWidget extends ConsumerStatefulWidget {
@@ -308,9 +309,11 @@ class _GuildEmojiSettingsWidgetState
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (!limits.hasUnlimitedEmojis &&
         widget.state.emojis.length >= limits.maxEmojis) {
-      ref
-          .read(toastProvider.notifier)
-          .show(FluxerToast(message: l10n.guildSettingsEmojiSlotsFull));
+      await showErrorDialog(
+        context,
+        title: l10n.emojiSlotsFullTitle,
+        body: l10n.guildSettingsEmojiSlotsFull,
+      );
       return;
     }
     final GuildEmojiUploadResult result = await ref
@@ -329,9 +332,11 @@ class _GuildEmojiSettingsWidgetState
       return;
     }
     if (result.failureCount > 0) {
-      ref
-          .read(toastProvider.notifier)
-          .show(FluxerToast(message: l10n.guildSettingsEmojiSomeFailedTitle));
+      await showErrorDialog(
+        context,
+        title: l10n.guildSettingsEmojiSomeFailedTitle,
+        body: l10n.emojiSomeFailedMessage,
+      );
     }
   }
 
@@ -343,22 +348,29 @@ class _GuildEmojiSettingsWidgetState
     final GuildExpressionNameValidationError? validation =
         validateGuildEmojiName(name);
     if (validation != null) {
-      ref
-          .read(toastProvider.notifier)
-          .show(FluxerToast(message: l10n.guildSettingsEmojiInvalidNameTitle));
+      await showErrorDialog(
+        context,
+        title: l10n.guildSettingsEmojiInvalidNameTitle,
+        body: switch (validation) {
+          GuildExpressionNameValidationError.tooShort =>
+            l10n.guildSettingsEmojiNameTooShort,
+          GuildExpressionNameValidationError.tooLong =>
+            l10n.guildSettingsEmojiNameTooLong,
+          GuildExpressionNameValidationError.invalidCharacters =>
+            l10n.emojiNameInvalidCharacters,
+        },
+      );
       return;
     }
     try {
       await ref
           .read(guildEmojiSettingsProvider(widget.guildId).notifier)
           .renameEmoji(emojiId: entry.id, name: name);
-    } on Object {
+    } on Object catch (error) {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(FluxerToast(message: l10n.guildSettingsEmojiRenameFailedTitle));
+      await showApiError(context, ApiErrorAction.renameEmoji, error);
     }
   }
 
@@ -370,62 +382,52 @@ class _GuildEmojiSettingsWidgetState
     bool purge = false;
     final bool canPurge =
         guild != null && canPurgeGuildExpressions(guild.features);
-    await FluxerModal.show<void>(
-      context,
-      title: l10n.guildSettingsEmojiDeleteTitle,
-      builder: (BuildContext dialogContext, VoidCallback close) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  l10n.guildSettingsEmojiDeleteBody(entry.name),
-                  style: context.textStyles.bodySmall,
-                ),
-                if (canPurge) ...<Widget>[
-                  SizedBox(height: context.layout.s3),
-                  FluxerCheckbox(
-                    value: purge,
-                    label: l10n.guildSettingsEmojiPurgeLabel,
-                    onChanged: (bool? value) {
-                      setModalState(() => purge = value ?? false);
-                    },
-                  ),
-                ],
-              ],
-            );
-          },
-        );
-      },
-      actionsBuilder: (VoidCallback pop) => <Widget>[
-        FluxerButton.dangerPrimary(
-          label: l10n.guildSettingsEmojiDeleteTitle,
-          onPressed: () async {
-            pop();
-            try {
-              await ref
-                  .read(guildEmojiSettingsProvider(widget.guildId).notifier)
-                  .deleteEmoji(emojiId: entry.id, purge: purge);
-            } on Object {
-              if (!mounted) {
-                return;
-              }
-              ref
-                  .read(toastProvider.notifier)
-                  .show(
-                    FluxerToast(
-                      message: l10n.guildSettingsEmojiDeleteFailedTitle,
-                    ),
-                  );
-            }
-          },
-        ),
-        const SizedBox(height: 8),
-        FluxerButton.secondary(onPressed: pop, label: l10n.cancel),
-      ],
-    );
+    final String title = l10n.guildSettingsEmojiDeleteTitle;
+    final String description = l10n.guildSettingsEmojiDeleteBody(entry.name);
+    final Widget? purgeToggle = canPurge
+        ? StatefulBuilder(
+            builder: (BuildContext context, StateSetter setToggleState) {
+              return FluxerCheckbox(
+                value: purge,
+                label: l10n.guildSettingsEmojiPurgeLabel,
+                onChanged: (bool? value) {
+                  setToggleState(() => purge = value ?? false);
+                },
+              );
+            },
+          )
+        : null;
+    final bool? confirmed = isMobileLayout(context)
+        ? await FluxerConfirmSheet.show(
+            context,
+            title: title,
+            description: description,
+            body: purgeToggle,
+            confirmLabel: title,
+            isDanger: true,
+          )
+        : await FluxerConfirmModal.show(
+            context,
+            title: title,
+            description: description,
+            body: purgeToggle,
+            confirmLabel: title,
+            isDanger: true,
+            onConfirm: () {},
+          );
+    if (confirmed != true || !mounted) {
+      return;
+    }
+    try {
+      await ref
+          .read(guildEmojiSettingsProvider(widget.guildId).notifier)
+          .deleteEmoji(emojiId: entry.id, purge: purge);
+    } on Object catch (error) {
+      if (!mounted) {
+        return;
+      }
+      await showApiError(context, ApiErrorAction.deleteEmoji, error);
+    }
   }
 }
 

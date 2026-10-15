@@ -5,6 +5,7 @@ import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_entry.dart';
@@ -22,15 +23,16 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_
 import 'package:fluxer_app/features/settings/providers/guild/guild_sticker_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_expression_limits.dart';
 import 'package:fluxer_app/features/settings/utils/guild_expression_permissions.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildStickerSettingsWidget extends ConsumerStatefulWidget {
@@ -323,9 +325,11 @@ class _GuildStickerSettingsWidgetState
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (!limits.hasUnlimitedStickers &&
         widget.state.stickers.length >= limits.maxStickers) {
-      ref
-          .read(toastProvider.notifier)
-          .show(FluxerToast(message: l10n.guildSettingsStickerSlotsFull));
+      await showErrorDialog(
+        context,
+        title: l10n.stickerSlotsFullTitle,
+        body: l10n.guildSettingsStickerSlotsFull,
+      );
       return;
     }
     final ({String name, String description, List<String> tags})? form =
@@ -347,15 +351,18 @@ class _GuildStickerSettingsWidgetState
             imageBytes: bytes,
             maxSizeBytes: limits.stickerMaxSizeBytes,
           );
-    } on Object {
+    } on Object catch (error) {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(message: l10n.guildSettingsStickerCreateFailedTitle),
-          );
+      await showApiError(
+        context,
+        ApiErrorAction.createSticker,
+        error,
+        details: ApiErrorDetails(
+          subject: formatAttachmentByteSize(limits.stickerMaxSizeBytes),
+        ),
+      );
     }
   }
 
@@ -382,15 +389,11 @@ class _GuildStickerSettingsWidgetState
             description: form.description,
             tags: form.tags,
           );
-    } on Object {
+    } on Object catch (error) {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(message: l10n.guildSettingsStickerCreateFailedTitle),
-          );
+      await showApiError(context, ApiErrorAction.updateSticker, error);
     }
   }
 
@@ -402,61 +405,51 @@ class _GuildStickerSettingsWidgetState
     bool purge = false;
     final bool canPurge =
         guild != null && canPurgeGuildExpressions(guild.features);
-    await FluxerModal.show<void>(
-      context,
-      title: l10n.guildSettingsStickerDeleteTitle,
-      builder: (BuildContext dialogContext, VoidCallback close) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  l10n.guildSettingsStickerDeleteBody(entry.name),
-                  style: context.textStyles.bodySmall,
-                ),
-                if (canPurge) ...<Widget>[
-                  SizedBox(height: context.layout.s3),
-                  FluxerCheckbox(
-                    value: purge,
-                    label: l10n.guildSettingsStickerPurgeLabel,
-                    onChanged: (bool? value) {
-                      setModalState(() => purge = value ?? false);
-                    },
-                  ),
-                ],
-              ],
-            );
-          },
-        );
-      },
-      actionsBuilder: (VoidCallback pop) => <Widget>[
-        FluxerButton.dangerPrimary(
-          label: l10n.guildSettingsStickerDeleteTitle,
-          onPressed: () async {
-            pop();
-            try {
-              await ref
-                  .read(guildStickerSettingsProvider(widget.guildId).notifier)
-                  .deleteSticker(stickerId: entry.id, purge: purge);
-            } on Object {
-              if (!mounted) {
-                return;
-              }
-              ref
-                  .read(toastProvider.notifier)
-                  .show(
-                    FluxerToast(
-                      message: l10n.guildSettingsStickerDeleteFailedTitle,
-                    ),
-                  );
-            }
-          },
-        ),
-        const SizedBox(height: 8),
-        FluxerButton.secondary(onPressed: pop, label: l10n.cancel),
-      ],
-    );
+    final String title = l10n.guildSettingsStickerDeleteTitle;
+    final String description = l10n.guildSettingsStickerDeleteBody(entry.name);
+    final Widget? purgeToggle = canPurge
+        ? StatefulBuilder(
+            builder: (BuildContext context, StateSetter setToggleState) {
+              return FluxerCheckbox(
+                value: purge,
+                label: l10n.guildSettingsStickerPurgeLabel,
+                onChanged: (bool? value) {
+                  setToggleState(() => purge = value ?? false);
+                },
+              );
+            },
+          )
+        : null;
+    final bool? confirmed = isMobileLayout(context)
+        ? await FluxerConfirmSheet.show(
+            context,
+            title: title,
+            description: description,
+            body: purgeToggle,
+            confirmLabel: title,
+            isDanger: true,
+          )
+        : await FluxerConfirmModal.show(
+            context,
+            title: title,
+            description: description,
+            body: purgeToggle,
+            confirmLabel: title,
+            isDanger: true,
+            onConfirm: () {},
+          );
+    if (confirmed != true || !mounted) {
+      return;
+    }
+    try {
+      await ref
+          .read(guildStickerSettingsProvider(widget.guildId).notifier)
+          .deleteSticker(stickerId: entry.id, purge: purge);
+    } on Object catch (error) {
+      if (!mounted) {
+        return;
+      }
+      await showApiError(context, ApiErrorAction.deleteSticker, error);
+    }
   }
 }

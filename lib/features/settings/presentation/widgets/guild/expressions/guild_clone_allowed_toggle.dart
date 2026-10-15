@@ -12,10 +12,9 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_
 import 'package:fluxer_app/features/settings/providers/guild/guild_sticker_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_expression_permissions.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 enum GuildCloneAllowedKind { emoji, sticker }
 
@@ -130,15 +129,13 @@ class _GuildCloneAllowedToggleState
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: widget.kind == GuildCloneAllowedKind.emoji
-                  ? l10n.guildSettingsCloneEmojiUpdateFailed
-                  : l10n.guildSettingsCloneStickerUpdateFailed,
-            ),
-          );
+      await showErrorDialog(
+        context,
+        title: widget.kind == GuildCloneAllowedKind.emoji
+            ? l10n.guildSettingsCloneEmojiUpdateFailed
+            : l10n.guildSettingsCloneStickerUpdateFailed,
+        body: l10n.guildSettingsRolesTryAgainInAMoment,
+      );
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);

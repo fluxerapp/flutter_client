@@ -736,6 +736,85 @@ void main() {
     });
   });
 
+  group('emoji and sticker errors', () {
+    test('rename and delete map each code', () {
+      _expectCopy(
+        ApiErrorAction.renameEmoji,
+        'UNKNOWN_EMOJI',
+        'This emoji no longer exists',
+        'It may have been deleted. The name was reverted to what it was before.',
+      );
+      _expectCopy(
+        ApiErrorAction.renameEmoji,
+        'MISSING_ACCESS',
+        "You can't rename this emoji",
+        "You don't have permission to rename this emoji. The name was reverted to what it was before.",
+      );
+      _expectCopy(
+        ApiErrorAction.renameEmoji,
+        'RATE_LIMITED',
+        "You're going too fast",
+        'Please wait a moment and try renaming again.',
+      );
+      _expectCopy(
+        ApiErrorAction.renameEmoji,
+        null,
+        "Couldn't rename this emoji",
+        'The name was reverted to what it was before. Please try again in a moment.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteEmoji,
+        'UNKNOWN_EMOJI',
+        'This emoji no longer exists',
+        'It looks like it was already deleted.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteEmoji,
+        'MISSING_PERMISSIONS',
+        "You can't delete this emoji",
+        "You don't have permission to delete this emoji.",
+      );
+      _expectCopy(
+        ApiErrorAction.deleteEmoji,
+        null,
+        "Couldn't delete this emoji",
+        'Something went wrong. Please try again in a moment.',
+      );
+    });
+
+    test('stickers name the size limit or show the server reason', () {
+      final ApiErrorDialog tooLarge =
+          presentApiError(
+                testL10n,
+                ApiErrorAction.createSticker,
+                code: 'FILE_SIZE_TOO_LARGE',
+                details: const ApiErrorDetails(subject: '512 KB'),
+              )
+              as ApiErrorDialog;
+      expect(tooLarge.title, 'Sticker is too large');
+      expect(tooLarge.body, contains('larger than 512 KB.'));
+      _expectCopy(
+        ApiErrorAction.createSticker,
+        null,
+        "Couldn't create this sticker",
+        'Something went wrong while preparing this sticker. Try another file or try again in a moment.',
+      );
+      _expectCopy(
+        ApiErrorAction.updateSticker,
+        'INVALID_FORM_BODY',
+        "Couldn't update this sticker",
+        'Name is too short.',
+        apiMessage: 'Name is too short.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteSticker,
+        null,
+        "Couldn't delete this sticker",
+        'Something went wrong. Please try again in a moment.',
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {

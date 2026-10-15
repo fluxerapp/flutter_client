@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_expression_uploader.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_entry.dart';
@@ -18,7 +18,7 @@ class GuildExpressionsRepository {
           .map(GuildEmojiSettingsEntry.fromResponse)
           .toList(growable: false);
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to load emojis'));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -32,7 +32,7 @@ class GuildExpressionsRepository {
         body: GuildEmojiBulkCreateRequest(emojis: emojis),
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to upload emojis'));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -58,7 +58,7 @@ class GuildExpressionsRepository {
         ),
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to rename emoji'));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -74,7 +74,7 @@ class GuildExpressionsRepository {
         purge: purge ? 'true' : null,
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to delete emoji'));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -86,7 +86,7 @@ class GuildExpressionsRepository {
           .map(GuildStickerSettingsEntry.fromResponse)
           .toList(growable: false);
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to load stickers'));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -111,7 +111,7 @@ class GuildExpressionsRepository {
         ),
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to create sticker'));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -141,7 +141,7 @@ class GuildExpressionsRepository {
         ),
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to update sticker'));
+      throw ApiException.fromDio(error);
     }
   }
 
@@ -157,11 +157,7 @@ class GuildExpressionsRepository {
         purge: purge ? 'true' : null,
       );
     } on DioException catch (error) {
-      throw Exception(_messageFromDio(error, 'Failed to delete sticker'));
+      throw ApiException.fromDio(error);
     }
-  }
-
-  String _messageFromDio(DioException error, String fallback) {
-    return userFacingErrorMessage(error, fallback);
   }
 }

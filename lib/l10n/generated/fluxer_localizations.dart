@@ -26075,6 +26075,114 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t save channel settings'**
   String get channelSettingsSaveFailedTitle;
+
+  /// Title of the dialog shown when a community has no free emoji slots.
+  ///
+  /// In en, this message translates to:
+  /// **'No emoji slots available'**
+  String get emojiSlotsFullTitle;
+
+  /// Title of the dialog shown when a community has no free sticker slots.
+  ///
+  /// In en, this message translates to:
+  /// **'No sticker slots available'**
+  String get stickerSlotsFullTitle;
+
+  /// Body of the dialog shown when some emoji files could not be added.
+  ///
+  /// In en, this message translates to:
+  /// **'Review these files and try again with smaller or simpler images.'**
+  String get emojiSomeFailedMessage;
+
+  /// Body of the invalid emoji name dialog when the name has unsupported characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji names can only use letters, numbers and underscores.'**
+  String get emojiNameInvalidCharacters;
+
+  /// Title of the emoji error dialog when the emoji was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This emoji no longer exists'**
+  String get emojiErrorGoneTitle;
+
+  /// Body of the rename emoji error dialog when the emoji was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'It may have been deleted. The name was reverted to what it was before.'**
+  String get emojiRenameGoneMessage;
+
+  /// Title of the rename emoji error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t rename this emoji'**
+  String get emojiRenameNoPermissionTitle;
+
+  /// Body of the rename emoji error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to rename this emoji. The name was reverted to what it was before.'**
+  String get emojiRenameNoPermissionMessage;
+
+  /// Body of the rename emoji error dialog when rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait a moment and try renaming again.'**
+  String get emojiRenameRateLimitedMessage;
+
+  /// Fallback body of the rename emoji error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'The name was reverted to what it was before. Please try again in a moment.'**
+  String get emojiRenameFailedMessage;
+
+  /// Body of the delete emoji error dialog when the emoji was already deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'It looks like it was already deleted.'**
+  String get emojiDeleteGoneMessage;
+
+  /// Title of the delete emoji error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t delete this emoji'**
+  String get emojiDeleteNoPermissionTitle;
+
+  /// Body of the delete emoji error dialog when the user lacks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to delete this emoji.'**
+  String get emojiDeleteNoPermissionMessage;
+
+  /// Body of the delete emoji error dialog when rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait a moment and try deleting again.'**
+  String get emojiDeleteRateLimitedMessage;
+
+  /// Title of the dialog shown when a sticker upload is over the size limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker is too large'**
+  String get stickerTooLargeTitle;
+
+  /// Body of the dialog shown when a sticker upload is over the size limit. maxSize is a formatted size such as 512 KB.
+  ///
+  /// In en, this message translates to:
+  /// **'The upload service rejected this sticker as larger than {maxSize}. Try a smaller file, a simpler image, or a shorter animation.'**
+  String stickerTooLargeMessage(String maxSize);
+
+  /// Fallback body of the create sticker error dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while preparing this sticker. Try another file or try again in a moment.'**
+  String get stickerCreateFailedMessage;
+
+  /// Title of the dialog shown when editing a sticker fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update this sticker'**
+  String get stickerUpdateFailedTitle;
 }
 
 class _FluxerLocalizationsDelegate

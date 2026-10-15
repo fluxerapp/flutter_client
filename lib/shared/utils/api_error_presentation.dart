@@ -46,6 +46,12 @@ enum ApiErrorAction {
   deleteCommunity,
   createWebhook,
   updateWebhook,
+  followChannel,
+  renameEmoji,
+  deleteEmoji,
+  createSticker,
+  updateSticker,
+  deleteSticker,
 }
 
 enum ApiErrorChannelKind { guild, dm, groupDm }
@@ -317,6 +323,64 @@ _ErrorCopy _copyFor(
     ApiErrorAction.updateWebhook => (
       title: l10n.errorSomethingWentWrongTitle,
       body: _apiMessageOr(apiMessage, l10n.guildSettingsWebhooksUpdateFailed),
+    ),
+    ApiErrorAction.followChannel => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: _apiMessageOr(apiMessage, l10n.channelFollowFailed),
+    ),
+    ApiErrorAction.renameEmoji => switch (code) {
+      'UNKNOWN_EMOJI' => (
+        title: l10n.emojiErrorGoneTitle,
+        body: l10n.emojiRenameGoneMessage,
+      ),
+      'MISSING_PERMISSIONS' || 'MISSING_ACCESS' => (
+        title: l10n.emojiRenameNoPermissionTitle,
+        body: l10n.emojiRenameNoPermissionMessage,
+      ),
+      'RATE_LIMITED' => (
+        title: l10n.discoveryJoinErrorRateLimitTitle,
+        body: l10n.emojiRenameRateLimitedMessage,
+      ),
+      _ => (
+        title: l10n.guildSettingsEmojiRenameFailedTitle,
+        body: l10n.emojiRenameFailedMessage,
+      ),
+    },
+    ApiErrorAction.deleteEmoji => switch (code) {
+      'UNKNOWN_EMOJI' => (
+        title: l10n.emojiErrorGoneTitle,
+        body: l10n.emojiDeleteGoneMessage,
+      ),
+      'MISSING_PERMISSIONS' || 'MISSING_ACCESS' => (
+        title: l10n.emojiDeleteNoPermissionTitle,
+        body: l10n.emojiDeleteNoPermissionMessage,
+      ),
+      'RATE_LIMITED' => (
+        title: l10n.discoveryJoinErrorRateLimitTitle,
+        body: l10n.emojiDeleteRateLimitedMessage,
+      ),
+      _ => (
+        title: l10n.guildSettingsEmojiDeleteFailedTitle,
+        body: l10n.discoveryJoinErrorGenericMessage,
+      ),
+    },
+    ApiErrorAction.createSticker =>
+      code == 'FILE_SIZE_TOO_LARGE'
+          ? (
+              title: l10n.stickerTooLargeTitle,
+              body: l10n.stickerTooLargeMessage(details.subject ?? ''),
+            )
+          : (
+              title: l10n.guildSettingsStickerCreateFailedTitle,
+              body: _apiMessageOr(apiMessage, l10n.stickerCreateFailedMessage),
+            ),
+    ApiErrorAction.updateSticker => (
+      title: l10n.stickerUpdateFailedTitle,
+      body: _apiMessageOr(apiMessage, l10n.guildSettingsRolesTryAgainInAMoment),
+    ),
+    ApiErrorAction.deleteSticker => (
+      title: l10n.guildSettingsStickerDeleteFailedTitle,
+      body: _apiMessageOr(apiMessage, l10n.discoveryJoinErrorGenericMessage),
     ),
     ApiErrorAction.createInvite => (
       title: l10n.groupDmInviteFailedTitle,
