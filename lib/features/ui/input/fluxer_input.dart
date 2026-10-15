@@ -21,6 +21,7 @@ class FluxerInput extends StatelessWidget {
     this.onSuffixTap,
     this.suffixSemanticLabel,
     this.trailing,
+    this.action,
     this.obscureText = false,
     this.enabled = true,
     this.autofocus = false,
@@ -45,7 +46,10 @@ class FluxerInput extends StatelessWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     super.key,
-  });
+  }) : assert(
+         action == null || trailing == null,
+         'action and trailing cannot be combined',
+       );
 
   const FluxerInput.multiline({
     this.controller,
@@ -82,7 +86,7 @@ class FluxerInput extends StatelessWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     super.key,
-  });
+  }) : action = null;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -95,6 +99,8 @@ class FluxerInput extends StatelessWidget {
   final String? suffixSemanticLabel;
 
   final Widget? trailing;
+
+  final Widget? action;
 
   final bool obscureText;
   final bool enabled;
@@ -242,53 +248,67 @@ class FluxerInput extends StatelessWidget {
       );
     }
 
+    final Widget field = _accessibleField(
+      field: wrapBoundedTextClip(
+        maxLines: maxLines,
+        child: TextFormField(
+          controller: controller,
+          focusNode: focusNode,
+          textInputAction: textInputAction,
+          style: style,
+          strutStyle: shouldApplyBoundedTextMetrics(maxLines: maxLines)
+              ? boundedStrutFor(textStyles.inputText.merge(style))
+              : null,
+          decoration: InputDecoration(
+            hintText: hint,
+            errorText: errorText,
+            prefixIcon: prefixIcon,
+            suffixIcon: effectiveSuffix,
+            counterText: maxLength != null ? '' : null,
+          ),
+          obscureText: obscureText,
+          autofillHints: autofillHints,
+          enabled: enabled,
+          autofocus: autofocus,
+          readOnly: readOnly,
+          maxLength: maxLength,
+          onChanged: onChanged,
+          onFieldSubmitted: onSubmitted,
+          onTapOutside: onTapOutside,
+          validator: validator,
+          keyboardType: keyboardType,
+          textCapitalization: textCapitalization ?? TextCapitalization.none,
+          autocorrect: autocorrect,
+          enableSuggestions: enableSuggestions,
+          inputFormatters: inputFormatters,
+          contextMenuBuilder: contextMenuBuilder,
+          maxLines: maxLines,
+          minLines: minLines,
+          selectionWidthStyle: _usesTightSelectionWidth
+              ? BoxWidthStyle.tight
+              : null,
+        ),
+      ),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) _visualLabel(context),
-        _accessibleField(
-          field: wrapBoundedTextClip(
-            maxLines: maxLines,
-            child: TextFormField(
-              controller: controller,
-              focusNode: focusNode,
-              textInputAction: textInputAction,
-              style: style,
-              strutStyle: shouldApplyBoundedTextMetrics(maxLines: maxLines)
-                  ? boundedStrutFor(textStyles.inputText.merge(style))
-                  : null,
-              decoration: InputDecoration(
-                hintText: hint,
-                errorText: errorText,
-                prefixIcon: prefixIcon,
-                suffixIcon: effectiveSuffix,
-                counterText: maxLength != null ? '' : null,
-              ),
-              obscureText: obscureText,
-              autofillHints: autofillHints,
-              enabled: enabled,
-              autofocus: autofocus,
-              readOnly: readOnly,
-              maxLength: maxLength,
-              onChanged: onChanged,
-              onFieldSubmitted: onSubmitted,
-              onTapOutside: onTapOutside,
-              validator: validator,
-              keyboardType: keyboardType,
-              textCapitalization: textCapitalization ?? TextCapitalization.none,
-              autocorrect: autocorrect,
-              enableSuggestions: enableSuggestions,
-              inputFormatters: inputFormatters,
-              contextMenuBuilder: contextMenuBuilder,
-              maxLines: maxLines,
-              minLines: minLines,
-              selectionWidthStyle: _usesTightSelectionWidth
-                  ? BoxWidthStyle.tight
-                  : null,
+        if (action == null)
+          field
+        else
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: field),
+                SizedBox(width: layout.s2),
+                AspectRatio(aspectRatio: 1, child: action),
+              ],
             ),
           ),
-        ),
         if (helperText != null)
           Padding(
             padding: EdgeInsets.only(top: layout.s1),

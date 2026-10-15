@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/light.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/applications/application_header.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/applications/application_info_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/applications/application_secrets_section.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -103,6 +104,59 @@ void main() {
     for (int i = 0; i < 2; i++) {
       expect(buttons[i].top, greaterThanOrEqualTo(fields[i].bottom));
       expect(buttons[i].left, fields[i].left);
+    }
+  });
+
+  testWidgets('redirect remove button matches the field height', (
+    WidgetTester tester,
+  ) async {
+    final List<TextEditingController> controllers = <TextEditingController>[
+      TextEditingController(text: 'http://localhost:5173/api/oauth/callback'),
+      TextEditingController(text: 'https://example.com/callback'),
+    ];
+    addTearDown(() {
+      for (final TextEditingController controller in controllers) {
+        controller.dispose();
+      }
+    });
+    await tester.pumpWidget(
+      _app(
+        ApplicationInfoSection(
+          nameController: TextEditingController(text: 'Bot'),
+          nameError: null,
+          botPublic: true,
+          botRequireCodeGrant: false,
+          redirectControllers: controllers,
+          onBotPublicChanged: (_) {},
+          onBotRequireCodeGrantChanged: (_) {},
+          onAddRedirect: () {},
+          onRemoveRedirect: (_) {},
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final List<Rect> fields = tester
+        .widgetList(find.byType(InputDecorator))
+        .skip(1)
+        .map((Widget widget) => tester.getRect(find.byWidget(widget)))
+        .toList();
+    final List<Rect> buttons = tester
+        .widgetList(
+          find.ancestor(
+            of: find.bySemanticsLabel(testL10n.applicationsDeleteRedirect),
+            matching: find.byType(FluxerButton),
+          ),
+        )
+        .map((Widget widget) => tester.getRect(find.byWidget(widget)))
+        .toList();
+    expect(fields, hasLength(2));
+    expect(buttons, hasLength(2));
+    for (int i = 0; i < 2; i++) {
+      expect(buttons[i].top, moreOrLessEquals(fields[i].top));
+      expect(buttons[i].bottom, moreOrLessEquals(fields[i].bottom));
+      expect(buttons[i].width, moreOrLessEquals(buttons[i].height));
+      expect(buttons[i].left, greaterThan(fields[i].right));
     }
   });
 }

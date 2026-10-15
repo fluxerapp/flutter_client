@@ -1,4 +1,3 @@
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/utils/oauth_authorize_url.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -32,8 +31,6 @@ class ApplicationInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final layout = context.layout;
-
     return FluxerSettingsSection(
       title: l10n.applicationsInfoTitle,
       description: l10n.applicationsInfoDescription,
@@ -63,25 +60,17 @@ class ApplicationInfoSection extends StatelessWidget {
           ],
         ),
         for (int i = 0; i < redirectControllers.length; i++)
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(
-                child: FluxerInput(
-                  controller: redirectControllers[i],
-                  label: i == 0 ? l10n.applicationsRedirectUris : null,
-                  hint: kExampleCallbackUrl,
-                ),
-              ),
-              SizedBox(width: layout.s2),
-              FluxerButton.secondary(
-                onPressed: i == 0 ? null : () => onRemoveRedirect(i),
-                semanticLabel: l10n.applicationsDeleteRedirect,
-                icon: PhosphorIconsBold.x,
-                size: FluxerButtonSize.small,
-                isSquare: true,
-              ),
-            ],
+          FluxerInput(
+            controller: redirectControllers[i],
+            label: i == 0 ? l10n.applicationsRedirectUris : null,
+            hint: kExampleCallbackUrl,
+            action: FluxerButton.secondary(
+              onPressed: i == 0 ? null : () => onRemoveRedirect(i),
+              semanticLabel: l10n.applicationsDeleteRedirect,
+              icon: PhosphorIconsBold.x,
+              size: FluxerButtonSize.small,
+              isSquare: true,
+            ),
           ),
         if (redirectControllers.length < kMaxApplicationRedirectUris)
           Align(
