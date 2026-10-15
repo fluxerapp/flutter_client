@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -35,6 +36,20 @@ class AddGuildActionButton extends StatelessWidget {
         builder: (BuildContext context, Set<WidgetState> states) {
           final bool isHovered =
               !isDisabled && states.contains(WidgetState.hovered);
+          final bool isPressed =
+              !isDisabled && states.contains(WidgetState.pressed);
+          final Border? border = FluxerButtonVariant.secondary.border(
+            colors,
+            hovered: isHovered,
+          );
+          final Color cardColor = FluxerBottomSheet.cardColorOf(context);
+          final Color fill = border != null
+              ? (isHovered
+                    ? colors.backgroundSecondaryAlt
+                    : colors.backgroundSecondary)
+              : isPressed
+              ? Color.alphaBlend(colors.backgroundModifierHover, cardColor)
+              : cardColor;
           return AnimatedContainer(
             duration: context.motion.hover,
             curve: context.motion.curve,
@@ -43,14 +58,11 @@ class AddGuildActionButton extends StatelessWidget {
               horizontal: 16,
             ),
             decoration: BoxDecoration(
-              color: isHovered
-                  ? colors.backgroundSecondaryAlt
-                  : colors.backgroundSecondary,
-              borderRadius: BorderRadius.circular(8),
-              border: FluxerButtonVariant.secondary.border(
-                colors,
-                hovered: isHovered,
-              ),
+              color: fill,
+              borderRadius: border != null
+                  ? BorderRadius.circular(8)
+                  : context.layout.radiusXxl,
+              border: border,
             ),
             child: isRowLayout
                 ? Row(

@@ -47,6 +47,11 @@ void configureFluxerMobileDetection() {
 }
 
 @visibleForTesting
+void debugSetFluxerRuntimeMobileFormFactor({required bool? value}) {
+  _isRuntimeMobileFormFactor = value;
+}
+
+@visibleForTesting
 bool isFluxerRuntimeMobileFormFactorFromLogicalSize(Size logicalSize) {
   if (logicalSize.isEmpty) {
     return false;
