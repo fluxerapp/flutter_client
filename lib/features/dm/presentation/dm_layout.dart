@@ -33,7 +33,10 @@ class DMLayout extends ConsumerWidget {
             targetMessageId: targetMessageId,
           ),
           Positioned.fill(
-            child: ChannelDetailsDrawerOverlay(channelId: channelId!),
+            child: SafeArea(
+              bottom: false,
+              child: ChannelDetailsDrawerOverlay(channelId: channelId!),
+            ),
           ),
         ],
       ),

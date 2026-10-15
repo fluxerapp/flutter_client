@@ -921,6 +921,39 @@ void main() {
       await _disposeWidgetTree(tester);
     }, variant: TargetPlatformVariant.only(TargetPlatform.android));
 
+    testWidgets('the DM details drawer stays below the status bar', (
+      WidgetTester tester,
+    ) async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: _dmDrawerOverrides(),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          padding: const EdgeInsets.only(top: 47),
+          child: const DMLayout(channelId: _channelId),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      await tester.tap(find.text(_groupDmName).first);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(find.byKey(kChannelDetailsDrawerPanelKey), findsOneWidget);
+      expect(
+        tester.getTopLeft(find.byKey(kChannelDetailsDrawerPanelKey)).dy,
+        47,
+      );
+
+      container.read(channelDetailsDrawerProvider.notifier).close();
+      await tester.pump(const Duration(milliseconds: 600));
+      await _disposeWidgetTree(tester);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+
     testWidgets('a left swipe on a group DM message opens the drawer', (
       WidgetTester tester,
     ) async {
@@ -1290,6 +1323,7 @@ List<Override> _contentOverrides({
 Widget _contentApp({
   required ProviderContainer container,
   required Widget child,
+  EdgeInsets padding = EdgeInsets.zero,
 }) {
   final colorTheme = buildDarkColorTheme();
   return UncontrolledProviderScope(
@@ -1303,7 +1337,11 @@ Widget _contentApp({
       localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: MediaQuery(
-        data: const MediaQueryData(size: Size(390, 844)),
+        data: MediaQueryData(
+          size: const Size(390, 844),
+          padding: padding,
+          viewPadding: padding,
+        ),
         child: Scaffold(body: child),
       ),
     ),
