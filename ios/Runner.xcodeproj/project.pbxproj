@@ -774,6 +774,7 @@
 				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */,
 				F1A2B3C4D5E6F708192A3B4E /* XCLocalSwiftPackageReference "receive_sharing_intent-1.9.0" */,
 				MEA5E0A12F90ABCD00E5F602 /* XCRemoteSwiftPackageReference "measure" */,
+				MEA5E0A12F90ABCD00E5F603 /* XCRemoteSwiftPackageReference "KSCrash" */,
 			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
@@ -3878,6 +3879,14 @@
 			requirement = {
 				kind = branch;
 				branch = ios-v0.14.2;
+			};
+		};
+		MEA5E0A12F90ABCD00E5F603 /* XCRemoteSwiftPackageReference "KSCrash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kstenerud/KSCrash.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.5.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "kscrash",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kstenerud/KSCrash.git",
+      "state" : {
+        "revision" : "95a8895d75f3c22aa9ad9f2a15d2fbd97b0a55e2",
+        "version" : "2.5.1"
+      }
+    },
+    {
       "identity" : "measure",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/measure-sh/measure.git",
