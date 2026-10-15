@@ -162,9 +162,62 @@ class _GuildSidebarChannelListState
         return;
       }
       _clampScrollOffset();
-      _revealSelectedChannel();
+      if (_needsSelectedReveal) {
+        _revealSelectedChannel();
+      } else if (_scrollStore?.shownChannelFor(widget.guildId) !=
+          ref.read(activeChannelIdProvider)) {
+        _revealSelectedChannelIfHidden();
+      }
       _scrollIndicator.scheduleUpdate();
     });
+  }
+
+  void _scheduleRevealIfHidden() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _revealSelectedChannelIfHidden();
+    });
+  }
+
+  RenderBox? _selectedTile(String channelId) {
+    final RenderObject? tile = _channelKeys[channelId]?.currentContext
+        ?.findRenderObject();
+    if (tile is RenderBox && tile.attached && tile.hasSize) {
+      return tile;
+    }
+    return null;
+  }
+
+  bool _isTileFullyVisible(RenderBox tile) {
+    final RenderObject viewport = RenderAbstractViewport.of(tile);
+    if (viewport is! RenderBox) {
+      return false;
+    }
+    final double top = tile.localToGlobal(Offset.zero, ancestor: viewport).dy;
+    return top >= kGuildSidebarHeaderMinHeight &&
+        top + tile.size.height <= viewport.size.height;
+  }
+
+  void _revealSelectedChannelIfHidden() {
+    if (_needsSelectedReveal ||
+        !mounted ||
+        !widget.isActive ||
+        !_scrollController.hasClients) {
+      return;
+    }
+    final String? channelId = ref.read(activeChannelIdProvider);
+    if (channelId == null || !_indicatorOrder.contains(channelId)) {
+      return;
+    }
+    final RenderBox? tile = _selectedTile(channelId);
+    if (tile != null && _isTileFullyVisible(tile)) {
+      _scrollStore?.setShownChannel(widget.guildId, channelId);
+      return;
+    }
+    setState(() {
+      _needsSelectedReveal = true;
+      _selectedRevealSteps = 0;
+    });
+    _scheduleSelectedReveal();
   }
 
   void _scheduleSelectedReveal() {
@@ -192,16 +245,25 @@ class _GuildSidebarChannelListState
       return;
     }
     final ScrollPosition position = _scrollController.position;
-    final RenderObject? tile = _channelKeys[channelId]?.currentContext
-        ?.findRenderObject();
-    if (tile is RenderBox && tile.attached && tile.hasSize) {
-      final double centered = RenderAbstractViewport.of(
-        tile,
-      ).getOffsetToReveal(tile, 0.5).offset;
-      _jumpWithoutPersisting(
-        centered.clamp(position.minScrollExtent, position.maxScrollExtent),
-      );
+    final RenderBox? tile = _selectedTile(channelId);
+    if (tile != null) {
+      _scrollStore?.setShownChannel(widget.guildId, channelId);
+      if (!_isTileFullyVisible(tile)) {
+        final double centered = RenderAbstractViewport.of(
+          tile,
+        ).getOffsetToReveal(tile, 0.5).offset;
+        _jumpWithoutPersisting(
+          centered.clamp(position.minScrollExtent, position.maxScrollExtent),
+        );
+      }
       _finishSelectedReveal();
+      return;
+    }
+    if (_selectedRevealSteps == 0 &&
+        position.pixels > position.minScrollExtent) {
+      _selectedRevealSteps++;
+      _jumpWithoutPersisting(position.minScrollExtent);
+      _scheduleSelectedReveal();
       return;
     }
     if (position.pixels >= position.maxScrollExtent ||
@@ -230,6 +292,7 @@ class _GuildSidebarChannelListState
     setState(() {
       _needsSelectedReveal = false;
     });
+    _persistScroll();
     _scrollIndicator.scheduleUpdate();
   }
 
@@ -344,6 +407,11 @@ class _GuildSidebarChannelListState
         }
         if (_needsSelectedReveal && next.isNotEmpty) {
           _scheduleSelectedReveal();
+        }
+      })
+      ..listen<String?>(activeChannelIdProvider, (_, String? next) {
+        if (next != null) {
+          _scheduleRevealIfHidden();
         }
       });
     final bool showMembersEntry =

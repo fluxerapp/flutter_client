@@ -142,6 +142,7 @@ Future<String?> readPersistedAppLocation(FluxerDatabase db) async {
 
 Future<String> restoreAppLocation({
   required FluxerDatabase db,
+  required String? currentUserId,
   String? inMemory,
 }) async {
   final String? persisted = await readPersistedAppLocation(db);
@@ -149,7 +150,11 @@ Future<String> restoreAppLocation({
     if (candidate == null || !isRestorableAppLocation(candidate)) {
       continue;
     }
-    final String? resolved = await _resolveValidAppLocation(db, candidate);
+    final String? resolved = await _resolveValidAppLocation(
+      db,
+      candidate,
+      currentUserId: currentUserId,
+    );
     if (resolved != null) {
       return resolved;
     }
@@ -162,8 +167,9 @@ Future<String> restoreAppLocation({
 
 Future<String?> _resolveValidAppLocation(
   FluxerDatabase db,
-  String location,
-) async {
+  String location, {
+  required String? currentUserId,
+}) async {
   final String path = _appLocationPath(location);
   if (!isRestorableAppLocation(path)) {
     return null;
@@ -171,10 +177,17 @@ Future<String?> _resolveValidAppLocation(
 
   final String? resolved = switch (classifyRoute(path)) {
     RouteKind.nonChannel || RouteKind.discover => path,
-    RouteKind.channelsRoot => await _resolveValidChannelsRoot(db, path),
+    RouteKind.channelsRoot => await _resolveValidChannelsRoot(
+      db,
+      path,
+      currentUserId: currentUserId,
+    ),
     RouteKind.guildMembers => await _resolveValidGuildMembers(db, path),
-    RouteKind.chat ||
-    RouteKind.dmCall => await _resolveValidChatLocation(db, path),
+    RouteKind.chat || RouteKind.dmCall => await _resolveValidChatLocation(
+      db,
+      path,
+      currentUserId: currentUserId,
+    ),
   };
 
   if (resolved == null || !isNavigableAppLocation(resolved)) {
@@ -189,8 +202,9 @@ Future<bool> _guildExists(FluxerDatabase db, String guildId) async {
 
 Future<String?> _resolveValidChannelsRoot(
   FluxerDatabase db,
-  String path,
-) async {
+  String path, {
+  required String? currentUserId,
+}) async {
   if (path == RoutePaths.me || path == RoutePaths.favoritesBase) {
     return path;
   }
@@ -202,6 +216,7 @@ Future<String?> _resolveValidChannelsRoot(
         guildId: guildId,
         fullPath: path,
         db: db,
+        currentUserId: currentUserId,
       ) ??
       path;
 }
@@ -219,8 +234,9 @@ Future<String?> _resolveValidGuildMembers(
 
 Future<String?> _resolveValidChatLocation(
   FluxerDatabase db,
-  String path,
-) async {
+  String path, {
+  required String? currentUserId,
+}) async {
   if (path.startsWith('${RoutePaths.me}/')) {
     final String? channelId = extractChannelId(path);
     if (channelId == null) {
@@ -252,12 +268,18 @@ Future<String?> _resolveValidChatLocation(
     return null;
   }
   if (channelId != null &&
-      await isRestorableGuildChannel(db, guildId, channelId)) {
+      await isRestorableGuildChannel(
+        db,
+        guildId,
+        channelId,
+        currentUserId: currentUserId,
+      )) {
     return path;
   }
   return resolveGuildRootRedirect(
     guildId: guildId,
     fullPath: RoutePaths.guild(guildId),
     db: db,
+    currentUserId: currentUserId,
   );
 }

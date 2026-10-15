@@ -100,21 +100,34 @@ void main() {
       await addGuildChannel('chan-1', 'guild-1');
       persistAppLocation(db, '/channels/@me');
       expect(
-        await restoreAppLocation(db: db, inMemory: '/channels/guild-1/chan-1'),
+        await restoreAppLocation(
+          db: db,
+          currentUserId: null,
+          inMemory: '/channels/guild-1/chan-1',
+        ),
         '/channels/guild-1/chan-1',
       );
     });
 
     test('falls back to disk then me', () async {
-      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        RoutePaths.me,
+      );
 
       persistAppLocation(db, '/notifications');
-      expect(await restoreAppLocation(db: db), '/notifications');
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        '/notifications',
+      );
     });
 
     test('falls back when guild is missing', () async {
       persistAppLocation(db, '/channels/missing-guild/chan-1');
-      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        RoutePaths.me,
+      );
       expect(await readPersistedAppLocation(db), isNull);
     });
 
@@ -123,7 +136,10 @@ void main() {
         kAppLastLocationKey,
         '/unknown',
       );
-      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        RoutePaths.me,
+      );
       expect(await readPersistedAppLocation(db), isNull);
     });
 
@@ -132,7 +148,10 @@ void main() {
         kAppLastLocationKey,
         '/channels/guild-1/chan-1/msg/extra',
       );
-      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        RoutePaths.me,
+      );
       expect(await readPersistedAppLocation(db), isNull);
     });
 
@@ -143,7 +162,7 @@ void main() {
         await addGuildChannel('still-here', 'guild-1');
         persistAppLocation(db, '/channels/guild-1/gone');
         expect(
-          await restoreAppLocation(db: db),
+          await restoreAppLocation(db: db, currentUserId: null),
           RoutePaths.guildChannel('guild-1', 'still-here'),
         );
       },
@@ -151,18 +170,27 @@ void main() {
 
     test('falls back when favorite is missing', () async {
       persistAppLocation(db, '/channels/@favorites/gone');
-      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        RoutePaths.me,
+      );
     });
 
     test('keeps favorite when it still exists', () async {
       await db.favoriteChannelsDao.addChannel(channelId: 'fav-1');
       persistAppLocation(db, '/channels/@favorites/fav-1');
-      expect(await restoreAppLocation(db: db), '/channels/@favorites/fav-1');
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        '/channels/@favorites/fav-1',
+      );
     });
 
     test('falls back when dm is missing', () async {
       persistAppLocation(db, '/channels/@me/dm-gone');
-      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(
+        await restoreAppLocation(db: db, currentUserId: null),
+        RoutePaths.me,
+      );
     });
 
     test('skips invalid memory and uses valid disk', () async {
@@ -170,7 +198,11 @@ void main() {
       await addGuildChannel('chan-1', 'guild-1');
       persistAppLocation(db, '/channels/guild-1/chan-1');
       expect(
-        await restoreAppLocation(db: db, inMemory: '/channels/missing/chan'),
+        await restoreAppLocation(
+          db: db,
+          currentUserId: null,
+          inMemory: '/channels/missing/chan',
+        ),
         '/channels/guild-1/chan-1',
       );
     });
@@ -193,14 +225,14 @@ void main() {
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db, pending: pending),
+            .takeOrRestore(db, currentUserId: null, pending: pending),
         '/you',
       );
       await Future<void>.delayed(Duration.zero);
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db, pending: pending),
+            .takeOrRestore(db, currentUserId: null, pending: pending),
         '/notifications',
       );
     });
@@ -226,7 +258,7 @@ void main() {
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db, pending: nextLaunch),
+            .takeOrRestore(db, currentUserId: null, pending: nextLaunch),
         RoutePaths.me,
       );
       expect(await readPersistedAppLocation(db), isNull);
@@ -252,7 +284,7 @@ void main() {
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db, pending: nextLaunch),
+            .takeOrRestore(db, currentUserId: null, pending: nextLaunch),
         RoutePaths.me,
       );
       expect(await readPersistedAppLocation(db), isNull);
@@ -283,7 +315,7 @@ void main() {
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db, pending: nextLaunch),
+            .takeOrRestore(db, currentUserId: null, pending: nextLaunch),
         '/channels/guild-1/chan-1',
       );
       expect(await db.guildLastChannelDao.getLastChannel('guild-1'), 'chan-1');
@@ -310,7 +342,7 @@ void main() {
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db, pending: pending),
+            .takeOrRestore(db, currentUserId: null, pending: pending),
         '/channels/guild-1/chan-1',
       );
       await Future<void>.delayed(Duration.zero);
@@ -337,6 +369,7 @@ void main() {
             .read(preReconnectingLocationProvider.notifier)
             .takeOrRestore(
               db,
+              currentUserId: null,
               pending: pending,
               preferredPath: '/channels/guild-2/chan-2',
             ),

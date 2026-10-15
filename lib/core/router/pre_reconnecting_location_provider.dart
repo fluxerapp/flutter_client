@@ -33,6 +33,7 @@ class PreReconnectingLocation extends _$PreReconnectingLocation {
 
   Future<String> takeOrRestore(
     FluxerDatabase db, {
+    required String? currentUserId,
     PendingAppLocation? pending,
     String? preferredPath,
   }) async {
@@ -59,6 +60,7 @@ class PreReconnectingLocation extends _$PreReconnectingLocation {
         : null;
     final String location = await restoreAppLocation(
       db: db,
+      currentUserId: currentUserId,
       inMemory: preferred ?? saved,
     );
     await pendingLocation.mark(location);

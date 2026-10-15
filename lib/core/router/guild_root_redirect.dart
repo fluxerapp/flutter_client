@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    as db_row
+    show Channel;
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:fluxer_app/features/channels/domain/channel.dart'
-    show isThreadOnlyChannelType;
+import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
-
-const int _kGuildCategoryType = 4;
-const int _kGuildLinkType = 998;
 
 const String kGuildRootStayOnListExtra = 'guild-root-list';
 
@@ -26,6 +26,7 @@ Future<String?> resolveGuildRootRedirect({
   required String? guildId,
   required String fullPath,
   required FluxerDatabase db,
+  required String? currentUserId,
   Set<String> trackedUnavailableGuildIds = const {},
 }) async {
   if (guildId == null) {
@@ -46,15 +47,50 @@ Future<String?> resolveGuildRootRedirect({
     guildId,
   );
   if (lastChannelId != null &&
-      await isRestorableGuildChannel(db, guildId, lastChannelId)) {
+      await isRestorableGuildChannel(
+        db,
+        guildId,
+        lastChannelId,
+        currentUserId: currentUserId,
+      )) {
     return RoutePaths.guildChannel(guildId, lastChannelId);
   }
-  final channels = await db.channelDao.getChannels(guildId);
-  for (final channel in channels) {
-    if (channel.type != _kGuildCategoryType &&
-        channel.type != _kGuildLinkType &&
-        !isThreadOnlyChannelType(channel.type)) {
-      return RoutePaths.guildChannel(guildId, channel.id);
+  final String? defaultChannelId = await _resolveDefaultGuildChannelId(
+    db,
+    guildId,
+    currentUserId: currentUserId,
+  );
+  if (defaultChannelId == null) {
+    return null;
+  }
+  return RoutePaths.guildChannel(guildId, defaultChannelId);
+}
+
+Future<String?> _resolveDefaultGuildChannelId(
+  FluxerDatabase db,
+  String guildId, {
+  required String? currentUserId,
+}) async {
+  final List<db_row.Channel> rows = await db.channelDao.getChannels(guildId);
+  final Map<String, db_row.Channel> rowsById = <String, db_row.Channel>{
+    for (final db_row.Channel row in rows) row.id: row,
+  };
+  final List<ChannelCategory> categories = groupChannelsIntoCategories(
+    rows.map(Channel.fromRow).toList(),
+  );
+  for (final ChannelCategory category in categories) {
+    for (final Channel channel in category.channels) {
+      if (channel.type != ChannelType.guildText &&
+          channel.type != ChannelType.guildAnnouncement) {
+        continue;
+      }
+      if (await canReadChannelForUnread(
+        database: db,
+        channel: rowsById[channel.id]!,
+        currentUserId: currentUserId,
+      )) {
+        return channel.id;
+      }
     }
   }
   return null;
@@ -63,13 +99,22 @@ Future<String?> resolveGuildRootRedirect({
 Future<bool> isRestorableGuildChannel(
   FluxerDatabase db,
   String guildId,
-  String channelId,
-) async {
-  final channel = await db.channelDao.getChannelById(channelId);
+  String channelId, {
+  required String? currentUserId,
+}) async {
+  final db_row.Channel? channel = await db.channelDao.getChannelById(channelId);
   if (channel == null || channel.guildId != guildId) {
     return false;
   }
-  return channel.type != _kGuildCategoryType && channel.type != _kGuildLinkType;
+  final ChannelType type = ChannelType.fromWire(channel.type);
+  if (type == ChannelType.guildCategory || type == ChannelType.guildLink) {
+    return false;
+  }
+  return canReadChannelForUnread(
+    database: db,
+    channel: channel,
+    currentUserId: currentUserId,
+  );
 }
 
 Future<String?> resolveFavoritesRootRedirect({

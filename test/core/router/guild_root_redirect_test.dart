@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 
@@ -18,6 +21,8 @@ void main() {
     String guildId, {
     int type = 0,
     int position = 0,
+    String? parentId,
+    String? permissionOverwritesJson,
   }) async {
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
@@ -26,9 +31,41 @@ void main() {
         name: id,
         type: Value(type),
         position: Value(position),
+        parentId: Value(parentId),
+        permissionOverwritesJson: Value(permissionOverwritesJson),
       ),
     );
   }
+
+  Future<void> addMemberGuild(String guildId, String userId) async {
+    await db.guildDao.upsertServer(
+      ServersCompanion.insert(
+        id: guildId,
+        name: guildId,
+        ownerId: const Value('owner'),
+      ),
+    );
+    await db.roleDao.upsertRoles([
+      RolesCompanion.insert(
+        id: guildId,
+        guildId: guildId,
+        name: '@everyone',
+        permissions: Value(Permission.viewChannel.value.toString()),
+      ),
+    ]);
+    await db.memberDao.upsertMember(
+      MembersCompanion.insert(userId: userId, guildId: guildId),
+    );
+  }
+
+  String denyEveryoneView(String guildId) => jsonEncode(<Object?>[
+    <String, Object?>{
+      'id': guildId,
+      'type': 0,
+      'allow': '0',
+      'deny': '${Permission.viewChannel.value}',
+    },
+  ]);
 
   group('resolveGuildRootRedirect', () {
     const guildId = 'guild-1';
@@ -41,6 +78,7 @@ void main() {
         guildId: guildId,
         fullPath: RoutePaths.guild(guildId),
         db: db,
+        currentUserId: null,
       );
 
       expect(result, RoutePaths.guildChannel(guildId, 'chan-1'));
@@ -57,6 +95,7 @@ void main() {
           guildId: guildId,
           fullPath: RoutePaths.guild(guildId),
           db: db,
+          currentUserId: null,
         );
 
         expect(result, RoutePaths.guildChannel(guildId, 'text'));
@@ -71,9 +110,73 @@ void main() {
         guildId: guildId,
         fullPath: RoutePaths.guild(guildId),
         db: db,
+        currentUserId: null,
       );
 
       expect(result, RoutePaths.guildChannel(guildId, 'text'));
+    });
+
+    test('falls back when the remembered channel was deleted', () async {
+      await addChannel('general', guildId);
+      await addChannel('chat', guildId, position: 1);
+      await db.guildLastChannelDao.setLastChannel(guildId, 'chat');
+      await db.channelDao.deleteChannel('chat');
+
+      final result = await resolveGuildRootRedirect(
+        guildId: guildId,
+        fullPath: RoutePaths.guild(guildId),
+        db: db,
+        currentUserId: null,
+      );
+
+      expect(result, RoutePaths.guildChannel(guildId, 'general'));
+    });
+
+    test(
+      'falls back when the remembered channel is no longer readable',
+      () async {
+        await addMemberGuild(guildId, 'me');
+        await addChannel('general', guildId);
+        await addChannel(
+          'staff',
+          guildId,
+          position: 1,
+          permissionOverwritesJson: denyEveryoneView(guildId),
+        );
+        await db.guildLastChannelDao.setLastChannel(guildId, 'staff');
+
+        final result = await resolveGuildRootRedirect(
+          guildId: guildId,
+          fullPath: RoutePaths.guild(guildId),
+          db: db,
+          currentUserId: 'me',
+        );
+
+        expect(result, RoutePaths.guildChannel(guildId, 'general'));
+      },
+    );
+
+    test('defaults to the first readable text channel in list order', () async {
+      await addMemberGuild(guildId, 'me');
+      await addChannel('voice', guildId, type: 2);
+      await addChannel('category', guildId, type: 4, position: 1);
+      await addChannel(
+        'hidden',
+        guildId,
+        position: 2,
+        permissionOverwritesJson: denyEveryoneView(guildId),
+      );
+      await addChannel('in-category', guildId, parentId: 'category');
+      await addChannel('top-level', guildId, position: 5);
+
+      final result = await resolveGuildRootRedirect(
+        guildId: guildId,
+        fullPath: RoutePaths.guild(guildId),
+        db: db,
+        currentUserId: 'me',
+      );
+
+      expect(result, RoutePaths.guildChannel(guildId, 'top-level'));
     });
 
     test('null guildId redirects to me', () async {
@@ -81,6 +184,7 @@ void main() {
         guildId: null,
         fullPath: '/channels',
         db: db,
+        currentUserId: null,
       );
 
       expect(result, RoutePaths.me);
@@ -94,6 +198,7 @@ void main() {
         guildId: guildId,
         fullPath: RoutePaths.guildChannel(guildId, 'chan-1'),
         db: db,
+        currentUserId: null,
       );
 
       expect(result, isNull);
@@ -106,6 +211,7 @@ void main() {
         guildId: guildId,
         fullPath: RoutePaths.guild(guildId),
         db: db,
+        currentUserId: null,
       );
 
       expect(result, isNull);

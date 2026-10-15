@@ -282,6 +282,7 @@ GoRouter fluxerRouter(Ref ref) {
             .read(preReconnectingLocationProvider.notifier)
             .takeOrRestore(
               ref.read(fluxerDatabaseProvider),
+              currentUserId: ref.read(currentUserIdProvider),
               preferredPath: currentAccountPendingNavigationPath(
                 pending: ref.read(pendingPushNotificationPathProvider),
                 currentUserId: ref.read(currentUserIdProvider),
@@ -310,6 +311,7 @@ GoRouter fluxerRouter(Ref ref) {
             .read(preReconnectingLocationProvider.notifier)
             .takeOrRestore(
               ref.read(fluxerDatabaseProvider),
+              currentUserId: ref.read(currentUserIdProvider),
               preferredPath: currentAccountPendingNavigationPath(
                 pending: ref.read(pendingPushNotificationPathProvider),
                 currentUserId: ref.read(currentUserIdProvider),
@@ -810,6 +812,7 @@ GoRouter fluxerRouter(Ref ref) {
                     guildId: state.pathParameters['guildId'],
                     fullPath: state.uri.path,
                     db: ref.read(fluxerDatabaseProvider),
+                    currentUserId: ref.read(currentUserIdProvider),
                     trackedUnavailableGuildIds: ref.read(
                       guildAvailabilityProvider,
                     ),

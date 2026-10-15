@@ -78,6 +78,7 @@ const GuildReadStateEntry _unreadGuildReadState = GuildReadStateEntry(
 
 class _GuildSwitchTestHarness {
   String activeGuildId = _guildId;
+  String? activeChannelId;
   late ChannelListState channelListState;
 }
 
@@ -1813,6 +1814,150 @@ void main() {
     });
   });
 
+  group('GuildSidebar remembered channel on reopen', () {
+    testWidgets('highlights the remembered channel and scrolls it into view '
+        'when the community is reopened', (tester) async {
+      tester.view.physicalSize = const Size(390, 400);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final List<Channel> guildAChannels = List<Channel>.generate(
+        40,
+        (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+      );
+      final List<Channel> guildBChannels = List<Channel>.generate(
+        3,
+        (int index) => Channel(
+          id: 'b${index + 1}',
+          guildId: _otherGuildId,
+          name: 'guild-b-${index + 1}',
+          parentId: 'cat-b1',
+        ),
+      );
+      final _GuildSwitchTestHarness harness = _GuildSwitchTestHarness()
+        ..activeChannelId = 'c1';
+      ChannelListState guildAState(String selected) => ChannelListState(
+        guild: const Guild(id: _guildId, name: 'Test Guild'),
+        categories: <ChannelCategory>[
+          ChannelCategory(
+            id: 'cat1',
+            name: 'My Category',
+            channels: guildAChannels,
+          ),
+        ],
+        selectedChannelId: selected,
+        hasReceivedInitialChannelList: true,
+      );
+      final ChannelListState guildBState = ChannelListState(
+        guild: const Guild(id: _otherGuildId, name: 'Other Guild'),
+        categories: <ChannelCategory>[
+          ChannelCategory(
+            id: 'cat-b1',
+            name: 'Other Category',
+            channels: guildBChannels,
+          ),
+        ],
+        selectedChannelId: 'b1',
+        hasReceivedInitialChannelList: true,
+      );
+      harness.channelListState = guildAState('c1');
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          ..._buildOverrides(
+            channelListState: harness.channelListState,
+            selectedChannelId: 'c1',
+            unread: <String, UnreadState>{
+              for (final Channel channel in guildAChannels)
+                channel.id: const UnreadState(),
+            },
+            activeGuildIdReader: (Ref ref) => harness.activeGuildId,
+            activeChannelIdReader: (Ref ref) => harness.activeChannelId,
+            channelListViewModelFactory: () =>
+                _HarnessChannelListViewModel(harness),
+          ),
+          guildMuteProvider(_otherGuildId).overrideWithValue(
+            const AsyncData<GuildMuteState>(GuildMuteState()),
+          ),
+          mutedChannelIdsProvider(
+            _otherGuildId,
+          ).overrideWithValue(const AsyncData<Set<String>>(<String>{})),
+          guildCollapsedCategoriesProvider(
+            _otherGuildId,
+          ).overrideWithValue(const AsyncData<Set<String>>(<String>{})),
+          for (final Channel channel in guildBChannels)
+            channelUnreadProvider(channel.id).overrideWith(
+              (Ref ref) => Stream<UnreadState>.value(const UnreadState()),
+            ),
+        ],
+      );
+      addTearDown(container.dispose);
+      final colorTheme = buildDarkColorTheme();
+      Future<void> pumpSidebar() async {
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: MaterialApp(
+              locale: kTestLocale,
+              localizationsDelegates: fluxerLocalizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: colorTheme,
+                textTheme: FluxerTextTheme.fromColors(colorTheme),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: const Scaffold(body: GuildSidebar()),
+            ),
+          ),
+        );
+        await _pumpSidebar(tester);
+        for (int i = 0; i < 6; i += 1) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+      }
+
+      void switchTo(String guildId, String channelId, ChannelListState state) {
+        harness
+          ..activeGuildId = guildId
+          ..activeChannelId = channelId
+          ..channelListState = state;
+        container
+          ..invalidate(activeGuildIdProvider)
+          ..invalidate(activeChannelIdProvider)
+          ..invalidate(channelListViewModelProvider);
+      }
+
+      await pumpSidebar();
+      expect(find.text('channel-1'), findsOneWidget);
+      expect(find.text('channel-30'), findsNothing);
+
+      switchTo(_otherGuildId, 'b1', guildBState);
+      await pumpSidebar();
+      expect(find.text('guild-b-1'), findsOneWidget);
+
+      switchTo(_guildId, 'c30', guildAState('c30'));
+      await pumpSidebar();
+
+      final Finder remembered = find.text('channel-30');
+      expect(remembered, findsOneWidget);
+      final Rect list = tester.getRect(find.byType(Scrollable).first);
+      final Rect row = tester.getRect(remembered);
+      expect(row.top, greaterThanOrEqualTo(list.top + 56));
+      expect(row.bottom, lessThanOrEqualTo(list.bottom));
+      final FluxerSelectableRow selectedRow = tester
+          .widget<FluxerSelectableRow>(
+            find
+                .ancestor(
+                  of: remembered,
+                  matching: find.byType(FluxerSelectableRow),
+                )
+                .first,
+          );
+      expect(selectedRow.isSelected, isTrue);
+      await releaseTestWidgetTree(tester);
+    });
+  });
+
   group('GuildSidebar unread gate fallback', () {
     Future<void> expectChannelsAfterWait(WidgetTester tester) async {
       await tester.pump();
@@ -2018,6 +2163,7 @@ List<Override> _buildOverrides({
   bool showFavorites = false,
   VoiceSession Function()? voiceSessionFactory,
   String? Function(Ref ref)? activeGuildIdReader,
+  String? Function(Ref ref)? activeChannelIdReader,
   ChannelListViewModel Function()? channelListViewModelFactory,
   int guildPermissions = 0,
   FluxerDatabase? database,
@@ -2051,7 +2197,10 @@ List<Override> _buildOverrides({
       activeGuildIdProvider.overrideWith(activeGuildIdReader)
     else
       activeGuildIdProvider.overrideWithValue(_guildId),
-    activeChannelIdProvider.overrideWithValue(selectedChannelId),
+    if (activeChannelIdReader != null)
+      activeChannelIdProvider.overrideWith(activeChannelIdReader)
+    else
+      activeChannelIdProvider.overrideWithValue(selectedChannelId),
     channelListViewModelProvider.overrideWith(
       channelListViewModelFactory ??
           () => _FakeChannelListViewModel(channelListState),
