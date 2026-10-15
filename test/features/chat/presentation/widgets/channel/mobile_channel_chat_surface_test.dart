@@ -1028,6 +1028,55 @@ void main() {
       await _disposeWidgetTree(tester);
     }, variant: TargetPlatformVariant.only(TargetPlatform.android));
 
+    testWidgets('the open drawer follows group DM edits and removals', (
+      WidgetTester tester,
+    ) async {
+      final _MutableDmViewModel dms = _MutableDmViewModel(
+        _groupDmConversation(
+          groupMembers: const <GroupMemberInfo>[
+            GroupMemberInfo(id: _authorUserId, name: 'Hampus'),
+            GroupMemberInfo(id: _currentUserId, name: 'Tester'),
+            GroupMemberInfo(id: '333333333333333333', name: 'Third Member'),
+          ],
+        ),
+      );
+      final ProviderContainer container = ProviderContainer(
+        overrides: _dmDrawerOverrides(dmViewModel: dms),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const DMLayout(channelId: _channelId),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.text(_groupDmName).first);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      Finder inDrawer(String text) => find.descendant(
+        of: find.byKey(kChannelDetailsDrawerPanelKey),
+        matching: find.text(text),
+      );
+      expect(inDrawer(_groupDmName), findsWidgets);
+      expect(inDrawer('Third Member'), findsOneWidget);
+
+      dms.replace(_groupDmConversation(name: 'Early birds'));
+      await tester.pump();
+      await tester.pump();
+
+      expect(inDrawer('Early birds'), findsWidgets);
+      expect(inDrawer(_groupDmName), findsNothing);
+      expect(inDrawer('Third Member'), findsNothing);
+
+      container.read(channelDetailsDrawerProvider.notifier).close();
+      await tester.pump(const Duration(milliseconds: 600));
+      await _disposeWidgetTree(tester);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+
     testWidgets('switching DMs closes an open drawer', (
       WidgetTester tester,
     ) async {
@@ -1075,31 +1124,61 @@ void main() {
 
 const String _groupDmName = 'Night owls';
 
-List<Override> _dmDrawerOverrides({
-  List<Message> messages = const <Message>[],
+DmConversation _groupDmConversation({
+  String name = _groupDmName,
+  List<GroupMemberInfo> groupMembers = const <GroupMemberInfo>[
+    GroupMemberInfo(id: _authorUserId, name: 'Hampus'),
+    GroupMemberInfo(id: _currentUserId, name: 'Tester'),
+  ],
 }) {
-  final DmConversation groupDm = DmConversation(
+  return DmConversation(
     id: _channelId,
     type: ChannelType.groupDm.wireValue,
     recipientId: _authorUserId,
     recipientName: 'Hampus',
-    name: _groupDmName,
+    name: name,
     lastMessage: '',
     lastMessageTime: DateTime.utc(2026, 10, 14),
-    groupMembers: const <GroupMemberInfo>[
-      GroupMemberInfo(id: _authorUserId, name: 'Hampus'),
-      GroupMemberInfo(id: _currentUserId, name: 'Tester'),
-    ],
+    groupMembers: groupMembers,
   );
+}
+
+List<Override> _dmDrawerOverrides({
+  List<Message> messages = const <Message>[],
+  _MutableDmViewModel? dmViewModel,
+}) {
   return <Override>[
     ..._contentOverrides(
       recorder: _StaticChatViewModel(messages),
-      dmConversations: <DmConversation>[groupDm],
+      dmConversations: <DmConversation>[_groupDmConversation()],
+      dmViewModel: dmViewModel,
     ),
     swipeRightToLeftActionPreferencesProvider.overrideWith(
       _ChannelDetailsSwipePreference.new,
     ),
   ];
+}
+
+class _MutableDmViewModel extends DmViewModel {
+  _MutableDmViewModel(this._initial);
+
+  final DmConversation _initial;
+
+  @override
+  DmViewState build() => _stateWith(_initial);
+
+  void replace(DmConversation conversation) {
+    state = _stateWith(conversation);
+  }
+
+  DmViewState _stateWith(DmConversation conversation) {
+    return DmViewState(
+      conversations: <DmConversation>[conversation],
+      friendsList: const <Friend>[],
+      activeTab: FriendsTab.online,
+      searchQuery: '',
+    );
+  }
 }
 
 class _ChannelDetailsSwipePreference extends SwipeRightToLeftActionPreferences {
@@ -1264,6 +1343,7 @@ List<Override> _contentOverrides({
   required ChatViewModel recorder,
   String? activeChannelId = _channelId,
   List<DmConversation> dmConversations = const <DmConversation>[],
+  DmViewModel? dmViewModel,
 }) {
   final db.FluxerDatabase database = openTestDatabase();
   return <Override>[
@@ -1302,14 +1382,17 @@ List<Override> _contentOverrides({
     appearancePreferencesProvider.overrideWithValue(
       const AppearancePreferencesState(),
     ),
-    dmViewModelProvider.overrideWithValue(
-      DmViewState(
-        conversations: dmConversations,
-        friendsList: const <Friend>[],
-        activeTab: FriendsTab.online,
-        searchQuery: '',
+    if (dmViewModel != null)
+      dmViewModelProvider.overrideWith(() => dmViewModel)
+    else
+      dmViewModelProvider.overrideWithValue(
+        DmViewState(
+          conversations: dmConversations,
+          friendsList: const <Friend>[],
+          activeTab: FriendsTab.online,
+          searchQuery: '',
+        ),
       ),
-    ),
     channelListViewModelProvider.overrideWithValue(
       const ChannelListState(
         guild: null,

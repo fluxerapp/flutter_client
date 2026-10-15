@@ -3,15 +3,18 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_drag_bridge.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_reveal_physics.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
 const Key kChannelDetailsDrawerPanelKey = Key('channel-details-drawer-panel');
 
@@ -288,6 +291,24 @@ class _ChannelDetailsDrawerOverlayState
     );
   }
 
+  Channel? _liveChannel(Channel? opened) {
+    if (opened == null) {
+      return null;
+    }
+    return ref.watch(channelByIdProvider(opened.id)).value ?? opened;
+  }
+
+  DmConversation? _liveDm(DmConversation? opened) {
+    if (opened == null) {
+      return null;
+    }
+    return findDmById(
+          ref.watch(dmViewModelProvider.select((s) => s.conversations)),
+          opened.id,
+        ) ??
+        opened;
+  }
+
   @override
   Widget build(BuildContext context) {
     final ChannelDetailsDrawerState? open = ref.watch(
@@ -320,8 +341,8 @@ class _ChannelDetailsDrawerOverlayState
     final Widget panelChild = panel == null
         ? const SizedBox.shrink()
         : ChannelDetailsSheet(
-            channel: panel.channel,
-            dm: panel.dm,
+            channel: _liveChannel(panel.channel),
+            dm: _liveDm(panel.dm),
             initialTab: panel.initialTab,
             openSearchImmediately: panel.openSearchImmediately,
             scrollController: _scrollController,
