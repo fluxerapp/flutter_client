@@ -360,8 +360,5 @@ bool isMessageInRevealedCollapsedGroup({
     messageId: messageId,
     context: context,
   );
-  if (groupKey == null) {
-    return true;
-  }
-  return revealedCollapsedGroupKey == groupKey;
+  return groupKey != null && revealedCollapsedGroupKey == groupKey;
 }

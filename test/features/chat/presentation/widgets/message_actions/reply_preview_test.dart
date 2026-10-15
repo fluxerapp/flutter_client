@@ -22,6 +22,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/re
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
+import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
@@ -323,6 +325,84 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));
   });
+
+  testWidgets('a reply to a blocked author hides the parent and ignores taps', (
+    tester,
+  ) async {
+    final parent = _message(
+      id: 'parent-1',
+      authorId: '1001',
+      authorName: 'Blocked User',
+      content: 'blocked words',
+    );
+    final reply = _replyTo('parent-1');
+    final _TestChatViewModel viewModel = _TestChatViewModel(
+      _chatState(messages: [parent, reply]),
+    );
+
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatViewModel: viewModel,
+        blockedUserIds: const <String>{'1001'},
+        child: InlineReplyPreview(message: reply),
+      ),
+    );
+
+    expect(
+      find.text('Reply hidden because the original author is blocked.'),
+      findsOneWidget,
+    );
+    expect(find.text('blocked words', findRichText: true), findsNothing);
+
+    await tester.tap(find.byType(InlineReplyPreview));
+    await tester.pump();
+    expect(viewModel.repliedJumps, isEmpty);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
+
+  testWidgets('a blocked parent outside the window stays hidden', (
+    tester,
+  ) async {
+    final _GatedMessageRepository repository = _GatedMessageRepository();
+    final reply = _replyTo('parent-1');
+    final _TestChatViewModel viewModel = _TestChatViewModel(
+      _chatState(messages: [reply]),
+    );
+
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatViewModel: viewModel,
+        repository: repository,
+        blockedUserIds: const <String>{'1001'},
+        child: InlineReplyPreview(message: reply),
+      ),
+    );
+    await tester.pumpAndSettle();
+    repository.parent.complete(
+      _message(
+        id: 'parent-1',
+        authorId: '1001',
+        authorName: 'Blocked User',
+        content: 'blocked words',
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Reply hidden because the original author is blocked.'),
+      findsOneWidget,
+    );
+    expect(find.text('blocked words', findRichText: true), findsNothing);
+
+    await tester.tap(find.byType(InlineReplyPreview));
+    await tester.pump();
+    expect(viewModel.repliedJumps, isEmpty);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
 }
 
 Widget _buildTestApp({
@@ -330,6 +410,7 @@ Widget _buildTestApp({
   ChatViewState? chatState,
   _TestChatViewModel? chatViewModel,
   MessageRepository? repository,
+  Set<String> blockedUserIds = const <String>{},
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -343,6 +424,14 @@ Widget _buildTestApp({
       fluxerDatabaseProvider.overrideWithValue(_database),
       if (repository != null)
         messageRepositoryProvider.overrideWithValue(repository),
+      channelCollapseContextProvider.overrideWithValue(
+        ChannelCollapseContext(
+          treatSpam: true,
+          currentUserId: null,
+          blockedUserIds: blockedUserIds,
+          isUserMarkedAsSpammer: (_, _) => false,
+        ),
+      ),
     ],
     child: MaterialApp(
       locale: kTestLocale,
@@ -362,6 +451,15 @@ class _TestChatViewModel extends ChatViewModel {
   _TestChatViewModel(this._initialState);
 
   final ChatViewState _initialState;
+  final List<String> repliedJumps = <String>[];
+
+  @override
+  Future<void> goToRepliedMessage({
+    required String channelId,
+    required String messageId,
+  }) async {
+    repliedJumps.add(messageId);
+  }
 
   void write(List<Message> messages, MessagesOrigin origin) {
     state = state.copyWith(write: (messages: messages, origin: origin));

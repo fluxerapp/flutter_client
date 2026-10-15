@@ -90,13 +90,13 @@ class InlineReplyPreview extends ConsumerWidget {
     final ChannelStreamType? replyCollapsedType = replyMsg == null
         ? null
         : collapseContext.collapsedTypeFor(replyMsg);
-    final bool isReplyVisible =
-        replyMsg == null ||
-        replyCollapsedType == null ||
+    final bool isReplyRevealed =
+        replyMsg != null &&
+        replyCollapsedType != null &&
         ref.watch(
           chatViewModelProvider.select(
             (ChatViewState state) =>
-                state.channelId != parentChannelId ||
+                state.channelId == parentChannelId &&
                 isMessageInRevealedCollapsedGroup(
                   messages: state.messages,
                   messageId: replyMsg.id,
@@ -105,9 +105,9 @@ class InlineReplyPreview extends ConsumerWidget {
                 ),
           ),
         );
-    final ChannelStreamType? hiddenReplyType = !isReplyVisible
-        ? replyCollapsedType
-        : null;
+    final ChannelStreamType? hiddenReplyType = isReplyRevealed
+        ? null
+        : replyCollapsedType;
     final String? hiddenReplyLabel = switch (hiddenReplyType) {
       ChannelStreamType.messageGroupBlocked =>
         l10n.chatReplyHiddenBlockedAuthor,
@@ -142,7 +142,9 @@ class InlineReplyPreview extends ConsumerWidget {
 
     return FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: resolution.state == MessageReferenceState.deleted
+      onTap:
+          resolution.state == MessageReferenceState.deleted ||
+              hiddenReplyLabel != null
           ? null
           : () => unawaited(
               ref
