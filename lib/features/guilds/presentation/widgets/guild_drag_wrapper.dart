@@ -145,7 +145,7 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
     required this.child,
     this.enabled = true,
     this.allowCombine = true,
-    this.onLongPressMenu,
+    this.longPressMenu,
     this.folderPeekMenu,
     this.onPeekOpened,
     super.key,
@@ -157,7 +157,7 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
   final bool allowCombine;
   final Widget dragFeedback;
   final Widget child;
-  final Future<void> Function()? onLongPressMenu;
+  final ValueGetter<GuildLongPressMenu?>? longPressMenu;
   final SidebarPeekContent? folderPeekMenu;
   final VoidCallback? onPeekOpened;
 
@@ -283,8 +283,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
                   ),
             onDragStarted: (double? anchorGlobalCenterX) {
               final bool hasLongPressOverlayHost =
-                  widget.onLongPressMenu != null ||
-                  widget.folderPeekMenu != null;
+                  widget.longPressMenu != null || widget.folderPeekMenu != null;
               if (useTouchDrag && !hasLongPressOverlayHost) {
                 FluxerHaptics.medium();
               }
@@ -324,11 +323,12 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
         child: peekHostChild,
       );
     }
-    final Future<void> Function()? onLongPressMenu = widget.onLongPressMenu;
-    if (onLongPressMenu != null && useTouchDrag) {
+    final ValueGetter<GuildLongPressMenu?>? longPressMenu =
+        widget.longPressMenu;
+    if (longPressMenu != null && useTouchDrag) {
       return GuildLongPressMenuHost(
         itemId: widget.itemId,
-        onLongPressMenu: onLongPressMenu,
+        menu: longPressMenu,
         child: peekHostChild,
       );
     }

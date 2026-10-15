@@ -17,6 +17,10 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:go_router/go_router.dart';
 
+void dismissGuildBottomSheet(BuildContext context) {
+  closeFluxerSheetOpenedFrom(context, useRootNavigator: true);
+}
+
 Future<GuildAction?> showGuildBottomSheet(
   BuildContext context, {
   required Guild guild,

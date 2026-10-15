@@ -129,6 +129,23 @@ Future<T?> _pushFluxerSheetRoute<T>(
 final Expando<FluxerSheetRoute<dynamic>> _lastSheetByNavigator =
     Expando<FluxerSheetRoute<dynamic>>();
 
+void closeFluxerSheetOpenedFrom(
+  BuildContext context, {
+  bool useRootNavigator = false,
+}) {
+  final NavigatorState? navigator = Navigator.maybeOf(
+    context,
+    rootNavigator: useRootNavigator,
+  );
+  final FluxerSheetRoute<dynamic>? last = navigator == null
+      ? null
+      : _lastSheetByNavigator[navigator];
+  if (last == null || !identical(last.origin, ModalRoute.of(context))) {
+    return;
+  }
+  last.closeSelf();
+}
+
 Future<void> handOffFluxerSheet(BuildContext context) {
   final NavigatorState? navigator = Navigator.maybeOf(context);
   final FluxerSheetRoute<dynamic>? closing = navigator == null

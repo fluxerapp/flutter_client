@@ -1,9 +1,12 @@
 part of 'guild_navbar.dart';
 
 class _GuildListItemState extends State<_GuildListItem>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin
+    implements GuildLongPressMenu {
   var _isHovered = false;
   var _isPressed = false;
+  Future<({int permissions, bool canInvite})>? _menuData;
+  bool _menuDismissed = false;
 
   void _setPressed(bool value) {
     if (_isPressed != value) {
@@ -267,6 +270,34 @@ class _GuildListItemState extends State<_GuildListItem>
     }
   }
 
+  @override
+  void prepareMenu() {
+    if (widget.guild == null || !isMobileLayout(context)) {
+      return;
+    }
+    _menuData = _resolveMenuData();
+  }
+
+  @override
+  void openMenu() => unawaited(showActionSheet());
+
+  @override
+  void dismissMenu() {
+    _menuData = null;
+    _menuDismissed = true;
+    dismissGuildBottomSheet(context);
+  }
+
+  Future<({int permissions, bool canInvite})> _resolveMenuData() async {
+    final int permissions = widget.resolveMenuPermissions != null
+        ? await widget.resolveMenuPermissions!()
+        : widget.permissions;
+    final bool canInvite = widget.resolveCanInvite != null
+        ? await widget.resolveCanInvite!()
+        : hasPermission(permissions, Permission.createInstantInvite);
+    return (permissions: permissions, canInvite: canInvite);
+  }
+
   Future<void> showActionSheet() async {
     if (widget.guild == null) {
       return;
@@ -276,13 +307,12 @@ class _GuildListItemState extends State<_GuildListItem>
     if (!isMobile) {
       return;
     }
-    final int permissions = widget.resolveMenuPermissions != null
-        ? await widget.resolveMenuPermissions!()
-        : widget.permissions;
-    final bool canInvite = widget.resolveCanInvite != null
-        ? await widget.resolveCanInvite!()
-        : hasPermission(permissions, Permission.createInstantInvite);
-    if (!mounted) {
+    _menuDismissed = false;
+    final Future<({int permissions, bool canInvite})> pending =
+        _menuData ?? _resolveMenuData();
+    _menuData = null;
+    final ({int permissions, bool canInvite}) data = await pending;
+    if (!mounted || _menuDismissed) {
       return;
     }
     final action = await showGuildBottomSheet(
@@ -291,8 +321,8 @@ class _GuildListItemState extends State<_GuildListItem>
       hasUnread: widget.hasUnread,
       isMuted: widget.isMuted,
       isOwner: widget.isOwner,
-      permissions: permissions,
-      canInvite: canInvite,
+      permissions: data.permissions,
+      canInvite: data.canInvite,
       muteEndTime: widget.muteEndTime,
       hideMutedChannels: widget.hideMutedChannels,
       developerMode: widget.developerMode,

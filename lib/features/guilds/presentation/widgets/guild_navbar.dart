@@ -50,6 +50,8 @@ import 'package:fluxer_app/features/guilds/presentation/'
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_folder_settings_modal.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/guild_long_press_menu_host.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_navbar_dm_transition.dart';
@@ -604,8 +606,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
             iconUrl: guild.iconUrl,
             isUnavailable: guild.unavailable,
           ),
-          onLongPressMenu: isMobileLayout(context)
-              ? () async => itemKey.currentState?.showActionSheet()
+          longPressMenu: isMobileLayout(context)
+              ? () => itemKey.currentState
               : null,
           child: _buildGuildItem(
             context,

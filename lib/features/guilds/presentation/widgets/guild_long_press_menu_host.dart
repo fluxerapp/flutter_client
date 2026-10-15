@@ -7,16 +7,24 @@ import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
+abstract interface class GuildLongPressMenu {
+  void prepareMenu();
+
+  void openMenu();
+
+  void dismissMenu();
+}
+
 class GuildLongPressMenuHost extends ConsumerStatefulWidget {
   const GuildLongPressMenuHost({
     required this.itemId,
-    required this.onLongPressMenu,
+    required this.menu,
     required this.child,
     super.key,
   });
 
   final String itemId;
-  final Future<void> Function() onLongPressMenu;
+  final ValueGetter<GuildLongPressMenu?> menu;
   final Widget child;
 
   @override
@@ -30,7 +38,7 @@ class _GuildLongPressMenuHostState
   Offset? _pointerDownPosition;
   int? _activePointer;
   bool _suppressMenuForSession = false;
-  bool _holdThresholdReached = false;
+  bool _menuOpened = false;
 
   @override
   void dispose() {
@@ -45,8 +53,9 @@ class _GuildLongPressMenuHostState
     _activePointer = event.pointer;
     _pointerDownPosition = event.position;
     _suppressMenuForSession = false;
-    _holdThresholdReached = false;
+    _menuOpened = false;
     _holdTimer?.cancel();
+    widget.menu()?.prepareMenu();
     _holdTimer = Timer(kGuildPeekHoldDelay, () {
       if (!mounted || _activePointer != event.pointer) {
         return;
@@ -54,8 +63,9 @@ class _GuildLongPressMenuHostState
       if (_suppressMenuForSession) {
         return;
       }
-      _holdThresholdReached = true;
+      _menuOpened = true;
       FluxerHaptics.medium();
+      widget.menu()?.openMenu();
     });
   }
 
@@ -63,21 +73,23 @@ class _GuildLongPressMenuHostState
     if (_activePointer != event.pointer) {
       return;
     }
-    if (shouldCancelGuildPeekHold(
-      pointerDownPosition: _pointerDownPosition,
-      currentPosition: event.position,
-    )) {
+    if (!_menuOpened &&
+        shouldCancelGuildPeekHold(
+          pointerDownPosition: _pointerDownPosition,
+          currentPosition: event.position,
+        )) {
       _suppressMenuForSession = true;
       _holdTimer?.cancel();
-      _holdThresholdReached = false;
     }
   }
 
-  Future<void> _openMenuIfNeeded() async {
-    if (!_holdThresholdReached || _suppressMenuForSession) {
-      return;
+  void _dismissOpenedMenu() {
+    _suppressMenuForSession = true;
+    _holdTimer?.cancel();
+    if (_menuOpened) {
+      _menuOpened = false;
+      widget.menu()?.dismissMenu();
     }
-    await widget.onLongPressMenu();
   }
 
   void _resetPointerSession() {
@@ -85,14 +97,13 @@ class _GuildLongPressMenuHostState
     _activePointer = null;
     _pointerDownPosition = null;
     _suppressMenuForSession = false;
-    _holdThresholdReached = false;
+    _menuOpened = false;
   }
 
   void _handlePointerUp(PointerUpEvent event) {
     if (_activePointer != event.pointer) {
       return;
     }
-    unawaited(_openMenuIfNeeded());
     _resetPointerSession();
   }
 
@@ -110,9 +121,7 @@ class _GuildLongPressMenuHostState
       DragState next,
     ) {
       if (next.dragItemId == widget.itemId && next.hasMovedFromHoldPoint) {
-        _suppressMenuForSession = true;
-        _holdTimer?.cancel();
-        _holdThresholdReached = false;
+        _dismissOpenedMenu();
       }
     });
 

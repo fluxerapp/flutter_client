@@ -366,8 +366,8 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             iconUrl: guild.iconUrl,
             isUnavailable: guild.unavailable,
           ),
-          onLongPressMenu: isMobileLayout(context)
-              ? () async => itemKey.currentState?.showActionSheet()
+          longPressMenu: isMobileLayout(context)
+              ? () => itemKey.currentState
               : null,
           child: _GuildListItem(
             key: itemKey,
