@@ -196,6 +196,25 @@ class ChannelListViewModel extends _$ChannelListViewModel {
         );
   }
 
+  void forgetGuild(String guildId) {
+    _categoryCache.remove(guildId);
+    if (_currentGuildId != guildId) {
+      return;
+    }
+    _currentGuildId = null;
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    unawaited(_guildSubscription?.cancel());
+    _guildSubscription = null;
+    state = ChannelListState(
+      guild: null,
+      categories: const <ChannelCategory>[],
+      selectedChannelId: null,
+      isMemberListVisible: state.isMemberListVisible,
+      defaultHiddenChannelMembersOpen: state.defaultHiddenChannelMembersOpen,
+    );
+  }
+
   void toggleMemberList({
     required String channelId,
     required ChannelType? channelType,

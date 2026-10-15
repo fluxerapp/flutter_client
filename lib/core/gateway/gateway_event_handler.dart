@@ -167,6 +167,7 @@ class GatewayEventHandler {
     this.onInviteDelete,
     this.onGuildPermissionsChanged,
     this.onGuildPermissionsEvict,
+    this.onGuildRemove,
     this.onChannelPermissionChanged,
     this.onChannelDelete,
     this.onSavedMessageCreate,
@@ -245,6 +246,7 @@ class GatewayEventHandler {
   final InviteDeleteCallback? onInviteDelete;
   final GuildCallback? onGuildPermissionsChanged;
   final GuildCallback? onGuildPermissionsEvict;
+  final GuildCallback? onGuildRemove;
   final ChannelCallback? onChannelPermissionChanged;
   final ChannelCallback? onChannelDelete;
   final SavedMessageCreateCallback? onSavedMessageCreate;
@@ -2867,6 +2869,7 @@ class GatewayEventHandler {
   Future<void> _removeGuildLocally(String guildId) async {
     await removeGuildFromLocalDb(database, guildId);
     _emit(() => onGuildPermissionsEvict?.call(guildId));
+    _emit(() => onGuildRemove?.call(guildId));
   }
 
   void _handleRelationshipUpsert(RelationshipResponse relationship) {

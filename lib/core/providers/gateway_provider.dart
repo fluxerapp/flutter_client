@@ -373,6 +373,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         ref.read(channelPermissionCacheProvider.notifier).evictGuild(guildId),
       );
     }),
+    onGuildRemove: (guildId) => ifMounted(() {
+      DrawerNavigationCoordinator.leaveDeletedGuild(ref.container, guildId);
+    }),
     onChannelPermissionChanged: (channelId) => ifMounted(() {
       unawaited(
         ref

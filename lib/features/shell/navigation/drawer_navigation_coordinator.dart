@@ -109,6 +109,19 @@ class DrawerNavigationCoordinator {
     container.read(fluxerRouterProvider).go(path);
   }
 
+  static void leaveDeletedGuild(ProviderContainer container, String guildId) {
+    container.read(channelListViewModelProvider.notifier).forgetGuild(guildId);
+    final String location = container
+        .read(routeStateProvider)
+        .effectiveShellLocation;
+    if (extractGuildId(location) != guildId) {
+      return;
+    }
+    talker.debug('[DrawerNavigation] leaveDeletedGuild guildId=$guildId');
+    revealDrawer(container);
+    container.read(fluxerRouterProvider).go(RoutePaths.me);
+  }
+
   static void selectFavorites(ProviderContainer container) {
     talker.debug('[DrawerNavigation] selectFavorites');
     revealDrawer(container);
