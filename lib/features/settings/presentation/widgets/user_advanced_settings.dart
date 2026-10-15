@@ -415,7 +415,9 @@ class UserAdvancedSettings extends ConsumerWidget {
                 label: l10n.advancedPerformanceReportingLabel,
                 description: l10n.advancedCrashReportingDescription,
                 value: ref.watch(observabilityReportingProvider),
-                enabled: observabilityReportingIsAvailable(),
+                enabled: observabilityReportingIsAvailable(
+                  ref.watch(fluxerObservabilityProvider),
+                ),
                 onChanged: (bool value) => ref
                     .read(observabilityReportingProvider.notifier)
                     .setEnabled(value: value),

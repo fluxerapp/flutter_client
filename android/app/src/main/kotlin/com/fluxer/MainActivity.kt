@@ -58,6 +58,7 @@ class MainActivity : AudioServiceActivity() {
         AppRestartBridge(this).register(flutterEngine)
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)
+        MeasureReporting.register(flutterEngine, application)
     }
 
     private fun deferOAuthDeepLinkToBrowser(intent: Intent?): Boolean {

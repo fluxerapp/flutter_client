@@ -18,24 +18,56 @@ import flutter_callkit_incoming
     UNUserNotificationCenter.current().delegate = self
     ApplePushBridge.shared.registerReplyCategory()
     AssistantAppShortcuts.updateAppShortcutParameters()
-    configureMeasureIfNeeded()
+    startMeasureIfEnabled()
     return result
   }
 
-  private func configureMeasureIfNeeded() {
+  private static let measureReportingEnabledKey = "flutter.observability_reporting_enabled"
+  private var measureInitialized = false
+  private var measureReportingChannel: FlutterMethodChannel?
+
+  private func startMeasureIfEnabled() {
+    guard UserDefaults.standard.bool(forKey: Self.measureReportingEnabledKey) else {
+      return
+    }
+    if initializeMeasure() {
+      Measure.start()
+    }
+  }
+
+  private func initializeMeasure() -> Bool {
+    if measureInitialized {
+      return true
+    }
     let measureInfo = Bundle.main.infoDictionary
     let measureApiKey = measureInfo?["MeasureApiKey"] as? String ?? ""
     let measureApiUrl = measureInfo?["MeasureApiUrl"] as? String ?? ""
     if measureApiKey.isEmpty || measureApiUrl.isEmpty {
-      #if DEBUG
-        NSLog(
-          "[Measure] Native init skipped"
-        )
-      #endif
-      return
+      return false
     }
     let clientInfo = ClientInfo(apiKey: measureApiKey, apiUrl: measureApiUrl)
-    Measure.initialize(with: clientInfo, config: BaseMeasureConfig())
+    Measure.initialize(with: clientInfo, config: BaseMeasureConfig(autoStart: false))
+    measureInitialized = true
+    return true
+  }
+
+  private func registerMeasureReporting(messenger: FlutterBinaryMessenger) {
+    if measureReportingChannel != nil {
+      return
+    }
+    let channel = FlutterMethodChannel(
+      name: "fluxer_app/measure_reporting",
+      binaryMessenger: messenger
+    )
+    channel.setMethodCallHandler { [weak self] call, result in
+      switch call.method {
+      case "initialize":
+        result(self?.initializeMeasure() ?? false)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+    measureReportingChannel = channel
   }
 
   override func application(
@@ -134,6 +166,7 @@ import flutter_callkit_incoming
     AppStoreDistributionBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
+    registerMeasureReporting(messenger: engineBridge.applicationRegistrar.messenger())
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {

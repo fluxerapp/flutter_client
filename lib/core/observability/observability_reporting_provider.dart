@@ -6,26 +6,32 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'observability_reporting_provider.g.dart';
 
-const String _kObservabilityReportingEnabledKey =
+const String kObservabilityReportingEnabledKey =
     'observability_reporting_enabled';
 
-bool observabilityReportingIsAvailable() {
-  return AppBuildConfig.hasObservabilityConfig &&
-      FluxerObservability.instance.isSdkAvailable;
+bool observabilityReportingIsAvailable(FluxerObservability observability) {
+  return AppBuildConfig.hasObservabilityConfig && observability.isSdkAvailable;
 }
+
+@Riverpod(keepAlive: true)
+FluxerObservability fluxerObservability(Ref ref) =>
+    FluxerObservability.instance;
 
 @Riverpod(keepAlive: true)
 class ObservabilityReporting extends _$ObservabilityReporting {
   @override
   bool build() => false;
 
+  FluxerObservability get _observability =>
+      ref.read(fluxerObservabilityProvider);
+
   Future<void> load() async {
-    if (!observabilityReportingIsAvailable()) {
+    if (!observabilityReportingIsAvailable(_observability)) {
       return;
     }
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final bool isEnabled =
-        preferences.getBool(_kObservabilityReportingEnabledKey) ?? false;
+        preferences.getBool(kObservabilityReportingEnabledKey) ?? false;
     state = isEnabled;
     if (!isEnabled) {
       return;
@@ -34,31 +40,28 @@ class ObservabilityReporting extends _$ObservabilityReporting {
   }
 
   Future<void> setEnabled({required bool value}) async {
-    if (!observabilityReportingIsAvailable()) {
+    if (!observabilityReportingIsAvailable(_observability)) {
       return;
     }
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(_kObservabilityReportingEnabledKey, value);
     if (value) {
       await _start();
     } else {
-      await FluxerObservability.instance.stop();
+      await _observability.stop();
     }
-    state = value;
+    final bool enabled = value && _observability.isEnabled;
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kObservabilityReportingEnabledKey, enabled);
+    state = enabled;
   }
 
   Future<void> _start() async {
-    if (!FluxerObservability.instance.isSdkAvailable) {
-      state = false;
-      return;
-    }
     try {
       final runtimeInfo = await ref.read(appRuntimeInfoProvider.future);
-      await FluxerObservability.instance.start(runtimeInfo: runtimeInfo);
+      await _observability.start(runtimeInfo: runtimeInfo);
     } on Object {
-      await FluxerObservability.instance.start();
+      await _observability.start();
     }
-    if (!FluxerObservability.instance.isEnabled) {
+    if (!_observability.isEnabled) {
       state = false;
     }
   }
