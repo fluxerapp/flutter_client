@@ -30,6 +30,7 @@ void main() {
     });
 
     test('uses well-known gift base host and path', () {
+      InstanceEndpoints.selfHosted = true;
       InstanceEndpoints.gift = 'https://gifts.example.test/claim';
       expect(msg('https://gifts.example.test/claim/SELFHOST1').gifts, <String>[
         'SELFHOST1',
@@ -42,6 +43,38 @@ void main() {
       expect(msg('https://gifts.example.test/CODE99').gifts, <String>[
         'CODE99',
       ]);
+    });
+
+    test('keeps the port of a self-hosted gift base', () {
+      InstanceEndpoints.selfHosted = true;
+      InstanceEndpoints.gift = 'http://192.168.0.145:38480/gift';
+      InstanceEndpoints.webApp = 'http://192.168.0.145:38480';
+      expect(
+        msg('gift http://192.168.0.145:38480/gift/s3FS84mYpJYo8j3dqVY').gifts,
+        <String>['s3FS84mYpJYo8j3dqVY'],
+      );
+      expect(msg('http://192.168.0.145:9999/gift/OTHERPORT').gifts, isEmpty);
+    });
+
+    test('matches the web app host and its hash route', () {
+      InstanceEndpoints.selfHosted = true;
+      InstanceEndpoints.gift = 'https://gifts.example.test';
+      InstanceEndpoints.webApp = 'https://chat.example.test:8443';
+      expect(
+        msg(
+          'https://chat.example.test:8443/gift/WEB1 '
+          'https://chat.example.test:8443/#/gift/HASH1',
+        ).gifts,
+        <String>['WEB1', 'HASH1'],
+      );
+    });
+
+    test('matches official gift hosts only off self-hosted instances', () {
+      const content = 'https://fluxer.gift/OFFICIAL1';
+      InstanceEndpoints.gift = 'https://gifts.example.test';
+      expect(msg(content).gifts, <String>['OFFICIAL1']);
+      InstanceEndpoints.selfHosted = true;
+      expect(msg(content).gifts, isEmpty);
     });
 
     test('dedupes repeated codes', () {

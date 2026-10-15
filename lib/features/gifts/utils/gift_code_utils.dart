@@ -5,7 +5,18 @@ const int kMaxGiftCodesPerMessage = 10;
 
 const String _giftCodeCapture = r'([a-zA-Z0-9\-]{2,32})(?![a-zA-Z0-9\-])';
 
-String? _cachedGiftBase;
+const List<String> kOfficialGiftUrlBases = <String>[
+  'https://fluxer.app/gift',
+  'https://canary.fluxer.app/gift',
+  'https://web.fluxer.app/gift',
+  'https://web.canary.fluxer.app/gift',
+  'https://fluxer.com/gift',
+  'https://canary.fluxer.com/gift',
+  'https://fluxer.gift',
+  'https://fluxer.gift/gift',
+];
+
+String? _cachedGiftKey;
 RegExp? _cachedGiftRegExp;
 
 String? normalizeGiftUrlBase(String urlBase) {
@@ -23,7 +34,8 @@ String? normalizeGiftUrlBase(String urlBase) {
     if (uri.host.isEmpty) {
       return null;
     }
-    return '${uri.host}$path'.toLowerCase();
+    final String port = uri.hasPort ? ':${uri.port}' : '';
+    return '${uri.host}$port$path'.toLowerCase();
   } on FormatException {
     return trimmed
         .replaceFirst(RegExp('^https?://', caseSensitive: false), '')
@@ -31,20 +43,34 @@ String? normalizeGiftUrlBase(String urlBase) {
   }
 }
 
-RegExp giftCodesRegExpFor(String giftBaseUrl) {
-  final String? normalized = normalizeGiftUrlBase(giftBaseUrl);
-  if (normalized == null) {
+RegExp giftCodesRegExpFor(List<String> urlBases) {
+  final List<String> bases =
+      <String>{
+        for (final String base in urlBases) ?normalizeGiftUrlBase(base),
+      }.toList()..sort((a, b) {
+        final int byLength = b.length.compareTo(a.length);
+        return byLength != 0 ? byLength : a.compareTo(b);
+      });
+  if (bases.isEmpty) {
     return RegExp('(?!)');
   }
-  if (_cachedGiftBase == normalized && _cachedGiftRegExp != null) {
+  final String key = bases.join('|');
+  if (_cachedGiftKey == key && _cachedGiftRegExp != null) {
     return _cachedGiftRegExp!;
   }
-  final String escaped = RegExp.escape(normalized);
+  final String branches = bases
+      .map((String base) {
+        final int slash = base.indexOf('/');
+        final String host = slash == -1 ? base : base.substring(0, slash);
+        final String path = slash == -1 ? '' : base.substring(slash);
+        return '${RegExp.escape(host)}(?:/#)?${RegExp.escape(path)}';
+      })
+      .join('|');
   final RegExp pattern = RegExp(
-    '(?:https?://)?$escaped/$_giftCodeCapture',
+    '(?:https?://)?(?:$branches)/$_giftCodeCapture',
     caseSensitive: false,
   );
-  _cachedGiftBase = normalized;
+  _cachedGiftKey = key;
   _cachedGiftRegExp = pattern;
   return pattern;
 }
@@ -55,7 +81,13 @@ List<String> findGiftCodes(
   int limit = kMaxGiftCodesPerMessage,
 }) {
   final RegExp pattern = giftCodesRegExpFor(
-    giftBaseUrl ?? InstanceEndpoints.gift,
+    giftBaseUrl != null
+        ? <String>[giftBaseUrl]
+        : <String>[
+            InstanceEndpoints.gift,
+            '${InstanceEndpoints.webApp}/gift',
+            if (!InstanceEndpoints.selfHosted) ...kOfficialGiftUrlBases,
+          ],
   );
   final seen = <String>{};
   final result = <String>[];
