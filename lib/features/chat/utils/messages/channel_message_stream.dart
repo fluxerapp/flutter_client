@@ -143,6 +143,7 @@ class ChannelStreamIndex {
   final Map<String, int> _itemByGroupKey = <String, int>{};
   final Map<String, int> _itemByDividerKey = <String, int>{};
   final Map<String, int> _windowIndexByMessageId = <String, int>{};
+  final Map<String, String> _groupByMessageId = <String, String>{};
 
   int? itemOfMessage(String messageId) => _itemByMessageId[messageId];
 
@@ -151,6 +152,8 @@ class ChannelStreamIndex {
   int? itemOfDivider(String dividerKey) => _itemByDividerKey[dividerKey];
 
   int? windowIndexOf(String messageId) => _windowIndexByMessageId[messageId];
+
+  String? groupOfMessage(String messageId) => _groupByMessageId[messageId];
 }
 
 List<ChannelStreamItem> createChannelStream({
@@ -252,6 +255,10 @@ createIndexedChannelStream({
     }
     index._itemByMessageId.putIfAbsent(message.id, () => stream.length - 1);
     index._windowIndexByMessageId.putIfAbsent(message.id, () => i);
+    final String? targetGroupKey = targetItem.groupKey;
+    if (targetGroupKey != null) {
+      index._groupByMessageId[message.id] = targetGroupKey;
+    }
 
     if (unreadBoundaryPending && oldestUnreadMessageId == message.id) {
       final ChannelStreamItem? previousItem = stream.length > 1

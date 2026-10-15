@@ -1432,8 +1432,13 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
+  String _streamTileKeyFor(String messageId) {
+    final String? groupKey = _builtStreamIndex.groupOfMessage(messageId);
+    return groupKey == null ? 'msg-$messageId' : 'group-$groupKey';
+  }
+
   RenderBox? _streamTileBox(String messageId) {
-    final String target = 'msg-$messageId';
+    final String target = _streamTileKeyFor(messageId);
     RenderBox? found;
     _forEachStreamTile((String keyValue, Element element) {
       if (keyValue != target) {
@@ -1453,18 +1458,19 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (messageIds.isEmpty) {
       return const <String, RenderBox>{};
     }
-    final Set<String> remaining = messageIds.toSet();
+    final Map<String, List<String>> remaining = <String, List<String>>{};
+    for (final String id in messageIds) {
+      (remaining[_streamTileKeyFor(id)] ??= <String>[]).add(id);
+    }
     final Map<String, RenderBox> found = <String, RenderBox>{};
     _forEachStreamTile((String keyValue, Element element) {
-      if (keyValue.startsWith('msg-')) {
-        final String id = keyValue.substring(4);
-        if (remaining.contains(id)) {
-          final RenderObject? renderObject = element.renderObject;
-          if (renderObject is RenderBox && renderObject.hasSize) {
-            found[id] = renderObject;
-            remaining.remove(id);
-          }
+      final List<String>? ids = remaining[keyValue];
+      final RenderObject? renderObject = element.renderObject;
+      if (ids != null && renderObject is RenderBox && renderObject.hasSize) {
+        for (final String id in ids) {
+          found[id] = renderObject;
         }
+        remaining.remove(keyValue);
       }
       return remaining.isEmpty;
     });
@@ -1472,7 +1478,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   BuildContext? _findStreamTileContext(String messageId) {
-    final String target = 'msg-$messageId';
+    final String target = _streamTileKeyFor(messageId);
     BuildContext? found;
     _forEachStreamTile((String keyValue, Element element) {
       if (keyValue == target) {

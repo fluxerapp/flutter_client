@@ -1115,6 +1115,93 @@ void main() {
     );
 
     testWidgets(
+      'unread open into collapsed blocked runs rests on the composer',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        const String blockedAuthorId = 'blocked-author';
+        final List<Message> messages = <Message>[
+          for (int index = 0; index < 6; index += 1)
+            harnessMessage(
+              id: snowflakeForUtc(DateTime.utc(2026, 10, 13, 12, index)),
+              content: 'read message $index',
+              timestamp: DateTime.utc(2026, 10, 13, 12, index),
+            ),
+          for (final int day in <int>[14, 15])
+            for (int index = 0; index < 20; index += 1)
+              harnessMessage(
+                id: snowflakeForUtc(DateTime.utc(2026, 10, day, 12, index)),
+                authorId: blockedAuthorId,
+                content: 'blocked message $day-$index',
+                timestamp: DateTime.utc(2026, 10, day, 12, index),
+              ),
+        ];
+        final String ackId = messages[25].id;
+        final db.FluxerDatabase database = openTestDatabase();
+        await database.readStateDao.upsertReadState(
+          db.ReadStatesCompanion(
+            channelId: const Value<String>(messageListChannelId),
+            lastMessageId: Value<String?>(ackId),
+          ),
+        );
+        final InstrumentedChatViewModel chatViewModel =
+            InstrumentedChatViewModel(
+              ChatViewState(
+                channelId: messageListChannelId,
+                messages: messages,
+                replyingTo: null,
+                replyMentioning: false,
+                editingMessage: null,
+                messageText: '',
+                scrollToBottomSignal: 0,
+                isLoading: false,
+                isSyncingMessages: false,
+                isLoadingMore: false,
+                isLoadingNewer: false,
+                hasMoreMessages: false,
+                hasMoreNewerMessages: false,
+                errorMessage: null,
+              ),
+            );
+
+        await tester.pumpWidget(
+          messageListApp(
+            database: database,
+            chatViewModel: chatViewModel,
+            blockedUserIds: const <String>{blockedAuthorId},
+          ),
+        );
+        await pumpFluxerFrames(tester);
+
+        final Finder groups = find.byType(BlockedMessageGroups);
+        expect(groups, findsNWidgets(2));
+        expect(find.text('NEW'), findsOneWidget);
+        expect(find.text('20 blocked messages'), findsNWidgets(2));
+
+        final Rect viewport = tester.getRect(messageListScrollable());
+        final double composerTop =
+            viewport.bottom -
+            tester
+                .widget<MessageListViewport>(find.byType(MessageListViewport))
+                .trailingInset;
+        expect(
+          tester.getRect(groups.last).bottom,
+          moreOrLessEquals(composerTop, epsilon: 1),
+          reason: 'the newest collapsed run must rest on the composer',
+        );
+        expect(
+          tester.getRect(find.text('NEW')).bottom,
+          lessThan(tester.getRect(groups.last).top + 1),
+        );
+
+        await disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
       'short unread pack settles once without bouncing back toward mid',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(420, 640);
