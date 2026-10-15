@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_app/core/push/android_push_channels.dart';
 import 'package:fluxer_app/core/push/android_push_conversation_history.dart';
@@ -44,6 +46,28 @@ List<PushConversationLine> pushConversationLinesWithoutMedia(
           senderKey: line.senderKey,
           body: line.body,
           timestampMs: line.timestampMs,
+        ),
+      )
+      .toList(growable: false);
+}
+
+List<PushConversationLine> pushConversationLinesWithExistingMedia(
+  List<PushConversationLine> lines, {
+  bool Function(String path)? fileExists,
+}) {
+  final bool Function(String path) exists =
+      fileExists ?? (String path) => File(path).existsSync();
+  String? existing(String? path) => path != null && exists(path) ? path : null;
+  return lines
+      .map(
+        (PushConversationLine line) => PushConversationLine(
+          messageId: line.messageId,
+          senderName: line.senderName,
+          senderKey: line.senderKey,
+          body: line.body,
+          timestampMs: line.timestampMs,
+          avatarPath: existing(line.avatarPath),
+          imagePath: existing(line.imagePath),
         ),
       )
       .toList(growable: false);

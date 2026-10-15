@@ -73,4 +73,48 @@ void main() {
       expect(messages.single.dataUri, contains('push.jpg'));
     });
   });
+
+  test('a reaped avatar file does not strip the avatars of newer lines', () {
+    final List<PushConversationLine> lines =
+        pushConversationLinesWithExistingMedia(<PushConversationLine>[
+          const PushConversationLine(
+            messageId: '1',
+            senderName: 'Alice',
+            senderKey: 'a',
+            body: 'old',
+            timestampMs: 1000,
+            avatarPath: '/cache/reaped/avatar.jpg',
+            imagePath: '/cache/reaped/image.jpg',
+          ),
+          const PushConversationLine(
+            messageId: '2',
+            senderName: 'Bob',
+            senderKey: 'b',
+            body: 'new',
+            timestampMs: 2000,
+            avatarPath: '/cache/live/avatar.jpg',
+          ),
+        ], fileExists: (String path) => path.startsWith('/cache/live/'));
+    final AndroidNotificationDetails details =
+        buildAndroidConversationNotificationDetails(
+          androidChannelId: 'fluxer_messages',
+          androidChannelName: 'Messages',
+          payload: const <String, String>{'guild_id': '1'},
+          lines: lines,
+          conversationTag: 'channel:1',
+          alert: true,
+        );
+    final MessagingStyleInformation style =
+        details.styleInformation! as MessagingStyleInformation;
+    expect(style.messages![0].person?.icon, isNull);
+    expect(style.messages![0].dataUri, isNull);
+    expect(
+      (style.messages![1].person?.icon as BitmapFilePathAndroidIcon?)?.data,
+      '/cache/live/avatar.jpg',
+    );
+    expect(
+      (details.largeIcon as FilePathAndroidBitmap?)?.data,
+      '/cache/live/avatar.jpg',
+    );
+  });
 }

@@ -374,7 +374,9 @@ final class LocalPushNotifications {
     if (lines.isEmpty) {
       return;
     }
-    final PushConversationLine latest = lines.last;
+    final List<PushConversationLine> shownLines =
+        pushConversationLinesWithExistingMedia(lines);
+    final PushConversationLine latest = shownLines.last;
     final String displayTitle = resolvePushNotificationDisplayTitle(
       payload,
       title: title,
@@ -389,7 +391,7 @@ final class LocalPushNotifications {
           androidChannelId: androidPushChannelId(payload),
           androidChannelName: androidPushChannelName(payload),
           payload: payload,
-          lines: lines,
+          lines: shownLines,
           title: title,
           badgeCount: badgeCount,
           whenMillis: whenMillis,
@@ -405,7 +407,7 @@ final class LocalPushNotifications {
     );
     if (!shown) {
       final List<PushConversationLine> plainLines =
-          pushConversationLinesWithoutMedia(lines);
+          pushConversationLinesWithoutMedia(shownLines);
       final AndroidNotificationDetails plainDetails =
           buildAndroidConversationNotificationDetails(
             androidChannelId: androidPushChannelId(payload),
