@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_scroll.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -210,11 +211,30 @@ class FluxerPageSheet {
 }
 
 class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
-    implements FluxerSheetDragTarget {
+    implements FluxerSheetDragTarget, FluxerSheetBackdropHost {
   _FluxerCupertinoSheetRoute({required super.scrollableBuilder})
     : super(enableDrag: false);
 
   bool _dragging = false;
+  Animation<double>? _coveredBy;
+  late Animation<double> _stackedSecondary;
+
+  @override
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    if (!identical(_coveredBy, secondaryAnimation)) {
+      _coveredBy = secondaryAnimation;
+      _stackedSecondary = AnimationMax<double>(
+        secondaryAnimation,
+        FluxerSheetBackdropProgress.of(this).animation,
+      );
+    }
+    return super.buildTransitions(context, animation, _stackedSecondary, child);
+  }
 
   @override
   Color? get barrierColor => _kPageSheetBarrierColor;

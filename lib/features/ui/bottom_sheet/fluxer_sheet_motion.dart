@@ -55,7 +55,6 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   FluxerSheetRoute({
     required super.builder,
     required super.isScrollControlled,
-    required NavigatorState navigator,
     this.origin,
     this.inputLockout = Duration.zero,
     super.capturedThemes,
@@ -68,14 +67,13 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
     super.enableDrag,
     super.useSafeArea,
     super.sheetAnimationStyle,
-  }) : _backdrop = FluxerSheetBackdropProgress.of(navigator),
-       _inputLocked = ValueNotifier<bool>(inputLockout > Duration.zero);
+  }) : _inputLocked = ValueNotifier<bool>(inputLockout > Duration.zero);
 
   static FluxerSheetRoute<dynamic>? _scrimHandoff;
 
   final Route<dynamic>? origin;
   final Duration inputLockout;
-  final FluxerSheetBackdropProgress _backdrop;
+  Route<dynamic>? _previous;
   final ValueNotifier<double> _scrimTravel = ValueNotifier<double>(1);
   final ValueNotifier<double?> _scrimPin = ValueNotifier<double?>(null);
   double _scrimFloor = 0;
@@ -87,6 +85,21 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   String? _routerPath;
 
   bool get isEntering => _inputLocked.value;
+
+  FluxerSheetBackdropProgress? get backdrop {
+    final Route<dynamic>? previous = _previous;
+    if (previous != null && previous is FluxerSheetBackdropHost) {
+      return FluxerSheetBackdropProgress.of(previous);
+    }
+    final NavigatorState? nav = navigator;
+    return nav == null ? null : FluxerSheetBackdropProgress.of(nav);
+  }
+
+  @override
+  void didChangePrevious(Route<dynamic>? previousRoute) {
+    super.didChangePrevious(previousRoute);
+    _previous = previousRoute;
+  }
 
   bool _barrierDismissing = false;
 
@@ -275,8 +288,9 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   @override
   Widget buildModalBarrier() {
     final Animation<double>? routeAnimation = animation;
+    final FluxerSheetBackdropProgress? backdrop = this.backdrop;
     final Color base = barrierColor;
-    if (routeAnimation == null || base.a == 0 || offstage) {
+    if (routeAnimation == null || backdrop == null || base.a == 0 || offstage) {
       return super.buildModalBarrier();
     }
     return ListenableBuilder(
@@ -284,14 +298,14 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
         routeAnimation,
         _scrimTravel,
         _scrimPin,
-        _backdrop,
+        backdrop,
         _inputLocked,
       ]),
       builder: (BuildContext context, Widget? _) {
         final double opacity = _scrimOpacity(routeAnimation);
-        final Color tinted = _backdrop.value <= 0
+        final Color tinted = backdrop.value <= 0
             ? base
-            : Color.lerp(base, kFluxerSheetBackdropDimColor, _backdrop.value)!;
+            : Color.lerp(base, kFluxerSheetBackdropDimColor, backdrop.value)!;
         return ModalBarrier(
           color: opacity >= 1
               ? tinted
@@ -321,15 +335,19 @@ class FluxerSheetRoute<T> extends ModalBottomSheetRoute<T> {
   }
 }
 
+abstract interface class FluxerSheetBackdropHost {}
+
 class FluxerSheetBackdropProgress extends ValueNotifier<double> {
   FluxerSheetBackdropProgress._() : super(0);
 
-  static final Expando<FluxerSheetBackdropProgress> _byNavigator =
+  static final Expando<FluxerSheetBackdropProgress> _byOwner =
       Expando<FluxerSheetBackdropProgress>();
 
-  factory FluxerSheetBackdropProgress.of(NavigatorState navigator) {
-    return _byNavigator[navigator] ??= FluxerSheetBackdropProgress._();
+  factory FluxerSheetBackdropProgress.of(Object owner) {
+    return _byOwner[owner] ??= FluxerSheetBackdropProgress._();
   }
+
+  late final Animation<double> animation = _FluxerSheetBackdropAnimation(this);
 
   final Map<Object, double> _strengthBySheet = <Object, double>{};
   bool _flushScheduled = false;
@@ -367,9 +385,44 @@ class FluxerSheetBackdropProgress extends ValueNotifier<double> {
   }
 }
 
+class _FluxerSheetBackdropAnimation extends Animation<double> {
+  _FluxerSheetBackdropAnimation(this._progress);
+
+  final FluxerSheetBackdropProgress _progress;
+
+  @override
+  double get value => _progress.value;
+
+  @override
+  AnimationStatus get status {
+    if (value <= 0) {
+      return AnimationStatus.dismissed;
+    }
+    if (value >= 1) {
+      return AnimationStatus.completed;
+    }
+    return AnimationStatus.forward;
+  }
+
+  @override
+  void addListener(VoidCallback listener) => _progress.addListener(listener);
+
+  @override
+  void removeListener(VoidCallback listener) =>
+      _progress.removeListener(listener);
+
+  @override
+  void addStatusListener(AnimationStatusListener listener) {}
+
+  @override
+  void removeStatusListener(AnimationStatusListener listener) {}
+}
+
 class FluxerSheetBackdropLink {
-  FluxerSheetBackdropLink(this._navigator)
-    : _progress = FluxerSheetBackdropProgress.of(_navigator);
+  FluxerSheetBackdropLink(this._navigator, {Route<dynamic>? route})
+    : _progress =
+          (route is FluxerSheetRoute ? route.backdrop : null) ??
+          FluxerSheetBackdropProgress.of(_navigator);
 
   final NavigatorState _navigator;
   final FluxerSheetBackdropProgress _progress;
