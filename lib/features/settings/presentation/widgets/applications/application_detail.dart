@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/constants/user_flags.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
@@ -25,6 +24,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_dart/export.dart';
@@ -306,14 +306,7 @@ class _ApplicationDetailState extends ConsumerState<ApplicationDetail> {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(e, l10n.genericError),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ApiErrorAction.generic, e);
     }
   }
 
@@ -417,17 +410,11 @@ class _ApplicationDetailState extends ConsumerState<ApplicationDetail> {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(
-                e,
-                l10n.applicationsRegenerateFailed,
-              ),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(
+        context,
+        ApiErrorAction.regenerateApplicationSecret,
+        e,
+      );
     }
   }
 
@@ -449,14 +436,7 @@ class _ApplicationDetailState extends ConsumerState<ApplicationDetail> {
       if (!mounted) {
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: userFacingErrorMessage(e, l10n.applicationsDeleteFailed),
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ApiErrorAction.deleteApplication, e);
     }
   }
 

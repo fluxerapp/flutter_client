@@ -166,15 +166,6 @@ class _PrivacyDataRequestSheetState
             ),
           );
       widget.onClose();
-    } else {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.privacyDashboardDataRequestFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
     }
   }
 

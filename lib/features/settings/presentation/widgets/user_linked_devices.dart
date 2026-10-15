@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/settings/providers/linked_devices_view_model
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -476,18 +477,11 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
             ),
           );
       return true;
-    } on Object {
+    } on Object catch (error) {
       if (!mounted) {
         return false;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.linkedDevicesRevokeError,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showApiError(context, ApiErrorAction.revokeSessions, error);
       return false;
     }
   }

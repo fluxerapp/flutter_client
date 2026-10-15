@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controlle
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -277,14 +278,13 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         return;
       }
       final l10n = FluxerLocalizations.of(context);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.imageFileTooLarge,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      await showErrorDialog(
+        context,
+        title: isAvatar
+            ? l10n.avatarUploadFailedTitle
+            : l10n.bannerUploadFailedTitle,
+        body: l10n.imageFileTooLarge,
+      );
       return;
     }
 
@@ -303,16 +303,13 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           return;
         }
         final l10n = FluxerLocalizations.of(context);
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: isAvatar
-                    ? l10n.animatedAvatarsRequirePlutonium
-                    : l10n.animatedBannersRequirePlutonium,
-                variant: FluxerToastVariant.warning,
-              ),
-            );
+        await showErrorDialog(
+          context,
+          title: isAvatar
+              ? l10n.animatedAvatarsRequirePlutonium
+              : l10n.animatedBannersRequirePlutonium,
+          body: l10n.animatedImageUseStatic,
+        );
         return;
       }
 

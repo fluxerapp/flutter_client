@@ -204,20 +204,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       if (!mounted) {
         return;
       }
-      if (!result.ok && !result.microphoneDenied && !result.cameraDenied) {
-        final String? failureMessage = result.notEligible
-            ? l10n.directVoiceCallNotEligible
-            : result.joinAttemptFailed
-            ? l10n.voiceJoinCallFailed
-            : null;
-        if (failureMessage != null) {
-          await showErrorDialog(
-            context,
-            title: l10n.voiceJoinFailedTitle,
-            body: failureMessage,
-          );
-        }
-      }
+      await explainDirectCallFailure(context, result);
     } on Object catch (err, st) {
       talker.error('[UserProfileSheet] Failed to start call: $err', err, st);
       if (mounted) {

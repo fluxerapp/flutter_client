@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/settings/domain/privacy_permission.dart'
     as privacy;
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -454,6 +455,7 @@ class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
       return true;
     } on Object catch (e, st) {
       talker.error('Failed to request data export', e, st);
+      unawaited(showApiErrorFromRoot(ApiErrorAction.privacyDataRequest, e));
       return false;
     }
   }
@@ -465,6 +467,7 @@ class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
       return true;
     } on Object catch (e, st) {
       talker.error('Failed to request filtered data export', e, st);
+      unawaited(showApiErrorFromRoot(ApiErrorAction.privacyDataRequest, e));
       return false;
     }
   }
@@ -476,6 +479,7 @@ class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
       return true;
     } on Object catch (e, st) {
       talker.error('Failed to bulk delete messages', e, st);
+      unawaited(showApiErrorFromRoot(ApiErrorAction.privacyDataRequest, e));
       return false;
     }
   }

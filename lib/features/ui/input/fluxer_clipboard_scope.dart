@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -257,9 +260,14 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     if (l10n == null) {
       return;
     }
-    ScaffoldMessenger.maybeOf(
-      context,
-    )?.showSnackBar(SnackBar(content: Text(l10n.clipboardPasteFailed)));
+    ProviderScope.containerOf(context, listen: false)
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.clipboardPasteFailed,
+            variant: FluxerToastVariant.danger,
+          ),
+        );
   }
 
   List<ContextMenuButtonItem> _composeContextMenuItems(

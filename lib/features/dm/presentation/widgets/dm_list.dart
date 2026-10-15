@@ -1150,19 +1150,7 @@ class _DMListState extends ConsumerState<DMList> {
           if (!context.mounted) {
             return;
           }
-          if (!r.ok && !r.microphoneDenied && !r.cameraDenied) {
-            final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-            final String? snackMessage = r.notEligible
-                ? l10n.directVoiceCallNotEligible
-                : r.joinAttemptFailed
-                ? l10n.voiceJoinCallFailed
-                : null;
-            if (snackMessage != null) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(snackMessage)));
-            }
-          }
+          await explainDirectCallFailure(context, r);
         }());
       case _DmAction.addNote:
         unawaited(

@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart'
     as external_link_utils;
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -1366,6 +1367,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         isSaving: false,
         error: 'Failed to save guild profile',
       );
+      unawaited(showApiErrorFromRoot(ApiErrorAction.generic, e));
     }
   }
 
@@ -1405,6 +1407,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     } on Exception catch (e) {
       talker.error('Failed to save profile', e);
       state = state.copyWith(isSaving: false, error: 'Failed to save profile');
+      unawaited(showApiErrorFromRoot(ApiErrorAction.generic, e));
     }
   }
 

@@ -11,6 +11,8 @@ import 'package:fluxer_app/features/settings/presentation/widgets/theme_colors/t
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_colors/theme_colors_preview_theme.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/utils/theme_color_token_labels.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -314,25 +316,26 @@ class _UserThemeColorsState extends ConsumerState<UserThemeColors> {
     FluxerThemeMode editingMode,
     String modeLabel,
   ) async {
-    final bool? confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(l10n.lookAndFeelThemeColorsResetConfirmTitle),
-          content: Text(l10n.lookAndFeelThemeColorsResetConfirmBody(modeLabel)),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: Text(MaterialLocalizations.of(context).okButtonLabel),
-            ),
-          ],
-        );
-      },
+    final String title = l10n.lookAndFeelThemeColorsResetConfirmTitle;
+    final String description = l10n.lookAndFeelThemeColorsResetConfirmBody(
+      modeLabel,
     );
+    final bool? confirmed = isMobileLayout(context)
+        ? await FluxerConfirmSheet.show(
+            context,
+            title: title,
+            description: description,
+            confirmLabel: l10n.uiReset,
+            isDanger: true,
+          )
+        : await FluxerConfirmModal.show(
+            context,
+            title: title,
+            description: description,
+            confirmLabel: l10n.uiReset,
+            isDanger: true,
+            onConfirm: () {},
+          );
     if (confirmed ?? false) {
       await ref
           .read(themePreferenceProvider.notifier)

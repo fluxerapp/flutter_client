@@ -26279,6 +26279,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This voice channel is no longer available.'**
   String get voiceJoinChannelUnavailable;
+
+  /// Title of the dialog shown when an avatar can't be used.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t upload avatar'**
+  String get avatarUploadFailedTitle;
+
+  /// Title of the dialog shown when a profile banner can't be used.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t upload banner'**
+  String get bannerUploadFailedTitle;
+
+  /// Body of the dialog shown when an animated image can't be used on this account.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload a static image instead.'**
+  String get animatedImageUseStatic;
+
+  /// Title of the dialog shown when deleting a passkey fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete passkey'**
+  String get passkeyDeleteFailedTitle;
 }
 
 class _FluxerLocalizationsDelegate

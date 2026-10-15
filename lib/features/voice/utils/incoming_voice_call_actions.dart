@@ -140,9 +140,7 @@ Future<void> executeDeclineIncomingVoiceCall(
     if (!ctx.mounted) {
       return;
     }
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(content: Text(l10n.incomingVoiceRingingUpdateFailed)),
-    );
+    _showRingingUpdateFailed(ctx, l10n);
   }
 }
 
@@ -169,9 +167,7 @@ Future<void> executeIgnoreIncomingVoiceCall(
     if (!ctx.mounted) {
       return;
     }
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(content: Text(l10n.incomingVoiceRingingUpdateFailed)),
-    );
+    _showRingingUpdateFailed(ctx, l10n);
   }
 }
 
@@ -211,9 +207,7 @@ Future<void> executeDeclineIncomingVoiceCallFromCallKit(
       return;
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(content: Text(l10n.incomingVoiceRingingUpdateFailed)),
-    );
+    _showRingingUpdateFailed(ctx, l10n);
   }
 }
 
@@ -229,9 +223,7 @@ Future<void> executeIgnoreIncomingVoiceCallFromCallKit(
       return;
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(content: Text(l10n.incomingVoiceRingingUpdateFailed)),
-    );
+    _showRingingUpdateFailed(ctx, l10n);
   }
 }
 
@@ -368,4 +360,15 @@ Future<void> executeIgnoreIncomingVoiceCallCore(
     channelId: channelId,
     body: CallRingBodySchema(recipients: [uid]),
   );
+}
+
+void _showRingingUpdateFailed(BuildContext context, FluxerLocalizations l10n) {
+  ProviderScope.containerOf(context, listen: false)
+      .read(toastProvider.notifier)
+      .show(
+        FluxerToast(
+          message: l10n.incomingVoiceRingingUpdateFailed,
+          variant: FluxerToastVariant.danger,
+        ),
+      );
 }

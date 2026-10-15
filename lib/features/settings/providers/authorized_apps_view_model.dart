@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -64,6 +65,7 @@ class AuthorizedAppsViewModel extends _$AuthorizedAppsViewModel {
       );
     } on Object catch (e, st) {
       talker.error('Failed to deauthorize application', e, st);
+      await showApiErrorFromRoot(ApiErrorAction.generic, e);
     }
   }
 }

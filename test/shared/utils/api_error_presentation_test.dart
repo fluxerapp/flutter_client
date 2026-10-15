@@ -895,6 +895,43 @@ void main() {
     });
   });
 
+  group('account errors', () {
+    test('account actions keep a title and prefer the server reason', () {
+      _expectCopy(
+        ApiErrorAction.deletePasskey,
+        null,
+        "Couldn't delete passkey",
+        'An unexpected error occurred. Try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.regenerateApplicationSecret,
+        'MISSING_PERMISSIONS',
+        "Couldn't regenerate secret",
+        'Only owners can do that.',
+        apiMessage: 'Only owners can do that.',
+      );
+      _expectCopy(
+        ApiErrorAction.deleteApplication,
+        null,
+        "Couldn't delete application",
+        'An unexpected error occurred. Try again.',
+      );
+      _expectCopy(
+        ApiErrorAction.revokeSessions,
+        null,
+        'Something went wrong',
+        "Couldn't sign out. Try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.privacyDataRequest,
+        'HARVEST_ON_COOLDOWN',
+        'Something went wrong',
+        'You already requested an export recently.',
+        apiMessage: 'You already requested an export recently.',
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {

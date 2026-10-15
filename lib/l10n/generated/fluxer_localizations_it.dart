@@ -15999,4 +15999,16 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   @override
   String get voiceJoinChannelUnavailable =>
       'This voice channel is no longer available.';
+
+  @override
+  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+
+  @override
+  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+
+  @override
+  String get animatedImageUseStatic => 'Upload a static image instead.';
+
+  @override
+  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
 }

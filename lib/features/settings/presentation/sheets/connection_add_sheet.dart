@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -255,8 +256,13 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
         if (mounted) {
           widget.close();
         }
-      } on Object catch (_) {
-        setState(() => _error = l10n.connectionBlueskyAuthorizeFailed);
+      } on Object catch (e) {
+        setState(
+          () => _error = userFacingErrorMessage(
+            e,
+            l10n.connectionBlueskyAuthorizeFailed,
+          ),
+        );
       }
       return;
     }
@@ -267,8 +273,10 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
         identifier: identifier,
       );
       _setVerification(data);
-    } on Object catch (_) {
-      setState(() => _error = l10n.connectionInitiateFailed);
+    } on Object catch (e) {
+      setState(
+        () => _error = userFacingErrorMessage(e, l10n.connectionInitiateFailed),
+      );
     }
   }
 
@@ -580,8 +588,10 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
       if (mounted) {
         widget.close();
       }
-    } on Object catch (_) {
-      setState(() => _error = l10n.connectionVerifyFailed);
+    } on Object catch (e) {
+      setState(
+        () => _error = userFacingErrorMessage(e, l10n.connectionVerifyFailed),
+      );
     }
   }
 }

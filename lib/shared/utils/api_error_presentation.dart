@@ -59,6 +59,11 @@ enum ApiErrorAction {
   transferOwnership,
   revokeBan,
   moderateVoiceMember,
+  revokeSessions,
+  deletePasskey,
+  regenerateApplicationSecret,
+  deleteApplication,
+  privacyDataRequest,
 }
 
 enum ApiErrorChannelKind { guild, dm, groupDm }
@@ -377,6 +382,26 @@ _ErrorCopy _copyFor(
         body: l10n.discoveryJoinErrorGenericMessage,
       ),
     },
+    ApiErrorAction.revokeSessions => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: _apiMessageOr(apiMessage, l10n.linkedDevicesRevokeError),
+    ),
+    ApiErrorAction.deletePasskey => (
+      title: l10n.passkeyDeleteFailedTitle,
+      body: _apiMessageOr(apiMessage, l10n.errorUnexpectedTryAgain),
+    ),
+    ApiErrorAction.regenerateApplicationSecret => (
+      title: l10n.applicationsRegenerateFailed,
+      body: _apiMessageOr(apiMessage, l10n.errorUnexpectedTryAgain),
+    ),
+    ApiErrorAction.deleteApplication => (
+      title: l10n.applicationsDeleteFailed,
+      body: _apiMessageOr(apiMessage, l10n.errorUnexpectedTryAgain),
+    ),
+    ApiErrorAction.privacyDataRequest => (
+      title: l10n.errorSomethingWentWrongTitle,
+      body: _apiMessageOr(apiMessage, l10n.privacyDashboardDataRequestFailed),
+    ),
     ApiErrorAction.renameEmoji => switch (code) {
       'UNKNOWN_EMOJI' => (
         title: l10n.emojiErrorGoneTitle,

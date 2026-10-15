@@ -16531,5 +16531,21 @@
     "voiceJoinChannelUnavailable": "This voice channel is no longer available.",
     "@voiceJoinChannelUnavailable": {
         "description": "Shown when joining a voice channel fails because it no longer exists."
+    },
+    "avatarUploadFailedTitle": "Couldn't upload avatar",
+    "@avatarUploadFailedTitle": {
+        "description": "Title of the dialog shown when an avatar can't be used."
+    },
+    "bannerUploadFailedTitle": "Couldn't upload banner",
+    "@bannerUploadFailedTitle": {
+        "description": "Title of the dialog shown when a profile banner can't be used."
+    },
+    "animatedImageUseStatic": "Upload a static image instead.",
+    "@animatedImageUseStatic": {
+        "description": "Body of the dialog shown when an animated image can't be used on this account."
+    },
+    "passkeyDeleteFailedTitle": "Couldn't delete passkey",
+    "@passkeyDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a passkey fails."
     }
 }
