@@ -240,6 +240,9 @@ class _CategoryHeader extends ConsumerWidget {
             isMuted: menuState.isMuted,
           ),
         );
+      case CategoryMenuAction.createChannel:
+        close();
+        unawaited(_createChannelInCategory(parentContext, ref));
       case CategoryMenuAction.editCategory:
         close();
         unawaited(
@@ -267,6 +270,28 @@ class _CategoryHeader extends ConsumerWidget {
               .read(matureContentAgreementsProvider.notifier)
               .revokeCategoryAgreement(category.id),
         );
+    }
+  }
+
+  Future<void> _createChannelInCategory(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final ChannelCreateRequest? request = await CreateChannelSheet.show(
+      context,
+      parentId: category.id,
+      guildId: guildId,
+    );
+    if (request == null) {
+      return;
+    }
+    try {
+      await ref
+          .read(fluxerClientProvider)
+          .guilds
+          .createGuildChannel(guildId: guildId, body: request);
+    } on Object catch (error) {
+      await showApiErrorFromRoot(ApiErrorAction.generic, error);
     }
   }
 

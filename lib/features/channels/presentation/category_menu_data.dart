@@ -10,6 +10,7 @@ enum CategoryMenuAction {
   toggleCollapse,
   toggleCollapseAll,
   mute,
+  createChannel,
   editCategory,
   deleteCategory,
   copyCategoryId,
@@ -86,6 +87,12 @@ List<CategoryMenuGroup> buildCategoryMenuGroups({
   required CategoryMenuState state,
 }) {
   final List<CategoryMenuEntry> manageItems = <CategoryMenuEntry>[
+    if (state.canManageChannels)
+      CategoryMenuEntry(
+        label: l10n.guildNavbarCreateChannel,
+        icon: PhosphorIconsFill.plusCircle,
+        action: CategoryMenuAction.createChannel,
+      ),
     if (state.canManageChannels)
       CategoryMenuEntry(
         label: l10n.channelSettingsEditCategory,

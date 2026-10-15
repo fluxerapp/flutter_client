@@ -84,6 +84,7 @@ void main() {
       expect(actions, contains(CategoryMenuAction.toggleCollapse));
       expect(actions, contains(CategoryMenuAction.toggleCollapseAll));
       expect(actions, contains(CategoryMenuAction.mute));
+      expect(actions, contains(CategoryMenuAction.createChannel));
       expect(actions, contains(CategoryMenuAction.editCategory));
       expect(actions, contains(CategoryMenuAction.deleteCategory));
       expect(actions, contains(CategoryMenuAction.copyCategoryId));
@@ -178,7 +179,7 @@ void main() {
       expect(unmutedEntry!.label, l10n.categoryMuteCategory);
     });
 
-    test('hides edit and delete when user cannot manage channels', () {
+    test('hides create, edit and delete when user cannot manage channels', () {
       final List<CategoryMenuGroup> groups = buildCategoryMenuGroups(
         l10n: l10n,
         state: fullState(canManageChannels: false),
@@ -186,8 +187,29 @@ void main() {
       final List<CategoryMenuAction> actions = _flattenCategoryMenuActions(
         groups,
       );
+      expect(actions, isNot(contains(CategoryMenuAction.createChannel)));
       expect(actions, isNot(contains(CategoryMenuAction.editCategory)));
       expect(actions, isNot(contains(CategoryMenuAction.deleteCategory)));
+    });
+
+    test('labels create channel with the web copy above edit category', () {
+      final List<CategoryMenuGroup> groups = buildCategoryMenuGroups(
+        l10n: l10n,
+        state: fullState(),
+      );
+      final CategoryMenuEntry? entry = _findEntry(
+        groups,
+        CategoryMenuAction.createChannel,
+      );
+      expect(entry, isNotNull);
+      expect(entry!.label, 'Create channel');
+      final List<CategoryMenuAction> actions = _flattenCategoryMenuActions(
+        groups,
+      );
+      expect(
+        actions.indexOf(CategoryMenuAction.createChannel),
+        actions.indexOf(CategoryMenuAction.editCategory) - 1,
+      );
     });
 
     test('marks delete category as dangerous', () {
