@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notification_row.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
@@ -162,7 +163,14 @@ class MentionInboxCard extends ConsumerWidget {
       guildId: roleGuildId,
       currentUserId: currentUserId,
     );
-    final ValueChanged<Message>? reply = onReply;
+    final ValueChanged<Message>? reply =
+        onReply != null &&
+            watchChannelMessagePermissionsForComposer(
+              ref,
+              msg.channelId,
+            ).isComposerEnabled
+        ? onReply
+        : null;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
