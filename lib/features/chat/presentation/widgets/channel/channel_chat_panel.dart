@@ -12,7 +12,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_in
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/chat_list_keyboard_dismiss.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_pin.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_content.dart';
@@ -289,8 +288,8 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                                     left: 0,
                                     right: 0,
                                     bottom: 0,
-                                    height: WideComposerLayout
-                                        .statusFadeScrolledHeight,
+                                    height:
+                                        WideComposerLayout.statusOverlayHeight,
                                     child: _buildStatusOverlay(
                                       showNeko: showNeko,
                                       showSlowmode: showSlowmode,
@@ -566,17 +565,6 @@ class ChannelChatComposerBoundary extends ConsumerWidget {
             .watch(presentableTypingUsersInChannelProvider(channelId))
             .isNotEmpty ||
         composerSlowmodeIndicatorVisible(ref, channelId);
-    final bool atBottom = ref.watch(
-      chatReadViewportProvider.select(
-        (ChatReadViewportState state) =>
-            state.channelId != channelId ||
-            state.distanceFromBottom <= kMessageListPinEngageDistance,
-      ),
-    );
-    final double fadeHeight = atBottom
-        ? WideComposerLayout.statusFadeAtBottomHeight
-        : WideComposerLayout.statusFadeScrolledHeight;
-    final double solidFrom = fadeHeight - WideComposerLayout.statusSafeGap;
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
@@ -585,13 +573,10 @@ class ChannelChatComposerBoundary extends ConsumerWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            height: fadeHeight,
+            height: WideComposerLayout.statusFadeHeight,
             child: applyWallpaper
-                ? ChatWallpaperComposerFade(solidFrom: solidFrom)
-                : WideComposerFade(
-                    surfaceColor: context.colors.chatBackground,
-                    solidFrom: solidFrom,
-                  ),
+                ? const ChatWallpaperComposerFade()
+                : WideComposerFade(surfaceColor: context.colors.chatBackground),
           ),
         Positioned(
           left: statusRailPaddingStart,

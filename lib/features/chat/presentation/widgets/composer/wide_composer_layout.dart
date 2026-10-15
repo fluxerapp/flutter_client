@@ -23,8 +23,9 @@ abstract final class WideComposerLayout {
   static const double typingMaxWidth = 384;
   static const double slowmodeMaxWidth = 224;
   static const double actionRowMinHeight = 36;
-  static const double statusFadeAtBottomHeight = 16;
-  static const double statusFadeScrolledHeight = 80;
+  static const double statusFadeHeight = statusSafeArea;
+  static const double statusFadeOpacity = 0.7;
+  static const double statusOverlayHeight = 80;
   static const double messageListTrailingInset = fadeHeight;
   static const double statusRowHeight = 24;
   static const double mobileComposerTopInset = 4;
@@ -59,40 +60,27 @@ Color wideComposerActionStackColor(BuildContext context) {
 }
 
 class WideComposerFade extends StatelessWidget {
-  const WideComposerFade({
-    required this.surfaceColor,
-    required this.solidFrom,
-    super.key,
-  });
+  const WideComposerFade({required this.surfaceColor, super.key});
 
   final Color surfaceColor;
-  final double solidFrom;
 
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          final double height = constraints.maxHeight;
-          final double stop = height > 0
-              ? (solidFrom / height).clamp(0.0, 1.0)
-              : 0;
-          return DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[
-                  surfaceColor.withValues(alpha: 0),
-                  surfaceColor,
-                  surfaceColor,
-                ],
-                stops: <double>[0, stop, 1],
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              surfaceColor.withValues(alpha: 0),
+              surfaceColor.withValues(
+                alpha: surfaceColor.a * WideComposerLayout.statusFadeOpacity,
               ),
-            ),
-            child: const SizedBox.expand(),
-          );
-        },
+            ],
+          ),
+        ),
+        child: const SizedBox.expand(),
       ),
     );
   }
