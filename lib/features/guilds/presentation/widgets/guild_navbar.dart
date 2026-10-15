@@ -59,6 +59,8 @@ import 'package:fluxer_app/features/guilds/presentation/'
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_navbar_scroll_targets.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/guild_rail_drag_auto_scroll.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
@@ -159,7 +161,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   final Set<String> _enteringDmIds = <String>{};
   final Set<String> _exitingDmIds = <String>{};
   bool _railDmsSeeded = false;
-  final GlobalKey _verticalDragBoundsKey = GlobalKey();
 
   @override
   void initState() {
@@ -392,28 +393,12 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
 
   @override
   void dispose() {
-    ref.read(guildDragProvider.notifier).clearVerticalBounds();
     _persistScroll();
     _scrollController
       ..removeListener(_persistScroll)
       ..dispose();
     _scrollIndicator.detach();
     super.dispose();
-  }
-
-  void _syncVerticalDragBounds() {
-    final RenderBox? renderBox =
-        _verticalDragBoundsKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox == null || !renderBox.hasSize) {
-      return;
-    }
-    final Offset topLeft = renderBox.localToGlobal(Offset.zero);
-    ref
-        .read(guildDragProvider.notifier)
-        .updateVerticalBounds(
-          top: topLeft.dy,
-          bottom: topLeft.dy + renderBox.size.height,
-        );
   }
 
   GuildScrollIndicatorSeverity? _resolveGuildScrollSeverity(String id) {
@@ -532,14 +517,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     );
 
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      _syncVerticalDragBounds();
-    });
     return Container(
-      key: _verticalDragBoundsKey,
       width: kGuildNavbarWidth,
       decoration: BoxDecoration(
         color: context.colors.serverSidebarBackground,
@@ -551,7 +529,11 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           controller: _scrollIndicator,
           label: l10n.scrollIndicatorNew,
           topInset: kGuildScrollIndicatorEdgeInset + topPadding,
-          child: guildListView,
+          child: GuildRailDragAutoScroll(
+            controller: _scrollController,
+            topInset: topPadding,
+            child: guildListView,
+          ),
         ),
       ),
     );

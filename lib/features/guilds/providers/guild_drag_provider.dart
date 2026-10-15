@@ -9,6 +9,8 @@ const double kGuildDragFeedbackSize = 48;
 const double kGuildDragHoverSpeedThresholdPxPerMs = 2;
 const Duration kGuildDragHoverDwell = Duration(milliseconds: 70);
 const double kGuildDragSeamAdjacentTolerance = 4;
+const double kGuildRailAutoScrollEdgeExtent = 56;
+const double kGuildRailAutoScrollMaxSpeed = 900;
 const double kFolderCombineSplit = 0.34;
 const double kFolderCombineUpperSplit = 0.66;
 const double kGuildMergeCombineSplit = 0.44;
@@ -31,6 +33,29 @@ double clampGuildDragFeedbackCenterY({
     return centerY.clamp(boundsTop, boundsBottom);
   }
   return centerY.clamp(minY, maxY);
+}
+
+double guildRailAutoScrollVelocity({
+  required double pointerY,
+  required double top,
+  required double bottom,
+}) {
+  final double halfHeight = (bottom - top) / 2;
+  final double extent = halfHeight < kGuildRailAutoScrollEdgeExtent
+      ? halfHeight
+      : kGuildRailAutoScrollEdgeExtent;
+  if (extent <= 0) {
+    return 0;
+  }
+  final double intoTop = top + extent - pointerY;
+  if (intoTop > 0) {
+    return -kGuildRailAutoScrollMaxSpeed * (intoTop / extent).clamp(0.0, 1.0);
+  }
+  final double intoBottom = pointerY - (bottom - extent);
+  if (intoBottom > 0) {
+    return kGuildRailAutoScrollMaxSpeed * (intoBottom / extent).clamp(0.0, 1.0);
+  }
+  return 0;
 }
 
 enum DropPosition { before, after, combine }
@@ -315,6 +340,40 @@ class GuildDrag extends _$GuildDrag {
     );
   }
 
+  Offset _clampHoverGlobalPosition(Offset globalPosition) {
+    final double? top = _verticalBoundsTop;
+    final double? bottom = _verticalBoundsBottom;
+    if (top == null || bottom == null || bottom < top) {
+      return globalPosition;
+    }
+    return Offset(globalPosition.dx, globalPosition.dy.clamp(top, bottom));
+  }
+
+  double autoScrollVelocity() {
+    final Offset? pointer = _lastRawDragGlobalPosition;
+    final double? top = _verticalBoundsTop;
+    final double? bottom = _verticalBoundsBottom;
+    if (!state.hasMovedFromHoldPoint ||
+        pointer == null ||
+        top == null ||
+        bottom == null) {
+      return 0;
+    }
+    return guildRailAutoScrollVelocity(
+      pointerY: pointer.dy,
+      top: top,
+      bottom: bottom,
+    );
+  }
+
+  bool refreshHoverAfterAutoScroll() {
+    final Offset? pointer = _lastRawDragGlobalPosition;
+    if (!state.hasMovedFromHoldPoint || pointer == null) {
+      return false;
+    }
+    return _updateHoverFromGlobalPosition(pointer, stabilizeHover: false);
+  }
+
   void registerDragTarget(RegisteredGuildDragTarget target) {
     _dragTargets[target.itemId] = target;
   }
@@ -377,11 +436,12 @@ class GuildDrag extends _$GuildDrag {
     Offset globalPosition, {
     required bool stabilizeHover,
   }) {
+    final Offset hoverPosition = _clampHoverGlobalPosition(globalPosition);
     final _ResolvedGuildHoverIntent resolved = _resolveHoverIntent(
-      globalPosition,
+      hoverPosition,
     );
     if (stabilizeHover) {
-      final double speed = _recordHoverSpeedSample(globalPosition);
+      final double speed = _recordHoverSpeedSample(hoverPosition);
       _trackPendingDwell(resolved.intent);
       final GuildDropHoverIntent? applied = _hoverIntentFromState();
       final bool hasPendingChange = resolved.intent != applied;

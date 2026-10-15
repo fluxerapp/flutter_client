@@ -169,8 +169,13 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
   ConsumerState<GuildDragWrapper> createState() => _GuildDragWrapperState();
 }
 
-class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
+class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
+    with AutomaticKeepAliveClientMixin {
   final GlobalKey _dragTargetKey = GlobalKey();
+  bool _isDragSource = false;
+
+  @override
+  bool get wantKeepAlive => _isDragSource;
 
   @override
   void initState() {
@@ -215,6 +220,16 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDragSource = ref.watch(
+      guildDragProvider.select(
+        (DragState state) => state.dragItemId == widget.itemId,
+      ),
+    );
+    if (isDragSource != _isDragSource) {
+      _isDragSource = isDragSource;
+      updateKeepAlive();
+    }
+    super.build(context);
     final bool useTouchDrag = isTouchPrimaryInput(ref);
     final Color brandPrimary = context.colors.brandPrimary;
     final GuildDragItemVisualState dragVisual = ref.watch(
