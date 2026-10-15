@@ -211,6 +211,8 @@ class ChannelSearchSectionHeader extends StatelessWidget {
   }
 }
 
+const double kChannelSearchLeadingExtent = 32;
+
 class ChannelSearchSuggestionRow extends StatelessWidget {
   const ChannelSearchSuggestionRow({
     required this.leading,
@@ -244,7 +246,13 @@ class ChannelSearchSuggestionRow extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: layout.s1_5),
             child: Row(
               children: <Widget>[
-                SizedBox(width: 32, child: Center(child: leading)),
+                SizedBox(
+                  width: kChannelSearchLeadingExtent,
+                  child: Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: leading,
+                  ),
+                ),
                 SizedBox(width: layout.s3),
                 Expanded(
                   child: Column(

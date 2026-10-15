@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/channel_search_history_repository.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_token.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_suggestions.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_token_chip.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -35,10 +36,16 @@ class ChannelSearchRecentRow extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: 48),
           child: Row(
             children: <Widget>[
-              PhosphorIcon(
-                PhosphorIconsBold.clockCounterClockwise,
-                size: 18,
-                color: colors.textTertiary,
+              SizedBox(
+                width: kChannelSearchLeadingExtent,
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: PhosphorIcon(
+                    PhosphorIconsBold.clockCounterClockwise,
+                    size: 18,
+                    color: colors.textTertiary,
+                  ),
+                ),
               ),
               SizedBox(width: layout.s3),
               Expanded(
@@ -70,12 +77,15 @@ class ChannelSearchRecentRow extends StatelessWidget {
                 child: Semantics(
                   button: true,
                   label: l10n.channelSearchRemoveRecent,
-                  child: Padding(
-                    padding: EdgeInsets.all(layout.s3),
-                    child: PhosphorIcon(
-                      PhosphorIconsBold.x,
-                      size: 14,
-                      color: colors.textTertiary,
+                  child: SizedBox.square(
+                    dimension: layout.s10,
+                    child: Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: PhosphorIcon(
+                        PhosphorIconsBold.x,
+                        size: 14,
+                        color: colors.textTertiary,
+                      ),
                     ),
                   ),
                 ),

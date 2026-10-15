@@ -786,7 +786,7 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         .toList();
     return ListView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s2, layout.s4),
+      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
       children: <Widget>[
         if (recents.isNotEmpty) ...<Widget>[
           ChannelSearchSectionHeader(
