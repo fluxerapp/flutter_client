@@ -4,10 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/api_exception.dart';
+import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
@@ -1043,5 +1045,94 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text("Couldn't send friend request"), findsNothing);
+  });
+
+  Widget buildApp(Widget home) {
+    final colorTheme = buildDarkColorTheme();
+    return ProviderScope(
+      child: MaterialApp(
+        navigatorKey: rootNavigatorKey,
+        locale: kTestLocale,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Scaffold(body: home),
+      ),
+    );
+  }
+
+  testWidgets('showApiErrorFromRoot opens the dialog without a local context', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(buildApp(const SizedBox.shrink()));
+
+    unawaited(
+      showApiErrorFromRoot(
+        ApiErrorAction.leaveCommunity,
+        const ApiException(code: 'UNKNOWN_GUILD'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Failed to leave community'), findsOneWidget);
+    expect(
+      find.text("Couldn't leave right now. Try again in a moment."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('a cancelled sudo prompt shows no error', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(buildApp(const SizedBox.shrink()));
+
+    unawaited(
+      showApiErrorFromRoot(
+        ApiErrorAction.deleteCommunity,
+        const ApiException(code: 'SUDO_MODE_REQUIRED'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("Couldn't delete this community"), findsNothing);
+    expect(find.text('Understood'), findsNothing);
+  });
+
+  testWidgets('reaction failures use a toast instead of a dialog', (
+    WidgetTester tester,
+  ) async {
+    late ProviderContainer container;
+    await tester.pumpWidget(
+      buildApp(
+        Consumer(
+          builder: (BuildContext context, WidgetRef ref, _) {
+            container = ProviderScope.containerOf(context);
+            return ElevatedButton(
+              onPressed: () => unawaited(
+                showApiError(
+                  context,
+                  ApiErrorAction.addReaction,
+                  const ApiException(code: 'COMMUNICATION_DISABLED'),
+                ),
+              ),
+              child: const Text('React'),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('React'));
+    await tester.pump();
+
+    expect(find.text('Understood'), findsNothing);
+    expect(
+      container.read(toastProvider).map((ToastEntry e) => e.toast.message),
+      contains("You can't add new reactions while you're timed out."),
+    );
   });
 }
