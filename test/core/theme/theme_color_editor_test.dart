@@ -71,6 +71,70 @@ void main() {
       expect(next, contains('--text-primary'));
     });
 
+    test('reset clears a Theme Studio root override for the edited mode', () {
+      const css = '''
+:root {
+  --brand-primary: #007fff;
+}
+.theme-dark {
+  --brand-primary: #ff5500;
+}
+''';
+      expect(
+        isThemeColorOverriddenForMode(
+          customThemeCss: ':root { --brand-primary: #007fff; }',
+          cssVariable: '--brand-primary',
+          editingMode: FluxerThemeMode.coal,
+        ),
+        isTrue,
+      );
+      final String next = clearScopedThemeColor(
+        customThemeCss: css,
+        editingMode: FluxerThemeMode.dark,
+        cssVariable: '--brand-primary',
+      );
+      expect(next, isEmpty);
+      expect(
+        effectiveThemeColorForProperty(
+          customThemeCss: next,
+          propertyName: 'brandPrimary',
+          editingMode: FluxerThemeMode.dark,
+        ),
+        defaultThemeColorForProperty(
+          'brandPrimary',
+          mode: FluxerThemeMode.dark,
+        ),
+      );
+    });
+
+    test('reset all clears every scope the edited mode inherits', () {
+      const css = '''
+:root {
+  --brand-primary: #007fff;
+}
+.theme-dark {
+  --text-primary: #111111;
+}
+.theme-light {
+  --text-primary: #eeeeee;
+}
+''';
+      final String next = clearAllScopedThemeColorsForMode(
+        customThemeCss: css,
+        editingMode: FluxerThemeMode.coal,
+      );
+      expect(
+        hasThemeColorOverridesForMode(
+          customThemeCss: next,
+          editingMode: FluxerThemeMode.coal,
+        ),
+        isFalse,
+      );
+      expect(next, isNot(contains('--brand-primary')));
+      expect(next, isNot(contains('#111111')));
+      expect(next, contains('.theme-light'));
+    });
+
     test('every editable token reads its own color', () {
       for (final ThemeColorTokenDefinition token in kEditableThemeColorTokens) {
         expect(

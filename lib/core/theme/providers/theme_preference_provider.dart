@@ -178,6 +178,7 @@ class ThemePreferenceState {
     String? customThemeCss,
     bool syncThemeColorsFromThemeStudio = true,
     bool syncThemeColorsToThemeStudio = true,
+    bool customThemeCssEditedLocally = false,
     FluxerThemeMode? inflightTheme,
   }) {
     final _BuiltColorThemes themes = _buildColorThemes(
@@ -193,6 +194,7 @@ class ThemePreferenceState {
       customThemeCss: normalizeCustomThemeCss(customThemeCss),
       syncThemeColorsFromThemeStudio: syncThemeColorsFromThemeStudio,
       syncThemeColorsToThemeStudio: syncThemeColorsToThemeStudio,
+      customThemeCssEditedLocally: customThemeCssEditedLocally,
       inflightTheme: inflightTheme,
       darkColorTheme: themes.dark,
       darkLegacyColorTheme: themes.darkLegacy,
@@ -211,6 +213,7 @@ class ThemePreferenceState {
     required this.customThemeCss,
     required this.syncThemeColorsFromThemeStudio,
     required this.syncThemeColorsToThemeStudio,
+    required this.customThemeCssEditedLocally,
     required this.inflightTheme,
     required this.darkColorTheme,
     required this.darkLegacyColorTheme,
@@ -227,6 +230,7 @@ class ThemePreferenceState {
   final String? customThemeCss;
   final bool syncThemeColorsFromThemeStudio;
   final bool syncThemeColorsToThemeStudio;
+  final bool customThemeCssEditedLocally;
 
   final FluxerThemeMode? inflightTheme;
 
@@ -267,6 +271,7 @@ class ThemePreferenceState {
     Object? customThemeCss = unspecifiedCustomThemeCss,
     bool? syncThemeColorsFromThemeStudio,
     bool? syncThemeColorsToThemeStudio,
+    bool? customThemeCssEditedLocally,
     bool clearCustomThemeCss = false,
     Object? inflightTheme = _kInflightSentinel,
     bool rebuildAllColorThemes = true,
@@ -329,6 +334,8 @@ class ThemePreferenceState {
           syncThemeColorsFromThemeStudio ?? this.syncThemeColorsFromThemeStudio,
       syncThemeColorsToThemeStudio:
           syncThemeColorsToThemeStudio ?? this.syncThemeColorsToThemeStudio,
+      customThemeCssEditedLocally:
+          customThemeCssEditedLocally ?? this.customThemeCssEditedLocally,
       inflightTheme: identical(inflightTheme, _kInflightSentinel)
           ? this.inflightTheme
           : inflightTheme as FluxerThemeMode?,
@@ -507,15 +514,17 @@ class ThemePreference extends _$ThemePreference {
   }
 
   Future<void> setSaturationFactor(double value) async {
-    final double clamped = clampSaturationFactor(value);
     final ThemePreferenceState current = state;
     state = ThemePreferenceState(
       mode: current.mode,
       scaleFactor: current.scaleFactor,
       chatFontSize: current.chatFontSize,
       syncAcrossDevices: current.syncAcrossDevices,
-      saturationFactor: clamped,
+      saturationFactor: clampSaturationFactor(value),
       customThemeCss: current.customThemeCss,
+      syncThemeColorsFromThemeStudio: current.syncThemeColorsFromThemeStudio,
+      syncThemeColorsToThemeStudio: current.syncThemeColorsToThemeStudio,
+      customThemeCssEditedLocally: current.customThemeCssEditedLocally,
       inflightTheme: current.inflightTheme,
     );
     await _persist();
@@ -552,6 +561,7 @@ class ThemePreference extends _$ThemePreference {
         chatFontSize: updateChatFontSize ? chatFontSize : null,
         scaleFactor: updateScaleFactor ? scaleFactor : null,
         clearCustomThemeCss: applyCustomThemeCss && clearCustomThemeCss,
+        customThemeCssEditedLocally: applyCustomThemeCss ? false : null,
       );
       await _persist();
     } finally {
@@ -710,6 +720,7 @@ class ThemePreference extends _$ThemePreference {
       customThemeCss: nextCss.isEmpty ? null : nextCss,
       syncThemeColorsFromThemeStudio: current.syncThemeColorsFromThemeStudio,
       syncThemeColorsToThemeStudio: current.syncThemeColorsToThemeStudio,
+      customThemeCssEditedLocally: true,
       inflightTheme: current.inflightTheme,
     );
   }

@@ -31,6 +31,7 @@ class AccessibilityLocalState {
     required this.advanced,
     this.syncThemeColorsFromThemeStudio = true,
     this.syncThemeColorsToThemeStudio = true,
+    this.customThemeCssEditedLocally = false,
     this.showUserAvatarsInCompactMode = false,
     this.screenReaderAnnounceNewMessages = false,
     this.showMediaDeleteButton = true,
@@ -79,6 +80,7 @@ class AccessibilityLocalState {
   final String? customThemeCss;
   final bool syncThemeColorsFromThemeStudio;
   final bool syncThemeColorsToThemeStudio;
+  final bool customThemeCssEditedLocally;
   final AdvancedAccessibilityLocalState advanced;
   final bool screenReaderAnnounceNewMessages;
   final bool showMediaDeleteButton;
@@ -162,6 +164,7 @@ class AccessibilitySyncedField
       customThemeCss: theme.customThemeCss,
       syncThemeColorsFromThemeStudio: theme.syncThemeColorsFromThemeStudio,
       syncThemeColorsToThemeStudio: theme.syncThemeColorsToThemeStudio,
+      customThemeCssEditedLocally: theme.customThemeCssEditedLocally,
       screenReaderAnnounceNewMessages:
           appearance.screenReaderAnnounceNewMessages,
       showMediaDeleteButton: appearance.showMediaDeleteButton,
@@ -666,7 +669,8 @@ class AccessibilitySyncedField
     if (effectiveCss != null) {
       return settings..customThemeCss = effectiveCss;
     }
-    if (local.syncThemeColorsFromThemeStudio) {
+    if (local.syncThemeColorsFromThemeStudio ||
+        local.customThemeCssEditedLocally) {
       settings.clearCustomThemeCss();
     }
     return settings;

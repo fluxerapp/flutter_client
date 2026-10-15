@@ -673,4 +673,168 @@ void main() {
       );
     });
   });
+  group('Theme Studio toggle combinations', () {
+    const studioCss = ':root { --brand-primary: #007fff; }';
+    const custom = Color(0xFFFF5500);
+    final Color defaultBrand =
+        ThemePreferenceState().darkColorTheme.brandPrimary;
+
+    late db.FluxerDatabase database;
+    late _FakeUsersApi usersApi;
+    late ProviderContainer container;
+
+    setUp(() {
+      database = openTestDatabase();
+      usersApi = _FakeUsersApi();
+      container = _createContainer(database: database, usersApi: usersApi);
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
+
+    test('changing saturation keeps both Theme Studio toggles', () async {
+      final themeNotifier = container.read(themePreferenceProvider.notifier);
+      await themeNotifier.load('u1');
+      await themeNotifier.setSyncThemeColorsFromThemeStudio(value: false);
+      await themeNotifier.setSyncThemeColorsToThemeStudio(value: false);
+
+      await themeNotifier.setSaturationFactor(0.5);
+
+      final ThemePreferenceState state = container.read(
+        themePreferenceProvider,
+      );
+      expect(state.saturationFactor, 0.5);
+      expect(state.syncThemeColorsFromThemeStudio, isFalse);
+      expect(state.syncThemeColorsToThemeStudio, isFalse);
+    });
+
+    for (final bool fromStudio in <bool>[true, false]) {
+      for (final bool toStudio in <bool>[true, false]) {
+        final String combo =
+            'use from Theme Studio $fromStudio, send $toStudio';
+
+        Future<String> setUpCombo() async {
+          final store = container.read(syncedPreferencesStoreProvider);
+          final themeNotifier = container.read(
+            themePreferenceProvider.notifier,
+          );
+          await themeNotifier.load('u1');
+          await container
+              .read(appearancePreferencesProvider.notifier)
+              .load('u1');
+          final String server = _settingsWithAccessibility(
+            accessibility_pb.AccessibilitySettings(customThemeCss: studioCss),
+          );
+          await store.hydrateFromUserSettings(
+            _testUserSettings(syncedPreferences: server),
+          );
+          await themeNotifier.setSyncThemeColorsFromThemeStudio(
+            value: fromStudio,
+          );
+          await themeNotifier.setSyncThemeColorsToThemeStudio(value: toStudio);
+          return server;
+        }
+
+        Future<String> pushAndEcho(String server) async {
+          final store = container.read(syncedPreferencesStoreProvider);
+          usersApi.lastPushBody = null;
+          await _waitForDebounce(store);
+          final String next =
+              usersApi.lastPushBody?.syncedPreferences.value ?? server;
+          await store.hydrateFromUserSettings(
+            _testUserSettings(syncedPreferences: next),
+          );
+          await _waitForDebounce(store);
+          return usersApi.lastPushBody?.syncedPreferences.value ?? next;
+        }
+
+        Color brand() =>
+            container.read(themePreferenceProvider).darkColorTheme.brandPrimary;
+
+        test('$combo: changing brand primary survives the echo', () async {
+          String server = await setUpCombo();
+          server = await pushAndEcho(server);
+          await container
+              .read(themePreferenceProvider.notifier)
+              .setThemeColorOverride(
+                editingMode: FluxerThemeMode.dark,
+                cssVariable: '--brand-primary',
+                color: custom,
+              );
+          server = await pushAndEcho(server);
+          expect(brand(), custom);
+
+          container.dispose();
+          container = _createContainer(database: database, usersApi: usersApi);
+          final store = container.read(syncedPreferencesStoreProvider);
+          await container.read(themePreferenceProvider.notifier).load('u1');
+          await container
+              .read(appearancePreferencesProvider.notifier)
+              .load('u1');
+          await store.hydrateFromUserSettings(
+            _testUserSettings(syncedPreferences: server),
+            fromCache: true,
+          );
+          await store.hydrateFromUserSettings(
+            _testUserSettings(syncedPreferences: server),
+          );
+          await pushAndEcho(server);
+          expect(brand(), custom);
+        });
+
+        test('$combo: a change survives an unrelated remote update', () async {
+          String server = await setUpCombo();
+          server = await pushAndEcho(server);
+          await container
+              .read(themePreferenceProvider.notifier)
+              .setThemeColorOverride(
+                editingMode: FluxerThemeMode.dark,
+                cssVariable: '--brand-primary',
+                color: custom,
+              );
+          server = await pushAndEcho(server);
+          final pb.SyncedPreferences remote = pb.SyncedPreferences.fromBuffer(
+            base64Decode(server),
+          );
+          remote.accessibility.hideKeyboardHints =
+              !remote.accessibility.hideKeyboardHints;
+          await pushAndEcho(base64Encode(remote.writeToBuffer()));
+          await container
+              .read(syncedPreferencesStoreProvider)
+              .hydrateFromUserSettings(
+                _testUserSettings(
+                  syncedPreferences: base64Encode(remote.writeToBuffer()),
+                ),
+              );
+          expect(brand(), custom);
+        });
+
+        test('$combo: resetting brand primary survives the echo', () async {
+          String server = await setUpCombo();
+          server = await pushAndEcho(server);
+          final themeNotifier = container.read(
+            themePreferenceProvider.notifier,
+          );
+          await themeNotifier.setThemeColorOverride(
+            editingMode: FluxerThemeMode.dark,
+            cssVariable: '--brand-primary',
+            color: custom,
+          );
+          server = await pushAndEcho(server);
+          await themeNotifier.clearThemeColorOverride(
+            editingMode: FluxerThemeMode.dark,
+            cssVariable: '--brand-primary',
+          );
+          server = await pushAndEcho(server);
+          expect(brand(), defaultBrand);
+          if (toStudio) {
+            await themeNotifier.setSyncThemeColorsFromThemeStudio(value: true);
+            await pushAndEcho(server);
+            expect(brand(), defaultBrand);
+          }
+        });
+      }
+    }
+  });
 }
