@@ -15,7 +15,9 @@ import 'package:fluxer_app/features/settings/utils/open_user_billing_settings.da
 import 'package:fluxer_app/features/settings/utils/premium_formatting.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -190,14 +192,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
               SizedBox(height: layout.s4),
               FluxerButton.secondary(
                 label: l10n.premiumSelfServeRefundButton,
-                onPressedAsync: () async {
-                  await selfServeRefundLatest(ref);
-                  if (context.mounted) {
-                    await ref
-                        .read(premiumSettingsStateProvider.notifier)
-                        .refresh();
-                  }
-                },
+                onPressedAsync: () => _confirmRefund(context, l10n),
               ),
             ],
           ],
@@ -360,23 +355,67 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
     }
   }
 
+  Future<bool?> _confirmDanger(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required String confirmLabel,
+  }) {
+    if (isMobileLayout(context)) {
+      return FluxerConfirmSheet.show(
+        context,
+        title: title,
+        description: description,
+        confirmLabel: confirmLabel,
+        isDanger: true,
+      );
+    }
+    return FluxerConfirmModal.show(
+      context,
+      title: title,
+      description: description,
+      confirmLabel: confirmLabel,
+      isDanger: true,
+      onConfirm: () {},
+    );
+  }
+
+  Future<void> _confirmRefund(
+    BuildContext context,
+    FluxerLocalizations l10n,
+  ) async {
+    final bool? confirmed = await _confirmDanger(
+      context,
+      title: l10n.premiumRefundConfirmTitle,
+      description: l10n.premiumRefundConfirmBody,
+      confirmLabel: l10n.premiumRefundConfirm,
+    );
+    if (confirmed != true) {
+      return;
+    }
+    final bool refunded = await selfServeRefundLatest(ref);
+    if (!refunded || !mounted) {
+      return;
+    }
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.premiumRefundIssuedToast,
+            variant: FluxerToastVariant.success,
+          ),
+        );
+  }
+
   Future<void> _confirmCancel(
     BuildContext context,
     FluxerLocalizations l10n,
   ) async {
-    final bool? confirmed = await FluxerModal.show<bool>(
+    final bool? confirmed = await _confirmDanger(
       context,
       title: l10n.premiumCancelSubscriptionTitle,
       description: l10n.premiumCancelSubscriptionBody,
-      centered: true,
-      actionsBuilder: (pop) => [
-        TextButton(onPressed: () => pop(false), child: Text(l10n.cancel)),
-        TextButton(
-          onPressed: () => pop(true),
-          child: Text(l10n.premiumCancelSubscriptionConfirm),
-        ),
-      ],
-      builder: (_, _) => const SizedBox.shrink(),
+      confirmLabel: l10n.premiumCancelSubscriptionConfirm,
     );
     if (confirmed != true) {
       return;

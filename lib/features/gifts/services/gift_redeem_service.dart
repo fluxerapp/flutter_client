@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
 Future<bool> redeemGiftCode({
@@ -135,11 +136,5 @@ Future<void> _showErrorModal(
   required String title,
   required String description,
 }) {
-  return FluxerModal.show<void>(
-    context,
-    title: title,
-    description: description,
-    centered: true,
-    builder: (_, _) => const SizedBox.shrink(),
-  );
+  return showErrorDialog(context, title: title, body: description);
 }

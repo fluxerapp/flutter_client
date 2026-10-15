@@ -932,6 +932,68 @@ void main() {
     });
   });
 
+  group('billing errors', () {
+    test('subscription actions share the billing codes', () {
+      _expectCopy(
+        ApiErrorAction.cancelSubscription,
+        'STRIPE_SUBSCRIPTION_ALREADY_CANCELING',
+        'Already set to cancel',
+        'Your subscription is already set to cancel at the end of your billing period.',
+      );
+      _expectCopy(
+        ApiErrorAction.reactivateSubscription,
+        'STRIPE_SUBSCRIPTION_NOT_CANCELING',
+        'Subscription is not scheduled to cancel',
+        "Your subscription isn't set to cancel, so there's nothing to reactivate.",
+      );
+      _expectCopy(
+        ApiErrorAction.openBillingPortal,
+        'STRIPE_PAYMENT_NOT_AVAILABLE',
+        'Payments are unavailable',
+        'Payments are temporarily unavailable. Please try again in a moment.',
+      );
+      _expectCopy(
+        ApiErrorAction.cancelSubscription,
+        'STRIPE_NO_SUBSCRIPTION',
+        'No active subscription',
+        "We couldn't find an active subscription on this account. Refresh and try again.",
+      );
+      _expectCopy(
+        ApiErrorAction.cancelSubscription,
+        null,
+        "Couldn't cancel your subscription",
+        'Something went wrong while canceling your subscription. Please try again in a moment.',
+      );
+    });
+
+    test('refunds explain each refusal', () {
+      _expectCopy(
+        ApiErrorAction.refundPurchase,
+        'STRIPE_REFUND_OUTSIDE_WINDOW',
+        'Outside the refund window',
+        'Your most recent purchase is no longer within the refund window. Contact support for billing issues.',
+      );
+      _expectCopy(
+        ApiErrorAction.refundPurchase,
+        'STRIPE_REFUND_COOLDOWN_ACTIVE',
+        'You have refunded recently',
+        "You've already used a self-serve refund recently. You can refund again once the cooldown ends.",
+      );
+      _expectCopy(
+        ApiErrorAction.refundPurchase,
+        'STRIPE_NO_PURCHASE_HISTORY',
+        'Nothing to refund',
+        "We couldn't find a recent purchase to refund on this account.",
+      );
+      _expectCopy(
+        ApiErrorAction.refundPurchase,
+        null,
+        "Couldn't refund this purchase",
+        'Something went wrong while issuing your refund. Contact support if this keeps happening.',
+      );
+    });
+  });
+
   testWidgets('showApiError opens a dialog with one Understood button', (
     WidgetTester tester,
   ) async {

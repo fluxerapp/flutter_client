@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/constants/contact_emails.dart';
 import 'package:fluxer_app/core/premium/premium_billing_service.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
@@ -12,6 +14,7 @@ import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 
 enum PremiumCheckoutPlan { monthly, yearly, gift1Month, gift1Year }
@@ -142,17 +145,13 @@ Future<void> openPremiumCustomerPortal(
   BuildContext context,
   WidgetRef ref,
 ) async {
-  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  final String? url = await createPremiumCustomerPortalSession(ref);
-  if (url == null) {
-    if (!context.mounted) {
-      return;
+  final String url;
+  try {
+    url = await createPremiumCustomerPortalSession(ref);
+  } on Object catch (error) {
+    if (context.mounted) {
+      await showApiError(context, ApiErrorAction.openBillingPortal, error);
     }
-    await _showCheckoutError(
-      context,
-      title: l10n.premiumCustomerPortalOpenFailedTitle,
-      message: l10n.premiumCustomerPortalOpenFailedBody,
-    );
     return;
   }
   if (!context.mounted) {
@@ -184,18 +183,37 @@ Future<void> _refreshPremiumBillingState(WidgetRef ref) async {
 }
 
 Future<void> cancelPremiumSubscription(WidgetRef ref) async {
-  await ref.read(fluxerClientProvider).premium.cancelSubscription();
+  try {
+    await ref.read(fluxerClientProvider).premium.cancelSubscription();
+  } on Object catch (error) {
+    await showApiErrorFromRoot(ApiErrorAction.cancelSubscription, error);
+    return;
+  }
   await _refreshPremiumBillingState(ref);
 }
 
 Future<void> reactivatePremiumSubscription(WidgetRef ref) async {
-  await ref.read(fluxerClientProvider).premium.reactivateSubscription();
+  try {
+    await ref.read(fluxerClientProvider).premium.reactivateSubscription();
+  } on Object catch (error) {
+    await showApiErrorFromRoot(ApiErrorAction.reactivateSubscription, error);
+    return;
+  }
   await _refreshPremiumBillingState(ref);
 }
 
-Future<void> selfServeRefundLatest(WidgetRef ref) async {
-  await ref.read(fluxerClientProvider).billing.selfServeRefundLatestPurchase();
+Future<bool> selfServeRefundLatest(WidgetRef ref) async {
+  try {
+    await ref
+        .read(fluxerClientProvider)
+        .billing
+        .selfServeRefundLatestPurchase();
+  } on Object catch (error) {
+    await showApiErrorFromRoot(ApiErrorAction.refundPurchase, error);
+    return false;
+  }
   await ref.read(premiumSettingsStateProvider.notifier).refresh();
+  return true;
 }
 
 Future<bool?> _pickAlternativePayment(
@@ -224,6 +242,18 @@ Future<void> _handleCheckoutDioError(
   DioException error,
   FluxerLocalizations l10n,
 ) async {
+  final String? code = apiErrorCodeFromDioException(error);
+  if (code == 'EMAIL_VERIFICATION_REQUIRED' ||
+      code == 'PURCHASE_EMAIL_VERIFICATION_REQUIRED') {
+    await _showCheckoutError(
+      context,
+      title: l10n.premiumVerifyEmailTitle,
+      message: l10n.premiumVerifyEmailBody(
+        ref.read(instanceRuntimeConfigProvider).premiumProductName,
+      ),
+    );
+    return;
+  }
   final Object? body = error.response?.data;
   if (body is Map<String, dynamic>) {
     final String? reason = body['reason'] as String?;
@@ -249,6 +279,19 @@ Future<void> _handleCheckoutDioError(
         );
         return;
     }
+  }
+  if (!context.mounted) {
+    return;
+  }
+  if (code == 'PREMIUM_PURCHASE_BLOCKED') {
+    await _showCheckoutError(
+      context,
+      title: l10n.premiumCheckoutBlockedTitle,
+      message: ref.read(instanceRuntimeConfigProvider).selfHosted
+          ? l10n.premiumCheckoutBlockedBodySelfHosted
+          : l10n.premiumCheckoutBlockedBody(ContactEmails.support),
+    );
+    return;
   }
   if (!context.mounted) {
     return;
@@ -304,11 +347,5 @@ Future<void> _showCheckoutError(
   required String title,
   required String message,
 }) {
-  return FluxerModal.show<void>(
-    context,
-    title: title,
-    description: message,
-    centered: true,
-    builder: (_, _) => const SizedBox.shrink(),
-  );
+  return showErrorDialog(context, title: title, body: message);
 }

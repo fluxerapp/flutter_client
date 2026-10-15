@@ -3,11 +3,9 @@ import 'package:fluxer_app/core/premium/premium_billing_service.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_purchase_client.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart';
 
 PremiumManageAction? premiumNagbarManageAction({
@@ -34,24 +32,21 @@ Future<void> openPremiumNagbarManage({
   switch (action.kind) {
     case PremiumManageKind.customerPortal:
       setLoading(loading: true);
-      final String? url = await createPremiumCustomerPortalSession(ref);
+      final String url;
+      try {
+        url = await createPremiumCustomerPortalSession(ref);
+      } on Object catch (error) {
+        if (!context.mounted) {
+          return;
+        }
+        setLoading(loading: false);
+        await showApiError(context, ApiErrorAction.openBillingPortal, error);
+        return;
+      }
       if (!context.mounted) {
         return;
       }
       setLoading(loading: false);
-      if (url == null) {
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: FluxerLocalizations.of(
-                  context,
-                ).nagbarBillingPortalFailed,
-                variant: FluxerToastVariant.danger,
-              ),
-            );
-        return;
-      }
       await handleExternalLinkTap(context, url);
     case PremiumManageKind.storeUrl:
       final String? url = action.url;

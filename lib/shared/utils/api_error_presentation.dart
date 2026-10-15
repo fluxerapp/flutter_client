@@ -64,6 +64,10 @@ enum ApiErrorAction {
   regenerateApplicationSecret,
   deleteApplication,
   privacyDataRequest,
+  cancelSubscription,
+  reactivateSubscription,
+  openBillingPortal,
+  refundPurchase,
 }
 
 enum ApiErrorChannelKind { guild, dm, groupDm }
@@ -402,6 +406,48 @@ _ErrorCopy _copyFor(
       title: l10n.errorSomethingWentWrongTitle,
       body: _apiMessageOr(apiMessage, l10n.privacyDashboardDataRequestFailed),
     ),
+    ApiErrorAction.cancelSubscription => _premiumActionCopy(
+      l10n,
+      code,
+      fallback: (
+        title: l10n.premiumCancelFailedTitle,
+        body: l10n.premiumCancelFailedMessage,
+      ),
+    ),
+    ApiErrorAction.reactivateSubscription => _premiumActionCopy(
+      l10n,
+      code,
+      fallback: (
+        title: l10n.premiumReactivateFailedTitle,
+        body: l10n.premiumReactivateFailedMessage,
+      ),
+    ),
+    ApiErrorAction.openBillingPortal => _premiumActionCopy(
+      l10n,
+      code,
+      fallback: (
+        title: l10n.premiumCustomerPortalOpenFailedTitle,
+        body: l10n.premiumCustomerPortalOpenFailedBody,
+      ),
+    ),
+    ApiErrorAction.refundPurchase => switch (code) {
+      'STRIPE_REFUND_OUTSIDE_WINDOW' => (
+        title: l10n.premiumRefundOutsideWindowTitle,
+        body: l10n.premiumRefundOutsideWindowMessage,
+      ),
+      'STRIPE_REFUND_COOLDOWN_ACTIVE' => (
+        title: l10n.premiumRefundCooldownTitle,
+        body: l10n.premiumRefundCooldownMessage,
+      ),
+      'STRIPE_NO_PURCHASE_HISTORY' => (
+        title: l10n.premiumRefundNothingTitle,
+        body: l10n.premiumRefundNothingMessage,
+      ),
+      _ => (
+        title: l10n.premiumRefundFailedTitle,
+        body: l10n.premiumRefundFailedMessage,
+      ),
+    },
     ApiErrorAction.renameEmoji => switch (code) {
       'UNKNOWN_EMOJI' => (
         title: l10n.emojiErrorGoneTitle,
@@ -493,6 +539,32 @@ _ErrorCopy _sendMessageCopy(
       body: l10n.chatFileTooLargeMessage(details.subject ?? ''),
     ),
     _ => (title: l10n.chatSendFailedTitle, body: l10n.chatSendFailedMessage),
+  };
+}
+
+_ErrorCopy _premiumActionCopy(
+  FluxerLocalizations l10n,
+  String? code, {
+  required _ErrorCopy fallback,
+}) {
+  return switch (code) {
+    'STRIPE_PAYMENT_NOT_AVAILABLE' => (
+      title: l10n.premiumPaymentsUnavailableTitle,
+      body: l10n.premiumPaymentsUnavailableMessage,
+    ),
+    'STRIPE_NO_ACTIVE_SUBSCRIPTION' || 'STRIPE_NO_SUBSCRIPTION' => (
+      title: l10n.premiumNoSubscriptionTitle,
+      body: l10n.premiumNoSubscriptionMessage,
+    ),
+    'STRIPE_SUBSCRIPTION_ALREADY_CANCELING' => (
+      title: l10n.premiumAlreadyCancelingTitle,
+      body: l10n.premiumAlreadyCancelingMessage,
+    ),
+    'STRIPE_SUBSCRIPTION_NOT_CANCELING' => (
+      title: l10n.premiumNotCancelingTitle,
+      body: l10n.premiumNotCancelingMessage,
+    ),
+    _ => fallback,
   };
 }
 

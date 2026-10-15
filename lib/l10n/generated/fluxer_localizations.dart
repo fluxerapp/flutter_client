@@ -482,12 +482,6 @@ abstract class FluxerLocalizations {
   /// **'Enable notifications'**
   String get nagbarEnableNotifications;
 
-  /// Toast when opening the billing portal from a nagbar fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t open the billing portal. Please try again in a moment.'**
-  String get nagbarBillingPortalFailed;
-
   /// Greeting on the login screen; usable wherever returning users are welcomed.
   ///
   /// In en, this message translates to:
@@ -1967,7 +1961,7 @@ abstract class FluxerLocalizations {
   /// Generic gift redeem error modal title.
   ///
   /// In en, this message translates to:
-  /// **'Failed to redeem gift'**
+  /// **'Couldn\'t redeem gift'**
   String get giftRedeemFailedTitle;
 
   /// Generic gift redeem error modal body.
@@ -26303,6 +26297,180 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t delete passkey'**
   String get passkeyDeleteFailedTitle;
+
+  /// Title of the billing error dialog when payments are temporarily unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments are unavailable'**
+  String get premiumPaymentsUnavailableTitle;
+
+  /// Body of the billing error dialog when payments are temporarily unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments are temporarily unavailable. Please try again in a moment.'**
+  String get premiumPaymentsUnavailableMessage;
+
+  /// Title of the billing error dialog when there is no active subscription.
+  ///
+  /// In en, this message translates to:
+  /// **'No active subscription'**
+  String get premiumNoSubscriptionTitle;
+
+  /// Body of the billing error dialog when there is no active subscription.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t find an active subscription on this account. Refresh and try again.'**
+  String get premiumNoSubscriptionMessage;
+
+  /// Title of the billing error dialog when the subscription is already set to cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Already set to cancel'**
+  String get premiumAlreadyCancelingTitle;
+
+  /// Body of the billing error dialog when the subscription is already set to cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your subscription is already set to cancel at the end of your billing period.'**
+  String get premiumAlreadyCancelingMessage;
+
+  /// Title of the billing error dialog when there is nothing to reactivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription is not scheduled to cancel'**
+  String get premiumNotCancelingTitle;
+
+  /// Body of the billing error dialog when there is nothing to reactivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.'**
+  String get premiumNotCancelingMessage;
+
+  /// Title of the dialog shown when cancelling the subscription fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t cancel your subscription'**
+  String get premiumCancelFailedTitle;
+
+  /// Body of the dialog shown when cancelling the subscription fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while canceling your subscription. Please try again in a moment.'**
+  String get premiumCancelFailedMessage;
+
+  /// Title of the dialog shown when reactivating the subscription fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reactivate your subscription'**
+  String get premiumReactivateFailedTitle;
+
+  /// Body of the dialog shown when reactivating the subscription fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while reactivating your subscription. Please try again in a moment.'**
+  String get premiumReactivateFailedMessage;
+
+  /// Title of the confirmation before a self-serve refund.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund your most recent purchase?'**
+  String get premiumRefundConfirmTitle;
+
+  /// Body of the confirmation before a self-serve refund.
+  ///
+  /// In en, this message translates to:
+  /// **'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.'**
+  String get premiumRefundConfirmBody;
+
+  /// Confirm button of the self-serve refund confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund purchase'**
+  String get premiumRefundConfirm;
+
+  /// Toast shown after a self-serve refund succeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund issued. May take a few business days to appear.'**
+  String get premiumRefundIssuedToast;
+
+  /// Title of the refund error dialog when the purchase is too old.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside the refund window'**
+  String get premiumRefundOutsideWindowTitle;
+
+  /// Body of the refund error dialog when the purchase is too old.
+  ///
+  /// In en, this message translates to:
+  /// **'Your most recent purchase is no longer within the refund window. Contact support for billing issues.'**
+  String get premiumRefundOutsideWindowMessage;
+
+  /// Title of the refund error dialog during the refund cooldown.
+  ///
+  /// In en, this message translates to:
+  /// **'You have refunded recently'**
+  String get premiumRefundCooldownTitle;
+
+  /// Body of the refund error dialog during the refund cooldown.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.'**
+  String get premiumRefundCooldownMessage;
+
+  /// Title of the refund error dialog when there is no recent purchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to refund'**
+  String get premiumRefundNothingTitle;
+
+  /// Body of the refund error dialog when there is no recent purchase.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t find a recent purchase to refund on this account.'**
+  String get premiumRefundNothingMessage;
+
+  /// Title of the refund error dialog for other failures.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t refund this purchase'**
+  String get premiumRefundFailedTitle;
+
+  /// Body of the refund error dialog for other failures.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while issuing your refund. Contact support if this keeps happening.'**
+  String get premiumRefundFailedMessage;
+
+  /// Title of the checkout error dialog when the email is unverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email first'**
+  String get premiumVerifyEmailTitle;
+
+  /// Body of the checkout error dialog when the email is unverified. productName is the premium product name.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to verify your email before you can purchase {productName}.'**
+  String premiumVerifyEmailBody(String productName);
+
+  /// Title of the checkout error dialog when checkout is blocked for the account.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout unavailable'**
+  String get premiumCheckoutBlockedTitle;
+
+  /// Body of the checkout error dialog when checkout is blocked, on the official instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout is blocked for this account. Contact {supportEmail} if you need help.'**
+  String premiumCheckoutBlockedBody(String supportEmail);
+
+  /// Body of the checkout error dialog when checkout is blocked, on a self-hosted instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout is blocked for this account.'**
+  String get premiumCheckoutBlockedBodySelfHosted;
 }
 
 class _FluxerLocalizationsDelegate
