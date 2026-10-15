@@ -1,6 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/ui/icons/fluxer_bluesky_icon.dart';
+import 'package:fluxer_app/features/ui/icons/fluxer_connection_icon.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -33,13 +33,6 @@ class UserProfileConnectionItem extends StatelessWidget {
     final layout = context.layout;
     final textStyles = context.textStyles;
     final l10n = FluxerLocalizations.of(context);
-    final Widget platformIcon = connection.type == ConnectionType.bluesky
-        ? const FluxerBlueskyIcon()
-        : const PhosphorIcon(
-            PhosphorIconsBold.globeSimple,
-            size: 20,
-            color: Colors.black,
-          );
     final String url = _buildConnectionUrl();
     return FluxerTappable(
       onTap: () => handleExternalLinkTap(context, url),
@@ -54,13 +47,9 @@ class UserProfileConnectionItem extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: layout.radiusSm,
-              ),
-              child: platformIcon,
+            FluxerConnectionIconTile(
+              type: connection.type,
+              borderRadius: layout.radiusSm,
             ),
             SizedBox(width: layout.s2),
             Expanded(
