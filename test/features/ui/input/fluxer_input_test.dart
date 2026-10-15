@@ -159,6 +159,31 @@ void main() {
       expect(find.text('Username'), findsOneWidget);
       handle.dispose();
     });
+
+    testWidgets('multiline text never runs under the suffix button', (
+      tester,
+    ) async {
+      final controller = TextEditingController(
+        text: 'Just doing my part to help make Fluxer a bug-free experience!',
+      );
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        buildTestApp(
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: FluxerInput.multiline(
+              controller: controller,
+              label: 'About me',
+              suffixIcon: const Icon(Icons.emoji_emotions, size: 20),
+            ),
+          ),
+        ),
+      );
+
+      final Rect text = tester.getRect(find.byType(EditableText));
+      final Rect suffix = tester.getRect(find.byIcon(Icons.emoji_emotions));
+      expect(text.right, lessThanOrEqualTo(suffix.left));
+    });
   });
 }
 

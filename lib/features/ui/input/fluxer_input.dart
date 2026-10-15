@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' show BoxWidthStyle;
 
 import 'package:flutter/services.dart';
@@ -128,6 +129,8 @@ class FluxerInput extends StatelessWidget {
   final TextCapitalization? textCapitalization;
   final bool autocorrect;
   final bool enableSuggestions;
+
+  static const double _multilineSuffixExtent = 20;
 
   bool get _isMultiline => minLines != null && minLines! > 1;
 
@@ -433,6 +436,11 @@ class FluxerInput extends StatelessWidget {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
+    final EdgeInsets themePadding =
+        (Theme.of(context).inputDecorationTheme.contentPadding ??
+                EdgeInsets.zero)
+            .resolve(Directionality.of(context));
+    final double suffixInset = layout.s2 + _multilineSuffixExtent + layout.s2;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -456,6 +464,11 @@ class FluxerInput extends StatelessWidget {
                     errorText: errorText,
                     prefixIcon: prefixIcon,
                     counterText: maxLength != null ? '' : null,
+                    contentPadding: suffix == null
+                        ? null
+                        : themePadding.copyWith(
+                            right: math.max(themePadding.right, suffixInset),
+                          ),
                   ),
                   obscureText: obscureText,
                   autofillHints: autofillHints,
@@ -483,7 +496,14 @@ class FluxerInput extends StatelessWidget {
               ),
             ),
             if (suffix != null)
-              Positioned(top: layout.s2, right: layout.s2, child: suffix),
+              Positioned(
+                top: layout.s2,
+                right: layout.s2,
+                child: SizedBox.square(
+                  dimension: _multilineSuffixExtent,
+                  child: suffix,
+                ),
+              ),
             if (showCounter && (counterMax != null || maxLength != null))
               Positioned(
                 bottom: layout.s2,
