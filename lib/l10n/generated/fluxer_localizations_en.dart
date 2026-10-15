@@ -10260,18 +10260,16 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Performance reporting';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Help improve $productName by sharing anonymous crash and performance data.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Send crash and performance reports';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'All reported data is anonymous and is sent only to $productName\'s own monitoring service — no third-party providers are used.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -25835,18 +25833,8 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get advancedPerformanceReportingTitle => 'Performance reporting';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Help improve $productName by sharing anonymous crash and performance data.';
-  }
-
-  @override
   String get advancedPerformanceReportingLabel =>
       'Send crash and performance reports';
-
-  @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'All reported data is anonymous and is sent only to $productName\'s own monitoring service — no third-party providers are used.';
-  }
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -39497,18 +39485,16 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get advancedPerformanceReportingTitle => 'Performance reporting';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Help improve $productName by sharing anonymous crash and performance data.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Send crash and performance reports';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'All reported data is anonymous and is sent only to $productName\'s own monitoring service — no third-party providers are used.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Configure';

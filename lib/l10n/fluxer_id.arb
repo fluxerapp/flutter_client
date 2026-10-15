@@ -11703,27 +11703,9 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Bantu tingkatkan {productName} dengan membagikan data kerusakan dan performa anonim.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "advancedPerformanceReportingLabel": "Kirim laporan kerusakan dan performa",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "Semua data yang dilaporkan bersifat anonim dan hanya dikirim ke layanan pemantauan {productName} sendiri — tidak ada penyedia pihak ketiga yang digunakan.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "advancedSettingsConfigure": "Konfigurasi",
     "@advancedSettingsConfigure": {

@@ -10324,18 +10324,16 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Suorituskyvyn raportointi';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Auta parantamaan ${productName}ia jakamalla anonyymejä kaatumis- ja suorituskykytietoja.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Lähetä kaatumis- ja suorituskykyraportteja';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Kaikki raportoidut tiedot ovat anonyymejä ja lähetetään vain $productName omaan valvontapalveluun – kolmansia osapuolia ei käytetä.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Määritä';

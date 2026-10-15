@@ -10312,18 +10312,16 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Báo cáo hiệu suất';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Giúp cải thiện $productName bằng cách chia sẻ dữ liệu sự cố và hiệu suất ẩn danh.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Gửi báo cáo sự cố và hiệu suất';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Tất cả dữ liệu được báo cáo đều ẩn danh và chỉ được gửi đến dịch vụ giám sát của $productName — không sử dụng nhà cung cấp bên thứ ba nào.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Cấu hình';

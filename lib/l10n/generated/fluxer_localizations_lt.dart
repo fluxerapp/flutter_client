@@ -10396,18 +10396,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Našumo ataskaitos';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Padėkite tobulinti $productName, bendrindami anoniminius duomenis apie gedimus ir našumą.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Siųsti ataskaitas apie gedimus ir našumą';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Visi pranešti duomenys yra anonimiški ir siunčiami tik į $productName nuosavą stebėjimo tarnybą – nenaudojami jokie trečiųjų šalių paslaugų teikėjai.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Konfigūruoti';

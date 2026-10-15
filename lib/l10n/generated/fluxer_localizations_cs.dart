@@ -10344,18 +10344,16 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Hlášení o výkonu';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Pomozte vylepšit $productName sdílením anonymních dat o pádech a výkonu.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Odesílat zprávy o pádech a výkonu';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Všechna odeslaná data jsou anonymní a odesílají se pouze do vlastních monitorovacích služeb $productName – nepoužívají se žádní poskytovatelé třetích stran.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Nastavit';

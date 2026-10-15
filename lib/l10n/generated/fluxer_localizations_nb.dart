@@ -10313,18 +10313,16 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Ytelsesrapportering';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Hjelp til å forbedre $productName ved å dele anonyme krasj- og ytelsesdata.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Send krasj- og ytelsesrapporter';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Alle rapporterte data er anonyme og sendes kun til $productName egen overvåkingstjeneste – ingen tredjepartsleverandører brukes.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Konfigurer';

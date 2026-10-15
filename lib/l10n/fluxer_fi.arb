@@ -6258,27 +6258,9 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Auta parantamaan {productName}ia jakamalla anonyymejä kaatumis- ja suorituskykytietoja.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "advancedPerformanceReportingLabel": "Lähetä kaatumis- ja suorituskykyraportteja",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "Kaikki raportoidut tiedot ovat anonyymejä ja lähetetään vain {productName} omaan valvontapalveluun – kolmansia osapuolia ei käytetä.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "userSettingsNavApplications": "Sovellukset",
     "@userSettingsNavApplications": {

@@ -10422,18 +10422,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Αναφορές απόδοσης';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Βοηθήστε στη βελτίωση του $productName μοιράζοντας ανώνυμα δεδομένα σφαλμάτων και απόδοσης.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Αποστολή αναφορών σφαλμάτων και απόδοσης';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Όλα τα αναφερόμενα δεδομένα είναι ανώνυμα και αποστέλλονται μόνο στην υπηρεσία παρακολούθησης του $productName — δεν χρησιμοποιούνται πάροχοι τρίτων.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Διαμόρφωση';

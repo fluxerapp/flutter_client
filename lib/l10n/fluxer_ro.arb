@@ -11703,27 +11703,9 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Ajută la îmbunătățirea {productName} prin partajarea datelor anonime despre blocări și performanță.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "advancedPerformanceReportingLabel": "Trimite rapoarte de blocare și performanță",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "Toate datele raportate sunt anonime și sunt trimise doar către propriul serviciu de monitorizare al {productName} — nu sunt utilizați furnizori terți.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "advancedSettingsConfigure": "Configurează",
     "@advancedSettingsConfigure": {

@@ -9891,17 +9891,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => '성능 보고';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return '익명의 충돌 및 성능 데이터를 공유하여 $productName를 개선하세요.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel => '충돌 및 성능 보고서 보내기';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return '보고된 모든 데이터는 익명이며 $productName 자체 모니터링 서비스로만 전송됩니다. 제3자 제공업체는 사용되지 않습니다.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => '구성';

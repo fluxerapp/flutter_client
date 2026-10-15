@@ -6258,27 +6258,9 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Aiuta a migliorare {productName} condividendo dati anonimi su crash e prestazioni.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "advancedPerformanceReportingLabel": "Invia segnalazioni di crash e prestazioni",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "Tutti i dati segnalati sono anonimi e vengono inviati solo al servizio di monitoraggio di {productName}; non vengono utilizzati provider di terze parti.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "userSettingsNavApplications": "Applicazioni",
     "@userSettingsNavApplications": {

@@ -10290,18 +10290,16 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Relatórios de desempenho';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Ajude a melhorar o $productName compartilhando dados anônimos de falhas e desempenho.';
-  }
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data.';
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Enviar relatórios de falhas e desempenho';
 
   @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do $productName — nenhum provedor de terceiros é usado.';
-  }
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to.';
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -25996,18 +25994,8 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get advancedPerformanceReportingTitle => 'Relatórios de desempenho';
 
   @override
-  String advancedPerformanceReportingSectionDescription(String productName) {
-    return 'Ajude a melhorar o $productName compartilhando dados anônimos de falhas e desempenho.';
-  }
-
-  @override
   String get advancedPerformanceReportingLabel =>
       'Enviar relatórios de falhas e desempenho';
-
-  @override
-  String advancedPerformanceReportingDescription(String productName) {
-    return 'Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do $productName — nenhum provedor de terceiros é usado.';
-  }
 
   @override
   String get advancedSettingsConfigure => 'Configurar';

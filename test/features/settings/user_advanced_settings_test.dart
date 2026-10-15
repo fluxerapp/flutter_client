@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -113,10 +115,14 @@ List<Override> _overrides() {
   ];
 }
 
-Widget _wrap(Widget child, {required Size size}) {
+Widget _wrap(
+  Widget child, {
+  required Size size,
+  List<Override> extraOverrides = const <Override>[],
+}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: _overrides(),
+    overrides: [..._overrides(), ...extraOverrides],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,
@@ -138,6 +144,7 @@ void main() {
   Future<void> pumpAdvancedSettings(
     WidgetTester tester, {
     required Size size,
+    List<Override> extraOverrides = const <Override>[],
   }) async {
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
@@ -146,7 +153,13 @@ void main() {
       tester.view.resetDevicePixelRatio();
     });
 
-    await tester.pumpWidget(_wrap(const UserAdvancedSettings(), size: size));
+    await tester.pumpWidget(
+      _wrap(
+        const UserAdvancedSettings(),
+        size: size,
+        extraOverrides: extraOverrides,
+      ),
+    );
     await tester.pumpAndSettle();
   }
 
@@ -259,6 +272,56 @@ void main() {
 
     expect(container.read(userSettingsViewModelProvider).developerMode, isTrue);
   });
+
+  testWidgets(
+    'crash reporting copy names Fluxer on a branded self-hosted instance',
+    (tester) async {
+      await pumpAdvancedSettings(
+        tester,
+        size: Size(kWideTestViewportSize.width, 3000),
+        extraOverrides: [
+          instanceRuntimeConfigProvider.overrideWithValue(
+            const InstanceRuntimeConfig(
+              productName: 'Acme',
+              selfHosted: true,
+              stripeEnabled: false,
+              emailsEnabled: true,
+              voiceEnabled: true,
+              presignedAttachmentUploads: true,
+              gifEnabled: true,
+              blueskyEnabled: true,
+              gifAttributionRequired: false,
+              singleCommunity: false,
+              directMessagesDisabled: false,
+              registrationClosed: false,
+              adminRegistrationUrlsEnabled: false,
+              collectDateOfBirth: true,
+            ),
+          ),
+        ],
+      );
+      final Finder destination = find.text(
+        "Reports go to Fluxer's error tracker, whichever instance you're "
+        'signed in to.',
+      );
+      await tester.scrollUntilVisible(
+        destination,
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+
+      expect(destination, findsOneWidget);
+      expect(
+        find.text(
+          'Help Fluxer fix bugs in this app by sharing crash and performance '
+          'data.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.textContaining('Acme'), findsNothing);
+      expect(find.textContaining('anonymous'), findsNothing);
+    },
+  );
 
   testWidgets('toggling text selection updates advanced preferences', (
     tester,

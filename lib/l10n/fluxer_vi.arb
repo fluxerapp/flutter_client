@@ -11703,27 +11703,9 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Giúp cải thiện {productName} bằng cách chia sẻ dữ liệu sự cố và hiệu suất ẩn danh.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "advancedPerformanceReportingLabel": "Gửi báo cáo sự cố và hiệu suất",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "Tất cả dữ liệu được báo cáo đều ẩn danh và chỉ được gửi đến dịch vụ giám sát của {productName} — không sử dụng nhà cung cấp bên thứ ba nào.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "advancedSettingsConfigure": "Cấu hình",
     "@advancedSettingsConfigure": {

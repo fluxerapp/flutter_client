@@ -11703,27 +11703,9 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Pomozite poboljšati {productName} dijeljenjem anonimnih podataka o rušenjima i performansama.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "advancedPerformanceReportingLabel": "Šalji izvješća o rušenju i performansama",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "Svi prijavljeni podaci su anonimni i šalju se samo na vlastitu servis za nadzor od strane {productName} — ne koriste se pružatelji usluga trećih strana.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "advancedSettingsConfigure": "Konfiguriraj",
     "@advancedSettingsConfigure": {

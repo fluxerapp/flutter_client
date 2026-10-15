@@ -871,10 +871,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-performance',
     label: _l((l10n) => l10n.advancedPerformanceReportingLabel),
-    description: _lp(
-      (l10n, productName) =>
-          l10n.advancedPerformanceReportingSectionDescription(productName),
-    ),
+    description: _l((l10n) => l10n.advancedCrashReportingSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'applications-dev',

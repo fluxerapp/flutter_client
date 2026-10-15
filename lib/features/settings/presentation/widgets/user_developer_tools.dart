@@ -235,14 +235,15 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
           ),
           FluxerSettingsSection(
             sectionId: 'developer-tools-measure-crash',
-            title: 'Measure crash logger',
+            title: 'Crash reporting test',
             description:
-                'Throws an uncaught exception after a short delay so Measure '
-                'and Talker record it like a real crash.',
+                'Throws an uncaught exception after 2 seconds. Talker always '
+                "logs it. Fluxer's error tracker gets it only when crash and "
+                'performance reports are on.',
             children: [
               FluxerButton.primary(
                 onPressed: _sendTestCrashToMeasure,
-                label: 'Send test error to crash logger',
+                label: 'Send test error',
                 fitContent: true,
               ),
             ],

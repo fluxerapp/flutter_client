@@ -11703,27 +11703,9 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "{productName} को बेहतर बनाने में मदद करें, क्रैश और परफॉरमेंस डेटा को अज्ञात रूप से शेयर करके।",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "advancedPerformanceReportingLabel": "क्रैश और परफॉरमेंस रिपोर्ट भेजें",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "सभी रिपोर्ट किया गया डेटा गुमनाम है और केवल {productName} की अपनी निगरानी सेवा को भेजा जाता है — किसी तीसरे पक्ष के प्रदाता का उपयोग नहीं किया जाता है।",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "advancedSettingsConfigure": "कॉन्फ़िगर करें",
     "@advancedSettingsConfigure": {

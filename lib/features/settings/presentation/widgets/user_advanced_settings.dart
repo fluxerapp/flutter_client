@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/advanced_configure_sheets.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/advanced_search_sheets.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -27,9 +26,6 @@ class UserAdvancedSettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = FluxerLocalizations.of(context);
-    final String productName = ref.watch(
-      instanceRuntimeConfigProvider.select((config) => config.productName),
-    );
 
     return SingleChildScrollView(
       controller: scrollController,
@@ -413,15 +409,11 @@ class UserAdvancedSettings extends ConsumerWidget {
           FluxerSettingsSection(
             sectionId: 'advanced-performance',
             title: l10n.advancedPerformanceReportingTitle,
-            description: l10n.advancedPerformanceReportingSectionDescription(
-              productName,
-            ),
+            description: l10n.advancedCrashReportingSectionDescription,
             children: [
               FluxerSettingsSwitchItem(
                 label: l10n.advancedPerformanceReportingLabel,
-                description: l10n.advancedPerformanceReportingDescription(
-                  productName,
-                ),
+                description: l10n.advancedCrashReportingDescription,
                 value: ref.watch(observabilityReportingProvider),
                 enabled: observabilityReportingIsAvailable(),
                 onChanged: (bool value) => ref
