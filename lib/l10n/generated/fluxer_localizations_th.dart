@@ -8120,6 +8120,20 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get channelMenuDuplicateChannel => 'ทำซ้ำช่อง';
 
   @override
+  String get channelMenuMoveToCategory => 'Move to category';
+
+  @override
+  String get channelMenuNoCategory => 'No category';
+
+  @override
+  String get channelMoveCategoryFullTitle => 'Category full';
+
+  @override
+  String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
+    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+  }
+
+  @override
   String get channelMenuResetMatureContentAgreeState =>
       'รีเซ็ตสถานะข้อตกลงเนื้อหาสำหรับผู้ใหญ่';
 

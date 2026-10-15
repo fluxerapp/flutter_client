@@ -7864,6 +7864,20 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get channelMenuDuplicateChannel => '채널 복제';
 
   @override
+  String get channelMenuMoveToCategory => 'Move to category';
+
+  @override
+  String get channelMenuNoCategory => 'No category';
+
+  @override
+  String get channelMoveCategoryFullTitle => 'Category full';
+
+  @override
+  String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
+    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+  }
+
+  @override
   String get channelMenuResetMatureContentAgreeState => '성인 콘텐츠 동의 상태 재설정';
 
   @override

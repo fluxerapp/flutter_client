@@ -22,6 +22,7 @@ enum ChannelMenuAction {
   mute,
   notificationSettings,
   editChannel,
+  moveToCategory,
   duplicateChannel,
   debugChannel,
   resetMatureContentAgree,
@@ -70,6 +71,7 @@ class ChannelMenuState {
     required this.isMuted,
     required this.showNotificationSettings,
     required this.showEditChannel,
+    required this.showMoveToCategory,
     required this.showDuplicateChannel,
     required this.showDebugChannel,
     required this.showResetMatureContent,
@@ -97,6 +99,7 @@ class ChannelMenuState {
   final bool isMuted;
   final bool showNotificationSettings;
   final bool showEditChannel;
+  final bool showMoveToCategory;
   final bool showDuplicateChannel;
   final bool showDebugChannel;
   final bool showResetMatureContent;
@@ -179,6 +182,7 @@ ChannelMenuState resolveChannelMenuState({
     mutedHint: mutedHint,
     showNotificationSettings: isGuildChannel,
     showEditChannel: canEditChannel && !nsfwBlockedForMinor,
+    showMoveToCategory: canManageChannels,
     showDuplicateChannel: canManageChannels && !nsfwBlockedForMinor,
     showDebugChannel: developerMode,
     showResetMatureContent: developerMode && hasAgreedToMatureContent,
@@ -314,7 +318,9 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     );
   }
   groups.add(notificationItems);
-  if (state.showEditChannel || state.showDuplicateChannel) {
+  if (state.showEditChannel ||
+      state.showMoveToCategory ||
+      state.showDuplicateChannel) {
     final List<ChannelMenuEntry> manageItems = <ChannelMenuEntry>[];
     if (state.showEditChannel) {
       manageItems.add(
@@ -322,6 +328,15 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
           label: l10n.channelDetailsEditChannel,
           icon: PhosphorIconsFill.pencilSimple,
           action: ChannelMenuAction.editChannel,
+        ),
+      );
+    }
+    if (state.showMoveToCategory) {
+      manageItems.add(
+        ChannelMenuEntry(
+          label: l10n.channelMenuMoveToCategory,
+          icon: PhosphorIconsFill.folderSimple,
+          action: ChannelMenuAction.moveToCategory,
         ),
       );
     }

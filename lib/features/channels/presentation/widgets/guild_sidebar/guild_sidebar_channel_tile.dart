@@ -435,6 +435,16 @@ class _ChannelTile extends ConsumerWidget {
       case ChannelMenuAction.editChannel:
         close();
         unawaited(ChannelSettingsFlow.show(menuContext, channelId: channel.id));
+      case ChannelMenuAction.moveToCategory:
+        close();
+        unawaited(
+          showMoveChannelToCategorySheet(
+            hostContext,
+            ref,
+            guildId: guildId,
+            channelId: channel.id,
+          ),
+        );
       case ChannelMenuAction.duplicateChannel:
         close();
         _showComingSoon(menuContext, ref);

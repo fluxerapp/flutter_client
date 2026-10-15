@@ -154,11 +154,11 @@ class ChannelRepository {
         '/guilds/$guildId/channels',
         data: buildChannelMoveRequestBody(operation),
       );
-    } on DioException catch (e) {
+    } on DioException {
       if (rollbackChannels != null) {
         await applyLocalChannels(guildId, rollbackChannels);
       }
-      throw Exception(e.response?.statusMessage ?? 'Failed to move channel');
+      rethrow;
     }
   }
 }

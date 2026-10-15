@@ -317,3 +317,35 @@ ChannelMoveComputation? computeChannelMove({
     updatedChannels: updatedChannels,
   );
 }
+
+ChannelMoveComputation? computeChannelMoveToParent({
+  required List<Channel> channels,
+  required String channelId,
+  required String? parentId,
+}) {
+  final int index = channels.indexWhere(
+    (Channel channel) => channel.id == channelId,
+  );
+  if (index == -1) {
+    return null;
+  }
+  final Channel channel = channels[index];
+  if (channel.isCategory || channel.parentId == parentId) {
+    return null;
+  }
+  return computeChannelMove(
+    channels: channels,
+    dragItem: ChannelReorderDragItem.fromChannel(channel),
+    dropResult: parentId == null
+        ? const ChannelReorderDropResult(
+            targetId: kTrailingSpaceTargetId,
+            position: ChannelReorderDropPosition.after,
+          )
+        : ChannelReorderDropResult(
+            targetId: parentId,
+            position: ChannelReorderDropPosition.inside,
+            targetParentId: parentId,
+            targetParentIdSpecified: true,
+          ),
+  );
+}

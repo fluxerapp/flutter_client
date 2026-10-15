@@ -8257,6 +8257,20 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get channelMenuDuplicateChannel => 'Dubliuoti kanalą';
 
   @override
+  String get channelMenuMoveToCategory => 'Move to category';
+
+  @override
+  String get channelMenuNoCategory => 'No category';
+
+  @override
+  String get channelMoveCategoryFullTitle => 'Category full';
+
+  @override
+  String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
+    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+  }
+
+  @override
   String get channelMenuResetMatureContentAgreeState =>
       'Iš naujo nustatyti sutikimo su brandaus turinio taisyklėmis būseną';
 

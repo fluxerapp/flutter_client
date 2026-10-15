@@ -41,6 +41,7 @@ enum ApiErrorAction {
   saveFavoriteMedia,
   deleteChannel,
   deleteCategory,
+  moveChannel,
   updateChannelPermissions,
   saveChannelSettings,
   deleteCommunity,
@@ -320,6 +321,16 @@ _ErrorCopy _copyFor(
       code,
       isCategory: true,
     ),
+    ApiErrorAction.moveChannel => switch (code) {
+      'MAX_CATEGORY_CHANNELS' => (
+        title: l10n.channelMoveCategoryFullTitle,
+        body: l10n.channelMoveCategoryFullMessage(details.count ?? 0),
+      ),
+      _ => (
+        title: l10n.errorSomethingWentWrongTitle,
+        body: _apiMessageOr(apiMessage, l10n.errorUnexpectedTryAgain),
+      ),
+    },
     ApiErrorAction.updateChannelPermissions => (
       title: l10n.channelPermissionsUpdateFailedTitle,
       body: l10n.guildSettingsRolesTryAgainInAMoment,

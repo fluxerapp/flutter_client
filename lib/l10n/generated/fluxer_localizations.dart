@@ -13329,6 +13329,30 @@ abstract class FluxerLocalizations {
   /// **'Duplicate channel'**
   String get channelMenuDuplicateChannel;
 
+  /// Guild channel menu action that opens a sheet to move the channel into another category or out of any category.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to category'**
+  String get channelMenuMoveToCategory;
+
+  /// Option in the move to category sheet that moves the channel out of its category.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get channelMenuNoCategory;
+
+  /// Dialog title shown when a channel cannot be moved because the target category is full.
+  ///
+  /// In en, this message translates to:
+  /// **'Category full'**
+  String get channelMoveCategoryFullTitle;
+
+  /// Dialog body shown when a category cannot accept another channel because the per-category limit is reached.
+  ///
+  /// In en, this message translates to:
+  /// **'This category already contains the maximum of {maxChannelsPerCategory} channels.'**
+  String channelMoveCategoryFullMessage(int maxChannelsPerCategory);
+
   /// Developer tool action that forgets a local mature-content gate acknowledgement.
   ///
   /// In en, this message translates to:

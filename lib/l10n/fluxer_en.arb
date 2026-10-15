@@ -10385,6 +10385,27 @@
     "@channelMenuDuplicateChannel": {
         "description": "Guild channel menu action to duplicate the selected channel."
     },
+    "channelMenuMoveToCategory": "Move to category",
+    "@channelMenuMoveToCategory": {
+        "description": "Guild channel menu action that opens a sheet to move the channel into another category or out of any category."
+    },
+    "channelMenuNoCategory": "No category",
+    "@channelMenuNoCategory": {
+        "description": "Option in the move to category sheet that moves the channel out of its category."
+    },
+    "channelMoveCategoryFullTitle": "Category full",
+    "@channelMoveCategoryFullTitle": {
+        "description": "Dialog title shown when a channel cannot be moved because the target category is full."
+    },
+    "channelMoveCategoryFullMessage": "This category already contains the maximum of {maxChannelsPerCategory} channels.",
+    "@channelMoveCategoryFullMessage": {
+        "description": "Dialog body shown when a category cannot accept another channel because the per-category limit is reached.",
+        "placeholders": {
+            "maxChannelsPerCategory": {
+                "type": "int"
+            }
+        }
+    },
     "channelMenuResetMatureContentAgreeState": "Reset mature content agreement state",
     "@channelMenuResetMatureContentAgreeState": {
         "description": "Developer tool action that forgets a local mature-content gate acknowledgement."

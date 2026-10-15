@@ -8174,6 +8174,20 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get channelMenuDuplicateChannel => 'चैनल डुप्लिकेट करें';
 
   @override
+  String get channelMenuMoveToCategory => 'Move to category';
+
+  @override
+  String get channelMenuNoCategory => 'No category';
+
+  @override
+  String get channelMoveCategoryFullTitle => 'Category full';
+
+  @override
+  String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
+    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+  }
+
+  @override
   String get channelMenuResetMatureContentAgreeState =>
       'वयस्क सामग्री सहमति स्थिति रीसेट करें';
 

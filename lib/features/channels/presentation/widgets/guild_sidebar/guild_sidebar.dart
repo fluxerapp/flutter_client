@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/channels/presentation/modals/show_channel_in
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_follow_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/move_channel_to_category_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_typing_indicator.dart';

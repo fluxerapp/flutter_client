@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart';
+import 'package:fluxer_app/features/channels/domain/channel_move_payload.dart';
 import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
 import 'package:fluxer_app/features/channels/domain/guild_channel_ordering.dart';
 
@@ -225,4 +226,93 @@ void main() {
       expect(operation.precedingSiblingId, 'text-3');
     },
   );
+
+  group('computeChannelMoveToParent', () {
+    final List<Channel> channels = <Channel>[
+      _channel(id: 'top', type: 0),
+      _channel(id: 'cat-1', type: 4, position: 1),
+      _channel(id: 'text-1', type: 0, parentId: 'cat-1'),
+      _channel(id: 'text-3', type: 0, parentId: 'cat-1', position: 1),
+      _channel(id: 'voice-1', type: 2, parentId: 'cat-1', position: 2),
+      _channel(id: 'cat-2', type: 4, position: 2),
+      _channel(id: 'text-4', type: 0, parentId: 'cat-2'),
+    ];
+
+    List<Map<String, Object?>> payloadFor(String channelId, String? parentId) {
+      final ChannelMoveComputation? computation = computeChannelMoveToParent(
+        channels: channels,
+        channelId: channelId,
+        parentId: parentId,
+      );
+      expect(computation, isNotNull);
+      return buildChannelMoveRequestBody(computation!.operation);
+    }
+
+    test('a text channel goes after the last text channel of the target', () {
+      expect(payloadFor('top', 'cat-1'), <Map<String, Object?>>[
+        <String, Object?>{
+          'id': 'top',
+          'parent_id': 'cat-1',
+          'preceding_sibling_id': 'text-3',
+          'position': 2,
+          'lock_permissions': false,
+        },
+      ]);
+    });
+
+    test('a voice channel goes to the end of the target category', () {
+      final List<Channel> withVoice = <Channel>[
+        ...channels,
+        _channel(id: 'voice-2', type: 2, parentId: 'cat-2', position: 1),
+      ];
+      final ChannelMoveComputation? computation = computeChannelMoveToParent(
+        channels: withVoice,
+        channelId: 'voice-2',
+        parentId: 'cat-1',
+      );
+      expect(computation, isNotNull);
+      expect(computation!.operation.newParentId, 'cat-1');
+      expect(computation.operation.precedingSiblingId, 'voice-1');
+      expect(computation.operation.position, 3);
+    });
+
+    test('moving to no category sends a null parent at the end', () {
+      expect(payloadFor('text-4', null), <Map<String, Object?>>[
+        <String, Object?>{
+          'id': 'text-4',
+          'parent_id': null,
+          'preceding_sibling_id': 'cat-2',
+          'position': 3,
+          'lock_permissions': false,
+        },
+      ]);
+    });
+
+    test('the current parent and categories are no-ops', () {
+      expect(
+        computeChannelMoveToParent(
+          channels: channels,
+          channelId: 'text-1',
+          parentId: 'cat-1',
+        ),
+        isNull,
+      );
+      expect(
+        computeChannelMoveToParent(
+          channels: channels,
+          channelId: 'top',
+          parentId: null,
+        ),
+        isNull,
+      );
+      expect(
+        computeChannelMoveToParent(
+          channels: channels,
+          channelId: 'cat-2',
+          parentId: 'cat-1',
+        ),
+        isNull,
+      );
+    });
+  });
 }

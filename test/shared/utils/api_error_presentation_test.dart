@@ -697,6 +697,29 @@ void main() {
       );
     });
 
+    test('moving a channel into a full category uses the web copy', () {
+      final ApiErrorPresentation presentation = presentApiError(
+        testL10n,
+        ApiErrorAction.moveChannel,
+        code: 'MAX_CATEGORY_CHANNELS',
+        details: const ApiErrorDetails(count: 50),
+      );
+      expect(presentation, isA<ApiErrorDialog>());
+      final ApiErrorDialog dialog = presentation as ApiErrorDialog;
+      expect(dialog.title, 'Category full');
+      expect(
+        dialog.body,
+        'This category already contains the maximum of 50 channels.',
+      );
+      _expectCopy(
+        ApiErrorAction.moveChannel,
+        'MISSING_PERMISSIONS',
+        'Something went wrong',
+        'Missing permissions',
+        apiMessage: 'Missing permissions',
+      );
+    });
+
     test('saves show the server reason or a fallback', () {
       _expectCopy(
         ApiErrorAction.updateChannelPermissions,
