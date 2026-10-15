@@ -775,6 +775,69 @@ void main() {
     expect(log.channelReads('channel-a'), readsA);
   });
 
+  test('a message to one of many retained channels requeries only that '
+      'channel', () async {
+    final _SelectLog log = _SelectLog();
+    final FluxerDatabase db = FluxerDatabase.forTesting(
+      NativeDatabase.memory().interceptWith(log),
+    );
+    addTearDown(db.close);
+    const guildId = 'guild-1';
+    final List<String> ids = <String>[for (int i = 0; i < 40; i++) 'ch-$i'];
+    final String newest = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+    for (final String id in ids) {
+      await _seedUnreadChannel(
+        db: db,
+        guildId: guildId,
+        channelId: id,
+        userId: 'me',
+        lastMessageId: newest,
+        ackId: newest,
+      );
+      await db.messageDao.upsertMessage(_messageRow(newest, id));
+    }
+    final container = _container(db: db, userId: 'me', guildId: guildId);
+    addTearDown(container.dispose);
+    container.read(gatewayReadyProvider.notifier).setReady();
+    container
+        .read(recentGuildUnreadRetentionProvider.notifier)
+        .retain(guildId, ids);
+    await _waitFor(
+      () => ids.every(
+        (String id) => container.read(channelUnreadProvider(id)).hasValue,
+      ),
+    );
+    await _waitForQuiet(log);
+
+    final int mark = log.completed.length;
+    final String incoming = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    await db.messageDao.upsertMessage(_messageRow(incoming, 'ch-7'));
+    await db.channelDao.setLastMessageId('ch-7', incoming);
+    await _waitFor(
+      () =>
+          container.read(channelUnreadProvider('ch-7')).value?.hasUnread ??
+          false,
+    );
+    await _waitForQuiet(log);
+
+    final List<(String, List<Object?>)> after = log.completed.sublist(mark);
+    final Set<String> requeried = <String>{
+      for (final (String, List<Object?>) e in after)
+        if (e.$2.where(ids.contains).toSet() case final Set<Object?> touched
+            when touched.length == 1)
+          touched.single! as String,
+    };
+    expect(requeried, <String>{'ch-7'});
+    expect(after.length, lessThan(ids.length ~/ 2));
+    for (final String id in ids) {
+      expect(
+        container.read(channelUnreadProvider(id)).value?.hasUnread,
+        id == 'ch-7',
+        reason: id,
+      );
+    }
+  });
+
   test('an unread recompute that changes nothing does not notify '
       'listeners', () async {
     final watched = await _watchTwoChannels();

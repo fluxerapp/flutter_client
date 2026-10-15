@@ -46,6 +46,9 @@ class ThreadDao extends DatabaseAccessor<FluxerDatabase> with _$ThreadDaoMixin {
     threadMembers,
   )..where((m) => m.threadId.equals(threadId))).getSingleOrNull();
 
+  Future<List<ThreadMember>> getMembersFor(List<String> threadIds) =>
+      (select(threadMembers)..where((m) => m.threadId.isIn(threadIds))).get();
+
   Stream<ThreadMember?> watchMember(String threadId) =>
       (select(threadMembers)..where((m) => m.threadId.equals(threadId)))
           .watchSingleOrNull()

@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/data/channel_unread_sources.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
@@ -88,6 +89,15 @@ UnreadState? channelUnreadOrLastKnown(Ref ref, String channelId) {
       ref.watch(channelUnreadLastKnownProvider)[channelId];
 }
 
+@Riverpod(keepAlive: true)
+ChannelUnreadSources channelUnreadSources(Ref ref) {
+  final ChannelUnreadSources sources = ChannelUnreadSources(
+    ref.watch(fluxerDatabaseProvider),
+  );
+  ref.onDispose(sources.dispose);
+  return sources;
+}
+
 const int kRetainedGuildUnreadSets = 3;
 
 @Riverpod(keepAlive: true)
@@ -164,6 +174,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   final bool? canView = ref.watch(channelUnreadCanViewProvider(channelId));
   final ProviderContainer container = ref.container;
   final readStateWriteBatcher = ref.read(readStateWriteBatcherProvider);
+  final ChannelUnreadSources sources = ref.watch(channelUnreadSourcesProvider);
 
   final controller = StreamController<UnreadState>();
   var disposed = false;
@@ -171,7 +182,6 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   var recomputeAgain = false;
   String? watchedSettingsGuildId;
   ProviderSubscription<AsyncValue<String?>>? settingsSub;
-  StreamSubscription<Object?>? threadMemberSub;
   UnreadState? lastEmitted;
   local.ReadState? lastReadState;
   ({String? lastMessageId, int mentionCount})? lastEffective;
@@ -256,15 +266,6 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
           );
     final fallbackAckMs = channel == null ? snowflakeTimestampMs(channelId) : 0;
     final bool isThread = channel != null && isThreadChannelType(channel.type);
-    if (isThread && threadMemberSub == null) {
-      threadMemberSub = db.threadDao
-          .watchMember(channelId)
-          .skip(1)
-          .listen((_) => scheduleRecompute());
-    }
-    if (!isActive()) {
-      return;
-    }
     final bool unreadTracked =
         (!isThread || await db.threadDao.getMember(channelId) != null) &&
         !(channel != null &&
@@ -328,55 +329,40 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     unawaited(runRecompute());
   };
 
-  final channelSub = db.channelDao
-      .watchChannelById(channelId)
-      .distinct()
-      .listen((_) => scheduleRecompute());
-  final readStateSub = db.readStateDao
-      .watchReadState(channelId)
-      .distinct()
-      .listen((_) => scheduleRecompute());
-  final messageSub = db.messageDao
-      .watchLastMessage(channelId)
-      .map((message) => message?.id)
-      .distinct()
+  final sourcesSub = sources
+      .changes(channelId)
       .listen((_) => scheduleRecompute());
   final indexSub = ref
       .watch(channelLastMessageIndexProvider)
       .flushStream
       .where((Map<String, String> updates) => updates.containsKey(channelId))
       .listen((_) => scheduleRecompute());
-  ref.listen<int>(readStateOverlayVersionProvider, (_, _) {
-    if (canView == false) {
-      return;
-    }
-    final ({String? lastMessageId, int mentionCount})? used = lastEffective;
-    if (used == null) {
-      scheduleRecompute();
-      return;
-    }
-    final next = readStateWriteBatcher.effectiveFields(
-      channelId,
-      lastReadState,
-    );
-    if (next.lastMessageId != used.lastMessageId ||
-        next.mentionCount != used.mentionCount) {
-      scheduleRecompute();
-    }
-  });
-
-  scheduleRecompute();
-
-  ref.onDispose(() {
-    disposed = true;
-    unawaited(channelSub.cancel());
-    unawaited(readStateSub.cancel());
-    unawaited(messageSub.cancel());
-    unawaited(indexSub.cancel());
-    settingsSub?.close();
-    unawaited(threadMemberSub?.cancel());
-    unawaited(controller.close());
-  });
+  ref
+    ..listen<int>(readStateOverlayVersionProvider, (_, _) {
+      if (canView == false) {
+        return;
+      }
+      final ({String? lastMessageId, int mentionCount})? used = lastEffective;
+      if (used == null) {
+        scheduleRecompute();
+        return;
+      }
+      final next = readStateWriteBatcher.effectiveFields(
+        channelId,
+        lastReadState,
+      );
+      if (next.lastMessageId != used.lastMessageId ||
+          next.mentionCount != used.mentionCount) {
+        scheduleRecompute();
+      }
+    })
+    ..onDispose(() {
+      disposed = true;
+      unawaited(sourcesSub.cancel());
+      unawaited(indexSub.cancel());
+      settingsSub?.close();
+      unawaited(controller.close());
+    });
 
   return controller.stream;
 }

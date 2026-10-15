@@ -142,25 +142,20 @@ void main() {
     expect(await db.messageDao.newestServerMessageId('other-ch'), null);
   });
 
-  test(
-    'watchLastMessage emits the newest row and re-emits on insert',
-    () async {
-      final db = await seed([idA, idB]);
+  test('getLastMessageIds matches getLastMessage per channel', () async {
+    final db = await seed([idA, idB]);
+    final DateTime tied = DateTime.utc(2026, 5, 10, 11);
+    await db.messageDao.upsertMessage(_msgAt(idC, tied).toCompanion());
 
-      final emissions = <String?>[];
-      final sub = db.messageDao
-          .watchLastMessage('ch')
-          .listen((m) => emissions.add(m?.id));
-      addTearDown(sub.cancel);
+    final Map<String, String> ids = await db.messageDao.getLastMessageIds(
+      <String>['ch', 'empty-ch'],
+    );
 
-      await pumpEventQueue();
-      expect(emissions.last, idB);
-
-      await db.messageDao.upsertMessage(_msg(idC).toCompanion());
-      await pumpEventQueue();
-      expect(emissions.last, idC);
-    },
-  );
+    expect(ids, <String, String>{
+      'ch': (await db.messageDao.getLastMessage('ch'))!.id,
+    });
+    expect(ids['ch'], idC);
+  });
 
   test('saveTranslation persists on the message row', () async {
     final db = openTestDatabase();

@@ -273,16 +273,31 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return row?.id;
   }
 
-  Stream<Message?> watchLastMessage(String channelId) =>
-      (select(messages)
-            ..where((m) => m.channelId.equals(channelId))
-            ..orderBy([
-              (m) => OrderingTerm.desc(m.timestamp),
-              (m) => OrderingTerm.desc(m.id.cast<int>()),
-            ])
-            ..limit(1))
-          .watchSingleOrNull()
-          .suppressDriftCancellation;
+  Future<Map<String, String>> getLastMessageIds(List<String> channelIds) async {
+    if (channelIds.isEmpty) {
+      return <String, String>{};
+    }
+    final String values = List<String>.filled(
+      channelIds.length,
+      '(?)',
+    ).join(', ');
+    final List<QueryRow> rows = await customSelect(
+      'WITH ids(channel_id) AS (VALUES $values) '
+      'SELECT ids.channel_id AS channel_id, ( '
+      'SELECT m.id FROM "messages" m WHERE m.channel_id = ids.channel_id '
+      'ORDER BY m.timestamp DESC, CAST(m.id AS INTEGER) DESC LIMIT 1 '
+      ') AS last_id FROM ids',
+      variables: <Variable<Object>>[
+        for (final String channelId in channelIds) Variable<String>(channelId),
+      ],
+      readsFrom: <TableInfo<Table, Object?>>{messages},
+    ).get();
+    return <String, String>{
+      for (final QueryRow row in rows)
+        if (row.readNullable<String>('last_id') case final String id)
+          row.read<String>('channel_id'): id,
+    };
+  }
 
   Stream<int> watchServerMessageCountAfter(String channelId, String afterId) {
     final Expression<int> count = messages.id.count();
