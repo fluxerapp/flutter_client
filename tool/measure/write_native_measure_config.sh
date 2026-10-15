@@ -118,9 +118,11 @@ write_ios_secrets_xcconfig() {
   local api_key="$2"
   local api_url="$3"
   local path="$ROOT/ios/Flutter/MeasureSecrets.${channel}.xcconfig"
+  local xcconfig_api_url
+  xcconfig_api_url="$(printf '%s' "$api_url" | sed 's#//#/$()/#g')"
   cat >"$path" <<EOF
 MEASURE_API_KEY=$api_key
-MEASURE_API_URL=$api_url
+MEASURE_API_URL=$xcconfig_api_url
 EOF
   echo "Wrote ios/Flutter/MeasureSecrets.${channel}.xcconfig"
 }
