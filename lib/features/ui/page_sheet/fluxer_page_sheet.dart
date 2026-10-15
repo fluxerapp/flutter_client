@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:cupertino_ui/cupertino_ui.dart' hide RichText, Text;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -218,6 +220,8 @@ class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
   bool _dragging = false;
   Animation<double>? _coveredBy;
   late Animation<double> _stackedSecondary;
+  late final FluxerSheetBackdropProgress _covered =
+      FluxerSheetBackdropProgress.of(this);
 
   @override
   Widget buildTransitions(
@@ -230,10 +234,20 @@ class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
       _coveredBy = secondaryAnimation;
       _stackedSecondary = AnimationMax<double>(
         secondaryAnimation,
-        FluxerSheetBackdropProgress.of(this).animation,
+        _covered.animation,
       );
     }
-    return super.buildTransitions(context, animation, _stackedSecondary, child);
+    return ValueListenableBuilder<double>(
+      valueListenable: _covered,
+      child: super.buildTransitions(
+        context,
+        animation,
+        _stackedSecondary,
+        child,
+      ),
+      builder: (BuildContext context, double depth, Widget? child) =>
+          fluxerSheetRecede(depth: math.max(0, depth - 1), child: child!),
+    );
   }
 
   @override
@@ -252,8 +266,28 @@ class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
       _reducedMotion ? Duration.zero : _kPageSheetSettleDuration;
 
   @override
-  DelegatedTransitionBuilder? get delegatedTransition =>
-      _dimmedDelegatedTransition;
+  DelegatedTransitionBuilder? get delegatedTransition => _recededTransition;
+
+  Widget _recededTransition(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    bool allowSnapshotting,
+    Widget? child,
+  ) {
+    return ValueListenableBuilder<double>(
+      valueListenable: _covered,
+      child: _dimmedDelegatedTransition(
+        context,
+        animation,
+        secondaryAnimation,
+        allowSnapshotting,
+        child,
+      ),
+      builder: (BuildContext context, double depth, Widget? child) =>
+          fluxerSheetRecede(depth: depth, child: child!),
+    );
+  }
 
   double get _sheetHeight {
     final Size? size = navigator?.context.size;
@@ -316,7 +350,7 @@ class _FluxerCupertinoSheetRoute<T> extends CupertinoSheetRoute<T>
   }
 }
 
-Widget? _dimmedDelegatedTransition(
+Widget _dimmedDelegatedTransition(
   BuildContext context,
   Animation<double> animation,
   Animation<double> secondaryAnimation,

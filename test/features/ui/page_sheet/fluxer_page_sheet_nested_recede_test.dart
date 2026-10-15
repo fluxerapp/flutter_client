@@ -18,7 +18,7 @@ const ValueKey<String> _pageSheetKey = ValueKey<String>('page-sheet-body');
 const ValueKey<String> _innerSheetKey = ValueKey<String>('inner-sheet-body');
 
 void main() {
-  testWidgets('a sheet over a page sheet recedes only the page sheet', (
+  testWidgets('a sheet over a page sheet recedes the page one more step', (
     WidgetTester tester,
   ) async {
     tester.view.physicalSize = const Size(402 * 3, 874 * 3);
@@ -94,7 +94,10 @@ void main() {
     expect(find.byKey(_innerSheetKey), findsOneWidget);
     final Rect shellAfter = tester.getRect(find.byKey(_shellKey));
     final Rect pageSheetAfter = tester.getRect(find.byKey(_pageSheetKey));
-    expect(shellAfter, rectMoreOrLessEquals(shellBefore));
+    expect(shellAfter.width, lessThan(shellBefore.width * 0.95));
+    expect(shellAfter.center.dx, moreOrLessEquals(shellBefore.center.dx));
+    expect(shellAfter.top, lessThan(shellBefore.top));
+    expect(shellAfter.width, lessThan(pageSheetAfter.width));
     expect(pageSheetAfter.width, lessThan(pageSheetBefore.width * 0.95));
     expect(
       pageSheetAfter.center.dx,

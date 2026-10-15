@@ -461,7 +461,6 @@ class FluxerBottomSheet {
                 halfChildSize: halfChildSize,
                 initialChildSize: effectiveInitialChildSize,
                 maxHeight: availableHeight,
-                parallax: parallax,
                 showDragHandle: showDragHandle,
                 hasHeader: hasHeader,
                 onDismiss: close,
@@ -692,6 +691,7 @@ class _FluxerSheetPresentationState extends State<_FluxerSheetPresentation>
     with SingleTickerProviderStateMixin
     implements FluxerSheetDragTarget {
   final ValueNotifier<double> _dragOffset = ValueNotifier<double>(0);
+  final ValueNotifier<double> _recede = ValueNotifier<double>(0);
   late final FluxerSheetScrollController _scrollController =
       FluxerSheetScrollController(this);
   late final AnimationController _settle = AnimationController(
@@ -716,10 +716,12 @@ class _FluxerSheetPresentationState extends State<_FluxerSheetPresentation>
       _backdrop ??= FluxerSheetBackdropLink(
         widget.navigator,
         route: ModalRoute.of(context),
+        onCovered: _reportBackdrop,
       );
     } else {
       _backdrop?.dispose();
       _backdrop = null;
+      _recede.value = 0;
     }
     _route = ModalRoute.of(context);
     final Animation<double>? animation = _route?.animation;
@@ -743,6 +745,7 @@ class _FluxerSheetPresentationState extends State<_FluxerSheetPresentation>
     _settle.dispose();
     _scrollController.dispose();
     _dragOffset.dispose();
+    _recede.dispose();
     super.dispose();
   }
 
@@ -812,11 +815,17 @@ class _FluxerSheetPresentationState extends State<_FluxerSheetPresentation>
     if (backdrop == null) {
       return;
     }
+    if (!backdrop.covers(height)) {
+      _recede.value = 0;
+      backdrop.report(0);
+      return;
+    }
+    final double depth = backdrop.depth;
+    _recede.value = depth;
     backdrop.report(
-      backdrop.covers(height)
-          ? fluxerSheetBackdropProgress(animation, route.transitionDuration) *
-                travel
-          : 0,
+      fluxerSheetBackdropProgress(animation, route.transitionDuration) *
+          travel *
+          (1 + depth),
     );
   }
 
@@ -827,11 +836,19 @@ class _FluxerSheetPresentationState extends State<_FluxerSheetPresentation>
       child: PrimaryScrollController(
         controller: _scrollController,
         child: ValueListenableBuilder<double>(
-          valueListenable: _dragOffset,
-          child: widget.child,
-          builder: (BuildContext context, double offset, Widget? child) {
-            return Transform.translate(offset: Offset(0, offset), child: child);
-          },
+          valueListenable: _recede,
+          child: ValueListenableBuilder<double>(
+            valueListenable: _dragOffset,
+            child: widget.child,
+            builder: (BuildContext context, double offset, Widget? child) {
+              return Transform.translate(
+                offset: Offset(0, offset),
+                child: child,
+              );
+            },
+          ),
+          builder: (BuildContext context, double depth, Widget? child) =>
+              fluxerSheetRecede(depth: depth, child: child!),
         ),
       ),
     );
@@ -903,7 +920,6 @@ class FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.halfChildSize,
     required this.initialChildSize,
     required this.maxHeight,
-    required this.parallax,
     required this.showDragHandle,
     required this.hasHeader,
     required this.onDismiss,
@@ -925,7 +941,6 @@ class FluxerDraggableScrollableSheet extends StatefulWidget {
   final double halfChildSize;
   final double initialChildSize;
   final double maxHeight;
-  final bool parallax;
   final bool showDragHandle;
   final bool hasHeader;
   final VoidCallback onDismiss;
@@ -953,6 +968,7 @@ class _FluxerDraggableScrollableSheetState
     vsync: this,
     value: widget.initialChildSize,
   )..addListener(_reportBackdrop);
+  final ValueNotifier<double> _recede = ValueNotifier<double>(0);
   late final FluxerSheetScrollController _scrollController =
       FluxerSheetScrollController(this, dragsWhenShort: true);
 
@@ -967,14 +983,16 @@ class _FluxerDraggableScrollableSheetState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (widget.parallax && _fluxerSheetDrivesBackdrop(context)) {
+    if (_topSnapIsFull && _fluxerSheetDrivesBackdrop(context)) {
       _backdrop ??= FluxerSheetBackdropLink(
         widget.navigator,
         route: ModalRoute.of(context),
+        onCovered: _reportBackdrop,
       );
     } else {
       _backdrop?.dispose();
       _backdrop = null;
+      _recede.value = 0;
     }
     _route = ModalRoute.of(context);
     final Animation<double>? animation = _route?.animation;
@@ -1009,9 +1027,14 @@ class _FluxerDraggableScrollableSheetState
       ..removeListener(_reportBackdrop);
     _backdrop?.dispose();
     _size.dispose();
+    _recede.dispose();
     _scrollController.dispose();
     super.dispose();
   }
+
+  bool get _topSnapIsFull =>
+      widget.maxChildSize >= kFluxerBottomSheetFullSize - _kSheetSizeEpsilon &&
+      widget.halfChildSize < widget.maxChildSize - _kSheetSizeEpsilon;
 
   void _expandForKeyboard() {
     if (!mounted || _dismissed || _dragging || !canExpand) {
@@ -1071,14 +1094,16 @@ class _FluxerDraggableScrollableSheetState
     if (backdrop == null) {
       return;
     }
-    final double floor = widget.halfChildSize < widget.initialChildSize
-        ? widget.halfChildSize
-        : 0;
-    final double parallax =
-        ((_size.value - floor) / (widget.initialChildSize - floor)).clamp(0, 1);
+    final double fullness =
+        ((_size.value - widget.halfChildSize) /
+                (widget.maxChildSize - widget.halfChildSize))
+            .clamp(0, 1);
+    final double depth = backdrop.depth * fullness;
+    _recede.value = depth;
     backdrop.report(
       fluxerSheetBackdropProgress(animation, route.transitionDuration) *
-          parallax,
+          fullness *
+          (1 + depth),
     );
   }
 
@@ -1204,13 +1229,18 @@ class _FluxerDraggableScrollableSheetState
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           _available = math.min(widget.maxHeight, constraints.maxHeight);
-          return AnimatedBuilder(
-            animation: _size,
-            child: surface,
-            builder: (BuildContext context, Widget? child) => SizedBox(
-              height: math.max(0, _size.value * _available),
-              child: child,
+          return ValueListenableBuilder<double>(
+            valueListenable: _recede,
+            child: AnimatedBuilder(
+              animation: _size,
+              child: surface,
+              builder: (BuildContext context, Widget? child) => SizedBox(
+                height: math.max(0, _size.value * _available),
+                child: child,
+              ),
             ),
+            builder: (BuildContext context, double depth, Widget? child) =>
+                fluxerSheetRecede(depth: depth, child: child!),
           );
         },
       ),
