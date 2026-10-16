@@ -65,6 +65,7 @@ class SyncedPreferencesStore {
   pb.SyncedPreferences _wire = SyncedPreferencesEngine.createEmpty();
   pb.SyncedPreferences? _hydrateBaselineWire;
   bool _hasHydrated = false;
+  final StreamController<void> _hydrations = StreamController<void>.broadcast();
   bool _hasServerSnapshot = false;
   bool _isApplyingRemote = false;
   bool _isPushInFlight = false;
@@ -80,6 +81,10 @@ class SyncedPreferencesStore {
   int _pushGeneration = 0;
   int _pushRetryAttempts = 0;
 
+  bool get hasHydrated => _hasHydrated;
+
+  Stream<void> get hydrations => _hydrations.stream;
+
   void registerDefaultAdapters() {
     registerDefaultSyncedFieldAdapters(
       registerAdapter: registerAdapter,
@@ -93,6 +98,7 @@ class SyncedPreferencesStore {
   }
 
   void dispose() {
+    unawaited(_hydrations.close());
     _cancelScheduledWork();
     _pushGeneration++;
     _pendingPush = false;
@@ -235,6 +241,9 @@ class SyncedPreferencesStore {
     _restoredDirtyFields = {};
     _persistDirtyFields();
     _flushPendingPush();
+    if (!_hydrations.isClosed) {
+      _hydrations.add(null);
+    }
   }
 
   Future<void> _restorePersistedDirtyFields() async {

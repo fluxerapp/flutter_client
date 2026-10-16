@@ -494,6 +494,28 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
         result(nil)
         self.flushPendingReplies()
       }
+    case "setNotificationSoundSettings":
+      guard let args = call.arguments as? [String: Any],
+        let userId = args["userId"] as? String,
+        !userId.isEmpty,
+        let message = args["message"] as? Bool,
+        let directMessage = args["directMessage"] as? Bool
+      else {
+        result(
+          FlutterError(
+            code: "invalid_args",
+            message: "userId, message and directMessage are required",
+            details: nil
+          )
+        )
+        return
+      }
+      PushNotificationPayload.storeNotificationSoundSettings(
+        userId: userId,
+        message: message,
+        directMessage: directMessage
+      )
+      result(nil)
     case "setActiveUserId":
       let userId = call.arguments as? String
       DispatchQueue.main.async {

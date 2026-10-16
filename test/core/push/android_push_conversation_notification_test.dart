@@ -97,8 +97,6 @@ void main() {
         ], fileExists: (String path) => path.startsWith('/cache/live/'));
     final AndroidNotificationDetails details =
         buildAndroidConversationNotificationDetails(
-          androidChannelId: 'fluxer_messages',
-          androidChannelName: 'Messages',
           payload: const <String, String>{'guild_id': '1'},
           lines: lines,
           conversationTag: 'channel:1',

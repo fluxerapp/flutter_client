@@ -228,8 +228,65 @@ enum PushNotificationPayload {
     return nil
   }
 
-  static func resolveNotificationSound(from userInfo: [AnyHashable: Any]) -> UNNotificationSound? {
+  static let appGroupSuiteName = "group.com.fluxer"
+  static let notificationSoundSettingsKey = "fluxer_push_notification_sounds"
+  static let messageSoundSettingKey = "message"
+  static let directMessageSoundSettingKey = "direct_message"
+
+  static func targetUserId(from userInfo: [AnyHashable: Any]) -> String? {
+    if let userId = nonEmptyText(userInfo["target_user_id"]) {
+      return userId
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any] {
+      return nonEmptyText(data["target_user_id"])
+    }
+    return nil
+  }
+
+  static func isNotificationSoundEnabled(
+    from userInfo: [AnyHashable: Any],
+    soundSettings: [String: Any]?
+  ) -> Bool {
+    guard let userId = targetUserId(from: userInfo),
+      let account = soundSettings?[userId] as? [String: Any]
+    else {
+      return true
+    }
+    let key = isDmPayload(from: userInfo)
+      ? directMessageSoundSettingKey
+      : messageSoundSettingKey
+    return account[key] as? Bool ?? true
+  }
+
+  static func storedNotificationSoundSettings() -> [String: Any]? {
+    return UserDefaults(suiteName: appGroupSuiteName)?
+      .dictionary(forKey: notificationSoundSettingsKey)
+  }
+
+  static func storeNotificationSoundSettings(
+    userId: String,
+    message: Bool,
+    directMessage: Bool
+  ) {
+    guard let defaults = UserDefaults(suiteName: appGroupSuiteName) else {
+      return
+    }
+    var settings = defaults.dictionary(forKey: notificationSoundSettingsKey) ?? [:]
+    settings[userId] = [
+      messageSoundSettingKey: message,
+      directMessageSoundSettingKey: directMessage,
+    ]
+    defaults.set(settings, forKey: notificationSoundSettingsKey)
+  }
+
+  static func resolveNotificationSound(
+    from userInfo: [AnyHashable: Any],
+    soundSettings: [String: Any]? = nil
+  ) -> UNNotificationSound? {
     if isClearPayload(from: userInfo) || isCallRingPayload(from: userInfo) {
+      return nil
+    }
+    if !isNotificationSoundEnabled(from: userInfo, soundSettings: soundSettings) {
       return nil
     }
     let soundFileName = isDmPayload(from: userInfo)

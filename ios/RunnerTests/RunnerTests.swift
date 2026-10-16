@@ -409,6 +409,38 @@ class RunnerTests: XCTestCase {
     XCTAssertNil(PushNotificationPayload.resolveNotificationSound(from: userInfo))
   }
 
+  func testNotificationSoundHonoursAccountSoundSettings() {
+    let settings: [String: Any] = [
+      "u1": ["message": false, "direct_message": true]
+    ]
+    let guildPush: [AnyHashable: Any] = ["target_user_id": "u1", "guild_id": "g"]
+    let dmPush: [AnyHashable: Any] = ["target_user_id": "u1", "guild_id": "@me"]
+    let otherAccountPush: [AnyHashable: Any] = ["target_user_id": "u2", "guild_id": "g"]
+    XCTAssertNil(
+      PushNotificationPayload.resolveNotificationSound(from: guildPush, soundSettings: settings)
+    )
+    XCTAssertNotNil(
+      PushNotificationPayload.resolveNotificationSound(from: dmPush, soundSettings: settings)
+    )
+    XCTAssertNotNil(
+      PushNotificationPayload.resolveNotificationSound(
+        from: otherAccountPush,
+        soundSettings: settings
+      )
+    )
+    XCTAssertNotNil(PushNotificationPayload.resolveNotificationSound(from: guildPush))
+  }
+
+  func testNotificationSoundReadsTargetUserFromNestedData() {
+    let settings: [String: Any] = [
+      "u1": ["message": true, "direct_message": false]
+    ]
+    let dmPush: [AnyHashable: Any] = ["data": ["target_user_id": "u1"]]
+    XCTAssertNil(
+      PushNotificationPayload.resolveNotificationSound(from: dmPush, soundSettings: settings)
+    )
+  }
+
   func testResolvedAlertBodyKeepsCallMessageFromGoingBlank() {
     XCTAssertEqual(
       PushNotificationPayload.resolvedAlertBody(

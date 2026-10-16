@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
+import 'package:fluxer_app/core/push/push_notification_sound_settings.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 
 class ApplePushService implements PushService {
@@ -26,6 +27,27 @@ class ApplePushService implements PushService {
     }
     try {
       await _channel.invokeMethod<void>('setActiveUserId', userId);
+    } on MissingPluginException {
+      return;
+    } on PlatformException {
+      return;
+    }
+  }
+
+  static Future<void> syncNotificationSoundSettings(
+    String userId,
+    PushNotificationSoundSettings settings,
+  ) async {
+    if (!_shouldUseNativeChannel()) {
+      return;
+    }
+    try {
+      await _channel
+          .invokeMethod<void>('setNotificationSoundSettings', <String, Object>{
+            'userId': userId,
+            'message': settings.message,
+            'directMessage': settings.directMessage,
+          });
     } on MissingPluginException {
       return;
     } on PlatformException {

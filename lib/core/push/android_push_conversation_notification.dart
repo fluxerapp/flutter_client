@@ -159,26 +159,25 @@ MessagingStyleInformation buildPushMessagingStyle({
 }
 
 AndroidNotificationDetails buildAndroidConversationNotificationDetails({
-  required String androidChannelId,
-  required String androidChannelName,
   required Map<String, String> payload,
   required List<PushConversationLine> lines,
   required String conversationTag,
   required bool alert,
+  bool soundEnabled = true,
   String? title,
   int? badgeCount,
   int? whenMillis,
 }) {
   final PushConversationLine? latest = lines.isEmpty ? null : lines.last;
-  final AndroidNotificationSound? androidSound = alert
+  final AndroidNotificationSound? androidSound = alert && soundEnabled
       ? resolvePushNotificationAndroidSound(payload)
       : null;
   final FilePathAndroidBitmap? largeIcon = latest?.avatarPath == null
       ? null
       : FilePathAndroidBitmap(latest!.avatarPath!);
   return AndroidNotificationDetails(
-    androidChannelId,
-    androidChannelName,
+    androidPushChannelId(payload, soundEnabled: soundEnabled),
+    androidPushChannelName(payload, soundEnabled: soundEnabled),
     channelDescription: kAndroidPushChannelDescription,
     importance: Importance.high,
     priority: Priority.high,

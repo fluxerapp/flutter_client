@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
+import 'package:fluxer_app/core/push/push_notification_sound_settings.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/push_tray_registry_provider.dart';
@@ -25,6 +26,8 @@ import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -34,6 +37,9 @@ part 'push_notifications_coordinator.g.dart';
 class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
   StreamSubscription<PushMessage>? _messageSubscription;
   StreamSubscription<void>? _pickerSubscription;
+  StreamSubscription<void>? _hydrationSubscription;
+  final PushNotificationSoundSettingsMirror _soundSettingsMirror =
+      PushNotificationSoundSettingsMirror(_writeSoundSettings);
   final LocalPushNotifications _localPush = LocalPushNotifications();
   bool _bootstrapScheduled = false;
 
@@ -44,7 +50,16 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       ..read(fcmNotificationTapBindingProvider)
       ..listen<String?>(currentUserIdProvider, (String? _, String? next) {
         unawaited(ApplePushService.syncActiveUserId(next));
-      }, fireImmediately: true);
+      }, fireImmediately: true)
+      ..listen<SoundPreferencesState>(soundPreferencesProvider, (_, _) {
+        _syncSoundSettings();
+      });
+    unawaited(_hydrationSubscription?.cancel());
+    _hydrationSubscription = ref
+        .read(syncedPreferencesStoreProvider)
+        .hydrations
+        .listen((_) => _syncSoundSettings());
+    _syncSoundSettings();
     if (PushProviderGuard.isUnifiedPush) {
       unawaited(_pickerSubscription?.cancel());
       _pickerSubscription = UnifiedPushService
@@ -65,8 +80,37 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       _messageSubscription = null;
       unawaited(_pickerSubscription?.cancel());
       _pickerSubscription = null;
+      unawaited(_hydrationSubscription?.cancel());
+      _hydrationSubscription = null;
     });
     return false;
+  }
+
+  void _syncSoundSettings() {
+    if (!ref.read(syncedPreferencesStoreProvider).hasHydrated) {
+      return;
+    }
+    _soundSettingsMirror.sync(
+      userId: ref.read(currentUserIdProvider),
+      prefs: ref.read(soundPreferencesProvider),
+    );
+  }
+
+  static Future<void> _writeSoundSettings(
+    String userId,
+    PushNotificationSoundSettings settings,
+  ) {
+    return switch (defaultTargetPlatform) {
+      TargetPlatform.iOS => ApplePushService.syncNotificationSoundSettings(
+        userId,
+        settings,
+      ),
+      TargetPlatform.android => writePushNotificationSoundSettings(
+        userId,
+        settings,
+      ),
+      _ => Future<void>.value(),
+    };
   }
 
   Future<void> _runBootstrap() async {
