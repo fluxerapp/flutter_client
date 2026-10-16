@@ -45,7 +45,6 @@ import flutter_callkit_incoming
     if measureApiKey.isEmpty || measureApiUrl.isEmpty {
       return false
     }
-    MSRNetworkInterceptor.enable(on: URLSessionConfiguration.ephemeral)
     let clientInfo = ClientInfo(apiKey: measureApiKey, apiUrl: measureApiUrl)
     Measure.initialize(with: clientInfo, config: BaseMeasureConfig(autoStart: false))
     measureInitialized = true

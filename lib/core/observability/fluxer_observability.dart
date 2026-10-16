@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/observability/error_log_rate_limiter.dart';
 import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
 import 'package:fluxer_app/core/observability/measure_native_reporting.dart';
+import 'package:fluxer_app/core/observability/measure_trace.dart';
 import 'package:fluxer_app/core/observability/measure_version_metadata.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -43,6 +44,8 @@ class FluxerObservability {
   bool _measureInitialized = false;
   bool _globalErrorHandlersInstalled = false;
   final ErrorLogRateLimiter _errorLogRateLimiter = ErrorLogRateLimiter();
+  final Map<String, _SpanLogContext> _spanLogContext =
+      <String, _SpanLogContext>{};
 
   bool get isEnabled => _enabled;
 
@@ -92,14 +95,31 @@ class FluxerObservability {
   Span? startSpan(
     String name, {
     Map<String, AttributeValue> attributes = const <String, AttributeValue>{},
+    String? caller,
+    StackTrace? stackTrace,
+    bool logWhenFinished = true,
   }) {
     if (!isEnabled) {
       return null;
     }
+    final Map<String, AttributeValue> resolvedAttributes =
+        measureTraceAttributes(
+          attributes: attributes,
+          caller: caller,
+          stackTrace: stackTrace,
+        );
     final Span span = _measure.startSpan(name);
-    if (attributes.isNotEmpty) {
-      span.setAttributes(attributes);
+    if (resolvedAttributes.isNotEmpty) {
+      span.setAttributes(resolvedAttributes);
     }
+    final String? resolvedCaller =
+        resolvedAttributes[kMeasureTraceCallerAttribute]?.value as String? ??
+        caller;
+    _spanLogContext[span.spanId] = _SpanLogContext(
+      name: name,
+      caller: resolvedCaller,
+      logWhenFinished: logWhenFinished,
+    );
     return span;
   }
 
@@ -107,20 +127,35 @@ class FluxerObservability {
     String name,
     Future<T> Function() body, {
     Map<String, AttributeValue> attributes = const <String, AttributeValue>{},
+    String? caller,
+    MeasureTraceKind kind = MeasureTraceKind.app,
   }) async {
-    final Span? span = startSpan(name, attributes: attributes);
+    if (kind == MeasureTraceKind.network) {
+      return body();
+    }
+    final StackTrace startStack = StackTrace.current;
+    final Span? span = startSpan(
+      name,
+      attributes: attributes,
+      caller: caller,
+      stackTrace: startStack,
+    );
     if (span == null) {
       return body();
     }
+    final Stopwatch stopwatch = Stopwatch()..start();
+    SpanStatus status = SpanStatus.ok;
     try {
       final T result = await body();
       span.setStatus(SpanStatus.ok);
       return result;
     } on Object catch (error, stackTrace) {
+      status = SpanStatus.error;
       _recordExceptionOnSpan(span, error, stackTrace);
       rethrow;
     } finally {
-      span.end();
+      stopwatch.stop();
+      _endObservabilitySpan(span, elapsed: stopwatch.elapsed, status: status);
     }
   }
 
@@ -128,21 +163,78 @@ class FluxerObservability {
     String name,
     T Function() body, {
     Map<String, AttributeValue> attributes = const <String, AttributeValue>{},
+    String? caller,
+    MeasureTraceKind kind = MeasureTraceKind.app,
   }) {
-    final Span? span = startSpan(name, attributes: attributes);
+    if (kind == MeasureTraceKind.network) {
+      return body();
+    }
+    final StackTrace startStack = StackTrace.current;
+    final Span? span = startSpan(
+      name,
+      attributes: attributes,
+      caller: caller,
+      stackTrace: startStack,
+    );
     if (span == null) {
       return body();
     }
+    final Stopwatch stopwatch = Stopwatch()..start();
+    SpanStatus status = SpanStatus.ok;
     try {
       final T result = body();
       span.setStatus(SpanStatus.ok);
       return result;
     } on Object catch (error, stackTrace) {
+      status = SpanStatus.error;
       _recordExceptionOnSpan(span, error, stackTrace);
       rethrow;
     } finally {
-      span.end();
+      stopwatch.stop();
+      _endObservabilitySpan(span, elapsed: stopwatch.elapsed, status: status);
     }
+  }
+
+  void _endObservabilitySpan(
+    Span span, {
+    Duration? elapsed,
+    SpanStatus? status,
+    String? detail,
+  }) {
+    final _SpanLogContext? context = _spanLogContext.remove(span.spanId);
+    span.end();
+    if (context == null || elapsed == null) {
+      return;
+    }
+    _logFinishedTrace(
+      name: context.name,
+      elapsed: elapsed,
+      caller: context.caller,
+      detail: detail,
+      status: status,
+      logWhenFinished: context.logWhenFinished,
+    );
+  }
+
+  void _logFinishedTrace({
+    required String name,
+    required Duration elapsed,
+    String? caller,
+    String? detail,
+    SpanStatus? status,
+    bool logWhenFinished = true,
+  }) {
+    if (!isEnabled || !logWhenFinished) {
+      return;
+    }
+    final int durationMs = elapsed.inMilliseconds;
+    final bool failed = status == SpanStatus.error;
+    if (!failed && durationMs < kMeasureTraceLocalLogMinDurationMs) {
+      return;
+    }
+    talker.info(
+      '[Measure] ${formatMeasureTraceLogLine(name: name, durationMs: durationMs, caller: caller, detail: detail, status: status)}',
+    );
   }
 
   void injectTraceHeaders(Map<String, dynamic> headers, Span span) {
@@ -228,8 +320,11 @@ class FluxerObservability {
       attributes: <String, AttributeValue>{
         'app.lifecycle.state': StringAttr(state.name),
       },
+      logWhenFinished: false,
     );
-    span?.end();
+    if (span != null) {
+      _endObservabilitySpan(span, elapsed: Duration.zero);
+    }
     if (state == AppLifecycleState.detached) {
       unawaited(_markSessionCleanExit());
     }
@@ -248,7 +343,7 @@ class FluxerObservability {
     FlutterError.onError = (FlutterErrorDetails details) {};
     await Measure.instance.init(
       () {},
-      config: const MeasureConfig(autoStart: false, enableLogging: kDebugMode),
+      config: const MeasureConfig(autoStart: false),
     );
     routeMeasureErrorHooksThroughScrubber(localHandler);
     _measureInitialized = true;
@@ -461,6 +556,7 @@ class FluxerObservability {
       if (!slowBuild && !slowRaster && !janky) {
         continue;
       }
+      final String performanceClass = _framePerformanceClass(total);
       final Span? span = startSpan(
         'flutter.frame',
         attributes: <String, AttributeValue>{
@@ -473,10 +569,19 @@ class FluxerObservability {
           'frame.slow_build': BooleanAttr(slowBuild),
           'frame.slow_raster': BooleanAttr(slowRaster),
           'frame.janky': BooleanAttr(janky),
-          'frame.performance_class': StringAttr(_framePerformanceClass(total)),
+          'frame.performance_class': StringAttr(performanceClass),
         },
+        caller: 'scheduler.frame_timings',
       );
-      span?.end();
+      if (span != null) {
+        _endObservabilitySpan(
+          span,
+          elapsed: total,
+          detail:
+              'class=$performanceClass build=${build.inMilliseconds}ms '
+              'raster=${raster.inMilliseconds}ms',
+        );
+      }
     }
   }
 
@@ -496,6 +601,18 @@ class _IsolateError {
 
   final Object error;
   final StackTrace? stackTrace;
+}
+
+class _SpanLogContext {
+  const _SpanLogContext({
+    required this.name,
+    required this.caller,
+    required this.logWhenFinished,
+  });
+
+  final String name;
+  final String? caller;
+  final bool logWhenFinished;
 }
 
 class _FluxerAppLifecycleObserver extends WidgetsBindingObserver {

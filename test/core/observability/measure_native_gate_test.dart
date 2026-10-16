@@ -56,13 +56,9 @@ void main() {
     expect(application, contains('MeasureReporting.startIfEnabled(this)'));
   });
 
-  test('iOS limits native HTTP capture to an unused session config', () {
+  test('iOS does not enable native URLSession HTTP capture', () {
     final String appDelegate = _source('ios/Runner/AppDelegate.swift');
-    final int interceptor = appDelegate.indexOf(
-      'MSRNetworkInterceptor.enable(on: URLSessionConfiguration.ephemeral)',
-    );
 
-    expect(interceptor, isNonNegative);
-    expect(interceptor, lessThan(appDelegate.indexOf('Measure.initialize(')));
+    expect(appDelegate, isNot(contains('MSRNetworkInterceptor.enable')));
   });
 }

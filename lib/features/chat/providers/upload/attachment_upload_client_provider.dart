@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/observability/fluxer_measure_dio.dart';
+import 'package:fluxer_app/core/observability/measure_http_policy.dart';
 import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,6 +23,13 @@ Dio attachmentUploadDio(Ref ref) {
       receiveTimeout: const Duration(minutes: 10),
       validateStatus: (int? status) =>
           status != null && status >= 200 && status < 300,
+    ),
+  );
+  attachFluxerMeasureDioInterceptor(
+    dio,
+    shouldTrackRequest: (Uri uri) => kMeasureHttpPolicy.shouldTrackHttpRequest(
+      instance: ref.read(activeInstanceProvider),
+      requestUri: uri,
     ),
   );
   ref.onDispose(dio.close);

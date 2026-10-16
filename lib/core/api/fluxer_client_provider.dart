@@ -11,8 +11,9 @@ import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/skip_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/sudo_dialog.dart';
 import 'package:fluxer_app/core/api/sudo_interceptor.dart';
-import 'package:fluxer_app/core/build/app_build_config.dart';
-import 'package:fluxer_app/core/observability/fluxer_measure_dio_interceptor.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/observability/fluxer_measure_dio.dart';
+import 'package:fluxer_app/core/observability/measure_http_policy.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -49,7 +50,11 @@ String fluxerClientPropertiesHeader(Ref ref) {
   );
 }
 
-Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
+Dio _buildFluxerDio({
+  required Ref ref,
+  required String baseUrl,
+  required InstanceConfigSnapshot instanceSnapshot,
+}) {
   final String userAgent = ref.watch(fluxerClientPropertiesProvider).userAgent;
   final String clientPropertiesHeader = ref.watch(
     fluxerClientPropertiesHeaderProvider,
@@ -84,9 +89,13 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
   );
   dio.interceptors.add(RateLimitInterceptor(pacer: rateLimitPacer));
   dio.interceptors.add(PremiumStateResponseInterceptor());
-  if (AppBuildConfig.hasObservabilityConfig) {
-    dio.interceptors.add(FluxerMeasureDioInterceptor());
-  }
+  attachFluxerMeasureDioInterceptor(
+    dio,
+    shouldTrackRequest: (Uri uri) => kMeasureHttpPolicy.shouldTrackHttpRequest(
+      instance: instanceSnapshot,
+      requestUri: uri,
+    ),
+  );
   dio.interceptors.add(
     CaptchaInterceptor(
       dio: dio,
@@ -129,7 +138,12 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
 @Riverpod(keepAlive: true)
 Dio fluxerDio(Ref ref) {
   final String baseUrl = ref.watch(fluxerBaseUrlProvider);
-  return _buildFluxerDio(ref: ref, baseUrl: baseUrl);
+  final InstanceConfigSnapshot instance = ref.watch(activeInstanceProvider);
+  return _buildFluxerDio(
+    ref: ref,
+    baseUrl: baseUrl,
+    instanceSnapshot: instance,
+  );
 }
 
 @Riverpod(keepAlive: true)
@@ -147,7 +161,14 @@ String authFluxerBaseUrl(Ref ref) {
 @Riverpod(keepAlive: true)
 Dio authFluxerDio(Ref ref) {
   final String baseUrl = ref.watch(authFluxerBaseUrlProvider);
-  return _buildFluxerDio(ref: ref, baseUrl: baseUrl);
+  final InstanceConfigSnapshot instance = ref.watch(
+    authInstanceSnapshotProvider,
+  );
+  return _buildFluxerDio(
+    ref: ref,
+    baseUrl: baseUrl,
+    instanceSnapshot: instance,
+  );
 }
 
 @Riverpod(keepAlive: true)

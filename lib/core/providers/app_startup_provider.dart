@@ -263,11 +263,10 @@ class AppStartup extends _$AppStartup {
       gatewayBound = true;
 
       try {
-        final UserPrivateResponse user = await FluxerObservability.instance
-            .traceAsync(
-              'startup.auth.validate',
-              () => ref.read(fluxerClientProvider).users.getCurrentUser(),
-            );
+        final UserPrivateResponse user = await ref
+            .read(fluxerClientProvider)
+            .users
+            .getCurrentUser();
         if (!ref.mounted) {
           return;
         }
