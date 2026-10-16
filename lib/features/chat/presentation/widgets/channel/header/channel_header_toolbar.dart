@@ -69,15 +69,10 @@ class ChannelHeaderToolbar extends ConsumerWidget {
         targetId != null &&
         (ref.watch(channelUnreadProvider(targetId)).value?.hasUnreadPins ??
             false);
-    final bool showPins = shouldShowPinsForContext(
-      channel: channel,
-      dm: dm,
-      isPersonalNotes: isPersonalNotes,
-    );
+    final bool showPins = shouldShowPinsForContext(channel: channel, dm: dm);
     final bool showSearch = shouldShowSearchForContext(
       channel: channel,
       dm: dm,
-      isPersonalNotes: isPersonalNotes,
     );
     final bool showMembers = shouldShowMemberListToggle(
       channel: channel,
