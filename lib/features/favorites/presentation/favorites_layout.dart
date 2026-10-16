@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/channel_layout.dart';
 import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
@@ -31,6 +32,15 @@ class FavoritesLayout extends ConsumerWidget {
     }
 
     final favoriteAsync = ref.watch(favoriteChannelProvider(channelId));
+    final AsyncValue<String?> channelGuildIdAsync = ref.watch(
+      channelGuildIdProvider(channelId),
+    );
+    if (!channelGuildIdAsync.hasValue && !channelGuildIdAsync.hasError) {
+      return ColoredBox(
+        color: context.colors.chatBackground,
+        child: const SizedBox.shrink(),
+      );
+    }
     return favoriteAsync.when(
       loading: () => ColoredBox(
         color: context.colors.chatBackground,
@@ -54,8 +64,11 @@ class FavoritesLayout extends ConsumerWidget {
           );
         }
 
-        final String? guildId = favorite.guildId;
-        if (!isFavoriteDmGuildId(guildId) && guildId != null) {
+        final String? guildId = favoriteChannelGuildId(
+          storedGuildId: favorite.guildId,
+          channelGuildId: channelGuildIdAsync.value,
+        );
+        if (guildId != null) {
           return _FavoritesGuildChannel(
             guildId: guildId,
             channelId: channelId,

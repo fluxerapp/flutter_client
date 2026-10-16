@@ -32,6 +32,23 @@ void main() {
     expect(entries.map((e) => e.channelId).toList(), ['alive']);
   });
 
+  test('resolveFavoriteEntries follows a favorite moved to another guild', () {
+    const Guild newGuild = Guild(id: 'g2', name: 'New home');
+    final entries = resolveFavoriteEntries(
+      favorites: const [
+        db.FavoriteChannel(channelId: 'moved', guildId: 'g1', position: 0),
+      ],
+      channelById: const {
+        'moved': Channel(id: 'moved', guildId: 'g2', name: 'general'),
+      },
+      dmById: const {},
+      guildById: {'g2': newGuild},
+    );
+
+    expect(entries.single.guildId, 'g2');
+    expect(entries.single.guild, same(newGuild));
+  });
+
   test('resolveFavoriteEntries treats @me favorites as direct messages', () {
     final entries = resolveFavoriteEntries(
       favorites: const [
