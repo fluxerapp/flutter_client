@@ -14847,6 +14847,18 @@ abstract class FluxerLocalizations {
   /// **'Open settings'**
   String get chatAttachmentLibraryPermissionSettings;
 
+  /// Explains limited photo library access in the attachment gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Only photos and videos you chose to share are shown here.'**
+  String get chatAttachmentLibraryLimitedBody;
+
+  /// Opens the system picker to change which photos the app can access.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get chatAttachmentLibraryLimitedManage;
+
   /// Screen reader label for a chat message row.
   ///
   /// In en, this message translates to:

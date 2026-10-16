@@ -7,7 +7,49 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path_lib;
 import 'package:photo_manager/photo_manager.dart';
 
-enum AttachmentGalleryAccess { granted, denied }
+enum AttachmentGalleryAccess { granted, limited, denied }
+
+extension AttachmentGalleryAccessX on AttachmentGalleryAccess {
+  bool get canBrowseGallery =>
+      this == AttachmentGalleryAccess.granted ||
+      this == AttachmentGalleryAccess.limited;
+}
+
+const PermissionRequestOption _kAttachmentGalleryPermissionOption =
+    PermissionRequestOption();
+
+@visibleForTesting
+AttachmentGalleryAccess attachmentGalleryAccessForState(PermissionState state) {
+  if (state.isLimited) {
+    return AttachmentGalleryAccess.limited;
+  }
+  if (state.hasAccess) {
+    return AttachmentGalleryAccess.granted;
+  }
+  return AttachmentGalleryAccess.denied;
+}
+
+@visibleForTesting
+Future<PermissionState> resolveAttachmentGalleryPermissionState({
+  Future<PermissionState> Function({
+    required PermissionRequestOption requestOption,
+  })?
+  readPermissionState,
+  Future<PermissionState> Function({
+    required PermissionRequestOption requestOption,
+  })?
+  requestPermission,
+}) async {
+  final read = readPermissionState ?? PhotoManager.getPermissionState;
+  final request = requestPermission ?? PhotoManager.requestPermissionExtend;
+  PermissionState state = await read(
+    requestOption: _kAttachmentGalleryPermissionOption,
+  );
+  if (state == PermissionState.notDetermined) {
+    state = await request(requestOption: _kAttachmentGalleryPermissionOption);
+  }
+  return state;
+}
 
 typedef AttachmentGalleryFile = ({XFile file, String filename});
 
@@ -63,6 +105,8 @@ abstract class AttachmentGallerySource {
 
   Future<AttachmentGalleryFile?> resolveFile(String id);
 
+  Future<void> manageLimitedLibraryAccess() async {}
+
   void addChangeListener(VoidCallback listener) {}
 
   void removeChangeListener(VoidCallback listener) {}
@@ -101,11 +145,14 @@ class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
 
   @override
   Future<AttachmentGalleryAccess> requestAccess() async {
-    final PermissionState state = await PhotoManager.requestPermissionExtend();
-    if (state.hasAccess) {
-      return AttachmentGalleryAccess.granted;
-    }
-    return AttachmentGalleryAccess.denied;
+    final PermissionState state =
+        await resolveAttachmentGalleryPermissionState();
+    return attachmentGalleryAccessForState(state);
+  }
+
+  @override
+  Future<void> manageLimitedLibraryAccess() async {
+    await PhotoManager.presentLimited(type: RequestType.common);
   }
 
   Future<AssetPathEntity?> _recentAlbum() async {

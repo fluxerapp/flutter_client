@@ -9041,6 +9041,13 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get chatAttachmentLibraryPermissionSettings => 'Open settings';
 
   @override
+  String get chatAttachmentLibraryLimitedBody =>
+      'Only photos and videos you chose to share are shown here.';
+
+  @override
+  String get chatAttachmentLibraryLimitedManage => 'Manage';
+
+  @override
   String messageAccessibilityLabel(String author, String summary) {
     return '$author, $summary';
   }

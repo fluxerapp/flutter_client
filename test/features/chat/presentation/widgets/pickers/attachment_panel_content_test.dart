@@ -179,6 +179,24 @@ void main() {
     expect(bar.top, greaterThanOrEqualTo(grid.bottom));
   });
 
+  testWidgets('limited library access shows a manage banner', (tester) async {
+    final _FakeAttachmentGallerySource source = _FakeAttachmentGallerySource()
+      ..access = AttachmentGalleryAccess.limited;
+    await _pumpGallery(tester, source);
+
+    expect(find.byType(AttachmentGalleryGrid), findsOneWidget);
+    expect(find.text('Manage'), findsOneWidget);
+    expect(
+      find.text('Only photos and videos you chose to share are shown here.'),
+      findsOneWidget,
+    );
+    final Rect grid = tester.getRect(find.byType(AttachmentGalleryGrid));
+    final Rect banner = tester.getRect(
+      find.text('Only photos and videos you chose to share are shown here.'),
+    );
+    expect(grid.top, greaterThanOrEqualTo(banner.bottom));
+  });
+
   testWidgets('without photo access the camera is still offered', (
     tester,
   ) async {
@@ -244,7 +262,7 @@ ChatViewState _chatState() {
   );
 }
 
-class _FakeAttachmentGallerySource implements AttachmentGallerySource {
+class _FakeAttachmentGallerySource extends AttachmentGallerySource {
   static const int _pageCount = 3;
   final List<VoidCallback> _listeners = <VoidCallback>[];
   Completer<void>? pageGate;

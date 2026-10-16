@@ -39,14 +39,14 @@ class AttachmentPanelSourceBar extends StatelessWidget {
             FluxerButton.ghost(
               icon: PhosphorIconsFill.image,
               label: l10n.chatAttachmentPanelPhotos,
-              size: FluxerButtonSize.compact,
+              size: FluxerButtonSize.small,
               fitContent: true,
               onPressed: onPhotosPressed,
             ),
             FluxerButton.ghost(
               icon: PhosphorIconsBold.paperclip,
               label: l10n.chatAttachmentPanelFiles,
-              size: FluxerButtonSize.compact,
+              size: FluxerButtonSize.small,
               fitContent: true,
               onPressed: onFilesPressed,
             ),

@@ -11485,6 +11485,14 @@
     "@chatAttachmentLibraryPermissionSettings": {
         "description": "Button that opens system settings so the user can grant photo library access."
     },
+    "chatAttachmentLibraryLimitedBody": "Only photos and videos you chose to share are shown here.",
+    "@chatAttachmentLibraryLimitedBody": {
+        "description": "Explains limited photo library access in the attachment gallery."
+    },
+    "chatAttachmentLibraryLimitedManage": "Manage",
+    "@chatAttachmentLibraryLimitedManage": {
+        "description": "Opens the system picker to change which photos the app can access."
+    },
     "messageAccessibilityLabel": "{author}, {summary}",
     "@messageAccessibilityLabel": {
         "description": "Screen reader label for a chat message row.",
