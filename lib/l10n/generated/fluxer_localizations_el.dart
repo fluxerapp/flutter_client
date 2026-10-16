@@ -6108,6 +6108,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Παύση παρακολούθησης της τρέχουσας ροής';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Προβάλλετε';
 
   @override

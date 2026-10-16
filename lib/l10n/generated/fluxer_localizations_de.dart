@@ -6101,6 +6101,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Aktuellen Stream nicht mehr ansehen';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Du sendest';
 
   @override

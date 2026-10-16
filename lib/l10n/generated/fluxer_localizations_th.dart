@@ -6008,6 +6008,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get voiceStopWatchingCurrentStreamTooltip => 'หยุดดูสตรีมปัจจุบัน';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'คุณกำลังถ่ายทอดสด';
 
   @override

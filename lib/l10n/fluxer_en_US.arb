@@ -5243,6 +5243,14 @@
     "@voiceStopWatchingCurrentStreamTooltip": {
         "description": "Tooltip for the Stop Watching control in the voice bar."
     },
+    "voiceScreenShareEnterFullscreenTooltip": "Full screen",
+    "@voiceScreenShareEnterFullscreenTooltip": {
+        "description": "Tooltip for expanding a watched screen share to full screen."
+    },
+    "voiceScreenShareExitFullscreenTooltip": "Exit full screen",
+    "@voiceScreenShareExitFullscreenTooltip": {
+        "description": "Tooltip for leaving full screen while watching a screen share."
+    },
     "voiceOwnScreenShareTitle": "You are broadcasting",
     "@voiceOwnScreenShareTitle": {
         "description": "Title on the participant's own screen-share tile when they are sharing their screen."

@@ -6092,6 +6092,12 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Спиране на гледането на текущия поток';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Излъчвате';
 
   @override

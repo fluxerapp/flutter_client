@@ -6064,6 +6064,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Prekini gledanje trenutačnog streama';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Emitirate';
 
   @override

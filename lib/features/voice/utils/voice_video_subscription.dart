@@ -15,6 +15,13 @@ bool shouldSubscribeRemoteScreenShare({required bool isActiveScreenShare}) {
   return isActiveScreenShare;
 }
 
+bool shouldPauseRemoteCamerasForScreenShareFullscreen({
+  required bool isWatchingScreenShare,
+  required bool screenShareExpanded,
+}) {
+  return isWatchingScreenShare && screenShareExpanded;
+}
+
 VideoQuality voiceCameraSubscribeQuality({
   required bool isFilmstrip,
   required bool isFocusMain,

@@ -6043,6 +6043,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Ngừng xem luồng hiện tại';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Bạn đang phát sóng';
 
   @override

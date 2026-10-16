@@ -148,7 +148,7 @@ void main() {
 
   group('VoiceCallMobilePageLayout', () {
     testWidgets(
-      'keeps the call stage full height when chrome shows, expands, or hides',
+      'keeps the call stage full height when the overlay shows, expands, or hides',
       (tester) async {
         await tester.binding.setSurfaceSize(_kMobileViewport);
         addTearDown(() => tester.binding.setSurfaceSize(null));

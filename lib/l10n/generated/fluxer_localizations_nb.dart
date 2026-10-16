@@ -6049,6 +6049,12 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Slutt å se på gjeldende strøm';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Du sender';
 
   @override

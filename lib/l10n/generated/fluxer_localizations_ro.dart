@@ -6082,6 +6082,12 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu mai urmări fluxul curent';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Transmiteți';
 
   @override

@@ -5981,6 +5981,12 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get voiceStopWatchingCurrentStreamTooltip => 'הפסק לצפות בזרם הנוכחי';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'אתה משדר';
 
   @override

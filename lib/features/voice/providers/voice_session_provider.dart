@@ -37,6 +37,7 @@ import 'package:fluxer_app/features/voice/providers/voice_channel_participants_p
 import 'package:fluxer_app/features/voice/providers/voice_channel_permissions_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
@@ -2121,6 +2122,7 @@ class VoiceSession extends _$VoiceSession {
       ),
     );
     ref.read(voiceScreenShareWatchTileProvider.notifier).setActiveTileId(null);
+    ref.read(voiceScreenShareFullscreenProvider.notifier).reset();
     ref.read(voiceCallLayoutProvider.notifier).reset();
     ref.read(voiceCallDisplayPreferencesProvider.notifier).reset();
     ref.read(voicePrioritySpeakerProvider.notifier).resetPrioritySpeakerState();

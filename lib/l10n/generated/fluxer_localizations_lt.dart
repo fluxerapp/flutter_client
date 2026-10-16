@@ -6115,6 +6115,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nustoti žiūrėti dabartinį srautą';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Transliuojate';
 
   @override

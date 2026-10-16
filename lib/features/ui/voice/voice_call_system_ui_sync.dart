@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscreen_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -73,7 +75,13 @@ class _VoiceCallSystemUiSyncState extends ConsumerState<VoiceCallSystemUiSync> {
     );
     final bool isLandscape =
         MediaQuery.orientationOf(context) == Orientation.landscape;
-    final bool hideStatusBar = isInVoice && isLandscape && !showsOverlay;
+    final bool screenShareExpanded = resolveVoiceScreenShareExpanded(
+      watchedTileIds: ref.watch(voiceScreenShareWatchTileProvider),
+      landscape: isLandscape,
+      prefs: ref.watch(voiceScreenShareFullscreenProvider),
+    );
+    final bool hideStatusBar =
+        isInVoice && !showsOverlay && (isLandscape || screenShareExpanded);
 
     if (hideStatusBar != _statusBarHidden) {
       final bool next = hideStatusBar;

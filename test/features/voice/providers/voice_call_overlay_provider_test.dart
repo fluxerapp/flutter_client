@@ -44,7 +44,7 @@ void main() {
       expect(container.read(voiceCallOverlayProvider).isExiting, isFalse);
     });
 
-    test('keeps chrome visible while the participant menu is pinned', () {
+    test('keeps the overlay visible while the participant menu is pinned', () {
       final ProviderContainer container = _overlayContainer();
       container.read(voiceCallOverlayProvider.notifier)
         ..setMenuPinned(value: true)

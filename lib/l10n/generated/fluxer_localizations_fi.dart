@@ -6061,6 +6061,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Lopeta nykyisen striimin katselu';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Lähetät';
 
   @override

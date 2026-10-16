@@ -9,6 +9,8 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscreen_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -62,99 +64,158 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
       ),
     );
     final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool landscape = mediaQuery.orientation == Orientation.landscape;
+    final Set<String> watchedScreenShares = ref.watch(
+      voiceScreenShareWatchTileProvider,
+    );
+    final bool screenShareExpanded = resolveVoiceScreenShareExpanded(
+      watchedTileIds: watchedScreenShares,
+      landscape: landscape,
+      prefs: ref.watch(voiceScreenShareFullscreenProvider),
+    );
     final double controlsFootprint =
         voiceChannelControlMorphingHeaderHeight() +
         kVoiceControlBarVerticalPadding * 2 +
         mediaQuery.viewPadding.bottom;
-    return VoiceCallSystemUiSync(
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              MediaQuery(
-                data: mediaQuery.copyWith(
-                  padding: mediaQuery.padding.copyWith(
-                    bottom: math.max(
-                      mediaQuery.padding.bottom,
-                      controlsFootprint,
+    final double gridBottomInset = screenShareExpanded
+        ? mediaQuery.viewPadding.bottom
+        : math.max(mediaQuery.padding.bottom, controlsFootprint);
+    return VoiceScreenShareOverlaySync(
+      child: VoiceCallSystemUiSync(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                MediaQuery(
+                  data: mediaQuery.copyWith(
+                    padding: mediaQuery.padding.copyWith(
+                      bottom: gridBottomInset,
                     ),
                   ),
+                  child: child,
                 ),
-                child: child,
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 0,
-                height: 88,
-                child: IgnorePointer(
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 240),
-                    opacity: showsOverlay ? 1 : 0,
-                    child: const DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: <Color>[Color(0x99000000), Color(0x00000000)],
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: 88,
+                  child: IgnorePointer(
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 240),
+                      opacity: showsOverlay ? 1 : 0,
+                      child: const DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                              Color(0x99000000),
+                              Color(0x00000000),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                height: 140,
-                child: IgnorePointer(
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 240),
-                    opacity: showsOverlay ? 1 : 0,
-                    child: const DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: <Color>[Color(0x99000000), Color(0x00000000)],
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: 140,
+                  child: IgnorePointer(
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 240),
+                      opacity: showsOverlay ? 1 : 0,
+                      child: const DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: <Color>[
+                              Color(0x99000000),
+                              Color(0x00000000),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: AnimatedSlide(
-                  duration: const Duration(milliseconds: 320),
-                  curve: Curves.easeOutCubic,
-                  offset: showsOverlay ? Offset.zero : const Offset(0, 1.2),
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 240),
-                    opacity: showsOverlay ? 1 : 0,
-                    child: IgnorePointer(
-                      ignoring: !showsOverlay,
-                      child: VoiceChannelControlExpandableSheet(
-                        channelId: channelId ?? sessionChannelId,
-                        isConnected: isConnected,
-                        connectionId: connectionId,
-                        parentHeight: constraints.maxHeight,
-                        parentWidth: constraints.maxWidth,
-                        positioned: false,
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: AnimatedSlide(
+                    duration: const Duration(milliseconds: 320),
+                    curve: Curves.easeOutCubic,
+                    offset: showsOverlay ? Offset.zero : const Offset(0, 1.2),
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 240),
+                      opacity: showsOverlay ? 1 : 0,
+                      child: IgnorePointer(
+                        ignoring: !showsOverlay,
+                        child: VoiceChannelControlExpandableSheet(
+                          channelId: channelId ?? sessionChannelId,
+                          isConnected: isConnected,
+                          connectionId: connectionId,
+                          parentHeight: constraints.maxHeight,
+                          parentWidth: constraints.maxWidth,
+                          positioned: false,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
+  }
+}
+
+class VoiceScreenShareOverlaySync extends ConsumerStatefulWidget {
+  const VoiceScreenShareOverlaySync({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  ConsumerState<VoiceScreenShareOverlaySync> createState() =>
+      _VoiceScreenShareOverlaySyncState();
+}
+
+class _VoiceScreenShareOverlaySyncState
+    extends ConsumerState<VoiceScreenShareOverlaySync> {
+  bool _wasExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool expanded = resolveVoiceScreenShareExpanded(
+      watchedTileIds: ref.watch(voiceScreenShareWatchTileProvider),
+      landscape: MediaQuery.orientationOf(context) == Orientation.landscape,
+      prefs: ref.watch(voiceScreenShareFullscreenProvider),
+    );
+    if (expanded != _wasExpanded) {
+      final bool entered = expanded;
+      _wasExpanded = expanded;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        final VoiceCallOverlay overlay = ref.read(
+          voiceCallOverlayProvider.notifier,
+        );
+        if (entered) {
+          overlay.hide();
+        } else {
+          overlay.reveal();
+        }
+      });
+    }
+    return widget.child;
   }
 }
 

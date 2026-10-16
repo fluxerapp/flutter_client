@@ -1,5 +1,8 @@
 import 'dart:math' as math;
 
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
+import 'package:livekit_client/livekit_client.dart';
+
 const List<int> kVoiceStreamResolutionHeights = <int>[
   480,
   240,
@@ -58,6 +61,66 @@ int voiceStreamDimensionFromSettings(
   String key,
 ) {
   return parsePositiveInt(settings[key]);
+}
+
+double? screenShareContentAspectRatio(VoiceMediaParticipant? participant) {
+  if (participant == null || !participant.hasScreenShare) {
+    return null;
+  }
+  final VideoDimensions? dimensions = participant.screenShareDimensions;
+  if (dimensions != null && dimensions.width > 0 && dimensions.height > 0) {
+    return dimensions.width / dimensions.height;
+  }
+  final VideoTrack? track = participant.screenShareTrack;
+  if (track != null) {
+    try {
+      final Map<String, dynamic> settings = track.mediaStreamTrack
+          .getSettings();
+      final int width = voiceStreamDimensionFromSettings(settings, 'width');
+      final int height = voiceStreamDimensionFromSettings(settings, 'height');
+      if (width > 0 && height > 0) {
+        return width / height;
+      }
+    } on Object {
+      return null;
+    }
+  }
+  return null;
+}
+
+Future<double?> screenShareContentAspectRatioResolved(
+  VoiceMediaParticipant? participant,
+) async {
+  if (participant == null || !participant.hasScreenShare) {
+    return null;
+  }
+  final VideoTrack? track = participant.screenShareTrack;
+  if (track is RemoteVideoTrack) {
+    try {
+      final stats = await track.getReceiverStats();
+      final int width = parsePositiveInt(stats?.frameWidth);
+      final int height = parsePositiveInt(stats?.frameHeight);
+      if (width > 0 && height > 0) {
+        return width / height;
+      }
+    } on Object {
+      return screenShareContentAspectRatio(participant);
+    }
+  } else if (track is LocalVideoTrack) {
+    try {
+      final stats = await track.getSenderStats();
+      final ({int width, int height}) frame = voiceStreamLargestFrame(
+        widths: stats.map((item) => item.frameWidth),
+        heights: stats.map((item) => item.frameHeight),
+      );
+      if (frame.width > 0 && frame.height > 0) {
+        return frame.width / frame.height;
+      }
+    } on Object {
+      return screenShareContentAspectRatio(participant);
+    }
+  }
+  return screenShareContentAspectRatio(participant);
 }
 
 int resolveVoiceStreamLabelHeight({

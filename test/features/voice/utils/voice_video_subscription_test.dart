@@ -20,6 +20,32 @@ void main() {
     });
   });
 
+  group('shouldPauseRemoteCamerasForScreenShareFullscreen', () {
+    test('pauses only while watching a share in fullscreen', () {
+      expect(
+        shouldPauseRemoteCamerasForScreenShareFullscreen(
+          isWatchingScreenShare: true,
+          screenShareExpanded: true,
+        ),
+        isTrue,
+      );
+      expect(
+        shouldPauseRemoteCamerasForScreenShareFullscreen(
+          isWatchingScreenShare: true,
+          screenShareExpanded: false,
+        ),
+        isFalse,
+      );
+      expect(
+        shouldPauseRemoteCamerasForScreenShareFullscreen(
+          isWatchingScreenShare: false,
+          screenShareExpanded: true,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('shouldSubscribeRemoteScreenShare', () {
     test('subscribes only when the share is watched', () {
       expect(

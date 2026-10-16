@@ -6019,6 +6019,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'إيقاف مشاهدة البث الحالي';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'أنت تبث';
 
   @override

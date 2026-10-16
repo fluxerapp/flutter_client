@@ -9837,6 +9837,18 @@ abstract class FluxerLocalizations {
   /// **'Stop watching the current stream'**
   String get voiceStopWatchingCurrentStreamTooltip;
 
+  /// Tooltip for expanding a watched screen share to full screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get voiceScreenShareEnterFullscreenTooltip;
+
+  /// Tooltip for leaving full screen while watching a screen share.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit full screen'**
+  String get voiceScreenShareExitFullscreenTooltip;
+
   /// Title on the participant's own screen-share tile when they are sharing their screen.
   ///
   /// In en, this message translates to:

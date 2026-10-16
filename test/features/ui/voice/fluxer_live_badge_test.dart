@@ -5,7 +5,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 void main() {
-  testWidgets('voice tile live badge uses the hud chip chrome', (
+  testWidgets('voice tile live badge uses the hud chip decoration', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(

@@ -6100,6 +6100,12 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Przestań obserwować bieżący strumień';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Nadajesz';
 
   @override

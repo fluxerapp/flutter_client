@@ -5713,6 +5713,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceStopWatchingCurrentStreamTooltip => '停止观看当前流';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => '你正在直播';
 
   @override

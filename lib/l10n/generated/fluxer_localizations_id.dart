@@ -6043,6 +6043,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Berhenti menonton stream saat ini';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Anda sedang siaran';
 
   @override

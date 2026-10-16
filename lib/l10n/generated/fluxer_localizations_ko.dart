@@ -5823,6 +5823,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceStopWatchingCurrentStreamTooltip => '현재 스트림 시청 중단';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => '방송 중입니다';
 
   @override

@@ -6093,6 +6093,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Leállítja az aktuális stream megtekintését';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Te közvetítesz';
 
   @override

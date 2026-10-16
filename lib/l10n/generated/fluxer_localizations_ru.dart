@@ -6089,6 +6089,12 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Прекратить просмотр текущего потока';
 
   @override
+  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+
+  @override
+  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+
+  @override
   String get voiceOwnScreenShareTitle => 'Вы транслируете';
 
   @override

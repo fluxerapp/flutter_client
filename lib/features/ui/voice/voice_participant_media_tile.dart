@@ -72,13 +72,12 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   bool _hadScreenShareFrame = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didUpdateWidget(covariant VoiceParticipantMediaTile oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.omitVideoTrack && !widget.omitVideoTrack) {
+      _unsubscribeGrace?.cancel();
+      _tileVisible = true;
+    }
     _scheduleRemoteTrackSync();
   }
 
