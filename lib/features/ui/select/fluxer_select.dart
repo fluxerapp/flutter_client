@@ -337,7 +337,6 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
             child: PickerSearchInput.inline(
               controller: _searchController,
               hintText: widget.searchHint ?? l10n.uiSearchPlaceholder,
-              autofocus: true,
               onChanged: (value) => setState(() => _query = value),
             ),
           ),

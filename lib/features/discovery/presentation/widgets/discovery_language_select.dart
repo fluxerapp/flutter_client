@@ -170,7 +170,6 @@ class _DiscoveryLanguageSelectSheetState
           child: PickerSearchInput.inline(
             controller: _searchController,
             hintText: l10n.uiSearchPlaceholder,
-            autofocus: true,
             onChanged: (String value) => setState(() => _query = value),
           ),
         ),

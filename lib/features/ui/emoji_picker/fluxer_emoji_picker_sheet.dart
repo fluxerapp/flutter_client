@@ -183,9 +183,6 @@ class _SheetContentState extends State<_SheetContent> {
             showTabs: false,
             channelId: widget.channelId,
             contentSearchTopPadding: widget.searchFollowsHandle ? 0 : null,
-            autofocusSearch:
-                widget.visibleTabs.length == 1 &&
-                widget.visibleTabs.first == ExpressionPickerTab.emojis,
           ),
         ),
       ],

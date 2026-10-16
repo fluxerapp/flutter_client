@@ -118,7 +118,6 @@ class _TextualAttachmentLanguageSheetBodyState
           child: PickerSearchInput.inline(
             controller: _searchController,
             hintText: l10n.chatTextualPreviewSearchLanguage,
-            autofocus: true,
             onChanged: (String value) => setState(() => _query = value),
           ),
         ),

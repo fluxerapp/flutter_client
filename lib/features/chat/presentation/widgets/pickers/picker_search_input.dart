@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -132,6 +133,8 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final searchInputFillColor = _resolveSearchInputFillColor(context, colors);
+    final bool autofocus =
+        widget.autofocus && !FluxerBottomSheet.isInSheet(context);
     final BorderRadius radius = BorderRadius.circular(8);
     final OutlineInputBorder idleBorder = OutlineInputBorder(
       borderRadius: radius,
@@ -163,7 +166,7 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                         return TextField(
                           controller: _controller,
                           focusNode: focusNode,
-                          autofocus: widget.autofocus,
+                          autofocus: autofocus,
                           enabled: widget.enabled,
                           onChanged: widget.onChanged,
                           onSubmitted: widget.onSubmitted,

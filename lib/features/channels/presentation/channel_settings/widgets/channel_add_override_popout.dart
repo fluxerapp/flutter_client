@@ -321,7 +321,6 @@ class _ChannelAddOverridePickerContentState
         hintText:
             widget.searchHint ??
             l10n.channelSettingsPermissionsSearchRolesOrMembers,
-        autofocus: isBottomSheet,
         onChanged: _onSearchChanged,
       ),
     );

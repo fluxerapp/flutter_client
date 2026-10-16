@@ -69,11 +69,6 @@ class _QuickSwitcherSheetBodyState
     _friendsSearchController = TextEditingController();
     _searchController.addListener(_handleSearchChanged);
     _friendsSearchController.addListener(_handleFriendsSearchChanged);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        FocusScope.of(context).requestFocus(_searchFocusNode);
-      }
-    });
   }
 
   void _handleSearchChanged() {
