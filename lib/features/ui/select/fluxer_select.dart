@@ -1,5 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
+    show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -26,6 +28,8 @@ class FluxerSelectItem<T> {
   final String? searchText;
   final bool enabled;
 }
+
+const double _kMobileTriggerMinHeight = 44;
 
 class FluxerSelect<T> extends StatefulWidget {
   FluxerSelect({
@@ -129,6 +133,9 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
                 enabled && states.contains(WidgetState.hovered);
             return Container(
               width: stretch ? double.infinity : null,
+              constraints: isMobileLayout(context)
+                  ? const BoxConstraints(minHeight: _kMobileTriggerMinHeight)
+                  : null,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: hovered

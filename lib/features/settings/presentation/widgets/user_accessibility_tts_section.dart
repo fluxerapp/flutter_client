@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
@@ -193,10 +194,23 @@ class _TtsRateRow extends StatelessWidget {
       ],
     );
 
-    final Widget control = _TtsRateCombobox(
-      rate: rate,
-      onChanged: onRateChanged,
-    );
+    final Widget control = isMobileLayout(context)
+        ? FluxerSelect<double>(
+            hint: label,
+            sheetTitle: label,
+            enableSearch: false,
+            stretch: true,
+            value: nearestTtsRate(rate),
+            items: [
+              for (final double option in kTtsRateOptions)
+                FluxerSelectItem<double>(
+                  value: option,
+                  label: formatTtsRateLabel(option),
+                ),
+            ],
+            onChanged: onRateChanged,
+          )
+        : _TtsRateCombobox(rate: rate, onChanged: onRateChanged);
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
