@@ -25,6 +25,32 @@ void main() {
     });
   });
 
+  group('favoriteChannelGuildId', () {
+    test('prefers the live channel guild over the stored one', () {
+      expect(
+        favoriteChannelGuildId(storedGuildId: 'old', channelGuildId: 'new'),
+        'new',
+      );
+    });
+
+    test('falls back to the stored guild when the channel is unknown', () {
+      expect(
+        favoriteChannelGuildId(storedGuildId: 'old', channelGuildId: null),
+        'old',
+      );
+    });
+
+    test('returns null for direct message favorites', () {
+      expect(
+        favoriteChannelGuildId(
+          storedGuildId: favoriteDmGuildId,
+          channelGuildId: '',
+        ),
+        isNull,
+      );
+    });
+  });
+
   group('isFavoriteDmGuildId', () {
     test('treats missing and @me ids as direct messages', () {
       expect(isFavoriteDmGuildId(null), isTrue);

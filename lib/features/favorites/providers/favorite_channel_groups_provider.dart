@@ -53,20 +53,28 @@ List<ResolvedFavoriteEntry> resolveFavoriteEntries({
   required Map<String, DmConversation> dmById,
   required Map<String, Guild> guildById,
 }) {
-  return [
-    for (final favorite in favorites)
-      if (channelById[favorite.channelId] != null ||
-          dmById[favorite.channelId] != null)
-        ResolvedFavoriteEntry(
-          favorite: favorite,
-          channel: channelById[favorite.channelId],
-          dm: dmById[favorite.channelId],
-          guildId: _resolveFavoriteGuildId(favorite.guildId),
-          guild: isFavoriteDmGuildId(favorite.guildId)
-              ? null
-              : guildById[favorite.guildId],
-        ),
-  ];
+  final List<ResolvedFavoriteEntry> entries = <ResolvedFavoriteEntry>[];
+  for (final favorite in favorites) {
+    final Channel? channel = channelById[favorite.channelId];
+    final DmConversation? dm = dmById[favorite.channelId];
+    if (channel == null && dm == null) {
+      continue;
+    }
+    final String? guildId = favoriteChannelGuildId(
+      storedGuildId: favorite.guildId,
+      channelGuildId: channel?.guildId,
+    );
+    entries.add(
+      ResolvedFavoriteEntry(
+        favorite: favorite,
+        channel: channel,
+        dm: dm,
+        guildId: guildId,
+        guild: guildId == null ? null : guildById[guildId],
+      ),
+    );
+  }
+  return entries;
 }
 
 final Provider<List<FavoriteChannelGroup>> favoriteChannelGroupsProvider =
@@ -119,10 +127,3 @@ final Provider<List<FavoriteChannelGroup>> favoriteChannelGroupsProvider =
           )
           .toList();
     });
-
-String? _resolveFavoriteGuildId(String? guildId) {
-  if (isFavoriteDmGuildId(guildId)) {
-    return null;
-  }
-  return guildId;
-}
