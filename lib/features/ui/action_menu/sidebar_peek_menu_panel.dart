@@ -5,7 +5,7 @@ import 'package:fluxer_app/material_ui.dart';
 
 export 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_constants.dart';
 
-Offset computeSidebarPeekMenuFollowerOffset({
+double computeSidebarPeekMenuTop({
   required double anchorCenterY,
   required double menuHeight,
   required MediaQueryData mediaQuery,
@@ -17,11 +17,14 @@ Offset computeSidebarPeekMenuFollowerOffset({
   final double naturalTop = anchorCenterY - menuHeight / 2;
   final double minTop = viewTop;
   final double maxTop = viewBottom - menuHeight;
-  final double clampedTop = maxTop < minTop
-      ? minTop
-      : naturalTop.clamp(minTop, maxTop);
-  return Offset(kSidebarPeekMenuHorizontalGap, clampedTop - naturalTop);
+  if (maxTop < minTop) {
+    return minTop;
+  }
+  return naturalTop.clamp(minTop, maxTop);
 }
+
+double computeSidebarPeekMenuLeft({required double anchorRight}) =>
+    anchorRight + kSidebarPeekMenuHorizontalGap;
 
 double estimateSidebarPeekMenuHeight(
   BuildContext context, {
@@ -97,14 +100,12 @@ class SidebarPeekMenuPanel extends StatelessWidget {
 
 class SidebarPeekMenuFollower extends StatefulWidget {
   const SidebarPeekMenuFollower({
-    required this.link,
     required this.anchorKey,
     required this.estimatedMenuHeight,
     required this.child,
     super.key,
   });
 
-  final LayerLink link;
   final GlobalKey anchorKey;
   final double estimatedMenuHeight;
   final Widget child;
@@ -116,35 +117,38 @@ class SidebarPeekMenuFollower extends StatefulWidget {
 
 class _SidebarPeekMenuFollowerState extends State<SidebarPeekMenuFollower> {
   final GlobalKey _menuKey = GlobalKey();
-  Offset _offset = const Offset(kSidebarPeekMenuHorizontalGap, 0);
+  Offset? _origin;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(_scheduleOffsetUpdate);
+    WidgetsBinding.instance.addPostFrameCallback((Duration timestamp) {
+      _updatePosition();
+      _schedulePositionUpdate(timestamp);
+    });
   }
 
   @override
   void didUpdateWidget(covariant SidebarPeekMenuFollower oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.estimatedMenuHeight != widget.estimatedMenuHeight) {
-      WidgetsBinding.instance.addPostFrameCallback(_scheduleOffsetUpdate);
+      WidgetsBinding.instance.addPostFrameCallback(_schedulePositionUpdate);
     }
   }
 
-  void _scheduleOffsetUpdate(Duration _) {
+  void _schedulePositionUpdate(Duration _) {
     if (!mounted) {
       return;
     }
-    _updateOffset();
+    _updatePosition();
     final RenderBox? menuBox =
         _menuKey.currentContext?.findRenderObject() as RenderBox?;
     if (menuBox == null || !menuBox.hasSize) {
-      WidgetsBinding.instance.addPostFrameCallback(_scheduleOffsetUpdate);
+      WidgetsBinding.instance.addPostFrameCallback(_schedulePositionUpdate);
     }
   }
 
-  void _updateOffset() {
+  void _updatePosition() {
     final BuildContext? anchorContext = widget.anchorKey.currentContext;
     if (anchorContext == null) {
       return;
@@ -154,9 +158,9 @@ class _SidebarPeekMenuFollowerState extends State<SidebarPeekMenuFollower> {
       return;
     }
 
-    final Offset anchorCenter = anchorBox.localToGlobal(
-      anchorBox.size.center(Offset.zero),
-    );
+    final Offset anchorTopLeft = anchorBox.localToGlobal(Offset.zero);
+    final double anchorCenterY = anchorTopLeft.dy + anchorBox.size.height / 2;
+    final double anchorRight = anchorTopLeft.dx + anchorBox.size.width;
 
     var menuHeight = widget.estimatedMenuHeight;
     final RenderBox? menuBox =
@@ -165,24 +169,29 @@ class _SidebarPeekMenuFollowerState extends State<SidebarPeekMenuFollower> {
       menuHeight = menuBox.size.height;
     }
 
-    final Offset nextOffset = computeSidebarPeekMenuFollowerOffset(
-      anchorCenterY: anchorCenter.dy,
-      menuHeight: menuHeight,
-      mediaQuery: MediaQuery.of(context),
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final Offset nextOrigin = Offset(
+      computeSidebarPeekMenuLeft(anchorRight: anchorRight),
+      computeSidebarPeekMenuTop(
+        anchorCenterY: anchorCenterY,
+        menuHeight: menuHeight,
+        mediaQuery: mediaQuery,
+      ),
     );
-    if (nextOffset != _offset) {
-      setState(() => _offset = nextOffset);
+    if (nextOrigin != _origin) {
+      setState(() => _origin = nextOrigin);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return CompositedTransformFollower(
-      link: widget.link,
-      targetAnchor: Alignment.centerRight,
-      followerAnchor: Alignment.centerLeft,
-      offset: _offset,
-      showWhenUnlinked: false,
+    if (_origin == null) {
+      WidgetsBinding.instance.addPostFrameCallback(_schedulePositionUpdate);
+      return const SizedBox.shrink();
+    }
+    return Positioned(
+      left: _origin!.dx,
+      top: _origin!.dy,
       child: KeyedSubtree(key: _menuKey, child: widget.child),
     );
   }

@@ -32,7 +32,6 @@ class GuildIconPeekGestureHost extends ConsumerStatefulWidget {
 class _GuildIconPeekGestureHostState
     extends ConsumerState<GuildIconPeekGestureHost>
     with SingleTickerProviderStateMixin {
-  final LayerLink _layerLink = LayerLink();
   final GlobalKey _anchorKey = GlobalKey();
   Timer? _holdTimer;
   OverlayEntry? _peekOverlay;
@@ -89,7 +88,6 @@ class _GuildIconPeekGestureHostState
           ),
         ),
         SidebarPeekMenuFollower(
-          link: _layerLink,
           anchorKey: _anchorKey,
           estimatedMenuHeight: widget.content.estimateMenuHeight(context),
           child: ContextMenuEntranceAnimationHost(
@@ -261,17 +259,13 @@ class _GuildIconPeekGestureHostState
       }
     });
 
-    return CompositedTransformTarget(
-      key: _anchorKey,
-      link: _layerLink,
-      child: Listener(
-        behavior: HitTestBehavior.translucent,
-        onPointerDown: _handlePointerDown,
-        onPointerMove: _handlePointerMove,
-        onPointerUp: _handlePointerUp,
-        onPointerCancel: _handlePointerCancel,
-        child: widget.child,
-      ),
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: _handlePointerDown,
+      onPointerMove: _handlePointerMove,
+      onPointerUp: _handlePointerUp,
+      onPointerCancel: _handlePointerCancel,
+      child: KeyedSubtree(key: _anchorKey, child: widget.child),
     );
   }
 }

@@ -60,6 +60,48 @@ void main() {
       expect(find.byType(GuildFolderPeekMenuPanel), findsNothing);
     });
 
+    testWidgets('peek menu aligns vertically with the pressed guild icon', (
+      WidgetTester tester,
+    ) async {
+      const Key guildKey = Key('guild-icon');
+
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          child: Scaffold(
+            body: Center(
+              child: GuildIconPeekGestureHost(
+                itemId: 'guild-1',
+                content: GuildFolderPeekMenuConfig(
+                  folderName: 'Test Folder',
+                  guilds: const <Guild>[Guild(id: 'guild-1', name: 'Alpha')],
+                  hasUnread: false,
+                  onAction: (_) async {},
+                ),
+                child: const SizedBox(
+                  key: guildKey,
+                  width: 48,
+                  height: 48,
+                  child: ColoredBox(color: Colors.blue),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Offset guildCenter = tester.getCenter(find.byKey(guildKey));
+      final TestGesture hold = await tester.startGesture(guildCenter);
+      await tester.pump(kGuildPeekHoldDelay);
+      await tester.pump();
+      await hold.up();
+      await tester.pumpAndSettle();
+
+      final Rect menuRect = tester.getRect(find.byType(SidebarPeekMenuPanel));
+      expect(menuRect.center.dy, closeTo(guildCenter.dy, 8));
+      expect(menuRect.left, greaterThan(guildCenter.dx));
+    });
+
     testWidgets('peek menu stays on screen when anchor is near the top', (
       WidgetTester tester,
     ) async {
