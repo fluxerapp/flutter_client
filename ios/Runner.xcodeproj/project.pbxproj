@@ -10,6 +10,7 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		184F59D3C4E13DFAB2C06DE7 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E234D355EEB026D81BF5DA2E /* Pods_RunnerTests.framework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
+		FNXM00142FABCD00EA2F05 /* MeasureLogRedactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FNXM00132FABCD00EA2F04 /* MeasureLogRedactionTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		6B1799F170A79F24FE5D0334 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A731873E52EB77026A27F23B /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -72,6 +73,8 @@
 		FBBBF6E93010D5F7005E613C /* receive-sharing-intent in Frameworks */ = {isa = PBXBuildFile; productRef = FBBBF6E83010D5F7005E613C /* receive-sharing-intent */; };
 		FBBF3E5F2FB7A6FD0080FF5E /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FBBF3E582FB7A6FD0080FF5E /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */; };
+		FNXM00022FABCD00EA2F01 /* FluxerNativeMeasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = FNXM00012FABCD00EA2F01 /* FluxerNativeMeasure.swift */; };
+		FNXM00042FABCD00EA2F03 /* MeasureLogRedaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FNXM00032FABCD00EA2F03 /* MeasureLogRedaction.swift */; };
 		FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */; };
 		FBC1A0082F9E220100EA2F07 /* AttachmentMediaBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */; };
 		FBC1A00A2F9E220100EA2F09 /* AppStoreDistributionBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */; };
@@ -159,6 +162,7 @@
 		323C4FE138C3CFF89A4B107B /* Pods-RunnerTests.profile-beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.profile-beta.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile-beta.xcconfig"; sourceTree = "<group>"; };
 		32ADE8DB6964E19E168902C8 /* Pods-Runner.profile-stable.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-stable.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-stable.xcconfig"; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
+		FNXM00132FABCD00EA2F04 /* MeasureLogRedactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureLogRedactionTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		35C33869E199AFDBEFD8ABB7 /* Pods-RunnerTests.release-canary.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release-canary.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release-canary.xcconfig"; sourceTree = "<group>"; };
 		3A339F3E258064EF46FCC0FB /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -291,6 +295,8 @@
 		FBA74A253F83B0FA00330527 /* SocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketConnection.swift; sourceTree = "<group>"; };
 		FBBF3E582FB7A6FD0080FF5E /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
+		FNXM00012FABCD00EA2F01 /* FluxerNativeMeasure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxerNativeMeasure.swift; sourceTree = "<group>"; };
+		FNXM00032FABCD00EA2F03 /* MeasureLogRedaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureLogRedaction.swift; sourceTree = "<group>"; };
 		FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSpeakerRoute.swift; sourceTree = "<group>"; };
 		FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentMediaBridge.swift; sourceTree = "<group>"; };
 		FBC1A0092F9E220100EA2F08 /* AppStoreDistributionBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreDistributionBridge.swift; sourceTree = "<group>"; };
@@ -416,6 +422,7 @@
 				A15F1E13F500000000000003 /* AssistantFriendMatchingTests.swift */,
 				A15F1E13F500000000000007 /* AssistantSendAndCallTests.swift */,
 				331C807B294A618700263BE5 /* RunnerTests.swift */,
+				FNXM00132FABCD00EA2F04 /* MeasureLogRedactionTests.swift */,
 				FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */,
 				FB0AF10A2F5C98000078A54A /* VoiceSpeakerRouteTests.swift */,
 			);
@@ -480,6 +487,8 @@
 				FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */,
 				FB0AF1002F5C98000078A540 /* CallKit */,
 				FB0AE0182F5C95000078A518 /* Localizable.strings */,
+				FNXM00012FABCD00EA2F01 /* FluxerNativeMeasure.swift */,
+				FNXM00032FABCD00EA2F03 /* MeasureLogRedaction.swift */,
 				FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */,
 				FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */,
 				FBC1A0072F9E220100EA2F06 /* AttachmentMediaBridge.swift */,
@@ -955,6 +964,7 @@
 				A15F1E13F500000000000004 /* AssistantFriendMatchingTests.swift in Sources */,
 				A15F1E13F500000000000008 /* AssistantSendAndCallTests.swift in Sources */,
 				331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */,
+				FNXM00142FABCD00EA2F05 /* MeasureLogRedactionTests.swift in Sources */,
 				FB0AF0072F5C97000078A536 /* CallRingPayloadTests.swift in Sources */,
 				FB0AF10B2F5C98000078A54B /* VoiceSpeakerRouteTests.swift in Sources */,
 				FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */,
@@ -986,6 +996,8 @@
 				FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */,
 				FB0AF0042F5C97000078A533 /* CallRingPayload.swift in Sources */,
 				FB0AF1022F5C98000078A542 /* CallRingUuid.swift in Sources */,
+				FNXM00022FABCD00EA2F01 /* FluxerNativeMeasure.swift in Sources */,
+				FNXM00042FABCD00EA2F03 /* MeasureLogRedaction.swift in Sources */,
 				FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */,
 				FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */,
 				FBC1A0082F9E220100EA2F07 /* AttachmentMediaBridge.swift in Sources */,

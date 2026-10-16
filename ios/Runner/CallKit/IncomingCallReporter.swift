@@ -299,7 +299,11 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       if calls[uuid]?.published != true {
         calls.removeValue(forKey: uuid)
       }
-      NSLog("[CallKit] report failed: \(error.localizedDescription)")
+      FluxerNativeMeasure.reportHandled(
+        error,
+        source: "callkit.incoming_call_reporter",
+        context: "report failed"
+      )
       return
     }
     NSLog("[CallKit] voip call reported")

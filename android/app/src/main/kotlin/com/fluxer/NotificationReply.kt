@@ -129,7 +129,12 @@ internal class NotificationReplyDispatcher(
         }
         val sent = try {
             poster.post(request)
-        } catch (_: Exception) {
+        } catch (error: Exception) {
+            FluxerNativeMeasure.reportHandled(
+                error,
+                source = "notification_reply",
+                context = "http post",
+            )
             false
         }
         if (!sent) {
