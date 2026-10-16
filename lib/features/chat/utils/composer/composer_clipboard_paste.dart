@@ -7,8 +7,8 @@ import 'package:fluxer_app/features/chat/utils/attachments/attachment_filename_u
 import 'package:fluxer_app/features/chat/utils/attachments/clipboard_attachment_reader.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
-import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 export 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart'
@@ -45,62 +45,6 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
   return ref
       .read(cloudUploadControllerProvider(channelId).notifier)
       .addFiles(composerUploadFiles(files));
-}
-
-Future<bool> pasteIntoComposer({
-  required ComposerMentionController controller,
-  required int maxLength,
-  required bool canAttachOnExceed,
-  required void Function(String pastedText) onPasteExceedsLimit,
-  void Function()? onPasteLostContent,
-}) async {
-  final String? clipboardText = await readClipboardPlainText();
-  if (clipboardText == null || clipboardText.isEmpty) {
-    return false;
-  }
-  return finishComposerWireTextPaste(
-    controller: controller,
-    clipboardText: clipboardText,
-    maxLength: maxLength,
-    canAttachOnExceed: canAttachOnExceed,
-    onPasteExceedsLimit: onPasteExceedsLimit,
-    onPasteLostContent: onPasteLostContent,
-  );
-}
-
-Future<bool> finishComposerNativeTextPaste({
-  required TextEditingController controller,
-  required String textBefore,
-  required TextSelection selectionBefore,
-  int? maxMessageLength,
-  bool Function()? canAttachOnExceed,
-  void Function(String pastedText)? onPasteExceedsLimit,
-  void Function()? onPasteLostContent,
-}) {
-  return reprocessNativeTextPaste(
-    controller: controller,
-    textBefore: textBefore,
-    selectionBefore: selectionBefore,
-    applyPaste: (String inserted) {
-      if (controller is ComposerMentionController &&
-          maxMessageLength != null &&
-          canAttachOnExceed != null &&
-          onPasteExceedsLimit != null) {
-        return finishComposerWireTextPaste(
-          controller: controller,
-          clipboardText: inserted,
-          maxLength: maxMessageLength,
-          canAttachOnExceed: canAttachOnExceed(),
-          onPasteExceedsLimit: onPasteExceedsLimit,
-          onPasteLostContent: onPasteLostContent,
-        );
-      }
-      if (controller is InlineTokenTextEditingController) {
-        return pasteWireTextIntoInlineTokenController(controller, inserted);
-      }
-      return Future<bool>.value(true);
-    },
-  );
 }
 
 Future<bool> finishComposerWireTextPaste({
@@ -144,19 +88,19 @@ Future<bool> handleComposerPaste({
   void Function(String pastedText)? onPasteExceedsLimit,
   void Function()? onPasteLostContent,
   void Function(FileUploadValidationResult result)? onValidationResult,
-  bool attachmentsOnly = false,
 }) async {
-  if (!attachmentsOnly) {
-    final bool pastedText = await _tryPasteComposerText(
-      controller: controller,
-      maxMessageLength: maxMessageLength,
-      canAttachOnExceed: canAttachOnExceed,
-      onPasteExceedsLimit: onPasteExceedsLimit,
-      onPasteLostContent: onPasteLostContent,
-    );
-    if (pastedText) {
-      return true;
-    }
+  final String? clipboardText = await readClipboardPlainText();
+  if (clipboardText != null &&
+      clipboardText.isNotEmpty &&
+      await pasteComposerText(
+        controller: controller,
+        text: clipboardText,
+        maxMessageLength: maxMessageLength,
+        canAttachOnExceed: canAttachOnExceed,
+        onPasteExceedsLimit: onPasteExceedsLimit,
+        onPasteLostContent: onPasteLostContent,
+      )) {
+    return true;
   }
   final FileUploadValidationResult? attachmentResult =
       await tryPasteClipboardAttachments(
@@ -171,8 +115,49 @@ Future<bool> handleComposerPaste({
   return false;
 }
 
-Future<bool> _tryPasteComposerText({
+Future<bool> handleComposerNativePaste({
+  required WidgetRef ref,
+  required String channelId,
   required TextEditingController controller,
+  required bool isAttachEnabled,
+  required String? text,
+  required List<NativePasteFile> files,
+  int? maxMessageLength,
+  bool Function()? canAttachOnExceed,
+  void Function(String pastedText)? onPasteExceedsLimit,
+  void Function()? onPasteLostContent,
+  void Function(FileUploadValidationResult result)? onValidationResult,
+}) async {
+  if (text != null && text.isNotEmpty) {
+    await pasteComposerText(
+      controller: controller,
+      text: text,
+      maxMessageLength: maxMessageLength,
+      canAttachOnExceed: canAttachOnExceed,
+      onPasteExceedsLimit: onPasteExceedsLimit,
+      onPasteLostContent: onPasteLostContent,
+    );
+    return true;
+  }
+  if (!isAttachEnabled || files.isEmpty) {
+    return false;
+  }
+  final FileUploadValidationResult result = await ref
+      .read(cloudUploadControllerProvider(channelId).notifier)
+      .addFiles(<ComposerUploadFile>[
+        for (final NativePasteFile file in files)
+          composerUploadFile(
+            XFile.fromData(file.bytes, mimeType: file.mimeType),
+            displayFilename: file.name,
+          ),
+      ]);
+  onValidationResult?.call(result);
+  return true;
+}
+
+Future<bool> pasteComposerText({
+  required TextEditingController controller,
+  required String text,
   int? maxMessageLength,
   bool Function()? canAttachOnExceed,
   void Function(String pastedText)? onPasteExceedsLimit,
@@ -182,15 +167,16 @@ Future<bool> _tryPasteComposerText({
       maxMessageLength != null &&
       canAttachOnExceed != null &&
       onPasteExceedsLimit != null) {
-    return pasteIntoComposer(
+    return finishComposerWireTextPaste(
       controller: controller,
+      clipboardText: text,
       maxLength: maxMessageLength,
       canAttachOnExceed: canAttachOnExceed(),
       onPasteExceedsLimit: onPasteExceedsLimit,
       onPasteLostContent: onPasteLostContent,
     );
   }
-  return pasteIntoTextController(controller);
+  return insertPastedText(controller, text);
 }
 
 Future<FileUploadValidationResult?> handleComposerContentInserted({

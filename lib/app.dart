@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/shell/presentation/gateway_reconnect_banner.dart';
 import 'package:fluxer_app/features/shell/presentation/instance_compatibility_gate.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_layer.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_layer.dart';
@@ -189,7 +190,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
                   brightness: materialTheme.brightness,
                   navigationBarColor: materialTheme.scaffoldBackgroundColor,
                 ),
-            child: scaled,
+            child: NativePasteShortcuts(child: scaled),
           );
         },
       ),

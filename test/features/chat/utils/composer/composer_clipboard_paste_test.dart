@@ -42,18 +42,6 @@ Future<ComposerMentionController> _pumpMentionController(
   return controller!;
 }
 
-void _mockClipboardText(String text) {
-  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-      .setMockMethodCallHandler(SystemChannels.platform, (
-        MethodCall methodCall,
-      ) async {
-        if (methodCall.method == 'Clipboard.getData') {
-          return <String, String>{'text': text};
-        }
-        return null;
-      });
-}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -92,30 +80,6 @@ void main() {
     });
   });
 
-  group('finishComposerNativeTextPaste', () {
-    testWidgets('re-chips pasted mention wire text after native paste', (
-      WidgetTester tester,
-    ) async {
-      final ComposerMentionController controller = await _pumpMentionController(
-        tester,
-      );
-      controller.text = 'hi <@123>';
-
-      await finishComposerNativeTextPaste(
-        controller: controller,
-        textBefore: '',
-        selectionBefore: const TextSelection.collapsed(offset: 0),
-        maxMessageLength: 100,
-        canAttachOnExceed: () => false,
-        onPasteExceedsLimit: (_) => fail('should not exceed'),
-      );
-      await tester.pump();
-
-      expect(controller.text, isNot(contains('<@123>')));
-      expect(controller.toWireText(), 'hi <@123>');
-    });
-  });
-
   group('projectedWireLengthAfterPaste', () {
     testWidgets('projects wire length for insertion at caret', (
       WidgetTester tester,
@@ -133,24 +97,19 @@ void main() {
     });
   });
 
-  group('pasteIntoComposer', () {
-    tearDown(() {
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(SystemChannels.platform, null);
-    });
-
+  group('pasteComposerText', () {
     testWidgets('inserts clipboard text within limit', (
       WidgetTester tester,
     ) async {
       final ComposerMentionController controller = await _pumpMentionController(
         tester,
       );
-      _mockClipboardText('hello');
 
-      await pasteIntoComposer(
+      await pasteComposerText(
         controller: controller,
-        maxLength: 100,
-        canAttachOnExceed: false,
+        text: 'hello',
+        maxMessageLength: 100,
+        canAttachOnExceed: () => false,
         onPasteExceedsLimit: (_) => fail('should not exceed'),
       );
 
@@ -161,12 +120,12 @@ void main() {
       final ComposerMentionController controller = await _pumpMentionController(
         tester,
       );
-      _mockClipboardText('hi <@123>');
 
-      await pasteIntoComposer(
+      await pasteComposerText(
         controller: controller,
-        maxLength: 100,
-        canAttachOnExceed: false,
+        text: 'hi <@123>',
+        maxMessageLength: 100,
+        canAttachOnExceed: () => false,
         onPasteExceedsLimit: (_) => fail('should not exceed'),
       );
       await tester.pump();
@@ -181,13 +140,13 @@ void main() {
       final ComposerMentionController controller = await _pumpMentionController(
         tester,
       );
-      _mockClipboardText('hello world');
       String? exceededText;
 
-      await pasteIntoComposer(
+      await pasteComposerText(
         controller: controller,
-        maxLength: 5,
-        canAttachOnExceed: true,
+        text: 'hello world',
+        maxMessageLength: 5,
+        canAttachOnExceed: () => true,
         onPasteExceedsLimit: (String pastedText) => exceededText = pastedText,
       );
 
@@ -201,13 +160,13 @@ void main() {
       final ComposerMentionController controller = await _pumpMentionController(
         tester,
       );
-      _mockClipboardText('hello world');
       var attachCalled = false;
 
-      await pasteIntoComposer(
+      await pasteComposerText(
         controller: controller,
-        maxLength: 5,
-        canAttachOnExceed: false,
+        text: 'hello world',
+        maxMessageLength: 5,
+        canAttachOnExceed: () => false,
         onPasteExceedsLimit: (_) => attachCalled = true,
       );
 
@@ -221,13 +180,13 @@ void main() {
       final ComposerMentionController controller = await _pumpMentionController(
         tester,
       );
-      _mockClipboardText('\uE056');
       var lostContent = false;
 
-      await pasteIntoComposer(
+      await pasteComposerText(
         controller: controller,
-        maxLength: 100,
-        canAttachOnExceed: true,
+        text: '\uE056',
+        maxMessageLength: 100,
+        canAttachOnExceed: () => true,
         onPasteExceedsLimit: (_) => fail('should not exceed'),
         onPasteLostContent: () => lostContent = true,
       );

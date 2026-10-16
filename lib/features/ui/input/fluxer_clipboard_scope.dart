@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
@@ -10,13 +11,15 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-typedef FluxerPasteCallback = Future<void> Function({bool attachmentsOnly});
+typedef FluxerPasteCallback = Future<void> Function();
 
-typedef FluxerNativeTextPasteCallback =
-    Future<void> Function({
-      required String textBefore,
-      required TextSelection selectionBefore,
+typedef FluxerNativePasteCallback =
+    Future<bool> Function({
+      required String? text,
+      required List<NativePasteFile> files,
     });
+
+typedef NativePasteFile = ({Uint8List bytes, String? name, String? mimeType});
 
 class FluxerClipboardScope extends StatefulWidget {
   const FluxerClipboardScope({
@@ -24,7 +27,7 @@ class FluxerClipboardScope extends StatefulWidget {
     required this.builder,
     this.focusNode,
     this.onPaste,
-    this.onNativeTextPaste,
+    this.onNativePaste,
     this.injectPasteWhenMissing = false,
     super.key,
   });
@@ -32,7 +35,7 @@ class FluxerClipboardScope extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
   final FluxerPasteCallback? onPaste;
-  final FluxerNativeTextPasteCallback? onNativeTextPaste;
+  final FluxerNativePasteCallback? onNativePaste;
   final bool injectPasteWhenMissing;
   final Widget Function(
     BuildContext context,
@@ -46,6 +49,18 @@ class FluxerClipboardScope extends StatefulWidget {
 }
 
 class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
+  static final Set<FluxerClipboardScopeState> _mounted =
+      <FluxerClipboardScopeState>{};
+
+  static FluxerClipboardScopeState? get focused {
+    for (final FluxerClipboardScopeState scope in _mounted) {
+      if (scope._effectiveFocusNode.hasFocus) {
+        return scope;
+      }
+    }
+    return null;
+  }
+
   FocusNode? _ownedFocusNode;
   FocusOnKeyEventCallback? _chainedKeyHandler;
   List<Widget>? _cachedToolbarButtons;
@@ -64,6 +79,7 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
   @override
   void initState() {
     super.initState();
+    _mounted.add(this);
     _bindFocusNode(widget.focusNode);
   }
 
@@ -78,6 +94,7 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
 
   @override
   void dispose() {
+    _mounted.remove(this);
     _unbindFocusNode(widget.focusNode);
     _ownedFocusNode?.dispose();
     super.dispose();
@@ -134,12 +151,26 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     await cutInlineTokenSelection(widget.controller);
   }
 
-  Future<void> handlePaste({bool attachmentsOnly = false}) async {
+  Future<void> handlePaste() async {
     if (widget.onPaste != null) {
-      await widget.onPaste!(attachmentsOnly: attachmentsOnly);
+      await widget.onPaste!();
       return;
     }
     await pasteIntoTextController(widget.controller);
+  }
+
+  Future<bool> handleNativePaste({
+    required String? text,
+    required List<NativePasteFile> files,
+  }) async {
+    if (widget.onNativePaste != null) {
+      return widget.onNativePaste!(text: text, files: files);
+    }
+    if (_isInlineTokenController && text != null && text.isNotEmpty) {
+      await pasteWireTextIntoInlineTokenController(widget.controller, text);
+      return true;
+    }
+    return false;
   }
 
   KeyEventResult handleKeyboardShortcut(KeyEvent event) {
@@ -179,6 +210,9 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
         unawaited(handleCut());
         return KeyEventResult.handled;
       case TextEditingShortcutKind.paste:
+        if (usesNativePaste) {
+          return KeyEventResult.skipRemainingHandlers;
+        }
         if (!_interceptKeyboardClipboard) {
           return KeyEventResult.ignored;
         }
@@ -199,20 +233,6 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     EditableTextState editableTextState,
   ) async {
     final String before = widget.controller.text;
-    final TextSelection selectionBefore = widget.controller.selection;
-    if (_shouldPreferNativeTextPaste) {
-      await editableTextState.pasteText(SelectionChangedCause.toolbar);
-      if (widget.controller.text != before) {
-        await _finishNativeTextPaste(
-          textBefore: before,
-          selectionBefore: selectionBefore,
-        );
-      } else if (widget.onPaste != null) {
-        await handlePaste(attachmentsOnly: true);
-      }
-      ContextMenuController.removeAny();
-      return;
-    }
     if (widget.onPaste != null || _isInlineTokenController) {
       await handlePaste();
     } else {
@@ -227,30 +247,6 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     }
     ContextMenuController.removeAny();
   }
-
-  Future<void> _finishNativeTextPaste({
-    required String textBefore,
-    required TextSelection selectionBefore,
-  }) async {
-    if (widget.onNativeTextPaste != null) {
-      await widget.onNativeTextPaste!(
-        textBefore: textBefore,
-        selectionBefore: selectionBefore,
-      );
-      return;
-    }
-    if (_isInlineTokenController) {
-      await reprocessNativeInlineTokenPaste(
-        controller: widget.controller as InlineTokenTextEditingController,
-        textBefore: textBefore,
-        selectionBefore: selectionBefore,
-      );
-    }
-  }
-
-  bool get _shouldPreferNativeTextPaste =>
-      defaultTargetPlatform == TargetPlatform.iOS &&
-      (widget.onPaste != null || _isInlineTokenController);
 
   void _showPasteFailedFeedback() {
     final FluxerLocalizations? l10n = Localizations.of<FluxerLocalizations>(
@@ -324,10 +320,56 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     final List<ContextMenuButtonItem> items = _composeContextMenuItems(
       editableTextState,
     );
+    if (usesNativePaste &&
+        SystemContextMenu.isSupportedByField(editableTextState)) {
+      return SystemContextMenu.editableText(
+        editableTextState: editableTextState,
+        items: _systemContextMenuItems(context, items),
+      );
+    }
     return AdaptiveTextSelectionToolbar(
       anchors: editableTextState.contextMenuAnchors,
       children: _toolbarButtons(context, editableTextState, items),
     );
+  }
+
+  List<IOSSystemContextMenuItem> _systemContextMenuItems(
+    BuildContext context,
+    List<ContextMenuButtonItem> items,
+  ) {
+    final WidgetsLocalizations localizations = WidgetsLocalizations.of(context);
+    final List<IOSSystemContextMenuItem> systemItems =
+        <IOSSystemContextMenuItem>[];
+    for (final ContextMenuButtonItem item in items) {
+      final IOSSystemContextMenuItem? systemItem = switch (item.type) {
+        ContextMenuButtonType.copy when _isInlineTokenController =>
+          IOSSystemContextMenuItemCustom(
+            title: localizations.copyButtonLabel,
+            onPressed: () => unawaited(handleCopy()),
+          ),
+        ContextMenuButtonType.cut when _isInlineTokenController =>
+          IOSSystemContextMenuItemCustom(
+            title: localizations.cutButtonLabel,
+            onPressed: () => unawaited(handleCut()),
+          ),
+        ContextMenuButtonType.copy => const IOSSystemContextMenuItemCopy(),
+        ContextMenuButtonType.cut => const IOSSystemContextMenuItemCut(),
+        ContextMenuButtonType.paste => const IOSSystemContextMenuItemPaste(),
+        ContextMenuButtonType.selectAll =>
+          const IOSSystemContextMenuItemSelectAll(),
+        ContextMenuButtonType.lookUp => const IOSSystemContextMenuItemLookUp(),
+        ContextMenuButtonType.searchWeb =>
+          const IOSSystemContextMenuItemSearchWeb(),
+        ContextMenuButtonType.share => const IOSSystemContextMenuItemShare(),
+        ContextMenuButtonType.liveTextInput =>
+          const IOSSystemContextMenuItemLiveText(),
+        ContextMenuButtonType.delete || ContextMenuButtonType.custom => null,
+      };
+      if (systemItem != null) {
+        systemItems.add(systemItem);
+      }
+    }
+    return systemItems;
   }
 
   List<Widget> _toolbarButtons(
@@ -371,6 +413,63 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
         ),
       },
       child: widget.builder(context, this, _effectiveFocusNode),
+    );
+  }
+}
+
+const MethodChannel _nativePasteChannel = MethodChannel(
+  'fluxer_app/native_paste',
+);
+
+bool get usesNativePaste =>
+    !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
+
+void installNativePasteHandler() {
+  _nativePasteChannel.setMethodCallHandler(handleNativePasteCall);
+}
+
+Future<bool> handleNativePasteCall(MethodCall call) async {
+  if (call.method != 'paste') {
+    return false;
+  }
+  final FluxerClipboardScopeState? scope = FluxerClipboardScopeState.focused;
+  if (scope == null) {
+    return false;
+  }
+  final Map<Object?, Object?> arguments =
+      call.arguments as Map<Object?, Object?>? ?? const <Object?, Object?>{};
+  final List<Object?> rawFiles =
+      arguments['files'] as List<Object?>? ?? const <Object?>[];
+  return scope.handleNativePaste(
+    text: arguments['text'] as String?,
+    files: <NativePasteFile>[
+      for (final Map<Object?, Object?> file
+          in rawFiles.whereType<Map<Object?, Object?>>())
+        (
+          bytes: file['data']! as Uint8List,
+          name: file['name'] as String?,
+          mimeType: file['mimeType'] as String?,
+        ),
+    ],
+  );
+}
+
+class NativePasteShortcuts extends StatelessWidget {
+  const NativePasteShortcuts({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!usesNativePaste) {
+      return child;
+    }
+    return Shortcuts(
+      shortcuts: const <ShortcutActivator, Intent>{
+        SingleActivator(LogicalKeyboardKey.keyV, meta: true):
+            DoNothingAndStopPropagationTextIntent(),
+      },
+      child: child,
     );
   }
 }
