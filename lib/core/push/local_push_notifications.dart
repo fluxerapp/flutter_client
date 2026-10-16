@@ -20,6 +20,7 @@ import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/core/push/push_notification_reply_background.dart';
 import 'package:fluxer_app/core/push/push_notification_sound.dart';
+import 'package:fluxer_app/core/push/push_notification_sound_settings.dart';
 import 'package:fluxer_app/core/push/push_notification_time.dart';
 
 export 'package:fluxer_app/core/push/android_push_channels.dart'
@@ -171,6 +172,24 @@ final class LocalPushNotifications {
         description: kAndroidPushChannelDescription,
         importance: Importance.high,
         sound: kPushNotificationMessageAndroidSound,
+      ),
+    );
+    await android.createNotificationChannel(
+      const AndroidNotificationChannel(
+        kAndroidPushSilentMessageChannelId,
+        kAndroidPushSilentMessageChannelName,
+        description: kAndroidPushChannelDescription,
+        importance: Importance.high,
+        playSound: false,
+      ),
+    );
+    await android.createNotificationChannel(
+      const AndroidNotificationChannel(
+        kAndroidPushSilentDirectMessageChannelId,
+        kAndroidPushSilentDirectMessageChannelName,
+        description: kAndroidPushChannelDescription,
+        importance: Importance.high,
+        playSound: false,
       ),
     );
   }
@@ -389,10 +408,9 @@ final class LocalPushNotifications {
     replyPayload['message_id'] = latest.messageId;
     replyPayload[kLocalNotificationMessageIdKey] = latest.messageId;
     final String payloadJson = jsonEncode(replyPayload);
+    final bool soundEnabled = await isPushNotificationSoundEnabled(payload);
     final AndroidNotificationDetails androidDetails =
         buildAndroidConversationNotificationDetails(
-          androidChannelId: androidPushChannelId(payload),
-          androidChannelName: androidPushChannelName(payload),
           payload: payload,
           lines: shownLines,
           title: title,
@@ -400,6 +418,7 @@ final class LocalPushNotifications {
           whenMillis: whenMillis,
           conversationTag: conversationTag,
           alert: alert,
+          soundEnabled: soundEnabled,
         );
     final bool shown = await _showAndroidConversationNotification(
       notificationId: notificationId,
@@ -413,8 +432,6 @@ final class LocalPushNotifications {
           pushConversationLinesWithoutMedia(shownLines);
       final AndroidNotificationDetails plainDetails =
           buildAndroidConversationNotificationDetails(
-            androidChannelId: androidPushChannelId(payload),
-            androidChannelName: androidPushChannelName(payload),
             payload: payload,
             lines: plainLines,
             title: title,
@@ -422,6 +439,7 @@ final class LocalPushNotifications {
             whenMillis: whenMillis,
             conversationTag: conversationTag,
             alert: alert,
+            soundEnabled: soundEnabled,
           );
       final bool retryShown = await _showAndroidConversationNotification(
         notificationId: notificationId,

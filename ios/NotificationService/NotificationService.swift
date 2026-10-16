@@ -174,10 +174,10 @@ private extension NotificationService {
         to content: UNMutableNotificationContent,
         userInfo: [AnyHashable: Any]
     ) {
-        guard let sound = PushNotificationPayload.resolveNotificationSound(from: userInfo) else {
-            return
-        }
-        content.sound = sound
+        content.sound = PushNotificationPayload.resolveNotificationSound(
+            from: userInfo,
+            soundSettings: PushNotificationPayload.storedNotificationSoundSettings()
+        )
     }
 
     static func localizedPushBody() -> String {
