@@ -251,7 +251,7 @@ class FluxerObservability {
       config: const MeasureConfig(autoStart: false, enableLogging: kDebugMode),
     );
     routeMeasureErrorHooksThroughScrubber(localHandler);
-    _measureInitialized = Measure.instance.isInitialized;
+    _measureInitialized = true;
   }
 
   @visibleForTesting
