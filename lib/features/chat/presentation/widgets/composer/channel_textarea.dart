@@ -1416,11 +1416,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             ),
           ),
           idleChild: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: VoiceMessageRecordingBar.heightFor(actionSize),
-            ),
+            constraints: BoxConstraints(minHeight: actionSize.height),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 _composerSlot(
                   context: context,
