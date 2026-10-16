@@ -40,6 +40,26 @@ double _caretRight(WidgetTester tester, Key key) => tester
 double _fieldRight(WidgetTester tester, Key key) =>
     tester.getTopRight(find.byKey(key)).dx;
 
+void _useView(WidgetTester tester, Size size) {
+  tester.view.physicalSize = size;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
+bool _searchHasFocus(WidgetTester tester) =>
+    tester.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus;
+
+Widget _searchableSelect() => FluxerSelect<String>(
+  hint: 'Pick',
+  searchHint: 'Search options',
+  items: const [
+    FluxerSelectItem(value: 'a', label: 'Alpha'),
+    FluxerSelectItem(value: 'b', label: 'Beta'),
+    FluxerSelectItem(value: 'c', label: 'Gamma'),
+  ],
+  onChanged: (_) {},
+);
+
 void main() {
   final items = [
     const FluxerSelectItem(value: 'a', label: 'Alpha'),
@@ -207,6 +227,51 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('No matches found'), findsOneWidget);
+    });
+
+    testWidgets('search waits for a tap on phones', (tester) async {
+      _useView(tester, const Size(400, 800));
+      await tester.pumpWidget(buildTestApp(_searchableSelect()));
+
+      await tester.tap(find.text('Pick'));
+      await tester.pumpAndSettle();
+
+      expect(_searchHasFocus(tester), isFalse);
+
+      await tester.tap(find.byType(EditableText));
+      await tester.pumpAndSettle();
+
+      expect(_searchHasFocus(tester), isTrue);
+    });
+
+    testWidgets('sheet rises with a keyboard that opens over several frames', (
+      tester,
+    ) async {
+      _useView(tester, const Size(400, 800));
+      addTearDown(tester.view.resetViewInsets);
+      await tester.pumpWidget(buildTestApp(_searchableSelect()));
+
+      await tester.tap(find.text('Pick'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(EditableText));
+      await tester.pumpAndSettle();
+
+      const double keyboard = 320;
+      for (final double inset in <double>[8, 60, 180, keyboard]) {
+        tester.view.viewInsets = FakeViewPadding(bottom: inset);
+        await tester.pump();
+        await tester.pump();
+      }
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.getBottomLeft(find.text('Gamma')).dy,
+        lessThanOrEqualTo(800 - keyboard),
+      );
+      expect(
+        tester.getBottomLeft(find.byType(EditableText)).dy,
+        lessThanOrEqualTo(800 - keyboard),
+      );
     });
 
     testWidgets(

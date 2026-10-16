@@ -1034,8 +1034,11 @@ class _FluxerDraggableScrollableSheetState
   @override
   void didUpdateWidget(FluxerDraggableScrollableSheet oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.bottomInset <= 0 && widget.bottomInset > 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _expandForKeyboard());
+    if (widget.bottomInset > oldWidget.bottomInset) {
+      final bool opening = oldWidget.bottomInset <= 0;
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _expandForKeyboard(animate: opening),
+      );
     } else if (widget.bottomInset < oldWidget.bottomInset) {
       _scheduleFit();
     }
@@ -1106,7 +1109,7 @@ class _FluxerDraggableScrollableSheetState
       widget.maxChildSize >= kFluxerBottomSheetFullSize - _kSheetSizeEpsilon &&
       widget.halfChildSize < widget.maxChildSize - _kSheetSizeEpsilon;
 
-  void _expandForKeyboard() {
+  void _expandForKeyboard({required bool animate}) {
     if (!mounted || _dismissed || _dragging || !canExpand) {
       return;
     }
@@ -1120,7 +1123,11 @@ class _FluxerDraggableScrollableSheetState
       return;
     }
     _restingSize = _maxSize;
-    _moveTo(_restingSize);
+    if (animate) {
+      _moveTo(_restingSize);
+    } else {
+      _size.value = _restingSize;
+    }
   }
 
   void _moveTo(double target) {
