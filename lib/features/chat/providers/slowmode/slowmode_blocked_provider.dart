@@ -30,15 +30,22 @@ Stream<bool> isSlowmodeBlocked(Ref ref, String channelId) {
     ..watch(slowmodeTrackerProvider);
   final tracker = ref.read(slowmodeTrackerProvider.notifier);
   final db = ref.watch(fluxerDatabaseProvider);
-  final Future<bool> immune = ref.watch(
-    isSlowmodeImmuneProvider(channelId).future,
+  final AsyncValue<bool> immunity = ref.watch(
+    isSlowmodeImmuneProvider(channelId),
+  );
+  if (immunity.isLoading) {
+    return const Stream<bool>.empty();
+  }
+  final bool isImmune = immunity.maybeWhen(
+    data: (bool immune) => immune,
+    orElse: () => false,
   );
 
   return _watchSlowmodeBlocked(
     channelId: channelId,
     db: db,
     tracker: tracker,
-    immune: immune,
+    isImmune: isImmune,
     isDisposed: () => disposed,
     wait: (Duration duration) {
       waitTimer?.cancel();
@@ -62,7 +69,7 @@ Stream<bool> _watchSlowmodeBlocked({
   required String channelId,
   required FluxerDatabase db,
   required SlowmodeTracker tracker,
-  required Future<bool> immune,
+  required bool isImmune,
   required bool Function() isDisposed,
   required Future<void> Function(Duration duration) wait,
 }) async* {
@@ -71,10 +78,6 @@ Stream<bool> _watchSlowmodeBlocked({
     return;
   }
   final rate = channel?.rateLimitPerUser ?? 0;
-  final bool isImmune = await immune;
-  if (isDisposed()) {
-    return;
-  }
   if (rate <= 0 || isImmune) {
     yield false;
     return;

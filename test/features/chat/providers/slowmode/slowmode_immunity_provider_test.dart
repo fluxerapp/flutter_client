@@ -8,20 +8,10 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 
 import '../../../../helpers/open_test_database.dart';
+import 'gated_rebuild_permission_cache.dart';
 
 const String _channelId = 'channel-1';
 const String _guildId = 'guild-1';
-
-class _GatedRebuildCache extends ChannelPermissionCache {
-  _GatedRebuildCache(this.gate);
-
-  final Completer<void> gate;
-
-  @override
-  Future<void> rebuildChannel(String channelId, {bool localOnly = false}) {
-    return gate.future;
-  }
-}
 
 void main() {
   test('an immunity build disposed during its rebuild resolves without a '
@@ -40,7 +30,7 @@ void main() {
       overrides: [
         fluxerDatabaseProvider.overrideWithValue(database),
         channelPermissionCacheProvider.overrideWith(
-          () => _GatedRebuildCache(gate),
+          () => GatedRebuildPermissionCache(gate),
         ),
       ],
     );

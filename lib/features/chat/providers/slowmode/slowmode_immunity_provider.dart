@@ -49,6 +49,9 @@ Future<bool> isSlowmodeImmune(Ref ref, String channelId) async {
         ref: ref,
         channelId: channelId,
       );
+  if (!ref.mounted) {
+    return false;
+  }
   if (!outcome.shouldCache) {
     return false;
   }
