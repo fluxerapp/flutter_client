@@ -214,13 +214,12 @@ class GuildIconPeekMenuPanel extends StatelessWidget {
     final List<GuildIconPeekAction> visibleActions =
         visibleGuildIconPeekActions(hasUnread: hasUnread);
     return Align(
-      widthFactor: 1,
-      heightFactor: 1,
       alignment: Alignment.centerLeft,
       child: SidebarPeekMenuPanel(
         title: guildName,
         sections: [
           FluxerMenuGroup(
+            roundedRows: true,
             children: [
               for (final GuildIconPeekAction action in visibleActions)
                 KeyedSubtree(
@@ -228,6 +227,7 @@ class GuildIconPeekMenuPanel extends StatelessWidget {
                   child: FluxerBottomSheetMenuItem(
                     label: peekActionLabel(l10n, action),
                     icon: peekActionIcon(action),
+                    dense: true,
                     onTap: () => onActionTap?.call(action),
                   ),
                 ),

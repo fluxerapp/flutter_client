@@ -181,7 +181,7 @@ void main() {
       expect(selected, isEmpty);
     });
 
-    testWidgets('shows dividers between peek menu rows', (
+    testWidgets('spaces peek menu rows without dividers', (
       WidgetTester tester,
     ) async {
       const Key folderKey = Key('folder-icon');
@@ -198,7 +198,7 @@ void main() {
         find.byKey(folderKey),
       );
 
-      expect(find.byType(Divider), findsNWidgets(4));
+      expect(find.byType(Divider), findsNothing);
       expect(find.text(testL10n.guildFolderMarkAsRead), findsOneWidget);
       expect(find.text(testL10n.guildBulkMuteCommunities), findsOneWidget);
       expect(find.text(testL10n.guildFolderSettingsTitle), findsOneWidget);

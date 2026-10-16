@@ -54,7 +54,7 @@ void main() {
         isTrue,
       );
 
-      await tester.tapAt(const Offset(300, 300));
+      await tester.tapAt(const Offset(750, 550));
       await tester.pumpAndSettle();
 
       expect(find.byType(GuildFolderPeekMenuPanel), findsNothing);

@@ -466,6 +466,7 @@ List<Widget> buildFolderSidebarPeekSections({
                 label: entry.label,
                 icon: entry.icon,
                 enabled: !entry.isDisabled,
+                dense: true,
                 onTap: entry.isDisabled ? () {} : () => onActionEntry(entry),
               ),
             ),
@@ -481,9 +482,10 @@ List<Widget> buildFolderSidebarPeekSections({
                 label: entry.label,
                 icon: entry.icon,
                 enabled: !entry.isDisabled,
+                dense: true,
                 trailing: PhosphorIcon(
                   PhosphorIconsBold.caretRight,
-                  size: 16,
+                  size: kSidebarPeekMenuItemTrailingIconSize,
                   color: colors.textSecondary,
                 ),
                 onTap: entry.isDisabled ? () {} : () => onSubmenuEntry(entry),
@@ -497,7 +499,7 @@ List<Widget> buildFolderSidebarPeekSections({
   if (rows.isEmpty) {
     return const <Widget>[];
   }
-  return <Widget>[FluxerMenuGroup(children: rows)];
+  return <Widget>[FluxerMenuGroup(roundedRows: true, children: rows)];
 }
 
 @immutable
@@ -639,8 +641,6 @@ class GuildFolderPeekMenuPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      widthFactor: 1,
-      heightFactor: 1,
       alignment: Alignment.centerLeft,
       child: SidebarPeekMenuPanel(
         title: folderName,
