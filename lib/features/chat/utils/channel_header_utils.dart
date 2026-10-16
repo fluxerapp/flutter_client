@@ -24,11 +24,7 @@ bool isPersonalNotesHeader({
 bool shouldShowPinsForContext({
   required Channel? channel,
   required DmConversation? dm,
-  required bool isPersonalNotes,
 }) {
-  if (isPersonalNotes) {
-    return false;
-  }
   if (dm != null && dm.isSystem) {
     return false;
   }
@@ -42,11 +38,7 @@ bool shouldShowPinsForContext({
 bool shouldShowSearchForContext({
   required Channel? channel,
   required DmConversation? dm,
-  required bool isPersonalNotes,
 }) {
-  if (isPersonalNotes) {
-    return false;
-  }
   if (channel != null &&
       (channel.type == ChannelType.unknown || channel.isThreadOnly)) {
     return false;
