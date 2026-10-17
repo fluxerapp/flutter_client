@@ -23,6 +23,5 @@ enum UserSettingsSection {
   developerTools,
   limitsConfig,
   featureFlags,
-  whatsNew,
   appLicenses,
 }

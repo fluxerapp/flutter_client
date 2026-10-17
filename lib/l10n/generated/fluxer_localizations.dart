@@ -13353,6 +13353,18 @@ abstract class FluxerLocalizations {
   /// **'Duplicate channel'**
   String get channelMenuDuplicateChannel;
 
+  /// Helper text under the name field in the duplicate channel sheet. channelName is the source channel name with a leading #.
+  ///
+  /// In en, this message translates to:
+  /// **'The new channel will reuse the permissions from {channelName}.'**
+  String channelDuplicateHelper(String channelName);
+
+  /// Helper text under the name field in the duplicate channel sheet when the source is a voice channel. channelName is the source channel name with a leading #.
+  ///
+  /// In en, this message translates to:
+  /// **'The new voice channel will reuse the permissions, user limit, and bitrate from {channelName}.'**
+  String channelDuplicateVoiceHelper(String channelName);
+
   /// Guild channel menu action that opens a sheet to move the channel into another category or out of any category.
   ///
   /// In en, this message translates to:

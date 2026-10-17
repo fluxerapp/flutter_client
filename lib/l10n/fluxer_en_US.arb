@@ -10684,6 +10684,24 @@
     "@channelMenuDuplicateChannel": {
         "description": "Guild channel menu action to duplicate the selected channel."
     },
+    "channelDuplicateHelper": "The new channel will reuse the permissions from {channelName}.",
+    "@channelDuplicateHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDuplicateVoiceHelper": "The new voice channel will reuse the permissions, user limit, and bitrate from {channelName}.",
+    "@channelDuplicateVoiceHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet when the source is a voice channel. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
     "channelMenuMoveToCategory": "Move to category",
     "@channelMenuMoveToCategory": {
         "description": "Guild channel menu action that opens a sheet to move the channel into another category or out of any category."

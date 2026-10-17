@@ -46,6 +46,22 @@ void main() {
       expect(find.text('Enter your name'), findsOneWidget);
     });
 
+    testWidgets('long errors wrap instead of being cut off', (tester) async {
+      const String error =
+          "You don't have the permissions required to perform this action in this community.";
+      await tester.pumpWidget(
+        buildTestApp(const FluxerInput(hint: 'Hi', errorText: 'Too short')),
+      );
+      final double oneLine = tester.getSize(find.text('Too short')).height;
+      await tester.pumpWidget(
+        buildTestApp(const FluxerInput(hint: 'Hi', errorText: error)),
+      );
+      expect(
+        tester.getSize(find.text(error)).height,
+        greaterThan(oneLine * 1.5),
+      );
+    });
+
     testWidgets('does not render label when null', (tester) async {
       await tester.pumpWidget(buildTestApp(const FluxerInput(hint: 'Hi')));
 
