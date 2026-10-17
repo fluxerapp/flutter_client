@@ -877,13 +877,31 @@ class GuildReadState extends _$GuildReadState {
     required DateTime now,
   }) {
     final bool isThread = isThreadChannelType(channel.type);
+    final ReadState? readState = _readStateSnapshot[channel.id];
+    final bool hasUnreadPinsForChannel = hasUnreadPins(
+      channelLastPinTimestamp: channel.lastPinTimestamp,
+      ackLastPinTimestamp: readState?.lastPinTimestamp,
+    );
+    if (!isThread) {
+      return UnreadState(
+        hasUnread:
+            contribution.rawUnreadMessages || contribution.rawMentions > 0,
+        hasUnreadMessages: contribution.rawUnreadMessages,
+        mentionCount: contribution.rawMentions,
+        hasUnreadPins: hasUnreadPinsForChannel,
+        unreadBadgesLevel: resolveUnreadBadgesLevel(
+          channel: channel,
+          guildSettings: guildSettings,
+        ),
+      );
+    }
     final bool isMutedForUnread =
         isGuildOrCategoryOrChannelMuted(
           channel: channel,
           guildSettings: guildSettings,
           now: now,
         ) ||
-        (isThread && _isThreadMuted(channel, guildSettings, now));
+        _isThreadMuted(channel, guildSettings, now);
     final UserNotificationSettings? unreadBadgesLevel = isMutedForUnread
         ? UserNotificationSettings.noMessages
         : resolveGuildUnreadBadgesLevel(
@@ -891,15 +909,11 @@ class GuildReadState extends _$GuildReadState {
             guildSettings: guildSettings,
             guildContext: _guildNotificationContexts[channel.guildId],
           );
-    final ReadState? readState = _readStateSnapshot[channel.id];
     return UnreadState(
       hasUnread: contribution.unreadEligible || contribution.mentions > 0,
       hasUnreadMessages: contribution.hasUnreadMessages,
       mentionCount: contribution.mentions,
-      hasUnreadPins: hasUnreadPins(
-        channelLastPinTimestamp: channel.lastPinTimestamp,
-        ackLastPinTimestamp: readState?.lastPinTimestamp,
-      ),
+      hasUnreadPins: hasUnreadPinsForChannel,
       unreadBadgesLevel: unreadBadgesLevel,
     );
   }
@@ -947,8 +961,9 @@ class GuildReadState extends _$GuildReadState {
           mentionCount: 0,
           isGuildChannel: true,
         );
+    final bool tracksType = _tracksUnread(channel.type);
     final contribution = resolveGuildReadStateContribution(
-      isEligibleTextChannel: _tracksUnread(channel.type),
+      isEligibleTextChannel: tracksType,
       isPrivate: false,
       unreadBadgesLevel: isMutedForUnread
           ? UserNotificationSettings.noMessages
@@ -967,6 +982,8 @@ class GuildReadState extends _$GuildReadState {
       hasPlainUnread: hasPlainUnread,
       hasUnreadMessages: contribution.unreadAllowed && hasUnreadMessage,
       mentions: contribution.mentionAllowed ? rawMentions : 0,
+      rawUnreadMessages: tracksType && hasUnreadMessage,
+      rawMentions: tracksType ? rawMentions : 0,
     );
   }
 
@@ -1111,10 +1128,14 @@ class _Contribution {
     required this.hasPlainUnread,
     required this.hasUnreadMessages,
     required this.mentions,
+    this.rawUnreadMessages = false,
+    this.rawMentions = 0,
   });
 
   final bool unreadEligible;
   final bool hasPlainUnread;
   final bool hasUnreadMessages;
   final int mentions;
+  final bool rawUnreadMessages;
+  final int rawMentions;
 }
