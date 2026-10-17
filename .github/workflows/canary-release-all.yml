@@ -26,3 +26,65 @@ jobs:
     name: macOS TestFlight build
     uses: ./.github/workflows/macos-canary-testflight.yml
     secrets: inherit
+
+  upload-canary-apks-to-vps:
+    name: Upload canary APKs to VPS
+    runs-on: ubuntu-latest
+    environment: release-builds
+    needs:
+      - android-fcm
+      - android-oss
+    steps:
+      - name: Download FCM artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: canary-fcm-apk
+          path: artifacts/fcm
+
+      - name: Download OSS artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: canary-oss-apk
+          path: artifacts/oss
+
+      - name: Upload FCM APKs
+        env:
+          BASE_URL: https://${{ secrets.CANARY_APK_HOST }}
+          TOKEN: ${{ secrets.CANARY_APK_UPLOAD_TOKEN }}
+        run: |
+          set -euo pipefail
+          shopt -s globstar nullglob
+          files=(artifacts/fcm/**/*.apk)
+          if ((${#files[@]} == 0)); then
+            echo "no FCM APKs to upload" >&2
+            exit 1
+          fi
+          args=()
+          for f in "${files[@]}"; do
+            args+=(-F "file=@${f}")
+          done
+          curl -sfS -X POST \
+            -H "Authorization: Bearer ${TOKEN}" \
+            "${args[@]}" \
+            "${BASE_URL}/upload/fcm"
+
+      - name: Upload OSS APKs
+        env:
+          BASE_URL: https://${{ secrets.CANARY_APK_HOST }}
+          TOKEN: ${{ secrets.CANARY_APK_UPLOAD_TOKEN }}
+        run: |
+          set -euo pipefail
+          shopt -s globstar nullglob
+          files=(artifacts/oss/**/*.apk)
+          if ((${#files[@]} == 0)); then
+            echo "no OSS APKs to upload" >&2
+            exit 1
+          fi
+          args=()
+          for f in "${files[@]}"; do
+            args+=(-F "file=@${f}")
+          done
+          curl -sfS -X POST \
+            -H "Authorization: Bearer ${TOKEN}" \
+            "${args[@]}" \
+            "${BASE_URL}/upload/oss"
