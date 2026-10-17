@@ -8165,6 +8165,16 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get channelMenuDuplicateChannel => 'Duplicate channel';
 
   @override
+  String channelDuplicateHelper(String channelName) {
+    return 'The new channel will reuse the permissions from $channelName.';
+  }
+
+  @override
+  String channelDuplicateVoiceHelper(String channelName) {
+    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+  }
+
+  @override
   String get channelMenuMoveToCategory => 'Move to category';
 
   @override
@@ -37650,6 +37660,16 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get channelMenuDuplicateChannel => 'Duplicate channel';
+
+  @override
+  String channelDuplicateHelper(String channelName) {
+    return 'The new channel will reuse the permissions from $channelName.';
+  }
+
+  @override
+  String channelDuplicateVoiceHelper(String channelName) {
+    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+  }
 
   @override
   String get channelMenuMoveToCategory => 'Move to category';

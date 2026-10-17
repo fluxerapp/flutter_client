@@ -447,7 +447,7 @@ class _ChannelTile extends ConsumerWidget {
         );
       case ChannelMenuAction.duplicateChannel:
         close();
-        _showComingSoon(menuContext, ref);
+        unawaited(_duplicateChannel(hostContext, ref));
       case ChannelMenuAction.debugChannel:
         close();
         unawaited(_showDebugChannelSheet(menuContext, ref));
@@ -507,10 +507,20 @@ class _ChannelTile extends ConsumerWidget {
     navigateToContent(context, RoutePaths.guildChannel(guildId, channel.id));
   }
 
-  void _showComingSoon(BuildContext context, WidgetRef ref) {
-    ref
-        .read(toastProvider.notifier)
-        .show(FluxerToast(message: FluxerLocalizations.of(context).comingSoon));
+  Future<void> _duplicateChannel(BuildContext context, WidgetRef ref) async {
+    final ChannelRepository repository = ref.read(channelRepositoryProvider);
+    final Channel? created = await DuplicateChannelSheet.show(
+      context,
+      channel: channel,
+      onCreate: (ChannelCreateRequest request) =>
+          repository.createChannel(guildId: guildId, body: request),
+    );
+    if (created == null || !context.mounted) {
+      return;
+    }
+    if (isAnnouncementConvertibleChannel(created.type)) {
+      navigateToContent(context, RoutePaths.guildChannel(guildId, created.id));
+    }
   }
 
   Future<void> _confirmDeleteMyMessagesInChannel(

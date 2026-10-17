@@ -42,15 +42,18 @@ class CreateChannelSheet {
     required String url,
     String? parentId,
     List<CreateChannelOverwrite> overwrites = const <CreateChannelOverwrite>[],
+    int bitrate = 64000,
+    int userLimit = 0,
+    int voiceConnectionLimit = kDefaultVoiceConnectionLimit,
   }) {
     return switch (selectedType) {
       2 => ChannelCreateRequest2(
         name: name,
         type: GuildVoiceChannelCreateRequestTypeType.guildVoice,
         parentId: parentId,
-        bitrate: 64000,
-        userLimit: 0,
-        voiceConnectionLimit: kDefaultVoiceConnectionLimit,
+        bitrate: bitrate,
+        userLimit: userLimit,
+        voiceConnectionLimit: voiceConnectionLimit,
         permissionOverwrites: <GuildVoiceChannelCreateRequestPermissionOverwrites>[
           for (final CreateChannelOverwrite o in overwrites)
             GuildVoiceChannelCreateRequestPermissionOverwrites(
