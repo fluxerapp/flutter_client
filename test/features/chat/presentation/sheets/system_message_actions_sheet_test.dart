@@ -177,6 +177,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Copy message'), findsOneWidget);
+    await tester.ensureVisible(find.text('Copy message'));
     await tester.tap(find.text('Copy message'));
     await tester.pumpAndSettle();
 

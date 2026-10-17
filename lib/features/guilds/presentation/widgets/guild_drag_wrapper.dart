@@ -513,6 +513,7 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
   Offset? _releaseEnd;
   late final AnimationController _liftController;
   late final AnimationController _releaseController;
+  bool _animationControllersDisposed = false;
 
   @override
   void initState() {
@@ -529,7 +530,9 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
 
   @override
   void dispose() {
-    _removeFeedbackOverlay();
+    _animationControllersDisposed = true;
+    _feedbackOverlay?.remove();
+    _feedbackOverlay = null;
     _liftController.dispose();
     _releaseController.dispose();
     super.dispose();
@@ -541,6 +544,9 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     _isFeedbackOverlayInserted = false;
     _overlayCenterX = null;
     _overlayGlobalY = null;
+    if (_animationControllersDisposed) {
+      return;
+    }
     _liftController.reset();
     _releaseController.reset();
   }
@@ -686,7 +692,6 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     }
 
     if (!mounted) {
-      _removeFeedbackOverlay();
       return;
     }
 
@@ -714,8 +719,6 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     _releaseController.reset();
     await _releaseController.forward();
     if (!mounted) {
-      _isReleasing = false;
-      _removeFeedbackOverlay();
       return;
     }
     _isReleasing = false;
