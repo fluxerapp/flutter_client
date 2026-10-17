@@ -265,6 +265,7 @@ class FluxerInput extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hint,
             errorText: errorText,
+            errorMaxLines: 4,
             prefixIcon: prefixIcon,
             suffixIcon: effectiveSuffix,
             counterText: maxLength != null ? '' : null,
@@ -369,6 +370,7 @@ class FluxerInput extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: hint,
                             errorText: errorText,
+                            errorMaxLines: 4,
                             prefixIcon: prefixIcon,
                             suffixIcon: suffix,
                             counterText: maxLength != null ? '' : null,
@@ -462,6 +464,7 @@ class FluxerInput extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: hint,
                     errorText: errorText,
+                    errorMaxLines: 4,
                     prefixIcon: prefixIcon,
                     counterText: maxLength != null ? '' : null,
                     contentPadding: suffix == null
