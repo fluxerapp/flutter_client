@@ -1,0 +1,106 @@
+name: Upload canary APKs to VPS
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: flutter_client canary-release-all run ID (default latest successful on canary)
+        required: false
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    environment: release-builds
+    steps:
+      - name: Resolve canary workflow run
+        id: run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_RUN_ID: ${{ inputs.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ -n "$INPUT_RUN_ID" ]; then
+            gh run view "$INPUT_RUN_ID" --repo "$REPO" >/dev/null
+            echo "run_id=$INPUT_RUN_ID" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          run_id="$(gh run list \
+            --repo "$REPO" \
+            --workflow canary-release-all.yml \
+            --branch canary \
+            --status success \
+            --limit 1 \
+            --json databaseId \
+            -q '.[0].databaseId')"
+          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
+            echo "no successful canary-release-all run found on branch canary" >&2
+            exit 1
+          fi
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+
+      - name: Download APK artifacts from flutter_client
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          run_id="${{ steps.run.outputs.run_id }}"
+          gh run download "$run_id" \
+            --repo "$REPO" \
+            -n canary-fcm-apk \
+            -D artifacts/fcm
+          gh run download "$run_id" \
+            --repo "$REPO" \
+            -n canary-oss-apk \
+            -D artifacts/oss
+          find artifacts -name '*.apk' -print
+
+      - name: Upload FCM APKs to VPS
+        env:
+          BASE_URL: https://${{ secrets.CANARY_APK_HOST }}
+          TOKEN: ${{ secrets.CANARY_APK_UPLOAD_TOKEN }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          mapfile -d '' files < <(find artifacts/fcm -name '*.apk' -print0)
+          if ((${#files[@]} == 0)); then
+            echo "no FCM APKs in artifact" >&2
+            exit 1
+          fi
+          args=()
+          for f in "${files[@]}"; do
+            args+=(-F "file=@${f}")
+          done
+          curl -fS -X POST \
+            --max-time 1800 \
+            -H "Authorization: Bearer ${TOKEN}" \
+            "${args[@]}" \
+            "${BASE_URL}/upload/fcm"
+
+      - name: Upload OSS APKs to VPS
+        env:
+          BASE_URL: https://${{ secrets.CANARY_APK_HOST }}
+          TOKEN: ${{ secrets.CANARY_APK_UPLOAD_TOKEN }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          mapfile -d '' files < <(find artifacts/oss -name '*.apk' -print0)
+          if ((${#files[@]} == 0)); then
+            echo "no OSS APKs in artifact" >&2
+            exit 1
+          fi
+          args=()
+          for f in "${files[@]}"; do
+            args+=(-F "file=@${f}")
+          done
+          curl -fS -X POST \
+            --max-time 1800 \
+            -H "Authorization: Bearer ${TOKEN}" \
+            "${args[@]}" \
+            "${BASE_URL}/upload/oss"
