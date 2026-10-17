@@ -33,6 +33,7 @@ class HostedUiChatScaffold extends ConsumerWidget {
     }
     return AdaptiveScaffold(
       backgroundColor: context.colors.backgroundPrimary,
+      resizeToAvoidBottomInset: false,
       appBar: AdaptiveAppBar(
         leading: const HostedUiBackButton(),
         tintColor: context.colors.textPrimaryMuted,

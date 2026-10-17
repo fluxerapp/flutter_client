@@ -126,6 +126,7 @@ class AppLayoutShell extends ConsumerWidget {
     }
     return AdaptiveScaffold(
       backgroundColor: context.colors.backgroundPrimary,
+      resizeToAvoidBottomInset: false,
       tabBarHidden: !usesIphoneDuoHostedUi(context),
       bottomNavigationBar: usesIphoneDuoHostedUi(context)
           ? adaptiveShellTabBar(
