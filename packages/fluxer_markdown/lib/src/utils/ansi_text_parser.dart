@@ -45,6 +45,18 @@ List<Color> _buildAnsiColor256Table() {
   return table;
 }
 
+class AnsiTextRun {
+  const AnsiTextRun({
+    required this.text,
+    required this.style,
+    required this.blink,
+  });
+
+  final String text;
+  final TextStyle style;
+  final bool blink;
+}
+
 class _AnsiState {
   _AnsiState();
 
@@ -94,32 +106,35 @@ class _AnsiState {
       bgColor == null;
 }
 
-List<InlineSpan> parseAnsiTextSpans(
+List<AnsiTextRun> parseAnsiTextRuns(
   String text,
   TextStyle baseStyle, {
   required AnsiPalette palette,
 }) {
   final _AnsiState state = _AnsiState();
-  final List<InlineSpan> spans = <InlineSpan>[];
+  final List<AnsiTextRun> runs = <AnsiTextRun>[];
   var lastIndex = 0;
   TextStyle? activeStyle;
+  var activeBlink = false;
 
   void flushText(String chunk) {
     if (chunk.isEmpty) {
       return;
     }
     final TextStyle style = activeStyle ?? baseStyle;
-    if (spans.isNotEmpty && spans.last is TextSpan) {
-      final TextSpan last = spans.last as TextSpan;
-      if (last.style == style && last.children == null) {
-        spans[spans.length - 1] = TextSpan(
+    final bool blink = activeBlink;
+    if (runs.isNotEmpty) {
+      final AnsiTextRun last = runs.last;
+      if (last.style == style && last.blink == blink) {
+        runs[runs.length - 1] = AnsiTextRun(
           text: '${last.text}$chunk',
           style: style,
+          blink: blink,
         );
         return;
       }
     }
-    spans.add(TextSpan(text: chunk, style: style));
+    runs.add(AnsiTextRun(text: chunk, style: style, blink: blink));
   }
 
   for (final RegExpMatch match in _ansiEscapePattern.allMatches(text)) {
@@ -142,15 +157,54 @@ List<InlineSpan> parseAnsiTextSpans(
       }
     }
     _applyAnsiCodes(state, codes);
-    activeStyle = state.isEmpty
-        ? null
-        : _styleFromState(state, baseStyle, palette);
+    if (state.isEmpty) {
+      activeStyle = null;
+      activeBlink = false;
+    } else {
+      activeStyle = _styleFromState(state, baseStyle, palette);
+      activeBlink = state.blink;
+    }
     lastIndex = match.end;
   }
   if (lastIndex < text.length) {
     flushText(text.substring(lastIndex));
   }
-  return spans;
+  return runs;
+}
+
+List<InlineSpan> ansiRunsToInlineSpans(
+  List<AnsiTextRun> runs, {
+  required bool blinkVisible,
+}) {
+  return <InlineSpan>[
+    for (final AnsiTextRun run in runs)
+      TextSpan(
+        text: run.text,
+        style: _styleWithBlink(run.style, run.blink, blinkVisible),
+      ),
+  ];
+}
+
+TextStyle _styleWithBlink(TextStyle style, bool blink, bool blinkVisible) {
+  if (!blink || blinkVisible) {
+    return style;
+  }
+  return style.copyWith(
+    color: style.color?.withValues(alpha: 0),
+    backgroundColor: style.backgroundColor?.withValues(alpha: 0),
+    decorationColor: style.decorationColor?.withValues(alpha: 0),
+  );
+}
+
+List<InlineSpan> parseAnsiTextSpans(
+  String text,
+  TextStyle baseStyle, {
+  required AnsiPalette palette,
+}) {
+  return ansiRunsToInlineSpans(
+    parseAnsiTextRuns(text, baseStyle, palette: palette),
+    blinkVisible: true,
+  );
 }
 
 TextStyle _styleFromState(
@@ -265,8 +319,9 @@ void _applyAnsiCodes(_AnsiState state, List<int> codes) {
     } else if (code == 3) {
       state.italic = true;
     } else if (code == 4) {
-      state.doubleUnderline = false;
-      state.underline = true;
+      state
+        ..doubleUnderline = false
+        ..underline = true;
     } else if (code == 7) {
       state.inverse = true;
     } else if (code == 8) {
@@ -274,16 +329,19 @@ void _applyAnsiCodes(_AnsiState state, List<int> codes) {
     } else if (code == 9) {
       state.strikethrough = true;
     } else if (code == 21) {
-      state.underline = false;
-      state.doubleUnderline = true;
+      state
+        ..underline = false
+        ..doubleUnderline = true;
     } else if (code == 22) {
-      state.bold = false;
-      state.dim = false;
+      state
+        ..bold = false
+        ..dim = false;
     } else if (code == 23) {
       state.italic = false;
     } else if (code == 24) {
-      state.doubleUnderline = false;
-      state.underline = false;
+      state
+        ..doubleUnderline = false
+        ..underline = false;
     } else if (code == 25) {
       state.blink = false;
     } else if (code == 27) {
@@ -293,17 +351,21 @@ void _applyAnsiCodes(_AnsiState state, List<int> codes) {
     } else if (code == 29) {
       state.strikethrough = false;
     } else if (code == 39) {
-      state.fgSlot = null;
-      state.fgColor = null;
+      state
+        ..fgSlot = null
+        ..fgColor = null;
     } else if (code == 49) {
-      state.bgSlot = null;
-      state.bgColor = null;
+      state
+        ..bgSlot = null
+        ..bgColor = null;
     } else if (kAnsiStandardForegroundCodes.containsKey(code)) {
-      state.fgSlot = kAnsiStandardForegroundCodes[code];
-      state.fgColor = null;
+      state
+        ..fgSlot = kAnsiStandardForegroundCodes[code]
+        ..fgColor = null;
     } else if (kAnsiStandardBackgroundCodes.containsKey(code)) {
-      state.bgSlot = kAnsiStandardBackgroundCodes[code];
-      state.bgColor = null;
+      state
+        ..bgSlot = kAnsiStandardBackgroundCodes[code]
+        ..bgColor = null;
     } else if (code == 38) {
       final ({Color? color, int consumed}) result = _parseExtendedColor(
         codes,

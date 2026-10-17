@@ -29,6 +29,7 @@ dependencies:
     git:
       url: https://github.com/Niural/phosphor_flutter
   url_launcher: ^6.3.2
+  visibility_detector: ^0.4.0+2
 
 dev_dependencies:
   flutter_test:

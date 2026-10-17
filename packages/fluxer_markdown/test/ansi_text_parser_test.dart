@@ -126,5 +126,21 @@ void main() {
       expect(span.text, 'plain');
       expect(span.style, base);
     });
+
+    test('blink run toggles foreground visibility', () {
+      final List<AnsiTextRun> runs = parseAnsiTextRuns(
+        '\x1B[5;31mblink\x1B[0m',
+        base,
+        palette: palette,
+      );
+      expect(runs, hasLength(1));
+      expect(runs.single.blink, isTrue);
+      final TextSpan visible =
+          ansiRunsToInlineSpans(runs, blinkVisible: true).single as TextSpan;
+      final TextSpan hidden =
+          ansiRunsToInlineSpans(runs, blinkVisible: false).single as TextSpan;
+      expect(visible.style?.color, palette.foreground[AnsiFg.red]);
+      expect(hidden.style?.color?.a, 0);
+    });
   });
 }

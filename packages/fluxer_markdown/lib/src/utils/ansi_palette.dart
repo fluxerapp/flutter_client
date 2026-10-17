@@ -152,7 +152,7 @@ class AnsiPalette {
     double saturationFactor = 1,
   }) {
     if (isDark) {
-      return _dark(
+      return _ansiPaletteForDarkTheme(
         textCode: textCode,
         bgCodeBlock: bgCodeBlock,
         textPrimary: textPrimary,
@@ -161,7 +161,7 @@ class AnsiPalette {
         saturationFactor: saturationFactor,
       );
     }
-    return _light(
+    return _ansiPaletteForLightTheme(
       textCode: textCode,
       bgCodeBlock: bgCodeBlock,
       textPrimary: textPrimary,
@@ -170,362 +170,362 @@ class AnsiPalette {
       saturationFactor: saturationFactor,
     );
   }
+}
 
-  static AnsiPalette _dark({
-    required Color textCode,
-    required Color bgCodeBlock,
-    required Color textPrimary,
-    required Color textSecondary,
-    required Color textTertiary,
-    required double saturationFactor,
-  }) {
-    final Map<AnsiFg, Color> fg = <AnsiFg, Color>{
-      AnsiFg.black: _themeMix(
-        textTertiary,
-        _themeHsl(0, 0, 12, saturationFactor),
-        0.72,
-      ),
-      AnsiFg.red: _themeMix(
-        textCode,
-        _themeHsl(0, 88, 62, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.green: _themeMix(
-        textCode,
-        _themeHsl(99, 29, 47, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.yellow: _themeMix(
-        textCode,
-        _themeHsl(41, 53, 67, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.blue: _themeMix(
-        textCode,
-        _themeHsl(207, 61, 59, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.magenta: _themeMix(
-        textCode,
-        _themeHsl(305, 35, 65, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.cyan: _themeMix(
-        textCode,
-        _themeHsl(168, 53, 55, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.white: _themeMix(
-        textSecondary,
-        _themeHsl(0, 0, 83, saturationFactor),
-        0.88,
-      ),
-      AnsiFg.brightBlack: _themeMix(
-        textTertiary,
-        _themeHsl(0, 0, 50, saturationFactor),
-        0.86,
-      ),
-      AnsiFg.brightRed: _themeMix(
-        textPrimary,
-        _themeHsl(0, 88, 62, saturationFactor),
-        0.94,
-      ),
-      AnsiFg.brightGreen: _themeMix(
-        textPrimary,
-        _themeHsl(99, 29, 47, saturationFactor),
-        0.88,
-      ),
-      AnsiFg.brightYellow: _themeMix(
-        textPrimary,
-        _themeHsl(41, 53, 67, saturationFactor),
-        0.94,
-      ),
-      AnsiFg.brightBlue: _themeMix(
-        textPrimary,
-        _themeHsl(207, 61, 59, saturationFactor),
-        0.94,
-      ),
-      AnsiFg.brightMagenta: _themeMix(
-        textPrimary,
-        _themeHsl(305, 35, 65, saturationFactor),
-        0.94,
-      ),
-      AnsiFg.brightCyan: _themeMix(
-        textPrimary,
-        _themeHsl(168, 53, 55, saturationFactor),
-        0.94,
-      ),
-      AnsiFg.brightWhite: textPrimary,
-    };
+AnsiPalette _ansiPaletteForDarkTheme({
+  required Color textCode,
+  required Color bgCodeBlock,
+  required Color textPrimary,
+  required Color textSecondary,
+  required Color textTertiary,
+  required double saturationFactor,
+}) {
+  final Map<AnsiFg, Color> fg = <AnsiFg, Color>{
+    AnsiFg.black: _themeMix(
+      textTertiary,
+      _themeHsl(0, 0, 12, saturationFactor),
+      0.72,
+    ),
+    AnsiFg.red: _themeMix(
+      textCode,
+      _themeHsl(0, 88, 62, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.green: _themeMix(
+      textCode,
+      _themeHsl(99, 29, 47, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.yellow: _themeMix(
+      textCode,
+      _themeHsl(41, 53, 67, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.blue: _themeMix(
+      textCode,
+      _themeHsl(207, 61, 59, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.magenta: _themeMix(
+      textCode,
+      _themeHsl(305, 35, 65, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.cyan: _themeMix(
+      textCode,
+      _themeHsl(168, 53, 55, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.white: _themeMix(
+      textSecondary,
+      _themeHsl(0, 0, 83, saturationFactor),
+      0.88,
+    ),
+    AnsiFg.brightBlack: _themeMix(
+      textTertiary,
+      _themeHsl(0, 0, 50, saturationFactor),
+      0.86,
+    ),
+    AnsiFg.brightRed: _themeMix(
+      textPrimary,
+      _themeHsl(0, 88, 62, saturationFactor),
+      0.94,
+    ),
+    AnsiFg.brightGreen: _themeMix(
+      textPrimary,
+      _themeHsl(99, 29, 47, saturationFactor),
+      0.88,
+    ),
+    AnsiFg.brightYellow: _themeMix(
+      textPrimary,
+      _themeHsl(41, 53, 67, saturationFactor),
+      0.94,
+    ),
+    AnsiFg.brightBlue: _themeMix(
+      textPrimary,
+      _themeHsl(207, 61, 59, saturationFactor),
+      0.94,
+    ),
+    AnsiFg.brightMagenta: _themeMix(
+      textPrimary,
+      _themeHsl(305, 35, 65, saturationFactor),
+      0.94,
+    ),
+    AnsiFg.brightCyan: _themeMix(
+      textPrimary,
+      _themeHsl(168, 53, 55, saturationFactor),
+      0.94,
+    ),
+    AnsiFg.brightWhite: textPrimary,
+  };
 
-    final Map<AnsiBg, Color> bg = <AnsiBg, Color>{
-      AnsiBg.black: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 12, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.red: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 88, 62, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.green: _themeMix(
-        bgCodeBlock,
-        _themeHsl(99, 29, 47, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.yellow: _themeMix(
-        bgCodeBlock,
-        _themeHsl(41, 53, 67, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.blue: _themeMix(
-        bgCodeBlock,
-        _themeHsl(207, 61, 59, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.magenta: _themeMix(
-        bgCodeBlock,
-        _themeHsl(305, 35, 65, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.cyan: _themeMix(
-        bgCodeBlock,
-        _themeHsl(168, 53, 55, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.white: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 83, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightBlack: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 50, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightRed: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 88, 62, saturationFactor),
-        0.92,
-      ),
-      AnsiBg.brightGreen: _themeMix(
-        bgCodeBlock,
-        _themeHsl(99, 29, 47, saturationFactor),
-        0.92,
-      ),
-      AnsiBg.brightYellow: _themeMix(
-        bgCodeBlock,
-        _themeHsl(41, 53, 67, saturationFactor),
-        0.92,
-      ),
-      AnsiBg.brightBlue: _themeMix(
-        bgCodeBlock,
-        _themeHsl(207, 61, 59, saturationFactor),
-        0.92,
-      ),
-      AnsiBg.brightMagenta: _themeMix(
-        bgCodeBlock,
-        _themeHsl(305, 35, 65, saturationFactor),
-        0.92,
-      ),
-      AnsiBg.brightCyan: _themeMix(
-        bgCodeBlock,
-        _themeHsl(168, 53, 55, saturationFactor),
-        0.92,
-      ),
-      AnsiBg.brightWhite: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 100, saturationFactor),
-        0.92,
-      ),
-    };
+  final Map<AnsiBg, Color> bg = <AnsiBg, Color>{
+    AnsiBg.black: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 12, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.red: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 88, 62, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.green: _themeMix(
+      bgCodeBlock,
+      _themeHsl(99, 29, 47, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.yellow: _themeMix(
+      bgCodeBlock,
+      _themeHsl(41, 53, 67, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.blue: _themeMix(
+      bgCodeBlock,
+      _themeHsl(207, 61, 59, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.magenta: _themeMix(
+      bgCodeBlock,
+      _themeHsl(305, 35, 65, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.cyan: _themeMix(
+      bgCodeBlock,
+      _themeHsl(168, 53, 55, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.white: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 83, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightBlack: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 50, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightRed: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 88, 62, saturationFactor),
+      0.92,
+    ),
+    AnsiBg.brightGreen: _themeMix(
+      bgCodeBlock,
+      _themeHsl(99, 29, 47, saturationFactor),
+      0.92,
+    ),
+    AnsiBg.brightYellow: _themeMix(
+      bgCodeBlock,
+      _themeHsl(41, 53, 67, saturationFactor),
+      0.92,
+    ),
+    AnsiBg.brightBlue: _themeMix(
+      bgCodeBlock,
+      _themeHsl(207, 61, 59, saturationFactor),
+      0.92,
+    ),
+    AnsiBg.brightMagenta: _themeMix(
+      bgCodeBlock,
+      _themeHsl(305, 35, 65, saturationFactor),
+      0.92,
+    ),
+    AnsiBg.brightCyan: _themeMix(
+      bgCodeBlock,
+      _themeHsl(168, 53, 55, saturationFactor),
+      0.92,
+    ),
+    AnsiBg.brightWhite: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 100, saturationFactor),
+      0.92,
+    ),
+  };
 
-    return AnsiPalette(
-      foreground: fg,
-      background: bg,
-      codeBlockBg: bgCodeBlock,
-      textPrimary: textPrimary,
-    );
-  }
+  return AnsiPalette(
+    foreground: fg,
+    background: bg,
+    codeBlockBg: bgCodeBlock,
+    textPrimary: textPrimary,
+  );
+}
 
-  static AnsiPalette _light({
-    required Color textCode,
-    required Color bgCodeBlock,
-    required Color textPrimary,
-    required Color textSecondary,
-    required Color textTertiary,
-    required double saturationFactor,
-  }) {
-    final Map<AnsiFg, Color> fg = <AnsiFg, Color>{
-      AnsiFg.black: textPrimary,
-      AnsiFg.red: _themeMix(
-        textCode,
-        _themeHsl(0, 62, 50, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.green: _themeMix(
-        textCode,
-        _themeHsl(120, 100, 25, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.yellow: _themeMix(
-        textCode,
-        _themeHsl(37, 52, 31, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.blue: _themeMix(
-        textCode,
-        _themeHsl(211, 95, 33, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.magenta: _themeMix(
-        textCode,
-        _themeHsl(288, 100, 43, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.cyan: _themeMix(
-        textCode,
-        _themeHsl(192, 95, 38, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.white: _themeMix(
-        textSecondary,
-        _themeHsl(0, 0, 33, saturationFactor),
-        0.88,
-      ),
-      AnsiFg.brightBlack: _themeMix(
-        textTertiary,
-        _themeHsl(0, 0, 40, saturationFactor),
-        0.88,
-      ),
-      AnsiFg.brightRed: _themeMix(
-        textPrimary,
-        _themeHsl(0, 62, 50, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.brightGreen: _themeMix(
-        textPrimary,
-        _themeHsl(120, 82, 44, saturationFactor),
-        0.90,
-      ),
-      AnsiFg.brightYellow: _themeMix(
-        textPrimary,
-        _themeHsl(62, 100, 36, saturationFactor),
-        0.90,
-      ),
-      AnsiFg.brightBlue: _themeMix(
-        textPrimary,
-        _themeHsl(211, 95, 33, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.brightMagenta: _themeMix(
-        textPrimary,
-        _themeHsl(300, 95, 38, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.brightCyan: _themeMix(
-        textPrimary,
-        _themeHsl(192, 95, 38, saturationFactor),
-        0.92,
-      ),
-      AnsiFg.brightWhite: _themeMix(
-        textPrimary,
-        _themeHsl(0, 0, 65, saturationFactor),
-        0.86,
-      ),
-    };
+AnsiPalette _ansiPaletteForLightTheme({
+  required Color textCode,
+  required Color bgCodeBlock,
+  required Color textPrimary,
+  required Color textSecondary,
+  required Color textTertiary,
+  required double saturationFactor,
+}) {
+  final Map<AnsiFg, Color> fg = <AnsiFg, Color>{
+    AnsiFg.black: textPrimary,
+    AnsiFg.red: _themeMix(
+      textCode,
+      _themeHsl(0, 62, 50, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.green: _themeMix(
+      textCode,
+      _themeHsl(120, 100, 25, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.yellow: _themeMix(
+      textCode,
+      _themeHsl(37, 52, 31, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.blue: _themeMix(
+      textCode,
+      _themeHsl(211, 95, 33, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.magenta: _themeMix(
+      textCode,
+      _themeHsl(288, 100, 43, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.cyan: _themeMix(
+      textCode,
+      _themeHsl(192, 95, 38, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.white: _themeMix(
+      textSecondary,
+      _themeHsl(0, 0, 33, saturationFactor),
+      0.88,
+    ),
+    AnsiFg.brightBlack: _themeMix(
+      textTertiary,
+      _themeHsl(0, 0, 40, saturationFactor),
+      0.88,
+    ),
+    AnsiFg.brightRed: _themeMix(
+      textPrimary,
+      _themeHsl(0, 62, 50, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.brightGreen: _themeMix(
+      textPrimary,
+      _themeHsl(120, 82, 44, saturationFactor),
+      0.90,
+    ),
+    AnsiFg.brightYellow: _themeMix(
+      textPrimary,
+      _themeHsl(62, 100, 36, saturationFactor),
+      0.90,
+    ),
+    AnsiFg.brightBlue: _themeMix(
+      textPrimary,
+      _themeHsl(211, 95, 33, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.brightMagenta: _themeMix(
+      textPrimary,
+      _themeHsl(300, 95, 38, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.brightCyan: _themeMix(
+      textPrimary,
+      _themeHsl(192, 95, 38, saturationFactor),
+      0.92,
+    ),
+    AnsiFg.brightWhite: _themeMix(
+      textPrimary,
+      _themeHsl(0, 0, 65, saturationFactor),
+      0.86,
+    ),
+  };
 
-    final Map<AnsiBg, Color> bg = <AnsiBg, Color>{
-      AnsiBg.black: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 0, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.red: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 62, 50, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.green: _themeMix(
-        bgCodeBlock,
-        _themeHsl(120, 100, 25, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.yellow: _themeMix(
-        bgCodeBlock,
-        _themeHsl(37, 52, 31, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.blue: _themeMix(
-        bgCodeBlock,
-        _themeHsl(211, 95, 33, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.magenta: _themeMix(
-        bgCodeBlock,
-        _themeHsl(288, 100, 43, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.cyan: _themeMix(
-        bgCodeBlock,
-        _themeHsl(192, 95, 38, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.white: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 90, saturationFactor),
-        0.86,
-      ),
-      AnsiBg.brightBlack: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 40, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightRed: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 62, 50, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightGreen: _themeMix(
-        bgCodeBlock,
-        _themeHsl(120, 82, 44, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightYellow: _themeMix(
-        bgCodeBlock,
-        _themeHsl(62, 100, 36, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightBlue: _themeMix(
-        bgCodeBlock,
-        _themeHsl(211, 95, 33, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightMagenta: _themeMix(
-        bgCodeBlock,
-        _themeHsl(300, 95, 38, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightCyan: _themeMix(
-        bgCodeBlock,
-        _themeHsl(192, 95, 38, saturationFactor),
-        0.88,
-      ),
-      AnsiBg.brightWhite: _themeMix(
-        bgCodeBlock,
-        _themeHsl(0, 0, 100, saturationFactor),
-        0.92,
-      ),
-    };
+  final Map<AnsiBg, Color> bg = <AnsiBg, Color>{
+    AnsiBg.black: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 0, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.red: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 62, 50, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.green: _themeMix(
+      bgCodeBlock,
+      _themeHsl(120, 100, 25, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.yellow: _themeMix(
+      bgCodeBlock,
+      _themeHsl(37, 52, 31, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.blue: _themeMix(
+      bgCodeBlock,
+      _themeHsl(211, 95, 33, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.magenta: _themeMix(
+      bgCodeBlock,
+      _themeHsl(288, 100, 43, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.cyan: _themeMix(
+      bgCodeBlock,
+      _themeHsl(192, 95, 38, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.white: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 90, saturationFactor),
+      0.86,
+    ),
+    AnsiBg.brightBlack: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 40, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightRed: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 62, 50, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightGreen: _themeMix(
+      bgCodeBlock,
+      _themeHsl(120, 82, 44, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightYellow: _themeMix(
+      bgCodeBlock,
+      _themeHsl(62, 100, 36, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightBlue: _themeMix(
+      bgCodeBlock,
+      _themeHsl(211, 95, 33, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightMagenta: _themeMix(
+      bgCodeBlock,
+      _themeHsl(300, 95, 38, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightCyan: _themeMix(
+      bgCodeBlock,
+      _themeHsl(192, 95, 38, saturationFactor),
+      0.88,
+    ),
+    AnsiBg.brightWhite: _themeMix(
+      bgCodeBlock,
+      _themeHsl(0, 0, 100, saturationFactor),
+      0.92,
+    ),
+  };
 
-    return AnsiPalette(
-      foreground: fg,
-      background: bg,
-      codeBlockBg: bgCodeBlock,
-      textPrimary: textPrimary,
-    );
-  }
+  return AnsiPalette(
+    foreground: fg,
+    background: bg,
+    codeBlockBg: bgCodeBlock,
+    textPrimary: textPrimary,
+  );
 }
 
 Color _themeMix(Color base, Color accent, double accentWeight) =>

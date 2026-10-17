@@ -11,7 +11,6 @@ import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart';
 import 'package:fluxer_markdown/src/utils/ansi_palette.dart';
-import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
@@ -19,6 +18,7 @@ import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
 import 'package:fluxer_markdown/src/utils/masked_link_guards.dart';
 import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
+import 'package:fluxer_markdown/src/widgets/ansi_code_text.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_frame_boundary.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_live_timestamp.dart';
@@ -2378,12 +2378,10 @@ class FluxerCodeBlockWidget extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
           padding: _kPadding,
-          child: buildFluxerBoundedRichText(
-            text: TextSpan(
-              style: monoStyle,
-              children: parseAnsiTextSpans(code, monoStyle, palette: palette),
-            ),
+          child: AnsiCodeText(
+            code: code,
             baseStyle: monoStyle,
+            palette: palette,
           ),
         ),
       );
