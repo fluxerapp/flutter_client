@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Falha ao enviar solicitação de amizade",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Falha ao aceitar solicitação de amizade",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Falha ao remover amigo",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Falha ao bloquear usuário",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Falha ao desbloquear usuário",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Falha ao ignorar solicitação de amizade",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Adicionar amigos",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Falha ao abrir DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Falha ao salvar nota",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Ação falhou, por favor, tente novamente",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Alterar apelido",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Muitos anexos (máx. {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} excede o limite de tamanho ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Esses arquivos são muito grandes para enviar juntos",
     "@chatAttachmentPayloadTooLarge": {
@@ -6012,10 +5967,6 @@
     "addGuildInviteInvalid": "Este convite é inválido ou expirou.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Não foi possível entrar na comunidade. Por favor, tente novamente.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Remover Todas as Reações",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8336,10 +8287,6 @@
                 "type": "String"
             }
         }
-    },
-    "guildSettingsRevokeBanError": "Não foi possível revogar o banimento. Tente novamente.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Configurações da Comunidade",
     "@guildSettingsCommunitySettings": {

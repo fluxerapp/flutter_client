@@ -260,10 +260,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "nagbarBillingPortalFailed": "Tidak dapat membuka portal penagihan. Coba lagi sebentar lagi.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
-    },
     "welcomeBack": "Selamat datang kembali",
     "@welcomeBack": {
         "description": "Greeting on the login screen; usable wherever returning users are welcomed."
@@ -1811,30 +1807,6 @@
     "dmFriendRequestSentToast": "Permintaan pertemanan terkirim",
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
-    },
-    "dmFriendRequestFailed": "Gagal mengirim permintaan pertemanan",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Gagal menerima permintaan pertemanan",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Gagal menghapus teman",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Gagal memblokir pengguna",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Gagal membuka blokir pengguna",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Gagal mengabaikan permintaan pertemanan",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
     },
     "dmAddFriends": "Tambah teman",
     "@dmAddFriends": {
@@ -3915,17 +3887,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Gagal membuka DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Gagal menyimpan catatan",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Tindakan gagal, coba lagi",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Ubah nama panggilan",
     "@userProfileChangeNickname": {
@@ -4719,27 +4683,6 @@
         "description": "One line of the support email written for the user. country is the country the user typed.",
         "placeholders": {
             "country": {
-                "type": "String"
-            }
-        }
-    },
-    "chatAttachmentTooMany": "Terlalu banyak lampiran (maks {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} melebihi batas ukuran ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed.",
-        "placeholders": {
-            "fileName": {
-                "type": "String"
-            },
-            "fileSize": {
                 "type": "String"
             }
         }
@@ -7044,10 +6987,6 @@
     "@voiceParticipantMenuStopStreaming": {
         "description": "Voice screen-share context menu action that stops the current user stream."
     },
-    "voiceParticipantModerationFailed": "Tidak dapat memperbarui anggota tersebut. Coba lagi.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "voiceControlChat": "Obrolan",
     "@voiceControlChat": {
         "description": "Label for the chat button in voice lobby and call control surfaces."
@@ -8832,10 +8771,6 @@
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
     },
-    "addGuildJoinFailed": "Tidak dapat bergabung dengan komunitas. Silakan coba lagi.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
-    },
     "addGuildCreateTitle": "Buat komunitas",
     "@addGuildCreateTitle": {
         "description": "Title of the create-community sub-view in the add community modal."
@@ -10455,10 +10390,6 @@
     "guildNavbarCreateInviteMaxInvites": "Komunitas ini telah mencapai batas undangannya.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Pembuatan undangan untuk komunitas ini dinonaktifkan sementara.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "groupDmCopyInviteFailed": "Gagal menyalin tautan undangan",
     "@groupDmCopyInviteFailed": {
@@ -15221,10 +15152,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Tidak dapat mencabut larangan. Coba lagi.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Pengaturan komunitas",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -15748,10 +15675,6 @@
     "createDmUnaddableGroupDisabled": "Tidak mengizinkan ditambahkan ke DM grup",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "Gagal membuat percakapan. Coba lagi.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "Pesan",
     "@dmListMessagesTitle": {

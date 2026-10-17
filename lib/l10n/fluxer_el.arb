@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Αποτυχία αποστολής αιτήματος φιλίας",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Αποτυχία αποδοχής αιτήματος φιλίας",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Αποτυχία αφαίρεσης φίλου",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Αποτυχία μπλοκαρίσματος χρήστη",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Αποτυχία ξεμπλοκαρίσματος χρήστη",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Αποτυχία αγνόησης αιτήματος φιλίας",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Προσθήκη φίλων",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Αποτυχία ανοίγματος άμεσου μηνύματος",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Αποτυχία αποθήκευσης σημείωσης",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Η ενέργεια απέτυχε, παρακαλώ προσπαθήστε ξανά",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Αλλαγή ψευδώνυμου",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Πολλά συνημμένα (μέγιστο {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "Το {fileName} υπερβαίνει το όριο μεγέθους ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Αυτά τα αρχεία είναι πολύ μεγάλα για να σταλούν μαζί",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Αυτή η πρόσκληση είναι άκυρη ή έχει λήξει.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Δεν ήταν δυνατή η σύνδεση στην κοινότητα. Παρακαλώ δοκιμάστε ξανά.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Κατάργηση όλων των αντιδράσεων",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Δεν ήταν δυνατή η ανάκληση του αποκλεισμού. Δοκιμάστε ξανά.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Ρυθμίσεις κοινότητας",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8665,10 +8612,6 @@
     "voiceParticipantMenuStreamVolume": "Ένταση ροής",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
-    },
-    "voiceParticipantModerationFailed": "Δεν ήταν δυνατή η ενημέρωση αυτού του μέλους. Δοκιμάστε ξανά.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "audioAndVideoNoiseSuppressionStandardLabel": "Τυπική",
     "@audioAndVideoNoiseSuppressionStandardLabel": {
@@ -10024,10 +9967,6 @@
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
     },
-    "createDmFailed": "Δεν ήταν δυνατή η δημιουργία της συνομιλίας. Δοκιμάστε ξανά.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "dmListMessagesTitle": "Μηνύματα",
     "@dmListMessagesTitle": {
         "description": "Mobile header title for the DM list."
@@ -10839,10 +10778,6 @@
     "nagbarEnableNotifications": "Ενεργοποίηση ειδοποιήσεων",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "Δεν ήταν δυνατή η άνοιξη της πύλης χρέωσης. Δοκιμάστε ξανά σε λίγο.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "dmOwnersGroup": "Ομάδα του/της {resolvedName}",
     "@dmOwnersGroup": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Αυτό το community έχει φτάσει στο όριο προσκλήσεων.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Η δημιουργία προσκλήσεων έχει απενεργοποιηθεί προσωρινά για αυτήν την κοινότητα.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Άνοιγμα επιλογέα εκφράσεων",
     "@composerOpenExpressionPicker": {

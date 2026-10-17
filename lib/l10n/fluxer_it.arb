@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Impossibile inviare la richiesta di amicizia",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Impossibile accettare la richiesta di amicizia",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Impossibile rimuovere l'amico",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Impossibile bloccare l'utente",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Impossibile sbloccare l'utente",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Impossibile ignorare la richiesta di amicizia",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Aggiungi amici",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Impossibile aprire DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Impossibile salvare la nota",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Azione fallita, riprova",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Cambia soprannome",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Allegati troppo numerosi (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} supera il limite di dimensione ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Questi file sono troppo grandi per essere inviati insieme",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Questo invito non è valido o è scaduto.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Impossibile unirsi alla community. Riprova.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Rimuovi tutte le reazioni",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Impossibile annullare il ban. Riprova.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Impostazioni community",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8698,10 +8645,6 @@
     "systemCallDurationOneWeek": "1 settimana",
     "@systemCallDurationOneWeek": {
         "description": "Duration label when a call lasted about one week."
-    },
-    "voiceParticipantModerationFailed": "Impossibile aggiornare il membro. Riprova.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "audioAndVideoMirrorCameraLabel": "Rifletti fotocamera",
     "@audioAndVideoMirrorCameraLabel": {
@@ -10513,10 +10456,6 @@
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
     },
-    "createDmFailed": "Impossibile creare la conversazione. Riprova.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Formato ora",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -11102,10 +11041,6 @@
                 "type": "int"
             }
         }
-    },
-    "nagbarBillingPortalFailed": "Impossibile aprire il portale di fatturazione. Riprova tra poco.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "systemCallDurationMinute": "un minuto",
     "@systemCallDurationMinute": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Questa community ha raggiunto il limite di inviti.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "La creazione di inviti è temporaneamente disabilitata per questa community.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Apri il selettore di espressioni",
     "@composerOpenExpressionPicker": {

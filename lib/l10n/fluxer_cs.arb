@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Odeslání žádosti o přátelství selhalo",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Přijetí žádosti o přátelství selhalo",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Odebrání přítele selhalo",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Blokování uživatele selhalo",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Odblokování uživatele selhalo",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Ignorování žádosti o přátelství selhalo",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Přidat přátele",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Nepodařilo se otevřít DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Nepodařilo se uložit poznámku",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Akce se nezdařila, zkuste to prosím znovu",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Změnit přezdívku",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Příliš mnoho příloh (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} přesahuje limit velikosti ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Tyto soubory jsou příliš velké na odeslání společně",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Tato pozvánka je neplatná nebo vypršela.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Nepodařilo se připojit ke komunitě. Zkuste to prosím znovu.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Odebrat všechny reakce",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Nepodařilo se zrušit ban. Zkuste to znovu.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Nastavení komunity",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8661,10 +8608,6 @@
     "voiceParticipantMenuStreamVolume": "Hlasitost streamu",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
-    },
-    "voiceParticipantModerationFailed": "Nepodařilo se aktualizovat tohoto člena. Zkuste to prosím znovu.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "audioAndVideoMirrorCameraLabel": "Zrcadlit kameru",
     "@audioAndVideoMirrorCameraLabel": {
@@ -9680,10 +9623,6 @@
     "createDmUnaddableGroupDisabled": "Nepovoluje přidání do skupinových konverzací",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "Nepodařilo se vytvořit konverzaci. Zkuste to znovu.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "Zprávy",
     "@dmListMessagesTitle": {
@@ -11041,10 +10980,6 @@
                 "type": "String"
             }
         }
-    },
-    "nagbarBillingPortalFailed": "Nepodařilo se otevřít fakturační portál. Zkuste to prosím za chvíli znovu.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "channelDetailsUnmutedConversation": "Zrušeno ztišení konverzace",
     "@channelDetailsUnmutedConversation": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Tato komunita dosáhla limitu pozvánek.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Vytváření pozvánek je pro tuto komunitu dočasně zakázáno.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Otevřít výběr emotikonů",
     "@composerOpenExpressionPicker": {

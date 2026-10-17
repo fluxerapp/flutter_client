@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "傳送朋友要求失敗",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "接受朋友要求失敗",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "移除朋友失敗",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "封鎖使用者失敗",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "解除封鎖使用者失敗",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "忽略朋友要求失敗",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "新增好友",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "無法開啟私訊",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "無法儲存備註",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "動作失敗，請再試一次",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "更改暱稱",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "附件太多（最多 {max} 個）",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} 超過大小限制 ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "這些檔案太大，無法一起傳送",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "此邀請無效或已過期。",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "無法加入社群。請再試一次。",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "移除所有反應",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "無法撤銷封鎖。請再試一次。",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "社群設定",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8924,10 +8871,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "voiceParticipantModerationFailed": "無法更新該成員。請再試一次。",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "userSettingsNavNotifications": "通知",
     "@userSettingsNavNotifications": {
         "description": "User settings navigation item for notification settings."
@@ -9344,10 +9287,6 @@
     "createDmSomeUsersCantBeAdded": "部分使用者無法新增",
     "@createDmSomeUsersCantBeAdded": {
         "description": "Title for unaddable recipients confirmation."
-    },
-    "createDmFailed": "無法建立對話。請再試一次。",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "訊息",
     "@dmListMessagesTitle": {
@@ -11327,10 +11266,6 @@
     "nagbarEnableNotifications": "開啟通知",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "無法開啟帳單入口網站。請稍後再試。",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "userProfileTimeBehindYou": "比您晚 {duration}",
     "@userProfileTimeBehindYou": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "這個社群已達到邀請上限。",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "暫時無法為此社群建立邀請。",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "開啟表情符號選擇器",
     "@composerOpenExpressionPicker": {

@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "フレンドリクエストの送信に失敗しました",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "フレンドリクエストの承認に失敗しました",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "フレンドの削除に失敗しました",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "ユーザーのブロックに失敗しました",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "ユーザーのブロック解除に失敗しました",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "フレンドリクエストの無視に失敗しました",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "友達を追加",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "DMを開けませんでした",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "メモを保存できませんでした",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "アクションに失敗しました。もう一度お試しください",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "ニックネームを変更",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "添付ファイルが多すぎます（最大 {max} 個）",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} はサイズ制限を超えています ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "これらのファイルは一緒に送信するには大きすぎます",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "この招待は無効か、期限切れです。",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "コミュニティに参加できませんでした。もう一度お試しください。",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "リアクションをすべて削除",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "禁止を解除できませんでした。 再試行してください。",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "コミュニティ設定",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -10304,10 +10251,6 @@
     "@createDmCreateWithoutThem": {
         "description": "Confirm button to create group DM excluding unaddable users."
     },
-    "voiceParticipantModerationFailed": "メンバーを更新できませんでした。もう一度お試しください。",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "channelSettingsDeleteChannel": "チャンネルを削除",
     "@channelSettingsDeleteChannel": {
         "description": "Destructive footer button in channel settings."
@@ -10583,10 +10526,6 @@
     "createDmUnaddableGroupDisabled": "グループDMへの追加を許可していません",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "会話を作成できませんでした。もう一度お試しください。",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "channelMenuOpenChat": "チャットを開く",
     "@channelMenuOpenChat": {
@@ -10972,10 +10911,6 @@
     "nagbarViewGiftInventory": "ギフトインベントリを見る",
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "請求ポータルを開けませんでした。しばらくしてからもう一度お試しください。",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "nagbarPushNotification": "メッセージやメンションを見逃さないように、通知をオンにしましょう。",
     "@nagbarPushNotification": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "このコミュニティは招待上限に達しました。",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "このコミュニティでは、招待の作成が一時的に無効になっています。",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "絵文字ピッカーを開く",
     "@composerOpenExpressionPicker": {

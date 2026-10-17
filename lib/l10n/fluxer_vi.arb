@@ -260,10 +260,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "nagbarBillingPortalFailed": "Không thể mở cổng thanh toán. Vui lòng thử lại sau.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
-    },
     "welcomeBack": "Chào mừng bạn trở lại",
     "@welcomeBack": {
         "description": "Greeting on the login screen; usable wherever returning users are welcomed."
@@ -1811,30 +1807,6 @@
     "dmFriendRequestSentToast": "Đã gửi lời mời kết bạn",
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
-    },
-    "dmFriendRequestFailed": "Không gửi được lời mời kết bạn",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Không thể chấp nhận lời mời kết bạn",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Không thể xóa bạn bè",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Không thể chặn người dùng",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Không thể bỏ chặn người dùng",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Không thể bỏ qua lời mời kết bạn",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
     },
     "dmAddFriends": "Thêm bạn bè",
     "@dmAddFriends": {
@@ -3915,17 +3887,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Không thể mở DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Không thể lưu ghi chú",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Hành động thất bại, vui lòng thử lại",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Đổi biệt danh",
     "@userProfileChangeNickname": {
@@ -4719,27 +4683,6 @@
         "description": "One line of the support email written for the user. country is the country the user typed.",
         "placeholders": {
             "country": {
-                "type": "String"
-            }
-        }
-    },
-    "chatAttachmentTooMany": "Quá nhiều tệp đính kèm (tối đa {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} vượt quá giới hạn kích thước ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed.",
-        "placeholders": {
-            "fileName": {
-                "type": "String"
-            },
-            "fileSize": {
                 "type": "String"
             }
         }
@@ -7044,10 +6987,6 @@
     "@voiceParticipantMenuStopStreaming": {
         "description": "Voice screen-share context menu action that stops the current user stream."
     },
-    "voiceParticipantModerationFailed": "Không thể cập nhật thành viên đó. Vui lòng thử lại.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "voiceControlChat": "Trò chuyện",
     "@voiceControlChat": {
         "description": "Label for the chat button in voice lobby and call control surfaces."
@@ -8832,10 +8771,6 @@
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
     },
-    "addGuildJoinFailed": "Không thể tham gia cộng đồng. Vui lòng thử lại.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
-    },
     "addGuildCreateTitle": "Tạo cộng đồng",
     "@addGuildCreateTitle": {
         "description": "Title of the create-community sub-view in the add community modal."
@@ -10455,10 +10390,6 @@
     "guildNavbarCreateInviteMaxInvites": "Cộng đồng này đã đạt giới hạn mời.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Việc tạo lời mời tạm thời bị vô hiệu hóa cho cộng đồng này.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "groupDmCopyInviteFailed": "Không thể sao chép liên kết mời",
     "@groupDmCopyInviteFailed": {
@@ -15221,10 +15152,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Không thể gỡ bỏ lệnh cấm. Vui lòng thử lại.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Cài đặt cộng đồng",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -15748,10 +15675,6 @@
     "createDmUnaddableGroupDisabled": "Không cho phép được thêm vào tin nhắn nhóm",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "Không thể tạo cuộc trò chuyện. Thử lại.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "Tin nhắn",
     "@dmListMessagesTitle": {

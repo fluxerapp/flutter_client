@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Error al enviar la solicitud de amistad",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Error al aceptar la solicitud de amistad",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Error al eliminar al amigo",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Error al bloquear al usuario",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Error al desbloquear al usuario",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Error al ignorar la solicitud de amistad",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Añadir amigos",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Error al abrir DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Error al guardar la nota",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "La acción falló, inténtalo de nuevo",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Cambiar apodo",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Demasiados archivos adjuntos (máx. {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} supera el límite de tamaño ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Esos archivos son demasiado grandes para enviarlos juntos",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Esta invitación no es válida o ha caducado.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "No se ha podido unir a la comunidad. Inténtalo de nuevo.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Eliminar todas las reacciones",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "No se pudo revocar el baneo. Inténtalo de nuevo.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Ajustes de la comunidad",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -10022,10 +9969,6 @@
     "@channelSettingsVoiceRegionDescription": {
         "description": "Helper text for the voice region picker in channel settings."
     },
-    "voiceParticipantModerationFailed": "No se pudo actualizar a ese miembro. Por favor, inténtalo de nuevo.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "addGuildCreateFailed": "No se pudo crear la comunidad. Por favor, inténtalo de nuevo.",
     "@addGuildCreateFailed": {
         "description": "Generic error when creating a community fails."
@@ -11629,10 +11572,6 @@
     "nagbarEnableNotifications": "Activar notificaciones",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "No se pudo abrir el portal de facturación. Inténtalo de nuevo en un momento.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "next": "Siguiente",
     "@next": {
@@ -14399,10 +14338,6 @@
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
     },
-    "guildNavbarCreateInviteTemporarilyDisabled": "La creación de invitaciones está temporalmente desactivada para esta comunidad.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
-    },
     "composerOpenExpressionPicker": "Abrir selector de expresiones",
     "@composerOpenExpressionPicker": {
         "description": "Accessibility label for the composer button that opens the emoji and media picker."
@@ -15785,10 +15720,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Eliminar esta pegatina del almacenamiento y la CDN",
     "guildSettingsStickerDeleteFailedTitle": "No se ha podido eliminar este sticker",
-    "createDmFailed": "No se ha podido crear la conversación. Inténtalo de nuevo.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "keybindsSearchShortcuts": "Buscar atajos",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

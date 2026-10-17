@@ -260,10 +260,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "nagbarBillingPortalFailed": "Kon de facturatieportal niet openen. Probeer het later opnieuw.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
-    },
     "welcomeBack": "Welkom terug",
     "@welcomeBack": {
         "description": "Greeting on the login screen; usable wherever returning users are welcomed."
@@ -1811,30 +1807,6 @@
     "dmFriendRequestSentToast": "Vriendschapsverzoek verzonden",
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
-    },
-    "dmFriendRequestFailed": "Kon geen vriendschapsverzoek verzenden",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Kon vriendschapsverzoek niet accepteren",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Kon vriend niet verwijderen",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Blokkeren van gebruiker mislukt",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Kon gebruiker niet deblokkeren",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Kon vriendenverzoek niet negeren",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
     },
     "dmAddFriends": "Vrienden toevoegen",
     "@dmAddFriends": {
@@ -3915,17 +3887,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "DM kon niet worden geopend",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Notitie opslaan mislukt",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Actie mislukt, probeer het opnieuw",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Bijnaam wijzigen",
     "@userProfileChangeNickname": {
@@ -4719,27 +4683,6 @@
         "description": "One line of the support email written for the user. country is the country the user typed.",
         "placeholders": {
             "country": {
-                "type": "String"
-            }
-        }
-    },
-    "chatAttachmentTooMany": "Te veel bijlagen (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} overschrijdt de limiet van {fileSize}",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed.",
-        "placeholders": {
-            "fileName": {
-                "type": "String"
-            },
-            "fileSize": {
                 "type": "String"
             }
         }
@@ -7044,10 +6987,6 @@
     "@voiceParticipantMenuStopStreaming": {
         "description": "Voice screen-share context menu action that stops the current user stream."
     },
-    "voiceParticipantModerationFailed": "Kon dat lid niet bijwerken. Probeer het opnieuw.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "voiceControlChat": "Chat",
     "@voiceControlChat": {
         "description": "Label for the chat button in voice lobby and call control surfaces."
@@ -8832,10 +8771,6 @@
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
     },
-    "addGuildJoinFailed": "Kon de community niet joinen. Probeer het opnieuw.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
-    },
     "addGuildCreateTitle": "Community aanmaken",
     "@addGuildCreateTitle": {
         "description": "Title of the create-community sub-view in the add community modal."
@@ -10455,10 +10390,6 @@
     "guildNavbarCreateInviteMaxInvites": "Deze community heeft de maximale hoeveelheid uitnodigingen bereikt.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Het aanmaken van uitnodigingen is tijdelijk uitgeschakeld voor deze community.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "groupDmCopyInviteFailed": "Uitnodigingslink kopiëren mislukt",
     "@groupDmCopyInviteFailed": {
@@ -15221,10 +15152,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Kon ban niet intrekken. Probeer het opnieuw.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Community-instellingen",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -15748,10 +15675,6 @@
     "createDmUnaddableGroupDisabled": "Staat toevoegen aan groeps-DM's niet toe",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "Kon het gesprek niet aanmaken. Probeer het opnieuw.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "Berichten",
     "@dmListMessagesTitle": {

@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "ส่งคำขอเป็นเพื่อนไม่สำเร็จ",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "ยอมรับคำขอเป็นเพื่อนไม่สำเร็จ",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "ลบเพื่อนไม่สำเร็จ",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "บล็อกผู้ใช้ไม่สำเร็จ",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "เลิกบล็อกผู้ใช้ไม่สำเร็จ",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "เพิกเฉยต่อคำขอเป็นเพื่อนไม่สำเร็จ",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "เพิ่มเพื่อน",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "ไม่สามารถเปิด DM ได้",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "ไม่สามารถบันทึกหมายเหตุได้",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "การดำเนินการล้มเหลว โปรดลองอีกครั้ง",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "เปลี่ยนชื่อเล่น",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "ไฟล์แนบมากเกินไป (สูงสุด {max} ไฟล์)",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} มีขนาดใหญ่เกินขีดจำกัด ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "ไฟล์เหล่านั้นมีขนาดใหญ่เกินกว่าจะส่งพร้อมกันได้",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "คำเชิญนี้ไม่ถูกต้องหรือไม่ถูกต้องแล้ว",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "ไม่สามารถเข้าร่วมชุมชนได้ โปรดลองอีกครั้ง",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "ลบรีแอ็กชันทั้งหมด",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "ไม่สามารถเพิกถอนการแบนได้ ลองอีกครั้ง",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "การตั้งค่าคอมมูนิตี้",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -9590,10 +9537,6 @@
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
     },
-    "createDmFailed": "ไม่สามารถสร้างการสนทนาได้ ลองอีกครั้ง",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "categoryExpandCategory": "ขยายหมวดหมู่",
     "@categoryExpandCategory": {
         "description": "Context menu action to expand a collapsed channel category."
@@ -10496,10 +10439,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "voiceParticipantModerationFailed": "ไม่สามารถอัปเดตสมาชิกนั้นได้ โปรดลองอีกครั้ง",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "channelMenuOpenChat": "เปิดแชท",
     "@channelMenuOpenChat": {
         "description": "Guild channel menu action that opens a voice channel chat without joining voice."
@@ -11205,10 +11144,6 @@
     "nagbarEnableNotifications": "เปิดการแจ้งเตือน",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "ไม่สามารถเปิดหน้าชำระเงินได้ โปรดลองอีกครั้งในสักครู่",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "groupDmUnsupportedIconFormat": "รูปแบบไอคอนที่ไม่รองรับ",
     "@groupDmUnsupportedIconFormat": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "ชุมชนนี้ถึงขีดจำกัดการเชิญแล้ว",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "การสร้างคำเชิญถูกปิดใช้งานชั่วคราวสำหรับชุมชนนี้",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "เปิดตัวเลือกอิโมจิ",
     "@composerOpenExpressionPicker": {

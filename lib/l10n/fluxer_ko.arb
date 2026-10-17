@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "친구 요청 보내기 실패",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "친구 요청 수락 실패",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "친구 삭제 실패",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "사용자 차단 실패",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "사용자 차단 해제 실패",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "친구 요청 무시 실패",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "친구 추가",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "DM을 열 수 없습니다.",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "메모를 저장할 수 없습니다.",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "작업 실패, 다시 시도해 주세요.",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "닉네임 변경",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "첨부 파일이 너무 많습니다(최대 {max}개)",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName}이(가) 크기 제한을 초과합니다 ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "파일이 너무 커서 함께 보낼 수 없습니다",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "이 초대는 유효하지 않거나 만료되었습니다.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "커뮤니티에 참여할 수 없습니다. 다시 시도하세요.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "모든 반응 삭제",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "차단을 해제할 수 없습니다. 다시 시도하세요.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "커뮤니티 설정",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8709,10 +8656,6 @@
     "voiceParticipantMenuUserVolume": "사용자 볼륨",
     "@voiceParticipantMenuUserVolume": {
         "description": "Voice participant context menu slider label for per-user volume."
-    },
-    "voiceParticipantModerationFailed": "해당 멤버를 업데이트할 수 없습니다. 다시 시도해 주세요.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "userSettingsNavNotifications": "알림",
     "@userSettingsNavNotifications": {
@@ -9947,10 +9890,6 @@
     "createDmUnaddableGroupDisabled": "그룹 DM 추가를 허용하지 않음",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "대화를 만들 수 없습니다. 다시 시도해 주세요.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "userProfileLocalTime": "현지 시간",
     "@userProfileLocalTime": {
@@ -11358,10 +11297,6 @@
     "nagbarViewGiftInventory": "선물함 보기",
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "결제 포털을 열 수 없습니다. 잠시 후 다시 시도해 주세요.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "addGuildCreateVerifyDescription": "커뮤니티를 만들려면 먼저 이메일 주소를 인증해야 합니다.",
     "@addGuildCreateVerifyDescription": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "이 커뮤니티는 초대 제한에 도달했습니다.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "이 커뮤니티의 초대 생성 기능이 일시적으로 비활성화되었습니다.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "이모티콘 및 미디어 선택 열기",
     "@composerOpenExpressionPicker": {

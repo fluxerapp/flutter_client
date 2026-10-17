@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Nie udało się wysłać prośby o znajomość",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Nie udało się zaakceptować prośby o znajomość",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Nie udało się usunąć znajomego",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Nie udało się zablokować użytkownika",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Nie udało się odblokować użytkownika",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Nie udało się odrzucić prośby o znajomość",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Dodaj znajomych",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Nie udało się otworzyć DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Nie udało się zapisać notatki",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Akcja nie powiodła się, spróbuj ponownie",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Zmień pseudonim",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Zbyt wiele załączników (maks. {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} przekracza limit rozmiaru ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Te pliki są za duże, aby wysłać je razem",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "To zaproszenie jest nieprawidłowe lub wygasło.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Nie udało się dołączyć do społeczności. Spróbuj ponownie.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Usuń wszystkie reakcje",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Nie udało się cofnąć bana. Spróbuj ponownie.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Ustawienia społeczności",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8812,10 +8759,6 @@
     "voiceParticipantMenuStreamVolume": "Głośność transmisji",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
-    },
-    "voiceParticipantModerationFailed": "Nie udało się zaktualizować tego członka. Spróbuj ponownie.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "audioAndVideoFocusedVoiceDescription": "Zalecane. Oczyszcza dźwięk z mikrofonu, aby mowa była wyraźna.",
     "@audioAndVideoFocusedVoiceDescription": {
@@ -9547,10 +9490,6 @@
     "createDmUnaddableGroupDisabled": "Nie zezwala na dodawanie do czatów grupowych",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "Nie udało się utworzyć rozmowy. Spróbuj ponownie.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListDirectMessagesTitle": "Wiadomości prywatne",
     "@dmListDirectMessagesTitle": {
@@ -10315,10 +10254,6 @@
     "nagbarTermsAcceptance": "Zaktualizowaliśmy nasze warunki. Przejrzyj je i zaakceptuj, aby kontynuować.",
     "@nagbarTermsAcceptance": {
         "description": "Terms acceptance nagbar body."
-    },
-    "nagbarBillingPortalFailed": "Nie udało się otworzyć portalu płatności. Spróbuj ponownie za chwilę.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "voiceParticipantMenuUserVolume": "Głośność użytkownika",
     "@voiceParticipantMenuUserVolume": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Ta społeczność osiągnęła limit zaproszeń.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Tworzenie zaproszeń jest tymczasowo niedostępne dla tej społeczności.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Otwórz wybieranie emotikon",
     "@composerOpenExpressionPicker": {

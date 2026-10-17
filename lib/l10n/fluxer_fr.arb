@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Échec de l'envoi de la demande d'ami",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Échec de l'acceptation de la demande d'ami",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Échec de la suppression de l'ami",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Échec du blocage de l'utilisateur",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Échec du déblocage de l'utilisateur",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Échec de l'ignorance de la demande d'ami",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Ajouter des amis",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Échec de l'ouverture de la discussion",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Échec de l'enregistrement de la note",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Action échouée, veuillez réessayer",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Modifier le surnom",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Trop de pièces jointes (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} dépasse la limite de taille ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Ces fichiers sont trop volumineux pour être envoyés ensemble",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Cette invitation est invalide ou a expiré.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Impossible de rejoindre la communauté. Veuillez réessayer.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Supprimer toutes les réactions",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8306,10 +8257,6 @@
                 "type": "String"
             }
         }
-    },
-    "guildSettingsRevokeBanError": "Impossible de révoquer le bannissement. Réessayez.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Paramètres de la communauté",
     "@guildSettingsCommunitySettings": {
@@ -10622,10 +10569,6 @@
             }
         }
     },
-    "nagbarBillingPortalFailed": "Impossible d'ouvrir le portail de facturation. Veuillez réessayer dans un instant.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
-    },
     "voiceParticipantMenuViewProfile": "Voir le profil",
     "@voiceParticipantMenuViewProfile": {
         "description": "Voice participant context menu item to open the user's profile."
@@ -10633,10 +10576,6 @@
     "voiceParticipantMenuStreamVolume": "Volume de la diffusion",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
-    },
-    "voiceParticipantModerationFailed": "Impossible de mettre à jour ce membre. Veuillez réessayer.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "userProfileTimezoneDurationMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
     "@userProfileTimezoneDurationMinutes": {
@@ -11027,10 +10966,6 @@
     "createDmUnaddableNoneRemaining": "Il ne reste aucun destinataire avec qui créer une conversation de groupe.",
     "@createDmUnaddableNoneRemaining": {
         "description": "Shown when every selected recipient is unaddable."
-    },
-    "createDmFailed": "Impossible de créer la conversation. Réessayez.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "Messages",
     "@dmListMessagesTitle": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Cette communauté a atteint sa limite d'invitations.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "La création d'invitations est temporairement désactivée pour cette communauté.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Ouvrir le sélecteur d'expressions",
     "@composerOpenExpressionPicker": {

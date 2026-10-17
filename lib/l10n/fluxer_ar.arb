@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "فشل إرسال طلب الصداقة",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "فشل قبول طلب الصداقة",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "فشل إزالة الصديق",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "فشل حظر المستخدم",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "فشل إلغاء حظر المستخدم",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "فشل تجاهل طلب الصداقة",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "إضافة أصدقاء",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "فشل فتح الرسالة المباشرة",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "فشل حفظ الملاحظة",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "فشل الإجراء، يرجى المحاولة مرة أخرى",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "تغيير الاسم المستعار",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "ملفات مرفقة كثيرة جدًا (الحد الأقصى {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} يتجاوز الحد الأقصى للحجم ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "هذه الملفات كبيرة جدًا لإرسالها معًا",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "هذه الدعوة غير صالحة أو انتهت صلاحيتها.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "تعذر الانضمام إلى المجتمع. يرجى المحاولة مرة أخرى.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "إزالة جميع التفاعلات",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "تعذر إلغاء الحظر. حاول مرة أخرى.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "إعدادات المجتمع",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -9790,10 +9737,6 @@
     "@createDmUnaddableNotFriends": {
         "description": "Reason when a recipient is not a friend."
     },
-    "createDmFailed": "تعذر إنشاء المحادثة. حاول مرة أخرى.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "voicePanelSettingsSectionTitle": "إعدادات الصوت",
     "@voicePanelSettingsSectionTitle": {
         "description": "Section header for in-call voice settings in the expandable control panel."
@@ -10380,10 +10323,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "voiceParticipantModerationFailed": "تعذر تحديث هذا العضو. يُرجى المحاولة مرة أخرى.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "channelMenuDeleteMyMessagesTitle": "هل تريد حذف رسائلك في هذه القناة؟",
     "@channelMenuDeleteMyMessagesTitle": {
         "description": "Confirmation title for deleting all of the caller's messages in a channel."
@@ -10813,10 +10752,6 @@
     "nagbarEnableNotifications": "تفعيل الإشعارات",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "تعذر فتح بوابة الفوترة. يُرجى المحاولة مرة أخرى بعد لحظة.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "groupDmIconFileTooLargeBody": "الملف كبير جدًا. اختر ملفًا أصغر من {maxSize}.",
     "@groupDmIconFileTooLargeBody": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "لقد وصل هذا المجتمع إلى الحد الأقصى للدعوات.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "تم تعطيل إنشاء الدعوات مؤقتًا لهذا المجتمع.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "فتح مُنتقي التعبيرات",
     "@composerOpenExpressionPicker": {

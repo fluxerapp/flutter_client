@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Kunde inte skicka vänförfrågan",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Kunde inte acceptera vänförfrågan",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Kunde inte ta bort vän",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Kunde inte blockera användare",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Kunde inte avblockera användare",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Kunde inte ignorera vänförfrågan",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Lägg till vänner",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Det gick inte att öppna DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Det gick inte att spara anteckningen",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Åtgärden misslyckades, försök igen",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Ändra smeknamn",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "För många bilagor (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} överskrider storleksgränsen ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Dessa filer är för stora för att skickas tillsammans",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Den här inbjudan är ogiltig eller har gått ut.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Kunde inte gå med i communityn. Försök igen.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Ta bort alla reaktioner",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Kunde inte återkalla bannlysning. Försök igen.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Communityinställningar",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8996,10 +8943,6 @@
     "createDmUnaddableGroupDisabled": "Tillåter inte att läggas till i grupp-DM",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
-    },
-    "createDmFailed": "Kunde inte skapa konversationen. Försök igen.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "guildSettingsRolesNewRole": "Ny roll",
     "@guildSettingsRolesNewRole": {
@@ -10140,10 +10083,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "voiceParticipantModerationFailed": "Kunde inte uppdatera medlemmen. Försök igen.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "audioAndVideoInCallBehaviorSectionDescription": "Styr bekräftelsefrågor under röst- och videosamtal.",
     "@audioAndVideoInCallBehaviorSectionDescription": {
         "description": "Settings section description for in-call behavior prompts."
@@ -11043,10 +10982,6 @@
                 "type": "String"
             }
         }
-    },
-    "nagbarBillingPortalFailed": "Kunde inte öppna faktureringsportalen. Försök igen om en stund.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "addGuildCreateDescription": "Skapa en community där du och dina vänner kan chatta.",
     "@addGuildCreateDescription": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Den här communityn har nått sin gräns för inbjudningar.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Skapa av inbjudningar är tillfälligt inaktiverat för den här communityn.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Öppna uttrycksväljaren",
     "@composerOpenExpressionPicker": {

@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Не вдалося надіслати запит на додавання в друзі",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Не вдалося прийняти запит на додавання в друзі",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Не вдалося видалити друга",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Не вдалося заблокувати користувача",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Не вдалося розблокувати користувача",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Не вдалося ігнорувати запит на додавання в друзі",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Додати друзів",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Не вдалося відкрити приватне повідомлення",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Не вдалося зберегти примітку",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Дія не вдалася, спробуйте ще раз",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Змінити псевдонім",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Занадто багато вкладень (макс. {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} перевищує ліміт розміру ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Ці файли занадто великі, щоб надіслати їх разом",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Це запрошення недійсне або термін його дії закінчився.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Не вдалося приєднатися до спільноти. Спробуйте ще раз.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Видалити всі реакції",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Не вдалося скасувати блокування. Спробуйте ще раз.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Налаштування спільноти",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8751,10 +8698,6 @@
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
     },
-    "createDmFailed": "Не вдалося створити розмову. Спробуйте ще раз.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "dmDebugCategory": "Налагодити категорію",
     "@dmDebugCategory": {
         "description": "Category context menu action to debug category data."
@@ -8806,10 +8749,6 @@
     "voiceParticipantMenuUnfocus": "Прибрати фокус",
     "@voiceParticipantMenuUnfocus": {
         "description": "Voice participant context menu item to return to grid layout."
-    },
-    "voiceParticipantModerationFailed": "Не вдалося оновити цього учасника. Спробуйте ще раз.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "audioAndVideoNoiseSuppressionEnhancedLabel": "Покращено",
     "@audioAndVideoNoiseSuppressionEnhancedLabel": {
@@ -11274,10 +11213,6 @@
     "nagbarEnableNotifications": "Увімкнути сповіщення",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "Не вдалося відкрити платіжний портал. Спробуйте ще раз за мить.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "chatBlockedMessagesCollapsed": "{count, plural, =1{1 заблоковане повідомлення} other{{count} заблокованих повідомлень}}",
     "@chatBlockedMessagesCollapsed": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Ця спільнота досягла ліміту запрошень.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Створення запрошень тимчасово вимкнено для цієї спільноти.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Відкрити вибір емоджі",
     "@composerOpenExpressionPicker": {

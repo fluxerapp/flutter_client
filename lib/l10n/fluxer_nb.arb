@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Kunne ikke sende venneforespørsel",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Kunne ikke godta venneforespørsel",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Kunne ikke fjerne venn",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Kunne ikke blokkere bruker",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Kunne ikke fjerne blokkering av bruker",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Kunne ikke ignorere venneforespørsel",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Legg til venner",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Kunne ikke åpne DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Kunne ikke lagre notat",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Handlingen mislyktes, prøv igjen",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Endre kallenavn",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "For mange vedlegg (maks {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} overskrider størrelsesgrensen ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Disse filene er for store til å sendes sammen",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Denne invitasjonen er ugyldig eller har utløpt.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Kunne ikke bli med i fellesskapet. Prøv igjen.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Fjern alle reaksjoner",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Kunne ikke fjerne utestengelse. Prøv igjen.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Fellesskapsinnstillinger",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8690,10 +8637,6 @@
     "voiceParticipantMenuStreamVolume": "Strømmevolum",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
-    },
-    "voiceParticipantModerationFailed": "Kunne ikke oppdatere det medlemmet. Prøv igjen.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "userSettingsNavNotifications": "Varsler",
     "@userSettingsNavNotifications": {
@@ -10194,10 +10137,6 @@
     "@nagbarTermsAcceptance": {
         "description": "Terms acceptance nagbar body."
     },
-    "nagbarBillingPortalFailed": "Kunne ikke åpne faktureringsportalen. Prøv igjen om et øyeblikk.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
-    },
     "guildNavbarChannelTypeSelection": "Valg av kanaltype",
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
@@ -10890,10 +10829,6 @@
     "systemCallJoinTheCall": "Bli med i samtalen",
     "@systemCallJoinTheCall": {
         "description": "Call-to-action button label on an in-progress call system message."
-    },
-    "createDmFailed": "Kunne ikke opprette samtalen. Prøv igjen.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "shareMediaTitle": "Del til",
     "@shareMediaTitle": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Dette fellesskapet har nådd invitasjonsgrensen.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Invitasjonsoppretting er midlertidig deaktivert for dette fellesskapet.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Åpne uttrykksvelger",
     "@composerOpenExpressionPicker": {

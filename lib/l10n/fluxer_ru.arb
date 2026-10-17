@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Не удалось отправить запрос в друзья",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Не удалось принять запрос в друзья",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Не удалось удалить друга",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Не удалось заблокировать пользователя",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Не удалось разблокировать пользователя",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Не удалось отклонить запрос в друзья",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Добавить друзей",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Не удалось открыть ЛС",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Не удалось сохранить заметку",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Действие не выполнено, попробуйте снова",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Изменить никнейм",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Слишком много вложений (макс. {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} превышает лимит размера ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Эти файлы слишком велики для отправки вместе",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Это приглашение недействительно или срок его действия истек.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Не удалось присоединиться к сообществу. Пожалуйста, попробуйте еще раз.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Удалить все реакции",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Не удалось отменить блокировку. Попробуйте еще раз.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Настройки сообщества",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8669,10 +8616,6 @@
     "voiceParticipantMenuUserVolume": "Громкость пользователя",
     "@voiceParticipantMenuUserVolume": {
         "description": "Voice participant context menu slider label for per-user volume."
-    },
-    "voiceParticipantModerationFailed": "Не удалось обновить участника. Попробуйте снова.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "userSettingsNavNotifications": "Уведомления",
     "@userSettingsNavNotifications": {
@@ -9767,10 +9710,6 @@
     "createDmUnaddableNoneRemaining": "Не осталось получателей для создания группового чата.",
     "@createDmUnaddableNoneRemaining": {
         "description": "Shown when every selected recipient is unaddable."
-    },
-    "createDmFailed": "Не удалось создать беседу. Попробуйте ещё раз.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "Сообщения",
     "@dmListMessagesTitle": {
@@ -11238,10 +11177,6 @@
     "nagbarReviewTerms": "Просмотреть условия",
     "@nagbarReviewTerms": {
         "description": "Terms acceptance nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "Не удалось открыть портал оплаты. Попробуйте снова через мгновение.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "dmOwnersGroup": "Группа {resolvedName}",
     "@dmOwnersGroup": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Этот канал достиг лимита приглашений.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Создание приглашений для этого сообщества временно отключено.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Открыть выбор эмодзи",
     "@composerOpenExpressionPicker": {

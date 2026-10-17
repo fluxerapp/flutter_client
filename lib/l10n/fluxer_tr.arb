@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Arkadaşlık isteği gönderilemedi",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Arkadaşlık isteği kabul edilemedi",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Arkadaş kaldırılamadı",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Kullanıcı engellenemedi",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Kullanıcının engellemesi kaldırılamadı",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Arkadaşlık isteği yoksayılamadı",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Arkadaş ekle",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Özel Mesaj Açılamadı",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Not kaydedilemedi",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "İşlem başarısız oldu, lütfen tekrar deneyin",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Takma adı değiştir",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Çok fazla dosya (en fazla {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} boyut sınırını aşıyor ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Bu dosyalar birlikte gönderilemeyecek kadar büyük",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Bu davet geçersiz veya süresi dolmuş.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Topluluğa katılım sağlanamadı. Lütfen tekrar deneyin.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Tüm tepkileri kaldır",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Yasaklama kaldırılamadı. Tekrar deneyin.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Topluluk ayarları",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -9916,10 +9863,6 @@
     "@guildSettingsInvitesPauseForCommunityTitle": {
         "description": "Confirmation title before pausing invites."
     },
-    "createDmFailed": "Sohbet oluşturulamadı. Lütfen tekrar deneyin.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "guildSettingsRolesDisplaySection": "Göster",
     "@guildSettingsRolesDisplaySection": {
         "description": "Section title for role display settings."
@@ -10992,10 +10935,6 @@
     "@voiceParticipantMenuFocus": {
         "description": "Voice participant context menu item to pin a participant tile in focus layout."
     },
-    "voiceParticipantModerationFailed": "Üye güncellenemedi. Lütfen tekrar deneyin.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "guildSettingsInvitesTableExpires": "Sona eriyor",
     "channelMenuOpenChat": "Sohbeti aç",
     "@channelMenuOpenChat": {
@@ -11182,10 +11121,6 @@
     "shareMediaFailedToast": "Medya paylaşılamadı",
     "@shareMediaFailedToast": {
         "description": "Toast shown when sharing media to all destinations fails."
-    },
-    "nagbarBillingPortalFailed": "Ödeme portalı açılamadı. Lütfen birazdan tekrar deneyin.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "dmUnnamedGroup": "Adsız grup",
     "@dmUnnamedGroup": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Bu topluluk davet sınırına ulaştı.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Bu topluluk için davet oluşturma geçici olarak devre dışı bırakıldı.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "İfade seçiciyi aç",
     "@composerOpenExpressionPicker": {

@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Kaveripyynnön lähettäminen epäonnistui",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Kaveripyynnön hyväksyminen epäonnistui",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Kaverin poistaminen epäonnistui",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Käyttäjän estäminen epäonnistui",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Eston poistaminen epäonnistui",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Kaveripyynnön hylkääminen epäonnistui",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Lisää kavereita",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Yksityisviestin avaaminen epäonnistui",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Muistiinpanon tallentaminen epäonnistui",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Toiminto epäonnistui, yritä uudelleen",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Vaihda lempinimi",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Liian monta liitettä (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} ylittää kokorajoituksen ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Nämä tiedostot ovat liian suuria lähetettäväksi yhdessä",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Tämä kutsu on virheellinen tai vanhentunut.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Yhteisöön liittyminen epäonnistui. Yritä uudelleen.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Poista kaikki reaktiot",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Eston peruutus epäonnistui. Yritä uudelleen.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Yhteisön asetukset",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -10252,10 +10199,6 @@
     "@voiceParticipantMenuViewProfile": {
         "description": "Voice participant context menu item to open the user's profile."
     },
-    "voiceParticipantModerationFailed": "Jäsenen tietojen päivittäminen epäonnistui. Yritä uudelleen.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "voiceParticipantMenuStreamVolume": "Striimin äänenvoimakkuus",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
@@ -10760,10 +10703,6 @@
     "@groupDmGroupNameMaxLength": {
         "description": "Validation error when group name is too long."
     },
-    "createDmFailed": "Keskustelua ei voitu luoda. Yritä uudelleen.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "dmListDirectMessagesTitle": "Yksityisviestit",
     "@dmListDirectMessagesTitle": {
         "description": "Desktop section header for the DM conversation list."
@@ -11174,10 +11113,6 @@
     "nagbarEnableNotifications": "Ota ilmoitukset käyttöön",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "Portaalin avaaminen epäonnistui. Yritä uudelleen hetken kuluttua.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "groupDmUpdated": "Ryhmä päivitetty",
     "@groupDmUpdated": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Tämä yhteisö on saavuttanut kutsujen enimmäismäärän.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Kutsun luominen on tilapäisesti poissa käytöstä tälle yhteisölle.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Avaa hymiövalitsin",
     "@composerOpenExpressionPicker": {

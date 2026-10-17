@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Freundschaftsanfrage konnte nicht gesendet werden",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Freundschaftsanfrage konnte nicht angenommen werden",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Freund konnte nicht entfernt werden",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Benutzer konnte nicht blockiert werden",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Blockierung des Benutzers konnte nicht aufgehoben werden",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Freundschaftsanfrage konnte nicht ignoriert werden",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Freunde hinzufügen",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "DM konnte nicht geöffnet werden",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Notiz konnte nicht gespeichert werden",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Aktion fehlgeschlagen, bitte versuche es erneut",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Spitznamen ändern",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Zu viele Anhänge (max. {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} überschreitet die Größenbeschränkung ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Diese Dateien sind zu groß, um sie zusammen zu senden",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Diese Einladung ist ungültig oder abgelaufen.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Der Beitritt zur Community ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Alle Reaktionen entfernen",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Sperre konnte nicht widerrufen werden. Versuche es erneut.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Community-Einstellungen",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -8848,10 +8795,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "voiceParticipantModerationFailed": "Das Mitglied konnte nicht aktualisiert werden. Bitte versuche es erneut.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "audioAndVideoDirectInputLabel": "Direkteingabe",
     "@audioAndVideoDirectInputLabel": {
         "description": "Voice processing profile that sends unprocessed audio."
@@ -9340,10 +9283,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "nagbarBillingPortalFailed": "Konnte das Abrechnungsportal nicht öffnen. Bitte versuche es gleich noch einmal.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
-    },
     "systemCallDurationWeeks": "{count} Wochen",
     "@systemCallDurationWeeks": {
         "description": "Duration label for multiple weeks in a call duration.",
@@ -9646,10 +9585,6 @@
     "createDmUnaddableNotFriends": "Nicht auf deiner Freundesliste",
     "@createDmUnaddableNotFriends": {
         "description": "Reason when a recipient is not a friend."
-    },
-    "createDmFailed": "Konversation konnte nicht erstellt werden. Versuche es erneut.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "voiceControlFlipCamera": "Kamera wechseln",
     "@voiceControlFlipCamera": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Diese Community hat ihr Einladungs­limit erreicht.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Das Erstellen von Einladungen ist für diese Community vorübergehend deaktiviert.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Emoji- und Medienauswahl öffnen",
     "@composerOpenExpressionPicker": {

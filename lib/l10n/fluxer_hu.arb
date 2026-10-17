@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Nem sikerült elküldeni a barát kérést",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Nem sikerült elfogadni a barát kérést",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Nem sikerült eltávolítani a barátot",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Nem sikerült blokkolni a felhasználót",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Nem sikerült feloldani a felhasználó blokkolását",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Nem sikerült figyelmen kívül hagyni a barát kérést",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Ismerősök hozzáadása",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Nem sikerült megnyitni a DM-et",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Nem sikerült menteni a jegyzetet",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "A művelet sikertelen, próbáld újra",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Becenév módosítása",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Túl sok melléklet ({max} max)",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} meghaladja a méretkorlátot ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Ezek a fájlok túl nagyok ahhoz, hogy együtt elküldhetők legyenek",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Ez a meghívó érvénytelen, vagy lejárt.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Nem sikerült csatlakozni a közösséghez. Kérjük, próbálja újra.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Összes reakció eltávolítása",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Nem sikerült visszavonni a letiltást. Próbáld újra.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Közösségi beállítások",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -10319,10 +10266,6 @@
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
     },
-    "createDmFailed": "Nem sikerült létrehozni a beszélgetést. Próbáld újra.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "userProfileSameTimeAsYou": "Ugyanannyi az idő, mint nálad",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -10423,10 +10366,6 @@
     "voiceParticipantMenuStreamVolume": "Stream hangereje",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
-    },
-    "voiceParticipantModerationFailed": "Nem sikerült frissíteni a tagot. Kérlek, próbáld újra.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "shareMediaTitle": "Megosztás",
     "@shareMediaTitle": {
@@ -10899,10 +10838,6 @@
     "nagbarViewGiftInventory": "Ajándékok megtekintése",
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "Nem sikerült megnyitni a számlázási portált. Kérjük, próbálkozzon újra egy pillanat múlva.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "dmUnnamedGroup": "Névtelen csoport",
     "@dmUnnamedGroup": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Ez a közösség elérte a meghívási limitet.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Meghívó létrehozása ideiglenesen nem elérhető ehhez a közösséghez.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Emoji és médiaválasztó megnyitása",
     "@composerOpenExpressionPicker": {

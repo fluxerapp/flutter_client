@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Failed to send friend request",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Failed to accept friend request",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Failed to remove friend",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Failed to block user",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Failed to unblock user",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Failed to ignore friend request",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Add friends",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Failed to open DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Failed to save note",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Action failed, please try again",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Change nickname",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Too many attachments (max {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} exceeds the size limit ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Those files are too large to send together",
     "@chatAttachmentPayloadTooLarge": {
@@ -6032,10 +5987,6 @@
     "addGuildInviteInvalid": "This invite is invalid or has expired.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Could not join community. Please try again.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Remove all reactions",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8359,10 +8310,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Couldn't revoke ban. Try again.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Community settings",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -9067,10 +9014,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "voiceParticipantModerationFailed": "Couldn't update that member. Please try again.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "audioAndVideoNoiseSuppressionEnhancedLabel": "Enhanced",
     "@audioAndVideoNoiseSuppressionEnhancedLabel": {
         "description": "Enhanced noise suppression option using AI filtering."
@@ -9568,10 +9511,6 @@
     "nagbarEnableNotifications": "Enable notifications",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "Couldn't open the billing portal. Please try again in a moment.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "guildSettingsRolesNoHoistedRoles": "No hoisted roles. Enable \"Show this role separately\" on a role to see it here.",
     "@guildSettingsRolesNoHoistedRoles": {
@@ -10688,10 +10627,6 @@
     "createDmSelectFriends": "Select friends",
     "@createDmSelectFriends": {
         "description": "Title for the create DM modal or bottom sheet."
-    },
-    "createDmFailed": "Couldn't create the conversation. Try again.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
     },
     "dmListMessagesTitle": "Messages",
     "@dmListMessagesTitle": {
@@ -11995,10 +11930,10 @@
         }
     },
     "next": "Next",
-    "create": "Create",
     "@next": {
         "description": "Generic next button label."
     },
+    "create": "Create",
     "registerPendingApproval": "Your account request is pending approval. You can sign in after an admin approves it.",
     "@registerPendingApproval": {
         "description": "Notice shown after registering on an instance that requires admin approval."
@@ -14456,10 +14391,6 @@
     "guildNavbarCreateInviteMaxInvites": "This community has reached its invite limit.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Invite creation is temporarily disabled for this community.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Open expression picker",
     "@composerOpenExpressionPicker": {

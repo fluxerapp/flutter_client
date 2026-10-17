@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "Nepavyko išsiųsti draugo užklausos",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "Nepavyko priimti draugo užklausos",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "Nepavyko pašalinti draugo",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "Nepavyko blokuoti vartotojo",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "Nepavyko atblokuoti vartotojo",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "Nepavyko ignoruoti draugo užklausos",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "Pridėti draugų",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "Nepavyko atidaryti DM",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "Nepavyko išsaugoti pastabos",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "Veiksmas nepavyko, bandykite dar kartą",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "Keisti slapyvardį",
     "@userProfileChangeNickname": {
@@ -3874,19 +3842,6 @@
                 "type": "String"
             }
         }
-    },
-    "chatAttachmentTooMany": "Pernelyg daug priedų (daugiausia {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} viršija dydžio limitą ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
     },
     "chatAttachmentPayloadTooLarge": "Šie failai yra per dideli, kad juos būtų galima išsiųsti kartu",
     "@chatAttachmentPayloadTooLarge": {
@@ -6028,10 +5983,6 @@
     "addGuildInviteInvalid": "Šis kvietimas negalioja arba baigėsi jo galiojimo laikas.",
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
-    },
-    "addGuildJoinFailed": "Nepavyko prisijungti prie bendruomenės. Pabandykite dar kartą.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Pašalinti visas reakcijas",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -8307,10 +8258,6 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "Nepavyko atšaukti baną. Pabandykite dar kartą.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "Bendruomenės nustatymai",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
@@ -9659,10 +9606,6 @@
     "@guildSettingsInvitesLabelChannel": {
         "description": "Mobile invite row label for channel."
     },
-    "createDmFailed": "Nepavyko sukurti pokalbio. Pabandykite dar kartą.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "categoryExpandCategory": "Išskleisti kategoriją",
     "@categoryExpandCategory": {
         "description": "Context menu action to expand a collapsed channel category."
@@ -10279,10 +10222,6 @@
     "voiceParticipantMenuStreamVolume": "Srauto garsumas",
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
-    },
-    "voiceParticipantModerationFailed": "Nepavyko atnaujinti nario. Pabandykite dar kartą.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
     },
     "voicePanelOnlyShowVideosDescription": "Rodyti tik dalyvius, kurie įjungę kamerą.",
     "@voicePanelOnlyShowVideosDescription": {
@@ -11053,10 +10992,6 @@
     "nagbarPushNotification": "Įjunkite pranešimus, kad nepraleistumėte žinučių ir paminėjimų.",
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
-    },
-    "nagbarBillingPortalFailed": "Nepavyko atidaryti atsiskaitymo portalo. Pabandykite dar kartą po akimirkos.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "chatBlockedMessagesCollapsed": "{count, plural, =1{1 užblokuota žinutė} other{{count} užblokuotos žinutės}}",
     "@chatBlockedMessagesCollapsed": {
@@ -14403,10 +14338,6 @@
     "guildNavbarCreateInviteMaxInvites": "Ši bendruomenė pasiekė kvietimų limitą.",
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
-    },
-    "guildNavbarCreateInviteTemporarilyDisabled": "Svečių kvietimų kūrimas šiai bendruomenei laikinai išjungtas.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
     },
     "composerOpenExpressionPicker": "Atidaryti jaustukų ir medijos pasirinktuvę",
     "@composerOpenExpressionPicker": {
