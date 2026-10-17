@@ -270,6 +270,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
             dropPosition: dropPosition,
             color: brandPrimary,
             useTouchInsertionGaps: useTouchDrag,
+            suppressInsertionGapBefore: widget.isFolder,
             child: widget.child,
           );
         },
@@ -695,12 +696,14 @@ class _DragTargetContent extends StatelessWidget {
     required this.dropPosition,
     required this.color,
     required this.useTouchInsertionGaps,
+    required this.suppressInsertionGapBefore,
     required this.child,
   });
 
   final DropPosition? dropPosition;
   final Color color;
   final bool useTouchInsertionGaps;
+  final bool suppressInsertionGapBefore;
   final Widget child;
 
   @override
@@ -715,6 +718,7 @@ class _DragTargetContent extends StatelessWidget {
 
     return _TouchInsertionDragTargetContent(
       dropPosition: dropPosition,
+      suppressInsertionGapBefore: suppressInsertionGapBefore,
       child: child,
     );
   }
@@ -723,15 +727,18 @@ class _DragTargetContent extends StatelessWidget {
 class _TouchInsertionDragTargetContent extends StatelessWidget {
   const _TouchInsertionDragTargetContent({
     required this.dropPosition,
+    required this.suppressInsertionGapBefore,
     required this.child,
   });
 
   final DropPosition? dropPosition;
+  final bool suppressInsertionGapBefore;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    final bool openBefore = dropPosition == DropPosition.before;
+    final bool openBefore =
+        dropPosition == DropPosition.before && !suppressInsertionGapBefore;
     final bool openAfter = dropPosition == DropPosition.after;
     final bool isCombine = dropPosition == DropPosition.combine;
 

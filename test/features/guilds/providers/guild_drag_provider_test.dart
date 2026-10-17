@@ -144,6 +144,19 @@ void main() {
         DropPosition.after,
       );
     });
+
+    test('leaves folder combine when pointer is above the folder icon', () {
+      expect(
+        resolveGuildDropPosition(
+          ratio: 0.3,
+          sourceIsFolder: false,
+          targetIsFolder: true,
+          allowCombine: true,
+          currentPosition: DropPosition.combine,
+        ),
+        DropPosition.before,
+      );
+    });
   });
 
   group('shouldDeferGuildHoverUpdate', () {

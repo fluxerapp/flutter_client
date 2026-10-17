@@ -773,9 +773,10 @@ DropPosition _resolveSplitDropPosition({
   if (currentPosition == DropPosition.before && ratio < split + inset) {
     return DropPosition.before;
   }
-  if (currentPosition == DropPosition.combine &&
-      ratio > split - inset &&
-      ratio < upperSplit + inset) {
+  if (ratio < split) {
+    return DropPosition.before;
+  }
+  if (currentPosition == DropPosition.combine && ratio <= upperSplit + inset) {
     return DropPosition.combine;
   }
   if (currentPosition == DropPosition.after && ratio > upperSplit - inset) {
