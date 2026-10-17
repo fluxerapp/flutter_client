@@ -75,6 +75,10 @@ class MessageTranslationService {
       return message.copyWith(translation: translation);
     } on MessageTranslationUnavailableException {
       rethrow;
+    } on MessageTranslationUnsupportedLanguageException {
+      rethrow;
+    } on MessageTranslationCancelledException {
+      rethrow;
     } on Object {
       throw const MessageTranslationFailedException();
     }

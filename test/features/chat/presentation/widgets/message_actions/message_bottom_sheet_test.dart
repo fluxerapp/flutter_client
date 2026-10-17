@@ -17,6 +17,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/me
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
+import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -473,6 +475,20 @@ void main() {
           extra: [
             appearancePreferencesProvider.overrideWithValue(
               const AppearancePreferencesState(),
+            ),
+            advancedPreferencesProvider.overrideWithValue(
+              AdvancedPreferencesState(
+                searchEngines: SearchEnginesState(
+                  translators: SearchProviderCategoryState(
+                    engines: kBuiltInTranslatorEngines
+                        .map(
+                          (SearchProviderEngine engine) =>
+                              engine.copyWith(enabled: false),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

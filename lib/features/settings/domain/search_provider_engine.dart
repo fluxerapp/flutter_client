@@ -550,6 +550,37 @@ extension SearchProviderCategoryStateMutations on SearchProviderCategoryState {
   }
 }
 
+extension SearchProviderCategoryStateLookup on SearchProviderCategoryState {
+  SearchProviderEngine? get effectiveDefaultEngine {
+    final String? id = defaultEngineId;
+    if (id != null) {
+      for (final SearchProviderEngine engine in engines) {
+        if (engine.id == id && engine.enabled) {
+          return engine;
+        }
+      }
+    }
+    final List<SearchProviderEngine> enabled = enabledEngines;
+    if (enabled.length == 1) {
+      return enabled.first;
+    }
+    return null;
+  }
+
+  String? buildSearchUrl(String engineId, String query) {
+    for (final SearchProviderEngine engine in engines) {
+      if (engine.id != engineId) {
+        continue;
+      }
+      return buildSearchProviderUrl(
+        urlTemplate: engine.urlTemplate,
+        value: query,
+      );
+    }
+    return null;
+  }
+}
+
 String createCustomSearchProviderId() {
   final timestamp = DateTime.now().millisecondsSinceEpoch;
   final random = DateTime.now().microsecondsSinceEpoch % 1000000;

@@ -72,6 +72,27 @@ bool shouldOfferMessageTranslate({
   };
 }
 
+bool shouldOfferMessageTranslateAction({
+  required TranslateOfferHint hint,
+  required String appLanguage,
+  required bool localTranslationAvailable,
+  String? detectedLanguage,
+  bool detectedLanguageReady = true,
+}) {
+  if (!localTranslationAvailable) {
+    return switch (hint) {
+      TranslateOfferHint.hide => false,
+      TranslateOfferHint.show || TranslateOfferHint.detect => true,
+    };
+  }
+  return shouldOfferMessageTranslate(
+    hint: hint,
+    appLanguage: appLanguage,
+    detectedLanguage: detectedLanguage,
+    detectedLanguageReady: detectedLanguageReady,
+  );
+}
+
 _LetterScript? _letterScriptForRune(int rune) {
   return switch (rune) {
     >= 0x0041 && <= 0x005A => _LetterScript.latin,

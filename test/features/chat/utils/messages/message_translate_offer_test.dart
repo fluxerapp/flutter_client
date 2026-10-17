@@ -85,4 +85,29 @@ void main() {
       );
     });
   });
+
+  group('shouldOfferMessageTranslateAction', () {
+    test('offers web fallback without on-device detection', () {
+      expect(
+        shouldOfferMessageTranslateAction(
+          hint: TranslateOfferHint.detect,
+          appLanguage: 'en',
+          localTranslationAvailable: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('keeps on-device detection rules when local translation works', () {
+      expect(
+        shouldOfferMessageTranslateAction(
+          hint: TranslateOfferHint.detect,
+          appLanguage: 'en',
+          localTranslationAvailable: true,
+          detectedLanguage: 'en',
+        ),
+        isFalse,
+      );
+    });
+  });
 }

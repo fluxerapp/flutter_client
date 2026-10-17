@@ -23,6 +23,9 @@ import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_translate_offer.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_web_translation.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -270,12 +273,29 @@ Future<void> dispatchMessageAction({
   }
 }
 
+Future<bool> _openWebTranslationFallback({
+  required WidgetRef ref,
+  required BuildContext context,
+  required String query,
+}) async {
+  if (!isWebMessageTranslationAvailable(
+    ref.read(advancedPreferencesProvider).searchEngines,
+  )) {
+    return false;
+  }
+  if (!context.mounted) {
+    return false;
+  }
+  return openMessageWebTranslation(context: context, ref: ref, query: query);
+}
+
 Future<void> _translateMessage({
   required WidgetRef ref,
   required BuildContext context,
   required Message message,
 }) async {
-  if (message.content.trim().isEmpty) {
+  final String query = translatableMessageText(message.content);
+  if (query.isEmpty) {
     return;
   }
   final TranslatingMessageIds translating = ref.read(
@@ -285,6 +305,31 @@ Future<void> _translateMessage({
     return;
   }
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final bool localAvailable = await ref.read(
+    messageTranslationAvailableProvider.future,
+  );
+
+  if (!localAvailable) {
+    if (!context.mounted) {
+      return;
+    }
+    if (!await _openWebTranslationFallback(
+      ref: ref,
+      context: context,
+      query: query,
+    )) {
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: l10n.chatMessageTranslateUnavailable,
+              variant: FluxerToastVariant.warning,
+            ),
+          );
+    }
+    return;
+  }
+
   translating.add(message.id);
   try {
     final Message updated = await ref
@@ -300,13 +345,44 @@ Future<void> _translateMessage({
           translation: updated.translation,
         );
     FluxerHaptics.light();
+  } on MessageTranslationCancelledException {
+    return;
   } on MessageTranslationUnavailableException {
+    if (!context.mounted) {
+      return;
+    }
+    if (await _openWebTranslationFallback(
+      ref: ref,
+      context: context,
+      query: query,
+    )) {
+      return;
+    }
     ref
         .read(toastProvider.notifier)
         .show(
           FluxerToast(
             message: l10n.chatMessageTranslateUnavailable,
             variant: FluxerToastVariant.warning,
+          ),
+        );
+  } on MessageTranslationUnsupportedLanguageException {
+    if (!context.mounted) {
+      return;
+    }
+    if (await _openWebTranslationFallback(
+      ref: ref,
+      context: context,
+      query: query,
+    )) {
+      return;
+    }
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.chatMessageTranslateFailed,
+            variant: FluxerToastVariant.danger,
           ),
         );
   } on MessageTranslationFailedException {

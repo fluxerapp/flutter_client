@@ -13,12 +13,16 @@ class LocalDeviceTranslationSource implements MessageTranslationSource {
 
   @override
   Future<String?> detectLanguage(String text) async {
-    final LanguageDetection detection = await _plugin.detectLanguage(text);
-    final String? code = detection.languageCode?.trim();
-    if (code == null || code.isEmpty || code.toLowerCase() == 'und') {
+    try {
+      final LanguageDetection detection = await _plugin.detectLanguage(text);
+      final String? code = detection.languageCode?.trim();
+      if (code == null || code.isEmpty || code.toLowerCase() == 'und') {
+        return null;
+      }
+      return code;
+    } on LocalTranslationException {
       return null;
     }
-    return code;
   }
 
   @override
@@ -26,14 +30,27 @@ class LocalDeviceTranslationSource implements MessageTranslationSource {
     required String text,
     required String targetLanguage,
   }) async {
-    final TranslationResult result = await _plugin.translate(
-      text,
-      targetLanguage: targetLanguage,
-    );
-    return TranslatedText(
-      translatedContent: result.translatedText,
-      sourceLanguageCode: result.sourceLanguage ?? '',
-      targetLanguageCode: result.targetLanguage,
-    );
+    try {
+      final TranslationResult result = await _plugin.translate(
+        text,
+        targetLanguage: targetLanguage,
+      );
+      return TranslatedText(
+        translatedContent: result.translatedText,
+        sourceLanguageCode: result.sourceLanguage ?? '',
+        targetLanguageCode: result.targetLanguage,
+      );
+    } on LocalTranslationException catch (error) {
+      switch (error.code) {
+        case LocalTranslationErrorCode.unsupportedPlatform:
+          throw const MessageTranslationUnavailableException();
+        case LocalTranslationErrorCode.unsupportedLanguagePair:
+          throw const MessageTranslationUnsupportedLanguageException();
+        case LocalTranslationErrorCode.cancelled:
+          throw const MessageTranslationCancelledException();
+        case LocalTranslationErrorCode.unknown:
+          throw const MessageTranslationFailedException();
+      }
+    }
   }
 }

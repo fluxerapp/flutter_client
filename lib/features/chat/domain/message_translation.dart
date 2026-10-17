@@ -80,3 +80,11 @@ class MessageTranslationUnavailableException implements Exception {
 class MessageTranslationFailedException implements Exception {
   const MessageTranslationFailedException();
 }
+
+class MessageTranslationUnsupportedLanguageException implements Exception {
+  const MessageTranslationUnsupportedLanguageException();
+}
+
+class MessageTranslationCancelledException implements Exception {
+  const MessageTranslationCancelledException();
+}

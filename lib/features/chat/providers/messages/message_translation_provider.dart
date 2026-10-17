@@ -4,6 +4,8 @@ import 'package:fluxer_app/features/chat/data/local_device_translation_source.da
 import 'package:fluxer_app/features/chat/data/message_translation_service.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_translate_offer.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_web_translation.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -53,7 +55,14 @@ bool watchCanOfferMessageTranslate(WidgetRef ref, Message message) {
   if (text.isEmpty || message.hasValidTranslation) {
     return false;
   }
-  if (!(ref.watch(messageTranslationAvailableProvider).value ?? false)) {
+  final bool localAvailable =
+      ref.watch(messageTranslationAvailableProvider).value ?? false;
+  final bool webAvailable = isWebMessageTranslationAvailable(
+    ref.watch(
+      advancedPreferencesProvider.select((state) => state.searchEngines),
+    ),
+  );
+  if (!localAvailable && !webAvailable) {
     return false;
   }
   if (ref.watch(
@@ -65,15 +74,20 @@ bool watchCanOfferMessageTranslate(WidgetRef ref, Message message) {
   }
   final String appLanguage = ref.watch(effectiveAppLocaleProvider).languageCode;
   final TranslateOfferHint hint = translateOfferHint(text, appLanguage);
-  if (hint != TranslateOfferHint.detect) {
-    return shouldOfferMessageTranslate(hint: hint, appLanguage: appLanguage);
+  if (hint != TranslateOfferHint.detect || !localAvailable) {
+    return shouldOfferMessageTranslateAction(
+      hint: hint,
+      appLanguage: appLanguage,
+      localTranslationAvailable: localAvailable,
+    );
   }
   final AsyncValue<String?> detected = ref.watch(
     detectedMessageLanguageProvider(languageDetectionSample(text)),
   );
-  return shouldOfferMessageTranslate(
+  return shouldOfferMessageTranslateAction(
     hint: hint,
     appLanguage: appLanguage,
+    localTranslationAvailable: localAvailable,
     detectedLanguage: detected.asData?.value,
     detectedLanguageReady: detected.hasValue,
   );
