@@ -37,9 +37,6 @@ const double _kGuildIconInnerSize = 44;
 int _guildDragIconMemCache(BuildContext context, double logicalSize) =>
     (logicalSize * MediaQuery.devicePixelRatioOf(context)).round();
 const double _kGuildIconBorderRadius = 15;
-const double _kGuildNavbarItemSpacing = 8;
-const double _kTouchInsertionSlotHeight =
-    _kGuildIconSize + _kGuildNavbarItemSpacing;
 const double _kTouchDragFeedbackScale = 1.06;
 
 class GuildDragFeedback extends StatelessWidget {
@@ -241,7 +238,12 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
         ),
       ),
     );
+    final bool collapseSource = dragVisual.collapseSource;
     final DropPosition? dropPosition = dragVisual.dropPosition;
+    final bool showOriginInsertionSlot = collapseSource && dropPosition != null;
+    final Widget dragTargetChild = collapseSource
+        ? const SizedBox.shrink()
+        : widget.child;
 
     final Widget dragTarget = KeyedSubtree(
       key: _dragTargetKey,
@@ -271,13 +273,12 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
             color: brandPrimary,
             useTouchInsertionGaps: useTouchDrag,
             suppressInsertionGapBefore: widget.isFolder,
-            child: widget.child,
+            touchInsertionSingleSlot: showOriginInsertionSlot,
+            child: dragTargetChild,
           );
         },
       ),
     );
-
-    final bool collapseSource = dragVisual.collapseSource;
 
     final Widget peekHostChild = !widget.enabled
         ? dragTarget
@@ -290,7 +291,17 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
             dragFeedback: widget.dragFeedback,
             childWhenDragging: useTouchDrag
                 ? collapseSource
-                      ? const SizedBox.shrink()
+                      ? AnimatedSize(
+                          duration: _kTouchReorderSpringDuration,
+                          curve: _kTouchReorderSpringCurve,
+                          alignment: Alignment.topCenter,
+                          child: showOriginInsertionSlot
+                              ? SizedBox(
+                                  width: kGuildNavbarWidth,
+                                  child: dragTarget,
+                                )
+                              : const SizedBox.shrink(),
+                        )
                       : IgnorePointer(child: dragTarget)
                 : IgnorePointer(
                     child: Visibility(
@@ -309,14 +320,9 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
               if (useTouchDrag && !hasLongPressOverlayHost) {
                 FluxerHaptics.medium();
               }
-              ref
-                  .read(guildDragProvider.notifier)
-                  .startDrag(
-                    widget.itemId,
-                    sourceIsFolder: widget.isFolder,
-                    anchorGlobalCenterX: anchorGlobalCenterX,
-                    allowGuildMerge: widget.allowsGuildMergeAsSource,
-                  );
+              _startDragWithCapturedSlot(
+                anchorGlobalCenterX: anchorGlobalCenterX,
+              );
             },
             onDragUpdate: useTouchDrag
                 ? (Offset globalPosition) {
@@ -328,12 +334,8 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
                     }
                   }
                 : null,
-            onDragEnded: () {
-              if (useTouchDrag) {
-                _commitPendingDropIfNeeded();
-              }
-              ref.read(guildDragProvider.notifier).endDrag();
-            },
+            onPrepareRelease: _commitPendingDropIfNeeded,
+            onDragEnded: _finishPointerDrag,
             child: dragTarget,
           );
 
@@ -357,6 +359,34 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
       );
     }
     return peekHostChild;
+  }
+
+  void _startDragWithCapturedSlot({required double? anchorGlobalCenterX}) {
+    double? slotTop;
+    double? slotBottom;
+    double? slotCenterX;
+    double? slotCenterY;
+    final RenderObject? renderObject = _dragTargetKey.currentContext
+        ?.findRenderObject();
+    if (renderObject is RenderBox && renderObject.hasSize) {
+      final Offset topLeft = renderObject.localToGlobal(Offset.zero);
+      slotTop = topLeft.dy;
+      slotBottom = topLeft.dy + renderObject.size.height;
+      slotCenterX = topLeft.dx + renderObject.size.width / 2;
+      slotCenterY = topLeft.dy + renderObject.size.height / 2;
+    }
+    ref
+        .read(guildDragProvider.notifier)
+        .startDrag(
+          widget.itemId,
+          sourceIsFolder: widget.isFolder,
+          anchorGlobalCenterX: anchorGlobalCenterX,
+          allowGuildMerge: widget.allowsGuildMergeAsSource,
+          slotTop: slotTop,
+          slotBottom: slotBottom,
+          slotCenterX: slotCenterX,
+          slotCenterY: slotCenterY,
+        );
   }
 
   void _handleDragMove({
@@ -391,12 +421,20 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
         );
   }
 
+  void _finishPointerDrag() {
+    _commitPendingDropIfNeeded();
+    ref.read(guildDragProvider.notifier).endDrag();
+  }
+
   void _commitPendingDropIfNeeded() {
     final DragState dragState = ref.read(guildDragProvider);
     final String? sourceId = dragState.dragItemId;
     final String? targetId = dragState.hoverTargetId;
     final DropPosition? position = dragState.dropPosition;
     if (sourceId == null || targetId == null || position == null) {
+      return;
+    }
+    if (sourceId == targetId) {
       return;
     }
     _applyDragDrop(
@@ -444,6 +482,7 @@ class _GuildDraggable extends ConsumerStatefulWidget {
     required this.dragFeedback,
     required this.childWhenDragging,
     required this.onDragStarted,
+    required this.onPrepareRelease,
     required this.onDragEnded,
     required this.child,
     this.onDragUpdate,
@@ -454,6 +493,7 @@ class _GuildDraggable extends ConsumerStatefulWidget {
   final Widget dragFeedback;
   final Widget childWhenDragging;
   final void Function(double? anchorGlobalCenterX) onDragStarted;
+  final VoidCallback onPrepareRelease;
   final VoidCallback onDragEnded;
   final void Function(Offset globalPosition)? onDragUpdate;
   final Widget child;
@@ -568,11 +608,18 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
           centerY = _overlayGlobalY!;
           scale = lerpDouble(1, _kTouchDragFeedbackScale, liftT)!;
         }
+        final double fadeT = isReleasing
+            ? ((releaseT - 0.75) / 0.25).clamp(0.0, 1.0)
+            : 0;
+        final double opacity = lerpDouble(1, 0, fadeT)!;
         return Positioned(
           left: centerX - _kGuildIconSize / 2,
           top: centerY - _kGuildIconSize / 2,
           child: IgnorePointer(
-            child: Transform.scale(scale: scale, child: widget.dragFeedback),
+            child: Opacity(
+              opacity: opacity,
+              child: Transform.scale(scale: scale, child: widget.dragFeedback),
+            ),
           ),
         );
       },
@@ -608,27 +655,47 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     unawaited(_runReleaseAnimation());
   }
 
+  Future<void> _waitForReleaseLayout() async {
+    await WidgetsBinding.instance.endOfFrame;
+    await WidgetsBinding.instance.endOfFrame;
+  }
+
   Future<void> _runReleaseAnimation() async {
+    final GuildDrag notifier = ref.read(guildDragProvider.notifier);
     if (!mounted) {
-      ref.read(guildDragProvider.notifier).endDrag();
+      notifier.endDrag();
       return;
     }
-    final GuildDrag notifier = ref.read(guildDragProvider.notifier);
     final DragState dragState = ref.read(guildDragProvider);
     final double? centerX = dragState.dragAnchorGlobalCenterX;
     final double? globalY = dragState.dragFeedbackGlobalY;
     if (centerX == null || globalY == null) {
       _removeFeedbackOverlay();
-      widget.onDragEnded();
+      notifier.endDrag();
       return;
     }
 
     notifier.finalizeHoverForDrop();
+    final Offset? hoverLanding = notifier.landingGlobalCenter();
+    final Offset? originLanding = notifier.dragSourceGlobalCenter();
+
+    widget.onPrepareRelease();
+    notifier.endDrag();
+    if (mounted) {
+      await _waitForReleaseLayout();
+    }
+
+    if (!mounted) {
+      _removeFeedbackOverlay();
+      return;
+    }
 
     _isReleasing = true;
     _releaseStart = Offset(centerX, globalY);
     _releaseEnd =
-        notifier.landingGlobalCenter() ?? notifier.dragSourceGlobalCenter();
+        notifier.releaseLandingCenter(widget.data.itemId) ??
+        hoverLanding ??
+        originLanding;
     _overlayCenterX = centerX;
     _overlayGlobalY = globalY;
     _feedbackOverlay ??= OverlayEntry(builder: (_) => _buildFeedbackOverlay());
@@ -641,21 +708,20 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
     if (_releaseEnd == null) {
       _isReleasing = false;
       _removeFeedbackOverlay();
-      widget.onDragEnded();
       return;
     }
 
     _releaseController.reset();
     await _releaseController.forward();
+    if (!mounted) {
+      _isReleasing = false;
+      _removeFeedbackOverlay();
+      return;
+    }
     _isReleasing = false;
     _releaseStart = null;
     _releaseEnd = null;
     _removeFeedbackOverlay();
-    if (mounted) {
-      widget.onDragEnded();
-    } else {
-      ref.read(guildDragProvider.notifier).endDrag();
-    }
   }
 
   @override
@@ -697,6 +763,7 @@ class _DragTargetContent extends StatelessWidget {
     required this.color,
     required this.useTouchInsertionGaps,
     required this.suppressInsertionGapBefore,
+    required this.touchInsertionSingleSlot,
     required this.child,
   });
 
@@ -704,6 +771,7 @@ class _DragTargetContent extends StatelessWidget {
   final Color color;
   final bool useTouchInsertionGaps;
   final bool suppressInsertionGapBefore;
+  final bool touchInsertionSingleSlot;
   final Widget child;
 
   @override
@@ -719,6 +787,7 @@ class _DragTargetContent extends StatelessWidget {
     return _TouchInsertionDragTargetContent(
       dropPosition: dropPosition,
       suppressInsertionGapBefore: suppressInsertionGapBefore,
+      singleSlot: touchInsertionSingleSlot,
       child: child,
     );
   }
@@ -728,15 +797,21 @@ class _TouchInsertionDragTargetContent extends StatelessWidget {
   const _TouchInsertionDragTargetContent({
     required this.dropPosition,
     required this.suppressInsertionGapBefore,
+    required this.singleSlot,
     required this.child,
   });
 
   final DropPosition? dropPosition;
   final bool suppressInsertionGapBefore;
+  final bool singleSlot;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
+    if (singleSlot) {
+      return const _TouchInsertionGap(isOpen: true);
+    }
+
     final bool openBefore =
         dropPosition == DropPosition.before && !suppressInsertionGapBefore;
     final bool openAfter = dropPosition == DropPosition.after;
@@ -771,11 +846,10 @@ class _TouchInsertionGap extends StatelessWidget {
       duration: _kTouchReorderSpringDuration,
       curve: _kTouchReorderSpringCurve,
       alignment: Alignment.topCenter,
-      clipBehavior: Clip.none,
       child: isOpen
           ? const SizedBox(
               width: double.infinity,
-              height: _kTouchInsertionSlotHeight,
+              height: kGuildTouchInsertionSlotHeight,
             )
           : _closedGap,
     );

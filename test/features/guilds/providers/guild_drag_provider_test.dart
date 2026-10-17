@@ -145,6 +145,56 @@ void main() {
       );
     });
 
+    test('hovers origin from captured slot bounds while collapsed', () {
+      expect(
+        guildDropHoverIntentForDragSourceSlot(
+          dragItemId: 'guild-a',
+          dragSourceIsFolder: false,
+          slotTop: 100,
+          slotBottom: 156,
+          globalY: 120,
+        ),
+        const GuildDropHoverIntent(
+          targetId: 'guild-a',
+          isFolder: false,
+          position: DropPosition.before,
+        ),
+      );
+      expect(
+        guildDropHoverIntentForDragSourceSlot(
+          dragItemId: 'guild-a',
+          dragSourceIsFolder: false,
+          slotTop: 100,
+          slotBottom: 156,
+          globalY: 90,
+        ),
+        isNull,
+      );
+    });
+
+    test('treats neighbor seam on source slot as origin hover', () {
+      expect(
+        isGuildReorderSeamOnDragSourceSlot(
+          sourceSlotTop: 100,
+          sourceSlotBottom: 156,
+          targetTop: 156,
+          targetBottom: 212,
+          position: DropPosition.before,
+        ),
+        isTrue,
+      );
+      expect(
+        isGuildReorderSeamOnDragSourceSlot(
+          sourceSlotTop: 100,
+          sourceSlotBottom: 156,
+          targetTop: 200,
+          targetBottom: 256,
+          position: DropPosition.before,
+        ),
+        isFalse,
+      );
+    });
+
     test('leaves folder combine when pointer is above the folder icon', () {
       expect(
         resolveGuildDropPosition(
