@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
+import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
@@ -437,6 +438,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_openFeedback());
       return;
     }
+    if (entry.isWhatsNew) {
+      unawaited(_openWhatsNew());
+      return;
+    }
     if (entry.isSeparator) {
       return;
     }
@@ -453,6 +458,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
 
   Future<void> _openFeedback() async {
     await handleExternalLinkTap(context, kFluxerFeedbackUrl);
+  }
+
+  Future<void> _openWhatsNew() async {
+    await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
   }
 
   void _onSearchHitSelected(UserSettingsSearchHit? hit) {
@@ -699,6 +708,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               l10n: l10n,
               onOpenSection: _openSettingsPage,
               onOpenAppLogs: _openAppLogs,
+              onOpenWhatsNew: () => unawaited(_openWhatsNew()),
               onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onGiveFeedback: () => unawaited(_openFeedback()),
               onLogout: _logout,
@@ -761,6 +771,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
 
   Future<void> _openFeedback() async {
     await handleExternalLinkTap(context, kFluxerFeedbackUrl);
+  }
+
+  Future<void> _openWhatsNew() async {
+    await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
   }
 
   void _openAppLogs() {
@@ -1061,7 +1075,6 @@ Widget _buildUserSettingsSectionBody({
           : UserApplications(scrollController: scrollController);
     case UserSettingsSection.limitsConfig:
     case UserSettingsSection.featureFlags:
-    case UserSettingsSection.whatsNew:
       return _buildUserSettingsPlaceholder(
         context,
         section,

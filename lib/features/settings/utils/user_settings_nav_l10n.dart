@@ -55,8 +55,6 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavLimitsConfig;
     case UserSettingsSection.featureFlags:
       return l10n.userSettingsNavFeatureFlags;
-    case UserSettingsSection.whatsNew:
-      return l10n.userSettingsNavWhatsNew;
     case UserSettingsSection.appLicenses:
       return l10n.userSettingsNavAppLicenses;
   }
