@@ -10,6 +10,7 @@ import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart';
+import 'package:fluxer_markdown/src/utils/ansi_palette.dart';
 import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
@@ -828,6 +829,7 @@ class _MarkdownBlockRenderer {
       codeTextStyle: config.codeTextStyle,
       codeBackgroundColor: config.inlineCodeBackgroundColor,
       onCopyCode: config.onCopyCode,
+      ansiPalette: config.ansiPalette,
     );
   }
 
@@ -2286,6 +2288,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
     this.codeTextStyle,
     this.codeBackgroundColor,
     this.onCopyCode,
+    this.ansiPalette,
     super.key,
   });
 
@@ -2295,6 +2298,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
   final TextStyle? codeTextStyle;
   final Color? codeBackgroundColor;
   final FluxerCodeCopyHandler? onCopyCode;
+  final AnsiPalette? ansiPalette;
 
   static const _kPadding = EdgeInsets.all(FluxerMarkupSpacing.codePadding);
   static const _kRadius = BorderRadius.all(Radius.circular(4));
@@ -2365,6 +2369,8 @@ class FluxerCodeBlockWidget extends StatelessWidget {
         baseStyle,
         codeTextStyle: codeTextStyle,
       );
+      final AnsiPalette palette =
+          ansiPalette ?? AnsiPalette.fallback(isDark: isDark);
       return _FluxerCodeBlockWithCopy(
         code: code,
         onCopyCode: onCopyCode,
@@ -2375,7 +2381,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
           child: buildFluxerBoundedRichText(
             text: TextSpan(
               style: monoStyle,
-              children: parseAnsiTextSpans(code, monoStyle),
+              children: parseAnsiTextSpans(code, monoStyle, palette: palette),
             ),
             baseStyle: monoStyle,
           ),

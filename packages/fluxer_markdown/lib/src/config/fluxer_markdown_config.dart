@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_markdown/src/utils/ansi_palette.dart';
 import 'package:material_ui/material_ui.dart';
 
 enum FluxerGuildNavigationType { customize, browse, guide, linkedRoles }
@@ -153,6 +154,7 @@ class FluxerMarkdownConfig {
     this.onEmojiLongPress,
     this.alwaysUnderlineLinks = false,
     this.dimStrikethroughText = true,
+    this.ansiPalette,
   });
 
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
@@ -191,6 +193,7 @@ class FluxerMarkdownConfig {
   final FluxerEmojiLongPressHandler? onEmojiLongPress;
   final bool alwaysUnderlineLinks;
   final bool dimStrikethroughText;
+  final AnsiPalette? ansiPalette;
 
   Object get layoutCacheKey => (
     animateCustomEmoji,
@@ -210,6 +213,7 @@ class FluxerMarkdownConfig {
     spoilersInitiallyRevealed,
     alwaysUnderlineLinks,
     dimStrikethroughText,
+    ansiPalette,
     spoilerSyncController,
     unicodeEmojiPattern,
     internalLinkPattern,

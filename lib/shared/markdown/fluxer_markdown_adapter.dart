@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/markdown/ansi_palette_from_context.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
@@ -282,6 +283,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     inlineCodeBackgroundColor: context?.colors.bgCodeBlock,
     inlineCodeTextColor: context?.colors.textSecondary,
     codeTextStyle: context?.textStyles.codeText,
+    ansiPalette: ansiPaletteFromContext(context),
     tableBorderColor: context?.colors.borderColor,
     tableHeaderBackgroundColor: context?.colors.bgTableHeader,
     tableHeaderTextColor: context?.colors.textPrimary,
