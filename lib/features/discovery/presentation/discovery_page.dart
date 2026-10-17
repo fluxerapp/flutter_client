@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_fil
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_grid_slivers.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_language_select.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -113,7 +114,9 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
         _scheduleLoadMoreCheck();
       }
     });
-    final bool showBackButton = widget.showBackButton || isMobile;
+    final bool showBackButton =
+        (widget.showBackButton || isMobile) &&
+        showsInAppShellBackButton(context);
     final List<Widget> gridSlivers = buildDiscoveryGuildGridSlivers(
       context: context,
       state: state,

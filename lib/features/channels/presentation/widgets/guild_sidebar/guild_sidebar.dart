@@ -172,7 +172,9 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         guildOutageUnavailable || !guildReady || !hasReceivedInitialChannelList;
 
     return Container(
-      width: isMobileLayout(context) ? null : context.layout.sidebarWidth,
+      width: channelSidebarHasFixedWidth(context)
+          ? context.layout.sidebarWidth
+          : null,
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,

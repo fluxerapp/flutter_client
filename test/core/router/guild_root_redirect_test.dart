@@ -317,6 +317,39 @@ void main() {
     });
   });
 
+  group('resolveDmRootRedirect', () {
+    Future<void> addDm(String id) async {
+      await db.dmChannelDao.upsertDmChannels([
+        DmChannelsCompanion.insert(
+          id: id,
+          recipientId: 'user-$id',
+          type: const Value(1),
+        ),
+      ]);
+    }
+
+    test('restores the remembered dm', () async {
+      await addDm('dm-1');
+      await db.guildLastChannelDao.setLastChannel(kDmLastChannelKey, 'dm-1');
+
+      final result = await resolveDmRootRedirect(
+        fullPath: RoutePaths.me,
+        db: db,
+      );
+
+      expect(result, RoutePaths.dmChannel('dm-1'));
+    });
+
+    test('child route returns null', () async {
+      await addDm('dm-1');
+      final result = await resolveDmRootRedirect(
+        fullPath: RoutePaths.dmChannel('dm-1'),
+        db: db,
+      );
+      expect(result, isNull);
+    });
+  });
+
   group('persistGuildChannelFromLocation', () {
     test('saves guild channel paths', () async {
       persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1');
@@ -331,8 +364,15 @@ void main() {
       );
     });
 
-    test('ignores dms and message jumps', () async {
+    test('saves dm channel paths', () async {
       persistGuildChannelFromLocation(db, '/channels/@me/dm-1');
+      expect(
+        await db.guildLastChannelDao.getLastChannel(kDmLastChannelKey),
+        'dm-1',
+      );
+    });
+
+    test('ignores message jumps for guild and favorites', () async {
       persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1/msg-1');
       persistGuildChannelFromLocation(db, '/channels/@favorites/fav-1/msg-1');
       expect(await db.guildLastChannelDao.getLastChannel('guild-1'), isNull);

@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite
 import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/foldable/tabletop_hinge_column.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
@@ -719,30 +720,32 @@ class _AttachmentMediaViewerShellState
               ),
             SafeArea(
               child: useTouchGestures
-                  ? Column(
-                      children: [
-                        _buildTopBar(
-                          l10n: l10n,
-                          isMobile: isMobile,
-                          useTouchGestures: useTouchGestures,
-                          currentItem: currentItem,
-                          indexLabel: indexLabel,
-                          dismissChromeOpacity: dismissChromeOpacity,
-                          showOptionsButton: showOptionsButton,
-                          favoriteTarget: favoriteTarget,
-                        ),
-                        const Spacer(),
-                        _buildBottomChrome(
-                          l10n: l10n,
-                          isMobile: isMobile,
-                          useTouchGestures: useTouchGestures,
-                          indexLabel: indexLabel,
-                          dismissChromeOpacity: dismissChromeOpacity,
-                          canGoPrevious: canGoPrevious,
-                          canGoNext: canGoNext,
-                          currentItem: currentItem,
-                        ),
-                      ],
+                  ? TabletopHingeColumn(
+                      upper: Column(
+                        children: <Widget>[
+                          _buildTopBar(
+                            l10n: l10n,
+                            isMobile: isMobile,
+                            useTouchGestures: useTouchGestures,
+                            currentItem: currentItem,
+                            indexLabel: indexLabel,
+                            dismissChromeOpacity: dismissChromeOpacity,
+                            showOptionsButton: showOptionsButton,
+                            favoriteTarget: favoriteTarget,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      lower: _buildBottomChrome(
+                        l10n: l10n,
+                        isMobile: isMobile,
+                        useTouchGestures: useTouchGestures,
+                        indexLabel: indexLabel,
+                        dismissChromeOpacity: dismissChromeOpacity,
+                        canGoPrevious: canGoPrevious,
+                        canGoNext: canGoNext,
+                        currentItem: currentItem,
+                      ),
                     )
                   : Column(
                       children: [

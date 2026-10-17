@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  adaptive_platform_ui:
+    dependency: "direct main"
+    description:
+      name: adaptive_platform_ui
+      sha256: fc2ff0d39315b5c63ccc2e45ec0aad811c3df5ca979abeb2125f8440418bb877
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   altcha_lib:
     dependency: "direct main"
     description:
@@ -1096,6 +1104,14 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  foldable:
+    dependency: "direct main"
+    description:
+      name: foldable
+      sha256: c3f539ba3729716a5aacfcc4c3199d6ae0dee6e55f227d19ba25ef6fd96d804a
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   freezed_annotation:
     dependency: transitive
     description:

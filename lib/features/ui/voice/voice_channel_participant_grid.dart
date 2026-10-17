@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
@@ -348,7 +349,7 @@ class _VoiceChannelParticipantGridState
   }
 
   void _onBackgroundTap() {
-    if (!isPhoneVoiceOverlay(context)) {
+    if (!isHandheldVoiceOverlay(context)) {
       return;
     }
     _toggleCallOverlay();
@@ -578,14 +579,14 @@ class _VoiceChannelParticipantGridState
       final bool alreadyWatching = watchedTileIds.contains(item.tileId);
       _watchStream(item);
       if (isFocusMain && alreadyWatching && screenShareExpanded) {
-        if (isPhoneVoiceOverlay(context)) {
+        if (isHandheldVoiceOverlay(context)) {
           _toggleCallOverlay();
         } else {
           _revealOverlay();
         }
         return;
       }
-      if (isFocusMain && alreadyWatching && isPhoneVoiceOverlay(context)) {
+      if (isFocusMain && alreadyWatching && isHandheldVoiceOverlay(context)) {
         _toggleCallOverlay();
         return;
       }
@@ -601,7 +602,7 @@ class _VoiceChannelParticipantGridState
       }
       return;
     }
-    if (isFocusMain && isPhoneVoiceOverlay(context)) {
+    if (isFocusMain && isHandheldVoiceOverlay(context)) {
       _toggleCallOverlay();
       return;
     }
@@ -784,7 +785,7 @@ class _VoiceChannelParticipantGridState
     final bool screenShareExpanded = _screenShareExpanded(watchedTileIds);
     final EdgeInsets stageInsets = screenShareExpanded
         ? EdgeInsets.zero
-        : MediaQuery.paddingOf(context);
+        : hostedUiSystemInsets(context);
     final double innerWidth = math.max(0, maxWidth - stageInsets.horizontal);
     final double innerHeight = math.max(0, maxHeight - stageInsets.vertical);
     final bool compact = innerWidth < 520 || innerHeight < 360;

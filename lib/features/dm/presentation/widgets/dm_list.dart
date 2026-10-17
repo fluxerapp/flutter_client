@@ -523,7 +523,8 @@ class _DMListState extends ConsumerState<DMList> {
     final pendingCount =
         ref.watch(pendingFriendRequestCountProvider).value ?? 0;
     final bool iconOnlyTitle =
-        isCompactWideMobileLayout(context) &&
+        (isCompactWideMobileLayout(context) ||
+            isPinnedSidebarLayout(context)) &&
         !isSidebarDrawerLockedForLocation(ref.watch(shellLocationProvider));
 
     return FluxerConstrainedUiTextScale(

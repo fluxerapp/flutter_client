@@ -1,5 +1,3 @@
-import 'dart:async' show unawaited;
-
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
@@ -76,14 +74,10 @@ class RouteStateNotifier extends _$RouteStateNotifier {
   RouteState build() {
     final GoRouter router = ref.watch(fluxerRouterProvider);
     void listener() {
-      unawaited(
-        Future<void>(() {
-          if (!ref.mounted) {
-            return;
-          }
-          state = RouteState.fromRouter(router);
-        }),
-      );
+      if (!ref.mounted) {
+        return;
+      }
+      state = RouteState.fromRouter(router);
     }
 
     router.routerDelegate.addListener(listener);

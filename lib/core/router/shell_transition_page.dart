@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
@@ -88,6 +89,9 @@ CustomTransitionPage<void> shellSlideTransitionPage({
   String? name,
   Object? arguments,
 }) {
+  if (!shellUsesPhoneChatSlideTransition(context)) {
+    return shellInstantTransitionPage(key: key, child: child, name: name);
+  }
   final FluxerMotionTheme motion = context.motion;
   return CustomTransitionPage<void>(
     key: key,

@@ -66,6 +66,21 @@ class DrawerNavigationCoordinator {
   ) async {
     talker.debug('[DrawerNavigation] selectGuild guildId=$guildId');
     final int generation = ++_selectGuildGeneration;
+    final bool switchingGuild =
+        container.read(activeGuildIdProvider) != guildId;
+    final bool openLastChannel = container.read(
+      openCommunitiesToLastChannelProvider,
+    );
+    container
+        .read(channelListViewModelProvider.notifier)
+        .loadActiveGuild(guildId);
+    final Future<String?> lastChannelPath = switchingGuild && openLastChannel
+        ? _lastChannelPathToOpen(container, guildId)
+        : Future<String?>.value();
+    if (switchingGuild && !openLastChannel) {
+      revealDrawer(container);
+      container.read(fluxerRouterProvider).go(RoutePaths.guild(guildId));
+    }
     try {
       await primeGuildChannelUnreads(container, guildId);
     } on Object catch (error, stackTrace) {
@@ -74,15 +89,17 @@ class DrawerNavigationCoordinator {
     if (generation != _selectGuildGeneration) {
       return;
     }
-    final String? chatPath = await _lastChannelPathToOpen(container, guildId);
+    final String? chatPath = await lastChannelPath;
     if (generation != _selectGuildGeneration) {
       return;
     }
-    container
-        .read(channelListViewModelProvider.notifier)
-        .loadActiveGuild(guildId);
     if (chatPath != null) {
       navigateToContent(container, chatPath);
+      return;
+    }
+    if (switchingGuild) {
+      revealDrawer(container);
+      container.read(fluxerRouterProvider).go(RoutePaths.guild(guildId));
       return;
     }
     revealDrawer(container);

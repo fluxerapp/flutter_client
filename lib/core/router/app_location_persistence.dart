@@ -205,7 +205,10 @@ Future<String?> _resolveValidChannelsRoot(
   String path, {
   required String? currentUserId,
 }) async {
-  if (path == RoutePaths.me || path == RoutePaths.favoritesBase) {
+  if (path == RoutePaths.me) {
+    return path;
+  }
+  if (path == RoutePaths.favoritesBase) {
     return path;
   }
   final String? guildId = extractGuildId(path);

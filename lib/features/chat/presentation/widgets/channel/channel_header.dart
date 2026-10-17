@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -16,7 +15,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_back_
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_left_section.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_toolbar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/dm_header_avatar.dart';
-import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_back_button_unread_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/channel_details_handheld.dart';
@@ -33,10 +31,9 @@ import 'package:fluxer_app/features/forum/providers/forum_header_search_provider
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
-import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
+import 'package:fluxer_app/features/shell/navigation/invoke_shell_back.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_header_buttons.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -45,7 +42,6 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
-import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -269,19 +265,26 @@ class ChannelHeader extends ConsumerWidget {
         forumHandheldHeader &&
         ref.watch(forumHeaderSearchProvider(channelId)).expanded;
 
+    final Color headerBackground = shellChannelHeaderBackgroundColor(context);
+
     return FluxerConstrainedUiTextScale(
       child: Container(
         constraints: const BoxConstraints(
           minHeight: kMobileChannelHeaderHeight,
         ),
-        color: context.colors.chatInputBackground,
+        color: headerBackground,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            ChatBackButton(
-              unreadCount: backButtonUnreadCount,
-              onPressed: () => _handleMobileBack(context, ref),
-            ),
+            if (showsInAppShellChatBackButton(
+              context,
+              isThread: channel?.isThread ?? false,
+            ))
+              ChatBackButton(
+                unreadCount: backButtonUnreadCount,
+                badgeCutoutColor: headerBackground,
+                onPressed: () => invokeShellBack(context, ref),
+              ),
             Expanded(
               child: AnimatedSwitcher(
                 duration: context.motion.normal,
@@ -651,24 +654,6 @@ class ChannelHeader extends ConsumerWidget {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  void _handleMobileBack(BuildContext context, WidgetRef ref) {
-    applyShellBackAction(
-      context: context,
-      container: ref.container,
-      action: resolveShellBackAction(
-        hasPopupOverlay: false,
-        hasManualGestureBlock: false,
-        hasExpressionPanelOpen: false,
-        hasChannelDetailsDrawerOpen: ref.read(
-          channelDetailsDrawerIsOpenProvider,
-        ),
-        revealSide: ref.read(currentRevealSideProvider),
-        shellLocation: ref.read(shellLocationProvider),
-        minimizePhoneVoiceCall: shouldMinimizePhoneVoiceCall(context, ref),
       ),
     );
   }

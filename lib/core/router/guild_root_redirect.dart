@@ -21,6 +21,7 @@ bool shouldStayOnGuildChannelList({required Uri uri, Object? extra}) {
 }
 
 const String kFavoritesLastChannelKey = '@favorites';
+const String kDmLastChannelKey = '@me';
 
 Future<String?> resolveGuildRootRedirect({
   required String? guildId,
@@ -117,6 +118,27 @@ Future<bool> isRestorableGuildChannel(
   );
 }
 
+Future<String?> resolveDmRootRedirect({
+  required String fullPath,
+  required FluxerDatabase db,
+}) async {
+  if (fullPath != RoutePaths.me) {
+    return null;
+  }
+  final String? lastChannelId = await db.guildLastChannelDao.getLastChannel(
+    kDmLastChannelKey,
+  );
+  if (lastChannelId != null &&
+      await db.dmChannelDao.getDmChannelById(lastChannelId) != null) {
+    return RoutePaths.dmChannel(lastChannelId);
+  }
+  final List<DmChannel> channels = await db.dmChannelDao.getDmChannels();
+  if (channels.isEmpty) {
+    return null;
+  }
+  return RoutePaths.dmChannel(channels.first.id);
+}
+
 Future<String?> resolveFavoritesRootRedirect({
   required String fullPath,
   required FluxerDatabase db,
@@ -147,6 +169,16 @@ Future<String?> resolveFavoritesRootRedirect({
 
 void persistGuildChannelFromLocation(FluxerDatabase db, String location) {
   if (classifyRoute(location) != RouteKind.chat) {
+    return;
+  }
+  final dmMatch = RegExp('^/channels/@me/([^/]+)').firstMatch(location);
+  if (dmMatch != null) {
+    unawaited(
+      db.guildLastChannelDao.setLastChannel(
+        kDmLastChannelKey,
+        dmMatch.group(1)!,
+      ),
+    );
     return;
   }
   final favoritesMatch = RegExp(

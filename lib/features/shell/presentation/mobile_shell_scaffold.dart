@@ -1,34 +1,24 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/adaptive_shell_tab_bar.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_branch_navigation.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_layout_mode.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_channel_drawer_shell.dart';
+import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_home_utility_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_main_tab_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_shell_back_scope.dart';
+import 'package:fluxer_app/features/shell/presentation/pinned_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-
-void _selectMobileShellBranch(
-  StatefulNavigationShell navigationShell,
-  int index,
-) {
-  popTopShellPopupRoute();
-  if (index == 0 && navigationShell.currentIndex != 0) {
-    navigationShell.goBranch(shellHomeBranchIndex);
-    return;
-  }
-  navigationShell.goBranch(
-    index,
-    initialLocation: index == navigationShell.currentIndex,
-  );
-}
 
 class MobileShellScaffold extends ConsumerWidget {
   const MobileShellScaffold({
@@ -58,15 +48,38 @@ class MobileShellScaffold extends ConsumerWidget {
     final Widget bottomNav = mobileBottomNav(
       context: context,
       currentIndex: navigationShell.currentIndex,
-      onBranchSelected: (int index) =>
-          _selectMobileShellBranch(navigationShell, index),
+      onBranchSelected: (int index) => handleMobileShellBranchSelection(
+        context: context,
+        ref: ref,
+        navigationShell: navigationShell,
+        index: index,
+      ),
     );
+    final bool pinned = isPinnedSidebarLayout(context);
     return FluxerEntranceSettleScope(
       key: ValueKey<ShellLayoutMode>(mode),
       child: switch (mode) {
+        ShellLayoutMode.channelDrawer when pinned => PinnedMobileShellScaffold(
+          mode: mode,
+          navigationShell: navigationShell,
+          shellContent: shellContent,
+          bottomNav: bottomNav,
+        ),
         ShellLayoutMode.channelDrawer => MobileChannelDrawerShell(
           shellLocation: activeBranchLocation,
           navigationShell: navigationShell,
+          bottomNav: bottomNav,
+        ),
+        ShellLayoutMode.mainTab when pinned => PinnedMobileShellScaffold(
+          mode: mode,
+          navigationShell: navigationShell,
+          shellContent: shellContent,
+          bottomNav: bottomNav,
+        ),
+        ShellLayoutMode.homeUtility when pinned => PinnedMobileShellScaffold(
+          mode: mode,
+          navigationShell: navigationShell,
+          shellContent: shellContent,
           bottomNav: bottomNav,
         ),
         ShellLayoutMode.mainTab => MobileMainTabShell(
@@ -94,21 +107,40 @@ class AppLayoutShell extends ConsumerWidget {
     final Widget shellContent = navigationShell;
     if (!isMobile) {
       final String shellLocation = ref.watch(shellLocationProvider);
-      return Scaffold(
-        backgroundColor: context.colors.backgroundPrimary,
-        body: desktopShellScaffold(
-          context: context,
+      return WideShellBackScope(
+        child: WideShellScaffold(
           shellLocation: shellLocation,
           navigationShell: shellContent,
         ),
       );
     }
-    return MobileShellBackScope(
+    final Widget shell = MobileShellBackScope(
       navigationShell: navigationShell,
       child: MobileShellScaffold(
         navigationShell: navigationShell,
         shellContent: shellContent,
       ),
+    );
+    if (!PlatformInfo.isIOS26OrHigher()) {
+      return shell;
+    }
+    return AdaptiveScaffold(
+      backgroundColor: context.colors.backgroundPrimary,
+      tabBarHidden: !usesIphoneDuoHostedUi(context),
+      bottomNavigationBar: usesIphoneDuoHostedUi(context)
+          ? adaptiveShellTabBar(
+              context: context,
+              ref: ref,
+              selectedIndex: navigationShell.currentIndex,
+              onTap: (int index) => handleMobileShellBranchSelection(
+                context: context,
+                ref: ref,
+                navigationShell: navigationShell,
+                index: index,
+              ),
+            )
+          : null,
+      body: shell,
     );
   }
 }

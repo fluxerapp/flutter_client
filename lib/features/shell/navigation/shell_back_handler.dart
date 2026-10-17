@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_chat_leave_path.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/features/voice/utils/voice_session_navigation.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:go_router/go_router.dart';
 
 void applyShellBackAction({
   required BuildContext context,
@@ -34,7 +37,7 @@ void applyShellBackAction({
       DrawerNavigationCoordinator.revealDrawer(container);
     case ShellBackAction.leaveChat:
       FocusManager.instance.primaryFocus?.unfocus();
-      DrawerNavigationCoordinator.navigateToContent(container, RoutePaths.me);
+      _leaveChat(context: context, container: container);
     case ShellBackAction.minimizePhoneVoiceCall:
       FocusManager.instance.primaryFocus?.unfocus();
       minimizePhoneVoiceCall(context: context, container: container);
@@ -42,4 +45,17 @@ void applyShellBackAction({
       FocusManager.instance.primaryFocus?.unfocus();
       unawaited(SystemNavigator.pop());
   }
+}
+
+void _leaveChat({
+  required BuildContext context,
+  required ProviderContainer container,
+}) {
+  final String shellLocation = container.read(shellLocationProvider);
+  final String path = shellChatLeavePath(container, shellLocation);
+  if (path == RoutePaths.me && context.canPop()) {
+    context.pop();
+    return;
+  }
+  DrawerNavigationCoordinator.navigateToContent(container, path);
 }

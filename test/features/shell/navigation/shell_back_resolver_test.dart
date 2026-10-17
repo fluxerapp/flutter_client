@@ -161,7 +161,7 @@ void main() {
       );
     });
 
-    test('reveals drawer when chat is visible', () {
+    test('reveals drawer when chat is visible without a concurrent list', () {
       expect(
         resolveShellBackAction(
           hasPopupOverlay: false,
@@ -172,6 +172,37 @@ void main() {
           shellLocation: '/channels/guild/channel',
         ),
         ShellBackAction.revealDrawer,
+      );
+    });
+
+    test('wide concurrent list chat back is a no-op for a normal channel', () {
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          hasChannelDetailsDrawerOpen: false,
+          revealSide: RevealSide.main,
+          shellLocation: '/channels/guild-1/channel-1',
+          chatShowsConcurrentChannelList: true,
+        ),
+        ShellBackAction.noop,
+      );
+    });
+
+    test('wide concurrent list thread back leaves chat', () {
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          hasChannelDetailsDrawerOpen: false,
+          revealSide: RevealSide.main,
+          shellLocation: '/channels/guild-1/thread-1',
+          chatShowsConcurrentChannelList: true,
+          isThreadChat: true,
+        ),
+        ShellBackAction.leaveChat,
       );
     });
 
