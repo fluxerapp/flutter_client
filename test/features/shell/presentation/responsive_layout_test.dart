@@ -15,6 +15,19 @@ void main() {
       expect(layoutModeOfSize(const Size(1092, 984)), LayoutMode.mobile);
     });
 
+    test('pins sidebars on foldable inner and small tablet widths', () {
+      expect(isPinnedSidebarLayoutSize(const Size(708, 823)), isTrue);
+      expect(isPinnedSidebarLayoutSize(const Size(750, 832)), isTrue);
+      expect(isPinnedSidebarLayoutSize(const Size(669, 951)), isTrue);
+      expect(isPinnedSidebarLayoutSize(const Size(951, 669)), isTrue);
+    });
+
+    test('keeps phone stack on cover and landscape phone widths', () {
+      expect(isPinnedSidebarLayoutSize(const Size(466, 678)), isFalse);
+      expect(isPinnedSidebarLayoutSize(const Size(412, 960)), isFalse);
+      expect(isPinnedSidebarLayoutSize(const Size(914, 410)), isFalse);
+    });
+
     test('stays mobile when width cannot fit the shell', () {
       expect(layoutModeOfSize(kBelowShellTestViewportSize), LayoutMode.mobile);
     });

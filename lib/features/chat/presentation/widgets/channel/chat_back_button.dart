@@ -7,11 +7,13 @@ class ChatBackButton extends StatelessWidget {
   const ChatBackButton({
     required this.unreadCount,
     required this.onPressed,
+    this.badgeCutoutColor,
     super.key,
   });
 
   final int unreadCount;
   final VoidCallback onPressed;
+  final Color? badgeCutoutColor;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,8 @@ class ChatBackButton extends StatelessWidget {
                 child: FluxerBadgeEntrance(
                   child: FluxerBadge.count(
                     count: unreadCount,
-                    cutoutColor: context.colors.chatInputBackground,
+                    cutoutColor:
+                        badgeCutoutColor ?? context.colors.chatInputBackground,
                   ),
                 ),
               ),

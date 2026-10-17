@@ -24,6 +24,9 @@ ShellBackAction resolveShellBackAction({
   required String shellLocation,
   bool minimizePhoneVoiceCall = false,
   bool isSystemBack = false,
+  bool pinnedSidebar = false,
+  bool chatShowsConcurrentChannelList = false,
+  bool isThreadChat = false,
 }) {
   if (hasPopupOverlay) {
     return ShellBackAction.popOverlay;
@@ -42,6 +45,20 @@ ShellBackAction resolveShellBackAction({
   }
   if (isSidebarDrawerLockedForLocation(shellLocation)) {
     return isSystemBack ? ShellBackAction.exitApp : ShellBackAction.noop;
+  }
+  if (chatShowsConcurrentChannelList) {
+    if (classifyRoute(shellLocation) == RouteKind.chat) {
+      if (isThreadChat) {
+        return ShellBackAction.leaveChat;
+      }
+      if (isSystemBack && pinnedSidebar) {
+        return ShellBackAction.exitApp;
+      }
+      return ShellBackAction.noop;
+    }
+    return isSystemBack && pinnedSidebar
+        ? ShellBackAction.exitApp
+        : ShellBackAction.noop;
   }
   if (revealSide == RevealSide.left) {
     if (classifyRoute(shellLocation) == RouteKind.chat) {

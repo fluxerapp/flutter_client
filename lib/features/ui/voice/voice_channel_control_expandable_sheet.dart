@@ -4,6 +4,7 @@ import 'dart:ui' show lerpDouble;
 import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_system_ui_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
@@ -77,9 +78,10 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
         voiceChannelControlMorphingHeaderHeight() +
         kVoiceControlBarVerticalPadding * 2 +
         mediaQuery.viewPadding.bottom;
+    final EdgeInsets systemInsets = hostedUiSystemInsets(context);
     final double gridBottomInset = screenShareExpanded
-        ? mediaQuery.viewPadding.bottom
-        : math.max(mediaQuery.padding.bottom, controlsFootprint);
+        ? systemInsets.bottom
+        : math.max(systemInsets.bottom, controlsFootprint);
     return VoiceScreenShareOverlaySync(
       child: VoiceCallSystemUiSync(
         child: LayoutBuilder(
@@ -89,9 +91,7 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
               children: <Widget>[
                 MediaQuery(
                   data: mediaQuery.copyWith(
-                    padding: mediaQuery.padding.copyWith(
-                      bottom: gridBottomInset,
-                    ),
+                    padding: systemInsets.copyWith(bottom: gridBottomInset),
                   ),
                   child: child,
                 ),

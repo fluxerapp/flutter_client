@@ -56,6 +56,7 @@ import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_s
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_webhooks_page.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_open_gate.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_overlay.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
 import 'package:fluxer_app/features/shell/presentation/app_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/invalid_deep_link_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
@@ -689,6 +690,15 @@ GoRouter fluxerRouter(Ref ref) {
               GoRoute(
                 path: '/channels/@me',
                 name: RouteNames.dms,
+                redirect: (BuildContext context, GoRouterState state) {
+                  if (!shouldAutoSelectDmChannel(context)) {
+                    return null;
+                  }
+                  return resolveDmRootRedirect(
+                    fullPath: state.uri.path,
+                    db: ref.read(fluxerDatabaseProvider),
+                  );
+                },
                 pageBuilder: _dmShellTransitionPage,
                 routes: [
                   GoRoute(

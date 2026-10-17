@@ -12,40 +12,41 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
-  testWidgets('mobile back returns to dm home when the drawer is open', (
-    tester,
-  ) async {
-    final router = _routerFor('/channels/guild/channel');
-    addTearDown(router.dispose);
-    final container = _containerFor(router);
+  testWidgets(
+    'mobile back returns to guild root when the drawer is open on guild chat',
+    (tester) async {
+      final router = _routerFor('/channels/guild/channel');
+      addTearDown(router.dispose);
+      final container = _containerFor(router);
 
-    await tester.pumpWidget(_buildBackScopeApp(container, router));
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(_buildBackScopeApp(container, router));
+      await tester.pumpAndSettle();
 
-    expect(container.read(currentRevealSideProvider), RevealSide.main);
+      expect(container.read(currentRevealSideProvider), RevealSide.main);
 
-    final firstHandled = await tester.binding.handlePopRoute();
-    await tester.pump();
+      final firstHandled = await tester.binding.handlePopRoute();
+      await tester.pump();
 
-    expect(firstHandled, isTrue);
-    expect(container.read(currentRevealSideProvider), RevealSide.left);
-    expect(
-      router.routerDelegate.currentConfiguration.uri.path,
-      '/channels/guild/channel',
-    );
+      expect(firstHandled, isTrue);
+      expect(container.read(currentRevealSideProvider), RevealSide.left);
+      expect(
+        router.routerDelegate.currentConfiguration.uri.path,
+        '/channels/guild/channel',
+      );
 
-    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
-    await tester.pump();
+      container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
+      await tester.pump();
 
-    final secondHandled = await tester.binding.handlePopRoute();
-    await tester.pumpAndSettle();
+      final secondHandled = await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
 
-    expect(secondHandled, isTrue);
-    expect(
-      router.routerDelegate.currentConfiguration.uri.path,
-      '/channels/@me',
-    );
-  });
+      expect(secondHandled, isTrue);
+      expect(
+        router.routerDelegate.currentConfiguration.uri.path,
+        '/channels/guild',
+      );
+    },
+  );
 
   testWidgets('mobile back on the dm list leaves the app', (tester) async {
     final List<String> platformCalls = _recordPlatformCalls(tester);

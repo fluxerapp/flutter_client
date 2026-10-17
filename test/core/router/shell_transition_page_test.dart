@@ -68,6 +68,10 @@ Page<void> _slidePage(BuildContext context, LocalKey key, Widget child) =>
 
 void main() {
   testWidgets('slide push follows the motion push timing', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
     final GlobalKey<_HostState> host = GlobalKey<_HostState>();
     await tester.pumpWidget(_app(_Host(key: host, pageBuilder: _slidePage)));
 

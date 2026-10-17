@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/foldable/crease_overlay_layout.dart';
+import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
@@ -169,7 +171,7 @@ class _ActionMenuOverlay extends StatelessWidget {
             ),
           ),
           CustomSingleChildLayout(
-            delegate: _MenuPositionDelegate(position),
+            delegate: _MenuPositionDelegate(context, position),
             child: FadeTransition(
               opacity: fadeAnimation,
               child: Material(
@@ -205,8 +207,9 @@ class _ActionMenuOverlay extends StatelessWidget {
 }
 
 class _MenuPositionDelegate extends SingleChildLayoutDelegate {
-  _MenuPositionDelegate(this.position);
+  _MenuPositionDelegate(this.context, this.position);
 
+  final BuildContext context;
   final Offset position;
   static const _edgePadding = 12.0;
 
@@ -225,7 +228,17 @@ class _MenuPositionDelegate extends SingleChildLayoutDelegate {
       _edgePadding,
       size.height - childSize.height - _edgePadding,
     );
-    return Offset(dx, dy);
+    Offset resolved = Offset(dx, dy);
+    final DeviceFoldPosture posture = deviceFoldPostureOf(context);
+    if (posture.hingeBounds != null) {
+      resolved += shiftOffHingeForPoint(
+        window: size,
+        hinge: posture.hingeBounds!,
+        point: resolved,
+        childSize: childSize,
+      );
+    }
+    return resolved;
   }
 
   @override

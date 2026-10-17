@@ -1,16 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_back_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_back_button_unread_provider.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
-import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
-import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
+import 'package:fluxer_app/features/shell/navigation/invoke_shell_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -163,23 +161,11 @@ class _GuildUnavailableMobileHeader extends ConsumerWidget {
       color: context.colors.chatInputBackground,
       child: Row(
         children: [
-          ChatBackButton(
-            unreadCount: backButtonUnreadCount,
-            onPressed: () {
-              applyShellBackAction(
-                context: context,
-                container: ref.container,
-                action: resolveShellBackAction(
-                  hasPopupOverlay: false,
-                  hasManualGestureBlock: false,
-                  hasExpressionPanelOpen: false,
-                  hasChannelDetailsDrawerOpen: false,
-                  revealSide: ref.read(currentRevealSideProvider),
-                  shellLocation: ref.read(shellLocationProvider),
-                ),
-              );
-            },
-          ),
+          if (showsInAppShellBackButton(context))
+            ChatBackButton(
+              unreadCount: backButtonUnreadCount,
+              onPressed: () => invokeShellBack(context, ref),
+            ),
           const SizedBox(width: 6),
           if (title.isNotEmpty)
             Expanded(

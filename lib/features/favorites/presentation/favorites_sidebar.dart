@@ -18,13 +18,13 @@ class FavoritesSidebar extends ConsumerWidget {
     final selectedChannelId = ref.watch(activeChannelIdProvider);
 
     return Container(
-      width: isMobileLayout(context) ? null : 240,
+      width: channelSidebarHasFixedWidth(context) ? 240 : null,
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,
-        border: isMobileLayout(context)
-            ? null
-            : Border(right: BorderSide(color: context.colors.borderColor)),
+        border: channelSidebarHasFixedWidth(context)
+            ? Border(right: BorderSide(color: context.colors.borderColor))
+            : null,
       ),
       child: Column(
         children: [

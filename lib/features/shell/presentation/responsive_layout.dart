@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 abstract final class Breakpoints {
@@ -9,6 +10,12 @@ abstract final class Breakpoints {
   static const double tablet = 1100;
 
   static const double compactWide = 700;
+
+  static const double pinnedShellMinWidth = 660;
+
+  static const double pinnedChannelSidebarMinWidth = 220;
+
+  static const double pinnedChatPaneMinWidth = 320;
 
   static const double guildListWidth = 72;
 
@@ -68,12 +75,68 @@ bool isHandheldVoiceOverlay(BuildContext context) {
   return !isDesktopLayout(context);
 }
 
+bool shellUsesPhoneChatSlideTransition(BuildContext context) {
+  if (!isMobileLayout(context)) {
+    return false;
+  }
+  if (isPinnedSidebarLayout(context)) {
+    return false;
+  }
+  return true;
+}
+
+bool isPinnedSidebarLayoutSize(Size size) {
+  if (layoutReferenceExtentOf(size) < Breakpoints.mobile) {
+    return false;
+  }
+  if (layoutModeOfSize(size) != LayoutMode.mobile) {
+    return false;
+  }
+  return size.width >= Breakpoints.pinnedShellMinWidth;
+}
+
+bool isPinnedSidebarLayout(BuildContext context) =>
+    isPinnedSidebarLayoutSize(MediaQuery.sizeOf(context));
+
 bool isCompactWideMobileLayout(BuildContext context) {
   final Size size = MediaQuery.sizeOf(context);
   if (size.width < Breakpoints.compactWide || !isMobileLayout(context)) {
     return false;
   }
   return layoutReferenceExtentOf(size) >= Breakpoints.mobile;
+}
+
+double pinnedChannelSidebarWidthForSize(Size size, FluxerLayoutTheme layout) {
+  final double preferred = layout.sidebarWidth;
+  final double guild = layout.guildListWidth;
+  final double maxSidebar =
+      size.width - guild - Breakpoints.pinnedChatPaneMinWidth - 1;
+  return preferred.clamp(Breakpoints.pinnedChannelSidebarMinWidth, maxSidebar);
+}
+
+bool isPinnedSidebarSplitAtHinge(BuildContext context) {
+  final DeviceFoldPosture posture = deviceFoldPostureOf(context);
+  return posture.splitSidebarAtHinge && posture.hingeBounds != null;
+}
+
+bool channelSidebarHasFixedWidth(BuildContext context) {
+  if (!isMobileLayout(context)) {
+    return true;
+  }
+  if (!isPinnedSidebarLayout(context)) {
+    return false;
+  }
+  return !isPinnedSidebarSplitAtHinge(context);
+}
+
+double pinnedLeftPanelWidth(Size size, FluxerLayoutTheme layout) {
+  final double guild = layout.guildListWidth;
+  final double sidebar = layout.sidebarWidth;
+  final double fullPanel = guild + sidebar;
+  if (size.width >= fullPanel + 1 + Breakpoints.pinnedChatPaneMinWidth) {
+    return fullPanel;
+  }
+  return guild + pinnedChannelSidebarWidthForSize(size, layout);
 }
 
 double mobileDrawerPeekWidth(BuildContext context) {
