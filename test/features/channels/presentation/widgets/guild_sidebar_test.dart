@@ -1631,6 +1631,98 @@ void main() {
       await releaseTestWidgetTree(tester);
     });
 
+    testWidgets(
+      'channels that load while the sidebar is hidden show on reveal',
+      (tester) async {
+        tester.view.physicalSize = const Size(390, 400);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final List<Channel> channels = List<Channel>.generate(
+          30,
+          (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+        );
+        ChannelListState stateWith(List<Channel> loaded) => ChannelListState(
+          guild: const Guild(id: _guildId, name: 'Test Guild'),
+          categories: <ChannelCategory>[
+            ChannelCategory(id: 'cat1', name: 'My Category', channels: loaded),
+          ],
+          selectedChannelId: 'c25',
+          hasReceivedInitialChannelList: true,
+        );
+        final _GuildSwitchTestHarness harness = _GuildSwitchTestHarness()
+          ..activeChannelId = 'c25'
+          ..channelListState = stateWith(const <Channel>[]);
+        final ProviderContainer container = ProviderContainer(
+          overrides: <Override>[
+            ..._buildOverrides(
+              channelListState: harness.channelListState,
+              selectedChannelId: 'c25',
+              unread: <String, UnreadState>{
+                for (final Channel channel in channels)
+                  channel.id: const UnreadState(),
+              },
+              activeGuildIdReader: (Ref ref) => harness.activeGuildId,
+              activeChannelIdReader: (Ref ref) => harness.activeChannelId,
+              channelListViewModelFactory: () =>
+                  _HarnessChannelListViewModel(harness),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+        final ValueNotifier<bool> visible = ValueNotifier<bool>(true);
+        addTearDown(visible.dispose);
+        final colorTheme = buildDarkColorTheme();
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: MaterialApp(
+              locale: kTestLocale,
+              localizationsDelegates: fluxerLocalizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: colorTheme,
+                textTheme: FluxerTextTheme.fromColors(colorTheme),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: Scaffold(
+                body: ValueListenableBuilder<bool>(
+                  valueListenable: visible,
+                  builder:
+                      (BuildContext context, bool enabled, Widget? child) =>
+                          TickerMode(enabled: enabled, child: child!),
+                  child: const GuildSidebar(),
+                ),
+              ),
+            ),
+          ),
+        );
+        await _pumpSidebar(tester);
+
+        visible.value = false;
+        await tester.pump();
+        harness.channelListState = stateWith(channels);
+        container.invalidate(channelListViewModelProvider);
+        for (int i = 0; i < 6; i += 1) {
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+
+        visible.value = true;
+        for (int i = 0; i < 6; i += 1) {
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+
+        final Finder selected = find.text('channel-25');
+        expect(selected, findsOneWidget);
+        final Iterable<Opacity> opacities = tester.widgetList<Opacity>(
+          find.ancestor(of: selected, matching: find.byType(Opacity)),
+        );
+        expect(opacities.every((Opacity o) => o.opacity == 1), isTrue);
+        await releaseTestWidgetTree(tester);
+      },
+    );
+
     testWidgets('restores channel list scroll after switching guilds', (
       tester,
     ) async {

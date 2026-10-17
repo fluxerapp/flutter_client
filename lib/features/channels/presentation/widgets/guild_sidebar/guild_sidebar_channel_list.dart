@@ -381,6 +381,9 @@ class _GuildSidebarChannelListState
     ];
     if (!listEquals(indicatorOrder, _indicatorOrder)) {
       _indicatorOrder = indicatorOrder;
+      if (_needsSelectedReveal && indicatorOrder.isNotEmpty) {
+        _scheduleSelectedReveal();
+      }
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted || !widget.isActive) {
           return;
@@ -404,9 +407,6 @@ class _GuildSidebarChannelListState
         _scrollIndicator.scheduleUpdate();
         if (_needsScrollClamp && next.isNotEmpty) {
           _scheduleScrollClamp();
-        }
-        if (_needsSelectedReveal && next.isNotEmpty) {
-          _scheduleSelectedReveal();
         }
       })
       ..listen<String?>(activeChannelIdProvider, (_, String? next) {
