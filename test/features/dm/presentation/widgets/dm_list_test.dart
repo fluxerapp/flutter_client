@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
+import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
@@ -1289,6 +1290,7 @@ List<Override> _buildOverrides({
       () => _FakeUnreadDmChannels(unreadDms),
     ),
     fluxerDatabaseProvider.overrideWithValue(db),
+    themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
     userSettingsStatusProvider.overrideWithValue(null),
     ..._userPresenceOverrides(
       conversations,
