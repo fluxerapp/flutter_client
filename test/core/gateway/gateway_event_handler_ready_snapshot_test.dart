@@ -401,51 +401,57 @@ void main() {
       expect(await database.userNotesDao.getNote('u1'), isNull);
     });
 
-    test('DMs missing from READY private_channels are removed', () async {
-      final FluxerDatabase database = openTestDatabase();
-      final List<String> deletedChannelIds = <String>[];
-      final GatewayEventHandler handler = GatewayEventHandler(
-        database: database,
-        onChannelDelete: deletedChannelIds.add,
-      );
-      await sendReady(
-        handler,
-        sessionId: 'session-1',
-        privateChannels: <ChannelResponse>[
-          _dmChannel('dm-kept', recipientId: 'u1'),
-          _dmChannel('dm-closed', recipientId: 'u2'),
-        ],
-      );
-      await database.readStateDao.upsertReadStates(<ReadStatesCompanion>[
-        ReadStatesCompanion.insert(channelId: 'dm-closed'),
-      ]);
+    test(
+      'DMs missing from READY are removed but keep their read state',
+      () async {
+        final FluxerDatabase database = openTestDatabase();
+        final List<String> deletedChannelIds = <String>[];
+        final GatewayEventHandler handler = GatewayEventHandler(
+          database: database,
+          onChannelDelete: deletedChannelIds.add,
+        );
+        await sendReady(
+          handler,
+          sessionId: 'session-1',
+          privateChannels: <ChannelResponse>[
+            _dmChannel('dm-kept', recipientId: 'u1'),
+            _dmChannel('dm-closed', recipientId: 'u2'),
+          ],
+        );
+        await database.readStateDao.upsertReadStates(<ReadStatesCompanion>[
+          ReadStatesCompanion.insert(channelId: 'dm-closed'),
+        ]);
 
-      await sendReady(
-        handler,
-        sessionId: 'session-2',
-        privateChannels: <ChannelResponse>[
-          _dmChannel('dm-kept', recipientId: 'u1'),
-        ],
-      );
+        await sendReady(
+          handler,
+          sessionId: 'session-2',
+          privateChannels: <ChannelResponse>[
+            _dmChannel('dm-kept', recipientId: 'u1'),
+          ],
+        );
 
-      expect(
-        (await database.dmChannelDao.getDmChannels())
-            .map((DmChannel channel) => channel.id)
-            .toSet(),
-        <String>{'dm-kept', '100'},
-      );
-      expect(await database.readStateDao.getReadState('dm-closed'), isNull);
-      expect(deletedChannelIds, <String>['dm-closed']);
+        expect(
+          (await database.dmChannelDao.getDmChannels())
+              .map((DmChannel channel) => channel.id)
+              .toSet(),
+          <String>{'dm-kept', '100'},
+        );
+        expect(
+          await database.readStateDao.getReadState('dm-closed'),
+          isA<ReadState>(),
+        );
+        expect(deletedChannelIds, <String>['dm-closed']);
 
-      await sendReady(handler, sessionId: 'session-3');
+        await sendReady(handler, sessionId: 'session-3');
 
-      expect(
-        (await database.dmChannelDao.getDmChannels())
-            .map((DmChannel channel) => channel.id)
-            .toSet(),
-        <String>{'100'},
-      );
-    });
+        expect(
+          (await database.dmChannelDao.getDmChannels())
+              .map((DmChannel channel) => channel.id)
+              .toSet(),
+          <String>{'100'},
+        );
+      },
+    );
   });
 }
 

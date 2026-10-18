@@ -1154,7 +1154,6 @@ class GatewayEventHandler {
               for (final ChannelResponse ch in event.privateChannels) ch.id,
             });
         await database.messageDao.deleteMessagesForChannels(closedDmIds);
-        await database.readStateDao.deleteReadStatesForChannels(closedDmIds);
         prunedChannelIds.addAll(closedDmIds);
       }
 
@@ -2275,8 +2274,10 @@ class GatewayEventHandler {
     _invalidateMentionCacheForChannel(channelId, guildId: event.guildId);
     unawaited(database.messageDao.deleteMessagesForChannel(channelId));
     unawaited(_deleteChannelRows(channelId));
-    readStateWriteBatcher?.discard(channelId);
-    unawaited(database.readStateDao.deleteReadState(channelId));
+    if (event.guildId != null) {
+      readStateWriteBatcher?.discard(channelId);
+      unawaited(database.readStateDao.deleteReadState(channelId));
+    }
     unawaited(_deleteThreadsForParent(channelId));
   }
 

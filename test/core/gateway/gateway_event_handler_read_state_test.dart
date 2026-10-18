@@ -235,6 +235,30 @@ void main() {
     );
   });
 
+  test('closing a DM keeps its read state', () async {
+    final db = openTestDatabase();
+    final handler = GatewayEventHandler(database: db, currentUserId: 'me');
+    await db.readStateDao.upsertReadStates(<ReadStatesCompanion>[
+      const ReadStatesCompanion(
+        channelId: Value('dm-1'),
+        lastMessageId: Value('10'),
+      ),
+      const ReadStatesCompanion(
+        channelId: Value('channel-1'),
+        lastMessageId: Value('20'),
+      ),
+    ]);
+
+    await handler.handle(const ChannelDeleteEvent(channelId: 'dm-1'));
+    await handler.handle(
+      const ChannelDeleteEvent(channelId: 'channel-1', guildId: 'guild-1'),
+    );
+    await pumpEventQueue();
+
+    expect((await db.readStateDao.getReadState('dm-1'))?.lastMessageId, '10');
+    expect(await db.readStateDao.getReadState('channel-1'), isNull);
+  });
+
   test('ready stores private settings under @me', () async {
     final db = openTestDatabase();
     final handler = GatewayEventHandler(database: db, currentUserId: 'me');
