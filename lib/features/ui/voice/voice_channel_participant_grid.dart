@@ -52,6 +52,7 @@ import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
 import 'package:fluxer_app/features/voice/utils/voice_screen_share_fullscreen.dart';
 import 'package:fluxer_app/features/voice/utils/voice_stream_info.dart';
 import 'package:fluxer_app/features/voice/utils/voice_video_subscription.dart';
+import 'package:fluxer_app/features/voice/utils/voice_watched_video_tile.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -1499,8 +1500,7 @@ class _VoiceChannelParticipantGridState
       tileCount: tiles.length,
       squareTile:
           tiles.length == 1 &&
-          tiles.first.source == VoiceParticipantTileSource.camera &&
-          !tiles.first.data.voice.selfVideo,
+          tiles.first.source == VoiceParticipantTileSource.camera,
     );
     final int columns = math.max(1, metrics.columns);
     final double tileW = placed.width;
@@ -1690,10 +1690,13 @@ class _VoiceChannelParticipantGridState
       secondaryCount: secondary.length,
     );
 
-    final bool canScreenShareFullscreen =
-        isScreenShareMain && watchedTileIds.contains(mainTile.tileId);
+    final bool canVideoFullscreen = voiceFocusMainSupportsVideoFullscreen(
+      source: mainTile.source,
+      voice: mainTile.data.voice,
+      isWatching: watchedTileIds.contains(mainTile.tileId),
+    );
 
-    if (canScreenShareFullscreen && screenShareExpanded) {
+    if (canVideoFullscreen && screenShareExpanded) {
       return SizedBox(
         width: maxWidth,
         height: maxHeight,
@@ -1724,7 +1727,7 @@ class _VoiceChannelParticipantGridState
       );
     }
 
-    if (canScreenShareFullscreen) {
+    if (canVideoFullscreen) {
       final double screenAspect = maxWidth / math.max(1, maxHeight);
       return SizedBox(
         width: maxWidth,
@@ -2010,15 +2013,18 @@ class _VoiceChannelParticipantGridState
           isWatchingScreenShare: isWatchingScreenShare,
           screenShareExpanded: screenShareExpanded,
         );
-    final bool isOwnScreenShareTile =
+    final bool isOwnScreenShare =
         tile.source == VoiceParticipantTileSource.screenShare &&
         localConnectionId != null &&
         tile.data.voice.connectionId == localConnectionId;
-    final bool screenShareFullscreenExpanded =
-        isActiveScreenShare &&
-        tile.source == VoiceParticipantTileSource.screenShare &&
-        !isOwnScreenShareTile &&
-        screenShareExpanded;
+    final bool screenShareFullscreenExpanded = voiceTileVideoFullscreenExpanded(
+      screenShareExpanded: screenShareExpanded,
+      source: tile.source,
+      voice: tile.data.voice,
+      isWatching: isActiveScreenShare,
+      isFocusMain: isFocusMain,
+      isOwnScreenShare: isOwnScreenShare,
+    );
     final Widget card = _VoiceParticipantCard(
       data: tile.data,
       guildId: widget.guildId,
@@ -2433,9 +2439,13 @@ class _VoiceParticipantCard extends ConsumerWidget {
                 _ScreenShareHudAspectHost(
                   participant: participant,
                   enabled:
-                      tileSource == VoiceParticipantTileSource.screenShare &&
-                      fillContainer,
-                  useStreamAspectRatio: screenShareFullscreenExpanded,
+                      fillContainer &&
+                      (tileSource == VoiceParticipantTileSource.screenShare ||
+                          (tileSource == VoiceParticipantTileSource.camera &&
+                              voice.selfVideo)),
+                  useStreamAspectRatio:
+                      screenShareFullscreenExpanded &&
+                      tileSource == VoiceParticipantTileSource.screenShare,
                   refreshStats: isActiveScreenShare,
                   builder: (BuildContext context, double? contentAspect) {
                     return LayoutBuilder(
@@ -2521,12 +2531,18 @@ class _VoiceParticipantCard extends ConsumerWidget {
                                               ),
                                             ),
                                           ),
-                                        if (tileSource ==
-                                                VoiceParticipantTileSource
-                                                    .screenShare &&
+                                        if (!isFilmstrip &&
                                             !isOwnScreenShareTile &&
-                                            isActiveScreenShare &&
-                                            !isFilmstrip)
+                                            (screenShareFullscreenExpanded ||
+                                                (tileSource ==
+                                                        VoiceParticipantTileSource
+                                                            .screenShare &&
+                                                    isActiveScreenShare) ||
+                                                (tileSource ==
+                                                        VoiceParticipantTileSource
+                                                            .camera &&
+                                                    voice.selfVideo &&
+                                                    isFocusMain)))
                                           Positioned(
                                             right: metrics.inset,
                                             bottom: metrics.inset,

@@ -254,7 +254,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
                 widget.tileSource == VoiceParticipantTileSource.camera &&
                 widget.currentUserId != null &&
                 widget.userId == widget.currentUserId;
-            final VideoViewFit fit = isScreenShareTile || widget.fillContainer
+            final VideoViewFit fit = isScreenShareTile
                 ? VideoViewFit.contain
                 : VideoViewFit.cover;
             final VideoViewMirrorMode mirrorMode;
