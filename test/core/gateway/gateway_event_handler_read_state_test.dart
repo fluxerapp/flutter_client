@@ -187,6 +187,78 @@ ReadyEvent _readyEvent({
 );
 
 void main() {
+  test('ready keeps read states for channels it has not cached', () async {
+    final db = openTestDatabase();
+    final List<String> requests = <String>[];
+    final handler = GatewayEventHandler(
+      database: db,
+      currentUserId: 'me',
+      readStateRepository: ReadStateRepository(
+        FluxerClient(
+          Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+            ..interceptors.add(
+              InterceptorsWrapper(
+                onRequest: (RequestOptions options, handler) {
+                  requests.add('${options.method} ${options.uri.path}');
+                  handler.reject(DioException(requestOptions: options));
+                },
+              ),
+            ),
+        ),
+        db,
+      ),
+    );
+
+    await handler.handle(_readyEvent());
+    await db.readStateDao.upsertReadStates(<ReadStatesCompanion>[
+      const ReadStatesCompanion(
+        channelId: Value('uncached-channel'),
+        lastMessageId: Value('10'),
+      ),
+      const ReadStatesCompanion(
+        channelId: Value('uncached-thread'),
+        lastMessageId: Value('20'),
+        flags: Value(readStateFlagIsThread),
+      ),
+    ]);
+    await handler.handle(_readyEvent());
+    await pumpEventQueue();
+
+    expect(requests, isEmpty);
+    expect(
+      (await db.readStateDao.getReadState('uncached-channel'))?.lastMessageId,
+      '10',
+    );
+    expect(
+      (await db.readStateDao.getReadState('uncached-thread'))?.lastMessageId,
+      '20',
+    );
+  });
+
+  test('closing a DM keeps its read state', () async {
+    final db = openTestDatabase();
+    final handler = GatewayEventHandler(database: db, currentUserId: 'me');
+    await db.readStateDao.upsertReadStates(<ReadStatesCompanion>[
+      const ReadStatesCompanion(
+        channelId: Value('dm-1'),
+        lastMessageId: Value('10'),
+      ),
+      const ReadStatesCompanion(
+        channelId: Value('channel-1'),
+        lastMessageId: Value('20'),
+      ),
+    ]);
+
+    await handler.handle(const ChannelDeleteEvent(channelId: 'dm-1'));
+    await handler.handle(
+      const ChannelDeleteEvent(channelId: 'channel-1', guildId: 'guild-1'),
+    );
+    await pumpEventQueue();
+
+    expect((await db.readStateDao.getReadState('dm-1'))?.lastMessageId, '10');
+    expect(await db.readStateDao.getReadState('channel-1'), isNull);
+  });
+
   test('ready stores private settings under @me', () async {
     final db = openTestDatabase();
     final handler = GatewayEventHandler(database: db, currentUserId: 'me');

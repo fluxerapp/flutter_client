@@ -11,10 +11,6 @@ import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart'
 import 'package:fluxer_dart/export.dart';
 
 const int readStateFlagIsThread = 1 << 1;
-const Duration threadReadStateRetention = Duration(days: 30);
-
-bool isThreadReadState(int? flags) =>
-    flags != null && (flags & readStateFlagIsThread) != 0;
 
 class ReadStateRepository {
   const ReadStateRepository(
@@ -237,62 +233,6 @@ class ReadStateRepository {
       messageId: ackMessageId,
       body: MessageAckRequest(mentionCount: mentionCount, manual: true),
     );
-  }
-
-  Future<void> cleanupStaleReadStates({DateTime? now}) async {
-    final readStates = await _db.readStateDao.getReadStates();
-    if (readStates.isEmpty) {
-      return;
-    }
-    final knownChannelIds = <String>{
-      for (final channel in await _db.channelDao.getAllChannels(
-        includeThreads: true,
-      ))
-        channel.id,
-      for (final dm in await _db.dmChannelDao.getDmChannels()) dm.id,
-    };
-    final DateTime clock = now ?? DateTime.now();
-    final staleChannelIds = <String>[];
-    final missingThreadIds = <String>[];
-    final expiredThreadIds = <String>[];
-    final foundThreadIds = <String>[];
-    for (final readState in readStates) {
-      final bool known = knownChannelIds.contains(readState.channelId);
-      if (!isThreadReadState(readState.flags)) {
-        if (!known) {
-          staleChannelIds.add(readState.channelId);
-        }
-        continue;
-      }
-      final DateTime? missingSince = readState.missingSince;
-      if (known) {
-        if (missingSince != null) {
-          foundThreadIds.add(readState.channelId);
-        }
-      } else if (missingSince == null) {
-        missingThreadIds.add(readState.channelId);
-      } else if (clock.difference(missingSince) >= threadReadStateRetention) {
-        expiredThreadIds.add(readState.channelId);
-      }
-    }
-    if (missingThreadIds.isNotEmpty ||
-        expiredThreadIds.isNotEmpty ||
-        foundThreadIds.isNotEmpty) {
-      await _db.transaction(() async {
-        await _db.readStateDao.setMissingSince(missingThreadIds, clock);
-        await _db.readStateDao.setMissingSince(foundThreadIds, null);
-        await _db.readStateDao.deleteReadStatesForChannels(expiredThreadIds);
-      });
-    }
-    if (staleChannelIds.isEmpty) {
-      return;
-    }
-
-    await _db.transaction(() async {
-      for (final channelId in staleChannelIds) {
-        await _db.readStateDao.deleteReadState(channelId);
-      }
-    });
   }
 
   Future<void> ackPins(String channelId) async {
