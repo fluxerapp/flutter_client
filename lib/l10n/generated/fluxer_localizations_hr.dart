@@ -10385,6 +10385,28 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to. They don\'t include instance names, IDs or message content.';
 
   @override
+  String get observabilityReportingConsentTitle => 'Help fix crashes';
+
+  @override
+  String get observabilityReportingConsentSubtitle =>
+      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+
+  @override
+  String get observabilityReportingConsentBody =>
+      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+
+  @override
+  String observabilityReportingConsentEnableLater(String reportingToggle) {
+    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+  }
+
+  @override
+  String get observabilityReportingConsentAgree => 'Send crash reports';
+
+  @override
+  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
+
+  @override
   String get advancedSettingsConfigure => 'Konfiguriraj';
 
   @override

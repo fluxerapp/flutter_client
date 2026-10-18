@@ -5,9 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_consent_sheet.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_logic.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_provider.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
@@ -49,6 +55,7 @@ class ShellRouteListeners extends ConsumerStatefulWidget {
 
 class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   int _distributorPickerAttempts = 0;
+  bool _deferredObservabilityReportingConsent = false;
   @override
   void initState() {
     super.initState();
@@ -139,6 +146,41 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       }, fireImmediately: true);
     }
 
+    if (observabilityReportingPromptIsMobilePlatform()) {
+      ref
+        ..listenManual<bool>(observabilityReportingPromptProvider, (
+          bool? previous,
+          bool next,
+        ) {
+          if (!next) {
+            return;
+          }
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            _scheduleObservabilityReportingConsent();
+          });
+        }, fireImmediately: true)
+        ..listenManual<bool>(splashExitAllowedProvider, (
+          bool? previous,
+          bool next,
+        ) {
+          if (!next) {
+            return;
+          }
+          if (!ref.read(observabilityReportingPromptProvider)) {
+            return;
+          }
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            _scheduleObservabilityReportingConsent();
+          });
+        });
+    }
+
     ref.listenManual<HomeQuickAction?>(pendingHomeQuickActionProvider, (
       HomeQuickAction? previous,
       HomeQuickAction? next,
@@ -221,6 +263,94 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       await recordPushRelayConsentSheetResult(
         consent: ref.read(pushRelayConsentProvider.notifier),
         agreed: agreed,
+      );
+    } finally {
+      promptNotifier.endPresentation();
+      _scheduleDeferredObservabilityReportingConsent();
+    }
+  }
+
+  bool _isPushRelayConsentPresentationInFlight() {
+    if (!PushProviderGuard.isApple && !PushProviderGuard.isFirebaseMessaging) {
+      return false;
+    }
+    return ref
+        .read(pushRelayConsentPromptProvider.notifier)
+        .isPresentationInFlight;
+  }
+
+  void _scheduleDeferredObservabilityReportingConsent() {
+    if (!_deferredObservabilityReportingConsent || !mounted) {
+      return;
+    }
+    _deferredObservabilityReportingConsent = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _scheduleObservabilityReportingConsent();
+    });
+  }
+
+  void _scheduleObservabilityReportingConsent({int attempt = 0}) {
+    if (!mounted) {
+      return;
+    }
+    if (!ref.read(observabilityReportingPromptProvider)) {
+      return;
+    }
+    if (!ref.read(splashExitAllowedProvider)) {
+      if (attempt >= 60) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _scheduleObservabilityReportingConsent(attempt: attempt + 1);
+      });
+      return;
+    }
+    if (_isPushRelayConsentPresentationInFlight()) {
+      _deferredObservabilityReportingConsent = true;
+      return;
+    }
+    final BuildContext? rootContext = rootNavigatorKey.currentContext;
+    if (rootContext == null || !rootContext.mounted) {
+      if (attempt >= 60) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _scheduleObservabilityReportingConsent(attempt: attempt + 1);
+      });
+      return;
+    }
+    ref.read(observabilityReportingPromptProvider.notifier).beginPresentation();
+    unawaited(_presentObservabilityReportingConsent(rootContext));
+  }
+
+  Future<void> _presentObservabilityReportingConsent(
+    BuildContext rootContext,
+  ) async {
+    final ObservabilityReportingPrompt promptNotifier = ref.read(
+      observabilityReportingPromptProvider.notifier,
+    );
+    try {
+      final bool? optedIn = await showObservabilityReportingConsentSheet(
+        rootContext,
+      );
+      if (!mounted) {
+        return;
+      }
+      await recordObservabilityReportingConsentSheetResult(
+        reporting: ref.read(observabilityReportingProvider.notifier),
+        dismissed: ref.read(
+          observabilityReportingPromptDismissedProvider.notifier,
+        ),
+        optedIn: optedIn,
       );
     } finally {
       promptNotifier.endPresentation();

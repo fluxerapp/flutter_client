@@ -24,4 +24,6 @@ class PushRelayConsentPrompt extends _$PushRelayConsentPrompt {
   void endPresentation() {
     _presentationInFlight = false;
   }
+
+  bool get isPresentationInFlight => _presentationInFlight;
 }
