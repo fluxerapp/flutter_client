@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/utils/shell_popup_presentation.dart';
 import 'package:fluxer_app/features/ui/action_menu/sidebar_peek_menu_constants.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
@@ -76,6 +77,10 @@ AnimationStyle fluxerBottomSheetAnimationStyle(
   );
 }
 
+bool _resolveSheetRootNavigator(BuildContext context, bool? useRootNavigator) {
+  return useRootNavigator ?? resolveShellPopupUseRootNavigator(context);
+}
+
 Future<T?> _pushFluxerSheetRoute<T>(
   BuildContext context, {
   required WidgetBuilder builder,
@@ -132,11 +137,11 @@ final Expando<FluxerSheetRoute<dynamic>> _lastSheetByNavigator =
 
 void closeFluxerSheetOpenedFrom(
   BuildContext context, {
-  bool useRootNavigator = false,
+  bool? useRootNavigator,
 }) {
   final NavigatorState? navigator = Navigator.maybeOf(
     context,
-    rootNavigator: useRootNavigator,
+    rootNavigator: _resolveSheetRootNavigator(context, useRootNavigator),
   );
   final FluxerSheetRoute<dynamic>? last = navigator == null
       ? null
@@ -266,7 +271,7 @@ class FluxerBottomSheet {
     Widget? trailing,
     VoidCallback? onBack,
     bool showDragHandle = true,
-    bool useRootNavigator = false,
+    bool? useRootNavigator,
     FluxerBottomSheetVariant variant = FluxerBottomSheetVariant.content,
     ValueNotifier<bool>? canDismissNotifier,
     bool enableDrag = true,
@@ -277,12 +282,16 @@ class FluxerBottomSheet {
     Color? barrierColor,
   }) {
     final layout = context.layout;
+    final bool rootNavigator = _resolveSheetRootNavigator(
+      context,
+      useRootNavigator,
+    );
 
     return _showWithOverlayTracking<T>(
       context,
       () => _pushFluxerSheetRoute<T>(
         context,
-        useRootNavigator: useRootNavigator,
+        useRootNavigator: rootNavigator,
         isDismissible: isDismissible,
         barrierColor: barrierColor,
         animationStyle: fluxerBottomSheetAnimationStyle(context),
@@ -357,10 +366,7 @@ class FluxerBottomSheet {
           );
 
           final sheetContent = _FluxerSheetPresentation(
-            navigator: Navigator.of(
-              sheetContext,
-              rootNavigator: useRootNavigator,
-            ),
+            navigator: Navigator.of(sheetContext, rootNavigator: rootNavigator),
             enableDrag: enableDrag,
             onDismiss: close,
             child: _wrapBottomSheetSurface(
@@ -388,7 +394,7 @@ class FluxerBottomSheet {
     Widget? trailing,
     VoidCallback? onBack,
     bool showDragHandle = true,
-    bool useRootNavigator = false,
+    bool? useRootNavigator,
     double initialChildSize = scrollableSheetSize,
     double minChildSize = 0.4,
     double maxChildSize = scrollableSheetSize,
@@ -415,12 +421,16 @@ class FluxerBottomSheet {
           initialChildSize: effectiveInitialChildSize,
           maxChildSize: effectiveMaxChildSize,
         );
+    final bool rootNavigator = _resolveSheetRootNavigator(
+      context,
+      useRootNavigator,
+    );
 
     return _showWithOverlayTracking<T>(
       context,
       () => _pushFluxerSheetRoute<T>(
         context,
-        useRootNavigator: useRootNavigator,
+        useRootNavigator: rootNavigator,
         isDismissible: isDismissible,
         barrierColor: barrierColor,
         animationStyle:
@@ -468,7 +478,7 @@ class FluxerBottomSheet {
                 onDismiss: close,
                 navigator: Navigator.of(
                   sheetContext,
-                  rootNavigator: useRootNavigator,
+                  rootNavigator: rootNavigator,
                 ),
                 title: title,
                 subtitle: subtitle,

@@ -15,7 +15,7 @@ class FluxerConfirmSheet {
     String? description,
     Widget? body,
     bool isDanger = false,
-    bool useRootNavigator = true,
+    bool? useRootNavigator,
   }) {
     return FluxerBottomSheet.show<bool>(
       context,

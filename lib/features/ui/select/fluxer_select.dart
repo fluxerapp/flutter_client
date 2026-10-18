@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
+import 'package:fluxer_app/features/shell/utils/shell_popup_presentation.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -47,7 +48,7 @@ class FluxerSelect<T> extends StatefulWidget {
     this.enabled = true,
     this.stretch = false,
     this.scrollableSheet = false,
-    this.useRootNavigator = true,
+    this.useRootNavigator,
     super.key,
   }) : _onChanged = ((value) => onChanged(value as T));
 
@@ -67,7 +68,7 @@ class FluxerSelect<T> extends StatefulWidget {
 
   final bool scrollableSheet;
 
-  final bool useRootNavigator;
+  final bool? useRootNavigator;
 
   @override
   State<FluxerSelect<T>> createState() => _FluxerSelectState<T>();
@@ -90,7 +91,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
   bool get enabled => widget.enabled;
   bool get stretch => widget.stretch;
   bool get scrollableSheet => widget.scrollableSheet;
-  bool get useRootNavigator => widget.useRootNavigator;
+  bool? get useRootNavigator => widget.useRootNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +246,11 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     void handleSelected(BuildContext sheetContext, T selected) {
       didSelect = true;
       _onChanged(selected);
-      Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop(selected);
+      Navigator.of(
+        sheetContext,
+        rootNavigator:
+            useRootNavigator ?? resolveShellPopupUseRootNavigator(context),
+      ).pop(selected);
     }
 
     late final Future<T?> sheetFuture;

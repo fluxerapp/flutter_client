@@ -12,7 +12,7 @@ import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 Future<void> handleExternalLinkTap(
   BuildContext context,
   String url, {
-  bool useRootNavigator = false,
+  bool? useRootNavigator,
   bool skipWarning = false,
   bool openChannelLinksInApp = true,
 }) async {

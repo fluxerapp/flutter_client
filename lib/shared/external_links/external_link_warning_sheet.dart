@@ -28,7 +28,7 @@ class ExternalLinkWarningSheet extends StatefulWidget {
     required String url,
     required String hostname,
     required ExternalLinkContinueCallback onContinue,
-    bool useRootNavigator = false,
+    bool? useRootNavigator,
   }) {
     final l10n = FluxerLocalizations.of(context);
 
