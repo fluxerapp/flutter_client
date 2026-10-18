@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 98;
+const int _expectedSchemaVersion = 99;
 
 const int _guardedBaselineVersion = 67;
 
@@ -107,7 +107,7 @@ const Map<String, List<String>> _guardedColumns = <String, List<String>>{
     'default_tag_setting',
     'rtc_p2p',
   ],
-  'read_states': <String>['flags', 'missing_since'],
+  'read_states': <String>['flags'],
 };
 
 const List<String> _guardedTables = <String>['thread_members'];
@@ -364,7 +364,7 @@ void main() {
     test('upgrade from 90 keeps rows', () async {
       const Map<String, List<String>> added = <String, List<String>>{
         'messages': <String>['thread_json'],
-        'read_states': <String>['flags', 'missing_since'],
+        'read_states': <String>['flags'],
       };
       final Database raw = sqlite3.openInMemory();
       addTearDown(raw.close);
@@ -425,7 +425,6 @@ void main() {
       expect(readState?.lastMessageId, '10');
       expect(readState?.mentionCount, 2);
       expect(readState?.flags, isNull);
-      expect(readState?.missingSince, isNull);
       expect(await db.threadDao.getJoinedThreadIds(), isEmpty);
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
@@ -457,6 +456,36 @@ void main() {
         isNot(contains('thread_channels_active')),
       );
       expect((await db.guildDao.getServerById('g1'))?.name, 'Guild');
+      expect(_userVersion(raw), _expectedSchemaVersion);
+    });
+
+    test('upgrade from 98 drops the read state missing column', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      final FluxerDatabase seed = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      await seed.readStateDao.upsertReadState(
+        const ReadStatesCompanion(
+          channelId: drift.Value('c1'),
+          lastMessageId: drift.Value('10'),
+        ),
+      );
+      await seed.customStatement('PRAGMA user_version = 98');
+      await seed.close();
+      raw.execute('ALTER TABLE read_states ADD COLUMN missing_since INTEGER');
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      await db.customSelect('SELECT 1').get();
+
+      expect(
+        _tableColumns(raw, 'read_states'),
+        isNot(contains('missing_since')),
+      );
+      expect((await db.readStateDao.getReadState('c1'))?.lastMessageId, '10');
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
 

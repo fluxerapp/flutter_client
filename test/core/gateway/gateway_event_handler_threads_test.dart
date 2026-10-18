@@ -750,12 +750,10 @@ void main() {
         isNull,
       );
       expect(await h.database.threadDao.getMember(_otherThreadId), isNull);
-      expect(
-        isThreadReadState(
-          (await h.database.readStateDao.getReadState(_otherThreadId))?.flags,
-        ),
-        isTrue,
-      );
+      final int flags =
+          (await h.database.readStateDao.getReadState(_otherThreadId))?.flags ??
+          0;
+      expect(flags & readStateFlagIsThread, readStateFlagIsThread);
     });
 
     test('a moderator removed from a private thread keeps it', () async {

@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 98;
+  int get schemaVersion => 99;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1486,13 +1486,6 @@ class FluxerDatabase extends _$FluxerDatabase {
         )) {
           await m.addColumn(readStates, readStates.flags);
         }
-        if (!await _tableHasColumn(
-          m.database,
-          tableName: 'read_states',
-          columnName: 'missing_since',
-        )) {
-          await m.addColumn(readStates, readStates.missingSince);
-        }
         await _createTableIfNotExists(m, threadMembers);
         await customStatement(
           'CREATE INDEX IF NOT EXISTS idx_thread_members_guild '
@@ -1574,6 +1567,16 @@ class FluxerDatabase extends _$FluxerDatabase {
       }
       if (from < 98) {
         await m.alterTable(TableMigration(messages));
+      }
+      if (from < 99 &&
+          await _tableHasColumn(
+            m.database,
+            tableName: 'read_states',
+            columnName: 'missing_since',
+          )) {
+        await customStatement(
+          'ALTER TABLE read_states DROP COLUMN missing_since',
+        );
       }
     },
   );

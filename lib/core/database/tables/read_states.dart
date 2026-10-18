@@ -9,7 +9,6 @@ class ReadStates extends Table {
   TextColumn get stickyUnreadMessageId => text().nullable()();
   TextColumn get version => text().nullable()();
   IntColumn get flags => integer().nullable()();
-  DateTimeColumn get missingSince => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {channelId};

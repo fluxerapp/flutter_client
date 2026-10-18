@@ -96,14 +96,6 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
     )..where((r) => r.channelId.isIn(channelIds))).go();
   }
 
-  Future<void> setMissingSince(List<String> channelIds, DateTime? since) {
-    if (channelIds.isEmpty) {
-      return Future.value();
-    }
-    return (update(readStates)..where((r) => r.channelId.isIn(channelIds)))
-        .write(ReadStatesCompanion(missingSince: Value(since)));
-  }
-
   Future<void> markThreadReadStates(List<String> channelIds) {
     if (channelIds.isEmpty) {
       return Future.value();
