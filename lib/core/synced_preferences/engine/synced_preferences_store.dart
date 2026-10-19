@@ -351,12 +351,15 @@ class SyncedPreferencesStore {
         await applyThemeCustomizationFromAccessibilityProto(
           accessibility,
           apply,
-          skipCustomThemeCss: accessibilityDirty,
+          skipCustomThemeCss:
+              accessibilityDirty || !themePrefs.syncThemeColorsToThemeStudio,
         );
         return;
       }
     }
-    if (accessibilityDirty || !themePrefs.syncThemeColorsFromThemeStudio) {
+    if (accessibilityDirty ||
+        !themePrefs.syncThemeColorsFromThemeStudio ||
+        !themePrefs.syncThemeColorsToThemeStudio) {
       return;
     }
     final String? wireCss = normalizeCustomThemeCss(readWireCustomThemeCss());
@@ -393,7 +396,7 @@ class SyncedPreferencesStore {
             continue;
           }
           if (isRecentlyAcked && adapter.mergeAckedInbound(local, remote)) {
-            final target = adapter.mergeForMigration(
+            final target = adapter.mergeRecentlyAckedInbound(
               local: local,
               remote: remote,
             );
@@ -815,10 +818,17 @@ class SyncedPreferencesStore {
       if (_adapterValuesEqual(adapter, fromIncoming, fromLocalWire)) {
         continue;
       }
+      if (fromIncoming == null && fromLocalWire != null) {
+        return false;
+      }
       if (!_adapterValuesEqual(adapter, local, fromLocalWire)) {
         return false;
       }
       if (!recentlyAcked.contains(entry.key)) {
+        return false;
+      }
+      if (fromIncoming != null &&
+          adapter.hasRemoteAdditions(local, fromIncoming)) {
         return false;
       }
     }

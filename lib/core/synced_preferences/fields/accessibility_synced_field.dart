@@ -235,6 +235,7 @@ class AccessibilitySyncedField
       scaleFactor: value.scaleFactor,
       updateSaturationFactor: value.hasSaturationFactorInProto,
       updateCustomThemeCss:
+          theme.syncThemeColorsToThemeStudio &&
           theme.syncThemeColorsFromThemeStudio &&
           value.hasCustomThemeCssInProto &&
           value.customThemeCss != null,
