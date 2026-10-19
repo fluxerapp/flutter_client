@@ -99,7 +99,16 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     }
   }
 
-  Future<void> rebuildAfterReady({String? priorityGuildId}) async {
+  Future<void> rebuildAfterReady({
+    String? priorityGuildId,
+    String? priorityChannelId,
+  }) async {
+    if (priorityChannelId != null && priorityChannelId.isNotEmpty) {
+      await rebuildChannel(priorityChannelId);
+      if (!ref.mounted) {
+        return;
+      }
+    }
     final db = ref.read(fluxerDatabaseProvider);
     final List<String> guildIds = <String>[
       for (final Server guild in await db.guildDao.getServers()) guild.id,

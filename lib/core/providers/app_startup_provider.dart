@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/gateway/gateway_presence_coordinator.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
+import 'package:fluxer_app/core/permissions/route_warmup_listener_provider.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
@@ -81,6 +82,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(voiceP2pConsentRetryProvider)
     ..read(ackBatcherGatewayListenerProvider)
     ..read(channelListGatewayRecoveryListenerProvider)
+    ..read(routeWarmupListenerProvider)
     ..read(pushTrayBackgroundListenerProvider)
     ..read(fluxerSfxIncomingRingBindingProvider)
     ..read(fluxerMessageSfxBindingProvider)

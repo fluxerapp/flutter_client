@@ -111,6 +111,37 @@ class ChannelListViewModel extends _$ChannelListViewModel {
     );
   }
 
+  void ensureChannelsLoaded(String guildId) {
+    if (guildId.isEmpty) {
+      return;
+    }
+    final Guild? guild = ref
+        .read(guildListViewModelProvider)
+        .guilds
+        .where((Guild g) => g.id == guildId)
+        .firstOrNull;
+    if (_currentGuildId == guildId) {
+      if (guild != null && state.guild == null) {
+        state = state.copyWith(guild: guild);
+      }
+      if (state.hasReceivedInitialChannelList && state.categories.isNotEmpty) {
+        return;
+      }
+      _resetGuildChannelSubscription(guildId, guild: guild);
+      return;
+    }
+    loadActiveGuild(guildId);
+  }
+
+  void _resetGuildChannelSubscription(String guildId, {Guild? guild}) {
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    unawaited(_guildSubscription?.cancel());
+    _guildSubscription = null;
+    _currentGuildId = null;
+    loadChannels(guildId, guild: guild);
+  }
+
   bool loadActiveGuild(String guildId) {
     final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
     final Guild? guild = guilds.where((Guild g) => g.id == guildId).firstOrNull;

@@ -120,16 +120,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     action();
   }
 
-  void runReadyHeavyWork(String? guildId) {
+  void runReadyGuildSync(String? guildId) {
     ifMounted(() {
-      unawaited(
-        ref
-            .read(channelPermissionCacheProvider.notifier)
-            .rebuildAfterReady(priorityGuildId: guildId),
-      );
-      ref
-        ..invalidate(effectiveGuildChannelPermissionBitsProvider)
-        ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
       if (guildId != null) {
         ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId, force: true);
       }
@@ -139,7 +131,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
   void scheduleReadyHeavyWork(String? guildId) {
     ifMounted(() {
       if (ref.read(splashRevealCompleteProvider)) {
-        runReadyHeavyWork(guildId);
+        runReadyGuildSync(guildId);
         return;
       }
       pendingReadyHeavyWork = (guildId: guildId);
@@ -153,7 +145,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         return;
       }
       pendingReadyHeavyWork = null;
-      runReadyHeavyWork(pending.guildId);
+      runReadyGuildSync(pending.guildId);
     })
     ..listen<Set<String>>(blockedUserIdsProvider, (_, Set<String> next) {
       mentionCache.blockedUserIds = next;
