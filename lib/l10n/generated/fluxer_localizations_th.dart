@@ -10273,7 +10273,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to. They don\'t include instance names, IDs or message content.';
+      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
 
   @override
   String get observabilityReportingConsentTitle => 'Help fix crashes';
