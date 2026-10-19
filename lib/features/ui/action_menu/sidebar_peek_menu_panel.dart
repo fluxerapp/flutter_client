@@ -31,7 +31,8 @@ double estimateSidebarPeekMenuHeight(
   required int rowCount,
 }) {
   final layout = context.layout;
-  final double titleBlock = (layout.s1 + 22) * kSidebarPeekMenuHeightScale;
+  final double titleBlock =
+      (layout.s1 + layout.groupRowInset + 22) * kSidebarPeekMenuHeightScale;
   final double verticalPadding = layout.s2 * 2 * kSidebarPeekMenuHeightScale;
   final double rowMargins = rowCount * kSidebarPeekMenuItemVerticalMargin * 2;
   return verticalPadding +
@@ -71,7 +72,7 @@ class SidebarPeekMenuPanel extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(
                   layout.groupRowInset,
-                  0,
+                  layout.groupRowInset,
                   layout.groupRowInset,
                   layout.s1 * kSidebarPeekMenuHeightScale,
                 ),
