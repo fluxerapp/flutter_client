@@ -52,6 +52,7 @@
         android:label="${appLabel}"
         android:icon="@mipmap/ic_launcher"
         android:localeConfig="@xml/locales_config"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:appCategory="social"
         android:enableOnBackInvokedCallback="true">
         <meta-data android:name="sh.measure.android.API_KEY" android:value="${measureApiKey}" />

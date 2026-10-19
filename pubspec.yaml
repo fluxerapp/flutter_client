@@ -207,6 +207,7 @@ flutter:
     - assets/images/app_icon_previews/android/
     - assets/emojis.json
     - assets/emoji-sprites/
+    - assets/certificates/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
