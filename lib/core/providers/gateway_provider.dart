@@ -219,7 +219,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           '[Gateway] compression: negotiated=${stats.compressionNegotiated} frames=${stats.frames} wire=${stats.wireBytes} decompressed=${stats.decompressedBytes}',
         );
       }
-      final String? activeGuildId = ref.read(activeGuildIdProvider);
+      final String? recoveryGuildId = ref.read(contextualGuildIdProvider);
       ref.read(gatewayReadyProvider.notifier).setReady();
       ref.read(guildSyncProvider.notifier).clearAll();
       clearGuildRolesPrefetchState();
@@ -228,7 +228,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(memberListDesiredRangesProvider.notifier).clearAll();
       ref.read(memberListUpdateBatcherProvider).clearAll();
       ref.read(threadMemberListsProvider.notifier).clearAll();
-      scheduleReadyHeavyWork(activeGuildId);
+      scheduleReadyHeavyWork(recoveryGuildId);
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(gatewayFullRecoveryProvider.notifier).bump();
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();

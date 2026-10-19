@@ -87,17 +87,17 @@ class _FixedGuildListViewModel extends GuildListViewModel {
 
 void main() {
   group('channelMessagePermissionsForComposer', () {
-    test('loading maps to unresolved without deny hint', () {
+    test('loading maps to unresolved with composer disabled', () {
       final ChannelMessagePermissions perms =
           channelMessagePermissionsForComposer(
             const AsyncValue<ChannelMessagePermissions>.loading(),
           );
       expect(perms, ChannelMessagePermissions.unresolved);
-      expect(perms.isComposerEnabled, isTrue);
+      expect(perms.isComposerEnabled, isFalse);
       expect(perms.showsNoSendPermissionHint, isFalse);
     });
 
-    test('error maps to unresolved without deny hint', () {
+    test('error maps to unresolved with composer disabled', () {
       final ChannelMessagePermissions perms =
           channelMessagePermissionsForComposer(
             AsyncValue<ChannelMessagePermissions>.error(
@@ -106,7 +106,7 @@ void main() {
             ),
           );
       expect(perms, ChannelMessagePermissions.unresolved);
-      expect(perms.isComposerEnabled, isTrue);
+      expect(perms.isComposerEnabled, isFalse);
       expect(perms.showsNoSendPermissionHint, isFalse);
     });
 
@@ -121,13 +121,13 @@ void main() {
       expect(perms.isVoiceEnabled, isFalse);
     });
 
-    test('unresolved keeps attach and voice aligned with input', () {
+    test('unresolved disables composer and attach controls', () {
       const ChannelMessagePermissions perms =
           ChannelMessagePermissions.unresolved;
-      expect(perms.isComposerEnabled, isTrue);
+      expect(perms.isComposerEnabled, isFalse);
       expect(perms.showsNoSendPermissionHint, isFalse);
-      expect(perms.canShowAttachControls, isTrue);
-      expect(perms.isVoiceEnabled, isTrue);
+      expect(perms.canShowAttachControls, isFalse);
+      expect(perms.isVoiceEnabled, isFalse);
     });
 
     test('resolved send without attach hides attach controls', () {

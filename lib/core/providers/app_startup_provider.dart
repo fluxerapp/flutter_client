@@ -39,6 +39,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_gateway_recovery_listener_provider.dart';
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
@@ -79,6 +80,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(experimentsProvider)
     ..read(voiceP2pConsentRetryProvider)
     ..read(ackBatcherGatewayListenerProvider)
+    ..read(channelListGatewayRecoveryListenerProvider)
     ..read(pushTrayBackgroundListenerProvider)
     ..read(fluxerSfxIncomingRingBindingProvider)
     ..read(fluxerMessageSfxBindingProvider)

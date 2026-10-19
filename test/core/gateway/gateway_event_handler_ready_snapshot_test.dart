@@ -185,6 +185,36 @@ void main() {
     );
 
     test(
+      'same-user re-READY with empty channel snapshot keeps local channels',
+      () async {
+        final FluxerDatabase database = openTestDatabase();
+        final GatewayEventHandler handler = GatewayEventHandler(
+          database: database,
+        );
+        await sendReady(
+          handler,
+          sessionId: 'session-1',
+          rawGuilds: <Map<String, dynamic>>[fullGuild],
+        );
+
+        await sendReady(
+          handler,
+          sessionId: 'session-2',
+          rawGuilds: <Map<String, dynamic>>[
+            _guild(channelIds: <String>[], roleIds: <String>['g1', 'r-kept']),
+          ],
+        );
+
+        expect(
+          (await database.channelDao.getChannels(
+            'g1',
+          )).map((c) => c.id).toSet(),
+          <String>{'c-kept', 'c-gone'},
+        );
+      },
+    );
+
+    test(
       'GUILD_SYNC drops channels, roles, emojis and stickers it omits',
       () async {
         final FluxerDatabase database = openTestDatabase();

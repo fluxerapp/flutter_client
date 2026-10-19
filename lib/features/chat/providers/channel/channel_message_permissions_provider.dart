@@ -59,20 +59,17 @@ class ChannelMessagePermissions {
     canUseExternalStickers: true,
   );
 
-  bool get isComposerEnabled => !isResolved || canSendMessages;
+  bool get isComposerEnabled => isResolved && canSendMessages;
 
   bool get showsNoSendPermissionHint => isResolved && !canSendMessages;
 
-  bool get canShowAttachControls =>
-      isComposerEnabled && (!isResolved || canAttachFiles);
+  bool get canShowAttachControls => isComposerEnabled && canAttachFiles;
 
   bool get isAttachEnabled => canShowAttachControls;
 
-  bool get canShowEmbedControls =>
-      isComposerEnabled && (!isResolved || canEmbedLinks);
+  bool get canShowEmbedControls => isComposerEnabled && canEmbedLinks;
 
-  bool get isVoiceEnabled =>
-      isComposerEnabled && (!isResolved || canAttachFiles);
+  bool get isVoiceEnabled => isComposerEnabled && canAttachFiles;
 }
 
 ChannelMessagePermissions channelMessagePermissionsFromBits({
