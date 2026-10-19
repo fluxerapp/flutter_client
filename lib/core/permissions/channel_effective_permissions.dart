@@ -199,33 +199,57 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
       .where((r) => memberRoleIds.contains(r.id))
       .map(MemberRole.fromRow)
       .toList();
+  final String guildOwnerId = guild.ownerId ?? '';
+  int evaluateWithOverwrites(List<String?> overwriteLayers) =>
+      evaluateChannelEffectivePermissionBits(
+        guildOwnerId: guildOwnerId,
+        guildId: guildId,
+        currentUserId: currentUserId,
+        everyonePermissions: everyonePermissions,
+        memberRoles: memberRoles,
+        memberRecordPresent: true,
+        overwriteJsonLayersRootToLeaf: overwriteLayers,
+      );
+  final int guildPermissionBits = evaluateWithOverwrites(const <String?>[]);
   return <String, ChannelPermissionBitsOutcome>{
     for (final Channel channel in targets)
       channel.id: () {
-        final int value = evaluateChannelEffectivePermissionBits(
-          guildOwnerId: guild.ownerId ?? '',
-          guildId: guildId,
-          currentUserId: currentUserId,
-          everyonePermissions: everyonePermissions,
-          memberRoles: memberRoles,
-          memberRecordPresent: true,
-          overwriteJsonLayersRootToLeaf: _overwriteLayers(channel, byId),
-        );
-        return (
-          value: isThreadChannelType(channel.type)
-              ? threadViewPermissions(value)
-              : value,
-          shouldCache: true,
-        );
+        final int value;
+        if (isThreadChannelType(channel.type)) {
+          final String? parentOverwrites =
+              byId[channel.parentId]?.permissionOverwritesJson;
+          final int parentBits =
+              parentOverwrites == null ||
+                  !_hasPermissionOverwritesJson(parentOverwrites)
+              ? guildPermissionBits
+              : evaluateWithOverwrites(<String?>[parentOverwrites]);
+          value = threadViewPermissions(parentBits);
+        } else if (!_hasPermissionOverwritesJson(
+          channel.permissionOverwritesJson,
+        )) {
+          value = guildPermissionBits;
+        } else {
+          value = evaluateWithOverwrites(<String?>[
+            channel.permissionOverwritesJson,
+          ]);
+        }
+        return (value: value, shouldCache: true);
       }(),
   };
 }
 
-List<String?> _overwriteLayers(Channel channel, Map<String, Channel> byId) {
-  if (!isThreadChannelType(channel.type)) {
-    return <String?>[channel.permissionOverwritesJson];
+bool _hasPermissionOverwritesJson(String? json) {
+  if (json == null || json.isEmpty) {
+    return false;
   }
-  return <String?>[byId[channel.parentId]?.permissionOverwritesJson];
+  final Object? decoded = jsonDecode(json);
+  if (decoded is List) {
+    return decoded.isNotEmpty;
+  }
+  if (decoded is Map) {
+    return decoded.isNotEmpty;
+  }
+  return true;
 }
 
 Future<int> computeEffectiveGuildChannelPermissionBits({

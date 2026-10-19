@@ -387,6 +387,10 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
     }),
     onChannelDelete: (channelId) => ifMounted(() {
+      ref.read(channelPermissionCacheProvider.notifier).evictChannel(channelId);
+      ref
+        ..invalidate(effectiveGuildChannelPermissionBitsProvider(channelId))
+        ..invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
       ref.read(chatViewModelProvider.notifier).forgetChannel(channelId);
       ref.read(slowmodeTrackerProvider.notifier).clearChannel(channelId);
       ref.read(savedMessagesProvider.notifier).handleChannelDelete(channelId);

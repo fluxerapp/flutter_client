@@ -87,17 +87,17 @@ class _FixedGuildListViewModel extends GuildListViewModel {
 
 void main() {
   group('channelMessagePermissionsForComposer', () {
-    test('loading maps to unresolved with composer disabled', () {
+    test('loading maps to deny until bits are cached', () {
       final ChannelMessagePermissions perms =
           channelMessagePermissionsForComposer(
             const AsyncValue<ChannelMessagePermissions>.loading(),
           );
-      expect(perms, ChannelMessagePermissions.unresolved);
+      expect(perms, ChannelMessagePermissions.none);
       expect(perms.isComposerEnabled, isFalse);
-      expect(perms.showsNoSendPermissionHint, isFalse);
+      expect(perms.showsNoSendPermissionHint, isTrue);
     });
 
-    test('error maps to unresolved with composer disabled', () {
+    test('error maps to resolved deny without hint', () {
       final ChannelMessagePermissions perms =
           channelMessagePermissionsForComposer(
             AsyncValue<ChannelMessagePermissions>.error(
@@ -105,9 +105,9 @@ void main() {
               StackTrace.empty,
             ),
           );
-      expect(perms, ChannelMessagePermissions.unresolved);
+      expect(perms, ChannelMessagePermissions.none);
       expect(perms.isComposerEnabled, isFalse);
-      expect(perms.showsNoSendPermissionHint, isFalse);
+      expect(perms.showsNoSendPermissionHint, isTrue);
     });
 
     test('resolved deny shows permission hint flag', () {
@@ -121,13 +121,23 @@ void main() {
       expect(perms.isVoiceEnabled, isFalse);
     });
 
-    test('unresolved disables composer and attach controls', () {
+    test('unresolved is not treated as composer-enabled', () {
       const ChannelMessagePermissions perms =
           ChannelMessagePermissions.unresolved;
       expect(perms.isComposerEnabled, isFalse);
       expect(perms.showsNoSendPermissionHint, isFalse);
       expect(perms.canShowAttachControls, isFalse);
       expect(perms.isVoiceEnabled, isFalse);
+    });
+
+    test('async unresolved data maps to resolved deny for composer', () {
+      final ChannelMessagePermissions perms =
+          channelMessagePermissionsForComposer(
+            const AsyncValue.data(ChannelMessagePermissions.unresolved),
+          );
+      expect(perms, ChannelMessagePermissions.none);
+      expect(perms.isComposerEnabled, isFalse);
+      expect(perms.showsNoSendPermissionHint, isTrue);
     });
 
     test('resolved send without attach hides attach controls', () {

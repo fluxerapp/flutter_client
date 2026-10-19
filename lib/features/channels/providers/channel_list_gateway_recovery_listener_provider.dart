@@ -9,7 +9,7 @@ part 'channel_list_gateway_recovery_listener_provider.g.dart';
 @Riverpod(keepAlive: true)
 void channelListGatewayRecoveryListener(Ref ref) {
   ref.listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
-    if (next <= 0 || previous == next) {
+    if (next <= 0) {
       return;
     }
     final String? guildId = ref.read(contextualGuildIdProvider);

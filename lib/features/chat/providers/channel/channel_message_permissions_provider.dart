@@ -156,7 +156,7 @@ Future<ChannelMessagePermissions> channelMessagePermissions(
         .read(channelPermissionCacheProvider.notifier)
         .getChannelBits(channelId);
     if (bitsAfterRebuild == null) {
-      return ChannelMessagePermissions.unresolved;
+      return ChannelMessagePermissions.none;
     }
     return channelMessagePermissionsFromBits(
       bits: bitsAfterRebuild,
@@ -174,9 +174,10 @@ ChannelMessagePermissions channelMessagePermissionsForComposer(
 ) {
   return async.when(
     skipLoadingOnReload: true,
-    data: (ChannelMessagePermissions value) => value,
-    error: (Object _, StackTrace _) => ChannelMessagePermissions.unresolved,
-    loading: () => ChannelMessagePermissions.unresolved,
+    data: (ChannelMessagePermissions value) =>
+        value.isResolved ? value : ChannelMessagePermissions.none,
+    error: (Object _, StackTrace _) => ChannelMessagePermissions.none,
+    loading: () => ChannelMessagePermissions.none,
   );
 }
 
