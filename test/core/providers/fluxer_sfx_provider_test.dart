@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
@@ -71,6 +72,7 @@ ProviderContainer _container(_RecordingSfx sfx, {required bool foreground}) {
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(db),
       fluxerSfxProvider.overrideWithValue(sfx),
+      activeChannelIdProvider.overrideWithValue(null),
       notificationPreferencesProvider.overrideWith(
         _TestNotificationPreferences.new,
       ),
@@ -153,6 +155,7 @@ void main() {
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),
           fluxerSfxProvider.overrideWithValue(sfx),
+          activeChannelIdProvider.overrideWithValue(null),
           notificationPreferencesProvider.overrideWith(
             _TestNotificationPreferences.new,
           ),
