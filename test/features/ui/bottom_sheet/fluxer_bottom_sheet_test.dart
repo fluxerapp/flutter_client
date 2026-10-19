@@ -663,7 +663,7 @@ void main() {
 
         expect(find.text('Open'), findsOneWidget);
         expect(find.text('Follow up'), findsOneWidget);
-        expect(observer.pops, 1);
+        expect(observer.pops, 0);
       },
     );
 

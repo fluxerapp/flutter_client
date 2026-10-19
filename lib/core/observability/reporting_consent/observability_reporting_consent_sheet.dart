@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
   final l10n = FluxerLocalizations.of(context);
@@ -56,10 +57,17 @@ class _ObservabilityReportingConsentSheetContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l10n.observabilityReportingConsentBody, style: bodyStyle),
+            _ObservabilityReportingConsentInfoRow(
+              icon: PhosphorIconsFill.shieldCheck,
+              iconColor: colors.textSecondary,
+              text: l10n.observabilityReportingConsentBody,
+              style: bodyStyle,
+            ),
             SizedBox(height: layout.s3),
-            Text(
-              l10n.observabilityReportingConsentEnableLater(
+            _ObservabilityReportingConsentInfoRow(
+              icon: PhosphorIconsFill.gear,
+              iconColor: colors.textSecondary,
+              text: l10n.observabilityReportingConsentEnableLater(
                 l10n.advancedPerformanceReportingLabel,
               ),
               style: bodyStyle,
@@ -67,16 +75,49 @@ class _ObservabilityReportingConsentSheetContent extends StatelessWidget {
             SizedBox(height: layout.s4),
             FluxerButton.primary(
               onPressed: onAgree,
+              icon: PhosphorIconsBold.paperPlaneTilt,
               label: l10n.observabilityReportingConsentAgree,
             ),
             SizedBox(height: layout.s2),
             FluxerButton.secondary(
               onPressed: onDecline,
+              icon: PhosphorIconsBold.x,
               label: l10n.observabilityReportingConsentDecline,
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ObservabilityReportingConsentInfoRow extends StatelessWidget {
+  const _ObservabilityReportingConsentInfoRow({
+    required this.icon,
+    required this.iconColor,
+    required this.text,
+    required this.style,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String text;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = context.layout;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 1),
+          child: PhosphorIcon(icon, size: 18, color: iconColor),
+        ),
+        SizedBox(width: layout.s3),
+        Expanded(child: Text(text, style: style)),
+      ],
     );
   }
 }

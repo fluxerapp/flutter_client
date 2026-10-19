@@ -4,6 +4,10 @@ import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_consent_sheet.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_provider.dart';
 import 'package:fluxer_app/core/premium/app_store_distribution.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -176,6 +180,20 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
     });
   }
 
+  Future<void> _showObservabilityReportingConsentSheet() async {
+    final bool? optedIn = await showObservabilityReportingConsentSheet(context);
+    if (!mounted) {
+      return;
+    }
+    await recordObservabilityReportingConsentSheetResult(
+      reporting: ref.read(observabilityReportingProvider.notifier),
+      dismissed: ref.read(
+        observabilityReportingPromptDismissedProvider.notifier,
+      ),
+      optedIn: optedIn,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
@@ -239,12 +257,25 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
             description:
                 'Throws an uncaught exception after 2 seconds. Talker always '
                 "logs it. Fluxer's error tracker gets it only when crash and "
-                'performance reports are on.',
+                'performance reports are on. Show consent sheet opens the '
+                'post-crash opt-in UI with the same side effects as production.',
             children: [
-              FluxerButton.primary(
-                onPressed: _sendTestCrashToMeasure,
-                label: 'Send test error',
-                fitContent: true,
+              Wrap(
+                spacing: layout.s2,
+                runSpacing: layout.s2,
+                children: [
+                  FluxerButton.primary(
+                    onPressed: _sendTestCrashToMeasure,
+                    label: 'Send test error',
+                    fitContent: true,
+                  ),
+                  FluxerButton.secondary(
+                    onPressed: () =>
+                        unawaited(_showObservabilityReportingConsentSheet()),
+                    label: 'Show consent sheet',
+                    fitContent: true,
+                  ),
+                ],
               ),
             ],
           ),
