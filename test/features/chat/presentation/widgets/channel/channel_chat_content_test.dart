@@ -106,10 +106,8 @@ void main() {
             messages: <Message>[_message(id: 'newer-1')],
           ),
         ),
-        isFalse,
-        reason:
-            'THE LOOP: identical request, no remount, yet the stale target is '
-            'reissued. This assertion must flip to isTrue when C1 is fixed.',
+        isTrue,
+        reason: 'settled window without the target should not retry forever',
       );
     });
 

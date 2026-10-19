@@ -26,6 +26,13 @@ import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+void _logChannelChatContentDebug(void Function() log) {
+  assert(() {
+    log();
+    return true;
+  }(), 'channel chat content debug logging');
+}
+
 class ChannelChatContent extends ConsumerStatefulWidget {
   final String channelId;
   final bool showTopBar;
@@ -93,16 +100,14 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     );
     final String? effectiveTarget = request.targetMessageId;
     if (_shouldDedupSwitchRequest(request)) {
-      talker.debug(
-        '[ChannelChatContent] dedup sync channel=${widget.channelId} '
-        'target=$effectiveTarget',
-      );
       return;
     }
     _lastSwitchRequest = request;
-    talker.debug(
-      '[ChannelChatContent] run sync channel=${widget.channelId} '
-      'target=$effectiveTarget route=$routeTarget',
+    _logChannelChatContentDebug(
+      () => talker.debug(
+        '[ChannelChatContent] sync channel=${widget.channelId} '
+        'target=$effectiveTarget',
+      ),
     );
     unawaited(
       ref.read(slowmodeSyncProvider.notifier).fetchIfNeeded(widget.channelId),
@@ -117,16 +122,9 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     final String? activeChannelId = ref.read(activeChannelIdProvider);
     final bool hasPopup = ref.read(shellHasPopupOverlayProvider);
     if (hasPopup) {
-      talker.debug(
-        '[ChannelChatContent] skip sync channel=${widget.channelId} popup=true',
-      );
       return false;
     }
     if (activeChannelId != widget.channelId) {
-      talker.debug(
-        '[ChannelChatContent] skip sync channel=${widget.channelId} '
-        'active=$activeChannelId',
-      );
       return false;
     }
     return true;
@@ -146,13 +144,8 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     ({String channelId, String? targetMessageId, bool loadMessages}) request,
   ) async {
     if (!mounted) {
-      talker.debug('[ChannelChatContent] sync aborted: not mounted');
       return;
     }
-    talker.debug(
-      '[ChannelChatContent] _runChannelSync channel=${request.channelId} '
-      'target=${request.targetMessageId} load=${request.loadMessages}',
-    );
     final closeRequest = (
       channelId: request.channelId,
       targetMessageId: request.targetMessageId,
@@ -206,9 +199,11 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
       return;
     }
     _lastSwitchRequest = null;
-    talker.debug(
-      '[ChannelChatContent] resync mismatched window channel=${widget.channelId} '
-      'vm=${state.channelId}',
+    _logChannelChatContentDebug(
+      () => talker.debug(
+        '[ChannelChatContent] resync mismatched window channel=${widget.channelId} '
+        'vm=${state.channelId}',
+      ),
     );
     _scheduleSyncChannelIfNeeded();
   }
@@ -227,8 +222,10 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     }
     _strandedEmptyResyncChannelId = widget.channelId;
     _lastSwitchRequest = null;
-    talker.debug(
-      '[ChannelChatContent] resync stranded empty channel=${widget.channelId}',
+    _logChannelChatContentDebug(
+      () => talker.debug(
+        '[ChannelChatContent] resync stranded empty channel=${widget.channelId}',
+      ),
     );
     _scheduleSyncChannelIfNeeded();
   }
@@ -407,9 +404,15 @@ bool shouldDedupChannelChatSwitchRequest({
   }
   final String? targetMessageId = request.targetMessageId;
   if (targetMessageId != null && targetMessageId.isNotEmpty) {
-    return state.messages.any(
+    if (state.messages.any(
       (Message message) => message.id == targetMessageId,
-    );
+    )) {
+      return true;
+    }
+    if (state.messages.isNotEmpty) {
+      return true;
+    }
+    return false;
   }
   return !state.messageLoadFailed;
 }
