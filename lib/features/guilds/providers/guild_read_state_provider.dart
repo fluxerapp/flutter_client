@@ -9,22 +9,16 @@ import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/channels/data/channel_unread_presentation.dart';
 import 'package:fluxer_app/features/channels/data/read_state_effective.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
-    show
-        isThreadChannelType,
-        isThreadOnlyChannelType,
-        tracksGuildChannelUnreadFold;
-import 'package:fluxer_app/features/channels/providers/guild_channel_unread_snapshot_provider.dart'
-    show guildChannelUnreadFoldProvider;
+    show isThreadChannelType, tracksGuildChannelUnreadSnapshot;
+import 'package:fluxer_app/features/channels/domain/unread_state.dart';
+import 'package:fluxer_app/features/channels/providers/guild_channel_unread_snapshot_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
-import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
-import 'package:fluxer_app/features/forum/domain/forum_channel.dart'
-    show forumNewPostsUnreadEnabled;
-import 'package:fluxer_app/features/guilds/domain/guild_read_state_contribution.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
@@ -419,25 +413,23 @@ class GuildReadState extends _$GuildReadState {
       _latestMessageIdByChannel[channel.id] = resolved.id;
       _channelLastExistsInCacheByChannel[channel.id] = resolved.existsInCache;
       final int fallbackAckMs = _fallbackAckMsForChannel(channel);
-      final _Contribution contribution = _computeChannelContribution(
-        channel: channel,
-        readState: _effectiveReadState(channel.id),
-        guildSettings: _guildSettings[channel.guildId],
-        now: now,
-        fallbackAckMs: fallbackAckMs,
-        strictLatestMessageId: resolved.id,
-        channelLastMessageExistsInCache: resolved.existsInCache,
+      final ChannelGuildUnreadPresentation presentation =
+          _computeChannelPresentation(
+            channel: channel,
+            readState: _effectiveReadState(channel.id),
+            guildSettings: _guildSettings[channel.guildId],
+            now: now,
+            fallbackAckMs: fallbackAckMs,
+            strictLatestMessageId: resolved.id,
+            channelLastMessageExistsInCache: resolved.existsInCache,
+          );
+      _channelContributions[channel.id] = _contributionFromPresentation(
+        presentation,
       );
-      _channelContributions[channel.id] = contribution;
       _contributionGuild[channel.id] = channel.guildId;
-      unreadPatch[channel.id] = _unreadStateFromContribution(
-        channel: channel,
-        contribution: contribution,
-        guildSettings: _guildSettings[channel.guildId],
-        now: now,
-      );
+      unreadPatch[channel.id] = presentation.snapshotUnread;
     }
-    ref.read(guildChannelUnreadFoldProvider.notifier).replace(unreadPatch);
+    ref.read(guildChannelUnreadSnapshotProvider.notifier).replace(unreadPatch);
     _emitForGuilds(guilds.map((g) => g.id).toSet());
     _isInitialSeedComplete = true;
     if (_pendingSeedChannelIds.isNotEmpty) {
@@ -558,6 +550,7 @@ class GuildReadState extends _$GuildReadState {
       if (channel == null || !_tracksUnread(channel.type)) {
         _channelContributions.remove(id);
         _contributionGuild.remove(id);
+        unreadPatch[id] = const UnreadState();
         continue;
       }
       final canRead = await canReadChannelForUnread(
@@ -581,24 +574,20 @@ class GuildReadState extends _$GuildReadState {
         db,
         currentUserId,
       );
-      final _Contribution contribution = _computeChannelContribution(
-        channel: channel,
-        readState: _effectiveReadState(channel.id),
-        guildSettings: _guildSettings[channel.guildId],
-        now: now,
-        fallbackAckMs: fallbackAckMs,
-        strictLatestMessageId: _latestMessageIdByChannel[id],
-        channelLastMessageExistsInCache:
-            _channelLastExistsInCacheByChannel[id] ?? false,
-      );
-      _channelContributions[id] = contribution;
+      final ChannelGuildUnreadPresentation presentation =
+          _computeChannelPresentation(
+            channel: channel,
+            readState: _effectiveReadState(channel.id),
+            guildSettings: _guildSettings[channel.guildId],
+            now: now,
+            fallbackAckMs: fallbackAckMs,
+            strictLatestMessageId: _latestMessageIdByChannel[id],
+            channelLastMessageExistsInCache:
+                _channelLastExistsInCacheByChannel[id] ?? false,
+          );
+      _channelContributions[id] = _contributionFromPresentation(presentation);
       _contributionGuild[id] = channel.guildId;
-      unreadPatch[id] = _unreadStateFromContribution(
-        channel: channel,
-        contribution: contribution,
-        guildSettings: _guildSettings[channel.guildId],
-        now: now,
-      );
+      unreadPatch[id] = presentation.snapshotUnread;
     }
     if (generation != _recomputeGeneration) {
       if (_isInitialSeedComplete) {
@@ -616,7 +605,7 @@ class GuildReadState extends _$GuildReadState {
     if (patch.isEmpty) {
       return;
     }
-    ref.read(guildChannelUnreadFoldProvider.notifier).apply(patch);
+    ref.read(guildChannelUnreadSnapshotProvider.notifier).apply(patch);
   }
 
   void _emitForGuilds(Set<String> guildIds) {
@@ -870,55 +859,7 @@ class GuildReadState extends _$GuildReadState {
     );
   }
 
-  UnreadState _unreadStateFromContribution({
-    required Channel channel,
-    required _Contribution contribution,
-    required UserGuildSettingsResponse? guildSettings,
-    required DateTime now,
-  }) {
-    final bool isThread = isThreadChannelType(channel.type);
-    final ReadState? readState = _readStateSnapshot[channel.id];
-    final bool hasUnreadPinsForChannel = hasUnreadPins(
-      channelLastPinTimestamp: channel.lastPinTimestamp,
-      ackLastPinTimestamp: readState?.lastPinTimestamp,
-    );
-    if (!isThread) {
-      return UnreadState(
-        hasUnread:
-            contribution.rawUnreadMessages || contribution.rawMentions > 0,
-        hasUnreadMessages: contribution.rawUnreadMessages,
-        mentionCount: contribution.rawMentions,
-        hasUnreadPins: hasUnreadPinsForChannel,
-        unreadBadgesLevel: resolveUnreadBadgesLevel(
-          channel: channel,
-          guildSettings: guildSettings,
-        ),
-      );
-    }
-    final bool isMutedForUnread =
-        isGuildOrCategoryOrChannelMuted(
-          channel: channel,
-          guildSettings: guildSettings,
-          now: now,
-        ) ||
-        _isThreadMuted(channel, guildSettings, now);
-    final UserNotificationSettings? unreadBadgesLevel = isMutedForUnread
-        ? UserNotificationSettings.noMessages
-        : resolveGuildUnreadBadgesLevel(
-            channel: channel,
-            guildSettings: guildSettings,
-            guildContext: _guildNotificationContexts[channel.guildId],
-          );
-    return UnreadState(
-      hasUnread: contribution.unreadEligible || contribution.mentions > 0,
-      hasUnreadMessages: contribution.hasUnreadMessages,
-      mentionCount: contribution.mentions,
-      hasUnreadPins: hasUnreadPinsForChannel,
-      unreadBadgesLevel: unreadBadgesLevel,
-    );
-  }
-
-  _Contribution _computeChannelContribution({
+  ChannelGuildUnreadPresentation _computeChannelPresentation({
     required Channel channel,
     required ReadState? readState,
     required UserGuildSettingsResponse? guildSettings,
@@ -927,63 +868,29 @@ class GuildReadState extends _$GuildReadState {
     required String? strictLatestMessageId,
     required bool channelLastMessageExistsInCache,
   }) {
-    final rawMentions = readState?.mentionCount ?? 0;
-    final channelLastMessageId = channel.lastMessageId;
-    final latestMessageId = resolveLatestMessageIdForUnread(
-      strictLatestMessageId: strictLatestMessageId,
-      channelLastMessageId: channelLastMessageId,
-      ackLastMessageId: readState?.lastMessageId,
-      mentionCount: rawMentions,
-      channelLastMessageExistsInCache: channelLastMessageExistsInCache,
-    );
     final bool isThread = isThreadChannelType(channel.type);
-    final bool isMutedForUnread =
-        isGuildOrCategoryOrChannelMuted(
-          channel: channel,
-          guildSettings: guildSettings,
-          now: now,
-        ) ||
-        (isThread && _isThreadMuted(channel, guildSettings, now));
-    final bool unreadTracked =
-        (!isThread ||
-            (_joinedThreadMembers.containsKey(channel.id) &&
-                !isMutedForUnread)) &&
-        (!isThreadOnlyChannelType(channel.type) ||
-            forumNewPostsUnreadEnabled(
-              guildSettings?.channelOverrides?[channel.id]?.flags,
-            ));
-    final hasUnreadMessage =
-        unreadTracked &&
-        hasUnreadByReadState(
-          channelLastMessageId: latestMessageId,
-          ackLastMessageId: readState?.lastMessageId,
-          fallbackAckMs: fallbackAckMs,
-          mentionCount: 0,
-          isGuildChannel: true,
-        );
-    final bool tracksType = _tracksUnread(channel.type);
-    final contribution = resolveGuildReadStateContribution(
-      isEligibleTextChannel: tracksType,
-      isPrivate: false,
-      unreadBadgesLevel: isMutedForUnread
-          ? UserNotificationSettings.noMessages
-          : resolveGuildUnreadBadgesLevel(
-              channel: channel,
-              guildSettings: guildSettings,
-              guildContext: _guildNotificationContexts[channel.guildId],
-            ),
-      isMutedForUnread: isMutedForUnread,
-      hasUnread: hasUnreadMessage,
-      mentionCount: rawMentions,
+    return computeChannelGuildUnreadPresentation(
+      channel: channel,
+      readState: readState,
+      guildSettings: guildSettings,
+      guildContext: _guildNotificationContexts[channel.guildId],
+      now: now,
+      fallbackAckMs: fallbackAckMs,
+      strictLatestMessageId: strictLatestMessageId,
+      channelLastMessageExistsInCache: channelLastMessageExistsInCache,
+      threadJoined: _joinedThreadMembers.containsKey(channel.id),
+      threadMuted: isThread && _isThreadMuted(channel, guildSettings, now),
     );
-    final hasPlainUnread = contribution.unreadAllowed && rawMentions == 0;
+  }
+
+  _Contribution _contributionFromPresentation(
+    ChannelGuildUnreadPresentation presentation,
+  ) {
     return _Contribution(
-      unreadEligible: contribution.unreadAllowed,
-      hasPlainUnread: hasPlainUnread,
-      hasUnreadMessages: contribution.unreadAllowed && hasUnreadMessage,
-      mentions: contribution.mentionAllowed ? rawMentions : 0,
-      rawUnreadMessages: tracksType && hasUnreadMessage,
-      rawMentions: tracksType ? rawMentions : 0,
+      unreadEligible: presentation.unreadEligible,
+      hasPlainUnread: presentation.hasPlainUnread,
+      hasUnreadMessages: presentation.hasUnreadMessages,
+      mentions: presentation.guildMentionCount,
     );
   }
 
@@ -1007,7 +914,7 @@ class GuildReadState extends _$GuildReadState {
   }
 }
 
-bool _tracksUnread(int type) => tracksGuildChannelUnreadFold(type);
+bool _tracksUnread(int type) => tracksGuildChannelUnreadSnapshot(type);
 
 Set<String> _diffReadStates(
   Map<String, ReadState> previous,
@@ -1128,14 +1035,10 @@ class _Contribution {
     required this.hasPlainUnread,
     required this.hasUnreadMessages,
     required this.mentions,
-    this.rawUnreadMessages = false,
-    this.rawMentions = 0,
   });
 
   final bool unreadEligible;
   final bool hasPlainUnread;
   final bool hasUnreadMessages;
   final int mentions;
-  final bool rawUnreadMessages;
-  final int rawMentions;
 }

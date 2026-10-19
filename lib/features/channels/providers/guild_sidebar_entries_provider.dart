@@ -287,7 +287,7 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
       (_isFirstLoad(guildMute) ||
           _isFirstLoad(muted) ||
           _isFirstLoad(collapsedCategories) ||
-          !ref.watch(guildChannelUnreadKnownProvider(guildId)))) {
+          !ref.watch(guildListedChannelUnreadReadyProvider(guildId)))) {
     return const <GuildSidebarEntry>[];
   }
   final bool hideMutedChannels = guildMute.value?.hideMutedChannels ?? false;
@@ -299,7 +299,7 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   final bool selectionChangesMembership =
       hideMutedChannels || collapsed.isNotEmpty;
   final Map<String, UnreadState> unreadSnapshot = selectionChangesMembership
-      ? ref.watch(guildChannelUnreadSnapshotProvider(guildId))
+      ? ref.watch(guildListedChannelUnreadSnapshotProvider(guildId))
       : const <String, UnreadState>{};
   final String? selectedId = selectionChangesMembership
       ? ref.watch(activeChannelIdProvider)

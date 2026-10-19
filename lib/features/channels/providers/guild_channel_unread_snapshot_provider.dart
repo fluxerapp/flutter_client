@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'guild_channel_unread_snapshot_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class GuildChannelUnreadFold extends _$GuildChannelUnreadFold {
+class GuildChannelUnreadSnapshot extends _$GuildChannelUnreadSnapshot {
   @override
   Map<String, UnreadState> build() {
     ref.watch(currentUserIdProvider);
@@ -28,7 +28,10 @@ class GuildChannelUnreadFold extends _$GuildChannelUnreadFold {
 }
 
 @riverpod
-Map<String, UnreadState> guildChannelUnreadSnapshot(Ref ref, String guildId) {
+Map<String, UnreadState> guildListedChannelUnreadSnapshot(
+  Ref ref,
+  String guildId,
+) {
   final List<ChannelCategory> categories = ref.watch(
     channelListViewModelProvider.select(
       (ChannelListState state) => state.guild?.id == guildId
@@ -36,22 +39,22 @@ Map<String, UnreadState> guildChannelUnreadSnapshot(Ref ref, String guildId) {
           : const <ChannelCategory>[],
     ),
   );
-  final Map<String, UnreadState> fold = ref.watch(
-    guildChannelUnreadFoldProvider,
+  final Map<String, UnreadState> snapshot = ref.watch(
+    guildChannelUnreadSnapshotProvider,
   );
-  final Map<String, UnreadState> snapshot = <String, UnreadState>{
+  final Map<String, UnreadState> listed = <String, UnreadState>{
     for (final ChannelCategory category in categories)
       for (final Channel channel in category.channels)
         channel.id:
-            fold[channel.id] ??
+            snapshot[channel.id] ??
             ref.watch(channelUnreadOrLastKnownProvider(channel.id)) ??
             const UnreadState(),
   };
-  return Map<String, UnreadState>.unmodifiable(snapshot);
+  return Map<String, UnreadState>.unmodifiable(listed);
 }
 
 @riverpod
-bool guildChannelUnreadKnown(Ref ref, String guildId) {
+bool guildListedChannelUnreadReady(Ref ref, String guildId) {
   final List<ChannelCategory> categories = ref.watch(
     channelListViewModelProvider.select(
       (ChannelListState state) => state.guild?.id == guildId
@@ -59,15 +62,15 @@ bool guildChannelUnreadKnown(Ref ref, String guildId) {
           : const <ChannelCategory>[],
     ),
   );
-  final Map<String, UnreadState> fold = ref.watch(
-    guildChannelUnreadFoldProvider,
+  final Map<String, UnreadState> snapshot = ref.watch(
+    guildChannelUnreadSnapshotProvider,
   );
   for (final ChannelCategory category in categories) {
     for (final Channel channel in category.channels) {
-      if (!tracksGuildChannelUnreadFold(channel.type.wireValue)) {
+      if (!tracksGuildChannelUnreadSnapshot(channel.type.wireValue)) {
         continue;
       }
-      if (fold.containsKey(channel.id)) {
+      if (snapshot.containsKey(channel.id)) {
         continue;
       }
       final bool known = ref.watch(

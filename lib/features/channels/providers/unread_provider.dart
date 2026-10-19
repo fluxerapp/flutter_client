@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as local;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -12,81 +11,25 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/data/channel_unread_sources.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
-import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadChannelType, isThreadOnlyChannelType;
-import 'package:fluxer_app/features/channels/providers/guild_channel_unread_snapshot_provider.dart';
+import 'package:fluxer_app/features/channels/domain/unread_state.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart'
     show forumNewPostsUnreadEnabled;
 import 'package:fluxer_app/features/guilds/providers/user_guild_settings_data_provider.dart';
-import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+export 'package:fluxer_app/features/channels/domain/unread_state.dart';
+export 'package:fluxer_app/features/channels/providers/channel_unread_or_last_known_provider.dart';
+
 part 'unread_provider.g.dart';
-
-@immutable
-class UnreadState {
-  final bool hasUnread;
-  final bool hasUnreadMessages;
-  final int mentionCount;
-  final bool hasUnreadPins;
-  final UserNotificationSettings? unreadBadgesLevel;
-
-  const UnreadState({
-    this.hasUnread = false,
-    this.hasUnreadMessages = false,
-    this.mentionCount = 0,
-    this.hasUnreadPins = false,
-    this.unreadBadgesLevel,
-  });
-
-  @override
-  bool operator ==(Object other) =>
-      other is UnreadState &&
-      other.hasUnread == hasUnread &&
-      other.hasUnreadMessages == hasUnreadMessages &&
-      other.mentionCount == mentionCount &&
-      other.hasUnreadPins == hasUnreadPins &&
-      other.unreadBadgesLevel == unreadBadgesLevel;
-
-  @override
-  int get hashCode => Object.hash(
-    hasUnread,
-    hasUnreadMessages,
-    mentionCount,
-    hasUnreadPins,
-    unreadBadgesLevel,
-  );
-}
 
 @Riverpod(keepAlive: true)
 Map<String, UnreadState> channelUnreadLastKnown(Ref ref) {
   ref.watch(currentUserIdProvider);
   return <String, UnreadState>{};
-}
-
-@riverpod
-UnreadState? channelUnreadOrLastKnown(Ref ref, String channelId) {
-  ref.watch(readStateOverlayVersionProvider);
-  final ReadStateWriteBatcher batcher = ref.read(readStateWriteBatcherProvider);
-  if (batcher.hasOverlay(channelId)) {
-    final UnreadState? fromStream = ref
-        .watch(channelUnreadProvider(channelId))
-        .value;
-    if (fromStream != null) {
-      return fromStream;
-    }
-  }
-  final UnreadState? fromFold = ref.watch(
-    guildChannelUnreadFoldProvider,
-  )[channelId];
-  if (fromFold != null) {
-    return fromFold;
-  }
-  return ref.watch(channelUnreadProvider(channelId)).value ??
-      ref.watch(channelUnreadLastKnownProvider)[channelId];
 }
 
 @Riverpod(keepAlive: true)

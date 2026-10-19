@@ -74,7 +74,7 @@ bool isGuildTextBasedChannel(int type) =>
     type == ChannelType.guildVoice.wireValue ||
     type == ChannelType.guildAnnouncement.wireValue;
 
-bool tracksGuildChannelUnreadFold(int type) =>
+bool tracksGuildChannelUnreadSnapshot(int type) =>
     isGuildTextBasedChannel(type) ||
     isThreadChannelType(type) ||
     isThreadOnlyChannelType(type);

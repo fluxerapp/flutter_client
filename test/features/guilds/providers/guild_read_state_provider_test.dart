@@ -899,7 +899,7 @@ void main() {
     },
   );
 
-  test('a READY on the same connection reseeds the guild fold', () async {
+  test('a READY on the same connection reseeds the guild snapshot', () async {
     final db = openTestDatabase();
     final lastMessageId = _recentSnowflake();
     await _seedGuild(
@@ -953,7 +953,7 @@ void main() {
     );
   });
 
-  test('gateway ready reseeds guild fold from database truth', () async {
+  test('gateway ready reseeds guild snapshot from database truth', () async {
     final db = openTestDatabase();
     final lastMessageId = _recentSnowflake();
     await _seedGuild(
@@ -998,7 +998,7 @@ void main() {
     expect(
       container.read(guildReadStateProvider)['guild-1']?.hasUnread ?? false,
       isFalse,
-      reason: 'messages table is unwatched; the fold stays stale by design',
+      reason: 'messages table is unwatched; the snapshot stays stale by design',
     );
 
     container.read(gatewayReadyProvider.notifier).reset();
@@ -1011,7 +1011,7 @@ void main() {
   });
 
   test(
-    'definitive VIEW_CHANNEL deny suppresses guild fold contribution',
+    'definitive VIEW_CHANNEL deny suppresses guild snapshot contribution',
     () async {
       final db = openTestDatabase();
       final lastMessageId = _recentSnowflake();
@@ -1172,7 +1172,7 @@ void main() {
         container.read(guildReadStateProvider)['guild-1']?.hasUnread,
         isFalse,
       );
-      final row = container.read(guildChannelUnreadFoldProvider)['chan-1'];
+      final row = container.read(guildChannelUnreadSnapshotProvider)['chan-1'];
       expect(row?.hasUnreadMessages, isTrue);
       expect(row?.unreadBadgesLevel, isNull);
     },
@@ -1593,6 +1593,105 @@ void main() {
             (container.read(guildReadStateProvider)['guild-1']?.mentionCount ??
                 0) >
             0,
+      );
+    },
+  );
+
+  test(
+    'announcement channel snapshot matches guild mention aggregate',
+    () async {
+      final db = openTestDatabase();
+      const String channelId = 'announce-1';
+      final String lastMessageId = _recentSnowflake();
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (id: channelId, name: 'news', type: 5, lastMessageId: lastMessageId),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value(channelId),
+          lastMessageId: Value(snowflakeAtPreviousMillisecond(lastMessageId)),
+          mentionCount: const Value(2),
+        ),
+      );
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitForGuildState(container, 'guild-1');
+
+      final entry = container.read(guildReadStateProvider)['guild-1']!;
+      expect(entry.mentionCount, 2);
+      expect(entry.mentionCountByChannel[channelId], 2);
+      expect(
+        container
+            .read(guildChannelUnreadSnapshotProvider)[channelId]
+            ?.mentionCount,
+        2,
+      );
+    },
+  );
+
+  test(
+    'snapshot mention count tracks guild map after read state update',
+    () async {
+      final db = openTestDatabase();
+      const String channelId = 'channel-1';
+      final String lastMessageId = _recentSnowflake();
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (
+            id: channelId,
+            name: 'general',
+            type: 0,
+            lastMessageId: lastMessageId,
+          ),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value(channelId),
+          lastMessageId: Value(lastMessageId),
+        ),
+      );
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitUntilReady(container);
+
+      await _bumpMentionCount(db, channelId);
+      await _waitFor(
+        () =>
+            (container.read(guildReadStateProvider)['guild-1']?.mentionCount ??
+                0) ==
+            1,
+      );
+
+      final entry = container.read(guildReadStateProvider)['guild-1']!;
+      expect(entry.mentionCountByChannel[channelId], 1);
+      expect(
+        container
+            .read(guildChannelUnreadSnapshotProvider)[channelId]
+            ?.mentionCount,
+        1,
       );
     },
   );

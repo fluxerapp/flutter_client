@@ -82,8 +82,8 @@ void main() {
   late String ackedId;
   late String mentionId;
 
-  UnreadState? fold() =>
-      container.read(guildChannelUnreadFoldProvider)[_channelId];
+  UnreadState? snapshot() =>
+      container.read(guildChannelUnreadSnapshotProvider)[_channelId];
   GuildReadStateEntry? guild() =>
       container.read(guildReadStateProvider)[_guildId];
 
@@ -149,9 +149,9 @@ void main() {
       ),
     );
     await start();
-    expect(fold()?.mentionCount, 1);
+    expect(snapshot()?.mentionCount, 1);
     expect(
-      container.read(guildChannelUnreadFoldProvider)[otherId]?.hasUnread,
+      container.read(guildChannelUnreadSnapshotProvider)[otherId]?.hasUnread,
       isFalse,
     );
 
@@ -168,9 +168,9 @@ void main() {
     });
     await _settle();
 
-    expect(fold()?.mentionCount, 2, reason: 'mentioned channel');
+    expect(snapshot()?.mentionCount, 2, reason: 'mentioned channel');
     expect(
-      container.read(guildChannelUnreadFoldProvider)[otherId]?.hasUnread,
+      container.read(guildChannelUnreadSnapshotProvider)[otherId]?.hasUnread,
       isTrue,
       reason: 'new message channel',
     );

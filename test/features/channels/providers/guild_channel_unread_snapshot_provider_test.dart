@@ -68,8 +68,8 @@ ProviderContainer _container(
               ).overrideWith((Ref ref) => never.stream),
           ],
         )
-        ..listen(guildChannelUnreadKnownProvider(_guildId), (_, _) {})
-        ..listen(guildChannelUnreadSnapshotProvider(_guildId), (_, _) {});
+        ..listen(guildListedChannelUnreadReadyProvider(_guildId), (_, _) {})
+        ..listen(guildListedChannelUnreadSnapshotProvider(_guildId), (_, _) {});
   addTearDown(container.dispose);
   return container;
 }
@@ -85,28 +85,36 @@ void main() {
     await _settle();
 
     expect(container.read(guildReadStateReadyProvider), isFalse);
-    expect(container.read(guildChannelUnreadKnownProvider(_guildId)), isTrue);
     expect(
-      container.read(guildChannelUnreadSnapshotProvider(_guildId))['c1'],
+      container.read(guildListedChannelUnreadReadyProvider(_guildId)),
+      isTrue,
+    );
+    expect(
+      container.read(guildListedChannelUnreadSnapshotProvider(_guildId))['c1'],
       _unread,
     );
   });
 
   test(
-    'a link channel outside the fold does not hide a seeded guild',
+    'a link channel outside the snapshot does not hide a seeded guild',
     () async {
       final container = _container(<String, UnreadState>{
         'l1': const UnreadState(),
       });
-      container.read(guildChannelUnreadFoldProvider.notifier).apply(
+      container.read(guildChannelUnreadSnapshotProvider.notifier).apply(
         <String, UnreadState>{'c1': _unread},
       );
       container.read(guildReadStateReadyProvider.notifier).markReady();
       await _settle();
 
-      expect(container.read(guildChannelUnreadKnownProvider(_guildId)), isTrue);
       expect(
-        container.read(guildChannelUnreadSnapshotProvider(_guildId))['c1'],
+        container.read(guildListedChannelUnreadReadyProvider(_guildId)),
+        isTrue,
+      );
+      expect(
+        container.read(
+          guildListedChannelUnreadSnapshotProvider(_guildId),
+        )['c1'],
         _unread,
       );
     },
@@ -122,7 +130,7 @@ void main() {
       await _settle();
 
       expect(
-        container.read(guildChannelUnreadKnownProvider(_guildId)),
+        container.read(guildListedChannelUnreadReadyProvider(_guildId)),
         isFalse,
       );
     },

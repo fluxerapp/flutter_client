@@ -89,8 +89,8 @@ void main() {
   late String ackedId;
   late String mentionId;
 
-  UnreadState? fold() =>
-      container.read(guildChannelUnreadFoldProvider)[_channelId];
+  UnreadState? snapshot() =>
+      container.read(guildChannelUnreadSnapshotProvider)[_channelId];
   GuildReadStateEntry? guild() =>
       container.read(guildReadStateProvider)[_guildId];
 
@@ -148,7 +148,7 @@ void main() {
     'reading a mentioned channel clears it after plain chatter was flushed',
     () async {
       await start();
-      expect(fold()?.mentionCount, 1);
+      expect(snapshot()?.mentionCount, 1);
 
       final String chatterId = _snowflake(ago: const Duration(hours: 1));
       await _advanceChannel(db, chatterId);
@@ -161,7 +161,7 @@ void main() {
       );
       await batcher.flush(_channelId);
       await _settle();
-      expect(fold()?.mentionCount, 1);
+      expect(snapshot()?.mentionCount, 1);
 
       await ReadStateRepository(
         FluxerClient(Dio()),
@@ -172,8 +172,8 @@ void main() {
       final persisted = await db.readStateDao.getReadState(_channelId);
       expect(persisted?.mentionCount, 0);
       expect(persisted?.lastMessageId, chatterId);
-      expect(fold()?.mentionCount, 0, reason: 'fold mention');
-      expect(fold()?.hasUnread, isFalse, reason: 'fold unread');
+      expect(snapshot()?.mentionCount, 0, reason: 'snapshot mention');
+      expect(snapshot()?.hasUnread, isFalse, reason: 'snapshot unread');
       expect(guild()?.mentionCount, 0, reason: 'guild mention');
       expect(guild()?.hasUnread, isFalse, reason: 'guild unread');
       final UnreadState? stream = await streamState();
@@ -206,8 +206,8 @@ void main() {
     );
     await _settle();
 
-    expect(fold()?.mentionCount, 0);
-    expect(fold()?.hasUnread, isFalse);
+    expect(snapshot()?.mentionCount, 0);
+    expect(snapshot()?.hasUnread, isFalse);
   });
 
   test('mark unread shows after an own-message ack landed twice', () async {
@@ -219,7 +219,7 @@ void main() {
       ),
     );
     await start();
-    expect(fold()?.hasUnread, isFalse);
+    expect(snapshot()?.hasUnread, isFalse);
 
     final String ownId = _snowflake(ago: const Duration(hours: 1));
     await _advanceChannel(db, ownId);
@@ -237,7 +237,7 @@ void main() {
     );
     await batcher.flushAck(_channelId);
     await _settle();
-    expect(fold()?.hasUnread, isFalse);
+    expect(snapshot()?.hasUnread, isFalse);
 
     await db.readStateDao.upsertReadState(
       ReadStatesCompanion(
@@ -249,12 +249,12 @@ void main() {
     );
     await _settle();
 
-    expect(fold()?.hasUnread, isTrue, reason: 'fold unread');
+    expect(snapshot()?.hasUnread, isTrue, reason: 'snapshot unread');
     final UnreadState? stream = await streamState();
     expect(stream?.hasUnread, isTrue, reason: 'stream unread');
   });
 
-  test('a READY that drops pending overlays recomputes the fold', () async {
+  test('a READY that drops pending overlays recomputes the snapshot', () async {
     await db.readStateDao.upsertReadState(
       ReadStatesCompanion(
         channelId: const Value(_channelId),
@@ -271,13 +271,13 @@ void main() {
       isDm: false,
       seedAckCandidate: null,
     );
-    await _waitFor(() => (fold()?.mentionCount ?? 0) == 1);
+    await _waitFor(() => (snapshot()?.mentionCount ?? 0) == 1);
     expect(await db.readStateDao.getReadState(_channelId), isNotNull);
     expect((await db.readStateDao.getReadState(_channelId))?.mentionCount, 0);
 
     batcher.clearAll();
     await _settle();
 
-    expect(fold()?.mentionCount, 0);
+    expect(snapshot()?.mentionCount, 0);
   });
 }

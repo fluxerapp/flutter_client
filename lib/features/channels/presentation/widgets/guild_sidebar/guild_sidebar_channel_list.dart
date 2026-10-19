@@ -321,7 +321,7 @@ class _GuildSidebarChannelListState
       channelId: channelId,
       unread:
           ref.read(
-            guildChannelUnreadSnapshotProvider(widget.guildId),
+            guildListedChannelUnreadSnapshotProvider(widget.guildId),
           )[channelId] ??
           ref.read(channelUnreadOrLastKnownProvider(channelId)),
     );
@@ -397,7 +397,10 @@ class _GuildSidebarChannelListState
       ..listen(guildReadStateProvider.select((s) => s[widget.guildId]), (_, _) {
         _scrollIndicator.scheduleUpdate();
       })
-      ..listen(guildChannelUnreadSnapshotProvider(widget.guildId), (_, _) {
+      ..listen(guildListedChannelUnreadSnapshotProvider(widget.guildId), (
+        _,
+        _,
+      ) {
         _scrollIndicator.scheduleUpdate();
       })
       ..listen<List<GuildSidebarEntry>>(guildSidebarEntriesProvider, (
