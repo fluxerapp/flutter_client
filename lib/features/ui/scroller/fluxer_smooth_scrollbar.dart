@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math' as math;
 
+import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar_metrics.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -78,6 +80,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
   DateTime _idleDeadline = DateTime.fromMillisecondsSinceEpoch(0);
   Timer? _idleTimer;
   ScrollPosition? _attachedPosition;
+  bool _reduceMotion = false;
 
   @override
   void initState() {
@@ -106,11 +109,17 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
     } else {
       _syncExtentTarget();
       if (!_extentsSettled) {
-        _scheduleFrame();
+        if (_lerpExtents) {
+          _scheduleFrame();
+        } else {
+          _smoothedMinExtent = _targetMinExtent;
+          _smoothedMaxExtent = _targetMaxExtent;
+          _updateGeometry();
+        }
       }
     }
     if (oldWidget.pinTrailingEdge != widget.pinTrailingEdge) {
-      _scheduleFrame();
+      _updateGeometry();
     }
   }
 
@@ -168,7 +177,11 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
 
   void _onPositionChanged() {
     _syncExtentTarget();
-    if (_smoothExtents || !_extentsSettled) {
+    if (!_lerpExtents && !_extentsSettled) {
+      _smoothedMinExtent = _targetMinExtent;
+      _smoothedMaxExtent = _targetMaxExtent;
+    }
+    if (_lerpExtents && !_extentsSettled) {
       _scheduleFrame();
     } else {
       _updateGeometry();
@@ -200,8 +213,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
       (_smoothedMaxExtent - _targetMaxExtent).abs() <=
           kFluxerSmoothScrollbarExtentEpsilon;
 
-  bool get _smoothExtents =>
-      _scrollActivity || _hoveringTrack || _draggingThumb;
+  bool get _lerpExtents => _hoveringTrack || _draggingThumb;
 
   void _scheduleFrame() {
     if (_frameScheduled) {
@@ -214,7 +226,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
         return;
       }
       if (_hasExtent && !_draggingThumb && !_extentsSettled) {
-        if (_smoothExtents) {
+        if (_lerpExtents) {
           _smoothedMinExtent = fluxerSmoothScrollbarLerpExtent(
             current: _smoothedMinExtent,
             target: _targetMinExtent,
@@ -231,7 +243,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
         }
       }
       _updateGeometry();
-      if (_hasExtent && !_extentsSettled && _smoothExtents) {
+      if (_hasExtent && !_extentsSettled && _lerpExtents) {
         _scheduleFrame();
       }
     });
@@ -255,7 +267,12 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
     _idleDeadline = DateTime.now().add(_kIdleFadeDelay);
     final bool started = !_scrollActivity;
     _scrollActivity = true;
-    _idleTimer ??= Timer(_kIdleFadeDelay, _onIdleTimer);
+    if (_reduceMotion) {
+      _idleTimer?.cancel();
+      _idleTimer = null;
+    } else {
+      _idleTimer ??= Timer(_kIdleFadeDelay, _onIdleTimer);
+    }
     if (started) {
       _scheduleFrame();
     }
@@ -271,6 +288,13 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
       _idleTimer = Timer(remaining, _onIdleTimer);
       return;
     }
+    _endScrollActivity();
+  }
+
+  void _endScrollActivity() {
+    if (!_scrollActivity) {
+      return;
+    }
     _scrollActivity = false;
     _scheduleFrame();
   }
@@ -279,8 +303,19 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
     if (notification.metrics.axis != Axis.vertical || notification.depth != 0) {
       return false;
     }
-    if (notification is ScrollStartNotification ||
-        notification is ScrollUpdateNotification) {
+    if (notification is UserScrollNotification) {
+      if (notification.direction != ScrollDirection.idle) {
+        _noteActivity();
+      } else if (_reduceMotion && !_hoveringTrack && !_draggingThumb) {
+        _endScrollActivity();
+      }
+      return false;
+    }
+    if (notification is ScrollStartNotification &&
+        notification.dragDetails != null) {
+      _noteActivity();
+    } else if (notification is ScrollUpdateNotification &&
+        notification.dragDetails != null) {
       _noteActivity();
     }
     return false;
@@ -292,7 +327,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
     }
     _attachPosition();
     final bool targetChanged = _syncExtentTarget();
-    if (!_smoothExtents) {
+    if (!_lerpExtents) {
       if (targetChanged || !_extentsSettled) {
         _smoothedMinExtent = _targetMinExtent;
         _smoothedMaxExtent = _targetMaxExtent;
@@ -337,6 +372,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
 
   @override
   Widget build(BuildContext context) {
+    _reduceMotion = MediaQuery.disableAnimationsOf(context);
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -438,73 +474,92 @@ class _FluxerSmoothScrollbarThumb extends StatelessWidget {
         ? Duration.zero
         : _kFadeDuration;
 
-    return IgnorePointer(
-      ignoring: !geometry.thumbVisible,
-      child: MouseRegion(
-        onEnter: (_) => onHoverChanged(true),
-        onExit: (_) => onHoverChanged(false),
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            final double viewportDimension = constraints.maxHeight;
-            final double trackLength = fluxerSmoothScrollbarTrackLength(
-              viewportDimension: viewportDimension,
-              topInset: topInset,
-              bottomInset: bottomInset,
-            );
-            final double thumbExtent = fluxerSmoothScrollbarThumbExtent(
-              trackLength: trackLength,
-              viewportDimension: viewportDimension,
-              scrollableExtent: range,
-            );
-            final double fraction = fluxerSmoothScrollbarScrollFraction(
-              pixels: geometry.pixels,
-              minExtent: geometry.minScrollExtent,
-              maxExtent: geometry.maxScrollExtent,
-              pinTrailingEdge: pinTrailingEdge,
-            );
-            final double thumbTop = fluxerSmoothScrollbarThumbOffset(
-              fraction: fraction,
-              topInset: topInset,
-              trackLength: trackLength,
-              thumbExtent: thumbExtent,
-            );
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onVerticalDragStart: (DragStartDetails details) {
-                onDragStart(details.localPosition.dy, viewportDimension);
-              },
-              onVerticalDragUpdate: (DragUpdateDetails details) {
-                onDragUpdate(details.localPosition.dy, viewportDimension);
-              },
-              onVerticalDragEnd: (_) => onDragEnd(),
-              onVerticalDragCancel: onDragEnd,
-              onTapDown: (TapDownDetails details) {
-                onTrackTap(details.localPosition.dy, viewportDimension);
-              },
-              child: AnimatedOpacity(
-                opacity: geometry.thumbVisible ? 1 : 0,
-                duration: fadeDuration,
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 2),
-                    child: Container(
-                      key: const Key('fluxer_smooth_scrollbar_thumb'),
-                      width: thickness,
-                      height: thumbExtent,
-                      margin: EdgeInsets.only(top: thumbTop),
-                      decoration: BoxDecoration(
-                        color: color,
-                        borderRadius: BorderRadius.all(radius),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double viewportDimension = constraints.maxHeight;
+        final double trackLength = fluxerSmoothScrollbarTrackLength(
+          viewportDimension: viewportDimension,
+          topInset: topInset,
+          bottomInset: bottomInset,
+        );
+        final double thumbExtent = fluxerSmoothScrollbarThumbExtent(
+          trackLength: trackLength,
+          viewportDimension: viewportDimension,
+          scrollableExtent: range,
+        );
+        final double fraction = fluxerSmoothScrollbarScrollFraction(
+          pixels: geometry.pixels,
+          minExtent: geometry.minScrollExtent,
+          maxExtent: geometry.maxScrollExtent,
+          pinTrailingEdge: pinTrailingEdge,
+        );
+        final double thumbTop = fluxerSmoothScrollbarThumbOffset(
+          fraction: fraction,
+          topInset: topInset,
+          trackLength: trackLength,
+          thumbExtent: thumbExtent,
+        );
+        final double hitWidth = math.max(thickness, _kTrackHitWidth);
+        return Stack(
+          children: <Widget>[
+            Positioned(
+              top: thumbTop,
+              right: 0,
+              width: hitWidth,
+              height: thumbExtent,
+              child: IgnorePointer(
+                ignoring: !geometry.thumbVisible && !geometry.thumbHovered,
+                child: MouseRegion(
+                  onEnter: (_) => onHoverChanged(true),
+                  onExit: (_) => onHoverChanged(false),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onVerticalDragStart: (DragStartDetails details) {
+                      onDragStart(
+                        thumbTop + details.localPosition.dy,
+                        viewportDimension,
+                      );
+                    },
+                    onVerticalDragUpdate: (DragUpdateDetails details) {
+                      onDragUpdate(
+                        thumbTop + details.localPosition.dy,
+                        viewportDimension,
+                      );
+                    },
+                    onVerticalDragEnd: (_) => onDragEnd(),
+                    onVerticalDragCancel: onDragEnd,
+                    onTapDown: (TapDownDetails details) {
+                      onTrackTap(
+                        thumbTop + details.localPosition.dy,
+                        viewportDimension,
+                      );
+                    },
+                    child: AnimatedOpacity(
+                      opacity: geometry.thumbVisible ? 1 : 0,
+                      duration: fadeDuration,
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 2),
+                          child: Container(
+                            key: const Key('fluxer_smooth_scrollbar_thumb'),
+                            width: thickness,
+                            height: thumbExtent,
+                            decoration: BoxDecoration(
+                              color: color,
+                              borderRadius: BorderRadius.all(radius),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            );
-          },
-        ),
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
+import 'package:fluxer_app/core/observability/fluxer_measure_root.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
@@ -53,7 +54,10 @@ void _configureImagePicker() {
 
 void _runFluxerApp(ProviderContainer container) {
   runApp(
-    UncontrolledProviderScope(container: container, child: const FluxerApp()),
+    UncontrolledProviderScope(
+      container: container,
+      child: const FluxerMeasureRoot(child: FluxerApp()),
+    ),
   );
 }
 

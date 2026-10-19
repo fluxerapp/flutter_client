@@ -32,7 +32,10 @@ Widget pumpFluxerApp({
             textTheme: FluxerTextTheme.fromColors(colorTheme),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-      home: child,
+      home: MediaQuery(
+        data: const MediaQueryData(disableAnimations: true),
+        child: child,
+      ),
     ),
   );
 }

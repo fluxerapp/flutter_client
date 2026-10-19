@@ -159,11 +159,45 @@ void main() {
     position.jumpTo(position.maxScrollExtent - 80);
     await tester.pump();
 
-    final Container thumb = tester.widget<Container>(
-      find.byKey(const Key('fluxer_smooth_scrollbar_thumb')),
+    expect(
+      tester
+          .getRect(find.byKey(const Key('fluxer_smooth_scrollbar_thumb')))
+          .top,
+      greaterThan(150),
     );
-    final EdgeInsets margin = thumb.margin! as EdgeInsets;
-    expect(margin.top, greaterThan(150));
+  });
+
+  testWidgets('programmatic scroll does not block pumpAndSettle', (
+    tester,
+  ) async {
+    final ScrollController controller = ScrollController();
+    addTearDown(controller.dispose);
+
+    await tester.pumpWidget(
+      _buildApp(
+        SizedBox(
+          height: 300,
+          child: FluxerSmoothScrollbar(
+            controller: controller,
+            pinTrailingEdge: true,
+            child: ListView.builder(
+              controller: controller,
+              itemCount: 80,
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(height: 48, child: Text('row $index'));
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    for (var i = 0; i < 8; i++) {
+      controller.jumpTo(controller.position.maxScrollExtent - i * 12);
+      await tester.pump();
+    }
+    await tester.pumpAndSettle();
   });
 
   testWidgets('dragging thumb changes scroll offset', (tester) async {

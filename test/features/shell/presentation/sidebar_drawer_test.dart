@@ -1591,13 +1591,20 @@ Widget _buildDrawerApp({
   Size size = const Size(400, 800),
   double? touchSlop,
 }) {
+  final colorTheme = buildDarkColorTheme();
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp.router(
+      theme: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
       routerConfig: router,
       builder: (context, child) => MediaQuery(
         data: MediaQueryData(
           size: size,
+          disableAnimations: true,
           gestureSettings: touchSlop == null
               ? const DeviceGestureSettings(touchSlop: kTouchSlop)
               : DeviceGestureSettings(touchSlop: touchSlop),
