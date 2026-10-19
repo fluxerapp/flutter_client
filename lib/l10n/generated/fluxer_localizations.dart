@@ -17082,7 +17082,7 @@ abstract class FluxerLocalizations {
   /// Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is.
   ///
   /// In en, this message translates to:
-  /// **'Reports go to Fluxer\'s error tracker, whichever instance you\'re signed in to. They don\'t include instance names, IDs or message content.'**
+  /// **'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.'**
   String get advancedCrashReportingDescription;
 
   /// Title of the post-crash opt-in sheet for crash and error reporting.
