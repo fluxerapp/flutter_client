@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
@@ -11,6 +12,10 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'fluxer_sfx_test.mocks.dart';
+
+const MethodChannel _androidNotificationsChannel = MethodChannel(
+  'fluxer_app/android_notifications',
+);
 
 @GenerateMocks(<Type>[AudioPlayer])
 void main() {
@@ -135,6 +140,34 @@ void main() {
       ).called(1);
     });
 
+    test(
+      'reapplies notification context for back to back message sounds',
+      () async {
+        when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {
+          return;
+        });
+        when(mockOneShotPlayer.setReleaseMode(any)).thenAnswer((_) async {
+          return;
+        });
+        when(mockOneShotPlayer.stop()).thenAnswer((_) async {
+          return;
+        });
+        when(mockOneShotPlayer.setVolume(any)).thenAnswer((_) async {
+          return;
+        });
+        when(mockOneShotPlayer.play(any)).thenAnswer((_) async {
+          return;
+        });
+
+        await sfx.playOneShot(FluxerSfxClip.message);
+        await sfx.playOneShot(FluxerSfxClip.message);
+
+        verify(
+          mockOneShotPlayer.setAudioContext(kNotificationSfxContext),
+        ).called(2);
+      },
+    );
+
     test('uses session feedback context for voice ui sounds', () async {
       when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {
         return;
@@ -161,6 +194,44 @@ void main() {
   });
 
   group('startLoop', () {
+    test(
+      'does not play incoming ring when android ringer is silenced',
+      () async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(_androidNotificationsChannel, (
+              MethodCall call,
+            ) async {
+              if (call.method == 'isNotificationSoundSuppressed') {
+                return true;
+              }
+              return null;
+            });
+        when(mockLoopPlayer.setAudioContext(any)).thenAnswer((_) async {
+          return;
+        });
+        when(mockLoopPlayer.setReleaseMode(any)).thenAnswer((_) async {
+          return;
+        });
+        when(mockLoopPlayer.stop()).thenAnswer((_) async {
+          return;
+        });
+        when(mockLoopPlayer.setVolume(any)).thenAnswer((_) async {
+          return;
+        });
+        when(mockLoopPlayer.play(any)).thenAnswer((_) async {
+          return;
+        });
+
+        await sfx.startLoop(FluxerSfxClip.incomingRing);
+
+        verifyNever(mockLoopPlayer.play(any));
+        debugDefaultTargetPlatformOverride = null;
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(_androidNotificationsChannel, null);
+      },
+    );
+
     test('uses incoming ring context for the ring loop', () async {
       when(mockLoopPlayer.setAudioContext(any)).thenAnswer((_) async {
         return;

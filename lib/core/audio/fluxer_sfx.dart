@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:audio_session/audio_session.dart' as audio_session;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:fluxer_app/core/audio/app_audio_session_restore.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
+import 'package:fluxer_app/core/notifications/system_notification_sound_policy.dart';
 
 const double _kDefaultSfxVolume = 0.4;
 
@@ -55,6 +58,30 @@ bool shouldRestorePreferredAudioAfterOneShot(AudioContext context) {
   return context == kIncomingRingLoopContext;
 }
 
+bool usesRingerRespectingAudioContext(AudioContext context) {
+  return context == kNotificationSfxContext ||
+      context == kIncomingRingLoopContext;
+}
+
+Future<void> prepareRingerRespectingAudioSession() async {
+  if (!(Platform.isAndroid || Platform.isIOS)) {
+    return;
+  }
+  if (voiceCallOwnsAndroidAudioRoute()) {
+    return;
+  }
+  try {
+    final audio_session.AudioSession session =
+        await audio_session.AudioSession.instance;
+    await session.configure(kRingerRespectingSfxAudioSessionConfig);
+    if (Platform.isIOS) {
+      await session.setActive(true);
+    }
+  } on Object {
+    return;
+  }
+}
+
 class FluxerSFX {
   FluxerSFX({AudioPlayer? loopPlayer, AudioPlayer? oneShotPlayer})
     : _loopPlayer = loopPlayer ?? AudioPlayer(),
@@ -79,10 +106,7 @@ class FluxerSFX {
         ignoreRingerPolicy: ignoreRingerPolicy,
         isIncomingRingLoop: false,
       );
-      if (_lastOneShotContext != context &&
-          await applyAudioPlayerContext(_oneShotPlayer, context)) {
-        _lastOneShotContext = context;
-      }
+      await _applyOneShotAudioContext(context);
       await _oneShotPlayer.setReleaseMode(ReleaseMode.release);
       await _oneShotPlayer.stop();
       await _oneShotPlayer.setVolume(_clampVolume(volume));
@@ -98,7 +122,7 @@ class FluxerSFX {
     }
   }
 
-  Future<void> startLoop(
+  Future<bool> startLoop(
     FluxerSfxClip clip, {
     double volume = _kDefaultSfxVolume,
   }) async {
@@ -106,29 +130,32 @@ class FluxerSFX {
       try {
         await _loopPlayer.setVolume(_clampVolume(volume));
       } on Object {
-        return;
+        return false;
       }
-      return;
+      return true;
     }
     _activeLoopClip = clip;
     try {
+      if (await shouldSuppressRingerRespectingSfx(clip)) {
+        _activeLoopClip = null;
+        return false;
+      }
       final AudioContext context = audioContextForSfxClip(
         clip,
         ignoreRingerPolicy: false,
         isIncomingRingLoop: clip == FluxerSfxClip.incomingRing,
       );
-      if (_lastLoopContext != context &&
-          await applyAudioPlayerContext(_loopPlayer, context)) {
-        _lastLoopContext = context;
-      }
+      await _applyLoopAudioContext(context);
       await _loopPlayer.setReleaseMode(ReleaseMode.loop);
       await _loopPlayer.stop();
       await _loopPlayer.setVolume(_clampVolume(volume));
       await _loopPlayer.play(AssetSource(_relativeAssetPath(clip.assetKey)));
       _loopPlaybackActive = true;
+      return true;
     } on Object {
       _activeLoopClip = null;
       _loopPlaybackActive = false;
+      return false;
     }
   }
 
@@ -149,6 +176,36 @@ class FluxerSFX {
     _lastLoopContext = null;
     await _loopPlayer.dispose();
     await _oneShotPlayer.dispose();
+  }
+
+  Future<void> _applyOneShotAudioContext(AudioContext context) async {
+    final bool mustReapply =
+        usesRingerRespectingAudioContext(context) ||
+        _lastOneShotContext != context;
+    if (!mustReapply) {
+      return;
+    }
+    if (usesRingerRespectingAudioContext(context)) {
+      await prepareRingerRespectingAudioSession();
+    }
+    if (await applyAudioPlayerContext(_oneShotPlayer, context)) {
+      _lastOneShotContext = context;
+    }
+  }
+
+  Future<void> _applyLoopAudioContext(AudioContext context) async {
+    final bool mustReapply =
+        usesRingerRespectingAudioContext(context) ||
+        _lastLoopContext != context;
+    if (!mustReapply) {
+      return;
+    }
+    if (usesRingerRespectingAudioContext(context)) {
+      await prepareRingerRespectingAudioSession();
+    }
+    if (await applyAudioPlayerContext(_loopPlayer, context)) {
+      _lastLoopContext = context;
+    }
   }
 
   Future<void> _restorePreferredAudioAfterOneShot(int generation) async {

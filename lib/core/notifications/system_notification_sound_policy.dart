@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 
 const MethodChannel _androidNotificationsChannel = MethodChannel(
   'fluxer_app/android_notifications',
@@ -18,4 +19,14 @@ Future<bool> isSystemNotificationSoundSuppressed() async {
   } on MissingPluginException {
     return false;
   }
+}
+
+Future<bool> shouldSuppressRingerRespectingSfx(
+  FluxerSfxClip clip, {
+  bool ignoreRingerPolicy = false,
+}) async {
+  if (ignoreRingerPolicy || !clip.respectsRinger) {
+    return false;
+  }
+  return isSystemNotificationSoundSuppressed();
 }

@@ -5,7 +5,6 @@ import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:fluxer_app/core/audio/message_notification_sfx_scheduler.dart';
 import 'package:fluxer_app/core/audio/sound_effect_policy.dart';
-import 'package:fluxer_app/core/notifications/system_notification_sound_policy.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
@@ -199,9 +198,6 @@ void fluxerMessageSfxBinding(Ref ref) {
           if (request == null) {
             return;
           }
-          if (await isSystemNotificationSoundSuppressed()) {
-            return;
-          }
           _scheduleMessageNotificationSfx(
             ref: ref,
             scheduler: scheduler,
@@ -240,12 +236,19 @@ void fluxerSfxIncomingRingBinding(Ref ref) {
       soundType: kSoundTypeIncomingRing,
     );
     if (shouldPlay && soundEnabled) {
-      isIncomingRingPlaying = true;
       final double volume = computeEffectiveSfxVolume(
         prefs: soundPrefs,
         soundType: kSoundTypeIncomingRing,
       );
-      unawaited(sfx.startLoop(FluxerSfxClip.incomingRing, volume: volume));
+      unawaited(() async {
+        final bool started = await sfx.startLoop(
+          FluxerSfxClip.incomingRing,
+          volume: volume,
+        );
+        if (started) {
+          isIncomingRingPlaying = true;
+        }
+      }());
       return;
     }
     if (!isIncomingRingPlaying) {

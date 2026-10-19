@@ -33,6 +33,20 @@ const audio_session.AudioSessionConfiguration kMixableIdleAudioSessionConfig =
           audio_session.AVAudioSessionCategoryOptions.mixWithOthers,
     );
 
+const audio_session.AudioSessionConfiguration
+kRingerRespectingSfxAudioSessionConfig =
+    audio_session.AudioSessionConfiguration(
+      avAudioSessionCategory: audio_session.AVAudioSessionCategory.ambient,
+      avAudioSessionCategoryOptions:
+          audio_session.AVAudioSessionCategoryOptions.mixWithOthers,
+      androidAudioAttributes: audio_session.AndroidAudioAttributes(
+        contentType: audio_session.AndroidAudioContentType.sonification,
+        usage: audio_session.AndroidAudioUsage.notification,
+      ),
+      androidAudioFocusGainType:
+          audio_session.AndroidAudioFocusGainType.gainTransientMayDuck,
+    );
+
 bool voiceCallOwnsAndroidAudioRoute() {
   return defaultTargetPlatform == TargetPlatform.android &&
       ChatAttachmentAudioSession.instance.isVoiceCallActive;
