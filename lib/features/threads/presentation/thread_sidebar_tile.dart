@@ -77,12 +77,10 @@ class ThreadSidebarTile extends ConsumerWidget {
         state.shouldShowUnreadIndicator &&
         (showUnreadOnSelected || !isSelected);
     final bool showMentionBadge =
-        mentionCount > 0 &&
-        state.hasMentions &&
-        (showUnreadOnSelected || !isSelected);
+        mentionCount > 0 && (showUnreadOnSelected || !isSelected);
     final Color baseColor = isSelected
         ? context.colors.textPrimary
-        : state.isHighlight
+        : state.isHighlight || mentionCount > 0
         ? context.colors.textSecondary
         : context.colors.textTertiaryMuted;
     final Color textColor = muted && !isSelected
