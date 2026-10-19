@@ -141,6 +141,8 @@ Widget _wrap(
 }
 
 void main() {
+  final FluxerLocalizations l10n = testL10n;
+
   Future<void> pumpAdvancedSettings(
     WidgetTester tester, {
     required Size size,
@@ -167,20 +169,29 @@ void main() {
     tester,
   ) async {
     await pumpAdvancedSettings(tester, size: const Size(400, 2000));
-    expect(find.text('Enable text selection'), findsNothing);
-    expect(find.text('Accessibility'), findsOneWidget);
-    expect(find.text('Privacy'), findsOneWidget);
-    expect(find.text('Enable video seek thumbnails'), findsOneWidget);
+    expect(
+      findTestText(l10n.advancedSettingEnableTextSelectionLabel),
+      findsNothing,
+    );
+    expect(
+      findTestText(l10n.advancedSettingsCategoryAccessibility),
+      findsOneWidget,
+    );
+    expect(findTestText(l10n.advancedSettingsCategoryPrivacy), findsOneWidget);
+    expect(
+      findTestText(l10n.advancedSettingVideoSeekThumbnailsLabel),
+      findsOneWidget,
+    );
   });
 
   testWidgets('shows media buttons on narrow screens', (tester) async {
     await pumpAdvancedSettings(tester, size: const Size(400, 2000));
     await tester.scrollUntilVisible(
-      find.text('Media buttons'),
+      findTestText(l10n.advancedSettingMediaButtonsLabel),
       200,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Media buttons'), findsOneWidget);
+    expect(findTestText(l10n.advancedSettingMediaButtonsLabel), findsOneWidget);
   });
 
   testWidgets(
@@ -188,17 +199,22 @@ void main() {
     (tester) async {
       await pumpAdvancedSettings(tester, size: const Size(400, 2000));
       await tester.scrollUntilVisible(
-        find.text('Media buttons'),
+        findTestText(l10n.advancedSettingMediaButtonsLabel),
         200,
         scrollable: find.byType(Scrollable).first,
       );
-      await tester.tap(find.text('Media buttons'));
+      await tester.tap(findTestText(l10n.advancedSettingMediaButtonsLabel));
       await tester.pumpAndSettle();
 
-      expect(find.text('Show attachment expiry indicator'), findsOneWidget);
+      expect(
+        findTestText(l10n.advancedSettingShowAttachmentExpiryLabel),
+        findsOneWidget,
+      );
 
       final container = ProviderScope.containerOf(
-        tester.element(find.text('Show attachment expiry indicator')),
+        tester.element(
+          findTestText(l10n.advancedSettingShowAttachmentExpiryLabel),
+        ),
       );
       expect(
         container
@@ -207,7 +223,9 @@ void main() {
         isTrue,
       );
 
-      await tester.tap(find.text('Show attachment expiry indicator'));
+      await tester.tap(
+        findTestText(l10n.advancedSettingShowAttachmentExpiryLabel),
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -226,7 +244,10 @@ void main() {
       tester,
       size: Size(kWideTestViewportSize.width, 2000),
     );
-    expect(find.text('Enable text selection'), findsOneWidget);
+    expect(
+      findTestText(l10n.advancedSettingEnableTextSelectionLabel),
+      findsOneWidget,
+    );
   });
 
   testWidgets('hides keyboard hints on narrow mobile screens', (tester) async {
@@ -234,7 +255,7 @@ void main() {
       return;
     }
     await pumpAdvancedSettings(tester, size: const Size(400, 2000));
-    expect(find.text('Keyboard hints'), findsNothing);
+    expect(findTestText(l10n.advancedSettingKeyboardHintsLabel), findsNothing);
   });
 
   testWidgets('shows keyboard hints on wide screens', (tester) async {
@@ -242,7 +263,10 @@ void main() {
       tester,
       size: Size(kWideTestViewportSize.width, 2000),
     );
-    expect(find.text('Keyboard hints'), findsOneWidget);
+    expect(
+      findTestText(l10n.advancedSettingKeyboardHintsLabel),
+      findsOneWidget,
+    );
   });
 
   testWidgets('toggling developer mode updates provider state', (tester) async {
@@ -259,8 +283,11 @@ void main() {
       isFalse,
     );
 
-    final developerModeToggle = find.bySemanticsLabel(
-      'Enable developer mode. Enable developer mode',
+    final Finder developerModeToggle = find.bySemanticsLabel(
+      testSettingsSwitchSemanticsLabel(
+        label: l10n.advancedSettingDeveloperModeLabel,
+        description: l10n.advancedSettingDeveloperModeDescription,
+      ),
     );
     await tester.scrollUntilVisible(
       developerModeToggle,
@@ -300,10 +327,8 @@ void main() {
           ),
         ],
       );
-      final Finder destination = find.text(
-        "Reports go to Fluxer's error tracker, even when you're signed in to "
-        "another instance. They don't include instance names, IDs or message "
-        'content.',
+      final Finder destination = findTestText(
+        l10n.advancedCrashReportingDescription,
       );
       await tester.scrollUntilVisible(
         destination,
@@ -313,10 +338,7 @@ void main() {
 
       expect(destination, findsOneWidget);
       expect(
-        find.text(
-          'Help Fluxer fix bugs in this app by sharing crash and performance '
-          'data. This is off by default.',
-        ),
+        findTestText(l10n.advancedCrashReportingSectionDescription),
         findsOneWidget,
       );
       expect(find.textContaining('Acme'), findsNothing);
@@ -340,7 +362,9 @@ void main() {
       isFalse,
     );
 
-    await tester.tap(find.text('Enable text selection'));
+    await tester.tap(
+      findTestText(l10n.advancedSettingEnableTextSelectionLabel),
+    );
     await tester.pumpAndSettle();
 
     expect(

@@ -19,6 +19,8 @@ import '../../../../helpers/message_item_test_overrides.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
+final FluxerLocalizations _l10n = testL10n;
+
 const String _channelId = 'channel-1';
 
 Future<List<Message>> _pumpCard(
@@ -86,7 +88,7 @@ void main() {
           Permission.viewChannel.value | Permission.sendMessages.value,
     );
 
-    await tester.tap(find.text('Send a reply'));
+    await tester.tap(findTestText(_l10n.notificationsSendReply));
     expect(replies, hasLength(1));
 
     await releaseTestWidgetTree(tester);
@@ -97,7 +99,7 @@ void main() {
   ) async {
     await _pumpCard(tester, permissionBits: Permission.viewChannel.value);
 
-    expect(find.text('Send a reply'), findsNothing);
+    expect(findTestText(_l10n.notificationsSendReply), findsNothing);
 
     await releaseTestWidgetTree(tester);
   });
