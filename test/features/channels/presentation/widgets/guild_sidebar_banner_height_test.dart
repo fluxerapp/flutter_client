@@ -18,6 +18,7 @@ void main() {
                 guildSidebarBannerLayoutWidth(
                   context,
                   const BoxConstraints.tightFor(width: 248),
+                  channelSidebarWidth: 270,
                 ),
                 248,
               );

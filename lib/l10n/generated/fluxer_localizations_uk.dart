@@ -5907,6 +5907,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Голосове з\'єднання';
 
   @override

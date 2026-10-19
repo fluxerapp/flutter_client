@@ -4,12 +4,14 @@ class GuildSidebarHeader extends StatelessWidget {
   const GuildSidebarHeader({
     required this.guild,
     required this.outageUnavailable,
+    required this.channelSidebarWidth,
     required this.onTap,
     super.key,
   });
 
   final Guild? guild;
   final bool outageUnavailable;
+  final double channelSidebarWidth;
   final VoidCallback? onTap;
 
   @override
@@ -20,6 +22,7 @@ class GuildSidebarHeader extends StatelessWidget {
         final double width = guildSidebarBannerLayoutWidth(
           context,
           constraints,
+          channelSidebarWidth: channelSidebarWidth,
         );
         final bool showBanner =
             guild != null && !outageUnavailable && guild!.banner != null;

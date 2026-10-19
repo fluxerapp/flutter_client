@@ -5888,6 +5888,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Glasovna veza';
 
   @override

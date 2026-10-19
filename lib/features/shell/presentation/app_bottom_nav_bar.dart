@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -75,7 +76,13 @@ class AppBottomNavBar extends ConsumerWidget {
                     !constraints.hasBoundedWidth) {
                   return itemRow;
                 }
-                final double peekWidth = mobileDrawerPeekWidth(context);
+                final double peekWidth = mobileDrawerPeekWidth(
+                  context,
+                  channelSidebarWidth: watchResolvedShellChannelSidebarWidth(
+                    ref,
+                    context,
+                  ),
+                );
                 if (constraints.maxWidth <= peekWidth) {
                   return itemRow;
                 }

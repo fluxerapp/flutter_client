@@ -5867,6 +5867,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Kết nối thoại';
 
   @override

@@ -5855,6 +5855,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Voice connection';
 
   @override
@@ -35516,6 +35519,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String voiceJumpToChannel(String channelSourceLabel) {
     return 'Jump to $channelSourceLabel';
   }
+
+  @override
+  String get shellResizeSidebar => 'Resize sidebar';
 
   @override
   String get voiceConnectionTitle => 'Voice connection';

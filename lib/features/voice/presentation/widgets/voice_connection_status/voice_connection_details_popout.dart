@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -37,8 +38,13 @@ class _VoiceConnectionDetailsPopoutState
     final VoiceConnectionStats stats = ref.watch(voiceConnectionStatsProvider);
     final String unavailable = l10n.voiceConnectionUnavailable;
 
+    final double sidebarWidth = watchResolvedShellChannelSidebarWidth(
+      ref,
+      context,
+    );
+
     return SizedBox(
-      width: layout.sidebarWidth,
+      width: sidebarWidth,
       child: Padding(
         padding: EdgeInsets.all(layout.s3),
         child: Column(

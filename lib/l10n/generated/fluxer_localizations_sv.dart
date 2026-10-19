@@ -5880,6 +5880,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Röstanslutning';
 
   @override

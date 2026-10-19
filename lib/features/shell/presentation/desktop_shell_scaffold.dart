@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dar
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/presentation/app_bottom_nav_bar.dart';
+import 'package:fluxer_app/features/shell/presentation/resizable_shell_sidebar_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_bar.dart';
@@ -66,40 +67,26 @@ Widget desktopShellScaffold({
   required String shellLocation,
   required Widget navigationShell,
 }) {
-  final layout = context.layout;
-  final leftSidebarsWidth = layout.guildListWidth + layout.sidebarWidth;
-  return Row(
-    children: <Widget>[
-      SizedBox(
-        width: leftSidebarsWidth,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  const GuildNavbar(),
-                  Expanded(
-                    child: desktopSidebarForLocation(context, shellLocation),
-                  ),
-                ],
+  return ResizableShellSidebarLayout(
+    leftPanel: Column(
+      children: <Widget>[
+        Expanded(
+          child: Row(
+            children: <Widget>[
+              const GuildNavbar(),
+              Expanded(
+                child: desktopSidebarForLocation(context, shellLocation),
               ),
-            ),
-            UserArea(onSettingsTap: () => UserSettingsModal.show(context)),
-          ],
+            ],
+          ),
         ),
-      ),
-      VerticalDivider(
-        width: 1,
-        thickness: 1,
-        color: context.colors.backgroundModifierAccent,
-      ),
-      Expanded(
-        child: KeyedSubtree(
-          key: ValueKey<String>(shellLocation),
-          child: navigationShell,
-        ),
-      ),
-    ],
+        UserArea(onSettingsTap: () => UserSettingsModal.show(context)),
+      ],
+    ),
+    rightChild: KeyedSubtree(
+      key: ValueKey<String>(shellLocation),
+      child: navigationShell,
+    ),
   );
 }
 

@@ -5924,6 +5924,9 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Sprachverbindung';
 
   @override

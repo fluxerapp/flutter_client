@@ -5655,6 +5655,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => '音声接続';
 
   @override

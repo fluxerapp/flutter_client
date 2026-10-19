@@ -9,19 +9,20 @@ const double kGuildSidebarScrollIndicatorTopInset =
 @visibleForTesting
 double guildSidebarBannerLayoutWidth(
   BuildContext context,
-  BoxConstraints constraints,
-) {
+  BoxConstraints constraints, {
+  required double channelSidebarWidth,
+}) {
   if (constraints.hasBoundedWidth && constraints.maxWidth > 0) {
     return constraints.maxWidth;
   }
   final layout = context.layout;
   if (isMobileLayout(context)) {
     return math.max(
-      layout.sidebarWidth,
+      channelSidebarWidth,
       MediaQuery.sizeOf(context).width - layout.guildListWidth,
     );
   }
-  return layout.sidebarWidth;
+  return channelSidebarWidth;
 }
 
 @visibleForTesting

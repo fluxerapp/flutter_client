@@ -5912,6 +5912,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Голосовое соединение';
 
   @override

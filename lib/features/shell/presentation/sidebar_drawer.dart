@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/shell/providers/drawer_past_half_screen_prov
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
+import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_reveal_physics.dart';
@@ -182,7 +183,16 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   }
 
   double _peekWidth(double screenWidth) {
-    return math.min(mobileDrawerPeekWidth(context), screenWidth);
+    return math.min(
+      mobileDrawerPeekWidth(
+        context,
+        channelSidebarWidth: watchResolvedShellChannelSidebarWidth(
+          ref,
+          context,
+        ),
+      ),
+      screenWidth,
+    );
   }
 
   double _maxRevealTranslate(double width) {

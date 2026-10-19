@@ -13,7 +13,10 @@ import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.da
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_home_utility_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_main_tab_shell.dart';
+import 'package:fluxer_app/features/shell/presentation/resizable_shell_sidebar_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/presentation/shell_sidebar_width.dart';
+import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -50,6 +53,7 @@ class PinnedMobileShellScaffold extends ConsumerWidget {
       shellLocation,
     );
     const Widget contentBottomNav = SizedBox.shrink();
+    final double? userPreference = ref.watch(shellSidebarWidthProvider);
 
     final Widget content = switch (mode) {
       ShellLayoutMode.channelDrawer => navigationShell,
@@ -64,45 +68,38 @@ class PinnedMobileShellScaffold extends ConsumerWidget {
       ),
     };
 
-    final double compactPanelWidth = pinnedLeftPanelWidth(size, layout);
+    final double compactPanelWidth = pinnedLeftPanelWidth(
+      size,
+      layout,
+      userPreference: userPreference,
+    );
 
-    Widget buildLeftColumn(double panelWidth) {
-      return SizedBox(
-        width: panelWidth,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  const GuildNavbar(),
-                  Expanded(child: channelList),
-                ],
-              ),
-            ),
-            if (!usesIphoneDuoHostedUi(context)) bottomNav,
-          ],
+    final Widget leftPanel = Column(
+      children: <Widget>[
+        Expanded(
+          child: Row(
+            children: <Widget>[
+              const GuildNavbar(),
+              Expanded(child: channelList),
+            ],
+          ),
         ),
-      );
-    }
+        if (!usesIphoneDuoHostedUi(context)) bottomNav,
+      ],
+    );
+
+    final Widget rightChild = mode == ShellLayoutMode.channelDrawer
+        ? content
+        : Column(children: <Widget>[Expanded(child: content)]);
 
     Widget buildBody(double leftPanelWidth) {
-      return Row(
-        children: <Widget>[
-          buildLeftColumn(leftPanelWidth),
-          VerticalDivider(
-            width: 1,
-            thickness: 1,
-            color: context.colors.backgroundModifierAccent,
-          ),
-          Expanded(
-            child: KeyedSubtree(
-              key: ValueKey<String>(shellLocation),
-              child: mode == ShellLayoutMode.channelDrawer
-                  ? content
-                  : Column(children: <Widget>[Expanded(child: content)]),
-            ),
-          ),
-        ],
+      return ResizableShellSidebarLayout(
+        leftPanelWidthOverride: leftPanelWidth,
+        leftPanel: leftPanel,
+        rightChild: KeyedSubtree(
+          key: ValueKey<String>(shellLocation),
+          child: rightChild,
+        ),
       );
     }
 
@@ -114,6 +111,7 @@ class PinnedMobileShellScaffold extends ConsumerWidget {
         window: size,
         layout: layout,
         posture: posture,
+        userPreference: userPreference,
       );
       body = RetargetingScalar(
         target: splitTarget,

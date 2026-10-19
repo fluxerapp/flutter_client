@@ -5544,6 +5544,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => '语音连接';
 
   @override

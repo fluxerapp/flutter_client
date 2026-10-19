@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/presentation/shell_sidebar_width.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const double _creaseMargin = 8;
@@ -108,9 +109,14 @@ double pinnedSidebarWidthForPosture({
   required Size window,
   required FluxerLayoutTheme layout,
   required DeviceFoldPosture posture,
+  double? userPreference,
 }) {
   final double guild = layout.guildListWidth;
-  final double base = pinnedLeftPanelWidth(window, layout);
+  final double base = pinnedLeftPanelWidth(
+    window,
+    layout,
+    userPreference: userPreference,
+  );
   final Rect? hinge = posture.hingeBounds;
   if (!posture.splitSidebarAtHinge ||
       posture.kind != FoldPostureKind.book ||

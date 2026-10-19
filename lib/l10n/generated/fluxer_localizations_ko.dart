@@ -5654,6 +5654,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => '음성 연결';
 
   @override

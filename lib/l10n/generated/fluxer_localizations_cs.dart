@@ -5886,6 +5886,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Hlasové připojení';
 
   @override

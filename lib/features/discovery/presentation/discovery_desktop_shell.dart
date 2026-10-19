@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/discovery/presentation/discovery_layout.dart
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_sidebar_column.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
+import 'package:fluxer_app/features/shell/presentation/resizable_shell_sidebar_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -12,35 +13,23 @@ class DiscoveryDesktopShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final layout = context.layout;
-    final leftSidebarsWidth = layout.guildListWidth + layout.sidebarWidth;
     return Scaffold(
       backgroundColor: context.colors.backgroundPrimary,
-      body: Row(
-        children: [
-          SizedBox(
-            width: leftSidebarsWidth,
-            child: Column(
-              children: [
-                const Expanded(
-                  child: Row(
-                    children: [
-                      GuildNavbar(),
-                      Expanded(child: DiscoverySidebarColumn()),
-                    ],
-                  ),
-                ),
-                UserArea(onSettingsTap: () => UserSettingsModal.show(context)),
-              ],
+      body: ResizableShellSidebarLayout(
+        leftPanel: Column(
+          children: <Widget>[
+            const Expanded(
+              child: Row(
+                children: <Widget>[
+                  GuildNavbar(),
+                  Expanded(child: DiscoverySidebarColumn()),
+                ],
+              ),
             ),
-          ),
-          VerticalDivider(
-            width: 1,
-            thickness: 1,
-            color: context.colors.backgroundModifierAccent,
-          ),
-          const Expanded(child: DiscoveryLayout()),
-        ],
+            UserArea(onSettingsTap: () => UserSettingsModal.show(context)),
+          ],
+        ),
+        rightChild: const DiscoveryLayout(),
       ),
     );
   }

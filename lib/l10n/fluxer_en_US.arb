@@ -13265,6 +13265,10 @@
             }
         }
     },
+    "shellResizeSidebar": "Resize sidebar",
+    "@shellResizeSidebar": {
+        "description": "Accessible label for the draggable handle that resizes the channel or direct message sidebar."
+    },
     "voiceConnectionTitle": "Voice connection",
     "@voiceConnectionTitle": {
         "description": "Voice status popout title."

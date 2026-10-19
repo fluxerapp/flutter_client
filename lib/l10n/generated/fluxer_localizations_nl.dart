@@ -5891,6 +5891,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Spraakverbinding';
 
   @override

@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
@@ -167,7 +168,9 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     if (isMobileLayout(context)) {
       bottom += layout.mobileBottomNavHeight + 1;
     } else {
-      left += layout.guildListWidth + layout.sidebarWidth;
+      left +=
+          layout.guildListWidth +
+          watchResolvedShellChannelSidebarWidth(ref, context);
       bottom += layout.userAreaHeight;
     }
     return EdgeInsets.fromLTRB(left, top, right, bottom);

@@ -9531,6 +9531,12 @@ abstract class FluxerLocalizations {
   /// **'Jump to {channelSourceLabel}'**
   String voiceJumpToChannel(String channelSourceLabel);
 
+  /// Accessible label for the draggable handle that resizes the channel or direct message sidebar.
+  ///
+  /// In en, this message translates to:
+  /// **'Resize sidebar'**
+  String get shellResizeSidebar;
+
   /// Voice status popout title.
   ///
   /// In en, this message translates to:

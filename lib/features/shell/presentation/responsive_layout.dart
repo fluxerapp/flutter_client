@@ -106,14 +106,6 @@ bool isCompactWideMobileLayout(BuildContext context) {
   return layoutReferenceExtentOf(size) >= Breakpoints.mobile;
 }
 
-double pinnedChannelSidebarWidthForSize(Size size, FluxerLayoutTheme layout) {
-  final double preferred = layout.sidebarWidth;
-  final double guild = layout.guildListWidth;
-  final double maxSidebar =
-      size.width - guild - Breakpoints.pinnedChatPaneMinWidth - 1;
-  return preferred.clamp(Breakpoints.pinnedChannelSidebarMinWidth, maxSidebar);
-}
-
 bool isPinnedSidebarSplitAtHinge(BuildContext context) {
   final DeviceFoldPosture posture = deviceFoldPostureOf(context);
   return posture.splitSidebarAtHinge && posture.hingeBounds != null;
@@ -129,24 +121,19 @@ bool channelSidebarHasFixedWidth(BuildContext context) {
   return !isPinnedSidebarSplitAtHinge(context);
 }
 
-double pinnedLeftPanelWidth(Size size, FluxerLayoutTheme layout) {
-  final double guild = layout.guildListWidth;
-  final double sidebar = layout.sidebarWidth;
-  final double fullPanel = guild + sidebar;
-  if (size.width >= fullPanel + 1 + Breakpoints.pinnedChatPaneMinWidth) {
-    return fullPanel;
-  }
-  return guild + pinnedChannelSidebarWidthForSize(size, layout);
-}
-
-double mobileDrawerPeekWidth(BuildContext context) {
+double mobileDrawerPeekWidth(
+  BuildContext context, {
+  double? channelSidebarWidth,
+}) {
   final FluxerLayoutTheme? layout = Theme.of(
     context,
   ).extension<FluxerLayoutTheme>();
   if (layout != null) {
-    return layout.guildListWidth + layout.sidebarWidth;
+    final double sidebar = channelSidebarWidth ?? layout.sidebarWidth;
+    return layout.guildListWidth + sidebar;
   }
-  return Breakpoints.guildListWidth + Breakpoints.channelSidebarWidth;
+  return Breakpoints.guildListWidth +
+      (channelSidebarWidth ?? Breakpoints.channelSidebarWidth);
 }
 
 double wideSettingsModalHorizontalInset(

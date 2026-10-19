@@ -5833,6 +5833,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'การเชื่อมต่อเสียง';
 
   @override

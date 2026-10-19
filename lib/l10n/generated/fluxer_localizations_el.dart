@@ -5931,6 +5931,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Σύνδεση φωνής';
 
   @override
