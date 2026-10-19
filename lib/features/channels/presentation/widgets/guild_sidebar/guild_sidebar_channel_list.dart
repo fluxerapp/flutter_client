@@ -535,7 +535,12 @@ class _GuildSidebarChannelListState
         topInset: kGuildSidebarScrollIndicatorTopInset,
         child: Opacity(
           opacity: _needsSelectedReveal && _indicatorOrder.isNotEmpty ? 0 : 1,
-          child: channelListView,
+          child: FluxerSmoothScrollbar(
+            controller: _scrollController,
+            topInset: kGuildSidebarScrollIndicatorTopInset,
+            bottomInset: kGuildScrollIndicatorEdgeInset,
+            child: channelListView,
+          ),
         ),
       ),
     );

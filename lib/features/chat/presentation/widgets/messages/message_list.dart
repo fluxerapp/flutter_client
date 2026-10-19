@@ -103,6 +103,7 @@ import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.da
 import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
+import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
@@ -1109,7 +1110,13 @@ class _MessageListState extends ConsumerState<MessageList> {
             return MessageMarkdownSettingsScope(
               settings: messageRenderSettings.markdown,
               child: MessageListOverlay(
-                body: MessageListBody(child: body),
+                body: FluxerSmoothScrollbar(
+                  controller: _scrollController,
+                  scrollPosition: _scrollController.listPosition,
+                  pinTrailingEdge: _holdsLiveTailEdge(),
+                  bottomInset: _statusOverlayInset,
+                  child: MessageListBody(child: body),
+                ),
                 showUnreadBar: showUnreadBar,
                 unreadCount: unreadCount,
                 isEstimated: unreadSummary.isEstimated,

@@ -103,14 +103,26 @@ void main() {
     testWidgets('renders child', (tester) async {
       await tester.pumpWidget(
         buildTestApp(
-          const FluxerScroller(
-            child: SingleChildScrollView(child: Text('Scrollable content')),
+          SizedBox(
+            height: 120,
+            child: FluxerScroller(
+              child: ListView(
+                children: List.generate(
+                  20,
+                  (int i) => SizedBox(height: 40, child: Text('Row $i')),
+                ),
+              ),
+            ),
           ),
         ),
       );
 
-      expect(find.text('Scrollable content'), findsOneWidget);
-      expect(find.byType(Scrollbar), findsOneWidget);
+      expect(find.text('Row 0'), findsOneWidget);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const Key('fluxer_smooth_scrollbar_thumb')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('uses provided controller', (tester) async {
@@ -119,18 +131,25 @@ void main() {
 
       await tester.pumpWidget(
         buildTestApp(
-          FluxerScroller(
-            controller: controller,
-            child: ListView.builder(
+          SizedBox(
+            height: 200,
+            child: FluxerScroller(
               controller: controller,
-              itemCount: 100,
-              itemBuilder: (context, index) => Text('Item $index'),
+              child: ListView.builder(
+                controller: controller,
+                itemCount: 100,
+                itemBuilder: (context, index) => Text('Item $index'),
+              ),
             ),
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
-      expect(find.byType(Scrollbar), findsOneWidget);
+      expect(
+        find.byKey(const Key('fluxer_smooth_scrollbar_thumb')),
+        findsOneWidget,
+      );
     });
   });
 }

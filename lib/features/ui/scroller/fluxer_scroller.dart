@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class FluxerScroller extends StatefulWidget {
@@ -25,7 +26,13 @@ class _FluxerScrollerState extends State<FluxerScroller> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(controller: _effectiveController, child: widget.child);
+    return PrimaryScrollController(
+      controller: _effectiveController,
+      child: FluxerSmoothScrollbar(
+        controller: _effectiveController,
+        child: widget.child,
+      ),
+    );
   }
 }
 
