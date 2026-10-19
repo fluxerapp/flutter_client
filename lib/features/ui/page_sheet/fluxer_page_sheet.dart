@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_scroll.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
@@ -487,26 +488,30 @@ class _FluxerPageSheetScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color barColor =
         backgroundColor ?? context.colors.backgroundSecondary;
+    final EdgeInsets sideInsets = hostedUiSideInsets(context);
     return Scaffold(
       backgroundColor: barColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          _FluxerPageSheetHeader(
-            title: title,
-            titleTrailing: titleTrailing,
-            foregroundColor: foregroundColor,
-            isRoot: presentation == FluxerPageSheetPresentation.root,
-            onClose: onClose,
-          ),
-          Expanded(
-            child: MediaQuery.removePadding(
-              context: context,
-              removeTop: true,
-              child: child,
+      body: Padding(
+        padding: sideInsets,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            _FluxerPageSheetHeader(
+              title: title,
+              titleTrailing: titleTrailing,
+              foregroundColor: foregroundColor,
+              isRoot: presentation == FluxerPageSheetPresentation.root,
+              onClose: onClose,
             ),
-          ),
-        ],
+            Expanded(
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: child,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

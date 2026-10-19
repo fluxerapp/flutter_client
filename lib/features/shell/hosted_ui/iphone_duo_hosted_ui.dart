@@ -52,3 +52,11 @@ EdgeInsets hostedUiSystemInsets(BuildContext context) {
     math.max(padding.bottom, viewPadding.bottom),
   );
 }
+
+EdgeInsets hostedUiSideInsets(BuildContext context) {
+  if (!usesIphoneDuoHostedUi(context)) {
+    return EdgeInsets.zero;
+  }
+  final EdgeInsets insets = hostedUiSystemInsets(context);
+  return EdgeInsets.only(left: insets.left, right: insets.right);
+}
