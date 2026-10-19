@@ -167,9 +167,12 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
   }
 
   void _onPositionChanged() {
-    _noteActivity();
     _syncExtentTarget();
-    _scheduleFrame();
+    if (_smoothExtents || !_extentsSettled) {
+      _scheduleFrame();
+    } else {
+      _updateGeometry();
+    }
   }
 
   bool _syncExtentTarget({bool snap = false}) {
@@ -197,6 +200,9 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
       (_smoothedMaxExtent - _targetMaxExtent).abs() <=
           kFluxerSmoothScrollbarExtentEpsilon;
 
+  bool get _smoothExtents =>
+      _scrollActivity || _hoveringTrack || _draggingThumb;
+
   void _scheduleFrame() {
     if (_frameScheduled) {
       return;
@@ -208,19 +214,24 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
         return;
       }
       if (_hasExtent && !_draggingThumb && !_extentsSettled) {
-        _smoothedMinExtent = fluxerSmoothScrollbarLerpExtent(
-          current: _smoothedMinExtent,
-          target: _targetMinExtent,
-          snap: false,
-        );
-        _smoothedMaxExtent = fluxerSmoothScrollbarLerpExtent(
-          current: _smoothedMaxExtent,
-          target: _targetMaxExtent,
-          snap: false,
-        );
+        if (_smoothExtents) {
+          _smoothedMinExtent = fluxerSmoothScrollbarLerpExtent(
+            current: _smoothedMinExtent,
+            target: _targetMinExtent,
+            snap: false,
+          );
+          _smoothedMaxExtent = fluxerSmoothScrollbarLerpExtent(
+            current: _smoothedMaxExtent,
+            target: _targetMaxExtent,
+            snap: false,
+          );
+        } else {
+          _smoothedMinExtent = _targetMinExtent;
+          _smoothedMaxExtent = _targetMaxExtent;
+        }
       }
       _updateGeometry();
-      if (_hasExtent && !_extentsSettled) {
+      if (_hasExtent && !_extentsSettled && _smoothExtents) {
         _scheduleFrame();
       }
     });
@@ -280,7 +291,16 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
       return false;
     }
     _attachPosition();
-    if (_syncExtentTarget() || !_extentsSettled) {
+    final bool targetChanged = _syncExtentTarget();
+    if (!_smoothExtents) {
+      if (targetChanged || !_extentsSettled) {
+        _smoothedMinExtent = _targetMinExtent;
+        _smoothedMaxExtent = _targetMaxExtent;
+        _updateGeometry();
+      }
+      return false;
+    }
+    if (targetChanged || !_extentsSettled) {
       _scheduleFrame();
     }
     return false;

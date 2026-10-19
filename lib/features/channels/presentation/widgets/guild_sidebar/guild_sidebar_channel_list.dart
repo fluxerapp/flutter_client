@@ -528,17 +528,17 @@ class _GuildSidebarChannelListState
     );
     final Widget child = ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: GuildScrollIndicatorLayer(
-        controller: _scrollIndicator,
-        label: FluxerLocalizations.of(context).scrollIndicatorNewMessages,
-        animated: false,
+      child: FluxerSmoothScrollbar(
+        controller: _scrollController,
         topInset: kGuildSidebarScrollIndicatorTopInset,
-        child: Opacity(
-          opacity: _needsSelectedReveal && _indicatorOrder.isNotEmpty ? 0 : 1,
-          child: FluxerSmoothScrollbar(
-            controller: _scrollController,
-            topInset: kGuildSidebarScrollIndicatorTopInset,
-            bottomInset: kGuildScrollIndicatorEdgeInset,
+        bottomInset: kGuildScrollIndicatorEdgeInset,
+        child: GuildScrollIndicatorLayer(
+          controller: _scrollIndicator,
+          label: FluxerLocalizations.of(context).scrollIndicatorNewMessages,
+          animated: false,
+          topInset: kGuildSidebarScrollIndicatorTopInset,
+          child: Opacity(
+            opacity: _needsSelectedReveal && _indicatorOrder.isNotEmpty ? 0 : 1,
             child: channelListView,
           ),
         ),

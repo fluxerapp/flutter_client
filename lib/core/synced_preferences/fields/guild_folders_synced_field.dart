@@ -93,6 +93,39 @@ class GuildFoldersSyncedField
     return !statesEqual(local, remote);
   }
 
+  @override
+  bool ignoreAckedRemoteShrink(
+    GuildFoldersLocalState local,
+    GuildFoldersLocalState remote,
+  ) {
+    if (!isRemoteShrink(local: local, remote: remote)) {
+      return false;
+    }
+    if (remote.isEmpty && local.length > 1) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  bool mergeAckedInbound(
+    GuildFoldersLocalState local,
+    GuildFoldersLocalState remote,
+  ) {
+    return hasRemoteAdditions(local, remote) || !statesEqual(local, remote);
+  }
+
+  @override
+  GuildFoldersLocalState mergeRecentlyAckedInbound({
+    required GuildFoldersLocalState local,
+    required GuildFoldersLocalState remote,
+  }) {
+    if (isLocalShrink(local: local, remote: remote)) {
+      return mergeForMigration(local: local, remote: remote);
+    }
+    return remote;
+  }
+
   static GuildFoldersLocalState fromProto(pb.GuildFolderExpandedState proto) {
     return proto.expandedFolderIds.map((id) => id.toInt()).toSet();
   }
