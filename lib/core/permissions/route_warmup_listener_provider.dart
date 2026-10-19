@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
-import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'route_warmup_listener_provider.g.dart';
@@ -17,7 +16,6 @@ void routeWarmupListener(Ref ref) {
     if (channelId == null || channelId.isEmpty) {
       return;
     }
-    ref.invalidate(channelMessagePermissionsProvider(channelId));
     unawaited(
       ref
           .read(channelPermissionCacheProvider.notifier)
@@ -28,7 +26,6 @@ void routeWarmupListener(Ref ref) {
   void rebuildPermissionsAfterReady() {
     final String? guildId = ref.read(contextualGuildIdProvider);
     final String? channelId = ref.read(activeChannelIdProvider);
-    warmActiveChannelBits(channelId);
     unawaited(
       ref
           .read(channelPermissionCacheProvider.notifier)

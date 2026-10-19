@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
 
@@ -18,6 +19,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 
 import '../../../../helpers/open_test_database.dart';
@@ -87,17 +89,17 @@ class _FixedGuildListViewModel extends GuildListViewModel {
 
 void main() {
   group('channelMessagePermissionsForComposer', () {
-    test('loading maps to deny until bits are cached', () {
+    test('loading stays unresolved until bits are cached', () {
       final ChannelMessagePermissions perms =
           channelMessagePermissionsForComposer(
             const AsyncValue<ChannelMessagePermissions>.loading(),
           );
-      expect(perms, ChannelMessagePermissions.none);
-      expect(perms.isComposerEnabled, isFalse);
-      expect(perms.showsNoSendPermissionHint, isTrue);
+      expect(perms, ChannelMessagePermissions.unresolved);
+      expect(perms.isComposerEnabled, isTrue);
+      expect(perms.showsNoSendPermissionHint, isFalse);
     });
 
-    test('error maps to resolved deny without hint', () {
+    test('error stays unresolved until bits are cached', () {
       final ChannelMessagePermissions perms =
           channelMessagePermissionsForComposer(
             AsyncValue<ChannelMessagePermissions>.error(
@@ -105,9 +107,9 @@ void main() {
               StackTrace.empty,
             ),
           );
-      expect(perms, ChannelMessagePermissions.none);
-      expect(perms.isComposerEnabled, isFalse);
-      expect(perms.showsNoSendPermissionHint, isTrue);
+      expect(perms, ChannelMessagePermissions.unresolved);
+      expect(perms.isComposerEnabled, isTrue);
+      expect(perms.showsNoSendPermissionHint, isFalse);
     });
 
     test('resolved deny shows permission hint flag', () {
@@ -121,23 +123,23 @@ void main() {
       expect(perms.isVoiceEnabled, isFalse);
     });
 
-    test('unresolved is not treated as composer-enabled', () {
+    test('unresolved keeps the composer open without a deny hint', () {
       const ChannelMessagePermissions perms =
           ChannelMessagePermissions.unresolved;
-      expect(perms.isComposerEnabled, isFalse);
+      expect(perms.isComposerEnabled, isTrue);
       expect(perms.showsNoSendPermissionHint, isFalse);
-      expect(perms.canShowAttachControls, isFalse);
-      expect(perms.isVoiceEnabled, isFalse);
+      expect(perms.canShowAttachControls, isTrue);
+      expect(perms.isVoiceEnabled, isTrue);
     });
 
-    test('async unresolved data maps to resolved deny for composer', () {
+    test('async unresolved data stays unresolved for the composer', () {
       final ChannelMessagePermissions perms =
           channelMessagePermissionsForComposer(
             const AsyncValue.data(ChannelMessagePermissions.unresolved),
           );
-      expect(perms, ChannelMessagePermissions.none);
-      expect(perms.isComposerEnabled, isFalse);
-      expect(perms.showsNoSendPermissionHint, isTrue);
+      expect(perms, ChannelMessagePermissions.unresolved);
+      expect(perms.isComposerEnabled, isTrue);
+      expect(perms.showsNoSendPermissionHint, isFalse);
     });
 
     test('resolved send without attach hides attach controls', () {
@@ -353,7 +355,7 @@ void main() {
       },
     );
 
-    test('does not cache bits when member row is missing', () async {
+    test('caches everyone bits when member row is missing', () async {
       final FluxerDatabase db = openTestDatabase();
       const String guildId = 'guild_1';
       const String channelId = 'channel_1';
@@ -400,7 +402,7 @@ void main() {
         container
             .read(channelPermissionCacheProvider.notifier)
             .getChannelBits(channelId),
-        isNull,
+        Permission.viewChannel.value,
       );
     });
   });
@@ -557,7 +559,7 @@ void main() {
       },
     );
 
-    test('returns shouldCache false when member row is missing', () async {
+    test('caches everyone bits when member row is missing', () async {
       final FluxerDatabase db = openTestDatabase();
       const String guildId = 'guild_1';
       const String channelId = 'channel_1';
@@ -605,8 +607,8 @@ void main() {
         ).future,
       );
 
-      expect(outcome.shouldCache, isFalse);
-      expect(outcome.value, 0);
+      expect(outcome.shouldCache, isTrue);
+      expect(outcome.value, Permission.viewChannel.value);
     });
 
     test(
@@ -852,5 +854,199 @@ void main() {
         expect(perms.showsNoSendPermissionHint, isTrue);
       },
     );
+
+    test('replaces a cached send allow when the channel denies send', () async {
+      final FluxerDatabase db = openTestDatabase();
+      const String guildId = 'guild_1';
+      const String channelId = 'channel_1';
+      const String userId = 'user_1';
+      const String ownerId = 'owner_1';
+      await db.guildDao.upsertServer(
+        ServersCompanion.insert(id: guildId, name: 'Guild'),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: channelId,
+          guildId: guildId,
+          name: 'announcements',
+          permissionOverwritesJson: Value(
+            jsonEncode(<Map<String, Object>>[
+              <String, Object>{
+                'id': guildId,
+                'type': 0,
+                'allow': '0',
+                'deny': Permission.sendMessages.value.toString(),
+              },
+            ]),
+          ),
+        ),
+      );
+      await db.roleDao.upsertRoles([
+        RolesCompanion.insert(
+          id: guildId,
+          guildId: guildId,
+          name: '@everyone',
+          permissions: Value(
+            (Permission.viewChannel.value | Permission.sendMessages.value)
+                .toString(),
+          ),
+        ),
+      ]);
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(userId: userId, guildId: guildId),
+      );
+
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          dmViewModelProvider.overrideWith(_EmptyDmViewModel.new),
+          currentUserIdProvider.overrideWithValue(userId),
+          guildListViewModelProvider.overrideWith(
+            () => _FixedGuildListViewModel(<Guild>[
+              const Guild(id: guildId, name: 'Guild', ownerId: ownerId),
+            ]),
+          ),
+          userSettingsViewModelProvider.overrideWith(
+            () => _FixedUserSettingsViewModel(userId),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      container
+          .read(channelPermissionCacheProvider.notifier)
+          .cacheEffectiveBits(
+            channelId: channelId,
+            outcome: (
+              value:
+                  Permission.viewChannel.value | Permission.sendMessages.value,
+              shouldCache: true,
+            ),
+          );
+
+      final ProviderSubscription<AsyncValue<ChannelMessagePermissions>> sub =
+          container.listen(
+            channelMessagePermissionsProvider(channelId),
+            (_, _) {},
+          );
+      addTearDown(sub.close);
+
+      final ChannelMessagePermissions perms = await container.read(
+        channelMessagePermissionsProvider(channelId).future,
+      );
+
+      expect(perms.isResolved, isTrue);
+      expect(perms.canSendMessages, isFalse);
+      expect(perms.isComposerEnabled, isFalse);
+      expect(perms.showsNoSendPermissionHint, isTrue);
+    });
+
+    test('applies a role send deny once the member row exists', () async {
+      final FluxerDatabase db = openTestDatabase();
+      const String guildId = 'guild_1';
+      const String channelId = 'channel_1';
+      const String userId = 'user_1';
+      const String ownerId = 'owner_1';
+      const String mutedRoleId = 'role_muted';
+      await db.guildDao.upsertServer(
+        ServersCompanion.insert(id: guildId, name: 'Guild'),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: channelId,
+          guildId: guildId,
+          name: 'general',
+          permissionOverwritesJson: Value(
+            jsonEncode(<Map<String, Object>>[
+              <String, Object>{
+                'id': mutedRoleId,
+                'type': 0,
+                'allow': '0',
+                'deny': Permission.sendMessages.value.toString(),
+              },
+            ]),
+          ),
+        ),
+      );
+      await db.roleDao.upsertRoles([
+        RolesCompanion.insert(
+          id: guildId,
+          guildId: guildId,
+          name: '@everyone',
+          permissions: Value(
+            (Permission.viewChannel.value | Permission.sendMessages.value)
+                .toString(),
+          ),
+        ),
+        RolesCompanion.insert(
+          id: mutedRoleId,
+          guildId: guildId,
+          name: 'Muted',
+          permissions: const Value('0'),
+        ),
+      ]);
+
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          dmViewModelProvider.overrideWith(_EmptyDmViewModel.new),
+          currentUserIdProvider.overrideWithValue(userId),
+          guildListViewModelProvider.overrideWith(
+            () => _FixedGuildListViewModel(<Guild>[
+              const Guild(id: guildId, name: 'Guild', ownerId: ownerId),
+            ]),
+          ),
+          userSettingsViewModelProvider.overrideWith(
+            () => _FixedUserSettingsViewModel(userId),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final ProviderSubscription<AsyncValue<ChannelMessagePermissions>>
+      permissionsSub = container.listen(
+        channelMessagePermissionsProvider(channelId),
+        (_, _) {},
+      );
+      addTearDown(permissionsSub.close);
+      final Completer<CurrentUserMemberIdentity> memberReady =
+          Completer<CurrentUserMemberIdentity>();
+      final ProviderSubscription<AsyncValue<CurrentUserMemberIdentity?>>
+      identitySub = container
+          .listen(currentUserMemberIdentityProvider(guildId), (
+            AsyncValue<CurrentUserMemberIdentity?>? _,
+            AsyncValue<CurrentUserMemberIdentity?> next,
+          ) {
+            final CurrentUserMemberIdentity? identity = next.asData?.value;
+            if (identity != null && !memberReady.isCompleted) {
+              memberReady.complete(identity);
+            }
+          }, fireImmediately: true);
+      addTearDown(identitySub.close);
+
+      final ChannelMessagePermissions beforeMember = await container.read(
+        channelMessagePermissionsProvider(channelId).future,
+      );
+      expect(beforeMember.canSendMessages, isTrue);
+
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: userId,
+          guildId: guildId,
+          roleIdsJson: Value(jsonEncode(<String>[mutedRoleId])),
+        ),
+      );
+      final CurrentUserMemberIdentity identity = await memberReady.future
+          .timeout(const Duration(seconds: 2));
+      expect(identity.roleIdsJson, contains(mutedRoleId));
+
+      final ChannelMessagePermissions afterMember = await container.read(
+        channelMessagePermissionsProvider(channelId).future,
+      );
+      expect(afterMember.isResolved, isTrue);
+      expect(afterMember.canSendMessages, isFalse);
+      expect(afterMember.isComposerEnabled, isFalse);
+      expect(afterMember.showsNoSendPermissionHint, isTrue);
+    });
   });
 }
