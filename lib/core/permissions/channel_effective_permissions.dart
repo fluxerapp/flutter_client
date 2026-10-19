@@ -9,12 +9,20 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadChannelType;
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
 import 'package:riverpod/riverpod.dart';
 
 typedef ChannelPermissionBitsOutcome = ({int value, bool shouldCache});
+
+bool _guildIsListed(Ref ref, String guildId) {
+  return ref
+      .read(guildListViewModelProvider)
+      .guilds
+      .any((Guild guild) => guild.id == guildId);
+}
 
 List<MemberRole> _memberRolesFromRow({
   required List<Role> allRoles,
@@ -125,7 +133,7 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
     value: isThreadChannelType(channelRow.type)
         ? threadViewPermissions(value)
         : value,
-    shouldCache: true,
+    shouldCache: memberRow != null || _guildIsListed(ref, guildId),
   );
 }
 
@@ -237,7 +245,10 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
             channel.permissionOverwritesJson,
           ]);
         }
-        return (value: value, shouldCache: true);
+        return (
+          value: value,
+          shouldCache: memberRow != null || _guildIsListed(ref, guildId),
+        );
       }(),
   };
 }
@@ -354,7 +365,7 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
   );
   return (
     value: isThread ? threadViewPermissions(value) : value,
-    shouldCache: true,
+    shouldCache: memberRow != null || _guildIsListed(ref, guildId),
   );
 }
 

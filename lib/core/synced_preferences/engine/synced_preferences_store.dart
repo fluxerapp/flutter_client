@@ -719,15 +719,15 @@ class SyncedPreferencesStore {
       _wireBlob = encoded;
       _lastKnownGoodWire = encoded;
       _wire = SyncedPreferencesEngine.decode(encoded);
-      _local = inFlightSnapshot;
+      final pb.SyncedPreferences latestLocal = await _buildLocalSnapshot();
+      if (!_ref.mounted) {
+        return;
+      }
+      _local = latestLocal;
       _dirtyFields.removeAll(fieldsInRequest);
       await _persistSyncedPreferencesToUserSettingsCache(encoded);
       final stillChanged = await _changedRegisteredFields();
-      for (final field in stillChanged) {
-        if (!fieldsInRequest.contains(field)) {
-          _dirtyFields.add(field);
-        }
-      }
+      _dirtyFields.addAll(stillChanged);
       _pendingPush = _dirtyFields.isNotEmpty;
       _persistDirtyFields();
       _markFieldsAcked(fieldsInRequest);

@@ -13,6 +13,9 @@ import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
+import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
@@ -111,22 +114,30 @@ Future<bool> _revealCompleteAfter(
 }) async {
   await tester.pumpWidget(
     pumpFluxerApp(
+      disableAnimations: false,
       overrides: _splashOverrides(<Override>[
         fluxerDatabaseProvider.overrideWithValue(_database),
         appStartupProvider.overrideWith(_ReadyAppStartup.new),
         gatewayReadyProvider.overrideWith(_ReadyGateway.new),
         authStateProvider.overrideWith(_Authenticated.new),
+        appearancePreferencesProvider.overrideWithValue(
+          const AppearancePreferencesState(),
+        ),
+        unreadDmChannelsProvider.overrideWithValue(
+          const UnreadDmState(loaded: true),
+        ),
         if (switching) accountManagerProvider.overrideWith(_Switching.new),
       ]),
       child: const SplashScreen(),
     ),
   );
   await tester.pump();
-  await tester.pump();
-  await tester.pump();
   final ProviderContainer container = ProviderScope.containerOf(
     tester.element(find.byType(SplashScreen)),
   );
+  container.read(guildReadStateReadyProvider.notifier).markReady();
+  await tester.pump();
+  await tester.pump();
   if (switching) {
     expect(container.read(splashExitAllowedProvider), isFalse);
     expect(find.byType(InstanceBrandMark), findsOneWidget);

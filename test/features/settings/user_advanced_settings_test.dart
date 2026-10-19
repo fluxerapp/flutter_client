@@ -301,8 +301,8 @@ void main() {
         ],
       );
       final Finder destination = find.text(
-        "Reports go to Fluxer's error tracker, whichever instance you're "
-        "signed in to. They don't include instance names, IDs or message "
+        "Reports go to Fluxer's error tracker, even when you're signed in to "
+        "another instance. They don't include instance names, IDs or message "
         'content.',
       );
       await tester.scrollUntilVisible(

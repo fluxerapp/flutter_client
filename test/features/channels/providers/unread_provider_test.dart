@@ -65,6 +65,11 @@ class _FixedGuildListViewModel extends GuildListViewModel {
   GuildListViewState build() => GuildListViewState(guilds: _guilds);
 }
 
+class _EmptyGuildListViewModel extends GuildListViewModel {
+  @override
+  GuildListViewState build() => const GuildListViewState(guilds: <Guild>[]);
+}
+
 Future<void> _waitFor(bool Function() condition) async {
   for (var i = 0; i < 50; i++) {
     if (condition()) {
@@ -409,7 +414,16 @@ void main() {
         includeMember: false,
       );
 
-      final container = _container(db: db, userId: userId, guildId: guildId);
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          currentUserIdProvider.overrideWithValue(userId),
+          userSettingsViewModelProvider.overrideWith(
+            () => _FixedUserSettingsViewModel(userId),
+          ),
+          guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
+        ],
+      );
       addTearDown(container.dispose);
       container.read(gatewayReadyProvider.notifier).setReady();
 
@@ -453,7 +467,16 @@ void main() {
         includeMember: false,
       );
 
-      final container = _container(db: db, userId: userId, guildId: guildId);
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          currentUserIdProvider.overrideWithValue(userId),
+          userSettingsViewModelProvider.overrideWith(
+            () => _FixedUserSettingsViewModel(userId),
+          ),
+          guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
+        ],
+      );
       addTearDown(container.dispose);
       container.read(gatewayReadyProvider.notifier).setReady();
 

@@ -22,6 +22,7 @@ void main() {
     addTearDown(tester.view.reset);
     await tester.pumpWidget(
       pumpFluxerApp(
+        disableAnimations: false,
         overrides: [
           parentThreadActorProvider('g1', 'c1').overrideWithValue(null),
         ],
