@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
@@ -175,7 +178,14 @@ class SyncedPreferencesStore {
     SyncedThemeCustomizationApplier? themeCustomizationApplier,
     bool fromCache = false,
   }) async {
-    final encoded = settings.syncedPreferences;
+    var encoded = settings.syncedPreferences;
+    if (_hasHydrated &&
+        _wireBlob.isNotEmpty &&
+        encoded.isNotEmpty &&
+        encoded != _wireBlob &&
+        await _shouldPreferLocalWireOverIncoming(encoded)) {
+      encoded = _wireBlob;
+    }
     if (!fromCache) {
       _hasServerSnapshot = true;
     }
@@ -264,6 +274,37 @@ class SyncedPreferencesStore {
     };
     _restoredDirtyFields = restored;
     _dirtyFields.addAll(restored);
+  }
+
+  Future<void> _persistSyncedPreferencesToUserSettingsCache(
+    String encoded,
+  ) async {
+    final String? userId = _ref.read(currentUserIdProvider);
+    if (userId == null) {
+      return;
+    }
+    try {
+      final dao = _ref.read(fluxerDatabaseProvider).userSettingsDao;
+      final row = await dao.getSettings(userId);
+      final Map<String, dynamic> merged = row == null
+          ? <String, dynamic>{}
+          : Map<String, dynamic>.from(
+              jsonDecode(row.data) as Map<String, dynamic>,
+            );
+      merged['synced_preferences'] = encoded;
+      await dao.upsertSettings(
+        UserSettingsTableCompanion(
+          userId: Value(userId),
+          data: Value(jsonEncode(merged)),
+        ),
+      );
+    } on Object catch (error, stackTrace) {
+      talker.warning(
+        '[SyncedPreferences] Failed to cache wire in user settings',
+        error,
+        stackTrace,
+      );
+    }
   }
 
   void _persistDirtyFields() {
@@ -677,16 +718,22 @@ class SyncedPreferencesStore {
       _wire = SyncedPreferencesEngine.decode(encoded);
       _local = inFlightSnapshot;
       _dirtyFields.removeAll(fieldsInRequest);
+      await _persistSyncedPreferencesToUserSettingsCache(encoded);
       final stillChanged = await _changedRegisteredFields();
-      _dirtyFields.addAll(stillChanged);
+      for (final field in stillChanged) {
+        if (!fieldsInRequest.contains(field)) {
+          _dirtyFields.add(field);
+        }
+      }
       _pendingPush = _dirtyFields.isNotEmpty;
       _persistDirtyFields();
       _markFieldsAcked(fieldsInRequest);
       _pushRetryAttempts = 0;
+      final fieldNames = fieldsInRequest.map((field) => field.name).join(', ');
       talker.debug(
         '[SyncedPreferences] Pushed ${fieldsInRequest.length} field(s) '
-        '(${encoded.length} bytes, '
-        '${SyncedPreferencesWireCodec.countForeignFields(encoded)}'
+        '[$fieldNames] (${encoded.length} bytes, '
+        '${SyncedPreferencesWireCodec.countForeignFields(encoded)} '
         'foreign fields)',
       );
     } on SyncedPreferencesWireEncodeException catch (error, stackTrace) {
@@ -707,6 +754,75 @@ class SyncedPreferencesStore {
         _flushPendingPush();
       }
     }
+  }
+
+  Future<bool> _localStateDiffersFromWireBlob(String wireBlob) async {
+    final pb.SyncedPreferences wire = wireBlob.isEmpty
+        ? SyncedPreferencesEngine.createEmpty()
+        : SyncedPreferencesEngine.decodeLenient(wireBlob);
+    for (final MapEntry<SyncedPreferenceField, SyncedFieldAdapter<Object?>>
+        entry
+        in _adapters.entries) {
+      if (!_ref.mounted) {
+        return false;
+      }
+      final SyncedFieldAdapter<Object?> adapter = entry.value;
+      final Object? local = await adapter.readLocalValue();
+      final Object? remote = adapter.readFromProto(wire);
+      if (remote == null) {
+        if (adapter.hasLocalData(local)) {
+          return true;
+        }
+        continue;
+      }
+      if (!_adapterValuesEqual(adapter, local, remote)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> _shouldPreferLocalWireOverIncoming(
+    String incomingEncoded,
+  ) async {
+    if (_wireBlob.isEmpty || incomingEncoded.isEmpty) {
+      return false;
+    }
+    if (!await _localStateDiffersFromWireBlob(incomingEncoded)) {
+      return false;
+    }
+    if (await _localStateDiffersFromWireBlob(_wireBlob)) {
+      return false;
+    }
+    final Set<SyncedPreferenceField> recentlyAcked = _recentlyAckedFields();
+    if (recentlyAcked.isEmpty) {
+      return false;
+    }
+    final pb.SyncedPreferences incomingWire =
+        SyncedPreferencesEngine.decodeLenient(incomingEncoded);
+    final pb.SyncedPreferences localWire =
+        SyncedPreferencesEngine.decodeLenient(_wireBlob);
+    for (final MapEntry<SyncedPreferenceField, SyncedFieldAdapter<Object?>>
+        entry
+        in _adapters.entries) {
+      if (!_ref.mounted) {
+        return false;
+      }
+      final SyncedFieldAdapter<Object?> adapter = entry.value;
+      final Object? local = await adapter.readLocalValue();
+      final Object? fromIncoming = adapter.readFromProto(incomingWire);
+      final Object? fromLocalWire = adapter.readFromProto(localWire);
+      if (_adapterValuesEqual(adapter, fromIncoming, fromLocalWire)) {
+        continue;
+      }
+      if (!_adapterValuesEqual(adapter, local, fromLocalWire)) {
+        return false;
+      }
+      if (!recentlyAcked.contains(entry.key)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   Future<List<SyncedPreferenceField>> _changedRegisteredFields() async {
@@ -853,6 +969,20 @@ class SyncedPreferencesStore {
   }
 
   bool _statesEqual(SyncedFieldAdapter<Object?> adapter, Object? a, Object? b) {
+    return _adapterValuesEqual(adapter, a, b);
+  }
+
+  bool _adapterValuesEqual(
+    SyncedFieldAdapter<Object?> adapter,
+    Object? a,
+    Object? b,
+  ) {
+    if (a == null && b == null) {
+      return true;
+    }
+    if (a == null || b == null) {
+      return false;
+    }
     return adapter.statesEqual(a, b);
   }
 

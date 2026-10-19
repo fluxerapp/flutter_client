@@ -229,6 +229,46 @@ void main() {
     },
   );
 
+  test(
+    'stale synced_preferences hydration does not trigger another push',
+    () async {
+      final database = openTestDatabase();
+      final usersApi = _FakeUsersApi();
+      addTearDown(database.close);
+
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
+          fluxerClientProvider.overrideWithValue(_FakeClient(usersApi)),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final initialWire = _wireWithGuildFoldersAndSound(
+        folderIds: {42},
+        masterVolume: 50,
+      );
+      final store = container.read(syncedPreferencesStoreProvider);
+      await store.hydrateFromUserSettings(
+        _testUserSettings(syncedPreferences: initialWire),
+      );
+
+      await container
+          .read(soundPreferencesProvider.notifier)
+          .setMasterVolume(80);
+      await flushSyncedPreferencesDebounce(store);
+      expect(usersApi.pushCount, 1);
+
+      await store.hydrateFromUserSettings(
+        _testUserSettings(syncedPreferences: initialWire),
+      );
+      await drainAsyncWork();
+
+      expect(usersApi.pushCount, 1);
+      expect(container.read(soundPreferencesProvider).masterVolume, 80);
+    },
+  );
+
   test('empty synced_preferences after hydrate does not push', () async {
     final database = openTestDatabase();
     final usersApi = _FakeUsersApi();
