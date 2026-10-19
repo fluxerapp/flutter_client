@@ -181,7 +181,7 @@ ChannelMessagePermissions channelMessagePermissionsForComposer(
   );
 }
 
-ChannelMessagePermissions? syncChannelMessagePermissions(
+ChannelMessagePermissions? syncDmChannelMessagePermissions(
   WidgetRef ref,
   String channelId, {
   required bool watch,
@@ -208,6 +208,22 @@ ChannelMessagePermissions? syncChannelMessagePermissions(
   )) {
     return ChannelMessagePermissions.all;
   }
+  return null;
+}
+
+ChannelMessagePermissions? syncChannelMessagePermissions(
+  WidgetRef ref,
+  String channelId, {
+  required bool watch,
+}) {
+  final ChannelMessagePermissions? dm = syncDmChannelMessagePermissions(
+    ref,
+    channelId,
+    watch: watch,
+  );
+  if (dm != null) {
+    return dm;
+  }
   final int? cachedBits = watch
       ? ref.watch(
           channelPermissionCacheProvider.select(
@@ -219,27 +235,42 @@ ChannelMessagePermissions? syncChannelMessagePermissions(
             (ChannelPermissionCaches caches) => caches.effective[channelId],
           ),
         );
-  if (cachedBits != null) {
-    return channelMessagePermissionsFromBits(
-      bits: cachedBits,
-      channelType: ChannelType.guildText,
-    );
+  if (cachedBits == null) {
+    return null;
   }
-  return null;
+  final ChannelType channelType = _guildChannelTypeForPermissionSync(
+    ref,
+    channelId,
+    watch: watch,
+  );
+  return channelMessagePermissionsFromBits(
+    bits: cachedBits,
+    channelType: channelType,
+  );
+}
+
+ChannelType _guildChannelTypeForPermissionSync(
+  WidgetRef ref,
+  String channelId, {
+  required bool watch,
+}) {
+  final AsyncValue<Channel?> channel = watch
+      ? ref.watch(channelByIdProvider(channelId))
+      : ref.read(channelByIdProvider(channelId));
+  return channel.value?.type ?? ChannelType.guildText;
 }
 
 ChannelMessagePermissions watchChannelMessagePermissionsForComposer(
   WidgetRef ref,
   String channelId,
 ) {
-  final ChannelMessagePermissions? sync = syncChannelMessagePermissions(
+  final ChannelMessagePermissions? dmSync = syncDmChannelMessagePermissions(
     ref,
     channelId,
     watch: true,
   );
-  if (sync != null) {
-    ref.watch(channelMessagePermissionsProvider(channelId));
-    return sync;
+  if (dmSync != null) {
+    return dmSync;
   }
   return channelMessagePermissionsForComposer(
     ref.watch(channelMessagePermissionsProvider(channelId)),
@@ -250,13 +281,13 @@ ChannelMessagePermissions readChannelMessagePermissionsForComposer(
   WidgetRef ref,
   String channelId,
 ) {
-  final ChannelMessagePermissions? sync = syncChannelMessagePermissions(
+  final ChannelMessagePermissions? dmSync = syncDmChannelMessagePermissions(
     ref,
     channelId,
     watch: false,
   );
-  if (sync != null) {
-    return sync;
+  if (dmSync != null) {
+    return dmSync;
   }
   return channelMessagePermissionsForComposer(
     ref.read(channelMessagePermissionsProvider(channelId)),
