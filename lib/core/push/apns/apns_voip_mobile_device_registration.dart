@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
+import 'package:fluxer_app/core/push/services/apple_push_service.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_registration.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
@@ -26,6 +27,7 @@ class ApnsVoipMobileDeviceRegistration
   static const int _tokenPollAttempts = 30;
   static const Duration _tokenPollDelay = Duration(milliseconds: 200);
   String? _lastRegisteredUserId;
+  bool _apnsSandbox = kDebugMode;
   String? _lastRegisteredRelayUrl;
   String? _lastRegisteredPublicKey;
   String? _unregisteredWithoutConsentKey;
@@ -71,18 +73,20 @@ class ApnsVoipMobileDeviceRegistration
     return 0;
   }
 
-  static RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
   get _registerProviderEnvironment {
-    return kDebugMode
+    return _apnsSandbox
         ? RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
               .development
         : RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
               .production;
   }
 
-  static UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  String get _environmentName => _apnsSandbox ? 'development' : 'production';
+
+  UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
   get _unregisterProviderEnvironment {
-    return kDebugMode
+    return _apnsSandbox
         ? UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
               .development
         : UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
@@ -145,7 +149,8 @@ class ApnsVoipMobileDeviceRegistration
       );
       return;
     }
-    const String environmentName = kDebugMode ? 'development' : 'production';
+    _apnsSandbox = await ApplePushService.apnsUsesSandbox();
+    final String environmentName = _environmentName;
     final String relayUrl = apnsVoipRelayUrl(
       appId: AppBuildConfig.mobilePushAppId,
       environment: environmentName,
@@ -201,6 +206,7 @@ class ApnsVoipMobileDeviceRegistration
     if (!_shouldRunOnThisPlatform) {
       return;
     }
+    _apnsSandbox = await ApplePushService.apnsUsesSandbox();
     final String? bearer = ref.read(fluxerAuthTokenProvider);
     if (bearer == null || bearer.isEmpty) {
       return;
@@ -212,7 +218,7 @@ class ApnsVoipMobileDeviceRegistration
             ? ''
             : apnsVoipRelayUrl(
                 appId: AppBuildConfig.mobilePushAppId,
-                environment: kDebugMode ? 'development' : 'production',
+                environment: _environmentName,
                 deviceTokenHex: hex,
               ));
     if (relayUrl.isEmpty) {
