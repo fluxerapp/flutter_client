@@ -1,5 +1,4 @@
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
-import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -10,9 +9,6 @@ import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-const String kPushRelayNoticeUrl =
-    '${InstanceConstants.defaultMarketingBaseUrl}/push-relay';
 
 Future<bool?> showPushRelayConsentSheet(BuildContext context) {
   final l10n = FluxerLocalizations.of(context);

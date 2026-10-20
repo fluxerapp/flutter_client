@@ -10210,6 +10210,38 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se povolit oznámení. Pokračujte povolením oprávnění k oznámením.';
 
   @override
+  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+
+  @override
+  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+
+  @override
+  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+
+  @override
+  String get notificationsPushDeliveryDistributorSheetTitle =>
+      'Choose distributor';
+
+  @override
+  String get notificationsPushDeliveryDistributorPickAccessibility =>
+      'Change push distributor';
+
+  @override
+  String get notificationsPushDeliveryGatewayLabel => 'Gateway';
+
+  @override
+  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+
+  @override
+  String get notificationsPushDeliveryRelayInUse => 'In use';
+
+  @override
+  String get notificationsPushDeliveryRelayOff => 'Off';
+
+  @override
+  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+
+  @override
   String get notificationsPushRelaySectionTitle => 'Přenos push oznámení';
 
   @override

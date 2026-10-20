@@ -1,7 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/push/push_delivery_display.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -12,6 +15,7 @@ import 'package:fluxer_app/features/profile/providers/user_settings_status_provi
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_settings.dart';
 import 'package:fluxer_app/features/settings/providers/mention_preference_provider.dart';
 import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/push_delivery_details_provider.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/shell/providers/push_notification_permission_status_provider.dart';
@@ -103,6 +107,7 @@ Widget _wrap(Widget child) {
       pushNotificationRequiresSystemSettingsProvider.overrideWith(
         (Ref ref) => false,
       ),
+      pushDeliveryDetailsProvider.overrideWith(_TestPushDeliveryDetails.new),
     ],
   );
   return UncontrolledProviderScope(
@@ -142,7 +147,25 @@ class _TestMentionReplyPreference extends MentionReplyPreference {
   }
 }
 
+class _TestPushDeliveryDetails extends PushDeliveryDetails {
+  @override
+  Future<PushDeliveryDetailsState> build() async {
+    return const PushDeliveryDetailsState(
+      pushProvider: PushProviderKind.firebaseMessaging,
+      relayStatus: FluxerRelayDeliveryStatus.inUse,
+    );
+  }
+}
+
 void main() {
+  setUp(() {
+    debugSetFluxerRuntimeMobileFormFactor(value: true);
+  });
+
+  tearDown(() {
+    debugSetFluxerRuntimeMobileFormFactor(value: null);
+  });
+
   testWidgets('renders notifications sections and key descriptions', (
     WidgetTester tester,
   ) async {
@@ -168,5 +191,8 @@ void main() {
       find.text('Your existing notification sound settings will be preserved.'),
       findsOneWidget,
     );
+    expect(find.text('Fluxer Push relay'), findsOneWidget);
+    expect(find.text('Firebase Cloud Messaging'), findsOneWidget);
+    expect(find.text('In use'), findsOneWidget);
   });
 }

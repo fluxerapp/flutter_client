@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/system_permissions/system_permission_service.dar
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_permission_banner.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_push_delivery_details.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_sound_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_tts_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -106,6 +107,7 @@ class UserNotificationsSettings extends ConsumerWidget {
                   ),
                 ),
               ),
+              const UserNotificationsPushDeliveryDetails(),
               if (isDesktopOs) ...[
                 Text(
                   l10n.notificationsPushInactiveTimeoutLabel,

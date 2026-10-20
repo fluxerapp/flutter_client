@@ -16773,6 +16773,66 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t enable notifications. Allow notification permission to continue.'**
   String get notificationsEnableNotificationsPermissionDenied;
 
+  /// Label for the compile-time mobile push provider on notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Push provider'**
+  String get notificationsPushDeliveryProviderLabel;
+
+  /// Label for the UnifiedPush distributor on notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Distributor'**
+  String get notificationsPushDeliveryDistributorLabel;
+
+  /// Shown when no UnifiedPush distributor is selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not selected'**
+  String get notificationsPushDeliveryDistributorNone;
+
+  /// Title of the UnifiedPush distributor picker sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose distributor'**
+  String get notificationsPushDeliveryDistributorSheetTitle;
+
+  /// Accessibility label when the distributor row opens a picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Change push distributor'**
+  String get notificationsPushDeliveryDistributorPickAccessibility;
+
+  /// Label for the UnifiedPush gateway host on notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Gateway'**
+  String get notificationsPushDeliveryGatewayLabel;
+
+  /// Label for Fluxer Push relay status on notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Push relay'**
+  String get notificationsPushDeliveryRelayLabel;
+
+  /// Fluxer relay is active for this device.
+  ///
+  /// In en, this message translates to:
+  /// **'In use'**
+  String get notificationsPushDeliveryRelayInUse;
+
+  /// Fluxer relay is required but not enabled for this device.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get notificationsPushDeliveryRelayOff;
+
+  /// This push provider does not use the Fluxer relay.
+  ///
+  /// In en, this message translates to:
+  /// **'Not used'**
+  String get notificationsPushDeliveryRelayNotUsed;
+
   /// Notification settings section title for the Fluxer push relay.
   ///
   /// In en, this message translates to:
