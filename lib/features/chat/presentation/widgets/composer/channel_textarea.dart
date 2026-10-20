@@ -19,7 +19,6 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
@@ -94,6 +93,7 @@ import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -1005,12 +1005,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         perms.showsNoSendPermissionHint) {
       return AnnouncementFollowBarrier(channel: composerChannel);
     }
-    final String guildId = ref.watch(
-      channelListViewModelProvider.select(
-        (ChannelListState state) =>
-            findChannelById(state, channelId)?.guildId ?? '',
-      ),
-    );
+    final String guildId = resolveGuildIdForChannel(ref, channelId) ?? '';
     final bool mobileComposer = isMobileLayout(context);
     final bool isPanelOpen = isComposerPanelOpen(
       expressionPanelOpen: ref.watch(expressionPanelProvider),
