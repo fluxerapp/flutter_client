@@ -99,9 +99,10 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
       state = const VoiceCallOverlayState(isVisible: false);
       return Future<void>.value();
     }
-    _phoneExit = Completer<void>();
+    final Completer<void> exit = Completer<void>();
+    _phoneExit = exit;
     state = const VoiceCallOverlayState(isVisible: false, isExiting: true);
-    return _phoneExit!.future;
+    return exit.future;
   }
 
   void completePhoneExit() {

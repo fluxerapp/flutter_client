@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
@@ -100,23 +101,26 @@ Future<void> endPhoneVoiceCall({
   final bool handheld = isHandheldVoiceOverlay(context);
 
   if (handheld) {
-    await ref.read(voiceCallOverlayProvider.notifier).playPhoneExit();
+    await container.read(voiceCallOverlayProvider.notifier).playPhoneExit();
   }
-  if (!context.mounted) {
-    return;
-  }
-  await ref.read(voiceSessionProvider.notifier).leaveVoice();
-  if (!context.mounted || !handheld) {
+  await container.read(voiceSessionProvider.notifier).leaveVoice();
+  if (!handheld) {
     return;
   }
   if (favoritesChannel) {
-    returnToFavoritesList(ref);
+    returnToFavoritesList(container);
     return;
   }
   final String? guildId = voiceBeforeLeave.guildId;
   if (guildId == null || guildId.isEmpty) {
     final GoRouter router = container.read(fluxerRouterProvider);
-    if (router.canPop()) {
+    final String? channelId = voiceBeforeLeave.channelId;
+    if (channelId != null && location == RoutePaths.dmChannelCall(channelId)) {
+      DrawerNavigationCoordinator.navigateToContent(
+        container,
+        RoutePaths.dmChannel(channelId),
+      );
+    } else if (router.canPop()) {
       router.pop();
     }
   }

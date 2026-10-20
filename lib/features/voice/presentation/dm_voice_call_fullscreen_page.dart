@@ -80,13 +80,6 @@ class _DmVoiceCallFullscreenPageState
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool usePhoneVoiceOverlay = isPhoneVoiceOverlay(context);
-    final bool showsOverlay =
-        !usePhoneVoiceOverlay ||
-        ref.watch(
-          voiceCallOverlayProvider.select(
-            (VoiceCallOverlayState state) => state.showsOverlay,
-          ),
-        );
     final bool inThisChannel = ref.watch(
       voiceSessionProvider.select(
         (VoiceSessionState s) =>
@@ -95,6 +88,14 @@ class _DmVoiceCallFullscreenPageState
             (s.guildId == null || s.guildId!.isEmpty),
       ),
     );
+    final bool showsOverlay =
+        !usePhoneVoiceOverlay ||
+        !inThisChannel ||
+        ref.watch(
+          voiceCallOverlayProvider.select(
+            (VoiceCallOverlayState state) => state.showsOverlay,
+          ),
+        );
     final Widget scaffold = ChatSurfaceTheme(
       builder: (BuildContext context) {
         return Scaffold(
