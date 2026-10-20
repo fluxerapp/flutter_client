@@ -86,7 +86,6 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     required ValueChanged<double> onValueChange,
   }) {
     return FluxerSlider(
-      value: value,
       defaultValue: value,
       factoryDefaultValue: kDefaultVoiceVolumePercent.toDouble(),
       minValue: kMinVoiceVolumePercent.toDouble(),

@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_audio_and_video.dart';
 import 'package:fluxer_app/features/settings/providers/voice_prompts_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -65,6 +66,29 @@ class _FakeVoiceSession extends VoiceSession {
 }
 
 void main() {
+  testWidgets('input volume slider commits a lower value', (tester) async {
+    await tester.pumpWidget(_wrap(const UserAudioAndVideo()));
+    await tester.pumpAndSettle();
+
+    final Finder inputVolumeLabel = find.text('Input volume');
+    await tester.scrollUntilVisible(
+      inputVolumeLabel,
+      48,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+
+    final Finder slider = find.byType(FluxerSlider).first;
+
+    await tester.drag(slider, const Offset(-80, 0));
+    await tester.pumpAndSettle();
+
+    final ProviderContainer container = ProviderScope.containerOf(
+      tester.element(find.byType(UserAudioAndVideo)),
+    );
+    expect(container.read(voiceSettingsProvider).inputVolume, lessThan(100));
+  });
+
   testWidgets('renders audio and video settings sections', (tester) async {
     await tester.pumpWidget(_wrap(const UserAudioAndVideo()));
     await tester.pumpAndSettle();
