@@ -12,6 +12,7 @@ class ApplePushService implements PushService {
   const ApplePushService();
   static const MethodChannel _channel = MethodChannel('fluxer_app/apple_push');
   static bool _replyHandlerInstalled = false;
+  static bool? _apnsSandbox;
   static bool _replyReadyAnnounced = false;
   static Future<void>? _replyInstall;
   static const EventChannel _messageChannel = EventChannel(
@@ -146,6 +147,30 @@ class ApplePushService implements PushService {
       return null;
     } on PlatformException {
       return null;
+    }
+  }
+
+  static Future<bool> apnsUsesSandbox() async {
+    final bool? cached = _apnsSandbox;
+    if (cached != null) {
+      return cached;
+    }
+    if (!_shouldUseNativeChannel()) {
+      return kDebugMode;
+    }
+    try {
+      final Object? environment = await _channel.invokeMethod<Object?>(
+        'getApnsEnvironment',
+      );
+      final bool sandbox = environment is String
+          ? environment == 'development'
+          : kDebugMode;
+      _apnsSandbox = sandbox;
+      return sandbox;
+    } on MissingPluginException {
+      return kDebugMode;
+    } on PlatformException {
+      return kDebugMode;
     }
   }
 
