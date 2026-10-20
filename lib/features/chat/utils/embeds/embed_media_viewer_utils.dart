@@ -35,6 +35,14 @@ bool canOpenEmbedMediaViewer(EmbedMedia media) {
   return embedMediaEffectiveUrl(media).isNotEmpty;
 }
 
+bool isPlayableEmbedAudio(EmbedMedia? media) {
+  if (media == null || media.url.trim().isEmpty) {
+    return false;
+  }
+  final String? proxyUrl = media.proxyUrl?.trim();
+  return proxyUrl != null && proxyUrl.isNotEmpty;
+}
+
 void openEmbedMediaViewer(
   BuildContext context, {
   required EmbedMedia media,

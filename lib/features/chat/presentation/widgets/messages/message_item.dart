@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/crosspost_community
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/publish_message_sheets.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_audio.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gift.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_invite.dart';
@@ -51,6 +52,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_prov
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/channel_details_handheld.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_render_utils.dart';
 import 'package:fluxer_app/features/chat/utils/messages/double_tap_reaction.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_accessibility_summary.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
@@ -2156,6 +2158,24 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         embedIndex: embedIndex,
         videoActionScope: _videoActionScope,
       ),
+      EmbedType.audio when embed.hasRichEmbedContent => EmbedRich(
+        embed: embed,
+        galleryIndex: galleryIndex,
+        embedIndex: embedIndex ?? 0,
+        dimensionSize: dimensionSize,
+        revealSpoilers: revealSpoilers,
+        spoilerSyncController: _spoilerSyncController,
+        channelId: channelId,
+        messageId: messageId,
+        videoActionScope: _videoActionScope,
+      ),
+      EmbedType.audio when shouldRenderMediaOnlyAudioEmbed(embed) => EmbedAudio(
+        embed: embed,
+        dimensionSize: dimensionSize,
+        channelId: channelId,
+        embedIndex: embedIndex,
+      ),
+      EmbedType.audio => const SizedBox.shrink(),
     };
 
     return Padding(

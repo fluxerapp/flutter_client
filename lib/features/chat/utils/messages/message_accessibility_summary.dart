@@ -184,6 +184,7 @@ String? _embedSummary({
   return switch (embed.type) {
     EmbedType.image || EmbedType.gifv => l10n.messageAccessibilityImageSummary,
     EmbedType.video => l10n.messageAccessibilityVideoSummary,
+    EmbedType.audio => l10n.messageAccessibilityAudioSummary,
     _ => l10n.messageAccessibilityEmbedSummary,
   };
 }

@@ -175,6 +175,45 @@ String deriveFilenameFromUrl(String url) {
   return 'embed-media';
 }
 
+String embedAudioAttachmentFilename({
+  required Embed embed,
+  required EmbedMedia audio,
+}) {
+  final String urlFilename = deriveFilenameFromUrl(
+    embedMediaEffectiveUrl(audio),
+  );
+  final String? title = embed.title?.trim();
+  if (title != null && title.isNotEmpty) {
+    final int dotIndex = urlFilename.lastIndexOf('.');
+    if (dotIndex > 0 && !title.contains('.')) {
+      return '$title${urlFilename.substring(dotIndex)}';
+    }
+    return title;
+  }
+  return urlFilename;
+}
+
+Attachment attachmentFromEmbedAudio({
+  required Embed embed,
+  required EmbedMedia audio,
+  int? embedIndex,
+}) {
+  final String playbackUrl = embedMediaEffectiveUrl(audio);
+  final String idPrefix = embedIndex?.toString() ?? 'embed';
+  return Attachment(
+    id: '$idPrefix-audio',
+    filename: embedAudioAttachmentFilename(embed: embed, audio: audio),
+    title: embed.title,
+    url: playbackUrl,
+    proxyUrl: audio.proxyUrl ?? audio.url,
+    contentType: audio.contentType,
+    duration: audio.duration,
+    flags: audio.flags,
+    contentHash: audio.contentHash,
+    nsfw: embed.nsfw,
+  );
+}
+
 List<Attachment> buildGalleryAttachments({
   required List<EmbedMedia> images,
   required Embed embed,

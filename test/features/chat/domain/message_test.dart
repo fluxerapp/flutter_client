@@ -207,6 +207,20 @@ void main() {
       expect(embed.isMediaOnlyEmbed, isTrue);
     });
 
+    test('is true for a direct audio link with no rich fields', () {
+      const Embed embed = Embed(
+        type: EmbedType.audio,
+        url: 'https://cdn.example.test/song.mp3',
+        audio: EmbedMedia(
+          url: 'https://cdn.example.test/song.mp3',
+          proxyUrl: 'https://proxy.example.test/song.mp3',
+          contentType: 'audio/mpeg',
+        ),
+      );
+      expect(embed.hasRichEmbedContent, isFalse);
+      expect(embed.isMediaOnlyEmbed, isTrue);
+    });
+
     test('is false for a video embed with a provider', () {
       const Embed embed = Embed(
         type: EmbedType.video,

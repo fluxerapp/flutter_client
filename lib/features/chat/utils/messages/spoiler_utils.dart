@@ -127,6 +127,8 @@ List<String?> _embedUrlCandidates(Embed embed) {
     embed.thumbnail?.proxyUrl,
     embed.video?.url,
     embed.video?.proxyUrl,
+    embed.audio?.url,
+    embed.audio?.proxyUrl,
   ];
 }
 
