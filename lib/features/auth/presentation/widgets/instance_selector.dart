@@ -165,7 +165,6 @@ class _InstanceSelectorControlState
               errorText: errorText,
               keyboardType: TextInputType.url,
               autocorrect: false,
-              enableSuggestions: false,
               textInputAction: TextInputAction.go,
             ),
             SizedBox(height: context.layout.s3),

@@ -174,7 +174,6 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                           maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           textInputAction: TextInputAction.search,
                           autocorrect: false,
-                          enableSuggestions: false,
                           cursorColor: colors.textPrimary,
                           style: context.textStyles.inputText.copyWith(
                             color: colors.textPrimary,

@@ -215,7 +215,6 @@ class _ChannelSearchFieldState extends State<ChannelSearchField> {
               focusNode: focusNode,
               textInputAction: TextInputAction.search,
               autocorrect: false,
-              enableSuggestions: false,
               cursorColor: colors.textPrimary,
               onSubmitted: widget.onSubmitted,
               contextMenuBuilder: clipboardScope.buildContextMenu,

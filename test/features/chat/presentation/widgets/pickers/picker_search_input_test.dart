@@ -75,6 +75,18 @@ void main() {
     expect(controller.text, 'abc');
   });
 
+  testWidgets('keeps keyboard suggestions enabled for glide typing', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      buildTestApp(const PickerSearchInput.inline(hintText: 'Search')),
+    );
+
+    final TextField field = tester.widget(find.byType(TextField));
+    expect(field.enableSuggestions, isTrue);
+    expect(field.autocorrect, isFalse);
+  });
+
   testWidgets('does not autofocus inside bottom sheets', (tester) async {
     await tester.pumpWidget(
       buildTestApp(
