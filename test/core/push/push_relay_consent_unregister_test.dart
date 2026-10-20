@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const MethodChannel _permissionChannel = MethodChannel(
   'flutter.baseflow.com/permissions/methods',
 );
+const MethodChannel _applePushChannel = MethodChannel('fluxer_app/apple_push');
 
 void main() {
   setUp(() {
@@ -34,11 +35,19 @@ void main() {
               return null;
           }
         });
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          _applePushChannel,
+          (MethodCall methodCall) async =>
+              methodCall.method == 'getApnsEnvironment' ? 'development' : null,
+        );
   });
 
   tearDown(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(_permissionChannel, null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(_applePushChannel, null);
   });
 
   testWidgets(
