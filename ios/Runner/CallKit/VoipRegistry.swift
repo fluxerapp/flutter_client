@@ -37,6 +37,20 @@ final class VoipRegistry: NSObject {
     SwiftFlutterCallkitIncomingPlugin.sharedInstance?.setDevicePushTokenVoIP(hex)
   }
 
+  func currentTokenHex() -> String? {
+    reporter.queue.sync {
+      if let hex = pendingTokenHex, !hex.isEmpty {
+        return hex
+      }
+      if let stored = UserDefaults.standard.string(forKey: "DevicePushTokenVoIP"),
+        !stored.isEmpty
+      {
+        return stored
+      }
+      return nil
+    }
+  }
+
   fileprivate func storeVoipToken(_ token: Foundation.Data) {
     let hex = token.map { String(format: "%02x", $0) }.joined()
     pendingTokenHex = hex

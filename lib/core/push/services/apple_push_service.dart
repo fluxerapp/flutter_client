@@ -149,6 +149,25 @@ class ApplePushService implements PushService {
     }
   }
 
+  static Future<String?> getVoipToken() async {
+    if (!_shouldUseNativeChannel()) {
+      return null;
+    }
+    try {
+      final Object? token = await _channel.invokeMethod<Object?>(
+        'getVoipDeviceToken',
+      );
+      if (token is String && token.isNotEmpty) {
+        return token;
+      }
+      return null;
+    } on MissingPluginException {
+      return null;
+    } on PlatformException {
+      return null;
+    }
+  }
+
   @override
   Stream<PushMessage> watchMessages() {
     if (!_shouldUseNativeChannel()) {

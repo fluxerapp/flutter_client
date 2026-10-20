@@ -462,6 +462,10 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
         }
         result(self.deviceTokenHex)
       }
+    case "getVoipDeviceToken":
+      DispatchQueue.main.async {
+        result(VoipRegistry.shared.currentTokenHex())
+      }
     case "removeDeliveredNotificationsForChannel":
       guard let args = call.arguments as? [String: Any],
         let channelId = args["channelId"] as? String,
