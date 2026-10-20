@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -195,18 +193,17 @@ class _VoiceCallPhoneEnterState extends ConsumerState<_VoiceCallPhoneEnter>
   }
 
   void _playExit() {
-    if (_enter.status == AnimationStatus.dismissed) {
+    if (_enter.status == AnimationStatus.dismissed ||
+        !TickerMode.getValuesNotifier(context).value.enabled) {
       _finishPhoneExit();
       return;
     }
-    unawaited(
-      _enter.reverse().whenComplete(() {
-        if (!mounted) {
-          return;
-        }
-        _finishPhoneExit();
-      }),
-    );
+    _enter.reverse().whenCompleteOrCancel(() {
+      if (!mounted) {
+        return;
+      }
+      _finishPhoneExit();
+    });
   }
 
   void _finishPhoneExit() {
