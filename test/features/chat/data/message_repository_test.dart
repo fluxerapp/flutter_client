@@ -361,6 +361,32 @@ void main() {
     expect(await db.messageDao.getMessage('channel-1', keptId), isNotNull);
   });
 
+  test('empty latest page clears cached channel messages', () async {
+    final db = openTestDatabase();
+    const messageId = '1501554121113600000';
+    await db.messageDao.upsertMessage(
+      MessagesCompanion.insert(
+        id: messageId,
+        channelId: 'channel-1',
+        authorId: 'other',
+        content: messageId,
+        timestamp: DateTime.utc(2026, 5, 6, 12),
+      ),
+    );
+    final adapter = _StubMessagesAdapter(jsonEncode(<Map<String, dynamic>>[]));
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    final MessageListLoadResult page = await repo.loadMessagePage(
+      channelId: 'channel-1',
+    );
+
+    expect(page.messages, isEmpty);
+    expect(await db.messageDao.getMessage('channel-1', messageId), isNull);
+  });
+
   test('latest page removes a cached tail the server no longer has', () async {
     final db = openTestDatabase();
     const anchorId = '1501554121113600000';

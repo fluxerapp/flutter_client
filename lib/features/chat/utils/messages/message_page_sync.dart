@@ -366,6 +366,9 @@ List<Message> mergeMessagesSorted(
   return collapseDeliveredLocalSends(merged);
 }
 
+List<Message> _localOnlyMessages(List<Message> current) =>
+    current.where(isLocalOnlyMessage).toList();
+
 List<Message> reconcileMessagesWithNetworkPage({
   required List<Message> current,
   required List<Message> networkPage,
@@ -373,7 +376,7 @@ List<Message> reconcileMessagesWithNetworkPage({
   bool isLatestPage = false,
 }) {
   if (networkPage.isEmpty) {
-    return current;
+    return isLatestPage ? _localOnlyMessages(current) : current;
   }
   final String newestId = networkPage.last.id;
   final String? baselineId =
@@ -397,7 +400,7 @@ List<Message> reconcileStaleDeletionsInLoadedWindow({
   bool isLatestPage = false,
 }) {
   if (networkPage.isEmpty) {
-    return current;
+    return isLatestPage ? _localOnlyMessages(current) : current;
   }
   final String newestNetworkId = networkPage.last.id;
   final Set<String> staleIds = networkPageStaleLocalIds(

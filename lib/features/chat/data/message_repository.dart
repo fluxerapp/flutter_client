@@ -431,6 +431,14 @@ class MessageRepository {
     );
     final data = response.data;
     if (data == null) {
+      if (isLatestPage) {
+        await _pruneStaleMessagesForNetworkPage(
+          channelId,
+          const <Message>[],
+          isLatestPage: true,
+          localTailBeforeFetch: localTailBeforeFetch,
+        );
+      }
       return [];
     }
 
@@ -563,6 +571,14 @@ class MessageRepository {
       return persisted;
     }
 
+    if (isLatestPage) {
+      await _pruneStaleMessagesForNetworkPage(
+        channelId,
+        messages,
+        isLatestPage: true,
+        localTailBeforeFetch: localTailBeforeFetch,
+      );
+    }
     return messages;
   }
 
@@ -573,6 +589,9 @@ class MessageRepository {
     String? localTailBeforeFetch,
   }) async {
     if (networkPage.isEmpty) {
+      if (isLatestPage) {
+        await _db.messageDao.deleteSentMessagesForChannel(channelId);
+      }
       return;
     }
     final String oldestId = networkPage.first.id;

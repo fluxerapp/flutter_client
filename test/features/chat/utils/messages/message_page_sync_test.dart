@@ -332,6 +332,42 @@ void main() {
     expect(actual.map((Message message) => message.id), [idA, deliveredId]);
   });
 
+  test('empty latest page drops cached server messages', () {
+    final String sendingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+    final List<Message> actual = reconcileMessagesWithNetworkPage(
+      current: [
+        _message(idA),
+        _message(idB),
+        _message(sendingId, deliveryState: MessageDeliveryState.sending),
+      ],
+      networkPage: const <Message>[],
+      isLatestPage: true,
+    );
+    expect(actual.map((Message message) => message.id), [sendingId]);
+  });
+
+  test('empty anchored page keeps cached server messages', () {
+    final List<Message> actual = reconcileMessagesWithNetworkPage(
+      current: [_message(idA), _message(idB)],
+      networkPage: const <Message>[],
+    );
+    expect(actual.map((Message message) => message.id), [idA, idB]);
+  });
+
+  test('empty latest loaded-window reconciliation drops server rows', () {
+    final String sendingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+    final List<Message> actual = reconcileStaleDeletionsInLoadedWindow(
+      current: [
+        _message(idA),
+        _message(idB),
+        _message(sendingId, deliveryState: MessageDeliveryState.sending),
+      ],
+      networkPage: const <Message>[],
+      isLatestPage: true,
+    );
+    expect(actual.map((Message message) => message.id), [sendingId]);
+  });
+
   test('latest page retires a server row past its newest message', () {
     final String deletedTailId = _snowflakeForUtc(
       DateTime.utc(2026, 5, 10, 13),
