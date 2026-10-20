@@ -57,6 +57,10 @@ final class CallProvider {
     provider.reportCall(with: uuid, endedAt: Date(), reason: reason)
   }
 
+  func updateIncoming(uuid: UUID, update: CXCallUpdate) {
+    provider.reportCall(with: uuid, updated: update)
+  }
+
   static func update(name: String, handle: String) -> CXCallUpdate {
     let update = CXCallUpdate()
     update.localizedCallerName = name

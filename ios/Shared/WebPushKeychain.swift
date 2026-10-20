@@ -19,10 +19,14 @@ enum WebPushKeychain {
       kSecReturnAttributes as String: true,
       kSecReturnData as String: true,
       kSecMatchLimit as String: kSecMatchLimitAll,
+      kSecUseAuthenticationUI as String: kSecUseAuthenticationUIFail,
     ]
     var result: CFTypeRef?
     let status = SecItemCopyMatching(query as CFDictionary, &result)
     guard status == errSecSuccess, let items = result as? [[String: Any]] else {
+      if status != errSecItemNotFound {
+        NSLog("[CallKit] keychain read failed: \(status)")
+      }
       return []
     }
     var keys: [AccountKey] = []

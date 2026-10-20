@@ -10,6 +10,7 @@ final class VoipRegistry: NSObject {
   private var registry: PKPushRegistry?
   private var pushDelegate: VoipPushDelegate?
   private var pendingTokenHex: String?
+  private let completionLock = NSLock()
   private var parkedCompletions: [ObjectIdentifier: [() -> Void]] = [:]
 
   func start() {
@@ -38,7 +39,7 @@ final class VoipRegistry: NSObject {
   }
 
   func currentTokenHex() -> String? {
-    reporter.queue.sync {
+    reporter.performSync {
       if let hex = pendingTokenHex, !hex.isEmpty {
         return hex
       }
@@ -69,25 +70,37 @@ final class VoipRegistry: NSObject {
     }
   }
 
-  fileprivate func receive(payload: PKPushPayload, completion: @escaping () -> Void) {
+  fileprivate func receive(
+    payload: PKPushPayload,
+    mustReport: Bool,
+    completion: @escaping () -> Void
+  ) {
+    guard mustReport else {
+      NSLog("[CallKit] voip push mustReport=false")
+      completion()
+      return
+    }
     let payloadId = ObjectIdentifier(payload)
+    completionLock.lock()
     if parkedCompletions[payloadId] != nil {
       parkedCompletions[payloadId]?.append(completion)
+      completionLock.unlock()
       return
     }
     parkedCompletions[payloadId] = []
+    completionLock.unlock()
     NSLog("[CallKit] voip payload")
     reporter.handle(payload: payload) { [weak self] in
       guard let self else {
         completion()
         return
       }
-      self.reporter.queue.async {
-        let parked = self.parkedCompletions.removeValue(forKey: payloadId) ?? []
-        completion()
-        for parkedCompletion in parked {
-          parkedCompletion()
-        }
+      self.completionLock.lock()
+      let parked = self.parkedCompletions.removeValue(forKey: payloadId) ?? []
+      self.completionLock.unlock()
+      completion()
+      for parkedCompletion in parked {
+        parkedCompletion()
       }
     }
   }
@@ -128,7 +141,7 @@ private final class VoipPushDelegate: NSObject, PKPushRegistryDelegate {
       completion()
       return
     }
-    owner.receive(payload: payload, completion: completion)
+    owner.receive(payload: payload, mustReport: true, completion: completion)
   }
 
   @available(iOS 26.4, *)
@@ -138,9 +151,6 @@ private final class VoipPushDelegate: NSObject, PKPushRegistryDelegate {
     metadata: PKVoIPPushMetadata,
     withCompletionHandler completion: @escaping () -> Void
   ) {
-    if !metadata.mustReport {
-      NSLog("[CallKit] voip push mustReport=false")
-    }
-    owner.receive(payload: payload, completion: completion)
+    owner.receive(payload: payload, mustReport: metadata.mustReport, completion: completion)
   }
 }

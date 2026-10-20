@@ -29,8 +29,15 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   private var notifyRetry: DispatchWorkItem?
   private var terminalRetry: DispatchWorkItem?
   private var callAudioActive = false
+  private let backgroundLock = NSLock()
   private var backgroundTask = UIBackgroundTaskIdentifier.invalid
   private var backgroundGeneration = 0
+  private var earlyActions: [UUID: EarlyCallAction] = [:]
+
+  private enum EarlyCallAction {
+    case answered
+    case ended
+  }
 
   private struct LiveCall {
     let channelId: String
@@ -47,7 +54,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     if callProvider != nil {
       return
     }
-    let provider = CallProvider(delegate: self, queue: .main)
+    let provider = CallProvider(delegate: self, queue: queue)
     callProvider = provider
     for call in CXCallObserver().calls where !call.hasEnded {
       provider.end(uuid: call.uuid, reason: .failed)
@@ -71,6 +78,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       case "hold":
         self.queue.async {
           self.cancelAnswerHangup()
+          self.endKeepAlive()
           self.reemitAudioSessionIfActive()
         }
         result(nil)
@@ -111,34 +119,24 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
 
   func handle(payload: PKPushPayload, completion: @escaping () -> Void) {
     let encoded = payload.dictionaryPayload["p"] as? String
-    switch decide(encoded: encoded) {
-    case .ring(let fields):
-      report(
-        uuid: fields.callUUID,
-        name: fields.callerName,
-        handle: fields.handle,
-        fields: fields,
-        endAfterReport: false,
-        completion: completion
-      )
-    case .reject(let messageId):
-      let uuid = messageId.map { CallRingUuid.v5(name: $0) } ?? UUID()
-      report(
-        uuid: uuid,
-        name: CallRingResolver.fallbackHandle,
-        handle: CallRingResolver.fallbackHandle,
-        fields: nil,
-        endAfterReport: true,
-        completion: completion
-      )
-    }
-  }
-
-  func providerDidReset(_ provider: CXProvider) {
-    queue.async { [weak self] in
+    let uuid = Self.provisionalCallUUID(encoded: encoded)
+    let pushDone = PushCompletionGate(completion: completion)
+    reportPlaceholderIncoming(uuid: uuid) { [weak self] error in
+      pushDone.finish()
       guard let self else {
         return
       }
+      self.onQueue {
+        self.finishPlaceholderReport(uuid: uuid, error: error, encoded: encoded)
+      }
+    }
+    pushDone.armFallback(after: 5, on: queue)
+  }
+
+  func providerDidReset(_ provider: CXProvider) {
+    onQueue {
+      self.earlyActions.removeAll()
+      self.endKeepAlive()
       self.answerHangup?.cancel()
       self.answerHangup = nil
       for timer in self.ringTimers.values {
@@ -162,28 +160,27 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     CallAudioSession.prepareForAnswer()
     action.fulfill()
     let uuid = action.callUUID
-    queue.async { [weak self] in
-      self?.didAnswer(uuid)
+    onQueue {
+      self.didAnswer(uuid)
     }
-    keepAlive()
     bringAppForward()
   }
 
   func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
     action.fulfill()
     let uuid = action.callUUID
-    queue.async { [weak self] in
-      self?.didEnd(uuid)
+    onQueue {
+      self.didEnd(uuid)
     }
-    keepAlive()
+    keepAlive(for: 3)
   }
 
   func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
     action.fulfill()
     let uuid = action.callUUID
     let muted = action.isMuted
-    queue.async { [weak self] in
-      self?.emit(Self.muteEvent, body: [
+    onQueue {
+      self.emit(Self.muteEvent, body: [
         "id": uuid.uuidString.lowercased(),
         "isMuted": muted,
       ])
@@ -192,10 +189,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
 
   func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
     CallAudioSession.activate(audioSession)
-    queue.async { [weak self] in
-      guard let self else {
-        return
-      }
+    onQueue {
       self.callAudioActive = true
       self.emit(Self.audioSessionEvent, body: ["isActive": true])
     }
@@ -203,19 +197,21 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
 
   func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
     CallAudioSession.deactivate(audioSession)
-    queue.async { [weak self] in
-      guard let self else {
-        return
-      }
+    onQueue {
       self.callAudioActive = false
       self.emit(Self.audioSessionEvent, body: ["isActive": false])
     }
   }
 
   private func didAnswer(_ uuid: UUID) {
+    if earlyActions[uuid] == .ended {
+      return
+    }
     ringTimers[uuid]?.cancel()
     ringTimers[uuid] = nil
+    keepAlive(for: 30)
     guard var call = calls[uuid] else {
+      earlyActions[uuid] = .answered
       return
     }
     call.answered = true
@@ -226,10 +222,16 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
 
   private func didEnd(_ uuid: UUID) {
     let call = calls.removeValue(forKey: uuid)
+    if call == nil {
+      earlyActions[uuid] = .ended
+    } else {
+      earlyActions.removeValue(forKey: uuid)
+    }
     ringTimers[uuid]?.cancel()
     ringTimers[uuid] = nil
     if call?.answered == true {
       cancelAnswerHangup()
+      endKeepAlive()
     }
     if pendingNotify?.uuid == uuid {
       pendingNotify = nil
@@ -242,62 +244,27 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     emitTerminal(event, body: eventBody(call, uuid: uuid, accepted: call.answered))
   }
 
-  private func report(
+  private func reportPlaceholderIncoming(
     uuid: UUID,
-    name: String,
-    handle: String,
-    fields: CallRingFields?,
-    endAfterReport: Bool,
-    completion: @escaping () -> Void
+    reportCompletion: @escaping (Error?) -> Void
   ) {
     start()
     guard let callProvider else {
-      completion()
+      reportCompletion(nil)
       return
     }
-    if fields != nil {
-      dropOtherRings(except: uuid)
-    }
-    if let fields, calls[uuid] == nil {
-      calls[uuid] = LiveCall(
-        channelId: fields.channelId,
-        messageId: fields.messageId,
-        name: name,
-        handle: handle,
-        targetUserId: fields.targetUserId ?? "",
-        guildId: fields.guildId ?? ""
-      )
-    }
-    let update = CallProvider.update(name: name, handle: handle)
-    callProvider.reportIncoming(uuid: uuid, update: update) { [weak self] error in
-      completion()
-      guard let self else {
-        return
-      }
-      self.onQueue {
-        self.finishReport(
-          uuid: uuid,
-          error: error,
-          fields: fields,
-          endAfterReport: endAfterReport
-        )
-      }
-    }
+    let update = CallProvider.update(
+      name: CallRingResolver.fallbackHandle,
+      handle: CallRingResolver.fallbackHandle
+    )
+    callProvider.reportIncoming(uuid: uuid, update: update, completion: reportCompletion)
   }
 
-  private func finishReport(
-    uuid: UUID,
-    error: Error?,
-    fields: CallRingFields?,
-    endAfterReport: Bool
-  ) {
+  private func finishPlaceholderReport(uuid: UUID, error: Error?, encoded: String?) {
     if let error {
       if isAlreadyReported(error) {
-        publishRing(uuid: uuid, fields: fields)
+        applyVoipPayload(uuid: uuid, encoded: encoded)
         return
-      }
-      if calls[uuid]?.published != true {
-        calls.removeValue(forKey: uuid)
       }
       FluxerNativeMeasure.reportHandled(
         error,
@@ -307,35 +274,109 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       return
     }
     NSLog("[CallKit] voip call reported")
-    if endAfterReport {
-      if calls[uuid]?.answered == true || calls[uuid]?.published == true {
-        return
-      }
-      calls.removeValue(forKey: uuid)
-      callProvider?.end(uuid: uuid, reason: .failed)
-      return
-    }
-    guard fields != nil else {
-      scheduleBareTimeout(uuid)
-      return
-    }
-    publishRing(uuid: uuid, fields: fields)
+    applyVoipPayload(uuid: uuid, encoded: encoded)
   }
 
-  private func scheduleBareTimeout(_ uuid: UUID) {
-    ringTimers[uuid]?.cancel()
-    let work = DispatchWorkItem { [weak self] in
-      guard let self else {
-        return
-      }
-      self.ringTimers[uuid] = nil
-      guard self.calls[uuid]?.answered != true else {
-        return
-      }
-      self.callProvider?.end(uuid: uuid, reason: .unanswered)
+  private func applyVoipPayload(uuid: UUID, encoded: String?) {
+    switch decide(encoded: encoded) {
+    case .ring(let fields):
+      adoptRing(uuid: uuid, fields: fields)
+    case .reject:
+      endRejectedPlaceholder(uuid)
     }
-    ringTimers[uuid] = work
-    queue.asyncAfter(deadline: .now() + 30, execute: work)
+  }
+
+  private func adoptRing(uuid: UUID, fields: CallRingFields) {
+    if let existing = liveRingUUID(forMessageId: fields.messageId), existing != uuid {
+      let early = earlyActions.removeValue(forKey: uuid)
+      endPlaceholder(uuid, reason: .failed)
+      if early == .answered, earlyActions[existing] != .ended {
+        earlyActions[existing] = .answered
+      }
+      mergeRing(into: existing, fields: fields)
+      return
+    }
+    mergeRing(into: uuid, fields: fields)
+  }
+
+  private func mergeRing(into uuid: UUID, fields: CallRingFields) {
+    let early = earlyActions.removeValue(forKey: uuid)
+    if early == .ended {
+      let call = liveCall(uuidFields: fields)
+      emitTerminal(
+        Self.declineEvent,
+        body: eventBody(call, uuid: uuid, accepted: false)
+      )
+      return
+    }
+    let answeredEarly = early == .answered
+    let alreadyAnswered = calls[uuid]?.answered == true
+    dropOtherRings(except: uuid)
+    calls[uuid] = liveCall(
+      uuidFields: fields,
+      answered: alreadyAnswered || answeredEarly,
+      published: calls[uuid]?.published ?? false
+    )
+    let update = CallProvider.update(name: fields.callerName, handle: fields.handle)
+    callProvider?.updateIncoming(uuid: uuid, update: update)
+    publishRing(uuid: uuid, fields: fields)
+    if answeredEarly, !alreadyAnswered, let call = calls[uuid] {
+      scheduleAnswerHangup()
+      publish(Self.acceptEvent, uuid: uuid, body: eventBody(call, uuid: uuid, accepted: true))
+    }
+  }
+
+  private func endRejectedPlaceholder(_ uuid: UUID) {
+    let early = earlyActions.removeValue(forKey: uuid)
+    if early == .ended || calls[uuid]?.answered == true || calls[uuid]?.published == true {
+      return
+    }
+    ringTimers[uuid]?.cancel()
+    ringTimers[uuid] = nil
+    calls.removeValue(forKey: uuid)
+    callProvider?.end(uuid: uuid, reason: .failed)
+    if early == .answered {
+      cancelAnswerHangup()
+      endKeepAlive()
+    }
+  }
+
+  private func endPlaceholder(_ uuid: UUID, reason: CXCallEndedReason) {
+    ringTimers[uuid]?.cancel()
+    ringTimers[uuid] = nil
+    calls.removeValue(forKey: uuid)
+    callProvider?.end(uuid: uuid, reason: reason)
+  }
+
+  private func liveCall(
+    uuidFields fields: CallRingFields,
+    answered: Bool = false,
+    published: Bool = false
+  ) -> LiveCall {
+    LiveCall(
+      channelId: fields.channelId,
+      messageId: fields.messageId,
+      name: fields.callerName,
+      handle: fields.handle,
+      targetUserId: fields.targetUserId ?? "",
+      guildId: fields.guildId ?? "",
+      answered: answered,
+      published: published
+    )
+  }
+
+  private func liveRingUUID(forMessageId messageId: String) -> UUID? {
+    for (uuid, call) in calls where !call.answered && call.messageId == messageId {
+      return uuid
+    }
+    return nil
+  }
+
+  private static func provisionalCallUUID(encoded: String?) -> UUID {
+    guard let encoded, !encoded.isEmpty else {
+      return UUID()
+    }
+    return CallRingUuid.v5(name: encoded)
   }
 
   private func publishRing(uuid: UUID, fields: CallRingFields?) {
@@ -436,6 +477,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     ringTimers[uuid] = nil
     if call?.answered == true {
       cancelAnswerHangup()
+      endKeepAlive()
     }
     if pendingNotify?.uuid == uuid {
       pendingNotify = nil
@@ -446,6 +488,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
 
   private func endAll() {
     cancelAnswerHangup()
+    endKeepAlive()
     for timer in ringTimers.values {
       timer.cancel()
     }
@@ -623,33 +666,62 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
   }
 
-  private func keepAlive() {
+  func performSync<T>(_ work: () -> T) -> T {
+    if DispatchQueue.getSpecific(key: Self.queueSpecific) != nil {
+      return work()
+    }
+    return queue.sync(execute: work)
+  }
+
+  private func keepAlive(for seconds: TimeInterval) {
     DispatchQueue.main.async { [weak self] in
-      self?.beginKeepAlive()
+      self?.startKeepAlive(for: seconds)
     }
   }
 
-  private func beginKeepAlive() {
-    endKeepAlive()
+  private func startKeepAlive(for seconds: TimeInterval) {
+    let task = UIApplication.shared.beginBackgroundTask(withName: "CallKit") { [weak self] in
+      self?.endKeepAliveNow()
+    }
+    backgroundLock.lock()
+    let previous = backgroundTask
+    backgroundTask = task
     backgroundGeneration += 1
     let generation = backgroundGeneration
-    backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "CallKit") { [weak self] in
-      self?.endKeepAlive()
+    backgroundLock.unlock()
+    if previous != .invalid {
+      UIApplication.shared.endBackgroundTask(previous)
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-      guard let self, self.backgroundGeneration == generation else {
+    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { [weak self] in
+      guard let self else {
         return
       }
-      self.endKeepAlive()
+      self.backgroundLock.lock()
+      let current = self.backgroundGeneration
+      self.backgroundLock.unlock()
+      guard current == generation else {
+        return
+      }
+      self.endKeepAliveNow()
     }
   }
 
   private func endKeepAlive() {
-    guard backgroundTask != .invalid else {
+    DispatchQueue.main.async { [weak self] in
+      self?.endKeepAliveNow()
+    }
+  }
+
+  private func endKeepAliveNow() {
+    backgroundLock.lock()
+    let task = backgroundTask
+    backgroundTask = .invalid
+    backgroundGeneration += 1
+    backgroundLock.unlock()
+    guard task != .invalid else {
       return
     }
-    UIApplication.shared.endBackgroundTask(backgroundTask)
-    backgroundTask = .invalid
+    UIApplication.shared.endBackgroundTask(task)
   }
 
   private func bringAppForward() {
@@ -684,4 +756,41 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   private static let muteEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_TOGGLE_MUTE"
   private static let audioSessionEvent =
     "com.hiennv.flutter_callkit_incoming.ACTION_CALL_TOGGLE_AUDIO_SESSION"
+}
+
+private final class PushCompletionGate {
+  private let lock = NSLock()
+  private var finished = false
+  private let completion: () -> Void
+  private var fallback: DispatchWorkItem?
+
+  init(completion: @escaping () -> Void) {
+    self.completion = completion
+  }
+
+  func finish() {
+    lock.lock()
+    guard !finished else {
+      lock.unlock()
+      return
+    }
+    finished = true
+    fallback?.cancel()
+    lock.unlock()
+    completion()
+  }
+
+  func armFallback(after seconds: Double, on queue: DispatchQueue) {
+    let work = DispatchWorkItem { [weak self] in
+      self?.finish()
+    }
+    lock.lock()
+    if finished {
+      lock.unlock()
+      return
+    }
+    fallback = work
+    lock.unlock()
+    queue.asyncAfter(deadline: .now() + seconds, execute: work)
+  }
 }
