@@ -19,13 +19,14 @@ void main() {
   Future<void> sendReady(
     Map<String, dynamic> self, {
     String sessionId = 'session-1',
+    List<Map<String, dynamic>> rawGuilds = const <Map<String, dynamic>>[],
   }) {
     return handler.handle(
       ReadyEvent(
         sessionId: sessionId,
         user: UserPrivateResponse.fromJson(self),
         guilds: const [],
-        rawGuilds: const [],
+        rawGuilds: rawGuilds,
         privateChannels: const [],
         relationships: const [],
         readStates: const [],
@@ -39,6 +40,19 @@ void main() {
     await sendReady(_privateUser(mentionFlags: 1));
 
     expect((await database.userDao.getUserById('100'))?.mentionFlags, 1);
+  });
+
+  test('READY keeps the own member when a mention preference is set', () async {
+    await sendReady(
+      _privateUser(mentionFlags: 1),
+      rawGuilds: <Map<String, dynamic>>[_guildWithOwnMember()],
+    );
+
+    final Member? member = await database.memberDao.getMemberByUserId(
+      '100',
+      'g1',
+    );
+    expect(member?.roleIdsJson, '["r1"]');
   });
 
   test('READY clears a stale mention preference the server omits', () async {
@@ -91,6 +105,53 @@ void main() {
     expect((await database.userDao.getUserById('200'))?.mentionFlags, isNull);
   });
 }
+
+Map<String, dynamic> _guildWithOwnMember() => <String, dynamic>{
+  'id': 'g1',
+  'properties': <String, dynamic>{
+    'id': 'g1',
+    'name': 'Guild g1',
+    'splash_card_alignment': 0,
+    'owner_id': '300',
+    'system_channel_flags': 0,
+    'afk_timeout': 300,
+    'features': <String>[],
+    'verification_level': 0,
+    'mfa_level': 0,
+    'nsfw_level': 0,
+    'nsfw': false,
+    'content_warning_level': 0,
+    'explicit_content_filter': 0,
+    'default_message_notifications': 0,
+    'disabled_operations': 0,
+  },
+  'channels': <Map<String, Object?>>[],
+  'members': <Map<String, Object?>>[
+    <String, Object?>{
+      'user': <String, Object?>{'id': '100'},
+      'roles': <String>['r1'],
+      'joined_at': '2026-01-01T00:00:00.000Z',
+    },
+  ],
+  'roles': <Map<String, Object?>>[
+    <String, Object?>{
+      'id': 'r1',
+      'name': 'r1',
+      'color': 0,
+      'position': 1,
+      'permissions': '64',
+      'hoist': false,
+      'mentionable': false,
+    },
+  ],
+  'member_count': 2,
+  'online_count': 1,
+  'presences': <Map<String, Object?>>[],
+  'voice_states': <Map<String, Object?>>[],
+  'joined_at': '2026-01-01T00:00:00.000Z',
+  'emojis': <Map<String, Object?>>[],
+  'stickers': <Map<String, Object?>>[],
+};
 
 Map<String, dynamic> _partialUser(String id, {int? mentionFlags}) =>
     <String, dynamic>{
