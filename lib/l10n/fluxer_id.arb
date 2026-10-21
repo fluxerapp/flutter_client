@@ -10509,9 +10509,9 @@
             }
         }
     },
-    "channelWelcomeDescription": "Pada mulanya, tidak ada apa-apa. Lalu, ada {channelName}. Dan itu baik.",
+    "channelWelcomeDescription": "Ini adalah awal dari {channelName}.",
     "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "description": "Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
         "placeholders": {
             "channelName": {
                 "type": "String"

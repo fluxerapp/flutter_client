@@ -9012,7 +9012,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'I begyndelsen var der intet. Så kom $channelName. Og det var godt.';
+    return 'Dette er starten på $channelName.';
   }
 
   @override

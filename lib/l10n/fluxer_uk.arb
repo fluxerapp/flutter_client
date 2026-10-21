@@ -6097,9 +6097,9 @@
             }
         }
     },
-    "channelWelcomeDescription": "Спочатку нічого не було. Потім з'явився {channelName}. І це було добре.",
+    "channelWelcomeDescription": "Це початок {channelName}.",
     "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "description": "Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
         "placeholders": {
             "channelName": {
                 "type": "String"

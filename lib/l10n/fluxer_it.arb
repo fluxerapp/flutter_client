@@ -6097,9 +6097,9 @@
             }
         }
     },
-    "channelWelcomeDescription": "All'inizio, non c'era nulla. Poi, c'è stato {channelName}. Ed era cosa buona.",
+    "channelWelcomeDescription": "Questo è l'inizio di {channelName}.",
     "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "description": "Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
         "placeholders": {
             "channelName": {
                 "type": "String"

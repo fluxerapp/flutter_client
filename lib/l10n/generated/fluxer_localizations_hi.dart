@@ -9009,7 +9009,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'शुरुआत में, कुछ भी नहीं था। फिर, आया $channelName। और यह अच्छा था।';
+    return 'यह $channelName की शुरुआत है।';
   }
 
   @override

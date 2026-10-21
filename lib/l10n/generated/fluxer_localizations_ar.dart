@@ -8949,7 +8949,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'في البداية، لم يكن هناك شيء. ثم، كان هناك $channelName. وكان ذلك جيداً.';
+    return 'هذه بداية $channelName.';
   }
 
   @override

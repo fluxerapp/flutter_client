@@ -10509,9 +10509,9 @@
             }
         }
     },
-    "channelWelcomeDescription": "शुरुआत में, कुछ भी नहीं था। फिर, आया {channelName}। और यह अच्छा था।",
+    "channelWelcomeDescription": "यह {channelName} की शुरुआत है।",
     "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "description": "Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
         "placeholders": {
             "channelName": {
                 "type": "String"

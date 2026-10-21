@@ -6097,9 +6097,9 @@
             }
         }
     },
-    "channelWelcomeDescription": "Alussa ei ollut mitään. Sitten tuli {channelName}. Ja se oli hyvää.",
+    "channelWelcomeDescription": "Tämä on alku {channelName}:lle.",
     "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "description": "Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
         "placeholders": {
             "channelName": {
                 "type": "String"

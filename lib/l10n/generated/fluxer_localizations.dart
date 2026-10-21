@@ -14775,10 +14775,10 @@ abstract class FluxerLocalizations {
   /// **'Welcome to {channelName}'**
   String channelWelcomeHeading(String channelName);
 
-  /// Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).
+  /// Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).
   ///
   /// In en, this message translates to:
-  /// **'In the beginning, there was nothing. Then, there was {channelName}. And it was good.'**
+  /// **'This is the start of {channelName}.'**
   String channelWelcomeDescription(String channelName);
 
   /// Placeholder in the message composer when viewing personal notes.

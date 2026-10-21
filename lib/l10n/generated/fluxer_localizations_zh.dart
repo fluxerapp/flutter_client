@@ -8476,7 +8476,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return '起初，万物皆空。然后，有了 $channelName。一切都变得美好。';
+    return '这是 $channelName 的开始。';
   }
 
   @override
@@ -23356,7 +23356,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return '起初，萬物皆空。然後，有了 $channelName。一切都變得美好。';
+    return '這是 $channelName 的開頭。';
   }
 
   @override

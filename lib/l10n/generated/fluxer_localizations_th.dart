@@ -8942,7 +8942,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'ในตอนแรก ไม่มีอะไรเลย จากนั้นก็มี $channelName และมันก็ดี';
+    return 'นี่คือจุดเริ่มต้นของ $channelName';
   }
 
   @override

@@ -9133,7 +9133,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Au commencement, il n\'y avait rien. Puis, il y eut $channelName. Et c\'était bien.';
+    return 'Ceci est le début de $channelName.';
   }
 
   @override

@@ -9066,7 +9066,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'La început, nu era nimic. Apoi, a apărut $channelName. Și a fost bine.';
+    return 'Aceasta este începutul lui $channelName.';
   }
 
   @override

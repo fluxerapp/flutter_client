@@ -9111,7 +9111,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Στην αρχή, δεν υπήρχε τίποτα. Μετά, υπήρχε το $channelName. Και ήταν καλό.';
+    return 'Αυτή είναι η αρχή του $channelName.';
   }
 
   @override

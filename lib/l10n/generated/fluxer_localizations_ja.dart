@@ -8657,7 +8657,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return '始まりには何もなく、その後$channelNameが現れました。そしてそれは素晴らしかった。';
+    return '$channelName の始まりです。';
   }
 
   @override

@@ -6097,9 +6097,9 @@
             }
         }
     },
-    "channelWelcomeDescription": "起初，万物皆空。然后，有了 {channelName}。一切都变得美好。",
+    "channelWelcomeDescription": "这是 {channelName} 的开始。",
     "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "description": "Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
         "placeholders": {
             "channelName": {
                 "type": "String"
