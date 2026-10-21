@@ -62,6 +62,33 @@ class ThreadsRepository {
     return thread;
   }
 
+  Future<db.Channel?> ensureThreadInDatabase({
+    required String guildId,
+    required String threadId,
+  }) async {
+    final db.Channel? existing = await _db.channelDao.getChannelById(threadId);
+    if (existing != null) {
+      return existing;
+    }
+    try {
+      await fetch(guildId: guildId, threadId: threadId);
+    } on Object {
+      return null;
+    }
+    return _db.channelDao.getChannelById(threadId);
+  }
+
+  Future<Channel?> loadCachedThread({
+    required String guildId,
+    required String threadId,
+  }) async {
+    final db.Channel? row = await ensureThreadInDatabase(
+      guildId: guildId,
+      threadId: threadId,
+    );
+    return row == null ? null : Channel.fromRow(row);
+  }
+
   Future<ChannelResponse> update({
     required String guildId,
     required String threadId,
