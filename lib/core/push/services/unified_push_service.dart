@@ -441,6 +441,7 @@ class UnifiedPushService implements PushService {
 
   Future<void> _onMessage(up.PushMessage message, String instance) async {
     if (instance.isEmpty) {
+      _completeBackgroundMessageWait();
       return;
     }
     try {

@@ -40,6 +40,8 @@ void main() {
     final String serviceContent = service.readAsStringSync();
     expect(serviceContent, contains('GeneratedPluginRegistrant.registerWith'));
     expect(serviceContent, contains('--unifiedpush-bg'));
-    expect(serviceContent, contains('backgroundEngine?.destroy()'));
+    expect(serviceContent, contains('PARTIAL_WAKE_LOCK'));
+    expect(serviceContent, contains('noteMainEngineStopped'));
+    expect(serviceContent, contains('discardBackgroundEngine'));
   });
 }

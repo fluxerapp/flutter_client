@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/providers/push_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_sync_coalescing.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/push_sync_retry.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
@@ -33,6 +34,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
   String? _unregisteredWithoutConsentKey;
   bool _syncAgain = false;
   Future<void>? _syncFuture;
+  final PushSyncRetry _retry = PushSyncRetry();
   final WebPushKeyStore _keyStore = WebPushKeyStore();
 
   @override
@@ -88,9 +90,16 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     return PushProviderGuard.isFirebaseMessaging;
   }
 
-  Future<void> sync() async {
+  Future<void> sync() {
+    return _sync(external: true);
+  }
+
+  Future<void> _sync({required bool external}) async {
     if (!_shouldRun) {
       return;
+    }
+    if (external) {
+      _retry.beginExternalAttempt();
     }
     final Future<void>? inFlight = _syncFuture;
     if (inFlight != null) {
@@ -144,6 +153,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       if (kDebugMode) {
         debugPrint('[FcmMobileDeviceRegistration] initialize failed: $e\n$st');
       }
+      _scheduleSyncRetry();
       return;
     }
     String? token;
@@ -168,6 +178,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       if (kDebugMode) {
         debugPrint('[FcmMobileDeviceRegistration] No FCM token after polling');
       }
+      _scheduleSyncRetry();
       return;
     }
     final String relayUrl = fcmRelayUrl(
@@ -201,6 +212,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       lastRegisteredRelayUrl: _lastRegisteredRelayUrl,
       lastRegisteredPublicKey: _lastRegisteredPublicKey,
     )) {
+      _retry.succeeded();
       return;
     }
     try {
@@ -220,6 +232,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       _lastRegisteredUserId = userId;
       _lastRegisteredRelayUrl = relayUrl;
       _lastRegisteredPublicKey = keys.publicKey;
+      _retry.succeeded();
       if (kDebugMode) {
         debugPrint(
           '[FcmMobileDeviceRegistration] registered relay for user $userId',
@@ -227,7 +240,17 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       }
     } on DioException catch (e, st) {
       debugPrint('[FcmMobileDeviceRegistration] register failed: $e\n$st');
+      _scheduleSyncRetry();
     }
+  }
+
+  void _scheduleSyncRetry() {
+    _retry.schedule(() {
+      if (!ref.mounted) {
+        return;
+      }
+      unawaited(_sync(external: false));
+    });
   }
 
   Future<void> unregisterCurrentToken() async {
