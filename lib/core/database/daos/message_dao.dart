@@ -416,6 +416,7 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<void> deleteSentMessagesForChannel(
     String channelId, {
+    required String upToId,
     Set<String> preserveMessageIds = const <String>{},
   }) {
     final Set<String> preserve = preserveMessageIds
@@ -425,6 +426,9 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
           (m) =>
               m.channelId.equals(channelId) &
               m.deliveryState.equals(MessageDeliveryState.sent.index) &
+              m.id.cast<int>().isSmallerOrEqual(
+                Variable<String>(upToId).cast<int>(),
+              ) &
               (preserve.isEmpty
                   ? const Constant(true)
                   : m.id.isNotIn(preserve)),

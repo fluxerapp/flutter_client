@@ -599,11 +599,12 @@ class MessageRepository {
     String? localTailBeforeFetch,
   }) async {
     if (networkPage.isEmpty) {
-      if (isLatestPage) {
+      if (isLatestPage && localTailBeforeFetch != null) {
         final Set<String> preserveMessageIds =
             await _composerDraftReplyMessageIds(channelId);
         await _db.messageDao.deleteSentMessagesForChannel(
           channelId,
+          upToId: localTailBeforeFetch,
           preserveMessageIds: preserveMessageIds,
         );
       }
