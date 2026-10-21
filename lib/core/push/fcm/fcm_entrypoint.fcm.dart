@@ -47,16 +47,3 @@ Future<void> bootstrapFcmIfNeeded() async {
   }
 }
 
-Future<void> bootstrapFcmAfterRunApp() async {
-  if (!PushProviderGuard.isFirebaseMessaging || !Platform.isAndroid) {
-    return;
-  }
-  try {
-    await FluxerFcmBootstrap.bootstrapAfterRunApp();
-  } on Object catch (error, stackTrace) {
-    if (kDebugMode) {
-      debugPrint('[FCM] bootstrapAfterRunApp failed: $error\n$stackTrace');
-    }
-    rethrow;
-  }
-}

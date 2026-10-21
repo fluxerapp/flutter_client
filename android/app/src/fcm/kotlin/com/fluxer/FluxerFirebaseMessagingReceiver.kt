@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcel
+import android.util.Log
 import com.google.firebase.messaging.RemoteMessage
 import io.flutter.plugins.firebase.messaging.ContextHolder
 import io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService
@@ -55,7 +56,8 @@ class FluxerFirebaseMessagingReceiver : BroadcastReceiver() {
                 } finally {
                     parcel.recycle()
                 }
-            } catch (_: Exception) {
+            } catch (error: Exception) {
+                Log.e(TAG, "FCM background delivery failed", error)
             } finally {
                 pendingResult.finish()
             }
@@ -70,6 +72,7 @@ class FluxerFirebaseMessagingReceiver : BroadcastReceiver() {
     }
 
     private companion object {
+        private const val TAG = "FluxerFcmReceiver"
         val backgroundExecutor = Executors.newSingleThreadExecutor()
     }
 }

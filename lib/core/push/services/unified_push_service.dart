@@ -61,7 +61,6 @@ class UnifiedPushService implements PushService {
   Future<void> _registrationQueue = Future<void>.value();
   final StreamController<void> _pickerRequests =
       StreamController<void>.broadcast();
-  int _backgroundWork = 0;
 
   Stream<UnifiedPushEndpoint> get endpointStream => _endpointEvents.stream;
 
@@ -167,25 +166,6 @@ class UnifiedPushService implements PushService {
       return;
     }
     await _registerInstance(instance, resolved!);
-    if (await _waitForEndpoint(instance)) {
-      return;
-    }
-    if (_backgroundMode ||
-        _needsDistributorPicker ||
-        _failureByInstance[instance] == up.FailedReason.actionRequired) {
-      return;
-    }
-    if (kDebugMode) {
-      debugPrint(
-        '[UnifiedPushService] no endpoint for $instance; '
-        'unregister+register fallback',
-      );
-    }
-    await _dropDistributorInstance(instance);
-    if (!await _ensureDistributor()) {
-      return;
-    }
-    await _registerInstance(instance, resolved);
     await _waitForEndpoint(instance);
   }
 
@@ -376,10 +356,8 @@ class UnifiedPushService implements PushService {
 
   void _onNewEndpoint(up.PushEndpoint endpoint, String instance) {
     if (instance.isEmpty) {
-      _finishBackgroundEvent();
       return;
     }
-    _holdBackgroundEvent();
     _failureByInstance.remove(instance);
     _endpointsByInstance[instance] = endpoint;
     _needsDistributorPicker = false;
@@ -392,12 +370,10 @@ class UnifiedPushService implements PushService {
         '(temp=${endpoint.temporary}): ${endpoint.url}',
       );
     }
-    _endBackgroundEvent();
   }
 
   void _onRegistrationFailed(up.FailedReason reason, String instance) {
     if (instance.isEmpty) {
-      _finishBackgroundEvent();
       return;
     }
     _failureByInstance[instance] = reason;
@@ -406,20 +382,9 @@ class UnifiedPushService implements PushService {
         '[UnifiedPushService] registration failed ($instance): $reason',
       );
     }
-    if (reason == up.FailedReason.actionRequired || !_backgroundMode) {
-      if (reason != up.FailedReason.actionRequired) {
-        unawaited(_retryRegistrationAfterFailure(instance, reason));
-      }
-      _finishBackgroundEvent();
-      return;
+    if (reason != up.FailedReason.actionRequired) {
+      unawaited(_retryRegistrationAfterFailure(instance, reason));
     }
-    _holdBackgroundEvent();
-    unawaited(
-      _retryRegistrationAfterFailure(
-        instance,
-        reason,
-      ).whenComplete(_endBackgroundEvent),
-    );
   }
 
   Future<void> _retryRegistrationAfterFailure(
@@ -440,7 +405,6 @@ class UnifiedPushService implements PushService {
 
   void _onTempUnavailable(String instance) {
     if (instance.isEmpty) {
-      _finishBackgroundEvent();
       return;
     }
     if (kDebugMode) {
@@ -449,7 +413,6 @@ class UnifiedPushService implements PushService {
       );
     }
     _scheduleRegistrationRetry(instance);
-    _finishBackgroundEvent();
   }
 
   void _scheduleRegistrationRetry(String instance) {
@@ -467,7 +430,6 @@ class UnifiedPushService implements PushService {
 
   void _onUnregistered(String instance) {
     if (instance.isEmpty) {
-      _finishBackgroundEvent();
       return;
     }
     _endpointsByInstance.remove(instance);
@@ -475,19 +437,16 @@ class UnifiedPushService implements PushService {
     if (kDebugMode) {
       debugPrint('[UnifiedPushService] unregistered $instance');
     }
-    _finishBackgroundEvent();
   }
 
   Future<void> _onMessage(up.PushMessage message, String instance) async {
     if (instance.isEmpty) {
-      _finishBackgroundEvent();
       return;
     }
-    _holdBackgroundEvent();
     try {
       await _handleIncomingMessage(message, instance);
     } finally {
-      _endBackgroundEvent();
+      _completeBackgroundMessageWait();
     }
   }
 
@@ -561,25 +520,8 @@ class UnifiedPushService implements PushService {
     }
   }
 
-  void _holdBackgroundEvent() {
+  void _completeBackgroundMessageWait() {
     if (!_backgroundMode) {
-      return;
-    }
-    _backgroundWork++;
-  }
-
-  void _endBackgroundEvent() {
-    if (!_backgroundMode) {
-      return;
-    }
-    if (_backgroundWork > 0) {
-      _backgroundWork--;
-    }
-    _finishBackgroundEvent();
-  }
-
-  void _finishBackgroundEvent() {
-    if (!_backgroundMode || _backgroundWork > 0) {
       return;
     }
     final Completer<void>? pending = _backgroundMessageHandled;

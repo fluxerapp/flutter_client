@@ -180,27 +180,36 @@ class UnifiedPushMobileDeviceRegistration
     }
     for (final MapEntry<String, List<_PushAccount>> entry
         in byInstance.entries) {
-      final String? vapid = await _vapidForInstance(entry.value);
-      if (!ref.mounted) {
-        return;
+      try {
+        final String? vapid = await _vapidForInstance(entry.value);
+        if (!ref.mounted) {
+          return;
+        }
+        final bool hasPersisted = await _instanceHasPersistedSubscription(
+          entry.value,
+        );
+        await UnifiedPushService.instance.syncInstance(
+          instance: entry.key,
+          vapid: vapid,
+          hasPersistedSubscription: hasPersisted,
+        );
+        final upEndpoint = UnifiedPushService.instance.endpointFor(entry.key);
+        if (upEndpoint == null) {
+          continue;
+        }
+        await _registerAccounts(
+          UnifiedPushEndpoint(instance: entry.key, endpoint: upEndpoint),
+          entry.value,
+          vapid,
+        );
+      } on Object catch (e, st) {
+        if (kDebugMode) {
+          debugPrint(
+            '[UnifiedPushMobileDeviceRegistration] instance ${entry.key} '
+            'sync failed: $e\n$st',
+          );
+        }
       }
-      final bool hasPersisted = await _instanceHasPersistedSubscription(
-        entry.value,
-      );
-      await UnifiedPushService.instance.syncInstance(
-        instance: entry.key,
-        vapid: vapid,
-        hasPersistedSubscription: hasPersisted,
-      );
-      final upEndpoint = UnifiedPushService.instance.endpointFor(entry.key);
-      if (upEndpoint == null) {
-        continue;
-      }
-      await _registerAccounts(
-        UnifiedPushEndpoint(instance: entry.key, endpoint: upEndpoint),
-        entry.value,
-        vapid,
-      );
     }
     await UnifiedPushService.instance.retainInstances(<String>{
       for (final _PushAccount account in accounts)
@@ -426,32 +435,20 @@ class UnifiedPushMobileDeviceRegistration
     )) {
       return;
     }
-    if (hasUnifiedPushEndpointRotated(
+    final bool endpointRotated = hasUnifiedPushEndpointRotated(
       endpointUrl: url,
       encryptionKey: pubKey,
       authSecret: auth,
       persistedEndpointUrl: persisted?.endpointUrl,
       persistedEncryptionKey: storedKeys?.publicKey,
       persistedAuthSecret: storedKeys?.authSecret,
-    )) {
-      final String? oldSubscriptionId = persisted?.pushSubscriptionId;
-      final String? oldEndpointUrl = persisted?.endpointUrl;
-      if (oldSubscriptionId != null &&
-          oldSubscriptionId.isNotEmpty &&
-          oldEndpointUrl != null &&
-          oldEndpointUrl.isNotEmpty &&
-          !_blockedUserIds.contains(account.userId)) {
-        await ref
-            .read(fluxerDatabaseProvider)
-            .mobilePushRegistrationDao
-            .clearForUser(account.userId);
-        await _deleteServerRegistration(
-          account: account,
-          pushSubscriptionId: oldSubscriptionId,
-          endpointUrl: oldEndpointUrl,
-        );
-      }
-    }
+    );
+    final String? oldSubscriptionId = endpointRotated
+        ? persisted?.pushSubscriptionId
+        : null;
+    final String? oldEndpointUrl = endpointRotated
+        ? persisted?.endpointUrl
+        : null;
     if (_blockedUserIds.contains(account.userId) || !ref.mounted) {
       return;
     }
@@ -485,6 +482,19 @@ class UnifiedPushMobileDeviceRegistration
         authSecret: auth,
       ),
     );
+    if (shouldDeletePriorUnifiedPushRegistration(
+          endpointRotated: endpointRotated,
+          oldSubscriptionId: oldSubscriptionId,
+          oldEndpointUrl: oldEndpointUrl,
+          newDeviceId: deviceId,
+        ) &&
+        !_blockedUserIds.contains(account.userId)) {
+      await _deleteServerRegistration(
+        account: account,
+        pushSubscriptionId: oldSubscriptionId!,
+        endpointUrl: oldEndpointUrl!,
+      );
+    }
     if (kDebugMode) {
       debugPrint(
         '[UnifiedPushMobileDeviceRegistration] registered device $deviceId '

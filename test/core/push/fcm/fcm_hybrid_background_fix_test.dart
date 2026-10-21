@@ -53,12 +53,11 @@ void main() {
       );
     });
 
-    test('native messaging service does not copy gcm notification text', () {
+    test('native messaging service does not ack before the receiver runs', () {
       final String content = messagingService.readAsStringSync();
-      expect(content, contains('handleRemoteMessageIntent'));
-      expect(content, contains('gcm.notification.title'));
-      expect(content, isNot(contains('putString("title"')));
-      expect(content, isNot(contains('forwardMessage')));
+      expect(content, isNot(contains('messageHandled')));
+      expect(content, isNot(contains('handleIntent')));
+      expect(content, contains('onNewToken'));
     });
 
     test('native receiver forwards data-only messages', () {
@@ -69,6 +68,7 @@ void main() {
       expect(content, contains('FlutterFirebaseMessagingBackgroundService'));
       expect(content, contains('FcmMessagingBridge.EXTRA_REMOTE_MESSAGE'));
       expect(content, contains('goAsync()'));
+      expect(content, contains('FCM background delivery failed'));
       expect(content, isNot(contains('putString("title"')));
     });
 

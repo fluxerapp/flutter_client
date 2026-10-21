@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
+import 'package:fluxer_app/core/push/fcm/fcm_sync_coalescing.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
@@ -30,7 +31,8 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
   String? _lastRegisteredRelayUrl;
   String? _lastRegisteredPublicKey;
   String? _unregisteredWithoutConsentKey;
-  bool _syncInFlight = false;
+  bool _syncAgain = false;
+  Future<void>? _syncFuture;
   final WebPushKeyStore _keyStore = WebPushKeyStore();
 
   @override
@@ -90,15 +92,30 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     if (!_shouldRun) {
       return;
     }
-    if (_syncInFlight) {
-      return;
+    final Future<void>? inFlight = _syncFuture;
+    if (inFlight != null) {
+      _syncAgain = true;
+      return inFlight;
     }
-    _syncInFlight = true;
+    final Future<void> run = _runSyncPasses();
+    _syncFuture = run;
     try {
-      await _syncImpl();
+      await run;
     } finally {
-      _syncInFlight = false;
+      if (identical(_syncFuture, run)) {
+        _syncFuture = null;
+      }
     }
+  }
+
+  Future<void> _runSyncPasses() async {
+    do {
+      _syncAgain = false;
+      await _syncImpl();
+    } while (fcmSyncShouldRunAnotherPass(
+      syncAgain: _syncAgain,
+      mounted: ref.mounted,
+    ));
   }
 
   Future<void> _syncImpl() async {
@@ -131,7 +148,17 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     }
     String? token;
     for (var attempt = 0; attempt < _tokenPollAttempts; attempt++) {
-      token = await push.getToken();
+      try {
+        token = await push.getToken();
+      } on Object catch (e, st) {
+        token = null;
+        if (kDebugMode) {
+          debugPrint(
+            '[FcmMobileDeviceRegistration] getToken attempt $attempt failed: '
+            '$e\n$st',
+          );
+        }
+      }
       if (token != null && token.isNotEmpty) {
         break;
       }
@@ -199,9 +226,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
         );
       }
     } on DioException catch (e, st) {
-      if (kDebugMode) {
-        debugPrint('[FcmMobileDeviceRegistration] register failed: $e\n$st');
-      }
+      debugPrint('[FcmMobileDeviceRegistration] register failed: $e\n$st');
     }
   }
 
