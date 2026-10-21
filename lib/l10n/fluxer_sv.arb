@@ -8193,7 +8193,7 @@
     },
     "guildSettingsDiscoveryDescription": "Lista din community i Utforska så att andra kan hitta och gå med.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Description for discovery tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEligible": "Din community behöver minst {count, plural, one{{count} medlem} other{{count} medlemmar}} innan den kan listas i Utforska.",
     "@guildSettingsDiscoveryNotEligible": {
@@ -8214,15 +8214,15 @@
     },
     "guildSettingsDiscoveryTags": "Anpassade taggar",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTagsHint": "Lägg till en tagg och tryck på Retur",
     "@guildSettingsDiscoveryTagsHint": {
-        "description": "Hint for discovery tags field."
+        "description": "Placeholder in the custom tags input field."
     },
     "guildSettingsDiscoveryApply": "Tillämpa",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Dra tillbaka",
     "@guildSettingsDiscoveryWithdraw": {

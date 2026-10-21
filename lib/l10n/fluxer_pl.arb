@@ -8193,7 +8193,7 @@
     },
     "guildSettingsDiscoveryDescription": "Umieść swoją społeczność w sekcji „Odkrywaj”, aby inni mogli ją znaleźć i dołączyć.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Description for discovery tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEligible": "Twoja społeczność musi mieć co najmniej {count, plural, one{{count} członka} few{{count} członków} many{{count} członków} other{{count} członka}}, zanim będzie mogła pojawić się w sekcji „Odkrywaj”.",
     "@guildSettingsDiscoveryNotEligible": {
@@ -8214,15 +8214,15 @@
     },
     "guildSettingsDiscoveryTags": "Własne tagi",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTagsHint": "Dodaj tag i naciśnij Enter",
     "@guildSettingsDiscoveryTagsHint": {
-        "description": "Hint for discovery tags field."
+        "description": "Placeholder in the custom tags input field."
     },
     "guildSettingsDiscoveryApply": "Zastosuj",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Wycofaj",
     "@guildSettingsDiscoveryWithdraw": {

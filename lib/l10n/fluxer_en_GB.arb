@@ -8245,7 +8245,7 @@
     },
     "guildSettingsDiscoveryDescription": "List your community in Explore so others can find and join it.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Description for discovery tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEligible": "Your community needs at least {count, plural, one{{count} member} other{{count} members}} before it can be listed in Explore.",
     "@guildSettingsDiscoveryNotEligible": {
@@ -8266,15 +8266,15 @@
     },
     "guildSettingsDiscoveryTags": "Custom tags",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTagsHint": "Add a tag and press Enter",
     "@guildSettingsDiscoveryTagsHint": {
-        "description": "Hint for discovery tags field."
+        "description": "Placeholder in the custom tags input field."
     },
     "guildSettingsDiscoveryApply": "Apply",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Withdraw",
     "@guildSettingsDiscoveryWithdraw": {

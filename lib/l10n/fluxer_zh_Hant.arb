@@ -8193,7 +8193,7 @@
     },
     "guildSettingsDiscoveryDescription": "將您的社群列入探索，讓其他人可以找到並加入。",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Description for discovery tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEligible": "您的社群至少需要 {count, plural, one{{count} 位成員} other{{count} 位成員}} 才能列入探索。",
     "@guildSettingsDiscoveryNotEligible": {
@@ -8214,15 +8214,15 @@
     },
     "guildSettingsDiscoveryTags": "自訂標籤",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTagsHint": "新增標籤後按下 Enter 鍵",
     "@guildSettingsDiscoveryTagsHint": {
-        "description": "Hint for discovery tags field."
+        "description": "Placeholder in the custom tags input field."
     },
     "guildSettingsDiscoveryApply": "套用",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoveryWithdraw": "撤回",
     "@guildSettingsDiscoveryWithdraw": {

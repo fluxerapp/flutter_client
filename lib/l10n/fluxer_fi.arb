@@ -8193,7 +8193,7 @@
     },
     "guildSettingsDiscoveryDescription": "Listaa yhteisösi osioon ”Tutustu”, jotta muut voivat löytää sen ja liittyä siihen.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Description for discovery tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEligible": "Yhteisössäsi on oltava vähintään {count, plural, one{{count} jäsen} other{{count} jäsentä}}, ennen kuin se voidaan listata osioon ”Tutustu”.",
     "@guildSettingsDiscoveryNotEligible": {
@@ -8214,15 +8214,15 @@
     },
     "guildSettingsDiscoveryTags": "Mukautetut tunnisteet",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTagsHint": "Lisää tunniste ja paina Enter",
     "@guildSettingsDiscoveryTagsHint": {
-        "description": "Hint for discovery tags field."
+        "description": "Placeholder in the custom tags input field."
     },
     "guildSettingsDiscoveryApply": "Käytä",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Peru hakemus",
     "@guildSettingsDiscoveryWithdraw": {

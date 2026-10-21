@@ -8193,7 +8193,7 @@
     },
     "guildSettingsDiscoveryDescription": "Vis fellesskapet ditt i Utforsk, slik at andre kan finne og bli med.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Description for discovery tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEligible": "Fellesskapet ditt må ha minst {count, plural, one{{count} medlem} other{{count} medlemmer}} før det kan oppføres i Utforsk.",
     "@guildSettingsDiscoveryNotEligible": {
@@ -8214,15 +8214,15 @@
     },
     "guildSettingsDiscoveryTags": "Egendefinerte tagger",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTagsHint": "Legg til en tagg og trykk på Enter",
     "@guildSettingsDiscoveryTagsHint": {
-        "description": "Hint for discovery tags field."
+        "description": "Placeholder in the custom tags input field."
     },
     "guildSettingsDiscoveryApply": "Bruk",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Trekk tilbake",
     "@guildSettingsDiscoveryWithdraw": {
