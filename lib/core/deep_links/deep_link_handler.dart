@@ -290,7 +290,8 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       router.go(RoutePaths.me);
       return;
     }
-    if (segments.length >= 2 && segments[1] == '@discover') {
+    if (segments.length >= 2 &&
+        (segments[1] == '@explore' || segments[1] == '@discover')) {
       router.go(RoutePaths.discover);
       return;
     }

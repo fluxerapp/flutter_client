@@ -654,7 +654,11 @@ GoRouter fluxerRouter(Ref ref) {
       ),
 
       GoRoute(
-        path: '/channels/@discover',
+        path: RoutePaths.legacyDiscover,
+        redirect: (context, state) => RoutePaths.discover,
+      ),
+      GoRoute(
+        path: RoutePaths.discover,
         name: RouteNames.discover,
         parentNavigatorKey: rootNavigatorKey,
         pageBuilder: (BuildContext context, GoRouterState state) {
