@@ -9000,7 +9000,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'No início, não havia nada. Então, surgiu $channelName. E foi bom.';
+    return 'Este é o início de $channelName.';
   }
 
   @override
@@ -24792,7 +24792,7 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'No início, não havia nada. Então, surgiu $channelName. E foi bom.';
+    return 'Este é o início do $channelName.';
   }
 
   @override

@@ -9046,7 +9046,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Na počátku nebylo nic. Pak přišel $channelName. A bylo to dobré.';
+    return 'Toto je začátek $channelName.';
   }
 
   @override

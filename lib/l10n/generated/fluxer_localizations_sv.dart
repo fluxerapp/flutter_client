@@ -9030,7 +9030,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'I början fanns ingenting. Sedan kom $channelName. Och det var bra.';
+    return 'Det här är början på $channelName.';
   }
 
   @override

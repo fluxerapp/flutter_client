@@ -9082,7 +9082,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Kezdetben nem volt semmi. Aztán jött a(z) $channelName. És jó volt.';
+    return 'Ez a(z) $channelName eleje.';
   }
 
   @override

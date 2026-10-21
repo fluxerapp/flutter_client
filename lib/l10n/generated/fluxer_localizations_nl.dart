@@ -9051,7 +9051,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In het begin was er niets. Toen was er $channelName. En het was goed.';
+    return 'Dit is het begin van $channelName.';
   }
 
   @override

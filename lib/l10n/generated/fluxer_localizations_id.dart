@@ -9009,7 +9009,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Pada mulanya, tidak ada apa-apa. Lalu, ada $channelName. Dan itu baik.';
+    return 'Ini adalah awal dari $channelName.';
   }
 
   @override

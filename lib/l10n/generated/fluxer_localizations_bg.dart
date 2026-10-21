@@ -9085,7 +9085,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'В началото нямаше нищо. След това се появи $channelName. И беше добре.';
+    return 'Това е началото на $channelName.';
   }
 
   @override

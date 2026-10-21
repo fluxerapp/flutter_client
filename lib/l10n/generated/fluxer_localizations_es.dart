@@ -9104,7 +9104,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Al principio, no había nada. Luego, llegó $channelName. Y estuvo bien.';
+    return 'Este es el inicio de $channelName.';
   }
 
   @override
@@ -25034,7 +25034,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Al principio, no había nada. Luego, existió $channelName. Y estuvo bien.';
+    return 'Este es el inicio de $channelName.';
   }
 
   @override

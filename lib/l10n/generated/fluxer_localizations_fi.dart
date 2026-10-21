@@ -9027,7 +9027,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Alussa ei ollut mitään. Sitten tuli $channelName. Ja se oli hyvää.';
+    return 'Tämä on alku $channelName:lle.';
   }
 
   @override

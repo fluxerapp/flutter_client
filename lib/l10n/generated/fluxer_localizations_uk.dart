@@ -9082,7 +9082,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Спочатку нічого не було. Потім з\'явився $channelName. І це було добре.';
+    return 'Це початок $channelName.';
   }
 
   @override

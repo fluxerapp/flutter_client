@@ -8893,7 +8893,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'בראשית, לא היה דבר. ואז, היה $channelName. וזה היה טוב.';
+    return 'זה ההתחלה של $channelName.';
   }
 
   @override

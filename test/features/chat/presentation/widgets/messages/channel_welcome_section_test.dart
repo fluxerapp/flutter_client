@@ -42,13 +42,7 @@ void main() {
     );
 
     expect(find.text('Welcome to #general'), findsOneWidget);
-    expect(
-      find.text(
-        'In the beginning, there was nothing. Then, there was #general. '
-        'And it was good.',
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('This is the start of #general.'), findsOneWidget);
     expect(find.byType(ChannelIcon), findsOneWidget);
   });
 

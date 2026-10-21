@@ -9100,7 +9100,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Am Anfang war nichts. Dann kam $channelName. Und es war gut.';
+    return 'Das ist der Anfang von $channelName.';
   }
 
   @override

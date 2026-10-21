@@ -9012,7 +9012,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Başlangıçta hiçbir şey yoktu. Sonra $channelName oldu. Ve iyiydi.';
+    return 'Bu, $channelName sohbetinin başlangıcı.';
   }
 
   @override

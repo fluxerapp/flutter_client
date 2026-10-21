@@ -9092,7 +9092,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'Iš pradžių nebuvo nieko. Tada atsirado $channelName. Ir tai buvo gerai.';
+    return 'Tai yra $channelName pradžia.';
   }
 
   @override

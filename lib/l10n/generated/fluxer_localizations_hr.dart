@@ -9038,7 +9038,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'U početku nije bilo ničega. Zatim je došao $channelName. I bilo je dobro.';
+    return 'Ovo je početak $channelName.';
   }
 
   @override

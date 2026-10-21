@@ -8649,7 +8649,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return '처음에는 아무것도 없었습니다. 그러다 $channelName이 생겼습니다. 그리고 그것은 좋았습니다.';
+    return '$channelName의 시작입니다.';
   }
 
   @override
