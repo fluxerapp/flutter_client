@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
-import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
+import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart'
+    show pendingPushNotificationPathProvider, shouldApplyPendingPushNavigation;
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/push/push_notification_path_resolver.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
@@ -94,12 +96,12 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       }
       return;
     }
-    final bool ready = isPendingNavigationReady(
+    if (!shouldApplyPendingPushNavigation(
       isAuthenticated: ref.read(authStateProvider),
       isGatewayReady: ref.read(gatewayReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
-    );
-    if (!ready) {
+      splashExitAllowed: ref.read(splashExitAllowedProvider),
+    )) {
       ref.read(pendingPushNotificationPathProvider.notifier).store(path);
       return;
     }
