@@ -41,8 +41,10 @@ List<ExpressionPickerTab> composerInputButtonVisibleTabs({
       ExpressionPickerTab.gifs,
     if (perms.canShowAttachControls && advanced.showMemesButton)
       ExpressionPickerTab.memes,
-    if (advanced.showStickersButton) ExpressionPickerTab.stickers,
-    if (advanced.showEmojiButton) ExpressionPickerTab.emojis,
+    if (perms.isComposerEnabled && advanced.showStickersButton)
+      ExpressionPickerTab.stickers,
+    if (perms.isComposerEnabled && advanced.showEmojiButton)
+      ExpressionPickerTab.emojis,
   ];
 }
 

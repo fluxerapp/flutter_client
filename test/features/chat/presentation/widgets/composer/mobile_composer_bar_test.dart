@@ -207,9 +207,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(_send(), findsNothing);
         expect(_voice(), findsNothing);
-        final Rect bar = tester.getRect(_bar());
-        final Rect emoji = tester.getRect(_emoji());
-        expect(emoji.right, bar.right - 11);
+        expect(_emoji(), findsNothing);
         await _release(tester);
       },
     );

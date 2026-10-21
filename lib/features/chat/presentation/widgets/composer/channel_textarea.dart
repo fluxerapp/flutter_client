@@ -1826,8 +1826,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         ),
                       ),
                       const SizedBox(width: MobileComposerLayout.trailingGap),
-                      _mobileComposerButtonCell(
-                        _buildMobilePickerButton(context, perms),
+                      _composerSlot(
+                        context: context,
+                        visible: perms.isComposerEnabled,
+                        alignment: Alignment.centerRight,
+                        child: _mobileComposerButtonCell(
+                          _buildMobilePickerButton(context, perms),
+                        ),
                       ),
                       _composerSlot(
                         context: context,

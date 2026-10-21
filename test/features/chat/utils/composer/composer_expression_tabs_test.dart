@@ -23,6 +23,23 @@ void main() {
       },
     );
 
+    test('hides emoji and stickers when sending is disabled', () {
+      const ChannelMessagePermissions perms = ChannelMessagePermissions(
+        isResolved: true,
+        canSendMessages: false,
+        canAttachFiles: true,
+        canEmbedLinks: true,
+        canUseExternalEmojis: true,
+        canUseExternalStickers: true,
+      );
+      const advanced = AdvancedPreferencesState();
+
+      final List<ExpressionPickerTab> composerTabs =
+          composerInputButtonVisibleTabs(perms: perms, advanced: advanced);
+
+      expect(composerTabs, isEmpty);
+    });
+
     test('hides gifs when the instance disables them', () {
       const ChannelMessagePermissions perms = ChannelMessagePermissions.all;
       const advanced = AdvancedPreferencesState();
