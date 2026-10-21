@@ -13563,7 +13563,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Καταχώρισε την κοινότητά σου στην Εξερεύνηση, για να μπορούν άλλοι να τη βρουν και να μπουν σε αυτήν.';
+      'Καταχωρίστε την κοινότητά σας στην Εξερεύνηση, για να μπορούν άλλοι να τη βρουν και να γίνουν μέλη της.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13620,7 +13620,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Η γλώσσα που μιλάει η κοινότητά σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Εξερεύνηση.';
+      'Η γλώσσα που μιλούν τα περισσότερα μέλη της κοινότητάς σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Εξερεύνηση.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Περιγραφή';
@@ -13648,7 +13648,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Έως $maxTags ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σου. Εμφανίζονται όταν κάποιος κάνει αναζήτηση στην Εξερεύνηση.';
+    return 'Έως $maxTags ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σας. Εμφανίζονται όταν κάποιος κάνει αναζήτηση στην Εξερεύνηση.';
   }
 
   @override

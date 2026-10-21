@@ -8191,7 +8191,7 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "Καταχώρισε την κοινότητά σου στην Εξερεύνηση, για να μπορούν άλλοι να τη βρουν και να μπουν σε αυτήν.",
+    "guildSettingsDiscoveryDescription": "Καταχωρίστε την κοινότητά σας στην Εξερεύνηση, για να μπορούν άλλοι να τη βρουν και να γίνουν μέλη της.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Subtitle for the \"Explore\" community settings tab."
     },
@@ -15379,7 +15379,7 @@
     "@guildSettingsDiscoveryPrimaryLanguage": {
         "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "Η γλώσσα που μιλάει η κοινότητά σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Εξερεύνηση.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "Η γλώσσα που μιλούν τα περισσότερα μέλη της κοινότητάς σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Εξερεύνηση.",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
@@ -15409,7 +15409,7 @@
             }
         }
     },
-    "guildSettingsDiscoveryTagsHelp": "Έως {maxTags} ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σου. Εμφανίζονται όταν κάποιος κάνει αναζήτηση στην Εξερεύνηση.",
+    "guildSettingsDiscoveryTagsHelp": "Έως {maxTags} ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σας. Εμφανίζονται όταν κάποιος κάνει αναζήτηση στην Εξερεύνηση.",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
