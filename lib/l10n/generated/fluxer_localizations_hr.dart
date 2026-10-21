@@ -297,7 +297,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get register => 'Registracija';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'ILI';
 
   @override
   String get cancel => 'Odustani';
@@ -342,7 +342,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get next => 'Dalje';
 
   @override
-  String get create => 'Create';
+  String get create => 'Stvori';
 
   @override
   String get mfaTitle => 'Dvostruka provjera autentičnosti';
@@ -386,7 +386,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String accountSignOutTitle(String identifier) {
-    return 'Sign out of $identifier?';
+    return 'Odjaviti se s računa $identifier?';
   }
 
   @override
@@ -980,7 +980,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get inviteAcceptSomeone => 'netko';
 
   @override
-  String get mentionUnknownChannel => 'unknown-channel';
+  String get mentionUnknownChannel => 'nepoznati-kanal';
 
   @override
   String get channelAccessDeniedTitle => 'Pristup kanalu odbijen';
@@ -1574,11 +1574,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Vaš ili njihov popis prijatelja je pun. Uklonite nekoga i pokušajte ponovno.';
 
   @override
-  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+  String get addFriendSendFailedTitle =>
+      'Nije moguće poslati zahtjev za prijateljstvo';
 
   @override
   String get addFriendSendFailedMessage =>
-      'Couldn\'t send the friend request. Try again.';
+      'Nije moguće poslati zahtjev za prijateljstvo. Pokušajte ponovno.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1587,7 +1588,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userTagSystem => 'Sustav';
 
   @override
-  String get userTagOp => 'OP';
+  String get userTagOp => 'AUTOR';
 
   @override
   String get emojiSearchPlaceholder => 'Pronađite emoji iz snova';
@@ -3252,7 +3253,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsRolesTab => 'Uloge';
 
   @override
-  String get memberRolesConfirmOk => 'OK';
+  String get memberRolesConfirmOk => 'U redu';
 
   @override
   String get userProfileLocalTime => 'Lokalno vrijeme';
@@ -3709,8 +3710,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}m',
-      one: '1m',
+      other: '$count min',
+      one: '1 min',
     );
     return '$_temp0';
   }
@@ -3720,8 +3721,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}h',
-      one: '1h',
+      other: '$count h',
+      one: '1 h',
     );
     return '$_temp0';
   }
@@ -3731,8 +3732,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '$count d',
+      one: '1 d',
     );
     return '$_temp0';
   }
@@ -4203,7 +4204,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatAttachmentSpoiler => 'Spojler';
 
   @override
-  String get chatMediaSpoilerOverlayLabel => 'SPOILER';
+  String get chatMediaSpoilerOverlayLabel => 'SPOJLER';
 
   @override
   String get chatMediaSpoilerRevealLabel => 'Otkrij spojler';
@@ -4380,10 +4381,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get connectionDomainLabel => 'Domena';
 
   @override
-  String get connectionHandlePlaceholder => 'username.bsky.social';
+  String get connectionHandlePlaceholder => 'korisnickoime.bsky.social';
 
   @override
-  String get connectionDomainPlaceholder => 'example.com';
+  String get connectionDomainPlaceholder => 'primjer.com';
 
   @override
   String get connectionAlreadyExists => 'Već imate ovu vezu.';
@@ -4582,93 +4583,97 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nismo uspjeli sinkronizirati temu s vašim računom. Molimo pokušajte ponovno.';
 
   @override
-  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+  String get lookAndFeelThemeColorsTitle => 'Boje teme';
 
   @override
   String get lookAndFeelThemeColorsConfigureDescription =>
-      'Customize individual theme colors for this device.';
+      'Prilagodite pojedine boje teme za ovaj uređaj.';
 
   @override
   String lookAndFeelThemeColorsEditingMode(String mode) {
-    return 'Editing $mode';
+    return 'Uređivanje: $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+  String get lookAndFeelThemeColorsSyncSectionTitle =>
+      'Sinkronizacija s Theme Studiom';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioLabel =>
-      'Use colors from Theme Studio';
+      'Koristi boje iz Theme Studija';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioDescription =>
-      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+      'Kada je uključeno, promjene boja iz Theme Studija na računalu primjenjuju se na ovom uređaju. Kada je isključeno, ovaj uređaj zadržava vlastite boje.';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioLabel =>
-      'Send color changes to Theme Studio';
+      'Šalji promjene boja u Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioDescription =>
-      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+      'Kada je uključeno, boje koje ovdje promijenite sinkroniziraju se s Theme Studiom na vašim ostalim uređajima. Kada je isključeno, Theme Studio na računalu zadržava vlastite boje.';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
-      'Desktop Theme Studio color changes will not apply on this device.';
+      'Promjene boja iz Theme Studija na računalu neće se primjenjivati na ovom uređaju.';
 
   @override
-  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Osnovne boje';
 
   @override
   String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
-      'If you have a chat wallpaper set, you won\'t see this color.';
+      'Ako imate postavljenu pozadinu chata, ova boja neće biti vidljiva.';
 
   @override
   String lookAndFeelThemeColorsResetForMode(String mode) {
-    return 'Reset all colors for $mode';
+    return 'Vrati sve boje za $mode na zadano';
   }
 
   @override
-  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+  String get lookAndFeelThemeColorsResetConfirmTitle =>
+      'Vratiti boje teme na zadano?';
 
   @override
   String lookAndFeelThemeColorsResetConfirmBody(String mode) {
-    return 'This removes your custom color overrides for $mode on this device.';
+    return 'Ovo uklanja vaše prilagođene boje za $mode na ovom uređaju.';
   }
 
   @override
-  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brend i gumbi';
 
   @override
-  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat i poruke';
 
   @override
-  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+  String get lookAndFeelThemeColorsGroupSidebars => 'Bočne trake i navigacija';
 
   @override
-  String get lookAndFeelThemeColorsGroupText => 'Text';
+  String get lookAndFeelThemeColorsGroupText => 'Tekst';
 
   @override
-  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+  String get lookAndFeelThemeColorsGroupHeaders => 'Zaglavlja';
 
   @override
   String get lookAndFeelThemeColorsGroupStatus => 'Status';
 
   @override
-  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup =>
+      'Ugrađeni sadržaj i spominjanja';
 
   @override
-  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+  String get lookAndFeelThemeColorsGroupAccentsAlerts =>
+      'Naglasci i upozorenja';
 
   @override
-  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+  String get lookAndFeelThemeColorsGroupControls => 'Površine i kontrole';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Skaliranje fonta za chat';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Prilagodite veličinu fonta u području chata.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Veličina fonta za chat';
@@ -4734,7 +4739,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
-    return '${spacing}px';
+    return '$spacing px';
   }
 
   @override
@@ -4877,11 +4882,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
-      'Open communities to your last channel';
+      'Otvaraj zajednice na zadnjem kanalu';
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
-      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
+      'Dodir na zajednicu vodi vas izravno na zadnji kanal koji ste ondje pregledali. Prijeđite prstom udesno da biste vidjeli popis njezinih kanala.';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Popis kanala';
@@ -5888,7 +5893,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get shellResizeSidebar => 'Resize sidebar';
+  String get shellResizeSidebar => 'Promijeni veličinu bočne trake';
 
   @override
   String get voiceConnectionTitle => 'Glasovna veza';
@@ -5949,7 +5954,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String voiceConnectionBandwidthKbps(String bandwidth) {
-    return '$bandwidth kbps';
+    return '$bandwidth kb/s';
   }
 
   @override
@@ -6067,10 +6072,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Prekini gledanje trenutačnog streama';
 
   @override
-  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+  String get voiceScreenShareEnterFullscreenTooltip => 'Puni zaslon';
 
   @override
-  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+  String get voiceScreenShareExitFullscreenTooltip => 'Izađi iz punog zaslona';
 
   @override
   String get voiceOwnScreenShareTitle => 'Emitirate';
@@ -6191,22 +6196,22 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String notificationsMentionedYouIn(String author, String place) {
-    return '$author mentioned you in $place:';
+    return '$author vas je spomenuo/la u $place:';
   }
 
   @override
   String notificationsRepliedToYouIn(String author, String place) {
-    return '$author replied to you in $place:';
+    return '$author vam je odgovorio/la u $place:';
   }
 
   @override
   String notificationsMentionedYou(String author) {
-    return '$author mentioned you:';
+    return '$author vas je spomenuo/la:';
   }
 
   @override
   String notificationsRepliedToYou(String author) {
-    return '$author replied to you:';
+    return '$author vam je odgovorio/la:';
   }
 
   @override
@@ -6215,13 +6220,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsSendReply => 'Send a reply';
+  String get notificationsSendReply => 'Pošalji odgovor';
 
   @override
-  String get notificationsRecentActivity => 'Recent activity';
+  String get notificationsRecentActivity => 'Nedavna aktivnost';
 
   @override
-  String get notificationsRemoveNotification => 'Remove notification';
+  String get notificationsRemoveNotification => 'Ukloni obavijest';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -6802,7 +6807,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Dvaput dodirnite poruku za reakciju';
 
   @override
-  String get doubleTapEditHint => 'Double tap your own message to edit it';
+  String get doubleTapEditHint =>
+      'Dvaput dodirnite svoju poruku da biste je uredili';
 
   @override
   String get doubleTapReactionEdit => 'Uredi';
@@ -6815,61 +6821,63 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Odaberite emoji za dvostruki dodir';
 
   @override
-  String get messagesMediaGesturesSectionTitle => 'Gestures';
+  String get messagesMediaGesturesSectionTitle => 'Geste';
 
   @override
   String get messagesMediaGesturesSectionDescription =>
-      'Configure double tap and swipe on messages.';
+      'Postavite dvostruki dodir i povlačenje na porukama.';
 
   @override
-  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+  String get messagesMediaGesturesReactionLabel => 'Emoji za reakciju';
 
   @override
   String get messagesMediaGesturesReactionDescription =>
-      'Used when double tap is set to add a reaction.';
+      'Koristi se kada je dvostruki dodir postavljen na dodavanje reakcije.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesDoubleTapActionLabel =>
+      'Radnja dvostrukog dodira';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesDoubleTapActionReactName => 'Dodaj reakciju';
 
   @override
   String get messagesMediaGesturesDoubleTapActionReactDescription =>
-      'Adds your default double-tap emoji as a reaction.';
+      'Dodaje vaš zadani emoji za dvostruki dodir kao reakciju.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName => 'Uredi poruku';
 
   @override
   String get messagesMediaGesturesDoubleTapActionEditDescription =>
-      'Opens the editor on messages you sent. Other messages are unchanged.';
+      'Otvara uređivanje na porukama koje ste poslali. Na ostale poruke ne utječe.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Ništa';
 
   @override
   String get messagesMediaGesturesDoubleTapActionNoneDescription =>
-      'Double tap is disabled.';
+      'Dvostruki dodir je isključen.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftLabel =>
-      'Swipe right to left';
+      'Povlačenje zdesna nalijevo';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+  String get messagesMediaGesturesSwipeRightToLeftReplyName =>
+      'Povuci za odgovor';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
-      'Swipe a message to reply, with hold to edit your own messages.';
+      'Povucite poruku da biste odgovorili, a zadržite prst da biste uredili svoje poruke.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
-      'Show channel details';
+      'Prikaži pojedinosti kanala';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
-      'Swipe a message or tap the channel header to open channel details in a side panel.';
+      'Povucite poruku ili dodirnite zaglavlje kanala da biste otvorili pojedinosti kanala u bočnoj ploči.';
 
   @override
   String get chatMessageEdit => 'Uredi poruku';
@@ -7212,7 +7220,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get chatMessageDeleteAttachmentConfirmDescription =>
-      'Are you sure you want to delete this attachment?';
+      'Jeste li sigurni da želite izbrisati ovaj privitak?';
 
   @override
   String get chatMessageEditAttachmentAltText => 'Uredi zamjenski tekst';
@@ -7273,7 +7281,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Nije moguće učitati poruke.';
 
   @override
-  String get chatMessagesFailedToLoad => 'Messages failed to load';
+  String get chatMessagesFailedToLoad => 'Učitavanje poruka nije uspjelo';
 
   @override
   String get chatReplyMentionOverrideTitle =>
@@ -7305,10 +7313,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Spomeni korisnika koji je odgovorio';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'UKLJ.';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'ISKLJ.';
 
   @override
   String get chatReplyCancel => 'Poništi odgovor';
@@ -7320,10 +7328,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatEditNoChanges => 'Nema promjena za spremanje';
 
   @override
-  String get chatEditFailed => 'Your message didn\'t update';
+  String get chatEditFailed => 'Vaša poruka nije ažurirana';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'Uredi ponovno';
 
   @override
   String get chatChannelNotReady =>
@@ -7438,7 +7446,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Naljepnice';
 
   @override
-  String get composerAutocompleteEmojisHeading => 'Emojis';
+  String get composerAutocompleteEmojisHeading => 'Emojiji';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIF-ovi';
@@ -7852,7 +7860,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelSettingsUrl => 'URL';
 
   @override
-  String get channelSettingsUrlPlaceholder => 'https://example.com';
+  String get channelSettingsUrlPlaceholder => 'https://primjer.com';
 
   @override
   String get channelSettingsTopic => 'Tema kanala';
@@ -7917,7 +7925,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String channelSettingsVoiceQualityKbps(int kilobits) {
-    return '$kilobits kbps';
+    return '$kilobits kb/s';
   }
 
   @override
@@ -8224,26 +8232,26 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String channelDuplicateHelper(String channelName) {
-    return 'The new channel will reuse the permissions from $channelName.';
+    return 'Novi kanal preuzet će dopuštenja kanala $channelName.';
   }
 
   @override
   String channelDuplicateVoiceHelper(String channelName) {
-    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+    return 'Novi glasovni kanal preuzet će dopuštenja, ograničenje korisnika i brzinu prijenosa kanala $channelName.';
   }
 
   @override
-  String get channelMenuMoveToCategory => 'Move to category';
+  String get channelMenuMoveToCategory => 'Premjesti u kategoriju';
 
   @override
-  String get channelMenuNoCategory => 'No category';
+  String get channelMenuNoCategory => 'Bez kategorije';
 
   @override
-  String get channelMoveCategoryFullTitle => 'Category full';
+  String get channelMoveCategoryFullTitle => 'Kategorija je puna';
 
   @override
   String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
-    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+    return 'Ova kategorija već sadrži maksimalan broj od $maxChannelsPerCategory kanala.';
   }
 
   @override
@@ -8500,61 +8508,62 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Očisti';
 
   @override
-  String get channelSearchRemoveRecent => 'Remove from recent searches';
+  String get channelSearchRemoveRecent => 'Ukloni iz nedavnih pretraživanja';
 
   @override
-  String get channelSearchFiltersButton => 'Filters';
+  String get channelSearchFiltersButton => 'Filtri';
 
   @override
-  String get channelSearchFilterMenuTitle => 'Filter results';
+  String get channelSearchFilterMenuTitle => 'Filtriraj rezultate';
 
   @override
-  String get channelSearchFilterFromLabel => 'From a specific person';
+  String get channelSearchFilterFromLabel => 'Od određene osobe';
 
   @override
-  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+  String get channelSearchFilterMentionsLabel => 'Spominje određenu osobu';
 
   @override
-  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+  String get channelSearchFilterHasLabel =>
+      'Sadrži poveznicu, datoteku ili ugrađeni sadržaj';
 
   @override
-  String get channelSearchFilterInLabel => 'In a specific channel';
+  String get channelSearchFilterInLabel => 'U određenom kanalu';
 
   @override
-  String get channelSearchFilterDuringLabel => 'Sent on a date';
+  String get channelSearchFilterDuringLabel => 'Poslano na određeni datum';
 
   @override
-  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+  String get channelSearchFilterBeforeLabel => 'Poslano prije datuma';
 
   @override
-  String get channelSearchFilterAfterLabel => 'Sent after a date';
+  String get channelSearchFilterAfterLabel => 'Poslano nakon datuma';
 
   @override
-  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+  String get channelSearchFilterPinnedLabel => 'Prikvačeno ili neprikvačeno';
 
   @override
-  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+  String get channelSearchFilterAuthorTypeLabel => 'Prema vrsti autora';
 
   @override
-  String get channelSearchDateToday => 'Today';
+  String get channelSearchDateToday => 'Danas';
 
   @override
-  String get channelSearchDateYesterday => 'Yesterday';
+  String get channelSearchDateYesterday => 'Jučer';
 
   @override
-  String get channelSearchTabMessages => 'Messages';
+  String get channelSearchTabMessages => 'Poruke';
 
   @override
-  String get channelSearchTabImages => 'Images';
+  String get channelSearchTabImages => 'Slike';
 
   @override
-  String get channelSearchTabPins => 'Pins';
+  String get channelSearchTabPins => 'Prikvačene poruke';
 
   @override
-  String get channelSearchTabLinks => 'Links';
+  String get channelSearchTabLinks => 'Poveznice';
 
   @override
-  String get channelSearchTabFiles => 'Files';
+  String get channelSearchTabFiles => 'Datoteke';
 
   @override
   String channelSearchTabCount(String label, int count) {
@@ -9008,22 +9017,22 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get groupDmInviteRevoked => 'Pozivnica opozvana';
 
   @override
-  String get groupDmRemoveFromGroup => 'Remove from group';
+  String get groupDmRemoveFromGroup => 'Ukloni iz grupe';
 
   @override
   String groupDmRemoveFromGroupConfirm(String userName) {
-    return 'Remove $userName from the group?';
+    return 'Ukloniti $userName iz grupe?';
   }
 
   @override
-  String get groupDmRemoveFromGroupAction => 'Remove';
+  String get groupDmRemoveFromGroupAction => 'Ukloni';
 
   @override
-  String get groupDmRemovedFromGroup => 'Removed from group';
+  String get groupDmRemovedFromGroup => 'Uklonjen/a iz grupe';
 
   @override
   String groupDmRemoveFromGroupFailed(String userName) {
-    return '$userName is still in the group. Try again in a moment.';
+    return '$userName je i dalje u grupi. Pokušajte ponovno za trenutak.';
   }
 
   @override
@@ -9093,10 +9102,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get chatAttachmentLibraryLimitedBody =>
-      'Only photos and videos you chose to share are shown here.';
+      'Ovdje su prikazane samo fotografije i videozapisi koje ste odabrali podijeliti.';
 
   @override
-  String get chatAttachmentLibraryLimitedManage => 'Manage';
+  String get chatAttachmentLibraryLimitedManage => 'Upravljaj';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9175,16 +9184,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsGroupYourAccount => 'Vaš račun';
 
   @override
-  String get userSettingsGroupBilling => 'Billing';
+  String get userSettingsGroupBilling => 'Naplata';
 
   @override
-  String get userSettingsGroupApplication => 'Application';
+  String get userSettingsGroupApplication => 'Aplikacija';
 
   @override
-  String get userSettingsGroupDeveloper => 'Developer';
+  String get userSettingsGroupDeveloper => 'Za programere';
 
   @override
-  String get userSettingsGroupStaffOnly => 'Staff-only';
+  String get userSettingsGroupStaffOnly => 'Samo za osoblje';
 
   @override
   String get userSettingsSearchPlaceholder => 'Pretraži postavke...';
@@ -9196,14 +9205,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Nema pronađenih postavki';
 
   @override
-  String get userSettingsCopyLinkToSection => 'Copy link to section';
+  String get userSettingsCopyLinkToSection => 'Kopiraj poveznicu na odjeljak';
 
   @override
-  String get userSettingsCopyLinkToPage => 'Copy link to page';
+  String get userSettingsCopyLinkToPage => 'Kopiraj poveznicu na stranicu';
 
   @override
   String userSettingsJumpLinkPremiumPage(String productName) {
-    return '$productName page';
+    return 'Stranica $productName';
   }
 
   @override
@@ -9574,7 +9583,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get premiumPerkEarlyAccess => 'Rani pristup novim značajkama';
 
   @override
-  String get premiumPerkVideoQualityRestricted => '720p/30fps';
+  String get premiumPerkVideoQualityRestricted => '720p/30 fps';
 
   @override
   String get premiumPerkVideoQualityStock => 'Do 4K/60fps';
@@ -9741,7 +9750,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Automatski se obnavlja putem App Storea dok ne otkažete.';
 
   @override
-  String get storePlutoniumRestorePurchases => 'Restore purchases';
+  String get storePlutoniumRestorePurchases => 'Vrati kupnje';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
@@ -10204,36 +10213,37 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nismo mogli omogućiti obavijesti. Dopustite dopuštenje za obavijesti da biste nastavili.';
 
   @override
-  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+  String get notificationsPushDeliveryProviderLabel =>
+      'Pružatelj push obavijesti';
 
   @override
-  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+  String get notificationsPushDeliveryDistributorLabel => 'Distributer';
 
   @override
-  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+  String get notificationsPushDeliveryDistributorNone => 'Nije odabrano';
 
   @override
   String get notificationsPushDeliveryDistributorSheetTitle =>
-      'Choose distributor';
+      'Odaberite distributera';
 
   @override
   String get notificationsPushDeliveryDistributorPickAccessibility =>
-      'Change push distributor';
+      'Promijeni push distributera';
 
   @override
-  String get notificationsPushDeliveryGatewayLabel => 'Gateway';
+  String get notificationsPushDeliveryGatewayLabel => 'Pristupnik';
 
   @override
-  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push prijenosnik';
 
   @override
-  String get notificationsPushDeliveryRelayInUse => 'In use';
+  String get notificationsPushDeliveryRelayInUse => 'U upotrebi';
 
   @override
-  String get notificationsPushDeliveryRelayOff => 'Off';
+  String get notificationsPushDeliveryRelayOff => 'Isključeno';
 
   @override
-  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+  String get notificationsPushDeliveryRelayNotUsed => 'Ne koristi se';
 
   @override
   String get notificationsPushRelaySectionTitle =>
@@ -10357,17 +10367,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get appIconSectionDescriptionAndroid =>
-      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+      'Odaberite koja se ikona prikazuje na početnom zaslonu. Promjena ikone ponovno pokreće aplikaciju.';
 
   @override
-  String get appIconAndroidChangeTitle => 'Change app icon?';
+  String get appIconAndroidChangeTitle => 'Promijeniti ikonu aplikacije?';
 
   @override
   String get appIconAndroidChangeDescription =>
-      'Fluxer will restart to apply the new home screen icon.';
+      'Fluxer će se ponovno pokrenuti kako bi primijenio novu ikonu na početnom zaslonu.';
 
   @override
-  String get appIconAndroidChangeConfirm => 'Change icon';
+  String get appIconAndroidChangeConfirm => 'Promijeni ikonu';
 
   @override
   String get appIconOptionDefault => 'Zadano';
@@ -10379,22 +10389,23 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get appIconOptionSweden => 'Švedska';
 
   @override
-  String get appIconOptionGreyscale => 'Greyscale';
+  String get appIconOptionGreyscale => 'Sivi tonovi';
 
   @override
-  String get appIconOptionRainbow => 'Rainbow';
+  String get appIconOptionRainbow => 'Duga';
 
   @override
-  String get appIconOptionWaves => 'Waves';
+  String get appIconOptionWaves => 'Valovi';
 
   @override
-  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+  String get appIconOptionChromaticAberration => 'Kromatska aberacija';
 
   @override
-  String get appIconOptionDefaultBrutalist => 'Brutalist';
+  String get appIconOptionDefaultBrutalist => 'Brutalistička';
 
   @override
-  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+  String get appIconOptionGreyscaleBrutalist =>
+      'Brutalistička u sivim tonovima';
 
   @override
   String get appIconUnsupported =>
@@ -10409,7 +10420,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+      'Pomozite Fluxeru ispraviti pogreške u ovoj aplikaciji dijeljenjem podataka o rušenjima i performansama. Ovo je prema zadanim postavkama isključeno.';
 
   @override
   String get advancedPerformanceReportingLabel =>
@@ -10417,29 +10428,29 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'Izvješća idu u Fluxerov sustav za praćenje pogrešaka, čak i kada ste prijavljeni na drugu instancu. Ne sadrže nazive instanci, ID-ove ni sadržaj poruka.';
 
   @override
-  String get observabilityReportingConsentTitle => 'Help fix crashes';
+  String get observabilityReportingConsentTitle => 'Pomozite ispraviti rušenja';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+      'Fluxer se neočekivano zatvorio. Dijeljenje anonimnih podataka o rušenjima i pogreškama pomaže nam brže ispraviti probleme.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+      'Izvješća sadrže zapise o rušenjima, pogreške i osnovne podatke o performansama. Ne dijele se s trećim stranama i možete ih isključiti u bilo kojem trenutku.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
-    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+    return 'Da biste to kasnije uključili, otvorite Postavke → Napredno → $reportingToggle.';
   }
 
   @override
-  String get observabilityReportingConsentAgree => 'Send crash reports';
+  String get observabilityReportingConsentAgree => 'Šalji izvješća o rušenju';
 
   @override
-  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
+  String get observabilityReportingConsentDecline => 'Ne želim uključiti';
 
   @override
   String get advancedSettingsConfigure => 'Konfiguriraj';
@@ -10995,7 +11006,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Pridruži se Fluxer Labs';
 
   @override
-  String get userSettingsGiveFeedback => 'Give feedback';
+  String get userSettingsGiveFeedback => 'Pošalji povratne informacije';
 
   @override
   String get userSettingsNavAppLicenses => 'Licence aplikacije';
@@ -11059,7 +11070,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'Tekstualni kanali';
 
   @override
-  String get quickSwitcherSectionThreads => 'Threads';
+  String get quickSwitcherSectionThreads => 'Niti';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'Glasovni kanali';
@@ -11163,7 +11174,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get uiConfirm => 'Potvrdi';
 
   @override
-  String get uiUnderstood => 'Understood';
+  String get uiUnderstood => 'Razumijem';
 
   @override
   String get uiLoading => 'Učitavanje';
@@ -11261,38 +11272,38 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String instanceConnectFailedDomain(String domain) {
-    return 'Couldn\'t connect to $domain. Try again.';
+    return 'Nismo se mogli povezati na $domain. Pokušajte ponovno.';
   }
 
   @override
   String get instanceInvalidDiscoveryResponse =>
-      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+      'Nije moguće pročitati konfiguraciju ove instance. Provjerite adresu i pokušajte ponovno.';
 
   @override
   String instanceOutdatedForClient(String domain) {
-    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+    return 'Ova je instanca zastarjela za ovu aplikaciju. Zamolite onoga tko vodi $domain da ažurira Fluxer.';
   }
 
   @override
   String instanceRequiresNewerClient(String domain) {
-    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+    return '$domain koristi noviju verziju Fluxera od ove aplikacije. Ažurirajte aplikaciju pa pokušajte ponovno.';
   }
 
   @override
-  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+  String get instanceCompatibilityTitle => 'Ova se instanca ne može koristiti';
 
   @override
-  String get instanceCompatibilityRetry => 'Try again';
+  String get instanceCompatibilityRetry => 'Pokušaj ponovno';
 
   @override
-  String get instanceCompatibilityUpdateApp => 'Update app';
+  String get instanceCompatibilityUpdateApp => 'Ažuriraj aplikaciju';
 
   @override
   String get instanceCompatibilityStatusPagePrompt =>
-      'Check the status page for updates.';
+      'Provjerite stranicu statusa za novosti.';
 
   @override
-  String get instanceCompatibilityStatusPageLink => 'status page';
+  String get instanceCompatibilityStatusPageLink => 'stranica statusa';
 
   @override
   String get recentInstances => 'Nedavne instance';
@@ -11666,29 +11677,29 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildNavbarNameLabel => 'Naziv';
 
   @override
-  String get guildNavbarNewChannelHint => 'new-channel';
+  String get guildNavbarNewChannelHint => 'novi-kanal';
 
   @override
   String get guildNavbarUrlLabel => 'URL';
 
   @override
-  String get guildNavbarUrlHint => 'https://example.com';
+  String get guildNavbarUrlHint => 'https://primjer.com';
 
   @override
   String get guildNavbarChannelTypeSelection => 'Odabir vrste kanala';
 
   @override
-  String get guildNavbarPrivateChannel => 'Private channel';
+  String get guildNavbarPrivateChannel => 'Privatni kanal';
 
   @override
   String get guildNavbarPrivateChannelDescription =>
-      'Only selected members and roles will be able to view this channel.';
+      'Samo odabrani članovi i uloge moći će vidjeti ovaj kanal.';
 
   @override
-  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+  String get guildNavbarAddMembersOrRoles => 'Dodaj članove ili uloge';
 
   @override
-  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+  String get guildNavbarAddMembersOrRolesHint => 'Pretraži članove ili uloge';
 
   @override
   String get guildNavbarCreateCategory => 'Stvori kategoriju';
@@ -12353,333 +12364,337 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get permissionSetVoiceRegion => 'Postavi glasovnu regiju';
 
   @override
-  String get permissionManageThreads => 'Manage threads';
+  String get permissionManageThreads => 'Upravljanje nitima';
 
   @override
   String get permissionManageThreadsDescription =>
-      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+      'Preimenovanje, arhiviranje, zaključavanje i brisanje niti, postavljanje usporenog načina rada za njih te pregled privatnih niti.';
 
   @override
-  String get permissionCreatePublicThreads => 'Create public threads';
+  String get permissionCreatePublicThreads => 'Stvori javne niti';
 
   @override
   String get permissionCreatePublicThreadsDescription =>
-      'Start threads that everyone who can view the channel can see.';
+      'Pokretanje niti koje vidi svatko tko može pregledati kanal.';
 
   @override
-  String get permissionCreatePrivateThreads => 'Create private threads';
+  String get permissionCreatePrivateThreads => 'Stvori privatne niti';
 
   @override
   String get permissionCreatePrivateThreadsDescription =>
-      'Start invite-only threads.';
+      'Pokretanje niti samo uz pozivnicu.';
 
   @override
-  String get permissionSendMessagesInThreads => 'Send messages in threads';
+  String get permissionSendMessagesInThreads => 'Šalji poruke u nitima';
 
   @override
   String get permissionSendMessagesInThreadsDescription =>
-      'Send messages in threads and forum posts.';
+      'Slanje poruka u nitima i objavama na forumu.';
 
   @override
-  String get threadErrorArchived => 'This thread is archived.';
+  String get threadErrorArchived => 'Ova je nit zatvorena.';
 
   @override
   String get threadErrorLocked =>
-      'This thread is locked. Only moderators can post or reopen it.';
+      'Ova je nit zaključana. Samo moderatori mogu u nju pisati ili je ponovno otvoriti.';
 
   @override
-  String get threadErrorAlreadyCreated =>
-      'A thread already exists for this message.';
+  String get threadErrorAlreadyCreated => 'Za ovu poruku već postoji nit.';
 
   @override
   String get threadErrorMaxActiveThreads =>
-      'This community has reached its limit of active threads.';
+      'Ova je zajednica dosegnula ograničenje aktivnih niti.';
 
   @override
   String get threadErrorMaxMembers =>
-      'This thread has reached its member limit.';
+      'Ova je nit dosegnula ograničenje članova.';
 
   @override
   String get threadErrorMaxPinnedPosts =>
-      'Only one post can be pinned in this forum.';
+      'Na ovom forumu može biti prikvačena samo jedna objava.';
 
   @override
-  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+  String get threadErrorMaxForumTags => 'Forum može imati najviše 20 oznaka.';
 
   @override
-  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+  String get threadErrorTagNamesUnique =>
+      'Nazivi oznaka moraju biti jedinstveni.';
 
   @override
   String get threadErrorNoTagsForEveryone =>
-      'Add a tag everyone can use before requiring tags.';
+      'Dodajte oznaku koju svi mogu koristiti prije nego što oznake postanu obavezne.';
 
   @override
-  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+  String get threadErrorTagRequired =>
+      'Odaberite barem jednu oznaku za ovu objavu.';
 
   @override
   String get threadErrorUnknownTag =>
-      'One of the selected tags no longer exists.';
+      'Jedna od odabranih oznaka više ne postoji.';
 
   @override
   String get threadErrorInvalidNotificationSettings =>
-      'Those notification settings are not valid for a thread.';
+      'Te postavke obavijesti nisu valjane za nit.';
 
   @override
   String get threadErrorSearchIndexNotReady =>
-      'Posts are still being indexed. Try again in a moment.';
+      'Objave se još indeksiraju. Pokušajte ponovno za trenutak.';
 
   @override
   String get threadErrorInvalidChannelType =>
-      'This action is not available in this channel.';
+      'Ova radnja nije dostupna u ovom kanalu.';
 
   @override
-  String get threadCreate => 'Create thread';
+  String get threadCreate => 'Stvori nit';
 
   @override
-  String get threadName => 'Thread name';
+  String get threadName => 'Naziv niti';
 
   @override
-  String get threadNameRequired => 'Give the thread a name.';
+  String get threadNameRequired => 'Dajte niti naziv.';
 
   @override
-  String get threadNewThreadPlaceholder => 'New thread';
+  String get threadNewThreadPlaceholder => 'Nova nit';
 
   @override
-  String get threadPrivate => 'Private thread';
+  String get threadPrivate => 'Privatna nit';
 
   @override
   String get threadPrivateDescription =>
-      'Only people you invite and moderators can see this thread.';
+      'Ovu nit mogu vidjeti samo osobe koje pozovete i moderatori.';
 
   @override
-  String get threadStarterMessage => 'Message';
+  String get threadStarterMessage => 'Poruka';
 
   @override
   String get threadStarterMessagePlaceholder =>
-      'Enter a message to start the conversation!';
+      'Unesite poruku za početak razgovora!';
 
   @override
   String threadCreateCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can start another thread in $seconds seconds.',
-      one: 'You can start another thread in 1 second.',
+      other: 'Novu nit možete pokrenuti za $seconds sekundi.',
+      few: 'Novu nit možete pokrenuti za $seconds sekunde.',
+      one: 'Novu nit možete pokrenuti za $seconds sekundu.',
     );
     return '$_temp0';
   }
 
   @override
   String threadCreateFailed(String detail) {
-    return 'Could not start the thread: $detail';
+    return 'Nije moguće pokrenuti nit: $detail';
   }
 
   @override
-  String get threadBrowserTitle => 'Threads';
+  String get threadBrowserTitle => 'Niti';
 
   @override
-  String get threadBrowserActive => 'Active';
+  String get threadBrowserActive => 'Aktivne';
 
   @override
-  String get threadBrowserArchived => 'Closed';
+  String get threadBrowserArchived => 'Zatvorene';
 
   @override
-  String get threadBrowserJoined => 'Joined';
+  String get threadBrowserJoined => 'Pridružene';
 
   @override
-  String get threadBrowserOtherActive => 'Other active threads';
+  String get threadBrowserOtherActive => 'Ostale aktivne niti';
 
   @override
-  String get threadBrowserPublic => 'Public threads';
+  String get threadBrowserPublic => 'Javne niti';
 
   @override
-  String get threadBrowserPrivate => 'Private threads';
+  String get threadBrowserPrivate => 'Privatne niti';
 
   @override
   String get threadBrowserEmpty =>
-      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+      'Nema niti. Ostanite usredotočeni na razgovor uz nit, privremeni tekstualni kanal.';
 
   @override
-  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+  String get threadBrowserArchivedEmpty => 'Nema zatvorenih niti.';
 
   @override
-  String get threadBrowserLoadMore => 'Load more';
+  String get threadBrowserLoadMore => 'Učitaj više';
 
   @override
-  String get threadBrowserSearch => 'Search threads';
+  String get threadBrowserSearch => 'Pretraži niti';
 
   @override
-  String get threadBrowserSearchEmpty => 'No threads match';
+  String get threadBrowserSearchEmpty => 'Nema odgovarajućih niti';
 
   @override
   String get threadBrowserSearchEmptyHint =>
-      'Try a different name or check the other tab.';
+      'Isprobajte drugi naziv ili provjerite drugu karticu.';
 
   @override
   String get threadBrowserSearchFailed =>
-      'Couldn\'t search threads. Try again later.';
+      'Nije moguće pretražiti niti. Pokušajte ponovno kasnije.';
 
   @override
   String get threadBrowserSearchIndexing =>
-      'Search is getting ready for this community. Trying again shortly...';
+      'Pretraživanje se priprema za ovu zajednicu. Uskoro ćemo pokušati ponovno...';
 
   @override
   String threadMessageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count messages',
-      one: '1 message',
+      other: '$count poruka',
+      few: '$count poruke',
+      one: '$count poruka',
     );
     return '$_temp0';
   }
 
   @override
   String get threadFailedToMentionSomeRoles =>
-      'Some mentioned roles were not added to this thread.';
+      'Neke spomenute uloge nisu dodane u ovu nit.';
 
   @override
-  String get threadMembers => 'Thread members';
+  String get threadMembers => 'Članovi niti';
 
   @override
   String threadMembersCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '1 member',
+      other: '$count članova',
+      few: '$count člana',
+      one: '$count član',
     );
     return '$_temp0';
   }
 
   @override
-  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+  String get threadMembersEmpty => 'Još se nitko nije pridružio ovoj niti.';
 
   @override
   String threadRemoveMember(String name) {
-    return 'Remove $name from thread';
+    return 'Ukloni $name iz niti';
   }
 
   @override
-  String get threadJoin => 'Join thread';
+  String get threadJoin => 'Pridruži se niti';
 
   @override
-  String get threadLeave => 'Leave thread';
+  String get threadLeave => 'Napusti nit';
 
   @override
   String get threadJoinNotice =>
-      'Join this thread to follow it in your channel list and get notifications.';
+      'Pridružite se ovoj niti kako biste je pratili na popisu kanala i primali obavijesti.';
 
   @override
   String get threadArchivedNotice =>
-      'This thread is closed. Sending a message will open it again.';
+      'Ova nit je zatvorena. Slanje poruke ponovno će je otvoriti.';
 
   @override
   String get threadLockedNotice =>
-      'This thread is locked. Only moderators can send messages.';
+      'Ova nit je zaključana. Samo moderatori mogu slati poruke.';
 
   @override
-  String get threadArchive => 'Close thread';
+  String get threadArchive => 'Zatvori nit';
 
   @override
-  String get threadUnarchive => 'Open thread again';
+  String get threadUnarchive => 'Ponovno otvori nit';
 
   @override
-  String get threadLock => 'Lock thread';
+  String get threadLock => 'Zaključaj nit';
 
   @override
-  String get threadUnlock => 'Unlock thread';
+  String get threadUnlock => 'Otključaj nit';
 
   @override
-  String get threadDelete => 'Delete thread';
+  String get threadDelete => 'Izbriši nit';
 
   @override
   String threadDeleteConfirm(String threadName) {
-    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+    return 'Jeste li sigurni da želite izbrisati $threadName? Ovo se ne može poništiti.';
   }
 
   @override
-  String get threadDeleted => 'Thread deleted';
+  String get threadDeleted => 'Nit izbrisana';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => 'Označi kao pročitano';
 
   @override
-  String get threadMute => 'Mute thread';
+  String get threadMute => 'Isključi obavijesti za nit';
 
   @override
-  String get threadUnmute => 'Unmute thread';
+  String get threadUnmute => 'Uključi obavijesti za nit';
 
   @override
-  String get threadMuted => 'Thread muted';
+  String get threadMuted => 'Obavijesti za nit su isključene';
 
   @override
-  String get threadUnmuted => 'Thread unmuted';
+  String get threadUnmuted => 'Obavijesti za nit su uključene';
 
   @override
-  String get threadNotificationSettings => 'Notification settings';
+  String get threadNotificationSettings => 'Postavke obavijesti';
 
   @override
-  String get threadNotificationParentDefault => 'Use channel default';
+  String get threadNotificationParentDefault => 'Upotrijebi zadano za kanal';
 
   @override
-  String get threadCopyLink => 'Copy link';
+  String get threadCopyLink => 'Kopiraj poveznicu';
 
   @override
-  String get threadCopyId => 'Copy thread ID';
+  String get threadCopyId => 'Kopiraj ID niti';
 
   @override
-  String get threadMoreOptions => 'More options';
+  String get threadMoreOptions => 'Više opcija';
 
   @override
-  String get threadSettings => 'Thread settings';
+  String get threadSettings => 'Postavke niti';
 
   @override
-  String get threadSettingsSaved => 'Thread settings saved';
+  String get threadSettingsSaved => 'Postavke niti spremljene';
 
   @override
-  String get threadAutoArchive => 'Hide after inactivity';
+  String get threadAutoArchive => 'Sakrij nakon neaktivnosti';
 
   @override
   String get threadAutoArchiveDescription =>
-      'The thread stops showing in the channel list after this period of inactivity.';
+      'Nit se prestaje prikazivati na popisu kanala nakon ovog razdoblja neaktivnosti.';
 
   @override
-  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+  String get threadDefaultAutoArchive => 'Zadano skrivanje nakon neaktivnosti';
 
   @override
   String get threadDefaultAutoArchiveDescription =>
-      'New threads stop showing in the channel list after this period of inactivity.';
+      'Nove niti prestaju se prikazivati na popisu kanala nakon ovog razdoblja neaktivnosti.';
 
   @override
-  String get threadDefaultSlowmode => 'Default thread slowmode';
+  String get threadDefaultSlowmode => 'Zadani usporeni način rada za niti';
 
   @override
-  String get threadAutoArchiveOneHour => '1 Hour';
+  String get threadAutoArchiveOneHour => '1 sat';
 
   @override
-  String get threadAutoArchiveOneDay => '24 Hours';
+  String get threadAutoArchiveOneDay => '24 sata';
 
   @override
-  String get threadAutoArchiveThreeDays => '3 Days';
+  String get threadAutoArchiveThreeDays => '3 dana';
 
   @override
-  String get threadAutoArchiveOneWeek => '1 Week';
+  String get threadAutoArchiveOneWeek => '1 tjedan';
 
   @override
-  String get threadInvitable => 'Allow anyone to invite';
+  String get threadInvitable => 'Dopusti svima da pozovu';
 
   @override
   String get threadInvitableDescription =>
-      'Members of this private thread can add other people.';
+      'Članovi ove privatne niti mogu dodavati druge osobe.';
 
   @override
   String threadStartedBy(String name) {
-    return 'Started by $name';
+    return 'Pokrenuo/la $name';
   }
 
   @override
-  String get threadStarterDeleted => 'Original message was deleted.';
+  String get threadStarterDeleted => 'Izvorna poruka je izbrisana.';
 
   @override
   String systemThreadCreated(
@@ -12687,18 +12702,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
     String threadLink,
     String allThreadsLink,
   ) {
-    return '$username started a thread: $threadLink. See $allThreadsLink.';
+    return '$username je pokrenuo/la nit: $threadLink. Pogledajte $allThreadsLink.';
   }
 
   @override
-  String get systemThreadCreatedAllThreadsLink => 'all threads';
+  String get systemThreadCreatedAllThreadsLink => 'sve niti';
 
   @override
-  String get systemThreadCreatedThreadFallback => 'a thread';
+  String get systemThreadCreatedThreadFallback => 'nit';
 
   @override
   String systemPreviewThreadCreated(String username) {
-    return '$username started a thread.';
+    return '$username je pokrenuo/la nit.';
   }
 
   @override
@@ -12819,13 +12834,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get auditLogActionChannelDelete => 'Kanal izbrisan';
 
   @override
-  String get auditLogActionThreadCreate => 'Thread created';
+  String get auditLogActionThreadCreate => 'Nit stvorena';
 
   @override
-  String get auditLogActionThreadUpdate => 'Thread updated';
+  String get auditLogActionThreadUpdate => 'Nit ažurirana';
 
   @override
-  String get auditLogActionThreadDelete => 'Thread deleted';
+  String get auditLogActionThreadDelete => 'Nit izbrisana';
 
   @override
   String get auditLogActionChannelOverwriteCreate => 'Dozvola kanala dodana';
@@ -12944,17 +12959,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String auditLogSummaryThreadCreate(String actor, String target) {
-    return '$actor started the thread $target.';
+    return '$actor je pokrenuo nit $target.';
   }
 
   @override
   String auditLogSummaryThreadUpdate(String actor, String target) {
-    return '$actor updated the thread $target.';
+    return '$actor je ažurirao nit $target.';
   }
 
   @override
   String auditLogSummaryThreadDelete(String actor, String target) {
-    return '$actor deleted the thread $target.';
+    return '$actor je izbrisao nit $target.';
   }
 
   @override
@@ -13256,49 +13271,50 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ažurirana je ikona zajednice.';
 
   @override
-  String get auditLogChangePausedInvites => 'Paused invites.';
+  String get auditLogChangePausedInvites => 'Pozivnice su pauzirane.';
 
   @override
-  String get auditLogChangeResumedInvites => 'Resumed invites.';
+  String get auditLogChangeResumedInvites => 'Pozivnice su ponovno uključene.';
 
   @override
   String get auditLogChangeTurnedOnDetachedBanner =>
-      'Turned on the detached banner.';
+      'Uključen je odvojeni baner.';
 
   @override
   String get auditLogChangeTurnedOffDetachedBanner =>
-      'Turned off the detached banner.';
+      'Isključen je odvojeni baner.';
 
   @override
   String get auditLogChangeAllowedFlexibleChannelNames =>
-      'Allowed flexible text channel names.';
+      'Dopušteni su fleksibilni nazivi tekstualnih kanala.';
 
   @override
   String get auditLogChangeDisallowedFlexibleChannelNames =>
-      'Stopped allowing flexible text channel names.';
+      'Fleksibilni nazivi tekstualnih kanala više nisu dopušteni.';
 
   @override
-  String get auditLogChangeHidOwnerCrown => 'Hid the community owner crown.';
+  String get auditLogChangeHidOwnerCrown =>
+      'Skrivena je kruna vlasnika zajednice.';
 
   @override
   String get auditLogChangeShowedOwnerCrown =>
-      'Stopped hiding the community owner crown.';
+      'Kruna vlasnika zajednice više nije skrivena.';
 
   @override
   String get auditLogChangeAllowedEmojiCloning =>
-      'Allowed others to clone this community\'s emojis.';
+      'Drugima je dopušteno kloniranje emojija ove zajednice.';
 
   @override
   String get auditLogChangeStoppedEmojiCloning =>
-      'Stopped allowing others to clone this community\'s emojis.';
+      'Drugima više nije dopušteno kloniranje emojija ove zajednice.';
 
   @override
   String get auditLogChangeAllowedStickerCloning =>
-      'Allowed others to clone this community\'s stickers.';
+      'Drugima je dopušteno kloniranje naljepnica ove zajednice.';
 
   @override
   String get auditLogChangeStoppedStickerCloning =>
-      'Stopped allowing others to clone this community\'s stickers.';
+      'Drugima više nije dopušteno kloniranje naljepnica ove zajednice.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
@@ -13924,16 +13940,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nije bilo moguće izbrisati ovu zajednicu';
 
   @override
-  String get guildSettingsCategoryExpressions => 'Expressions';
+  String get guildSettingsCategoryExpressions => 'Izrazi';
 
   @override
-  String get guildSettingsCategoryCommunity => 'Community';
+  String get guildSettingsCategoryCommunity => 'Zajednica';
 
   @override
-  String get guildSettingsCategoryIntegrations => 'Integrations';
+  String get guildSettingsCategoryIntegrations => 'Integracije';
 
   @override
-  String get guildSettingsCategoryPeople => 'People';
+  String get guildSettingsCategoryPeople => 'Osobe';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Brendiranje';
@@ -15166,70 +15182,71 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get forumChannelTypeForumDescription =>
-      'Posts organized by topic and tags';
+      'Objave organizirane po temi i oznakama';
 
   @override
-  String get forumChannelTypeMedia => 'Media';
+  String get forumChannelTypeMedia => 'Mediji';
 
   @override
   String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos';
+      'Objave temeljene na slikama i videozapisima';
 
   @override
-  String get forumNewPost => 'New post';
+  String get forumNewPost => 'Nova objava';
 
   @override
-  String get forumNewMediaPost => 'New media post';
+  String get forumNewMediaPost => 'Nova medijska objava';
 
   @override
-  String get forumSearchPosts => 'Search posts';
+  String get forumSearchPosts => 'Pretraži objave';
 
   @override
-  String get forumViewOptions => 'Sort and view';
+  String get forumViewOptions => 'Razvrstavanje i prikaz';
 
   @override
   String get forumSearchIndexing =>
-      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+      'Pretraživanje se još priprema za ovu zajednicu. Objave će se ovdje pojaviti čim bude spremno.';
 
   @override
-  String get forumNoPosts => 'There are no posts yet';
+  String get forumNoPosts => 'Još nema objava';
 
   @override
-  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+  String get forumNoPostsHint => 'Budite prvi koji će započeti razgovor ovdje.';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search';
+  String get forumNoSearchResults =>
+      'Nema objava koje odgovaraju vašoj pretrazi';
 
   @override
   String get forumNoSearchResultsHint =>
-      'Try different words or clear the tag filter.';
+      'Isprobajte druge riječi ili uklonite filtar oznake.';
 
   @override
-  String get forumCreateFirstPost => 'Create the first post';
+  String get forumCreateFirstPost => 'Stvorite prvu objavu';
 
   @override
-  String get forumOlderPosts => 'Older posts';
+  String get forumOlderPosts => 'Starije objave';
 
   @override
-  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+  String get forumPostsLoadFailed => 'Nije moguće učitati objave.';
 
   @override
-  String get forumRetry => 'Try again';
+  String get forumRetry => 'Pokušaj ponovno';
 
   @override
-  String get forumPostPinned => 'Pinned';
+  String get forumPostPinned => 'Prikvačeno';
 
   @override
-  String get forumPostLocked => 'Locked';
+  String get forumPostLocked => 'Zaključano';
 
   @override
-  String get forumPostArchived => 'Archived';
+  String get forumPostArchived => 'Arhivirano';
 
   @override
   String get forumPostNewBadge => 'Novo';
 
   @override
-  String get forumPostStarterDeleted => 'The original message was deleted.';
+  String get forumPostStarterDeleted => 'Izvorna poruka je izbrisana.';
 
   @override
   String forumPostSnippet(String author, String content) {
@@ -15248,927 +15265,950 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get forumPostReact => 'Add the default reaction';
+  String get forumPostReact => 'Dodaj zadanu reakciju';
 
   @override
-  String get forumOpenPost => 'Open post';
+  String get forumOpenPost => 'Otvori objavu';
 
   @override
-  String get forumEditTags => 'Edit tags';
+  String get forumEditTags => 'Uredi oznake';
 
   @override
-  String get forumSaveTags => 'Save tags';
+  String get forumSaveTags => 'Spremi oznake';
 
   @override
   String forumTagsLimitHint(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pick up to $count tags.',
-      one: 'Pick up to 1 tag.',
+      other: 'Odaberite najviše $count oznaka.',
+      few: 'Odaberite najviše $count oznake.',
+      one: 'Odaberite najviše $count oznaku.',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPinPost => 'Pin post';
+  String get forumPinPost => 'Prikvači objavu';
 
   @override
-  String get forumUnpinPost => 'Unpin post';
+  String get forumUnpinPost => 'Otkvači objavu';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead => 'Označi kao pročitano';
 
   @override
-  String get forumCopyPostLink => 'Copy link';
+  String get forumCopyPostLink => 'Kopiraj poveznicu';
 
   @override
-  String get forumPostGuidelines => 'Post guidelines';
+  String get forumPostGuidelines => 'Smjernice za objave';
 
   @override
   String get forumGuidelinesPlaceholder =>
-      'Tell people what to post here and how to post it.';
+      'Recite ljudima što ovdje trebaju objavljivati i kako.';
 
   @override
-  String get forumPostTitle => 'Title';
+  String get forumPostTitle => 'Naslov';
 
   @override
-  String get forumPostMessage => 'Message';
+  String get forumPostMessage => 'Poruka';
 
   @override
-  String get forumPostMessagePlaceholder =>
-      'Write the first message of your post';
+  String get forumPostMessagePlaceholder => 'Napišite prvu poruku svoje objave';
 
   @override
-  String get forumPostMediaPlaceholder => 'Add a caption';
+  String get forumPostMediaPlaceholder => 'Dodajte opis';
 
   @override
-  String get forumPostTags => 'Tags';
+  String get forumPostTags => 'Oznake';
 
   @override
-  String get forumPostTagsRequired => 'Tags (required)';
+  String get forumPostTagsRequired => 'Oznake (obavezno)';
 
   @override
-  String get forumPostAddMedia => 'Add media';
+  String get forumPostAddMedia => 'Dodaj medij';
 
   @override
-  String get forumPostAddFile => 'Add file';
+  String get forumPostAddFile => 'Dodaj datoteku';
 
   @override
-  String get forumPostRemoveAttachment => 'Remove attachment';
+  String get forumPostRemoveAttachment => 'Ukloni privitak';
 
   @override
-  String get forumPostSubmit => 'Post';
+  String get forumPostSubmit => 'Objavi';
 
   @override
-  String get forumPostTitleRequired => 'Give your post a title.';
+  String get forumPostTitleRequired => 'Dodajte naslov svojoj objavi.';
 
   @override
   String get forumPostMediaRequired =>
-      'Add at least one image or video to post here.';
+      'Dodajte barem jednu sliku ili videozapis da biste ovdje objavili.';
 
   @override
-  String get forumPostContentRequired => 'Write a message or add a file.';
+  String get forumPostContentRequired =>
+      'Napišite poruku ili dodajte datoteku.';
 
   @override
-  String get forumSortLatestActivity => 'Recently active';
+  String get forumSortLatestActivity => 'Nedavna aktivnost';
 
   @override
-  String get forumSortCreationTime => 'Date posted';
+  String get forumSortCreationTime => 'Datum objave';
 
   @override
-  String get forumLayoutList => 'List view';
+  String get forumLayoutList => 'Prikaz popisa';
 
   @override
-  String get forumLayoutGallery => 'Gallery view';
+  String get forumLayoutGallery => 'Prikaz galerije';
 
   @override
-  String get forumNewPostsUnread => 'Show unread for new posts';
+  String get forumNewPostsUnread => 'Prikaži nepročitano za nove objave';
 
   @override
   String get forumNewPostsUnreadDescription =>
-      'Mark this channel unread when someone creates a post.';
+      'Označi ovaj kanal kao nepročitan kada netko stvori objavu.';
 
   @override
-  String get forumPostSlowmode => 'Post slowmode';
+  String get forumPostSlowmode => 'Usporeni način rada za objave';
 
   @override
   String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
-    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'Čekanje između stvaranja objava. Članovi s dopuštenjem „$bypassSlowmodePermissionLabel” mogu ga zaobići.';
   }
 
   @override
-  String get forumMessageSlowmode => 'Message slowmode in posts';
+  String get forumMessageSlowmode => 'Usporeni način rada za poruke u objavama';
 
   @override
   String get forumMessageSlowmodeDescription =>
-      'Slowmode applied to messages in new posts.';
+      'Usporeni način rada koji se primjenjuje na poruke u novim objavama.';
 
   @override
-  String get forumDefaultAutoArchive => 'Hide after inactivity';
+  String get forumDefaultAutoArchive => 'Sakrij nakon neaktivnosti';
 
   @override
   String get forumDefaultAutoArchiveDescription =>
-      'New posts are archived after this long without activity.';
+      'Nove objave arhiviraju se nakon ovoliko vremena bez aktivnosti.';
 
   @override
-  String get forumDefaultReaction => 'Default reaction';
+  String get forumDefaultReaction => 'Zadana reakcija';
 
   @override
-  String get forumSetDefaultReaction => 'Pick an emoji';
+  String get forumSetDefaultReaction => 'Odaberi emoji';
 
   @override
-  String get forumChangeDefaultReaction => 'Change';
+  String get forumChangeDefaultReaction => 'Promijeni';
 
   @override
-  String get forumRemoveDefaultReaction => 'Remove';
+  String get forumRemoveDefaultReaction => 'Ukloni';
 
   @override
-  String get forumDefaultSortOrder => 'Default sort order';
+  String get forumDefaultSortOrder => 'Zadani redoslijed razvrstavanja';
 
   @override
-  String get forumDefaultLayout => 'Default layout';
+  String get forumDefaultLayout => 'Zadani izgled';
 
   @override
-  String get forumTagMatchSetting => 'Tag filter';
+  String get forumTagMatchSetting => 'Filtar oznaka';
 
   @override
-  String get forumTagMatchSome => 'Match any selected tag';
+  String get forumTagMatchSome => 'Bilo koja odabrana oznaka';
 
   @override
-  String get forumTagMatchAll => 'Match all selected tags';
+  String get forumTagMatchAll => 'Sve odabrane oznake';
 
   @override
-  String get forumRequireTag => 'Require tags';
+  String get forumRequireTag => 'Zahtijevaj oznake';
 
   @override
   String get forumRequireTagDescription =>
-      'People must pick at least one tag when they create a post.';
+      'Pri stvaranju objave potrebno je odabrati barem jednu oznaku.';
 
   @override
-  String get forumHideMediaDownloads => 'Hide media download options';
+  String get forumHideMediaDownloads => 'Sakrij opcije preuzimanja medija';
 
   @override
   String get forumHideMediaDownloadsDescription =>
-      'Hide download, open in browser and copy link for images and videos in posts.';
+      'Sakrij preuzimanje, otvaranje u pregledniku i kopiranje poveznice za slike i videozapise u objavama.';
 
   @override
   String forumTagsTitle(int count, int max) {
-    return 'Tags ($count/$max)';
+    return 'Oznake ($count/$max)';
   }
 
   @override
   String get forumTagsDescription =>
-      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+      'Oznake pomažu ljudima pronaći i filtrirati objave. Samo moderatori mogu dodijeliti moderirane oznake.';
 
   @override
-  String get forumCreateTag => 'Create tag';
+  String get forumCreateTag => 'Stvori oznaku';
 
   @override
-  String get forumEditTag => 'Edit tag';
+  String get forumEditTag => 'Uredi oznaku';
 
   @override
-  String get forumSaveTag => 'Save tag';
+  String get forumSaveTag => 'Spremi oznaku';
 
   @override
-  String get forumDeleteTag => 'Delete tag';
+  String get forumDeleteTag => 'Izbriši oznaku';
 
   @override
-  String get forumTagName => 'Tag name';
+  String get forumTagName => 'Naziv oznake';
 
   @override
   String get forumTagEmoji => 'Emoji';
 
   @override
-  String get forumTagRemoveEmoji => 'Remove emoji';
+  String get forumTagRemoveEmoji => 'Ukloni emoji';
 
   @override
-  String get forumTagModerated => 'Only moderators can apply';
+  String get forumTagModerated => 'Mogu dodijeliti samo moderatori';
 
   @override
   String get forumTagModeratedDescription =>
-      'Only members who can manage threads can apply or remove this tag.';
+      'Ovu oznaku mogu dodijeliti ili ukloniti samo članovi koji mogu upravljati nitima.';
 
   @override
-  String get forumTagModeratedBadge => 'Moderated';
+  String get forumTagModeratedBadge => 'Moderirano';
 
   @override
   String forumPostCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can post again in $seconds seconds.',
-      one: 'You can post again in 1 second.',
+      other: 'Ponovno možete objaviti za $seconds sekundi.',
+      few: 'Ponovno možete objaviti za $seconds sekunde.',
+      one: 'Ponovno možete objaviti za $seconds sekundu.',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceP2pStartTitle => 'Start in P2P mode?';
+  String get voiceP2pStartTitle => 'Započeti u P2P načinu?';
 
   @override
   String voiceP2pStartDescription(int maxParticipants) {
-    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+    return 'Zvuk i video idu izravno između sudionika, uz manju latenciju. Drugi sudionici mogu vidjeti vašu IP adresu. Najveći broj sudionika je $maxParticipants. Tko se ne može povezati izravno, ne može sudjelovati dok netko ne prebaci na standardni poziv.';
   }
 
   @override
-  String get voiceP2pStartConfirm => 'Start in P2P mode';
+  String get voiceP2pStartConfirm => 'Započni u P2P načinu';
 
   @override
-  String get voiceP2pStartStandard => 'Start standard call';
+  String get voiceP2pStartStandard => 'Započni standardni poziv';
 
   @override
-  String get voiceP2pJoinTitle => 'Join a P2P call?';
+  String get voiceP2pJoinTitle => 'Pridružiti se P2P pozivu?';
 
   @override
   String voiceP2pJoinDescription(int maxParticipants) {
-    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+    return 'Ovaj poziv izravno povezuje sudionike. Drugi sudionici mogu vidjeti vašu IP adresu. Najveći broj sudionika je $maxParticipants. Ako se ne možete povezati izravno, ne možete sudjelovati dok netko ne prebaci na standardni poziv.';
   }
 
   @override
   String voiceP2pPinnedJoinDescription(int maxParticipants) {
-    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+    return 'Ovaj kanal dopušta samo P2P pozive. Sudionici se povezuju izravno i mogu vidjeti vašu IP adresu. Najveći broj sudionika je $maxParticipants. Ako se ne možete povezati izravno, ne možete sudjelovati.';
   }
 
   @override
-  String get voiceP2pJoinConfirm => 'Join';
+  String get voiceP2pJoinConfirm => 'Pridruži se';
 
   @override
-  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+  String get voiceP2pAlwaysAgreeLabel => 'Ne pitaj ponovno, uvijek pristani';
 
   @override
   String get voiceP2pAlwaysAgreeSettingLabel =>
-      'Always agree to join P2P calls';
+      'Uvijek pristani na pridruživanje P2P pozivima';
 
   @override
   String get voiceP2pAlwaysAgreeSettingDescription =>
-      'Join P2P calls without asking. Other participants can see your IP address.';
+      'Pridružite se P2P pozivima bez pitanja. Drugi sudionici mogu vidjeti vašu IP adresu.';
 
   @override
   String get voiceP2pIndicatorLabel => 'P2P';
 
   @override
   String get voiceP2pIndicatorDescription =>
-      'Direct connection. Media is encrypted between participants.';
+      'Izravna veza. Mediji su šifrirani između sudionika.';
 
   @override
-  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+  String get voiceP2pSwitchToStandard => 'Prebaci na standardni poziv';
 
   @override
   String get voiceP2pSwitchToStandardDescription =>
-      'Everyone in the call moves to a standard call through the server.';
+      'Svi u pozivu prelaze na standardni poziv preko poslužitelja.';
 
   @override
   String get voiceP2pPeerFailedDescription =>
-      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+      'Izravnu vezu nije bilo moguće uspostaviti. Napustite poziv ili prebacite sve na standardni poziv.';
 
   @override
-  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+  String get voiceP2pUnavailableError => 'P2P pozivi trenutno nisu dostupni.';
 
   @override
   String get voiceP2pConsentRequiredError =>
-      'This call is P2P and needs your agreement to join.';
+      'Ovo je P2P poziv i za pridruživanje je potreban vaš pristanak.';
 
   @override
-  String get voiceChannelFullError => 'This call is full.';
+  String get voiceChannelFullError => 'Ovaj je poziv pun.';
 
   @override
   String get voiceP2pScreenShareUnavailable =>
-      'Screen sharing from this device is not available in P2P calls.';
+      'Dijeljenje zaslona s ovog uređaja nije dostupno u P2P pozivima.';
 
   @override
-  String get channelMenuJoinP2p => 'Start P2P call';
+  String get channelMenuJoinP2p => 'Pokreni P2P poziv';
 
   @override
-  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+  String get channelSettingsRtcP2pLabel => 'Samo P2P pozivi';
 
   @override
   String channelSettingsRtcP2pDescription(int maxParticipants) {
-    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+    return 'Sudionici se povezuju izravno i mogu vidjeti IP adrese jedni drugih. Svi moraju pristati prije pridruživanja. Najveći broj sudionika je $maxParticipants.';
   }
 
   @override
   String voiceP2pPeerFailedTitle(String name) {
-    return 'Cannot connect directly to $name';
+    return 'Nije moguće izravno se povezati s korisnikom $name';
   }
 
   @override
   String get favoritesRenameCategory => 'Preimenuj kategoriju';
 
   @override
-  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+  String get friendAcceptFailedTitle =>
+      'Nije moguće prihvatiti zahtjev za prijateljstvo';
 
   @override
   String get friendAcceptUnavailable =>
-      'That friend request is no longer available. Refresh and try again.';
+      'Taj zahtjev za prijateljstvo više nije dostupan. Osvježite i pokušajte ponovno.';
 
   @override
   String get friendAcceptClaimToAccept =>
-      'Finish signing up to accept friend requests.';
+      'Dovršite registraciju kako biste prihvatili zahtjeve za prijateljstvo.';
 
   @override
   String get friendAcceptFailedMessage =>
-      'Couldn\'t accept the friend request. Try again.';
+      'Nije moguće prihvatiti zahtjev za prijateljstvo. Pokušajte ponovno.';
 
   @override
-  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+  String get friendCancelFailedTitle =>
+      'Nije moguće otkazati zahtjev za prijateljstvo';
 
   @override
-  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+  String get friendIgnoreFailedTitle =>
+      'Nije moguće zanemariti zahtjev za prijateljstvo';
 
   @override
   String get friendIgnoreFailedMessage =>
-      'Couldn\'t ignore the friend request. Try again.';
+      'Nije moguće zanemariti zahtjev za prijateljstvo. Pokušajte ponovno.';
 
   @override
-  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+  String get friendRemoveFailedTitle => 'Nije moguće ukloniti prijatelja';
 
   @override
   String get friendRemoveFailedMessage =>
-      'Couldn\'t remove this friend. Try again.';
+      'Nije moguće ukloniti ovog prijatelja. Pokušajte ponovno.';
 
   @override
-  String get userBlockFailedTitle => 'Couldn\'t block user';
+  String get userBlockFailedTitle => 'Nije moguće blokirati korisnika';
 
   @override
-  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+  String get userBlockSystemAccount => 'Ovaj se račun ne može blokirati.';
 
   @override
-  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+  String get userBlockFailedMessage =>
+      'Nije moguće blokirati ovog korisnika. Pokušajte ponovno.';
 
   @override
-  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+  String get userUnblockFailedTitle => 'Nije moguće deblokirati korisnika';
 
   @override
   String get userUnblockFailedMessage =>
-      'Couldn\'t unblock this user. Try again.';
+      'Nije moguće deblokirati ovog korisnika. Pokušajte ponovno.';
 
   @override
   String friendCancelRequestConfirmDescription(String userName) {
-    return 'Cancel your friend request to $userName?';
+    return 'Želite li otkazati zahtjev za prijateljstvo korisniku $userName?';
   }
 
   @override
-  String get errorSomethingWentWrongTitle => 'Something went wrong';
+  String get errorSomethingWentWrongTitle => 'Nešto je pošlo po zlu';
 
   @override
   String get errorUnexpectedTryAgain =>
-      'An unexpected error occurred. Try again.';
+      'Došlo je do neočekivane pogreške. Pokušajte ponovno.';
 
   @override
-  String get errorMessagingPausedTitle => 'Messaging is paused';
+  String get errorMessagingPausedTitle => 'Slanje poruka je pauzirano';
 
   @override
   String get errorMessagingPausedMessage =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'Slanje poruka na vašem računu je pauzirano. Pogledajte e-poštu: dovoljan je jedan brzi korak za nastavak.';
 
   @override
-  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+  String get errorFeatureDisabledTitle => 'Značajka je privremeno onemogućena';
 
   @override
   String get errorFeatureDisabledMessage =>
-      'This feature is paused. Try again later.';
+      'Ova je značajka pauzirana. Pokušajte ponovno kasnije.';
 
   @override
   String get dmErrorStartConversationTitle =>
-      'Couldn\'t start this conversation';
+      'Nije moguće započeti ovaj razgovor';
 
   @override
   String get dmErrorCannotMessageMessage =>
-      'They might not be accepting messages from you, or you no longer share a community.';
+      'Možda ne prihvaćaju poruke od vas ili više ne dijelite zajednicu.';
 
   @override
   String get dmErrorUnknownUserMessage =>
-      'This user no longer exists. Refresh and try again.';
+      'Ovaj korisnik više ne postoji. Osvježite i pokušajte ponovno.';
 
   @override
   String get dmErrorClaimMessage =>
-      'You need to claim your account before you can start a direct message.';
+      'Morate preuzeti svoj račun prije nego što možete započeti izravnu poruku.';
 
   @override
   String get dmErrorVerifyEmailMessage =>
-      'You need to verify your email address before you can start a direct message.';
+      'Morate potvrditi svoju adresu e-pošte prije nego što možete započeti izravnu poruku.';
 
   @override
-  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+  String get dmErrorTooManyRecipientsTitle => 'Ova grupa ima previše ljudi';
 
   @override
   String get dmErrorTooManyRecipientsMessage =>
-      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+      'Dodali ste više osoba nego što grupna izravna poruka dopušta. Uklonite ih nekoliko i pokušajte ponovno.';
 
   @override
-  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+  String get dmErrorMaxGroupDmsTitle =>
+      'Dosegli ste ograničenje grupnih izravnih poruka';
 
   @override
   String get dmErrorMaxGroupDmsMessage =>
-      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+      'Vi ili netko koga dodajete već ima maksimalan broj otvorenih grupnih izravnih poruka. Napustite jednu i pokušajte ponovno.';
 
   @override
-  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+  String get groupDmAddFailedTitle => 'Nije moguće dodati u grupu';
 
   @override
-  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+  String get groupDmInviteFailedTitle =>
+      'Nije moguće stvoriti poveznicu za pozivnicu';
 
   @override
-  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+  String get dmCloseFailedTitle => 'Nije moguće zatvoriti izravnu poruku';
 
   @override
-  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+  String get groupDmLeaveFailedTitle => 'Nije moguće napustiti grupu';
 
   @override
-  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+  String get inviteJoinFailedTitle => 'Nije moguće pridružiti se zajednici';
 
   @override
   String get inviteErrorPausedMessage =>
-      'Admins paused invites — you can\'t join right now.';
+      'Administratori su pauzirali pozivnice — trenutačno se ne možete pridružiti.';
 
   @override
-  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+  String get inviteErrorAtCapacityTitle => 'Zajednica je puna';
 
   @override
   String get inviteErrorAtCapacityMessage =>
-      'This community has reached its maximum member limit and is not accepting new members at this time.';
+      'Ova je zajednica dosegla maksimalan broj članova i trenutačno ne prima nove članove.';
 
   @override
-  String get inviteErrorPresenceTitle => 'Gateway connection required';
+  String get inviteErrorPresenceTitle => 'Potrebna je aktivna veza';
 
   @override
   String get inviteErrorPresenceMessage =>
-      'Temporary invites need a live connection. Check yours and try again.';
+      'Privremene pozivnice zahtijevaju aktivnu vezu. Provjerite je i pokušajte ponovno.';
 
   @override
-  String get inviteErrorBannedTitle => 'You\'re banned';
+  String get inviteErrorBannedTitle => 'Zabranjen vam je pristup';
 
   @override
   String get inviteErrorBannedMessage =>
-      'You are banned from this community and cannot join.';
+      'Zabranjen vam je pristup ovoj zajednici i ne možete se pridružiti.';
 
   @override
-  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+  String get inviteErrorIpBannedTitle => 'Vaša IP adresa je zabranjena';
 
   @override
   String get inviteErrorIpBannedMessage =>
-      'Your IP address is banned from this community and you cannot join.';
+      'Vaša IP adresa je zabranjena u ovoj zajednici i ne možete se pridružiti.';
 
   @override
-  String get inviteErrorClaimTitle => 'Account verification required';
+  String get inviteErrorClaimTitle => 'Potrebna je provjera računa';
 
   @override
   String get inviteErrorClaimMessage =>
-      'Add an email and password to your account first.';
+      'Prvo dodajte e-poštu i lozinku svom računu.';
 
   @override
-  String get leaveCommunityFailedTitle => 'Failed to leave community';
+  String get leaveCommunityFailedTitle => 'Napuštanje zajednice nije uspjelo';
 
   @override
   String get leaveCommunityFailedMessage =>
-      'Couldn\'t leave right now. Try again in a moment.';
+      'Zajednicu trenutačno nije moguće napustiti. Pokušajte ponovno za nekoliko trenutaka.';
 
   @override
-  String get chatSendFailedTitle => 'Your message didn\'t send';
+  String get chatSendFailedTitle => 'Vaša poruka nije poslana';
 
   @override
-  String get chatSendFailedMessage => 'Try sending your message again.';
+  String get chatSendFailedMessage => 'Pokušajte ponovno poslati poruku.';
 
   @override
-  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+  String get chatSendTooQuickTitle => 'Prebrzo šaljete poruke';
 
   @override
   String get chatRateLimitedMessage =>
-      'Slow down — wait a moment before trying again.';
+      'Usporite — pričekajte trenutak prije nego što pokušate ponovno.';
 
   @override
-  String get chatMatureContentTitle => 'Mature content not allowed';
+  String get chatMatureContentTitle => 'Sadržaj za odrasle nije dopušten';
 
   @override
   String get chatMatureContentGuildMessage =>
-      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+      'Ovaj kanal nije označen za sadržaj za odrasle. Sadržaj za odrasle može se slati samo u kanalima označenima za sadržaj za odrasle. Zamolite moderatora da ažurira ovaj kanal ako je prikladno.';
 
   @override
   String chatMatureContentDmMessage(String settingsPath) {
-    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+    return 'Vi ili osoba kojoj šaljete poruke odlučili ste blokirati osjetljive medije u izravnim porukama. Oboje to možete promijeniti u $settingsPath.';
   }
 
   @override
   String get chatMatureContentGroupDmMessage =>
-      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+      'Ova grupa nije označena za sadržaj za odrasle. Vlasnik grupe može uključiti sadržaj za odrasle u postavkama grupe ako svi u grupi imaju 18 ili više godina.';
 
   @override
-  String get chatFileTooLargeTitle => 'File size too large';
+  String get chatFileTooLargeTitle => 'Datoteka je prevelika';
 
   @override
   String chatFileTooLargeMessage(String maxSize) {
-    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+    return 'Jedna ili više datoteka koje pokušavate prenijeti premašuju maksimalnu veličinu od $maxSize po datoteci.';
   }
 
   @override
-  String get chatHeavyTitle => 'Whoa, this is heavy';
+  String get chatHeavyTitle => 'Opa, ovo je previše';
 
   @override
   String get chatReactionsHeavyMessage =>
-      'This is one heavy message. Some reactions need to be removed before you can add more.';
+      'Ova je poruka pretrpana. Neke reakcije treba ukloniti prije nego što dodate nove.';
 
   @override
   String get chatReactionTimedOut =>
-      'You can\'t add new reactions while you\'re timed out.';
+      'Ne možete dodavati nove reakcije dok imate vremensko ograničenje.';
 
   @override
   String chatTooManyAttachmentsMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '$count file',
+      other: '$count datoteka',
+      few: '$count datoteke',
+      one: '$count datoteku',
     );
-    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+    return 'Odjednom možete prenijeti najviše $_temp0. Pokušajte ponovno s manje datoteka.';
   }
 
   @override
-  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+  String get chatEditTooQuickTitle => 'Prebrzo uređujete poruke';
 
   @override
-  String get chatEditFailedMessage => 'Try editing your message again.';
+  String get chatEditFailedMessage => 'Pokušajte ponovno urediti poruku.';
 
   @override
-  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+  String get chatDeleteTooQuickTitle => 'Prebrzo brišete poruke';
 
   @override
   String get chatDeleteTooQuickMessage =>
-      'Wait a moment before deleting more messages.';
+      'Pričekajte trenutak prije brisanja više poruka.';
 
   @override
-  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+  String get chatDeleteFailedTitle => 'Nije moguće izbrisati poruku';
 
   @override
-  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+  String get chatDeleteFailedMessage =>
+      'Pokušajte ponovno izbrisati tu poruku.';
 
   @override
-  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+  String get chatAttachmentDeleteFailedTitle =>
+      'Nije moguće izbrisati privitak';
 
   @override
   String get chatAttachmentDeleteFailedMessage =>
-      'Try deleting that attachment again.';
+      'Pokušajte ponovno izbrisati taj privitak.';
 
   @override
-  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+  String get chatAltTextFailedTitle => 'Nije moguće ažurirati zamjenski tekst';
 
   @override
-  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+  String get chatAltTextUnknownMessage => 'Ova poruka više ne postoji.';
 
   @override
-  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+  String get chatAltTextNoPermission => 'Ne možete urediti ovu poruku.';
 
   @override
   String get chatAltTextUnavailable =>
-      'Editing is temporarily unavailable. Please try again later.';
+      'Uređivanje je privremeno nedostupno. Pokušajte ponovno kasnije.';
 
   @override
   String get chatAltTextFailedMessage =>
-      'Couldn\'t update the alt text. Please try again.';
+      'Nije moguće ažurirati zamjenski tekst. Pokušajte ponovno.';
 
   @override
-  String get chatPinFailedTitle => 'Failed to pin message';
+  String get chatPinFailedTitle => 'Prikvačivanje poruke nije uspjelo';
 
   @override
-  String get chatUnpinFailedTitle => 'Failed to unpin message';
+  String get chatUnpinFailedTitle => 'Otkvačivanje poruke nije uspjelo';
 
   @override
-  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+  String get chatPinFailedMessage =>
+      'Nešto je pošlo po zlu. Pokušajte ponovno kasnije.';
 
   @override
   String get chatPinBlockedMessage =>
-      'You cannot interact with this user right now.';
+      'Trenutačno ne možete komunicirati s ovim korisnikom.';
 
   @override
-  String get bookmarkLimitTitle => 'Bookmark limit reached';
+  String get bookmarkLimitTitle => 'Dosegnuto ograničenje oznaka';
 
   @override
   String bookmarkLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count bookmarks',
-      one: '$count bookmark',
+      other: '$count označenih poruka',
+      few: '$count označene poruke',
+      one: '$count označenu poruku',
     );
-    return 'You\'re at $_temp0. Remove one to add another.';
+    return 'Imate $_temp0. Uklonite jednu da biste dodali novu.';
   }
 
   @override
-  String get savedMediaLimitTitle => 'Saved media limit reached';
+  String get savedMediaLimitTitle => 'Dosegnuto ograničenje spremljenih medija';
 
   @override
   String savedMediaLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count saved media items',
-      one: '$count saved media item',
+      other: '$count spremljenih medijskih stavki',
+      few: '$count spremljene medijske stavke',
+      one: '$count spremljene medijske stavke',
     );
-    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+    return 'Dosegli ste ograničenje od $_temp0. Uklonite jednu da biste dodali novu.';
   }
 
   @override
-  String get errorContentBlockedTitle => 'Content blocked';
+  String get errorContentBlockedTitle => 'Sadržaj blokiran';
 
   @override
   String get errorContentBlockedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'Vaša radnja nije mogla biti dovršena jer ju je naš sigurnosni sustav označio. Ako mislite da je ovo pogreška, obratite se podršci.';
 
   @override
   String get errorContentBlockedSelfHostedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'Vaša radnja nije mogla biti dovršena jer ju je naš sigurnosni sustav označio. Ako mislite da je ovo pogreška, obratite se administratorima ove instance.';
 
   @override
-  String get channelDeletedToast => 'Channel deleted';
+  String get channelDeletedToast => 'Kanal izbrisan';
 
   @override
-  String get categoryDeletedToast => 'Category deleted';
+  String get categoryDeletedToast => 'Kategorija izbrisana';
 
   @override
-  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+  String get channelDeleteNoPermissionTitle => 'Ne možete izbrisati ovo';
 
   @override
   String get channelDeleteNoPermissionChannel =>
-      'You don\'t have permission to delete this channel.';
+      'Nemate dopuštenje za brisanje ovog kanala.';
 
   @override
   String get channelDeleteNoPermissionCategory =>
-      'You don\'t have permission to delete this category.';
+      'Nemate dopuštenje za brisanje ove kategorije.';
 
   @override
-  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+  String get channelDeleteAlreadyDeletedTitle => 'Već izbrisano';
 
   @override
   String get channelDeleteAlreadyDeletedChannel =>
-      'This channel no longer exists. It may have already been deleted.';
+      'Ovaj kanal više ne postoji. Možda je već izbrisan.';
 
   @override
   String get channelDeleteAlreadyDeletedCategory =>
-      'This category no longer exists. It may have already been deleted.';
+      'Ova kategorija više ne postoji. Možda je već izbrisana.';
 
   @override
-  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+  String get channelDeleteFailedChannelTitle =>
+      'Nije moguće izbrisati ovaj kanal';
 
   @override
   String get channelDeleteFailedCategoryTitle =>
-      'Couldn\'t delete this category';
+      'Nije moguće izbrisati ovu kategoriju';
 
   @override
   String get channelPermissionsUpdateFailedTitle =>
-      'Couldn\'t update channel permissions';
+      'Nije moguće ažurirati dopuštenja kanala';
 
   @override
   String get channelSettingsSaveFailedTitle =>
-      'Couldn\'t save channel settings';
+      'Nije moguće spremiti postavke kanala';
 
   @override
-  String get emojiSlotsFullTitle => 'No emoji slots available';
+  String get emojiSlotsFullTitle => 'Nema dostupnih mjesta za emojije';
 
   @override
-  String get stickerSlotsFullTitle => 'No sticker slots available';
+  String get stickerSlotsFullTitle => 'Nema dostupnih mjesta za naljepnice';
 
   @override
   String get emojiSomeFailedMessage =>
-      'Review these files and try again with smaller or simpler images.';
+      'Pregledajte ove datoteke i pokušajte ponovno s manjim ili jednostavnijim slikama.';
 
   @override
   String get emojiNameInvalidCharacters =>
-      'Emoji names can only use letters, numbers and underscores.';
+      'Nazivi emojija mogu sadržavati samo slova, brojeve i podvlake.';
 
   @override
-  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+  String get emojiErrorGoneTitle => 'Ovaj emoji više ne postoji';
 
   @override
   String get emojiRenameGoneMessage =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'Možda je izbrisan. Naziv je vraćen na prethodno stanje.';
 
   @override
-  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+  String get emojiRenameNoPermissionTitle =>
+      'Ne možete preimenovati ovaj emoji';
 
   @override
   String get emojiRenameNoPermissionMessage =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'Nemate dopuštenje za preimenovanje ovog emojija. Naziv je vraćen na prethodni.';
 
   @override
   String get emojiRenameRateLimitedMessage =>
-      'Please wait a moment and try renaming again.';
+      'Pričekajte trenutak pa pokušajte ponovno preimenovati.';
 
   @override
   String get emojiRenameFailedMessage =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'Naziv je vraćen na prethodno stanje. Pokušajte ponovno za trenutak.';
 
   @override
-  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+  String get emojiDeleteGoneMessage => 'Izgleda da je već izbrisan.';
 
   @override
-  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+  String get emojiDeleteNoPermissionTitle => 'Ne možete izbrisati ovaj emoji';
 
   @override
   String get emojiDeleteNoPermissionMessage =>
-      'You don\'t have permission to delete this emoji.';
+      'Nemate dopuštenje za brisanje ovog emojija.';
 
   @override
   String get emojiDeleteRateLimitedMessage =>
-      'Please wait a moment and try deleting again.';
+      'Pričekajte trenutak pa pokušajte ponovno izbrisati.';
 
   @override
-  String get stickerTooLargeTitle => 'Sticker is too large';
+  String get stickerTooLargeTitle => 'Naljepnica je prevelika';
 
   @override
   String stickerTooLargeMessage(String maxSize) {
-    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+    return 'Usluga za prijenos odbila je ovu naljepnicu jer je veća od $maxSize. Pokušajte s manjom datotekom, jednostavnijom slikom ili kraćom animacijom.';
   }
 
   @override
   String get stickerCreateFailedMessage =>
-      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+      'Nešto je pošlo po zlu tijekom pripreme ove naljepnice. Pokušajte s drugom datotekom ili pokušajte ponovno za nekoliko trenutaka.';
 
   @override
-  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+  String get stickerUpdateFailedTitle => 'Nije moguće ažurirati ovu naljepnicu';
 
   @override
-  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+  String get moderationTimeoutFailed =>
+      'Postavljanje vremenskog ograničenja članu nije uspjelo. Pokušajte ponovno.';
 
   @override
   String get moderationRemoveTimeoutFailed =>
-      'Failed to remove timeout. Try again.';
+      'Uklanjanje vremenskog ograničenja nije uspjelo. Pokušajte ponovno.';
 
   @override
-  String get moderationKickFailed => 'Failed to kick member. Try again.';
+  String get moderationKickFailed =>
+      'Izbacivanje člana nije uspjelo. Pokušajte ponovno.';
 
   @override
-  String get moderationBanFailed => 'Failed to ban member. Try again.';
+  String get moderationBanFailed =>
+      'Zabrana pristupa članu nije uspjela. Pokušajte ponovno.';
 
   @override
-  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+  String get transferOwnershipFailedTitle => 'Prijenos vlasništva nije uspio';
 
   @override
   String transferOwnershipFailedMessage(String username) {
-    return 'Ownership could not be transferred to $username at this time.';
+    return 'Vlasništvo trenutačno nije moguće prenijeti na korisnika $username.';
   }
 
   @override
-  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+  String get revokeBanFailedTitle => 'Nije moguće opozvati zabranu';
 
   @override
-  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+  String get voiceModerationNoPermissionTitle => 'Ne možete to učiniti';
 
   @override
   String get voiceModerationNoPermissionMessage =>
-      'You don\'t have permission to do this to this member.';
+      'Nemate dopuštenje za tu radnju nad ovim članom.';
 
   @override
-  String get voiceModerationLeftTitle => 'They left the call';
+  String get voiceModerationLeftTitle => 'Napustio/la je poziv';
 
   @override
   String get voiceModerationLeftMessage =>
-      'This member isn\'t connected to voice anymore.';
+      'Ovaj član više nije povezan s glasovnim kanalom.';
 
   @override
-  String get voiceModerationUnknownMemberTitle => 'Member not found';
+  String get voiceModerationUnknownMemberTitle => 'Član nije pronađen';
 
   @override
   String get voiceModerationUnknownMemberMessage =>
-      'This member is no longer in the community. Refresh and try again.';
+      'Ovaj član više nije u zajednici. Osvježite i pokušajte ponovno.';
 
   @override
-  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+  String get voiceJoinTimedOut =>
+      'Ne možete se pridružiti dok imate vremensko ograničenje.';
 
   @override
   String get voiceJoinClaimAccount =>
-      'Claim your account to join this voice channel.';
+      'Preuzmite svoj račun da biste se pridružili ovom glasovnom kanalu.';
 
   @override
   String get voiceJoinClaimAccountDirectCall =>
-      'Claim your account to start or join 1:1 calls.';
+      'Preuzmite svoj račun da biste pokrenuli 1:1 pozive ili im se pridružili.';
 
   @override
   String get voiceJoinUserLimit =>
-      'This voice channel has reached its user limit. Try again later or join a different channel.';
+      'Ovaj glasovni kanal dosegao je ograničenje broja korisnika. Pokušajte ponovno kasnije ili se pridružite drugom kanalu.';
 
   @override
   String get voiceJoinConnectionLimit =>
-      'You\'ve reached this voice channel\'s connection limit.';
+      'Dosegli ste ograničenje broja veza za ovaj glasovni kanal.';
 
   @override
   String get voiceJoinChannelUnavailable =>
-      'This voice channel is no longer available.';
+      'Ovaj glasovni kanal više nije dostupan.';
 
   @override
-  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+  String get avatarUploadFailedTitle => 'Nije moguće prenijeti avatar';
 
   @override
-  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+  String get bannerUploadFailedTitle => 'Nije moguće prenijeti naslovnu sliku';
 
   @override
-  String get animatedImageUseStatic => 'Upload a static image instead.';
+  String get animatedImageUseStatic => 'Umjesto toga prenesite statičnu sliku.';
 
   @override
-  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+  String get passkeyDeleteFailedTitle =>
+      'Nije moguće izbrisati pristupni ključ';
 
   @override
-  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+  String get premiumPaymentsUnavailableTitle => 'Plaćanja su nedostupna';
 
   @override
   String get premiumPaymentsUnavailableMessage =>
-      'Payments are temporarily unavailable. Please try again in a moment.';
+      'Plaćanja su privremeno nedostupna. Pokušajte ponovno za koji trenutak.';
 
   @override
-  String get premiumNoSubscriptionTitle => 'No active subscription';
+  String get premiumNoSubscriptionTitle => 'Nema aktivne pretplate';
 
   @override
   String get premiumNoSubscriptionMessage =>
-      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+      'Nismo pronašli aktivnu pretplatu na ovom računu. Osvježite i pokušajte ponovno.';
 
   @override
-  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+  String get premiumAlreadyCancelingTitle =>
+      'Već je postavljeno za otkazivanje';
 
   @override
   String get premiumAlreadyCancelingMessage =>
-      'Your subscription is already set to cancel at the end of your billing period.';
+      'Vaša je pretplata već postavljena da se otkaže na kraju obračunskog razdoblja.';
 
   @override
-  String get premiumNotCancelingTitle =>
-      'Subscription is not scheduled to cancel';
+  String get premiumNotCancelingTitle => 'Otkazivanje pretplate nije zakazano';
 
   @override
   String get premiumNotCancelingMessage =>
-      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+      'Vaša pretplata nije postavljena za otkazivanje pa nema što ponovno aktivirati.';
 
   @override
-  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+  String get premiumCancelFailedTitle => 'Nije moguće otkazati pretplatu';
 
   @override
   String get premiumCancelFailedMessage =>
-      'Something went wrong while canceling your subscription. Please try again in a moment.';
+      'Nešto je pošlo po zlu prilikom otkazivanja vaše pretplate. Pokušajte ponovno za nekoliko trenutaka.';
 
   @override
   String get premiumReactivateFailedTitle =>
-      'Couldn\'t reactivate your subscription';
+      'Nije moguće ponovno aktivirati pretplatu';
 
   @override
   String get premiumReactivateFailedMessage =>
-      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+      'Nešto je pošlo po zlu prilikom ponovnog aktiviranja vaše pretplate. Pokušajte ponovno za nekoliko trenutaka.';
 
   @override
-  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+  String get premiumRefundConfirmTitle =>
+      'Želite li povrat novca za svoju najnoviju kupnju?';
 
   @override
   String get premiumRefundConfirmBody =>
-      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+      'Ovo vraća novac za vašu najnoviju fakturu i otkazuje sve povezane pretplate. Nećete moći sami zatražiti povrat novca sljedećih 30 dana.';
 
   @override
-  String get premiumRefundConfirm => 'Refund purchase';
+  String get premiumRefundConfirm => 'Zatraži povrat novca';
 
   @override
   String get premiumRefundIssuedToast =>
-      'Refund issued. May take a few business days to appear.';
+      'Povrat je izvršen. Može potrajati nekoliko radnih dana da se pojavi.';
 
   @override
-  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+  String get premiumRefundOutsideWindowTitle => 'Izvan roka za povrat novca';
 
   @override
   String get premiumRefundOutsideWindowMessage =>
-      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+      'Vaša najnovija kupnja više nije unutar roka za povrat novca. Obratite se podršci za probleme s naplatom.';
 
   @override
-  String get premiumRefundCooldownTitle => 'You have refunded recently';
+  String get premiumRefundCooldownTitle => 'Nedavno ste zatražili povrat novca';
 
   @override
   String get premiumRefundCooldownMessage =>
-      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+      'Nedavno ste već koristili samoposlužni povrat novca. Ponovno ga možete zatražiti nakon što završi razdoblje mirovanja.';
 
   @override
-  String get premiumRefundNothingTitle => 'Nothing to refund';
+  String get premiumRefundNothingTitle => 'Nema ničega za povrat novca';
 
   @override
   String get premiumRefundNothingMessage =>
-      'We couldn\'t find a recent purchase to refund on this account.';
+      'Nismo pronašli nedavnu kupnju za povrat novca na ovom računu.';
 
   @override
-  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+  String get premiumRefundFailedTitle =>
+      'Nije moguće vratiti novac za ovu kupnju';
 
   @override
   String get premiumRefundFailedMessage =>
-      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+      'Nešto je pošlo po zlu prilikom obrade vašeg povrata novca. Obratite se podršci ako se ovo nastavi događati.';
 
   @override
-  String get premiumVerifyEmailTitle => 'Verify your email first';
+  String get premiumVerifyEmailTitle => 'Prvo potvrdite svoju e-poštu';
 
   @override
   String premiumVerifyEmailBody(String productName) {
-    return 'You need to verify your email before you can purchase $productName.';
+    return 'Morate potvrditi svoju e-poštu prije nego što možete kupiti $productName.';
   }
 
   @override
-  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+  String get premiumCheckoutBlockedTitle => 'Plaćanje nije dostupno';
 
   @override
   String premiumCheckoutBlockedBody(String supportEmail) {
-    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+    return 'Plaćanje je blokirano za ovaj račun. Ako trebate pomoć, obratite se na $supportEmail.';
   }
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
-      'Checkout is blocked for this account.';
+      'Plaćanje je blokirano za ovaj račun.';
 }

@@ -330,7 +330,7 @@
     "@register": {
         "description": "Generic label to create a new account."
     },
-    "orDivider": "OR",
+    "orDivider": "या",
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
@@ -1183,7 +1183,7 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "mentionUnknownChannel": "unknown-channel",
+    "mentionUnknownChannel": "अज्ञात-चैनल",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
     },
@@ -1988,7 +1988,7 @@
     "@addFriendFriendsListFull": {
         "description": "Error when either user's friends list is at the limit."
     },
-    "userTagBot": "BOT",
+    "userTagBot": "बॉट",
     "@userTagBot": {
         "description": "Tag label shown next to bot user names."
     },
@@ -4963,7 +4963,7 @@
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
     },
-    "chatMediaSpoilerOverlayLabel": "SPOILER",
+    "chatMediaSpoilerOverlayLabel": "स्पॉइलर",
     "@chatMediaSpoilerOverlayLabel": {
         "description": "Label shown on the overlay that conceals spoiler attachment and embed image media."
     },
@@ -8474,11 +8474,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "ON",
+    "chatReplyMentionOn": "चालू",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "OFF",
+    "chatReplyMentionOff": "बंद",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -10701,19 +10701,19 @@
     "@userSettingsGroupYourAccount": {
         "description": "Section heading for account-related items in user settings navigation."
     },
-    "userSettingsGroupBilling": "Billing",
+    "userSettingsGroupBilling": "बिलिंग",
     "@userSettingsGroupBilling": {
         "description": "Section heading for billing items in user settings navigation."
     },
-    "userSettingsGroupApplication": "Application",
+    "userSettingsGroupApplication": "ऐप्लिकेशन",
     "@userSettingsGroupApplication": {
         "description": "Section heading for app preference items in user settings navigation."
     },
-    "userSettingsGroupDeveloper": "Developer",
+    "userSettingsGroupDeveloper": "डेवलपर",
     "@userSettingsGroupDeveloper": {
         "description": "Section heading for developer items in user settings navigation."
     },
-    "userSettingsGroupStaffOnly": "Staff-only",
+    "userSettingsGroupStaffOnly": "सिर्फ़ स्टाफ़",
     "@userSettingsGroupStaffOnly": {
         "description": "Section heading for staff-only items in user settings navigation."
     },
@@ -12671,7 +12671,7 @@
     "@guildNavbarNameLabel": {
         "description": "Label for name input fields in guild navbar modals."
     },
-    "guildNavbarNewChannelHint": "new-channel",
+    "guildNavbarNewChannelHint": "नया-चैनल",
     "@guildNavbarNewChannelHint": {
         "description": "Placeholder hint for new channel name input."
     },
@@ -15229,19 +15229,19 @@
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
-    "guildSettingsCategoryExpressions": "Expressions",
+    "guildSettingsCategoryExpressions": "एक्सप्रेशन",
     "@guildSettingsCategoryExpressions": {
         "description": "Sidebar category for emoji and stickers."
     },
-    "guildSettingsCategoryCommunity": "Community",
+    "guildSettingsCategoryCommunity": "कम्युनिटी",
     "@guildSettingsCategoryCommunity": {
         "description": "Sidebar category for Explore and vanity URL."
     },
-    "guildSettingsCategoryIntegrations": "Integrations",
+    "guildSettingsCategoryIntegrations": "इंटीग्रेशन",
     "@guildSettingsCategoryIntegrations": {
         "description": "Sidebar category for webhooks."
     },
-    "guildSettingsCategoryPeople": "People",
+    "guildSettingsCategoryPeople": "लोग",
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
@@ -15839,7 +15839,7 @@
     "@clipboardPasteFailed": {
         "description": "Shown when a context-menu paste finds no readable clipboard text."
     },
-    "homeQuickActionDms": "DMs",
+    "homeQuickActionDms": "DM",
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
@@ -16659,5 +16659,2406 @@
     "favoritesRenameCategory": "श्रेणी का नाम बदलें",
     "@favoritesRenameCategory": {
         "description": "Favorites category context menu action and sheet title for renaming a favorites category."
+    },
+    "create": "बनाएँ",
+    "@create": {
+        "description": "Generic create action label in a full-screen form header."
+    },
+    "addFriendSendFailedTitle": "फ्रेंड रिक्वेस्ट नहीं भेजी जा सकी",
+    "@addFriendSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a friend request fails."
+    },
+    "addFriendSendFailedMessage": "फ्रेंड रिक्वेस्ट नहीं भेजी जा सकी। फिर से कोशिश करें।",
+    "@addFriendSendFailedMessage": {
+        "description": "Fallback body of the send friend request error dialog when the error has no specific message."
+    },
+    "lookAndFeelThemeColorsGroupText": "टेक्स्ट",
+    "lookAndFeelThemeColorsGroupStatus": "स्टेटस",
+    "lookAndFeelChatFontScalingTitle": "चैट फ़ॉन्ट स्केलिंग",
+    "@lookAndFeelChatFontScalingTitle": {
+        "description": "Search label for chat font size within the Messages section."
+    },
+    "lookAndFeelChatFontScalingDescription": "चैट एरिया में फ़ॉन्ट का साइज़ एडजस्ट करें।",
+    "@lookAndFeelChatFontScalingDescription": {
+        "description": "Search description for chat font size."
+    },
+    "shellResizeSidebar": "साइडबार का आकार बदलें",
+    "@shellResizeSidebar": {
+        "description": "Accessible label for the draggable handle that resizes the channel or direct message sidebar."
+    },
+    "messagesMediaGesturesDoubleTapActionReactName": "रिएक्शन जोड़ें",
+    "@messagesMediaGesturesDoubleTapActionReactName": {
+        "description": "Double tap adds the default reaction emoji."
+    },
+    "messagesMediaGesturesDoubleTapActionEditName": "मैसेज एडिट करें",
+    "@messagesMediaGesturesDoubleTapActionEditName": {
+        "description": "Double tap edits your own message."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneName": "कुछ नहीं",
+    "@messagesMediaGesturesDoubleTapActionNoneName": {
+        "description": "Double tap does nothing."
+    },
+    "chatMessagesFailedToLoad": "मैसेज लोड नहीं हो पाए",
+    "@chatMessagesFailedToLoad": {
+        "description": "Shown in a bottom bar when message history fails to load while scrolling in a channel."
+    },
+    "chatEditFailed": "आपका मैसेज अपडेट नहीं हुआ",
+    "@chatEditFailed": {
+        "description": "Toast when saving an edit to a message fails and the message reverts."
+    },
+    "composerAutocompleteEmojisHeading": "इमोजी",
+    "@composerAutocompleteEmojisHeading": {
+        "description": "Section heading in composer autocomplete for emoji suggestions."
+    },
+    "channelMenuNoCategory": "कोई श्रेणी नहीं",
+    "@channelMenuNoCategory": {
+        "description": "Option in the move to category sheet that moves the channel out of its category."
+    },
+    "channelMoveCategoryFullTitle": "श्रेणी भरी हुई है",
+    "@channelMoveCategoryFullTitle": {
+        "description": "Dialog title shown when a channel cannot be moved because the target category is full."
+    },
+    "channelMoveCategoryFullMessage": "इस श्रेणी में पहले से ही अधिकतम {maxChannelsPerCategory} चैनल हैं।",
+    "@channelMoveCategoryFullMessage": {
+        "description": "Dialog body shown when a category cannot accept another channel because the per-category limit is reached.",
+        "placeholders": {
+            "maxChannelsPerCategory": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSearchTabMessages": "मैसेज",
+    "@channelSearchTabMessages": {
+        "description": "Result tab in mobile message search showing every matching message."
+    },
+    "channelSearchTabImages": "इमेज",
+    "@channelSearchTabImages": {
+        "description": "Result tab in mobile message search showing matching messages with an image upload."
+    },
+    "channelSearchTabPins": "पिन",
+    "@channelSearchTabPins": {
+        "description": "Result tab in mobile message search showing matching pinned messages."
+    },
+    "channelSearchTabLinks": "लिंक",
+    "@channelSearchTabLinks": {
+        "description": "Result tab in mobile message search showing matching messages with a link."
+    },
+    "groupDmRemoveFromGroup": "ग्रुप से हटाएँ",
+    "@groupDmRemoveFromGroup": {
+        "description": "Group DM member action and confirm title for removing the selected member from the group."
+    },
+    "groupDmRemoveFromGroupConfirm": "क्या आप {userName} को ग्रुप से हटाना चाहते हैं?",
+    "@groupDmRemoveFromGroupConfirm": {
+        "description": "Confirm dialog body before removing a member from a group DM.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmRemoveFromGroupAction": "हटाएँ",
+    "@groupDmRemoveFromGroupAction": {
+        "description": "Confirm button that removes the selected member from a group DM."
+    },
+    "groupDmRemovedFromGroup": "ग्रुप से हटा दिया गया",
+    "@groupDmRemovedFromGroup": {
+        "description": "Toast confirming the selected member was removed from the group DM."
+    },
+    "chatAttachmentLibraryLimitedManage": "प्रबंधित करें",
+    "@chatAttachmentLibraryLimitedManage": {
+        "description": "Opens the system picker to change which photos the app can access."
+    },
+    "userSettingsCopyLinkToSection": "अनुभाग का लिंक कॉपी करें",
+    "@userSettingsCopyLinkToSection": {
+        "description": "Tooltip and accessibility label for copying a deep link to a settings section."
+    },
+    "userSettingsCopyLinkToPage": "पेज का लिंक कॉपी करें",
+    "@userSettingsCopyLinkToPage": {
+        "description": "Tooltip and accessibility label for copying a deep link to a settings page."
+    },
+    "userSettingsJumpLinkPremiumPage": "{productName} पेज",
+    "@userSettingsJumpLinkPremiumPage": {
+        "description": "In-chat jump link label for the instance premium subscription settings page.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsPushDeliveryRelayOff": "बंद",
+    "@notificationsPushDeliveryRelayOff": {
+        "description": "Fluxer relay is required but not enabled for this device."
+    },
+    "appIconAndroidChangeConfirm": "आइकॉन बदलें",
+    "@appIconAndroidChangeConfirm": {
+        "description": "Confirm button for changing the app icon on Android."
+    },
+    "quickSwitcherSectionThreads": "थ्रेड्स",
+    "@quickSwitcherSectionThreads": {
+        "description": "Quick switcher section header for thread and forum post results."
+    },
+    "uiUnderstood": "समझ आ गया",
+    "@uiUnderstood": {
+        "description": "Label of the single button that dismisses an error or info dialog after reading it."
+    },
+    "instanceConnectFailedDomain": "{domain} से कनेक्ट नहीं हो सका। फिर से प्रयास करें।",
+    "@instanceConnectFailedDomain": {
+        "description": "Error when instance discovery fails for a specific domain.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceCompatibilityRetry": "फिर से कोशिश करें",
+    "@instanceCompatibilityRetry": {
+        "description": "Button to re-fetch instance discovery on the compatibility blocker."
+    },
+    "instanceCompatibilityUpdateApp": "ऐप अपडेट करें",
+    "@instanceCompatibilityUpdateApp": {
+        "description": "Button to open the app store or download page when the client is too old."
+    },
+    "guildNavbarPrivateChannel": "निजी चैनल",
+    "@guildNavbarPrivateChannel": {
+        "description": "Label for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarPrivateChannelDescription": "केवल चुने गए सदस्य और रोल ही इस चैनल को देख पाएंगे।",
+    "@guildNavbarPrivateChannelDescription": {
+        "description": "Description for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarAddMembersOrRoles": "सदस्य या रोल जोड़ें",
+    "@guildNavbarAddMembersOrRoles": {
+        "description": "Title of the create channel step that picks who can view a private channel."
+    },
+    "guildNavbarAddMembersOrRolesHint": "सदस्य या रोल खोजें",
+    "@guildNavbarAddMembersOrRolesHint": {
+        "description": "Search hint in the create channel step that picks who can view a private channel."
+    },
+    "permissionManageThreads": "थ्रेड प्रबंधित करें",
+    "@permissionManageThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePublicThreads": "सार्वजनिक थ्रेड बनाएँ",
+    "@permissionCreatePublicThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePrivateThreads": "निजी थ्रेड बनाएँ",
+    "@permissionCreatePrivateThreads": {
+        "description": "Permission name."
+    },
+    "permissionSendMessagesInThreads": "थ्रेड में मैसेज भेजें",
+    "@permissionSendMessagesInThreads": {
+        "description": "Permission name."
+    },
+    "threadErrorTagRequired": "इस पोस्ट के लिए कम से कम एक टैग चुनें।",
+    "@threadErrorTagRequired": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadCreate": "थ्रेड बनाएँ",
+    "@threadCreate": {
+        "description": "Action that opens the new thread form for a channel or a message."
+    },
+    "threadName": "थ्रेड का नाम",
+    "@threadName": {
+        "description": "Label of the thread name input."
+    },
+    "threadNewThreadPlaceholder": "नया थ्रेड",
+    "@threadNewThreadPlaceholder": {
+        "description": "Placeholder of the thread name input when there is no source message."
+    },
+    "threadPrivate": "निजी थ्रेड",
+    "@threadPrivate": {
+        "description": "Label of the toggle that makes a new thread private."
+    },
+    "threadPrivateDescription": "केवल आपके द्वारा आमंत्रित लोग और मॉडरेटर ही इस थ्रेड को देख सकते हैं।",
+    "@threadPrivateDescription": {
+        "description": "Help text under the private thread toggle."
+    },
+    "threadStarterMessagePlaceholder": "बातचीत शुरू करने के लिए एक मैसेज लिखें!",
+    "@threadStarterMessagePlaceholder": {
+        "description": "Placeholder of the first message input in the new thread form."
+    },
+    "threadCreateFailed": "थ्रेड शुरू नहीं हो सका: {detail}",
+    "@threadCreateFailed": {
+        "description": "Toast when creating a thread failed. {detail} is the server error message.",
+        "placeholders": {
+            "detail": {
+                "type": "String"
+            }
+        }
+    },
+    "threadBrowserTitle": "थ्रेड्स",
+    "@threadBrowserTitle": {
+        "description": "Title of the thread browser and label of the threads header button."
+    },
+    "threadBrowserActive": "सक्रिय",
+    "@threadBrowserActive": {
+        "description": "Tab in the thread browser that lists active threads."
+    },
+    "threadBrowserArchived": "बंद",
+    "@threadBrowserArchived": {
+        "description": "Tab in the thread browser that lists archived threads."
+    },
+    "threadBrowserJoined": "जॉइन किए गए",
+    "@threadBrowserJoined": {
+        "description": "Section header in the thread browser for threads the user joined."
+    },
+    "threadBrowserOtherActive": "अन्य सक्रिय थ्रेड",
+    "@threadBrowserOtherActive": {
+        "description": "Section header in the thread browser for active threads the user did not join."
+    },
+    "threadBrowserLoadMore": "और लोड करें",
+    "@threadBrowserLoadMore": {
+        "description": "Button that loads the next page of closed threads."
+    },
+    "threadBrowserSearch": "थ्रेड खोजें",
+    "@threadBrowserSearch": {
+        "description": "Placeholder of the search field at the top of the thread browser."
+    },
+    "threadBrowserSearchEmpty": "कोई थ्रेड मेल नहीं खाता",
+    "@threadBrowserSearchEmpty": {
+        "description": "Empty state of the thread browser while searching."
+    },
+    "threadBrowserSearchEmptyHint": "कोई दूसरा नाम आज़माएँ या दूसरा टैब देखें।",
+    "@threadBrowserSearchEmptyHint": {
+        "description": "Hint under the empty search state in the thread browser."
+    },
+    "threadBrowserSearchFailed": "थ्रेड्स में खोज नहीं हो सकी। बाद में फिर से प्रयास करें।",
+    "@threadBrowserSearchFailed": {
+        "description": "Error state of the thread browser search."
+    },
+    "threadBrowserSearchIndexing": "इस कम्युनिटी के लिए खोज तैयार हो रही है। थोड़ी देर में फिर से कोशिश की जाएगी...",
+    "@threadBrowserSearchIndexing": {
+        "description": "Shown in the thread browser while the search index is being built."
+    },
+    "threadMembers": "थ्रेड सदस्य",
+    "@threadMembers": {
+        "description": "Title of the thread member list."
+    },
+    "threadJoin": "थ्रेड में शामिल हों",
+    "@threadJoin": {
+        "description": "Action that adds the current user to a thread."
+    },
+    "threadLeave": "थ्रेड छोड़ें",
+    "@threadLeave": {
+        "description": "Action that removes the current user from a thread."
+    },
+    "threadJoinNotice": "इस थ्रेड को अपनी चैनल सूची में फ़ॉलो करने और सूचनाएँ पाने के लिए इसमें शामिल हों।",
+    "@threadJoinNotice": {
+        "description": "Notice above the composer when the user is not a member of the thread."
+    },
+    "threadArchivedNotice": "यह थ्रेड बंद है। मैसेज भेजने पर यह फिर से खुल जाएगा।",
+    "@threadArchivedNotice": {
+        "description": "Notice above the composer of an archived thread."
+    },
+    "threadLockedNotice": "यह थ्रेड लॉक है। केवल मॉडरेटर ही मैसेज भेज सकते हैं।",
+    "@threadLockedNotice": {
+        "description": "Barrier shown instead of the composer in a locked thread."
+    },
+    "threadArchive": "थ्रेड बंद करें",
+    "@threadArchive": {
+        "description": "Action that archives a thread so it leaves the channel list."
+    },
+    "threadUnarchive": "थ्रेड फिर से खोलें",
+    "@threadUnarchive": {
+        "description": "Action that unarchives an archived thread."
+    },
+    "threadLock": "थ्रेड लॉक करें",
+    "@threadLock": {
+        "description": "Moderator action that stops non-moderators from sending messages in a thread."
+    },
+    "threadUnlock": "थ्रेड अनलॉक करें",
+    "@threadUnlock": {
+        "description": "Moderator action that lets everyone send messages in a locked thread again."
+    },
+    "threadDelete": "थ्रेड मिटाएँ",
+    "@threadDelete": {
+        "description": "Destructive moderator action that deletes a thread and all its messages."
+    },
+    "threadDeleted": "थ्रेड हटा दिया गया",
+    "@threadDeleted": {
+        "description": "Toast after a thread was deleted."
+    },
+    "threadMarkAsRead": "पढ़ा गया मार्क करें",
+    "@threadMarkAsRead": {
+        "description": "Action that marks a thread as read."
+    },
+    "threadMute": "थ्रेड म्यूट करें",
+    "@threadMute": {
+        "description": "Action that mutes notifications and unread badges for a thread."
+    },
+    "threadUnmute": "थ्रेड को अनम्यूट करें",
+    "@threadUnmute": {
+        "description": "Action that unmutes a thread."
+    },
+    "threadNotificationSettings": "सूचना सेटिंग",
+    "@threadNotificationSettings": {
+        "description": "Title of the thread notification settings."
+    },
+    "threadNotificationParentDefault": "चैनल डिफ़ॉल्ट का उपयोग करें",
+    "@threadNotificationParentDefault": {
+        "description": "Thread notification option that follows the parent channel setting."
+    },
+    "threadCopyLink": "लिंक कॉपी करें",
+    "@threadCopyLink": {
+        "description": "Action that copies a link to the thread."
+    },
+    "threadCopyId": "थ्रेड आईडी कॉपी करें",
+    "@threadCopyId": {
+        "description": "Developer mode action that copies the thread ID."
+    },
+    "threadMoreOptions": "ज़्यादा विकल्प",
+    "@threadMoreOptions": {
+        "description": "Header button that opens the thread actions."
+    },
+    "threadSettings": "थ्रेड सेटिंग",
+    "@threadSettings": {
+        "description": "Title of the thread settings form."
+    },
+    "threadAutoArchive": "निष्क्रियता के बाद छिपाएँ",
+    "@threadAutoArchive": {
+        "description": "Label of the thread auto archive duration setting."
+    },
+    "threadDefaultAutoArchive": "निष्क्रियता के बाद डिफ़ॉल्ट रूप से छिपाएँ",
+    "@threadDefaultAutoArchive": {
+        "description": "Label of the default auto archive duration for new threads in a text channel."
+    },
+    "threadDefaultSlowmode": "डिफ़ॉल्ट थ्रेड स्लोमोड",
+    "@threadDefaultSlowmode": {
+        "description": "Label of the slowmode copied onto new threads in a text channel."
+    },
+    "threadInvitable": "सभी सदस्यों को इनवाइट करने की अनुमति दें",
+    "@threadInvitable": {
+        "description": "Private thread setting that lets non-moderators add other members."
+    },
+    "threadStartedBy": "{name} ने शुरू किया",
+    "@threadStartedBy": {
+        "description": "Subtitle at the start of a thread naming its creator.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadStarterDeleted": "मूल मैसेज मिटा दिया गया था।",
+    "@threadStarterDeleted": {
+        "description": "Shown at the top of a thread when the message it was started from was deleted."
+    },
+    "auditLogActionThreadCreate": "थ्रेड बनाया गया",
+    "@auditLogActionThreadCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadUpdate": "थ्रेड अपडेट किया गया",
+    "@auditLogActionThreadUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadDelete": "थ्रेड हटा दिया गया",
+    "@auditLogActionThreadDelete": {
+        "description": "Audit log action filter label."
+    },
+    "forumChannelTypeForum": "फ़ोरम",
+    "@forumChannelTypeForum": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeForumDescription": "विषय और टैग के अनुसार व्यवस्थित पोस्ट",
+    "@forumChannelTypeForumDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMedia": "मीडिया",
+    "@forumChannelTypeMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMediaDescription": "इमेज और वीडियो पर आधारित पोस्ट",
+    "@forumChannelTypeMediaDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPost": "नई पोस्ट",
+    "@forumNewPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchPosts": "पोस्ट खोजें",
+    "@forumSearchPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNoPosts": "अभी तक कोई पोस्ट नहीं है",
+    "@forumNoPosts": {
+        "description": "Title of the empty state in a forum channel without posts."
+    },
+    "forumNoPostsHint": "यहाँ बातचीत शुरू करने वाले पहले व्यक्ति बनें।",
+    "@forumNoPostsHint": {
+        "description": "Body of the empty state in a forum channel without posts."
+    },
+    "forumNoSearchResults": "कोई पोस्ट आपकी खोज से मेल नहीं खाती",
+    "@forumNoSearchResults": {
+        "description": "Title of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumNoSearchResultsHint": "अलग शब्द आज़माएँ या टैग फ़िल्टर साफ़ करें।",
+    "@forumNoSearchResultsHint": {
+        "description": "Body of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumOlderPosts": "पुरानी पोस्ट",
+    "@forumOlderPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRetry": "फिर से कोशिश करें",
+    "@forumRetry": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostPinned": "पिन किया हुआ",
+    "@forumPostPinned": {
+        "description": "Forum and media channel UI."
+    },
+    "forumEditTags": "टैग एडिट करें",
+    "@forumEditTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPinPost": "पोस्ट पिन करें",
+    "@forumPinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumUnpinPost": "पोस्ट को अनपिन करें",
+    "@forumUnpinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMarkPostRead": "पढ़ा गया मार्क करें",
+    "@forumMarkPostRead": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCopyPostLink": "लिंक कॉपी करें",
+    "@forumCopyPostLink": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostGuidelines": "पोस्ट गाइडलाइन",
+    "@forumPostGuidelines": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTags": "टैग",
+    "@forumPostTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostRemoveAttachment": "अटैचमेंट हटाएँ",
+    "@forumPostRemoveAttachment": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSubmit": "पोस्ट करें",
+    "@forumPostSubmit": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortLatestActivity": "हाल ही में सक्रिय",
+    "@forumSortLatestActivity": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortCreationTime": "पोस्ट की तारीख",
+    "@forumSortCreationTime": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchive": "निष्क्रियता के बाद छिपाएँ",
+    "@forumDefaultAutoArchive": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultReaction": "डिफ़ॉल्ट रिएक्शन",
+    "@forumDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSetDefaultReaction": "एक इमोजी चुनें",
+    "@forumSetDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRemoveDefaultReaction": "हटाएँ",
+    "@forumRemoveDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultSortOrder": "डिफ़ॉल्ट सॉर्ट ऑर्डर",
+    "@forumDefaultSortOrder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultLayout": "डिफ़ॉल्ट लेआउट",
+    "@forumDefaultLayout": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloads": "मीडिया डाउनलोड विकल्प छिपाएँ",
+    "@forumHideMediaDownloads": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsTitle": "टैग ({count}/{max})",
+    "@forumTagsTitle": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "forumCreateTag": "टैग बनाएँ",
+    "@forumCreateTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumEditTag": "टैग एडिट करें",
+    "@forumEditTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDeleteTag": "टैग मिटाएँ",
+    "@forumDeleteTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagName": "टैग का नाम",
+    "@forumTagName": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagEmoji": "इमोजी",
+    "@forumTagEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "voiceP2pStartTitle": "P2P मोड में शुरू करें?",
+    "@voiceP2pStartTitle": {
+        "description": "Title of the sheet offering to start a call in P2P mode."
+    },
+    "voiceP2pStartConfirm": "P2P मोड में शुरू करें",
+    "@voiceP2pStartConfirm": {
+        "description": "Button that starts a call in P2P mode."
+    },
+    "voiceP2pStartStandard": "स्टैंडर्ड कॉल शुरू करें",
+    "@voiceP2pStartStandard": {
+        "description": "Button that starts an ordinary call through the server."
+    },
+    "voiceP2pJoinTitle": "P2P कॉल में शामिल हों?",
+    "@voiceP2pJoinTitle": {
+        "description": "Title of the sheet asking for agreement before joining a P2P call."
+    },
+    "voiceP2pJoinConfirm": "शामिल हों",
+    "@voiceP2pJoinConfirm": {
+        "description": "Button that agrees to join a P2P call."
+    },
+    "voiceP2pAlwaysAgreeLabel": "दोबारा न पूछें, हमेशा सहमति दें",
+    "@voiceP2pAlwaysAgreeLabel": {
+        "description": "Checkbox on the P2P join sheet that skips the sheet in future."
+    },
+    "voiceP2pIndicatorDescription": "सीधा कनेक्शन। मीडिया प्रतिभागियों के बीच एन्क्रिप्टेड है।",
+    "@voiceP2pIndicatorDescription": {
+        "description": "Status line shown while a call is in P2P mode."
+    },
+    "voiceP2pSwitchToStandard": "स्टैंडर्ड कॉल पर स्विच करें",
+    "@voiceP2pSwitchToStandard": {
+        "description": "Action that moves a P2P call to the server for everyone."
+    },
+    "voiceP2pUnavailableError": "अभी P2P कॉल उपलब्ध नहीं हैं।",
+    "@voiceP2pUnavailableError": {
+        "description": "Shown when the server rejects a P2P call."
+    },
+    "channelMenuJoinP2p": "P2P कॉल शुरू करें",
+    "@channelMenuJoinP2p": {
+        "description": "Voice channel menu item that starts a call in P2P mode."
+    },
+    "channelSettingsRtcP2pLabel": "सिर्फ़ P2P कॉल",
+    "@channelSettingsRtcP2pLabel": {
+        "description": "Channel setting that makes every call in the channel a P2P call."
+    },
+    "friendAcceptFailedTitle": "फ्रेंड रिक्वेस्ट स्वीकार नहीं की जा सकी",
+    "@friendAcceptFailedTitle": {
+        "description": "Title of the dialog shown when accepting a friend request fails."
+    },
+    "friendAcceptUnavailable": "वह फ्रेंड रिक्वेस्ट अब उपलब्ध नहीं है। रीफ़्रेश करें और फिर से कोशिश करें।",
+    "@friendAcceptUnavailable": {
+        "description": "Body of the accept friend request error dialog when the request no longer exists."
+    },
+    "friendAcceptClaimToAccept": "फ्रेंड रिक्वेस्ट स्वीकार करने के लिए साइन अप पूरा करें।",
+    "@friendAcceptClaimToAccept": {
+        "description": "Body of the accept friend request error dialog when the account is unclaimed."
+    },
+    "friendAcceptFailedMessage": "फ्रेंड रिक्वेस्ट स्वीकार नहीं की जा सकी। फिर से कोशिश करें।",
+    "@friendAcceptFailedMessage": {
+        "description": "Fallback body of the accept friend request error dialog."
+    },
+    "friendCancelFailedTitle": "फ्रेंड रिक्वेस्ट रद्द नहीं की जा सकी",
+    "@friendCancelFailedTitle": {
+        "description": "Title of the dialog shown when cancelling an outgoing friend request fails."
+    },
+    "friendIgnoreFailedTitle": "फ्रेंड रिक्वेस्ट को अनदेखा नहीं किया जा सका",
+    "@friendIgnoreFailedTitle": {
+        "description": "Title of the dialog shown when ignoring an incoming friend request fails."
+    },
+    "friendIgnoreFailedMessage": "फ्रेंड रिक्वेस्ट को अनदेखा नहीं किया जा सका। फिर से कोशिश करें।",
+    "@friendIgnoreFailedMessage": {
+        "description": "Body of the ignore friend request error dialog."
+    },
+    "friendRemoveFailedTitle": "दोस्त को हटाया नहीं जा सका",
+    "@friendRemoveFailedTitle": {
+        "description": "Title of the dialog shown when removing a friend fails."
+    },
+    "friendRemoveFailedMessage": "इस दोस्त को हटाया नहीं जा सका। फिर से कोशिश करें।",
+    "@friendRemoveFailedMessage": {
+        "description": "Body of the remove friend error dialog."
+    },
+    "userBlockFailedTitle": "यूज़र को ब्लॉक नहीं किया जा सका",
+    "@userBlockFailedTitle": {
+        "description": "Title of the dialog shown when blocking a user fails."
+    },
+    "userBlockSystemAccount": "इस अकाउंट को ब्लॉक नहीं किया जा सकता।",
+    "@userBlockSystemAccount": {
+        "description": "Body of the block user error dialog when the target is a system account."
+    },
+    "userBlockFailedMessage": "इस यूज़र को ब्लॉक नहीं किया जा सका। फिर से कोशिश करें।",
+    "@userBlockFailedMessage": {
+        "description": "Fallback body of the block user error dialog."
+    },
+    "userUnblockFailedTitle": "यूज़र को अनब्लॉक नहीं किया जा सका",
+    "@userUnblockFailedTitle": {
+        "description": "Title of the dialog shown when unblocking a user fails."
+    },
+    "userUnblockFailedMessage": "इस यूज़र को अनब्लॉक नहीं किया जा सका। फिर से कोशिश करें।",
+    "@userUnblockFailedMessage": {
+        "description": "Body of the unblock user error dialog."
+    },
+    "friendCancelRequestConfirmDescription": "क्या आप {userName} को भेजी गई अपनी फ्रेंड रिक्वेस्ट रद्द करना चाहते हैं?",
+    "@friendCancelRequestConfirmDescription": {
+        "description": "Confirmation body before cancelling an outgoing friend request.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorSomethingWentWrongTitle": "कुछ गड़बड़ हो गई",
+    "@errorSomethingWentWrongTitle": {
+        "description": "Title of a generic error dialog when an action fails."
+    },
+    "errorUnexpectedTryAgain": "कोई अनपेक्षित गड़बड़ी हुई। फिर से कोशिश करें।",
+    "@errorUnexpectedTryAgain": {
+        "description": "Fallback body of a generic error dialog when the server gives no reason."
+    },
+    "errorMessagingPausedTitle": "मैसेजिंग अभी रुकी हुई है",
+    "@errorMessagingPausedTitle": {
+        "description": "Title of the dialog shown when the account is temporarily limited from messaging."
+    },
+    "errorMessagingPausedMessage": "आपके अकाउंट पर मैसेजिंग अभी रुकी हुई है। आगे बढ़ने के लिए अपना ईमेल देखें, बस एक आसान स्टेप पूरा करना है।",
+    "@errorMessagingPausedMessage": {
+        "description": "Fallback body of the messaging paused dialog when the server gives no reason."
+    },
+    "errorFeatureDisabledTitle": "सुविधा अस्थायी रूप से बंद है",
+    "@errorFeatureDisabledTitle": {
+        "description": "Title of the dialog shown when the server has paused a feature."
+    },
+    "errorFeatureDisabledMessage": "यह सुविधा रोकी गई है। बाद में फिर से कोशिश करें।",
+    "@errorFeatureDisabledMessage": {
+        "description": "Body of the feature temporarily disabled dialog."
+    },
+    "dmErrorStartConversationTitle": "यह बातचीत शुरू नहीं की जा सकी",
+    "@dmErrorStartConversationTitle": {
+        "description": "Title of the dialog shown when opening or creating a direct message fails."
+    },
+    "dmErrorCannotMessageMessage": "हो सकता है कि वे आपसे मैसेज स्वीकार न कर रहे हों या अब आप किसी कम्युनिटी में साथ न हों।",
+    "@dmErrorCannotMessageMessage": {
+        "description": "Body of the open DM error dialog when the user can't be messaged."
+    },
+    "dmErrorUnknownUserMessage": "यह यूज़र अब मौजूद नहीं है। रीफ़्रेश करें और फिर से कोशिश करें।",
+    "@dmErrorUnknownUserMessage": {
+        "description": "Body of the open DM error dialog when the user no longer exists."
+    },
+    "dmErrorClaimMessage": "डायरेक्ट मैसेज शुरू करने से पहले आपको अपना अकाउंट क्लेम करना होगा।",
+    "@dmErrorClaimMessage": {
+        "description": "Body of the open DM error dialog when the account is unclaimed."
+    },
+    "dmErrorVerifyEmailMessage": "डायरेक्ट मैसेज शुरू करने से पहले आपको अपना ईमेल पता वेरिफ़ाई करना होगा।",
+    "@dmErrorVerifyEmailMessage": {
+        "description": "Body of the open DM error dialog when the email is unverified."
+    },
+    "dmErrorTooManyRecipientsTitle": "इस ग्रुप में बहुत ज़्यादा लोग हैं",
+    "@dmErrorTooManyRecipientsTitle": {
+        "description": "Title of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorTooManyRecipientsMessage": "आपने ग्रुप DM की अनुमत संख्या से ज़्यादा लोगों को जोड़ दिया है। कुछ लोगों को हटाएँ और फिर से कोशिश करें।",
+    "@dmErrorTooManyRecipientsMessage": {
+        "description": "Body of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorMaxGroupDmsTitle": "आप ग्रुप DM की सीमा तक पहुँच गए हैं",
+    "@dmErrorMaxGroupDmsTitle": {
+        "description": "Title of the create group DM error dialog when someone has too many group DMs."
+    },
+    "dmErrorMaxGroupDmsMessage": "आपके या जिसे आप जोड़ रहे हैं उसके पास पहले से ही अधिकतम ग्रुप DM खुले हैं। किसी एक को छोड़ें और फिर से कोशिश करें।",
+    "@dmErrorMaxGroupDmsMessage": {
+        "description": "Body of the create group DM error dialog when someone has too many group DMs."
+    },
+    "groupDmAddFailedTitle": "ग्रुप में जोड़ा नहीं जा सका",
+    "@groupDmAddFailedTitle": {
+        "description": "Title of the dialog shown when adding a friend to a group DM fails."
+    },
+    "groupDmInviteFailedTitle": "इनवाइट लिंक नहीं बनाया जा सका",
+    "@groupDmInviteFailedTitle": {
+        "description": "Title of the dialog shown when creating a group DM invite link fails."
+    },
+    "dmCloseFailedTitle": "DM बंद नहीं कर पाए",
+    "@dmCloseFailedTitle": {
+        "description": "Title of the dialog shown when closing a direct message fails."
+    },
+    "groupDmLeaveFailedTitle": "ग्रुप नहीं छोड़ पाए",
+    "@groupDmLeaveFailedTitle": {
+        "description": "Title of the dialog shown when leaving a group DM fails."
+    },
+    "inviteJoinFailedTitle": "कम्युनिटी में शामिल नहीं हो सके",
+    "@inviteJoinFailedTitle": {
+        "description": "Title of the dialog shown when accepting an invite fails for an unknown reason."
+    },
+    "inviteErrorPausedMessage": "एडमिन ने इनवाइट रोक दिए हैं। आप अभी शामिल नहीं हो सकते।",
+    "@inviteErrorPausedMessage": {
+        "description": "Body of the invite error dialog when the community has paused invites."
+    },
+    "inviteErrorAtCapacityTitle": "कम्युनिटी की क्षमता पूरी हो गई",
+    "@inviteErrorAtCapacityTitle": {
+        "description": "Title of the invite error dialog when the community is full."
+    },
+    "inviteErrorAtCapacityMessage": "यह कम्युनिटी अपनी अधिकतम सदस्य संख्या तक पहुँच गई है और अभी नए सदस्यों को स्वीकार नहीं कर रही है।",
+    "@inviteErrorAtCapacityMessage": {
+        "description": "Body of the invite error dialog when the community is full."
+    },
+    "inviteErrorPresenceTitle": "गेटवे कनेक्शन ज़रूरी है",
+    "@inviteErrorPresenceTitle": {
+        "description": "Title of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorPresenceMessage": "अस्थायी इनवाइट के लिए लाइव कनेक्शन चाहिए। अपना कनेक्शन जांचें और फिर से कोशिश करें।",
+    "@inviteErrorPresenceMessage": {
+        "description": "Body of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorBannedTitle": "आपको बैन कर दिया गया है",
+    "@inviteErrorBannedTitle": {
+        "description": "Title of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorBannedMessage": "आपको इस कम्युनिटी से बैन कर दिया गया है और आप इसमें शामिल नहीं हो सकते।",
+    "@inviteErrorBannedMessage": {
+        "description": "Body of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorIpBannedTitle": "आपका आईपी बैन है",
+    "@inviteErrorIpBannedTitle": {
+        "description": "Title of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorIpBannedMessage": "आपका आईपी पता इस कम्युनिटी से बैन कर दिया गया है और आप इसमें शामिल नहीं हो सकते।",
+    "@inviteErrorIpBannedMessage": {
+        "description": "Body of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorClaimTitle": "अकाउंट वेरिफ़िकेशन ज़रूरी है",
+    "@inviteErrorClaimTitle": {
+        "description": "Title of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "inviteErrorClaimMessage": "पहले अपने अकाउंट में ईमेल और पासवर्ड जोड़ें।",
+    "@inviteErrorClaimMessage": {
+        "description": "Body of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "leaveCommunityFailedTitle": "कम्युनिटी नहीं छोड़ पाए",
+    "@leaveCommunityFailedTitle": {
+        "description": "Title of the dialog shown when leaving a community fails."
+    },
+    "leaveCommunityFailedMessage": "अभी नहीं छोड़ा जा सका। कुछ देर में फिर से कोशिश करें।",
+    "@leaveCommunityFailedMessage": {
+        "description": "Body of the dialog shown when leaving a community fails."
+    },
+    "chatSendFailedTitle": "आपका मैसेज भेजा नहीं जा सका",
+    "@chatSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a message fails."
+    },
+    "chatSendFailedMessage": "अपना मैसेज फिर से भेजने की कोशिश करें।",
+    "@chatSendFailedMessage": {
+        "description": "Body of the dialog shown when sending a message fails."
+    },
+    "chatSendTooQuickTitle": "आप बहुत तेज़ी से मैसेज भेज रहे हैं",
+    "@chatSendTooQuickTitle": {
+        "description": "Title of the dialog shown when sending is rate limited."
+    },
+    "chatRateLimitedMessage": "थोड़ा धीरे — दोबारा कोशिश करने से पहले एक पल रुकें।",
+    "@chatRateLimitedMessage": {
+        "description": "Body of the dialog shown when a message action is rate limited."
+    },
+    "chatMatureContentTitle": "वयस्क सामग्री की अनुमति नहीं है",
+    "@chatMatureContentTitle": {
+        "description": "Title of the dialog shown when a message with mature content is rejected."
+    },
+    "chatMatureContentGuildMessage": "यह चैनल वयस्क सामग्री के लिए चिह्नित नहीं है। वयस्क सामग्री सिर्फ़ उन्हीं चैनलों में भेजी जा सकती है जो वयस्क सामग्री के लिए चिह्नित हों। अगर उचित हो, तो इस चैनल को अपडेट करने के लिए किसी मॉडरेटर से कहें।",
+    "@chatMatureContentGuildMessage": {
+        "description": "Body of the mature content dialog in a community channel."
+    },
+    "chatMatureContentDmMessage": "आपने या जिस व्यक्ति को आप मैसेज भेज रहे हैं, उसने डायरेक्ट मैसेज में संवेदनशील मीडिया ब्लॉक करना चुना है। आप दोनों में से कोई भी इसे {settingsPath} में बदल सकता है।",
+    "@chatMatureContentDmMessage": {
+        "description": "Body of the mature content dialog in a direct message. settingsPath is the settings location, such as User settings > Privacy dashboard > Sensitive content.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMatureContentGroupDmMessage": "यह ग्रुप वयस्क सामग्री के लिए चिह्नित नहीं है। अगर ग्रुप के सभी सदस्य 18 वर्ष या उससे अधिक उम्र के हैं, तो ग्रुप का मालिक ग्रुप की सेटिंग में वयस्क सामग्री चालू कर सकता है।",
+    "@chatMatureContentGroupDmMessage": {
+        "description": "Body of the mature content dialog in a group DM."
+    },
+    "chatFileTooLargeTitle": "फ़ाइल का साइज़ बहुत बड़ा है",
+    "@chatFileTooLargeTitle": {
+        "description": "Title of the dialog shown when an attachment is over the size limit."
+    },
+    "chatFileTooLargeMessage": "आप जो फ़ाइलें अपलोड करने की कोशिश कर रहे हैं उनमें से एक या ज़्यादा फ़ाइलों का साइज़, प्रति फ़ाइल {maxSize} की अधिकतम साइज़ सीमा से ज़्यादा है।",
+    "@chatFileTooLargeMessage": {
+        "description": "Body of the dialog shown when an attachment is over the size limit. maxSize is a formatted size such as 25 MB.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "chatHeavyTitle": "अरे, यह तो बहुत ज़्यादा है",
+    "@chatHeavyTitle": {
+        "description": "Title of the dialog shown when a message has too many reactions or too many files are attached."
+    },
+    "chatReactionsHeavyMessage": "यह एक भारी मैसेज है। और रिएक्शन जोड़ने से पहले आपको कुछ रिएक्शन हटाने होंगे।",
+    "@chatReactionsHeavyMessage": {
+        "description": "Body of the dialog shown when a message has the maximum number of reactions."
+    },
+    "chatReactionTimedOut": "टाइमआउट के दौरान आप नए रिएक्शन नहीं जोड़ सकते।",
+    "@chatReactionTimedOut": {
+        "description": "Toast shown when adding a reaction fails because the user is timed out."
+    },
+    "chatEditTooQuickTitle": "आप बहुत तेज़ी से मैसेज एडिट कर रहे हैं",
+    "@chatEditTooQuickTitle": {
+        "description": "Title of the dialog shown when editing is rate limited."
+    },
+    "chatEditFailedMessage": "अपना मैसेज फिर से एडिट करने की कोशिश करें।",
+    "@chatEditFailedMessage": {
+        "description": "Body of the dialog shown when editing a message fails."
+    },
+    "chatDeleteTooQuickTitle": "आप बहुत तेज़ी से मैसेज मिटा रहे हैं",
+    "@chatDeleteTooQuickTitle": {
+        "description": "Title of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteTooQuickMessage": "और मैसेज डिलीट करने से पहले थोड़ा इंतज़ार करें।",
+    "@chatDeleteTooQuickMessage": {
+        "description": "Body of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteFailedTitle": "वह मैसेज डिलीट नहीं हो सका",
+    "@chatDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a message fails."
+    },
+    "chatDeleteFailedMessage": "वह मैसेज फिर से मिटाने की कोशिश करें।",
+    "@chatDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting a message fails."
+    },
+    "chatAltTextFailedTitle": "ऑल्ट टेक्स्ट अपडेट नहीं किया जा सका",
+    "@chatAltTextFailedTitle": {
+        "description": "Title of the dialog shown when updating attachment alt text fails."
+    },
+    "chatAltTextUnknownMessage": "यह मैसेज अब मौजूद नहीं है।",
+    "@chatAltTextUnknownMessage": {
+        "description": "Body of the alt text error dialog when the message was deleted."
+    },
+    "chatAltTextNoPermission": "आप इस मैसेज को एडिट नहीं कर सकते हैं।",
+    "@chatAltTextNoPermission": {
+        "description": "Body of the alt text error dialog when the user lacks permission."
+    },
+    "chatAltTextUnavailable": "एडिटिंग अस्थायी रूप से अनुपलब्ध है। कृपया बाद में फिर से कोशिश करें।",
+    "@chatAltTextUnavailable": {
+        "description": "Body of the alt text error dialog when editing is paused."
+    },
+    "chatAltTextFailedMessage": "ऑल्ट टेक्स्ट अपडेट नहीं किया जा सका। कृपया फिर से कोशिश करें।",
+    "@chatAltTextFailedMessage": {
+        "description": "Fallback body of the alt text error dialog."
+    },
+    "chatPinFailedTitle": "मैसेज पिन नहीं हो पाया",
+    "@chatPinFailedTitle": {
+        "description": "Title of the dialog shown when pinning a message fails."
+    },
+    "chatUnpinFailedTitle": "मैसेज अनपिन नहीं हो पाया",
+    "@chatUnpinFailedTitle": {
+        "description": "Title of the dialog shown when unpinning a message fails."
+    },
+    "chatPinFailedMessage": "कुछ गड़बड़ हो गई। बाद में फिर से कोशिश करें।",
+    "@chatPinFailedMessage": {
+        "description": "Body of the dialog shown when pinning or unpinning a message fails."
+    },
+    "chatPinBlockedMessage": "आप अभी इस यूज़र के साथ इंटरैक्ट नहीं कर सकते हैं।",
+    "@chatPinBlockedMessage": {
+        "description": "Body of the pin error dialog when the other user can't be interacted with."
+    },
+    "bookmarkLimitTitle": "बुकमार्क की सीमा पूरी हो गई",
+    "@bookmarkLimitTitle": {
+        "description": "Title of the dialog shown when the bookmark limit is reached."
+    },
+    "savedMediaLimitTitle": "सेव किए गए मीडिया की सीमा पूरी हो गई",
+    "@savedMediaLimitTitle": {
+        "description": "Title of the dialog shown when the saved media limit is reached."
+    },
+    "errorContentBlockedTitle": "कंटेंट ब्लॉक किया गया",
+    "@errorContentBlockedTitle": {
+        "description": "Title of the dialog shown when an action is flagged by safety systems."
+    },
+    "errorContentBlockedMessage": "आपकी कार्रवाई पूरी नहीं हो पाई क्योंकि इसे हमारे सुरक्षा सिस्टम ने फ़्लैग किया है। अगर आपको लगता है कि यह गलती से हुआ है, तो कृपया सहायता टीम से संपर्क करें।",
+    "@errorContentBlockedMessage": {
+        "description": "Body of the content blocked dialog on the official instance."
+    },
+    "errorContentBlockedSelfHostedMessage": "आपकी कार्रवाई पूरी नहीं हो पाई क्योंकि इसे हमारे सुरक्षा सिस्टम ने फ़्लैग किया है। अगर आपको लगता है कि यह गलती से हुआ है, तो कृपया इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।",
+    "@errorContentBlockedSelfHostedMessage": {
+        "description": "Body of the content blocked dialog on a self-hosted instance."
+    },
+    "channelDeletedToast": "चैनल मिटा दिया गया",
+    "@channelDeletedToast": {
+        "description": "Toast shown after a channel is deleted."
+    },
+    "categoryDeletedToast": "श्रेणी मिटा दी गई",
+    "@categoryDeletedToast": {
+        "description": "Toast shown after a category is deleted."
+    },
+    "channelDeleteNoPermissionTitle": "आप इसे हटा नहीं सकते",
+    "@channelDeleteNoPermissionTitle": {
+        "description": "Title of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionChannel": "आपके पास इस चैनल को हटाने की अनुमति नहीं है।",
+    "@channelDeleteNoPermissionChannel": {
+        "description": "Body of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionCategory": "आपके पास इस श्रेणी को हटाने की अनुमति नहीं है।",
+    "@channelDeleteNoPermissionCategory": {
+        "description": "Body of the delete category error dialog when the user lacks permission."
+    },
+    "channelDeleteAlreadyDeletedTitle": "पहले ही हटा दिया गया है",
+    "@channelDeleteAlreadyDeletedTitle": {
+        "description": "Title of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedChannel": "यह चैनल अब मौजूद नहीं है। हो सकता है इसे पहले ही हटा दिया गया हो।",
+    "@channelDeleteAlreadyDeletedChannel": {
+        "description": "Body of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedCategory": "यह श्रेणी अब मौजूद नहीं है। हो सकता है इसे पहले ही हटा दिया गया हो।",
+    "@channelDeleteAlreadyDeletedCategory": {
+        "description": "Body of the delete category error dialog when the category no longer exists."
+    },
+    "channelDeleteFailedChannelTitle": "यह चैनल हटाया नहीं जा सका",
+    "@channelDeleteFailedChannelTitle": {
+        "description": "Title of the delete channel error dialog for other failures."
+    },
+    "channelDeleteFailedCategoryTitle": "इस श्रेणी को हटाया नहीं जा सका",
+    "@channelDeleteFailedCategoryTitle": {
+        "description": "Title of the delete category error dialog for other failures."
+    },
+    "channelPermissionsUpdateFailedTitle": "चैनल अनुमतियाँ अपडेट नहीं की जा सकीं",
+    "@channelPermissionsUpdateFailedTitle": {
+        "description": "Title of the dialog shown when saving channel permissions fails."
+    },
+    "channelSettingsSaveFailedTitle": "चैनल सेटिंग सेव नहीं हो सकी",
+    "@channelSettingsSaveFailedTitle": {
+        "description": "Title of the dialog shown when saving channel settings fails."
+    },
+    "emojiSlotsFullTitle": "कोई इमोजी स्लॉट उपलब्ध नहीं",
+    "@emojiSlotsFullTitle": {
+        "description": "Title of the dialog shown when a community has no free emoji slots."
+    },
+    "stickerSlotsFullTitle": "कोई स्टिकर स्लॉट उपलब्ध नहीं",
+    "@stickerSlotsFullTitle": {
+        "description": "Title of the dialog shown when a community has no free sticker slots."
+    },
+    "emojiSomeFailedMessage": "इन फ़ाइलों की समीक्षा करें और छोटी या सरल इमेज के साथ फिर से कोशिश करें।",
+    "@emojiSomeFailedMessage": {
+        "description": "Body of the dialog shown when some emoji files could not be added."
+    },
+    "emojiErrorGoneTitle": "यह इमोजी अब मौजूद नहीं है",
+    "@emojiErrorGoneTitle": {
+        "description": "Title of the emoji error dialog when the emoji was deleted."
+    },
+    "emojiRenameGoneMessage": "हो सकता है इसे हटा दिया गया हो। नाम को पहले जैसा कर दिया गया है।",
+    "@emojiRenameGoneMessage": {
+        "description": "Body of the rename emoji error dialog when the emoji was deleted."
+    },
+    "emojiRenameNoPermissionTitle": "आप इस इमोजी का नाम नहीं बदल सकते",
+    "@emojiRenameNoPermissionTitle": {
+        "description": "Title of the rename emoji error dialog when the user lacks permission."
+    },
+    "emojiRenameNoPermissionMessage": "आपके पास इस इमोजी का नाम बदलने की अनुमति नहीं है। नाम को पहले जैसा कर दिया गया है।",
+    "@emojiRenameNoPermissionMessage": {
+        "description": "Body of the rename emoji error dialog when the user lacks permission."
+    },
+    "emojiRenameRateLimitedMessage": "कृपया कुछ देर प्रतीक्षा करें और फिर से नाम बदलने का प्रयास करें।",
+    "@emojiRenameRateLimitedMessage": {
+        "description": "Body of the rename emoji error dialog when rate limited."
+    },
+    "emojiRenameFailedMessage": "नाम पहले जैसा हो गया है। कृपया कुछ देर बाद फिर से कोशिश करें।",
+    "@emojiRenameFailedMessage": {
+        "description": "Fallback body of the rename emoji error dialog."
+    },
+    "emojiDeleteGoneMessage": "लगता है इसे पहले ही हटा दिया गया था।",
+    "@emojiDeleteGoneMessage": {
+        "description": "Body of the delete emoji error dialog when the emoji was already deleted."
+    },
+    "emojiDeleteNoPermissionTitle": "आप इस इमोजी को हटा नहीं सकते",
+    "@emojiDeleteNoPermissionTitle": {
+        "description": "Title of the delete emoji error dialog when the user lacks permission."
+    },
+    "emojiDeleteNoPermissionMessage": "आपके पास इस इमोजी को हटाने की अनुमति नहीं है।",
+    "@emojiDeleteNoPermissionMessage": {
+        "description": "Body of the delete emoji error dialog when the user lacks permission."
+    },
+    "emojiDeleteRateLimitedMessage": "कृपया कुछ देर प्रतीक्षा करें और फिर से हटाने का प्रयास करें।",
+    "@emojiDeleteRateLimitedMessage": {
+        "description": "Body of the delete emoji error dialog when rate limited."
+    },
+    "stickerTooLargeTitle": "स्टिकर बहुत बड़ा है",
+    "@stickerTooLargeTitle": {
+        "description": "Title of the dialog shown when a sticker upload is over the size limit."
+    },
+    "stickerTooLargeMessage": "अपलोड सेवा ने इस स्टिकर को {maxSize} से बड़ा होने के कारण अस्वीकार कर दिया है। कोई छोटी फ़ाइल, कोई सरल इमेज या कोई छोटा एनिमेशन आज़माएँ।",
+    "@stickerTooLargeMessage": {
+        "description": "Body of the dialog shown when a sticker upload is over the size limit. maxSize is a formatted size such as 512 KB.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerCreateFailedMessage": "इस स्टिकर को तैयार करते समय कुछ गड़बड़ हो गई। कोई दूसरी फ़ाइल आज़माएँ या कुछ देर बाद फिर से कोशिश करें।",
+    "@stickerCreateFailedMessage": {
+        "description": "Fallback body of the create sticker error dialog."
+    },
+    "moderationTimeoutFailed": "सदस्य को टाइमआउट नहीं किया जा सका। फिर से कोशिश करें।",
+    "@moderationTimeoutFailed": {
+        "description": "Body of the dialog shown when timing out a member fails."
+    },
+    "moderationRemoveTimeoutFailed": "टाइमआउट नहीं हटाया जा सका। फिर से कोशिश करें।",
+    "@moderationRemoveTimeoutFailed": {
+        "description": "Body of the dialog shown when removing a member's timeout fails."
+    },
+    "moderationKickFailed": "सदस्य को किक नहीं कर पाए। फिर से कोशिश करें।",
+    "@moderationKickFailed": {
+        "description": "Body of the dialog shown when kicking a member fails."
+    },
+    "moderationBanFailed": "सदस्य को बैन नहीं कर पाए। फिर से कोशिश करें।",
+    "@moderationBanFailed": {
+        "description": "Body of the dialog shown when banning a member fails."
+    },
+    "transferOwnershipFailedTitle": "स्वामित्व ट्रांसफ़र नहीं हो पाया",
+    "@transferOwnershipFailedTitle": {
+        "description": "Title of the dialog shown when transferring community ownership fails."
+    },
+    "revokeBanFailedTitle": "बैन नहीं हटाया जा सका",
+    "@revokeBanFailedTitle": {
+        "description": "Title of the dialog shown when revoking a ban fails."
+    },
+    "voiceModerationNoPermissionTitle": "आप ऐसा नहीं कर सकते",
+    "@voiceModerationNoPermissionTitle": {
+        "description": "Title of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationNoPermissionMessage": "आपके पास इस सदस्य के लिए ऐसा करने की अनुमति नहीं है।",
+    "@voiceModerationNoPermissionMessage": {
+        "description": "Body of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationLeftTitle": "उन्होंने कॉल छोड़ दी",
+    "@voiceModerationLeftTitle": {
+        "description": "Title of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationLeftMessage": "यह सदस्य अब वॉइस से कनेक्टेड नहीं है।",
+    "@voiceModerationLeftMessage": {
+        "description": "Body of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationUnknownMemberTitle": "सदस्य नहीं मिला",
+    "@voiceModerationUnknownMemberTitle": {
+        "description": "Title of the voice moderation error dialog when the member left the community."
+    },
+    "voiceModerationUnknownMemberMessage": "यह सदस्य अब कम्युनिटी में नहीं है। रीफ़्रेश करें और फिर से कोशिश करें।",
+    "@voiceModerationUnknownMemberMessage": {
+        "description": "Body of the voice moderation error dialog when the member left the community."
+    },
+    "voiceJoinTimedOut": "टाइमआउट के दौरान आप शामिल नहीं हो सकते।",
+    "@voiceJoinTimedOut": {
+        "description": "Shown when joining a voice channel fails because the user is timed out."
+    },
+    "voiceJoinClaimAccount": "इस वॉइस चैनल से जुड़ने के लिए अपना अकाउंट क्लेम करें।",
+    "@voiceJoinClaimAccount": {
+        "description": "Shown when an unclaimed account tries to join a community voice channel."
+    },
+    "voiceJoinClaimAccountDirectCall": "1:1 कॉल शुरू करने या उसमें शामिल होने के लिए अपना अकाउंट क्लेम करें।",
+    "@voiceJoinClaimAccountDirectCall": {
+        "description": "Shown when an unclaimed account tries to start or join a direct call."
+    },
+    "voiceJoinUserLimit": "इस वॉइस चैनल में यूज़र की संख्या पूरी हो चुकी है। बाद में फिर से कोशिश करें या कोई दूसरा चैनल जॉइन करें।",
+    "@voiceJoinUserLimit": {
+        "description": "Shown when joining a voice channel fails because it is full."
+    },
+    "voiceJoinConnectionLimit": "आप इस वॉइस चैनल की कनेक्शन सीमा तक पहुँच गए हैं।",
+    "@voiceJoinConnectionLimit": {
+        "description": "Shown when joining a voice channel fails because the user has too many connections."
+    },
+    "voiceJoinChannelUnavailable": "यह वॉइस चैनल अब उपलब्ध नहीं है।",
+    "@voiceJoinChannelUnavailable": {
+        "description": "Shown when joining a voice channel fails because it no longer exists."
+    },
+    "avatarUploadFailedTitle": "अवतार अपलोड नहीं किया जा सका",
+    "@avatarUploadFailedTitle": {
+        "description": "Title of the dialog shown when an avatar can't be used."
+    },
+    "bannerUploadFailedTitle": "बैनर अपलोड नहीं किया जा सका",
+    "@bannerUploadFailedTitle": {
+        "description": "Title of the dialog shown when a profile banner can't be used."
+    },
+    "passkeyDeleteFailedTitle": "पासकी मिटाई नहीं जा सकी",
+    "@passkeyDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a passkey fails."
+    },
+    "premiumPaymentsUnavailableTitle": "भुगतान अनुपलब्ध हैं",
+    "@premiumPaymentsUnavailableTitle": {
+        "description": "Title of the billing error dialog when payments are temporarily unavailable."
+    },
+    "premiumPaymentsUnavailableMessage": "भुगतान अस्थायी रूप से अनुपलब्ध हैं। कृपया कुछ देर बाद फिर से प्रयास करें।",
+    "@premiumPaymentsUnavailableMessage": {
+        "description": "Body of the billing error dialog when payments are temporarily unavailable."
+    },
+    "premiumNoSubscriptionTitle": "कोई सक्रिय सदस्यता नहीं",
+    "@premiumNoSubscriptionTitle": {
+        "description": "Title of the billing error dialog when there is no active subscription."
+    },
+    "premiumNoSubscriptionMessage": "हमें इस अकाउंट पर कोई सक्रिय सदस्यता नहीं मिली। रीफ़्रेश करें और फिर से कोशिश करें।",
+    "@premiumNoSubscriptionMessage": {
+        "description": "Body of the billing error dialog when there is no active subscription."
+    },
+    "premiumAlreadyCancelingTitle": "पहले से रद्द करने के लिए सेट है",
+    "@premiumAlreadyCancelingTitle": {
+        "description": "Title of the billing error dialog when the subscription is already set to cancel."
+    },
+    "premiumAlreadyCancelingMessage": "आपकी सदस्यता पहले से ही आपकी बिलिंग अवधि के अंत में रद्द होने के लिए सेट है।",
+    "@premiumAlreadyCancelingMessage": {
+        "description": "Body of the billing error dialog when the subscription is already set to cancel."
+    },
+    "premiumNotCancelingTitle": "सदस्यता रद्द नहीं हो रही है",
+    "@premiumNotCancelingTitle": {
+        "description": "Title of the billing error dialog when there is nothing to reactivate."
+    },
+    "premiumNotCancelingMessage": "आपकी सदस्यता रद्द होने के लिए सेट नहीं है, इसलिए फिर से सक्रिय करने के लिए कुछ भी नहीं है।",
+    "@premiumNotCancelingMessage": {
+        "description": "Body of the billing error dialog when there is nothing to reactivate."
+    },
+    "premiumCancelFailedTitle": "आपकी सदस्यता रद्द नहीं हो पाई",
+    "@premiumCancelFailedTitle": {
+        "description": "Title of the dialog shown when cancelling the subscription fails."
+    },
+    "premiumCancelFailedMessage": "आपकी सदस्यता रद्द करते समय कुछ गड़बड़ हो गई। कृपया कुछ देर बाद फिर से कोशिश करें।",
+    "@premiumCancelFailedMessage": {
+        "description": "Body of the dialog shown when cancelling the subscription fails."
+    },
+    "premiumReactivateFailedTitle": "आपकी सदस्यता फिर से सक्रिय नहीं की जा सकी",
+    "@premiumReactivateFailedTitle": {
+        "description": "Title of the dialog shown when reactivating the subscription fails."
+    },
+    "premiumReactivateFailedMessage": "आपकी सदस्यता को फिर से सक्रिय करते समय कुछ गड़बड़ हो गई। कृपया कुछ देर बाद फिर से कोशिश करें।",
+    "@premiumReactivateFailedMessage": {
+        "description": "Body of the dialog shown when reactivating the subscription fails."
+    },
+    "premiumRefundConfirmTitle": "अपनी सबसे हाल की खरीदारी रिफ़ंड करें?",
+    "@premiumRefundConfirmTitle": {
+        "description": "Title of the confirmation before a self-serve refund."
+    },
+    "premiumRefundConfirmBody": "इससे आपके सबसे हाल के इनवॉइस का रिफंड हो जाता है और उससे जुड़ी कोई भी सदस्यता रद्द हो जाती है। इसके बाद आप 30 दिन तक फिर से खुद रिफंड नहीं ले पाएंगे।",
+    "@premiumRefundConfirmBody": {
+        "description": "Body of the confirmation before a self-serve refund."
+    },
+    "premiumRefundConfirm": "खरीदारी रिफ़ंड करें",
+    "@premiumRefundConfirm": {
+        "description": "Confirm button of the self-serve refund confirmation."
+    },
+    "premiumRefundIssuedToast": "रिफ़ंड जारी कर दिया गया है। इसे दिखने में कुछ कार्यदिवस लग सकते हैं।",
+    "@premiumRefundIssuedToast": {
+        "description": "Toast shown after a self-serve refund succeeds."
+    },
+    "premiumRefundOutsideWindowTitle": "रिफ़ंड विंडो के बाहर",
+    "@premiumRefundOutsideWindowTitle": {
+        "description": "Title of the refund error dialog when the purchase is too old."
+    },
+    "premiumRefundOutsideWindowMessage": "आपकी हाल की खरीदारी अब रिफ़ंड विंडो के अंदर नहीं है। बिलिंग संबंधी समस्याओं के लिए सहायता से संपर्क करें।",
+    "@premiumRefundOutsideWindowMessage": {
+        "description": "Body of the refund error dialog when the purchase is too old."
+    },
+    "premiumRefundCooldownTitle": "आपने हाल ही में रिफंड किया है",
+    "@premiumRefundCooldownTitle": {
+        "description": "Title of the refund error dialog during the refund cooldown."
+    },
+    "premiumRefundCooldownMessage": "आपने हाल ही में सेल्फ़-सर्व रिफ़ंड का इस्तेमाल किया है। कूलडाउन खत्म होने के बाद आप फिर से रिफ़ंड कर सकते हैं।",
+    "@premiumRefundCooldownMessage": {
+        "description": "Body of the refund error dialog during the refund cooldown."
+    },
+    "premiumRefundNothingTitle": "रिफ़ंड के लिए कुछ नहीं",
+    "@premiumRefundNothingTitle": {
+        "description": "Title of the refund error dialog when there is no recent purchase."
+    },
+    "premiumRefundNothingMessage": "हमें इस अकाउंट पर रिफ़ंड के लिए हाल की कोई खरीदारी नहीं मिली।",
+    "@premiumRefundNothingMessage": {
+        "description": "Body of the refund error dialog when there is no recent purchase."
+    },
+    "premiumRefundFailedTitle": "इस खरीदारी का रिफ़ंड नहीं किया जा सका",
+    "@premiumRefundFailedTitle": {
+        "description": "Title of the refund error dialog for other failures."
+    },
+    "premiumRefundFailedMessage": "आपका रिफंड जारी करते समय कुछ गड़बड़ हो गई। अगर ऐसा बार-बार होता है, तो सहायता टीम से संपर्क करें।",
+    "@premiumRefundFailedMessage": {
+        "description": "Body of the refund error dialog for other failures."
+    },
+    "premiumVerifyEmailTitle": "पहले अपना ईमेल वेरिफ़ाई करें",
+    "@premiumVerifyEmailTitle": {
+        "description": "Title of the checkout error dialog when the email is unverified."
+    },
+    "premiumVerifyEmailBody": "{productName} खरीदने से पहले आपको अपना ईमेल वेरिफ़ाई करना होगा।",
+    "@premiumVerifyEmailBody": {
+        "description": "Body of the checkout error dialog when the email is unverified. productName is the premium product name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCheckoutBlockedTitle": "चेकआउट अनुपलब्ध है",
+    "@premiumCheckoutBlockedTitle": {
+        "description": "Title of the checkout error dialog when checkout is blocked for the account."
+    },
+    "premiumCheckoutBlockedBody": "इस अकाउंट के लिए चेकआउट ब्लॉक कर दिया गया है। अगर आपको मदद चाहिए, तो {supportEmail} पर संपर्क करें।",
+    "@premiumCheckoutBlockedBody": {
+        "description": "Body of the checkout error dialog when checkout is blocked, on the official instance.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCheckoutBlockedBodySelfHosted": "इस अकाउंट के लिए चेकआउट ब्लॉक है।",
+    "@premiumCheckoutBlockedBodySelfHosted": {
+        "description": "Body of the checkout error dialog when checkout is blocked, on a self-hosted instance."
+    },
+    "accountSignOutTitle": "{identifier} से साइन आउट करें?",
+    "@accountSignOutTitle": {
+        "description": "Title of the confirmation before signing out of one saved account. The identifier is the account's username.",
+        "placeholders": {
+            "identifier": {
+                "type": "String"
+            }
+        }
+    },
+    "userTagOp": "OP",
+    "@userTagOp": {
+        "description": "Tag next to the author of a forum post on their own messages in that post. Short for original poster, keep it to two or three letters."
+    },
+    "lookAndFeelThemeColorsTitle": "थीम के रंग",
+    "@lookAndFeelThemeColorsTitle": {
+        "description": "Title for the theme color token editor page."
+    },
+    "lookAndFeelThemeColorsConfigureDescription": "इस डिवाइस के लिए थीम के अलग-अलग रंग कस्टमाइज़ करें।",
+    "@lookAndFeelThemeColorsConfigureDescription": {
+        "description": "Description on the configure row that opens theme colors."
+    },
+    "lookAndFeelThemeColorsEditingMode": "{mode} एडिट हो रहा है",
+    "@lookAndFeelThemeColorsEditingMode": {
+        "description": "Subtitle showing which theme mode color overrides apply to.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsSyncSectionTitle": "थीम स्टूडियो सिंक",
+    "lookAndFeelThemeColorsSyncFromStudioLabel": "थीम स्टूडियो के रंग इस्तेमाल करें",
+    "@lookAndFeelThemeColorsSyncFromStudioLabel": {
+        "description": "Toggle to apply custom CSS colors synced from desktop Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioDescription": "चालू होने पर, डेस्कटॉप पर थीम स्टूडियो में किए गए रंग बदलाव इस डिवाइस पर लागू होते हैं। बंद होने पर, यह डिवाइस अपने रंग रखता है।",
+    "@lookAndFeelThemeColorsSyncFromStudioDescription": {
+        "description": "Description for pulling theme colors from Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncToStudioLabel": "रंग बदलाव थीम स्टूडियो को भेजें",
+    "@lookAndFeelThemeColorsSyncToStudioLabel": {
+        "description": "Toggle to push mobile theme color edits to synced preferences."
+    },
+    "lookAndFeelThemeColorsSyncToStudioDescription": "चालू होने पर, यहाँ बदले गए रंग आपके दूसरे डिवाइस पर थीम स्टूडियो में सिंक होते हैं। बंद होने पर, डेस्कटॉप थीम स्टूडियो अपने रंग रखता है।",
+    "@lookAndFeelThemeColorsSyncToStudioDescription": {
+        "description": "Description for pushing theme colors to Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioOffBanner": "डेस्कटॉप थीम स्टूडियो के रंग बदलाव इस डिवाइस पर लागू नहीं होंगे।",
+    "@lookAndFeelThemeColorsSyncFromStudioOffBanner": {
+        "description": "Banner when pull from Theme Studio is disabled."
+    },
+    "lookAndFeelThemeColorsEssentialSectionTitle": "मुख्य रंग",
+    "@lookAndFeelThemeColorsEssentialSectionTitle": {
+        "description": "Section for the most impactful theme color tokens."
+    },
+    "lookAndFeelThemeColorsChatBackgroundWallpaperNote": "अगर आपने चैट वॉलपेपर सेट किया है, तो आपको यह रंग नहीं दिखेगा।",
+    "@lookAndFeelThemeColorsChatBackgroundWallpaperNote": {
+        "description": "Note under the chat background color picker when wallpaper may hide it."
+    },
+    "lookAndFeelThemeColorsResetForMode": "{mode} के सभी रंग रीसेट करें",
+    "@lookAndFeelThemeColorsResetForMode": {
+        "description": "Button to clear all scoped color overrides for a theme mode.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsResetConfirmTitle": "थीम के रंग रीसेट करें?",
+    "@lookAndFeelThemeColorsResetConfirmTitle": {
+        "description": "Title for reset-all theme colors confirmation."
+    },
+    "lookAndFeelThemeColorsResetConfirmBody": "इससे इस डिवाइस पर {mode} के लिए आपके कस्टम रंग हट जाएंगे।",
+    "@lookAndFeelThemeColorsResetConfirmBody": {
+        "description": "Body for reset-all theme colors confirmation.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsGroupBrandButtons": "ब्रांड और बटन",
+    "lookAndFeelThemeColorsGroupChatSurfaces": "चैट और मैसेज",
+    "lookAndFeelThemeColorsGroupSidebars": "साइडबार और नेविगेशन",
+    "lookAndFeelThemeColorsGroupHeaders": "हेडर",
+    "lookAndFeelThemeColorsGroupEmbedsMarkup": "एम्बेड और मेंशन",
+    "lookAndFeelThemeColorsGroupAccentsAlerts": "एक्सेंट और अलर्ट",
+    "lookAndFeelThemeColorsGroupControls": "सतहें और कंट्रोल",
+    "lookAndFeelOpenCommunitiesToLastChannelLabel": "कम्युनिटी को आपके आखिरी चैनल पर खोलें",
+    "@lookAndFeelOpenCommunitiesToLastChannelLabel": {
+        "description": "Toggle label. When on, tapping a community in the community list opens the last channel the user viewed there instead of its channel list."
+    },
+    "lookAndFeelOpenCommunitiesToLastChannelDescription": "किसी कम्युनिटी पर टैप करने से आप सीधे उस चैनल पर पहुँचते हैं जिसे आपने वहाँ आखिरी बार देखा था। उसकी चैनल सूची देखने के लिए दाईं ओर स्वाइप करें।",
+    "@lookAndFeelOpenCommunitiesToLastChannelDescription": {
+        "description": "Toggle description for opening communities to the last viewed channel."
+    },
+    "voiceScreenShareEnterFullscreenTooltip": "फ़ुल स्क्रीन",
+    "@voiceScreenShareEnterFullscreenTooltip": {
+        "description": "Tooltip for expanding a watched screen share to full screen."
+    },
+    "voiceScreenShareExitFullscreenTooltip": "फ़ुल स्क्रीन से बाहर निकलें",
+    "@voiceScreenShareExitFullscreenTooltip": {
+        "description": "Tooltip for leaving full screen while watching a screen share."
+    },
+    "notificationsMentionedYouIn": "{author} ने {place} में आपको मेंशन किया:",
+    "@notificationsMentionedYouIn": {
+        "description": "Title of a Notifications row for a message that mentions the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYouIn": "{author} ने {place} में आपको जवाब दिया:",
+    "@notificationsRepliedToYouIn": {
+        "description": "Title of a Notifications row for a reply that pings the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionedYou": "{author} ने आपको मेंशन किया:",
+    "@notificationsMentionedYou": {
+        "description": "Title of a Notifications row for a mention inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYou": "{author} ने आपको जवाब दिया:",
+    "@notificationsRepliedToYou": {
+        "description": "Title of a Notifications row for a reply that pings the user inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionPlace": "{server} – {channel}",
+    "@notificationsMentionPlace": {
+        "description": "Server and channel a notification came from, used inside the Notifications row title.",
+        "placeholders": {
+            "server": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsSendReply": "जवाब भेजें",
+    "@notificationsSendReply": {
+        "description": "Button on a new Notifications row that opens the channel with a reply to that message started."
+    },
+    "notificationsRecentActivity": "हाल की गतिविधि",
+    "@notificationsRecentActivity": {
+        "description": "Section label above Notifications rows the user has already seen."
+    },
+    "notificationsRemoveNotification": "सूचना हटाएँ",
+    "@notificationsRemoveNotification": {
+        "description": "Menu action that removes a row from the Notifications list."
+    },
+    "doubleTapEditHint": "अपना मैसेज एडिट करने के लिए उस पर डबल टैप करें",
+    "@doubleTapEditHint": {
+        "description": "Hint under quick reactions in the message actions sheet when the double-tap action is set to edit."
+    },
+    "messagesMediaGesturesSectionTitle": "जेस्चर",
+    "@messagesMediaGesturesSectionTitle": {
+        "description": "Title for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesSectionDescription": "मैसेज पर डबल टैप और स्वाइप कॉन्फ़िगर करें।",
+    "@messagesMediaGesturesSectionDescription": {
+        "description": "Description for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesReactionLabel": "रिएक्शन इमोजी",
+    "@messagesMediaGesturesReactionLabel": {
+        "description": "Label for choosing the default double-tap reaction emoji."
+    },
+    "messagesMediaGesturesReactionDescription": "तब इस्तेमाल होता है जब डबल टैप रिएक्शन जोड़ने पर सेट हो।",
+    "@messagesMediaGesturesReactionDescription": {
+        "description": "Help text for the double-tap reaction emoji setting."
+    },
+    "messagesMediaGesturesDoubleTapActionLabel": "डबल टैप एक्शन",
+    "@messagesMediaGesturesDoubleTapActionLabel": {
+        "description": "Label for the double-tap action radio group."
+    },
+    "messagesMediaGesturesDoubleTapActionReactDescription": "आपकी डिफ़ॉल्ट डबल टैप इमोजी को रिएक्शन के रूप में जोड़ता है।",
+    "@messagesMediaGesturesDoubleTapActionReactDescription": {
+        "description": "Help text for the react double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionEditDescription": "आपके भेजे गए मैसेज पर एडिटर खोलता है। दूसरे मैसेज पर कुछ नहीं होता।",
+    "@messagesMediaGesturesDoubleTapActionEditDescription": {
+        "description": "Help text for the edit double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneDescription": "डबल टैप बंद है।",
+    "@messagesMediaGesturesDoubleTapActionNoneDescription": {
+        "description": "Help text for the none double-tap action."
+    },
+    "messagesMediaGesturesSwipeRightToLeftLabel": "दाएँ से बाएँ स्वाइप करें",
+    "@messagesMediaGesturesSwipeRightToLeftLabel": {
+        "description": "Label for the swipe right to left action radio group."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyName": "स्वाइप करके जवाब दें",
+    "@messagesMediaGesturesSwipeRightToLeftReplyName": {
+        "description": "Swipe opens reply on the message."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyDescription": "जवाब देने के लिए मैसेज को स्वाइप करें, और अपने मैसेज एडिट करने के लिए दबाकर रखें।",
+    "@messagesMediaGesturesSwipeRightToLeftReplyDescription": {
+        "description": "Help text for swipe to reply."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsName": "चैनल विवरण दिखाएँ",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsName": {
+        "description": "Swipe opens channel details in a side panel."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": "साइड पैनल में चैनल विवरण खोलने के लिए मैसेज को स्वाइप करें या चैनल हेडर पर टैप करें।",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": {
+        "description": "Help text for swipe to channel details."
+    },
+    "chatMessageDeleteAttachmentConfirmDescription": "क्या आप वाकई यह अटैचमेंट डिलीट करना चाहते हैं?",
+    "@chatMessageDeleteAttachmentConfirmDescription": {
+        "description": "Body text for the delete attachment confirmation dialog."
+    },
+    "chatEditFailedEditAgain": "फिर से एडिट करें",
+    "@chatEditFailedEditAgain": {
+        "description": "Action on the failed edit toast that reopens the editor with the unsaved text."
+    },
+    "channelDuplicateHelper": "नया चैनल {channelName} की अनुमतियों का इस्तेमाल करेगा।",
+    "@channelDuplicateHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDuplicateVoiceHelper": "नया वॉइस चैनल {channelName} की अनुमतियों, यूज़र सीमा और बिटरेट का इस्तेमाल करेगा।",
+    "@channelDuplicateVoiceHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet when the source is a voice channel. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelMenuMoveToCategory": "श्रेणी में ले जाएँ",
+    "@channelMenuMoveToCategory": {
+        "description": "Guild channel menu action that opens a sheet to move the channel into another category or out of any category."
+    },
+    "channelSearchRemoveRecent": "हाल की खोजों से हटाएँ",
+    "@channelSearchRemoveRecent": {
+        "description": "Accessibility label for the x button on a recent search row in mobile message search. Removes that one entry from the recent searches list."
+    },
+    "channelSearchFiltersButton": "फ़िल्टर",
+    "@channelSearchFiltersButton": {
+        "description": "Tooltip and accessibility label for the filter button next to the mobile message search field."
+    },
+    "channelSearchFilterMenuTitle": "नतीजे फ़िल्टर करें",
+    "@channelSearchFilterMenuTitle": {
+        "description": "Section title in the mobile message search filter menu, above the list of filters."
+    },
+    "channelSearchFilterFromLabel": "किसी खास व्यक्ति से",
+    "@channelSearchFilterFromLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterMentionsLabel": "किसी खास व्यक्ति को मेंशन करता है",
+    "@channelSearchFilterMentionsLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterHasLabel": "इसमें लिंक, फ़ाइल या एम्बेड है",
+    "@channelSearchFilterHasLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterInLabel": "किसी खास चैनल में",
+    "@channelSearchFilterInLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterDuringLabel": "किसी तारीख को भेजा गया",
+    "@channelSearchFilterDuringLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterBeforeLabel": "किसी तारीख से पहले भेजा गया",
+    "@channelSearchFilterBeforeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAfterLabel": "किसी तारीख के बाद भेजा गया",
+    "@channelSearchFilterAfterLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterPinnedLabel": "पिन किया हुआ या नहीं",
+    "@channelSearchFilterPinnedLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAuthorTypeLabel": "लेखक के प्रकार के अनुसार",
+    "@channelSearchFilterAuthorTypeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchDateToday": "आज",
+    "@channelSearchDateToday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchDateYesterday": "कल",
+    "@channelSearchDateYesterday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchTabFiles": "फ़ाइलें",
+    "@channelSearchTabFiles": {
+        "description": "Result tab in mobile message search showing matching messages with a file upload."
+    },
+    "channelSearchTabCount": "{label} ({count})",
+    "@channelSearchTabCount": {
+        "description": "Selected result tab label with the number of results, for example Messages (12). Preserve {label} and {count}.",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
+    "groupDmRemoveFromGroupFailed": "{userName} अभी भी ग्रुप में है। थोड़ी देर में फिर से कोशिश करें।",
+    "@groupDmRemoveFromGroupFailed": {
+        "description": "Error shown when removing a member from a group DM fails.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatAttachmentLibraryLimitedBody": "यहाँ सिर्फ़ वही फ़ोटो और वीडियो दिखते हैं जिन्हें आपने शेयर करने के लिए चुना है।",
+    "@chatAttachmentLibraryLimitedBody": {
+        "description": "Explains limited photo library access in the attachment gallery."
+    },
+    "storePlutoniumRestorePurchases": "खरीदारी रीस्टोर करें",
+    "@storePlutoniumRestorePurchases": {
+        "description": "Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID."
+    },
+    "notificationsPushDeliveryProviderLabel": "पुश प्रोवाइडर",
+    "@notificationsPushDeliveryProviderLabel": {
+        "description": "Label for the compile-time mobile push provider on notification settings."
+    },
+    "notificationsPushDeliveryDistributorLabel": "डिस्ट्रीब्यूटर",
+    "@notificationsPushDeliveryDistributorLabel": {
+        "description": "Label for the UnifiedPush distributor on notification settings."
+    },
+    "notificationsPushDeliveryDistributorNone": "चुना नहीं गया",
+    "@notificationsPushDeliveryDistributorNone": {
+        "description": "Shown when no UnifiedPush distributor is selected."
+    },
+    "notificationsPushDeliveryDistributorSheetTitle": "डिस्ट्रीब्यूटर चुनें",
+    "@notificationsPushDeliveryDistributorSheetTitle": {
+        "description": "Title of the UnifiedPush distributor picker sheet."
+    },
+    "notificationsPushDeliveryDistributorPickAccessibility": "पुश डिस्ट्रीब्यूटर बदलें",
+    "@notificationsPushDeliveryDistributorPickAccessibility": {
+        "description": "Accessibility label when the distributor row opens a picker."
+    },
+    "notificationsPushDeliveryGatewayLabel": "गेटवे",
+    "@notificationsPushDeliveryGatewayLabel": {
+        "description": "Label for the UnifiedPush gateway host on notification settings."
+    },
+    "notificationsPushDeliveryRelayLabel": "Fluxer Push रिले",
+    "@notificationsPushDeliveryRelayLabel": {
+        "description": "Label for Fluxer Push relay status on notification settings."
+    },
+    "notificationsPushDeliveryRelayInUse": "इस्तेमाल में",
+    "@notificationsPushDeliveryRelayInUse": {
+        "description": "Fluxer relay is active for this device."
+    },
+    "notificationsPushDeliveryRelayNotUsed": "इस्तेमाल नहीं हो रहा",
+    "@notificationsPushDeliveryRelayNotUsed": {
+        "description": "This push provider does not use the Fluxer relay."
+    },
+    "appIconSectionDescriptionAndroid": "चुनें कि आपकी होम स्क्रीन पर कौन-सा आइकॉन दिखे। आइकॉन बदलने पर ऐप रीस्टार्ट हो जाता है।",
+    "@appIconSectionDescriptionAndroid": {
+        "description": "Description for the app icon settings section on Android."
+    },
+    "appIconAndroidChangeTitle": "ऐप आइकॉन बदलें?",
+    "@appIconAndroidChangeTitle": {
+        "description": "Title for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconAndroidChangeDescription": "नया होम स्क्रीन आइकॉन लागू करने के लिए Fluxer रीस्टार्ट होगा।",
+    "@appIconAndroidChangeDescription": {
+        "description": "Body for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconOptionGreyscale": "ग्रेस्केल",
+    "@appIconOptionGreyscale": {
+        "description": "App icon option for the greyscale alternate icon."
+    },
+    "appIconOptionRainbow": "इंद्रधनुष",
+    "@appIconOptionRainbow": {
+        "description": "App icon option for the rainbow alternate icon."
+    },
+    "appIconOptionWaves": "लहरें",
+    "@appIconOptionWaves": {
+        "description": "App icon option for the waves alternate icon."
+    },
+    "appIconOptionChromaticAberration": "क्रोमैटिक एबरेशन",
+    "@appIconOptionChromaticAberration": {
+        "description": "App icon option for the chromatic aberration alternate icon."
+    },
+    "appIconOptionDefaultBrutalist": "ब्रूटलिस्ट",
+    "@appIconOptionDefaultBrutalist": {
+        "description": "App icon option for the default brutalist alternate icon."
+    },
+    "appIconOptionGreyscaleBrutalist": "ग्रेस्केल ब्रूटलिस्ट",
+    "@appIconOptionGreyscaleBrutalist": {
+        "description": "App icon option for the greyscale brutalist alternate icon."
+    },
+    "advancedCrashReportingSectionDescription": "क्रैश और परफ़ॉर्मेंस डेटा शेयर करके इस ऐप के बग ठीक करने में Fluxer की मदद करें। यह डिफ़ॉल्ट रूप से बंद है।",
+    "@advancedCrashReportingSectionDescription": {
+        "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
+    },
+    "advancedCrashReportingDescription": "रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। इनमें इंस्टेंस के नाम, ID या मैसेज की सामग्री शामिल नहीं होती।",
+    "@advancedCrashReportingDescription": {
+        "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentTitle": "क्रैश ठीक करने में मदद करें",
+    "@observabilityReportingConsentTitle": {
+        "description": "Title of the post-crash opt-in sheet for crash and error reporting."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer अचानक बंद हो गया। गुमनाम क्रैश और एरर डेटा शेयर करने से हमें समस्याएँ जल्दी ठीक करने में मदद मिलती है।",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "रिपोर्ट में क्रैश लॉग, एरर और बुनियादी परफ़ॉर्मेंस डेटा शामिल होता है। ये किसी तीसरे पक्ष के साथ शेयर नहीं की जातीं और आप इसे कभी भी बंद कर सकते हैं।",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentEnableLater": "बाद में चालू करने के लिए, सेटिंग्स → एडवांस → {reportingToggle} खोलें।",
+    "@observabilityReportingConsentEnableLater": {
+        "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
+        "placeholders": {
+            "reportingToggle": {
+                "type": "String",
+                "example": "Send crash and performance reports"
+            }
+        }
+    },
+    "observabilityReportingConsentAgree": "क्रैश रिपोर्ट भेजें",
+    "@observabilityReportingConsentAgree": {
+        "description": "Primary button on the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentDecline": "चालू नहीं करना है",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "userSettingsGiveFeedback": "फ़ीडबैक दें",
+    "@userSettingsGiveFeedback": {
+        "description": "User settings navigation action to open the Fluxer feedback site."
+    },
+    "instanceInvalidDiscoveryResponse": "इस इंस्टेंस का कॉन्फ़िगरेशन पढ़ा नहीं जा सका। पता जाँचें और फिर से कोशिश करें।",
+    "@instanceInvalidDiscoveryResponse": {
+        "description": "Error when the instance discovery document cannot be parsed."
+    },
+    "instanceOutdatedForClient": "यह इंस्टेंस इस ऐप के लिए पुराना है। {domain} चलाने वाले से Fluxer अपडेट करने को कहें।",
+    "@instanceOutdatedForClient": {
+        "description": "Error when the instance api_code_version is below what this client requires.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceRequiresNewerClient": "{domain} पर Fluxer का ऐसा वर्शन चलता है जो इस ऐप से नया है। ऐप अपडेट करें और फिर से कोशिश करें।",
+    "@instanceRequiresNewerClient": {
+        "description": "Error when the instance speaks a protocol generation this client does not support.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceCompatibilityTitle": "इस इंस्टेंस का इस्तेमाल नहीं हो सकता",
+    "@instanceCompatibilityTitle": {
+        "description": "Title on the full-screen instance compatibility blocker."
+    },
+    "instanceCompatibilityStatusPagePrompt": "अपडेट के लिए स्टेटस पेज देखें।",
+    "@instanceCompatibilityStatusPagePrompt": {
+        "description": "Hint below compatibility error copy when a status page URL is available."
+    },
+    "instanceCompatibilityStatusPageLink": "स्टेटस पेज",
+    "@instanceCompatibilityStatusPageLink": {
+        "description": "Link label for the instance status page on the compatibility blocker."
+    },
+    "permissionManageThreadsDescription": "थ्रेड का नाम बदलें, उन्हें आर्काइव, लॉक और डिलीट करें, उनका स्लोमोड सेट करें, और निजी थ्रेड देखें।",
+    "@permissionManageThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePublicThreadsDescription": "ऐसे थ्रेड शुरू करें जिन्हें चैनल देख सकने वाला हर कोई देख सके।",
+    "@permissionCreatePublicThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePrivateThreadsDescription": "सिर्फ़ इनवाइट वाले थ्रेड शुरू करें।",
+    "@permissionCreatePrivateThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionSendMessagesInThreadsDescription": "थ्रेड और फ़ोरम पोस्ट में मैसेज भेजें।",
+    "@permissionSendMessagesInThreadsDescription": {
+        "description": "Permission description."
+    },
+    "threadErrorArchived": "यह थ्रेड आर्काइव है।",
+    "@threadErrorArchived": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorLocked": "यह थ्रेड लॉक है। सिर्फ़ मॉडरेटर ही इसमें पोस्ट कर सकते हैं या इसे फिर से खोल सकते हैं।",
+    "@threadErrorLocked": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorAlreadyCreated": "इस मैसेज के लिए पहले से एक थ्रेड मौजूद है।",
+    "@threadErrorAlreadyCreated": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxActiveThreads": "यह कम्युनिटी सक्रिय थ्रेड की अपनी सीमा तक पहुँच गई है।",
+    "@threadErrorMaxActiveThreads": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxMembers": "यह थ्रेड अपनी सदस्य सीमा तक पहुँच गया है।",
+    "@threadErrorMaxMembers": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxPinnedPosts": "इस फ़ोरम में सिर्फ़ एक पोस्ट पिन की जा सकती है।",
+    "@threadErrorMaxPinnedPosts": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxForumTags": "एक फ़ोरम में ज़्यादा से ज़्यादा 20 टैग हो सकते हैं।",
+    "@threadErrorMaxForumTags": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorTagNamesUnique": "टैग के नाम अलग-अलग होने चाहिए।",
+    "@threadErrorTagNamesUnique": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorNoTagsForEveryone": "टैग ज़रूरी करने से पहले ऐसा टैग जोड़ें जिसे हर कोई इस्तेमाल कर सके।",
+    "@threadErrorNoTagsForEveryone": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorUnknownTag": "चुने गए टैग में से एक अब मौजूद नहीं है।",
+    "@threadErrorUnknownTag": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidNotificationSettings": "ये सूचना सेटिंग्स थ्रेड के लिए मान्य नहीं हैं।",
+    "@threadErrorInvalidNotificationSettings": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorSearchIndexNotReady": "पोस्ट अभी इंडेक्स हो रही हैं। थोड़ी देर में फिर से कोशिश करें।",
+    "@threadErrorSearchIndexNotReady": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidChannelType": "यह एक्शन इस चैनल में उपलब्ध नहीं है।",
+    "@threadErrorInvalidChannelType": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadNameRequired": "थ्रेड को एक नाम दें।",
+    "@threadNameRequired": {
+        "description": "Error shown when a thread is created or renamed without a name."
+    },
+    "threadStarterMessage": "मैसेज",
+    "@threadStarterMessage": {
+        "description": "Label of the optional first message input in the new thread form."
+    },
+    "threadCreateCooldown": "{seconds, plural, =1{आप 1 सेकंड में दूसरा थ्रेड शुरू कर सकते हैं।} other{आप {seconds} सेकंड में दूसरा थ्रेड शुरू कर सकते हैं।}}",
+    "@threadCreateCooldown": {
+        "description": "Cooldown notice in the new thread form when the parent channel has slowmode.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "threadBrowserPublic": "सार्वजनिक थ्रेड",
+    "@threadBrowserPublic": {
+        "description": "Option in the closed thread list that shows public threads."
+    },
+    "threadBrowserPrivate": "निजी थ्रेड",
+    "@threadBrowserPrivate": {
+        "description": "Option in the closed thread list that shows private threads."
+    },
+    "threadBrowserEmpty": "कोई थ्रेड नहीं है। थ्रेड एक अस्थायी टेक्स्ट चैनल है, जिससे आप किसी एक बातचीत पर ध्यान बनाए रख सकते हैं।",
+    "@threadBrowserEmpty": {
+        "description": "Empty state of the active threads list."
+    },
+    "threadBrowserArchivedEmpty": "कोई बंद थ्रेड नहीं है।",
+    "@threadBrowserArchivedEmpty": {
+        "description": "Empty state of the closed threads list."
+    },
+    "threadMessageCount": "{count, plural, =1{1 मैसेज} other{{count} मैसेज}}",
+    "@threadMessageCount": {
+        "description": "Message count on a thread chip and in the thread browser.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadFailedToMentionSomeRoles": "मेंशन किए गए कुछ रोल इस थ्रेड में नहीं जोड़े गए।",
+    "@threadFailedToMentionSomeRoles": {
+        "description": "Note under a thread message when some mentioned roles had too many members to add to the thread."
+    },
+    "threadMembersCount": "{count, plural, =1{1 सदस्य} other{{count} सदस्य}}",
+    "@threadMembersCount": {
+        "description": "Header above the thread member list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadMembersEmpty": "अभी तक किसी ने यह थ्रेड जॉइन नहीं किया है।",
+    "@threadMembersEmpty": {
+        "description": "Empty state of the thread member list."
+    },
+    "threadRemoveMember": "{name} को थ्रेड से हटाएँ",
+    "@threadRemoveMember": {
+        "description": "Accessible label of the button that removes a member from a thread.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadDeleteConfirm": "क्या आप वाकई {threadName} को डिलीट करना चाहते हैं? इसे वापस नहीं किया जा सकता।",
+    "@threadDeleteConfirm": {
+        "description": "Confirmation text before deleting a thread.",
+        "placeholders": {
+            "threadName": {
+                "type": "String"
+            }
+        }
+    },
+    "threadMuted": "थ्रेड म्यूट किया गया",
+    "@threadMuted": {
+        "description": "Toast after a thread was muted."
+    },
+    "threadUnmuted": "थ्रेड अनम्यूट किया गया",
+    "@threadUnmuted": {
+        "description": "Toast after a thread was unmuted."
+    },
+    "threadSettingsSaved": "थ्रेड सेटिंग्स सेव हो गईं",
+    "@threadSettingsSaved": {
+        "description": "Toast after thread settings were saved."
+    },
+    "threadAutoArchiveDescription": "इतने समय तक कोई गतिविधि न होने पर थ्रेड चैनल सूची में दिखना बंद हो जाता है।",
+    "@threadAutoArchiveDescription": {
+        "description": "Help text of the thread auto archive duration setting."
+    },
+    "threadDefaultAutoArchiveDescription": "इतने समय तक कोई गतिविधि न होने पर नए थ्रेड चैनल सूची में दिखना बंद हो जाते हैं।",
+    "@threadDefaultAutoArchiveDescription": {
+        "description": "Help text of the default thread auto archive duration setting."
+    },
+    "threadAutoArchiveOneHour": "1 घंटा",
+    "@threadAutoArchiveOneHour": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneDay": "24 घंटे",
+    "@threadAutoArchiveOneDay": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveThreeDays": "3 दिन",
+    "@threadAutoArchiveThreeDays": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneWeek": "1 हफ़्ता",
+    "@threadAutoArchiveOneWeek": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadInvitableDescription": "इस निजी थ्रेड के सदस्य दूसरे लोगों को जोड़ सकते हैं।",
+    "@threadInvitableDescription": {
+        "description": "Help text of the private thread invite setting."
+    },
+    "systemThreadCreated": "{username} ने एक थ्रेड शुरू किया: {threadLink}। {allThreadsLink} देखें।",
+    "@systemThreadCreated": {
+        "description": "System message when a user starts a thread. Keep {username}, {threadLink}, and {allThreadsLink} in place and translate the surrounding sentence.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "threadLink": {
+                "type": "String"
+            },
+            "allThreadsLink": {
+                "type": "String"
+            }
+        }
+    },
+    "systemThreadCreatedAllThreadsLink": "सभी थ्रेड",
+    "@systemThreadCreatedAllThreadsLink": {
+        "description": "Link text in the thread started system message that opens the thread browser."
+    },
+    "systemThreadCreatedThreadFallback": "एक थ्रेड",
+    "@systemThreadCreatedThreadFallback": {
+        "description": "Link text in the thread started system message when the thread name is unknown."
+    },
+    "systemPreviewThreadCreated": "{username} ने एक थ्रेड शुरू किया।",
+    "@systemPreviewThreadCreated": {
+        "description": "Plaintext preview for a thread started system message.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadCreate": "{actor} ने थ्रेड {target} शुरू किया।",
+    "@auditLogSummaryThreadCreate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadUpdate": "{actor} ने थ्रेड {target} अपडेट किया।",
+    "@auditLogSummaryThreadUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadDelete": "{actor} ने थ्रेड {target} डिलीट किया।",
+    "@auditLogSummaryThreadDelete": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangePausedInvites": "इनवाइट रोके गए।",
+    "@auditLogChangePausedInvites": {
+        "description": "Guild change detail sentence shown when invites were paused. Pausing invites disables every invite link of the community until they are resumed. Past tense record, not a command."
+    },
+    "auditLogChangeResumedInvites": "इनवाइट फिर से चालू किए गए।",
+    "@auditLogChangeResumedInvites": {
+        "description": "Guild change detail sentence shown when paused invites were enabled again. Past tense record, not a command."
+    },
+    "auditLogChangeTurnedOnDetachedBanner": "अलग बैनर चालू किया गया।",
+    "@auditLogChangeTurnedOnDetachedBanner": {
+        "description": "Guild change detail sentence shown when the detached banner setting was turned on."
+    },
+    "auditLogChangeTurnedOffDetachedBanner": "अलग बैनर बंद किया गया।",
+    "@auditLogChangeTurnedOffDetachedBanner": {
+        "description": "Guild change detail sentence shown when the detached banner setting was turned off."
+    },
+    "auditLogChangeAllowedFlexibleChannelNames": "लचीले टेक्स्ट चैनल नामों की अनुमति दी गई।",
+    "@auditLogChangeAllowedFlexibleChannelNames": {
+        "description": "Guild change detail sentence shown when flexible text channel names were allowed."
+    },
+    "auditLogChangeDisallowedFlexibleChannelNames": "लचीले टेक्स्ट चैनल नामों की अनुमति बंद की गई।",
+    "@auditLogChangeDisallowedFlexibleChannelNames": {
+        "description": "Guild change detail sentence shown when flexible text channel names were no longer allowed."
+    },
+    "auditLogChangeHidOwnerCrown": "कम्युनिटी मालिक का ताज छिपाया गया।",
+    "@auditLogChangeHidOwnerCrown": {
+        "description": "Guild change detail sentence shown when the crown next to the community owner was hidden."
+    },
+    "auditLogChangeShowedOwnerCrown": "कम्युनिटी मालिक का ताज छिपाना बंद किया गया।",
+    "@auditLogChangeShowedOwnerCrown": {
+        "description": "Guild change detail sentence shown when the crown next to the community owner was shown again."
+    },
+    "auditLogChangeAllowedEmojiCloning": "दूसरों को इस कम्युनिटी के इमोजी क्लोन करने की अनुमति दी गई।",
+    "@auditLogChangeAllowedEmojiCloning": {
+        "description": "Guild change detail sentence shown when other communities were allowed to clone this community's emojis."
+    },
+    "auditLogChangeStoppedEmojiCloning": "दूसरों को इस कम्युनिटी के इमोजी क्लोन करने की अनुमति बंद की गई।",
+    "@auditLogChangeStoppedEmojiCloning": {
+        "description": "Guild change detail sentence shown when cloning this community's emojis was no longer allowed."
+    },
+    "auditLogChangeAllowedStickerCloning": "दूसरों को इस कम्युनिटी के स्टिकर क्लोन करने की अनुमति दी गई।",
+    "@auditLogChangeAllowedStickerCloning": {
+        "description": "Guild change detail sentence shown when other communities were allowed to clone this community's stickers."
+    },
+    "auditLogChangeStoppedStickerCloning": "दूसरों को इस कम्युनिटी के स्टिकर क्लोन करने की अनुमति बंद की गई।",
+    "@auditLogChangeStoppedStickerCloning": {
+        "description": "Guild change detail sentence shown when cloning this community's stickers was no longer allowed."
+    },
+    "forumNewMediaPost": "नई मीडिया पोस्ट",
+    "@forumNewMediaPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumViewOptions": "सॉर्ट और व्यू",
+    "@forumViewOptions": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchIndexing": "इस कम्युनिटी के लिए खोज अभी तैयार हो रही है। तैयार होते ही पोस्ट यहाँ दिखेंगी।",
+    "@forumSearchIndexing": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCreateFirstPost": "पहली पोस्ट बनाएँ",
+    "@forumCreateFirstPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostsLoadFailed": "पोस्ट लोड नहीं हो सकीं।",
+    "@forumPostsLoadFailed": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostLocked": "लॉक है",
+    "@forumPostLocked": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostArchived": "आर्काइव है",
+    "@forumPostArchived": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostStarterDeleted": "मूल मैसेज डिलीट कर दिया गया था।",
+    "@forumPostStarterDeleted": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSnippet": "{author}: {content}",
+    "@forumPostSnippet": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "content": {
+                "type": "String"
+            }
+        }
+    },
+    "forumPostReact": "डिफ़ॉल्ट रिएक्शन जोड़ें",
+    "@forumPostReact": {
+        "description": "Forum and media channel UI."
+    },
+    "forumOpenPost": "पोस्ट खोलें",
+    "@forumOpenPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTags": "टैग सेव करें",
+    "@forumSaveTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsLimitHint": "{count, plural, =1{ज़्यादा से ज़्यादा 1 टैग चुनें।} other{ज़्यादा से ज़्यादा {count} टैग चुनें।}}",
+    "@forumTagsLimitHint": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "forumGuidelinesPlaceholder": "लोगों को बताएँ कि यहाँ क्या पोस्ट करना है और कैसे पोस्ट करना है।",
+    "@forumGuidelinesPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitle": "शीर्षक",
+    "@forumPostTitle": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessage": "मैसेज",
+    "@forumPostMessage": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessagePlaceholder": "अपनी पोस्ट का पहला मैसेज लिखें",
+    "@forumPostMessagePlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaPlaceholder": "कैप्शन जोड़ें",
+    "@forumPostMediaPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTagsRequired": "टैग (ज़रूरी)",
+    "@forumPostTagsRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddMedia": "मीडिया जोड़ें",
+    "@forumPostAddMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddFile": "फ़ाइल जोड़ें",
+    "@forumPostAddFile": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitleRequired": "अपनी पोस्ट को एक शीर्षक दें।",
+    "@forumPostTitleRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaRequired": "यहाँ पोस्ट करने के लिए कम से कम एक इमेज या वीडियो जोड़ें।",
+    "@forumPostMediaRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostContentRequired": "कोई मैसेज लिखें या फ़ाइल जोड़ें।",
+    "@forumPostContentRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutList": "लिस्ट व्यू",
+    "@forumLayoutList": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutGallery": "गैलरी व्यू",
+    "@forumLayoutGallery": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnread": "नई पोस्ट पर अपठित दिखाएँ",
+    "@forumNewPostsUnread": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnreadDescription": "जब कोई पोस्ट बनाए, तो इस चैनल को अपठित मार्क करें।",
+    "@forumNewPostsUnreadDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmode": "पोस्ट स्लोमोड",
+    "@forumPostSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmodeDescription": "पोस्ट बनाने के बीच इंतज़ार करें। \"{bypassSlowmodePermissionLabel}\" वाले लोग इसे बायपास कर सकते हैं।",
+    "@forumPostSlowmodeDescription": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "bypassSlowmodePermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "forumMessageSlowmode": "पोस्ट में मैसेज स्लोमोड",
+    "@forumMessageSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMessageSlowmodeDescription": "नई पोस्ट में मैसेज पर लागू होने वाला स्लोमोड।",
+    "@forumMessageSlowmodeDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchiveDescription": "इतने समय तक कोई गतिविधि न होने पर नई पोस्ट आर्काइव हो जाती हैं।",
+    "@forumDefaultAutoArchiveDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChangeDefaultReaction": "बदलें",
+    "@forumChangeDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSetting": "टैग फ़िल्टर",
+    "@forumTagMatchSetting": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSome": "चुने गए किसी भी टैग से मेल खाए",
+    "@forumTagMatchSome": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchAll": "चुने गए सभी टैग से मेल खाए",
+    "@forumTagMatchAll": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTag": "टैग ज़रूरी करें",
+    "@forumRequireTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTagDescription": "पोस्ट बनाते समय लोगों को कम से कम एक टैग चुनना होगा।",
+    "@forumRequireTagDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloadsDescription": "पोस्ट में इमेज और वीडियो के लिए डाउनलोड, ब्राउज़र में खोलें और लिंक कॉपी करें विकल्प छिपाएँ।",
+    "@forumHideMediaDownloadsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsDescription": "टैग से लोग पोस्ट ढूंढ और फ़िल्टर कर सकते हैं। मॉडरेटेड टैग सिर्फ़ मॉडरेटर ही लगा सकते हैं।",
+    "@forumTagsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTag": "टैग सेव करें",
+    "@forumSaveTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagRemoveEmoji": "इमोजी हटाएँ",
+    "@forumTagRemoveEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModerated": "सिर्फ़ मॉडरेटर लगा सकते हैं",
+    "@forumTagModerated": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedDescription": "सिर्फ़ वे सदस्य जो थ्रेड प्रबंधित कर सकते हैं, इस टैग को लगा या हटा सकते हैं।",
+    "@forumTagModeratedDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedBadge": "मॉडरेटेड",
+    "@forumTagModeratedBadge": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostCooldown": "{seconds, plural, =1{आप 1 सेकंड में फिर से पोस्ट कर सकते हैं।} other{आप {seconds} सेकंड में फिर से पोस्ट कर सकते हैं।}}",
+    "@forumPostCooldown": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pStartDescription": "ऑडियो और वीडियो प्रतिभागियों के बीच सीधे जाते हैं, जिससे लेटेंसी कम होती है। दूसरे प्रतिभागी आपका IP एड्रेस देख सकते हैं। ज़्यादा से ज़्यादा {maxParticipants} लोग हिस्सा ले सकते हैं। जो सीधे कनेक्ट नहीं कर पाता, वह तब तक हिस्सा नहीं ले सकता जब तक कोई स्टैंडर्ड कॉल पर स्विच न करे।",
+    "@voiceP2pStartDescription": {
+        "description": "Explains the costs of starting a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pJoinDescription": "यह कॉल प्रतिभागियों को सीधे कनेक्ट करती है। दूसरे प्रतिभागी आपका IP एड्रेस देख सकते हैं। ज़्यादा से ज़्यादा {maxParticipants} लोग हिस्सा ले सकते हैं। अगर आप सीधे कनेक्ट नहीं कर पाते, तो आप तब तक हिस्सा नहीं ले सकते जब तक कोई स्टैंडर्ड कॉल पर स्विच न करे।",
+    "@voiceP2pJoinDescription": {
+        "description": "Explains the costs of joining a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPinnedJoinDescription": "इस चैनल में सिर्फ़ P2P कॉल की अनुमति है। प्रतिभागी सीधे कनेक्ट होते हैं और आपका IP एड्रेस देख सकते हैं। ज़्यादा से ज़्यादा {maxParticipants} लोग हिस्सा ले सकते हैं। अगर आप सीधे कनेक्ट नहीं कर पाते, तो आप हिस्सा नहीं ले सकते।",
+    "@voiceP2pPinnedJoinDescription": {
+        "description": "Explains the costs of joining a channel that only allows P2P calls. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pAlwaysAgreeSettingLabel": "P2P कॉल में शामिल होने के लिए हमेशा सहमति दें",
+    "@voiceP2pAlwaysAgreeSettingLabel": {
+        "description": "Settings toggle that skips the P2P join agreement."
+    },
+    "voiceP2pAlwaysAgreeSettingDescription": "बिना पूछे P2P कॉल में शामिल हों। दूसरे प्रतिभागी आपका IP एड्रेस देख सकते हैं।",
+    "@voiceP2pAlwaysAgreeSettingDescription": {
+        "description": "Description of the setting that skips the P2P join agreement."
+    },
+    "voiceP2pIndicatorLabel": "P2P",
+    "@voiceP2pIndicatorLabel": {
+        "description": "Short label shown while a call is in P2P mode."
+    },
+    "voiceP2pSwitchToStandardDescription": "कॉल में मौजूद सभी लोग सर्वर के ज़रिए स्टैंडर्ड कॉल पर चले जाते हैं।",
+    "@voiceP2pSwitchToStandardDescription": {
+        "description": "Explains what switching a P2P call to a standard call does."
+    },
+    "voiceP2pPeerFailedDescription": "सीधा कनेक्शन नहीं बन सका। कॉल छोड़ें या सभी को स्टैंडर्ड कॉल पर स्विच करें।",
+    "@voiceP2pPeerFailedDescription": {
+        "description": "Shown on a participant tile when a direct connection failed."
+    },
+    "voiceP2pConsentRequiredError": "यह P2P कॉल है और इसमें शामिल होने के लिए आपकी सहमति ज़रूरी है।",
+    "@voiceP2pConsentRequiredError": {
+        "description": "Shown when the server rejects a join because P2P agreement is missing."
+    },
+    "voiceChannelFullError": "यह कॉल भर चुकी है।",
+    "@voiceChannelFullError": {
+        "description": "Shown when the server rejects a join because the call is full."
+    },
+    "voiceP2pScreenShareUnavailable": "P2P कॉल में इस डिवाइस से स्क्रीन शेयर करना उपलब्ध नहीं है।",
+    "@voiceP2pScreenShareUnavailable": {
+        "description": "Explains why the screen share button is disabled in a P2P call."
+    },
+    "channelSettingsRtcP2pDescription": "प्रतिभागी सीधे कनेक्ट होते हैं और एक-दूसरे का IP एड्रेस देख सकते हैं। शामिल होने से पहले सभी को सहमति देनी होगी। ज़्यादा से ज़्यादा {maxParticipants} लोग हिस्सा ले सकते हैं।",
+    "@channelSettingsRtcP2pDescription": {
+        "description": "Description of the P2P calls only channel setting. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPeerFailedTitle": "{name} से सीधे कनेक्ट नहीं हो सका",
+    "@voiceP2pPeerFailedTitle": {
+        "description": "Shown on a participant tile when a direct connection to them failed.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "chatTooManyAttachmentsMessage": "आप एक बार में सिर्फ़ {count, plural, one {{count} फ़ाइल} other {{count} फ़ाइलें}} अपलोड कर सकते हैं। कम फ़ाइलों के साथ फिर से कोशिश करें।",
+    "@chatTooManyAttachmentsMessage": {
+        "description": "Body of the dialog shown when too many files are attached to one message.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatAttachmentDeleteFailedTitle": "अटैचमेंट मिटाया नहीं जा सका",
+    "@chatAttachmentDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting an attachment from a message fails."
+    },
+    "chatAttachmentDeleteFailedMessage": "उस अटैचमेंट को फिर से मिटाने की कोशिश करें।",
+    "@chatAttachmentDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting an attachment from a message fails."
+    },
+    "bookmarkLimitMessage": "आपके पास {count, plural, one {{count} बुकमार्क} other {{count} बुकमार्क}} हो चुके हैं। नया जोड़ने के लिए कोई एक हटाएँ।",
+    "@bookmarkLimitMessage": {
+        "description": "Body of the dialog shown when the bookmark limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "savedMediaLimitMessage": "आप सेव किए गए {count, plural, one {{count} मीडिया आइटम} other {{count} मीडिया आइटम}} की सीमा तक पहुँच गए हैं। नया जोड़ने के लिए कोई एक हटाएँ।",
+    "@savedMediaLimitMessage": {
+        "description": "Body of the dialog shown when the saved media limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "emojiNameInvalidCharacters": "इमोजी के नाम में सिर्फ़ अक्षर, संख्याएँ और अंडरस्कोर हो सकते हैं।",
+    "@emojiNameInvalidCharacters": {
+        "description": "Body of the invalid emoji name dialog when the name has unsupported characters."
+    },
+    "stickerUpdateFailedTitle": "यह स्टिकर अपडेट नहीं हो सका",
+    "@stickerUpdateFailedTitle": {
+        "description": "Title of the dialog shown when editing a sticker fails."
+    },
+    "transferOwnershipFailedMessage": "अभी {username} को स्वामित्व ट्रांसफ़र नहीं किया जा सका।",
+    "@transferOwnershipFailedMessage": {
+        "description": "Body of the dialog shown when transferring community ownership fails.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "animatedImageUseStatic": "इसके बजाय कोई स्टैटिक इमेज अपलोड करें।",
+    "@animatedImageUseStatic": {
+        "description": "Body of the dialog shown when an animated image can't be used on this account."
     }
 }

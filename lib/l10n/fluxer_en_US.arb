@@ -16758,5 +16758,2213 @@
     "premiumCheckoutBlockedBodySelfHosted": "Checkout is blocked for this account.",
     "@premiumCheckoutBlockedBodySelfHosted": {
         "description": "Body of the checkout error dialog when checkout is blocked, on a self-hosted instance."
+    },
+    "create": "Create",
+    "@create": {
+        "description": "Generic create action label in a full-screen form header."
+    },
+    "accountSignOutTitle": "Sign out of {identifier}?",
+    "@accountSignOutTitle": {
+        "description": "Title of the confirmation before signing out of one saved account. The identifier is the account's username.",
+        "placeholders": {
+            "identifier": {
+                "type": "String"
+            }
+        }
+    },
+    "userTagOp": "OP",
+    "@userTagOp": {
+        "description": "Tag next to the author of a forum post on their own messages in that post. Short for original poster, keep it to two or three letters."
+    },
+    "applicationsTitle": "Applications",
+    "@applicationsTitle": {
+        "description": "Title for the developer Applications settings tab."
+    },
+    "applicationsCreate": "Create application",
+    "@applicationsCreate": {
+        "description": "Button that opens the create-application sheet."
+    },
+    "applicationsCreateSubmit": "Create",
+    "@applicationsCreateSubmit": {
+        "description": "Primary submit label in the create-application sheet."
+    },
+    "applicationsCreateClaimTooltip": "Claim your account to create applications.",
+    "@applicationsCreateClaimTooltip": {
+        "description": "Tooltip on the disabled create button for unclaimed accounts."
+    },
+    "applicationsDocsLink": "Read the documentation ({domain})",
+    "@applicationsDocsLink": {
+        "description": "Link to developer documentation. domain is the docs host.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsLoadError": "Unable to load applications",
+    "@applicationsLoadError": {
+        "description": "Error title when the applications list fails to load."
+    },
+    "applicationsLoadErrorDescription": "Check your connection and try again.",
+    "@applicationsLoadErrorDescription": {
+        "description": "Error body when the applications list fails to load."
+    },
+    "applicationsEmptyTitle": "No applications yet",
+    "@applicationsEmptyTitle": {
+        "description": "Empty-state title when the user has no developer applications."
+    },
+    "applicationsEmptyDescription": "Create your first application to get started with the {apiName}.",
+    "@applicationsEmptyDescription": {
+        "description": "Empty-state body. apiName is the product API display name.",
+        "placeholders": {
+            "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Created {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsName": "Application name",
+    "@applicationsName": {
+        "description": "Label for the application name field."
+    },
+    "applicationsNameHint": "My application",
+    "@applicationsNameHint": {
+        "description": "Placeholder for the application name field."
+    },
+    "applicationsNameRequired": "Application name is required",
+    "@applicationsNameRequired": {
+        "description": "Validation error when the application name is empty."
+    },
+    "applicationsBackToList": "Back to list",
+    "@applicationsBackToList": {
+        "description": "Button that returns from application details to the list."
+    },
+    "applicationsDetailLoadError": "Couldn't load this application",
+    "@applicationsDetailLoadError": {
+        "description": "Error title when a single application fails to load."
+    },
+    "applicationsDetailLoadErrorDescription": "Try again or go back to the applications list.",
+    "@applicationsDetailLoadErrorDescription": {
+        "description": "Error body when a single application fails to load."
+    },
+    "applicationsId": "Application ID",
+    "@applicationsId": {
+        "description": "Label for the read-only application ID field."
+    },
+    "applicationsCopyId": "Copy ID",
+    "@applicationsCopyId": {
+        "description": "Button that copies the application ID."
+    },
+    "applicationsSecretsTitle": "Secrets & tokens",
+    "@applicationsSecretsTitle": {
+        "description": "Section title for client secret and bot token."
+    },
+    "applicationsSecretsDescription": "Keep these safe. Regenerating will break existing integrations.",
+    "@applicationsSecretsDescription": {
+        "description": "Section description for secrets and tokens."
+    },
+    "applicationsClientSecret": "Client secret",
+    "@applicationsClientSecret": {
+        "description": "Label for the OAuth2 client secret field."
+    },
+    "applicationsBotToken": "Bot token",
+    "@applicationsBotToken": {
+        "description": "Label for the bot token field."
+    },
+    "applicationsRegenerate": "Regenerate",
+    "@applicationsRegenerate": {
+        "description": "Button that rotates a secret or token."
+    },
+    "applicationsRegenerateClientSecretTitle": "Regenerate client secret?",
+    "@applicationsRegenerateClientSecretTitle": {
+        "description": "Confirmation title when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenTitle": "Regenerate bot token?",
+    "@applicationsRegenerateBotTokenTitle": {
+        "description": "Confirmation title when regenerating the bot token."
+    },
+    "applicationsRegenerateClientSecretDescription": "Regenerating will invalidate the current secret. Update any code that uses the old value.",
+    "@applicationsRegenerateClientSecretDescription": {
+        "description": "Confirmation body when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenDescription": "Regenerating will invalidate the current token. Update any code that uses the old value.",
+    "@applicationsRegenerateBotTokenDescription": {
+        "description": "Confirmation body when regenerating the bot token."
+    },
+    "applicationsClientSecretRegenerated": "Client secret regenerated. Update any code that uses the old secret.",
+    "@applicationsClientSecretRegenerated": {
+        "description": "Toast after a client secret is rotated."
+    },
+    "applicationsBotTokenRegenerated": "Bot token regenerated. Update any code that uses the old token.",
+    "@applicationsBotTokenRegenerated": {
+        "description": "Toast after a bot token is rotated."
+    },
+    "applicationsRegenerateFailed": "Couldn't regenerate secret",
+    "@applicationsRegenerateFailed": {
+        "description": "Error toast when rotating a secret or token fails."
+    },
+    "applicationsInfoTitle": "Application information",
+    "@applicationsInfoTitle": {
+        "description": "Section title for basic application settings."
+    },
+    "applicationsInfoDescription": "Basic settings and allowed redirect URIs.",
+    "@applicationsInfoDescription": {
+        "description": "Section description for basic application settings."
+    },
+    "applicationsPublicBot": "Public bot",
+    "@applicationsPublicBot": {
+        "description": "Switch label for allowing anyone to invite the bot."
+    },
+    "applicationsPublicBotDescription": "Allow anyone to invite this bot to their communities.",
+    "@applicationsPublicBotDescription": {
+        "description": "Switch description for public bot."
+    },
+    "applicationsRequireCodeGrant": "Require OAuth2 code grant",
+    "@applicationsRequireCodeGrant": {
+        "description": "Switch label for requiring an OAuth2 code grant on invite."
+    },
+    "applicationsRequireCodeGrantDescription": "Requires a redirect URI and an authorization code when inviting this bot.",
+    "@applicationsRequireCodeGrantDescription": {
+        "description": "Switch description for OAuth2 code grant."
+    },
+    "applicationsRedirectUris": "Redirect URIs",
+    "@applicationsRedirectUris": {
+        "description": "Label for the redirect URI list."
+    },
+    "applicationsAddRedirect": "Add redirect",
+    "@applicationsAddRedirect": {
+        "description": "Button that adds another redirect URI row."
+    },
+    "applicationsDeleteRedirect": "Delete redirect URI",
+    "@applicationsDeleteRedirect": {
+        "description": "Accessibility label for removing a redirect URI row."
+    },
+    "applicationsBotProfileTitle": "Bot profile",
+    "@applicationsBotProfileTitle": {
+        "description": "Section title for bot profile settings."
+    },
+    "applicationsBotProfileDescription": "Avatar, tag, and rich profile details for your bot.",
+    "@applicationsBotProfileDescription": {
+        "description": "Section description for bot profile settings."
+    },
+    "applicationsBotAvatar": "Bot avatar",
+    "@applicationsBotAvatar": {
+        "description": "Label for the bot avatar preview."
+    },
+    "applicationsUsernameRequired": "Username is required",
+    "@applicationsUsernameRequired": {
+        "description": "Validation error when the bot username is empty."
+    },
+    "applicationsUsernameTooLong": "Username must be at most 32 characters",
+    "@applicationsUsernameTooLong": {
+        "description": "Validation error when the bot username is too long."
+    },
+    "applicationsUsernameInvalid": "Username can only contain letters, numbers, and underscores",
+    "@applicationsUsernameInvalid": {
+        "description": "Validation error when the bot username has invalid characters."
+    },
+    "applicationsBotUsername": "Bot username",
+    "@applicationsBotUsername": {
+        "description": "Label for the bot username field."
+    },
+    "applicationsDiscriminator": "Discriminator",
+    "@applicationsDiscriminator": {
+        "description": "Label for the read-only bot discriminator."
+    },
+    "applicationsBotBio": "Bot bio",
+    "@applicationsBotBio": {
+        "description": "Label for the bot biography field."
+    },
+    "applicationsBotBioHint": "A helpful bot that does amazing things!",
+    "@applicationsBotBioHint": {
+        "description": "Placeholder for the bot biography field."
+    },
+    "applicationsNoBotBanner": "No bot banner",
+    "@applicationsNoBotBanner": {
+        "description": "Placeholder shown when the bot has no banner."
+    },
+    "applicationsFriendlyBot": "Friendly bot",
+    "@applicationsFriendlyBot": {
+        "description": "Switch label for allowing friend requests to the bot."
+    },
+    "applicationsFriendlyBotDescription": "Allow users to send this bot friend requests for manual approval.",
+    "@applicationsFriendlyBotDescription": {
+        "description": "Switch description for friendly bot."
+    },
+    "applicationsManualFriendApproval": "Require manual friend approval",
+    "@applicationsManualFriendApproval": {
+        "description": "Switch label for requiring manual friend-request approval."
+    },
+    "applicationsManualFriendApprovalDescription": "Friend requests to this bot need manual approval.",
+    "@applicationsManualFriendApprovalDescription": {
+        "description": "Switch description for manual friend approval."
+    },
+    "applicationsOauthBuilderTitle": "OAuth2 URL builder",
+    "@applicationsOauthBuilderTitle": {
+        "description": "Section title for the authorize URL builder."
+    },
+    "applicationsOauthBuilderDescription": "Construct an authorize URL with scopes and permissions.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
+    "applicationsScopes": "Scopes",
+    "@applicationsScopes": {
+        "description": "Label for OAuth2 scope checkboxes."
+    },
+    "applicationsRedirectUri": "Redirect URI",
+    "@applicationsRedirectUri": {
+        "description": "Label for the authorize URL redirect selector."
+    },
+    "applicationsSelectRedirectUri": "Select a redirect URI",
+    "@applicationsSelectRedirectUri": {
+        "description": "Placeholder for the authorize URL redirect selector."
+    },
+    "applicationsRedirectRequiredCodeGrant": "Redirect URI is required because this bot requires OAuth2 code grant.",
+    "@applicationsRedirectRequiredCodeGrant": {
+        "description": "Validation shown when a redirect is required by code grant."
+    },
+    "applicationsRedirectRequiredScopes": "Redirect URI is required when not using only the bot scope.",
+    "@applicationsRedirectRequiredScopes": {
+        "description": "Validation shown when a redirect is required by selected scopes."
+    },
+    "applicationsBotPermissions": "Bot permissions",
+    "@applicationsBotPermissions": {
+        "description": "Label for bot permission checkboxes in the URL builder."
+    },
+    "applicationsAuthorizeUrl": "Authorize URL",
+    "@applicationsAuthorizeUrl": {
+        "description": "Label for the generated authorize URL field."
+    },
+    "applicationsAuthorizeUrlPlaceholder": "Select scopes (and redirect URI if required)",
+    "@applicationsAuthorizeUrlPlaceholder": {
+        "description": "Placeholder when the authorize URL cannot be built yet."
+    },
+    "applicationsCopyAuthorizeUrl": "Copy authorize URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
+    "applicationsCopiedUrl": "Copied URL to clipboard",
+    "@applicationsCopiedUrl": {
+        "description": "Toast after copying the authorize URL."
+    },
+    "applicationsDangerTitle": "Danger zone",
+    "@applicationsDangerTitle": {
+        "description": "Section title for deleting an application."
+    },
+    "applicationsDangerSubtitle": "This cannot be undone. Removing the application also deletes its bot.",
+    "@applicationsDangerSubtitle": {
+        "description": "Section subtitle for deleting an application."
+    },
+    "applicationsDangerHelper": "Once deleted, the application and its credentials are permanently removed.",
+    "@applicationsDangerHelper": {
+        "description": "Helper text in the application danger zone."
+    },
+    "applicationsDelete": "Delete application",
+    "@applicationsDelete": {
+        "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Are you sure you want to delete {name}? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsDeleteFailed": "Couldn't delete application",
+    "@applicationsDeleteFailed": {
+        "description": "Error toast when deleting an application fails."
+    },
+    "applicationsUpdated": "Application updated successfully",
+    "@applicationsUpdated": {
+        "description": "Toast after saving application changes."
+    },
+    "applicationsNoChanges": "No changes to save",
+    "@applicationsNoChanges": {
+        "description": "Toast when save is pressed with no dirty fields."
+    },
+    "applicationsSearchBots": "Applications & bots",
+    "@applicationsSearchBots": {
+        "description": "Settings search entry for the Applications tab."
+    },
+    "applicationsSearchBotsDescription": "Create and manage applications and bots for your account",
+    "@applicationsSearchBotsDescription": {
+        "description": "Settings search description for the Applications tab."
+    },
+    "applicationsSearchInfoDescription": "Edit application basics and redirect URIs",
+    "@applicationsSearchInfoDescription": {
+        "description": "Settings search description for application information."
+    },
+    "applicationsSearchBotProfileDescription": "Edit the bot avatar, tag, bio, banner, and friend request behavior",
+    "@applicationsSearchBotProfileDescription": {
+        "description": "Settings search description for bot profile."
+    },
+    "applicationsSearchOauthDescription": "Build an authorization URL with scopes, redirects, and bot permissions",
+    "@applicationsSearchOauthDescription": {
+        "description": "Settings search description for the OAuth2 URL builder."
+    },
+    "applicationsSearchSecretsDescription": "View and regenerate client secrets and bot tokens",
+    "@applicationsSearchSecretsDescription": {
+        "description": "Settings search description for secrets and tokens."
+    },
+    "applicationsSearchBotsKeyword": "Bots",
+    "@applicationsSearchBotsKeyword": {
+        "description": "Settings search synonym for applications."
+    },
+    "applicationsSearchDocumentation": "Documentation",
+    "@applicationsSearchDocumentation": {
+        "description": "Settings search synonym for the applications docs link."
+    },
+    "profileLocalTimeSettingsTitle": "Profile local time",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Set your time zone once so {productName} can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Edit profile local time",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Time zone",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Choose the time zone {productName} uses to calculate your UTC offset for profile local time.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Search time zones",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Not set",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as {timezoneIdentifierExample}. {productName} stores that identifier only so the offset can update automatically when daylight saving time changes.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Everyone",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Allow anyone who can view your full profile to see your local time",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Friends",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Allow your friends to see your local time",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Community members",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Allow members from communities you're in to see your local time",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
+    "linkedDevicesViewDetails": "View details",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Device details",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Device",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Client",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Location",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP address",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Last used",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Current session",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Unknown",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
+    "lookAndFeelThemeColorsTitle": "Theme colors",
+    "@lookAndFeelThemeColorsTitle": {
+        "description": "Title for the theme color token editor page."
+    },
+    "lookAndFeelThemeColorsConfigureDescription": "Customize individual theme colors for this device.",
+    "@lookAndFeelThemeColorsConfigureDescription": {
+        "description": "Description on the configure row that opens theme colors."
+    },
+    "lookAndFeelThemeColorsEditingMode": "Editing {mode}",
+    "@lookAndFeelThemeColorsEditingMode": {
+        "description": "Subtitle showing which theme mode color overrides apply to.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsSyncSectionTitle": "Theme Studio sync",
+    "lookAndFeelThemeColorsSyncFromStudioLabel": "Use colors from Theme Studio",
+    "@lookAndFeelThemeColorsSyncFromStudioLabel": {
+        "description": "Toggle to apply custom CSS colors synced from desktop Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioDescription": "When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.",
+    "@lookAndFeelThemeColorsSyncFromStudioDescription": {
+        "description": "Description for pulling theme colors from Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncToStudioLabel": "Send color changes to Theme Studio",
+    "@lookAndFeelThemeColorsSyncToStudioLabel": {
+        "description": "Toggle to push mobile theme color edits to synced preferences."
+    },
+    "lookAndFeelThemeColorsSyncToStudioDescription": "When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.",
+    "@lookAndFeelThemeColorsSyncToStudioDescription": {
+        "description": "Description for pushing theme colors to Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioOffBanner": "Desktop Theme Studio color changes will not apply on this device.",
+    "@lookAndFeelThemeColorsSyncFromStudioOffBanner": {
+        "description": "Banner when pull from Theme Studio is disabled."
+    },
+    "lookAndFeelThemeColorsEssentialSectionTitle": "Essential colors",
+    "@lookAndFeelThemeColorsEssentialSectionTitle": {
+        "description": "Section for the most impactful theme color tokens."
+    },
+    "lookAndFeelThemeColorsChatBackgroundWallpaperNote": "If you have a chat wallpaper set, you won't see this color.",
+    "@lookAndFeelThemeColorsChatBackgroundWallpaperNote": {
+        "description": "Note under the chat background color picker when wallpaper may hide it."
+    },
+    "lookAndFeelThemeColorsResetForMode": "Reset all colors for {mode}",
+    "@lookAndFeelThemeColorsResetForMode": {
+        "description": "Button to clear all scoped color overrides for a theme mode.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsResetConfirmTitle": "Reset theme colors?",
+    "@lookAndFeelThemeColorsResetConfirmTitle": {
+        "description": "Title for reset-all theme colors confirmation."
+    },
+    "lookAndFeelThemeColorsResetConfirmBody": "This removes your custom color overrides for {mode} on this device.",
+    "@lookAndFeelThemeColorsResetConfirmBody": {
+        "description": "Body for reset-all theme colors confirmation.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsGroupBrandButtons": "Brand & buttons",
+    "lookAndFeelThemeColorsGroupChatSurfaces": "Chat & messages",
+    "lookAndFeelThemeColorsGroupSidebars": "Sidebars & navigation",
+    "lookAndFeelThemeColorsGroupText": "Text",
+    "lookAndFeelThemeColorsGroupHeaders": "Headers",
+    "lookAndFeelThemeColorsGroupStatus": "Status",
+    "lookAndFeelThemeColorsGroupEmbedsMarkup": "Embeds & mentions",
+    "lookAndFeelThemeColorsGroupAccentsAlerts": "Accents & alerts",
+    "lookAndFeelThemeColorsGroupControls": "Surfaces & controls",
+    "lookAndFeelChatFontScalingTitle": "Chat font scaling",
+    "@lookAndFeelChatFontScalingTitle": {
+        "description": "Search label for chat font size within the Messages section."
+    },
+    "lookAndFeelChatFontScalingDescription": "Adjust the font size in the chat area.",
+    "@lookAndFeelChatFontScalingDescription": {
+        "description": "Search description for chat font size."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Starfield",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
+    "voiceOutputRouteSpeaker": "Speaker",
+    "@voiceOutputRouteSpeaker": {
+        "description": "Voice output route that plays call audio through the phone speaker."
+    },
+    "voiceOutputRouteEarpiece": "Earpiece",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
+    "voiceOutputRouteHeadset": "Headphones",
+    "@voiceOutputRouteHeadset": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
+    },
+    "notificationsMentionedYouIn": "{author} mentioned you in {place}:",
+    "@notificationsMentionedYouIn": {
+        "description": "Title of a Notifications row for a message that mentions the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYouIn": "{author} replied to you in {place}:",
+    "@notificationsRepliedToYouIn": {
+        "description": "Title of a Notifications row for a reply that pings the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionedYou": "{author} mentioned you:",
+    "@notificationsMentionedYou": {
+        "description": "Title of a Notifications row for a mention inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYou": "{author} replied to you:",
+    "@notificationsRepliedToYou": {
+        "description": "Title of a Notifications row for a reply that pings the user inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionPlace": "{server} – {channel}",
+    "@notificationsMentionPlace": {
+        "description": "Server and channel a notification came from, used inside the Notifications row title.",
+        "placeholders": {
+            "server": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsSendReply": "Send a reply",
+    "@notificationsSendReply": {
+        "description": "Button on a new Notifications row that opens the channel with a reply to that message started."
+    },
+    "notificationsRecentActivity": "Recent activity",
+    "@notificationsRecentActivity": {
+        "description": "Section label above Notifications rows the user has already seen."
+    },
+    "notificationsRemoveNotification": "Remove notification",
+    "@notificationsRemoveNotification": {
+        "description": "Menu action that removes a row from the Notifications list."
+    },
+    "doubleTapReactionHint": "Double tap a message to",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
+    "doubleTapEditHint": "Double tap your own message to edit it",
+    "@doubleTapEditHint": {
+        "description": "Hint under quick reactions in the message actions sheet when the double-tap action is set to edit."
+    },
+    "doubleTapReactionEdit": "Edit",
+    "@doubleTapReactionEdit": {
+        "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Edit default",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Choose double tap emoji",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
+    },
+    "messagesMediaGesturesSectionTitle": "Gestures",
+    "@messagesMediaGesturesSectionTitle": {
+        "description": "Title for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesSectionDescription": "Configure double tap and swipe on messages.",
+    "@messagesMediaGesturesSectionDescription": {
+        "description": "Description for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesReactionLabel": "Reaction emoji",
+    "@messagesMediaGesturesReactionLabel": {
+        "description": "Label for choosing the default double-tap reaction emoji."
+    },
+    "messagesMediaGesturesReactionDescription": "Used when double tap is set to add a reaction.",
+    "@messagesMediaGesturesReactionDescription": {
+        "description": "Help text for the double-tap reaction emoji setting."
+    },
+    "messagesMediaGesturesDoubleTapActionLabel": "Double tap action",
+    "@messagesMediaGesturesDoubleTapActionLabel": {
+        "description": "Label for the double-tap action radio group."
+    },
+    "messagesMediaGesturesDoubleTapActionReactName": "Add reaction",
+    "@messagesMediaGesturesDoubleTapActionReactName": {
+        "description": "Double tap adds the default reaction emoji."
+    },
+    "messagesMediaGesturesDoubleTapActionReactDescription": "Adds your default double-tap emoji as a reaction.",
+    "@messagesMediaGesturesDoubleTapActionReactDescription": {
+        "description": "Help text for the react double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionEditName": "Edit message",
+    "@messagesMediaGesturesDoubleTapActionEditName": {
+        "description": "Double tap edits your own message."
+    },
+    "messagesMediaGesturesDoubleTapActionEditDescription": "Opens the editor on messages you sent. Other messages are unchanged.",
+    "@messagesMediaGesturesDoubleTapActionEditDescription": {
+        "description": "Help text for the edit double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneName": "Nothing",
+    "@messagesMediaGesturesDoubleTapActionNoneName": {
+        "description": "Double tap does nothing."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneDescription": "Double tap is disabled.",
+    "@messagesMediaGesturesDoubleTapActionNoneDescription": {
+        "description": "Help text for the none double-tap action."
+    },
+    "messagesMediaGesturesSwipeRightToLeftLabel": "Swipe right to left",
+    "@messagesMediaGesturesSwipeRightToLeftLabel": {
+        "description": "Label for the swipe right to left action radio group."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyName": "Swipe-to-reply",
+    "@messagesMediaGesturesSwipeRightToLeftReplyName": {
+        "description": "Swipe opens reply on the message."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyDescription": "Swipe a message to reply, with hold to edit your own messages.",
+    "@messagesMediaGesturesSwipeRightToLeftReplyDescription": {
+        "description": "Help text for swipe to reply."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsName": "Show channel details",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsName": {
+        "description": "Swipe opens channel details in a side panel."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": "Swipe a message or tap the channel header to open channel details in a side panel.",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": {
+        "description": "Help text for swipe to channel details."
+    },
+    "notificationReplyPlaceholder": "Message",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Couldn't send reply",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
+    },
+    "chatMessageDeleteAttachmentConfirmDescription": "Are you sure you want to delete this attachment?",
+    "@chatMessageDeleteAttachmentConfirmDescription": {
+        "description": "Body text for the delete attachment confirmation dialog."
+    },
+    "chatMessagesFailedToLoad": "Messages failed to load",
+    "@chatMessagesFailedToLoad": {
+        "description": "Shown in a bottom bar when message history fails to load while scrolling in a channel."
+    },
+    "chatEditFailed": "Your message didn't update",
+    "@chatEditFailed": {
+        "description": "Toast when saving an edit to a message fails and the message reverts."
+    },
+    "chatEditFailedEditAgain": "Edit again",
+    "@chatEditFailedEditAgain": {
+        "description": "Action on the failed edit toast that reopens the editor with the unsaved text."
+    },
+    "composerAutocompleteEmojisHeading": "Emojis",
+    "@composerAutocompleteEmojisHeading": {
+        "description": "Section heading in composer autocomplete for emoji suggestions."
+    },
+    "chatMessagePinConfirm": "Pin",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Pin this message to the channel for everyone to see.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
+    "chatAttachmentLibraryLimitedBody": "Only photos and videos you chose to share are shown here.",
+    "@chatAttachmentLibraryLimitedBody": {
+        "description": "Explains limited photo library access in the attachment gallery."
+    },
+    "chatAttachmentLibraryLimitedManage": "Manage",
+    "@chatAttachmentLibraryLimitedManage": {
+        "description": "Opens the system picker to change which photos the app can access."
+    },
+    "storePlutoniumPriceLine": "{monthly} or {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mo",
+    "storePlutoniumYearSuffix": "/yr",
+    "storePlutoniumPriceOr": "or",
+    "storePlutoniumEmojiTitle": "Your emojis, everywhere",
+    "storePlutoniumEmojiBody": "Bring custom emojis and stickers from any of your communities into every chat and community you're in.",
+    "storePlutoniumProfileTitle": "A profile that stands out",
+    "storePlutoniumProfileBody": "Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.",
+    "storePlutoniumFilesTitle": "Send files up to 500 MB",
+    "storePlutoniumFilesBody": "Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.",
+    "storePlutoniumCompareTitle": "Compare Free and Plutonium",
+    "storePlutoniumCompareMobileNote": "Not all of these features are in the mobile app. Some are only available on desktop.",
+    "storePlutoniumNotAvailable": "Not available",
+    "storePlutoniumAvailable": "Available",
+    "storePlutoniumCompareTag": "Pick the 4-digit number after your username*",
+    "storePlutoniumCompareProfile": "A separate profile for each community",
+    "storePlutoniumCompareBadge": "Subscriber badge on your profile",
+    "storePlutoniumCompareBackgrounds": "Video call backgrounds you can save",
+    "storePlutoniumCompareCommunities": "Communities you can join",
+    "storePlutoniumCompareCharacters": "Characters in a single message",
+    "storePlutoniumCompareBookmarks": "Messages you can bookmark",
+    "storePlutoniumCompareUpload": "Largest file you can upload",
+    "storePlutoniumCompareSavedMedia": "Media items you can save for later",
+    "storePlutoniumCompareAnimatedEmoji": "Use animated emojis in messages",
+    "storePlutoniumCompareCustomEmoji": "Use custom emojis and stickers in any community",
+    "storePlutoniumCompareVideo": "Video call and screen share quality",
+    "storePlutoniumCompareAvatar": "Animated avatar and profile banner",
+    "storePlutoniumCompareEarlyAccess": "Early access to new features",
+    "storePlutoniumCompareThemes": "Custom themes for the app",
+    "storePlutoniumVideoFree": "Up to 720p at 30 FPS",
+    "storePlutoniumVideoPlutonium": "Up to 4K at 60 FPS",
+    "storePlutoniumTagFootnote": "You can only pick a tag that nobody else with the same username already has. Usernames aren't case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.",
+    "storePlutoniumLearnVisionary": "Learn more about Visionary.",
+    "storePlutoniumDonatePrompt": "Just want to support Fluxer's open source development? ",
+    "storePlutoniumDonateLink": "Donate instead.",
+    "storePlutoniumHighlightsLead": "Subscribing funds Fluxer and unlocks",
+    "storePlutoniumHighlightEmoji": "Custom emoji and stickers in any chat",
+    "storePlutoniumHighlightProfile": "Animated profile, badge, and custom 4-digit number",
+    "storePlutoniumHighlightFiles": "Uploads up to 500 MB",
+    "storePlutoniumHighlightMessages": "Send messages up to 4,000 characters",
+    "storePlutoniumHighlightCommunityProfile": "A separate profile for each community",
+    "storePlutoniumHighlightsMore": "And more",
+    "storePlutoniumRenewsThroughPlay": "Renews automatically through Google Play until you cancel.",
+    "storePlutoniumRenewsThroughAppStore": "Renews automatically through the App Store until you cancel.",
+    "storePlutoniumRestorePurchases": "Restore purchases",
+    "@storePlutoniumRestorePurchases": {
+        "description": "Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID."
+    },
+    "storePlutoniumAlreadySubscribed": "You already have a Fluxer Plutonium subscription.",
+    "storePlutoniumSavePercent": "Save {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Purchase received. Plutonium will show here once it activates.",
+    "storePlutoniumUnavailable": "Subscriptions in the app aren't available on this device yet.",
+    "storePlutoniumVisionaryStatus": "Visionary already includes permanent access, so a recurring subscription isn't needed.",
+    "userSettingsNavAppIcon": "App icon",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "App icon",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Choose which icon appears on your home screen.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
+    "appIconSectionDescriptionAndroid": "Choose which icon appears on your home screen. Changing the icon restarts the app.",
+    "@appIconSectionDescriptionAndroid": {
+        "description": "Description for the app icon settings section on Android."
+    },
+    "appIconAndroidChangeTitle": "Change app icon?",
+    "@appIconAndroidChangeTitle": {
+        "description": "Title for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconAndroidChangeDescription": "Fluxer will restart to apply the new home screen icon.",
+    "@appIconAndroidChangeDescription": {
+        "description": "Body for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconAndroidChangeConfirm": "Change icon",
+    "@appIconAndroidChangeConfirm": {
+        "description": "Confirm button for changing the app icon on Android."
+    },
+    "appIconOptionDefault": "Default",
+    "@appIconOptionDefault": {
+        "description": "App icon option for the build default icon (release or canary)."
+    },
+    "appIconOptionStarfield": "Starfield",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
+    "appIconOptionSweden": "Sweden",
+    "@appIconOptionSweden": {
+        "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconOptionGreyscale": "Greyscale",
+    "@appIconOptionGreyscale": {
+        "description": "App icon option for the greyscale alternate icon."
+    },
+    "appIconOptionRainbow": "Rainbow",
+    "@appIconOptionRainbow": {
+        "description": "App icon option for the rainbow alternate icon."
+    },
+    "appIconOptionWaves": "Waves",
+    "@appIconOptionWaves": {
+        "description": "App icon option for the waves alternate icon."
+    },
+    "appIconOptionChromaticAberration": "Chromatic aberration",
+    "@appIconOptionChromaticAberration": {
+        "description": "App icon option for the chromatic aberration alternate icon."
+    },
+    "appIconOptionDefaultBrutalist": "Brutalist",
+    "@appIconOptionDefaultBrutalist": {
+        "description": "App icon option for the default brutalist alternate icon."
+    },
+    "appIconOptionGreyscaleBrutalist": "Greyscale brutalist",
+    "@appIconOptionGreyscaleBrutalist": {
+        "description": "App icon option for the greyscale brutalist alternate icon."
+    },
+    "appIconUnsupported": "Changing the app icon is not available on this device.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
+    },
+    "observabilityReportingConsentTitle": "Help fix crashes",
+    "@observabilityReportingConsentTitle": {
+        "description": "Title of the post-crash opt-in sheet for crash and error reporting."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentEnableLater": "To enable later, open Settings → Advanced → {reportingToggle}.",
+    "@observabilityReportingConsentEnableLater": {
+        "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
+        "placeholders": {
+            "reportingToggle": {
+                "type": "String",
+                "example": "Send crash and performance reports"
+            }
+        }
+    },
+    "observabilityReportingConsentAgree": "Send crash reports",
+    "@observabilityReportingConsentAgree": {
+        "description": "Primary button on the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentDecline": "Don't want to enable",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "userSettingsLogOutConfirmTitle": "Sign out?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "You can sign back in at any time.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
+    "quickSwitcherSectionThreads": "Threads",
+    "@quickSwitcherSectionThreads": {
+        "description": "Quick switcher section header for thread and forum post results."
+    },
+    "savedMessagesAddedToast": "Added to bookmarks",
+    "@savedMessagesAddedToast": {
+        "description": "Toast confirming a message was bookmarked."
+    },
+    "savedMessagesRemovedToast": "Removed from bookmarks",
+    "@savedMessagesRemovedToast": {
+        "description": "Toast confirming a message bookmark was removed."
+    },
+    "instanceConnectFailedDomain": "Couldn't connect to {domain}. Try again.",
+    "@instanceConnectFailedDomain": {
+        "description": "Error when instance discovery fails for a specific domain.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceInvalidDiscoveryResponse": "Couldn't read this instance's configuration. Check the address and try again.",
+    "@instanceInvalidDiscoveryResponse": {
+        "description": "Error when the instance discovery document cannot be parsed."
+    },
+    "instanceOutdatedForClient": "This instance is out of date for this app. Ask whoever runs {domain} to update Fluxer.",
+    "@instanceOutdatedForClient": {
+        "description": "Error when the instance api_code_version is below what this client requires.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceRequiresNewerClient": "{domain} runs a newer version of Fluxer than this app. Update the app, then try again.",
+    "@instanceRequiresNewerClient": {
+        "description": "Error when the instance speaks a protocol generation this client does not support.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceCompatibilityTitle": "Can't use this instance",
+    "@instanceCompatibilityTitle": {
+        "description": "Title on the full-screen instance compatibility blocker."
+    },
+    "instanceCompatibilityRetry": "Try again",
+    "@instanceCompatibilityRetry": {
+        "description": "Button to re-fetch instance discovery on the compatibility blocker."
+    },
+    "instanceCompatibilityUpdateApp": "Update app",
+    "@instanceCompatibilityUpdateApp": {
+        "description": "Button to open the app store or download page when the client is too old."
+    },
+    "instanceCompatibilityStatusPagePrompt": "Check the status page for updates.",
+    "@instanceCompatibilityStatusPagePrompt": {
+        "description": "Hint below compatibility error copy when a status page URL is available."
+    },
+    "instanceCompatibilityStatusPageLink": "status page",
+    "@instanceCompatibilityStatusPageLink": {
+        "description": "Link label for the instance status page on the compatibility blocker."
+    },
+    "guildNavbarPrivateChannel": "Private channel",
+    "@guildNavbarPrivateChannel": {
+        "description": "Label for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarPrivateChannelDescription": "Only selected members and roles will be able to view this channel.",
+    "@guildNavbarPrivateChannelDescription": {
+        "description": "Description for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarAddMembersOrRoles": "Add members or roles",
+    "@guildNavbarAddMembersOrRoles": {
+        "description": "Title of the create channel step that picks who can view a private channel."
+    },
+    "guildNavbarAddMembersOrRolesHint": "Search members or roles",
+    "@guildNavbarAddMembersOrRolesHint": {
+        "description": "Search hint in the create channel step that picks who can view a private channel."
+    },
+    "permissionManageThreads": "Manage threads",
+    "@permissionManageThreads": {
+        "description": "Permission name."
+    },
+    "permissionManageThreadsDescription": "Rename, archive, lock and delete threads, set their slowmode, and view private threads.",
+    "@permissionManageThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePublicThreads": "Create public threads",
+    "@permissionCreatePublicThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePublicThreadsDescription": "Start threads that everyone who can view the channel can see.",
+    "@permissionCreatePublicThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePrivateThreads": "Create private threads",
+    "@permissionCreatePrivateThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePrivateThreadsDescription": "Start invite-only threads.",
+    "@permissionCreatePrivateThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionSendMessagesInThreads": "Send messages in threads",
+    "@permissionSendMessagesInThreads": {
+        "description": "Permission name."
+    },
+    "permissionSendMessagesInThreadsDescription": "Send messages in threads and forum posts.",
+    "@permissionSendMessagesInThreadsDescription": {
+        "description": "Permission description."
+    },
+    "threadErrorArchived": "This thread is archived.",
+    "@threadErrorArchived": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorLocked": "This thread is locked. Only moderators can post or reopen it.",
+    "@threadErrorLocked": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorAlreadyCreated": "A thread already exists for this message.",
+    "@threadErrorAlreadyCreated": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxActiveThreads": "This community has reached its limit of active threads.",
+    "@threadErrorMaxActiveThreads": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxMembers": "This thread has reached its member limit.",
+    "@threadErrorMaxMembers": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxPinnedPosts": "Only one post can be pinned in this forum.",
+    "@threadErrorMaxPinnedPosts": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxForumTags": "A forum can have at most 20 tags.",
+    "@threadErrorMaxForumTags": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorTagNamesUnique": "Tag names must be unique.",
+    "@threadErrorTagNamesUnique": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorNoTagsForEveryone": "Add a tag everyone can use before requiring tags.",
+    "@threadErrorNoTagsForEveryone": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorTagRequired": "Pick at least one tag for this post.",
+    "@threadErrorTagRequired": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorUnknownTag": "One of the selected tags no longer exists.",
+    "@threadErrorUnknownTag": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidNotificationSettings": "Those notification settings are not valid for a thread.",
+    "@threadErrorInvalidNotificationSettings": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorSearchIndexNotReady": "Posts are still being indexed. Try again in a moment.",
+    "@threadErrorSearchIndexNotReady": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidChannelType": "This action is not available in this channel.",
+    "@threadErrorInvalidChannelType": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadCreate": "Create thread",
+    "@threadCreate": {
+        "description": "Action that opens the new thread form for a channel or a message."
+    },
+    "threadName": "Thread name",
+    "@threadName": {
+        "description": "Label of the thread name input."
+    },
+    "threadNameRequired": "Give the thread a name.",
+    "@threadNameRequired": {
+        "description": "Error shown when a thread is created or renamed without a name."
+    },
+    "threadNewThreadPlaceholder": "New thread",
+    "@threadNewThreadPlaceholder": {
+        "description": "Placeholder of the thread name input when there is no source message."
+    },
+    "threadPrivate": "Private thread",
+    "@threadPrivate": {
+        "description": "Label of the toggle that makes a new thread private."
+    },
+    "threadPrivateDescription": "Only people you invite and moderators can see this thread.",
+    "@threadPrivateDescription": {
+        "description": "Help text under the private thread toggle."
+    },
+    "threadStarterMessage": "Message",
+    "@threadStarterMessage": {
+        "description": "Label of the optional first message input in the new thread form."
+    },
+    "threadStarterMessagePlaceholder": "Enter a message to start the conversation!",
+    "@threadStarterMessagePlaceholder": {
+        "description": "Placeholder of the first message input in the new thread form."
+    },
+    "threadCreateCooldown": "{seconds, plural, =1{You can start another thread in 1 second.} other{You can start another thread in {seconds} seconds.}}",
+    "@threadCreateCooldown": {
+        "description": "Cooldown notice in the new thread form when the parent channel has slowmode.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "threadCreateFailed": "Could not start the thread: {detail}",
+    "@threadCreateFailed": {
+        "description": "Toast when creating a thread failed. {detail} is the server error message.",
+        "placeholders": {
+            "detail": {
+                "type": "String"
+            }
+        }
+    },
+    "threadBrowserTitle": "Threads",
+    "@threadBrowserTitle": {
+        "description": "Title of the thread browser and label of the threads header button."
+    },
+    "threadBrowserActive": "Active",
+    "@threadBrowserActive": {
+        "description": "Tab in the thread browser that lists active threads."
+    },
+    "threadBrowserArchived": "Closed",
+    "@threadBrowserArchived": {
+        "description": "Tab in the thread browser that lists archived threads."
+    },
+    "threadBrowserJoined": "Joined",
+    "@threadBrowserJoined": {
+        "description": "Section header in the thread browser for threads the user joined."
+    },
+    "threadBrowserOtherActive": "Other active threads",
+    "@threadBrowserOtherActive": {
+        "description": "Section header in the thread browser for active threads the user did not join."
+    },
+    "threadBrowserPublic": "Public threads",
+    "@threadBrowserPublic": {
+        "description": "Option in the closed thread list that shows public threads."
+    },
+    "threadBrowserPrivate": "Private threads",
+    "@threadBrowserPrivate": {
+        "description": "Option in the closed thread list that shows private threads."
+    },
+    "threadBrowserEmpty": "There are no threads. Stay focused on a conversation with a thread, a temporary text channel.",
+    "@threadBrowserEmpty": {
+        "description": "Empty state of the active threads list."
+    },
+    "threadBrowserArchivedEmpty": "There are no closed threads.",
+    "@threadBrowserArchivedEmpty": {
+        "description": "Empty state of the closed threads list."
+    },
+    "threadBrowserLoadMore": "Load more",
+    "@threadBrowserLoadMore": {
+        "description": "Button that loads the next page of closed threads."
+    },
+    "threadBrowserSearch": "Search threads",
+    "@threadBrowserSearch": {
+        "description": "Placeholder of the search field at the top of the thread browser."
+    },
+    "threadBrowserSearchEmpty": "No threads match",
+    "@threadBrowserSearchEmpty": {
+        "description": "Empty state of the thread browser while searching."
+    },
+    "threadBrowserSearchEmptyHint": "Try a different name or check the other tab.",
+    "@threadBrowserSearchEmptyHint": {
+        "description": "Hint under the empty search state in the thread browser."
+    },
+    "threadBrowserSearchFailed": "Couldn't search threads. Try again later.",
+    "@threadBrowserSearchFailed": {
+        "description": "Error state of the thread browser search."
+    },
+    "threadBrowserSearchIndexing": "Search is getting ready for this community. Trying again shortly...",
+    "@threadBrowserSearchIndexing": {
+        "description": "Shown in the thread browser while the search index is being built."
+    },
+    "threadMessageCount": "{count, plural, =1{1 message} other{{count} messages}}",
+    "@threadMessageCount": {
+        "description": "Message count on a thread chip and in the thread browser.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadFailedToMentionSomeRoles": "Some mentioned roles were not added to this thread.",
+    "@threadFailedToMentionSomeRoles": {
+        "description": "Note under a thread message when some mentioned roles had too many members to add to the thread."
+    },
+    "threadMembers": "Thread members",
+    "@threadMembers": {
+        "description": "Title of the thread member list."
+    },
+    "threadMembersCount": "{count, plural, =1{1 member} other{{count} members}}",
+    "@threadMembersCount": {
+        "description": "Header above the thread member list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadMembersEmpty": "Nobody has joined this thread yet.",
+    "@threadMembersEmpty": {
+        "description": "Empty state of the thread member list."
+    },
+    "threadRemoveMember": "Remove {name} from thread",
+    "@threadRemoveMember": {
+        "description": "Accessible label of the button that removes a member from a thread.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadJoin": "Join thread",
+    "@threadJoin": {
+        "description": "Action that adds the current user to a thread."
+    },
+    "threadLeave": "Leave thread",
+    "@threadLeave": {
+        "description": "Action that removes the current user from a thread."
+    },
+    "threadJoinNotice": "Join this thread to follow it in your channel list and get notifications.",
+    "@threadJoinNotice": {
+        "description": "Notice above the composer when the user is not a member of the thread."
+    },
+    "threadArchivedNotice": "This thread is closed. Sending a message will open it again.",
+    "@threadArchivedNotice": {
+        "description": "Notice above the composer of an archived thread."
+    },
+    "threadLockedNotice": "This thread is locked. Only moderators can send messages.",
+    "@threadLockedNotice": {
+        "description": "Barrier shown instead of the composer in a locked thread."
+    },
+    "threadArchive": "Close thread",
+    "@threadArchive": {
+        "description": "Action that archives a thread so it leaves the channel list."
+    },
+    "threadUnarchive": "Open thread again",
+    "@threadUnarchive": {
+        "description": "Action that unarchives an archived thread."
+    },
+    "threadLock": "Lock thread",
+    "@threadLock": {
+        "description": "Moderator action that stops non-moderators from sending messages in a thread."
+    },
+    "threadUnlock": "Unlock thread",
+    "@threadUnlock": {
+        "description": "Moderator action that lets everyone send messages in a locked thread again."
+    },
+    "threadDelete": "Delete thread",
+    "@threadDelete": {
+        "description": "Destructive moderator action that deletes a thread and all its messages."
+    },
+    "threadDeleteConfirm": "Are you sure you want to delete {threadName}? This cannot be undone.",
+    "@threadDeleteConfirm": {
+        "description": "Confirmation text before deleting a thread.",
+        "placeholders": {
+            "threadName": {
+                "type": "String"
+            }
+        }
+    },
+    "threadDeleted": "Thread deleted",
+    "@threadDeleted": {
+        "description": "Toast after a thread was deleted."
+    },
+    "threadMarkAsRead": "Mark as read",
+    "@threadMarkAsRead": {
+        "description": "Action that marks a thread as read."
+    },
+    "threadMute": "Mute thread",
+    "@threadMute": {
+        "description": "Action that mutes notifications and unread badges for a thread."
+    },
+    "threadUnmute": "Unmute thread",
+    "@threadUnmute": {
+        "description": "Action that unmutes a thread."
+    },
+    "threadMuted": "Thread muted",
+    "@threadMuted": {
+        "description": "Toast after a thread was muted."
+    },
+    "threadUnmuted": "Thread unmuted",
+    "@threadUnmuted": {
+        "description": "Toast after a thread was unmuted."
+    },
+    "threadNotificationSettings": "Notification settings",
+    "@threadNotificationSettings": {
+        "description": "Title of the thread notification settings."
+    },
+    "threadNotificationParentDefault": "Use channel default",
+    "@threadNotificationParentDefault": {
+        "description": "Thread notification option that follows the parent channel setting."
+    },
+    "threadCopyLink": "Copy link",
+    "@threadCopyLink": {
+        "description": "Action that copies a link to the thread."
+    },
+    "threadCopyId": "Copy thread ID",
+    "@threadCopyId": {
+        "description": "Developer mode action that copies the thread ID."
+    },
+    "threadMoreOptions": "More options",
+    "@threadMoreOptions": {
+        "description": "Header button that opens the thread actions."
+    },
+    "threadSettings": "Thread settings",
+    "@threadSettings": {
+        "description": "Title of the thread settings form."
+    },
+    "threadSettingsSaved": "Thread settings saved",
+    "@threadSettingsSaved": {
+        "description": "Toast after thread settings were saved."
+    },
+    "threadAutoArchive": "Hide after inactivity",
+    "@threadAutoArchive": {
+        "description": "Label of the thread auto archive duration setting."
+    },
+    "threadAutoArchiveDescription": "The thread stops showing in the channel list after this period of inactivity.",
+    "@threadAutoArchiveDescription": {
+        "description": "Help text of the thread auto archive duration setting."
+    },
+    "threadDefaultAutoArchive": "Default hide after inactivity",
+    "@threadDefaultAutoArchive": {
+        "description": "Label of the default auto archive duration for new threads in a text channel."
+    },
+    "threadDefaultAutoArchiveDescription": "New threads stop showing in the channel list after this period of inactivity.",
+    "@threadDefaultAutoArchiveDescription": {
+        "description": "Help text of the default thread auto archive duration setting."
+    },
+    "threadDefaultSlowmode": "Default thread slowmode",
+    "@threadDefaultSlowmode": {
+        "description": "Label of the slowmode copied onto new threads in a text channel."
+    },
+    "threadAutoArchiveOneHour": "1 Hour",
+    "@threadAutoArchiveOneHour": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneDay": "24 Hours",
+    "@threadAutoArchiveOneDay": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveThreeDays": "3 Days",
+    "@threadAutoArchiveThreeDays": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneWeek": "1 Week",
+    "@threadAutoArchiveOneWeek": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadInvitable": "Allow anyone to invite",
+    "@threadInvitable": {
+        "description": "Private thread setting that lets non-moderators add other members."
+    },
+    "threadInvitableDescription": "Members of this private thread can add other people.",
+    "@threadInvitableDescription": {
+        "description": "Help text of the private thread invite setting."
+    },
+    "threadStartedBy": "Started by {name}",
+    "@threadStartedBy": {
+        "description": "Subtitle at the start of a thread naming its creator.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadStarterDeleted": "Original message was deleted.",
+    "@threadStarterDeleted": {
+        "description": "Shown at the top of a thread when the message it was started from was deleted."
+    },
+    "systemThreadCreated": "{username} started a thread: {threadLink}. See {allThreadsLink}.",
+    "@systemThreadCreated": {
+        "description": "System message when a user starts a thread. Keep {username}, {threadLink}, and {allThreadsLink} in place and translate the surrounding sentence.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "threadLink": {
+                "type": "String"
+            },
+            "allThreadsLink": {
+                "type": "String"
+            }
+        }
+    },
+    "systemThreadCreatedAllThreadsLink": "all threads",
+    "@systemThreadCreatedAllThreadsLink": {
+        "description": "Link text in the thread started system message that opens the thread browser."
+    },
+    "systemThreadCreatedThreadFallback": "a thread",
+    "@systemThreadCreatedThreadFallback": {
+        "description": "Link text in the thread started system message when the thread name is unknown."
+    },
+    "systemPreviewThreadCreated": "{username} started a thread.",
+    "@systemPreviewThreadCreated": {
+        "description": "Plaintext preview for a thread started system message.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogActionThreadCreate": "Thread created",
+    "@auditLogActionThreadCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadUpdate": "Thread updated",
+    "@auditLogActionThreadUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadDelete": "Thread deleted",
+    "@auditLogActionThreadDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogSummaryThreadCreate": "{actor} started the thread {target}.",
+    "@auditLogSummaryThreadCreate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadUpdate": "{actor} updated the thread {target}.",
+    "@auditLogSummaryThreadUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadDelete": "{actor} deleted the thread {target}.",
+    "@auditLogSummaryThreadDelete": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsDeleteCommunity": "Delete community",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Community deleted",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Couldn't delete this community",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantNeedsLogin": "Open Fluxer and sign in first.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "You're not in a call.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer could not find that.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Direct messages are disabled on this instance.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer could not complete that.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Muted.",
+    "assistantOkUnmuted": "Unmuted.",
+    "assistantOkLeftVoice": "Left voice.",
+    "assistantOkJoinedVoice": "Joining voice.",
+    "assistantOkStartedCall": "Starting the call.",
+    "assistantOkStatusSet": "Status set to {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Opening Fluxer.",
+    "assistantOkMessageSent": "Message sent.",
+    "assistantOkCustomStatusSet": "Custom status updated.",
+    "assistantOkCustomStatusCleared": "Custom status cleared.",
+    "guildNavbarAnnouncementChannel": "Announcement",
+    "guildNavbarAnnouncementChannelDescription": "Post updates other communities can follow",
+    "channelDetailsAnnouncementChannel": "Announcement channel",
+    "channelSettingsAnnouncementChannel": "Announcement channel",
+    "channelSettingsAnnouncementChannelDescription": "Lets other communities follow this channel and get copies of what you publish.",
+    "channelSettingsStopAnnouncementTitle": "Stop being an announcement channel?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 channel follows this channel. Converting it to a text channel removes that follow.} other{{count} channels follow this channel. Converting it to a text channel removes those follows.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Converting this channel to a text channel removes every channel that follows it.",
+    "channelSettingsConvertChannel": "Convert",
+    "channelSettingsConvertFailed": "Couldn't convert this channel",
+    "channelSettingsChannelHasFollowers": "This channel still has followers. Remove those follows before converting it.",
+    "channelMenuFollow": "Follow channel",
+    "channelFollowTitle": "Follow this channel",
+    "channelFollowBody": "Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.",
+    "channelFollowCommunity": "Community",
+    "channelFollowChannel": "Channel",
+    "channelFollowAgeWarning": "This is an age-restricted channel. Updates can only go to age-restricted channels.",
+    "channelFollowContentWarning": "This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.",
+    "channelFollowHiddenHint": "Communities and channels where you can't manage webhooks are hidden.",
+    "channelFollowEmpty": "You can't manage webhooks in any community. Ask an admin to follow this channel.",
+    "channelFollowSubmit": "Follow",
+    "channelFollowFailed": "Couldn't follow this channel.",
+    "channelFollowSuccessTitle": "Updates are on their way!",
+    "channelFollowSuccessBody": "Messages published in {sourceName} will show up in #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Got it!",
+    "channelFollowBarrier": "Follow to get these announcements in a channel you choose.",
+    "channelHeaderFollow": "Follow channel",
+    "chatMessagePublish": "Publish",
+    "chatMessagePublished": "Published",
+    "chatMessagePublishConfirmTitle": "Publish message?",
+    "chatMessagePublishConfirmBody": "This sends a copy to every channel that follows this one.",
+    "chatMessagePublishedToast": "Message published",
+    "chatMessageAlreadyPublished": "This message is already published.",
+    "chatMessagePublishFailedTitle": "Couldn't publish this message",
+    "chatMessagePublishFailedBody": "Something went wrong. Try again in a moment.",
+    "chatMessagePublishLimitTitle": "Slow down",
+    "chatMessagePublishLimitBody": "You can publish again in {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "You are publishing too quickly. Try again in a moment.",
+    "chatMessageDeletePublished": "This also removes the copies that were sent to channels following this one.",
+    "chatMessageEditPublishedTitle": "Edit published message?",
+    "chatMessageEditPublishedBody": "This updates the copies that were sent to channels following this one.",
+    "chatMessageEditPublishedSave": "Save",
+    "chatMessageEditLimitTitle": "Slow down",
+    "chatMessageEditLimitBody": "You can edit this published message again in {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "You are editing this published message too quickly. Try again in a moment.",
+    "chatMessageOriginalDeleted": "[Original message deleted]",
+    "userTagCommunity": "Community",
+    "systemFollowAdd": "{username} followed {source} into this channel. Messages published there will appear here.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} followed {source} into this channel.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Not sent to followers yet.",
+    "publishNudgeHideForever": "Don't show again",
+    "publishNudgeDismiss": "Dismiss",
+    "channelSettingsFollowedChannels": "Followed channels",
+    "channelSettingsFollowedChannelsDescription": "Announcement channels this channel follows. Unfollow to stop receiving copies.",
+    "guildSettingsFollowedChannelsDescription": "Announcement channels followed by channels in this community.",
+    "channelSettingsFollowedFrom": "From {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Updates are paused because the source channel is no longer available.",
+    "channelSettingsUnfollowTitle": "Unfollow {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "This channel will stop receiving copies from that announcement channel.",
+    "channelSettingsUnfollow": "Unfollow",
+    "crosspostCommunityTitle": "Community",
+    "crosspostGoToCommunity": "Go to community",
+    "crosspostJoinCommunity": "Join community",
+    "crosspostSourceFailed": "Couldn't load this community. Try again in a moment.",
+    "crosspostMembers": "{count} members",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minute} other{{count} minutes}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 second} other{{count} seconds}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Unsupported channel type",
+    "channelUnsupportedBody": "This version of the app doesn't support this channel type.",
+    "channelDetailsUnsupportedChannel": "Unsupported channel",
+    "forumChannelTypeForum": "Forum",
+    "@forumChannelTypeForum": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeForumDescription": "Posts organized by topic and tags",
+    "@forumChannelTypeForumDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMedia": "Media",
+    "@forumChannelTypeMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMediaDescription": "Posts built around images and videos",
+    "@forumChannelTypeMediaDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPost": "New post",
+    "@forumNewPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewMediaPost": "New media post",
+    "@forumNewMediaPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchPosts": "Search posts",
+    "@forumSearchPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumViewOptions": "Sort and view",
+    "@forumViewOptions": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchIndexing": "Search is still being prepared for this community. Posts appear here as soon as it is ready.",
+    "@forumSearchIndexing": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNoPosts": "There are no posts yet",
+    "@forumNoPosts": {
+        "description": "Title of the empty state in a forum channel without posts."
+    },
+    "forumNoPostsHint": "Be the first to start a conversation here.",
+    "@forumNoPostsHint": {
+        "description": "Body of the empty state in a forum channel without posts."
+    },
+    "forumNoSearchResults": "No posts match your search",
+    "@forumNoSearchResults": {
+        "description": "Title of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumNoSearchResultsHint": "Try different words or clear the tag filter.",
+    "@forumNoSearchResultsHint": {
+        "description": "Body of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumCreateFirstPost": "Create the first post",
+    "@forumCreateFirstPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumOlderPosts": "Older posts",
+    "@forumOlderPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostsLoadFailed": "Posts could not be loaded.",
+    "@forumPostsLoadFailed": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRetry": "Try again",
+    "@forumRetry": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostPinned": "Pinned",
+    "@forumPostPinned": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostLocked": "Locked",
+    "@forumPostLocked": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostArchived": "Archived",
+    "@forumPostArchived": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostStarterDeleted": "The original message was deleted.",
+    "@forumPostStarterDeleted": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSnippet": "{author}: {content}",
+    "@forumPostSnippet": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "content": {
+                "type": "String"
+            }
+        }
+    },
+    "forumPostReact": "Add the default reaction",
+    "@forumPostReact": {
+        "description": "Forum and media channel UI."
+    },
+    "forumOpenPost": "Open post",
+    "@forumOpenPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumEditTags": "Edit tags",
+    "@forumEditTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTags": "Save tags",
+    "@forumSaveTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsLimitHint": "{count, plural, =1{Pick up to 1 tag.} other{Pick up to {count} tags.}}",
+    "@forumTagsLimitHint": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "forumPinPost": "Pin post",
+    "@forumPinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumUnpinPost": "Unpin post",
+    "@forumUnpinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMarkPostRead": "Mark as read",
+    "@forumMarkPostRead": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCopyPostLink": "Copy link",
+    "@forumCopyPostLink": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostGuidelines": "Post guidelines",
+    "@forumPostGuidelines": {
+        "description": "Forum and media channel UI."
+    },
+    "forumGuidelinesPlaceholder": "Tell people what to post here and how to post it.",
+    "@forumGuidelinesPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitle": "Title",
+    "@forumPostTitle": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessage": "Message",
+    "@forumPostMessage": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessagePlaceholder": "Write the first message of your post",
+    "@forumPostMessagePlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaPlaceholder": "Add a caption",
+    "@forumPostMediaPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTags": "Tags",
+    "@forumPostTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTagsRequired": "Tags (required)",
+    "@forumPostTagsRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddMedia": "Add media",
+    "@forumPostAddMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddFile": "Add file",
+    "@forumPostAddFile": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostRemoveAttachment": "Remove attachment",
+    "@forumPostRemoveAttachment": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSubmit": "Post",
+    "@forumPostSubmit": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitleRequired": "Give your post a title.",
+    "@forumPostTitleRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaRequired": "Add at least one image or video to post here.",
+    "@forumPostMediaRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostContentRequired": "Write a message or add a file.",
+    "@forumPostContentRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortLatestActivity": "Recently active",
+    "@forumSortLatestActivity": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortCreationTime": "Date posted",
+    "@forumSortCreationTime": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutList": "List view",
+    "@forumLayoutList": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutGallery": "Gallery view",
+    "@forumLayoutGallery": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnread": "Show unread for new posts",
+    "@forumNewPostsUnread": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnreadDescription": "Mark this channel unread when someone creates a post.",
+    "@forumNewPostsUnreadDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmode": "Post slowmode",
+    "@forumPostSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmodeDescription": "Wait between creating posts. \"{bypassSlowmodePermissionLabel}\" can bypass it.",
+    "@forumPostSlowmodeDescription": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "bypassSlowmodePermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "forumMessageSlowmode": "Message slowmode in posts",
+    "@forumMessageSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMessageSlowmodeDescription": "Slowmode applied to messages in new posts.",
+    "@forumMessageSlowmodeDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchive": "Hide after inactivity",
+    "@forumDefaultAutoArchive": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchiveDescription": "New posts are archived after this long without activity.",
+    "@forumDefaultAutoArchiveDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultReaction": "Default reaction",
+    "@forumDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSetDefaultReaction": "Pick an emoji",
+    "@forumSetDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChangeDefaultReaction": "Change",
+    "@forumChangeDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRemoveDefaultReaction": "Remove",
+    "@forumRemoveDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultSortOrder": "Default sort order",
+    "@forumDefaultSortOrder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultLayout": "Default layout",
+    "@forumDefaultLayout": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSetting": "Tag filter",
+    "@forumTagMatchSetting": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSome": "Match any selected tag",
+    "@forumTagMatchSome": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchAll": "Match all selected tags",
+    "@forumTagMatchAll": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTag": "Require tags",
+    "@forumRequireTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTagDescription": "People must pick at least one tag when they create a post.",
+    "@forumRequireTagDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloads": "Hide media download options",
+    "@forumHideMediaDownloads": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloadsDescription": "Hide download, open in browser and copy link for images and videos in posts.",
+    "@forumHideMediaDownloadsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsTitle": "Tags ({count}/{max})",
+    "@forumTagsTitle": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "forumTagsDescription": "Tags help people find and filter posts. Only moderators can apply moderated tags.",
+    "@forumTagsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCreateTag": "Create tag",
+    "@forumCreateTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumEditTag": "Edit tag",
+    "@forumEditTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTag": "Save tag",
+    "@forumSaveTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDeleteTag": "Delete tag",
+    "@forumDeleteTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagName": "Tag name",
+    "@forumTagName": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagEmoji": "Emoji",
+    "@forumTagEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagRemoveEmoji": "Remove emoji",
+    "@forumTagRemoveEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModerated": "Only moderators can apply",
+    "@forumTagModerated": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedDescription": "Only members who can manage threads can apply or remove this tag.",
+    "@forumTagModeratedDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedBadge": "Moderated",
+    "@forumTagModeratedBadge": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostCooldown": "{seconds, plural, =1{You can post again in 1 second.} other{You can post again in {seconds} seconds.}}",
+    "@forumPostCooldown": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pStartTitle": "Start in P2P mode?",
+    "@voiceP2pStartTitle": {
+        "description": "Title of the sheet offering to start a call in P2P mode."
+    },
+    "voiceP2pStartDescription": "Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to {maxParticipants} people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.",
+    "@voiceP2pStartDescription": {
+        "description": "Explains the costs of starting a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pStartConfirm": "Start in P2P mode",
+    "@voiceP2pStartConfirm": {
+        "description": "Button that starts a call in P2P mode."
+    },
+    "voiceP2pStartStandard": "Start standard call",
+    "@voiceP2pStartStandard": {
+        "description": "Button that starts an ordinary call through the server."
+    },
+    "voiceP2pJoinTitle": "Join a P2P call?",
+    "@voiceP2pJoinTitle": {
+        "description": "Title of the sheet asking for agreement before joining a P2P call."
+    },
+    "voiceP2pJoinDescription": "This call connects participants directly. Other participants can see your IP address. Up to {maxParticipants} people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.",
+    "@voiceP2pJoinDescription": {
+        "description": "Explains the costs of joining a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPinnedJoinDescription": "This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to {maxParticipants} people can take part. If you cannot connect directly, you cannot take part.",
+    "@voiceP2pPinnedJoinDescription": {
+        "description": "Explains the costs of joining a channel that only allows P2P calls. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pJoinConfirm": "Join",
+    "@voiceP2pJoinConfirm": {
+        "description": "Button that agrees to join a P2P call."
+    },
+    "voiceP2pAlwaysAgreeLabel": "Do not ask again, always agree",
+    "@voiceP2pAlwaysAgreeLabel": {
+        "description": "Checkbox on the P2P join sheet that skips the sheet in future."
+    },
+    "voiceP2pAlwaysAgreeSettingLabel": "Always agree to join P2P calls",
+    "@voiceP2pAlwaysAgreeSettingLabel": {
+        "description": "Settings toggle that skips the P2P join agreement."
+    },
+    "voiceP2pAlwaysAgreeSettingDescription": "Join P2P calls without asking. Other participants can see your IP address.",
+    "@voiceP2pAlwaysAgreeSettingDescription": {
+        "description": "Description of the setting that skips the P2P join agreement."
+    },
+    "voiceP2pIndicatorLabel": "P2P",
+    "@voiceP2pIndicatorLabel": {
+        "description": "Short label shown while a call is in P2P mode."
+    },
+    "voiceP2pIndicatorDescription": "Direct connection. Media is encrypted between participants.",
+    "@voiceP2pIndicatorDescription": {
+        "description": "Status line shown while a call is in P2P mode."
+    },
+    "voiceP2pSwitchToStandard": "Switch to standard call",
+    "@voiceP2pSwitchToStandard": {
+        "description": "Action that moves a P2P call to the server for everyone."
+    },
+    "voiceP2pSwitchToStandardDescription": "Everyone in the call moves to a standard call through the server.",
+    "@voiceP2pSwitchToStandardDescription": {
+        "description": "Explains what switching a P2P call to a standard call does."
+    },
+    "voiceP2pPeerFailedDescription": "A direct connection could not be made. Leave the call or switch everyone to a standard call.",
+    "@voiceP2pPeerFailedDescription": {
+        "description": "Shown on a participant tile when a direct connection failed."
+    },
+    "voiceP2pUnavailableError": "P2P calls are unavailable right now.",
+    "@voiceP2pUnavailableError": {
+        "description": "Shown when the server rejects a P2P call."
+    },
+    "voiceP2pConsentRequiredError": "This call is P2P and needs your agreement to join.",
+    "@voiceP2pConsentRequiredError": {
+        "description": "Shown when the server rejects a join because P2P agreement is missing."
+    },
+    "voiceChannelFullError": "This call is full.",
+    "@voiceChannelFullError": {
+        "description": "Shown when the server rejects a join because the call is full."
+    },
+    "voiceP2pScreenShareUnavailable": "Screen sharing from this device is not available in P2P calls.",
+    "@voiceP2pScreenShareUnavailable": {
+        "description": "Explains why the screen share button is disabled in a P2P call."
+    },
+    "channelMenuJoinP2p": "Start P2P call",
+    "@channelMenuJoinP2p": {
+        "description": "Voice channel menu item that starts a call in P2P mode."
+    },
+    "channelSettingsRtcP2pLabel": "P2P calls only",
+    "@channelSettingsRtcP2pLabel": {
+        "description": "Channel setting that makes every call in the channel a P2P call."
+    },
+    "channelSettingsRtcP2pDescription": "Participants connect directly and can see each other's IP addresses. Everyone must agree before joining. Up to {maxParticipants} people can take part.",
+    "@channelSettingsRtcP2pDescription": {
+        "description": "Description of the P2P calls only channel setting. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPeerFailedTitle": "Cannot connect directly to {name}",
+    "@voiceP2pPeerFailedTitle": {
+        "description": "Shown on a participant tile when a direct connection to them failed.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }

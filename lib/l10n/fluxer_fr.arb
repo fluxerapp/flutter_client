@@ -122,7 +122,7 @@
     "@register": {
         "description": "Generic label to create a new account."
     },
-    "orDivider": "OR",
+    "orDivider": "OU",
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
@@ -401,7 +401,7 @@
     "@suspendedDuration": {
         "description": "Label for ban duration."
     },
-    "suspendedPermanent": "Permanent",
+    "suspendedPermanent": "Permanente",
     "@suspendedPermanent": {
         "description": "Value shown for permanent ban duration."
     },
@@ -1779,8 +1779,8 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "cropTouchHint": "Pinch to zoom, drag to reposition",
-    "cropMouseHint": "Drag corners to resize, drag inside to move",
+    "cropTouchHint": "Pincez pour zoomer, faites glisser pour repositionner",
+    "cropMouseHint": "Faites glisser les coins pour redimensionner, l'intérieur pour déplacer",
     "changeYourFluxerTag": "Changer votre nom d'utilisateur",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
@@ -3329,7 +3329,7 @@
     "@userProfileTransferSuccess": {
         "description": "Toast shown after transferring community ownership."
     },
-    "durationPermanent": "Permanent",
+    "durationPermanent": "Permanente",
     "@durationPermanent": {
         "description": "Duration option label for a permanent (non-expiring) duration."
     },
@@ -3594,7 +3594,7 @@
     "@relativeTimeShortNow": {
         "description": "Short-form relative time for events less than a minute ago."
     },
-    "relativeTimeShortMinutes": "{count, plural, =1{1m} other{{count}m}}",
+    "relativeTimeShortMinutes": "{count, plural, =1{1 min} other{{count} min}}",
     "@relativeTimeShortMinutes": {
         "description": "Short-form relative time in minutes (e.g. '5m').",
         "placeholders": {
@@ -3603,7 +3603,7 @@
             }
         }
     },
-    "relativeTimeShortHours": "{count, plural, =1{1h} other{{count}h}}",
+    "relativeTimeShortHours": "{count, plural, =1{1 h} other{{count} h}}",
     "@relativeTimeShortHours": {
         "description": "Short-form relative time in hours (e.g. '2h').",
         "placeholders": {
@@ -3621,7 +3621,7 @@
             }
         }
     },
-    "relativeTimeShortMonths": "{count, plural, =1{1mo} other{{count}mo}}",
+    "relativeTimeShortMonths": "{count, plural, =1{1 mois} other{{count} mois}}",
     "@relativeTimeShortMonths": {
         "description": "Short-form relative time in months (e.g. '2mo').",
         "placeholders": {
@@ -4215,7 +4215,7 @@
     "@connectionDomainLabel": {
         "description": "Input field label when adding a domain connection."
     },
-    "connectionHandlePlaceholder": "username.bsky.social",
+    "connectionHandlePlaceholder": "nomutilisateur.bsky.social",
     "@connectionHandlePlaceholder": {
         "description": "Placeholder text for the Bluesky handle input."
     },
@@ -5137,7 +5137,7 @@
             }
         }
     },
-    "voiceChannelParticipantCount": "{count, plural, =1{1 participant} other{{count} participants}}",
+    "voiceChannelParticipantCount": "{count, plural, one{{count} participant} other{{count} participants}}",
     "@voiceChannelParticipantCount": {
         "description": "Participant count label in the guild voice channel in-call view.",
         "placeholders": {
@@ -5859,11 +5859,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "ON",
+    "chatReplyMentionOn": "ACTIVÉE",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "OFF",
+    "chatReplyMentionOff": "DÉSACTIVÉE",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6186,11 +6186,11 @@
     "@userSettingsGroupApplication": {
         "description": "Section heading for app preference items in user settings navigation."
     },
-    "userSettingsGroupDeveloper": "Developer",
+    "userSettingsGroupDeveloper": "Développeur",
     "@userSettingsGroupDeveloper": {
         "description": "Section heading for developer items in user settings navigation."
     },
-    "userSettingsGroupStaffOnly": "Staff-only",
+    "userSettingsGroupStaffOnly": "Réservé au staff",
     "@userSettingsGroupStaffOnly": {
         "description": "Section heading for staff-only items in user settings navigation."
     },
@@ -6402,7 +6402,7 @@
     "@quickSwitcherSearchAliasMessages": {
         "description": "Quick switcher search alias for the home DM list."
     },
-    "quickSwitcherSearchAliasFav": "Fav",
+    "quickSwitcherSearchAliasFav": "Favoris",
     "@quickSwitcherSearchAliasFav": {
         "description": "Quick switcher search alias for favorites."
     },
@@ -6781,7 +6781,7 @@
     "@guildNavbarNameLabel": {
         "description": "Label for name input fields in guild navbar modals."
     },
-    "guildNavbarNewChannelHint": "new-channel",
+    "guildNavbarNewChannelHint": "nouveau-salon",
     "@guildNavbarNewChannelHint": {
         "description": "Placeholder hint for new channel name input."
     },
@@ -8319,15 +8319,15 @@
     "@guildSettingsCategoryExpressions": {
         "description": "Sidebar category for emoji and stickers."
     },
-    "guildSettingsCategoryCommunity": "Community",
+    "guildSettingsCategoryCommunity": "Communauté",
     "@guildSettingsCategoryCommunity": {
         "description": "Sidebar category for Explore and vanity URL."
     },
-    "guildSettingsCategoryIntegrations": "Integrations",
+    "guildSettingsCategoryIntegrations": "Intégrations",
     "@guildSettingsCategoryIntegrations": {
         "description": "Sidebar category for webhooks."
     },
-    "guildSettingsCategoryPeople": "People",
+    "guildSettingsCategoryPeople": "Personnes",
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
@@ -9072,7 +9072,7 @@
             }
         }
     },
-    "channelSettingsVoiceQualityKbps": "{kilobits} kbps",
+    "channelSettingsVoiceQualityKbps": "{kilobits} kb/s",
     "@channelSettingsVoiceQualityKbps": {
         "description": "Voice channel bitrate option label.",
         "placeholders": {
@@ -10328,7 +10328,7 @@
     "@guildSettingsInvitesEmptyDescription": {
         "description": "Empty state description for invites."
     },
-    "guildSettingsInvitesPause": "Pause",
+    "guildSettingsInvitesPause": "Suspendre",
     "@guildSettingsInvitesPause": {
         "description": "Confirm button to pause invites."
     },
@@ -12999,7 +12999,7 @@
     "@ttsSubstitutionCodeBlock": {
         "description": "TTS substitution for fenced code blocks."
     },
-    "ttsSubstitutionSpoiler": "spoiler",
+    "ttsSubstitutionSpoiler": "contenu masqué",
     "@ttsSubstitutionSpoiler": {
         "description": "TTS substitution for spoiler content."
     },
@@ -13266,7 +13266,7 @@
     "@voiceCallViewModeGrid": {
         "description": "Voice call layout option that shows participants in a grid."
     },
-    "voiceCallViewModeFocus": "Focus",
+    "voiceCallViewModeFocus": "Mise en avant",
     "@voiceCallViewModeFocus": {
         "description": "Voice call layout option that enlarges one participant."
     },
@@ -14515,7 +14515,7 @@
     "@messageAccessibilityEmptySummary": {
         "description": "Screen reader summary fallback for a message without visible text."
     },
-    "userSettingsGroupBilling": "Billing",
+    "userSettingsGroupBilling": "Facturation",
     "@userSettingsGroupBilling": {
         "description": "Section heading for billing items in user settings navigation."
     },
@@ -15091,7 +15091,7 @@
     "@guildNavbarGuildUnread": {
         "description": "Screen reader suffix when a guild navbar item has unread channels."
     },
-    "guildNavbarGuildMentions": "{count, plural, =1{1 mention} other{{count} mentions}}",
+    "guildNavbarGuildMentions": "{count, plural, one{{count} mention} other{{count} mentions}}",
     "@guildNavbarGuildMentions": {
         "description": "Screen reader suffix when a guild navbar item has mention notifications.",
         "placeholders": {
@@ -16634,5 +16634,2406 @@
     "favoritesRenameCategory": "Renommer la catégorie",
     "@favoritesRenameCategory": {
         "description": "Favorites category context menu action and sheet title for renaming a favorites category."
+    },
+    "create": "Créer",
+    "@create": {
+        "description": "Generic create action label in a full-screen form header."
+    },
+    "addFriendSendFailedTitle": "Impossible d’envoyer la demande d’ami",
+    "@addFriendSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a friend request fails."
+    },
+    "addFriendSendFailedMessage": "Impossible d'envoyer la demande d'ami. Veuillez réessayer.",
+    "@addFriendSendFailedMessage": {
+        "description": "Fallback body of the send friend request error dialog when the error has no specific message."
+    },
+    "lookAndFeelThemeColorsGroupText": "Texte",
+    "lookAndFeelThemeColorsGroupStatus": "Statut",
+    "lookAndFeelChatFontScalingTitle": "Taille de la police du chat",
+    "@lookAndFeelChatFontScalingTitle": {
+        "description": "Search label for chat font size within the Messages section."
+    },
+    "lookAndFeelChatFontScalingDescription": "Ajuster la taille de la police dans la zone de discussion.",
+    "@lookAndFeelChatFontScalingDescription": {
+        "description": "Search description for chat font size."
+    },
+    "shellResizeSidebar": "Redimensionner la barre latérale",
+    "@shellResizeSidebar": {
+        "description": "Accessible label for the draggable handle that resizes the channel or direct message sidebar."
+    },
+    "messagesMediaGesturesDoubleTapActionReactName": "Ajouter une réaction",
+    "@messagesMediaGesturesDoubleTapActionReactName": {
+        "description": "Double tap adds the default reaction emoji."
+    },
+    "messagesMediaGesturesDoubleTapActionEditName": "Modifier le message",
+    "@messagesMediaGesturesDoubleTapActionEditName": {
+        "description": "Double tap edits your own message."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneName": "Aucune",
+    "@messagesMediaGesturesDoubleTapActionNoneName": {
+        "description": "Double tap does nothing."
+    },
+    "chatMessagesFailedToLoad": "Échec du chargement des messages",
+    "@chatMessagesFailedToLoad": {
+        "description": "Shown in a bottom bar when message history fails to load while scrolling in a channel."
+    },
+    "chatEditFailed": "Votre message n'a pas été mis à jour",
+    "@chatEditFailed": {
+        "description": "Toast when saving an edit to a message fails and the message reverts."
+    },
+    "composerAutocompleteEmojisHeading": "Emojis",
+    "@composerAutocompleteEmojisHeading": {
+        "description": "Section heading in composer autocomplete for emoji suggestions."
+    },
+    "channelMenuNoCategory": "Aucune catégorie",
+    "@channelMenuNoCategory": {
+        "description": "Option in the move to category sheet that moves the channel out of its category."
+    },
+    "channelMoveCategoryFullTitle": "Catégorie pleine",
+    "@channelMoveCategoryFullTitle": {
+        "description": "Dialog title shown when a channel cannot be moved because the target category is full."
+    },
+    "channelMoveCategoryFullMessage": "Cette catégorie contient déjà le nombre maximal de {maxChannelsPerCategory} salons.",
+    "@channelMoveCategoryFullMessage": {
+        "description": "Dialog body shown when a category cannot accept another channel because the per-category limit is reached.",
+        "placeholders": {
+            "maxChannelsPerCategory": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSearchTabPins": "Messages épinglés",
+    "@channelSearchTabPins": {
+        "description": "Result tab in mobile message search showing matching pinned messages."
+    },
+    "channelSearchTabLinks": "Liens",
+    "@channelSearchTabLinks": {
+        "description": "Result tab in mobile message search showing matching messages with a link."
+    },
+    "groupDmRemoveFromGroup": "Retirer du groupe",
+    "@groupDmRemoveFromGroup": {
+        "description": "Group DM member action and confirm title for removing the selected member from the group."
+    },
+    "groupDmRemoveFromGroupConfirm": "Retirer {userName} du groupe ?",
+    "@groupDmRemoveFromGroupConfirm": {
+        "description": "Confirm dialog body before removing a member from a group DM.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmRemoveFromGroupAction": "Retirer",
+    "@groupDmRemoveFromGroupAction": {
+        "description": "Confirm button that removes the selected member from a group DM."
+    },
+    "groupDmRemovedFromGroup": "Retiré du groupe",
+    "@groupDmRemovedFromGroup": {
+        "description": "Toast confirming the selected member was removed from the group DM."
+    },
+    "chatAttachmentLibraryLimitedManage": "Gérer",
+    "@chatAttachmentLibraryLimitedManage": {
+        "description": "Opens the system picker to change which photos the app can access."
+    },
+    "userSettingsCopyLinkToSection": "Copier le lien vers la section",
+    "@userSettingsCopyLinkToSection": {
+        "description": "Tooltip and accessibility label for copying a deep link to a settings section."
+    },
+    "userSettingsCopyLinkToPage": "Copier le lien vers la page",
+    "@userSettingsCopyLinkToPage": {
+        "description": "Tooltip and accessibility label for copying a deep link to a settings page."
+    },
+    "userSettingsJumpLinkPremiumPage": "Page {productName}",
+    "@userSettingsJumpLinkPremiumPage": {
+        "description": "In-chat jump link label for the instance premium subscription settings page.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsPushDeliveryRelayOff": "Désactivé",
+    "@notificationsPushDeliveryRelayOff": {
+        "description": "Fluxer relay is required but not enabled for this device."
+    },
+    "appIconAndroidChangeConfirm": "Changer l'icône",
+    "@appIconAndroidChangeConfirm": {
+        "description": "Confirm button for changing the app icon on Android."
+    },
+    "quickSwitcherSectionThreads": "Fils",
+    "@quickSwitcherSectionThreads": {
+        "description": "Quick switcher section header for thread and forum post results."
+    },
+    "uiUnderstood": "Compris",
+    "@uiUnderstood": {
+        "description": "Label of the single button that dismisses an error or info dialog after reading it."
+    },
+    "instanceConnectFailedDomain": "Impossible de se connecter à {domain}. Réessayez.",
+    "@instanceConnectFailedDomain": {
+        "description": "Error when instance discovery fails for a specific domain.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceCompatibilityRetry": "Réessayer",
+    "@instanceCompatibilityRetry": {
+        "description": "Button to re-fetch instance discovery on the compatibility blocker."
+    },
+    "instanceCompatibilityUpdateApp": "Mettre à jour l’application",
+    "@instanceCompatibilityUpdateApp": {
+        "description": "Button to open the app store or download page when the client is too old."
+    },
+    "guildNavbarPrivateChannel": "Salon privé",
+    "@guildNavbarPrivateChannel": {
+        "description": "Label for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarPrivateChannelDescription": "Seuls les membres et rôles sélectionnés pourront voir ce salon.",
+    "@guildNavbarPrivateChannelDescription": {
+        "description": "Description for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarAddMembersOrRoles": "Ajouter des membres ou des rôles",
+    "@guildNavbarAddMembersOrRoles": {
+        "description": "Title of the create channel step that picks who can view a private channel."
+    },
+    "guildNavbarAddMembersOrRolesHint": "Rechercher des membres ou des rôles",
+    "@guildNavbarAddMembersOrRolesHint": {
+        "description": "Search hint in the create channel step that picks who can view a private channel."
+    },
+    "permissionManageThreads": "Gérer les fils de discussion",
+    "@permissionManageThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePublicThreads": "Créer des fils publics",
+    "@permissionCreatePublicThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePrivateThreads": "Créer des fils privés",
+    "@permissionCreatePrivateThreads": {
+        "description": "Permission name."
+    },
+    "permissionSendMessagesInThreads": "Envoyer des messages dans les fils",
+    "@permissionSendMessagesInThreads": {
+        "description": "Permission name."
+    },
+    "threadErrorTagRequired": "Choisissez au moins un tag pour cette publication.",
+    "@threadErrorTagRequired": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadCreate": "Créer un fil",
+    "@threadCreate": {
+        "description": "Action that opens the new thread form for a channel or a message."
+    },
+    "threadName": "Nom du fil",
+    "@threadName": {
+        "description": "Label of the thread name input."
+    },
+    "threadNewThreadPlaceholder": "Nouveau fil",
+    "@threadNewThreadPlaceholder": {
+        "description": "Placeholder of the thread name input when there is no source message."
+    },
+    "threadPrivate": "Fil privé",
+    "@threadPrivate": {
+        "description": "Label of the toggle that makes a new thread private."
+    },
+    "threadPrivateDescription": "Seules les personnes que vous invitez et les modérateurs peuvent voir ce fil.",
+    "@threadPrivateDescription": {
+        "description": "Help text under the private thread toggle."
+    },
+    "threadStarterMessagePlaceholder": "Saisissez un message pour démarrer la conversation !",
+    "@threadStarterMessagePlaceholder": {
+        "description": "Placeholder of the first message input in the new thread form."
+    },
+    "threadCreateFailed": "Impossible de créer le fil : {detail}",
+    "@threadCreateFailed": {
+        "description": "Toast when creating a thread failed. {detail} is the server error message.",
+        "placeholders": {
+            "detail": {
+                "type": "String"
+            }
+        }
+    },
+    "threadBrowserTitle": "Fils",
+    "@threadBrowserTitle": {
+        "description": "Title of the thread browser and label of the threads header button."
+    },
+    "threadBrowserActive": "Actifs",
+    "@threadBrowserActive": {
+        "description": "Tab in the thread browser that lists active threads."
+    },
+    "threadBrowserArchived": "Fermés",
+    "@threadBrowserArchived": {
+        "description": "Tab in the thread browser that lists archived threads."
+    },
+    "threadBrowserJoined": "Rejoints",
+    "@threadBrowserJoined": {
+        "description": "Section header in the thread browser for threads the user joined."
+    },
+    "threadBrowserOtherActive": "Autres fils actifs",
+    "@threadBrowserOtherActive": {
+        "description": "Section header in the thread browser for active threads the user did not join."
+    },
+    "threadBrowserLoadMore": "Charger plus",
+    "@threadBrowserLoadMore": {
+        "description": "Button that loads the next page of closed threads."
+    },
+    "threadBrowserSearch": "Rechercher des fils",
+    "@threadBrowserSearch": {
+        "description": "Placeholder of the search field at the top of the thread browser."
+    },
+    "threadBrowserSearchEmpty": "Aucun fil ne correspond",
+    "@threadBrowserSearchEmpty": {
+        "description": "Empty state of the thread browser while searching."
+    },
+    "threadBrowserSearchEmptyHint": "Essayez un autre nom ou consultez l'autre onglet.",
+    "@threadBrowserSearchEmptyHint": {
+        "description": "Hint under the empty search state in the thread browser."
+    },
+    "threadBrowserSearchFailed": "Impossible de rechercher des fils. Réessayez plus tard.",
+    "@threadBrowserSearchFailed": {
+        "description": "Error state of the thread browser search."
+    },
+    "threadBrowserSearchIndexing": "La recherche se prépare pour cette communauté. Nouvel essai dans un instant…",
+    "@threadBrowserSearchIndexing": {
+        "description": "Shown in the thread browser while the search index is being built."
+    },
+    "threadMembers": "Membres du fil",
+    "@threadMembers": {
+        "description": "Title of the thread member list."
+    },
+    "threadJoin": "Rejoindre le fil",
+    "@threadJoin": {
+        "description": "Action that adds the current user to a thread."
+    },
+    "threadLeave": "Quitter le fil",
+    "@threadLeave": {
+        "description": "Action that removes the current user from a thread."
+    },
+    "threadJoinNotice": "Rejoignez ce fil pour le suivre dans votre liste de salons et recevoir des notifications.",
+    "@threadJoinNotice": {
+        "description": "Notice above the composer when the user is not a member of the thread."
+    },
+    "threadArchivedNotice": "Ce fil est fermé. Envoyer un message le rouvrira.",
+    "@threadArchivedNotice": {
+        "description": "Notice above the composer of an archived thread."
+    },
+    "threadLockedNotice": "Ce fil est verrouillé. Seuls les modérateurs peuvent envoyer des messages.",
+    "@threadLockedNotice": {
+        "description": "Barrier shown instead of the composer in a locked thread."
+    },
+    "threadArchive": "Fermer le fil",
+    "@threadArchive": {
+        "description": "Action that archives a thread so it leaves the channel list."
+    },
+    "threadUnarchive": "Rouvrir le fil",
+    "@threadUnarchive": {
+        "description": "Action that unarchives an archived thread."
+    },
+    "threadLock": "Verrouiller le fil",
+    "@threadLock": {
+        "description": "Moderator action that stops non-moderators from sending messages in a thread."
+    },
+    "threadUnlock": "Déverrouiller le fil",
+    "@threadUnlock": {
+        "description": "Moderator action that lets everyone send messages in a locked thread again."
+    },
+    "threadDelete": "Supprimer le fil",
+    "@threadDelete": {
+        "description": "Destructive moderator action that deletes a thread and all its messages."
+    },
+    "threadDeleted": "Fil supprimé",
+    "@threadDeleted": {
+        "description": "Toast after a thread was deleted."
+    },
+    "threadMarkAsRead": "Marquer comme lu",
+    "@threadMarkAsRead": {
+        "description": "Action that marks a thread as read."
+    },
+    "threadMute": "Désactiver les notifications du fil",
+    "@threadMute": {
+        "description": "Action that mutes notifications and unread badges for a thread."
+    },
+    "threadUnmute": "Réactiver les notifications du fil",
+    "@threadUnmute": {
+        "description": "Action that unmutes a thread."
+    },
+    "threadNotificationSettings": "Paramètres de notification",
+    "@threadNotificationSettings": {
+        "description": "Title of the thread notification settings."
+    },
+    "threadNotificationParentDefault": "Utiliser le paramètre par défaut du salon",
+    "@threadNotificationParentDefault": {
+        "description": "Thread notification option that follows the parent channel setting."
+    },
+    "threadCopyLink": "Copier le lien",
+    "@threadCopyLink": {
+        "description": "Action that copies a link to the thread."
+    },
+    "threadCopyId": "Copier l'ID du fil",
+    "@threadCopyId": {
+        "description": "Developer mode action that copies the thread ID."
+    },
+    "threadMoreOptions": "Plus d'options",
+    "@threadMoreOptions": {
+        "description": "Header button that opens the thread actions."
+    },
+    "threadSettings": "Paramètres du fil",
+    "@threadSettings": {
+        "description": "Title of the thread settings form."
+    },
+    "threadAutoArchive": "Masquer après inactivité",
+    "@threadAutoArchive": {
+        "description": "Label of the thread auto archive duration setting."
+    },
+    "threadDefaultAutoArchive": "Masquer par défaut après inactivité",
+    "@threadDefaultAutoArchive": {
+        "description": "Label of the default auto archive duration for new threads in a text channel."
+    },
+    "threadDefaultSlowmode": "Mode lent par défaut des fils",
+    "@threadDefaultSlowmode": {
+        "description": "Label of the slowmode copied onto new threads in a text channel."
+    },
+    "threadInvitable": "Autoriser tout le monde à inviter",
+    "@threadInvitable": {
+        "description": "Private thread setting that lets non-moderators add other members."
+    },
+    "threadStartedBy": "Créé par {name}",
+    "@threadStartedBy": {
+        "description": "Subtitle at the start of a thread naming its creator.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadStarterDeleted": "Message d'origine supprimé.",
+    "@threadStarterDeleted": {
+        "description": "Shown at the top of a thread when the message it was started from was deleted."
+    },
+    "auditLogActionThreadCreate": "Fil créé",
+    "@auditLogActionThreadCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadUpdate": "Fil mis à jour",
+    "@auditLogActionThreadUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadDelete": "Fil supprimé",
+    "@auditLogActionThreadDelete": {
+        "description": "Audit log action filter label."
+    },
+    "forumChannelTypeForumDescription": "Publications organisées par sujet et par tags",
+    "@forumChannelTypeForumDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMedia": "Médias",
+    "@forumChannelTypeMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMediaDescription": "Publications axées sur les images et les vidéos",
+    "@forumChannelTypeMediaDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPost": "Nouvelle publication",
+    "@forumNewPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchPosts": "Rechercher des publications",
+    "@forumSearchPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNoPosts": "Il n’y a encore aucune publication",
+    "@forumNoPosts": {
+        "description": "Title of the empty state in a forum channel without posts."
+    },
+    "forumNoPostsHint": "Soyez le premier à lancer une conversation ici.",
+    "@forumNoPostsHint": {
+        "description": "Body of the empty state in a forum channel without posts."
+    },
+    "forumNoSearchResults": "Aucune publication ne correspond à votre recherche",
+    "@forumNoSearchResults": {
+        "description": "Title of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumNoSearchResultsHint": "Essayez d'autres mots ou effacez le filtre de tag.",
+    "@forumNoSearchResultsHint": {
+        "description": "Body of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumOlderPosts": "Publications plus anciennes",
+    "@forumOlderPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRetry": "Réessayer",
+    "@forumRetry": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostPinned": "Épinglée",
+    "@forumPostPinned": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSnippet": "{author} : {content}",
+    "@forumPostSnippet": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "content": {
+                "type": "String"
+            }
+        }
+    },
+    "forumEditTags": "Modifier les tags",
+    "@forumEditTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPinPost": "Épingler la publication",
+    "@forumPinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumUnpinPost": "Désépingler la publication",
+    "@forumUnpinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMarkPostRead": "Marquer comme lu",
+    "@forumMarkPostRead": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCopyPostLink": "Copier le lien",
+    "@forumCopyPostLink": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostGuidelines": "Consignes de publication",
+    "@forumPostGuidelines": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostRemoveAttachment": "Supprimer la pièce jointe",
+    "@forumPostRemoveAttachment": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSubmit": "Publier",
+    "@forumPostSubmit": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortLatestActivity": "Activité récente",
+    "@forumSortLatestActivity": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortCreationTime": "Date de publication",
+    "@forumSortCreationTime": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchive": "Masquer après inactivité",
+    "@forumDefaultAutoArchive": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultReaction": "Réaction par défaut",
+    "@forumDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSetDefaultReaction": "Choisir un emoji",
+    "@forumSetDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRemoveDefaultReaction": "Supprimer",
+    "@forumRemoveDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultSortOrder": "Ordre de tri par défaut",
+    "@forumDefaultSortOrder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultLayout": "Disposition par défaut",
+    "@forumDefaultLayout": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloads": "Masquer les options de téléchargement des médias",
+    "@forumHideMediaDownloads": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCreateTag": "Créer un tag",
+    "@forumCreateTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumEditTag": "Modifier le tag",
+    "@forumEditTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDeleteTag": "Supprimer le tag",
+    "@forumDeleteTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagName": "Nom du tag",
+    "@forumTagName": {
+        "description": "Forum and media channel UI."
+    },
+    "voiceP2pStartTitle": "Démarrer en mode P2P ?",
+    "@voiceP2pStartTitle": {
+        "description": "Title of the sheet offering to start a call in P2P mode."
+    },
+    "voiceP2pStartConfirm": "Démarrer en mode P2P",
+    "@voiceP2pStartConfirm": {
+        "description": "Button that starts a call in P2P mode."
+    },
+    "voiceP2pStartStandard": "Démarrer un appel standard",
+    "@voiceP2pStartStandard": {
+        "description": "Button that starts an ordinary call through the server."
+    },
+    "voiceP2pJoinTitle": "Rejoindre un appel P2P ?",
+    "@voiceP2pJoinTitle": {
+        "description": "Title of the sheet asking for agreement before joining a P2P call."
+    },
+    "voiceP2pJoinConfirm": "Rejoindre",
+    "@voiceP2pJoinConfirm": {
+        "description": "Button that agrees to join a P2P call."
+    },
+    "voiceP2pAlwaysAgreeLabel": "Ne plus demander et toujours accepter",
+    "@voiceP2pAlwaysAgreeLabel": {
+        "description": "Checkbox on the P2P join sheet that skips the sheet in future."
+    },
+    "voiceP2pIndicatorDescription": "Connexion directe. Les médias sont chiffrés entre les participants.",
+    "@voiceP2pIndicatorDescription": {
+        "description": "Status line shown while a call is in P2P mode."
+    },
+    "voiceP2pSwitchToStandard": "Passer à un appel standard",
+    "@voiceP2pSwitchToStandard": {
+        "description": "Action that moves a P2P call to the server for everyone."
+    },
+    "voiceP2pUnavailableError": "Les appels P2P sont indisponibles pour le moment.",
+    "@voiceP2pUnavailableError": {
+        "description": "Shown when the server rejects a P2P call."
+    },
+    "channelMenuJoinP2p": "Démarrer un appel P2P",
+    "@channelMenuJoinP2p": {
+        "description": "Voice channel menu item that starts a call in P2P mode."
+    },
+    "channelSettingsRtcP2pLabel": "Appels P2P uniquement",
+    "@channelSettingsRtcP2pLabel": {
+        "description": "Channel setting that makes every call in the channel a P2P call."
+    },
+    "friendAcceptFailedTitle": "Impossible d’accepter la demande d’ami",
+    "@friendAcceptFailedTitle": {
+        "description": "Title of the dialog shown when accepting a friend request fails."
+    },
+    "friendAcceptUnavailable": "Cette demande d’ami n’est plus disponible. Actualisez et réessayez.",
+    "@friendAcceptUnavailable": {
+        "description": "Body of the accept friend request error dialog when the request no longer exists."
+    },
+    "friendAcceptClaimToAccept": "Finalisez votre inscription pour accepter les demandes d’ami.",
+    "@friendAcceptClaimToAccept": {
+        "description": "Body of the accept friend request error dialog when the account is unclaimed."
+    },
+    "friendAcceptFailedMessage": "Impossible d'accepter la demande d'ami. Veuillez réessayer.",
+    "@friendAcceptFailedMessage": {
+        "description": "Fallback body of the accept friend request error dialog."
+    },
+    "friendCancelFailedTitle": "Impossible d’annuler la demande d’ami",
+    "@friendCancelFailedTitle": {
+        "description": "Title of the dialog shown when cancelling an outgoing friend request fails."
+    },
+    "friendIgnoreFailedTitle": "Impossible d’ignorer la demande d’ami",
+    "@friendIgnoreFailedTitle": {
+        "description": "Title of the dialog shown when ignoring an incoming friend request fails."
+    },
+    "friendIgnoreFailedMessage": "Impossible d'ignorer la demande d'ami. Veuillez réessayer.",
+    "@friendIgnoreFailedMessage": {
+        "description": "Body of the ignore friend request error dialog."
+    },
+    "friendRemoveFailedTitle": "Impossible de supprimer l'ami",
+    "@friendRemoveFailedTitle": {
+        "description": "Title of the dialog shown when removing a friend fails."
+    },
+    "friendRemoveFailedMessage": "Impossible de supprimer cet ami. Veuillez réessayer.",
+    "@friendRemoveFailedMessage": {
+        "description": "Body of the remove friend error dialog."
+    },
+    "userBlockFailedTitle": "Impossible de bloquer l'utilisateur",
+    "@userBlockFailedTitle": {
+        "description": "Title of the dialog shown when blocking a user fails."
+    },
+    "userBlockSystemAccount": "Ce compte ne peut pas être bloqué.",
+    "@userBlockSystemAccount": {
+        "description": "Body of the block user error dialog when the target is a system account."
+    },
+    "userBlockFailedMessage": "Impossible de bloquer cet utilisateur. Veuillez réessayer.",
+    "@userBlockFailedMessage": {
+        "description": "Fallback body of the block user error dialog."
+    },
+    "userUnblockFailedTitle": "Impossible de débloquer l’utilisateur",
+    "@userUnblockFailedTitle": {
+        "description": "Title of the dialog shown when unblocking a user fails."
+    },
+    "userUnblockFailedMessage": "Impossible de débloquer cet utilisateur. Veuillez réessayer.",
+    "@userUnblockFailedMessage": {
+        "description": "Body of the unblock user error dialog."
+    },
+    "friendCancelRequestConfirmDescription": "Annuler votre demande d'ami à {userName} ?",
+    "@friendCancelRequestConfirmDescription": {
+        "description": "Confirmation body before cancelling an outgoing friend request.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorSomethingWentWrongTitle": "Une erreur est survenue",
+    "@errorSomethingWentWrongTitle": {
+        "description": "Title of a generic error dialog when an action fails."
+    },
+    "errorUnexpectedTryAgain": "Une erreur inattendue est survenue. Veuillez réessayer.",
+    "@errorUnexpectedTryAgain": {
+        "description": "Fallback body of a generic error dialog when the server gives no reason."
+    },
+    "errorMessagingPausedTitle": "L'envoi de messages est en pause",
+    "@errorMessagingPausedTitle": {
+        "description": "Title of the dialog shown when the account is temporarily limited from messaging."
+    },
+    "errorMessagingPausedMessage": "L'envoi de messages a été mis en pause sur votre compte. Consultez vos e-mails pour savoir comment y remédier en une étape rapide.",
+    "@errorMessagingPausedMessage": {
+        "description": "Fallback body of the messaging paused dialog when the server gives no reason."
+    },
+    "errorFeatureDisabledTitle": "Fonctionnalité temporairement désactivée",
+    "@errorFeatureDisabledTitle": {
+        "description": "Title of the dialog shown when the server has paused a feature."
+    },
+    "errorFeatureDisabledMessage": "Cette fonctionnalité est en pause. Réessayez plus tard.",
+    "@errorFeatureDisabledMessage": {
+        "description": "Body of the feature temporarily disabled dialog."
+    },
+    "dmErrorStartConversationTitle": "Impossible de démarrer cette conversation",
+    "@dmErrorStartConversationTitle": {
+        "description": "Title of the dialog shown when opening or creating a direct message fails."
+    },
+    "dmErrorCannotMessageMessage": "Cette personne n’accepte peut-être pas vos messages, ou vous ne faites plus partie de la même communauté.",
+    "@dmErrorCannotMessageMessage": {
+        "description": "Body of the open DM error dialog when the user can't be messaged."
+    },
+    "dmErrorUnknownUserMessage": "Cet utilisateur n’existe plus. Actualisez et réessayez.",
+    "@dmErrorUnknownUserMessage": {
+        "description": "Body of the open DM error dialog when the user no longer exists."
+    },
+    "dmErrorClaimMessage": "Vous devez finaliser votre inscription avant de pouvoir démarrer une conversation privée.",
+    "@dmErrorClaimMessage": {
+        "description": "Body of the open DM error dialog when the account is unclaimed."
+    },
+    "dmErrorVerifyEmailMessage": "Vous devez vérifier votre adresse e-mail avant de pouvoir démarrer une conversation privée.",
+    "@dmErrorVerifyEmailMessage": {
+        "description": "Body of the open DM error dialog when the email is unverified."
+    },
+    "dmErrorTooManyRecipientsTitle": "Ce groupe contient trop de personnes",
+    "@dmErrorTooManyRecipientsTitle": {
+        "description": "Title of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorTooManyRecipientsMessage": "Vous avez ajouté trop de personnes pour une conversation de groupe. Retirez-en quelques-unes et réessayez.",
+    "@dmErrorTooManyRecipientsMessage": {
+        "description": "Body of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorMaxGroupDmsTitle": "Vous avez atteint la limite de MP de groupe",
+    "@dmErrorMaxGroupDmsTitle": {
+        "description": "Title of the create group DM error dialog when someone has too many group DMs."
+    },
+    "dmErrorMaxGroupDmsMessage": "Vous ou l'un des destinataires avez déjà atteint le nombre maximal de MP de groupe ouverts. Quittez-en un et réessayez.",
+    "@dmErrorMaxGroupDmsMessage": {
+        "description": "Body of the create group DM error dialog when someone has too many group DMs."
+    },
+    "groupDmAddFailedTitle": "Impossible d’ajouter au groupe",
+    "@groupDmAddFailedTitle": {
+        "description": "Title of the dialog shown when adding a friend to a group DM fails."
+    },
+    "groupDmInviteFailedTitle": "Impossible de créer le lien d’invitation",
+    "@groupDmInviteFailedTitle": {
+        "description": "Title of the dialog shown when creating a group DM invite link fails."
+    },
+    "dmCloseFailedTitle": "Impossible de fermer la conversation privée",
+    "@dmCloseFailedTitle": {
+        "description": "Title of the dialog shown when closing a direct message fails."
+    },
+    "groupDmLeaveFailedTitle": "Impossible de quitter le groupe",
+    "@groupDmLeaveFailedTitle": {
+        "description": "Title of the dialog shown when leaving a group DM fails."
+    },
+    "inviteJoinFailedTitle": "Impossible de rejoindre la communauté",
+    "@inviteJoinFailedTitle": {
+        "description": "Title of the dialog shown when accepting an invite fails for an unknown reason."
+    },
+    "inviteErrorPausedMessage": "Les administrateurs ont suspendu les invitations. Vous ne pouvez pas rejoindre la communauté pour le moment.",
+    "@inviteErrorPausedMessage": {
+        "description": "Body of the invite error dialog when the community has paused invites."
+    },
+    "inviteErrorAtCapacityTitle": "Communauté pleine",
+    "@inviteErrorAtCapacityTitle": {
+        "description": "Title of the invite error dialog when the community is full."
+    },
+    "inviteErrorAtCapacityMessage": "Cette communauté a atteint sa limite maximale de membres et n'accepte plus de nouvelles adhésions pour le moment.",
+    "@inviteErrorAtCapacityMessage": {
+        "description": "Body of the invite error dialog when the community is full."
+    },
+    "inviteErrorPresenceTitle": "Connexion à la passerelle requise",
+    "@inviteErrorPresenceTitle": {
+        "description": "Title of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorPresenceMessage": "Les invitations temporaires nécessitent une connexion active. Vérifiez la vôtre et réessayez.",
+    "@inviteErrorPresenceMessage": {
+        "description": "Body of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorBannedTitle": "Vous êtes banni(e)",
+    "@inviteErrorBannedTitle": {
+        "description": "Title of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorBannedMessage": "Vous avez été banni de cette communauté et ne pouvez pas la rejoindre.",
+    "@inviteErrorBannedMessage": {
+        "description": "Body of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorIpBannedTitle": "Votre adresse IP est bannie",
+    "@inviteErrorIpBannedTitle": {
+        "description": "Title of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorIpBannedMessage": "Votre adresse IP est bannie de cette communauté et vous ne pouvez pas la rejoindre.",
+    "@inviteErrorIpBannedMessage": {
+        "description": "Body of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorClaimTitle": "Vérification du compte requise",
+    "@inviteErrorClaimTitle": {
+        "description": "Title of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "inviteErrorClaimMessage": "Ajoutez d'abord un e-mail et un mot de passe à votre compte.",
+    "@inviteErrorClaimMessage": {
+        "description": "Body of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "leaveCommunityFailedTitle": "Impossible de quitter la communauté",
+    "@leaveCommunityFailedTitle": {
+        "description": "Title of the dialog shown when leaving a community fails."
+    },
+    "leaveCommunityFailedMessage": "Impossible de quitter pour le moment. Veuillez réessayer dans un instant.",
+    "@leaveCommunityFailedMessage": {
+        "description": "Body of the dialog shown when leaving a community fails."
+    },
+    "chatSendFailedTitle": "Votre message n'a pas été envoyé",
+    "@chatSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a message fails."
+    },
+    "chatSendFailedMessage": "Essayez de renvoyer votre message.",
+    "@chatSendFailedMessage": {
+        "description": "Body of the dialog shown when sending a message fails."
+    },
+    "chatSendTooQuickTitle": "Vous envoyez des messages trop rapidement",
+    "@chatSendTooQuickTitle": {
+        "description": "Title of the dialog shown when sending is rate limited."
+    },
+    "chatRateLimitedMessage": "Du calme, attendez un instant avant de réessayer.",
+    "@chatRateLimitedMessage": {
+        "description": "Body of the dialog shown when a message action is rate limited."
+    },
+    "chatMatureContentTitle": "Contenu pour adultes non autorisé",
+    "@chatMatureContentTitle": {
+        "description": "Title of the dialog shown when a message with mature content is rejected."
+    },
+    "chatMatureContentGuildMessage": "Ce salon n’est pas réservé aux adultes. Les contenus pour adultes peuvent uniquement être envoyés dans des salons réservés aux adultes. Demandez à un modérateur de modifier ce salon si cela convient.",
+    "@chatMatureContentGuildMessage": {
+        "description": "Body of the mature content dialog in a community channel."
+    },
+    "chatMatureContentDmMessage": "Vous ou la personne à qui vous écrivez avez choisi de bloquer les médias sensibles dans les messages privés. Chacun de vous peut modifier ce réglage dans {settingsPath}.",
+    "@chatMatureContentDmMessage": {
+        "description": "Body of the mature content dialog in a direct message. settingsPath is the settings location, such as User settings > Privacy dashboard > Sensitive content.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMatureContentGroupDmMessage": "Ce groupe n'est pas réservé aux adultes. Le propriétaire du groupe peut activer « Contenu pour adultes » dans les paramètres du groupe si tous les membres ont 18 ans ou plus.",
+    "@chatMatureContentGroupDmMessage": {
+        "description": "Body of the mature content dialog in a group DM."
+    },
+    "chatFileTooLargeTitle": "Fichier trop volumineux",
+    "@chatFileTooLargeTitle": {
+        "description": "Title of the dialog shown when an attachment is over the size limit."
+    },
+    "chatFileTooLargeMessage": "Un ou plusieurs fichiers que vous essayez d'envoyer dépassent la limite de taille maximale de {maxSize} par fichier.",
+    "@chatFileTooLargeMessage": {
+        "description": "Body of the dialog shown when an attachment is over the size limit. maxSize is a formatted size such as 25 MB.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "chatHeavyTitle": "Ouh là, c'est lourd",
+    "@chatHeavyTitle": {
+        "description": "Title of the dialog shown when a message has too many reactions or too many files are attached."
+    },
+    "chatReactionsHeavyMessage": "Ce message est bien chargé. Retirez certaines réactions avant d'en ajouter d'autres.",
+    "@chatReactionsHeavyMessage": {
+        "description": "Body of the dialog shown when a message has the maximum number of reactions."
+    },
+    "chatReactionTimedOut": "Vous ne pouvez pas ajouter de nouvelles réactions pendant votre restriction temporaire.",
+    "@chatReactionTimedOut": {
+        "description": "Toast shown when adding a reaction fails because the user is timed out."
+    },
+    "chatEditTooQuickTitle": "Vous modifiez les messages trop rapidement",
+    "@chatEditTooQuickTitle": {
+        "description": "Title of the dialog shown when editing is rate limited."
+    },
+    "chatEditFailedMessage": "Réessayez de modifier votre message.",
+    "@chatEditFailedMessage": {
+        "description": "Body of the dialog shown when editing a message fails."
+    },
+    "chatDeleteTooQuickTitle": "Vous supprimez les messages trop rapidement",
+    "@chatDeleteTooQuickTitle": {
+        "description": "Title of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteTooQuickMessage": "Attendez un instant avant de supprimer d'autres messages.",
+    "@chatDeleteTooQuickMessage": {
+        "description": "Body of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteFailedTitle": "Impossible de supprimer ce message",
+    "@chatDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a message fails."
+    },
+    "chatDeleteFailedMessage": "Réessayez de supprimer ce message.",
+    "@chatDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting a message fails."
+    },
+    "chatAltTextFailedTitle": "Impossible de modifier le texte alternatif",
+    "@chatAltTextFailedTitle": {
+        "description": "Title of the dialog shown when updating attachment alt text fails."
+    },
+    "chatAltTextUnknownMessage": "Ce message n’existe plus.",
+    "@chatAltTextUnknownMessage": {
+        "description": "Body of the alt text error dialog when the message was deleted."
+    },
+    "chatAltTextNoPermission": "Vous ne pouvez pas modifier ce message.",
+    "@chatAltTextNoPermission": {
+        "description": "Body of the alt text error dialog when the user lacks permission."
+    },
+    "chatAltTextUnavailable": "La modification est temporairement indisponible. Veuillez réessayer plus tard.",
+    "@chatAltTextUnavailable": {
+        "description": "Body of the alt text error dialog when editing is paused."
+    },
+    "chatAltTextFailedMessage": "Impossible de mettre à jour le texte alternatif. Veuillez réessayer.",
+    "@chatAltTextFailedMessage": {
+        "description": "Fallback body of the alt text error dialog."
+    },
+    "chatPinFailedTitle": "Échec de l'épinglage du message",
+    "@chatPinFailedTitle": {
+        "description": "Title of the dialog shown when pinning a message fails."
+    },
+    "chatUnpinFailedTitle": "Impossible de désépingler le message",
+    "@chatUnpinFailedTitle": {
+        "description": "Title of the dialog shown when unpinning a message fails."
+    },
+    "chatPinFailedMessage": "Un problème est survenu. Veuillez réessayer plus tard.",
+    "@chatPinFailedMessage": {
+        "description": "Body of the dialog shown when pinning or unpinning a message fails."
+    },
+    "chatPinBlockedMessage": "Vous ne pouvez pas interagir avec cet utilisateur pour le moment.",
+    "@chatPinBlockedMessage": {
+        "description": "Body of the pin error dialog when the other user can't be interacted with."
+    },
+    "bookmarkLimitTitle": "Limite de messages enregistrés atteinte",
+    "@bookmarkLimitTitle": {
+        "description": "Title of the dialog shown when the bookmark limit is reached."
+    },
+    "savedMediaLimitTitle": "Limite de médias enregistrés atteinte",
+    "@savedMediaLimitTitle": {
+        "description": "Title of the dialog shown when the saved media limit is reached."
+    },
+    "errorContentBlockedTitle": "Contenu bloqué",
+    "@errorContentBlockedTitle": {
+        "description": "Title of the dialog shown when an action is flagged by safety systems."
+    },
+    "errorContentBlockedMessage": "Votre action n'a pas pu être effectuée, car elle a été signalée par nos systèmes de sécurité. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter l'assistance.",
+    "@errorContentBlockedMessage": {
+        "description": "Body of the content blocked dialog on the official instance."
+    },
+    "errorContentBlockedSelfHostedMessage": "Votre action n'a pas pu être effectuée, car elle a été signalée par nos systèmes de sécurité. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter les administrateurs de cette instance.",
+    "@errorContentBlockedSelfHostedMessage": {
+        "description": "Body of the content blocked dialog on a self-hosted instance."
+    },
+    "channelDeletedToast": "Salon supprimé",
+    "@channelDeletedToast": {
+        "description": "Toast shown after a channel is deleted."
+    },
+    "categoryDeletedToast": "Catégorie supprimée",
+    "@categoryDeletedToast": {
+        "description": "Toast shown after a category is deleted."
+    },
+    "channelDeleteNoPermissionTitle": "Vous ne pouvez pas supprimer ceci",
+    "@channelDeleteNoPermissionTitle": {
+        "description": "Title of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionChannel": "Vous n'avez pas l'autorisation de supprimer ce salon.",
+    "@channelDeleteNoPermissionChannel": {
+        "description": "Body of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionCategory": "Vous n’avez pas l’autorisation de supprimer cette catégorie.",
+    "@channelDeleteNoPermissionCategory": {
+        "description": "Body of the delete category error dialog when the user lacks permission."
+    },
+    "channelDeleteAlreadyDeletedTitle": "Déjà supprimé",
+    "@channelDeleteAlreadyDeletedTitle": {
+        "description": "Title of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedChannel": "Ce salon n’existe plus. Il a peut-être déjà été supprimé.",
+    "@channelDeleteAlreadyDeletedChannel": {
+        "description": "Body of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedCategory": "Cette catégorie n’existe plus. Elle a peut-être déjà été supprimée.",
+    "@channelDeleteAlreadyDeletedCategory": {
+        "description": "Body of the delete category error dialog when the category no longer exists."
+    },
+    "channelDeleteFailedChannelTitle": "Impossible de supprimer ce salon",
+    "@channelDeleteFailedChannelTitle": {
+        "description": "Title of the delete channel error dialog for other failures."
+    },
+    "channelDeleteFailedCategoryTitle": "Impossible de supprimer cette catégorie",
+    "@channelDeleteFailedCategoryTitle": {
+        "description": "Title of the delete category error dialog for other failures."
+    },
+    "channelPermissionsUpdateFailedTitle": "Impossible de mettre à jour les permissions du salon",
+    "@channelPermissionsUpdateFailedTitle": {
+        "description": "Title of the dialog shown when saving channel permissions fails."
+    },
+    "channelSettingsSaveFailedTitle": "Impossible d'enregistrer les paramètres du salon",
+    "@channelSettingsSaveFailedTitle": {
+        "description": "Title of the dialog shown when saving channel settings fails."
+    },
+    "emojiSlotsFullTitle": "Aucun emplacement d'emoji disponible",
+    "@emojiSlotsFullTitle": {
+        "description": "Title of the dialog shown when a community has no free emoji slots."
+    },
+    "stickerSlotsFullTitle": "Aucun emplacement de sticker disponible",
+    "@stickerSlotsFullTitle": {
+        "description": "Title of the dialog shown when a community has no free sticker slots."
+    },
+    "emojiSomeFailedMessage": "Vérifiez ces fichiers et réessayez avec des images plus petites ou plus simples.",
+    "@emojiSomeFailedMessage": {
+        "description": "Body of the dialog shown when some emoji files could not be added."
+    },
+    "emojiErrorGoneTitle": "Cet emoji n’existe plus",
+    "@emojiErrorGoneTitle": {
+        "description": "Title of the emoji error dialog when the emoji was deleted."
+    },
+    "emojiRenameGoneMessage": "Il a peut-être été supprimé. Le nom a été restauré à sa version précédente.",
+    "@emojiRenameGoneMessage": {
+        "description": "Body of the rename emoji error dialog when the emoji was deleted."
+    },
+    "emojiRenameNoPermissionTitle": "Vous ne pouvez pas renommer cet emoji",
+    "@emojiRenameNoPermissionTitle": {
+        "description": "Title of the rename emoji error dialog when the user lacks permission."
+    },
+    "emojiRenameNoPermissionMessage": "Vous n'avez pas l'autorisation de renommer cet emoji. Le nom a été rétabli tel qu'il était auparavant.",
+    "@emojiRenameNoPermissionMessage": {
+        "description": "Body of the rename emoji error dialog when the user lacks permission."
+    },
+    "emojiRenameRateLimitedMessage": "Veuillez patienter un instant et réessayer de renommer.",
+    "@emojiRenameRateLimitedMessage": {
+        "description": "Body of the rename emoji error dialog when rate limited."
+    },
+    "emojiRenameFailedMessage": "Le nom a été restauré à sa valeur précédente. Veuillez réessayer dans un instant.",
+    "@emojiRenameFailedMessage": {
+        "description": "Fallback body of the rename emoji error dialog."
+    },
+    "emojiDeleteGoneMessage": "Il semble qu’il ait déjà été supprimé.",
+    "@emojiDeleteGoneMessage": {
+        "description": "Body of the delete emoji error dialog when the emoji was already deleted."
+    },
+    "emojiDeleteNoPermissionTitle": "Vous ne pouvez pas supprimer cet emoji",
+    "@emojiDeleteNoPermissionTitle": {
+        "description": "Title of the delete emoji error dialog when the user lacks permission."
+    },
+    "emojiDeleteNoPermissionMessage": "Vous n'avez pas l'autorisation de supprimer cet emoji.",
+    "@emojiDeleteNoPermissionMessage": {
+        "description": "Body of the delete emoji error dialog when the user lacks permission."
+    },
+    "emojiDeleteRateLimitedMessage": "Veuillez patienter un instant et réessayer de supprimer.",
+    "@emojiDeleteRateLimitedMessage": {
+        "description": "Body of the delete emoji error dialog when rate limited."
+    },
+    "stickerTooLargeTitle": "Le sticker est trop volumineux",
+    "@stickerTooLargeTitle": {
+        "description": "Title of the dialog shown when a sticker upload is over the size limit."
+    },
+    "stickerTooLargeMessage": "Le service d’envoi a refusé ce sticker, car sa taille dépasse {maxSize}. Essayez un fichier plus petit, une image plus simple ou une animation plus courte.",
+    "@stickerTooLargeMessage": {
+        "description": "Body of the dialog shown when a sticker upload is over the size limit. maxSize is a formatted size such as 512 KB.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerCreateFailedMessage": "Une erreur est survenue lors de la préparation de ce sticker. Essayez un autre fichier ou réessayez dans un instant.",
+    "@stickerCreateFailedMessage": {
+        "description": "Fallback body of the create sticker error dialog."
+    },
+    "moderationTimeoutFailed": "Impossible d’appliquer une restriction temporaire au membre. Veuillez réessayer.",
+    "@moderationTimeoutFailed": {
+        "description": "Body of the dialog shown when timing out a member fails."
+    },
+    "moderationRemoveTimeoutFailed": "Impossible de lever la restriction temporaire. Veuillez réessayer.",
+    "@moderationRemoveTimeoutFailed": {
+        "description": "Body of the dialog shown when removing a member's timeout fails."
+    },
+    "moderationKickFailed": "Échec de l'expulsion du membre. Veuillez réessayer.",
+    "@moderationKickFailed": {
+        "description": "Body of the dialog shown when kicking a member fails."
+    },
+    "moderationBanFailed": "Échec du bannissement du membre. Veuillez réessayer.",
+    "@moderationBanFailed": {
+        "description": "Body of the dialog shown when banning a member fails."
+    },
+    "transferOwnershipFailedTitle": "Échec du transfert de propriété",
+    "@transferOwnershipFailedTitle": {
+        "description": "Title of the dialog shown when transferring community ownership fails."
+    },
+    "revokeBanFailedTitle": "Impossible de révoquer le bannissement",
+    "@revokeBanFailedTitle": {
+        "description": "Title of the dialog shown when revoking a ban fails."
+    },
+    "voiceModerationNoPermissionTitle": "Vous ne pouvez pas faire ça",
+    "@voiceModerationNoPermissionTitle": {
+        "description": "Title of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationNoPermissionMessage": "Vous n’avez pas l’autorisation d’effectuer cette action sur ce membre.",
+    "@voiceModerationNoPermissionMessage": {
+        "description": "Body of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationLeftTitle": "Cette personne a quitté l’appel",
+    "@voiceModerationLeftTitle": {
+        "description": "Title of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationLeftMessage": "Ce membre n’est plus connecté à la discussion vocale.",
+    "@voiceModerationLeftMessage": {
+        "description": "Body of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationUnknownMemberTitle": "Membre introuvable",
+    "@voiceModerationUnknownMemberTitle": {
+        "description": "Title of the voice moderation error dialog when the member left the community."
+    },
+    "voiceModerationUnknownMemberMessage": "Ce membre ne fait plus partie de la communauté. Actualisez et réessayez.",
+    "@voiceModerationUnknownMemberMessage": {
+        "description": "Body of the voice moderation error dialog when the member left the community."
+    },
+    "voiceJoinTimedOut": "Vous ne pouvez pas rejoindre ce salon pendant votre restriction temporaire.",
+    "@voiceJoinTimedOut": {
+        "description": "Shown when joining a voice channel fails because the user is timed out."
+    },
+    "voiceJoinClaimAccount": "Finalisez votre inscription pour rejoindre ce salon vocal.",
+    "@voiceJoinClaimAccount": {
+        "description": "Shown when an unclaimed account tries to join a community voice channel."
+    },
+    "voiceJoinClaimAccountDirectCall": "Finalisez votre inscription pour démarrer ou rejoindre des appels individuels.",
+    "@voiceJoinClaimAccountDirectCall": {
+        "description": "Shown when an unclaimed account tries to start or join a direct call."
+    },
+    "voiceJoinUserLimit": "Ce salon vocal a atteint sa limite d'utilisateurs. Réessayez plus tard ou rejoignez un autre salon.",
+    "@voiceJoinUserLimit": {
+        "description": "Shown when joining a voice channel fails because it is full."
+    },
+    "voiceJoinConnectionLimit": "Vous avez atteint la limite de connexions de ce salon vocal.",
+    "@voiceJoinConnectionLimit": {
+        "description": "Shown when joining a voice channel fails because the user has too many connections."
+    },
+    "voiceJoinChannelUnavailable": "Ce salon vocal n'est plus disponible.",
+    "@voiceJoinChannelUnavailable": {
+        "description": "Shown when joining a voice channel fails because it no longer exists."
+    },
+    "avatarUploadFailedTitle": "Impossible d’envoyer l’avatar",
+    "@avatarUploadFailedTitle": {
+        "description": "Title of the dialog shown when an avatar can't be used."
+    },
+    "bannerUploadFailedTitle": "Impossible d’envoyer la bannière",
+    "@bannerUploadFailedTitle": {
+        "description": "Title of the dialog shown when a profile banner can't be used."
+    },
+    "passkeyDeleteFailedTitle": "Impossible de supprimer la clé d’accès",
+    "@passkeyDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a passkey fails."
+    },
+    "premiumPaymentsUnavailableTitle": "Paiements indisponibles",
+    "@premiumPaymentsUnavailableTitle": {
+        "description": "Title of the billing error dialog when payments are temporarily unavailable."
+    },
+    "premiumPaymentsUnavailableMessage": "Les paiements sont temporairement indisponibles. Veuillez réessayer dans un instant.",
+    "@premiumPaymentsUnavailableMessage": {
+        "description": "Body of the billing error dialog when payments are temporarily unavailable."
+    },
+    "premiumNoSubscriptionTitle": "Aucun abonnement actif",
+    "@premiumNoSubscriptionTitle": {
+        "description": "Title of the billing error dialog when there is no active subscription."
+    },
+    "premiumNoSubscriptionMessage": "Nous n’avons pas trouvé d’abonnement actif pour ce compte. Actualisez et réessayez.",
+    "@premiumNoSubscriptionMessage": {
+        "description": "Body of the billing error dialog when there is no active subscription."
+    },
+    "premiumAlreadyCancelingTitle": "Résiliation déjà programmée",
+    "@premiumAlreadyCancelingTitle": {
+        "description": "Title of the billing error dialog when the subscription is already set to cancel."
+    },
+    "premiumAlreadyCancelingMessage": "La résiliation de votre abonnement est déjà programmée pour la fin de votre période de facturation.",
+    "@premiumAlreadyCancelingMessage": {
+        "description": "Body of the billing error dialog when the subscription is already set to cancel."
+    },
+    "premiumNotCancelingTitle": "Aucune résiliation n’est programmée pour cet abonnement",
+    "@premiumNotCancelingTitle": {
+        "description": "Title of the billing error dialog when there is nothing to reactivate."
+    },
+    "premiumNotCancelingMessage": "Aucune résiliation n’est programmée pour votre abonnement. Il n’y a donc rien à réactiver.",
+    "@premiumNotCancelingMessage": {
+        "description": "Body of the billing error dialog when there is nothing to reactivate."
+    },
+    "premiumCancelFailedTitle": "Impossible de résilier votre abonnement",
+    "@premiumCancelFailedTitle": {
+        "description": "Title of the dialog shown when cancelling the subscription fails."
+    },
+    "premiumCancelFailedMessage": "Une erreur est survenue lors de la résiliation de votre abonnement. Veuillez réessayer dans un instant.",
+    "@premiumCancelFailedMessage": {
+        "description": "Body of the dialog shown when cancelling the subscription fails."
+    },
+    "premiumReactivateFailedTitle": "Impossible de réactiver votre abonnement",
+    "@premiumReactivateFailedTitle": {
+        "description": "Title of the dialog shown when reactivating the subscription fails."
+    },
+    "premiumReactivateFailedMessage": "Un problème est survenu lors de la réactivation de votre abonnement. Veuillez réessayer dans un instant.",
+    "@premiumReactivateFailedMessage": {
+        "description": "Body of the dialog shown when reactivating the subscription fails."
+    },
+    "premiumRefundConfirmTitle": "Rembourser votre dernier achat ?",
+    "@premiumRefundConfirmTitle": {
+        "description": "Title of the confirmation before a self-serve refund."
+    },
+    "premiumRefundConfirmBody": "Cela rembourse votre dernière facture et résilie tout abonnement associé. Vous ne pourrez plus utiliser le remboursement en libre-service pendant 30 jours.",
+    "@premiumRefundConfirmBody": {
+        "description": "Body of the confirmation before a self-serve refund."
+    },
+    "premiumRefundConfirm": "Rembourser l'achat",
+    "@premiumRefundConfirm": {
+        "description": "Confirm button of the self-serve refund confirmation."
+    },
+    "premiumRefundIssuedToast": "Remboursement effectué. Cela peut prendre quelques jours ouvrables avant d'apparaître.",
+    "@premiumRefundIssuedToast": {
+        "description": "Toast shown after a self-serve refund succeeds."
+    },
+    "premiumRefundOutsideWindowTitle": "Hors de la période de remboursement",
+    "@premiumRefundOutsideWindowTitle": {
+        "description": "Title of the refund error dialog when the purchase is too old."
+    },
+    "premiumRefundOutsideWindowMessage": "Votre achat le plus récent n’est plus dans la période de remboursement. Contactez l’assistance pour les problèmes de facturation.",
+    "@premiumRefundOutsideWindowMessage": {
+        "description": "Body of the refund error dialog when the purchase is too old."
+    },
+    "premiumRefundCooldownTitle": "Vous avez récemment obtenu un remboursement",
+    "@premiumRefundCooldownTitle": {
+        "description": "Title of the refund error dialog during the refund cooldown."
+    },
+    "premiumRefundCooldownMessage": "Vous avez récemment utilisé le remboursement en libre-service. Vous pourrez le réutiliser à la fin du délai d’attente.",
+    "@premiumRefundCooldownMessage": {
+        "description": "Body of the refund error dialog during the refund cooldown."
+    },
+    "premiumRefundNothingTitle": "Aucun remboursement possible",
+    "@premiumRefundNothingTitle": {
+        "description": "Title of the refund error dialog when there is no recent purchase."
+    },
+    "premiumRefundNothingMessage": "Nous n’avons pas trouvé d’achat récent à rembourser sur ce compte.",
+    "@premiumRefundNothingMessage": {
+        "description": "Body of the refund error dialog when there is no recent purchase."
+    },
+    "premiumRefundFailedTitle": "Impossible de rembourser cet achat",
+    "@premiumRefundFailedTitle": {
+        "description": "Title of the refund error dialog for other failures."
+    },
+    "premiumRefundFailedMessage": "Un problème est survenu lors de l’émission de votre remboursement. Contactez l’assistance si cela se reproduit.",
+    "@premiumRefundFailedMessage": {
+        "description": "Body of the refund error dialog for other failures."
+    },
+    "premiumVerifyEmailTitle": "Vérifiez d'abord votre adresse e-mail",
+    "@premiumVerifyEmailTitle": {
+        "description": "Title of the checkout error dialog when the email is unverified."
+    },
+    "premiumVerifyEmailBody": "Vous devez vérifier votre adresse e-mail avant de pouvoir acheter {productName}.",
+    "@premiumVerifyEmailBody": {
+        "description": "Body of the checkout error dialog when the email is unverified. productName is the premium product name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCheckoutBlockedTitle": "Paiement indisponible",
+    "@premiumCheckoutBlockedTitle": {
+        "description": "Title of the checkout error dialog when checkout is blocked for the account."
+    },
+    "premiumCheckoutBlockedBody": "Le paiement est bloqué pour ce compte. Contactez {supportEmail} si vous avez besoin d'aide.",
+    "@premiumCheckoutBlockedBody": {
+        "description": "Body of the checkout error dialog when checkout is blocked, on the official instance.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCheckoutBlockedBodySelfHosted": "Le paiement est bloqué pour ce compte.",
+    "@premiumCheckoutBlockedBodySelfHosted": {
+        "description": "Body of the checkout error dialog when checkout is blocked, on a self-hosted instance."
+    },
+    "accountSignOutTitle": "Se déconnecter de {identifier} ?",
+    "@accountSignOutTitle": {
+        "description": "Title of the confirmation before signing out of one saved account. The identifier is the account's username.",
+        "placeholders": {
+            "identifier": {
+                "type": "String"
+            }
+        }
+    },
+    "userTagOp": "OP",
+    "@userTagOp": {
+        "description": "Tag next to the author of a forum post on their own messages in that post. Short for original poster, keep it to two or three letters."
+    },
+    "lookAndFeelThemeColorsTitle": "Couleurs du thème",
+    "@lookAndFeelThemeColorsTitle": {
+        "description": "Title for the theme color token editor page."
+    },
+    "lookAndFeelThemeColorsConfigureDescription": "Personnalisez individuellement les couleurs du thème sur cet appareil.",
+    "@lookAndFeelThemeColorsConfigureDescription": {
+        "description": "Description on the configure row that opens theme colors."
+    },
+    "lookAndFeelThemeColorsEditingMode": "Modification de {mode}",
+    "@lookAndFeelThemeColorsEditingMode": {
+        "description": "Subtitle showing which theme mode color overrides apply to.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsSyncSectionTitle": "Synchronisation avec Theme Studio",
+    "lookAndFeelThemeColorsSyncFromStudioLabel": "Utiliser les couleurs de Theme Studio",
+    "@lookAndFeelThemeColorsSyncFromStudioLabel": {
+        "description": "Toggle to apply custom CSS colors synced from desktop Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioDescription": "Lorsque cette option est activée, les modifications de couleurs faites dans Theme Studio sur ordinateur s'appliquent à cet appareil. Lorsqu'elle est désactivée, cet appareil conserve ses propres couleurs.",
+    "@lookAndFeelThemeColorsSyncFromStudioDescription": {
+        "description": "Description for pulling theme colors from Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncToStudioLabel": "Envoyer les modifications de couleurs à Theme Studio",
+    "@lookAndFeelThemeColorsSyncToStudioLabel": {
+        "description": "Toggle to push mobile theme color edits to synced preferences."
+    },
+    "lookAndFeelThemeColorsSyncToStudioDescription": "Lorsque cette option est activée, les couleurs que vous modifiez ici sont synchronisées avec Theme Studio sur vos autres appareils. Lorsqu'elle est désactivée, Theme Studio sur ordinateur conserve ses propres couleurs.",
+    "@lookAndFeelThemeColorsSyncToStudioDescription": {
+        "description": "Description for pushing theme colors to Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioOffBanner": "Les modifications de couleurs de Theme Studio sur ordinateur ne s'appliqueront pas à cet appareil.",
+    "@lookAndFeelThemeColorsSyncFromStudioOffBanner": {
+        "description": "Banner when pull from Theme Studio is disabled."
+    },
+    "lookAndFeelThemeColorsEssentialSectionTitle": "Couleurs essentielles",
+    "@lookAndFeelThemeColorsEssentialSectionTitle": {
+        "description": "Section for the most impactful theme color tokens."
+    },
+    "lookAndFeelThemeColorsChatBackgroundWallpaperNote": "Si vous avez défini un fond d'écran de discussion, cette couleur ne sera pas visible.",
+    "@lookAndFeelThemeColorsChatBackgroundWallpaperNote": {
+        "description": "Note under the chat background color picker when wallpaper may hide it."
+    },
+    "lookAndFeelThemeColorsResetForMode": "Réinitialiser toutes les couleurs pour {mode}",
+    "@lookAndFeelThemeColorsResetForMode": {
+        "description": "Button to clear all scoped color overrides for a theme mode.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsResetConfirmTitle": "Réinitialiser les couleurs du thème ?",
+    "@lookAndFeelThemeColorsResetConfirmTitle": {
+        "description": "Title for reset-all theme colors confirmation."
+    },
+    "lookAndFeelThemeColorsResetConfirmBody": "Cela supprime vos couleurs personnalisées pour {mode} sur cet appareil.",
+    "@lookAndFeelThemeColorsResetConfirmBody": {
+        "description": "Body for reset-all theme colors confirmation.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsGroupBrandButtons": "Marque et boutons",
+    "lookAndFeelThemeColorsGroupChatSurfaces": "Discussion et messages",
+    "lookAndFeelThemeColorsGroupSidebars": "Barres latérales et navigation",
+    "lookAndFeelThemeColorsGroupHeaders": "En-têtes",
+    "lookAndFeelThemeColorsGroupEmbedsMarkup": "Contenus intégrés et mentions",
+    "lookAndFeelThemeColorsGroupAccentsAlerts": "Accents et alertes",
+    "lookAndFeelThemeColorsGroupControls": "Surfaces et commandes",
+    "lookAndFeelOpenCommunitiesToLastChannelLabel": "Ouvrir les communautés sur votre dernier salon",
+    "@lookAndFeelOpenCommunitiesToLastChannelLabel": {
+        "description": "Toggle label. When on, tapping a community in the community list opens the last channel the user viewed there instead of its channel list."
+    },
+    "lookAndFeelOpenCommunitiesToLastChannelDescription": "Toucher une communauté vous amène directement au dernier salon que vous y avez consulté. Balayez vers la droite pour voir sa liste de salons.",
+    "@lookAndFeelOpenCommunitiesToLastChannelDescription": {
+        "description": "Toggle description for opening communities to the last viewed channel."
+    },
+    "voiceScreenShareEnterFullscreenTooltip": "Plein écran",
+    "@voiceScreenShareEnterFullscreenTooltip": {
+        "description": "Tooltip for expanding a watched screen share to full screen."
+    },
+    "voiceScreenShareExitFullscreenTooltip": "Quitter le plein écran",
+    "@voiceScreenShareExitFullscreenTooltip": {
+        "description": "Tooltip for leaving full screen while watching a screen share."
+    },
+    "notificationsMentionedYouIn": "{author} vous a mentionné dans {place} :",
+    "@notificationsMentionedYouIn": {
+        "description": "Title of a Notifications row for a message that mentions the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYouIn": "{author} vous a répondu dans {place} :",
+    "@notificationsRepliedToYouIn": {
+        "description": "Title of a Notifications row for a reply that pings the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionedYou": "{author} vous a mentionné :",
+    "@notificationsMentionedYou": {
+        "description": "Title of a Notifications row for a mention inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYou": "{author} vous a répondu :",
+    "@notificationsRepliedToYou": {
+        "description": "Title of a Notifications row for a reply that pings the user inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionPlace": "{server} – {channel}",
+    "@notificationsMentionPlace": {
+        "description": "Server and channel a notification came from, used inside the Notifications row title.",
+        "placeholders": {
+            "server": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsSendReply": "Envoyer une réponse",
+    "@notificationsSendReply": {
+        "description": "Button on a new Notifications row that opens the channel with a reply to that message started."
+    },
+    "notificationsRecentActivity": "Activité récente",
+    "@notificationsRecentActivity": {
+        "description": "Section label above Notifications rows the user has already seen."
+    },
+    "notificationsRemoveNotification": "Supprimer la notification",
+    "@notificationsRemoveNotification": {
+        "description": "Menu action that removes a row from the Notifications list."
+    },
+    "doubleTapEditHint": "Touchez deux fois votre propre message pour le modifier",
+    "@doubleTapEditHint": {
+        "description": "Hint under quick reactions in the message actions sheet when the double-tap action is set to edit."
+    },
+    "messagesMediaGesturesSectionTitle": "Gestes",
+    "@messagesMediaGesturesSectionTitle": {
+        "description": "Title for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesSectionDescription": "Configurez le double toucher et le balayage sur les messages.",
+    "@messagesMediaGesturesSectionDescription": {
+        "description": "Description for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesReactionLabel": "Emoji de réaction",
+    "@messagesMediaGesturesReactionLabel": {
+        "description": "Label for choosing the default double-tap reaction emoji."
+    },
+    "messagesMediaGesturesReactionDescription": "Utilisé lorsque le double toucher est réglé pour ajouter une réaction.",
+    "@messagesMediaGesturesReactionDescription": {
+        "description": "Help text for the double-tap reaction emoji setting."
+    },
+    "messagesMediaGesturesDoubleTapActionLabel": "Action du double toucher",
+    "@messagesMediaGesturesDoubleTapActionLabel": {
+        "description": "Label for the double-tap action radio group."
+    },
+    "messagesMediaGesturesDoubleTapActionReactDescription": "Ajoute votre emoji de double toucher par défaut en tant que réaction.",
+    "@messagesMediaGesturesDoubleTapActionReactDescription": {
+        "description": "Help text for the react double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionEditDescription": "Ouvre l'éditeur sur les messages que vous avez envoyés. Les autres messages ne sont pas concernés.",
+    "@messagesMediaGesturesDoubleTapActionEditDescription": {
+        "description": "Help text for the edit double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneDescription": "Le double toucher est désactivé.",
+    "@messagesMediaGesturesDoubleTapActionNoneDescription": {
+        "description": "Help text for the none double-tap action."
+    },
+    "messagesMediaGesturesSwipeRightToLeftLabel": "Balayer de droite à gauche",
+    "@messagesMediaGesturesSwipeRightToLeftLabel": {
+        "description": "Label for the swipe right to left action radio group."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyName": "Balayer pour répondre",
+    "@messagesMediaGesturesSwipeRightToLeftReplyName": {
+        "description": "Swipe opens reply on the message."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyDescription": "Balayez un message pour y répondre, et maintenez appuyé pour modifier vos propres messages.",
+    "@messagesMediaGesturesSwipeRightToLeftReplyDescription": {
+        "description": "Help text for swipe to reply."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsName": "Afficher les détails du salon",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsName": {
+        "description": "Swipe opens channel details in a side panel."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": "Balayez un message ou touchez l'en-tête du salon pour ouvrir les détails du salon dans un panneau latéral.",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": {
+        "description": "Help text for swipe to channel details."
+    },
+    "chatMessageDeleteAttachmentConfirmDescription": "Voulez-vous vraiment supprimer cette pièce jointe ?",
+    "@chatMessageDeleteAttachmentConfirmDescription": {
+        "description": "Body text for the delete attachment confirmation dialog."
+    },
+    "chatEditFailedEditAgain": "Modifier à nouveau",
+    "@chatEditFailedEditAgain": {
+        "description": "Action on the failed edit toast that reopens the editor with the unsaved text."
+    },
+    "channelDuplicateHelper": "Le nouveau salon reprendra les permissions de {channelName}.",
+    "@channelDuplicateHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDuplicateVoiceHelper": "Le nouveau salon vocal reprendra les permissions, la limite d'utilisateurs et le débit binaire de {channelName}.",
+    "@channelDuplicateVoiceHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet when the source is a voice channel. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelMenuMoveToCategory": "Déplacer vers une catégorie",
+    "@channelMenuMoveToCategory": {
+        "description": "Guild channel menu action that opens a sheet to move the channel into another category or out of any category."
+    },
+    "channelSearchRemoveRecent": "Retirer des recherches récentes",
+    "@channelSearchRemoveRecent": {
+        "description": "Accessibility label for the x button on a recent search row in mobile message search. Removes that one entry from the recent searches list."
+    },
+    "channelSearchFiltersButton": "Filtres",
+    "@channelSearchFiltersButton": {
+        "description": "Tooltip and accessibility label for the filter button next to the mobile message search field."
+    },
+    "channelSearchFilterMenuTitle": "Filtrer les résultats",
+    "@channelSearchFilterMenuTitle": {
+        "description": "Section title in the mobile message search filter menu, above the list of filters."
+    },
+    "channelSearchFilterFromLabel": "D'une personne précise",
+    "@channelSearchFilterFromLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterMentionsLabel": "Mentionne une personne précise",
+    "@channelSearchFilterMentionsLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterHasLabel": "Contient un lien, un fichier ou un contenu intégré",
+    "@channelSearchFilterHasLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterInLabel": "Dans un salon précis",
+    "@channelSearchFilterInLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterDuringLabel": "Envoyé à une date",
+    "@channelSearchFilterDuringLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterBeforeLabel": "Envoyé avant une date",
+    "@channelSearchFilterBeforeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAfterLabel": "Envoyé après une date",
+    "@channelSearchFilterAfterLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterPinnedLabel": "Épinglé ou non épinglé",
+    "@channelSearchFilterPinnedLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAuthorTypeLabel": "Par type d'auteur",
+    "@channelSearchFilterAuthorTypeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchDateToday": "Aujourd'hui",
+    "@channelSearchDateToday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchDateYesterday": "Hier",
+    "@channelSearchDateYesterday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchTabMessages": "Messages",
+    "@channelSearchTabMessages": {
+        "description": "Result tab in mobile message search showing every matching message."
+    },
+    "channelSearchTabImages": "Images",
+    "@channelSearchTabImages": {
+        "description": "Result tab in mobile message search showing matching messages with an image upload."
+    },
+    "channelSearchTabFiles": "Fichiers",
+    "@channelSearchTabFiles": {
+        "description": "Result tab in mobile message search showing matching messages with a file upload."
+    },
+    "channelSearchTabCount": "{label} ({count})",
+    "@channelSearchTabCount": {
+        "description": "Selected result tab label with the number of results, for example Messages (12). Preserve {label} and {count}.",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
+    "groupDmRemoveFromGroupFailed": "{userName} fait toujours partie du groupe. Réessayez dans un instant.",
+    "@groupDmRemoveFromGroupFailed": {
+        "description": "Error shown when removing a member from a group DM fails.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatAttachmentLibraryLimitedBody": "Seuls les photos et vidéos que vous avez choisi de partager s'affichent ici.",
+    "@chatAttachmentLibraryLimitedBody": {
+        "description": "Explains limited photo library access in the attachment gallery."
+    },
+    "storePlutoniumRestorePurchases": "Restaurer les achats",
+    "@storePlutoniumRestorePurchases": {
+        "description": "Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID."
+    },
+    "notificationsPushDeliveryProviderLabel": "Fournisseur push",
+    "@notificationsPushDeliveryProviderLabel": {
+        "description": "Label for the compile-time mobile push provider on notification settings."
+    },
+    "notificationsPushDeliveryDistributorLabel": "Distributeur",
+    "@notificationsPushDeliveryDistributorLabel": {
+        "description": "Label for the UnifiedPush distributor on notification settings."
+    },
+    "notificationsPushDeliveryDistributorNone": "Non sélectionné",
+    "@notificationsPushDeliveryDistributorNone": {
+        "description": "Shown when no UnifiedPush distributor is selected."
+    },
+    "notificationsPushDeliveryDistributorSheetTitle": "Choisir un distributeur",
+    "@notificationsPushDeliveryDistributorSheetTitle": {
+        "description": "Title of the UnifiedPush distributor picker sheet."
+    },
+    "notificationsPushDeliveryDistributorPickAccessibility": "Changer de distributeur push",
+    "@notificationsPushDeliveryDistributorPickAccessibility": {
+        "description": "Accessibility label when the distributor row opens a picker."
+    },
+    "notificationsPushDeliveryGatewayLabel": "Passerelle",
+    "@notificationsPushDeliveryGatewayLabel": {
+        "description": "Label for the UnifiedPush gateway host on notification settings."
+    },
+    "notificationsPushDeliveryRelayLabel": "Relais Fluxer Push",
+    "@notificationsPushDeliveryRelayLabel": {
+        "description": "Label for Fluxer Push relay status on notification settings."
+    },
+    "notificationsPushDeliveryRelayInUse": "Utilisé",
+    "@notificationsPushDeliveryRelayInUse": {
+        "description": "Fluxer relay is active for this device."
+    },
+    "notificationsPushDeliveryRelayNotUsed": "Non utilisé",
+    "@notificationsPushDeliveryRelayNotUsed": {
+        "description": "This push provider does not use the Fluxer relay."
+    },
+    "appIconSectionDescriptionAndroid": "Choisissez l'icône affichée sur votre écran d'accueil. Changer l'icône redémarre l'application.",
+    "@appIconSectionDescriptionAndroid": {
+        "description": "Description for the app icon settings section on Android."
+    },
+    "appIconAndroidChangeTitle": "Changer l'icône de l'application ?",
+    "@appIconAndroidChangeTitle": {
+        "description": "Title for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconAndroidChangeDescription": "Fluxer va redémarrer pour appliquer la nouvelle icône de l'écran d'accueil.",
+    "@appIconAndroidChangeDescription": {
+        "description": "Body for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconOptionGreyscale": "Niveaux de gris",
+    "@appIconOptionGreyscale": {
+        "description": "App icon option for the greyscale alternate icon."
+    },
+    "appIconOptionRainbow": "Arc-en-ciel",
+    "@appIconOptionRainbow": {
+        "description": "App icon option for the rainbow alternate icon."
+    },
+    "appIconOptionWaves": "Vagues",
+    "@appIconOptionWaves": {
+        "description": "App icon option for the waves alternate icon."
+    },
+    "appIconOptionChromaticAberration": "Aberration chromatique",
+    "@appIconOptionChromaticAberration": {
+        "description": "App icon option for the chromatic aberration alternate icon."
+    },
+    "appIconOptionDefaultBrutalist": "Brutaliste",
+    "@appIconOptionDefaultBrutalist": {
+        "description": "App icon option for the default brutalist alternate icon."
+    },
+    "appIconOptionGreyscaleBrutalist": "Brutaliste en niveaux de gris",
+    "@appIconOptionGreyscaleBrutalist": {
+        "description": "App icon option for the greyscale brutalist alternate icon."
+    },
+    "advancedCrashReportingSectionDescription": "Aidez Fluxer à corriger les bugs de cette application en partageant les données de plantage et de performances. Cette option est désactivée par défaut.",
+    "@advancedCrashReportingSectionDescription": {
+        "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
+    },
+    "advancedCrashReportingDescription": "Les rapports sont envoyés au système de suivi des erreurs de Fluxer, même si vous êtes connecté à une autre instance. Ils n'incluent ni les noms d'instance, ni les identifiants, ni le contenu des messages.",
+    "@advancedCrashReportingDescription": {
+        "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentTitle": "Aidez-nous à corriger les plantages",
+    "@observabilityReportingConsentTitle": {
+        "description": "Title of the post-crash opt-in sheet for crash and error reporting."
+    },
+    "observabilityReportingConsentSubtitle": "Fluxer s'est fermé de manière inattendue. Partager des données anonymes de plantage et d'erreur nous aide à corriger les problèmes plus rapidement.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "Les rapports incluent les journaux de plantage, les erreurs et des données de performances de base. Ils ne sont pas partagés avec des tiers et vous pouvez désactiver cette option à tout moment.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentEnableLater": "Pour l'activer plus tard, ouvrez Paramètres → Avancé → {reportingToggle}.",
+    "@observabilityReportingConsentEnableLater": {
+        "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
+        "placeholders": {
+            "reportingToggle": {
+                "type": "String",
+                "example": "Send crash and performance reports"
+            }
+        }
+    },
+    "observabilityReportingConsentAgree": "Envoyer les rapports de plantage",
+    "@observabilityReportingConsentAgree": {
+        "description": "Primary button on the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentDecline": "Ne pas activer",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "userSettingsGiveFeedback": "Donner votre avis",
+    "@userSettingsGiveFeedback": {
+        "description": "User settings navigation action to open the Fluxer feedback site."
+    },
+    "instanceInvalidDiscoveryResponse": "Impossible de lire la configuration de cette instance. Vérifiez l'adresse et réessayez.",
+    "@instanceInvalidDiscoveryResponse": {
+        "description": "Error when the instance discovery document cannot be parsed."
+    },
+    "instanceOutdatedForClient": "Cette instance n'est pas à jour pour cette application. Demandez à la personne qui gère {domain} de mettre à jour Fluxer.",
+    "@instanceOutdatedForClient": {
+        "description": "Error when the instance api_code_version is below what this client requires.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceRequiresNewerClient": "{domain} utilise une version de Fluxer plus récente que cette application. Mettez l'application à jour, puis réessayez.",
+    "@instanceRequiresNewerClient": {
+        "description": "Error when the instance speaks a protocol generation this client does not support.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceCompatibilityTitle": "Impossible d'utiliser cette instance",
+    "@instanceCompatibilityTitle": {
+        "description": "Title on the full-screen instance compatibility blocker."
+    },
+    "instanceCompatibilityStatusPagePrompt": "Consultez la page d'état pour suivre l'évolution.",
+    "@instanceCompatibilityStatusPagePrompt": {
+        "description": "Hint below compatibility error copy when a status page URL is available."
+    },
+    "instanceCompatibilityStatusPageLink": "page d'état",
+    "@instanceCompatibilityStatusPageLink": {
+        "description": "Link label for the instance status page on the compatibility blocker."
+    },
+    "permissionManageThreadsDescription": "Renommer, archiver, verrouiller et supprimer des fils, définir leur mode lent et voir les fils privés.",
+    "@permissionManageThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePublicThreadsDescription": "Créer des fils visibles par toutes les personnes qui peuvent voir le salon.",
+    "@permissionCreatePublicThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePrivateThreadsDescription": "Créer des fils accessibles uniquement sur invitation.",
+    "@permissionCreatePrivateThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionSendMessagesInThreadsDescription": "Envoyer des messages dans les fils et les publications de forum.",
+    "@permissionSendMessagesInThreadsDescription": {
+        "description": "Permission description."
+    },
+    "threadErrorArchived": "Ce fil est archivé.",
+    "@threadErrorArchived": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorLocked": "Ce fil est verrouillé. Seuls les modérateurs peuvent y publier ou le rouvrir.",
+    "@threadErrorLocked": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorAlreadyCreated": "Un fil existe déjà pour ce message.",
+    "@threadErrorAlreadyCreated": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxActiveThreads": "Cette communauté a atteint sa limite de fils actifs.",
+    "@threadErrorMaxActiveThreads": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxMembers": "Ce fil a atteint sa limite de membres.",
+    "@threadErrorMaxMembers": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxPinnedPosts": "Une seule publication peut être épinglée dans ce forum.",
+    "@threadErrorMaxPinnedPosts": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxForumTags": "Un forum peut avoir 20 tags au maximum.",
+    "@threadErrorMaxForumTags": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorTagNamesUnique": "Les noms des tags doivent être uniques.",
+    "@threadErrorTagNamesUnique": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorNoTagsForEveryone": "Ajoutez un tag que tout le monde peut utiliser avant de rendre les tags obligatoires.",
+    "@threadErrorNoTagsForEveryone": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorUnknownTag": "L'un des tags sélectionnés n'existe plus.",
+    "@threadErrorUnknownTag": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidNotificationSettings": "Ces paramètres de notification ne sont pas valides pour un fil.",
+    "@threadErrorInvalidNotificationSettings": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorSearchIndexNotReady": "Les publications sont encore en cours d'indexation. Réessayez dans un instant.",
+    "@threadErrorSearchIndexNotReady": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidChannelType": "Cette action n'est pas disponible dans ce salon.",
+    "@threadErrorInvalidChannelType": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadNameRequired": "Donnez un nom au fil.",
+    "@threadNameRequired": {
+        "description": "Error shown when a thread is created or renamed without a name."
+    },
+    "threadStarterMessage": "Message",
+    "@threadStarterMessage": {
+        "description": "Label of the optional first message input in the new thread form."
+    },
+    "threadCreateCooldown": "{seconds, plural, =1{Vous pourrez créer un autre fil dans 1 seconde.} other{Vous pourrez créer un autre fil dans {seconds} secondes.}}",
+    "@threadCreateCooldown": {
+        "description": "Cooldown notice in the new thread form when the parent channel has slowmode.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "threadBrowserPublic": "Fils publics",
+    "@threadBrowserPublic": {
+        "description": "Option in the closed thread list that shows public threads."
+    },
+    "threadBrowserPrivate": "Fils privés",
+    "@threadBrowserPrivate": {
+        "description": "Option in the closed thread list that shows private threads."
+    },
+    "threadBrowserEmpty": "Il n'y a aucun fil. Restez concentré sur une conversation grâce à un fil, un salon textuel temporaire.",
+    "@threadBrowserEmpty": {
+        "description": "Empty state of the active threads list."
+    },
+    "threadBrowserArchivedEmpty": "Il n'y a aucun fil fermé.",
+    "@threadBrowserArchivedEmpty": {
+        "description": "Empty state of the closed threads list."
+    },
+    "threadMessageCount": "{count, plural, one{{count} message} other{{count} messages}}",
+    "@threadMessageCount": {
+        "description": "Message count on a thread chip and in the thread browser.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadFailedToMentionSomeRoles": "Certains rôles mentionnés n'ont pas été ajoutés à ce fil.",
+    "@threadFailedToMentionSomeRoles": {
+        "description": "Note under a thread message when some mentioned roles had too many members to add to the thread."
+    },
+    "threadMembersCount": "{count, plural, =1{1 membre} other{{count} membres}}",
+    "@threadMembersCount": {
+        "description": "Header above the thread member list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadMembersEmpty": "Personne n'a encore rejoint ce fil.",
+    "@threadMembersEmpty": {
+        "description": "Empty state of the thread member list."
+    },
+    "threadRemoveMember": "Retirer {name} du fil",
+    "@threadRemoveMember": {
+        "description": "Accessible label of the button that removes a member from a thread.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadDeleteConfirm": "Êtes-vous sûr de vouloir supprimer {threadName} ? Cette action est irréversible.",
+    "@threadDeleteConfirm": {
+        "description": "Confirmation text before deleting a thread.",
+        "placeholders": {
+            "threadName": {
+                "type": "String"
+            }
+        }
+    },
+    "threadMuted": "Notifications du fil désactivées",
+    "@threadMuted": {
+        "description": "Toast after a thread was muted."
+    },
+    "threadUnmuted": "Notifications du fil réactivées",
+    "@threadUnmuted": {
+        "description": "Toast after a thread was unmuted."
+    },
+    "threadSettingsSaved": "Paramètres du fil enregistrés",
+    "@threadSettingsSaved": {
+        "description": "Toast after thread settings were saved."
+    },
+    "threadAutoArchiveDescription": "Le fil n'apparaît plus dans la liste des salons après cette période d'inactivité.",
+    "@threadAutoArchiveDescription": {
+        "description": "Help text of the thread auto archive duration setting."
+    },
+    "threadDefaultAutoArchiveDescription": "Les nouveaux fils n'apparaissent plus dans la liste des salons après cette période d'inactivité.",
+    "@threadDefaultAutoArchiveDescription": {
+        "description": "Help text of the default thread auto archive duration setting."
+    },
+    "threadAutoArchiveOneHour": "1 heure",
+    "@threadAutoArchiveOneHour": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneDay": "24 heures",
+    "@threadAutoArchiveOneDay": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveThreeDays": "3 jours",
+    "@threadAutoArchiveThreeDays": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneWeek": "1 semaine",
+    "@threadAutoArchiveOneWeek": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadInvitableDescription": "Les membres de ce fil privé peuvent ajouter d'autres personnes.",
+    "@threadInvitableDescription": {
+        "description": "Help text of the private thread invite setting."
+    },
+    "systemThreadCreated": "{username} a créé un fil : {threadLink}. Voir {allThreadsLink}.",
+    "@systemThreadCreated": {
+        "description": "System message when a user starts a thread. Keep {username}, {threadLink}, and {allThreadsLink} in place and translate the surrounding sentence.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "threadLink": {
+                "type": "String"
+            },
+            "allThreadsLink": {
+                "type": "String"
+            }
+        }
+    },
+    "systemThreadCreatedAllThreadsLink": "tous les fils",
+    "@systemThreadCreatedAllThreadsLink": {
+        "description": "Link text in the thread started system message that opens the thread browser."
+    },
+    "systemThreadCreatedThreadFallback": "un fil",
+    "@systemThreadCreatedThreadFallback": {
+        "description": "Link text in the thread started system message when the thread name is unknown."
+    },
+    "systemPreviewThreadCreated": "{username} a créé un fil.",
+    "@systemPreviewThreadCreated": {
+        "description": "Plaintext preview for a thread started system message.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadCreate": "{actor} a créé le fil {target}.",
+    "@auditLogSummaryThreadCreate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadUpdate": "{actor} a mis à jour le fil {target}.",
+    "@auditLogSummaryThreadUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadDelete": "{actor} a supprimé le fil {target}.",
+    "@auditLogSummaryThreadDelete": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangePausedInvites": "A suspendu les invitations.",
+    "@auditLogChangePausedInvites": {
+        "description": "Guild change detail sentence shown when invites were paused. Pausing invites disables every invite link of the community until they are resumed. Past tense record, not a command."
+    },
+    "auditLogChangeResumedInvites": "A réactivé les invitations.",
+    "@auditLogChangeResumedInvites": {
+        "description": "Guild change detail sentence shown when paused invites were enabled again. Past tense record, not a command."
+    },
+    "auditLogChangeTurnedOnDetachedBanner": "A activé la bannière détachée.",
+    "@auditLogChangeTurnedOnDetachedBanner": {
+        "description": "Guild change detail sentence shown when the detached banner setting was turned on."
+    },
+    "auditLogChangeTurnedOffDetachedBanner": "A désactivé la bannière détachée.",
+    "@auditLogChangeTurnedOffDetachedBanner": {
+        "description": "Guild change detail sentence shown when the detached banner setting was turned off."
+    },
+    "auditLogChangeAllowedFlexibleChannelNames": "A autorisé les noms de salons textuels flexibles.",
+    "@auditLogChangeAllowedFlexibleChannelNames": {
+        "description": "Guild change detail sentence shown when flexible text channel names were allowed."
+    },
+    "auditLogChangeDisallowedFlexibleChannelNames": "A cessé d'autoriser les noms de salons textuels flexibles.",
+    "@auditLogChangeDisallowedFlexibleChannelNames": {
+        "description": "Guild change detail sentence shown when flexible text channel names were no longer allowed."
+    },
+    "auditLogChangeHidOwnerCrown": "A masqué la couronne du propriétaire de la communauté.",
+    "@auditLogChangeHidOwnerCrown": {
+        "description": "Guild change detail sentence shown when the crown next to the community owner was hidden."
+    },
+    "auditLogChangeShowedOwnerCrown": "A cessé de masquer la couronne du propriétaire de la communauté.",
+    "@auditLogChangeShowedOwnerCrown": {
+        "description": "Guild change detail sentence shown when the crown next to the community owner was shown again."
+    },
+    "auditLogChangeAllowedEmojiCloning": "A autorisé d'autres personnes à cloner les emojis de cette communauté.",
+    "@auditLogChangeAllowedEmojiCloning": {
+        "description": "Guild change detail sentence shown when other communities were allowed to clone this community's emojis."
+    },
+    "auditLogChangeStoppedEmojiCloning": "A cessé d'autoriser d'autres personnes à cloner les emojis de cette communauté.",
+    "@auditLogChangeStoppedEmojiCloning": {
+        "description": "Guild change detail sentence shown when cloning this community's emojis was no longer allowed."
+    },
+    "auditLogChangeAllowedStickerCloning": "A autorisé d'autres personnes à cloner les stickers de cette communauté.",
+    "@auditLogChangeAllowedStickerCloning": {
+        "description": "Guild change detail sentence shown when other communities were allowed to clone this community's stickers."
+    },
+    "auditLogChangeStoppedStickerCloning": "A cessé d'autoriser d'autres personnes à cloner les stickers de cette communauté.",
+    "@auditLogChangeStoppedStickerCloning": {
+        "description": "Guild change detail sentence shown when cloning this community's stickers was no longer allowed."
+    },
+    "forumChannelTypeForum": "Forum",
+    "@forumChannelTypeForum": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewMediaPost": "Nouvelle publication média",
+    "@forumNewMediaPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumViewOptions": "Tri et affichage",
+    "@forumViewOptions": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchIndexing": "La recherche est encore en préparation pour cette communauté. Les publications apparaîtront ici dès qu'elle sera prête.",
+    "@forumSearchIndexing": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCreateFirstPost": "Créer la première publication",
+    "@forumCreateFirstPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostsLoadFailed": "Impossible de charger les publications.",
+    "@forumPostsLoadFailed": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostLocked": "Verrouillée",
+    "@forumPostLocked": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostArchived": "Archivée",
+    "@forumPostArchived": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostStarterDeleted": "Le message d'origine a été supprimé.",
+    "@forumPostStarterDeleted": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostReact": "Ajouter la réaction par défaut",
+    "@forumPostReact": {
+        "description": "Forum and media channel UI."
+    },
+    "forumOpenPost": "Ouvrir la publication",
+    "@forumOpenPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTags": "Enregistrer les tags",
+    "@forumSaveTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsLimitHint": "{count, plural, =1{Choisissez jusqu'à 1 tag.} other{Choisissez jusqu'à {count} tags.}}",
+    "@forumTagsLimitHint": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "forumGuidelinesPlaceholder": "Expliquez ce qu'il faut publier ici et comment le faire.",
+    "@forumGuidelinesPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitle": "Titre",
+    "@forumPostTitle": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessage": "Message",
+    "@forumPostMessage": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessagePlaceholder": "Écrivez le premier message de votre publication",
+    "@forumPostMessagePlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaPlaceholder": "Ajouter une légende",
+    "@forumPostMediaPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTags": "Tags",
+    "@forumPostTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTagsRequired": "Tags (obligatoires)",
+    "@forumPostTagsRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddMedia": "Ajouter un média",
+    "@forumPostAddMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddFile": "Ajouter un fichier",
+    "@forumPostAddFile": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitleRequired": "Donnez un titre à votre publication.",
+    "@forumPostTitleRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaRequired": "Ajoutez au moins une image ou une vidéo pour publier ici.",
+    "@forumPostMediaRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostContentRequired": "Écrivez un message ou ajoutez un fichier.",
+    "@forumPostContentRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutList": "Vue en liste",
+    "@forumLayoutList": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutGallery": "Vue en galerie",
+    "@forumLayoutGallery": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnread": "Afficher les nouvelles publications comme non lues",
+    "@forumNewPostsUnread": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnreadDescription": "Marquer ce salon comme non lu quand quelqu'un crée une publication.",
+    "@forumNewPostsUnreadDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmode": "Mode lent des publications",
+    "@forumPostSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmodeDescription": "Délai d'attente entre deux publications. « {bypassSlowmodePermissionLabel} » permet de l'ignorer.",
+    "@forumPostSlowmodeDescription": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "bypassSlowmodePermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "forumMessageSlowmode": "Mode lent des messages dans les publications",
+    "@forumMessageSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMessageSlowmodeDescription": "Mode lent appliqué aux messages des nouvelles publications.",
+    "@forumMessageSlowmodeDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchiveDescription": "Les nouvelles publications sont archivées après cette durée sans activité.",
+    "@forumDefaultAutoArchiveDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChangeDefaultReaction": "Modifier",
+    "@forumChangeDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSetting": "Filtre de tags",
+    "@forumTagMatchSetting": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSome": "N’importe lequel des tags sélectionnés",
+    "@forumTagMatchSome": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchAll": "Tous les tags sélectionnés",
+    "@forumTagMatchAll": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTag": "Exiger des tags",
+    "@forumRequireTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTagDescription": "Les personnes doivent choisir au moins un tag lorsqu'elles créent une publication.",
+    "@forumRequireTagDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloadsDescription": "Masquer les options de téléchargement, d'ouverture dans le navigateur et de copie du lien pour les images et vidéos des publications.",
+    "@forumHideMediaDownloadsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsTitle": "Tags ({count}/{max})",
+    "@forumTagsTitle": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "forumTagsDescription": "Les tags aident à trouver et à filtrer les publications. Seuls les modérateurs peuvent appliquer les tags modérés.",
+    "@forumTagsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTag": "Enregistrer le tag",
+    "@forumSaveTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagEmoji": "Emoji",
+    "@forumTagEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagRemoveEmoji": "Retirer l'emoji",
+    "@forumTagRemoveEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModerated": "Réservé aux modérateurs",
+    "@forumTagModerated": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedDescription": "Seuls les membres pouvant gérer les fils peuvent appliquer ou retirer ce tag.",
+    "@forumTagModeratedDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedBadge": "Modéré",
+    "@forumTagModeratedBadge": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostCooldown": "{seconds, plural, =1{Vous pourrez publier à nouveau dans 1 seconde.} other{Vous pourrez publier à nouveau dans {seconds} secondes.}}",
+    "@forumPostCooldown": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pStartDescription": "L'audio et la vidéo passent directement entre les participants, avec une latence plus faible. Les autres participants peuvent voir votre adresse IP. Jusqu'à {maxParticipants} personnes peuvent participer. Les personnes qui ne peuvent pas se connecter directement ne peuvent pas participer tant que quelqu'un n'est pas passé à un appel standard.",
+    "@voiceP2pStartDescription": {
+        "description": "Explains the costs of starting a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pJoinDescription": "Cet appel connecte les participants directement. Les autres participants peuvent voir votre adresse IP. Jusqu'à {maxParticipants} personnes peuvent participer. Si vous ne pouvez pas vous connecter directement, vous ne pourrez pas participer tant que quelqu'un ne sera pas passé à un appel standard.",
+    "@voiceP2pJoinDescription": {
+        "description": "Explains the costs of joining a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPinnedJoinDescription": "Ce salon n'autorise que les appels P2P. Les participants se connectent directement et peuvent voir votre adresse IP. Jusqu'à {maxParticipants} personnes peuvent participer. Si vous ne pouvez pas vous connecter directement, vous ne pourrez pas participer.",
+    "@voiceP2pPinnedJoinDescription": {
+        "description": "Explains the costs of joining a channel that only allows P2P calls. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pAlwaysAgreeSettingLabel": "Toujours accepter de rejoindre les appels P2P",
+    "@voiceP2pAlwaysAgreeSettingLabel": {
+        "description": "Settings toggle that skips the P2P join agreement."
+    },
+    "voiceP2pAlwaysAgreeSettingDescription": "Rejoindre les appels P2P sans confirmation. Les autres participants peuvent voir votre adresse IP.",
+    "@voiceP2pAlwaysAgreeSettingDescription": {
+        "description": "Description of the setting that skips the P2P join agreement."
+    },
+    "voiceP2pIndicatorLabel": "P2P",
+    "@voiceP2pIndicatorLabel": {
+        "description": "Short label shown while a call is in P2P mode."
+    },
+    "voiceP2pSwitchToStandardDescription": "Tous les participants passent à un appel standard via le serveur.",
+    "@voiceP2pSwitchToStandardDescription": {
+        "description": "Explains what switching a P2P call to a standard call does."
+    },
+    "voiceP2pPeerFailedDescription": "Impossible d'établir une connexion directe. Quittez l'appel ou faites passer tout le monde à un appel standard.",
+    "@voiceP2pPeerFailedDescription": {
+        "description": "Shown on a participant tile when a direct connection failed."
+    },
+    "voiceP2pConsentRequiredError": "Cet appel est en P2P et nécessite votre accord pour le rejoindre.",
+    "@voiceP2pConsentRequiredError": {
+        "description": "Shown when the server rejects a join because P2P agreement is missing."
+    },
+    "voiceChannelFullError": "Cet appel est complet.",
+    "@voiceChannelFullError": {
+        "description": "Shown when the server rejects a join because the call is full."
+    },
+    "voiceP2pScreenShareUnavailable": "Le partage d'écran depuis cet appareil n'est pas disponible dans les appels P2P.",
+    "@voiceP2pScreenShareUnavailable": {
+        "description": "Explains why the screen share button is disabled in a P2P call."
+    },
+    "channelSettingsRtcP2pDescription": "Les participants se connectent directement et peuvent voir les adresses IP des autres. Tout le monde doit donner son accord avant de rejoindre. Jusqu'à {maxParticipants} personnes peuvent participer.",
+    "@channelSettingsRtcP2pDescription": {
+        "description": "Description of the P2P calls only channel setting. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPeerFailedTitle": "Impossible de se connecter directement à {name}",
+    "@voiceP2pPeerFailedTitle": {
+        "description": "Shown on a participant tile when a direct connection to them failed.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "chatTooManyAttachmentsMessage": "Vous ne pouvez envoyer que {count, plural, one {{count} fichier} other {{count} fichiers}} à la fois. Réessayez avec moins de fichiers.",
+    "@chatTooManyAttachmentsMessage": {
+        "description": "Body of the dialog shown when too many files are attached to one message.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatAttachmentDeleteFailedTitle": "Impossible de supprimer la pièce jointe",
+    "@chatAttachmentDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting an attachment from a message fails."
+    },
+    "chatAttachmentDeleteFailedMessage": "Réessayez de supprimer cette pièce jointe.",
+    "@chatAttachmentDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting an attachment from a message fails."
+    },
+    "bookmarkLimitMessage": "Vous avez atteint {count, plural, one {{count} message enregistré} other {{count} messages enregistrés}}. Retirez-en un pour en ajouter un autre.",
+    "@bookmarkLimitMessage": {
+        "description": "Body of the dialog shown when the bookmark limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "savedMediaLimitMessage": "Vous avez atteint la limite de {count, plural, one {{count} média enregistré} other {{count} médias enregistrés}}. Retirez-en un pour en ajouter un autre.",
+    "@savedMediaLimitMessage": {
+        "description": "Body of the dialog shown when the saved media limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "emojiNameInvalidCharacters": "Les noms d'emoji ne peuvent contenir que des lettres, des chiffres et des tirets bas.",
+    "@emojiNameInvalidCharacters": {
+        "description": "Body of the invalid emoji name dialog when the name has unsupported characters."
+    },
+    "stickerUpdateFailedTitle": "Impossible de mettre à jour ce sticker",
+    "@stickerUpdateFailedTitle": {
+        "description": "Title of the dialog shown when editing a sticker fails."
+    },
+    "transferOwnershipFailedMessage": "Impossible de transférer la propriété à {username} pour le moment.",
+    "@transferOwnershipFailedMessage": {
+        "description": "Body of the dialog shown when transferring community ownership fails.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "animatedImageUseStatic": "Importez plutôt une image statique.",
+    "@animatedImageUseStatic": {
+        "description": "Body of the dialog shown when an animated image can't be used on this account."
     }
 }

@@ -294,7 +294,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get register => 'रजिस्टर करें';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'या';
 
   @override
   String get cancel => 'रद्द करें';
@@ -339,7 +339,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get next => 'आगे';
 
   @override
-  String get create => 'Create';
+  String get create => 'बनाएँ';
 
   @override
   String get mfaTitle => 'दो-कारक प्रमाणीकरण';
@@ -382,7 +382,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String accountSignOutTitle(String identifier) {
-    return 'Sign out of $identifier?';
+    return '$identifier से साइन आउट करें?';
   }
 
   @override
@@ -971,7 +971,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get inviteAcceptSomeone => 'कोई';
 
   @override
-  String get mentionUnknownChannel => 'unknown-channel';
+  String get mentionUnknownChannel => 'अज्ञात-चैनल';
 
   @override
   String get channelAccessDeniedTitle => 'चैनल का एक्सेस नहीं है';
@@ -1566,14 +1566,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'आपकी या उनकी दोस्त सूची भर गई है। किसी को हटाएँ और फिर से कोशिश करें।';
 
   @override
-  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+  String get addFriendSendFailedTitle => 'फ्रेंड रिक्वेस्ट नहीं भेजी जा सकी';
 
   @override
   String get addFriendSendFailedMessage =>
-      'Couldn\'t send the friend request. Try again.';
+      'फ्रेंड रिक्वेस्ट नहीं भेजी जा सकी। फिर से कोशिश करें।';
 
   @override
-  String get userTagBot => 'BOT';
+  String get userTagBot => 'बॉट';
 
   @override
   String get userTagSystem => 'सिस्टम';
@@ -4191,7 +4191,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatAttachmentSpoiler => 'स्पॉइलर';
 
   @override
-  String get chatMediaSpoilerOverlayLabel => 'SPOILER';
+  String get chatMediaSpoilerOverlayLabel => 'स्पॉइलर';
 
   @override
   String get chatMediaSpoilerRevealLabel => 'स्पॉइलर दिखाएँ';
@@ -4569,93 +4569,94 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'आपके खाते में थीम सिंक नहीं हो सकी। कृपया पुनः प्रयास करें।';
 
   @override
-  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+  String get lookAndFeelThemeColorsTitle => 'थीम के रंग';
 
   @override
   String get lookAndFeelThemeColorsConfigureDescription =>
-      'Customize individual theme colors for this device.';
+      'इस डिवाइस के लिए थीम के अलग-अलग रंग कस्टमाइज़ करें।';
 
   @override
   String lookAndFeelThemeColorsEditingMode(String mode) {
-    return 'Editing $mode';
+    return '$mode एडिट हो रहा है';
   }
 
   @override
-  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+  String get lookAndFeelThemeColorsSyncSectionTitle => 'थीम स्टूडियो सिंक';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioLabel =>
-      'Use colors from Theme Studio';
+      'थीम स्टूडियो के रंग इस्तेमाल करें';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioDescription =>
-      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+      'चालू होने पर, डेस्कटॉप पर थीम स्टूडियो में किए गए रंग बदलाव इस डिवाइस पर लागू होते हैं। बंद होने पर, यह डिवाइस अपने रंग रखता है।';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioLabel =>
-      'Send color changes to Theme Studio';
+      'रंग बदलाव थीम स्टूडियो को भेजें';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioDescription =>
-      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+      'चालू होने पर, यहाँ बदले गए रंग आपके दूसरे डिवाइस पर थीम स्टूडियो में सिंक होते हैं। बंद होने पर, डेस्कटॉप थीम स्टूडियो अपने रंग रखता है।';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
-      'Desktop Theme Studio color changes will not apply on this device.';
+      'डेस्कटॉप थीम स्टूडियो के रंग बदलाव इस डिवाइस पर लागू नहीं होंगे।';
 
   @override
-  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'मुख्य रंग';
 
   @override
   String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
-      'If you have a chat wallpaper set, you won\'t see this color.';
+      'अगर आपने चैट वॉलपेपर सेट किया है, तो आपको यह रंग नहीं दिखेगा।';
 
   @override
   String lookAndFeelThemeColorsResetForMode(String mode) {
-    return 'Reset all colors for $mode';
+    return '$mode के सभी रंग रीसेट करें';
   }
 
   @override
-  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+  String get lookAndFeelThemeColorsResetConfirmTitle =>
+      'थीम के रंग रीसेट करें?';
 
   @override
   String lookAndFeelThemeColorsResetConfirmBody(String mode) {
-    return 'This removes your custom color overrides for $mode on this device.';
+    return 'इससे इस डिवाइस पर $mode के लिए आपके कस्टम रंग हट जाएंगे।';
   }
 
   @override
-  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'ब्रांड और बटन';
 
   @override
-  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'चैट और मैसेज';
 
   @override
-  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+  String get lookAndFeelThemeColorsGroupSidebars => 'साइडबार और नेविगेशन';
 
   @override
-  String get lookAndFeelThemeColorsGroupText => 'Text';
+  String get lookAndFeelThemeColorsGroupText => 'टेक्स्ट';
 
   @override
-  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+  String get lookAndFeelThemeColorsGroupHeaders => 'हेडर';
 
   @override
-  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+  String get lookAndFeelThemeColorsGroupStatus => 'स्टेटस';
 
   @override
-  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'एम्बेड और मेंशन';
 
   @override
-  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'एक्सेंट और अलर्ट';
 
   @override
-  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+  String get lookAndFeelThemeColorsGroupControls => 'सतहें और कंट्रोल';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+  String get lookAndFeelChatFontScalingTitle => 'चैट फ़ॉन्ट स्केलिंग';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'चैट एरिया में फ़ॉन्ट का साइज़ एडजस्ट करें।';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'चैट फ़ॉन्ट का आकार';
@@ -4862,11 +4863,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
-      'Open communities to your last channel';
+      'कम्युनिटी को आपके आखिरी चैनल पर खोलें';
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
-      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
+      'किसी कम्युनिटी पर टैप करने से आप सीधे उस चैनल पर पहुँचते हैं जिसे आपने वहाँ आखिरी बार देखा था। उसकी चैनल सूची देखने के लिए दाईं ओर स्वाइप करें।';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'चैनल सूची';
@@ -5868,7 +5869,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   }
 
   @override
-  String get shellResizeSidebar => 'Resize sidebar';
+  String get shellResizeSidebar => 'साइडबार का आकार बदलें';
 
   @override
   String get voiceConnectionTitle => 'वॉइस कनेक्शन';
@@ -6046,10 +6047,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'वर्तमान स्ट्रीम देखना बंद करें';
 
   @override
-  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+  String get voiceScreenShareEnterFullscreenTooltip => 'फ़ुल स्क्रीन';
 
   @override
-  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+  String get voiceScreenShareExitFullscreenTooltip =>
+      'फ़ुल स्क्रीन से बाहर निकलें';
 
   @override
   String get voiceOwnScreenShareTitle => 'आप प्रसारण कर रहे हैं';
@@ -6169,22 +6171,22 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String notificationsMentionedYouIn(String author, String place) {
-    return '$author mentioned you in $place:';
+    return '$author ने $place में आपको मेंशन किया:';
   }
 
   @override
   String notificationsRepliedToYouIn(String author, String place) {
-    return '$author replied to you in $place:';
+    return '$author ने $place में आपको जवाब दिया:';
   }
 
   @override
   String notificationsMentionedYou(String author) {
-    return '$author mentioned you:';
+    return '$author ने आपको मेंशन किया:';
   }
 
   @override
   String notificationsRepliedToYou(String author) {
-    return '$author replied to you:';
+    return '$author ने आपको जवाब दिया:';
   }
 
   @override
@@ -6193,13 +6195,13 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsSendReply => 'Send a reply';
+  String get notificationsSendReply => 'जवाब भेजें';
 
   @override
-  String get notificationsRecentActivity => 'Recent activity';
+  String get notificationsRecentActivity => 'हाल की गतिविधि';
 
   @override
-  String get notificationsRemoveNotification => 'Remove notification';
+  String get notificationsRemoveNotification => 'सूचना हटाएँ';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -6778,7 +6780,8 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get doubleTapReactionHint => 'किसी मैसेज पर डबल टैप करके रिएक्ट करें:';
 
   @override
-  String get doubleTapEditHint => 'Double tap your own message to edit it';
+  String get doubleTapEditHint =>
+      'अपना मैसेज एडिट करने के लिए उस पर डबल टैप करें';
 
   @override
   String get doubleTapReactionEdit => 'एडिट करें';
@@ -6790,61 +6793,62 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get doubleTapReactionEditSubtitle => 'डबल टैप इमोजी चुनें';
 
   @override
-  String get messagesMediaGesturesSectionTitle => 'Gestures';
+  String get messagesMediaGesturesSectionTitle => 'जेस्चर';
 
   @override
   String get messagesMediaGesturesSectionDescription =>
-      'Configure double tap and swipe on messages.';
+      'मैसेज पर डबल टैप और स्वाइप कॉन्फ़िगर करें।';
 
   @override
-  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+  String get messagesMediaGesturesReactionLabel => 'रिएक्शन इमोजी';
 
   @override
   String get messagesMediaGesturesReactionDescription =>
-      'Used when double tap is set to add a reaction.';
+      'तब इस्तेमाल होता है जब डबल टैप रिएक्शन जोड़ने पर सेट हो।';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesDoubleTapActionLabel => 'डबल टैप एक्शन';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesDoubleTapActionReactName => 'रिएक्शन जोड़ें';
 
   @override
   String get messagesMediaGesturesDoubleTapActionReactDescription =>
-      'Adds your default double-tap emoji as a reaction.';
+      'आपकी डिफ़ॉल्ट डबल टैप इमोजी को रिएक्शन के रूप में जोड़ता है।';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName => 'मैसेज एडिट करें';
 
   @override
   String get messagesMediaGesturesDoubleTapActionEditDescription =>
-      'Opens the editor on messages you sent. Other messages are unchanged.';
+      'आपके भेजे गए मैसेज पर एडिटर खोलता है। दूसरे मैसेज पर कुछ नहीं होता।';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'कुछ नहीं';
 
   @override
   String get messagesMediaGesturesDoubleTapActionNoneDescription =>
-      'Double tap is disabled.';
+      'डबल टैप बंद है।';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftLabel =>
-      'Swipe right to left';
+      'दाएँ से बाएँ स्वाइप करें';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+  String get messagesMediaGesturesSwipeRightToLeftReplyName =>
+      'स्वाइप करके जवाब दें';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
-      'Swipe a message to reply, with hold to edit your own messages.';
+      'जवाब देने के लिए मैसेज को स्वाइप करें, और अपने मैसेज एडिट करने के लिए दबाकर रखें।';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
-      'Show channel details';
+      'चैनल विवरण दिखाएँ';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
-      'Swipe a message or tap the channel header to open channel details in a side panel.';
+      'साइड पैनल में चैनल विवरण खोलने के लिए मैसेज को स्वाइप करें या चैनल हेडर पर टैप करें।';
 
   @override
   String get chatMessageEdit => 'मैसेज एडिट करें';
@@ -7190,7 +7194,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get chatMessageDeleteAttachmentConfirmDescription =>
-      'Are you sure you want to delete this attachment?';
+      'क्या आप वाकई यह अटैचमेंट डिलीट करना चाहते हैं?';
 
   @override
   String get chatMessageEditAttachmentAltText => 'ऑल्ट टेक्स्ट एडिट करें';
@@ -7250,7 +7254,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatMessagesLoadError => 'संदेश लोड नहीं हो सके।';
 
   @override
-  String get chatMessagesFailedToLoad => 'Messages failed to load';
+  String get chatMessagesFailedToLoad => 'मैसेज लोड नहीं हो पाए';
 
   @override
   String get chatReplyMentionOverrideTitle => 'मेंशन प्राथमिकता ओवरराइड करें?';
@@ -7281,10 +7285,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'जवाब दिए गए यूज़र का ज़िक्र करें';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'चालू';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'बंद';
 
   @override
   String get chatReplyCancel => 'जवाब रद्द करें';
@@ -7296,10 +7300,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatEditNoChanges => 'सेव करने के लिए कोई बदलाव नहीं';
 
   @override
-  String get chatEditFailed => 'Your message didn\'t update';
+  String get chatEditFailed => 'आपका मैसेज अपडेट नहीं हुआ';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'फिर से एडिट करें';
 
   @override
   String get chatChannelNotReady =>
@@ -7412,7 +7416,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'स्टिकर';
 
   @override
-  String get composerAutocompleteEmojisHeading => 'Emojis';
+  String get composerAutocompleteEmojisHeading => 'इमोजी';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIF';
@@ -8192,26 +8196,26 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String channelDuplicateHelper(String channelName) {
-    return 'The new channel will reuse the permissions from $channelName.';
+    return 'नया चैनल $channelName की अनुमतियों का इस्तेमाल करेगा।';
   }
 
   @override
   String channelDuplicateVoiceHelper(String channelName) {
-    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+    return 'नया वॉइस चैनल $channelName की अनुमतियों, यूज़र सीमा और बिटरेट का इस्तेमाल करेगा।';
   }
 
   @override
-  String get channelMenuMoveToCategory => 'Move to category';
+  String get channelMenuMoveToCategory => 'श्रेणी में ले जाएँ';
 
   @override
-  String get channelMenuNoCategory => 'No category';
+  String get channelMenuNoCategory => 'कोई श्रेणी नहीं';
 
   @override
-  String get channelMoveCategoryFullTitle => 'Category full';
+  String get channelMoveCategoryFullTitle => 'श्रेणी भरी हुई है';
 
   @override
   String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
-    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+    return 'इस श्रेणी में पहले से ही अधिकतम $maxChannelsPerCategory चैनल हैं।';
   }
 
   @override
@@ -8466,61 +8470,62 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'साफ़ करें';
 
   @override
-  String get channelSearchRemoveRecent => 'Remove from recent searches';
+  String get channelSearchRemoveRecent => 'हाल की खोजों से हटाएँ';
 
   @override
-  String get channelSearchFiltersButton => 'Filters';
+  String get channelSearchFiltersButton => 'फ़िल्टर';
 
   @override
-  String get channelSearchFilterMenuTitle => 'Filter results';
+  String get channelSearchFilterMenuTitle => 'नतीजे फ़िल्टर करें';
 
   @override
-  String get channelSearchFilterFromLabel => 'From a specific person';
+  String get channelSearchFilterFromLabel => 'किसी खास व्यक्ति से';
 
   @override
-  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+  String get channelSearchFilterMentionsLabel =>
+      'किसी खास व्यक्ति को मेंशन करता है';
 
   @override
-  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+  String get channelSearchFilterHasLabel => 'इसमें लिंक, फ़ाइल या एम्बेड है';
 
   @override
-  String get channelSearchFilterInLabel => 'In a specific channel';
+  String get channelSearchFilterInLabel => 'किसी खास चैनल में';
 
   @override
-  String get channelSearchFilterDuringLabel => 'Sent on a date';
+  String get channelSearchFilterDuringLabel => 'किसी तारीख को भेजा गया';
 
   @override
-  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+  String get channelSearchFilterBeforeLabel => 'किसी तारीख से पहले भेजा गया';
 
   @override
-  String get channelSearchFilterAfterLabel => 'Sent after a date';
+  String get channelSearchFilterAfterLabel => 'किसी तारीख के बाद भेजा गया';
 
   @override
-  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+  String get channelSearchFilterPinnedLabel => 'पिन किया हुआ या नहीं';
 
   @override
-  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+  String get channelSearchFilterAuthorTypeLabel => 'लेखक के प्रकार के अनुसार';
 
   @override
-  String get channelSearchDateToday => 'Today';
+  String get channelSearchDateToday => 'आज';
 
   @override
-  String get channelSearchDateYesterday => 'Yesterday';
+  String get channelSearchDateYesterday => 'कल';
 
   @override
-  String get channelSearchTabMessages => 'Messages';
+  String get channelSearchTabMessages => 'मैसेज';
 
   @override
-  String get channelSearchTabImages => 'Images';
+  String get channelSearchTabImages => 'इमेज';
 
   @override
-  String get channelSearchTabPins => 'Pins';
+  String get channelSearchTabPins => 'पिन';
 
   @override
-  String get channelSearchTabLinks => 'Links';
+  String get channelSearchTabLinks => 'लिंक';
 
   @override
-  String get channelSearchTabFiles => 'Files';
+  String get channelSearchTabFiles => 'फ़ाइलें';
 
   @override
   String channelSearchTabCount(String label, int count) {
@@ -8979,22 +8984,22 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get groupDmInviteRevoked => 'इनवाइट रद्द किया गया';
 
   @override
-  String get groupDmRemoveFromGroup => 'Remove from group';
+  String get groupDmRemoveFromGroup => 'ग्रुप से हटाएँ';
 
   @override
   String groupDmRemoveFromGroupConfirm(String userName) {
-    return 'Remove $userName from the group?';
+    return 'क्या आप $userName को ग्रुप से हटाना चाहते हैं?';
   }
 
   @override
-  String get groupDmRemoveFromGroupAction => 'Remove';
+  String get groupDmRemoveFromGroupAction => 'हटाएँ';
 
   @override
-  String get groupDmRemovedFromGroup => 'Removed from group';
+  String get groupDmRemovedFromGroup => 'ग्रुप से हटा दिया गया';
 
   @override
   String groupDmRemoveFromGroupFailed(String userName) {
-    return '$userName is still in the group. Try again in a moment.';
+    return '$userName अभी भी ग्रुप में है। थोड़ी देर में फिर से कोशिश करें।';
   }
 
   @override
@@ -9064,10 +9069,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get chatAttachmentLibraryLimitedBody =>
-      'Only photos and videos you chose to share are shown here.';
+      'यहाँ सिर्फ़ वही फ़ोटो और वीडियो दिखते हैं जिन्हें आपने शेयर करने के लिए चुना है।';
 
   @override
-  String get chatAttachmentLibraryLimitedManage => 'Manage';
+  String get chatAttachmentLibraryLimitedManage => 'प्रबंधित करें';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9145,16 +9150,16 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get userSettingsGroupYourAccount => 'आपका खाता';
 
   @override
-  String get userSettingsGroupBilling => 'Billing';
+  String get userSettingsGroupBilling => 'बिलिंग';
 
   @override
-  String get userSettingsGroupApplication => 'Application';
+  String get userSettingsGroupApplication => 'ऐप्लिकेशन';
 
   @override
-  String get userSettingsGroupDeveloper => 'Developer';
+  String get userSettingsGroupDeveloper => 'डेवलपर';
 
   @override
-  String get userSettingsGroupStaffOnly => 'Staff-only';
+  String get userSettingsGroupStaffOnly => 'सिर्फ़ स्टाफ़';
 
   @override
   String get userSettingsSearchPlaceholder => 'सेटिंग्स खोजें…';
@@ -9166,14 +9171,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'कोई सेटिंग्स नहीं मिलीं';
 
   @override
-  String get userSettingsCopyLinkToSection => 'Copy link to section';
+  String get userSettingsCopyLinkToSection => 'अनुभाग का लिंक कॉपी करें';
 
   @override
-  String get userSettingsCopyLinkToPage => 'Copy link to page';
+  String get userSettingsCopyLinkToPage => 'पेज का लिंक कॉपी करें';
 
   @override
   String userSettingsJumpLinkPremiumPage(String productName) {
-    return '$productName page';
+    return '$productName पेज';
   }
 
   @override
@@ -9703,7 +9708,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'जब तक आप रद्द नहीं करते, तब तक App Store के माध्यम से अपने आप नवीनीकृत होता रहता है।';
 
   @override
-  String get storePlutoniumRestorePurchases => 'Restore purchases';
+  String get storePlutoniumRestorePurchases => 'खरीदारी रीस्टोर करें';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
@@ -10159,36 +10164,36 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'सूचनाएं चालू नहीं की जा सकीं। जारी रखने के लिए सूचना अनुमति दें।';
 
   @override
-  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+  String get notificationsPushDeliveryProviderLabel => 'पुश प्रोवाइडर';
 
   @override
-  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+  String get notificationsPushDeliveryDistributorLabel => 'डिस्ट्रीब्यूटर';
 
   @override
-  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+  String get notificationsPushDeliveryDistributorNone => 'चुना नहीं गया';
 
   @override
   String get notificationsPushDeliveryDistributorSheetTitle =>
-      'Choose distributor';
+      'डिस्ट्रीब्यूटर चुनें';
 
   @override
   String get notificationsPushDeliveryDistributorPickAccessibility =>
-      'Change push distributor';
+      'पुश डिस्ट्रीब्यूटर बदलें';
 
   @override
-  String get notificationsPushDeliveryGatewayLabel => 'Gateway';
+  String get notificationsPushDeliveryGatewayLabel => 'गेटवे';
 
   @override
-  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push रिले';
 
   @override
-  String get notificationsPushDeliveryRelayInUse => 'In use';
+  String get notificationsPushDeliveryRelayInUse => 'इस्तेमाल में';
 
   @override
-  String get notificationsPushDeliveryRelayOff => 'Off';
+  String get notificationsPushDeliveryRelayOff => 'बंद';
 
   @override
-  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+  String get notificationsPushDeliveryRelayNotUsed => 'इस्तेमाल नहीं हो रहा';
 
   @override
   String get notificationsPushRelaySectionTitle => 'पुश सूचना रिले';
@@ -10310,17 +10315,17 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get appIconSectionDescriptionAndroid =>
-      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+      'चुनें कि आपकी होम स्क्रीन पर कौन-सा आइकॉन दिखे। आइकॉन बदलने पर ऐप रीस्टार्ट हो जाता है।';
 
   @override
-  String get appIconAndroidChangeTitle => 'Change app icon?';
+  String get appIconAndroidChangeTitle => 'ऐप आइकॉन बदलें?';
 
   @override
   String get appIconAndroidChangeDescription =>
-      'Fluxer will restart to apply the new home screen icon.';
+      'नया होम स्क्रीन आइकॉन लागू करने के लिए Fluxer रीस्टार्ट होगा।';
 
   @override
-  String get appIconAndroidChangeConfirm => 'Change icon';
+  String get appIconAndroidChangeConfirm => 'आइकॉन बदलें';
 
   @override
   String get appIconOptionDefault => 'डिफ़ॉल्ट';
@@ -10332,22 +10337,22 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get appIconOptionSweden => 'स्वीडन';
 
   @override
-  String get appIconOptionGreyscale => 'Greyscale';
+  String get appIconOptionGreyscale => 'ग्रेस्केल';
 
   @override
-  String get appIconOptionRainbow => 'Rainbow';
+  String get appIconOptionRainbow => 'इंद्रधनुष';
 
   @override
-  String get appIconOptionWaves => 'Waves';
+  String get appIconOptionWaves => 'लहरें';
 
   @override
-  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+  String get appIconOptionChromaticAberration => 'क्रोमैटिक एबरेशन';
 
   @override
-  String get appIconOptionDefaultBrutalist => 'Brutalist';
+  String get appIconOptionDefaultBrutalist => 'ब्रूटलिस्ट';
 
   @override
-  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+  String get appIconOptionGreyscaleBrutalist => 'ग्रेस्केल ब्रूटलिस्ट';
 
   @override
   String get appIconUnsupported => 'इस डिवाइस पर ऐप आइकन बदलना उपलब्ध नहीं है।';
@@ -10360,7 +10365,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+      'क्रैश और परफ़ॉर्मेंस डेटा शेयर करके इस ऐप के बग ठीक करने में Fluxer की मदद करें। यह डिफ़ॉल्ट रूप से बंद है।';
 
   @override
   String get advancedPerformanceReportingLabel =>
@@ -10368,29 +10373,30 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। इनमें इंस्टेंस के नाम, ID या मैसेज की सामग्री शामिल नहीं होती।';
 
   @override
-  String get observabilityReportingConsentTitle => 'Help fix crashes';
+  String get observabilityReportingConsentTitle =>
+      'क्रैश ठीक करने में मदद करें';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+      'Fluxer अचानक बंद हो गया। गुमनाम क्रैश और एरर डेटा शेयर करने से हमें समस्याएँ जल्दी ठीक करने में मदद मिलती है।';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+      'रिपोर्ट में क्रैश लॉग, एरर और बुनियादी परफ़ॉर्मेंस डेटा शामिल होता है। ये किसी तीसरे पक्ष के साथ शेयर नहीं की जातीं और आप इसे कभी भी बंद कर सकते हैं।';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
-    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+    return 'बाद में चालू करने के लिए, सेटिंग्स → एडवांस → $reportingToggle खोलें।';
   }
 
   @override
-  String get observabilityReportingConsentAgree => 'Send crash reports';
+  String get observabilityReportingConsentAgree => 'क्रैश रिपोर्ट भेजें';
 
   @override
-  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
+  String get observabilityReportingConsentDecline => 'चालू नहीं करना है';
 
   @override
   String get advancedSettingsConfigure => 'कॉन्फ़िगर करें';
@@ -10937,7 +10943,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Fluxer लैब्स से जुड़ें';
 
   @override
-  String get userSettingsGiveFeedback => 'Give feedback';
+  String get userSettingsGiveFeedback => 'फ़ीडबैक दें';
 
   @override
   String get userSettingsNavAppLicenses => 'ऐप लाइसेंस';
@@ -10999,7 +11005,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'टेक्स्ट चैनल';
 
   @override
-  String get quickSwitcherSectionThreads => 'Threads';
+  String get quickSwitcherSectionThreads => 'थ्रेड्स';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'वॉइस चैनल';
@@ -11104,7 +11110,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get uiConfirm => 'पुष्टि करें';
 
   @override
-  String get uiUnderstood => 'Understood';
+  String get uiUnderstood => 'समझ आ गया';
 
   @override
   String get uiLoading => 'लोड हो रहा है';
@@ -11204,38 +11210,39 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String instanceConnectFailedDomain(String domain) {
-    return 'Couldn\'t connect to $domain. Try again.';
+    return '$domain से कनेक्ट नहीं हो सका। फिर से प्रयास करें।';
   }
 
   @override
   String get instanceInvalidDiscoveryResponse =>
-      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+      'इस इंस्टेंस का कॉन्फ़िगरेशन पढ़ा नहीं जा सका। पता जाँचें और फिर से कोशिश करें।';
 
   @override
   String instanceOutdatedForClient(String domain) {
-    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+    return 'यह इंस्टेंस इस ऐप के लिए पुराना है। $domain चलाने वाले से Fluxer अपडेट करने को कहें।';
   }
 
   @override
   String instanceRequiresNewerClient(String domain) {
-    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+    return '$domain पर Fluxer का ऐसा वर्शन चलता है जो इस ऐप से नया है। ऐप अपडेट करें और फिर से कोशिश करें।';
   }
 
   @override
-  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+  String get instanceCompatibilityTitle =>
+      'इस इंस्टेंस का इस्तेमाल नहीं हो सकता';
 
   @override
-  String get instanceCompatibilityRetry => 'Try again';
+  String get instanceCompatibilityRetry => 'फिर से कोशिश करें';
 
   @override
-  String get instanceCompatibilityUpdateApp => 'Update app';
+  String get instanceCompatibilityUpdateApp => 'ऐप अपडेट करें';
 
   @override
   String get instanceCompatibilityStatusPagePrompt =>
-      'Check the status page for updates.';
+      'अपडेट के लिए स्टेटस पेज देखें।';
 
   @override
-  String get instanceCompatibilityStatusPageLink => 'status page';
+  String get instanceCompatibilityStatusPageLink => 'स्टेटस पेज';
 
   @override
   String get recentInstances => 'हाल के इंस्टेंस';
@@ -11613,7 +11620,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get guildNavbarNameLabel => 'नाम';
 
   @override
-  String get guildNavbarNewChannelHint => 'new-channel';
+  String get guildNavbarNewChannelHint => 'नया-चैनल';
 
   @override
   String get guildNavbarUrlLabel => 'यूआरएल';
@@ -11625,17 +11632,17 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get guildNavbarChannelTypeSelection => 'चैनल का प्रकार चुनें';
 
   @override
-  String get guildNavbarPrivateChannel => 'Private channel';
+  String get guildNavbarPrivateChannel => 'निजी चैनल';
 
   @override
   String get guildNavbarPrivateChannelDescription =>
-      'Only selected members and roles will be able to view this channel.';
+      'केवल चुने गए सदस्य और रोल ही इस चैनल को देख पाएंगे।';
 
   @override
-  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+  String get guildNavbarAddMembersOrRoles => 'सदस्य या रोल जोड़ें';
 
   @override
-  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+  String get guildNavbarAddMembersOrRolesHint => 'सदस्य या रोल खोजें';
 
   @override
   String get guildNavbarCreateCategory => 'श्रेणी बनाएँ';
@@ -12293,333 +12300,334 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get permissionSetVoiceRegion => 'वॉइस क्षेत्र सेट करें';
 
   @override
-  String get permissionManageThreads => 'Manage threads';
+  String get permissionManageThreads => 'थ्रेड प्रबंधित करें';
 
   @override
   String get permissionManageThreadsDescription =>
-      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+      'थ्रेड का नाम बदलें, उन्हें आर्काइव, लॉक और डिलीट करें, उनका स्लोमोड सेट करें, और निजी थ्रेड देखें।';
 
   @override
-  String get permissionCreatePublicThreads => 'Create public threads';
+  String get permissionCreatePublicThreads => 'सार्वजनिक थ्रेड बनाएँ';
 
   @override
   String get permissionCreatePublicThreadsDescription =>
-      'Start threads that everyone who can view the channel can see.';
+      'ऐसे थ्रेड शुरू करें जिन्हें चैनल देख सकने वाला हर कोई देख सके।';
 
   @override
-  String get permissionCreatePrivateThreads => 'Create private threads';
+  String get permissionCreatePrivateThreads => 'निजी थ्रेड बनाएँ';
 
   @override
   String get permissionCreatePrivateThreadsDescription =>
-      'Start invite-only threads.';
+      'सिर्फ़ इनवाइट वाले थ्रेड शुरू करें।';
 
   @override
-  String get permissionSendMessagesInThreads => 'Send messages in threads';
+  String get permissionSendMessagesInThreads => 'थ्रेड में मैसेज भेजें';
 
   @override
   String get permissionSendMessagesInThreadsDescription =>
-      'Send messages in threads and forum posts.';
+      'थ्रेड और फ़ोरम पोस्ट में मैसेज भेजें।';
 
   @override
-  String get threadErrorArchived => 'This thread is archived.';
+  String get threadErrorArchived => 'यह थ्रेड आर्काइव है।';
 
   @override
   String get threadErrorLocked =>
-      'This thread is locked. Only moderators can post or reopen it.';
+      'यह थ्रेड लॉक है। सिर्फ़ मॉडरेटर ही इसमें पोस्ट कर सकते हैं या इसे फिर से खोल सकते हैं।';
 
   @override
   String get threadErrorAlreadyCreated =>
-      'A thread already exists for this message.';
+      'इस मैसेज के लिए पहले से एक थ्रेड मौजूद है।';
 
   @override
   String get threadErrorMaxActiveThreads =>
-      'This community has reached its limit of active threads.';
+      'यह कम्युनिटी सक्रिय थ्रेड की अपनी सीमा तक पहुँच गई है।';
 
   @override
   String get threadErrorMaxMembers =>
-      'This thread has reached its member limit.';
+      'यह थ्रेड अपनी सदस्य सीमा तक पहुँच गया है।';
 
   @override
   String get threadErrorMaxPinnedPosts =>
-      'Only one post can be pinned in this forum.';
+      'इस फ़ोरम में सिर्फ़ एक पोस्ट पिन की जा सकती है।';
 
   @override
-  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+  String get threadErrorMaxForumTags =>
+      'एक फ़ोरम में ज़्यादा से ज़्यादा 20 टैग हो सकते हैं।';
 
   @override
-  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+  String get threadErrorTagNamesUnique => 'टैग के नाम अलग-अलग होने चाहिए।';
 
   @override
   String get threadErrorNoTagsForEveryone =>
-      'Add a tag everyone can use before requiring tags.';
+      'टैग ज़रूरी करने से पहले ऐसा टैग जोड़ें जिसे हर कोई इस्तेमाल कर सके।';
 
   @override
-  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+  String get threadErrorTagRequired => 'इस पोस्ट के लिए कम से कम एक टैग चुनें।';
 
   @override
-  String get threadErrorUnknownTag =>
-      'One of the selected tags no longer exists.';
+  String get threadErrorUnknownTag => 'चुने गए टैग में से एक अब मौजूद नहीं है।';
 
   @override
   String get threadErrorInvalidNotificationSettings =>
-      'Those notification settings are not valid for a thread.';
+      'ये सूचना सेटिंग्स थ्रेड के लिए मान्य नहीं हैं।';
 
   @override
   String get threadErrorSearchIndexNotReady =>
-      'Posts are still being indexed. Try again in a moment.';
+      'पोस्ट अभी इंडेक्स हो रही हैं। थोड़ी देर में फिर से कोशिश करें।';
 
   @override
   String get threadErrorInvalidChannelType =>
-      'This action is not available in this channel.';
+      'यह एक्शन इस चैनल में उपलब्ध नहीं है।';
 
   @override
-  String get threadCreate => 'Create thread';
+  String get threadCreate => 'थ्रेड बनाएँ';
 
   @override
-  String get threadName => 'Thread name';
+  String get threadName => 'थ्रेड का नाम';
 
   @override
-  String get threadNameRequired => 'Give the thread a name.';
+  String get threadNameRequired => 'थ्रेड को एक नाम दें।';
 
   @override
-  String get threadNewThreadPlaceholder => 'New thread';
+  String get threadNewThreadPlaceholder => 'नया थ्रेड';
 
   @override
-  String get threadPrivate => 'Private thread';
+  String get threadPrivate => 'निजी थ्रेड';
 
   @override
   String get threadPrivateDescription =>
-      'Only people you invite and moderators can see this thread.';
+      'केवल आपके द्वारा आमंत्रित लोग और मॉडरेटर ही इस थ्रेड को देख सकते हैं।';
 
   @override
-  String get threadStarterMessage => 'Message';
+  String get threadStarterMessage => 'मैसेज';
 
   @override
   String get threadStarterMessagePlaceholder =>
-      'Enter a message to start the conversation!';
+      'बातचीत शुरू करने के लिए एक मैसेज लिखें!';
 
   @override
   String threadCreateCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can start another thread in $seconds seconds.',
-      one: 'You can start another thread in 1 second.',
+      other: 'आप $seconds सेकंड में दूसरा थ्रेड शुरू कर सकते हैं।',
+      one: 'आप 1 सेकंड में दूसरा थ्रेड शुरू कर सकते हैं।',
     );
     return '$_temp0';
   }
 
   @override
   String threadCreateFailed(String detail) {
-    return 'Could not start the thread: $detail';
+    return 'थ्रेड शुरू नहीं हो सका: $detail';
   }
 
   @override
-  String get threadBrowserTitle => 'Threads';
+  String get threadBrowserTitle => 'थ्रेड्स';
 
   @override
-  String get threadBrowserActive => 'Active';
+  String get threadBrowserActive => 'सक्रिय';
 
   @override
-  String get threadBrowserArchived => 'Closed';
+  String get threadBrowserArchived => 'बंद';
 
   @override
-  String get threadBrowserJoined => 'Joined';
+  String get threadBrowserJoined => 'जॉइन किए गए';
 
   @override
-  String get threadBrowserOtherActive => 'Other active threads';
+  String get threadBrowserOtherActive => 'अन्य सक्रिय थ्रेड';
 
   @override
-  String get threadBrowserPublic => 'Public threads';
+  String get threadBrowserPublic => 'सार्वजनिक थ्रेड';
 
   @override
-  String get threadBrowserPrivate => 'Private threads';
+  String get threadBrowserPrivate => 'निजी थ्रेड';
 
   @override
   String get threadBrowserEmpty =>
-      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+      'कोई थ्रेड नहीं है। थ्रेड एक अस्थायी टेक्स्ट चैनल है, जिससे आप किसी एक बातचीत पर ध्यान बनाए रख सकते हैं।';
 
   @override
-  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+  String get threadBrowserArchivedEmpty => 'कोई बंद थ्रेड नहीं है।';
 
   @override
-  String get threadBrowserLoadMore => 'Load more';
+  String get threadBrowserLoadMore => 'और लोड करें';
 
   @override
-  String get threadBrowserSearch => 'Search threads';
+  String get threadBrowserSearch => 'थ्रेड खोजें';
 
   @override
-  String get threadBrowserSearchEmpty => 'No threads match';
+  String get threadBrowserSearchEmpty => 'कोई थ्रेड मेल नहीं खाता';
 
   @override
   String get threadBrowserSearchEmptyHint =>
-      'Try a different name or check the other tab.';
+      'कोई दूसरा नाम आज़माएँ या दूसरा टैब देखें।';
 
   @override
   String get threadBrowserSearchFailed =>
-      'Couldn\'t search threads. Try again later.';
+      'थ्रेड्स में खोज नहीं हो सकी। बाद में फिर से प्रयास करें।';
 
   @override
   String get threadBrowserSearchIndexing =>
-      'Search is getting ready for this community. Trying again shortly...';
+      'इस कम्युनिटी के लिए खोज तैयार हो रही है। थोड़ी देर में फिर से कोशिश की जाएगी...';
 
   @override
   String threadMessageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count messages',
-      one: '1 message',
+      other: '$count मैसेज',
+      one: '1 मैसेज',
     );
     return '$_temp0';
   }
 
   @override
   String get threadFailedToMentionSomeRoles =>
-      'Some mentioned roles were not added to this thread.';
+      'मेंशन किए गए कुछ रोल इस थ्रेड में नहीं जोड़े गए।';
 
   @override
-  String get threadMembers => 'Thread members';
+  String get threadMembers => 'थ्रेड सदस्य';
 
   @override
   String threadMembersCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '1 member',
+      other: '$count सदस्य',
+      one: '1 सदस्य',
     );
     return '$_temp0';
   }
 
   @override
-  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+  String get threadMembersEmpty => 'अभी तक किसी ने यह थ्रेड जॉइन नहीं किया है।';
 
   @override
   String threadRemoveMember(String name) {
-    return 'Remove $name from thread';
+    return '$name को थ्रेड से हटाएँ';
   }
 
   @override
-  String get threadJoin => 'Join thread';
+  String get threadJoin => 'थ्रेड में शामिल हों';
 
   @override
-  String get threadLeave => 'Leave thread';
+  String get threadLeave => 'थ्रेड छोड़ें';
 
   @override
   String get threadJoinNotice =>
-      'Join this thread to follow it in your channel list and get notifications.';
+      'इस थ्रेड को अपनी चैनल सूची में फ़ॉलो करने और सूचनाएँ पाने के लिए इसमें शामिल हों।';
 
   @override
   String get threadArchivedNotice =>
-      'This thread is closed. Sending a message will open it again.';
+      'यह थ्रेड बंद है। मैसेज भेजने पर यह फिर से खुल जाएगा।';
 
   @override
   String get threadLockedNotice =>
-      'This thread is locked. Only moderators can send messages.';
+      'यह थ्रेड लॉक है। केवल मॉडरेटर ही मैसेज भेज सकते हैं।';
 
   @override
-  String get threadArchive => 'Close thread';
+  String get threadArchive => 'थ्रेड बंद करें';
 
   @override
-  String get threadUnarchive => 'Open thread again';
+  String get threadUnarchive => 'थ्रेड फिर से खोलें';
 
   @override
-  String get threadLock => 'Lock thread';
+  String get threadLock => 'थ्रेड लॉक करें';
 
   @override
-  String get threadUnlock => 'Unlock thread';
+  String get threadUnlock => 'थ्रेड अनलॉक करें';
 
   @override
-  String get threadDelete => 'Delete thread';
+  String get threadDelete => 'थ्रेड मिटाएँ';
 
   @override
   String threadDeleteConfirm(String threadName) {
-    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+    return 'क्या आप वाकई $threadName को डिलीट करना चाहते हैं? इसे वापस नहीं किया जा सकता।';
   }
 
   @override
-  String get threadDeleted => 'Thread deleted';
+  String get threadDeleted => 'थ्रेड हटा दिया गया';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => 'पढ़ा गया मार्क करें';
 
   @override
-  String get threadMute => 'Mute thread';
+  String get threadMute => 'थ्रेड म्यूट करें';
 
   @override
-  String get threadUnmute => 'Unmute thread';
+  String get threadUnmute => 'थ्रेड को अनम्यूट करें';
 
   @override
-  String get threadMuted => 'Thread muted';
+  String get threadMuted => 'थ्रेड म्यूट किया गया';
 
   @override
-  String get threadUnmuted => 'Thread unmuted';
+  String get threadUnmuted => 'थ्रेड अनम्यूट किया गया';
 
   @override
-  String get threadNotificationSettings => 'Notification settings';
+  String get threadNotificationSettings => 'सूचना सेटिंग';
 
   @override
-  String get threadNotificationParentDefault => 'Use channel default';
+  String get threadNotificationParentDefault => 'चैनल डिफ़ॉल्ट का उपयोग करें';
 
   @override
-  String get threadCopyLink => 'Copy link';
+  String get threadCopyLink => 'लिंक कॉपी करें';
 
   @override
-  String get threadCopyId => 'Copy thread ID';
+  String get threadCopyId => 'थ्रेड आईडी कॉपी करें';
 
   @override
-  String get threadMoreOptions => 'More options';
+  String get threadMoreOptions => 'ज़्यादा विकल्प';
 
   @override
-  String get threadSettings => 'Thread settings';
+  String get threadSettings => 'थ्रेड सेटिंग';
 
   @override
-  String get threadSettingsSaved => 'Thread settings saved';
+  String get threadSettingsSaved => 'थ्रेड सेटिंग्स सेव हो गईं';
 
   @override
-  String get threadAutoArchive => 'Hide after inactivity';
+  String get threadAutoArchive => 'निष्क्रियता के बाद छिपाएँ';
 
   @override
   String get threadAutoArchiveDescription =>
-      'The thread stops showing in the channel list after this period of inactivity.';
+      'इतने समय तक कोई गतिविधि न होने पर थ्रेड चैनल सूची में दिखना बंद हो जाता है।';
 
   @override
-  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+  String get threadDefaultAutoArchive =>
+      'निष्क्रियता के बाद डिफ़ॉल्ट रूप से छिपाएँ';
 
   @override
   String get threadDefaultAutoArchiveDescription =>
-      'New threads stop showing in the channel list after this period of inactivity.';
+      'इतने समय तक कोई गतिविधि न होने पर नए थ्रेड चैनल सूची में दिखना बंद हो जाते हैं।';
 
   @override
-  String get threadDefaultSlowmode => 'Default thread slowmode';
+  String get threadDefaultSlowmode => 'डिफ़ॉल्ट थ्रेड स्लोमोड';
 
   @override
-  String get threadAutoArchiveOneHour => '1 Hour';
+  String get threadAutoArchiveOneHour => '1 घंटा';
 
   @override
-  String get threadAutoArchiveOneDay => '24 Hours';
+  String get threadAutoArchiveOneDay => '24 घंटे';
 
   @override
-  String get threadAutoArchiveThreeDays => '3 Days';
+  String get threadAutoArchiveThreeDays => '3 दिन';
 
   @override
-  String get threadAutoArchiveOneWeek => '1 Week';
+  String get threadAutoArchiveOneWeek => '1 हफ़्ता';
 
   @override
-  String get threadInvitable => 'Allow anyone to invite';
+  String get threadInvitable => 'सभी सदस्यों को इनवाइट करने की अनुमति दें';
 
   @override
   String get threadInvitableDescription =>
-      'Members of this private thread can add other people.';
+      'इस निजी थ्रेड के सदस्य दूसरे लोगों को जोड़ सकते हैं।';
 
   @override
   String threadStartedBy(String name) {
-    return 'Started by $name';
+    return '$name ने शुरू किया';
   }
 
   @override
-  String get threadStarterDeleted => 'Original message was deleted.';
+  String get threadStarterDeleted => 'मूल मैसेज मिटा दिया गया था।';
 
   @override
   String systemThreadCreated(
@@ -12627,18 +12635,18 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
     String threadLink,
     String allThreadsLink,
   ) {
-    return '$username started a thread: $threadLink. See $allThreadsLink.';
+    return '$username ने एक थ्रेड शुरू किया: $threadLink। $allThreadsLink देखें।';
   }
 
   @override
-  String get systemThreadCreatedAllThreadsLink => 'all threads';
+  String get systemThreadCreatedAllThreadsLink => 'सभी थ्रेड';
 
   @override
-  String get systemThreadCreatedThreadFallback => 'a thread';
+  String get systemThreadCreatedThreadFallback => 'एक थ्रेड';
 
   @override
   String systemPreviewThreadCreated(String username) {
-    return '$username started a thread.';
+    return '$username ने एक थ्रेड शुरू किया।';
   }
 
   @override
@@ -12759,13 +12767,13 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get auditLogActionChannelDelete => 'चैनल मिटा दिया गया';
 
   @override
-  String get auditLogActionThreadCreate => 'Thread created';
+  String get auditLogActionThreadCreate => 'थ्रेड बनाया गया';
 
   @override
-  String get auditLogActionThreadUpdate => 'Thread updated';
+  String get auditLogActionThreadUpdate => 'थ्रेड अपडेट किया गया';
 
   @override
-  String get auditLogActionThreadDelete => 'Thread deleted';
+  String get auditLogActionThreadDelete => 'थ्रेड हटा दिया गया';
 
   @override
   String get auditLogActionChannelOverwriteCreate => 'चैनल ओवरराइट जोड़ा गया';
@@ -12883,17 +12891,17 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String auditLogSummaryThreadCreate(String actor, String target) {
-    return '$actor started the thread $target.';
+    return '$actor ने थ्रेड $target शुरू किया।';
   }
 
   @override
   String auditLogSummaryThreadUpdate(String actor, String target) {
-    return '$actor updated the thread $target.';
+    return '$actor ने थ्रेड $target अपडेट किया।';
   }
 
   @override
   String auditLogSummaryThreadDelete(String actor, String target) {
-    return '$actor deleted the thread $target.';
+    return '$actor ने थ्रेड $target डिलीट किया।';
   }
 
   @override
@@ -13195,49 +13203,48 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'कम्युनिटी आइकॉन अपडेट किया गया।';
 
   @override
-  String get auditLogChangePausedInvites => 'Paused invites.';
+  String get auditLogChangePausedInvites => 'इनवाइट रोके गए।';
 
   @override
-  String get auditLogChangeResumedInvites => 'Resumed invites.';
+  String get auditLogChangeResumedInvites => 'इनवाइट फिर से चालू किए गए।';
 
   @override
-  String get auditLogChangeTurnedOnDetachedBanner =>
-      'Turned on the detached banner.';
+  String get auditLogChangeTurnedOnDetachedBanner => 'अलग बैनर चालू किया गया।';
 
   @override
-  String get auditLogChangeTurnedOffDetachedBanner =>
-      'Turned off the detached banner.';
+  String get auditLogChangeTurnedOffDetachedBanner => 'अलग बैनर बंद किया गया।';
 
   @override
   String get auditLogChangeAllowedFlexibleChannelNames =>
-      'Allowed flexible text channel names.';
+      'लचीले टेक्स्ट चैनल नामों की अनुमति दी गई।';
 
   @override
   String get auditLogChangeDisallowedFlexibleChannelNames =>
-      'Stopped allowing flexible text channel names.';
+      'लचीले टेक्स्ट चैनल नामों की अनुमति बंद की गई।';
 
   @override
-  String get auditLogChangeHidOwnerCrown => 'Hid the community owner crown.';
+  String get auditLogChangeHidOwnerCrown =>
+      'कम्युनिटी मालिक का ताज छिपाया गया।';
 
   @override
   String get auditLogChangeShowedOwnerCrown =>
-      'Stopped hiding the community owner crown.';
+      'कम्युनिटी मालिक का ताज छिपाना बंद किया गया।';
 
   @override
   String get auditLogChangeAllowedEmojiCloning =>
-      'Allowed others to clone this community\'s emojis.';
+      'दूसरों को इस कम्युनिटी के इमोजी क्लोन करने की अनुमति दी गई।';
 
   @override
   String get auditLogChangeStoppedEmojiCloning =>
-      'Stopped allowing others to clone this community\'s emojis.';
+      'दूसरों को इस कम्युनिटी के इमोजी क्लोन करने की अनुमति बंद की गई।';
 
   @override
   String get auditLogChangeAllowedStickerCloning =>
-      'Allowed others to clone this community\'s stickers.';
+      'दूसरों को इस कम्युनिटी के स्टिकर क्लोन करने की अनुमति दी गई।';
 
   @override
   String get auditLogChangeStoppedStickerCloning =>
-      'Stopped allowing others to clone this community\'s stickers.';
+      'दूसरों को इस कम्युनिटी के स्टिकर क्लोन करने की अनुमति बंद की गई।';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
@@ -13859,16 +13866,16 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'इस कम्युनिटी को हटाया नहीं जा सका';
 
   @override
-  String get guildSettingsCategoryExpressions => 'Expressions';
+  String get guildSettingsCategoryExpressions => 'एक्सप्रेशन';
 
   @override
-  String get guildSettingsCategoryCommunity => 'Community';
+  String get guildSettingsCategoryCommunity => 'कम्युनिटी';
 
   @override
-  String get guildSettingsCategoryIntegrations => 'Integrations';
+  String get guildSettingsCategoryIntegrations => 'इंटीग्रेशन';
 
   @override
-  String get guildSettingsCategoryPeople => 'People';
+  String get guildSettingsCategoryPeople => 'लोग';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'ब्रांडिंग';
@@ -14748,7 +14755,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'पेस्ट नहीं कर सका। क्लिपबोर्ड खाली था या इस ऐप के लिए ब्लॉक था।';
 
   @override
-  String get homeQuickActionDms => 'DMs';
+  String get homeQuickActionDms => 'DM';
 
   @override
   String get assistantNeedsLogin => 'पहले Fluxer खोलें और साइन इन करें।';
@@ -15079,74 +15086,75 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get channelDetailsUnsupportedChannel => 'असमर्थित चैनल';
 
   @override
-  String get forumChannelTypeForum => 'Forum';
+  String get forumChannelTypeForum => 'फ़ोरम';
 
   @override
   String get forumChannelTypeForumDescription =>
-      'Posts organized by topic and tags';
+      'विषय और टैग के अनुसार व्यवस्थित पोस्ट';
 
   @override
-  String get forumChannelTypeMedia => 'Media';
+  String get forumChannelTypeMedia => 'मीडिया';
 
   @override
   String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos';
+      'इमेज और वीडियो पर आधारित पोस्ट';
 
   @override
-  String get forumNewPost => 'New post';
+  String get forumNewPost => 'नई पोस्ट';
 
   @override
-  String get forumNewMediaPost => 'New media post';
+  String get forumNewMediaPost => 'नई मीडिया पोस्ट';
 
   @override
-  String get forumSearchPosts => 'Search posts';
+  String get forumSearchPosts => 'पोस्ट खोजें';
 
   @override
-  String get forumViewOptions => 'Sort and view';
+  String get forumViewOptions => 'सॉर्ट और व्यू';
 
   @override
   String get forumSearchIndexing =>
-      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+      'इस कम्युनिटी के लिए खोज अभी तैयार हो रही है। तैयार होते ही पोस्ट यहाँ दिखेंगी।';
 
   @override
-  String get forumNoPosts => 'There are no posts yet';
+  String get forumNoPosts => 'अभी तक कोई पोस्ट नहीं है';
 
   @override
-  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+  String get forumNoPostsHint =>
+      'यहाँ बातचीत शुरू करने वाले पहले व्यक्ति बनें।';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search';
+  String get forumNoSearchResults => 'कोई पोस्ट आपकी खोज से मेल नहीं खाती';
 
   @override
   String get forumNoSearchResultsHint =>
-      'Try different words or clear the tag filter.';
+      'अलग शब्द आज़माएँ या टैग फ़िल्टर साफ़ करें।';
 
   @override
-  String get forumCreateFirstPost => 'Create the first post';
+  String get forumCreateFirstPost => 'पहली पोस्ट बनाएँ';
 
   @override
-  String get forumOlderPosts => 'Older posts';
+  String get forumOlderPosts => 'पुरानी पोस्ट';
 
   @override
-  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+  String get forumPostsLoadFailed => 'पोस्ट लोड नहीं हो सकीं।';
 
   @override
-  String get forumRetry => 'Try again';
+  String get forumRetry => 'फिर से कोशिश करें';
 
   @override
-  String get forumPostPinned => 'Pinned';
+  String get forumPostPinned => 'पिन किया हुआ';
 
   @override
-  String get forumPostLocked => 'Locked';
+  String get forumPostLocked => 'लॉक है';
 
   @override
-  String get forumPostArchived => 'Archived';
+  String get forumPostArchived => 'आर्काइव है';
 
   @override
   String get forumPostNewBadge => 'नया';
 
   @override
-  String get forumPostStarterDeleted => 'The original message was deleted.';
+  String get forumPostStarterDeleted => 'मूल मैसेज डिलीट कर दिया गया था।';
 
   @override
   String forumPostSnippet(String author, String content) {
@@ -15165,927 +15173,933 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   }
 
   @override
-  String get forumPostReact => 'Add the default reaction';
+  String get forumPostReact => 'डिफ़ॉल्ट रिएक्शन जोड़ें';
 
   @override
-  String get forumOpenPost => 'Open post';
+  String get forumOpenPost => 'पोस्ट खोलें';
 
   @override
-  String get forumEditTags => 'Edit tags';
+  String get forumEditTags => 'टैग एडिट करें';
 
   @override
-  String get forumSaveTags => 'Save tags';
+  String get forumSaveTags => 'टैग सेव करें';
 
   @override
   String forumTagsLimitHint(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pick up to $count tags.',
-      one: 'Pick up to 1 tag.',
+      other: 'ज़्यादा से ज़्यादा $count टैग चुनें।',
+      one: 'ज़्यादा से ज़्यादा 1 टैग चुनें।',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPinPost => 'Pin post';
+  String get forumPinPost => 'पोस्ट पिन करें';
 
   @override
-  String get forumUnpinPost => 'Unpin post';
+  String get forumUnpinPost => 'पोस्ट को अनपिन करें';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead => 'पढ़ा गया मार्क करें';
 
   @override
-  String get forumCopyPostLink => 'Copy link';
+  String get forumCopyPostLink => 'लिंक कॉपी करें';
 
   @override
-  String get forumPostGuidelines => 'Post guidelines';
+  String get forumPostGuidelines => 'पोस्ट गाइडलाइन';
 
   @override
   String get forumGuidelinesPlaceholder =>
-      'Tell people what to post here and how to post it.';
+      'लोगों को बताएँ कि यहाँ क्या पोस्ट करना है और कैसे पोस्ट करना है।';
 
   @override
-  String get forumPostTitle => 'Title';
+  String get forumPostTitle => 'शीर्षक';
 
   @override
-  String get forumPostMessage => 'Message';
+  String get forumPostMessage => 'मैसेज';
 
   @override
-  String get forumPostMessagePlaceholder =>
-      'Write the first message of your post';
+  String get forumPostMessagePlaceholder => 'अपनी पोस्ट का पहला मैसेज लिखें';
 
   @override
-  String get forumPostMediaPlaceholder => 'Add a caption';
+  String get forumPostMediaPlaceholder => 'कैप्शन जोड़ें';
 
   @override
-  String get forumPostTags => 'Tags';
+  String get forumPostTags => 'टैग';
 
   @override
-  String get forumPostTagsRequired => 'Tags (required)';
+  String get forumPostTagsRequired => 'टैग (ज़रूरी)';
 
   @override
-  String get forumPostAddMedia => 'Add media';
+  String get forumPostAddMedia => 'मीडिया जोड़ें';
 
   @override
-  String get forumPostAddFile => 'Add file';
+  String get forumPostAddFile => 'फ़ाइल जोड़ें';
 
   @override
-  String get forumPostRemoveAttachment => 'Remove attachment';
+  String get forumPostRemoveAttachment => 'अटैचमेंट हटाएँ';
 
   @override
-  String get forumPostSubmit => 'Post';
+  String get forumPostSubmit => 'पोस्ट करें';
 
   @override
-  String get forumPostTitleRequired => 'Give your post a title.';
+  String get forumPostTitleRequired => 'अपनी पोस्ट को एक शीर्षक दें।';
 
   @override
   String get forumPostMediaRequired =>
-      'Add at least one image or video to post here.';
+      'यहाँ पोस्ट करने के लिए कम से कम एक इमेज या वीडियो जोड़ें।';
 
   @override
-  String get forumPostContentRequired => 'Write a message or add a file.';
+  String get forumPostContentRequired => 'कोई मैसेज लिखें या फ़ाइल जोड़ें।';
 
   @override
-  String get forumSortLatestActivity => 'Recently active';
+  String get forumSortLatestActivity => 'हाल ही में सक्रिय';
 
   @override
-  String get forumSortCreationTime => 'Date posted';
+  String get forumSortCreationTime => 'पोस्ट की तारीख';
 
   @override
-  String get forumLayoutList => 'List view';
+  String get forumLayoutList => 'लिस्ट व्यू';
 
   @override
-  String get forumLayoutGallery => 'Gallery view';
+  String get forumLayoutGallery => 'गैलरी व्यू';
 
   @override
-  String get forumNewPostsUnread => 'Show unread for new posts';
+  String get forumNewPostsUnread => 'नई पोस्ट पर अपठित दिखाएँ';
 
   @override
   String get forumNewPostsUnreadDescription =>
-      'Mark this channel unread when someone creates a post.';
+      'जब कोई पोस्ट बनाए, तो इस चैनल को अपठित मार्क करें।';
 
   @override
-  String get forumPostSlowmode => 'Post slowmode';
+  String get forumPostSlowmode => 'पोस्ट स्लोमोड';
 
   @override
   String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
-    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'पोस्ट बनाने के बीच इंतज़ार करें। \"$bypassSlowmodePermissionLabel\" वाले लोग इसे बायपास कर सकते हैं।';
   }
 
   @override
-  String get forumMessageSlowmode => 'Message slowmode in posts';
+  String get forumMessageSlowmode => 'पोस्ट में मैसेज स्लोमोड';
 
   @override
   String get forumMessageSlowmodeDescription =>
-      'Slowmode applied to messages in new posts.';
+      'नई पोस्ट में मैसेज पर लागू होने वाला स्लोमोड।';
 
   @override
-  String get forumDefaultAutoArchive => 'Hide after inactivity';
+  String get forumDefaultAutoArchive => 'निष्क्रियता के बाद छिपाएँ';
 
   @override
   String get forumDefaultAutoArchiveDescription =>
-      'New posts are archived after this long without activity.';
+      'इतने समय तक कोई गतिविधि न होने पर नई पोस्ट आर्काइव हो जाती हैं।';
 
   @override
-  String get forumDefaultReaction => 'Default reaction';
+  String get forumDefaultReaction => 'डिफ़ॉल्ट रिएक्शन';
 
   @override
-  String get forumSetDefaultReaction => 'Pick an emoji';
+  String get forumSetDefaultReaction => 'एक इमोजी चुनें';
 
   @override
-  String get forumChangeDefaultReaction => 'Change';
+  String get forumChangeDefaultReaction => 'बदलें';
 
   @override
-  String get forumRemoveDefaultReaction => 'Remove';
+  String get forumRemoveDefaultReaction => 'हटाएँ';
 
   @override
-  String get forumDefaultSortOrder => 'Default sort order';
+  String get forumDefaultSortOrder => 'डिफ़ॉल्ट सॉर्ट ऑर्डर';
 
   @override
-  String get forumDefaultLayout => 'Default layout';
+  String get forumDefaultLayout => 'डिफ़ॉल्ट लेआउट';
 
   @override
-  String get forumTagMatchSetting => 'Tag filter';
+  String get forumTagMatchSetting => 'टैग फ़िल्टर';
 
   @override
-  String get forumTagMatchSome => 'Match any selected tag';
+  String get forumTagMatchSome => 'चुने गए किसी भी टैग से मेल खाए';
 
   @override
-  String get forumTagMatchAll => 'Match all selected tags';
+  String get forumTagMatchAll => 'चुने गए सभी टैग से मेल खाए';
 
   @override
-  String get forumRequireTag => 'Require tags';
+  String get forumRequireTag => 'टैग ज़रूरी करें';
 
   @override
   String get forumRequireTagDescription =>
-      'People must pick at least one tag when they create a post.';
+      'पोस्ट बनाते समय लोगों को कम से कम एक टैग चुनना होगा।';
 
   @override
-  String get forumHideMediaDownloads => 'Hide media download options';
+  String get forumHideMediaDownloads => 'मीडिया डाउनलोड विकल्प छिपाएँ';
 
   @override
   String get forumHideMediaDownloadsDescription =>
-      'Hide download, open in browser and copy link for images and videos in posts.';
+      'पोस्ट में इमेज और वीडियो के लिए डाउनलोड, ब्राउज़र में खोलें और लिंक कॉपी करें विकल्प छिपाएँ।';
 
   @override
   String forumTagsTitle(int count, int max) {
-    return 'Tags ($count/$max)';
+    return 'टैग ($count/$max)';
   }
 
   @override
   String get forumTagsDescription =>
-      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+      'टैग से लोग पोस्ट ढूंढ और फ़िल्टर कर सकते हैं। मॉडरेटेड टैग सिर्फ़ मॉडरेटर ही लगा सकते हैं।';
 
   @override
-  String get forumCreateTag => 'Create tag';
+  String get forumCreateTag => 'टैग बनाएँ';
 
   @override
-  String get forumEditTag => 'Edit tag';
+  String get forumEditTag => 'टैग एडिट करें';
 
   @override
-  String get forumSaveTag => 'Save tag';
+  String get forumSaveTag => 'टैग सेव करें';
 
   @override
-  String get forumDeleteTag => 'Delete tag';
+  String get forumDeleteTag => 'टैग मिटाएँ';
 
   @override
-  String get forumTagName => 'Tag name';
+  String get forumTagName => 'टैग का नाम';
 
   @override
-  String get forumTagEmoji => 'Emoji';
+  String get forumTagEmoji => 'इमोजी';
 
   @override
-  String get forumTagRemoveEmoji => 'Remove emoji';
+  String get forumTagRemoveEmoji => 'इमोजी हटाएँ';
 
   @override
-  String get forumTagModerated => 'Only moderators can apply';
+  String get forumTagModerated => 'सिर्फ़ मॉडरेटर लगा सकते हैं';
 
   @override
   String get forumTagModeratedDescription =>
-      'Only members who can manage threads can apply or remove this tag.';
+      'सिर्फ़ वे सदस्य जो थ्रेड प्रबंधित कर सकते हैं, इस टैग को लगा या हटा सकते हैं।';
 
   @override
-  String get forumTagModeratedBadge => 'Moderated';
+  String get forumTagModeratedBadge => 'मॉडरेटेड';
 
   @override
   String forumPostCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can post again in $seconds seconds.',
-      one: 'You can post again in 1 second.',
+      other: 'आप $seconds सेकंड में फिर से पोस्ट कर सकते हैं।',
+      one: 'आप 1 सेकंड में फिर से पोस्ट कर सकते हैं।',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceP2pStartTitle => 'Start in P2P mode?';
+  String get voiceP2pStartTitle => 'P2P मोड में शुरू करें?';
 
   @override
   String voiceP2pStartDescription(int maxParticipants) {
-    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+    return 'ऑडियो और वीडियो प्रतिभागियों के बीच सीधे जाते हैं, जिससे लेटेंसी कम होती है। दूसरे प्रतिभागी आपका IP एड्रेस देख सकते हैं। ज़्यादा से ज़्यादा $maxParticipants लोग हिस्सा ले सकते हैं। जो सीधे कनेक्ट नहीं कर पाता, वह तब तक हिस्सा नहीं ले सकता जब तक कोई स्टैंडर्ड कॉल पर स्विच न करे।';
   }
 
   @override
-  String get voiceP2pStartConfirm => 'Start in P2P mode';
+  String get voiceP2pStartConfirm => 'P2P मोड में शुरू करें';
 
   @override
-  String get voiceP2pStartStandard => 'Start standard call';
+  String get voiceP2pStartStandard => 'स्टैंडर्ड कॉल शुरू करें';
 
   @override
-  String get voiceP2pJoinTitle => 'Join a P2P call?';
+  String get voiceP2pJoinTitle => 'P2P कॉल में शामिल हों?';
 
   @override
   String voiceP2pJoinDescription(int maxParticipants) {
-    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+    return 'यह कॉल प्रतिभागियों को सीधे कनेक्ट करती है। दूसरे प्रतिभागी आपका IP एड्रेस देख सकते हैं। ज़्यादा से ज़्यादा $maxParticipants लोग हिस्सा ले सकते हैं। अगर आप सीधे कनेक्ट नहीं कर पाते, तो आप तब तक हिस्सा नहीं ले सकते जब तक कोई स्टैंडर्ड कॉल पर स्विच न करे।';
   }
 
   @override
   String voiceP2pPinnedJoinDescription(int maxParticipants) {
-    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+    return 'इस चैनल में सिर्फ़ P2P कॉल की अनुमति है। प्रतिभागी सीधे कनेक्ट होते हैं और आपका IP एड्रेस देख सकते हैं। ज़्यादा से ज़्यादा $maxParticipants लोग हिस्सा ले सकते हैं। अगर आप सीधे कनेक्ट नहीं कर पाते, तो आप हिस्सा नहीं ले सकते।';
   }
 
   @override
-  String get voiceP2pJoinConfirm => 'Join';
+  String get voiceP2pJoinConfirm => 'शामिल हों';
 
   @override
-  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+  String get voiceP2pAlwaysAgreeLabel => 'दोबारा न पूछें, हमेशा सहमति दें';
 
   @override
   String get voiceP2pAlwaysAgreeSettingLabel =>
-      'Always agree to join P2P calls';
+      'P2P कॉल में शामिल होने के लिए हमेशा सहमति दें';
 
   @override
   String get voiceP2pAlwaysAgreeSettingDescription =>
-      'Join P2P calls without asking. Other participants can see your IP address.';
+      'बिना पूछे P2P कॉल में शामिल हों। दूसरे प्रतिभागी आपका IP एड्रेस देख सकते हैं।';
 
   @override
   String get voiceP2pIndicatorLabel => 'P2P';
 
   @override
   String get voiceP2pIndicatorDescription =>
-      'Direct connection. Media is encrypted between participants.';
+      'सीधा कनेक्शन। मीडिया प्रतिभागियों के बीच एन्क्रिप्टेड है।';
 
   @override
-  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+  String get voiceP2pSwitchToStandard => 'स्टैंडर्ड कॉल पर स्विच करें';
 
   @override
   String get voiceP2pSwitchToStandardDescription =>
-      'Everyone in the call moves to a standard call through the server.';
+      'कॉल में मौजूद सभी लोग सर्वर के ज़रिए स्टैंडर्ड कॉल पर चले जाते हैं।';
 
   @override
   String get voiceP2pPeerFailedDescription =>
-      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+      'सीधा कनेक्शन नहीं बन सका। कॉल छोड़ें या सभी को स्टैंडर्ड कॉल पर स्विच करें।';
 
   @override
-  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+  String get voiceP2pUnavailableError => 'अभी P2P कॉल उपलब्ध नहीं हैं।';
 
   @override
   String get voiceP2pConsentRequiredError =>
-      'This call is P2P and needs your agreement to join.';
+      'यह P2P कॉल है और इसमें शामिल होने के लिए आपकी सहमति ज़रूरी है।';
 
   @override
-  String get voiceChannelFullError => 'This call is full.';
+  String get voiceChannelFullError => 'यह कॉल भर चुकी है।';
 
   @override
   String get voiceP2pScreenShareUnavailable =>
-      'Screen sharing from this device is not available in P2P calls.';
+      'P2P कॉल में इस डिवाइस से स्क्रीन शेयर करना उपलब्ध नहीं है।';
 
   @override
-  String get channelMenuJoinP2p => 'Start P2P call';
+  String get channelMenuJoinP2p => 'P2P कॉल शुरू करें';
 
   @override
-  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+  String get channelSettingsRtcP2pLabel => 'सिर्फ़ P2P कॉल';
 
   @override
   String channelSettingsRtcP2pDescription(int maxParticipants) {
-    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+    return 'प्रतिभागी सीधे कनेक्ट होते हैं और एक-दूसरे का IP एड्रेस देख सकते हैं। शामिल होने से पहले सभी को सहमति देनी होगी। ज़्यादा से ज़्यादा $maxParticipants लोग हिस्सा ले सकते हैं।';
   }
 
   @override
   String voiceP2pPeerFailedTitle(String name) {
-    return 'Cannot connect directly to $name';
+    return '$name से सीधे कनेक्ट नहीं हो सका';
   }
 
   @override
   String get favoritesRenameCategory => 'श्रेणी का नाम बदलें';
 
   @override
-  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+  String get friendAcceptFailedTitle =>
+      'फ्रेंड रिक्वेस्ट स्वीकार नहीं की जा सकी';
 
   @override
   String get friendAcceptUnavailable =>
-      'That friend request is no longer available. Refresh and try again.';
+      'वह फ्रेंड रिक्वेस्ट अब उपलब्ध नहीं है। रीफ़्रेश करें और फिर से कोशिश करें।';
 
   @override
   String get friendAcceptClaimToAccept =>
-      'Finish signing up to accept friend requests.';
+      'फ्रेंड रिक्वेस्ट स्वीकार करने के लिए साइन अप पूरा करें।';
 
   @override
   String get friendAcceptFailedMessage =>
-      'Couldn\'t accept the friend request. Try again.';
+      'फ्रेंड रिक्वेस्ट स्वीकार नहीं की जा सकी। फिर से कोशिश करें।';
 
   @override
-  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+  String get friendCancelFailedTitle => 'फ्रेंड रिक्वेस्ट रद्द नहीं की जा सकी';
 
   @override
-  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+  String get friendIgnoreFailedTitle =>
+      'फ्रेंड रिक्वेस्ट को अनदेखा नहीं किया जा सका';
 
   @override
   String get friendIgnoreFailedMessage =>
-      'Couldn\'t ignore the friend request. Try again.';
+      'फ्रेंड रिक्वेस्ट को अनदेखा नहीं किया जा सका। फिर से कोशिश करें।';
 
   @override
-  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+  String get friendRemoveFailedTitle => 'दोस्त को हटाया नहीं जा सका';
 
   @override
   String get friendRemoveFailedMessage =>
-      'Couldn\'t remove this friend. Try again.';
+      'इस दोस्त को हटाया नहीं जा सका। फिर से कोशिश करें।';
 
   @override
-  String get userBlockFailedTitle => 'Couldn\'t block user';
+  String get userBlockFailedTitle => 'यूज़र को ब्लॉक नहीं किया जा सका';
 
   @override
-  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+  String get userBlockSystemAccount => 'इस अकाउंट को ब्लॉक नहीं किया जा सकता।';
 
   @override
-  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+  String get userBlockFailedMessage =>
+      'इस यूज़र को ब्लॉक नहीं किया जा सका। फिर से कोशिश करें।';
 
   @override
-  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+  String get userUnblockFailedTitle => 'यूज़र को अनब्लॉक नहीं किया जा सका';
 
   @override
   String get userUnblockFailedMessage =>
-      'Couldn\'t unblock this user. Try again.';
+      'इस यूज़र को अनब्लॉक नहीं किया जा सका। फिर से कोशिश करें।';
 
   @override
   String friendCancelRequestConfirmDescription(String userName) {
-    return 'Cancel your friend request to $userName?';
+    return 'क्या आप $userName को भेजी गई अपनी फ्रेंड रिक्वेस्ट रद्द करना चाहते हैं?';
   }
 
   @override
-  String get errorSomethingWentWrongTitle => 'Something went wrong';
+  String get errorSomethingWentWrongTitle => 'कुछ गड़बड़ हो गई';
 
   @override
   String get errorUnexpectedTryAgain =>
-      'An unexpected error occurred. Try again.';
+      'कोई अनपेक्षित गड़बड़ी हुई। फिर से कोशिश करें।';
 
   @override
-  String get errorMessagingPausedTitle => 'Messaging is paused';
+  String get errorMessagingPausedTitle => 'मैसेजिंग अभी रुकी हुई है';
 
   @override
   String get errorMessagingPausedMessage =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'आपके अकाउंट पर मैसेजिंग अभी रुकी हुई है। आगे बढ़ने के लिए अपना ईमेल देखें, बस एक आसान स्टेप पूरा करना है।';
 
   @override
-  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+  String get errorFeatureDisabledTitle => 'सुविधा अस्थायी रूप से बंद है';
 
   @override
   String get errorFeatureDisabledMessage =>
-      'This feature is paused. Try again later.';
+      'यह सुविधा रोकी गई है। बाद में फिर से कोशिश करें।';
 
   @override
-  String get dmErrorStartConversationTitle =>
-      'Couldn\'t start this conversation';
+  String get dmErrorStartConversationTitle => 'यह बातचीत शुरू नहीं की जा सकी';
 
   @override
   String get dmErrorCannotMessageMessage =>
-      'They might not be accepting messages from you, or you no longer share a community.';
+      'हो सकता है कि वे आपसे मैसेज स्वीकार न कर रहे हों या अब आप किसी कम्युनिटी में साथ न हों।';
 
   @override
   String get dmErrorUnknownUserMessage =>
-      'This user no longer exists. Refresh and try again.';
+      'यह यूज़र अब मौजूद नहीं है। रीफ़्रेश करें और फिर से कोशिश करें।';
 
   @override
   String get dmErrorClaimMessage =>
-      'You need to claim your account before you can start a direct message.';
+      'डायरेक्ट मैसेज शुरू करने से पहले आपको अपना अकाउंट क्लेम करना होगा।';
 
   @override
   String get dmErrorVerifyEmailMessage =>
-      'You need to verify your email address before you can start a direct message.';
+      'डायरेक्ट मैसेज शुरू करने से पहले आपको अपना ईमेल पता वेरिफ़ाई करना होगा।';
 
   @override
-  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+  String get dmErrorTooManyRecipientsTitle =>
+      'इस ग्रुप में बहुत ज़्यादा लोग हैं';
 
   @override
   String get dmErrorTooManyRecipientsMessage =>
-      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+      'आपने ग्रुप DM की अनुमत संख्या से ज़्यादा लोगों को जोड़ दिया है। कुछ लोगों को हटाएँ और फिर से कोशिश करें।';
 
   @override
-  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+  String get dmErrorMaxGroupDmsTitle => 'आप ग्रुप DM की सीमा तक पहुँच गए हैं';
 
   @override
   String get dmErrorMaxGroupDmsMessage =>
-      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+      'आपके या जिसे आप जोड़ रहे हैं उसके पास पहले से ही अधिकतम ग्रुप DM खुले हैं। किसी एक को छोड़ें और फिर से कोशिश करें।';
 
   @override
-  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+  String get groupDmAddFailedTitle => 'ग्रुप में जोड़ा नहीं जा सका';
 
   @override
-  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+  String get groupDmInviteFailedTitle => 'इनवाइट लिंक नहीं बनाया जा सका';
 
   @override
-  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+  String get dmCloseFailedTitle => 'DM बंद नहीं कर पाए';
 
   @override
-  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+  String get groupDmLeaveFailedTitle => 'ग्रुप नहीं छोड़ पाए';
 
   @override
-  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+  String get inviteJoinFailedTitle => 'कम्युनिटी में शामिल नहीं हो सके';
 
   @override
   String get inviteErrorPausedMessage =>
-      'Admins paused invites — you can\'t join right now.';
+      'एडमिन ने इनवाइट रोक दिए हैं। आप अभी शामिल नहीं हो सकते।';
 
   @override
-  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+  String get inviteErrorAtCapacityTitle => 'कम्युनिटी की क्षमता पूरी हो गई';
 
   @override
   String get inviteErrorAtCapacityMessage =>
-      'This community has reached its maximum member limit and is not accepting new members at this time.';
+      'यह कम्युनिटी अपनी अधिकतम सदस्य संख्या तक पहुँच गई है और अभी नए सदस्यों को स्वीकार नहीं कर रही है।';
 
   @override
-  String get inviteErrorPresenceTitle => 'Gateway connection required';
+  String get inviteErrorPresenceTitle => 'गेटवे कनेक्शन ज़रूरी है';
 
   @override
   String get inviteErrorPresenceMessage =>
-      'Temporary invites need a live connection. Check yours and try again.';
+      'अस्थायी इनवाइट के लिए लाइव कनेक्शन चाहिए। अपना कनेक्शन जांचें और फिर से कोशिश करें।';
 
   @override
-  String get inviteErrorBannedTitle => 'You\'re banned';
+  String get inviteErrorBannedTitle => 'आपको बैन कर दिया गया है';
 
   @override
   String get inviteErrorBannedMessage =>
-      'You are banned from this community and cannot join.';
+      'आपको इस कम्युनिटी से बैन कर दिया गया है और आप इसमें शामिल नहीं हो सकते।';
 
   @override
-  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+  String get inviteErrorIpBannedTitle => 'आपका आईपी बैन है';
 
   @override
   String get inviteErrorIpBannedMessage =>
-      'Your IP address is banned from this community and you cannot join.';
+      'आपका आईपी पता इस कम्युनिटी से बैन कर दिया गया है और आप इसमें शामिल नहीं हो सकते।';
 
   @override
-  String get inviteErrorClaimTitle => 'Account verification required';
+  String get inviteErrorClaimTitle => 'अकाउंट वेरिफ़िकेशन ज़रूरी है';
 
   @override
   String get inviteErrorClaimMessage =>
-      'Add an email and password to your account first.';
+      'पहले अपने अकाउंट में ईमेल और पासवर्ड जोड़ें।';
 
   @override
-  String get leaveCommunityFailedTitle => 'Failed to leave community';
+  String get leaveCommunityFailedTitle => 'कम्युनिटी नहीं छोड़ पाए';
 
   @override
   String get leaveCommunityFailedMessage =>
-      'Couldn\'t leave right now. Try again in a moment.';
+      'अभी नहीं छोड़ा जा सका। कुछ देर में फिर से कोशिश करें।';
 
   @override
-  String get chatSendFailedTitle => 'Your message didn\'t send';
+  String get chatSendFailedTitle => 'आपका मैसेज भेजा नहीं जा सका';
 
   @override
-  String get chatSendFailedMessage => 'Try sending your message again.';
+  String get chatSendFailedMessage => 'अपना मैसेज फिर से भेजने की कोशिश करें।';
 
   @override
-  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+  String get chatSendTooQuickTitle => 'आप बहुत तेज़ी से मैसेज भेज रहे हैं';
 
   @override
   String get chatRateLimitedMessage =>
-      'Slow down — wait a moment before trying again.';
+      'थोड़ा धीरे — दोबारा कोशिश करने से पहले एक पल रुकें।';
 
   @override
-  String get chatMatureContentTitle => 'Mature content not allowed';
+  String get chatMatureContentTitle => 'वयस्क सामग्री की अनुमति नहीं है';
 
   @override
   String get chatMatureContentGuildMessage =>
-      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+      'यह चैनल वयस्क सामग्री के लिए चिह्नित नहीं है। वयस्क सामग्री सिर्फ़ उन्हीं चैनलों में भेजी जा सकती है जो वयस्क सामग्री के लिए चिह्नित हों। अगर उचित हो, तो इस चैनल को अपडेट करने के लिए किसी मॉडरेटर से कहें।';
 
   @override
   String chatMatureContentDmMessage(String settingsPath) {
-    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+    return 'आपने या जिस व्यक्ति को आप मैसेज भेज रहे हैं, उसने डायरेक्ट मैसेज में संवेदनशील मीडिया ब्लॉक करना चुना है। आप दोनों में से कोई भी इसे $settingsPath में बदल सकता है।';
   }
 
   @override
   String get chatMatureContentGroupDmMessage =>
-      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+      'यह ग्रुप वयस्क सामग्री के लिए चिह्नित नहीं है। अगर ग्रुप के सभी सदस्य 18 वर्ष या उससे अधिक उम्र के हैं, तो ग्रुप का मालिक ग्रुप की सेटिंग में वयस्क सामग्री चालू कर सकता है।';
 
   @override
-  String get chatFileTooLargeTitle => 'File size too large';
+  String get chatFileTooLargeTitle => 'फ़ाइल का साइज़ बहुत बड़ा है';
 
   @override
   String chatFileTooLargeMessage(String maxSize) {
-    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+    return 'आप जो फ़ाइलें अपलोड करने की कोशिश कर रहे हैं उनमें से एक या ज़्यादा फ़ाइलों का साइज़, प्रति फ़ाइल $maxSize की अधिकतम साइज़ सीमा से ज़्यादा है।';
   }
 
   @override
-  String get chatHeavyTitle => 'Whoa, this is heavy';
+  String get chatHeavyTitle => 'अरे, यह तो बहुत ज़्यादा है';
 
   @override
   String get chatReactionsHeavyMessage =>
-      'This is one heavy message. Some reactions need to be removed before you can add more.';
+      'यह एक भारी मैसेज है। और रिएक्शन जोड़ने से पहले आपको कुछ रिएक्शन हटाने होंगे।';
 
   @override
   String get chatReactionTimedOut =>
-      'You can\'t add new reactions while you\'re timed out.';
+      'टाइमआउट के दौरान आप नए रिएक्शन नहीं जोड़ सकते।';
 
   @override
   String chatTooManyAttachmentsMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '$count file',
+      other: '$count फ़ाइलें',
+      one: '$count फ़ाइल',
     );
-    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+    return 'आप एक बार में सिर्फ़ $_temp0 अपलोड कर सकते हैं। कम फ़ाइलों के साथ फिर से कोशिश करें।';
   }
 
   @override
-  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+  String get chatEditTooQuickTitle => 'आप बहुत तेज़ी से मैसेज एडिट कर रहे हैं';
 
   @override
-  String get chatEditFailedMessage => 'Try editing your message again.';
+  String get chatEditFailedMessage =>
+      'अपना मैसेज फिर से एडिट करने की कोशिश करें।';
 
   @override
-  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+  String get chatDeleteTooQuickTitle => 'आप बहुत तेज़ी से मैसेज मिटा रहे हैं';
 
   @override
   String get chatDeleteTooQuickMessage =>
-      'Wait a moment before deleting more messages.';
+      'और मैसेज डिलीट करने से पहले थोड़ा इंतज़ार करें।';
 
   @override
-  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+  String get chatDeleteFailedTitle => 'वह मैसेज डिलीट नहीं हो सका';
 
   @override
-  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+  String get chatDeleteFailedMessage => 'वह मैसेज फिर से मिटाने की कोशिश करें।';
 
   @override
-  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+  String get chatAttachmentDeleteFailedTitle => 'अटैचमेंट मिटाया नहीं जा सका';
 
   @override
   String get chatAttachmentDeleteFailedMessage =>
-      'Try deleting that attachment again.';
+      'उस अटैचमेंट को फिर से मिटाने की कोशिश करें।';
 
   @override
-  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+  String get chatAltTextFailedTitle => 'ऑल्ट टेक्स्ट अपडेट नहीं किया जा सका';
 
   @override
-  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+  String get chatAltTextUnknownMessage => 'यह मैसेज अब मौजूद नहीं है।';
 
   @override
-  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+  String get chatAltTextNoPermission => 'आप इस मैसेज को एडिट नहीं कर सकते हैं।';
 
   @override
   String get chatAltTextUnavailable =>
-      'Editing is temporarily unavailable. Please try again later.';
+      'एडिटिंग अस्थायी रूप से अनुपलब्ध है। कृपया बाद में फिर से कोशिश करें।';
 
   @override
   String get chatAltTextFailedMessage =>
-      'Couldn\'t update the alt text. Please try again.';
+      'ऑल्ट टेक्स्ट अपडेट नहीं किया जा सका। कृपया फिर से कोशिश करें।';
 
   @override
-  String get chatPinFailedTitle => 'Failed to pin message';
+  String get chatPinFailedTitle => 'मैसेज पिन नहीं हो पाया';
 
   @override
-  String get chatUnpinFailedTitle => 'Failed to unpin message';
+  String get chatUnpinFailedTitle => 'मैसेज अनपिन नहीं हो पाया';
 
   @override
-  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+  String get chatPinFailedMessage =>
+      'कुछ गड़बड़ हो गई। बाद में फिर से कोशिश करें।';
 
   @override
   String get chatPinBlockedMessage =>
-      'You cannot interact with this user right now.';
+      'आप अभी इस यूज़र के साथ इंटरैक्ट नहीं कर सकते हैं।';
 
   @override
-  String get bookmarkLimitTitle => 'Bookmark limit reached';
+  String get bookmarkLimitTitle => 'बुकमार्क की सीमा पूरी हो गई';
 
   @override
   String bookmarkLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count bookmarks',
-      one: '$count bookmark',
+      other: '$count बुकमार्क',
+      one: '$count बुकमार्क',
     );
-    return 'You\'re at $_temp0. Remove one to add another.';
+    return 'आपके पास $_temp0 हो चुके हैं। नया जोड़ने के लिए कोई एक हटाएँ।';
   }
 
   @override
-  String get savedMediaLimitTitle => 'Saved media limit reached';
+  String get savedMediaLimitTitle => 'सेव किए गए मीडिया की सीमा पूरी हो गई';
 
   @override
   String savedMediaLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count saved media items',
-      one: '$count saved media item',
+      other: '$count मीडिया आइटम',
+      one: '$count मीडिया आइटम',
     );
-    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+    return 'आप सेव किए गए $_temp0 की सीमा तक पहुँच गए हैं। नया जोड़ने के लिए कोई एक हटाएँ।';
   }
 
   @override
-  String get errorContentBlockedTitle => 'Content blocked';
+  String get errorContentBlockedTitle => 'कंटेंट ब्लॉक किया गया';
 
   @override
   String get errorContentBlockedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'आपकी कार्रवाई पूरी नहीं हो पाई क्योंकि इसे हमारे सुरक्षा सिस्टम ने फ़्लैग किया है। अगर आपको लगता है कि यह गलती से हुआ है, तो कृपया सहायता टीम से संपर्क करें।';
 
   @override
   String get errorContentBlockedSelfHostedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'आपकी कार्रवाई पूरी नहीं हो पाई क्योंकि इसे हमारे सुरक्षा सिस्टम ने फ़्लैग किया है। अगर आपको लगता है कि यह गलती से हुआ है, तो कृपया इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।';
 
   @override
-  String get channelDeletedToast => 'Channel deleted';
+  String get channelDeletedToast => 'चैनल मिटा दिया गया';
 
   @override
-  String get categoryDeletedToast => 'Category deleted';
+  String get categoryDeletedToast => 'श्रेणी मिटा दी गई';
 
   @override
-  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+  String get channelDeleteNoPermissionTitle => 'आप इसे हटा नहीं सकते';
 
   @override
   String get channelDeleteNoPermissionChannel =>
-      'You don\'t have permission to delete this channel.';
+      'आपके पास इस चैनल को हटाने की अनुमति नहीं है।';
 
   @override
   String get channelDeleteNoPermissionCategory =>
-      'You don\'t have permission to delete this category.';
+      'आपके पास इस श्रेणी को हटाने की अनुमति नहीं है।';
 
   @override
-  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+  String get channelDeleteAlreadyDeletedTitle => 'पहले ही हटा दिया गया है';
 
   @override
   String get channelDeleteAlreadyDeletedChannel =>
-      'This channel no longer exists. It may have already been deleted.';
+      'यह चैनल अब मौजूद नहीं है। हो सकता है इसे पहले ही हटा दिया गया हो।';
 
   @override
   String get channelDeleteAlreadyDeletedCategory =>
-      'This category no longer exists. It may have already been deleted.';
+      'यह श्रेणी अब मौजूद नहीं है। हो सकता है इसे पहले ही हटा दिया गया हो।';
 
   @override
-  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+  String get channelDeleteFailedChannelTitle => 'यह चैनल हटाया नहीं जा सका';
 
   @override
   String get channelDeleteFailedCategoryTitle =>
-      'Couldn\'t delete this category';
+      'इस श्रेणी को हटाया नहीं जा सका';
 
   @override
   String get channelPermissionsUpdateFailedTitle =>
-      'Couldn\'t update channel permissions';
+      'चैनल अनुमतियाँ अपडेट नहीं की जा सकीं';
 
   @override
-  String get channelSettingsSaveFailedTitle =>
-      'Couldn\'t save channel settings';
+  String get channelSettingsSaveFailedTitle => 'चैनल सेटिंग सेव नहीं हो सकी';
 
   @override
-  String get emojiSlotsFullTitle => 'No emoji slots available';
+  String get emojiSlotsFullTitle => 'कोई इमोजी स्लॉट उपलब्ध नहीं';
 
   @override
-  String get stickerSlotsFullTitle => 'No sticker slots available';
+  String get stickerSlotsFullTitle => 'कोई स्टिकर स्लॉट उपलब्ध नहीं';
 
   @override
   String get emojiSomeFailedMessage =>
-      'Review these files and try again with smaller or simpler images.';
+      'इन फ़ाइलों की समीक्षा करें और छोटी या सरल इमेज के साथ फिर से कोशिश करें।';
 
   @override
   String get emojiNameInvalidCharacters =>
-      'Emoji names can only use letters, numbers and underscores.';
+      'इमोजी के नाम में सिर्फ़ अक्षर, संख्याएँ और अंडरस्कोर हो सकते हैं।';
 
   @override
-  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+  String get emojiErrorGoneTitle => 'यह इमोजी अब मौजूद नहीं है';
 
   @override
   String get emojiRenameGoneMessage =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'हो सकता है इसे हटा दिया गया हो। नाम को पहले जैसा कर दिया गया है।';
 
   @override
-  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+  String get emojiRenameNoPermissionTitle => 'आप इस इमोजी का नाम नहीं बदल सकते';
 
   @override
   String get emojiRenameNoPermissionMessage =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'आपके पास इस इमोजी का नाम बदलने की अनुमति नहीं है। नाम को पहले जैसा कर दिया गया है।';
 
   @override
   String get emojiRenameRateLimitedMessage =>
-      'Please wait a moment and try renaming again.';
+      'कृपया कुछ देर प्रतीक्षा करें और फिर से नाम बदलने का प्रयास करें।';
 
   @override
   String get emojiRenameFailedMessage =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'नाम पहले जैसा हो गया है। कृपया कुछ देर बाद फिर से कोशिश करें।';
 
   @override
-  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+  String get emojiDeleteGoneMessage => 'लगता है इसे पहले ही हटा दिया गया था।';
 
   @override
-  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+  String get emojiDeleteNoPermissionTitle => 'आप इस इमोजी को हटा नहीं सकते';
 
   @override
   String get emojiDeleteNoPermissionMessage =>
-      'You don\'t have permission to delete this emoji.';
+      'आपके पास इस इमोजी को हटाने की अनुमति नहीं है।';
 
   @override
   String get emojiDeleteRateLimitedMessage =>
-      'Please wait a moment and try deleting again.';
+      'कृपया कुछ देर प्रतीक्षा करें और फिर से हटाने का प्रयास करें।';
 
   @override
-  String get stickerTooLargeTitle => 'Sticker is too large';
+  String get stickerTooLargeTitle => 'स्टिकर बहुत बड़ा है';
 
   @override
   String stickerTooLargeMessage(String maxSize) {
-    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+    return 'अपलोड सेवा ने इस स्टिकर को $maxSize से बड़ा होने के कारण अस्वीकार कर दिया है। कोई छोटी फ़ाइल, कोई सरल इमेज या कोई छोटा एनिमेशन आज़माएँ।';
   }
 
   @override
   String get stickerCreateFailedMessage =>
-      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+      'इस स्टिकर को तैयार करते समय कुछ गड़बड़ हो गई। कोई दूसरी फ़ाइल आज़माएँ या कुछ देर बाद फिर से कोशिश करें।';
 
   @override
-  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+  String get stickerUpdateFailedTitle => 'यह स्टिकर अपडेट नहीं हो सका';
 
   @override
-  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+  String get moderationTimeoutFailed =>
+      'सदस्य को टाइमआउट नहीं किया जा सका। फिर से कोशिश करें।';
 
   @override
   String get moderationRemoveTimeoutFailed =>
-      'Failed to remove timeout. Try again.';
+      'टाइमआउट नहीं हटाया जा सका। फिर से कोशिश करें।';
 
   @override
-  String get moderationKickFailed => 'Failed to kick member. Try again.';
+  String get moderationKickFailed =>
+      'सदस्य को किक नहीं कर पाए। फिर से कोशिश करें।';
 
   @override
-  String get moderationBanFailed => 'Failed to ban member. Try again.';
+  String get moderationBanFailed =>
+      'सदस्य को बैन नहीं कर पाए। फिर से कोशिश करें।';
 
   @override
-  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+  String get transferOwnershipFailedTitle => 'स्वामित्व ट्रांसफ़र नहीं हो पाया';
 
   @override
   String transferOwnershipFailedMessage(String username) {
-    return 'Ownership could not be transferred to $username at this time.';
+    return 'अभी $username को स्वामित्व ट्रांसफ़र नहीं किया जा सका।';
   }
 
   @override
-  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+  String get revokeBanFailedTitle => 'बैन नहीं हटाया जा सका';
 
   @override
-  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+  String get voiceModerationNoPermissionTitle => 'आप ऐसा नहीं कर सकते';
 
   @override
   String get voiceModerationNoPermissionMessage =>
-      'You don\'t have permission to do this to this member.';
+      'आपके पास इस सदस्य के लिए ऐसा करने की अनुमति नहीं है।';
 
   @override
-  String get voiceModerationLeftTitle => 'They left the call';
+  String get voiceModerationLeftTitle => 'उन्होंने कॉल छोड़ दी';
 
   @override
   String get voiceModerationLeftMessage =>
-      'This member isn\'t connected to voice anymore.';
+      'यह सदस्य अब वॉइस से कनेक्टेड नहीं है।';
 
   @override
-  String get voiceModerationUnknownMemberTitle => 'Member not found';
+  String get voiceModerationUnknownMemberTitle => 'सदस्य नहीं मिला';
 
   @override
   String get voiceModerationUnknownMemberMessage =>
-      'This member is no longer in the community. Refresh and try again.';
+      'यह सदस्य अब कम्युनिटी में नहीं है। रीफ़्रेश करें और फिर से कोशिश करें।';
 
   @override
-  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+  String get voiceJoinTimedOut => 'टाइमआउट के दौरान आप शामिल नहीं हो सकते।';
 
   @override
   String get voiceJoinClaimAccount =>
-      'Claim your account to join this voice channel.';
+      'इस वॉइस चैनल से जुड़ने के लिए अपना अकाउंट क्लेम करें।';
 
   @override
   String get voiceJoinClaimAccountDirectCall =>
-      'Claim your account to start or join 1:1 calls.';
+      '1:1 कॉल शुरू करने या उसमें शामिल होने के लिए अपना अकाउंट क्लेम करें।';
 
   @override
   String get voiceJoinUserLimit =>
-      'This voice channel has reached its user limit. Try again later or join a different channel.';
+      'इस वॉइस चैनल में यूज़र की संख्या पूरी हो चुकी है। बाद में फिर से कोशिश करें या कोई दूसरा चैनल जॉइन करें।';
 
   @override
   String get voiceJoinConnectionLimit =>
-      'You\'ve reached this voice channel\'s connection limit.';
+      'आप इस वॉइस चैनल की कनेक्शन सीमा तक पहुँच गए हैं।';
 
   @override
-  String get voiceJoinChannelUnavailable =>
-      'This voice channel is no longer available.';
+  String get voiceJoinChannelUnavailable => 'यह वॉइस चैनल अब उपलब्ध नहीं है।';
 
   @override
-  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+  String get avatarUploadFailedTitle => 'अवतार अपलोड नहीं किया जा सका';
 
   @override
-  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+  String get bannerUploadFailedTitle => 'बैनर अपलोड नहीं किया जा सका';
 
   @override
-  String get animatedImageUseStatic => 'Upload a static image instead.';
+  String get animatedImageUseStatic => 'इसके बजाय कोई स्टैटिक इमेज अपलोड करें।';
 
   @override
-  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+  String get passkeyDeleteFailedTitle => 'पासकी मिटाई नहीं जा सकी';
 
   @override
-  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+  String get premiumPaymentsUnavailableTitle => 'भुगतान अनुपलब्ध हैं';
 
   @override
   String get premiumPaymentsUnavailableMessage =>
-      'Payments are temporarily unavailable. Please try again in a moment.';
+      'भुगतान अस्थायी रूप से अनुपलब्ध हैं। कृपया कुछ देर बाद फिर से प्रयास करें।';
 
   @override
-  String get premiumNoSubscriptionTitle => 'No active subscription';
+  String get premiumNoSubscriptionTitle => 'कोई सक्रिय सदस्यता नहीं';
 
   @override
   String get premiumNoSubscriptionMessage =>
-      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+      'हमें इस अकाउंट पर कोई सक्रिय सदस्यता नहीं मिली। रीफ़्रेश करें और फिर से कोशिश करें।';
 
   @override
-  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+  String get premiumAlreadyCancelingTitle => 'पहले से रद्द करने के लिए सेट है';
 
   @override
   String get premiumAlreadyCancelingMessage =>
-      'Your subscription is already set to cancel at the end of your billing period.';
+      'आपकी सदस्यता पहले से ही आपकी बिलिंग अवधि के अंत में रद्द होने के लिए सेट है।';
 
   @override
-  String get premiumNotCancelingTitle =>
-      'Subscription is not scheduled to cancel';
+  String get premiumNotCancelingTitle => 'सदस्यता रद्द नहीं हो रही है';
 
   @override
   String get premiumNotCancelingMessage =>
-      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+      'आपकी सदस्यता रद्द होने के लिए सेट नहीं है, इसलिए फिर से सक्रिय करने के लिए कुछ भी नहीं है।';
 
   @override
-  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+  String get premiumCancelFailedTitle => 'आपकी सदस्यता रद्द नहीं हो पाई';
 
   @override
   String get premiumCancelFailedMessage =>
-      'Something went wrong while canceling your subscription. Please try again in a moment.';
+      'आपकी सदस्यता रद्द करते समय कुछ गड़बड़ हो गई। कृपया कुछ देर बाद फिर से कोशिश करें।';
 
   @override
   String get premiumReactivateFailedTitle =>
-      'Couldn\'t reactivate your subscription';
+      'आपकी सदस्यता फिर से सक्रिय नहीं की जा सकी';
 
   @override
   String get premiumReactivateFailedMessage =>
-      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+      'आपकी सदस्यता को फिर से सक्रिय करते समय कुछ गड़बड़ हो गई। कृपया कुछ देर बाद फिर से कोशिश करें।';
 
   @override
-  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+  String get premiumRefundConfirmTitle =>
+      'अपनी सबसे हाल की खरीदारी रिफ़ंड करें?';
 
   @override
   String get premiumRefundConfirmBody =>
-      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+      'इससे आपके सबसे हाल के इनवॉइस का रिफंड हो जाता है और उससे जुड़ी कोई भी सदस्यता रद्द हो जाती है। इसके बाद आप 30 दिन तक फिर से खुद रिफंड नहीं ले पाएंगे।';
 
   @override
-  String get premiumRefundConfirm => 'Refund purchase';
+  String get premiumRefundConfirm => 'खरीदारी रिफ़ंड करें';
 
   @override
   String get premiumRefundIssuedToast =>
-      'Refund issued. May take a few business days to appear.';
+      'रिफ़ंड जारी कर दिया गया है। इसे दिखने में कुछ कार्यदिवस लग सकते हैं।';
 
   @override
-  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+  String get premiumRefundOutsideWindowTitle => 'रिफ़ंड विंडो के बाहर';
 
   @override
   String get premiumRefundOutsideWindowMessage =>
-      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+      'आपकी हाल की खरीदारी अब रिफ़ंड विंडो के अंदर नहीं है। बिलिंग संबंधी समस्याओं के लिए सहायता से संपर्क करें।';
 
   @override
-  String get premiumRefundCooldownTitle => 'You have refunded recently';
+  String get premiumRefundCooldownTitle => 'आपने हाल ही में रिफंड किया है';
 
   @override
   String get premiumRefundCooldownMessage =>
-      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+      'आपने हाल ही में सेल्फ़-सर्व रिफ़ंड का इस्तेमाल किया है। कूलडाउन खत्म होने के बाद आप फिर से रिफ़ंड कर सकते हैं।';
 
   @override
-  String get premiumRefundNothingTitle => 'Nothing to refund';
+  String get premiumRefundNothingTitle => 'रिफ़ंड के लिए कुछ नहीं';
 
   @override
   String get premiumRefundNothingMessage =>
-      'We couldn\'t find a recent purchase to refund on this account.';
+      'हमें इस अकाउंट पर रिफ़ंड के लिए हाल की कोई खरीदारी नहीं मिली।';
 
   @override
-  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+  String get premiumRefundFailedTitle =>
+      'इस खरीदारी का रिफ़ंड नहीं किया जा सका';
 
   @override
   String get premiumRefundFailedMessage =>
-      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+      'आपका रिफंड जारी करते समय कुछ गड़बड़ हो गई। अगर ऐसा बार-बार होता है, तो सहायता टीम से संपर्क करें।';
 
   @override
-  String get premiumVerifyEmailTitle => 'Verify your email first';
+  String get premiumVerifyEmailTitle => 'पहले अपना ईमेल वेरिफ़ाई करें';
 
   @override
   String premiumVerifyEmailBody(String productName) {
-    return 'You need to verify your email before you can purchase $productName.';
+    return '$productName खरीदने से पहले आपको अपना ईमेल वेरिफ़ाई करना होगा।';
   }
 
   @override
-  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+  String get premiumCheckoutBlockedTitle => 'चेकआउट अनुपलब्ध है';
 
   @override
   String premiumCheckoutBlockedBody(String supportEmail) {
-    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+    return 'इस अकाउंट के लिए चेकआउट ब्लॉक कर दिया गया है। अगर आपको मदद चाहिए, तो $supportEmail पर संपर्क करें।';
   }
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
-      'Checkout is blocked for this account.';
+      'इस अकाउंट के लिए चेकआउट ब्लॉक है।';
 }

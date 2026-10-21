@@ -296,7 +296,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get register => 'Regisztráció';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'VAGY';
 
   @override
   String get cancel => 'Mégse';
@@ -341,7 +341,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get next => 'Tovább';
 
   @override
-  String get create => 'Create';
+  String get create => 'Létrehozás';
 
   @override
   String get mfaTitle => 'Kétlépcsős azonosítás';
@@ -385,7 +385,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String accountSignOutTitle(String identifier) {
-    return 'Sign out of $identifier?';
+    return 'Kijelentkezel a(z) $identifier fiókból?';
   }
 
   @override
@@ -980,7 +980,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get inviteAcceptSomeone => 'valaki';
 
   @override
-  String get mentionUnknownChannel => 'unknown-channel';
+  String get mentionUnknownChannel => 'ismeretlen-csatorna';
 
   @override
   String get channelAccessDeniedTitle => 'Csatorna-hozzáférés megtagadva';
@@ -1580,11 +1580,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Megtelt az ismerőslistád vagy az övé. Távolíts el valakit, és próbáld újra.';
 
   @override
-  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+  String get addFriendSendFailedTitle =>
+      'Nem sikerült elküldeni az ismerősjelölést';
 
   @override
   String get addFriendSendFailedMessage =>
-      'Couldn\'t send the friend request. Try again.';
+      'Nem sikerült elküldeni az ismerősjelölést. Próbáld újra.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1864,10 +1865,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get crop => 'Vágás';
 
   @override
-  String get cropTouchHint => 'Pinch to zoom, drag to reposition';
+  String get cropTouchHint => 'Csippentéssel nagyíthatsz, húzással mozgathatod';
 
   @override
-  String get cropMouseHint => 'Drag corners to resize, drag inside to move';
+  String get cropMouseHint =>
+      'A sarkok húzásával átméretezhetsz, belül húzva mozgathatod';
 
   @override
   String get changeYourFluxerTag => 'Felhasználónév módosítása';
@@ -3267,7 +3269,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsRolesTab => 'Szerepkörök';
 
   @override
-  String get memberRolesConfirmOk => 'OK';
+  String get memberRolesConfirmOk => 'Rendben';
 
   @override
   String get userProfileLocalTime => 'Helyi idő';
@@ -4405,10 +4407,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionDomainLabel => 'Domain';
 
   @override
-  String get connectionHandlePlaceholder => 'username.bsky.social';
+  String get connectionHandlePlaceholder => 'felhasznalonev.bsky.social';
 
   @override
-  String get connectionDomainPlaceholder => 'example.com';
+  String get connectionDomainPlaceholder => 'pelda.hu';
 
   @override
   String get connectionAlreadyExists => 'Ez a kapcsolat már megvan.';
@@ -4607,93 +4609,97 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült szinkronizálni a témát a fiókoddal. Kérlek, próbáld újra.';
 
   @override
-  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+  String get lookAndFeelThemeColorsTitle => 'Témaszínek';
 
   @override
   String get lookAndFeelThemeColorsConfigureDescription =>
-      'Customize individual theme colors for this device.';
+      'Egyes témaszínek testreszabása ezen az eszközön.';
 
   @override
   String lookAndFeelThemeColorsEditingMode(String mode) {
-    return 'Editing $mode';
+    return 'Szerkesztés: $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+  String get lookAndFeelThemeColorsSyncSectionTitle =>
+      'Theme Studio-szinkronizálás';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioLabel =>
-      'Use colors from Theme Studio';
+      'Színek használata a Theme Studióból';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioDescription =>
-      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+      'Ha be van kapcsolva, az asztali Theme Studióban végzett színmódosítások ezen az eszközön is érvényesek. Ha ki van kapcsolva, ez az eszköz megtartja a saját színeit.';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioLabel =>
-      'Send color changes to Theme Studio';
+      'Színmódosítások küldése a Theme Studióba';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioDescription =>
-      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+      'Ha be van kapcsolva, az itt módosított színek szinkronizálódnak a Theme Studióval a többi eszközödön. Ha ki van kapcsolva, az asztali Theme Studio megtartja a saját színeit.';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
-      'Desktop Theme Studio color changes will not apply on this device.';
+      'Az asztali Theme Studio színmódosításai nem lesznek érvényesek ezen az eszközön.';
 
   @override
-  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Alapvető színek';
 
   @override
   String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
-      'If you have a chat wallpaper set, you won\'t see this color.';
+      'Ha be van állítva csevegési háttérkép, ezt a színt nem fogod látni.';
 
   @override
   String lookAndFeelThemeColorsResetForMode(String mode) {
-    return 'Reset all colors for $mode';
+    return 'Minden szín visszaállítása: $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+  String get lookAndFeelThemeColorsResetConfirmTitle =>
+      'Visszaállítod a témaszíneket?';
 
   @override
   String lookAndFeelThemeColorsResetConfirmBody(String mode) {
-    return 'This removes your custom color overrides for $mode on this device.';
+    return 'Ezzel eltávolítod az egyéni színbeállításaidat ($mode) ezen az eszközön.';
   }
 
   @override
-  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Márka és gombok';
 
   @override
-  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Csevegés és üzenetek';
 
   @override
-  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+  String get lookAndFeelThemeColorsGroupSidebars => 'Oldalsávok és navigáció';
 
   @override
-  String get lookAndFeelThemeColorsGroupText => 'Text';
+  String get lookAndFeelThemeColorsGroupText => 'Szöveg';
 
   @override
-  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+  String get lookAndFeelThemeColorsGroupHeaders => 'Fejlécek';
 
   @override
-  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+  String get lookAndFeelThemeColorsGroupStatus => 'Állapot';
 
   @override
-  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup =>
+      'Beágyazások és említések';
 
   @override
-  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+  String get lookAndFeelThemeColorsGroupAccentsAlerts =>
+      'Kiemelések és figyelmeztetések';
 
   @override
-  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+  String get lookAndFeelThemeColorsGroupControls => 'Felületek és vezérlők';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Csevegés betűméretezése';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'A betűméret módosítása a csevegőfelületen.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Csevegés betűmérete';
@@ -4759,7 +4765,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
-    return '${spacing}px';
+    return '$spacing px';
   }
 
   @override
@@ -4903,11 +4909,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
-      'Open communities to your last channel';
+      'Közösségek megnyitása az utolsó csatornánál';
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
-      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
+      'Egy közösségre koppintva közvetlenül az ott utoljára megtekintett csatornára jutsz. Jobbra húzva láthatod a csatornalistáját.';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Csatornalista';
@@ -5914,7 +5920,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get shellResizeSidebar => 'Resize sidebar';
+  String get shellResizeSidebar => 'Oldalpanel átméretezése';
 
   @override
   String get voiceConnectionTitle => 'Hangkapcsolat';
@@ -6096,10 +6102,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Leállítja az aktuális stream megtekintését';
 
   @override
-  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+  String get voiceScreenShareEnterFullscreenTooltip => 'Teljes képernyő';
 
   @override
-  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+  String get voiceScreenShareExitFullscreenTooltip =>
+      'Kilépés a teljes képernyőből';
 
   @override
   String get voiceOwnScreenShareTitle => 'Te közvetítesz';
@@ -6221,22 +6228,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String notificationsMentionedYouIn(String author, String place) {
-    return '$author mentioned you in $place:';
+    return '$author megemlített ($place):';
   }
 
   @override
   String notificationsRepliedToYouIn(String author, String place) {
-    return '$author replied to you in $place:';
+    return '$author válaszolt neked ($place):';
   }
 
   @override
   String notificationsMentionedYou(String author) {
-    return '$author mentioned you:';
+    return '$author megemlített:';
   }
 
   @override
   String notificationsRepliedToYou(String author) {
-    return '$author replied to you:';
+    return '$author válaszolt neked:';
   }
 
   @override
@@ -6245,13 +6252,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsSendReply => 'Send a reply';
+  String get notificationsSendReply => 'Válasz küldése';
 
   @override
-  String get notificationsRecentActivity => 'Recent activity';
+  String get notificationsRecentActivity => 'Legutóbbi tevékenység';
 
   @override
-  String get notificationsRemoveNotification => 'Remove notification';
+  String get notificationsRemoveNotification => 'Értesítés eltávolítása';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -6836,7 +6843,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Koppints duplán egy üzenetre, hogy reagálj ezzel:';
 
   @override
-  String get doubleTapEditHint => 'Double tap your own message to edit it';
+  String get doubleTapEditHint =>
+      'Koppints duplán a saját üzenetedre a szerkesztéséhez';
 
   @override
   String get doubleTapReactionEdit => 'Szerkesztés';
@@ -6849,61 +6857,65 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Válassz dupla koppintásos emojit';
 
   @override
-  String get messagesMediaGesturesSectionTitle => 'Gestures';
+  String get messagesMediaGesturesSectionTitle => 'Kézmozdulatok';
 
   @override
   String get messagesMediaGesturesSectionDescription =>
-      'Configure double tap and swipe on messages.';
+      'Az üzeneteken végzett dupla koppintás és húzás beállítása.';
 
   @override
-  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+  String get messagesMediaGesturesReactionLabel => 'Reakcióemoji';
 
   @override
   String get messagesMediaGesturesReactionDescription =>
-      'Used when double tap is set to add a reaction.';
+      'Akkor használatos, ha a dupla koppintás reakció hozzáadására van állítva.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesDoubleTapActionLabel =>
+      'Dupla koppintás művelete';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesDoubleTapActionReactName =>
+      'Reakció hozzáadása';
 
   @override
   String get messagesMediaGesturesDoubleTapActionReactDescription =>
-      'Adds your default double-tap emoji as a reaction.';
+      'Hozzáadja az alapértelmezett dupla koppintásos emojidat reakcióként.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName =>
+      'Üzenet szerkesztése';
 
   @override
   String get messagesMediaGesturesDoubleTapActionEditDescription =>
-      'Opens the editor on messages you sent. Other messages are unchanged.';
+      'Megnyitja a szerkesztőt az általad küldött üzeneteken. Más üzenetekre nincs hatással.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Semmi';
 
   @override
   String get messagesMediaGesturesDoubleTapActionNoneDescription =>
-      'Double tap is disabled.';
+      'A dupla koppintás ki van kapcsolva.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftLabel =>
-      'Swipe right to left';
+      'Húzás jobbról balra';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+  String get messagesMediaGesturesSwipeRightToLeftReplyName =>
+      'Válasz húzással';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
-      'Swipe a message to reply, with hold to edit your own messages.';
+      'Húzz el egy üzenetet a válaszhoz, a saját üzeneteidet pedig nyomva tartással szerkesztheted.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
-      'Show channel details';
+      'Csatornaadatok megjelenítése';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
-      'Swipe a message or tap the channel header to open channel details in a side panel.';
+      'Húzz el egy üzenetet, vagy koppints a csatorna fejlécére, hogy oldalpanelen megnyisd a csatorna adatait.';
 
   @override
   String get chatMessageEdit => 'Üzenet szerkesztése';
@@ -7249,7 +7261,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get chatMessageDeleteAttachmentConfirmDescription =>
-      'Are you sure you want to delete this attachment?';
+      'Biztosan törölni szeretnéd ezt a mellékletet?';
 
   @override
   String get chatMessageEditAttachmentAltText =>
@@ -7311,7 +7323,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Nem sikerült betölteni az üzeneteket.';
 
   @override
-  String get chatMessagesFailedToLoad => 'Messages failed to load';
+  String get chatMessagesFailedToLoad => 'Az üzenetek betöltése sikertelen';
 
   @override
   String get chatReplyMentionOverrideTitle =>
@@ -7343,10 +7355,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Válaszolt felhasználó említése';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'BE';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'KI';
 
   @override
   String get chatReplyCancel => 'Válasz visszavonása';
@@ -7358,10 +7370,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatEditNoChanges => 'Nincs menthető változás';
 
   @override
-  String get chatEditFailed => 'Your message didn\'t update';
+  String get chatEditFailed => 'Az üzenet frissítése sikertelen';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'Újraszerkesztés';
 
   @override
   String get chatChannelNotReady =>
@@ -7475,7 +7487,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Matricák';
 
   @override
-  String get composerAutocompleteEmojisHeading => 'Emojis';
+  String get composerAutocompleteEmojisHeading => 'Emojik';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIF-ek';
@@ -7889,7 +7901,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelSettingsUrl => 'URL';
 
   @override
-  String get channelSettingsUrlPlaceholder => 'https://example.com';
+  String get channelSettingsUrlPlaceholder => 'https://pelda.hu';
 
   @override
   String get channelSettingsTopic => 'Téma';
@@ -8235,7 +8247,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelSettingsWebhooksChannel => 'Csatorna';
 
   @override
-  String get channelSettingsWebhooksUrl => 'Webhook URL';
+  String get channelSettingsWebhooksUrl => 'Webhook-URL';
 
   @override
   String get channelSettingsWebhooksCopyUrl => 'Webhook URL-jének másolása';
@@ -8263,26 +8275,26 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String channelDuplicateHelper(String channelName) {
-    return 'The new channel will reuse the permissions from $channelName.';
+    return 'Az új csatorna átveszi a(z) $channelName csatorna jogosultságait.';
   }
 
   @override
   String channelDuplicateVoiceHelper(String channelName) {
-    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+    return 'Az új hangcsatorna átveszi a(z) $channelName csatorna jogosultságait, felhasználói korlátját és bitrátáját.';
   }
 
   @override
-  String get channelMenuMoveToCategory => 'Move to category';
+  String get channelMenuMoveToCategory => 'Áthelyezés kategóriába';
 
   @override
-  String get channelMenuNoCategory => 'No category';
+  String get channelMenuNoCategory => 'Nincs kategória';
 
   @override
-  String get channelMoveCategoryFullTitle => 'Category full';
+  String get channelMoveCategoryFullTitle => 'Kategória megtelt';
 
   @override
   String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
-    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+    return 'Ez a kategória már tartalmazza a maximális $maxChannelsPerCategory csatornát.';
   }
 
   @override
@@ -8540,61 +8552,63 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Törlés';
 
   @override
-  String get channelSearchRemoveRecent => 'Remove from recent searches';
+  String get channelSearchRemoveRecent =>
+      'Eltávolítás a legutóbbi keresések közül';
 
   @override
-  String get channelSearchFiltersButton => 'Filters';
+  String get channelSearchFiltersButton => 'Szűrők';
 
   @override
-  String get channelSearchFilterMenuTitle => 'Filter results';
+  String get channelSearchFilterMenuTitle => 'Találatok szűrése';
 
   @override
-  String get channelSearchFilterFromLabel => 'From a specific person';
+  String get channelSearchFilterFromLabel => 'Egy adott személytől';
 
   @override
-  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+  String get channelSearchFilterMentionsLabel => 'Egy adott személyt említ';
 
   @override
-  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+  String get channelSearchFilterHasLabel =>
+      'Linket, fájlt vagy beágyazást tartalmaz';
 
   @override
-  String get channelSearchFilterInLabel => 'In a specific channel';
+  String get channelSearchFilterInLabel => 'Egy adott csatornában';
 
   @override
-  String get channelSearchFilterDuringLabel => 'Sent on a date';
+  String get channelSearchFilterDuringLabel => 'Egy adott napon küldve';
 
   @override
-  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+  String get channelSearchFilterBeforeLabel => 'Egy adott dátum előtt küldve';
 
   @override
-  String get channelSearchFilterAfterLabel => 'Sent after a date';
+  String get channelSearchFilterAfterLabel => 'Egy adott dátum után küldve';
 
   @override
-  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+  String get channelSearchFilterPinnedLabel => 'Rögzített vagy nem rögzített';
 
   @override
-  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+  String get channelSearchFilterAuthorTypeLabel => 'Szerző típusa szerint';
 
   @override
-  String get channelSearchDateToday => 'Today';
+  String get channelSearchDateToday => 'Ma';
 
   @override
-  String get channelSearchDateYesterday => 'Yesterday';
+  String get channelSearchDateYesterday => 'Tegnap';
 
   @override
-  String get channelSearchTabMessages => 'Messages';
+  String get channelSearchTabMessages => 'Üzenetek';
 
   @override
-  String get channelSearchTabImages => 'Images';
+  String get channelSearchTabImages => 'Képek';
 
   @override
-  String get channelSearchTabPins => 'Pins';
+  String get channelSearchTabPins => 'Rögzítettek';
 
   @override
-  String get channelSearchTabLinks => 'Links';
+  String get channelSearchTabLinks => 'Linkek';
 
   @override
-  String get channelSearchTabFiles => 'Files';
+  String get channelSearchTabFiles => 'Fájlok';
 
   @override
   String channelSearchTabCount(String label, int count) {
@@ -9052,22 +9066,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get groupDmInviteRevoked => 'Meghívó visszavonva';
 
   @override
-  String get groupDmRemoveFromGroup => 'Remove from group';
+  String get groupDmRemoveFromGroup => 'Eltávolítás a csoportból';
 
   @override
   String groupDmRemoveFromGroupConfirm(String userName) {
-    return 'Remove $userName from the group?';
+    return 'Eltávolítod a(z) $userName felhasználót a csoportból?';
   }
 
   @override
-  String get groupDmRemoveFromGroupAction => 'Remove';
+  String get groupDmRemoveFromGroupAction => 'Eltávolítás';
 
   @override
-  String get groupDmRemovedFromGroup => 'Removed from group';
+  String get groupDmRemovedFromGroup => 'Eltávolítva a csoportból';
 
   @override
   String groupDmRemoveFromGroupFailed(String userName) {
-    return '$userName is still in the group. Try again in a moment.';
+    return '$userName még mindig a csoportban van. Próbáld újra egy kicsit később.';
   }
 
   @override
@@ -9107,7 +9121,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get groupDmComposerHint => 'Üzenetcsoport';
 
   @override
-  String get composerHint => 'Message';
+  String get composerHint => 'Üzenet';
 
   @override
   String get composerOpenExpressionPicker =>
@@ -9139,10 +9153,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get chatAttachmentLibraryLimitedBody =>
-      'Only photos and videos you chose to share are shown here.';
+      'Itt csak azok a fotók és videók jelennek meg, amelyeket megosztásra kiválasztottál.';
 
   @override
-  String get chatAttachmentLibraryLimitedManage => 'Manage';
+  String get chatAttachmentLibraryLimitedManage => 'Kezelés';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9222,16 +9236,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsGroupYourAccount => 'A számlád';
 
   @override
-  String get userSettingsGroupBilling => 'Billing';
+  String get userSettingsGroupBilling => 'Számlázás';
 
   @override
-  String get userSettingsGroupApplication => 'Application';
+  String get userSettingsGroupApplication => 'Alkalmazás';
 
   @override
-  String get userSettingsGroupDeveloper => 'Developer';
+  String get userSettingsGroupDeveloper => 'Fejlesztő';
 
   @override
-  String get userSettingsGroupStaffOnly => 'Staff-only';
+  String get userSettingsGroupStaffOnly => 'Csak munkatársaknak';
 
   @override
   String get userSettingsSearchPlaceholder => 'Beállítások keresése...';
@@ -9243,14 +9257,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Nem található beállítás';
 
   @override
-  String get userSettingsCopyLinkToSection => 'Copy link to section';
+  String get userSettingsCopyLinkToSection =>
+      'A szakasz hivatkozásának másolása';
 
   @override
-  String get userSettingsCopyLinkToPage => 'Copy link to page';
+  String get userSettingsCopyLinkToPage => 'Az oldal hivatkozásának másolása';
 
   @override
   String userSettingsJumpLinkPremiumPage(String productName) {
-    return '$productName page';
+    return '$productName oldal';
   }
 
   @override
@@ -9788,7 +9803,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az App Store-on keresztül automatikusan megújul, amíg le nem mondod.';
 
   @override
-  String get storePlutoniumRestorePurchases => 'Restore purchases';
+  String get storePlutoniumRestorePurchases => 'Vásárlások visszaállítása';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
@@ -10259,36 +10274,36 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült engedélyezni az értesítéseket. Engedélyezze az értesítési hozzáférést a folytatáshoz.';
 
   @override
-  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+  String get notificationsPushDeliveryProviderLabel => 'Push-szolgáltató';
 
   @override
-  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+  String get notificationsPushDeliveryDistributorLabel => 'Disztribútor';
 
   @override
-  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+  String get notificationsPushDeliveryDistributorNone => 'Nincs kiválasztva';
 
   @override
   String get notificationsPushDeliveryDistributorSheetTitle =>
-      'Choose distributor';
+      'Disztribútor kiválasztása';
 
   @override
   String get notificationsPushDeliveryDistributorPickAccessibility =>
-      'Change push distributor';
+      'Push-disztribútor módosítása';
 
   @override
-  String get notificationsPushDeliveryGatewayLabel => 'Gateway';
+  String get notificationsPushDeliveryGatewayLabel => 'Átjáró';
 
   @override
-  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push-továbbító';
 
   @override
-  String get notificationsPushDeliveryRelayInUse => 'In use';
+  String get notificationsPushDeliveryRelayInUse => 'Használatban';
 
   @override
-  String get notificationsPushDeliveryRelayOff => 'Off';
+  String get notificationsPushDeliveryRelayOff => 'Ki';
 
   @override
-  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+  String get notificationsPushDeliveryRelayNotUsed => 'Nincs használatban';
 
   @override
   String get notificationsPushRelaySectionTitle =>
@@ -10412,17 +10427,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get appIconSectionDescriptionAndroid =>
-      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+      'Válaszd ki, melyik ikon jelenjen meg a kezdőképernyőn. Az ikon módosítása újraindítja az alkalmazást.';
 
   @override
-  String get appIconAndroidChangeTitle => 'Change app icon?';
+  String get appIconAndroidChangeTitle => 'Módosítod az alkalmazásikont?';
 
   @override
   String get appIconAndroidChangeDescription =>
-      'Fluxer will restart to apply the new home screen icon.';
+      'A Fluxer újraindul, hogy alkalmazza az új kezdőképernyő-ikont.';
 
   @override
-  String get appIconAndroidChangeConfirm => 'Change icon';
+  String get appIconAndroidChangeConfirm => 'Ikon módosítása';
 
   @override
   String get appIconOptionDefault => 'Alapértelmezett';
@@ -10434,22 +10449,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get appIconOptionSweden => 'Svédország';
 
   @override
-  String get appIconOptionGreyscale => 'Greyscale';
+  String get appIconOptionGreyscale => 'Szürkeárnyalatos';
 
   @override
-  String get appIconOptionRainbow => 'Rainbow';
+  String get appIconOptionRainbow => 'Szivárvány';
 
   @override
-  String get appIconOptionWaves => 'Waves';
+  String get appIconOptionWaves => 'Hullámok';
 
   @override
-  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+  String get appIconOptionChromaticAberration => 'Kromatikus aberráció';
 
   @override
-  String get appIconOptionDefaultBrutalist => 'Brutalist';
+  String get appIconOptionDefaultBrutalist => 'Brutalista';
 
   @override
-  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+  String get appIconOptionGreyscaleBrutalist => 'Szürkeárnyalatos brutalista';
 
   @override
   String get appIconUnsupported =>
@@ -10463,7 +10478,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+      'Segíts a Fluxernek kijavítani az alkalmazás hibáit az összeomlási és teljesítményadatok megosztásával. Ez alapértelmezetten ki van kapcsolva.';
 
   @override
   String get advancedPerformanceReportingLabel =>
@@ -10471,29 +10486,32 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'A jelentések a Fluxer hibakövetőjébe kerülnek, akkor is, ha egy másik példányba vagy bejelentkezve. Nem tartalmaznak példányneveket, azonosítókat vagy üzenettartalmat.';
 
   @override
-  String get observabilityReportingConsentTitle => 'Help fix crashes';
+  String get observabilityReportingConsentTitle =>
+      'Segíts az összeomlások javításában';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+      'A Fluxer váratlanul bezárult. Az anonim összeomlási és hibaadatok megosztása segít gyorsabban kijavítanunk a problémákat.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+      'A jelentések összeomlási naplókat, hibákat és alapvető teljesítményadatokat tartalmaznak. Nem osztjuk meg őket harmadik féllel, és bármikor kikapcsolhatod ezt.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
-    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+    return 'Ha később szeretnéd bekapcsolni, nyisd meg a Beállítások → Speciális → $reportingToggle menüt.';
   }
 
   @override
-  String get observabilityReportingConsentAgree => 'Send crash reports';
+  String get observabilityReportingConsentAgree =>
+      'Összeomlási jelentések küldése';
 
   @override
-  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
+  String get observabilityReportingConsentDecline =>
+      'Nem szeretném bekapcsolni';
 
   @override
   String get advancedSettingsConfigure => 'Beállítás';
@@ -11056,7 +11074,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Csatlakozz a Fluxer Labshoz';
 
   @override
-  String get userSettingsGiveFeedback => 'Give feedback';
+  String get userSettingsGiveFeedback => 'Visszajelzés küldése';
 
   @override
   String get userSettingsNavAppLicenses => 'Alkalmazáslicencek';
@@ -11120,7 +11138,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'Szöveges csatornák';
 
   @override
-  String get quickSwitcherSectionThreads => 'Threads';
+  String get quickSwitcherSectionThreads => 'Szálak';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'Hangcsatornák';
@@ -11227,7 +11245,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get uiConfirm => 'Megerősítés';
 
   @override
-  String get uiUnderstood => 'Understood';
+  String get uiUnderstood => 'Értem';
 
   @override
   String get uiLoading => 'Betöltés';
@@ -11326,38 +11344,38 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String instanceConnectFailedDomain(String domain) {
-    return 'Couldn\'t connect to $domain. Try again.';
+    return 'Nem sikerült csatlakozni a(z) $domain szolgáltatáshoz. Próbáld újra.';
   }
 
   @override
   String get instanceInvalidDiscoveryResponse =>
-      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+      'Nem sikerült beolvasni a példány konfigurációját. Ellenőrizd a címet, és próbáld újra.';
 
   @override
   String instanceOutdatedForClient(String domain) {
-    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+    return 'Ez a példány elavult ehhez az alkalmazáshoz. Kérd meg a(z) $domain üzemeltetőjét, hogy frissítse a Fluxert.';
   }
 
   @override
   String instanceRequiresNewerClient(String domain) {
-    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+    return 'A(z) $domain a Fluxer újabb verzióját futtatja, mint ez az alkalmazás. Frissítsd az alkalmazást, majd próbáld újra.';
   }
 
   @override
-  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+  String get instanceCompatibilityTitle => 'Ez a példány nem használható';
 
   @override
-  String get instanceCompatibilityRetry => 'Try again';
+  String get instanceCompatibilityRetry => 'Újra';
 
   @override
-  String get instanceCompatibilityUpdateApp => 'Update app';
+  String get instanceCompatibilityUpdateApp => 'Alkalmazás frissítése';
 
   @override
   String get instanceCompatibilityStatusPagePrompt =>
-      'Check the status page for updates.';
+      'A frissítésekért nézd meg az állapotoldalt.';
 
   @override
-  String get instanceCompatibilityStatusPageLink => 'status page';
+  String get instanceCompatibilityStatusPageLink => 'állapotoldal';
 
   @override
   String get recentInstances => 'Legutóbbi instanciák';
@@ -11737,29 +11755,31 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildNavbarNameLabel => 'Név';
 
   @override
-  String get guildNavbarNewChannelHint => 'new-channel';
+  String get guildNavbarNewChannelHint => 'uj-csatorna';
 
   @override
   String get guildNavbarUrlLabel => 'URL';
 
   @override
-  String get guildNavbarUrlHint => 'https://example.com';
+  String get guildNavbarUrlHint => 'https://pelda.hu';
 
   @override
   String get guildNavbarChannelTypeSelection => 'Csatornatípus kiválasztása';
 
   @override
-  String get guildNavbarPrivateChannel => 'Private channel';
+  String get guildNavbarPrivateChannel => 'Privát csatorna';
 
   @override
   String get guildNavbarPrivateChannelDescription =>
-      'Only selected members and roles will be able to view this channel.';
+      'Csak a kiválasztott tagok és szerepkörök láthatják ezt a csatornát.';
 
   @override
-  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+  String get guildNavbarAddMembersOrRoles =>
+      'Tagok vagy szerepkörök hozzáadása';
 
   @override
-  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+  String get guildNavbarAddMembersOrRolesHint =>
+      'Tagok vagy szerepkörök keresése';
 
   @override
   String get guildNavbarCreateCategory => 'Kategória létrehozása';
@@ -11964,7 +11984,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Szerepkörök és engedélyek';
 
   @override
-  String get guildMenuSettingsEmoji => 'Emoji';
+  String get guildMenuSettingsEmoji => 'Emojik';
 
   @override
   String get guildMenuSettingsStickers => 'Matricák';
@@ -12426,333 +12446,339 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get permissionSetVoiceRegion => 'Hangrégió beállítása';
 
   @override
-  String get permissionManageThreads => 'Manage threads';
+  String get permissionManageThreads => 'Szálak kezelése';
 
   @override
   String get permissionManageThreadsDescription =>
-      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+      'Szálak átnevezése, archiválása, zárolása és törlése, lassú módjuk beállítása, valamint a privát szálak megtekintése.';
 
   @override
-  String get permissionCreatePublicThreads => 'Create public threads';
+  String get permissionCreatePublicThreads => 'Nyilvános szálak létrehozása';
 
   @override
   String get permissionCreatePublicThreadsDescription =>
-      'Start threads that everyone who can view the channel can see.';
+      'Olyan szálak indítása, amelyeket mindenki láthat, aki látja a csatornát.';
 
   @override
-  String get permissionCreatePrivateThreads => 'Create private threads';
+  String get permissionCreatePrivateThreads => 'Privát szálak létrehozása';
 
   @override
   String get permissionCreatePrivateThreadsDescription =>
-      'Start invite-only threads.';
+      'Csak meghívással elérhető szálak indítása.';
 
   @override
-  String get permissionSendMessagesInThreads => 'Send messages in threads';
+  String get permissionSendMessagesInThreads => 'Üzenetek küldése szálakban';
 
   @override
   String get permissionSendMessagesInThreadsDescription =>
-      'Send messages in threads and forum posts.';
+      'Üzenetek küldése szálakban és fórumbejegyzésekben.';
 
   @override
-  String get threadErrorArchived => 'This thread is archived.';
+  String get threadErrorArchived => 'Ez a szál archiválva van.';
 
   @override
   String get threadErrorLocked =>
-      'This thread is locked. Only moderators can post or reopen it.';
+      'Ez a szál zárolva van. Csak a moderátorok írhatnak bele vagy nyithatják meg újra.';
 
   @override
   String get threadErrorAlreadyCreated =>
-      'A thread already exists for this message.';
+      'Ehhez az üzenethez már létezik szál.';
 
   @override
   String get threadErrorMaxActiveThreads =>
-      'This community has reached its limit of active threads.';
+      'Ez a közösség elérte az aktív szálak maximális számát.';
 
   @override
   String get threadErrorMaxMembers =>
-      'This thread has reached its member limit.';
+      'Ez a szál elérte a tagok maximális számát.';
 
   @override
   String get threadErrorMaxPinnedPosts =>
-      'Only one post can be pinned in this forum.';
+      'Ebben a fórumban csak egy bejegyzés rögzíthető.';
 
   @override
-  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+  String get threadErrorMaxForumTags =>
+      'Egy fórumnak legfeljebb 20 címkéje lehet.';
 
   @override
-  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+  String get threadErrorTagNamesUnique =>
+      'A címkék nevének egyedinek kell lennie.';
 
   @override
   String get threadErrorNoTagsForEveryone =>
-      'Add a tag everyone can use before requiring tags.';
+      'Mielőtt kötelezővé teszed a címkéket, adj hozzá egy olyan címkét, amelyet mindenki használhat.';
 
   @override
-  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+  String get threadErrorTagRequired =>
+      'Válassz legalább egy címkét ehhez a bejegyzéshez.';
 
   @override
   String get threadErrorUnknownTag =>
-      'One of the selected tags no longer exists.';
+      'Az egyik kiválasztott címke már nem létezik.';
 
   @override
   String get threadErrorInvalidNotificationSettings =>
-      'Those notification settings are not valid for a thread.';
+      'Ezek az értesítési beállítások nem érvényesek egy szálhoz.';
 
   @override
   String get threadErrorSearchIndexNotReady =>
-      'Posts are still being indexed. Try again in a moment.';
+      'A bejegyzések indexelése még folyamatban van. Próbáld újra egy kicsit később.';
 
   @override
   String get threadErrorInvalidChannelType =>
-      'This action is not available in this channel.';
+      'Ez a művelet nem érhető el ebben a csatornában.';
 
   @override
-  String get threadCreate => 'Create thread';
+  String get threadCreate => 'Szál létrehozása';
 
   @override
-  String get threadName => 'Thread name';
+  String get threadName => 'Szál neve';
 
   @override
-  String get threadNameRequired => 'Give the thread a name.';
+  String get threadNameRequired => 'Adj nevet a szálnak.';
 
   @override
-  String get threadNewThreadPlaceholder => 'New thread';
+  String get threadNewThreadPlaceholder => 'Új szál';
 
   @override
-  String get threadPrivate => 'Private thread';
+  String get threadPrivate => 'Privát szál';
 
   @override
   String get threadPrivateDescription =>
-      'Only people you invite and moderators can see this thread.';
+      'Ezt a szálat csak a meghívott személyek és a moderátorok láthatják.';
 
   @override
-  String get threadStarterMessage => 'Message';
+  String get threadStarterMessage => 'Üzenet';
 
   @override
   String get threadStarterMessagePlaceholder =>
-      'Enter a message to start the conversation!';
+      'Írj egy üzenetet a beszélgetés elindításához!';
 
   @override
   String threadCreateCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can start another thread in $seconds seconds.',
-      one: 'You can start another thread in 1 second.',
+      other: '$seconds másodperc múlva indíthatsz újabb szálat.',
+      one: '1 másodperc múlva indíthatsz újabb szálat.',
     );
     return '$_temp0';
   }
 
   @override
   String threadCreateFailed(String detail) {
-    return 'Could not start the thread: $detail';
+    return 'Nem sikerült elindítani a szálat: $detail';
   }
 
   @override
-  String get threadBrowserTitle => 'Threads';
+  String get threadBrowserTitle => 'Szálak';
 
   @override
-  String get threadBrowserActive => 'Active';
+  String get threadBrowserActive => 'Aktív';
 
   @override
-  String get threadBrowserArchived => 'Closed';
+  String get threadBrowserArchived => 'Zárt';
 
   @override
-  String get threadBrowserJoined => 'Joined';
+  String get threadBrowserJoined => 'Csatlakozott';
 
   @override
-  String get threadBrowserOtherActive => 'Other active threads';
+  String get threadBrowserOtherActive => 'Egyéb aktív szálak';
 
   @override
-  String get threadBrowserPublic => 'Public threads';
+  String get threadBrowserPublic => 'Nyilvános szálak';
 
   @override
-  String get threadBrowserPrivate => 'Private threads';
+  String get threadBrowserPrivate => 'Privát szálak';
 
   @override
   String get threadBrowserEmpty =>
-      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+      'Nincsenek szálak. Egy szállal, azaz ideiglenes szöveges csatornával egy beszélgetésre koncentrálhatsz.';
 
   @override
-  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+  String get threadBrowserArchivedEmpty => 'Nincsenek lezárt szálak.';
 
   @override
-  String get threadBrowserLoadMore => 'Load more';
+  String get threadBrowserLoadMore => 'Továbbiak betöltése';
 
   @override
-  String get threadBrowserSearch => 'Search threads';
+  String get threadBrowserSearch => 'Szálak keresése';
 
   @override
-  String get threadBrowserSearchEmpty => 'No threads match';
+  String get threadBrowserSearchEmpty => 'Nincs egyező szál';
 
   @override
   String get threadBrowserSearchEmptyHint =>
-      'Try a different name or check the other tab.';
+      'Próbálj ki egy másik nevet, vagy nézd meg a másik lapot.';
 
   @override
   String get threadBrowserSearchFailed =>
-      'Couldn\'t search threads. Try again later.';
+      'Nem sikerült a szálak keresése. Próbáld meg később.';
 
   @override
   String get threadBrowserSearchIndexing =>
-      'Search is getting ready for this community. Trying again shortly...';
+      'A keresés még előkészítés alatt áll ebben a közösségben. Hamarosan újra próbálkozunk…';
 
   @override
   String threadMessageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count messages',
-      one: '1 message',
+      other: '$count üzenet',
+      one: '1 üzenet',
     );
     return '$_temp0';
   }
 
   @override
   String get threadFailedToMentionSomeRoles =>
-      'Some mentioned roles were not added to this thread.';
+      'Néhány említett szerepkör nem lett hozzáadva ehhez a szálhoz.';
 
   @override
-  String get threadMembers => 'Thread members';
+  String get threadMembers => 'Szál tagjai';
 
   @override
   String threadMembersCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '1 member',
+      other: '$count tag',
+      one: '1 tag',
     );
     return '$_temp0';
   }
 
   @override
-  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+  String get threadMembersEmpty =>
+      'Még senki sem csatlakozott ehhez a szálhoz.';
 
   @override
   String threadRemoveMember(String name) {
-    return 'Remove $name from thread';
+    return '$name eltávolítása a szálból';
   }
 
   @override
-  String get threadJoin => 'Join thread';
+  String get threadJoin => 'Csatlakozás a szálhoz';
 
   @override
-  String get threadLeave => 'Leave thread';
+  String get threadLeave => 'Kilépés a szálból';
 
   @override
   String get threadJoinNotice =>
-      'Join this thread to follow it in your channel list and get notifications.';
+      'Csatlakozz ehhez a szálhoz, hogy követhesd a csatornalistádban, és értesítéseket kapj.';
 
   @override
   String get threadArchivedNotice =>
-      'This thread is closed. Sending a message will open it again.';
+      'Ez a szál le van zárva. Üzenet küldésével újra megnyílik.';
 
   @override
   String get threadLockedNotice =>
-      'This thread is locked. Only moderators can send messages.';
+      'Ez a szál zárolva van. Csak a moderátorok küldhetnek üzeneteket.';
 
   @override
-  String get threadArchive => 'Close thread';
+  String get threadArchive => 'Szál lezárása';
 
   @override
-  String get threadUnarchive => 'Open thread again';
+  String get threadUnarchive => 'Szál újranyitása';
 
   @override
-  String get threadLock => 'Lock thread';
+  String get threadLock => 'Szál zárolása';
 
   @override
-  String get threadUnlock => 'Unlock thread';
+  String get threadUnlock => 'Szál zárolásának feloldása';
 
   @override
-  String get threadDelete => 'Delete thread';
+  String get threadDelete => 'Szál törlése';
 
   @override
   String threadDeleteConfirm(String threadName) {
-    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+    return 'Biztosan törölni szeretnéd a(z) $threadName szálat? Ez nem vonható vissza.';
   }
 
   @override
-  String get threadDeleted => 'Thread deleted';
+  String get threadDeleted => 'Szál törölve';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => 'Megjelölés olvasottként';
 
   @override
-  String get threadMute => 'Mute thread';
+  String get threadMute => 'Szál némítása';
 
   @override
-  String get threadUnmute => 'Unmute thread';
+  String get threadUnmute => 'Szál némításának feloldása';
 
   @override
-  String get threadMuted => 'Thread muted';
+  String get threadMuted => 'Szál némítva';
 
   @override
-  String get threadUnmuted => 'Thread unmuted';
+  String get threadUnmuted => 'Szál némítása feloldva';
 
   @override
-  String get threadNotificationSettings => 'Notification settings';
+  String get threadNotificationSettings => 'Értesítési beállítások';
 
   @override
-  String get threadNotificationParentDefault => 'Use channel default';
+  String get threadNotificationParentDefault =>
+      'A csatorna alapértelmezésének használata';
 
   @override
-  String get threadCopyLink => 'Copy link';
+  String get threadCopyLink => 'Link másolása';
 
   @override
-  String get threadCopyId => 'Copy thread ID';
+  String get threadCopyId => 'Szálazonosító másolása';
 
   @override
-  String get threadMoreOptions => 'More options';
+  String get threadMoreOptions => 'További lehetőségek';
 
   @override
-  String get threadSettings => 'Thread settings';
+  String get threadSettings => 'Szál beállításai';
 
   @override
-  String get threadSettingsSaved => 'Thread settings saved';
+  String get threadSettingsSaved => 'Szálbeállítások mentve';
 
   @override
-  String get threadAutoArchive => 'Hide after inactivity';
+  String get threadAutoArchive => 'Elrejtés inaktivitás után';
 
   @override
   String get threadAutoArchiveDescription =>
-      'The thread stops showing in the channel list after this period of inactivity.';
+      'A szál ennyi idő inaktivitás után eltűnik a csatornalistából.';
 
   @override
-  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+  String get threadDefaultAutoArchive =>
+      'Alapértelmezett elrejtés inaktivitás után';
 
   @override
   String get threadDefaultAutoArchiveDescription =>
-      'New threads stop showing in the channel list after this period of inactivity.';
+      'Az új szálak ennyi idő inaktivitás után eltűnnek a csatornalistából.';
 
   @override
-  String get threadDefaultSlowmode => 'Default thread slowmode';
+  String get threadDefaultSlowmode => 'Alapértelmezett lassú mód a szálakhoz';
 
   @override
-  String get threadAutoArchiveOneHour => '1 Hour';
+  String get threadAutoArchiveOneHour => '1 óra';
 
   @override
-  String get threadAutoArchiveOneDay => '24 Hours';
+  String get threadAutoArchiveOneDay => '24 óra';
 
   @override
-  String get threadAutoArchiveThreeDays => '3 Days';
+  String get threadAutoArchiveThreeDays => '3 nap';
 
   @override
-  String get threadAutoArchiveOneWeek => '1 Week';
+  String get threadAutoArchiveOneWeek => '1 hét';
 
   @override
-  String get threadInvitable => 'Allow anyone to invite';
+  String get threadInvitable => 'Mindenki meghívhat';
 
   @override
   String get threadInvitableDescription =>
-      'Members of this private thread can add other people.';
+      'A privát szál tagjai más személyeket is hozzáadhatnak.';
 
   @override
   String threadStartedBy(String name) {
-    return 'Started by $name';
+    return 'Indította: $name';
   }
 
   @override
-  String get threadStarterDeleted => 'Original message was deleted.';
+  String get threadStarterDeleted => 'Az eredeti üzenetet törölték.';
 
   @override
   String systemThreadCreated(
@@ -12760,18 +12786,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String threadLink,
     String allThreadsLink,
   ) {
-    return '$username started a thread: $threadLink. See $allThreadsLink.';
+    return '$username szálat indított: $threadLink. Lásd: $allThreadsLink.';
   }
 
   @override
-  String get systemThreadCreatedAllThreadsLink => 'all threads';
+  String get systemThreadCreatedAllThreadsLink => 'az összes szál';
 
   @override
-  String get systemThreadCreatedThreadFallback => 'a thread';
+  String get systemThreadCreatedThreadFallback => 'egy szál';
 
   @override
   String systemPreviewThreadCreated(String username) {
-    return '$username started a thread.';
+    return '$username szálat indított.';
   }
 
   @override
@@ -12892,13 +12918,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get auditLogActionChannelDelete => 'Csatorna törölve';
 
   @override
-  String get auditLogActionThreadCreate => 'Thread created';
+  String get auditLogActionThreadCreate => 'Szál létrehozva';
 
   @override
-  String get auditLogActionThreadUpdate => 'Thread updated';
+  String get auditLogActionThreadUpdate => 'Szál frissítve';
 
   @override
-  String get auditLogActionThreadDelete => 'Thread deleted';
+  String get auditLogActionThreadDelete => 'Szál törölve';
 
   @override
   String get auditLogActionChannelOverwriteCreate =>
@@ -13018,17 +13044,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String auditLogSummaryThreadCreate(String actor, String target) {
-    return '$actor started the thread $target.';
+    return '$actor elindította a(z) $target szálat.';
   }
 
   @override
   String auditLogSummaryThreadUpdate(String actor, String target) {
-    return '$actor updated the thread $target.';
+    return '$actor frissítette a(z) $target szálat.';
   }
 
   @override
   String auditLogSummaryThreadDelete(String actor, String target) {
-    return '$actor deleted the thread $target.';
+    return '$actor törölte a(z) $target szálat.';
   }
 
   @override
@@ -13330,49 +13356,50 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A közösség ikonja frissítve.';
 
   @override
-  String get auditLogChangePausedInvites => 'Paused invites.';
+  String get auditLogChangePausedInvites => 'Szüneteltette a meghívókat.';
 
   @override
-  String get auditLogChangeResumedInvites => 'Resumed invites.';
+  String get auditLogChangeResumedInvites => 'Újra engedélyezte a meghívókat.';
 
   @override
   String get auditLogChangeTurnedOnDetachedBanner =>
-      'Turned on the detached banner.';
+      'Bekapcsolta a különálló borítóképet.';
 
   @override
   String get auditLogChangeTurnedOffDetachedBanner =>
-      'Turned off the detached banner.';
+      'Kikapcsolta a különálló borítóképet.';
 
   @override
   String get auditLogChangeAllowedFlexibleChannelNames =>
-      'Allowed flexible text channel names.';
+      'Engedélyezte a rugalmas szöveges csatornaneveket.';
 
   @override
   String get auditLogChangeDisallowedFlexibleChannelNames =>
-      'Stopped allowing flexible text channel names.';
+      'Már nem engedélyezi a rugalmas szöveges csatornaneveket.';
 
   @override
-  String get auditLogChangeHidOwnerCrown => 'Hid the community owner crown.';
+  String get auditLogChangeHidOwnerCrown =>
+      'Elrejtette a közösség tulajdonosának koronáját.';
 
   @override
   String get auditLogChangeShowedOwnerCrown =>
-      'Stopped hiding the community owner crown.';
+      'Már nem rejti el a közösség tulajdonosának koronáját.';
 
   @override
   String get auditLogChangeAllowedEmojiCloning =>
-      'Allowed others to clone this community\'s emojis.';
+      'Engedélyezte másoknak a közösség emojijainak klónozását.';
 
   @override
   String get auditLogChangeStoppedEmojiCloning =>
-      'Stopped allowing others to clone this community\'s emojis.';
+      'Már nem engedélyezi másoknak a közösség emojijainak klónozását.';
 
   @override
   String get auditLogChangeAllowedStickerCloning =>
-      'Allowed others to clone this community\'s stickers.';
+      'Engedélyezte másoknak a közösség matricáinak klónozását.';
 
   @override
   String get auditLogChangeStoppedStickerCloning =>
-      'Stopped allowing others to clone this community\'s stickers.';
+      'Már nem engedélyezi másoknak a közösség matricáinak klónozását.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
@@ -13995,16 +14022,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült törölni ezt a közösséget';
 
   @override
-  String get guildSettingsCategoryExpressions => 'Expressions';
+  String get guildSettingsCategoryExpressions => 'Kifejezések';
 
   @override
-  String get guildSettingsCategoryCommunity => 'Community';
+  String get guildSettingsCategoryCommunity => 'Közösség';
 
   @override
-  String get guildSettingsCategoryIntegrations => 'Integrations';
+  String get guildSettingsCategoryIntegrations => 'Integrációk';
 
   @override
-  String get guildSettingsCategoryPeople => 'People';
+  String get guildSettingsCategoryPeople => 'Személyek';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Arculat';
@@ -15238,74 +15265,75 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelDetailsUnsupportedChannel => 'Nem támogatott csatorna';
 
   @override
-  String get forumChannelTypeForum => 'Forum';
+  String get forumChannelTypeForum => 'Fórum';
 
   @override
   String get forumChannelTypeForumDescription =>
-      'Posts organized by topic and tags';
+      'Témák és címkék szerint rendezett bejegyzések';
 
   @override
-  String get forumChannelTypeMedia => 'Media';
+  String get forumChannelTypeMedia => 'Média';
 
   @override
   String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos';
+      'Képekre és videókra épülő bejegyzések';
 
   @override
-  String get forumNewPost => 'New post';
+  String get forumNewPost => 'Új bejegyzés';
 
   @override
-  String get forumNewMediaPost => 'New media post';
+  String get forumNewMediaPost => 'Új médiabejegyzés';
 
   @override
-  String get forumSearchPosts => 'Search posts';
+  String get forumSearchPosts => 'Bejegyzések keresése';
 
   @override
-  String get forumViewOptions => 'Sort and view';
+  String get forumViewOptions => 'Rendezés és nézet';
 
   @override
   String get forumSearchIndexing =>
-      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+      'A keresés még előkészítés alatt áll ebben a közösségben. A bejegyzések itt jelennek meg, amint elkészül.';
 
   @override
-  String get forumNoPosts => 'There are no posts yet';
+  String get forumNoPosts => 'Még nincsenek bejegyzések';
 
   @override
-  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+  String get forumNoPostsHint => 'Indíts itt elsőként beszélgetést.';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search';
+  String get forumNoSearchResults =>
+      'Nem található bejegyzés a keresésed alapján';
 
   @override
   String get forumNoSearchResultsHint =>
-      'Try different words or clear the tag filter.';
+      'Próbálj más szavakat, vagy töröld a címkeszűrőt.';
 
   @override
-  String get forumCreateFirstPost => 'Create the first post';
+  String get forumCreateFirstPost => 'Az első bejegyzés létrehozása';
 
   @override
-  String get forumOlderPosts => 'Older posts';
+  String get forumOlderPosts => 'Régebbi bejegyzések';
 
   @override
-  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+  String get forumPostsLoadFailed => 'Nem sikerült betölteni a bejegyzéseket.';
 
   @override
-  String get forumRetry => 'Try again';
+  String get forumRetry => 'Újra';
 
   @override
-  String get forumPostPinned => 'Pinned';
+  String get forumPostPinned => 'Rögzített';
 
   @override
-  String get forumPostLocked => 'Locked';
+  String get forumPostLocked => 'Zárolva';
 
   @override
-  String get forumPostArchived => 'Archived';
+  String get forumPostArchived => 'Archiválva';
 
   @override
   String get forumPostNewBadge => 'Új';
 
   @override
-  String get forumPostStarterDeleted => 'The original message was deleted.';
+  String get forumPostStarterDeleted => 'Az eredeti üzenetet törölték.';
 
   @override
   String forumPostSnippet(String author, String content) {
@@ -15324,927 +15352,953 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get forumPostReact => 'Add the default reaction';
+  String get forumPostReact => 'Alapértelmezett reakció hozzáadása';
 
   @override
-  String get forumOpenPost => 'Open post';
+  String get forumOpenPost => 'Bejegyzés megnyitása';
 
   @override
-  String get forumEditTags => 'Edit tags';
+  String get forumEditTags => 'Címkék szerkesztése';
 
   @override
-  String get forumSaveTags => 'Save tags';
+  String get forumSaveTags => 'Címkék mentése';
 
   @override
   String forumTagsLimitHint(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pick up to $count tags.',
-      one: 'Pick up to 1 tag.',
+      other: 'Legfeljebb $count címkét választhatsz.',
+      one: 'Legfeljebb 1 címkét választhatsz.',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPinPost => 'Pin post';
+  String get forumPinPost => 'Bejegyzés rögzítése';
 
   @override
-  String get forumUnpinPost => 'Unpin post';
+  String get forumUnpinPost => 'Bejegyzés rögzítésének feloldása';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead => 'Megjelölés olvasottként';
 
   @override
-  String get forumCopyPostLink => 'Copy link';
+  String get forumCopyPostLink => 'Link másolása';
 
   @override
-  String get forumPostGuidelines => 'Post guidelines';
+  String get forumPostGuidelines => 'Közzétételi irányelvek';
 
   @override
   String get forumGuidelinesPlaceholder =>
-      'Tell people what to post here and how to post it.';
+      'Írd le, mit és hogyan lehet ide közzétenni.';
 
   @override
-  String get forumPostTitle => 'Title';
+  String get forumPostTitle => 'Cím';
 
   @override
-  String get forumPostMessage => 'Message';
+  String get forumPostMessage => 'Üzenet';
 
   @override
   String get forumPostMessagePlaceholder =>
-      'Write the first message of your post';
+      'Írd meg a bejegyzésed első üzenetét';
 
   @override
-  String get forumPostMediaPlaceholder => 'Add a caption';
+  String get forumPostMediaPlaceholder => 'Képaláírás hozzáadása';
 
   @override
-  String get forumPostTags => 'Tags';
+  String get forumPostTags => 'Címkék';
 
   @override
-  String get forumPostTagsRequired => 'Tags (required)';
+  String get forumPostTagsRequired => 'Címkék (kötelező)';
 
   @override
-  String get forumPostAddMedia => 'Add media';
+  String get forumPostAddMedia => 'Média hozzáadása';
 
   @override
-  String get forumPostAddFile => 'Add file';
+  String get forumPostAddFile => 'Fájl hozzáadása';
 
   @override
-  String get forumPostRemoveAttachment => 'Remove attachment';
+  String get forumPostRemoveAttachment => 'Melléklet eltávolítása';
 
   @override
-  String get forumPostSubmit => 'Post';
+  String get forumPostSubmit => 'Közzététel';
 
   @override
-  String get forumPostTitleRequired => 'Give your post a title.';
+  String get forumPostTitleRequired => 'Adj címet a bejegyzésednek.';
 
   @override
   String get forumPostMediaRequired =>
-      'Add at least one image or video to post here.';
+      'Adj hozzá legalább egy képet vagy videót, hogy itt közzétehesd a bejegyzést.';
 
   @override
-  String get forumPostContentRequired => 'Write a message or add a file.';
+  String get forumPostContentRequired =>
+      'Írj egy üzenetet, vagy adj hozzá egy fájlt.';
 
   @override
-  String get forumSortLatestActivity => 'Recently active';
+  String get forumSortLatestActivity => 'Legutóbb aktív';
 
   @override
-  String get forumSortCreationTime => 'Date posted';
+  String get forumSortCreationTime => 'Közzététel dátuma';
 
   @override
-  String get forumLayoutList => 'List view';
+  String get forumLayoutList => 'Listanézet';
 
   @override
-  String get forumLayoutGallery => 'Gallery view';
+  String get forumLayoutGallery => 'Galérianézet';
 
   @override
-  String get forumNewPostsUnread => 'Show unread for new posts';
+  String get forumNewPostsUnread => 'Új bejegyzések jelzése olvasatlanként';
 
   @override
   String get forumNewPostsUnreadDescription =>
-      'Mark this channel unread when someone creates a post.';
+      'A csatorna olvasatlannak jelölése, amikor valaki bejegyzést hoz létre.';
 
   @override
-  String get forumPostSlowmode => 'Post slowmode';
+  String get forumPostSlowmode => 'Lassú mód bejegyzésekhez';
 
   @override
   String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
-    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'Várakozási idő a bejegyzések létrehozása között. A(z) „$bypassSlowmodePermissionLabel” engedéllyel rendelkezők megkerülhetik.';
   }
 
   @override
-  String get forumMessageSlowmode => 'Message slowmode in posts';
+  String get forumMessageSlowmode => 'Lassú mód üzenetekhez a bejegyzésekben';
 
   @override
   String get forumMessageSlowmodeDescription =>
-      'Slowmode applied to messages in new posts.';
+      'Az új bejegyzések üzeneteire alkalmazott lassú mód.';
 
   @override
-  String get forumDefaultAutoArchive => 'Hide after inactivity';
+  String get forumDefaultAutoArchive => 'Elrejtés inaktivitás után';
 
   @override
   String get forumDefaultAutoArchiveDescription =>
-      'New posts are archived after this long without activity.';
+      'Az új bejegyzések ennyi idő tétlenség után archiválódnak.';
 
   @override
-  String get forumDefaultReaction => 'Default reaction';
+  String get forumDefaultReaction => 'Alapértelmezett reakció';
 
   @override
-  String get forumSetDefaultReaction => 'Pick an emoji';
+  String get forumSetDefaultReaction => 'Válassz egy emojit';
 
   @override
-  String get forumChangeDefaultReaction => 'Change';
+  String get forumChangeDefaultReaction => 'Módosítás';
 
   @override
-  String get forumRemoveDefaultReaction => 'Remove';
+  String get forumRemoveDefaultReaction => 'Eltávolítás';
 
   @override
-  String get forumDefaultSortOrder => 'Default sort order';
+  String get forumDefaultSortOrder => 'Alapértelmezett rendezési sorrend';
 
   @override
-  String get forumDefaultLayout => 'Default layout';
+  String get forumDefaultLayout => 'Alapértelmezett elrendezés';
 
   @override
-  String get forumTagMatchSetting => 'Tag filter';
+  String get forumTagMatchSetting => 'Címkeszűrő';
 
   @override
-  String get forumTagMatchSome => 'Match any selected tag';
+  String get forumTagMatchSome => 'Bármelyik kiválasztott címkének megfelel';
 
   @override
-  String get forumTagMatchAll => 'Match all selected tags';
+  String get forumTagMatchAll => 'Az összes kiválasztott címkének megfelel';
 
   @override
-  String get forumRequireTag => 'Require tags';
+  String get forumRequireTag => 'Címkék megkövetelése';
 
   @override
   String get forumRequireTagDescription =>
-      'People must pick at least one tag when they create a post.';
+      'Bejegyzés létrehozásakor legalább egy címkét ki kell választani.';
 
   @override
-  String get forumHideMediaDownloads => 'Hide media download options';
+  String get forumHideMediaDownloads => 'Médialetöltési lehetőségek elrejtése';
 
   @override
   String get forumHideMediaDownloadsDescription =>
-      'Hide download, open in browser and copy link for images and videos in posts.';
+      'A letöltés, a böngészőben való megnyitás és a link másolása elrejtése a bejegyzésekben lévő képeknél és videóknál.';
 
   @override
   String forumTagsTitle(int count, int max) {
-    return 'Tags ($count/$max)';
+    return 'Címkék ($count/$max)';
   }
 
   @override
   String get forumTagsDescription =>
-      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+      'A címkék segítenek megtalálni és szűrni a bejegyzéseket. Moderált címkéket csak moderátorok adhatnak hozzá.';
 
   @override
-  String get forumCreateTag => 'Create tag';
+  String get forumCreateTag => 'Címke létrehozása';
 
   @override
-  String get forumEditTag => 'Edit tag';
+  String get forumEditTag => 'Címke szerkesztése';
 
   @override
-  String get forumSaveTag => 'Save tag';
+  String get forumSaveTag => 'Címke mentése';
 
   @override
-  String get forumDeleteTag => 'Delete tag';
+  String get forumDeleteTag => 'Címke törlése';
 
   @override
-  String get forumTagName => 'Tag name';
+  String get forumTagName => 'Címke neve';
 
   @override
   String get forumTagEmoji => 'Emoji';
 
   @override
-  String get forumTagRemoveEmoji => 'Remove emoji';
+  String get forumTagRemoveEmoji => 'Emoji eltávolítása';
 
   @override
-  String get forumTagModerated => 'Only moderators can apply';
+  String get forumTagModerated => 'Csak moderátorok adhatják hozzá';
 
   @override
   String get forumTagModeratedDescription =>
-      'Only members who can manage threads can apply or remove this tag.';
+      'Ezt a címkét csak a szálakat kezelni tudó tagok adhatják hozzá vagy távolíthatják el.';
 
   @override
-  String get forumTagModeratedBadge => 'Moderated';
+  String get forumTagModeratedBadge => 'Moderált';
 
   @override
   String forumPostCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can post again in $seconds seconds.',
-      one: 'You can post again in 1 second.',
+      other: '$seconds másodperc múlva tehetsz közzé újabb bejegyzést.',
+      one: '1 másodperc múlva tehetsz közzé újabb bejegyzést.',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceP2pStartTitle => 'Start in P2P mode?';
+  String get voiceP2pStartTitle => 'Indítás P2P módban?';
 
   @override
   String voiceP2pStartDescription(int maxParticipants) {
-    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+    return 'A hang és a videó közvetlenül a résztvevők között halad, kisebb késleltetéssel. A többi résztvevő láthatja az IP-címedet. Legfeljebb $maxParticipants ember vehet részt. Aki nem tud közvetlenül csatlakozni, nem vehet részt, amíg valaki át nem vált normál hívásra.';
   }
 
   @override
-  String get voiceP2pStartConfirm => 'Start in P2P mode';
+  String get voiceP2pStartConfirm => 'Indítás P2P módban';
 
   @override
-  String get voiceP2pStartStandard => 'Start standard call';
+  String get voiceP2pStartStandard => 'Normál hívás indítása';
 
   @override
-  String get voiceP2pJoinTitle => 'Join a P2P call?';
+  String get voiceP2pJoinTitle => 'Csatlakozol egy P2P híváshoz?';
 
   @override
   String voiceP2pJoinDescription(int maxParticipants) {
-    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+    return 'Ez a hívás közvetlenül köti össze a résztvevőket. A többi résztvevő láthatja az IP-címedet. Legfeljebb $maxParticipants ember vehet részt. Ha nem tudsz közvetlenül csatlakozni, nem vehetsz részt, amíg valaki át nem vált normál hívásra.';
   }
 
   @override
   String voiceP2pPinnedJoinDescription(int maxParticipants) {
-    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+    return 'Ez a csatorna csak P2P hívásokat engedélyez. A résztvevők közvetlenül kapcsolódnak, és láthatják az IP-címedet. Legfeljebb $maxParticipants ember vehet részt. Ha nem tudsz közvetlenül csatlakozni, nem vehetsz részt.';
   }
 
   @override
-  String get voiceP2pJoinConfirm => 'Join';
+  String get voiceP2pJoinConfirm => 'Csatlakozás';
 
   @override
-  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+  String get voiceP2pAlwaysAgreeLabel =>
+      'Ne kérdezzen újra, mindig beleegyezem';
 
   @override
   String get voiceP2pAlwaysAgreeSettingLabel =>
-      'Always agree to join P2P calls';
+      'P2P hívásokhoz való csatlakozás automatikus elfogadása';
 
   @override
   String get voiceP2pAlwaysAgreeSettingDescription =>
-      'Join P2P calls without asking. Other participants can see your IP address.';
+      'Csatlakozás P2P hívásokhoz rákérdezés nélkül. A többi résztvevő láthatja az IP-címedet.';
 
   @override
   String get voiceP2pIndicatorLabel => 'P2P';
 
   @override
   String get voiceP2pIndicatorDescription =>
-      'Direct connection. Media is encrypted between participants.';
+      'Közvetlen kapcsolat. A média titkosítva van a résztvevők között.';
 
   @override
-  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+  String get voiceP2pSwitchToStandard => 'Átváltás normál hívásra';
 
   @override
   String get voiceP2pSwitchToStandardDescription =>
-      'Everyone in the call moves to a standard call through the server.';
+      'A hívás minden résztvevője átkerül egy szerveren keresztüli normál hívásba.';
 
   @override
   String get voiceP2pPeerFailedDescription =>
-      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+      'Nem sikerült közvetlen kapcsolatot létrehozni. Lépj ki a hívásból, vagy válts át mindenkit normál hívásra.';
 
   @override
-  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+  String get voiceP2pUnavailableError =>
+      'A P2P hívások jelenleg nem elérhetők.';
 
   @override
   String get voiceP2pConsentRequiredError =>
-      'This call is P2P and needs your agreement to join.';
+      'Ez egy P2P hívás, a csatlakozáshoz a beleegyezésed szükséges.';
 
   @override
-  String get voiceChannelFullError => 'This call is full.';
+  String get voiceChannelFullError => 'Ez a hívás megtelt.';
 
   @override
   String get voiceP2pScreenShareUnavailable =>
-      'Screen sharing from this device is not available in P2P calls.';
+      'Erről az eszközről P2P hívásokban nem érhető el a képernyőmegosztás.';
 
   @override
-  String get channelMenuJoinP2p => 'Start P2P call';
+  String get channelMenuJoinP2p => 'P2P hívás indítása';
 
   @override
-  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+  String get channelSettingsRtcP2pLabel => 'Csak P2P hívások';
 
   @override
   String channelSettingsRtcP2pDescription(int maxParticipants) {
-    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+    return 'A résztvevők közvetlenül kapcsolódnak, és látják egymás IP-címét. Csatlakozás előtt mindenkinek bele kell egyeznie. Legfeljebb $maxParticipants ember vehet részt.';
   }
 
   @override
   String voiceP2pPeerFailedTitle(String name) {
-    return 'Cannot connect directly to $name';
+    return 'Nem lehet közvetlenül kapcsolódni hozzá: $name';
   }
 
   @override
   String get favoritesRenameCategory => 'Kategória átnevezése';
 
   @override
-  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+  String get friendAcceptFailedTitle =>
+      'Nem sikerült elfogadni az ismerősjelölést';
 
   @override
   String get friendAcceptUnavailable =>
-      'That friend request is no longer available. Refresh and try again.';
+      'Ez az ismerősjelölés már nem érhető el. Frissítsd az oldalt, és próbáld újra.';
 
   @override
   String get friendAcceptClaimToAccept =>
-      'Finish signing up to accept friend requests.';
+      'Fejezd be a regisztrációt az ismerősjelölések elfogadásához.';
 
   @override
   String get friendAcceptFailedMessage =>
-      'Couldn\'t accept the friend request. Try again.';
+      'Nem sikerült elfogadni az ismerősjelölést. Próbáld újra.';
 
   @override
-  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+  String get friendCancelFailedTitle =>
+      'Nem sikerült visszavonni az ismerősjelölést';
 
   @override
-  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+  String get friendIgnoreFailedTitle =>
+      'Nem sikerült figyelmen kívül hagyni az ismerősjelölést';
 
   @override
   String get friendIgnoreFailedMessage =>
-      'Couldn\'t ignore the friend request. Try again.';
+      'Nem sikerült figyelmen kívül hagyni az ismerősjelölést. Próbáld újra.';
 
   @override
-  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+  String get friendRemoveFailedTitle => 'Nem sikerült eltávolítani az ismerőst';
 
   @override
   String get friendRemoveFailedMessage =>
-      'Couldn\'t remove this friend. Try again.';
+      'Nem sikerült eltávolítani ezt az ismerőst. Próbáld újra.';
 
   @override
-  String get userBlockFailedTitle => 'Couldn\'t block user';
+  String get userBlockFailedTitle => 'Nem sikerült letiltani a felhasználót';
 
   @override
-  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+  String get userBlockSystemAccount => 'Ez a fiók nem tiltható le.';
 
   @override
-  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+  String get userBlockFailedMessage =>
+      'Nem sikerült letiltani a felhasználót. Próbáld újra.';
 
   @override
-  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+  String get userUnblockFailedTitle =>
+      'Nem sikerült feloldani a felhasználó letiltását';
 
   @override
   String get userUnblockFailedMessage =>
-      'Couldn\'t unblock this user. Try again.';
+      'Nem sikerült feloldani a felhasználó letiltását. Próbáld újra.';
 
   @override
   String friendCancelRequestConfirmDescription(String userName) {
-    return 'Cancel your friend request to $userName?';
+    return 'Visszavonod a(z) $userName részére küldött ismerősjelölésedet?';
   }
 
   @override
-  String get errorSomethingWentWrongTitle => 'Something went wrong';
+  String get errorSomethingWentWrongTitle => 'Valami hiba történt';
 
   @override
-  String get errorUnexpectedTryAgain =>
-      'An unexpected error occurred. Try again.';
+  String get errorUnexpectedTryAgain => 'Váratlan hiba történt. Próbáld újra.';
 
   @override
-  String get errorMessagingPausedTitle => 'Messaging is paused';
+  String get errorMessagingPausedTitle => 'Az üzenetküldés szünetel';
 
   @override
   String get errorMessagingPausedMessage =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'Az üzenetküldés jelenleg szünetel a fiókodban. Nézd meg az e-mailjeidet: egy gyors lépés, és folytathatod.';
 
   @override
-  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+  String get errorFeatureDisabledTitle => 'Funkció átmenetileg letiltva';
 
   @override
   String get errorFeatureDisabledMessage =>
-      'This feature is paused. Try again later.';
+      'Ez a funkció szünetel. Próbáld újra később.';
 
   @override
   String get dmErrorStartConversationTitle =>
-      'Couldn\'t start this conversation';
+      'Nem sikerült elindítani ezt a beszélgetést';
 
   @override
   String get dmErrorCannotMessageMessage =>
-      'They might not be accepting messages from you, or you no longer share a community.';
+      'Lehet, hogy nem fogad tőled üzeneteket, vagy már nincs közös közösségetek.';
 
   @override
   String get dmErrorUnknownUserMessage =>
-      'This user no longer exists. Refresh and try again.';
+      'Ez a felhasználó már nem létezik. Frissítsd az oldalt, és próbáld újra.';
 
   @override
   String get dmErrorClaimMessage =>
-      'You need to claim your account before you can start a direct message.';
+      'Közvetlen beszélgetés indítása előtt be kell fejezned a fiókod regisztrációját.';
 
   @override
   String get dmErrorVerifyEmailMessage =>
-      'You need to verify your email address before you can start a direct message.';
+      'Közvetlen beszélgetés indítása előtt meg kell erősítened az e-mail-címedet.';
 
   @override
-  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+  String get dmErrorTooManyRecipientsTitle =>
+      'Túl sokan vannak ebben a csoportban';
 
   @override
   String get dmErrorTooManyRecipientsMessage =>
-      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+      'Több személyt adtál hozzá, mint amennyit egy csoportos beszélgetés engedélyez. Távolíts el néhányat, és próbáld újra.';
 
   @override
-  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+  String get dmErrorMaxGroupDmsTitle =>
+      'Elérted a csoportos beszélgetések maximális számát';
 
   @override
   String get dmErrorMaxGroupDmsMessage =>
-      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+      'Te vagy valamelyik hozzáadandó felhasználó már elérte a nyitott csoportos beszélgetések maximális számát. Lépj ki az egyikből, majd próbáld újra.';
 
   @override
-  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+  String get groupDmAddFailedTitle => 'Nem sikerült hozzáadni a csoporthoz';
 
   @override
-  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+  String get groupDmInviteFailedTitle =>
+      'Nem sikerült meghívólinket létrehozni';
 
   @override
-  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+  String get dmCloseFailedTitle =>
+      'Nem sikerült bezárni a közvetlen beszélgetést';
 
   @override
-  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+  String get groupDmLeaveFailedTitle => 'Nem sikerült elhagyni a csoportot';
 
   @override
-  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+  String get inviteJoinFailedTitle => 'Nem sikerült csatlakozni a közösséghez';
 
   @override
   String get inviteErrorPausedMessage =>
-      'Admins paused invites — you can\'t join right now.';
+      'Az adminok szüneteltetik a meghívókat – most nem tudsz csatlakozni.';
 
   @override
-  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+  String get inviteErrorAtCapacityTitle => 'Közösség betelt';
 
   @override
   String get inviteErrorAtCapacityMessage =>
-      'This community has reached its maximum member limit and is not accepting new members at this time.';
+      'Ez a közösség elérte a maximális taglétszámot, és jelenleg nem fogad új tagokat.';
 
   @override
-  String get inviteErrorPresenceTitle => 'Gateway connection required';
+  String get inviteErrorPresenceTitle => 'Átjárókapcsolat szükséges';
 
   @override
   String get inviteErrorPresenceMessage =>
-      'Temporary invites need a live connection. Check yours and try again.';
+      'Az ideiglenes meghívókhoz élő kapcsolatra van szükség. Ellenőrizd a kapcsolatodat, és próbáld újra.';
 
   @override
-  String get inviteErrorBannedTitle => 'You\'re banned';
+  String get inviteErrorBannedTitle => 'Ki vagy tiltva';
 
   @override
   String get inviteErrorBannedMessage =>
-      'You are banned from this community and cannot join.';
+      'Ki lettél tiltva ebből a közösségből, és nem csatlakozhatsz.';
 
   @override
-  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+  String get inviteErrorIpBannedTitle => 'Az IP-címed ki van tiltva';
 
   @override
   String get inviteErrorIpBannedMessage =>
-      'Your IP address is banned from this community and you cannot join.';
+      'Az IP-címed ki van tiltva ebből a közösségből, ezért nem csatlakozhatsz.';
 
   @override
-  String get inviteErrorClaimTitle => 'Account verification required';
+  String get inviteErrorClaimTitle => 'Fiókellenőrzés szükséges';
 
   @override
   String get inviteErrorClaimMessage =>
-      'Add an email and password to your account first.';
+      'Először adj meg egy e-mail-címet és jelszót a fiókodhoz.';
 
   @override
-  String get leaveCommunityFailedTitle => 'Failed to leave community';
+  String get leaveCommunityFailedTitle => 'Nem sikerült elhagyni a közösséget';
 
   @override
   String get leaveCommunityFailedMessage =>
-      'Couldn\'t leave right now. Try again in a moment.';
+      'Most nem sikerült kilépni. Próbáld meg újra egy pillanat múlva.';
 
   @override
-  String get chatSendFailedTitle => 'Your message didn\'t send';
+  String get chatSendFailedTitle => 'Az üzenet küldése sikertelen';
 
   @override
-  String get chatSendFailedMessage => 'Try sending your message again.';
+  String get chatSendFailedMessage => 'Próbáld meg újra elküldeni az üzenetet.';
 
   @override
-  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+  String get chatSendTooQuickTitle => 'Túl gyorsan küldesz üzeneteket';
 
   @override
   String get chatRateLimitedMessage =>
-      'Slow down — wait a moment before trying again.';
+      'Lassíts – várj egy pillanatot, mielőtt újra megpróbálnád.';
 
   @override
-  String get chatMatureContentTitle => 'Mature content not allowed';
+  String get chatMatureContentTitle => 'Felnőtt tartalom nem engedélyezett';
 
   @override
   String get chatMatureContentGuildMessage =>
-      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+      'Ez a csatorna nincs felnőtt tartalomként megjelölve. Felnőtt tartalom csak a felnőtt tartalomként megjelölt csatornákon küldhető. Ha indokolt, kérj meg egy moderátort, hogy módosítsa ezt a csatornát.';
 
   @override
   String chatMatureContentDmMessage(String settingsPath) {
-    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+    return 'Te vagy a beszélgetőpartnered letiltotta az érzékeny médiát a közvetlen üzenetekben. Ezt bármelyikőtök módosíthatja itt: $settingsPath.';
   }
 
   @override
   String get chatMatureContentGroupDmMessage =>
-      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+      'Ez a csoport nincs felnőtt tartalomként megjelölve. A csoport tulajdonosa bekapcsolhatja a Felnőtt tartalom opciót a csoportbeállításokban, ha a csoport minden tagja 18 éves vagy idősebb.';
 
   @override
-  String get chatFileTooLargeTitle => 'File size too large';
+  String get chatFileTooLargeTitle => 'Túl nagy fájlméret';
 
   @override
   String chatFileTooLargeMessage(String maxSize) {
-    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+    return 'Egy vagy több feltölteni kívánt fájl meghaladja a(z) $maxSize maximális fájlméretet.';
   }
 
   @override
-  String get chatHeavyTitle => 'Whoa, this is heavy';
+  String get chatHeavyTitle => 'Hú, ez durva';
 
   @override
   String get chatReactionsHeavyMessage =>
-      'This is one heavy message. Some reactions need to be removed before you can add more.';
+      'Ez egy elég „nehéz” üzenet. Előbb el kell távolítanod néhány reakciót, mielőtt újakat adhatnál hozzá.';
 
   @override
   String get chatReactionTimedOut =>
-      'You can\'t add new reactions while you\'re timed out.';
+      'Az ideiglenes korlátozás alatt nem adhatsz hozzá új reakciókat.';
 
   @override
   String chatTooManyAttachmentsMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '$count file',
+      other: '$count fájlt',
+      one: '$count fájlt',
     );
-    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+    return 'Egyszerre legfeljebb $_temp0 tölthetsz fel. Próbáld újra kevesebb fájllal.';
   }
 
   @override
-  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+  String get chatEditTooQuickTitle => 'Túl gyorsan szerkeszted az üzeneteket';
 
   @override
-  String get chatEditFailedMessage => 'Try editing your message again.';
+  String get chatEditFailedMessage =>
+      'Próbáld meg újra szerkeszteni az üzenetedet.';
 
   @override
-  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+  String get chatDeleteTooQuickTitle => 'Túl gyorsan törlöd az üzeneteket';
 
   @override
   String get chatDeleteTooQuickMessage =>
-      'Wait a moment before deleting more messages.';
+      'Várj egy pillanatot, mielőtt további üzeneteket törölsz.';
 
   @override
-  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+  String get chatDeleteFailedTitle => 'Nem sikerült törölni az üzenetet';
 
   @override
-  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+  String get chatDeleteFailedMessage => 'Próbáld meg újra törölni az üzenetet.';
 
   @override
-  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+  String get chatAttachmentDeleteFailedTitle =>
+      'Nem sikerült törölni a mellékletet';
 
   @override
   String get chatAttachmentDeleteFailedMessage =>
-      'Try deleting that attachment again.';
+      'Próbáld meg újra törölni a mellékletet.';
 
   @override
-  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+  String get chatAltTextFailedTitle =>
+      'Nem sikerült frissíteni az alternatív szöveget';
 
   @override
-  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+  String get chatAltTextUnknownMessage => 'Ez az üzenet már nem létezik.';
 
   @override
-  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+  String get chatAltTextNoPermission => 'Nem szerkesztheted ezt az üzenetet.';
 
   @override
   String get chatAltTextUnavailable =>
-      'Editing is temporarily unavailable. Please try again later.';
+      'A szerkesztés átmenetileg nem érhető el. Próbáld újra később.';
 
   @override
   String get chatAltTextFailedMessage =>
-      'Couldn\'t update the alt text. Please try again.';
+      'Nem sikerült frissíteni az alternatív szöveget. Próbáld újra.';
 
   @override
-  String get chatPinFailedTitle => 'Failed to pin message';
+  String get chatPinFailedTitle => 'Az üzenet rögzítése sikertelen';
 
   @override
-  String get chatUnpinFailedTitle => 'Failed to unpin message';
+  String get chatUnpinFailedTitle =>
+      'Nem sikerült feloldani az üzenet rögzítését';
 
   @override
-  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+  String get chatPinFailedMessage => 'Hiba történt. Próbáld újra később.';
 
   @override
   String get chatPinBlockedMessage =>
-      'You cannot interact with this user right now.';
+      'Jelenleg nem tudsz kapcsolatba lépni ezzel a felhasználóval.';
 
   @override
-  String get bookmarkLimitTitle => 'Bookmark limit reached';
+  String get bookmarkLimitTitle => 'Elérted a mentett üzenetek korlátját';
 
   @override
   String bookmarkLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count bookmarks',
-      one: '$count bookmark',
+      other: '$count mentett üzenetes',
+      one: '$count mentett üzenetes',
     );
-    return 'You\'re at $_temp0. Remove one to add another.';
+    return 'Elérted a $_temp0 korlátot. Távolíts el egyet, hogy újat adhass hozzá.';
   }
 
   @override
-  String get savedMediaLimitTitle => 'Saved media limit reached';
+  String get savedMediaLimitTitle =>
+      'Elérted a mentett médiatartalmak korlátját';
 
   @override
   String savedMediaLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count saved media items',
-      one: '$count saved media item',
+      other: '$count mentett médiaelemes',
+      one: '$count mentett médiaelemes',
     );
-    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+    return 'Elérted a $_temp0 korlátot. Távolíts el egyet, hogy újat adhass hozzá.';
   }
 
   @override
-  String get errorContentBlockedTitle => 'Content blocked';
+  String get errorContentBlockedTitle => 'Tartalom blokkolva';
 
   @override
   String get errorContentBlockedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'A műveletet nem sikerült végrehajtani, mert a biztonsági rendszereink megjelölték. Ha úgy gondolod, ez tévedés, vedd fel a kapcsolatot az ügyfélszolgálattal.';
 
   @override
   String get errorContentBlockedSelfHostedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'A műveletet nem sikerült végrehajtani, mert a biztonsági rendszereink megjelölték. Ha úgy gondolod, ez tévedés, vedd fel a kapcsolatot ennek a példánynak az adminisztrátoraival.';
 
   @override
-  String get channelDeletedToast => 'Channel deleted';
+  String get channelDeletedToast => 'Csatorna törölve';
 
   @override
-  String get categoryDeletedToast => 'Category deleted';
+  String get categoryDeletedToast => 'Kategória törölve';
 
   @override
-  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+  String get channelDeleteNoPermissionTitle => 'Nem törölheted';
 
   @override
   String get channelDeleteNoPermissionChannel =>
-      'You don\'t have permission to delete this channel.';
+      'Nincs jogosultságod törölni ezt a csatornát.';
 
   @override
   String get channelDeleteNoPermissionCategory =>
-      'You don\'t have permission to delete this category.';
+      'Nincs jogosultságod törölni ezt a kategóriát.';
 
   @override
-  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+  String get channelDeleteAlreadyDeletedTitle => 'Már törölve';
 
   @override
   String get channelDeleteAlreadyDeletedChannel =>
-      'This channel no longer exists. It may have already been deleted.';
+      'Ez a csatorna már nem létezik. Lehet, hogy már törölték.';
 
   @override
   String get channelDeleteAlreadyDeletedCategory =>
-      'This category no longer exists. It may have already been deleted.';
+      'Ez a kategória már nem létezik. Lehet, hogy már törölték.';
 
   @override
-  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+  String get channelDeleteFailedChannelTitle =>
+      'Nem sikerült törölni ezt a csatornát';
 
   @override
   String get channelDeleteFailedCategoryTitle =>
-      'Couldn\'t delete this category';
+      'Nem sikerült törölni ezt a kategóriát';
 
   @override
   String get channelPermissionsUpdateFailedTitle =>
-      'Couldn\'t update channel permissions';
+      'Nem sikerült frissíteni a csatornajogosultságokat';
 
   @override
   String get channelSettingsSaveFailedTitle =>
-      'Couldn\'t save channel settings';
+      'Nem sikerült menteni a csatorna beállításait';
 
   @override
-  String get emojiSlotsFullTitle => 'No emoji slots available';
+  String get emojiSlotsFullTitle => 'Nincs szabad emojihely';
 
   @override
-  String get stickerSlotsFullTitle => 'No sticker slots available';
+  String get stickerSlotsFullTitle => 'Nincs szabad matricahely';
 
   @override
   String get emojiSomeFailedMessage =>
-      'Review these files and try again with smaller or simpler images.';
+      'Nézd át ezeket a fájlokat, és próbáld újra kisebb vagy egyszerűbb képekkel.';
 
   @override
   String get emojiNameInvalidCharacters =>
-      'Emoji names can only use letters, numbers and underscores.';
+      'Az emojinevek csak betűket, számokat és aláhúzásjeleket tartalmazhatnak.';
 
   @override
-  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+  String get emojiErrorGoneTitle => 'Ez az emoji már nem létezik';
 
   @override
   String get emojiRenameGoneMessage =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'Lehet, hogy törölték. A név visszaállt az eredetire.';
 
   @override
-  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+  String get emojiRenameNoPermissionTitle => 'Nem nevezheted át ezt az emojit';
 
   @override
   String get emojiRenameNoPermissionMessage =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'Nincs jogosultságod az emoji átnevezéséhez. A név visszaállt az eredetire.';
 
   @override
   String get emojiRenameRateLimitedMessage =>
-      'Please wait a moment and try renaming again.';
+      'Várj egy pillanatot, majd próbáld újra az átnevezést.';
 
   @override
   String get emojiRenameFailedMessage =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'A név visszaállt az előző értékére. Próbáld újra egy kis idő múlva.';
 
   @override
-  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+  String get emojiDeleteGoneMessage => 'Úgy tűnik, már törölték.';
 
   @override
-  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+  String get emojiDeleteNoPermissionTitle => 'Nem törölheted ezt az emojit';
 
   @override
   String get emojiDeleteNoPermissionMessage =>
-      'You don\'t have permission to delete this emoji.';
+      'Nincs jogosultságod törölni ezt az emojit.';
 
   @override
   String get emojiDeleteRateLimitedMessage =>
-      'Please wait a moment and try deleting again.';
+      'Várj egy pillanatot, majd próbáld újra a törlést.';
 
   @override
-  String get stickerTooLargeTitle => 'Sticker is too large';
+  String get stickerTooLargeTitle => 'A matrica túl nagy';
 
   @override
   String stickerTooLargeMessage(String maxSize) {
-    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+    return 'A feltöltési szolgáltatás elutasította ezt a matricát, mert nagyobb, mint $maxSize. Próbálj meg egy kisebb fájlt, egy egyszerűbb képet vagy egy rövidebb animációt.';
   }
 
   @override
   String get stickerCreateFailedMessage =>
-      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+      'Hiba történt a matrica előkészítése során. Próbálj meg egy másik fájlt, vagy próbáld újra később.';
 
   @override
-  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+  String get stickerUpdateFailedTitle =>
+      'Nem sikerült frissíteni ezt a matricát';
 
   @override
-  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+  String get moderationTimeoutFailed =>
+      'Nem sikerült ideiglenes korlátozást alkalmazni a tagra. Próbáld újra.';
 
   @override
   String get moderationRemoveTimeoutFailed =>
-      'Failed to remove timeout. Try again.';
+      'Nem sikerült feloldani az ideiglenes korlátozást. Próbáld újra.';
 
   @override
-  String get moderationKickFailed => 'Failed to kick member. Try again.';
+  String get moderationKickFailed =>
+      'Nem sikerült kirúgni a tagot. Próbáld újra.';
 
   @override
-  String get moderationBanFailed => 'Failed to ban member. Try again.';
+  String get moderationBanFailed =>
+      'Nem sikerült kitiltani a tagot. Próbáld újra.';
 
   @override
-  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+  String get transferOwnershipFailedTitle =>
+      'Nem sikerült átruházni a tulajdonjogot';
 
   @override
   String transferOwnershipFailedMessage(String username) {
-    return 'Ownership could not be transferred to $username at this time.';
+    return 'A tulajdonjogot jelenleg nem sikerült átruházni a következő felhasználóra: $username.';
   }
 
   @override
-  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+  String get revokeBanFailedTitle => 'Nem sikerült visszavonni a kitiltást';
 
   @override
-  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+  String get voiceModerationNoPermissionTitle => 'Ezt nem teheted meg';
 
   @override
   String get voiceModerationNoPermissionMessage =>
-      'You don\'t have permission to do this to this member.';
+      'Nincs jogosultságod ehhez a művelethez ennél a tagnál.';
 
   @override
-  String get voiceModerationLeftTitle => 'They left the call';
+  String get voiceModerationLeftTitle => 'Kilépett a hívásból';
 
   @override
-  String get voiceModerationLeftMessage =>
-      'This member isn\'t connected to voice anymore.';
+  String get voiceModerationLeftMessage => 'Ez a tag már nincs hanghívásban.';
 
   @override
-  String get voiceModerationUnknownMemberTitle => 'Member not found';
+  String get voiceModerationUnknownMemberTitle => 'A tag nem található';
 
   @override
   String get voiceModerationUnknownMemberMessage =>
-      'This member is no longer in the community. Refresh and try again.';
+      'Ez a tag már nincs a közösségben. Frissítsd, és próbáld újra.';
 
   @override
-  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+  String get voiceJoinTimedOut =>
+      'Az ideiglenes korlátozás alatt nem csatlakozhatsz.';
 
   @override
   String get voiceJoinClaimAccount =>
-      'Claim your account to join this voice channel.';
+      'Fejezd be a fiókod regisztrációját, hogy csatlakozhass ehhez a hangcsatornához.';
 
   @override
   String get voiceJoinClaimAccountDirectCall =>
-      'Claim your account to start or join 1:1 calls.';
+      'Fejezd be a fiókod regisztrációját, hogy kétszemélyes hívásokat indíthass vagy csatlakozhass hozzájuk.';
 
   @override
   String get voiceJoinUserLimit =>
-      'This voice channel has reached its user limit. Try again later or join a different channel.';
+      'Ez a hangcsatorna elérte a felhasználói korlátját. Próbáld újra később, vagy csatlakozz másik csatornához.';
 
   @override
   String get voiceJoinConnectionLimit =>
-      'You\'ve reached this voice channel\'s connection limit.';
+      'Elérted ennek a hangcsatornának a kapcsolati korlátját.';
 
   @override
   String get voiceJoinChannelUnavailable =>
-      'This voice channel is no longer available.';
+      'Ez a hangcsatorna már nem elérhető.';
 
   @override
-  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+  String get avatarUploadFailedTitle => 'Nem sikerült feltölteni a profilképet';
 
   @override
-  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+  String get bannerUploadFailedTitle => 'Nem sikerült feltölteni a borítóképet';
 
   @override
-  String get animatedImageUseStatic => 'Upload a static image instead.';
+  String get animatedImageUseStatic => 'Tölts fel helyette egy állóképet.';
 
   @override
-  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+  String get passkeyDeleteFailedTitle => 'Nem sikerült törölni a jelszókulcsot';
 
   @override
-  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+  String get premiumPaymentsUnavailableTitle => 'A fizetés nem elérhető';
 
   @override
   String get premiumPaymentsUnavailableMessage =>
-      'Payments are temporarily unavailable. Please try again in a moment.';
+      'A fizetés átmenetileg nem érhető el. Próbáld újra egy kis idő múlva.';
 
   @override
-  String get premiumNoSubscriptionTitle => 'No active subscription';
+  String get premiumNoSubscriptionTitle => 'Nincs aktív előfizetés';
 
   @override
   String get premiumNoSubscriptionMessage =>
-      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+      'Nem találtunk aktív előfizetést ezen a fiókon. Frissítsd, majd próbáld újra.';
 
   @override
-  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+  String get premiumAlreadyCancelingTitle => 'Már be van állítva a lemondás';
 
   @override
   String get premiumAlreadyCancelingMessage =>
-      'Your subscription is already set to cancel at the end of your billing period.';
+      'Az előfizetésed lemondása már a számlázási időszak végére van ütemezve.';
 
   @override
   String get premiumNotCancelingTitle =>
-      'Subscription is not scheduled to cancel';
+      'Az előfizetés lemondása nincs ütemezve';
 
   @override
   String get premiumNotCancelingMessage =>
-      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+      'Az előfizetésed nincs lemondásra állítva, így nincs mit újraaktiválni.';
 
   @override
-  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+  String get premiumCancelFailedTitle =>
+      'Nem sikerült lemondani az előfizetést';
 
   @override
   String get premiumCancelFailedMessage =>
-      'Something went wrong while canceling your subscription. Please try again in a moment.';
+      'Hiba történt az előfizetésed lemondásakor. Próbáld újra egy kis idő múlva.';
 
   @override
   String get premiumReactivateFailedTitle =>
-      'Couldn\'t reactivate your subscription';
+      'Nem sikerült újraaktiválni az előfizetésedet';
 
   @override
   String get premiumReactivateFailedMessage =>
-      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+      'Hiba történt az előfizetésed újraaktiválásakor. Próbáld újra egy kis idő múlva.';
 
   @override
-  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+  String get premiumRefundConfirmTitle =>
+      'Visszatérítést kérsz a legutóbbi vásárlásodra?';
 
   @override
   String get premiumRefundConfirmBody =>
-      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+      'Ez visszatéríti a legutóbbi számlád összegét, és megszünteti a hozzá kapcsolódó előfizetést. Ezután 30 napig nem kérhetsz újabb önkiszolgáló visszatérítést.';
 
   @override
-  String get premiumRefundConfirm => 'Refund purchase';
+  String get premiumRefundConfirm => 'Vásárlás visszatérítése';
 
   @override
   String get premiumRefundIssuedToast =>
-      'Refund issued. May take a few business days to appear.';
+      'Visszatérítés elindítva. Néhány munkanapba telhet, amíg megjelenik.';
 
   @override
-  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+  String get premiumRefundOutsideWindowTitle =>
+      'Visszatérítési időszakon kívül';
 
   @override
   String get premiumRefundOutsideWindowMessage =>
-      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+      'A legutóbbi vásárlásod már kívül esik a visszatérítési időszakon. Számlázási problémák esetén vedd fel a kapcsolatot az ügyfélszolgálattal.';
 
   @override
-  String get premiumRefundCooldownTitle => 'You have refunded recently';
+  String get premiumRefundCooldownTitle => 'Nemrég már kaptál visszatérítést';
 
   @override
   String get premiumRefundCooldownMessage =>
-      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+      'Nemrég már igénybe vettél önkiszolgáló visszatérítést. A várakozási idő letelte után kérhetsz újra.';
 
   @override
-  String get premiumRefundNothingTitle => 'Nothing to refund';
+  String get premiumRefundNothingTitle => 'Nincs visszatéríthető tétel';
 
   @override
   String get premiumRefundNothingMessage =>
-      'We couldn\'t find a recent purchase to refund on this account.';
+      'Nem találtunk visszatéríthető vásárlást ezen a fiókon.';
 
   @override
-  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+  String get premiumRefundFailedTitle =>
+      'Nem sikerült visszatéríteni a vásárlás árát';
 
   @override
   String get premiumRefundFailedMessage =>
-      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+      'Valami hiba történt a visszatérítés feldolgozása során. Ha ez továbbra is előfordul, vedd fel a kapcsolatot az ügyfélszolgálattal.';
 
   @override
-  String get premiumVerifyEmailTitle => 'Verify your email first';
+  String get premiumVerifyEmailTitle => 'Előbb erősítsd meg az e-mail-címedet';
 
   @override
   String premiumVerifyEmailBody(String productName) {
-    return 'You need to verify your email before you can purchase $productName.';
+    return 'Meg kell erősítened az e-mail-címedet, mielőtt megvásárolhatnád a(z) $productName terméket.';
   }
 
   @override
-  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+  String get premiumCheckoutBlockedTitle => 'A fizetés nem elérhető';
 
   @override
   String premiumCheckoutBlockedBody(String supportEmail) {
-    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+    return 'Ennél a fióknál le van tiltva a fizetés. Ha segítségre van szükséged, írj erre a címre: $supportEmail.';
   }
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
-      'Checkout is blocked for this account.';
+      'Ennél a fióknál le van tiltva a fizetés.';
 }

@@ -294,7 +294,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get register => 'ลงทะเบียน';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'หรือ';
 
   @override
   String get cancel => 'ยกเลิก';
@@ -339,7 +339,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get next => 'ถัดไป';
 
   @override
-  String get create => 'Create';
+  String get create => 'สร้าง';
 
   @override
   String get mfaTitle => 'การยืนยันตัวตนแบบสองชั้น';
@@ -382,7 +382,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String accountSignOutTitle(String identifier) {
-    return 'Sign out of $identifier?';
+    return 'ออกจากระบบ $identifier ใช่หรือไม่';
   }
 
   @override
@@ -966,7 +966,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get inviteAcceptSomeone => 'ใครบางคน';
 
   @override
-  String get mentionUnknownChannel => 'unknown-channel';
+  String get mentionUnknownChannel => 'ช่องที่ไม่รู้จัก';
 
   @override
   String get channelAccessDeniedTitle => 'ไม่สามารถเข้าถึงช่องได้';
@@ -1553,20 +1553,20 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'รายชื่อเพื่อนของคุณหรือของอีกฝ่ายเต็มแล้ว ลบเพื่อนบางคนออกแล้วลองอีกครั้ง';
 
   @override
-  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+  String get addFriendSendFailedTitle => 'ส่งคำขอเป็นเพื่อนไม่ได้';
 
   @override
   String get addFriendSendFailedMessage =>
-      'Couldn\'t send the friend request. Try again.';
+      'ส่งคำขอเป็นเพื่อนไม่สำเร็จ ลองอีกครั้ง';
 
   @override
-  String get userTagBot => 'BOT';
+  String get userTagBot => 'บอท';
 
   @override
   String get userTagSystem => 'ระบบ';
 
   @override
-  String get userTagOp => 'OP';
+  String get userTagOp => 'จขกท';
 
   @override
   String get emojiSearchPlaceholder => 'ค้นหาอิโมจิที่คุณชอบ';
@@ -1831,10 +1831,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get crop => 'ครอบตัด';
 
   @override
-  String get cropTouchHint => 'Pinch to zoom, drag to reposition';
+  String get cropTouchHint => 'บีบนิ้วเพื่อซูม ลากเพื่อจัดตำแหน่ง';
 
   @override
-  String get cropMouseHint => 'Drag corners to resize, drag inside to move';
+  String get cropMouseHint => 'ลากมุมเพื่อปรับขนาด ลากด้านในเพื่อย้าย';
 
   @override
   String get changeYourFluxerTag => 'เปลี่ยนชื่อผู้ใช้';
@@ -2808,7 +2808,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'เก็บข้อมูลนี้ไว้ให้ปลอดภัย การสร้างใหม่จะทำให้การเชื่อมต่อที่มีอยู่ใช้งานไม่ได้';
 
   @override
-  String get applicationsClientSecret => 'Client secret';
+  String get applicationsClientSecret => 'รหัสลับไคลเอนต์';
 
   @override
   String get applicationsBotToken => 'โทเค็นบอท';
@@ -2897,7 +2897,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get applicationsBotUsername => 'ชื่อผู้ใช้บอท';
 
   @override
-  String get applicationsDiscriminator => 'Discriminator';
+  String get applicationsDiscriminator => 'ตัวจำแนก';
 
   @override
   String get applicationsBotBio => 'เกี่ยวกับบอท';
@@ -4159,7 +4159,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatAttachmentSpoiler => 'สปอยล์';
 
   @override
-  String get chatMediaSpoilerOverlayLabel => 'SPOILER';
+  String get chatMediaSpoilerOverlayLabel => 'สปอยล์';
 
   @override
   String get chatMediaSpoilerRevealLabel => 'เปิดสปอยล์';
@@ -4537,93 +4537,95 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ไม่สามารถซิงค์ธีมไปยังบัญชีของคุณได้ โปรดลองอีกครั้ง';
 
   @override
-  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+  String get lookAndFeelThemeColorsTitle => 'สีธีม';
 
   @override
   String get lookAndFeelThemeColorsConfigureDescription =>
-      'Customize individual theme colors for this device.';
+      'ปรับแต่งสีธีมแต่ละสีสำหรับอุปกรณ์นี้';
 
   @override
   String lookAndFeelThemeColorsEditingMode(String mode) {
-    return 'Editing $mode';
+    return 'กำลังแก้ไข $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+  String get lookAndFeelThemeColorsSyncSectionTitle => 'ซิงค์กับ Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioLabel =>
-      'Use colors from Theme Studio';
+      'ใช้สีจาก Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioDescription =>
-      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+      'เมื่อเปิดใช้งาน การเปลี่ยนสีจาก Theme Studio บนเดสก์ท็อปจะมีผลกับอุปกรณ์นี้ เมื่อปิดใช้งาน อุปกรณ์นี้จะใช้สีของตัวเอง';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioLabel =>
-      'Send color changes to Theme Studio';
+      'ส่งการเปลี่ยนสีไปยัง Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioDescription =>
-      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+      'เมื่อเปิดใช้งาน สีที่คุณเปลี่ยนที่นี่จะซิงค์ไปยัง Theme Studio บนอุปกรณ์อื่นของคุณ เมื่อปิดใช้งาน Theme Studio บนเดสก์ท็อปจะใช้สีของตัวเอง';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
-      'Desktop Theme Studio color changes will not apply on this device.';
+      'การเปลี่ยนสีจาก Theme Studio บนเดสก์ท็อปจะไม่มีผลกับอุปกรณ์นี้';
 
   @override
-  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'สีหลัก';
 
   @override
   String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
-      'If you have a chat wallpaper set, you won\'t see this color.';
+      'หากคุณตั้งวอลเปเปอร์แชทไว้ คุณจะไม่เห็นสีนี้';
 
   @override
   String lookAndFeelThemeColorsResetForMode(String mode) {
-    return 'Reset all colors for $mode';
+    return 'รีเซ็ตสีทั้งหมดสำหรับ $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+  String get lookAndFeelThemeColorsResetConfirmTitle => 'รีเซ็ตสีธีมใช่หรือไม่';
 
   @override
   String lookAndFeelThemeColorsResetConfirmBody(String mode) {
-    return 'This removes your custom color overrides for $mode on this device.';
+    return 'การดำเนินการนี้จะลบสีที่คุณกำหนดเองสำหรับ $mode บนอุปกรณ์นี้';
   }
 
   @override
-  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'แบรนด์และปุ่ม';
 
   @override
-  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'แชทและข้อความ';
 
   @override
-  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+  String get lookAndFeelThemeColorsGroupSidebars => 'แถบด้านข้างและการนำทาง';
 
   @override
-  String get lookAndFeelThemeColorsGroupText => 'Text';
+  String get lookAndFeelThemeColorsGroupText => 'ข้อความ';
 
   @override
-  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+  String get lookAndFeelThemeColorsGroupHeaders => 'ส่วนหัว';
 
   @override
-  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+  String get lookAndFeelThemeColorsGroupStatus => 'สถานะ';
 
   @override
-  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup =>
+      'เนื้อหาฝังและการกล่าวถึง';
 
   @override
-  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+  String get lookAndFeelThemeColorsGroupAccentsAlerts =>
+      'สีเน้นและการแจ้งเตือน';
 
   @override
-  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+  String get lookAndFeelThemeColorsGroupControls => 'พื้นผิวและตัวควบคุม';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+  String get lookAndFeelChatFontScalingTitle => 'การปรับขนาดตัวอักษรแชท';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'ปรับขนาดตัวอักษรในหน้าแชท';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'ขนาดตัวอักษรแชท';
@@ -4831,11 +4833,11 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
-      'Open communities to your last channel';
+      'เปิดคอมมูนิตี้ไปที่ช่องล่าสุดของคุณ';
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
-      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
+      'เมื่อแตะคอมมูนิตี้ ระบบจะพาคุณไปยังช่องล่าสุดที่คุณดูในคอมมูนิตี้นั้นโดยตรง ปัดไปทางขวาเพื่อดูรายการช่อง';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'รายการช่อง';
@@ -5833,7 +5835,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String get shellResizeSidebar => 'Resize sidebar';
+  String get shellResizeSidebar => 'ปรับขนาดแถบด้านข้าง';
 
   @override
   String get voiceConnectionTitle => 'การเชื่อมต่อเสียง';
@@ -6011,10 +6013,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get voiceStopWatchingCurrentStreamTooltip => 'หยุดดูสตรีมปัจจุบัน';
 
   @override
-  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+  String get voiceScreenShareEnterFullscreenTooltip => 'เต็มหน้าจอ';
 
   @override
-  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+  String get voiceScreenShareExitFullscreenTooltip => 'ออกจากโหมดเต็มหน้าจอ';
 
   @override
   String get voiceOwnScreenShareTitle => 'คุณกำลังถ่ายทอดสด';
@@ -6134,22 +6136,22 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String notificationsMentionedYouIn(String author, String place) {
-    return '$author mentioned you in $place:';
+    return '$author กล่าวถึงคุณใน $place:';
   }
 
   @override
   String notificationsRepliedToYouIn(String author, String place) {
-    return '$author replied to you in $place:';
+    return '$author ตอบกลับคุณใน $place:';
   }
 
   @override
   String notificationsMentionedYou(String author) {
-    return '$author mentioned you:';
+    return '$author กล่าวถึงคุณ:';
   }
 
   @override
   String notificationsRepliedToYou(String author) {
-    return '$author replied to you:';
+    return '$author ตอบกลับคุณ:';
   }
 
   @override
@@ -6158,13 +6160,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsSendReply => 'Send a reply';
+  String get notificationsSendReply => 'ส่งคำตอบกลับ';
 
   @override
-  String get notificationsRecentActivity => 'Recent activity';
+  String get notificationsRecentActivity => 'กิจกรรมล่าสุด';
 
   @override
-  String get notificationsRemoveNotification => 'Remove notification';
+  String get notificationsRemoveNotification => 'ลบการแจ้งเตือน';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -6742,7 +6744,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get doubleTapReactionHint => 'แตะสองครั้งที่ข้อความเพื่อ';
 
   @override
-  String get doubleTapEditHint => 'Double tap your own message to edit it';
+  String get doubleTapEditHint => 'แตะสองครั้งที่ข้อความของคุณเพื่อแก้ไข';
 
   @override
   String get doubleTapReactionEdit => 'แก้ไข';
@@ -6754,61 +6756,62 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get doubleTapReactionEditSubtitle => 'เลือกอิโมจิแตะสองครั้ง';
 
   @override
-  String get messagesMediaGesturesSectionTitle => 'Gestures';
+  String get messagesMediaGesturesSectionTitle => 'ท่าทาง';
 
   @override
   String get messagesMediaGesturesSectionDescription =>
-      'Configure double tap and swipe on messages.';
+      'กำหนดการแตะสองครั้งและการปัดบนข้อความ';
 
   @override
-  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+  String get messagesMediaGesturesReactionLabel => 'อิโมจิรีแอ็กชัน';
 
   @override
   String get messagesMediaGesturesReactionDescription =>
-      'Used when double tap is set to add a reaction.';
+      'ใช้เมื่อตั้งค่าการแตะสองครั้งให้เพิ่มรีแอ็กชัน';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesDoubleTapActionLabel =>
+      'การทำงานเมื่อแตะสองครั้ง';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesDoubleTapActionReactName => 'เพิ่มรีแอ็กชัน';
 
   @override
   String get messagesMediaGesturesDoubleTapActionReactDescription =>
-      'Adds your default double-tap emoji as a reaction.';
+      'เพิ่มอิโมจิแตะสองครั้งเริ่มต้นของคุณเป็นรีแอ็กชัน';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName => 'แก้ไขข้อความ';
 
   @override
   String get messagesMediaGesturesDoubleTapActionEditDescription =>
-      'Opens the editor on messages you sent. Other messages are unchanged.';
+      'เปิดตัวแก้ไขบนข้อความที่คุณส่ง ข้อความอื่นจะไม่ได้รับผลกระทบ';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'ไม่ทำอะไร';
 
   @override
   String get messagesMediaGesturesDoubleTapActionNoneDescription =>
-      'Double tap is disabled.';
+      'ปิดใช้งานการแตะสองครั้ง';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftLabel =>
-      'Swipe right to left';
+  String get messagesMediaGesturesSwipeRightToLeftLabel => 'ปัดจากขวาไปซ้าย';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+  String get messagesMediaGesturesSwipeRightToLeftReplyName =>
+      'ปัดเพื่อตอบกลับ';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
-      'Swipe a message to reply, with hold to edit your own messages.';
+      'ปัดข้อความเพื่อตอบกลับ และกดค้างเพื่อแก้ไขข้อความของคุณ';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
-      'Show channel details';
+      'แสดงรายละเอียดช่อง';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
-      'Swipe a message or tap the channel header to open channel details in a side panel.';
+      'ปัดข้อความหรือแตะส่วนหัวของช่องเพื่อเปิดรายละเอียดช่องในแผงด้านข้าง';
 
   @override
   String get chatMessageEdit => 'แก้ไขข้อความ';
@@ -7147,7 +7150,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get chatMessageDeleteAttachmentConfirmDescription =>
-      'Are you sure you want to delete this attachment?';
+      'คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์แนบนี้';
 
   @override
   String get chatMessageEditAttachmentAltText => 'แก้ไขข้อความอธิบายรูปภาพ';
@@ -7207,7 +7210,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatMessagesLoadError => 'ไม่สามารถโหลดข้อความได้';
 
   @override
-  String get chatMessagesFailedToLoad => 'Messages failed to load';
+  String get chatMessagesFailedToLoad => 'โหลดข้อความไม่สำเร็จ';
 
   @override
   String get chatReplyMentionOverrideTitle =>
@@ -7238,10 +7241,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Mention ผู้ที่ตอบกลับ';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'เปิด';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'ปิด';
 
   @override
   String get chatReplyCancel => 'ยกเลิกตอบกลับ';
@@ -7253,10 +7256,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatEditNoChanges => 'ไม่มีการเปลี่ยนแปลงที่ต้องบันทึก';
 
   @override
-  String get chatEditFailed => 'Your message didn\'t update';
+  String get chatEditFailed => 'อัปเดตข้อความของคุณไม่สำเร็จ';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'แก้ไขอีกครั้ง';
 
   @override
   String get chatChannelNotReady =>
@@ -7369,7 +7372,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'สติกเกอร์';
 
   @override
-  String get composerAutocompleteEmojisHeading => 'Emojis';
+  String get composerAutocompleteEmojisHeading => 'อิโมจิ';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIF';
@@ -8138,26 +8141,26 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String channelDuplicateHelper(String channelName) {
-    return 'The new channel will reuse the permissions from $channelName.';
+    return 'ช่องใหม่จะใช้สิทธิ์เดียวกับ $channelName';
   }
 
   @override
   String channelDuplicateVoiceHelper(String channelName) {
-    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+    return 'ช่องเสียงใหม่จะใช้สิทธิ์ จำนวนผู้ใช้สูงสุด และบิตเรตเดียวกับ $channelName';
   }
 
   @override
-  String get channelMenuMoveToCategory => 'Move to category';
+  String get channelMenuMoveToCategory => 'ย้ายไปยังหมวดหมู่';
 
   @override
-  String get channelMenuNoCategory => 'No category';
+  String get channelMenuNoCategory => 'ไม่มีหมวดหมู่';
 
   @override
-  String get channelMoveCategoryFullTitle => 'Category full';
+  String get channelMoveCategoryFullTitle => 'หมวดหมู่เต็ม';
 
   @override
   String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
-    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+    return 'หมวดหมู่นี้มีช่องครบตามจำนวนสูงสุดที่ $maxChannelsPerCategory ช่องแล้ว';
   }
 
   @override
@@ -8327,7 +8330,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get channelDetailsSearchAuthorTypeBot => 'บอท';
 
   @override
-  String get channelDetailsSearchAuthorTypeWebhook => 'Webhook';
+  String get channelDetailsSearchAuthorTypeWebhook => 'เว็บฮุก';
 
   @override
   String get channelDetailsSearchFilterByChannel => 'กรองตามช่อง';
@@ -8412,61 +8415,61 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'ล้าง';
 
   @override
-  String get channelSearchRemoveRecent => 'Remove from recent searches';
+  String get channelSearchRemoveRecent => 'ลบออกจากการค้นหาล่าสุด';
 
   @override
-  String get channelSearchFiltersButton => 'Filters';
+  String get channelSearchFiltersButton => 'ตัวกรอง';
 
   @override
-  String get channelSearchFilterMenuTitle => 'Filter results';
+  String get channelSearchFilterMenuTitle => 'กรองผลลัพธ์';
 
   @override
-  String get channelSearchFilterFromLabel => 'From a specific person';
+  String get channelSearchFilterFromLabel => 'จากบุคคลที่ระบุ';
 
   @override
-  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+  String get channelSearchFilterMentionsLabel => 'กล่าวถึงบุคคลที่ระบุ';
 
   @override
-  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+  String get channelSearchFilterHasLabel => 'มีลิงก์ ไฟล์ หรือเนื้อหาฝัง';
 
   @override
-  String get channelSearchFilterInLabel => 'In a specific channel';
+  String get channelSearchFilterInLabel => 'ในช่องที่ระบุ';
 
   @override
-  String get channelSearchFilterDuringLabel => 'Sent on a date';
+  String get channelSearchFilterDuringLabel => 'ส่งในวันที่ระบุ';
 
   @override
-  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+  String get channelSearchFilterBeforeLabel => 'ส่งก่อนวันที่ระบุ';
 
   @override
-  String get channelSearchFilterAfterLabel => 'Sent after a date';
+  String get channelSearchFilterAfterLabel => 'ส่งหลังวันที่ระบุ';
 
   @override
-  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+  String get channelSearchFilterPinnedLabel => 'ปักหมุดหรือไม่ได้ปักหมุด';
 
   @override
-  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+  String get channelSearchFilterAuthorTypeLabel => 'ตามประเภทผู้เขียน';
 
   @override
-  String get channelSearchDateToday => 'Today';
+  String get channelSearchDateToday => 'วันนี้';
 
   @override
-  String get channelSearchDateYesterday => 'Yesterday';
+  String get channelSearchDateYesterday => 'เมื่อวานนี้';
 
   @override
-  String get channelSearchTabMessages => 'Messages';
+  String get channelSearchTabMessages => 'ข้อความ';
 
   @override
-  String get channelSearchTabImages => 'Images';
+  String get channelSearchTabImages => 'รูปภาพ';
 
   @override
-  String get channelSearchTabPins => 'Pins';
+  String get channelSearchTabPins => 'ข้อความปักหมุด';
 
   @override
-  String get channelSearchTabLinks => 'Links';
+  String get channelSearchTabLinks => 'ลิงก์';
 
   @override
-  String get channelSearchTabFiles => 'Files';
+  String get channelSearchTabFiles => 'ไฟล์';
 
   @override
   String channelSearchTabCount(String label, int count) {
@@ -8912,22 +8915,22 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get groupDmInviteRevoked => 'ยกเลิกคำเชิญแล้ว';
 
   @override
-  String get groupDmRemoveFromGroup => 'Remove from group';
+  String get groupDmRemoveFromGroup => 'นำออกจากกลุ่ม';
 
   @override
   String groupDmRemoveFromGroupConfirm(String userName) {
-    return 'Remove $userName from the group?';
+    return 'นำ $userName ออกจากกลุ่มใช่หรือไม่';
   }
 
   @override
-  String get groupDmRemoveFromGroupAction => 'Remove';
+  String get groupDmRemoveFromGroupAction => 'ลบ';
 
   @override
-  String get groupDmRemovedFromGroup => 'Removed from group';
+  String get groupDmRemovedFromGroup => 'นำออกจากกลุ่มแล้ว';
 
   @override
   String groupDmRemoveFromGroupFailed(String userName) {
-    return '$userName is still in the group. Try again in a moment.';
+    return '$userName ยังอยู่ในกลุ่ม โปรดลองอีกครั้งในอีกสักครู่';
   }
 
   @override
@@ -8967,7 +8970,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get groupDmComposerHint => 'กลุ่มข้อความ';
 
   @override
-  String get composerHint => 'Message';
+  String get composerHint => 'ข้อความ';
 
   @override
   String get composerOpenExpressionPicker => 'เปิดตัวเลือกอิโมจิ';
@@ -8997,10 +9000,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get chatAttachmentLibraryLimitedBody =>
-      'Only photos and videos you chose to share are shown here.';
+      'จะแสดงเฉพาะรูปภาพและวิดีโอที่คุณเลือกแชร์ไว้ที่นี่';
 
   @override
-  String get chatAttachmentLibraryLimitedManage => 'Manage';
+  String get chatAttachmentLibraryLimitedManage => 'จัดการ';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9078,16 +9081,16 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsGroupYourAccount => 'บัญชีของคุณ';
 
   @override
-  String get userSettingsGroupBilling => 'Billing';
+  String get userSettingsGroupBilling => 'การเรียกเก็บเงิน';
 
   @override
-  String get userSettingsGroupApplication => 'Application';
+  String get userSettingsGroupApplication => 'แอปพลิเคชัน';
 
   @override
-  String get userSettingsGroupDeveloper => 'Developer';
+  String get userSettingsGroupDeveloper => 'นักพัฒนา';
 
   @override
-  String get userSettingsGroupStaffOnly => 'Staff-only';
+  String get userSettingsGroupStaffOnly => 'เฉพาะทีมงาน';
 
   @override
   String get userSettingsSearchPlaceholder => 'ค้นหาการตั้งค่า...';
@@ -9099,14 +9102,14 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'ไม่พบการตั้งค่า';
 
   @override
-  String get userSettingsCopyLinkToSection => 'Copy link to section';
+  String get userSettingsCopyLinkToSection => 'คัดลอกลิงก์ไปยังส่วน';
 
   @override
-  String get userSettingsCopyLinkToPage => 'Copy link to page';
+  String get userSettingsCopyLinkToPage => 'คัดลอกลิงก์ไปยังหน้า';
 
   @override
   String userSettingsJumpLinkPremiumPage(String productName) {
-    return '$productName page';
+    return 'หน้า $productName';
   }
 
   @override
@@ -9636,7 +9639,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ต่ออายุอัตโนมัติผ่าน App Store จนกว่าคุณจะยกเลิก';
 
   @override
-  String get storePlutoniumRestorePurchases => 'Restore purchases';
+  String get storePlutoniumRestorePurchases => 'กู้คืนการซื้อ';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
@@ -10095,36 +10098,35 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ไม่สามารถเปิดใช้งานการแจ้งเตือนได้ โปรดยืนยันสิทธิ์การแจ้งเตือนเพื่อดำเนินการต่อ';
 
   @override
-  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+  String get notificationsPushDeliveryProviderLabel => 'ผู้ให้บริการพุช';
 
   @override
-  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+  String get notificationsPushDeliveryDistributorLabel => 'ตัวกระจาย';
 
   @override
-  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+  String get notificationsPushDeliveryDistributorNone => 'ยังไม่ได้เลือก';
 
   @override
-  String get notificationsPushDeliveryDistributorSheetTitle =>
-      'Choose distributor';
+  String get notificationsPushDeliveryDistributorSheetTitle => 'เลือกตัวกระจาย';
 
   @override
   String get notificationsPushDeliveryDistributorPickAccessibility =>
-      'Change push distributor';
+      'เปลี่ยนตัวกระจายการพุช';
 
   @override
-  String get notificationsPushDeliveryGatewayLabel => 'Gateway';
+  String get notificationsPushDeliveryGatewayLabel => 'เกตเวย์';
 
   @override
-  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+  String get notificationsPushDeliveryRelayLabel => 'ตัวส่งต่อ Fluxer Push';
 
   @override
-  String get notificationsPushDeliveryRelayInUse => 'In use';
+  String get notificationsPushDeliveryRelayInUse => 'กำลังใช้งาน';
 
   @override
-  String get notificationsPushDeliveryRelayOff => 'Off';
+  String get notificationsPushDeliveryRelayOff => 'ปิด';
 
   @override
-  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+  String get notificationsPushDeliveryRelayNotUsed => 'ไม่ได้ใช้';
 
   @override
   String get notificationsPushRelaySectionTitle =>
@@ -10246,17 +10248,17 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get appIconSectionDescriptionAndroid =>
-      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+      'เลือกไอคอนที่จะแสดงบนหน้าจอหลักของคุณ การเปลี่ยนไอคอนจะรีสตาร์ทแอป';
 
   @override
-  String get appIconAndroidChangeTitle => 'Change app icon?';
+  String get appIconAndroidChangeTitle => 'เปลี่ยนไอคอนแอปใช่หรือไม่';
 
   @override
   String get appIconAndroidChangeDescription =>
-      'Fluxer will restart to apply the new home screen icon.';
+      'Fluxer จะรีสตาร์ทเพื่อใช้ไอคอนหน้าจอหลักใหม่';
 
   @override
-  String get appIconAndroidChangeConfirm => 'Change icon';
+  String get appIconAndroidChangeConfirm => 'เปลี่ยนไอคอน';
 
   @override
   String get appIconOptionDefault => 'ค่าเริ่มต้น';
@@ -10268,22 +10270,22 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get appIconOptionSweden => 'สวีเดน';
 
   @override
-  String get appIconOptionGreyscale => 'Greyscale';
+  String get appIconOptionGreyscale => 'ขาวดำ';
 
   @override
-  String get appIconOptionRainbow => 'Rainbow';
+  String get appIconOptionRainbow => 'สีรุ้ง';
 
   @override
-  String get appIconOptionWaves => 'Waves';
+  String get appIconOptionWaves => 'คลื่น';
 
   @override
-  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+  String get appIconOptionChromaticAberration => 'ความคลาดสี';
 
   @override
-  String get appIconOptionDefaultBrutalist => 'Brutalist';
+  String get appIconOptionDefaultBrutalist => 'บรูทัลลิสต์';
 
   @override
-  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+  String get appIconOptionGreyscaleBrutalist => 'บรูทัลลิสต์ขาวดำ';
 
   @override
   String get appIconUnsupported =>
@@ -10297,7 +10299,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+      'ช่วย Fluxer แก้ไขข้อบกพร่องในแอปนี้โดยแชร์ข้อมูลข้อขัดข้องและประสิทธิภาพ ตัวเลือกนี้ปิดอยู่โดยค่าเริ่มต้น';
 
   @override
   String get advancedPerformanceReportingLabel =>
@@ -10305,29 +10307,29 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'รายงานจะถูกส่งไปยังระบบติดตามข้อผิดพลาดของ Fluxer แม้ว่าคุณจะลงชื่อเข้าใช้อินสแตนซ์อื่นอยู่ก็ตาม รายงานจะไม่มีชื่ออินสแตนซ์ ID หรือเนื้อหาข้อความ';
 
   @override
-  String get observabilityReportingConsentTitle => 'Help fix crashes';
+  String get observabilityReportingConsentTitle => 'ช่วยแก้ไขข้อขัดข้อง';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+      'Fluxer ปิดตัวลงโดยไม่คาดคิด การแชร์ข้อมูลข้อขัดข้องและข้อผิดพลาดแบบไม่ระบุตัวตนช่วยให้เราแก้ไขปัญหาได้เร็วขึ้น';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+      'รายงานประกอบด้วยบันทึกข้อขัดข้อง ข้อผิดพลาด และข้อมูลประสิทธิภาพพื้นฐาน รายงานจะไม่ถูกแชร์กับบุคคลที่สาม และคุณสามารถปิดตัวเลือกนี้ได้ทุกเมื่อ';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
-    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+    return 'หากต้องการเปิดใช้งานภายหลัง ให้ไปที่ การตั้งค่า → ขั้นสูง → $reportingToggle';
   }
 
   @override
-  String get observabilityReportingConsentAgree => 'Send crash reports';
+  String get observabilityReportingConsentAgree => 'ส่งรายงานข้อขัดข้อง';
 
   @override
-  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
+  String get observabilityReportingConsentDecline => 'ไม่ต้องการเปิดใช้งาน';
 
   @override
   String get advancedSettingsConfigure => 'กำหนดค่า';
@@ -10878,7 +10880,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'เข้าร่วม Fluxer Labs';
 
   @override
-  String get userSettingsGiveFeedback => 'Give feedback';
+  String get userSettingsGiveFeedback => 'ส่งความคิดเห็น';
 
   @override
   String get userSettingsNavAppLicenses => 'ใบอนุญาตแอป';
@@ -10941,7 +10943,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'ช่องข้อความ';
 
   @override
-  String get quickSwitcherSectionThreads => 'Threads';
+  String get quickSwitcherSectionThreads => 'เธรด';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'ช่องเสียง';
@@ -11045,7 +11047,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get uiConfirm => 'ยืนยัน';
 
   @override
-  String get uiUnderstood => 'Understood';
+  String get uiUnderstood => 'รับทราบ';
 
   @override
   String get uiLoading => 'กำลังโหลด';
@@ -11143,38 +11145,38 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String instanceConnectFailedDomain(String domain) {
-    return 'Couldn\'t connect to $domain. Try again.';
+    return 'ไม่สามารถเชื่อมต่อกับ $domain ได้ ลองอีกครั้ง';
   }
 
   @override
   String get instanceInvalidDiscoveryResponse =>
-      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+      'ไม่สามารถอ่านการกำหนดค่าของอินสแตนซ์นี้ได้ โปรดตรวจสอบที่อยู่แล้วลองอีกครั้ง';
 
   @override
   String instanceOutdatedForClient(String domain) {
-    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+    return 'อินสแตนซ์นี้ล้าสมัยเกินไปสำหรับแอปนี้ โปรดขอให้ผู้ดูแล $domain อัปเดต Fluxer';
   }
 
   @override
   String instanceRequiresNewerClient(String domain) {
-    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+    return '$domain ใช้ Fluxer เวอร์ชันที่ใหม่กว่าแอปนี้ โปรดอัปเดตแอปแล้วลองอีกครั้ง';
   }
 
   @override
-  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+  String get instanceCompatibilityTitle => 'ไม่สามารถใช้อินสแตนซ์นี้ได้';
 
   @override
-  String get instanceCompatibilityRetry => 'Try again';
+  String get instanceCompatibilityRetry => 'ลองอีกครั้ง';
 
   @override
-  String get instanceCompatibilityUpdateApp => 'Update app';
+  String get instanceCompatibilityUpdateApp => 'อัปเดตแอป';
 
   @override
   String get instanceCompatibilityStatusPagePrompt =>
-      'Check the status page for updates.';
+      'ตรวจสอบหน้าสถานะเพื่อดูข้อมูลอัปเดต';
 
   @override
-  String get instanceCompatibilityStatusPageLink => 'status page';
+  String get instanceCompatibilityStatusPageLink => 'หน้าสถานะ';
 
   @override
   String get recentInstances => 'อินสแตนซ์ล่าสุด';
@@ -11546,7 +11548,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildNavbarNameLabel => 'ชื่อ';
 
   @override
-  String get guildNavbarNewChannelHint => 'new-channel';
+  String get guildNavbarNewChannelHint => 'ช่องใหม่';
 
   @override
   String get guildNavbarUrlLabel => 'URL';
@@ -11558,17 +11560,17 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildNavbarChannelTypeSelection => 'เลือกประเภทช่อง';
 
   @override
-  String get guildNavbarPrivateChannel => 'Private channel';
+  String get guildNavbarPrivateChannel => 'ช่องส่วนตัว';
 
   @override
   String get guildNavbarPrivateChannelDescription =>
-      'Only selected members and roles will be able to view this channel.';
+      'เฉพาะสมาชิกและบทบาทที่เลือกเท่านั้นที่จะดูช่องนี้ได้';
 
   @override
-  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+  String get guildNavbarAddMembersOrRoles => 'เพิ่มสมาชิกหรือบทบาท';
 
   @override
-  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+  String get guildNavbarAddMembersOrRolesHint => 'ค้นหาสมาชิกหรือบทบาท';
 
   @override
   String get guildNavbarCreateCategory => 'สร้างหมวดหมู่';
@@ -12216,333 +12218,332 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get permissionSetVoiceRegion => 'ตั้งค่าภูมิภาคเสียง';
 
   @override
-  String get permissionManageThreads => 'Manage threads';
+  String get permissionManageThreads => 'จัดการเธรด';
 
   @override
   String get permissionManageThreadsDescription =>
-      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+      'เปลี่ยนชื่อ เก็บถาวร ล็อก และลบเธรด ตั้งค่าโหมดจำกัดเวลา และดูเธรดส่วนตัว';
 
   @override
-  String get permissionCreatePublicThreads => 'Create public threads';
+  String get permissionCreatePublicThreads => 'สร้างเธรดสาธารณะ';
 
   @override
   String get permissionCreatePublicThreadsDescription =>
-      'Start threads that everyone who can view the channel can see.';
+      'เริ่มเธรดที่ทุกคนที่ดูช่องได้สามารถมองเห็น';
 
   @override
-  String get permissionCreatePrivateThreads => 'Create private threads';
+  String get permissionCreatePrivateThreads => 'สร้างเธรดส่วนตัว';
 
   @override
   String get permissionCreatePrivateThreadsDescription =>
-      'Start invite-only threads.';
+      'เริ่มเธรดสำหรับผู้ที่ได้รับเชิญเท่านั้น';
 
   @override
-  String get permissionSendMessagesInThreads => 'Send messages in threads';
+  String get permissionSendMessagesInThreads => 'ส่งข้อความในเธรด';
 
   @override
   String get permissionSendMessagesInThreadsDescription =>
-      'Send messages in threads and forum posts.';
+      'ส่งข้อความในเธรดและโพสต์ฟอรัม';
 
   @override
-  String get threadErrorArchived => 'This thread is archived.';
+  String get threadErrorArchived => 'เธรดนี้ถูกเก็บถาวรแล้ว';
 
   @override
   String get threadErrorLocked =>
-      'This thread is locked. Only moderators can post or reopen it.';
+      'เธรดนี้ถูกล็อก เฉพาะผู้ดูแลเท่านั้นที่โพสต์หรือเปิดใหม่ได้';
 
   @override
-  String get threadErrorAlreadyCreated =>
-      'A thread already exists for this message.';
+  String get threadErrorAlreadyCreated => 'มีเธรดสำหรับข้อความนี้อยู่แล้ว';
 
   @override
   String get threadErrorMaxActiveThreads =>
-      'This community has reached its limit of active threads.';
+      'คอมมูนิตี้นี้มีเธรดที่ใช้งานอยู่ครบจำนวนสูงสุดแล้ว';
 
   @override
-  String get threadErrorMaxMembers =>
-      'This thread has reached its member limit.';
+  String get threadErrorMaxMembers => 'เธรดนี้มีสมาชิกครบจำนวนสูงสุดแล้ว';
 
   @override
   String get threadErrorMaxPinnedPosts =>
-      'Only one post can be pinned in this forum.';
+      'ปักหมุดโพสต์ได้เพียงหนึ่งโพสต์ในฟอรัมนี้';
 
   @override
-  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+  String get threadErrorMaxForumTags => 'ฟอรัมมีแท็กได้สูงสุด 20 แท็ก';
 
   @override
-  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+  String get threadErrorTagNamesUnique => 'ชื่อแท็กต้องไม่ซ้ำกัน';
 
   @override
   String get threadErrorNoTagsForEveryone =>
-      'Add a tag everyone can use before requiring tags.';
+      'เพิ่มแท็กที่ทุกคนใช้ได้ก่อนกำหนดให้ต้องใส่แท็ก';
 
   @override
-  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+  String get threadErrorTagRequired =>
+      'เลือกแท็กอย่างน้อยหนึ่งแท็กสำหรับโพสต์นี้';
 
   @override
-  String get threadErrorUnknownTag =>
-      'One of the selected tags no longer exists.';
+  String get threadErrorUnknownTag => 'แท็กที่เลือกไว้บางแท็กไม่มีอยู่แล้ว';
 
   @override
   String get threadErrorInvalidNotificationSettings =>
-      'Those notification settings are not valid for a thread.';
+      'การตั้งค่าการแจ้งเตือนเหล่านั้นใช้กับเธรดไม่ได้';
 
   @override
   String get threadErrorSearchIndexNotReady =>
-      'Posts are still being indexed. Try again in a moment.';
+      'โพสต์ยังอยู่ระหว่างการจัดทำดัชนี โปรดลองอีกครั้งในอีกสักครู่';
 
   @override
   String get threadErrorInvalidChannelType =>
-      'This action is not available in this channel.';
+      'การดำเนินการนี้ไม่พร้อมใช้งานในช่องนี้';
 
   @override
-  String get threadCreate => 'Create thread';
+  String get threadCreate => 'สร้างเธรด';
 
   @override
-  String get threadName => 'Thread name';
+  String get threadName => 'ชื่อเธรด';
 
   @override
-  String get threadNameRequired => 'Give the thread a name.';
+  String get threadNameRequired => 'โปรดตั้งชื่อเธรด';
 
   @override
-  String get threadNewThreadPlaceholder => 'New thread';
+  String get threadNewThreadPlaceholder => 'เธรดใหม่';
 
   @override
-  String get threadPrivate => 'Private thread';
+  String get threadPrivate => 'เธรดส่วนตัว';
 
   @override
   String get threadPrivateDescription =>
-      'Only people you invite and moderators can see this thread.';
+      'เฉพาะผู้ที่คุณเชิญและผู้ดูแลเท่านั้นที่สามารถเห็นเธรดนี้ได้';
 
   @override
-  String get threadStarterMessage => 'Message';
+  String get threadStarterMessage => 'ข้อความ';
 
   @override
   String get threadStarterMessagePlaceholder =>
-      'Enter a message to start the conversation!';
+      'พิมพ์ข้อความเพื่อเริ่มการสนทนา!';
 
   @override
   String threadCreateCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can start another thread in $seconds seconds.',
-      one: 'You can start another thread in 1 second.',
+      other: 'คุณสามารถเริ่มเธรดใหม่ได้ในอีก $seconds วินาที',
+      one: 'คุณสามารถเริ่มเธรดใหม่ได้ในอีก 1 วินาที',
     );
     return '$_temp0';
   }
 
   @override
   String threadCreateFailed(String detail) {
-    return 'Could not start the thread: $detail';
+    return 'ไม่สามารถสร้างเธรดได้: $detail';
   }
 
   @override
-  String get threadBrowserTitle => 'Threads';
+  String get threadBrowserTitle => 'เธรด';
 
   @override
-  String get threadBrowserActive => 'Active';
+  String get threadBrowserActive => 'ใช้งานอยู่';
 
   @override
-  String get threadBrowserArchived => 'Closed';
+  String get threadBrowserArchived => 'ปิดแล้ว';
 
   @override
-  String get threadBrowserJoined => 'Joined';
+  String get threadBrowserJoined => 'เข้าร่วมแล้ว';
 
   @override
-  String get threadBrowserOtherActive => 'Other active threads';
+  String get threadBrowserOtherActive => 'เธรดอื่นที่ใช้งานอยู่';
 
   @override
-  String get threadBrowserPublic => 'Public threads';
+  String get threadBrowserPublic => 'เธรดสาธารณะ';
 
   @override
-  String get threadBrowserPrivate => 'Private threads';
+  String get threadBrowserPrivate => 'เธรดส่วนตัว';
 
   @override
   String get threadBrowserEmpty =>
-      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+      'ไม่มีเธรด จดจ่อกับบทสนทนาได้ด้วยเธรด ซึ่งเป็นช่องข้อความชั่วคราว';
 
   @override
-  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+  String get threadBrowserArchivedEmpty => 'ไม่มีเธรดที่ปิดแล้ว';
 
   @override
-  String get threadBrowserLoadMore => 'Load more';
+  String get threadBrowserLoadMore => 'โหลดเพิ่มเติม';
 
   @override
-  String get threadBrowserSearch => 'Search threads';
+  String get threadBrowserSearch => 'ค้นหาเธรด';
 
   @override
-  String get threadBrowserSearchEmpty => 'No threads match';
+  String get threadBrowserSearchEmpty => 'ไม่พบเธรดที่ตรงกัน';
 
   @override
   String get threadBrowserSearchEmptyHint =>
-      'Try a different name or check the other tab.';
+      'ลองใช้ชื่ออื่น หรือตรวจสอบแท็บอื่น';
 
   @override
   String get threadBrowserSearchFailed =>
-      'Couldn\'t search threads. Try again later.';
+      'ไม่สามารถค้นหาเธรดได้ โปรดลองอีกครั้งในภายหลัง';
 
   @override
   String get threadBrowserSearchIndexing =>
-      'Search is getting ready for this community. Trying again shortly...';
+      'กำลังเตรียมการค้นหาสำหรับคอมมูนิตี้นี้ จะลองอีกครั้งในอีกสักครู่...';
 
   @override
   String threadMessageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count messages',
-      one: '1 message',
+      other: '$count ข้อความ',
+      one: '1 ข้อความ',
     );
     return '$_temp0';
   }
 
   @override
   String get threadFailedToMentionSomeRoles =>
-      'Some mentioned roles were not added to this thread.';
+      'บทบาทที่ถูกกล่าวถึงบางบทบาทไม่ได้ถูกเพิ่มเข้าในเธรดนี้';
 
   @override
-  String get threadMembers => 'Thread members';
+  String get threadMembers => 'สมาชิกเธรด';
 
   @override
   String threadMembersCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '1 member',
+      other: 'สมาชิก $count คน',
+      one: 'สมาชิก 1 คน',
     );
     return '$_temp0';
   }
 
   @override
-  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+  String get threadMembersEmpty => 'ยังไม่มีใครเข้าร่วมเธรดนี้';
 
   @override
   String threadRemoveMember(String name) {
-    return 'Remove $name from thread';
+    return 'นำ $name ออกจากเธรด';
   }
 
   @override
-  String get threadJoin => 'Join thread';
+  String get threadJoin => 'เข้าร่วมเธรด';
 
   @override
-  String get threadLeave => 'Leave thread';
+  String get threadLeave => 'ออกจากเธรด';
 
   @override
   String get threadJoinNotice =>
-      'Join this thread to follow it in your channel list and get notifications.';
+      'เข้าร่วมเธรดนี้เพื่อติดตามในรายการช่องของคุณและรับการแจ้งเตือน';
 
   @override
   String get threadArchivedNotice =>
-      'This thread is closed. Sending a message will open it again.';
+      'เธรดนี้ถูกปิดแล้ว การส่งข้อความจะเปิดเธรดนี้อีกครั้ง';
 
   @override
   String get threadLockedNotice =>
-      'This thread is locked. Only moderators can send messages.';
+      'เธรดนี้ถูกล็อกแล้ว เฉพาะผู้ดูแลเท่านั้นที่สามารถส่งข้อความได้';
 
   @override
-  String get threadArchive => 'Close thread';
+  String get threadArchive => 'ปิดเธรด';
 
   @override
-  String get threadUnarchive => 'Open thread again';
+  String get threadUnarchive => 'เปิดเธรดอีกครั้ง';
 
   @override
-  String get threadLock => 'Lock thread';
+  String get threadLock => 'ล็อกเธรด';
 
   @override
-  String get threadUnlock => 'Unlock thread';
+  String get threadUnlock => 'ปลดล็อกเธรด';
 
   @override
-  String get threadDelete => 'Delete thread';
+  String get threadDelete => 'ลบเธรด';
 
   @override
   String threadDeleteConfirm(String threadName) {
-    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+    return 'คุณแน่ใจหรือไม่ว่าต้องการลบ $threadName การดำเนินการนี้ไม่สามารถย้อนกลับได้';
   }
 
   @override
-  String get threadDeleted => 'Thread deleted';
+  String get threadDeleted => 'ลบเธรดแล้ว';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => 'ทำเครื่องหมายว่าอ่านแล้ว';
 
   @override
-  String get threadMute => 'Mute thread';
+  String get threadMute => 'ปิดเสียงเธรด';
 
   @override
-  String get threadUnmute => 'Unmute thread';
+  String get threadUnmute => 'เลิกปิดเสียงเธรด';
 
   @override
-  String get threadMuted => 'Thread muted';
+  String get threadMuted => 'ปิดเสียงเธรดแล้ว';
 
   @override
-  String get threadUnmuted => 'Thread unmuted';
+  String get threadUnmuted => 'เลิกปิดเสียงเธรดแล้ว';
 
   @override
-  String get threadNotificationSettings => 'Notification settings';
+  String get threadNotificationSettings => 'การตั้งค่าการแจ้งเตือน';
 
   @override
-  String get threadNotificationParentDefault => 'Use channel default';
+  String get threadNotificationParentDefault => 'ใช้ค่าเริ่มต้นของช่อง';
 
   @override
-  String get threadCopyLink => 'Copy link';
+  String get threadCopyLink => 'คัดลอกลิงก์';
 
   @override
-  String get threadCopyId => 'Copy thread ID';
+  String get threadCopyId => 'คัดลอกรหัสเธรด';
 
   @override
-  String get threadMoreOptions => 'More options';
+  String get threadMoreOptions => 'ตัวเลือกเพิ่มเติม';
 
   @override
-  String get threadSettings => 'Thread settings';
+  String get threadSettings => 'การตั้งค่าเธรด';
 
   @override
-  String get threadSettingsSaved => 'Thread settings saved';
+  String get threadSettingsSaved => 'บันทึกการตั้งค่าเธรดแล้ว';
 
   @override
-  String get threadAutoArchive => 'Hide after inactivity';
+  String get threadAutoArchive => 'ซ่อนหลังไม่ใช้งาน';
 
   @override
   String get threadAutoArchiveDescription =>
-      'The thread stops showing in the channel list after this period of inactivity.';
+      'เธรดจะไม่แสดงในรายการช่องอีกหลังจากไม่มีความเคลื่อนไหวตามระยะเวลานี้';
 
   @override
-  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+  String get threadDefaultAutoArchive =>
+      'ค่าเริ่มต้นการซ่อนเมื่อไม่มีการใช้งาน';
 
   @override
   String get threadDefaultAutoArchiveDescription =>
-      'New threads stop showing in the channel list after this period of inactivity.';
+      'เธรดใหม่จะไม่แสดงในรายการช่องอีกหลังจากไม่มีความเคลื่อนไหวตามระยะเวลานี้';
 
   @override
-  String get threadDefaultSlowmode => 'Default thread slowmode';
+  String get threadDefaultSlowmode => 'โหมดหน่วงเวลาเริ่มต้นของเธรด';
 
   @override
-  String get threadAutoArchiveOneHour => '1 Hour';
+  String get threadAutoArchiveOneHour => '1 ชั่วโมง';
 
   @override
-  String get threadAutoArchiveOneDay => '24 Hours';
+  String get threadAutoArchiveOneDay => '24 ชั่วโมง';
 
   @override
-  String get threadAutoArchiveThreeDays => '3 Days';
+  String get threadAutoArchiveThreeDays => '3 วัน';
 
   @override
-  String get threadAutoArchiveOneWeek => '1 Week';
+  String get threadAutoArchiveOneWeek => '1 สัปดาห์';
 
   @override
-  String get threadInvitable => 'Allow anyone to invite';
+  String get threadInvitable => 'อนุญาตให้ทุกคนเชิญได้';
 
   @override
   String get threadInvitableDescription =>
-      'Members of this private thread can add other people.';
+      'สมาชิกของเธรดส่วนตัวนี้สามารถเพิ่มผู้อื่นได้';
 
   @override
   String threadStartedBy(String name) {
-    return 'Started by $name';
+    return 'เริ่มโดย $name';
   }
 
   @override
-  String get threadStarterDeleted => 'Original message was deleted.';
+  String get threadStarterDeleted => 'ข้อความต้นฉบับถูกลบแล้ว';
 
   @override
   String systemThreadCreated(
@@ -12550,18 +12551,18 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
     String threadLink,
     String allThreadsLink,
   ) {
-    return '$username started a thread: $threadLink. See $allThreadsLink.';
+    return '$username เริ่มเธรด: $threadLink ดู$allThreadsLink';
   }
 
   @override
-  String get systemThreadCreatedAllThreadsLink => 'all threads';
+  String get systemThreadCreatedAllThreadsLink => 'เธรดทั้งหมด';
 
   @override
-  String get systemThreadCreatedThreadFallback => 'a thread';
+  String get systemThreadCreatedThreadFallback => 'เธรด';
 
   @override
   String systemPreviewThreadCreated(String username) {
-    return '$username started a thread.';
+    return '$username เริ่มเธรด';
   }
 
   @override
@@ -12681,13 +12682,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get auditLogActionChannelDelete => 'ช่องถูกลบแล้ว';
 
   @override
-  String get auditLogActionThreadCreate => 'Thread created';
+  String get auditLogActionThreadCreate => 'สร้างเธรดแล้ว';
 
   @override
-  String get auditLogActionThreadUpdate => 'Thread updated';
+  String get auditLogActionThreadUpdate => 'อัปเดตเธรดแล้ว';
 
   @override
-  String get auditLogActionThreadDelete => 'Thread deleted';
+  String get auditLogActionThreadDelete => 'ลบเธรดแล้ว';
 
   @override
   String get auditLogActionChannelOverwriteCreate => 'เพิ่มการเขียนทับช่อง';
@@ -12804,17 +12805,17 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String auditLogSummaryThreadCreate(String actor, String target) {
-    return '$actor started the thread $target.';
+    return '$actor เริ่มเธรด $target แล้ว';
   }
 
   @override
   String auditLogSummaryThreadUpdate(String actor, String target) {
-    return '$actor updated the thread $target.';
+    return '$actor อัปเดตเธรด $target แล้ว';
   }
 
   @override
   String auditLogSummaryThreadDelete(String actor, String target) {
-    return '$actor deleted the thread $target.';
+    return '$actor ลบเธรด $target แล้ว';
   }
 
   @override
@@ -13115,49 +13116,47 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get auditLogChangeUpdatedCommunityIcon => 'อัปเดตไอคอนชุมชน';
 
   @override
-  String get auditLogChangePausedInvites => 'Paused invites.';
+  String get auditLogChangePausedInvites => 'หยุดรับคำเชิญชั่วคราวแล้ว';
 
   @override
-  String get auditLogChangeResumedInvites => 'Resumed invites.';
+  String get auditLogChangeResumedInvites => 'กลับมารับคำเชิญแล้ว';
 
   @override
-  String get auditLogChangeTurnedOnDetachedBanner =>
-      'Turned on the detached banner.';
+  String get auditLogChangeTurnedOnDetachedBanner => 'เปิดแบนเนอร์แบบแยกแล้ว';
 
   @override
-  String get auditLogChangeTurnedOffDetachedBanner =>
-      'Turned off the detached banner.';
+  String get auditLogChangeTurnedOffDetachedBanner => 'ปิดแบนเนอร์แบบแยกแล้ว';
 
   @override
   String get auditLogChangeAllowedFlexibleChannelNames =>
-      'Allowed flexible text channel names.';
+      'อนุญาตชื่อช่องข้อความแบบยืดหยุ่นแล้ว';
 
   @override
   String get auditLogChangeDisallowedFlexibleChannelNames =>
-      'Stopped allowing flexible text channel names.';
+      'เลิกอนุญาตชื่อช่องข้อความแบบยืดหยุ่นแล้ว';
 
   @override
-  String get auditLogChangeHidOwnerCrown => 'Hid the community owner crown.';
+  String get auditLogChangeHidOwnerCrown => 'ซ่อนมงกุฎของเจ้าของคอมมูนิตี้แล้ว';
 
   @override
   String get auditLogChangeShowedOwnerCrown =>
-      'Stopped hiding the community owner crown.';
+      'เลิกซ่อนมงกุฎของเจ้าของคอมมูนิตี้แล้ว';
 
   @override
   String get auditLogChangeAllowedEmojiCloning =>
-      'Allowed others to clone this community\'s emojis.';
+      'อนุญาตให้ผู้อื่นโคลนอิโมจิของคอมมูนิตี้นี้แล้ว';
 
   @override
   String get auditLogChangeStoppedEmojiCloning =>
-      'Stopped allowing others to clone this community\'s emojis.';
+      'เลิกอนุญาตให้ผู้อื่นโคลนอิโมจิของคอมมูนิตี้นี้แล้ว';
 
   @override
   String get auditLogChangeAllowedStickerCloning =>
-      'Allowed others to clone this community\'s stickers.';
+      'อนุญาตให้ผู้อื่นโคลนสติกเกอร์ของคอมมูนิตี้นี้แล้ว';
 
   @override
   String get auditLogChangeStoppedStickerCloning =>
-      'Stopped allowing others to clone this community\'s stickers.';
+      'เลิกอนุญาตให้ผู้อื่นโคลนสติกเกอร์ของคอมมูนิตี้นี้แล้ว';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
@@ -13770,16 +13769,16 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ไม่สามารถลบคอมมูนิตี้นี้ได้';
 
   @override
-  String get guildSettingsCategoryExpressions => 'Expressions';
+  String get guildSettingsCategoryExpressions => 'อิโมจิและสติกเกอร์';
 
   @override
-  String get guildSettingsCategoryCommunity => 'Community';
+  String get guildSettingsCategoryCommunity => 'คอมมูนิตี้';
 
   @override
-  String get guildSettingsCategoryIntegrations => 'Integrations';
+  String get guildSettingsCategoryIntegrations => 'การผสานรวม';
 
   @override
-  String get guildSettingsCategoryPeople => 'People';
+  String get guildSettingsCategoryPeople => 'ผู้คน';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'แบรนด์';
@@ -14978,74 +14977,71 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get channelDetailsUnsupportedChannel => 'ช่องที่ไม่รองรับ';
 
   @override
-  String get forumChannelTypeForum => 'Forum';
+  String get forumChannelTypeForum => 'ฟอรัม';
 
   @override
-  String get forumChannelTypeForumDescription =>
-      'Posts organized by topic and tags';
+  String get forumChannelTypeForumDescription => 'โพสต์ที่จัดตามหัวข้อและแท็ก';
 
   @override
-  String get forumChannelTypeMedia => 'Media';
+  String get forumChannelTypeMedia => 'สื่อ';
 
   @override
-  String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos';
+  String get forumChannelTypeMediaDescription => 'โพสต์ที่เน้นรูปภาพและวิดีโอ';
 
   @override
-  String get forumNewPost => 'New post';
+  String get forumNewPost => 'โพสต์ใหม่';
 
   @override
-  String get forumNewMediaPost => 'New media post';
+  String get forumNewMediaPost => 'โพสต์สื่อใหม่';
 
   @override
-  String get forumSearchPosts => 'Search posts';
+  String get forumSearchPosts => 'ค้นหาโพสต์';
 
   @override
-  String get forumViewOptions => 'Sort and view';
+  String get forumViewOptions => 'เรียงลำดับและมุมมอง';
 
   @override
   String get forumSearchIndexing =>
-      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+      'ระบบยังเตรียมการค้นหาสำหรับคอมมูนิตี้นี้อยู่ โพสต์จะแสดงที่นี่ทันทีที่พร้อม';
 
   @override
-  String get forumNoPosts => 'There are no posts yet';
+  String get forumNoPosts => 'ยังไม่มีโพสต์ใดๆ';
 
   @override
-  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+  String get forumNoPostsHint => 'เป็นคนแรกที่เริ่มบทสนทนาที่นี่';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search';
+  String get forumNoSearchResults => 'ไม่พบโพสต์ที่ตรงกับการค้นหาของคุณ';
 
   @override
-  String get forumNoSearchResultsHint =>
-      'Try different words or clear the tag filter.';
+  String get forumNoSearchResultsHint => 'ลองใช้คำอื่น หรือล้างตัวกรองแท็ก';
 
   @override
-  String get forumCreateFirstPost => 'Create the first post';
+  String get forumCreateFirstPost => 'สร้างโพสต์แรก';
 
   @override
-  String get forumOlderPosts => 'Older posts';
+  String get forumOlderPosts => 'โพสต์เก่ากว่า';
 
   @override
-  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+  String get forumPostsLoadFailed => 'ไม่สามารถโหลดโพสต์ได้';
 
   @override
-  String get forumRetry => 'Try again';
+  String get forumRetry => 'ลองอีกครั้ง';
 
   @override
-  String get forumPostPinned => 'Pinned';
+  String get forumPostPinned => 'ปักหมุดแล้ว';
 
   @override
-  String get forumPostLocked => 'Locked';
+  String get forumPostLocked => 'ล็อกแล้ว';
 
   @override
-  String get forumPostArchived => 'Archived';
+  String get forumPostArchived => 'เก็บถาวรแล้ว';
 
   @override
   String get forumPostNewBadge => 'ใหม่';
 
   @override
-  String get forumPostStarterDeleted => 'The original message was deleted.';
+  String get forumPostStarterDeleted => 'ข้อความต้นฉบับถูกลบแล้ว';
 
   @override
   String forumPostSnippet(String author, String content) {
@@ -15064,927 +15060,920 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String get forumPostReact => 'Add the default reaction';
+  String get forumPostReact => 'เพิ่มรีแอ็กชันเริ่มต้น';
 
   @override
-  String get forumOpenPost => 'Open post';
+  String get forumOpenPost => 'เปิดโพสต์';
 
   @override
-  String get forumEditTags => 'Edit tags';
+  String get forumEditTags => 'แก้ไขแท็ก';
 
   @override
-  String get forumSaveTags => 'Save tags';
+  String get forumSaveTags => 'บันทึกแท็ก';
 
   @override
   String forumTagsLimitHint(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pick up to $count tags.',
-      one: 'Pick up to 1 tag.',
+      other: 'เลือกได้สูงสุด $count แท็ก',
+      one: 'เลือกได้สูงสุด 1 แท็ก',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPinPost => 'Pin post';
+  String get forumPinPost => 'ปักหมุดโพสต์';
 
   @override
-  String get forumUnpinPost => 'Unpin post';
+  String get forumUnpinPost => 'เลิกปักหมุดโพสต์';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead => 'ทำเครื่องหมายว่าอ่านแล้ว';
 
   @override
-  String get forumCopyPostLink => 'Copy link';
+  String get forumCopyPostLink => 'คัดลอกลิงก์';
 
   @override
-  String get forumPostGuidelines => 'Post guidelines';
+  String get forumPostGuidelines => 'แนวทางการโพสต์';
 
   @override
   String get forumGuidelinesPlaceholder =>
-      'Tell people what to post here and how to post it.';
+      'บอกผู้คนว่าควรโพสต์อะไรที่นี่และโพสต์อย่างไร';
 
   @override
-  String get forumPostTitle => 'Title';
+  String get forumPostTitle => 'หัวข้อ';
 
   @override
-  String get forumPostMessage => 'Message';
+  String get forumPostMessage => 'ข้อความ';
 
   @override
-  String get forumPostMessagePlaceholder =>
-      'Write the first message of your post';
+  String get forumPostMessagePlaceholder => 'เขียนข้อความแรกของโพสต์ของคุณ';
 
   @override
-  String get forumPostMediaPlaceholder => 'Add a caption';
+  String get forumPostMediaPlaceholder => 'เพิ่มคำบรรยาย';
 
   @override
-  String get forumPostTags => 'Tags';
+  String get forumPostTags => 'แท็ก';
 
   @override
-  String get forumPostTagsRequired => 'Tags (required)';
+  String get forumPostTagsRequired => 'แท็ก (จำเป็น)';
 
   @override
-  String get forumPostAddMedia => 'Add media';
+  String get forumPostAddMedia => 'เพิ่มสื่อ';
 
   @override
-  String get forumPostAddFile => 'Add file';
+  String get forumPostAddFile => 'เพิ่มไฟล์';
 
   @override
-  String get forumPostRemoveAttachment => 'Remove attachment';
+  String get forumPostRemoveAttachment => 'ลบไฟล์แนบ';
 
   @override
-  String get forumPostSubmit => 'Post';
+  String get forumPostSubmit => 'โพสต์';
 
   @override
-  String get forumPostTitleRequired => 'Give your post a title.';
+  String get forumPostTitleRequired => 'ตั้งหัวข้อให้โพสต์ของคุณ';
 
   @override
   String get forumPostMediaRequired =>
-      'Add at least one image or video to post here.';
+      'เพิ่มรูปภาพหรือวิดีโออย่างน้อยหนึ่งรายการเพื่อโพสต์ที่นี่';
 
   @override
-  String get forumPostContentRequired => 'Write a message or add a file.';
+  String get forumPostContentRequired => 'เขียนข้อความหรือเพิ่มไฟล์';
 
   @override
-  String get forumSortLatestActivity => 'Recently active';
+  String get forumSortLatestActivity => 'มีความเคลื่อนไหวล่าสุด';
 
   @override
-  String get forumSortCreationTime => 'Date posted';
+  String get forumSortCreationTime => 'วันที่โพสต์';
 
   @override
-  String get forumLayoutList => 'List view';
+  String get forumLayoutList => 'มุมมองรายการ';
 
   @override
-  String get forumLayoutGallery => 'Gallery view';
+  String get forumLayoutGallery => 'มุมมองแกลเลอรี';
 
   @override
-  String get forumNewPostsUnread => 'Show unread for new posts';
+  String get forumNewPostsUnread => 'แสดงว่ายังไม่ได้อ่านเมื่อมีโพสต์ใหม่';
 
   @override
   String get forumNewPostsUnreadDescription =>
-      'Mark this channel unread when someone creates a post.';
+      'ทำเครื่องหมายช่องนี้ว่ายังไม่ได้อ่านเมื่อมีคนสร้างโพสต์';
 
   @override
-  String get forumPostSlowmode => 'Post slowmode';
+  String get forumPostSlowmode => 'โหมดหน่วงเวลาการโพสต์';
 
   @override
   String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
-    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'ต้องรอระหว่างการสร้างโพสต์แต่ละครั้ง ผู้ที่มีสิทธิ์ \"$bypassSlowmodePermissionLabel\" สามารถข้ามได้';
   }
 
   @override
-  String get forumMessageSlowmode => 'Message slowmode in posts';
+  String get forumMessageSlowmode => 'โหมดหน่วงเวลาข้อความในโพสต์';
 
   @override
   String get forumMessageSlowmodeDescription =>
-      'Slowmode applied to messages in new posts.';
+      'โหมดหน่วงเวลาที่ใช้กับข้อความในโพสต์ใหม่';
 
   @override
-  String get forumDefaultAutoArchive => 'Hide after inactivity';
+  String get forumDefaultAutoArchive => 'ซ่อนหลังไม่ใช้งาน';
 
   @override
   String get forumDefaultAutoArchiveDescription =>
-      'New posts are archived after this long without activity.';
+      'โพสต์ใหม่จะถูกเก็บถาวรเมื่อไม่มีความเคลื่อนไหวตามระยะเวลานี้';
 
   @override
-  String get forumDefaultReaction => 'Default reaction';
+  String get forumDefaultReaction => 'รีแอ็กชันเริ่มต้น';
 
   @override
-  String get forumSetDefaultReaction => 'Pick an emoji';
+  String get forumSetDefaultReaction => 'เลือกอิโมจิ';
 
   @override
-  String get forumChangeDefaultReaction => 'Change';
+  String get forumChangeDefaultReaction => 'เปลี่ยน';
 
   @override
-  String get forumRemoveDefaultReaction => 'Remove';
+  String get forumRemoveDefaultReaction => 'ลบ';
 
   @override
-  String get forumDefaultSortOrder => 'Default sort order';
+  String get forumDefaultSortOrder => 'ลำดับการเรียงเริ่มต้น';
 
   @override
-  String get forumDefaultLayout => 'Default layout';
+  String get forumDefaultLayout => 'เค้าโครงเริ่มต้น';
 
   @override
-  String get forumTagMatchSetting => 'Tag filter';
+  String get forumTagMatchSetting => 'ตัวกรองแท็ก';
 
   @override
-  String get forumTagMatchSome => 'Match any selected tag';
+  String get forumTagMatchSome => 'ตรงกับแท็กที่เลือกแท็กใดก็ได้';
 
   @override
-  String get forumTagMatchAll => 'Match all selected tags';
+  String get forumTagMatchAll => 'ตรงกับแท็กที่เลือกทั้งหมด';
 
   @override
-  String get forumRequireTag => 'Require tags';
+  String get forumRequireTag => 'บังคับใส่แท็ก';
 
   @override
   String get forumRequireTagDescription =>
-      'People must pick at least one tag when they create a post.';
+      'ผู้คนต้องเลือกแท็กอย่างน้อยหนึ่งแท็กเมื่อสร้างโพสต์';
 
   @override
-  String get forumHideMediaDownloads => 'Hide media download options';
+  String get forumHideMediaDownloads => 'ซ่อนตัวเลือกดาวน์โหลดสื่อ';
 
   @override
   String get forumHideMediaDownloadsDescription =>
-      'Hide download, open in browser and copy link for images and videos in posts.';
+      'ซ่อนตัวเลือกดาวน์โหลด เปิดในเบราว์เซอร์ และคัดลอกลิงก์ สำหรับรูปภาพและวิดีโอในโพสต์';
 
   @override
   String forumTagsTitle(int count, int max) {
-    return 'Tags ($count/$max)';
+    return 'แท็ก ($count/$max)';
   }
 
   @override
   String get forumTagsDescription =>
-      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+      'แท็กช่วยให้ผู้คนค้นหาและกรองโพสต์ได้ เฉพาะผู้ดูแลเท่านั้นที่ใช้แท็กที่ควบคุมโดยผู้ดูแลได้';
 
   @override
-  String get forumCreateTag => 'Create tag';
+  String get forumCreateTag => 'สร้างแท็ก';
 
   @override
-  String get forumEditTag => 'Edit tag';
+  String get forumEditTag => 'แก้ไขแท็ก';
 
   @override
-  String get forumSaveTag => 'Save tag';
+  String get forumSaveTag => 'บันทึกแท็ก';
 
   @override
-  String get forumDeleteTag => 'Delete tag';
+  String get forumDeleteTag => 'ลบแท็ก';
 
   @override
-  String get forumTagName => 'Tag name';
+  String get forumTagName => 'ชื่อแท็ก';
 
   @override
-  String get forumTagEmoji => 'Emoji';
+  String get forumTagEmoji => 'อิโมจิ';
 
   @override
-  String get forumTagRemoveEmoji => 'Remove emoji';
+  String get forumTagRemoveEmoji => 'ลบอิโมจิ';
 
   @override
-  String get forumTagModerated => 'Only moderators can apply';
+  String get forumTagModerated => 'เฉพาะผู้ดูแลเท่านั้นที่ใช้ได้';
 
   @override
   String get forumTagModeratedDescription =>
-      'Only members who can manage threads can apply or remove this tag.';
+      'เฉพาะสมาชิกที่จัดการเธรดได้เท่านั้นที่ใส่หรือนำแท็กนี้ออกได้';
 
   @override
-  String get forumTagModeratedBadge => 'Moderated';
+  String get forumTagModeratedBadge => 'ควบคุมโดยผู้ดูแล';
 
   @override
   String forumPostCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can post again in $seconds seconds.',
-      one: 'You can post again in 1 second.',
+      other: 'คุณจะโพสต์ได้อีกครั้งใน $seconds วินาที',
+      one: 'คุณจะโพสต์ได้อีกครั้งใน 1 วินาที',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceP2pStartTitle => 'Start in P2P mode?';
+  String get voiceP2pStartTitle => 'เริ่มในโหมด P2P ไหม';
 
   @override
   String voiceP2pStartDescription(int maxParticipants) {
-    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+    return 'เสียงและวิดีโอจะส่งถึงกันโดยตรงระหว่างผู้เข้าร่วม ทำให้มีความหน่วงต่ำกว่า ผู้เข้าร่วมคนอื่นจะเห็นที่อยู่ IP ของคุณ เข้าร่วมได้สูงสุด $maxParticipants คน ผู้ที่เชื่อมต่อโดยตรงไม่ได้จะเข้าร่วมไม่ได้จนกว่าจะมีคนเปลี่ยนเป็นการโทรแบบมาตรฐาน';
   }
 
   @override
-  String get voiceP2pStartConfirm => 'Start in P2P mode';
+  String get voiceP2pStartConfirm => 'เริ่มในโหมด P2P';
 
   @override
-  String get voiceP2pStartStandard => 'Start standard call';
+  String get voiceP2pStartStandard => 'เริ่มการโทรแบบมาตรฐาน';
 
   @override
-  String get voiceP2pJoinTitle => 'Join a P2P call?';
+  String get voiceP2pJoinTitle => 'เข้าร่วมการโทรแบบ P2P ไหม';
 
   @override
   String voiceP2pJoinDescription(int maxParticipants) {
-    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+    return 'การโทรนี้เชื่อมต่อผู้เข้าร่วมถึงกันโดยตรง ผู้เข้าร่วมคนอื่นจะเห็นที่อยู่ IP ของคุณ เข้าร่วมได้สูงสุด $maxParticipants คน หากคุณเชื่อมต่อโดยตรงไม่ได้ คุณจะเข้าร่วมไม่ได้จนกว่าจะมีคนเปลี่ยนเป็นการโทรแบบมาตรฐาน';
   }
 
   @override
   String voiceP2pPinnedJoinDescription(int maxParticipants) {
-    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+    return 'ช่องนี้อนุญาตเฉพาะการโทรแบบ P2P ผู้เข้าร่วมจะเชื่อมต่อถึงกันโดยตรงและเห็นที่อยู่ IP ของคุณ เข้าร่วมได้สูงสุด $maxParticipants คน หากคุณเชื่อมต่อโดยตรงไม่ได้ คุณจะเข้าร่วมไม่ได้';
   }
 
   @override
-  String get voiceP2pJoinConfirm => 'Join';
+  String get voiceP2pJoinConfirm => 'เข้าร่วม';
 
   @override
-  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+  String get voiceP2pAlwaysAgreeLabel => 'ไม่ต้องถามอีก ยินยอมเสมอ';
 
   @override
   String get voiceP2pAlwaysAgreeSettingLabel =>
-      'Always agree to join P2P calls';
+      'ยินยอมเข้าร่วมการโทรแบบ P2P เสมอ';
 
   @override
   String get voiceP2pAlwaysAgreeSettingDescription =>
-      'Join P2P calls without asking. Other participants can see your IP address.';
+      'เข้าร่วมการโทรแบบ P2P โดยไม่ต้องถาม ผู้เข้าร่วมคนอื่นจะเห็นที่อยู่ IP ของคุณ';
 
   @override
   String get voiceP2pIndicatorLabel => 'P2P';
 
   @override
   String get voiceP2pIndicatorDescription =>
-      'Direct connection. Media is encrypted between participants.';
+      'การเชื่อมต่อโดยตรง สื่อถูกเข้ารหัสระหว่างผู้เข้าร่วม';
 
   @override
-  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+  String get voiceP2pSwitchToStandard => 'สลับไปเป็นการโทรแบบมาตรฐาน';
 
   @override
   String get voiceP2pSwitchToStandardDescription =>
-      'Everyone in the call moves to a standard call through the server.';
+      'ทุกคนในสายจะย้ายไปใช้การโทรแบบมาตรฐานผ่านเซิร์ฟเวอร์';
 
   @override
   String get voiceP2pPeerFailedDescription =>
-      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+      'ไม่สามารถเชื่อมต่อโดยตรงได้ ออกจากสายหรือเปลี่ยนทุกคนไปใช้การโทรแบบมาตรฐาน';
 
   @override
-  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+  String get voiceP2pUnavailableError => 'ขณะนี้ไม่สามารถโทรแบบ P2P ได้';
 
   @override
   String get voiceP2pConsentRequiredError =>
-      'This call is P2P and needs your agreement to join.';
+      'การโทรนี้เป็นแบบ P2P และต้องได้รับความยินยอมจากคุณก่อนเข้าร่วม';
 
   @override
-  String get voiceChannelFullError => 'This call is full.';
+  String get voiceChannelFullError => 'สายนี้เต็มแล้ว';
 
   @override
   String get voiceP2pScreenShareUnavailable =>
-      'Screen sharing from this device is not available in P2P calls.';
+      'ไม่สามารถแชร์หน้าจอจากอุปกรณ์นี้ในการโทรแบบ P2P ได้';
 
   @override
-  String get channelMenuJoinP2p => 'Start P2P call';
+  String get channelMenuJoinP2p => 'เริ่มการโทรแบบ P2P';
 
   @override
-  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+  String get channelSettingsRtcP2pLabel => 'การโทรแบบ P2P เท่านั้น';
 
   @override
   String channelSettingsRtcP2pDescription(int maxParticipants) {
-    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+    return 'ผู้เข้าร่วมจะเชื่อมต่อถึงกันโดยตรงและเห็นที่อยู่ IP ของกันและกัน ทุกคนต้องยินยอมก่อนเข้าร่วม เข้าร่วมได้สูงสุด $maxParticipants คน';
   }
 
   @override
   String voiceP2pPeerFailedTitle(String name) {
-    return 'Cannot connect directly to $name';
+    return 'ไม่สามารถเชื่อมต่อโดยตรงกับ $name ได้';
   }
 
   @override
   String get favoritesRenameCategory => 'เปลี่ยนชื่อหมวดหมู่';
 
   @override
-  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+  String get friendAcceptFailedTitle => 'ไม่สามารถตอบรับคำขอเป็นเพื่อนได้';
 
   @override
   String get friendAcceptUnavailable =>
-      'That friend request is no longer available. Refresh and try again.';
+      'คำขอเป็นเพื่อนนั้นไม่พร้อมใช้งานแล้ว โปรดรีเฟรชแล้วลองอีกครั้ง';
 
   @override
   String get friendAcceptClaimToAccept =>
-      'Finish signing up to accept friend requests.';
+      'ลงทะเบียนให้เสร็จสิ้นเพื่อยอมรับคำขอเป็นเพื่อน';
 
   @override
   String get friendAcceptFailedMessage =>
-      'Couldn\'t accept the friend request. Try again.';
+      'ไม่สามารถตอบรับคำขอเป็นเพื่อนได้ โปรดลองอีกครั้ง';
 
   @override
-  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+  String get friendCancelFailedTitle => 'ยกเลิกคำขอเป็นเพื่อนไม่ได้';
 
   @override
-  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+  String get friendIgnoreFailedTitle => 'ไม่สามารถเพิกเฉยคำขอเป็นเพื่อนได้';
 
   @override
   String get friendIgnoreFailedMessage =>
-      'Couldn\'t ignore the friend request. Try again.';
+      'ไม่สามารถเพิกเฉยคำขอเป็นเพื่อนได้ โปรดลองอีกครั้ง';
 
   @override
-  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+  String get friendRemoveFailedTitle => 'ลบเพื่อนไม่ได้';
 
   @override
-  String get friendRemoveFailedMessage =>
-      'Couldn\'t remove this friend. Try again.';
+  String get friendRemoveFailedMessage => 'นำเพื่อนคนนี้ออกไม่ได้ ลองอีกครั้ง';
 
   @override
-  String get userBlockFailedTitle => 'Couldn\'t block user';
+  String get userBlockFailedTitle => 'บล็อกผู้ใช้ไม่ได้';
 
   @override
-  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+  String get userBlockSystemAccount => 'ไม่สามารถบล็อกบัญชีนี้ได้';
 
   @override
-  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+  String get userBlockFailedMessage => 'บล็อกผู้ใช้รายนี้ไม่ได้ ลองอีกครั้ง';
 
   @override
-  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+  String get userUnblockFailedTitle => 'ไม่สามารถเลิกบล็อกผู้ใช้ได้';
 
   @override
   String get userUnblockFailedMessage =>
-      'Couldn\'t unblock this user. Try again.';
+      'เลิกบล็อกผู้ใช้รายนี้ไม่ได้ ลองอีกครั้ง';
 
   @override
   String friendCancelRequestConfirmDescription(String userName) {
-    return 'Cancel your friend request to $userName?';
+    return 'ยกเลิกคำขอเป็นเพื่อนที่ส่งถึง $userName ใช่หรือไม่';
   }
 
   @override
-  String get errorSomethingWentWrongTitle => 'Something went wrong';
+  String get errorSomethingWentWrongTitle => 'เกิดข้อผิดพลาด';
 
   @override
   String get errorUnexpectedTryAgain =>
-      'An unexpected error occurred. Try again.';
+      'เกิดข้อผิดพลาดที่ไม่คาดคิด ลองอีกครั้ง';
 
   @override
-  String get errorMessagingPausedTitle => 'Messaging is paused';
+  String get errorMessagingPausedTitle => 'การส่งข้อความหยุดชั่วคราว';
 
   @override
   String get errorMessagingPausedMessage =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'ขณะนี้การส่งข้อความในบัญชีของคุณหยุดชั่วคราว โปรดดูอีเมลของคุณ แล้วทำขั้นตอนง่าย ๆ เพียงขั้นตอนเดียวเพื่อใช้งานต่อ';
 
   @override
-  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+  String get errorFeatureDisabledTitle => 'ปิดใช้งานฟีเจอร์ชั่วคราว';
 
   @override
   String get errorFeatureDisabledMessage =>
-      'This feature is paused. Try again later.';
+      'ฟีเจอร์นี้ถูกหยุดชั่วคราว โปรดลองอีกครั้งในภายหลัง';
 
   @override
-  String get dmErrorStartConversationTitle =>
-      'Couldn\'t start this conversation';
+  String get dmErrorStartConversationTitle => 'ไม่สามารถเริ่มการสนทนานี้ได้';
 
   @override
   String get dmErrorCannotMessageMessage =>
-      'They might not be accepting messages from you, or you no longer share a community.';
+      'พวกเขาอาจไม่รับข้อความจากคุณ หรือคุณไม่ได้อยู่ในคอมมูนิตี้เดียวกันแล้ว';
 
   @override
   String get dmErrorUnknownUserMessage =>
-      'This user no longer exists. Refresh and try again.';
+      'ผู้ใช้รายนี้ไม่มีอยู่อีกต่อไปแล้ว โปรดรีเฟรชแล้วลองอีกครั้ง';
 
   @override
   String get dmErrorClaimMessage =>
-      'You need to claim your account before you can start a direct message.';
+      'คุณต้องยืนยันบัญชีก่อนจึงจะสามารถเริ่มข้อความส่วนตัวได้';
 
   @override
   String get dmErrorVerifyEmailMessage =>
-      'You need to verify your email address before you can start a direct message.';
+      'คุณต้องยืนยันอีเมลก่อนจึงจะสามารถเริ่มข้อความส่วนตัวได้';
 
   @override
-  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+  String get dmErrorTooManyRecipientsTitle => 'กลุ่มนี้มีสมาชิกมากเกินไป';
 
   @override
   String get dmErrorTooManyRecipientsMessage =>
-      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+      'คุณเพิ่มคนเกินจำนวนที่แชทกลุ่มอนุญาต โปรดนำออกบางคนแล้วลองอีกครั้ง';
 
   @override
-  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+  String get dmErrorMaxGroupDmsTitle => 'คุณถึงขีดจำกัดแชทกลุ่มแล้ว';
 
   @override
   String get dmErrorMaxGroupDmsMessage =>
-      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+      'คุณหรือคนที่คุณกำลังเพิ่มมีแชทกลุ่มเปิดอยู่ครบจำนวนสูงสุดแล้ว ออกจากแชทกลุ่มหนึ่งแล้วลองอีกครั้ง';
 
   @override
-  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+  String get groupDmAddFailedTitle => 'เพิ่มเข้ากลุ่มไม่ได้';
 
   @override
-  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+  String get groupDmInviteFailedTitle => 'สร้างลิงก์เชิญไม่ได้';
 
   @override
-  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+  String get dmCloseFailedTitle => 'ปิดข้อความส่วนตัวไม่ได้';
 
   @override
-  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+  String get groupDmLeaveFailedTitle => 'ออกจากกลุ่มไม่ได้';
 
   @override
-  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+  String get inviteJoinFailedTitle => 'ไม่สามารถเข้าร่วมคอมมูนิตี้ได้';
 
   @override
   String get inviteErrorPausedMessage =>
-      'Admins paused invites — you can\'t join right now.';
+      'ผู้ดูแลระบบหยุดคำเชิญชั่วคราว คุณจึงเข้าร่วมตอนนี้ไม่ได้';
 
   @override
-  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+  String get inviteErrorAtCapacityTitle => 'คอมมูนิตี้เต็ม';
 
   @override
   String get inviteErrorAtCapacityMessage =>
-      'This community has reached its maximum member limit and is not accepting new members at this time.';
+      'คอมมูนิตี้นี้มีสมาชิกเต็มจำนวนแล้วและไม่สามารถรับสมาชิกใหม่ได้ในขณะนี้';
 
   @override
-  String get inviteErrorPresenceTitle => 'Gateway connection required';
+  String get inviteErrorPresenceTitle => 'ต้องเชื่อมต่อเกตเวย์';
 
   @override
   String get inviteErrorPresenceMessage =>
-      'Temporary invites need a live connection. Check yours and try again.';
+      'คำเชิญชั่วคราวต้องใช้การเชื่อมต่อแบบเรียลไทม์ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง';
 
   @override
-  String get inviteErrorBannedTitle => 'You\'re banned';
+  String get inviteErrorBannedTitle => 'คุณถูกแบน';
 
   @override
   String get inviteErrorBannedMessage =>
-      'You are banned from this community and cannot join.';
+      'คุณถูกแบนจากคอมมูนิตี้นี้และไม่สามารถเข้าร่วมได้';
 
   @override
-  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+  String get inviteErrorIpBannedTitle => 'IP ของคุณถูกแบน';
 
   @override
   String get inviteErrorIpBannedMessage =>
-      'Your IP address is banned from this community and you cannot join.';
+      'IP ของคุณถูกแบนจากคอมมูนิตี้นี้ คุณจึงเข้าร่วมไม่ได้';
 
   @override
-  String get inviteErrorClaimTitle => 'Account verification required';
+  String get inviteErrorClaimTitle => 'ต้องยืนยันบัญชี';
 
   @override
   String get inviteErrorClaimMessage =>
-      'Add an email and password to your account first.';
+      'เพิ่มอีเมลและรหัสผ่านลงในบัญชีของคุณก่อน';
 
   @override
-  String get leaveCommunityFailedTitle => 'Failed to leave community';
+  String get leaveCommunityFailedTitle => 'ออกจากคอมมูนิตี้ไม่สำเร็จ';
 
   @override
   String get leaveCommunityFailedMessage =>
-      'Couldn\'t leave right now. Try again in a moment.';
+      'ไม่สามารถออกได้ในขณะนี้ ลองอีกครั้งในอีกสักครู่';
 
   @override
-  String get chatSendFailedTitle => 'Your message didn\'t send';
+  String get chatSendFailedTitle => 'ส่งข้อความไม่สำเร็จ';
 
   @override
-  String get chatSendFailedMessage => 'Try sending your message again.';
+  String get chatSendFailedMessage => 'ลองส่งข้อความของคุณอีกครั้ง';
 
   @override
-  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+  String get chatSendTooQuickTitle => 'คุณส่งข้อความเร็วเกินไป';
 
   @override
   String get chatRateLimitedMessage =>
-      'Slow down — wait a moment before trying again.';
+      'ช้าลงหน่อย โปรดรอสักครู่ก่อนลองอีกครั้ง';
 
   @override
-  String get chatMatureContentTitle => 'Mature content not allowed';
+  String get chatMatureContentTitle => 'ไม่อนุญาตเนื้อหาสำหรับผู้ใหญ่';
 
   @override
   String get chatMatureContentGuildMessage =>
-      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+      'ช่องนี้ไม่ได้ถูกตั้งค่าให้มีเนื้อหาสำหรับผู้ใหญ่ เนื้อหาสำหรับผู้ใหญ่สามารถส่งได้เฉพาะในช่องที่ถูกตั้งค่าให้มีเนื้อหาสำหรับผู้ใหญ่เท่านั้น หากเหมาะสม โปรดขอให้ผู้ดูแลอัปเดตช่องนี้';
 
   @override
   String chatMatureContentDmMessage(String settingsPath) {
-    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+    return 'คุณหรือบุคคลที่คุณกำลังส่งข้อความด้วยได้เลือกที่จะบล็อกสื่อที่ละเอียดอ่อนในข้อความส่วนตัวแล้ว คุณทั้งคู่สามารถเปลี่ยนแปลงการตั้งค่านี้ได้ใน $settingsPath';
   }
 
   @override
   String get chatMatureContentGroupDmMessage =>
-      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+      'กลุ่มนี้ไม่ได้ตั้งค่าสำหรับเนื้อหาสำหรับผู้ใหญ่ เจ้าของกลุ่มสามารถเปิดใช้งานเนื้อหาสำหรับผู้ใหญ่ในการตั้งค่ากลุ่มได้ หากทุกคนในกลุ่มมีอายุ 18 ปีขึ้นไป';
 
   @override
-  String get chatFileTooLargeTitle => 'File size too large';
+  String get chatFileTooLargeTitle => 'ไฟล์มีขนาดใหญ่เกินไป';
 
   @override
   String chatFileTooLargeMessage(String maxSize) {
-    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+    return 'ไฟล์ที่คุณกำลังอัปโหลดมีขนาดเกิน $maxSize ต่อไฟล์';
   }
 
   @override
-  String get chatHeavyTitle => 'Whoa, this is heavy';
+  String get chatHeavyTitle => 'โอ้โห หนักเลย';
 
   @override
   String get chatReactionsHeavyMessage =>
-      'This is one heavy message. Some reactions need to be removed before you can add more.';
+      'ข้อความนี้มีรีแอ็กชันเยอะมาก ต้องนำรีแอ็กชันบางส่วนออกก่อนจึงจะเพิ่มใหม่ได้';
 
   @override
   String get chatReactionTimedOut =>
-      'You can\'t add new reactions while you\'re timed out.';
+      'คุณไม่สามารถเพิ่มรีแอ็กชันใหม่ได้ในขณะที่ถูกพักการใช้งานชั่วคราว';
 
   @override
   String chatTooManyAttachmentsMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '$count file',
+      other: '$count ไฟล์',
+      one: '$count ไฟล์',
     );
-    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+    return 'คุณอัปโหลดได้ครั้งละ $_temp0 เท่านั้น ลองอีกครั้งโดยใช้ไฟล์น้อยลง';
   }
 
   @override
-  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+  String get chatEditTooQuickTitle => 'คุณแก้ไขข้อความเร็วเกินไป';
 
   @override
-  String get chatEditFailedMessage => 'Try editing your message again.';
+  String get chatEditFailedMessage => 'ลองแก้ไขข้อความของคุณอีกครั้ง';
 
   @override
-  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+  String get chatDeleteTooQuickTitle => 'คุณลบข้อความเร็วเกินไป';
 
   @override
-  String get chatDeleteTooQuickMessage =>
-      'Wait a moment before deleting more messages.';
+  String get chatDeleteTooQuickMessage => 'รอสักครู่ก่อนลบข้อความอื่น';
 
   @override
-  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+  String get chatDeleteFailedTitle => 'ลบข้อความไม่ได้';
 
   @override
-  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+  String get chatDeleteFailedMessage => 'ลองลบข้อความอีกครั้ง';
 
   @override
-  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+  String get chatAttachmentDeleteFailedTitle => 'ลบไฟล์แนบไม่สำเร็จ';
 
   @override
-  String get chatAttachmentDeleteFailedMessage =>
-      'Try deleting that attachment again.';
+  String get chatAttachmentDeleteFailedMessage => 'ลองลบไฟล์แนบนั้นอีกครั้ง';
 
   @override
-  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+  String get chatAltTextFailedTitle => 'อัปเดตข้อความอธิบายรูปภาพไม่ได้';
 
   @override
-  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+  String get chatAltTextUnknownMessage => 'ข้อความนี้ไม่มีอยู่อีกต่อไปแล้ว';
 
   @override
-  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+  String get chatAltTextNoPermission => 'คุณไม่สามารถแก้ไขข้อความนี้ได้';
 
   @override
   String get chatAltTextUnavailable =>
-      'Editing is temporarily unavailable. Please try again later.';
+      'ไม่สามารถแก้ไขได้ชั่วคราว โปรดลองอีกครั้งในภายหลัง';
 
   @override
   String get chatAltTextFailedMessage =>
-      'Couldn\'t update the alt text. Please try again.';
+      'ไม่สามารถอัปเดตข้อความอธิบายรูปภาพได้ โปรดลองอีกครั้ง';
 
   @override
-  String get chatPinFailedTitle => 'Failed to pin message';
+  String get chatPinFailedTitle => 'ปักหมุดข้อความไม่สำเร็จ';
 
   @override
-  String get chatUnpinFailedTitle => 'Failed to unpin message';
+  String get chatUnpinFailedTitle => 'เลิกปักหมุดข้อความไม่สำเร็จ';
 
   @override
-  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+  String get chatPinFailedMessage => 'เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง';
 
   @override
   String get chatPinBlockedMessage =>
-      'You cannot interact with this user right now.';
+      'คุณไม่สามารถโต้ตอบกับผู้ใช้นี้ได้ในขณะนี้';
 
   @override
-  String get bookmarkLimitTitle => 'Bookmark limit reached';
+  String get bookmarkLimitTitle => 'ถึงขีดจำกัดบุ๊กมาร์กแล้ว';
 
   @override
   String bookmarkLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count bookmarks',
-      one: '$count bookmark',
+      other: '$count รายการ',
+      one: '$count รายการ',
     );
-    return 'You\'re at $_temp0. Remove one to add another.';
+    return 'คุณมีบุ๊กมาร์กครบ $_temp0 แล้ว ลบหนึ่งรายการเพื่อเพิ่มรายการใหม่';
   }
 
   @override
-  String get savedMediaLimitTitle => 'Saved media limit reached';
+  String get savedMediaLimitTitle => 'ถึงขีดจำกัดสื่อที่บันทึกไว้แล้ว';
 
   @override
   String savedMediaLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count saved media items',
-      one: '$count saved media item',
+      other: '$count รายการ',
+      one: '$count รายการ',
     );
-    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+    return 'คุณมีสื่อที่บันทึกไว้ครบขีดจำกัด $_temp0 แล้ว ลบหนึ่งรายการเพื่อเพิ่มรายการใหม่';
   }
 
   @override
-  String get errorContentBlockedTitle => 'Content blocked';
+  String get errorContentBlockedTitle => 'เนื้อหาถูกบล็อก';
 
   @override
   String get errorContentBlockedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'ดำเนินการไม่สำเร็จเนื่องจากถูกระบบความปลอดภัยของเราตรวจจับไว้ หากคิดว่าเกิดข้อผิดพลาด โปรดติดต่อฝ่ายสนับสนุน';
 
   @override
   String get errorContentBlockedSelfHostedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'ดำเนินการไม่สำเร็จเนื่องจากถูกระบบความปลอดภัยของเราตรวจจับไว้ หากคิดว่าเกิดข้อผิดพลาด โปรดติดต่อผู้ดูแลระบบของอินสแตนซ์นี้';
 
   @override
-  String get channelDeletedToast => 'Channel deleted';
+  String get channelDeletedToast => 'ช่องถูกลบแล้ว';
 
   @override
-  String get categoryDeletedToast => 'Category deleted';
+  String get categoryDeletedToast => 'ลบหมวดหมู่แล้ว';
 
   @override
-  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+  String get channelDeleteNoPermissionTitle => 'คุณไม่สามารถลบรายการนี้ได้';
 
   @override
-  String get channelDeleteNoPermissionChannel =>
-      'You don\'t have permission to delete this channel.';
+  String get channelDeleteNoPermissionChannel => 'คุณไม่มีสิทธิ์ลบช่องนี้';
 
   @override
-  String get channelDeleteNoPermissionCategory =>
-      'You don\'t have permission to delete this category.';
+  String get channelDeleteNoPermissionCategory => 'คุณไม่มีสิทธิ์ลบหมวดหมู่นี้';
 
   @override
-  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+  String get channelDeleteAlreadyDeletedTitle => 'ถูกลบไปแล้ว';
 
   @override
   String get channelDeleteAlreadyDeletedChannel =>
-      'This channel no longer exists. It may have already been deleted.';
+      'ช่องนี้ไม่มีอยู่อีกต่อไปแล้ว อาจถูกลบไปแล้ว';
 
   @override
   String get channelDeleteAlreadyDeletedCategory =>
-      'This category no longer exists. It may have already been deleted.';
+      'หมวดหมู่นี้ไม่มีอยู่อีกต่อไปแล้ว อาจถูกลบไปแล้ว';
 
   @override
-  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+  String get channelDeleteFailedChannelTitle => 'ไม่สามารถลบช่องนี้ได้';
 
   @override
-  String get channelDeleteFailedCategoryTitle =>
-      'Couldn\'t delete this category';
+  String get channelDeleteFailedCategoryTitle => 'ไม่สามารถลบหมวดหมู่นี้ได้';
 
   @override
   String get channelPermissionsUpdateFailedTitle =>
-      'Couldn\'t update channel permissions';
+      'ไม่สามารถอัปเดตสิทธิ์ช่องได้';
 
   @override
   String get channelSettingsSaveFailedTitle =>
-      'Couldn\'t save channel settings';
+      'ไม่สามารถบันทึกการตั้งค่าช่องได้';
 
   @override
-  String get emojiSlotsFullTitle => 'No emoji slots available';
+  String get emojiSlotsFullTitle => 'ไม่มีช่องใส่อิโมจิว่าง';
 
   @override
-  String get stickerSlotsFullTitle => 'No sticker slots available';
+  String get stickerSlotsFullTitle => 'ไม่มีช่องสติกเกอร์ว่าง';
 
   @override
   String get emojiSomeFailedMessage =>
-      'Review these files and try again with smaller or simpler images.';
+      'ตรวจสอบไฟล์เหล่านี้แล้วลองอีกครั้งด้วยรูปภาพที่เล็กลงหรือเรียบง่ายขึ้น';
 
   @override
   String get emojiNameInvalidCharacters =>
-      'Emoji names can only use letters, numbers and underscores.';
+      'ชื่ออิโมจิใช้ได้เฉพาะตัวอักษร ตัวเลข และขีดล่างเท่านั้น';
 
   @override
-  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+  String get emojiErrorGoneTitle => 'อิโมจินี้ไม่มีแล้ว';
 
   @override
   String get emojiRenameGoneMessage =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'อิโมจิอาจถูกลบไปแล้ว ชื่อจึงเปลี่ยนกลับไปเป็นชื่อเดิม';
 
   @override
-  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+  String get emojiRenameNoPermissionTitle =>
+      'คุณไม่สามารถเปลี่ยนชื่ออิโมจินี้ได้';
 
   @override
   String get emojiRenameNoPermissionMessage =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'คุณไม่มีสิทธิ์เปลี่ยนชื่ออิโมจินี้ ชื่อจึงถูกเปลี่ยนกลับเป็นชื่อเดิม';
 
   @override
   String get emojiRenameRateLimitedMessage =>
-      'Please wait a moment and try renaming again.';
+      'โปรดรอสักครู่แล้วลองเปลี่ยนชื่ออีกครั้ง';
 
   @override
   String get emojiRenameFailedMessage =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'ชื่อถูกเปลี่ยนกลับเป็นชื่อเดิม โปรดลองอีกครั้งในอีกสักครู่';
 
   @override
-  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+  String get emojiDeleteGoneMessage => 'ดูเหมือนว่าถูกลบไปแล้ว';
 
   @override
-  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+  String get emojiDeleteNoPermissionTitle => 'คุณไม่สามารถลบอิโมจินี้ได้';
 
   @override
-  String get emojiDeleteNoPermissionMessage =>
-      'You don\'t have permission to delete this emoji.';
+  String get emojiDeleteNoPermissionMessage => 'คุณไม่มีสิทธิ์ลบอิโมจินี้';
 
   @override
-  String get emojiDeleteRateLimitedMessage =>
-      'Please wait a moment and try deleting again.';
+  String get emojiDeleteRateLimitedMessage => 'โปรดรอสักครู่แล้วลองลบอีกครั้ง';
 
   @override
-  String get stickerTooLargeTitle => 'Sticker is too large';
+  String get stickerTooLargeTitle => 'สติกเกอร์มีขนาดใหญ่เกินไป';
 
   @override
   String stickerTooLargeMessage(String maxSize) {
-    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+    return 'บริการอัปโหลดปฏิเสธสติกเกอร์นี้เนื่องจากมีขนาดใหญ่กว่า $maxSize ลองใช้ไฟล์ที่เล็กลง รูปภาพที่เรียบง่ายขึ้น หรือภาพเคลื่อนไหวที่สั้นลง';
   }
 
   @override
   String get stickerCreateFailedMessage =>
-      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+      'เกิดข้อผิดพลาดขณะเตรียมสติกเกอร์นี้ ลองใช้ไฟล์อื่นหรือลองอีกครั้งในภายหลัง';
 
   @override
-  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+  String get stickerUpdateFailedTitle => 'อัปเดตสติกเกอร์นี้ไม่สำเร็จ';
 
   @override
-  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+  String get moderationTimeoutFailed =>
+      'พักการใช้งานสมาชิกชั่วคราวไม่สำเร็จ ลองอีกครั้ง';
 
   @override
   String get moderationRemoveTimeoutFailed =>
-      'Failed to remove timeout. Try again.';
+      'ยกเลิกการพักการใช้งานชั่วคราวไม่สำเร็จ ลองอีกครั้ง';
 
   @override
-  String get moderationKickFailed => 'Failed to kick member. Try again.';
+  String get moderationKickFailed => 'เตะสมาชิกออกไม่สำเร็จ ลองอีกครั้ง';
 
   @override
-  String get moderationBanFailed => 'Failed to ban member. Try again.';
+  String get moderationBanFailed => 'แบนสมาชิกไม่สำเร็จ ลองอีกครั้ง';
 
   @override
-  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+  String get transferOwnershipFailedTitle => 'โอนความเป็นเจ้าของไม่สำเร็จ';
 
   @override
   String transferOwnershipFailedMessage(String username) {
-    return 'Ownership could not be transferred to $username at this time.';
+    return 'ไม่สามารถโอนความเป็นเจ้าของให้กับ $username ได้ในขณะนี้';
   }
 
   @override
-  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+  String get revokeBanFailedTitle => 'ยกเลิกการแบนไม่ได้';
 
   @override
-  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+  String get voiceModerationNoPermissionTitle => 'คุณไม่สามารถดำเนินการนี้ได้';
 
   @override
   String get voiceModerationNoPermissionMessage =>
-      'You don\'t have permission to do this to this member.';
+      'คุณไม่มีสิทธิ์ดำเนินการนี้กับสมาชิกคนนี้';
 
   @override
-  String get voiceModerationLeftTitle => 'They left the call';
+  String get voiceModerationLeftTitle => 'พวกเขาออกจากการโทรแล้ว';
 
   @override
   String get voiceModerationLeftMessage =>
-      'This member isn\'t connected to voice anymore.';
+      'สมาชิกรายนี้ไม่ได้อยู่ในช่องเสียงแล้ว';
 
   @override
-  String get voiceModerationUnknownMemberTitle => 'Member not found';
+  String get voiceModerationUnknownMemberTitle => 'ไม่พบสมาชิก';
 
   @override
   String get voiceModerationUnknownMemberMessage =>
-      'This member is no longer in the community. Refresh and try again.';
+      'สมาชิกรายนี้ไม่ได้อยู่ในคอมมูนิตี้แล้ว โปรดรีเฟรชแล้วลองอีกครั้ง';
 
   @override
-  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+  String get voiceJoinTimedOut =>
+      'คุณเข้าร่วมไม่ได้ในขณะที่ถูกพักการใช้งานชั่วคราว';
 
   @override
   String get voiceJoinClaimAccount =>
-      'Claim your account to join this voice channel.';
+      'ยืนยันบัญชีของคุณเพื่อเข้าร่วมช่องเสียงนี้';
 
   @override
   String get voiceJoinClaimAccountDirectCall =>
-      'Claim your account to start or join 1:1 calls.';
+      'ยืนยันบัญชีเพื่อเริ่มหรือเข้าร่วมการโทรแบบ 1:1';
 
   @override
   String get voiceJoinUserLimit =>
-      'This voice channel has reached its user limit. Try again later or join a different channel.';
+      'ช่องเสียงนี้มีผู้ใช้เต็มแล้ว ลองอีกครั้งในภายหลัง หรือเข้าร่วมช่องอื่น';
 
   @override
   String get voiceJoinConnectionLimit =>
-      'You\'ve reached this voice channel\'s connection limit.';
+      'คุณถึงขีดจำกัดการเชื่อมต่อของช่องเสียงนี้แล้ว';
 
   @override
-  String get voiceJoinChannelUnavailable =>
-      'This voice channel is no longer available.';
+  String get voiceJoinChannelUnavailable => 'ช่องเสียงนี้ไม่พร้อมใช้งานแล้ว';
 
   @override
-  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+  String get avatarUploadFailedTitle => 'อัปโหลดรูปโปรไฟล์ไม่ได้';
 
   @override
-  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+  String get bannerUploadFailedTitle => 'อัปโหลดแบนเนอร์ไม่ได้';
 
   @override
-  String get animatedImageUseStatic => 'Upload a static image instead.';
+  String get animatedImageUseStatic => 'อัปโหลดรูปภาพนิ่งแทน';
 
   @override
-  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+  String get passkeyDeleteFailedTitle => 'ลบพาสคีย์ไม่ได้';
 
   @override
-  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+  String get premiumPaymentsUnavailableTitle => 'ไม่สามารถชำระเงินได้';
 
   @override
   String get premiumPaymentsUnavailableMessage =>
-      'Payments are temporarily unavailable. Please try again in a moment.';
+      'ขณะนี้ไม่สามารถชำระเงินได้ โปรดลองอีกครั้งในอีกสักครู่';
 
   @override
-  String get premiumNoSubscriptionTitle => 'No active subscription';
+  String get premiumNoSubscriptionTitle => 'ไม่มีการสมัครสมาชิกที่ใช้งานอยู่';
 
   @override
   String get premiumNoSubscriptionMessage =>
-      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+      'เราไม่พบการสมัครสมาชิกที่ใช้งานอยู่สำหรับบัญชีนี้ โปรดรีเฟรชแล้วลองอีกครั้ง';
 
   @override
-  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+  String get premiumAlreadyCancelingTitle => 'ตั้งค่าให้ยกเลิกไว้แล้ว';
 
   @override
   String get premiumAlreadyCancelingMessage =>
-      'Your subscription is already set to cancel at the end of your billing period.';
+      'การสมัครของคุณถูกตั้งค่าให้ยกเลิกเมื่อสิ้นสุดรอบบิลแล้ว';
 
   @override
-  String get premiumNotCancelingTitle =>
-      'Subscription is not scheduled to cancel';
+  String get premiumNotCancelingTitle => 'การสมัครสมาชิกไม่ได้ตั้งค่าให้ยกเลิก';
 
   @override
   String get premiumNotCancelingMessage =>
-      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+      'การสมัครของคุณไม่ได้ตั้งค่าให้ยกเลิก จึงไม่มีอะไรให้เปิดใช้งานอีกครั้ง';
 
   @override
-  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+  String get premiumCancelFailedTitle => 'ยกเลิกการสมัครสมาชิกไม่ได้';
 
   @override
   String get premiumCancelFailedMessage =>
-      'Something went wrong while canceling your subscription. Please try again in a moment.';
+      'เกิดข้อผิดพลาดขณะยกเลิกการสมัครสมาชิกของคุณ โปรดลองอีกครั้งในภายหลัง';
 
   @override
   String get premiumReactivateFailedTitle =>
-      'Couldn\'t reactivate your subscription';
+      'เปิดใช้งานการสมัครสมาชิกของคุณอีกครั้งไม่ได้';
 
   @override
   String get premiumReactivateFailedMessage =>
-      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+      'เกิดข้อผิดพลาดขณะเปิดใช้งานการสมัครสมาชิกของคุณอีกครั้ง โปรดลองอีกครั้งในภายหลัง';
 
   @override
-  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+  String get premiumRefundConfirmTitle =>
+      'คืนเงินสำหรับการซื้อล่าสุดของคุณหรือไม่';
 
   @override
   String get premiumRefundConfirmBody =>
-      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+      'ระบบจะคืนเงินสำหรับใบแจ้งหนี้ล่าสุดของคุณและยกเลิกการสมัครสมาชิกที่เกี่ยวข้อง คุณจะไม่สามารถคืนเงินด้วยตนเองได้อีกเป็นเวลา 30 วัน';
 
   @override
-  String get premiumRefundConfirm => 'Refund purchase';
+  String get premiumRefundConfirm => 'ขอคืนเงิน';
 
   @override
   String get premiumRefundIssuedToast =>
-      'Refund issued. May take a few business days to appear.';
+      'คืนเงินแล้ว อาจใช้เวลาสองสามวันทำการจึงจะแสดงในบัญชีของคุณ';
 
   @override
-  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+  String get premiumRefundOutsideWindowTitle => 'เกินระยะเวลาที่ขอคืนเงินได้';
 
   @override
   String get premiumRefundOutsideWindowMessage =>
-      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+      'การซื้อล่าสุดของคุณไม่อยู่ในช่วงเวลาที่สามารถขอคืนเงินได้แล้ว โปรดติดต่อฝ่ายสนับสนุนสำหรับปัญหาการเรียกเก็บเงิน';
 
   @override
-  String get premiumRefundCooldownTitle => 'You have refunded recently';
+  String get premiumRefundCooldownTitle =>
+      'คุณเพิ่งขอคืนเงินไปเมื่อไม่นานมานี้';
 
   @override
   String get premiumRefundCooldownMessage =>
-      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+      'คุณได้ใช้การคืนเงินด้วยตนเองไปแล้วเมื่อเร็วๆ นี้ คุณสามารถคืนเงินได้อีกครั้งเมื่อช่วงเวลาคูลดาวน์สิ้นสุดลง';
 
   @override
-  String get premiumRefundNothingTitle => 'Nothing to refund';
+  String get premiumRefundNothingTitle => 'ไม่มีรายการที่ขอคืนเงินได้';
 
   @override
   String get premiumRefundNothingMessage =>
-      'We couldn\'t find a recent purchase to refund on this account.';
+      'เราไม่พบการซื้อล่าสุดที่สามารถขอคืนเงินได้ในบัญชีนี้';
 
   @override
-  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+  String get premiumRefundFailedTitle => 'ไม่สามารถคืนเงินการซื้อนี้ได้';
 
   @override
   String get premiumRefundFailedMessage =>
-      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+      'เกิดข้อผิดพลาดขณะดำเนินการคืนเงินของคุณ หากยังคงเกิดข้อผิดพลาด โปรดติดต่อฝ่ายสนับสนุน';
 
   @override
-  String get premiumVerifyEmailTitle => 'Verify your email first';
+  String get premiumVerifyEmailTitle => 'ยืนยันอีเมลของคุณก่อน';
 
   @override
   String premiumVerifyEmailBody(String productName) {
-    return 'You need to verify your email before you can purchase $productName.';
+    return 'คุณต้องยืนยันอีเมลก่อนจึงจะสามารถซื้อ $productName ได้';
   }
 
   @override
-  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+  String get premiumCheckoutBlockedTitle => 'ไม่สามารถชำระเงินได้';
 
   @override
   String premiumCheckoutBlockedBody(String supportEmail) {
-    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+    return 'บัญชีนี้ถูกบล็อกไม่ให้ชำระเงิน โปรดติดต่อ $supportEmail หากคุณต้องการความช่วยเหลือ';
   }
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
-      'Checkout is blocked for this account.';
+      'การชำระเงินถูกบล็อกสำหรับบัญชีนี้';
 }

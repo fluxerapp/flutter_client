@@ -294,7 +294,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get register => 'Registrera dig';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'ELLER';
 
   @override
   String get cancel => 'Avbryt';
@@ -339,7 +339,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get next => 'Nästa';
 
   @override
-  String get create => 'Create';
+  String get create => 'Skapa';
 
   @override
   String get mfaTitle => 'Tvåfaktorsautentisering';
@@ -382,7 +382,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String accountSignOutTitle(String identifier) {
-    return 'Sign out of $identifier?';
+    return 'Logga ut från $identifier?';
   }
 
   @override
@@ -1572,11 +1572,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Din vänlista är full, eller så är deras det. Ta bort någon och försök igen.';
 
   @override
-  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+  String get addFriendSendFailedTitle => 'Kunde inte skicka vänförfrågan';
 
   @override
   String get addFriendSendFailedMessage =>
-      'Couldn\'t send the friend request. Try again.';
+      'Kunde inte skicka vänförfrågan. Försök igen.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1585,7 +1585,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userTagSystem => 'System';
 
   @override
-  String get userTagOp => 'OP';
+  String get userTagOp => 'TS';
 
   @override
   String get emojiSearchPlaceholder => 'Hitta emojin du drömmer om';
@@ -1850,10 +1850,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get crop => 'Beskär';
 
   @override
-  String get cropTouchHint => 'Pinch to zoom, drag to reposition';
+  String get cropTouchHint => 'Nyp för att zooma, dra för att flytta';
 
   @override
-  String get cropMouseHint => 'Drag corners to resize, drag inside to move';
+  String get cropMouseHint =>
+      'Dra i hörnen för att ändra storlek, dra inuti för att flytta';
 
   @override
   String get changeYourFluxerTag => 'Ändra ditt användarnamn';
@@ -1986,7 +1987,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'PNG, JPEG, WebP, GIF. Max 10 MB. Minst: 960×540 px (16:9)';
 
   @override
   String get accentColorLabel => 'Accentfärg';
@@ -3108,7 +3109,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String userProfileCtpBadgeTooltip(String productName) {
-    return '$productName Community Team';
+    return '${productName}s communityteam';
   }
 
   @override
@@ -3412,7 +3413,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userProfileBan => 'Bannlys';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Stäng av tillfälligt';
 
   @override
   String get userProfileRemoveTimeout => 'Ta bort timeout';
@@ -3699,8 +3700,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}m',
-      one: '1m',
+      other: '$count min',
+      one: '1 min',
     );
     return '$_temp0';
   }
@@ -3710,8 +3711,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}h',
-      one: '1h',
+      other: '$count tim',
+      one: '1 tim',
     );
     return '$_temp0';
   }
@@ -3721,8 +3722,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '$count d',
+      one: '1 d',
     );
     return '$_temp0';
   }
@@ -4372,10 +4373,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get connectionDomainLabel => 'Domän';
 
   @override
-  String get connectionHandlePlaceholder => 'username.bsky.social';
+  String get connectionHandlePlaceholder => 'anvandarnamn.bsky.social';
 
   @override
-  String get connectionDomainPlaceholder => 'example.com';
+  String get connectionDomainPlaceholder => 'exempel.se';
 
   @override
   String get connectionAlreadyExists => 'Du har redan den här anslutningen.';
@@ -4573,93 +4574,98 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Kunde inte synkronisera temat till ditt konto. Försök igen.';
 
   @override
-  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+  String get lookAndFeelThemeColorsTitle => 'Temafärger';
 
   @override
   String get lookAndFeelThemeColorsConfigureDescription =>
-      'Customize individual theme colors for this device.';
+      'Anpassa enskilda temafärger för den här enheten.';
 
   @override
   String lookAndFeelThemeColorsEditingMode(String mode) {
-    return 'Editing $mode';
+    return 'Redigerar $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+  String get lookAndFeelThemeColorsSyncSectionTitle =>
+      'Synkning med Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioLabel =>
-      'Use colors from Theme Studio';
+      'Använd färger från Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioDescription =>
-      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+      'När detta är på används färgändringar från Theme Studio på datorn även på den här enheten. När det är av behåller den här enheten sina egna färger.';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioLabel =>
-      'Send color changes to Theme Studio';
+      'Skicka färgändringar till Theme Studio';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioDescription =>
-      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+      'När detta är på synkas färgerna du ändrar här till Theme Studio på dina andra enheter. När det är av behåller Theme Studio på datorn sina egna färger.';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
-      'Desktop Theme Studio color changes will not apply on this device.';
+      'Färgändringar från Theme Studio på datorn används inte på den här enheten.';
 
   @override
-  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+  String get lookAndFeelThemeColorsEssentialSectionTitle =>
+      'Grundläggande färger';
 
   @override
   String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
-      'If you have a chat wallpaper set, you won\'t see this color.';
+      'Om du har en bakgrundsbild för chatten ser du inte den här färgen.';
 
   @override
   String lookAndFeelThemeColorsResetForMode(String mode) {
-    return 'Reset all colors for $mode';
+    return 'Återställ alla färger för $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+  String get lookAndFeelThemeColorsResetConfirmTitle =>
+      'Återställa temafärger?';
 
   @override
   String lookAndFeelThemeColorsResetConfirmBody(String mode) {
-    return 'This removes your custom color overrides for $mode on this device.';
+    return 'Detta tar bort dina anpassade färger för $mode på den här enheten.';
   }
 
   @override
-  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Varumärke och knappar';
 
   @override
-  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chatt och meddelanden';
 
   @override
-  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+  String get lookAndFeelThemeColorsGroupSidebars => 'Sidofält och navigering';
 
   @override
   String get lookAndFeelThemeColorsGroupText => 'Text';
 
   @override
-  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+  String get lookAndFeelThemeColorsGroupHeaders => 'Rubriker';
 
   @override
   String get lookAndFeelThemeColorsGroupStatus => 'Status';
 
   @override
-  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup =>
+      'Inbäddningar och omnämnanden';
 
   @override
-  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+  String get lookAndFeelThemeColorsGroupAccentsAlerts =>
+      'Accenter och varningar';
 
   @override
-  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+  String get lookAndFeelThemeColorsGroupControls => 'Ytor och kontroller';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Skalning av chattypsnitt';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Justera textstorleken i chattområdet.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Teckenstorlek i chatt';
@@ -4701,7 +4707,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return 'Toning $id';
   }
 
   @override
@@ -4724,7 +4730,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
-    return '${spacing}px';
+    return '$spacing px';
   }
 
   @override
@@ -4867,11 +4873,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
-      'Open communities to your last channel';
+      'Öppna communities i den senaste kanalen';
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
-      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
+      'När du trycker på en community kommer du direkt till den senaste kanalen du tittade på där. Svep åt höger för att se kanallistan.';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Kanallista';
@@ -5880,7 +5886,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String get shellResizeSidebar => 'Resize sidebar';
+  String get shellResizeSidebar => 'Ändra storlek på sidofält';
 
   @override
   String get voiceConnectionTitle => 'Röstanslutning';
@@ -5941,7 +5947,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String voiceConnectionBandwidthKbps(String bandwidth) {
-    return '$bandwidth kbps';
+    return '$bandwidth kbit/s';
   }
 
   @override
@@ -6060,10 +6066,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Sluta titta på den aktuella strömmen';
 
   @override
-  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+  String get voiceScreenShareEnterFullscreenTooltip => 'Helskärm';
 
   @override
-  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+  String get voiceScreenShareExitFullscreenTooltip => 'Avsluta helskärm';
 
   @override
   String get voiceOwnScreenShareTitle => 'Du sänder';
@@ -6184,22 +6190,22 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String notificationsMentionedYouIn(String author, String place) {
-    return '$author mentioned you in $place:';
+    return '$author nämnde dig i $place:';
   }
 
   @override
   String notificationsRepliedToYouIn(String author, String place) {
-    return '$author replied to you in $place:';
+    return '$author svarade dig i $place:';
   }
 
   @override
   String notificationsMentionedYou(String author) {
-    return '$author mentioned you:';
+    return '$author nämnde dig:';
   }
 
   @override
   String notificationsRepliedToYou(String author) {
-    return '$author replied to you:';
+    return '$author svarade dig:';
   }
 
   @override
@@ -6208,13 +6214,13 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsSendReply => 'Send a reply';
+  String get notificationsSendReply => 'Skicka ett svar';
 
   @override
-  String get notificationsRecentActivity => 'Recent activity';
+  String get notificationsRecentActivity => 'Senaste aktivitet';
 
   @override
-  String get notificationsRemoveNotification => 'Remove notification';
+  String get notificationsRemoveNotification => 'Ta bort avisering';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -6793,7 +6799,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Dubbeltryck på ett meddelande för att';
 
   @override
-  String get doubleTapEditHint => 'Double tap your own message to edit it';
+  String get doubleTapEditHint =>
+      'Dubbeltryck på ditt eget meddelande för att redigera det';
 
   @override
   String get doubleTapReactionEdit => 'Redigera';
@@ -6805,61 +6812,65 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get doubleTapReactionEditSubtitle => 'Välj emoji för dubbeltryck';
 
   @override
-  String get messagesMediaGesturesSectionTitle => 'Gestures';
+  String get messagesMediaGesturesSectionTitle => 'Gester';
 
   @override
   String get messagesMediaGesturesSectionDescription =>
-      'Configure double tap and swipe on messages.';
+      'Ställ in dubbeltryck och svep på meddelanden.';
 
   @override
-  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+  String get messagesMediaGesturesReactionLabel => 'Reaktionsemoji';
 
   @override
   String get messagesMediaGesturesReactionDescription =>
-      'Used when double tap is set to add a reaction.';
+      'Används när dubbeltryck är inställt på att lägga till en reaktion.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesDoubleTapActionLabel =>
+      'Åtgärd vid dubbeltryck';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesDoubleTapActionReactName =>
+      'Lägg till reaktion';
 
   @override
   String get messagesMediaGesturesDoubleTapActionReactDescription =>
-      'Adds your default double-tap emoji as a reaction.';
+      'Lägger till din standardemoji för dubbeltryck som reaktion.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName =>
+      'Redigera meddelande';
 
   @override
   String get messagesMediaGesturesDoubleTapActionEditDescription =>
-      'Opens the editor on messages you sent. Other messages are unchanged.';
+      'Öppnar redigeraren för meddelanden du har skickat. Andra meddelanden påverkas inte.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Inget';
 
   @override
   String get messagesMediaGesturesDoubleTapActionNoneDescription =>
-      'Double tap is disabled.';
+      'Dubbeltryck är avstängt.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftLabel =>
-      'Swipe right to left';
+      'Svep från höger till vänster';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+  String get messagesMediaGesturesSwipeRightToLeftReplyName =>
+      'Svep för att svara';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
-      'Swipe a message to reply, with hold to edit your own messages.';
+      'Svep på ett meddelande för att svara och håll in för att redigera dina egna meddelanden.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
-      'Show channel details';
+      'Visa kanalinformation';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
-      'Swipe a message or tap the channel header to open channel details in a side panel.';
+      'Svep på ett meddelande eller tryck på kanalrubriken för att öppna kanalinformationen i en sidopanel.';
 
   @override
   String get chatMessageEdit => 'Redigera meddelande';
@@ -7203,7 +7214,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get chatMessageDeleteAttachmentConfirmDescription =>
-      'Are you sure you want to delete this attachment?';
+      'Är du säker på att du vill ta bort den här bilagan?';
 
   @override
   String get chatMessageEditAttachmentAltText => 'Redigera alt-text';
@@ -7264,7 +7275,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Kunde inte ladda meddelanden.';
 
   @override
-  String get chatMessagesFailedToLoad => 'Messages failed to load';
+  String get chatMessagesFailedToLoad => 'Det gick inte att ladda meddelanden';
 
   @override
   String get chatReplyMentionOverrideTitle =>
@@ -7295,10 +7306,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Omnämn svarande användare';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'PÅ';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'AV';
 
   @override
   String get chatReplyCancel => 'Avbryt svar';
@@ -7310,10 +7321,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatEditNoChanges => 'Inga ändringar att spara';
 
   @override
-  String get chatEditFailed => 'Your message didn\'t update';
+  String get chatEditFailed => 'Ditt meddelande uppdaterades inte';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'Redigera igen';
 
   @override
   String get chatChannelNotReady =>
@@ -7425,7 +7436,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Klistermärken';
 
   @override
-  String get composerAutocompleteEmojisHeading => 'Emojis';
+  String get composerAutocompleteEmojisHeading => 'Emojier';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIF:ar';
@@ -7616,7 +7627,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
-    return '$productName community guidelines';
+    return '${productName}s communityriktlinjer';
   }
 
   @override
@@ -7840,7 +7851,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get channelSettingsUrl => 'URL';
 
   @override
-  String get channelSettingsUrlPlaceholder => 'https://example.com';
+  String get channelSettingsUrlPlaceholder => 'https://exempel.se';
 
   @override
   String get channelSettingsTopic => 'Ämne';
@@ -7906,7 +7917,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String channelSettingsVoiceQualityKbps(int kilobits) {
-    return '$kilobits kbps';
+    return '$kilobits kbit/s';
   }
 
   @override
@@ -8208,26 +8219,26 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String channelDuplicateHelper(String channelName) {
-    return 'The new channel will reuse the permissions from $channelName.';
+    return 'Den nya kanalen får samma behörigheter som $channelName.';
   }
 
   @override
   String channelDuplicateVoiceHelper(String channelName) {
-    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+    return 'Den nya röstkanalen får samma behörigheter, användargräns och bithastighet som $channelName.';
   }
 
   @override
-  String get channelMenuMoveToCategory => 'Move to category';
+  String get channelMenuMoveToCategory => 'Flytta till kategori';
 
   @override
-  String get channelMenuNoCategory => 'No category';
+  String get channelMenuNoCategory => 'Ingen kategori';
 
   @override
-  String get channelMoveCategoryFullTitle => 'Category full';
+  String get channelMoveCategoryFullTitle => 'Kategorin är full';
 
   @override
   String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
-    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+    return 'Den här kategorin innehåller redan det maximala antalet kanaler: $maxChannelsPerCategory.';
   }
 
   @override
@@ -8485,61 +8496,61 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Rensa';
 
   @override
-  String get channelSearchRemoveRecent => 'Remove from recent searches';
+  String get channelSearchRemoveRecent => 'Ta bort från senaste sökningar';
 
   @override
-  String get channelSearchFiltersButton => 'Filters';
+  String get channelSearchFiltersButton => 'Filter';
 
   @override
-  String get channelSearchFilterMenuTitle => 'Filter results';
+  String get channelSearchFilterMenuTitle => 'Filtrera resultat';
 
   @override
-  String get channelSearchFilterFromLabel => 'From a specific person';
+  String get channelSearchFilterFromLabel => 'Från en viss person';
 
   @override
-  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+  String get channelSearchFilterMentionsLabel => 'Nämner en viss person';
 
   @override
-  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+  String get channelSearchFilterHasLabel => 'Har en länk, fil eller inbäddning';
 
   @override
-  String get channelSearchFilterInLabel => 'In a specific channel';
+  String get channelSearchFilterInLabel => 'I en viss kanal';
 
   @override
-  String get channelSearchFilterDuringLabel => 'Sent on a date';
+  String get channelSearchFilterDuringLabel => 'Skickat ett visst datum';
 
   @override
-  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+  String get channelSearchFilterBeforeLabel => 'Skickat före ett datum';
 
   @override
-  String get channelSearchFilterAfterLabel => 'Sent after a date';
+  String get channelSearchFilterAfterLabel => 'Skickat efter ett datum';
 
   @override
-  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+  String get channelSearchFilterPinnedLabel => 'Fäst eller inte fäst';
 
   @override
-  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+  String get channelSearchFilterAuthorTypeLabel => 'Efter typ av avsändare';
 
   @override
-  String get channelSearchDateToday => 'Today';
+  String get channelSearchDateToday => 'Idag';
 
   @override
-  String get channelSearchDateYesterday => 'Yesterday';
+  String get channelSearchDateYesterday => 'Igår';
 
   @override
-  String get channelSearchTabMessages => 'Messages';
+  String get channelSearchTabMessages => 'Meddelanden';
 
   @override
-  String get channelSearchTabImages => 'Images';
+  String get channelSearchTabImages => 'Bilder';
 
   @override
-  String get channelSearchTabPins => 'Pins';
+  String get channelSearchTabPins => 'Fästa meddelanden';
 
   @override
-  String get channelSearchTabLinks => 'Links';
+  String get channelSearchTabLinks => 'Länkar';
 
   @override
-  String get channelSearchTabFiles => 'Files';
+  String get channelSearchTabFiles => 'Filer';
 
   @override
   String channelSearchTabCount(String label, int count) {
@@ -9000,22 +9011,22 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get groupDmInviteRevoked => 'Inbjudan återkallad';
 
   @override
-  String get groupDmRemoveFromGroup => 'Remove from group';
+  String get groupDmRemoveFromGroup => 'Ta bort från grupp';
 
   @override
   String groupDmRemoveFromGroupConfirm(String userName) {
-    return 'Remove $userName from the group?';
+    return 'Ta bort $userName från gruppen?';
   }
 
   @override
-  String get groupDmRemoveFromGroupAction => 'Remove';
+  String get groupDmRemoveFromGroupAction => 'Ta bort';
 
   @override
-  String get groupDmRemovedFromGroup => 'Removed from group';
+  String get groupDmRemovedFromGroup => 'Borttagen från grupp';
 
   @override
   String groupDmRemoveFromGroupFailed(String userName) {
-    return '$userName is still in the group. Try again in a moment.';
+    return '$userName är fortfarande kvar i gruppen. Försök igen om en stund.';
   }
 
   @override
@@ -9056,7 +9067,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get groupDmComposerHint => 'Meddelandegrupp';
 
   @override
-  String get composerHint => 'Message';
+  String get composerHint => 'Meddelande';
 
   @override
   String get composerOpenExpressionPicker => 'Öppna uttrycksväljaren';
@@ -9086,10 +9097,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get chatAttachmentLibraryLimitedBody =>
-      'Only photos and videos you chose to share are shown here.';
+      'Här visas bara de foton och videor du har valt att dela.';
 
   @override
-  String get chatAttachmentLibraryLimitedManage => 'Manage';
+  String get chatAttachmentLibraryLimitedManage => 'Hantera';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9169,16 +9180,16 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userSettingsGroupYourAccount => 'Ditt konto';
 
   @override
-  String get userSettingsGroupBilling => 'Billing';
+  String get userSettingsGroupBilling => 'Fakturering';
 
   @override
-  String get userSettingsGroupApplication => 'Application';
+  String get userSettingsGroupApplication => 'Appen';
 
   @override
-  String get userSettingsGroupDeveloper => 'Developer';
+  String get userSettingsGroupDeveloper => 'Utvecklare';
 
   @override
-  String get userSettingsGroupStaffOnly => 'Staff-only';
+  String get userSettingsGroupStaffOnly => 'Endast personal';
 
   @override
   String get userSettingsSearchPlaceholder => 'Sök i inställningar...';
@@ -9190,14 +9201,14 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Inga inställningar hittades';
 
   @override
-  String get userSettingsCopyLinkToSection => 'Copy link to section';
+  String get userSettingsCopyLinkToSection => 'Kopiera länk till avsnittet';
 
   @override
-  String get userSettingsCopyLinkToPage => 'Copy link to page';
+  String get userSettingsCopyLinkToPage => 'Kopiera länk till sidan';
 
   @override
   String userSettingsJumpLinkPremiumPage(String productName) {
-    return '$productName page';
+    return 'Sidan $productName';
   }
 
   @override
@@ -9728,7 +9739,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Förnyas automatiskt via App Store tills du säger upp den.';
 
   @override
-  String get storePlutoniumRestorePurchases => 'Restore purchases';
+  String get storePlutoniumRestorePurchases => 'Återställ köp';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
@@ -10188,36 +10199,36 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Kunde inte aktivera aviseringar. Tillåt aviseringar för att fortsätta.';
 
   @override
-  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+  String get notificationsPushDeliveryProviderLabel => 'Pushleverantör';
 
   @override
-  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+  String get notificationsPushDeliveryDistributorLabel => 'Distributör';
 
   @override
-  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+  String get notificationsPushDeliveryDistributorNone => 'Inte vald';
 
   @override
   String get notificationsPushDeliveryDistributorSheetTitle =>
-      'Choose distributor';
+      'Välj distributör';
 
   @override
   String get notificationsPushDeliveryDistributorPickAccessibility =>
-      'Change push distributor';
+      'Byt pushdistributör';
 
   @override
   String get notificationsPushDeliveryGatewayLabel => 'Gateway';
 
   @override
-  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push-relä';
 
   @override
-  String get notificationsPushDeliveryRelayInUse => 'In use';
+  String get notificationsPushDeliveryRelayInUse => 'Används';
 
   @override
-  String get notificationsPushDeliveryRelayOff => 'Off';
+  String get notificationsPushDeliveryRelayOff => 'Av';
 
   @override
-  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+  String get notificationsPushDeliveryRelayNotUsed => 'Används inte';
 
   @override
   String get notificationsPushRelaySectionTitle => 'Relä för pushaviseringar';
@@ -10338,17 +10349,17 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get appIconSectionDescriptionAndroid =>
-      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+      'Välj vilken ikon som visas på hemskärmen. Appen startas om när du byter ikon.';
 
   @override
-  String get appIconAndroidChangeTitle => 'Change app icon?';
+  String get appIconAndroidChangeTitle => 'Byta appikon?';
 
   @override
   String get appIconAndroidChangeDescription =>
-      'Fluxer will restart to apply the new home screen icon.';
+      'Fluxer startas om för att använda den nya ikonen på hemskärmen.';
 
   @override
-  String get appIconAndroidChangeConfirm => 'Change icon';
+  String get appIconAndroidChangeConfirm => 'Ändra ikon';
 
   @override
   String get appIconOptionDefault => 'Standard';
@@ -10360,22 +10371,22 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get appIconOptionSweden => 'Sverige';
 
   @override
-  String get appIconOptionGreyscale => 'Greyscale';
+  String get appIconOptionGreyscale => 'Gråskala';
 
   @override
-  String get appIconOptionRainbow => 'Rainbow';
+  String get appIconOptionRainbow => 'Regnbåge';
 
   @override
-  String get appIconOptionWaves => 'Waves';
+  String get appIconOptionWaves => 'Vågor';
 
   @override
-  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+  String get appIconOptionChromaticAberration => 'Kromatisk aberration';
 
   @override
-  String get appIconOptionDefaultBrutalist => 'Brutalist';
+  String get appIconOptionDefaultBrutalist => 'Brutalistisk';
 
   @override
-  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+  String get appIconOptionGreyscaleBrutalist => 'Brutalistisk i gråskala';
 
   @override
   String get appIconUnsupported =>
@@ -10389,7 +10400,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+      'Hjälp Fluxer att rätta buggar i appen genom att dela krasch- och prestandadata. Det här är avstängt som standard.';
 
   @override
   String get advancedPerformanceReportingLabel =>
@@ -10397,29 +10408,30 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'Rapporterna skickas till Fluxers felspårning, även när du är inloggad på en annan instans. De innehåller inga instansnamn, ID:n eller meddelandeinnehåll.';
 
   @override
-  String get observabilityReportingConsentTitle => 'Help fix crashes';
+  String get observabilityReportingConsentTitle =>
+      'Hjälp oss att rätta krascher';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+      'Fluxer stängdes oväntat. Om du delar anonym krasch- och feldata kan vi rätta problem snabbare.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+      'Rapporterna innehåller kraschloggar, fel och grundläggande prestandadata. De delas inte med tredje part och du kan stänga av det här när som helst.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
-    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+    return 'Om du vill slå på det senare öppnar du Inställningar → Avancerat → $reportingToggle.';
   }
 
   @override
-  String get observabilityReportingConsentAgree => 'Send crash reports';
+  String get observabilityReportingConsentAgree => 'Skicka kraschrapporter';
 
   @override
-  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
+  String get observabilityReportingConsentDecline => 'Nej tack';
 
   @override
   String get advancedSettingsConfigure => 'Konfigurera';
@@ -10972,7 +10984,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Gå med i Fluxer Labs';
 
   @override
-  String get userSettingsGiveFeedback => 'Give feedback';
+  String get userSettingsGiveFeedback => 'Ge feedback';
 
   @override
   String get userSettingsNavAppLicenses => 'App-licenser';
@@ -11036,7 +11048,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'Textkanaler';
 
   @override
-  String get quickSwitcherSectionThreads => 'Threads';
+  String get quickSwitcherSectionThreads => 'Trådar';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'Röstkanaler';
@@ -11141,7 +11153,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get uiConfirm => 'Bekräfta';
 
   @override
-  String get uiUnderstood => 'Understood';
+  String get uiUnderstood => 'Jag förstår';
 
   @override
   String get uiLoading => 'Laddar';
@@ -11240,38 +11252,39 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String instanceConnectFailedDomain(String domain) {
-    return 'Couldn\'t connect to $domain. Try again.';
+    return 'Kunde inte ansluta till $domain. Försök igen.';
   }
 
   @override
   String get instanceInvalidDiscoveryResponse =>
-      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+      'Det gick inte att läsa den här instansens konfiguration. Kontrollera adressen och försök igen.';
 
   @override
   String instanceOutdatedForClient(String domain) {
-    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+    return 'Den här instansen är för gammal för den här appen. Be den som driver $domain att uppdatera Fluxer.';
   }
 
   @override
   String instanceRequiresNewerClient(String domain) {
-    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+    return '$domain kör en nyare version av Fluxer än den här appen. Uppdatera appen och försök igen.';
   }
 
   @override
-  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+  String get instanceCompatibilityTitle =>
+      'Den här instansen kan inte användas';
 
   @override
-  String get instanceCompatibilityRetry => 'Try again';
+  String get instanceCompatibilityRetry => 'Försök igen';
 
   @override
-  String get instanceCompatibilityUpdateApp => 'Update app';
+  String get instanceCompatibilityUpdateApp => 'Uppdatera appen';
 
   @override
   String get instanceCompatibilityStatusPagePrompt =>
-      'Check the status page for updates.';
+      'Se statussidan för uppdateringar.';
 
   @override
-  String get instanceCompatibilityStatusPageLink => 'status page';
+  String get instanceCompatibilityStatusPageLink => 'statussidan';
 
   @override
   String get recentInstances => 'Senaste instanser';
@@ -11651,29 +11664,30 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get guildNavbarNameLabel => 'Namn';
 
   @override
-  String get guildNavbarNewChannelHint => 'new-channel';
+  String get guildNavbarNewChannelHint => 'ny-kanal';
 
   @override
   String get guildNavbarUrlLabel => 'URL';
 
   @override
-  String get guildNavbarUrlHint => 'https://example.com';
+  String get guildNavbarUrlHint => 'https://exempel.se';
 
   @override
   String get guildNavbarChannelTypeSelection => 'Välj kanaltyp';
 
   @override
-  String get guildNavbarPrivateChannel => 'Private channel';
+  String get guildNavbarPrivateChannel => 'Privat kanal';
 
   @override
   String get guildNavbarPrivateChannelDescription =>
-      'Only selected members and roles will be able to view this channel.';
+      'Endast utvalda medlemmar och roller kommer att kunna se den här kanalen.';
 
   @override
-  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+  String get guildNavbarAddMembersOrRoles => 'Lägg till medlemmar eller roller';
 
   @override
-  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+  String get guildNavbarAddMembersOrRolesHint =>
+      'Sök efter medlemmar eller roller';
 
   @override
   String get guildNavbarCreateCategory => 'Skapa kategori';
@@ -12336,333 +12350,335 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get permissionSetVoiceRegion => 'Ange röstregion';
 
   @override
-  String get permissionManageThreads => 'Manage threads';
+  String get permissionManageThreads => 'Hantera trådar';
 
   @override
   String get permissionManageThreadsDescription =>
-      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+      'Byt namn på, arkivera, lås och ta bort trådar, ställ in långsamt läge för dem och se privata trådar.';
 
   @override
-  String get permissionCreatePublicThreads => 'Create public threads';
+  String get permissionCreatePublicThreads => 'Skapa offentliga trådar';
 
   @override
   String get permissionCreatePublicThreadsDescription =>
-      'Start threads that everyone who can view the channel can see.';
+      'Starta trådar som alla som kan se kanalen kan se.';
 
   @override
-  String get permissionCreatePrivateThreads => 'Create private threads';
+  String get permissionCreatePrivateThreads => 'Skapa privata trådar';
 
   @override
   String get permissionCreatePrivateThreadsDescription =>
-      'Start invite-only threads.';
+      'Starta trådar som bara inbjudna kan gå med i.';
 
   @override
-  String get permissionSendMessagesInThreads => 'Send messages in threads';
+  String get permissionSendMessagesInThreads => 'Skicka meddelanden i trådar';
 
   @override
   String get permissionSendMessagesInThreadsDescription =>
-      'Send messages in threads and forum posts.';
+      'Skicka meddelanden i trådar och foruminlägg.';
 
   @override
-  String get threadErrorArchived => 'This thread is archived.';
+  String get threadErrorArchived => 'Den här tråden är arkiverad.';
 
   @override
   String get threadErrorLocked =>
-      'This thread is locked. Only moderators can post or reopen it.';
+      'Den här tråden är låst. Bara moderatorer kan skriva i den eller öppna den igen.';
 
   @override
   String get threadErrorAlreadyCreated =>
-      'A thread already exists for this message.';
+      'Det finns redan en tråd för det här meddelandet.';
 
   @override
   String get threadErrorMaxActiveThreads =>
-      'This community has reached its limit of active threads.';
+      'Den här communityn har nått sin gräns för aktiva trådar.';
 
   @override
   String get threadErrorMaxMembers =>
-      'This thread has reached its member limit.';
+      'Den här tråden har nått sin medlemsgräns.';
 
   @override
   String get threadErrorMaxPinnedPosts =>
-      'Only one post can be pinned in this forum.';
+      'Bara ett inlägg kan fästas i det här forumet.';
 
   @override
-  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+  String get threadErrorMaxForumTags => 'Ett forum kan ha högst 20 taggar.';
 
   @override
-  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+  String get threadErrorTagNamesUnique => 'Taggnamn måste vara unika.';
 
   @override
   String get threadErrorNoTagsForEveryone =>
-      'Add a tag everyone can use before requiring tags.';
+      'Lägg till en tagg som alla kan använda innan du kräver taggar.';
 
   @override
-  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+  String get threadErrorTagRequired =>
+      'Välj minst en tagg för det här inlägget.';
 
   @override
   String get threadErrorUnknownTag =>
-      'One of the selected tags no longer exists.';
+      'En av de valda taggarna finns inte längre.';
 
   @override
   String get threadErrorInvalidNotificationSettings =>
-      'Those notification settings are not valid for a thread.';
+      'De aviseringsinställningarna är inte giltiga för en tråd.';
 
   @override
   String get threadErrorSearchIndexNotReady =>
-      'Posts are still being indexed. Try again in a moment.';
+      'Inläggen indexeras fortfarande. Försök igen om en stund.';
 
   @override
   String get threadErrorInvalidChannelType =>
-      'This action is not available in this channel.';
+      'Den här åtgärden är inte tillgänglig i den här kanalen.';
 
   @override
-  String get threadCreate => 'Create thread';
+  String get threadCreate => 'Skapa tråd';
 
   @override
-  String get threadName => 'Thread name';
+  String get threadName => 'Trådnamn';
 
   @override
-  String get threadNameRequired => 'Give the thread a name.';
+  String get threadNameRequired => 'Ge tråden ett namn.';
 
   @override
-  String get threadNewThreadPlaceholder => 'New thread';
+  String get threadNewThreadPlaceholder => 'Ny tråd';
 
   @override
-  String get threadPrivate => 'Private thread';
+  String get threadPrivate => 'Privat tråd';
 
   @override
   String get threadPrivateDescription =>
-      'Only people you invite and moderators can see this thread.';
+      'Endast personer du bjuder in och moderatorer kan se den här tråden.';
 
   @override
-  String get threadStarterMessage => 'Message';
+  String get threadStarterMessage => 'Meddelande';
 
   @override
   String get threadStarterMessagePlaceholder =>
-      'Enter a message to start the conversation!';
+      'Skriv ett meddelande för att starta konversationen!';
 
   @override
   String threadCreateCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can start another thread in $seconds seconds.',
-      one: 'You can start another thread in 1 second.',
+      other: 'Du kan starta en ny tråd om $seconds sekunder.',
+      one: 'Du kan starta en ny tråd om 1 sekund.',
     );
     return '$_temp0';
   }
 
   @override
   String threadCreateFailed(String detail) {
-    return 'Could not start the thread: $detail';
+    return 'Kunde inte starta tråden: $detail';
   }
 
   @override
-  String get threadBrowserTitle => 'Threads';
+  String get threadBrowserTitle => 'Trådar';
 
   @override
-  String get threadBrowserActive => 'Active';
+  String get threadBrowserActive => 'Aktiva';
 
   @override
-  String get threadBrowserArchived => 'Closed';
+  String get threadBrowserArchived => 'Stängda';
 
   @override
-  String get threadBrowserJoined => 'Joined';
+  String get threadBrowserJoined => 'Gått med';
 
   @override
-  String get threadBrowserOtherActive => 'Other active threads';
+  String get threadBrowserOtherActive => 'Andra aktiva trådar';
 
   @override
-  String get threadBrowserPublic => 'Public threads';
+  String get threadBrowserPublic => 'Offentliga trådar';
 
   @override
-  String get threadBrowserPrivate => 'Private threads';
+  String get threadBrowserPrivate => 'Privata trådar';
 
   @override
   String get threadBrowserEmpty =>
-      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+      'Det finns inga trådar. Håll fokus på en konversation med en tråd, en tillfällig textkanal.';
 
   @override
-  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+  String get threadBrowserArchivedEmpty => 'Det finns inga stängda trådar.';
 
   @override
-  String get threadBrowserLoadMore => 'Load more';
+  String get threadBrowserLoadMore => 'Ladda fler';
 
   @override
-  String get threadBrowserSearch => 'Search threads';
+  String get threadBrowserSearch => 'Sök i trådar';
 
   @override
-  String get threadBrowserSearchEmpty => 'No threads match';
+  String get threadBrowserSearchEmpty => 'Inga trådar matchar';
 
   @override
   String get threadBrowserSearchEmptyHint =>
-      'Try a different name or check the other tab.';
+      'Prova ett annat namn eller kolla den andra fliken.';
 
   @override
   String get threadBrowserSearchFailed =>
-      'Couldn\'t search threads. Try again later.';
+      'Kunde inte söka i trådar. Försök igen senare.';
 
   @override
   String get threadBrowserSearchIndexing =>
-      'Search is getting ready for this community. Trying again shortly...';
+      'Sökningen förbereds för den här communityn. Försöker igen strax…';
 
   @override
   String threadMessageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count messages',
-      one: '1 message',
+      other: '$count meddelanden',
+      one: '1 meddelande',
     );
     return '$_temp0';
   }
 
   @override
   String get threadFailedToMentionSomeRoles =>
-      'Some mentioned roles were not added to this thread.';
+      'Vissa nämnda roller lades inte till i den här tråden.';
 
   @override
-  String get threadMembers => 'Thread members';
+  String get threadMembers => 'Trådens medlemmar';
 
   @override
   String threadMembersCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '1 member',
+      other: '$count medlemmar',
+      one: '1 medlem',
     );
     return '$_temp0';
   }
 
   @override
-  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+  String get threadMembersEmpty => 'Ingen har gått med i den här tråden än.';
 
   @override
   String threadRemoveMember(String name) {
-    return 'Remove $name from thread';
+    return 'Ta bort $name från tråden';
   }
 
   @override
-  String get threadJoin => 'Join thread';
+  String get threadJoin => 'Gå med i tråden';
 
   @override
-  String get threadLeave => 'Leave thread';
+  String get threadLeave => 'Lämna tråden';
 
   @override
   String get threadJoinNotice =>
-      'Join this thread to follow it in your channel list and get notifications.';
+      'Gå med i den här tråden för att följa den i din kanallista och få aviseringar.';
 
   @override
   String get threadArchivedNotice =>
-      'This thread is closed. Sending a message will open it again.';
+      'Den här tråden är stängd. Om du skickar ett meddelande öppnas den igen.';
 
   @override
   String get threadLockedNotice =>
-      'This thread is locked. Only moderators can send messages.';
+      'Den här tråden är låst. Endast moderatorer kan skicka meddelanden.';
 
   @override
-  String get threadArchive => 'Close thread';
+  String get threadArchive => 'Stäng tråd';
 
   @override
-  String get threadUnarchive => 'Open thread again';
+  String get threadUnarchive => 'Öppna tråden igen';
 
   @override
-  String get threadLock => 'Lock thread';
+  String get threadLock => 'Lås tråd';
 
   @override
-  String get threadUnlock => 'Unlock thread';
+  String get threadUnlock => 'Lås upp tråd';
 
   @override
-  String get threadDelete => 'Delete thread';
+  String get threadDelete => 'Ta bort tråd';
 
   @override
   String threadDeleteConfirm(String threadName) {
-    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+    return 'Är du säker på att du vill ta bort $threadName? Det går inte att ångra.';
   }
 
   @override
-  String get threadDeleted => 'Thread deleted';
+  String get threadDeleted => 'Tråd borttagen';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => 'Markera som läst';
 
   @override
-  String get threadMute => 'Mute thread';
+  String get threadMute => 'Tysta tråden';
 
   @override
-  String get threadUnmute => 'Unmute thread';
+  String get threadUnmute => 'Sluta tysta tråden';
 
   @override
-  String get threadMuted => 'Thread muted';
+  String get threadMuted => 'Tråden tystad';
 
   @override
-  String get threadUnmuted => 'Thread unmuted';
+  String get threadUnmuted => 'Tråden är inte längre tystad';
 
   @override
-  String get threadNotificationSettings => 'Notification settings';
+  String get threadNotificationSettings => 'Aviseringsinställningar';
 
   @override
-  String get threadNotificationParentDefault => 'Use channel default';
+  String get threadNotificationParentDefault => 'Använd kanalens standard';
 
   @override
-  String get threadCopyLink => 'Copy link';
+  String get threadCopyLink => 'Kopiera länk';
 
   @override
-  String get threadCopyId => 'Copy thread ID';
+  String get threadCopyId => 'Kopiera trådens ID';
 
   @override
-  String get threadMoreOptions => 'More options';
+  String get threadMoreOptions => 'Fler alternativ';
 
   @override
-  String get threadSettings => 'Thread settings';
+  String get threadSettings => 'Trådinställningar';
 
   @override
-  String get threadSettingsSaved => 'Thread settings saved';
+  String get threadSettingsSaved => 'Trådinställningarna har sparats';
 
   @override
-  String get threadAutoArchive => 'Hide after inactivity';
+  String get threadAutoArchive => 'Dölj efter inaktivitet';
 
   @override
   String get threadAutoArchiveDescription =>
-      'The thread stops showing in the channel list after this period of inactivity.';
+      'Tråden slutar visas i kanallistan efter så här lång tid utan aktivitet.';
 
   @override
-  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+  String get threadDefaultAutoArchive => 'Dölj efter inaktivitet (standard)';
 
   @override
   String get threadDefaultAutoArchiveDescription =>
-      'New threads stop showing in the channel list after this period of inactivity.';
+      'Nya trådar slutar visas i kanallistan efter så här lång tid utan aktivitet.';
 
   @override
-  String get threadDefaultSlowmode => 'Default thread slowmode';
+  String get threadDefaultSlowmode => 'Standard för långsamt läge i trådar';
 
   @override
-  String get threadAutoArchiveOneHour => '1 Hour';
+  String get threadAutoArchiveOneHour => '1 timme';
 
   @override
-  String get threadAutoArchiveOneDay => '24 Hours';
+  String get threadAutoArchiveOneDay => '24 timmar';
 
   @override
-  String get threadAutoArchiveThreeDays => '3 Days';
+  String get threadAutoArchiveThreeDays => '3 dagar';
 
   @override
-  String get threadAutoArchiveOneWeek => '1 Week';
+  String get threadAutoArchiveOneWeek => '1 vecka';
 
   @override
-  String get threadInvitable => 'Allow anyone to invite';
+  String get threadInvitable => 'Tillåt vem som helst att bjuda in';
 
   @override
   String get threadInvitableDescription =>
-      'Members of this private thread can add other people.';
+      'Medlemmar i den här privata tråden kan lägga till andra personer.';
 
   @override
   String threadStartedBy(String name) {
-    return 'Started by $name';
+    return 'Startad av $name';
   }
 
   @override
-  String get threadStarterDeleted => 'Original message was deleted.';
+  String get threadStarterDeleted =>
+      'Det ursprungliga meddelandet har tagits bort.';
 
   @override
   String systemThreadCreated(
@@ -12670,18 +12686,18 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
     String threadLink,
     String allThreadsLink,
   ) {
-    return '$username started a thread: $threadLink. See $allThreadsLink.';
+    return '$username startade en tråd: $threadLink. Se $allThreadsLink.';
   }
 
   @override
-  String get systemThreadCreatedAllThreadsLink => 'all threads';
+  String get systemThreadCreatedAllThreadsLink => 'alla trådar';
 
   @override
-  String get systemThreadCreatedThreadFallback => 'a thread';
+  String get systemThreadCreatedThreadFallback => 'en tråd';
 
   @override
   String systemPreviewThreadCreated(String username) {
-    return '$username started a thread.';
+    return '$username startade en tråd.';
   }
 
   @override
@@ -12802,13 +12818,13 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get auditLogActionChannelDelete => 'Kanalen raderad';
 
   @override
-  String get auditLogActionThreadCreate => 'Thread created';
+  String get auditLogActionThreadCreate => 'Tråd skapad';
 
   @override
-  String get auditLogActionThreadUpdate => 'Thread updated';
+  String get auditLogActionThreadUpdate => 'Tråd uppdaterad';
 
   @override
-  String get auditLogActionThreadDelete => 'Thread deleted';
+  String get auditLogActionThreadDelete => 'Tråd borttagen';
 
   @override
   String get auditLogActionChannelOverwriteCreate => 'Kanalbehörighet tillagd';
@@ -12927,17 +12943,17 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String auditLogSummaryThreadCreate(String actor, String target) {
-    return '$actor started the thread $target.';
+    return '$actor startade tråden $target.';
   }
 
   @override
   String auditLogSummaryThreadUpdate(String actor, String target) {
-    return '$actor updated the thread $target.';
+    return '$actor uppdaterade tråden $target.';
   }
 
   @override
   String auditLogSummaryThreadDelete(String actor, String target) {
-    return '$actor deleted the thread $target.';
+    return '$actor tog bort tråden $target.';
   }
 
   @override
@@ -13239,49 +13255,49 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Uppdaterade communityikonen.';
 
   @override
-  String get auditLogChangePausedInvites => 'Paused invites.';
+  String get auditLogChangePausedInvites => 'Pausade inbjudningar.';
 
   @override
-  String get auditLogChangeResumedInvites => 'Resumed invites.';
+  String get auditLogChangeResumedInvites => 'Återupptog inbjudningar.';
 
   @override
   String get auditLogChangeTurnedOnDetachedBanner =>
-      'Turned on the detached banner.';
+      'Aktiverade den fristående bannern.';
 
   @override
   String get auditLogChangeTurnedOffDetachedBanner =>
-      'Turned off the detached banner.';
+      'Inaktiverade den fristående bannern.';
 
   @override
   String get auditLogChangeAllowedFlexibleChannelNames =>
-      'Allowed flexible text channel names.';
+      'Tillät flexibla textkanalnamn.';
 
   @override
   String get auditLogChangeDisallowedFlexibleChannelNames =>
-      'Stopped allowing flexible text channel names.';
+      'Slutade tillåta flexibla textkanalnamn.';
 
   @override
-  String get auditLogChangeHidOwnerCrown => 'Hid the community owner crown.';
+  String get auditLogChangeHidOwnerCrown => 'Dolde communityägarens krona.';
 
   @override
   String get auditLogChangeShowedOwnerCrown =>
-      'Stopped hiding the community owner crown.';
+      'Slutade dölja communityägarens krona.';
 
   @override
   String get auditLogChangeAllowedEmojiCloning =>
-      'Allowed others to clone this community\'s emojis.';
+      'Tillät andra att klona den här communityns emojier.';
 
   @override
   String get auditLogChangeStoppedEmojiCloning =>
-      'Stopped allowing others to clone this community\'s emojis.';
+      'Slutade tillåta andra att klona den här communityns emojier.';
 
   @override
   String get auditLogChangeAllowedStickerCloning =>
-      'Allowed others to clone this community\'s stickers.';
+      'Tillät andra att klona den här communityns klistermärken.';
 
   @override
   String get auditLogChangeStoppedStickerCloning =>
-      'Stopped allowing others to clone this community\'s stickers.';
+      'Slutade tillåta andra att klona den här communityns klistermärken.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
@@ -13908,16 +13924,16 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Det gick inte att ta bort den här communityn';
 
   @override
-  String get guildSettingsCategoryExpressions => 'Expressions';
+  String get guildSettingsCategoryExpressions => 'Uttryck';
 
   @override
   String get guildSettingsCategoryCommunity => 'Community';
 
   @override
-  String get guildSettingsCategoryIntegrations => 'Integrations';
+  String get guildSettingsCategoryIntegrations => 'Integrationer';
 
   @override
-  String get guildSettingsCategoryPeople => 'People';
+  String get guildSettingsCategoryPeople => 'Personer';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Varumärke';
@@ -15142,70 +15158,72 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get forumChannelTypeForumDescription =>
-      'Posts organized by topic and tags';
+      'Inlägg organiserade efter ämne och taggar';
 
   @override
-  String get forumChannelTypeMedia => 'Media';
+  String get forumChannelTypeMedia => 'Medier';
 
   @override
   String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos';
+      'Inlägg som bygger på bilder och videor';
 
   @override
-  String get forumNewPost => 'New post';
+  String get forumNewPost => 'Nytt inlägg';
 
   @override
-  String get forumNewMediaPost => 'New media post';
+  String get forumNewMediaPost => 'Nytt mediainlägg';
 
   @override
-  String get forumSearchPosts => 'Search posts';
+  String get forumSearchPosts => 'Sök i inlägg';
 
   @override
-  String get forumViewOptions => 'Sort and view';
+  String get forumViewOptions => 'Sortering och vy';
 
   @override
   String get forumSearchIndexing =>
-      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+      'Sökningen förbereds fortfarande för den här communityn. Inläggen visas här så snart den är klar.';
 
   @override
-  String get forumNoPosts => 'There are no posts yet';
+  String get forumNoPosts => 'Inga inlägg har gjorts än';
 
   @override
-  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+  String get forumNoPostsHint =>
+      'Bli först med att starta en konversation här.';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search';
+  String get forumNoSearchResults => 'Inga inlägg matchar din sökning';
 
   @override
   String get forumNoSearchResultsHint =>
-      'Try different words or clear the tag filter.';
+      'Prova andra ord eller rensa taggfiltret.';
 
   @override
-  String get forumCreateFirstPost => 'Create the first post';
+  String get forumCreateFirstPost => 'Skapa det första inlägget';
 
   @override
-  String get forumOlderPosts => 'Older posts';
+  String get forumOlderPosts => 'Äldre inlägg';
 
   @override
-  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+  String get forumPostsLoadFailed => 'Inläggen kunde inte läsas in.';
 
   @override
-  String get forumRetry => 'Try again';
+  String get forumRetry => 'Försök igen';
 
   @override
-  String get forumPostPinned => 'Pinned';
+  String get forumPostPinned => 'Fäst';
 
   @override
-  String get forumPostLocked => 'Locked';
+  String get forumPostLocked => 'Låst';
 
   @override
-  String get forumPostArchived => 'Archived';
+  String get forumPostArchived => 'Arkiverat';
 
   @override
   String get forumPostNewBadge => 'Nytt';
 
   @override
-  String get forumPostStarterDeleted => 'The original message was deleted.';
+  String get forumPostStarterDeleted =>
+      'Det ursprungliga meddelandet har tagits bort.';
 
   @override
   String forumPostSnippet(String author, String content) {
@@ -15224,927 +15242,945 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String get forumPostReact => 'Add the default reaction';
+  String get forumPostReact => 'Lägg till standardreaktionen';
 
   @override
-  String get forumOpenPost => 'Open post';
+  String get forumOpenPost => 'Öppna inlägg';
 
   @override
-  String get forumEditTags => 'Edit tags';
+  String get forumEditTags => 'Redigera taggar';
 
   @override
-  String get forumSaveTags => 'Save tags';
+  String get forumSaveTags => 'Spara taggar';
 
   @override
   String forumTagsLimitHint(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pick up to $count tags.',
-      one: 'Pick up to 1 tag.',
+      other: 'Välj upp till $count taggar.',
+      one: 'Välj upp till 1 tagg.',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPinPost => 'Pin post';
+  String get forumPinPost => 'Fäst inlägg';
 
   @override
-  String get forumUnpinPost => 'Unpin post';
+  String get forumUnpinPost => 'Lossa inlägg';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead => 'Markera som läst';
 
   @override
-  String get forumCopyPostLink => 'Copy link';
+  String get forumCopyPostLink => 'Kopiera länk';
 
   @override
-  String get forumPostGuidelines => 'Post guidelines';
+  String get forumPostGuidelines => 'Riktlinjer för inlägg';
 
   @override
   String get forumGuidelinesPlaceholder =>
-      'Tell people what to post here and how to post it.';
+      'Berätta vad folk ska publicera här och hur de ska göra det.';
 
   @override
-  String get forumPostTitle => 'Title';
+  String get forumPostTitle => 'Titel';
 
   @override
-  String get forumPostMessage => 'Message';
+  String get forumPostMessage => 'Meddelande';
 
   @override
   String get forumPostMessagePlaceholder =>
-      'Write the first message of your post';
+      'Skriv det första meddelandet i ditt inlägg';
 
   @override
-  String get forumPostMediaPlaceholder => 'Add a caption';
+  String get forumPostMediaPlaceholder => 'Lägg till en bildtext';
 
   @override
-  String get forumPostTags => 'Tags';
+  String get forumPostTags => 'Taggar';
 
   @override
-  String get forumPostTagsRequired => 'Tags (required)';
+  String get forumPostTagsRequired => 'Taggar (obligatoriskt)';
 
   @override
-  String get forumPostAddMedia => 'Add media';
+  String get forumPostAddMedia => 'Lägg till media';
 
   @override
-  String get forumPostAddFile => 'Add file';
+  String get forumPostAddFile => 'Lägg till fil';
 
   @override
-  String get forumPostRemoveAttachment => 'Remove attachment';
+  String get forumPostRemoveAttachment => 'Ta bort bilaga';
 
   @override
-  String get forumPostSubmit => 'Post';
+  String get forumPostSubmit => 'Publicera';
 
   @override
-  String get forumPostTitleRequired => 'Give your post a title.';
+  String get forumPostTitleRequired => 'Ge ditt inlägg en titel.';
 
   @override
   String get forumPostMediaRequired =>
-      'Add at least one image or video to post here.';
+      'Lägg till minst en bild eller video för att publicera här.';
 
   @override
-  String get forumPostContentRequired => 'Write a message or add a file.';
+  String get forumPostContentRequired =>
+      'Skriv ett meddelande eller lägg till en fil.';
 
   @override
-  String get forumSortLatestActivity => 'Recently active';
+  String get forumSortLatestActivity => 'Senast aktiva';
 
   @override
-  String get forumSortCreationTime => 'Date posted';
+  String get forumSortCreationTime => 'Publiceringsdatum';
 
   @override
-  String get forumLayoutList => 'List view';
+  String get forumLayoutList => 'Listvy';
 
   @override
-  String get forumLayoutGallery => 'Gallery view';
+  String get forumLayoutGallery => 'Gallerivy';
 
   @override
-  String get forumNewPostsUnread => 'Show unread for new posts';
+  String get forumNewPostsUnread => 'Visa nya inlägg som olästa';
 
   @override
   String get forumNewPostsUnreadDescription =>
-      'Mark this channel unread when someone creates a post.';
+      'Markera den här kanalen som oläst när någon skapar ett inlägg.';
 
   @override
-  String get forumPostSlowmode => 'Post slowmode';
+  String get forumPostSlowmode => 'Långsamt läge för inlägg';
 
   @override
   String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
-    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'Väntetid mellan nya inlägg. \"$bypassSlowmodePermissionLabel\" kan kringgå den.';
   }
 
   @override
-  String get forumMessageSlowmode => 'Message slowmode in posts';
+  String get forumMessageSlowmode => 'Långsamt läge för meddelanden i inlägg';
 
   @override
   String get forumMessageSlowmodeDescription =>
-      'Slowmode applied to messages in new posts.';
+      'Långsamt läge som tillämpas på meddelanden i nya inlägg.';
 
   @override
-  String get forumDefaultAutoArchive => 'Hide after inactivity';
+  String get forumDefaultAutoArchive => 'Dölj efter inaktivitet';
 
   @override
   String get forumDefaultAutoArchiveDescription =>
-      'New posts are archived after this long without activity.';
+      'Nya inlägg arkiveras efter så här lång tid utan aktivitet.';
 
   @override
-  String get forumDefaultReaction => 'Default reaction';
+  String get forumDefaultReaction => 'Standardreaktion';
 
   @override
-  String get forumSetDefaultReaction => 'Pick an emoji';
+  String get forumSetDefaultReaction => 'Välj en emoji';
 
   @override
-  String get forumChangeDefaultReaction => 'Change';
+  String get forumChangeDefaultReaction => 'Ändra';
 
   @override
-  String get forumRemoveDefaultReaction => 'Remove';
+  String get forumRemoveDefaultReaction => 'Ta bort';
 
   @override
-  String get forumDefaultSortOrder => 'Default sort order';
+  String get forumDefaultSortOrder => 'Standardsortering';
 
   @override
-  String get forumDefaultLayout => 'Default layout';
+  String get forumDefaultLayout => 'Standardlayout';
 
   @override
-  String get forumTagMatchSetting => 'Tag filter';
+  String get forumTagMatchSetting => 'Taggfilter';
 
   @override
-  String get forumTagMatchSome => 'Match any selected tag';
+  String get forumTagMatchSome => 'Matcha någon av de valda taggarna';
 
   @override
-  String get forumTagMatchAll => 'Match all selected tags';
+  String get forumTagMatchAll => 'Matcha alla valda taggar';
 
   @override
-  String get forumRequireTag => 'Require tags';
+  String get forumRequireTag => 'Kräv taggar';
 
   @override
   String get forumRequireTagDescription =>
-      'People must pick at least one tag when they create a post.';
+      'Användare måste välja minst en tagg när de skapar ett inlägg.';
 
   @override
-  String get forumHideMediaDownloads => 'Hide media download options';
+  String get forumHideMediaDownloads =>
+      'Dölj nedladdningsalternativ för medier';
 
   @override
   String get forumHideMediaDownloadsDescription =>
-      'Hide download, open in browser and copy link for images and videos in posts.';
+      'Dölj nedladdning, öppna i webbläsare och kopiera länk för bilder och videor i inlägg.';
 
   @override
   String forumTagsTitle(int count, int max) {
-    return 'Tags ($count/$max)';
+    return 'Taggar ($count/$max)';
   }
 
   @override
   String get forumTagsDescription =>
-      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+      'Taggar hjälper folk att hitta och filtrera inlägg. Endast moderatorer kan använda modererade taggar.';
 
   @override
-  String get forumCreateTag => 'Create tag';
+  String get forumCreateTag => 'Skapa tagg';
 
   @override
-  String get forumEditTag => 'Edit tag';
+  String get forumEditTag => 'Redigera tagg';
 
   @override
-  String get forumSaveTag => 'Save tag';
+  String get forumSaveTag => 'Spara tagg';
 
   @override
-  String get forumDeleteTag => 'Delete tag';
+  String get forumDeleteTag => 'Ta bort tagg';
 
   @override
-  String get forumTagName => 'Tag name';
+  String get forumTagName => 'Taggnamn';
 
   @override
   String get forumTagEmoji => 'Emoji';
 
   @override
-  String get forumTagRemoveEmoji => 'Remove emoji';
+  String get forumTagRemoveEmoji => 'Ta bort emoji';
 
   @override
-  String get forumTagModerated => 'Only moderators can apply';
+  String get forumTagModerated => 'Endast moderatorer kan använda';
 
   @override
   String get forumTagModeratedDescription =>
-      'Only members who can manage threads can apply or remove this tag.';
+      'Endast medlemmar som kan hantera trådar kan lägga till eller ta bort den här taggen.';
 
   @override
-  String get forumTagModeratedBadge => 'Moderated';
+  String get forumTagModeratedBadge => 'Modererad';
 
   @override
   String forumPostCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can post again in $seconds seconds.',
-      one: 'You can post again in 1 second.',
+      other: 'Du kan publicera igen om $seconds sekunder.',
+      one: 'Du kan publicera igen om 1 sekund.',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceP2pStartTitle => 'Start in P2P mode?';
+  String get voiceP2pStartTitle => 'Starta i P2P-läge?';
 
   @override
   String voiceP2pStartDescription(int maxParticipants) {
-    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+    return 'Ljud och video går direkt mellan deltagarna, med lägre fördröjning. Andra deltagare kan se din IP-adress. Upp till $maxParticipants personer kan delta. Den som inte kan ansluta direkt kan inte delta förrän någon byter till ett vanligt samtal.';
   }
 
   @override
-  String get voiceP2pStartConfirm => 'Start in P2P mode';
+  String get voiceP2pStartConfirm => 'Starta i P2P-läge';
 
   @override
-  String get voiceP2pStartStandard => 'Start standard call';
+  String get voiceP2pStartStandard => 'Starta vanligt samtal';
 
   @override
-  String get voiceP2pJoinTitle => 'Join a P2P call?';
+  String get voiceP2pJoinTitle => 'Gå med i ett P2P-samtal?';
 
   @override
   String voiceP2pJoinDescription(int maxParticipants) {
-    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+    return 'Det här samtalet ansluter deltagarna direkt. Andra deltagare kan se din IP-adress. Upp till $maxParticipants personer kan delta. Om du inte kan ansluta direkt kan du inte delta förrän någon byter till ett vanligt samtal.';
   }
 
   @override
   String voiceP2pPinnedJoinDescription(int maxParticipants) {
-    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+    return 'Den här kanalen tillåter bara P2P-samtal. Deltagarna ansluter direkt och kan se din IP-adress. Upp till $maxParticipants personer kan delta. Om du inte kan ansluta direkt kan du inte delta.';
   }
 
   @override
-  String get voiceP2pJoinConfirm => 'Join';
+  String get voiceP2pJoinConfirm => 'Gå med';
 
   @override
-  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+  String get voiceP2pAlwaysAgreeLabel => 'Fråga inte igen, godkänn alltid';
 
   @override
   String get voiceP2pAlwaysAgreeSettingLabel =>
-      'Always agree to join P2P calls';
+      'Godkänn alltid att gå med i P2P-samtal';
 
   @override
   String get voiceP2pAlwaysAgreeSettingDescription =>
-      'Join P2P calls without asking. Other participants can see your IP address.';
+      'Gå med i P2P-samtal utan att bli tillfrågad. Andra deltagare kan se din IP-adress.';
 
   @override
   String get voiceP2pIndicatorLabel => 'P2P';
 
   @override
   String get voiceP2pIndicatorDescription =>
-      'Direct connection. Media is encrypted between participants.';
+      'Direkt anslutning. Medier krypteras mellan deltagarna.';
 
   @override
-  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+  String get voiceP2pSwitchToStandard => 'Byt till vanligt samtal';
 
   @override
   String get voiceP2pSwitchToStandardDescription =>
-      'Everyone in the call moves to a standard call through the server.';
+      'Alla i samtalet flyttas till ett vanligt samtal via servern.';
 
   @override
   String get voiceP2pPeerFailedDescription =>
-      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+      'Det gick inte att upprätta en direktanslutning. Lämna samtalet eller flytta alla till ett vanligt samtal.';
 
   @override
-  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+  String get voiceP2pUnavailableError =>
+      'P2P-samtal är inte tillgängliga just nu.';
 
   @override
   String get voiceP2pConsentRequiredError =>
-      'This call is P2P and needs your agreement to join.';
+      'Det här samtalet är P2P och kräver ditt godkännande för att gå med.';
 
   @override
-  String get voiceChannelFullError => 'This call is full.';
+  String get voiceChannelFullError => 'Det här samtalet är fullt.';
 
   @override
   String get voiceP2pScreenShareUnavailable =>
-      'Screen sharing from this device is not available in P2P calls.';
+      'Skärmdelning från den här enheten är inte tillgänglig i P2P-samtal.';
 
   @override
-  String get channelMenuJoinP2p => 'Start P2P call';
+  String get channelMenuJoinP2p => 'Starta P2P-samtal';
 
   @override
-  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+  String get channelSettingsRtcP2pLabel => 'Endast P2P-samtal';
 
   @override
   String channelSettingsRtcP2pDescription(int maxParticipants) {
-    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+    return 'Deltagarna ansluter direkt och kan se varandras IP-adresser. Alla måste godkänna innan de går med. Upp till $maxParticipants personer kan delta.';
   }
 
   @override
   String voiceP2pPeerFailedTitle(String name) {
-    return 'Cannot connect directly to $name';
+    return 'Kan inte ansluta direkt till $name';
   }
 
   @override
   String get favoritesRenameCategory => 'Byt namn på kategori';
 
   @override
-  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+  String get friendAcceptFailedTitle => 'Kunde inte acceptera vänförfrågan';
 
   @override
   String get friendAcceptUnavailable =>
-      'That friend request is no longer available. Refresh and try again.';
+      'Den vänförfrågan är inte längre tillgänglig. Uppdatera och försök igen.';
 
   @override
   String get friendAcceptClaimToAccept =>
-      'Finish signing up to accept friend requests.';
+      'Slutför registreringen för att acceptera vänförfrågningar.';
 
   @override
   String get friendAcceptFailedMessage =>
-      'Couldn\'t accept the friend request. Try again.';
+      'Kunde inte acceptera vänförfrågan. Försök igen.';
 
   @override
-  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+  String get friendCancelFailedTitle => 'Kunde inte avbryta vänförfrågan';
 
   @override
-  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+  String get friendIgnoreFailedTitle => 'Kunde inte ignorera vänförfrågan';
 
   @override
   String get friendIgnoreFailedMessage =>
-      'Couldn\'t ignore the friend request. Try again.';
+      'Kunde inte ignorera vänförfrågan. Försök igen.';
 
   @override
-  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+  String get friendRemoveFailedTitle => 'Kunde inte ta bort vän';
 
   @override
   String get friendRemoveFailedMessage =>
-      'Couldn\'t remove this friend. Try again.';
+      'Kunde inte ta bort den här vännen. Försök igen.';
 
   @override
-  String get userBlockFailedTitle => 'Couldn\'t block user';
+  String get userBlockFailedTitle => 'Kunde inte blockera användare';
 
   @override
-  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+  String get userBlockSystemAccount => 'Det här kontot kan inte blockeras.';
 
   @override
-  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+  String get userBlockFailedMessage =>
+      'Kunde inte blockera den här användaren. Försök igen.';
 
   @override
-  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+  String get userUnblockFailedTitle => 'Kunde inte avblockera användaren';
 
   @override
   String get userUnblockFailedMessage =>
-      'Couldn\'t unblock this user. Try again.';
+      'Kunde inte avblockera den här användaren. Försök igen.';
 
   @override
   String friendCancelRequestConfirmDescription(String userName) {
-    return 'Cancel your friend request to $userName?';
+    return 'Avbryta din vänförfrågan till $userName?';
   }
 
   @override
-  String get errorSomethingWentWrongTitle => 'Something went wrong';
+  String get errorSomethingWentWrongTitle => 'Något gick fel';
 
   @override
-  String get errorUnexpectedTryAgain =>
-      'An unexpected error occurred. Try again.';
+  String get errorUnexpectedTryAgain => 'Ett oväntat fel uppstod. Försök igen.';
 
   @override
-  String get errorMessagingPausedTitle => 'Messaging is paused';
+  String get errorMessagingPausedTitle => 'Meddelanden är pausade';
 
   @override
   String get errorMessagingPausedMessage =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'Meddelanden är pausade på ditt konto. Kolla din e-post så hittar du ett snabbt steg för att fortsätta.';
 
   @override
-  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+  String get errorFeatureDisabledTitle =>
+      'Funktionen är tillfälligt inaktiverad';
 
   @override
   String get errorFeatureDisabledMessage =>
-      'This feature is paused. Try again later.';
+      'Den här funktionen är pausad. Försök igen senare.';
 
   @override
   String get dmErrorStartConversationTitle =>
-      'Couldn\'t start this conversation';
+      'Kunde inte starta den här konversationen';
 
   @override
   String get dmErrorCannotMessageMessage =>
-      'They might not be accepting messages from you, or you no longer share a community.';
+      'Personen kanske inte tar emot meddelanden från dig, eller så har ni inte längre någon gemensam community.';
 
   @override
   String get dmErrorUnknownUserMessage =>
-      'This user no longer exists. Refresh and try again.';
+      'Användaren finns inte längre. Uppdatera och försök igen.';
 
   @override
   String get dmErrorClaimMessage =>
-      'You need to claim your account before you can start a direct message.';
+      'Du måste säkra ditt konto innan du kan starta en DM-konversation.';
 
   @override
   String get dmErrorVerifyEmailMessage =>
-      'You need to verify your email address before you can start a direct message.';
+      'Du måste verifiera din e-postadress innan du kan starta en DM-konversation.';
 
   @override
-  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+  String get dmErrorTooManyRecipientsTitle =>
+      'Den här gruppen har för många medlemmar';
 
   @override
   String get dmErrorTooManyRecipientsMessage =>
-      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+      'Du har lagt till fler personer än vad en grupp-DM tillåter. Ta bort några och försök igen.';
 
   @override
-  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+  String get dmErrorMaxGroupDmsTitle => 'Du har nått gränsen för grupp-DM';
 
   @override
   String get dmErrorMaxGroupDmsMessage =>
-      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+      'Du eller någon du lägger till har redan det maximala antalet grupp-DM öppna. Lämna en och försök igen.';
 
   @override
-  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+  String get groupDmAddFailedTitle => 'Kunde inte lägga till i grupp';
 
   @override
-  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+  String get groupDmInviteFailedTitle => 'Kunde inte skapa inbjudningslänk';
 
   @override
-  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+  String get dmCloseFailedTitle => 'Kunde inte stänga DM-konversationen';
 
   @override
-  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+  String get groupDmLeaveFailedTitle => 'Kunde inte lämna gruppen';
 
   @override
-  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+  String get inviteJoinFailedTitle => 'Kunde inte gå med i communityn';
 
   @override
   String get inviteErrorPausedMessage =>
-      'Admins paused invites — you can\'t join right now.';
+      'Administratörerna har pausat inbjudningar – du kan inte gå med just nu.';
 
   @override
-  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+  String get inviteErrorAtCapacityTitle => 'Communityn är full';
 
   @override
   String get inviteErrorAtCapacityMessage =>
-      'This community has reached its maximum member limit and is not accepting new members at this time.';
+      'Den här communityn har nått sin medlemsgräns och tar inte emot nya medlemmar just nu.';
 
   @override
-  String get inviteErrorPresenceTitle => 'Gateway connection required';
+  String get inviteErrorPresenceTitle => 'Gateway-anslutning krävs';
 
   @override
   String get inviteErrorPresenceMessage =>
-      'Temporary invites need a live connection. Check yours and try again.';
+      'Tillfälliga inbjudningar kräver en aktiv anslutning. Kontrollera din anslutning och försök igen.';
 
   @override
-  String get inviteErrorBannedTitle => 'You\'re banned';
+  String get inviteErrorBannedTitle => 'Du är bannlyst';
 
   @override
   String get inviteErrorBannedMessage =>
-      'You are banned from this community and cannot join.';
+      'Du är bannlyst från den här communityn och kan inte gå med.';
 
   @override
-  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+  String get inviteErrorIpBannedTitle => 'Din IP-adress är bannlyst';
 
   @override
   String get inviteErrorIpBannedMessage =>
-      'Your IP address is banned from this community and you cannot join.';
+      'Din IP-adress är bannlyst från den här communityn och du kan inte gå med.';
 
   @override
-  String get inviteErrorClaimTitle => 'Account verification required';
+  String get inviteErrorClaimTitle => 'Kontoverifiering krävs';
 
   @override
   String get inviteErrorClaimMessage =>
-      'Add an email and password to your account first.';
+      'Lägg till en e-postadress och ett lösenord till ditt konto först.';
 
   @override
-  String get leaveCommunityFailedTitle => 'Failed to leave community';
+  String get leaveCommunityFailedTitle => 'Kunde inte lämna communityn';
 
   @override
   String get leaveCommunityFailedMessage =>
-      'Couldn\'t leave right now. Try again in a moment.';
+      'Kunde inte lämna just nu. Försök igen om en liten stund.';
 
   @override
-  String get chatSendFailedTitle => 'Your message didn\'t send';
+  String get chatSendFailedTitle => 'Ditt meddelande skickades inte';
 
   @override
-  String get chatSendFailedMessage => 'Try sending your message again.';
+  String get chatSendFailedMessage => 'Försök skicka meddelandet igen.';
 
   @override
-  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+  String get chatSendTooQuickTitle => 'Du skickar meddelanden för snabbt';
 
   @override
   String get chatRateLimitedMessage =>
-      'Slow down — wait a moment before trying again.';
+      'Sakta ner – vänta ett ögonblick innan du försöker igen.';
 
   @override
-  String get chatMatureContentTitle => 'Mature content not allowed';
+  String get chatMatureContentTitle => 'Vuxet innehåll är inte tillåtet';
 
   @override
   String get chatMatureContentGuildMessage =>
-      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+      'Den här kanalen är inte markerad för vuxet innehåll. Vuxet innehåll kan endast skickas i kanaler som är markerade för vuxet innehåll. Be en moderator att uppdatera kanalen om det är lämpligt.';
 
   @override
   String chatMatureContentDmMessage(String settingsPath) {
-    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+    return 'Du eller personen du chattar med har valt att blockera känsligt medieinnehåll i direktmeddelanden. Ni kan båda ändra detta i $settingsPath.';
   }
 
   @override
   String get chatMatureContentGroupDmMessage =>
-      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+      'Den här gruppen är inte markerad för vuxet innehåll. Gruppägaren kan aktivera vuxet innehåll i gruppinställningarna om alla i gruppen är 18 år eller äldre.';
 
   @override
-  String get chatFileTooLargeTitle => 'File size too large';
+  String get chatFileTooLargeTitle => 'Filstorleken är för stor';
 
   @override
   String chatFileTooLargeMessage(String maxSize) {
-    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+    return 'En eller flera filer du försöker ladda upp överskrider den maximala storleksgränsen på $maxSize per fil.';
   }
 
   @override
-  String get chatHeavyTitle => 'Whoa, this is heavy';
+  String get chatHeavyTitle => 'Oj, det här var tungt';
 
   @override
   String get chatReactionsHeavyMessage =>
-      'This is one heavy message. Some reactions need to be removed before you can add more.';
+      'Det här är ett tungt meddelande. Några reaktioner måste tas bort innan du kan lägga till fler.';
 
   @override
   String get chatReactionTimedOut =>
-      'You can\'t add new reactions while you\'re timed out.';
+      'Du kan inte lägga till nya reaktioner när du har timeout.';
 
   @override
   String chatTooManyAttachmentsMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '$count file',
+      other: '$count filer',
+      one: '$count fil',
     );
-    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+    return 'Du kan bara ladda upp $_temp0 åt gången. Försök igen med färre filer.';
   }
 
   @override
-  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+  String get chatEditTooQuickTitle => 'Du redigerar meddelanden för snabbt';
 
   @override
-  String get chatEditFailedMessage => 'Try editing your message again.';
+  String get chatEditFailedMessage => 'Försök redigera meddelandet igen.';
 
   @override
-  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+  String get chatDeleteTooQuickTitle => 'Du raderar meddelanden för snabbt';
 
   @override
   String get chatDeleteTooQuickMessage =>
-      'Wait a moment before deleting more messages.';
+      'Vänta en stund innan du tar bort fler meddelanden.';
 
   @override
-  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+  String get chatDeleteFailedTitle => 'Det gick inte att radera meddelandet';
 
   @override
-  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+  String get chatDeleteFailedMessage => 'Försök att radera meddelandet igen.';
 
   @override
-  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+  String get chatAttachmentDeleteFailedTitle => 'Kunde inte ta bort bilagan';
 
   @override
   String get chatAttachmentDeleteFailedMessage =>
-      'Try deleting that attachment again.';
+      'Försök ta bort bilagan igen.';
 
   @override
-  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+  String get chatAltTextFailedTitle => 'Kunde inte uppdatera alt-text';
 
   @override
-  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+  String get chatAltTextUnknownMessage =>
+      'Det här meddelandet finns inte längre.';
 
   @override
-  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+  String get chatAltTextNoPermission =>
+      'Du kan inte redigera det här meddelandet.';
 
   @override
   String get chatAltTextUnavailable =>
-      'Editing is temporarily unavailable. Please try again later.';
+      'Redigering är tillfälligt otillgänglig. Försök igen senare.';
 
   @override
   String get chatAltTextFailedMessage =>
-      'Couldn\'t update the alt text. Please try again.';
+      'Kunde inte uppdatera alt-texten. Försök igen.';
 
   @override
-  String get chatPinFailedTitle => 'Failed to pin message';
+  String get chatPinFailedTitle => 'Kunde inte fästa meddelandet';
 
   @override
-  String get chatUnpinFailedTitle => 'Failed to unpin message';
+  String get chatUnpinFailedTitle => 'Kunde inte lossa meddelandet';
 
   @override
-  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+  String get chatPinFailedMessage => 'Något gick fel. Försök igen senare.';
 
   @override
   String get chatPinBlockedMessage =>
-      'You cannot interact with this user right now.';
+      'Du kan inte interagera med den här användaren just nu.';
 
   @override
-  String get bookmarkLimitTitle => 'Bookmark limit reached';
+  String get bookmarkLimitTitle => 'Bokmärkesgränsen har nåtts';
 
   @override
   String bookmarkLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count bookmarks',
-      one: '$count bookmark',
+      other: '$count bokmärken',
+      one: '$count bokmärke',
     );
-    return 'You\'re at $_temp0. Remove one to add another.';
+    return 'Du har $_temp0. Ta bort ett för att lägga till ett nytt.';
   }
 
   @override
-  String get savedMediaLimitTitle => 'Saved media limit reached';
+  String get savedMediaLimitTitle => 'Gränsen för sparade medier har nåtts';
 
   @override
   String savedMediaLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count saved media items',
-      one: '$count saved media item',
+      other: '$count sparade medieobjekt',
+      one: '$count sparat medieobjekt',
     );
-    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+    return 'Du har nått gränsen på $_temp0. Ta bort ett för att lägga till ett nytt.';
   }
 
   @override
-  String get errorContentBlockedTitle => 'Content blocked';
+  String get errorContentBlockedTitle => 'Innehåll blockerat';
 
   @override
   String get errorContentBlockedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'Din åtgärd kunde inte slutföras eftersom den flaggades av våra säkerhetssystem. Om du tror att det är ett misstag kan du kontakta supporten.';
 
   @override
   String get errorContentBlockedSelfHostedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'Din åtgärd kunde inte slutföras eftersom den flaggades av våra säkerhetssystem. Om du tror att det är ett misstag kan du kontakta administratörerna för den här instansen.';
 
   @override
-  String get channelDeletedToast => 'Channel deleted';
+  String get channelDeletedToast => 'Kanal borttagen';
 
   @override
-  String get categoryDeletedToast => 'Category deleted';
+  String get categoryDeletedToast => 'Kategori borttagen';
 
   @override
-  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+  String get channelDeleteNoPermissionTitle => 'Du kan inte ta bort det här';
 
   @override
   String get channelDeleteNoPermissionChannel =>
-      'You don\'t have permission to delete this channel.';
+      'Du har inte behörighet att ta bort den här kanalen.';
 
   @override
   String get channelDeleteNoPermissionCategory =>
-      'You don\'t have permission to delete this category.';
+      'Du har inte behörighet att ta bort den här kategorin.';
 
   @override
-  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+  String get channelDeleteAlreadyDeletedTitle => 'Redan borttagen';
 
   @override
   String get channelDeleteAlreadyDeletedChannel =>
-      'This channel no longer exists. It may have already been deleted.';
+      'Den här kanalen finns inte längre. Den kan ha raderats.';
 
   @override
   String get channelDeleteAlreadyDeletedCategory =>
-      'This category no longer exists. It may have already been deleted.';
+      'Den här kategorin finns inte längre. Den kan ha raderats.';
 
   @override
-  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+  String get channelDeleteFailedChannelTitle =>
+      'Kunde inte radera den här kanalen';
 
   @override
   String get channelDeleteFailedCategoryTitle =>
-      'Couldn\'t delete this category';
+      'Kunde inte ta bort den här kategorin';
 
   @override
   String get channelPermissionsUpdateFailedTitle =>
-      'Couldn\'t update channel permissions';
+      'Kunde inte uppdatera kanalbehörigheter';
 
   @override
   String get channelSettingsSaveFailedTitle =>
-      'Couldn\'t save channel settings';
+      'Kunde inte spara kanalinställningar';
 
   @override
-  String get emojiSlotsFullTitle => 'No emoji slots available';
+  String get emojiSlotsFullTitle => 'Inga emojiplatser är tillgängliga';
 
   @override
-  String get stickerSlotsFullTitle => 'No sticker slots available';
+  String get stickerSlotsFullTitle =>
+      'Inga klistermärkesplatser är tillgängliga';
 
   @override
   String get emojiSomeFailedMessage =>
-      'Review these files and try again with smaller or simpler images.';
+      'Granska filerna och försök igen med mindre eller enklare bilder.';
 
   @override
   String get emojiNameInvalidCharacters =>
-      'Emoji names can only use letters, numbers and underscores.';
+      'Emojinamn får bara innehålla bokstäver, siffror och understreck.';
 
   @override
-  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+  String get emojiErrorGoneTitle => 'Den här emojin finns inte längre';
 
   @override
   String get emojiRenameGoneMessage =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'Den kan ha raderats. Namnet återställdes till vad det var tidigare.';
 
   @override
-  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+  String get emojiRenameNoPermissionTitle =>
+      'Du kan inte byta namn på den här emojin';
 
   @override
   String get emojiRenameNoPermissionMessage =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'Du har inte behörighet att byta namn på den här emojin. Namnet återställdes till det tidigare.';
 
   @override
   String get emojiRenameRateLimitedMessage =>
-      'Please wait a moment and try renaming again.';
+      'Vänta en stund och försök byta namn igen.';
 
   @override
   String get emojiRenameFailedMessage =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'Namnet återställdes till det tidigare. Försök igen om en liten stund.';
 
   @override
-  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+  String get emojiDeleteGoneMessage =>
+      'Det verkar som att den redan har raderats.';
 
   @override
-  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+  String get emojiDeleteNoPermissionTitle =>
+      'Du kan inte ta bort den här emojin';
 
   @override
   String get emojiDeleteNoPermissionMessage =>
-      'You don\'t have permission to delete this emoji.';
+      'Du har inte behörighet att ta bort den här emojin.';
 
   @override
   String get emojiDeleteRateLimitedMessage =>
-      'Please wait a moment and try deleting again.';
+      'Vänta en stund och försök radera igen.';
 
   @override
-  String get stickerTooLargeTitle => 'Sticker is too large';
+  String get stickerTooLargeTitle => 'Klistermärket är för stort';
 
   @override
   String stickerTooLargeMessage(String maxSize) {
-    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+    return 'Uppladdningstjänsten avvisade klistermärket eftersom det är större än $maxSize. Prova en mindre fil, en enklare bild eller en kortare animering.';
   }
 
   @override
   String get stickerCreateFailedMessage =>
-      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+      'Något gick fel när klistermärket skulle förberedas. Prova en annan fil eller försök igen om en stund.';
 
   @override
-  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+  String get stickerUpdateFailedTitle => 'Kunde inte uppdatera klistermärket';
 
   @override
-  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+  String get moderationTimeoutFailed =>
+      'Kunde inte ge medlemmen en timeout. Försök igen.';
 
   @override
   String get moderationRemoveTimeoutFailed =>
-      'Failed to remove timeout. Try again.';
+      'Kunde inte ta bort timeouten. Försök igen.';
 
   @override
-  String get moderationKickFailed => 'Failed to kick member. Try again.';
+  String get moderationKickFailed =>
+      'Kunde inte sparka ut medlemmen. Försök igen.';
 
   @override
-  String get moderationBanFailed => 'Failed to ban member. Try again.';
+  String get moderationBanFailed =>
+      'Kunde inte bannlysa medlemmen. Försök igen.';
 
   @override
-  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+  String get transferOwnershipFailedTitle => 'Kunde inte överföra ägarskap';
 
   @override
   String transferOwnershipFailedMessage(String username) {
-    return 'Ownership could not be transferred to $username at this time.';
+    return 'Ägarskapet kunde inte överföras till $username just nu.';
   }
 
   @override
-  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+  String get revokeBanFailedTitle => 'Kunde inte häva bannlysningen';
 
   @override
-  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+  String get voiceModerationNoPermissionTitle => 'Du kan inte göra det';
 
   @override
   String get voiceModerationNoPermissionMessage =>
-      'You don\'t have permission to do this to this member.';
+      'Du har inte behörighet att göra detta med den här medlemmen.';
 
   @override
-  String get voiceModerationLeftTitle => 'They left the call';
+  String get voiceModerationLeftTitle => 'Medlemmen har lämnat samtalet';
 
   @override
   String get voiceModerationLeftMessage =>
-      'This member isn\'t connected to voice anymore.';
+      'Den här medlemmen är inte längre ansluten till röstkanalen.';
 
   @override
-  String get voiceModerationUnknownMemberTitle => 'Member not found';
+  String get voiceModerationUnknownMemberTitle => 'Medlemmen hittades inte';
 
   @override
   String get voiceModerationUnknownMemberMessage =>
-      'This member is no longer in the community. Refresh and try again.';
+      'Den här medlemmen är inte längre med i communityn. Uppdatera och försök igen.';
 
   @override
-  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+  String get voiceJoinTimedOut => 'Du kan inte gå med när du har timeout.';
 
   @override
   String get voiceJoinClaimAccount =>
-      'Claim your account to join this voice channel.';
+      'Säkra ditt konto för att gå med i den här röstkanalen.';
 
   @override
   String get voiceJoinClaimAccountDirectCall =>
-      'Claim your account to start or join 1:1 calls.';
+      'Säkra ditt konto för att starta eller gå med i enskilda samtal.';
 
   @override
   String get voiceJoinUserLimit =>
-      'This voice channel has reached its user limit. Try again later or join a different channel.';
+      'Den här röstkanalen har nått sin användargräns. Försök igen senare eller gå med i en annan kanal.';
 
   @override
   String get voiceJoinConnectionLimit =>
-      'You\'ve reached this voice channel\'s connection limit.';
+      'Du har nått röstkanalens anslutningsgräns.';
 
   @override
   String get voiceJoinChannelUnavailable =>
-      'This voice channel is no longer available.';
+      'Röstkanalen är inte längre tillgänglig.';
 
   @override
-  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+  String get avatarUploadFailedTitle => 'Kunde inte ladda upp avatar';
 
   @override
-  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+  String get bannerUploadFailedTitle => 'Kunde inte ladda upp bannern';
 
   @override
-  String get animatedImageUseStatic => 'Upload a static image instead.';
+  String get animatedImageUseStatic => 'Ladda upp en statisk bild i stället.';
 
   @override
-  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+  String get passkeyDeleteFailedTitle => 'Kunde inte ta bort passkey';
 
   @override
-  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+  String get premiumPaymentsUnavailableTitle =>
+      'Betalningar är inte tillgängliga';
 
   @override
   String get premiumPaymentsUnavailableMessage =>
-      'Payments are temporarily unavailable. Please try again in a moment.';
+      'Betalningar är tillfälligt otillgängliga. Försök igen om en liten stund.';
 
   @override
-  String get premiumNoSubscriptionTitle => 'No active subscription';
+  String get premiumNoSubscriptionTitle => 'Inget aktivt abonnemang';
 
   @override
   String get premiumNoSubscriptionMessage =>
-      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+      'Vi hittade inget aktivt abonnemang på det här kontot. Uppdatera och försök igen.';
 
   @override
-  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+  String get premiumAlreadyCancelingTitle => 'Uppsägning redan planerad';
 
   @override
   String get premiumAlreadyCancelingMessage =>
-      'Your subscription is already set to cancel at the end of your billing period.';
+      'Ditt abonnemang är redan planerat att avslutas vid faktureringsperiodens slut.';
 
   @override
   String get premiumNotCancelingTitle =>
-      'Subscription is not scheduled to cancel';
+      'Abonnemanget är inte planerat att avslutas';
 
   @override
   String get premiumNotCancelingMessage =>
-      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+      'Ditt abonnemang är inte planerat att avslutas, så det finns inget att återaktivera.';
 
   @override
-  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+  String get premiumCancelFailedTitle => 'Kunde inte säga upp ditt abonnemang';
 
   @override
   String get premiumCancelFailedMessage =>
-      'Something went wrong while canceling your subscription. Please try again in a moment.';
+      'Något gick fel när ditt abonnemang skulle sägas upp. Försök igen om en stund.';
 
   @override
   String get premiumReactivateFailedTitle =>
-      'Couldn\'t reactivate your subscription';
+      'Kunde inte återaktivera ditt abonnemang';
 
   @override
   String get premiumReactivateFailedMessage =>
-      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+      'Något gick fel när ditt abonnemang skulle återaktiveras. Försök igen om en stund.';
 
   @override
-  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+  String get premiumRefundConfirmTitle => 'Återbetala ditt senaste köp?';
 
   @override
   String get premiumRefundConfirmBody =>
-      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+      'Detta återbetalar din senaste faktura och avslutar eventuella tillhörande abonnemang. Du kan inte själv begära en ny återbetalning under de närmaste 30 dagarna.';
 
   @override
-  String get premiumRefundConfirm => 'Refund purchase';
+  String get premiumRefundConfirm => 'Återbetala köp';
 
   @override
   String get premiumRefundIssuedToast =>
-      'Refund issued. May take a few business days to appear.';
+      'Återbetalning utfärdad. Det kan ta några arbetsdagar innan den syns.';
 
   @override
-  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+  String get premiumRefundOutsideWindowTitle =>
+      'Utanför återbetalningsperioden';
 
   @override
   String get premiumRefundOutsideWindowMessage =>
-      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+      'Ditt senaste köp ligger inte längre inom återbetalningsperioden. Kontakta supporten om du har problem med faktureringen.';
 
   @override
-  String get premiumRefundCooldownTitle => 'You have refunded recently';
+  String get premiumRefundCooldownTitle =>
+      'Du har nyligen fått en återbetalning';
 
   @override
   String get premiumRefundCooldownMessage =>
-      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+      'Du har nyligen begärt återbetalning via självbetjäning. Du kan begära en ny när väntetiden är slut.';
 
   @override
-  String get premiumRefundNothingTitle => 'Nothing to refund';
+  String get premiumRefundNothingTitle => 'Inget att återbetala';
 
   @override
   String get premiumRefundNothingMessage =>
-      'We couldn\'t find a recent purchase to refund on this account.';
+      'Vi kunde inte hitta något nyligt köp att återbetala på det här kontot.';
 
   @override
-  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+  String get premiumRefundFailedTitle => 'Kunde inte återbetala det här köpet';
 
   @override
   String get premiumRefundFailedMessage =>
-      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+      'Något gick fel när vi skulle utfärda din återbetalning. Kontakta supporten om detta fortsätter att hända.';
 
   @override
-  String get premiumVerifyEmailTitle => 'Verify your email first';
+  String get premiumVerifyEmailTitle => 'Verifiera din e-postadress först';
 
   @override
   String premiumVerifyEmailBody(String productName) {
-    return 'You need to verify your email before you can purchase $productName.';
+    return 'Du måste verifiera din e-postadress innan du kan köpa $productName.';
   }
 
   @override
-  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+  String get premiumCheckoutBlockedTitle => 'Kassan är inte tillgänglig';
 
   @override
   String premiumCheckoutBlockedBody(String supportEmail) {
-    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+    return 'Kassan är blockerad för det här kontot. Kontakta $supportEmail om du behöver hjälp.';
   }
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
-      'Checkout is blocked for this account.';
+      'Kassan är blockerad för det här kontot.';
 }

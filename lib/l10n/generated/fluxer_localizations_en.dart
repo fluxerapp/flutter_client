@@ -16406,6 +16406,11 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'This will remove the saved session for this account.';
 
   @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
+
+  @override
   String get accountExpired => 'Expired';
 
   @override
@@ -17589,10 +17594,20 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Your friends list is full, or theirs is. Remove someone and try again.';
 
   @override
+  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+
+  @override
+  String get addFriendSendFailedMessage =>
+      'Couldn\'t send the friend request. Try again.';
+
+  @override
   String get userTagBot => 'BOT';
 
   @override
   String get userTagSystem => 'System';
+
+  @override
+  String get userTagOp => 'OP';
 
   @override
   String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
@@ -20566,6 +20581,95 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Couldn\'t sync theme to your account. Please try again.';
 
   @override
+  String get lookAndFeelThemeColorsTitle => 'Theme colours';
+
+  @override
+  String get lookAndFeelThemeColorsConfigureDescription =>
+      'Customise individual theme colours for this device.';
+
+  @override
+  String lookAndFeelThemeColorsEditingMode(String mode) {
+    return 'Editing $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioLabel =>
+      'Use colours from Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioDescription =>
+      'When enabled, colour changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colours.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioLabel =>
+      'Send colour changes to Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioDescription =>
+      'When enabled, colours you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colours.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
+      'Desktop Theme Studio colour changes will not apply on this device.';
+
+  @override
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colours';
+
+  @override
+  String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
+      'If you have a chat wallpaper set, you won\'t see this colour.';
+
+  @override
+  String lookAndFeelThemeColorsResetForMode(String mode) {
+    return 'Reset all colours for $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colours?';
+
+  @override
+  String lookAndFeelThemeColorsResetConfirmBody(String mode) {
+    return 'This removes your custom colour overrides for $mode on this device.';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+
+  @override
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+
+  @override
+  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+
+  @override
+  String get lookAndFeelThemeColorsGroupText => 'Text';
+
+  @override
+  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+
+  @override
+  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+
+  @override
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+
+  @override
+  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+
+  @override
+  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+
+  @override
+  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+
+  @override
+  String get lookAndFeelChatFontScalingDescription =>
+      'Adjust the font size in the chat area.';
+
+  @override
   String get lookAndFeelChatFontSizeLabel => 'Chat font size';
 
   @override
@@ -20770,6 +20874,14 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String lookAndFeelCollapseDMsDescription(String productName) {
     return 'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the $productName button. Click the $productName button while on the DMs page to expand or collapse the folder.';
   }
+
+  @override
+  String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
+      'Open communities to your last channel';
+
+  @override
+  String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
+      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Channel list';
@@ -21767,6 +21879,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
+  String get shellResizeSidebar => 'Resize sidebar';
+
+  @override
   String get voiceConnectionTitle => 'Voice connection';
 
   @override
@@ -22063,6 +22178,40 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get notificationsMessageUnavailable =>
       'This message couldn\'t be loaded.';
+
+  @override
+  String notificationsMentionedYouIn(String author, String place) {
+    return '$author mentioned you in $place:';
+  }
+
+  @override
+  String notificationsRepliedToYouIn(String author, String place) {
+    return '$author replied to you in $place:';
+  }
+
+  @override
+  String notificationsMentionedYou(String author) {
+    return '$author mentioned you:';
+  }
+
+  @override
+  String notificationsRepliedToYou(String author) {
+    return '$author replied to you:';
+  }
+
+  @override
+  String notificationsMentionPlace(String server, String channel) {
+    return '$server – $channel';
+  }
+
+  @override
+  String get notificationsSendReply => 'Send a reply';
+
+  @override
+  String get notificationsRecentActivity => 'Recent activity';
+
+  @override
+  String get notificationsRemoveNotification => 'Remove notification';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -22635,6 +22784,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get doubleTapReactionHint => 'Double tap a message to';
 
   @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
   String get doubleTapReactionEdit => 'Edit';
 
   @override
@@ -22642,6 +22794,63 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
+  String get messagesMediaGesturesSectionTitle => 'Gestures';
+
+  @override
+  String get messagesMediaGesturesSectionDescription =>
+      'Configure double tap and swipe on messages.';
+
+  @override
+  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+
+  @override
+  String get messagesMediaGesturesReactionDescription =>
+      'Used when double tap is set to add a reaction.';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionReactDescription =>
+      'Adds your default double-tap emoji as a reaction.';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionEditDescription =>
+      'Opens the editor on messages you sent. Other messages are unchanged.';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionNoneDescription =>
+      'Double tap is disabled.';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftLabel =>
+      'Swipe right to left';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
+      'Swipe a message to reply, with hold to edit your own messages.';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
+      'Show channel details';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
+      'Swipe a message or tap the channel header to open channel details in a side panel.';
 
   @override
   String get chatMessageEdit => 'Edit message';
@@ -22983,6 +23192,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatMessageDeleteAttachment => 'Delete attachment';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Edit alt text';
 
   @override
@@ -23040,6 +23253,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatMessagesLoadError => 'Couldn\'t load messages.';
 
   @override
+  String get chatMessagesFailedToLoad => 'Messages failed to load';
+
+  @override
   String get chatReplyMentionOverrideTitle => 'Override mention preference?';
 
   @override
@@ -23080,6 +23296,12 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get chatEditNoChanges => 'No changes to save';
+
+  @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
 
   @override
   String get chatChannelNotReady =>
@@ -23190,6 +23412,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get composerAutocompleteStickersHeading => 'Stickers';
+
+  @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIFs';
@@ -23967,6 +24192,30 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get channelMenuDuplicateChannel => 'Duplicate channel';
 
   @override
+  String channelDuplicateHelper(String channelName) {
+    return 'The new channel will reuse the permissions from $channelName.';
+  }
+
+  @override
+  String channelDuplicateVoiceHelper(String channelName) {
+    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+  }
+
+  @override
+  String get channelMenuMoveToCategory => 'Move to category';
+
+  @override
+  String get channelMenuNoCategory => 'No category';
+
+  @override
+  String get channelMoveCategoryFullTitle => 'Category full';
+
+  @override
+  String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
+    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+  }
+
+  @override
   String get channelMenuResetMatureContentAgreeState =>
       'Reset mature content agreement state';
 
@@ -24216,6 +24465,72 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get channelHeaderSearchClearHistory => 'Clear';
+
+  @override
+  String get channelSearchRemoveRecent => 'Remove from recent searches';
+
+  @override
+  String get channelSearchFiltersButton => 'Filters';
+
+  @override
+  String get channelSearchFilterMenuTitle => 'Filter results';
+
+  @override
+  String get channelSearchFilterFromLabel => 'From a specific person';
+
+  @override
+  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+
+  @override
+  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+
+  @override
+  String get channelSearchFilterInLabel => 'In a specific channel';
+
+  @override
+  String get channelSearchFilterDuringLabel => 'Sent on a date';
+
+  @override
+  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+
+  @override
+  String get channelSearchFilterAfterLabel => 'Sent after a date';
+
+  @override
+  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+
+  @override
+  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+
+  @override
+  String get channelSearchDateToday => 'Today';
+
+  @override
+  String get channelSearchDateYesterday => 'Yesterday';
+
+  @override
+  String get channelSearchTabMessages => 'Messages';
+
+  @override
+  String get channelSearchTabImages => 'Images';
+
+  @override
+  String get channelSearchTabPins => 'Pins';
+
+  @override
+  String get channelSearchTabLinks => 'Links';
+
+  @override
+  String get channelSearchTabFiles => 'Files';
+
+  @override
+  String channelSearchTabCount(String label, int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$label ($countString)';
+  }
 
   @override
   String get channelHeaderSearchFilterDescFrom => 'a user';
@@ -24653,6 +24968,25 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get groupDmInviteRevoked => 'Invite revoked';
 
   @override
+  String get groupDmRemoveFromGroup => 'Remove from group';
+
+  @override
+  String groupDmRemoveFromGroupConfirm(String userName) {
+    return 'Remove $userName from the group?';
+  }
+
+  @override
+  String get groupDmRemoveFromGroupAction => 'Remove';
+
+  @override
+  String get groupDmRemovedFromGroup => 'Removed from group';
+
+  @override
+  String groupDmRemoveFromGroupFailed(String userName) {
+    return '$userName is still in the group. Try again in a moment.';
+  }
+
+  @override
   String groupDmInviteCreatedByExpires(String name, String time) {
     return 'Created by $name. Expires in $time.';
   }
@@ -24716,6 +25050,13 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get chatAttachmentLibraryPermissionSettings => 'Open settings';
+
+  @override
+  String get chatAttachmentLibraryLimitedBody =>
+      'Only photos and videos you chose to share are shown here.';
+
+  @override
+  String get chatAttachmentLibraryLimitedManage => 'Manage';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -24813,6 +25154,17 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get userSettingsSearchNoResults => 'No settings found';
+
+  @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
+  String userSettingsJumpLinkPremiumPage(String productName) {
+    return '$productName page';
+  }
 
   @override
   String get userSettingsNavProfile => 'Profile';
@@ -25342,6 +25694,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get storePlutoniumRenewsThroughAppStore =>
       'Renews automatically through the App Store until you cancel.';
+
+  @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
@@ -25944,6 +26299,20 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Choose which icon appears on your home screen.';
 
   @override
+  String get appIconSectionDescriptionAndroid =>
+      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+
+  @override
+  String get appIconAndroidChangeTitle => 'Change app icon?';
+
+  @override
+  String get appIconAndroidChangeDescription =>
+      'Fluxer will restart to apply the new home screen icon.';
+
+  @override
+  String get appIconAndroidChangeConfirm => 'Change icon';
+
+  @override
   String get appIconOptionDefault => 'Default';
 
   @override
@@ -25951,6 +26320,24 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get appIconOptionSweden => 'Sweden';
+
+  @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
 
   @override
   String get appIconUnsupported =>
@@ -25963,8 +26350,38 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get advancedPerformanceReportingTitle => 'Performance reporting';
 
   @override
+  String get advancedCrashReportingSectionDescription =>
+      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+
+  @override
   String get advancedPerformanceReportingLabel =>
       'Send crash and performance reports';
+
+  @override
+  String get advancedCrashReportingDescription =>
+      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+
+  @override
+  String get observabilityReportingConsentTitle => 'Help fix crashes';
+
+  @override
+  String get observabilityReportingConsentSubtitle =>
+      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+
+  @override
+  String get observabilityReportingConsentBody =>
+      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+
+  @override
+  String observabilityReportingConsentEnableLater(String reportingToggle) {
+    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+  }
+
+  @override
+  String get observabilityReportingConsentAgree => 'Send crash reports';
+
+  @override
+  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -26511,6 +26928,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'App licences';
 
   @override
@@ -26569,6 +26989,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get quickSwitcherSectionTextChannels => 'Text channels';
+
+  @override
+  String get quickSwitcherSectionThreads => 'Threads';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'Voice channels';
@@ -26671,6 +27094,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get uiConfirm => 'Confirm';
 
   @override
+  String get uiUnderstood => 'Understood';
+
+  @override
   String get uiLoading => 'Loading';
 
   @override
@@ -26763,6 +27189,41 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get instanceConnectFailed => 'Failed to connect to instance';
+
+  @override
+  String instanceConnectFailedDomain(String domain) {
+    return 'Couldn\'t connect to $domain. Try again.';
+  }
+
+  @override
+  String get instanceInvalidDiscoveryResponse =>
+      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+
+  @override
+  String instanceOutdatedForClient(String domain) {
+    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+  }
+
+  @override
+  String instanceRequiresNewerClient(String domain) {
+    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+  }
+
+  @override
+  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+
+  @override
+  String get instanceCompatibilityRetry => 'Try again';
+
+  @override
+  String get instanceCompatibilityUpdateApp => 'Update app';
+
+  @override
+  String get instanceCompatibilityStatusPagePrompt =>
+      'Check the status page for updates.';
+
+  @override
+  String get instanceCompatibilityStatusPageLink => 'status page';
 
   @override
   String get recentInstances => 'Recent instances';
@@ -27142,6 +27603,19 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get guildNavbarChannelTypeSelection => 'Channel type selection';
+
+  @override
+  String get guildNavbarPrivateChannel => 'Private channel';
+
+  @override
+  String get guildNavbarPrivateChannelDescription =>
+      'Only selected members and roles will be able to view this channel.';
+
+  @override
+  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+
+  @override
+  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
 
   @override
   String get guildNavbarCreateCategory => 'Create category';
@@ -27797,6 +28271,355 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get permissionSetVoiceRegion => 'Set voice region';
 
   @override
+  String get permissionManageThreads => 'Manage threads';
+
+  @override
+  String get permissionManageThreadsDescription =>
+      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+
+  @override
+  String get permissionCreatePublicThreads => 'Create public threads';
+
+  @override
+  String get permissionCreatePublicThreadsDescription =>
+      'Start threads that everyone who can view the channel can see.';
+
+  @override
+  String get permissionCreatePrivateThreads => 'Create private threads';
+
+  @override
+  String get permissionCreatePrivateThreadsDescription =>
+      'Start invite-only threads.';
+
+  @override
+  String get permissionSendMessagesInThreads => 'Send messages in threads';
+
+  @override
+  String get permissionSendMessagesInThreadsDescription =>
+      'Send messages in threads and forum posts.';
+
+  @override
+  String get threadErrorArchived => 'This thread is archived.';
+
+  @override
+  String get threadErrorLocked =>
+      'This thread is locked. Only moderators can post or reopen it.';
+
+  @override
+  String get threadErrorAlreadyCreated =>
+      'A thread already exists for this message.';
+
+  @override
+  String get threadErrorMaxActiveThreads =>
+      'This community has reached its limit of active threads.';
+
+  @override
+  String get threadErrorMaxMembers =>
+      'This thread has reached its member limit.';
+
+  @override
+  String get threadErrorMaxPinnedPosts =>
+      'Only one post can be pinned in this forum.';
+
+  @override
+  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+
+  @override
+  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+
+  @override
+  String get threadErrorNoTagsForEveryone =>
+      'Add a tag everyone can use before requiring tags.';
+
+  @override
+  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+
+  @override
+  String get threadErrorUnknownTag =>
+      'One of the selected tags no longer exists.';
+
+  @override
+  String get threadErrorInvalidNotificationSettings =>
+      'Those notification settings are not valid for a thread.';
+
+  @override
+  String get threadErrorSearchIndexNotReady =>
+      'Posts are still being indexed. Try again in a moment.';
+
+  @override
+  String get threadErrorInvalidChannelType =>
+      'This action is not available in this channel.';
+
+  @override
+  String get threadCreate => 'Create thread';
+
+  @override
+  String get threadName => 'Thread name';
+
+  @override
+  String get threadNameRequired => 'Give the thread a name.';
+
+  @override
+  String get threadNewThreadPlaceholder => 'New thread';
+
+  @override
+  String get threadPrivate => 'Private thread';
+
+  @override
+  String get threadPrivateDescription =>
+      'Only people you invite and moderators can see this thread.';
+
+  @override
+  String get threadStarterMessage => 'Message';
+
+  @override
+  String get threadStarterMessagePlaceholder =>
+      'Enter a message to start the conversation!';
+
+  @override
+  String threadCreateCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can start another thread in $seconds seconds.',
+      one: 'You can start another thread in 1 second.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String threadCreateFailed(String detail) {
+    return 'Could not start the thread: $detail';
+  }
+
+  @override
+  String get threadBrowserTitle => 'Threads';
+
+  @override
+  String get threadBrowserActive => 'Active';
+
+  @override
+  String get threadBrowserArchived => 'Closed';
+
+  @override
+  String get threadBrowserJoined => 'Joined';
+
+  @override
+  String get threadBrowserOtherActive => 'Other active threads';
+
+  @override
+  String get threadBrowserPublic => 'Public threads';
+
+  @override
+  String get threadBrowserPrivate => 'Private threads';
+
+  @override
+  String get threadBrowserEmpty =>
+      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+
+  @override
+  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+
+  @override
+  String get threadBrowserLoadMore => 'Load more';
+
+  @override
+  String get threadBrowserSearch => 'Search threads';
+
+  @override
+  String get threadBrowserSearchEmpty => 'No threads match';
+
+  @override
+  String get threadBrowserSearchEmptyHint =>
+      'Try a different name or check the other tab.';
+
+  @override
+  String get threadBrowserSearchFailed =>
+      'Couldn\'t search threads. Try again later.';
+
+  @override
+  String get threadBrowserSearchIndexing =>
+      'Search is getting ready for this community. Trying again shortly...';
+
+  @override
+  String threadMessageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages',
+      one: '1 message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadFailedToMentionSomeRoles =>
+      'Some mentioned roles were not added to this thread.';
+
+  @override
+  String get threadMembers => 'Thread members';
+
+  @override
+  String threadMembersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+
+  @override
+  String threadRemoveMember(String name) {
+    return 'Remove $name from thread';
+  }
+
+  @override
+  String get threadJoin => 'Join thread';
+
+  @override
+  String get threadLeave => 'Leave thread';
+
+  @override
+  String get threadJoinNotice =>
+      'Join this thread to follow it in your channel list and get notifications.';
+
+  @override
+  String get threadArchivedNotice =>
+      'This thread is closed. Sending a message will open it again.';
+
+  @override
+  String get threadLockedNotice =>
+      'This thread is locked. Only moderators can send messages.';
+
+  @override
+  String get threadArchive => 'Close thread';
+
+  @override
+  String get threadUnarchive => 'Open thread again';
+
+  @override
+  String get threadLock => 'Lock thread';
+
+  @override
+  String get threadUnlock => 'Unlock thread';
+
+  @override
+  String get threadDelete => 'Delete thread';
+
+  @override
+  String threadDeleteConfirm(String threadName) {
+    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+  }
+
+  @override
+  String get threadDeleted => 'Thread deleted';
+
+  @override
+  String get threadMarkAsRead => 'Mark as read';
+
+  @override
+  String get threadMute => 'Mute thread';
+
+  @override
+  String get threadUnmute => 'Unmute thread';
+
+  @override
+  String get threadMuted => 'Thread muted';
+
+  @override
+  String get threadUnmuted => 'Thread unmuted';
+
+  @override
+  String get threadNotificationSettings => 'Notification settings';
+
+  @override
+  String get threadNotificationParentDefault => 'Use channel default';
+
+  @override
+  String get threadCopyLink => 'Copy link';
+
+  @override
+  String get threadCopyId => 'Copy thread ID';
+
+  @override
+  String get threadMoreOptions => 'More options';
+
+  @override
+  String get threadSettings => 'Thread settings';
+
+  @override
+  String get threadSettingsSaved => 'Thread settings saved';
+
+  @override
+  String get threadAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get threadAutoArchiveDescription =>
+      'The thread stops showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+
+  @override
+  String get threadDefaultAutoArchiveDescription =>
+      'New threads stop showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultSlowmode => 'Default thread slowmode';
+
+  @override
+  String get threadAutoArchiveOneHour => '1 Hour';
+
+  @override
+  String get threadAutoArchiveOneDay => '24 Hours';
+
+  @override
+  String get threadAutoArchiveThreeDays => '3 Days';
+
+  @override
+  String get threadAutoArchiveOneWeek => '1 Week';
+
+  @override
+  String get threadInvitable => 'Allow anyone to invite';
+
+  @override
+  String get threadInvitableDescription =>
+      'Members of this private thread can add other people.';
+
+  @override
+  String threadStartedBy(String name) {
+    return 'Started by $name';
+  }
+
+  @override
+  String get threadStarterDeleted => 'Original message was deleted.';
+
+  @override
+  String systemThreadCreated(
+    String username,
+    String threadLink,
+    String allThreadsLink,
+  ) {
+    return '$username started a thread: $threadLink. See $allThreadsLink.';
+  }
+
+  @override
+  String get systemThreadCreatedAllThreadsLink => 'all threads';
+
+  @override
+  String get systemThreadCreatedThreadFallback => 'a thread';
+
+  @override
+  String systemPreviewThreadCreated(String username) {
+    return '$username started a thread.';
+  }
+
+  @override
   String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
 
   @override
@@ -27914,6 +28737,15 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get auditLogActionChannelDelete => 'Channel deleted';
 
   @override
+  String get auditLogActionThreadCreate => 'Thread created';
+
+  @override
+  String get auditLogActionThreadUpdate => 'Thread updated';
+
+  @override
+  String get auditLogActionThreadDelete => 'Thread deleted';
+
+  @override
   String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
 
   @override
@@ -28026,6 +28858,21 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
     return '$actor deleted the channel $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadCreate(String actor, String target) {
+    return '$actor started the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadUpdate(String actor, String target) {
+    return '$actor updated the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadDelete(String actor, String target) {
+    return '$actor deleted the thread $target.';
   }
 
   @override
@@ -30193,7 +31040,79 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get channelDetailsUnsupportedChannel => 'Unsupported channel';
 
   @override
+  String get forumChannelTypeForum => 'Forum';
+
+  @override
+  String get forumChannelTypeForumDescription =>
+      'Posts organised by topic and tags';
+
+  @override
+  String get forumChannelTypeMedia => 'Media';
+
+  @override
+  String get forumChannelTypeMediaDescription =>
+      'Posts built around images and videos';
+
+  @override
+  String get forumNewPost => 'New post';
+
+  @override
+  String get forumNewMediaPost => 'New media post';
+
+  @override
+  String get forumSearchPosts => 'Search posts';
+
+  @override
+  String get forumViewOptions => 'Sort and view';
+
+  @override
+  String get forumSearchIndexing =>
+      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+
+  @override
+  String get forumNoPosts => 'There are no posts yet';
+
+  @override
+  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+
+  @override
+  String get forumNoSearchResults => 'No posts match your search';
+
+  @override
+  String get forumNoSearchResultsHint =>
+      'Try different words or clear the tag filter.';
+
+  @override
+  String get forumCreateFirstPost => 'Create the first post';
+
+  @override
+  String get forumOlderPosts => 'Older posts';
+
+  @override
+  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+
+  @override
+  String get forumRetry => 'Try again';
+
+  @override
+  String get forumPostPinned => 'Pinned';
+
+  @override
+  String get forumPostLocked => 'Locked';
+
+  @override
+  String get forumPostArchived => 'Archived';
+
+  @override
   String get forumPostNewBadge => 'New';
+
+  @override
+  String get forumPostStarterDeleted => 'The original message was deleted.';
+
+  @override
+  String forumPostSnippet(String author, String content) {
+    return '$author: $content';
+  }
 
   @override
   String forumPostNewMessages(int count) {
@@ -30207,7 +31126,929 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
+  String get forumPostReact => 'Add the default reaction';
+
+  @override
+  String get forumOpenPost => 'Open post';
+
+  @override
+  String get forumEditTags => 'Edit tags';
+
+  @override
+  String get forumSaveTags => 'Save tags';
+
+  @override
+  String forumTagsLimitHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pick up to $count tags.',
+      one: 'Pick up to 1 tag.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPinPost => 'Pin post';
+
+  @override
+  String get forumUnpinPost => 'Unpin post';
+
+  @override
+  String get forumMarkPostRead => 'Mark as read';
+
+  @override
+  String get forumCopyPostLink => 'Copy link';
+
+  @override
+  String get forumPostGuidelines => 'Post guidelines';
+
+  @override
+  String get forumGuidelinesPlaceholder =>
+      'Tell people what to post here and how to post it.';
+
+  @override
+  String get forumPostTitle => 'Title';
+
+  @override
+  String get forumPostMessage => 'Message';
+
+  @override
+  String get forumPostMessagePlaceholder =>
+      'Write the first message of your post';
+
+  @override
+  String get forumPostMediaPlaceholder => 'Add a caption';
+
+  @override
+  String get forumPostTags => 'Tags';
+
+  @override
+  String get forumPostTagsRequired => 'Tags (required)';
+
+  @override
+  String get forumPostAddMedia => 'Add media';
+
+  @override
+  String get forumPostAddFile => 'Add file';
+
+  @override
+  String get forumPostRemoveAttachment => 'Remove attachment';
+
+  @override
+  String get forumPostSubmit => 'Post';
+
+  @override
+  String get forumPostTitleRequired => 'Give your post a title.';
+
+  @override
+  String get forumPostMediaRequired =>
+      'Add at least one image or video to post here.';
+
+  @override
+  String get forumPostContentRequired => 'Write a message or add a file.';
+
+  @override
+  String get forumSortLatestActivity => 'Recently active';
+
+  @override
+  String get forumSortCreationTime => 'Date posted';
+
+  @override
+  String get forumLayoutList => 'List view';
+
+  @override
+  String get forumLayoutGallery => 'Gallery view';
+
+  @override
+  String get forumNewPostsUnread => 'Show unread for new posts';
+
+  @override
+  String get forumNewPostsUnreadDescription =>
+      'Mark this channel unread when someone creates a post.';
+
+  @override
+  String get forumPostSlowmode => 'Post slowmode';
+
+  @override
+  String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
+    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+  }
+
+  @override
+  String get forumMessageSlowmode => 'Message slowmode in posts';
+
+  @override
+  String get forumMessageSlowmodeDescription =>
+      'Slowmode applied to messages in new posts.';
+
+  @override
+  String get forumDefaultAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get forumDefaultAutoArchiveDescription =>
+      'New posts are archived after this long without activity.';
+
+  @override
+  String get forumDefaultReaction => 'Default reaction';
+
+  @override
+  String get forumSetDefaultReaction => 'Pick an emoji';
+
+  @override
+  String get forumChangeDefaultReaction => 'Change';
+
+  @override
+  String get forumRemoveDefaultReaction => 'Remove';
+
+  @override
+  String get forumDefaultSortOrder => 'Default sort order';
+
+  @override
+  String get forumDefaultLayout => 'Default layout';
+
+  @override
+  String get forumTagMatchSetting => 'Tag filter';
+
+  @override
+  String get forumTagMatchSome => 'Match any selected tag';
+
+  @override
+  String get forumTagMatchAll => 'Match all selected tags';
+
+  @override
+  String get forumRequireTag => 'Require tags';
+
+  @override
+  String get forumRequireTagDescription =>
+      'People must pick at least one tag when they create a post.';
+
+  @override
+  String get forumHideMediaDownloads => 'Hide media download options';
+
+  @override
+  String get forumHideMediaDownloadsDescription =>
+      'Hide download, open in browser and copy link for images and videos in posts.';
+
+  @override
+  String forumTagsTitle(int count, int max) {
+    return 'Tags ($count/$max)';
+  }
+
+  @override
+  String get forumTagsDescription =>
+      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+
+  @override
+  String get forumCreateTag => 'Create tag';
+
+  @override
+  String get forumEditTag => 'Edit tag';
+
+  @override
+  String get forumSaveTag => 'Save tag';
+
+  @override
+  String get forumDeleteTag => 'Delete tag';
+
+  @override
+  String get forumTagName => 'Tag name';
+
+  @override
+  String get forumTagEmoji => 'Emoji';
+
+  @override
+  String get forumTagRemoveEmoji => 'Remove emoji';
+
+  @override
+  String get forumTagModerated => 'Only moderators can apply';
+
+  @override
+  String get forumTagModeratedDescription =>
+      'Only members who can manage threads can apply or remove this tag.';
+
+  @override
+  String get forumTagModeratedBadge => 'Moderated';
+
+  @override
+  String forumPostCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can post again in $seconds seconds.',
+      one: 'You can post again in 1 second.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voiceP2pStartTitle => 'Start in P2P mode?';
+
+  @override
+  String voiceP2pStartDescription(int maxParticipants) {
+    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+  }
+
+  @override
+  String get voiceP2pStartConfirm => 'Start in P2P mode';
+
+  @override
+  String get voiceP2pStartStandard => 'Start standard call';
+
+  @override
+  String get voiceP2pJoinTitle => 'Join a P2P call?';
+
+  @override
+  String voiceP2pJoinDescription(int maxParticipants) {
+    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+  }
+
+  @override
+  String voiceP2pPinnedJoinDescription(int maxParticipants) {
+    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+  }
+
+  @override
+  String get voiceP2pJoinConfirm => 'Join';
+
+  @override
+  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+
+  @override
+  String get voiceP2pAlwaysAgreeSettingLabel =>
+      'Always agree to join P2P calls';
+
+  @override
+  String get voiceP2pAlwaysAgreeSettingDescription =>
+      'Join P2P calls without asking. Other participants can see your IP address.';
+
+  @override
+  String get voiceP2pIndicatorLabel => 'P2P';
+
+  @override
+  String get voiceP2pIndicatorDescription =>
+      'Direct connection. Media is encrypted between participants.';
+
+  @override
+  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+
+  @override
+  String get voiceP2pSwitchToStandardDescription =>
+      'Everyone in the call moves to a standard call through the server.';
+
+  @override
+  String get voiceP2pPeerFailedDescription =>
+      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+
+  @override
+  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+
+  @override
+  String get voiceP2pConsentRequiredError =>
+      'This call is P2P and needs your agreement to join.';
+
+  @override
+  String get voiceChannelFullError => 'This call is full.';
+
+  @override
+  String get voiceP2pScreenShareUnavailable =>
+      'Screen sharing from this device is not available in P2P calls.';
+
+  @override
+  String get channelMenuJoinP2p => 'Start P2P call';
+
+  @override
+  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+
+  @override
+  String channelSettingsRtcP2pDescription(int maxParticipants) {
+    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+  }
+
+  @override
+  String voiceP2pPeerFailedTitle(String name) {
+    return 'Cannot connect directly to $name';
+  }
+
+  @override
   String get favoritesRenameCategory => 'Rename category';
+
+  @override
+  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+
+  @override
+  String get friendAcceptUnavailable =>
+      'That friend request is no longer available. Refresh and try again.';
+
+  @override
+  String get friendAcceptClaimToAccept =>
+      'Finish signing up to accept friend requests.';
+
+  @override
+  String get friendAcceptFailedMessage =>
+      'Couldn\'t accept the friend request. Try again.';
+
+  @override
+  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+
+  @override
+  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+
+  @override
+  String get friendIgnoreFailedMessage =>
+      'Couldn\'t ignore the friend request. Try again.';
+
+  @override
+  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+
+  @override
+  String get friendRemoveFailedMessage =>
+      'Couldn\'t remove this friend. Try again.';
+
+  @override
+  String get userBlockFailedTitle => 'Couldn\'t block user';
+
+  @override
+  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+
+  @override
+  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+
+  @override
+  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+
+  @override
+  String get userUnblockFailedMessage =>
+      'Couldn\'t unblock this user. Try again.';
+
+  @override
+  String friendCancelRequestConfirmDescription(String userName) {
+    return 'Cancel your friend request to $userName?';
+  }
+
+  @override
+  String get errorSomethingWentWrongTitle => 'Something went wrong';
+
+  @override
+  String get errorUnexpectedTryAgain =>
+      'An unexpected error occurred. Try again.';
+
+  @override
+  String get errorMessagingPausedTitle => 'Messaging is paused';
+
+  @override
+  String get errorMessagingPausedMessage =>
+      'Messaging is paused on your account. Check your email for a quick step to continue.';
+
+  @override
+  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+
+  @override
+  String get errorFeatureDisabledMessage =>
+      'This feature is paused. Try again later.';
+
+  @override
+  String get dmErrorStartConversationTitle =>
+      'Couldn\'t start this conversation';
+
+  @override
+  String get dmErrorCannotMessageMessage =>
+      'They might not be accepting messages from you, or you no longer share a community.';
+
+  @override
+  String get dmErrorUnknownUserMessage =>
+      'This user no longer exists. Refresh and try again.';
+
+  @override
+  String get dmErrorClaimMessage =>
+      'You need to claim your account before you can start a direct message.';
+
+  @override
+  String get dmErrorVerifyEmailMessage =>
+      'You need to verify your email address before you can start a direct message.';
+
+  @override
+  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+
+  @override
+  String get dmErrorTooManyRecipientsMessage =>
+      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+
+  @override
+  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+
+  @override
+  String get dmErrorMaxGroupDmsMessage =>
+      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+
+  @override
+  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+
+  @override
+  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+
+  @override
+  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+
+  @override
+  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+
+  @override
+  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+
+  @override
+  String get inviteErrorPausedMessage =>
+      'Admins paused invites — you can\'t join right now.';
+
+  @override
+  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+
+  @override
+  String get inviteErrorAtCapacityMessage =>
+      'This community has reached its maximum member limit and is not accepting new members at this time.';
+
+  @override
+  String get inviteErrorPresenceTitle => 'Gateway connection required';
+
+  @override
+  String get inviteErrorPresenceMessage =>
+      'Temporary invites need a live connection. Check yours and try again.';
+
+  @override
+  String get inviteErrorBannedTitle => 'You\'re banned';
+
+  @override
+  String get inviteErrorBannedMessage =>
+      'You are banned from this community and cannot join.';
+
+  @override
+  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+
+  @override
+  String get inviteErrorIpBannedMessage =>
+      'Your IP address is banned from this community and you cannot join.';
+
+  @override
+  String get inviteErrorClaimTitle => 'Account verification required';
+
+  @override
+  String get inviteErrorClaimMessage =>
+      'Add an email and password to your account first.';
+
+  @override
+  String get leaveCommunityFailedTitle => 'Failed to leave community';
+
+  @override
+  String get leaveCommunityFailedMessage =>
+      'Couldn\'t leave right now. Try again in a moment.';
+
+  @override
+  String get chatSendFailedTitle => 'Your message didn\'t send';
+
+  @override
+  String get chatSendFailedMessage => 'Try sending your message again.';
+
+  @override
+  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+
+  @override
+  String get chatRateLimitedMessage =>
+      'Slow down — wait a moment before trying again.';
+
+  @override
+  String get chatMatureContentTitle => 'Mature content not allowed';
+
+  @override
+  String get chatMatureContentGuildMessage =>
+      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+
+  @override
+  String chatMatureContentDmMessage(String settingsPath) {
+    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+  }
+
+  @override
+  String get chatMatureContentGroupDmMessage =>
+      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+
+  @override
+  String get chatFileTooLargeTitle => 'File size too large';
+
+  @override
+  String chatFileTooLargeMessage(String maxSize) {
+    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+  }
+
+  @override
+  String get chatHeavyTitle => 'Whoa, this is heavy';
+
+  @override
+  String get chatReactionsHeavyMessage =>
+      'This is one heavy message. Some reactions need to be removed before you can add more.';
+
+  @override
+  String get chatReactionTimedOut =>
+      'You can\'t add new reactions while you\'re timed out.';
+
+  @override
+  String chatTooManyAttachmentsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files',
+      one: '$count file',
+    );
+    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+  }
+
+  @override
+  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+
+  @override
+  String get chatEditFailedMessage => 'Try editing your message again.';
+
+  @override
+  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+
+  @override
+  String get chatDeleteTooQuickMessage =>
+      'Wait a moment before deleting more messages.';
+
+  @override
+  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+
+  @override
+  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+
+  @override
+  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+
+  @override
+  String get chatAttachmentDeleteFailedMessage =>
+      'Try deleting that attachment again.';
+
+  @override
+  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+
+  @override
+  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+
+  @override
+  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+
+  @override
+  String get chatAltTextUnavailable =>
+      'Editing is temporarily unavailable. Please try again later.';
+
+  @override
+  String get chatAltTextFailedMessage =>
+      'Couldn\'t update the alt text. Please try again.';
+
+  @override
+  String get chatPinFailedTitle => 'Failed to pin message';
+
+  @override
+  String get chatUnpinFailedTitle => 'Failed to unpin message';
+
+  @override
+  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+
+  @override
+  String get chatPinBlockedMessage =>
+      'You cannot interact with this user right now.';
+
+  @override
+  String get bookmarkLimitTitle => 'Bookmark limit reached';
+
+  @override
+  String bookmarkLimitMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bookmarks',
+      one: '$count bookmark',
+    );
+    return 'You\'re at $_temp0. Remove one to add another.';
+  }
+
+  @override
+  String get savedMediaLimitTitle => 'Saved media limit reached';
+
+  @override
+  String savedMediaLimitMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count saved media items',
+      one: '$count saved media item',
+    );
+    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+  }
+
+  @override
+  String get errorContentBlockedTitle => 'Content blocked';
+
+  @override
+  String get errorContentBlockedMessage =>
+      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+
+  @override
+  String get errorContentBlockedSelfHostedMessage =>
+      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+
+  @override
+  String get channelDeletedToast => 'Channel deleted';
+
+  @override
+  String get categoryDeletedToast => 'Category deleted';
+
+  @override
+  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+
+  @override
+  String get channelDeleteNoPermissionChannel =>
+      'You don\'t have permission to delete this channel.';
+
+  @override
+  String get channelDeleteNoPermissionCategory =>
+      'You don\'t have permission to delete this category.';
+
+  @override
+  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+
+  @override
+  String get channelDeleteAlreadyDeletedChannel =>
+      'This channel no longer exists. It may have already been deleted.';
+
+  @override
+  String get channelDeleteAlreadyDeletedCategory =>
+      'This category no longer exists. It may have already been deleted.';
+
+  @override
+  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+
+  @override
+  String get channelDeleteFailedCategoryTitle =>
+      'Couldn\'t delete this category';
+
+  @override
+  String get channelPermissionsUpdateFailedTitle =>
+      'Couldn\'t update channel permissions';
+
+  @override
+  String get channelSettingsSaveFailedTitle =>
+      'Couldn\'t save channel settings';
+
+  @override
+  String get emojiSlotsFullTitle => 'No emoji slots available';
+
+  @override
+  String get stickerSlotsFullTitle => 'No sticker slots available';
+
+  @override
+  String get emojiSomeFailedMessage =>
+      'Review these files and try again with smaller or simpler images.';
+
+  @override
+  String get emojiNameInvalidCharacters =>
+      'Emoji names can only use letters, numbers and underscores.';
+
+  @override
+  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+
+  @override
+  String get emojiRenameGoneMessage =>
+      'It may have been deleted. The name was reverted to what it was before.';
+
+  @override
+  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+
+  @override
+  String get emojiRenameNoPermissionMessage =>
+      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+
+  @override
+  String get emojiRenameRateLimitedMessage =>
+      'Please wait a moment and try renaming again.';
+
+  @override
+  String get emojiRenameFailedMessage =>
+      'The name was reverted to what it was before. Please try again in a moment.';
+
+  @override
+  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+
+  @override
+  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+
+  @override
+  String get emojiDeleteNoPermissionMessage =>
+      'You don\'t have permission to delete this emoji.';
+
+  @override
+  String get emojiDeleteRateLimitedMessage =>
+      'Please wait a moment and try deleting again.';
+
+  @override
+  String get stickerTooLargeTitle => 'Sticker is too large';
+
+  @override
+  String stickerTooLargeMessage(String maxSize) {
+    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+  }
+
+  @override
+  String get stickerCreateFailedMessage =>
+      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+
+  @override
+  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+
+  @override
+  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+
+  @override
+  String get moderationRemoveTimeoutFailed =>
+      'Failed to remove timeout. Try again.';
+
+  @override
+  String get moderationKickFailed => 'Failed to kick member. Try again.';
+
+  @override
+  String get moderationBanFailed => 'Failed to ban member. Try again.';
+
+  @override
+  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+
+  @override
+  String transferOwnershipFailedMessage(String username) {
+    return 'Ownership could not be transferred to $username at this time.';
+  }
+
+  @override
+  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+
+  @override
+  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+
+  @override
+  String get voiceModerationNoPermissionMessage =>
+      'You don\'t have permission to do this to this member.';
+
+  @override
+  String get voiceModerationLeftTitle => 'They left the call';
+
+  @override
+  String get voiceModerationLeftMessage =>
+      'This member isn\'t connected to voice anymore.';
+
+  @override
+  String get voiceModerationUnknownMemberTitle => 'Member not found';
+
+  @override
+  String get voiceModerationUnknownMemberMessage =>
+      'This member is no longer in the community. Refresh and try again.';
+
+  @override
+  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+
+  @override
+  String get voiceJoinClaimAccount =>
+      'Claim your account to join this voice channel.';
+
+  @override
+  String get voiceJoinClaimAccountDirectCall =>
+      'Claim your account to start or join 1:1 calls.';
+
+  @override
+  String get voiceJoinUserLimit =>
+      'This voice channel has reached its user limit. Try again later or join a different channel.';
+
+  @override
+  String get voiceJoinConnectionLimit =>
+      'You\'ve reached this voice channel\'s connection limit.';
+
+  @override
+  String get voiceJoinChannelUnavailable =>
+      'This voice channel is no longer available.';
+
+  @override
+  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+
+  @override
+  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+
+  @override
+  String get animatedImageUseStatic => 'Upload a static image instead.';
+
+  @override
+  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+
+  @override
+  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+
+  @override
+  String get premiumPaymentsUnavailableMessage =>
+      'Payments are temporarily unavailable. Please try again in a moment.';
+
+  @override
+  String get premiumNoSubscriptionTitle => 'No active subscription';
+
+  @override
+  String get premiumNoSubscriptionMessage =>
+      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+
+  @override
+  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+
+  @override
+  String get premiumAlreadyCancelingMessage =>
+      'Your subscription is already set to cancel at the end of your billing period.';
+
+  @override
+  String get premiumNotCancelingTitle =>
+      'Subscription is not scheduled to cancel';
+
+  @override
+  String get premiumNotCancelingMessage =>
+      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+
+  @override
+  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+
+  @override
+  String get premiumCancelFailedMessage =>
+      'Something went wrong while cancelling your subscription. Please try again in a moment.';
+
+  @override
+  String get premiumReactivateFailedTitle =>
+      'Couldn\'t reactivate your subscription';
+
+  @override
+  String get premiumReactivateFailedMessage =>
+      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+
+  @override
+  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+
+  @override
+  String get premiumRefundConfirmBody =>
+      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+
+  @override
+  String get premiumRefundConfirm => 'Refund purchase';
+
+  @override
+  String get premiumRefundIssuedToast =>
+      'Refund issued. May take a few business days to appear.';
+
+  @override
+  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+
+  @override
+  String get premiumRefundOutsideWindowMessage =>
+      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+
+  @override
+  String get premiumRefundCooldownTitle => 'You have refunded recently';
+
+  @override
+  String get premiumRefundCooldownMessage =>
+      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+
+  @override
+  String get premiumRefundNothingTitle => 'Nothing to refund';
+
+  @override
+  String get premiumRefundNothingMessage =>
+      'We couldn\'t find a recent purchase to refund on this account.';
+
+  @override
+  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+
+  @override
+  String get premiumRefundFailedMessage =>
+      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+
+  @override
+  String get premiumVerifyEmailTitle => 'Verify your email first';
+
+  @override
+  String premiumVerifyEmailBody(String productName) {
+    return 'You need to verify your email before you can purchase $productName.';
+  }
+
+  @override
+  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+
+  @override
+  String premiumCheckoutBlockedBody(String supportEmail) {
+    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+  }
+
+  @override
+  String get premiumCheckoutBlockedBodySelfHosted =>
+      'Checkout is blocked for this account.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -30546,6 +32387,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get next => 'Next';
 
   @override
+  String get create => 'Create';
+
+  @override
   String get mfaTitle => 'Two-factor authentication';
 
   @override
@@ -30583,6 +32427,11 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get accountRemoveDescription =>
       'This will remove the saved session for this account.';
+
+  @override
+  String accountSignOutTitle(String identifier) {
+    return 'Sign out of $identifier?';
+  }
 
   @override
   String get accountExpired => 'Expired';
@@ -31781,6 +33630,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get userTagSystem => 'System';
 
   @override
+  String get userTagOp => 'OP';
+
+  @override
   String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
 
   @override
@@ -32947,6 +34799,290 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
 
   @override
+  String get applicationsTitle => 'Applications';
+
+  @override
+  String get applicationsCreate => 'Create application';
+
+  @override
+  String get applicationsCreateSubmit => 'Create';
+
+  @override
+  String get applicationsCreateClaimTooltip =>
+      'Claim your account to create applications.';
+
+  @override
+  String applicationsDocsLink(String domain) {
+    return 'Read the documentation ($domain)';
+  }
+
+  @override
+  String get applicationsLoadError => 'Unable to load applications';
+
+  @override
+  String get applicationsLoadErrorDescription =>
+      'Check your connection and try again.';
+
+  @override
+  String get applicationsEmptyTitle => 'No applications yet';
+
+  @override
+  String applicationsEmptyDescription(String apiName) {
+    return 'Create your first application to get started with the $apiName.';
+  }
+
+  @override
+  String applicationsCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get applicationsName => 'Application name';
+
+  @override
+  String get applicationsNameHint => 'My application';
+
+  @override
+  String get applicationsNameRequired => 'Application name is required';
+
+  @override
+  String get applicationsBackToList => 'Back to list';
+
+  @override
+  String get applicationsDetailLoadError => 'Couldn\'t load this application';
+
+  @override
+  String get applicationsDetailLoadErrorDescription =>
+      'Try again or go back to the applications list.';
+
+  @override
+  String get applicationsId => 'Application ID';
+
+  @override
+  String get applicationsCopyId => 'Copy ID';
+
+  @override
+  String get applicationsSecretsTitle => 'Secrets & tokens';
+
+  @override
+  String get applicationsSecretsDescription =>
+      'Keep these safe. Regenerating will break existing integrations.';
+
+  @override
+  String get applicationsClientSecret => 'Client secret';
+
+  @override
+  String get applicationsBotToken => 'Bot token';
+
+  @override
+  String get applicationsRegenerate => 'Regenerate';
+
+  @override
+  String get applicationsRegenerateClientSecretTitle =>
+      'Regenerate client secret?';
+
+  @override
+  String get applicationsRegenerateBotTokenTitle => 'Regenerate bot token?';
+
+  @override
+  String get applicationsRegenerateClientSecretDescription =>
+      'Regenerating will invalidate the current secret. Update any code that uses the old value.';
+
+  @override
+  String get applicationsRegenerateBotTokenDescription =>
+      'Regenerating will invalidate the current token. Update any code that uses the old value.';
+
+  @override
+  String get applicationsClientSecretRegenerated =>
+      'Client secret regenerated. Update any code that uses the old secret.';
+
+  @override
+  String get applicationsBotTokenRegenerated =>
+      'Bot token regenerated. Update any code that uses the old token.';
+
+  @override
+  String get applicationsRegenerateFailed => 'Couldn\'t regenerate secret';
+
+  @override
+  String get applicationsInfoTitle => 'Application information';
+
+  @override
+  String get applicationsInfoDescription =>
+      'Basic settings and allowed redirect URIs.';
+
+  @override
+  String get applicationsPublicBot => 'Public bot';
+
+  @override
+  String get applicationsPublicBotDescription =>
+      'Allow anyone to invite this bot to their communities.';
+
+  @override
+  String get applicationsRequireCodeGrant => 'Require OAuth2 code grant';
+
+  @override
+  String get applicationsRequireCodeGrantDescription =>
+      'Requires a redirect URI and an authorization code when inviting this bot.';
+
+  @override
+  String get applicationsRedirectUris => 'Redirect URIs';
+
+  @override
+  String get applicationsAddRedirect => 'Add redirect';
+
+  @override
+  String get applicationsDeleteRedirect => 'Delete redirect URI';
+
+  @override
+  String get applicationsBotProfileTitle => 'Bot profile';
+
+  @override
+  String get applicationsBotProfileDescription =>
+      'Avatar, tag, and rich profile details for your bot.';
+
+  @override
+  String get applicationsBotAvatar => 'Bot avatar';
+
+  @override
+  String get applicationsUsernameRequired => 'Username is required';
+
+  @override
+  String get applicationsUsernameTooLong =>
+      'Username must be at most 32 characters';
+
+  @override
+  String get applicationsUsernameInvalid =>
+      'Username can only contain letters, numbers, and underscores';
+
+  @override
+  String get applicationsBotUsername => 'Bot username';
+
+  @override
+  String get applicationsDiscriminator => 'Discriminator';
+
+  @override
+  String get applicationsBotBio => 'Bot bio';
+
+  @override
+  String get applicationsBotBioHint =>
+      'A helpful bot that does amazing things!';
+
+  @override
+  String get applicationsNoBotBanner => 'No bot banner';
+
+  @override
+  String get applicationsFriendlyBot => 'Friendly bot';
+
+  @override
+  String get applicationsFriendlyBotDescription =>
+      'Allow users to send this bot friend requests for manual approval.';
+
+  @override
+  String get applicationsManualFriendApproval =>
+      'Require manual friend approval';
+
+  @override
+  String get applicationsManualFriendApprovalDescription =>
+      'Friend requests to this bot need manual approval.';
+
+  @override
+  String get applicationsOauthBuilderTitle => 'OAuth2 URL builder';
+
+  @override
+  String get applicationsOauthBuilderDescription =>
+      'Construct an authorize URL with scopes and permissions.';
+
+  @override
+  String get applicationsScopes => 'Scopes';
+
+  @override
+  String get applicationsRedirectUri => 'Redirect URI';
+
+  @override
+  String get applicationsSelectRedirectUri => 'Select a redirect URI';
+
+  @override
+  String get applicationsRedirectRequiredCodeGrant =>
+      'Redirect URI is required because this bot requires OAuth2 code grant.';
+
+  @override
+  String get applicationsRedirectRequiredScopes =>
+      'Redirect URI is required when not using only the bot scope.';
+
+  @override
+  String get applicationsBotPermissions => 'Bot permissions';
+
+  @override
+  String get applicationsAuthorizeUrl => 'Authorize URL';
+
+  @override
+  String get applicationsAuthorizeUrlPlaceholder =>
+      'Select scopes (and redirect URI if required)';
+
+  @override
+  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+
+  @override
+  String get applicationsCopiedUrl => 'Copied URL to clipboard';
+
+  @override
+  String get applicationsDangerTitle => 'Danger zone';
+
+  @override
+  String get applicationsDangerSubtitle =>
+      'This cannot be undone. Removing the application also deletes its bot.';
+
+  @override
+  String get applicationsDangerHelper =>
+      'Once deleted, the application and its credentials are permanently removed.';
+
+  @override
+  String get applicationsDelete => 'Delete application';
+
+  @override
+  String applicationsDeleteConfirmDescription(String name) {
+    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+  }
+
+  @override
+  String get applicationsDeleteFailed => 'Couldn\'t delete application';
+
+  @override
+  String get applicationsUpdated => 'Application updated successfully';
+
+  @override
+  String get applicationsNoChanges => 'No changes to save';
+
+  @override
+  String get applicationsSearchBots => 'Applications & bots';
+
+  @override
+  String get applicationsSearchBotsDescription =>
+      'Create and manage applications and bots for your account';
+
+  @override
+  String get applicationsSearchInfoDescription =>
+      'Edit application basics and redirect URIs';
+
+  @override
+  String get applicationsSearchBotProfileDescription =>
+      'Edit the bot avatar, tag, bio, banner, and friend request behavior';
+
+  @override
+  String get applicationsSearchOauthDescription =>
+      'Build an authorization URL with scopes, redirects, and bot permissions';
+
+  @override
+  String get applicationsSearchSecretsDescription =>
+      'View and regenerate client secrets and bot tokens';
+
+  @override
+  String get applicationsSearchBotsKeyword => 'Bots';
+
+  @override
+  String get applicationsSearchDocumentation => 'Documentation';
+
+  @override
   String get blockedUsersTitle => 'Blocked users';
 
   @override
@@ -33144,6 +35280,60 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get userProfileLocalTime => 'Local time';
+
+  @override
+  String get profileLocalTimeSettingsTitle => 'Profile local time';
+
+  @override
+  String profileLocalTimeSettingsSummary(String productName) {
+    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+  }
+
+  @override
+  String get profileLocalTimeEditButton => 'Edit profile local time';
+
+  @override
+  String get profileLocalTimeTimezoneLabel => 'Time zone';
+
+  @override
+  String profileLocalTimeTimezoneHelp(String productName) {
+    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+  }
+
+  @override
+  String get profileLocalTimeSearchTimezones => 'Search time zones';
+
+  @override
+  String get profileLocalTimeNotSet => 'Not set';
+
+  @override
+  String profileLocalTimePrivacyNote(
+    String timezoneIdentifierExample,
+    String productName,
+  ) {
+    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+  }
+
+  @override
+  String get profileLocalTimePrivacyEveryone => 'Everyone';
+
+  @override
+  String get profileLocalTimePrivacyEveryoneDesc =>
+      'Allow anyone who can view your full profile to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyFriends => 'Friends';
+
+  @override
+  String get profileLocalTimePrivacyFriendsDesc =>
+      'Allow your friends to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembersDesc =>
+      'Allow members from communities you\'re in to see your local time';
 
   @override
   String get userProfileSameTimeAsYou => 'Same time as you';
@@ -33699,6 +35889,33 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get linkedDevicesUnknownPlatform => 'Unknown platform';
+
+  @override
+  String get linkedDevicesViewDetails => 'View details';
+
+  @override
+  String get linkedDevicesDetailsTitle => 'Device details';
+
+  @override
+  String get linkedDevicesDetailsDevice => 'Device';
+
+  @override
+  String get linkedDevicesDetailsClient => 'Client';
+
+  @override
+  String get linkedDevicesDetailsLocation => 'Location';
+
+  @override
+  String get linkedDevicesDetailsIp => 'IP address';
+
+  @override
+  String get linkedDevicesDetailsLastUsed => 'Last used';
+
+  @override
+  String get linkedDevicesCurrentSession => 'Current session';
+
+  @override
+  String get linkedDevicesUnknown => 'Unknown';
 
   @override
   String slowmodeLabel(String duration) {
@@ -34387,6 +36604,95 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Couldn\'t sync theme to your account. Please try again.';
 
   @override
+  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+
+  @override
+  String get lookAndFeelThemeColorsConfigureDescription =>
+      'Customize individual theme colors for this device.';
+
+  @override
+  String lookAndFeelThemeColorsEditingMode(String mode) {
+    return 'Editing $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioLabel =>
+      'Use colors from Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioDescription =>
+      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioLabel =>
+      'Send color changes to Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioDescription =>
+      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
+      'Desktop Theme Studio color changes will not apply on this device.';
+
+  @override
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+
+  @override
+  String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
+      'If you have a chat wallpaper set, you won\'t see this color.';
+
+  @override
+  String lookAndFeelThemeColorsResetForMode(String mode) {
+    return 'Reset all colors for $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+
+  @override
+  String lookAndFeelThemeColorsResetConfirmBody(String mode) {
+    return 'This removes your custom color overrides for $mode on this device.';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+
+  @override
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+
+  @override
+  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+
+  @override
+  String get lookAndFeelThemeColorsGroupText => 'Text';
+
+  @override
+  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+
+  @override
+  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+
+  @override
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+
+  @override
+  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+
+  @override
+  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+
+  @override
+  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+
+  @override
+  String get lookAndFeelChatFontScalingDescription =>
+      'Adjust the font size in the chat area.';
+
+  @override
   String get lookAndFeelChatFontSizeLabel => 'Chat font size';
 
   @override
@@ -34416,6 +36722,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+
+  @override
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
@@ -35709,6 +38018,15 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get voicePanelUseEarpieceLabel => 'Use earpiece';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'Only show videos';
 
   @override
@@ -35883,6 +38201,40 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get notificationsMessageUnavailable =>
       'This message couldn\'t be loaded.';
+
+  @override
+  String notificationsMentionedYouIn(String author, String place) {
+    return '$author mentioned you in $place:';
+  }
+
+  @override
+  String notificationsRepliedToYouIn(String author, String place) {
+    return '$author replied to you in $place:';
+  }
+
+  @override
+  String notificationsMentionedYou(String author) {
+    return '$author mentioned you:';
+  }
+
+  @override
+  String notificationsRepliedToYou(String author) {
+    return '$author replied to you:';
+  }
+
+  @override
+  String notificationsMentionPlace(String server, String channel) {
+    return '$server – $channel';
+  }
+
+  @override
+  String get notificationsSendReply => 'Send a reply';
+
+  @override
+  String get notificationsRecentActivity => 'Recent activity';
+
+  @override
+  String get notificationsRemoveNotification => 'Remove notification';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -36452,10 +38804,88 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get chatMessageAddReaction => 'Add reaction';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapEditHint => 'Double tap your own message to edit it';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
+  String get messagesMediaGesturesSectionTitle => 'Gestures';
+
+  @override
+  String get messagesMediaGesturesSectionDescription =>
+      'Configure double tap and swipe on messages.';
+
+  @override
+  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+
+  @override
+  String get messagesMediaGesturesReactionDescription =>
+      'Used when double tap is set to add a reaction.';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionReactDescription =>
+      'Adds your default double-tap emoji as a reaction.';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionEditDescription =>
+      'Opens the editor on messages you sent. Other messages are unchanged.';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionNoneDescription =>
+      'Double tap is disabled.';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftLabel =>
+      'Swipe right to left';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
+      'Swipe a message to reply, with hold to edit your own messages.';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
+      'Show channel details';
+
+  @override
+  String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
+      'Swipe a message or tap the channel header to open channel details in a side panel.';
+
+  @override
   String get chatMessageEdit => 'Edit message';
 
   @override
   String get chatMessageReply => 'Reply';
+
+  @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
 
   @override
   String get chatMessageForward => 'Forward';
@@ -36785,6 +39215,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get chatMessageDeleteAttachment => 'Delete attachment';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Edit alt text';
 
   @override
@@ -36842,6 +39276,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get chatMessagesLoadError => 'Couldn\'t load messages.';
 
   @override
+  String get chatMessagesFailedToLoad => 'Messages failed to load';
+
+  @override
   String get chatReplyMentionOverrideTitle => 'Override mention preference?';
 
   @override
@@ -36882,6 +39319,12 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get chatEditNoChanges => 'No changes to save';
+
+  @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
 
   @override
   String get chatChannelNotReady =>
@@ -36992,6 +39435,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get composerAutocompleteStickersHeading => 'Stickers';
+
+  @override
+  String get composerAutocompleteEmojisHeading => 'Emojis';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIFs';
@@ -37242,6 +39688,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
       'Are you sure you want to remove all reactions from this message?';
+
+  @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Unpin message';
@@ -38622,6 +41075,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get chatAttachmentLibraryPermissionSettings => 'Open settings';
 
   @override
+  String get chatAttachmentLibraryLimitedBody =>
+      'Only photos and videos you chose to share are shown here.';
+
+  @override
+  String get chatAttachmentLibraryLimitedManage => 'Manage';
+
+  @override
   String messageAccessibilityLabel(String author, String summary) {
     return '$author, $summary';
   }
@@ -39101,6 +41561,186 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get premiumPerkVideoQualityStock => 'Up to 4K/60fps';
+
+  @override
+  String storePlutoniumPriceLine(String monthly, String yearly) {
+    return '$monthly or $yearly';
+  }
+
+  @override
+  String get storePlutoniumMonthSuffix => '/mo';
+
+  @override
+  String get storePlutoniumYearSuffix => '/yr';
+
+  @override
+  String get storePlutoniumPriceOr => 'or';
+
+  @override
+  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+
+  @override
+  String get storePlutoniumEmojiBody =>
+      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+
+  @override
+  String get storePlutoniumProfileTitle => 'A profile that stands out';
+
+  @override
+  String get storePlutoniumProfileBody =>
+      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+
+  @override
+  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+
+  @override
+  String get storePlutoniumFilesBody =>
+      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+
+  @override
+  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+
+  @override
+  String get storePlutoniumCompareMobileNote =>
+      'Not all of these features are in the mobile app. Some are only available on desktop.';
+
+  @override
+  String get storePlutoniumNotAvailable => 'Not available';
+
+  @override
+  String get storePlutoniumAvailable => 'Available';
+
+  @override
+  String get storePlutoniumCompareTag =>
+      'Pick the 4-digit number after your username*';
+
+  @override
+  String get storePlutoniumCompareProfile =>
+      'A separate profile for each community';
+
+  @override
+  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+
+  @override
+  String get storePlutoniumCompareBackgrounds =>
+      'Video call backgrounds you can save';
+
+  @override
+  String get storePlutoniumCompareCommunities => 'Communities you can join';
+
+  @override
+  String get storePlutoniumCompareCharacters =>
+      'Characters in a single message';
+
+  @override
+  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+
+  @override
+  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+
+  @override
+  String get storePlutoniumCompareSavedMedia =>
+      'Media items you can save for later';
+
+  @override
+  String get storePlutoniumCompareAnimatedEmoji =>
+      'Use animated emojis in messages';
+
+  @override
+  String get storePlutoniumCompareCustomEmoji =>
+      'Use custom emojis and stickers in any community';
+
+  @override
+  String get storePlutoniumCompareVideo =>
+      'Video call and screen share quality';
+
+  @override
+  String get storePlutoniumCompareAvatar =>
+      'Animated avatar and profile banner';
+
+  @override
+  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+
+  @override
+  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+
+  @override
+  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+
+  @override
+  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+
+  @override
+  String get storePlutoniumTagFootnote =>
+      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+
+  @override
+  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+
+  @override
+  String get storePlutoniumDonatePrompt =>
+      'Just want to support Fluxer\'s open source development? ';
+
+  @override
+  String get storePlutoniumDonateLink => 'Donate instead.';
+
+  @override
+  String get storePlutoniumHighlightsLead =>
+      'Subscribing funds Fluxer and unlocks';
+
+  @override
+  String get storePlutoniumHighlightEmoji =>
+      'Custom emoji and stickers in any chat';
+
+  @override
+  String get storePlutoniumHighlightProfile =>
+      'Animated profile, badge, and custom 4-digit number';
+
+  @override
+  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+
+  @override
+  String get storePlutoniumHighlightMessages =>
+      'Send messages up to 4,000 characters';
+
+  @override
+  String get storePlutoniumHighlightCommunityProfile =>
+      'A separate profile for each community';
+
+  @override
+  String get storePlutoniumHighlightsMore => 'And more';
+
+  @override
+  String get storePlutoniumRenewsThroughPlay =>
+      'Renews automatically through Google Play until you cancel.';
+
+  @override
+  String get storePlutoniumRenewsThroughAppStore =>
+      'Renews automatically through the App Store until you cancel.';
+
+  @override
+  String get storePlutoniumRestorePurchases => 'Restore purchases';
+
+  @override
+  String get storePlutoniumAlreadySubscribed =>
+      'You already have a Fluxer Plutonium subscription.';
+
+  @override
+  String storePlutoniumSavePercent(int percent) {
+    return 'Save $percent%';
+  }
+
+  @override
+  String get storePlutoniumWaiting =>
+      'Purchase received. Plutonium will show here once it activates.';
+
+  @override
+  String get storePlutoniumUnavailable =>
+      'Subscriptions in the app aren\'t available on this device yet.';
+
+  @override
+  String get storePlutoniumVisionaryStatus =>
+      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
 
   @override
   String get userSettingsNavPrivacyDashboard => 'Privacy dashboard';
@@ -39672,6 +42312,61 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get defaultAppsWebBrowserExternal => 'External browser';
 
   @override
+  String get userSettingsNavAppIcon => 'App icon';
+
+  @override
+  String get appIconSectionTitle => 'App icon';
+
+  @override
+  String get appIconSectionDescription =>
+      'Choose which icon appears on your home screen.';
+
+  @override
+  String get appIconSectionDescriptionAndroid =>
+      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+
+  @override
+  String get appIconAndroidChangeTitle => 'Change app icon?';
+
+  @override
+  String get appIconAndroidChangeDescription =>
+      'Fluxer will restart to apply the new home screen icon.';
+
+  @override
+  String get appIconAndroidChangeConfirm => 'Change icon';
+
+  @override
+  String get appIconOptionDefault => 'Default';
+
+  @override
+  String get appIconOptionStarfield => 'Starfield';
+
+  @override
+  String get appIconOptionSweden => 'Sweden';
+
+  @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
+  String get appIconUnsupported =>
+      'Changing the app icon is not available on this device.';
+
+  @override
   String get userSettingsNavAdvanced => 'Advanced';
 
   @override
@@ -39688,6 +42383,28 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get advancedCrashReportingDescription =>
       'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+
+  @override
+  String get observabilityReportingConsentTitle => 'Help fix crashes';
+
+  @override
+  String get observabilityReportingConsentSubtitle =>
+      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+
+  @override
+  String get observabilityReportingConsentBody =>
+      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+
+  @override
+  String observabilityReportingConsentEnableLater(String reportingToggle) {
+    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+  }
+
+  @override
+  String get observabilityReportingConsentAgree => 'Send crash reports';
+
+  @override
+  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -40261,6 +42978,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get userSettingsNavLogOut => 'Log out';
 
   @override
+  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+
+  @override
+  String get userSettingsLogOutConfirmDescription =>
+      'You can sign back in at any time.';
+
+  @override
   String get quickSwitcherTabSearch => 'Search';
 
   @override
@@ -40288,6 +43012,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get quickSwitcherSectionTextChannels => 'Text channels';
+
+  @override
+  String get quickSwitcherSectionThreads => 'Threads';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'Voice channels';
@@ -40328,6 +43055,12 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get savedMessagesRemoveTooltip => 'Remove bookmark';
+
+  @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
 
   @override
   String get quickSwitcherMentionsLabel => 'Mentions';
@@ -40479,6 +43212,41 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get instanceConnectFailed => 'Failed to connect to instance';
+
+  @override
+  String instanceConnectFailedDomain(String domain) {
+    return 'Couldn\'t connect to $domain. Try again.';
+  }
+
+  @override
+  String get instanceInvalidDiscoveryResponse =>
+      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+
+  @override
+  String instanceOutdatedForClient(String domain) {
+    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+  }
+
+  @override
+  String instanceRequiresNewerClient(String domain) {
+    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+  }
+
+  @override
+  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+
+  @override
+  String get instanceCompatibilityRetry => 'Try again';
+
+  @override
+  String get instanceCompatibilityUpdateApp => 'Update app';
+
+  @override
+  String get instanceCompatibilityStatusPagePrompt =>
+      'Check the status page for updates.';
+
+  @override
+  String get instanceCompatibilityStatusPageLink => 'status page';
 
   @override
   String get recentInstances => 'Recent instances';
@@ -40858,6 +43626,19 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get guildNavbarChannelTypeSelection => 'Channel type selection';
+
+  @override
+  String get guildNavbarPrivateChannel => 'Private channel';
+
+  @override
+  String get guildNavbarPrivateChannelDescription =>
+      'Only selected members and roles will be able to view this channel.';
+
+  @override
+  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+
+  @override
+  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
 
   @override
   String get guildNavbarCreateCategory => 'Create category';
@@ -41513,6 +44294,355 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get permissionSetVoiceRegion => 'Set voice region';
 
   @override
+  String get permissionManageThreads => 'Manage threads';
+
+  @override
+  String get permissionManageThreadsDescription =>
+      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+
+  @override
+  String get permissionCreatePublicThreads => 'Create public threads';
+
+  @override
+  String get permissionCreatePublicThreadsDescription =>
+      'Start threads that everyone who can view the channel can see.';
+
+  @override
+  String get permissionCreatePrivateThreads => 'Create private threads';
+
+  @override
+  String get permissionCreatePrivateThreadsDescription =>
+      'Start invite-only threads.';
+
+  @override
+  String get permissionSendMessagesInThreads => 'Send messages in threads';
+
+  @override
+  String get permissionSendMessagesInThreadsDescription =>
+      'Send messages in threads and forum posts.';
+
+  @override
+  String get threadErrorArchived => 'This thread is archived.';
+
+  @override
+  String get threadErrorLocked =>
+      'This thread is locked. Only moderators can post or reopen it.';
+
+  @override
+  String get threadErrorAlreadyCreated =>
+      'A thread already exists for this message.';
+
+  @override
+  String get threadErrorMaxActiveThreads =>
+      'This community has reached its limit of active threads.';
+
+  @override
+  String get threadErrorMaxMembers =>
+      'This thread has reached its member limit.';
+
+  @override
+  String get threadErrorMaxPinnedPosts =>
+      'Only one post can be pinned in this forum.';
+
+  @override
+  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+
+  @override
+  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+
+  @override
+  String get threadErrorNoTagsForEveryone =>
+      'Add a tag everyone can use before requiring tags.';
+
+  @override
+  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+
+  @override
+  String get threadErrorUnknownTag =>
+      'One of the selected tags no longer exists.';
+
+  @override
+  String get threadErrorInvalidNotificationSettings =>
+      'Those notification settings are not valid for a thread.';
+
+  @override
+  String get threadErrorSearchIndexNotReady =>
+      'Posts are still being indexed. Try again in a moment.';
+
+  @override
+  String get threadErrorInvalidChannelType =>
+      'This action is not available in this channel.';
+
+  @override
+  String get threadCreate => 'Create thread';
+
+  @override
+  String get threadName => 'Thread name';
+
+  @override
+  String get threadNameRequired => 'Give the thread a name.';
+
+  @override
+  String get threadNewThreadPlaceholder => 'New thread';
+
+  @override
+  String get threadPrivate => 'Private thread';
+
+  @override
+  String get threadPrivateDescription =>
+      'Only people you invite and moderators can see this thread.';
+
+  @override
+  String get threadStarterMessage => 'Message';
+
+  @override
+  String get threadStarterMessagePlaceholder =>
+      'Enter a message to start the conversation!';
+
+  @override
+  String threadCreateCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can start another thread in $seconds seconds.',
+      one: 'You can start another thread in 1 second.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String threadCreateFailed(String detail) {
+    return 'Could not start the thread: $detail';
+  }
+
+  @override
+  String get threadBrowserTitle => 'Threads';
+
+  @override
+  String get threadBrowserActive => 'Active';
+
+  @override
+  String get threadBrowserArchived => 'Closed';
+
+  @override
+  String get threadBrowserJoined => 'Joined';
+
+  @override
+  String get threadBrowserOtherActive => 'Other active threads';
+
+  @override
+  String get threadBrowserPublic => 'Public threads';
+
+  @override
+  String get threadBrowserPrivate => 'Private threads';
+
+  @override
+  String get threadBrowserEmpty =>
+      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+
+  @override
+  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+
+  @override
+  String get threadBrowserLoadMore => 'Load more';
+
+  @override
+  String get threadBrowserSearch => 'Search threads';
+
+  @override
+  String get threadBrowserSearchEmpty => 'No threads match';
+
+  @override
+  String get threadBrowserSearchEmptyHint =>
+      'Try a different name or check the other tab.';
+
+  @override
+  String get threadBrowserSearchFailed =>
+      'Couldn\'t search threads. Try again later.';
+
+  @override
+  String get threadBrowserSearchIndexing =>
+      'Search is getting ready for this community. Trying again shortly...';
+
+  @override
+  String threadMessageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages',
+      one: '1 message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadFailedToMentionSomeRoles =>
+      'Some mentioned roles were not added to this thread.';
+
+  @override
+  String get threadMembers => 'Thread members';
+
+  @override
+  String threadMembersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+
+  @override
+  String threadRemoveMember(String name) {
+    return 'Remove $name from thread';
+  }
+
+  @override
+  String get threadJoin => 'Join thread';
+
+  @override
+  String get threadLeave => 'Leave thread';
+
+  @override
+  String get threadJoinNotice =>
+      'Join this thread to follow it in your channel list and get notifications.';
+
+  @override
+  String get threadArchivedNotice =>
+      'This thread is closed. Sending a message will open it again.';
+
+  @override
+  String get threadLockedNotice =>
+      'This thread is locked. Only moderators can send messages.';
+
+  @override
+  String get threadArchive => 'Close thread';
+
+  @override
+  String get threadUnarchive => 'Open thread again';
+
+  @override
+  String get threadLock => 'Lock thread';
+
+  @override
+  String get threadUnlock => 'Unlock thread';
+
+  @override
+  String get threadDelete => 'Delete thread';
+
+  @override
+  String threadDeleteConfirm(String threadName) {
+    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+  }
+
+  @override
+  String get threadDeleted => 'Thread deleted';
+
+  @override
+  String get threadMarkAsRead => 'Mark as read';
+
+  @override
+  String get threadMute => 'Mute thread';
+
+  @override
+  String get threadUnmute => 'Unmute thread';
+
+  @override
+  String get threadMuted => 'Thread muted';
+
+  @override
+  String get threadUnmuted => 'Thread unmuted';
+
+  @override
+  String get threadNotificationSettings => 'Notification settings';
+
+  @override
+  String get threadNotificationParentDefault => 'Use channel default';
+
+  @override
+  String get threadCopyLink => 'Copy link';
+
+  @override
+  String get threadCopyId => 'Copy thread ID';
+
+  @override
+  String get threadMoreOptions => 'More options';
+
+  @override
+  String get threadSettings => 'Thread settings';
+
+  @override
+  String get threadSettingsSaved => 'Thread settings saved';
+
+  @override
+  String get threadAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get threadAutoArchiveDescription =>
+      'The thread stops showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+
+  @override
+  String get threadDefaultAutoArchiveDescription =>
+      'New threads stop showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultSlowmode => 'Default thread slowmode';
+
+  @override
+  String get threadAutoArchiveOneHour => '1 Hour';
+
+  @override
+  String get threadAutoArchiveOneDay => '24 Hours';
+
+  @override
+  String get threadAutoArchiveThreeDays => '3 Days';
+
+  @override
+  String get threadAutoArchiveOneWeek => '1 Week';
+
+  @override
+  String get threadInvitable => 'Allow anyone to invite';
+
+  @override
+  String get threadInvitableDescription =>
+      'Members of this private thread can add other people.';
+
+  @override
+  String threadStartedBy(String name) {
+    return 'Started by $name';
+  }
+
+  @override
+  String get threadStarterDeleted => 'Original message was deleted.';
+
+  @override
+  String systemThreadCreated(
+    String username,
+    String threadLink,
+    String allThreadsLink,
+  ) {
+    return '$username started a thread: $threadLink. See $allThreadsLink.';
+  }
+
+  @override
+  String get systemThreadCreatedAllThreadsLink => 'all threads';
+
+  @override
+  String get systemThreadCreatedThreadFallback => 'a thread';
+
+  @override
+  String systemPreviewThreadCreated(String username) {
+    return '$username started a thread.';
+  }
+
+  @override
   String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
 
   @override
@@ -41630,6 +44760,15 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get auditLogActionChannelDelete => 'Channel deleted';
 
   @override
+  String get auditLogActionThreadCreate => 'Thread created';
+
+  @override
+  String get auditLogActionThreadUpdate => 'Thread updated';
+
+  @override
+  String get auditLogActionThreadDelete => 'Thread deleted';
+
+  @override
   String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
 
   @override
@@ -41742,6 +44881,21 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
     return '$actor deleted the channel $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadCreate(String actor, String target) {
+    return '$actor started the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadUpdate(String actor, String target) {
+    return '$actor updated the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadDelete(String actor, String target) {
+    return '$actor deleted the thread $target.';
   }
 
   @override
@@ -42686,6 +45840,20 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get guildSettingsCommunitySettings => 'Community settings';
 
   @override
+  String get guildSettingsDeleteCommunity => 'Delete community';
+
+  @override
+  String get guildSettingsDeleteCommunityConfirm =>
+      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+
+  @override
+  String get guildSettingsCommunityDeleted => 'Community deleted';
+
+  @override
+  String get guildSettingsDeleteCommunityFailed =>
+      'Couldn\'t delete this community';
+
+  @override
   String get guildSettingsCategoryExpressions => 'Expressions';
 
   @override
@@ -43567,7 +46735,408 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get homeQuickActionDms => 'DMs';
 
   @override
+  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+
+  @override
+  String get assistantNotInVoice => 'You\'re not in a call.';
+
+  @override
+  String get assistantNotFound => 'Fluxer could not find that.';
+
+  @override
+  String get assistantDmsDisabled =>
+      'Direct messages are disabled on this instance.';
+
+  @override
+  String get assistantFailed => 'Fluxer could not complete that.';
+
+  @override
+  String get assistantOkMuted => 'Muted.';
+
+  @override
+  String get assistantOkUnmuted => 'Unmuted.';
+
+  @override
+  String get assistantOkLeftVoice => 'Left voice.';
+
+  @override
+  String get assistantOkJoinedVoice => 'Joining voice.';
+
+  @override
+  String get assistantOkStartedCall => 'Starting the call.';
+
+  @override
+  String assistantOkStatusSet(String status) {
+    return 'Status set to $status.';
+  }
+
+  @override
+  String get assistantOkOpened => 'Opening Fluxer.';
+
+  @override
+  String get assistantOkMessageSent => 'Message sent.';
+
+  @override
+  String get assistantOkCustomStatusSet => 'Custom status updated.';
+
+  @override
+  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+
+  @override
+  String get guildNavbarAnnouncementChannel => 'Announcement';
+
+  @override
+  String get guildNavbarAnnouncementChannelDescription =>
+      'Post updates other communities can follow';
+
+  @override
+  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+
+  @override
+  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+
+  @override
+  String get channelSettingsAnnouncementChannelDescription =>
+      'Lets other communities follow this channel and get copies of what you publish.';
+
+  @override
+  String get channelSettingsStopAnnouncementTitle =>
+      'Stop being an announcement channel?';
+
+  @override
+  String channelSettingsStopAnnouncementBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+      one:
+          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get channelSettingsStopAnnouncementUnknown =>
+      'Converting this channel to a text channel removes every channel that follows it.';
+
+  @override
+  String get channelSettingsConvertChannel => 'Convert';
+
+  @override
+  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+
+  @override
+  String get channelSettingsChannelHasFollowers =>
+      'This channel still has followers. Remove those follows before converting it.';
+
+  @override
+  String get channelMenuFollow => 'Follow channel';
+
+  @override
+  String get channelFollowTitle => 'Follow this channel';
+
+  @override
+  String get channelFollowBody =>
+      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+
+  @override
+  String get channelFollowCommunity => 'Community';
+
+  @override
+  String get channelFollowChannel => 'Channel';
+
+  @override
+  String get channelFollowAgeWarning =>
+      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+
+  @override
+  String get channelFollowContentWarning =>
+      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+
+  @override
+  String get channelFollowHiddenHint =>
+      'Communities and channels where you can\'t manage webhooks are hidden.';
+
+  @override
+  String get channelFollowEmpty =>
+      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+
+  @override
+  String get channelFollowSubmit => 'Follow';
+
+  @override
+  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+
+  @override
+  String get channelFollowSuccessTitle => 'Updates are on their way!';
+
+  @override
+  String channelFollowSuccessBody(String sourceName, String targetName) {
+    return 'Messages published in $sourceName will show up in #$targetName.';
+  }
+
+  @override
+  String get channelFollowSuccessDismiss => 'Got it!';
+
+  @override
+  String get channelFollowBarrier =>
+      'Follow to get these announcements in a channel you choose.';
+
+  @override
+  String get channelHeaderFollow => 'Follow channel';
+
+  @override
+  String get chatMessagePublish => 'Publish';
+
+  @override
+  String get chatMessagePublished => 'Published';
+
+  @override
+  String get chatMessagePublishConfirmTitle => 'Publish message?';
+
+  @override
+  String get chatMessagePublishConfirmBody =>
+      'This sends a copy to every channel that follows this one.';
+
+  @override
+  String get chatMessagePublishedToast => 'Message published';
+
+  @override
+  String get chatMessageAlreadyPublished =>
+      'This message is already published.';
+
+  @override
+  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+
+  @override
+  String get chatMessagePublishFailedBody =>
+      'Something went wrong. Try again in a moment.';
+
+  @override
+  String get chatMessagePublishLimitTitle => 'Slow down';
+
+  @override
+  String chatMessagePublishLimitBody(String duration) {
+    return 'You can publish again in $duration.';
+  }
+
+  @override
+  String get chatMessagePublishLimitUnknown =>
+      'You are publishing too quickly. Try again in a moment.';
+
+  @override
+  String get chatMessageDeletePublished =>
+      'This also removes the copies that were sent to channels following this one.';
+
+  @override
+  String get chatMessageEditPublishedTitle => 'Edit published message?';
+
+  @override
+  String get chatMessageEditPublishedBody =>
+      'This updates the copies that were sent to channels following this one.';
+
+  @override
+  String get chatMessageEditPublishedSave => 'Save';
+
+  @override
+  String get chatMessageEditLimitTitle => 'Slow down';
+
+  @override
+  String chatMessageEditLimitBody(String duration) {
+    return 'You can edit this published message again in $duration.';
+  }
+
+  @override
+  String get chatMessageEditLimitUnknown =>
+      'You are editing this published message too quickly. Try again in a moment.';
+
+  @override
+  String get chatMessageOriginalDeleted => '[Original message deleted]';
+
+  @override
+  String get userTagCommunity => 'Community';
+
+  @override
+  String systemFollowAdd(String username, String source) {
+    return '$username followed $source into this channel. Messages published there will appear here.';
+  }
+
+  @override
+  String systemPreviewFollowAdd(String username, String source) {
+    return '$username followed $source into this channel.';
+  }
+
+  @override
+  String get publishNudgeNotSent => 'Not sent to followers yet.';
+
+  @override
+  String get publishNudgeHideForever => 'Don\'t show again';
+
+  @override
+  String get publishNudgeDismiss => 'Dismiss';
+
+  @override
+  String get channelSettingsFollowedChannels => 'Followed channels';
+
+  @override
+  String get channelSettingsFollowedChannelsDescription =>
+      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+
+  @override
+  String get guildSettingsFollowedChannelsDescription =>
+      'Announcement channels followed by channels in this community.';
+
+  @override
+  String channelSettingsFollowedFrom(String guildName, String channelName) {
+    return 'From $guildName #$channelName';
+  }
+
+  @override
+  String get channelSettingsFollowedPaused =>
+      'Updates are paused because the source channel is no longer available.';
+
+  @override
+  String channelSettingsUnfollowTitle(String name) {
+    return 'Unfollow $name?';
+  }
+
+  @override
+  String get channelSettingsUnfollowBody =>
+      'This channel will stop receiving copies from that announcement channel.';
+
+  @override
+  String get channelSettingsUnfollow => 'Unfollow';
+
+  @override
+  String get crosspostCommunityTitle => 'Community';
+
+  @override
+  String get crosspostGoToCommunity => 'Go to community';
+
+  @override
+  String get crosspostJoinCommunity => 'Join community';
+
+  @override
+  String get crosspostSourceFailed =>
+      'Couldn\'t load this community. Try again in a moment.';
+
+  @override
+  String crosspostMembers(int count) {
+    return '$count members';
+  }
+
+  @override
+  String crosspostOnline(int count) {
+    return '$count online';
+  }
+
+  @override
+  String durationMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seconds',
+      one: '1 second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get channelUnsupportedTitle => 'Unsupported channel type';
+
+  @override
+  String get channelUnsupportedBody =>
+      'This version of the app doesn\'t support this channel type.';
+
+  @override
+  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+
+  @override
+  String get forumChannelTypeForum => 'Forum';
+
+  @override
+  String get forumChannelTypeForumDescription =>
+      'Posts organized by topic and tags';
+
+  @override
+  String get forumChannelTypeMedia => 'Media';
+
+  @override
+  String get forumChannelTypeMediaDescription =>
+      'Posts built around images and videos';
+
+  @override
+  String get forumNewPost => 'New post';
+
+  @override
+  String get forumNewMediaPost => 'New media post';
+
+  @override
+  String get forumSearchPosts => 'Search posts';
+
+  @override
+  String get forumViewOptions => 'Sort and view';
+
+  @override
+  String get forumSearchIndexing =>
+      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+
+  @override
+  String get forumNoPosts => 'There are no posts yet';
+
+  @override
+  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+
+  @override
+  String get forumNoSearchResults => 'No posts match your search';
+
+  @override
+  String get forumNoSearchResultsHint =>
+      'Try different words or clear the tag filter.';
+
+  @override
+  String get forumCreateFirstPost => 'Create the first post';
+
+  @override
+  String get forumOlderPosts => 'Older posts';
+
+  @override
+  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+
+  @override
+  String get forumRetry => 'Try again';
+
+  @override
+  String get forumPostPinned => 'Pinned';
+
+  @override
+  String get forumPostLocked => 'Locked';
+
+  @override
+  String get forumPostArchived => 'Archived';
+
+  @override
   String get forumPostNewBadge => 'New';
+
+  @override
+  String get forumPostStarterDeleted => 'The original message was deleted.';
+
+  @override
+  String forumPostSnippet(String author, String content) {
+    return '$author: $content';
+  }
 
   @override
   String forumPostNewMessages(int count) {
@@ -43578,6 +47147,311 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       one: '$count new message',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get forumPostReact => 'Add the default reaction';
+
+  @override
+  String get forumOpenPost => 'Open post';
+
+  @override
+  String get forumEditTags => 'Edit tags';
+
+  @override
+  String get forumSaveTags => 'Save tags';
+
+  @override
+  String forumTagsLimitHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pick up to $count tags.',
+      one: 'Pick up to 1 tag.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPinPost => 'Pin post';
+
+  @override
+  String get forumUnpinPost => 'Unpin post';
+
+  @override
+  String get forumMarkPostRead => 'Mark as read';
+
+  @override
+  String get forumCopyPostLink => 'Copy link';
+
+  @override
+  String get forumPostGuidelines => 'Post guidelines';
+
+  @override
+  String get forumGuidelinesPlaceholder =>
+      'Tell people what to post here and how to post it.';
+
+  @override
+  String get forumPostTitle => 'Title';
+
+  @override
+  String get forumPostMessage => 'Message';
+
+  @override
+  String get forumPostMessagePlaceholder =>
+      'Write the first message of your post';
+
+  @override
+  String get forumPostMediaPlaceholder => 'Add a caption';
+
+  @override
+  String get forumPostTags => 'Tags';
+
+  @override
+  String get forumPostTagsRequired => 'Tags (required)';
+
+  @override
+  String get forumPostAddMedia => 'Add media';
+
+  @override
+  String get forumPostAddFile => 'Add file';
+
+  @override
+  String get forumPostRemoveAttachment => 'Remove attachment';
+
+  @override
+  String get forumPostSubmit => 'Post';
+
+  @override
+  String get forumPostTitleRequired => 'Give your post a title.';
+
+  @override
+  String get forumPostMediaRequired =>
+      'Add at least one image or video to post here.';
+
+  @override
+  String get forumPostContentRequired => 'Write a message or add a file.';
+
+  @override
+  String get forumSortLatestActivity => 'Recently active';
+
+  @override
+  String get forumSortCreationTime => 'Date posted';
+
+  @override
+  String get forumLayoutList => 'List view';
+
+  @override
+  String get forumLayoutGallery => 'Gallery view';
+
+  @override
+  String get forumNewPostsUnread => 'Show unread for new posts';
+
+  @override
+  String get forumNewPostsUnreadDescription =>
+      'Mark this channel unread when someone creates a post.';
+
+  @override
+  String get forumPostSlowmode => 'Post slowmode';
+
+  @override
+  String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
+    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+  }
+
+  @override
+  String get forumMessageSlowmode => 'Message slowmode in posts';
+
+  @override
+  String get forumMessageSlowmodeDescription =>
+      'Slowmode applied to messages in new posts.';
+
+  @override
+  String get forumDefaultAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get forumDefaultAutoArchiveDescription =>
+      'New posts are archived after this long without activity.';
+
+  @override
+  String get forumDefaultReaction => 'Default reaction';
+
+  @override
+  String get forumSetDefaultReaction => 'Pick an emoji';
+
+  @override
+  String get forumChangeDefaultReaction => 'Change';
+
+  @override
+  String get forumRemoveDefaultReaction => 'Remove';
+
+  @override
+  String get forumDefaultSortOrder => 'Default sort order';
+
+  @override
+  String get forumDefaultLayout => 'Default layout';
+
+  @override
+  String get forumTagMatchSetting => 'Tag filter';
+
+  @override
+  String get forumTagMatchSome => 'Match any selected tag';
+
+  @override
+  String get forumTagMatchAll => 'Match all selected tags';
+
+  @override
+  String get forumRequireTag => 'Require tags';
+
+  @override
+  String get forumRequireTagDescription =>
+      'People must pick at least one tag when they create a post.';
+
+  @override
+  String get forumHideMediaDownloads => 'Hide media download options';
+
+  @override
+  String get forumHideMediaDownloadsDescription =>
+      'Hide download, open in browser and copy link for images and videos in posts.';
+
+  @override
+  String forumTagsTitle(int count, int max) {
+    return 'Tags ($count/$max)';
+  }
+
+  @override
+  String get forumTagsDescription =>
+      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+
+  @override
+  String get forumCreateTag => 'Create tag';
+
+  @override
+  String get forumEditTag => 'Edit tag';
+
+  @override
+  String get forumSaveTag => 'Save tag';
+
+  @override
+  String get forumDeleteTag => 'Delete tag';
+
+  @override
+  String get forumTagName => 'Tag name';
+
+  @override
+  String get forumTagEmoji => 'Emoji';
+
+  @override
+  String get forumTagRemoveEmoji => 'Remove emoji';
+
+  @override
+  String get forumTagModerated => 'Only moderators can apply';
+
+  @override
+  String get forumTagModeratedDescription =>
+      'Only members who can manage threads can apply or remove this tag.';
+
+  @override
+  String get forumTagModeratedBadge => 'Moderated';
+
+  @override
+  String forumPostCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can post again in $seconds seconds.',
+      one: 'You can post again in 1 second.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voiceP2pStartTitle => 'Start in P2P mode?';
+
+  @override
+  String voiceP2pStartDescription(int maxParticipants) {
+    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+  }
+
+  @override
+  String get voiceP2pStartConfirm => 'Start in P2P mode';
+
+  @override
+  String get voiceP2pStartStandard => 'Start standard call';
+
+  @override
+  String get voiceP2pJoinTitle => 'Join a P2P call?';
+
+  @override
+  String voiceP2pJoinDescription(int maxParticipants) {
+    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+  }
+
+  @override
+  String voiceP2pPinnedJoinDescription(int maxParticipants) {
+    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+  }
+
+  @override
+  String get voiceP2pJoinConfirm => 'Join';
+
+  @override
+  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+
+  @override
+  String get voiceP2pAlwaysAgreeSettingLabel =>
+      'Always agree to join P2P calls';
+
+  @override
+  String get voiceP2pAlwaysAgreeSettingDescription =>
+      'Join P2P calls without asking. Other participants can see your IP address.';
+
+  @override
+  String get voiceP2pIndicatorLabel => 'P2P';
+
+  @override
+  String get voiceP2pIndicatorDescription =>
+      'Direct connection. Media is encrypted between participants.';
+
+  @override
+  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+
+  @override
+  String get voiceP2pSwitchToStandardDescription =>
+      'Everyone in the call moves to a standard call through the server.';
+
+  @override
+  String get voiceP2pPeerFailedDescription =>
+      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+
+  @override
+  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+
+  @override
+  String get voiceP2pConsentRequiredError =>
+      'This call is P2P and needs your agreement to join.';
+
+  @override
+  String get voiceChannelFullError => 'This call is full.';
+
+  @override
+  String get voiceP2pScreenShareUnavailable =>
+      'Screen sharing from this device is not available in P2P calls.';
+
+  @override
+  String get channelMenuJoinP2p => 'Start P2P call';
+
+  @override
+  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+
+  @override
+  String channelSettingsRtcP2pDescription(int maxParticipants) {
+    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+  }
+
+  @override
+  String voiceP2pPeerFailedTitle(String name) {
+    return 'Cannot connect directly to $name';
   }
 
   @override

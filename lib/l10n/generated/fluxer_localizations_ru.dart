@@ -300,7 +300,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get register => 'Регистрация';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'ИЛИ';
 
   @override
   String get cancel => 'Отмена';
@@ -345,7 +345,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get next => 'Далее';
 
   @override
-  String get create => 'Create';
+  String get create => 'Создать';
 
   @override
   String get mfaTitle => 'Двухфакторная аутентификация';
@@ -389,7 +389,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String accountSignOutTitle(String identifier) {
-    return 'Sign out of $identifier?';
+    return 'Выйти из аккаунта $identifier?';
   }
 
   @override
@@ -986,7 +986,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get inviteAcceptSomeone => 'кто-то';
 
   @override
-  String get mentionUnknownChannel => 'unknown-channel';
+  String get mentionUnknownChannel => 'неизвестный-канал';
 
   @override
   String get channelAccessDeniedTitle => 'Доступ к каналу запрещён';
@@ -1585,20 +1585,21 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Ваш список друзей заполнен, или заполнен список другого пользователя. Удалите кого-нибудь и попробуйте снова.';
 
   @override
-  String get addFriendSendFailedTitle => 'Couldn\'t send friend request';
+  String get addFriendSendFailedTitle =>
+      'Не удалось отправить запрос на добавление в друзья';
 
   @override
   String get addFriendSendFailedMessage =>
-      'Couldn\'t send the friend request. Try again.';
+      'Не удалось отправить запрос на добавление в друзья. Повторите попытку.';
 
   @override
-  String get userTagBot => 'BOT';
+  String get userTagBot => 'БОТ';
 
   @override
   String get userTagSystem => 'Система';
 
   @override
-  String get userTagOp => 'OP';
+  String get userTagOp => 'ТС';
 
   @override
   String get emojiSearchPlaceholder => 'Найдите эмодзи своей мечты';
@@ -1865,10 +1866,12 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get crop => 'Обрезать';
 
   @override
-  String get cropTouchHint => 'Pinch to zoom, drag to reposition';
+  String get cropTouchHint =>
+      'Сведите пальцы для масштабирования, перетащите для перемещения';
 
   @override
-  String get cropMouseHint => 'Drag corners to resize, drag inside to move';
+  String get cropMouseHint =>
+      'Тяните за углы, чтобы изменить размер, и внутри, чтобы переместить';
 
   @override
   String get changeYourFluxerTag => 'Изменить имя пользователя';
@@ -3264,7 +3267,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildSettingsRolesTab => 'Роли';
 
   @override
-  String get memberRolesConfirmOk => 'OK';
+  String get memberRolesConfirmOk => 'ОК';
 
   @override
   String get userProfileLocalTime => 'Местное время';
@@ -4221,7 +4224,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get chatAttachmentSpoiler => 'Спойлер';
 
   @override
-  String get chatMediaSpoilerOverlayLabel => 'SPOILER';
+  String get chatMediaSpoilerOverlayLabel => 'СПОЙЛЕР';
 
   @override
   String get chatMediaSpoilerRevealLabel => 'Показать скрытое';
@@ -4602,93 +4605,98 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Не удалось синхронизировать тему с вашей учетной записью. Пожалуйста, попробуйте еще раз.';
 
   @override
-  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+  String get lookAndFeelThemeColorsTitle => 'Цвета темы';
 
   @override
   String get lookAndFeelThemeColorsConfigureDescription =>
-      'Customize individual theme colors for this device.';
+      'Настройте отдельные цвета темы для этого устройства.';
 
   @override
   String lookAndFeelThemeColorsEditingMode(String mode) {
-    return 'Editing $mode';
+    return 'Редактирование: $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+  String get lookAndFeelThemeColorsSyncSectionTitle =>
+      'Синхронизация со «Студией тем»';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioLabel =>
-      'Use colors from Theme Studio';
+      'Использовать цвета из «Студии тем»';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioDescription =>
-      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+      'Когда включено, изменения цветов из «Студии тем» на компьютере применяются на этом устройстве. Когда выключено, это устройство сохраняет собственные цвета.';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioLabel =>
-      'Send color changes to Theme Studio';
+      'Отправлять изменения цветов в «Студию тем»';
 
   @override
   String get lookAndFeelThemeColorsSyncToStudioDescription =>
-      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+      'Когда включено, цвета, которые вы меняете здесь, синхронизируются со «Студией тем» на других ваших устройствах. Когда выключено, «Студия тем» на компьютере сохраняет собственные цвета.';
 
   @override
   String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
-      'Desktop Theme Studio color changes will not apply on this device.';
+      'Изменения цветов из «Студии тем» на компьютере не будут применяться на этом устройстве.';
 
   @override
-  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Основные цвета';
 
   @override
   String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
-      'If you have a chat wallpaper set, you won\'t see this color.';
+      'Если у вас установлены обои чата, этот цвет не будет виден.';
 
   @override
   String lookAndFeelThemeColorsResetForMode(String mode) {
-    return 'Reset all colors for $mode';
+    return 'Сбросить все цвета для режима $mode';
   }
 
   @override
-  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+  String get lookAndFeelThemeColorsResetConfirmTitle => 'Сбросить цвета темы?';
 
   @override
   String lookAndFeelThemeColorsResetConfirmBody(String mode) {
-    return 'This removes your custom color overrides for $mode on this device.';
+    return 'Ваши собственные цвета для режима $mode на этом устройстве будут удалены.';
   }
 
   @override
-  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+  String get lookAndFeelThemeColorsGroupBrandButtons =>
+      'Фирменные цвета и кнопки';
 
   @override
-  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Чат и сообщения';
 
   @override
-  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+  String get lookAndFeelThemeColorsGroupSidebars =>
+      'Боковые панели и навигация';
 
   @override
-  String get lookAndFeelThemeColorsGroupText => 'Text';
+  String get lookAndFeelThemeColorsGroupText => 'Текст';
 
   @override
-  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+  String get lookAndFeelThemeColorsGroupHeaders => 'Заголовки';
 
   @override
-  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+  String get lookAndFeelThemeColorsGroupStatus => 'Статус';
 
   @override
-  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup =>
+      'Встраивания и упоминания';
 
   @override
-  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Акценты и оповещения';
 
   @override
-  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+  String get lookAndFeelThemeColorsGroupControls =>
+      'Поверхности и элементы управления';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Масштаб шрифта чата';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Настройте размер шрифта в чате.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Размер шрифта чата';
@@ -4825,7 +4833,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Когда выключено (по умолчанию), индикаторы набора текста не будут отображаться в канале, который вы просматриваете в данный момент.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'общий';
 
   @override
   String get lookAndFeelKeyboardHintsTitle => 'Подсказки клавиатуры';
@@ -4897,11 +4905,11 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelLabel =>
-      'Open communities to your last channel';
+      'Открывать сообщества на последнем канале';
 
   @override
   String get lookAndFeelOpenCommunitiesToLastChannelDescription =>
-      'Tapping a community takes you straight to the last channel you viewed there. Swipe right to see its channel list.';
+      'При нажатии на сообщество вы сразу попадаете в последний канал, который просматривали в нем. Проведите вправо, чтобы увидеть список его каналов.';
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Список каналов';
@@ -5912,7 +5920,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
-  String get shellResizeSidebar => 'Resize sidebar';
+  String get shellResizeSidebar => 'Изменить размер боковой панели';
 
   @override
   String get voiceConnectionTitle => 'Голосовое соединение';
@@ -6092,10 +6100,11 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Прекратить просмотр текущего потока';
 
   @override
-  String get voiceScreenShareEnterFullscreenTooltip => 'Full screen';
+  String get voiceScreenShareEnterFullscreenTooltip => 'Во весь экран';
 
   @override
-  String get voiceScreenShareExitFullscreenTooltip => 'Exit full screen';
+  String get voiceScreenShareExitFullscreenTooltip =>
+      'Выйти из полноэкранного режима';
 
   @override
   String get voiceOwnScreenShareTitle => 'Вы транслируете';
@@ -6215,22 +6224,22 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String notificationsMentionedYouIn(String author, String place) {
-    return '$author mentioned you in $place:';
+    return '$author упомянул(а) вас в $place:';
   }
 
   @override
   String notificationsRepliedToYouIn(String author, String place) {
-    return '$author replied to you in $place:';
+    return '$author ответил(а) вам в $place:';
   }
 
   @override
   String notificationsMentionedYou(String author) {
-    return '$author mentioned you:';
+    return '$author упомянул(а) вас:';
   }
 
   @override
   String notificationsRepliedToYou(String author) {
-    return '$author replied to you:';
+    return '$author ответил(а) вам:';
   }
 
   @override
@@ -6239,13 +6248,13 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsSendReply => 'Send a reply';
+  String get notificationsSendReply => 'Ответить';
 
   @override
-  String get notificationsRecentActivity => 'Recent activity';
+  String get notificationsRecentActivity => 'Недавняя активность';
 
   @override
-  String get notificationsRemoveNotification => 'Remove notification';
+  String get notificationsRemoveNotification => 'Удалить уведомление';
 
   @override
   String characterCounterRemaining(int remaining) {
@@ -6838,7 +6847,8 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Дважды нажмите на сообщение, чтобы';
 
   @override
-  String get doubleTapEditHint => 'Double tap your own message to edit it';
+  String get doubleTapEditHint =>
+      'Дважды нажмите на свое сообщение, чтобы изменить его';
 
   @override
   String get doubleTapReactionEdit => 'Изменить';
@@ -6851,61 +6861,65 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Выберите эмодзи для двойного касания';
 
   @override
-  String get messagesMediaGesturesSectionTitle => 'Gestures';
+  String get messagesMediaGesturesSectionTitle => 'Жесты';
 
   @override
   String get messagesMediaGesturesSectionDescription =>
-      'Configure double tap and swipe on messages.';
+      'Настройте двойное нажатие и смахивание по сообщениям.';
 
   @override
-  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
+  String get messagesMediaGesturesReactionLabel => 'Эмодзи реакции';
 
   @override
   String get messagesMediaGesturesReactionDescription =>
-      'Used when double tap is set to add a reaction.';
+      'Используется, когда двойное нажатие добавляет реакцию.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesDoubleTapActionLabel =>
+      'Действие при двойном нажатии';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesDoubleTapActionReactName =>
+      'Добавить реакцию';
 
   @override
   String get messagesMediaGesturesDoubleTapActionReactDescription =>
-      'Adds your default double-tap emoji as a reaction.';
+      'Добавляет ваш эмодзи для двойного нажатия в качестве реакции.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName =>
+      'Изменить сообщение';
 
   @override
   String get messagesMediaGesturesDoubleTapActionEditDescription =>
-      'Opens the editor on messages you sent. Other messages are unchanged.';
+      'Открывает редактор для ваших сообщений. С другими сообщениями ничего не происходит.';
 
   @override
-  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Ничего';
 
   @override
   String get messagesMediaGesturesDoubleTapActionNoneDescription =>
-      'Double tap is disabled.';
+      'Двойное нажатие отключено.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftLabel =>
-      'Swipe right to left';
+      'Смахивание справа налево';
 
   @override
-  String get messagesMediaGesturesSwipeRightToLeftReplyName => 'Swipe-to-reply';
+  String get messagesMediaGesturesSwipeRightToLeftReplyName =>
+      'Ответ смахиванием';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftReplyDescription =>
-      'Swipe a message to reply, with hold to edit your own messages.';
+      'Смахните сообщение, чтобы ответить, или удерживайте свое сообщение, чтобы изменить его.';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsName =>
-      'Show channel details';
+      'Показать сведения о канале';
 
   @override
   String get messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription =>
-      'Swipe a message or tap the channel header to open channel details in a side panel.';
+      'Смахните сообщение или нажмите на заголовок канала, чтобы открыть сведения о канале на боковой панели.';
 
   @override
   String get chatMessageEdit => 'Изменить сообщение';
@@ -7249,7 +7263,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get chatMessageDeleteAttachmentConfirmDescription =>
-      'Are you sure you want to delete this attachment?';
+      'Вы уверены, что хотите удалить это вложение?';
 
   @override
   String get chatMessageEditAttachmentAltText =>
@@ -7311,7 +7325,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Не удалось загрузить сообщения.';
 
   @override
-  String get chatMessagesFailedToLoad => 'Messages failed to load';
+  String get chatMessagesFailedToLoad => 'Не удалось загрузить сообщения';
 
   @override
   String get chatReplyMentionOverrideTitle => 'Изменить настройки упоминаний?';
@@ -7342,10 +7356,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Упомянуть отвечающего пользователя';
 
   @override
-  String get chatReplyMentionOn => 'ON';
+  String get chatReplyMentionOn => 'ВКЛ';
 
   @override
-  String get chatReplyMentionOff => 'OFF';
+  String get chatReplyMentionOff => 'ВЫКЛ';
 
   @override
   String get chatReplyCancel => 'Отменить ответ';
@@ -7357,10 +7371,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get chatEditNoChanges => 'Нет изменений для сохранения';
 
   @override
-  String get chatEditFailed => 'Your message didn\'t update';
+  String get chatEditFailed => 'Не удалось обновить сообщение';
 
   @override
-  String get chatEditFailedEditAgain => 'Edit again';
+  String get chatEditFailedEditAgain => 'Изменить снова';
 
   @override
   String get chatChannelNotReady =>
@@ -7474,7 +7488,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Стикеры';
 
   @override
-  String get composerAutocompleteEmojisHeading => 'Emojis';
+  String get composerAutocompleteEmojisHeading => 'Эмодзи';
 
   @override
   String get composerAutocompleteGifsHeading => 'GIF-файлы';
@@ -8263,26 +8277,26 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String channelDuplicateHelper(String channelName) {
-    return 'The new channel will reuse the permissions from $channelName.';
+    return 'Новый канал получит те же разрешения, что и $channelName.';
   }
 
   @override
   String channelDuplicateVoiceHelper(String channelName) {
-    return 'The new voice channel will reuse the permissions, user limit, and bitrate from $channelName.';
+    return 'Новый голосовой канал получит те же разрешения, лимит пользователей и битрейт, что и $channelName.';
   }
 
   @override
-  String get channelMenuMoveToCategory => 'Move to category';
+  String get channelMenuMoveToCategory => 'Переместить в категорию';
 
   @override
-  String get channelMenuNoCategory => 'No category';
+  String get channelMenuNoCategory => 'Без категории';
 
   @override
-  String get channelMoveCategoryFullTitle => 'Category full';
+  String get channelMoveCategoryFullTitle => 'Категория заполнена';
 
   @override
   String channelMoveCategoryFullMessage(int maxChannelsPerCategory) {
-    return 'This category already contains the maximum of $maxChannelsPerCategory channels.';
+    return 'В этой категории уже максимальное количество каналов: $maxChannelsPerCategory.';
   }
 
   @override
@@ -8540,61 +8554,63 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get channelHeaderSearchClearHistory => 'Очистить';
 
   @override
-  String get channelSearchRemoveRecent => 'Remove from recent searches';
+  String get channelSearchRemoveRecent => 'Удалить из недавних поисков';
 
   @override
-  String get channelSearchFiltersButton => 'Filters';
+  String get channelSearchFiltersButton => 'Фильтры';
 
   @override
-  String get channelSearchFilterMenuTitle => 'Filter results';
+  String get channelSearchFilterMenuTitle => 'Фильтр результатов';
 
   @override
-  String get channelSearchFilterFromLabel => 'From a specific person';
+  String get channelSearchFilterFromLabel => 'От определенного человека';
 
   @override
-  String get channelSearchFilterMentionsLabel => 'Mentions a specific person';
+  String get channelSearchFilterMentionsLabel =>
+      'Упоминает определенного человека';
 
   @override
-  String get channelSearchFilterHasLabel => 'Has a link, file or embed';
+  String get channelSearchFilterHasLabel =>
+      'Содержит ссылку, файл или встраивание';
 
   @override
-  String get channelSearchFilterInLabel => 'In a specific channel';
+  String get channelSearchFilterInLabel => 'В определенном канале';
 
   @override
-  String get channelSearchFilterDuringLabel => 'Sent on a date';
+  String get channelSearchFilterDuringLabel => 'Отправлено в определенный день';
 
   @override
-  String get channelSearchFilterBeforeLabel => 'Sent before a date';
+  String get channelSearchFilterBeforeLabel => 'Отправлено до даты';
 
   @override
-  String get channelSearchFilterAfterLabel => 'Sent after a date';
+  String get channelSearchFilterAfterLabel => 'Отправлено после даты';
 
   @override
-  String get channelSearchFilterPinnedLabel => 'Pinned or not pinned';
+  String get channelSearchFilterPinnedLabel => 'Закреплено или нет';
 
   @override
-  String get channelSearchFilterAuthorTypeLabel => 'By author type';
+  String get channelSearchFilterAuthorTypeLabel => 'По типу автора';
 
   @override
-  String get channelSearchDateToday => 'Today';
+  String get channelSearchDateToday => 'Сегодня';
 
   @override
-  String get channelSearchDateYesterday => 'Yesterday';
+  String get channelSearchDateYesterday => 'Вчера';
 
   @override
-  String get channelSearchTabMessages => 'Messages';
+  String get channelSearchTabMessages => 'Сообщения';
 
   @override
-  String get channelSearchTabImages => 'Images';
+  String get channelSearchTabImages => 'Изображения';
 
   @override
-  String get channelSearchTabPins => 'Pins';
+  String get channelSearchTabPins => 'Закрепленные';
 
   @override
-  String get channelSearchTabLinks => 'Links';
+  String get channelSearchTabLinks => 'Ссылки';
 
   @override
-  String get channelSearchTabFiles => 'Files';
+  String get channelSearchTabFiles => 'Файлы';
 
   @override
   String channelSearchTabCount(String label, int count) {
@@ -9051,22 +9067,22 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get groupDmInviteRevoked => 'Приглашение отозвано';
 
   @override
-  String get groupDmRemoveFromGroup => 'Remove from group';
+  String get groupDmRemoveFromGroup => 'Удалить из группы';
 
   @override
   String groupDmRemoveFromGroupConfirm(String userName) {
-    return 'Remove $userName from the group?';
+    return 'Удалить $userName из группы?';
   }
 
   @override
-  String get groupDmRemoveFromGroupAction => 'Remove';
+  String get groupDmRemoveFromGroupAction => 'Удалить';
 
   @override
-  String get groupDmRemovedFromGroup => 'Removed from group';
+  String get groupDmRemovedFromGroup => 'Участник удалён из группы';
 
   @override
   String groupDmRemoveFromGroupFailed(String userName) {
-    return '$userName is still in the group. Try again in a moment.';
+    return '$userName всё ещё в группе. Попробуйте ещё раз чуть позже.';
   }
 
   @override
@@ -9106,7 +9122,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get groupDmComposerHint => 'Группа сообщений';
 
   @override
-  String get composerHint => 'Message';
+  String get composerHint => 'Сообщение';
 
   @override
   String get composerOpenExpressionPicker => 'Открыть выбор эмодзи';
@@ -9136,10 +9152,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get chatAttachmentLibraryLimitedBody =>
-      'Only photos and videos you chose to share are shown here.';
+      'Здесь показаны только фото и видео, к которым вы разрешили доступ.';
 
   @override
-  String get chatAttachmentLibraryLimitedManage => 'Manage';
+  String get chatAttachmentLibraryLimitedManage => 'Управление';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9217,16 +9233,16 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userSettingsGroupYourAccount => 'Ваша учетная запись';
 
   @override
-  String get userSettingsGroupBilling => 'Billing';
+  String get userSettingsGroupBilling => 'Оплата';
 
   @override
-  String get userSettingsGroupApplication => 'Application';
+  String get userSettingsGroupApplication => 'Приложение';
 
   @override
-  String get userSettingsGroupDeveloper => 'Developer';
+  String get userSettingsGroupDeveloper => 'Разработчик';
 
   @override
-  String get userSettingsGroupStaffOnly => 'Staff-only';
+  String get userSettingsGroupStaffOnly => 'Только для сотрудников';
 
   @override
   String get userSettingsSearchPlaceholder => 'Поиск настроек…';
@@ -9238,14 +9254,14 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Настройки не найдены';
 
   @override
-  String get userSettingsCopyLinkToSection => 'Copy link to section';
+  String get userSettingsCopyLinkToSection => 'Скопировать ссылку на раздел';
 
   @override
-  String get userSettingsCopyLinkToPage => 'Copy link to page';
+  String get userSettingsCopyLinkToPage => 'Скопировать ссылку на страницу';
 
   @override
   String userSettingsJumpLinkPremiumPage(String productName) {
-    return '$productName page';
+    return 'Страница $productName';
   }
 
   @override
@@ -9785,7 +9801,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Автоматически продлевается через App Store, пока вы не отмените подписку.';
 
   @override
-  String get storePlutoniumRestorePurchases => 'Restore purchases';
+  String get storePlutoniumRestorePurchases => 'Восстановить покупки';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
@@ -10254,36 +10270,36 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Не удалось включить уведомления. Разрешите доступ к уведомлениям, чтобы продолжить.';
 
   @override
-  String get notificationsPushDeliveryProviderLabel => 'Push provider';
+  String get notificationsPushDeliveryProviderLabel => 'Пуш-провайдер';
 
   @override
-  String get notificationsPushDeliveryDistributorLabel => 'Distributor';
+  String get notificationsPushDeliveryDistributorLabel => 'Дистрибьютор';
 
   @override
-  String get notificationsPushDeliveryDistributorNone => 'Not selected';
+  String get notificationsPushDeliveryDistributorNone => 'Не выбран';
 
   @override
   String get notificationsPushDeliveryDistributorSheetTitle =>
-      'Choose distributor';
+      'Выберите дистрибьютор';
 
   @override
   String get notificationsPushDeliveryDistributorPickAccessibility =>
-      'Change push distributor';
+      'Изменить пуш-дистрибьютор';
 
   @override
-  String get notificationsPushDeliveryGatewayLabel => 'Gateway';
+  String get notificationsPushDeliveryGatewayLabel => 'Шлюз';
 
   @override
-  String get notificationsPushDeliveryRelayLabel => 'Fluxer Push relay';
+  String get notificationsPushDeliveryRelayLabel => 'Ретранслятор Fluxer Push';
 
   @override
-  String get notificationsPushDeliveryRelayInUse => 'In use';
+  String get notificationsPushDeliveryRelayInUse => 'Используется';
 
   @override
-  String get notificationsPushDeliveryRelayOff => 'Off';
+  String get notificationsPushDeliveryRelayOff => 'Выкл';
 
   @override
-  String get notificationsPushDeliveryRelayNotUsed => 'Not used';
+  String get notificationsPushDeliveryRelayNotUsed => 'Не используется';
 
   @override
   String get notificationsPushRelaySectionTitle =>
@@ -10406,17 +10422,17 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get appIconSectionDescriptionAndroid =>
-      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+      'Выберите значок, который будет отображаться на главном экране. При смене значка приложение перезапустится.';
 
   @override
-  String get appIconAndroidChangeTitle => 'Change app icon?';
+  String get appIconAndroidChangeTitle => 'Изменить значок приложения?';
 
   @override
   String get appIconAndroidChangeDescription =>
-      'Fluxer will restart to apply the new home screen icon.';
+      'Fluxer перезапустится, чтобы применить новый значок на главном экране.';
 
   @override
-  String get appIconAndroidChangeConfirm => 'Change icon';
+  String get appIconAndroidChangeConfirm => 'Изменить значок';
 
   @override
   String get appIconOptionDefault => 'По умолчанию';
@@ -10428,22 +10444,22 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get appIconOptionSweden => 'Швеция';
 
   @override
-  String get appIconOptionGreyscale => 'Greyscale';
+  String get appIconOptionGreyscale => 'Оттенки серого';
 
   @override
-  String get appIconOptionRainbow => 'Rainbow';
+  String get appIconOptionRainbow => 'Радуга';
 
   @override
-  String get appIconOptionWaves => 'Waves';
+  String get appIconOptionWaves => 'Волны';
 
   @override
-  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+  String get appIconOptionChromaticAberration => 'Хроматическая аберрация';
 
   @override
-  String get appIconOptionDefaultBrutalist => 'Brutalist';
+  String get appIconOptionDefaultBrutalist => 'Брутализм';
 
   @override
-  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+  String get appIconOptionGreyscaleBrutalist => 'Брутализм в оттенках серого';
 
   @override
   String get appIconUnsupported =>
@@ -10457,7 +10473,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingSectionDescription =>
-      'Help Fluxer fix bugs in this app by sharing crash and performance data. This is off by default.';
+      'Помогите Fluxer исправлять ошибки в этом приложении, отправляя данные о сбоях и производительности. По умолчанию эта функция выключена.';
 
   @override
   String get advancedPerformanceReportingLabel =>
@@ -10465,29 +10481,29 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+      'Отчеты отправляются в систему отслеживания ошибок Fluxer, даже если вы вошли в другой экземпляр. Они не содержат названий экземпляров, ID и содержимого сообщений.';
 
   @override
-  String get observabilityReportingConsentTitle => 'Help fix crashes';
+  String get observabilityReportingConsentTitle => 'Помогите исправить сбои';
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+      'Fluxer неожиданно закрылся. Анонимные данные о сбоях и ошибках помогут нам быстрее исправлять проблемы.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Reports include crash logs, errors and basic performance data. They are not shared with third parties and you can turn this off at any time.';
+      'Отчеты содержат журналы сбоев, ошибки и базовые данные о производительности. Они не передаются третьим лицам, и вы можете отключить их в любое время.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
-    return 'To enable later, open Settings → Advanced → $reportingToggle.';
+    return 'Чтобы включить позже, откройте Настройки → Дополнительно → $reportingToggle.';
   }
 
   @override
-  String get observabilityReportingConsentAgree => 'Send crash reports';
+  String get observabilityReportingConsentAgree => 'Отправлять отчеты о сбоях';
 
   @override
-  String get observabilityReportingConsentDecline => 'Don\'t want to enable';
+  String get observabilityReportingConsentDecline => 'Не включать';
 
   @override
   String get advancedSettingsConfigure => 'Настроить';
@@ -11055,7 +11071,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Присоединиться к Fluxer Labs';
 
   @override
-  String get userSettingsGiveFeedback => 'Give feedback';
+  String get userSettingsGiveFeedback => 'Оставить отзыв';
 
   @override
   String get userSettingsNavAppLicenses => 'Лицензии приложений';
@@ -11119,7 +11135,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'Текстовые каналы';
 
   @override
-  String get quickSwitcherSectionThreads => 'Threads';
+  String get quickSwitcherSectionThreads => 'Ветки';
 
   @override
   String get quickSwitcherSectionVoiceChannels => 'Голосовые каналы';
@@ -11223,7 +11239,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get uiConfirm => 'Подтвердить';
 
   @override
-  String get uiUnderstood => 'Understood';
+  String get uiUnderstood => 'Понятно';
 
   @override
   String get uiLoading => 'Загрузка';
@@ -11323,38 +11339,39 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String instanceConnectFailedDomain(String domain) {
-    return 'Couldn\'t connect to $domain. Try again.';
+    return 'Не удалось подключиться к $domain. Повторите попытку.';
   }
 
   @override
   String get instanceInvalidDiscoveryResponse =>
-      'Couldn\'t read this instance\'s configuration. Check the address and try again.';
+      'Не удалось прочитать конфигурацию этого экземпляра. Проверьте адрес и попробуйте еще раз.';
 
   @override
   String instanceOutdatedForClient(String domain) {
-    return 'This instance is out of date for this app. Ask whoever runs $domain to update Fluxer.';
+    return 'Этот экземпляр устарел для этого приложения. Попросите администратора $domain обновить Fluxer.';
   }
 
   @override
   String instanceRequiresNewerClient(String domain) {
-    return '$domain runs a newer version of Fluxer than this app. Update the app, then try again.';
+    return 'На $domain работает более новая версия Fluxer, чем в этом приложении. Обновите приложение и попробуйте еще раз.';
   }
 
   @override
-  String get instanceCompatibilityTitle => 'Can\'t use this instance';
+  String get instanceCompatibilityTitle =>
+      'Невозможно использовать этот экземпляр';
 
   @override
-  String get instanceCompatibilityRetry => 'Try again';
+  String get instanceCompatibilityRetry => 'Повторить';
 
   @override
-  String get instanceCompatibilityUpdateApp => 'Update app';
+  String get instanceCompatibilityUpdateApp => 'Обновить приложение';
 
   @override
   String get instanceCompatibilityStatusPagePrompt =>
-      'Check the status page for updates.';
+      'Следите за новостями на странице статуса.';
 
   @override
-  String get instanceCompatibilityStatusPageLink => 'status page';
+  String get instanceCompatibilityStatusPageLink => 'Страница статуса';
 
   @override
   String get recentInstances => 'Недавние экземпляры';
@@ -11732,7 +11749,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildNavbarNameLabel => 'Название';
 
   @override
-  String get guildNavbarNewChannelHint => 'new-channel';
+  String get guildNavbarNewChannelHint => 'новый-канал';
 
   @override
   String get guildNavbarUrlLabel => 'URL';
@@ -11744,17 +11761,17 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildNavbarChannelTypeSelection => 'Выбор типа канала';
 
   @override
-  String get guildNavbarPrivateChannel => 'Private channel';
+  String get guildNavbarPrivateChannel => 'Закрытый канал';
 
   @override
   String get guildNavbarPrivateChannelDescription =>
-      'Only selected members and roles will be able to view this channel.';
+      'Этот канал смогут просматривать только выбранные участники и роли.';
 
   @override
-  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+  String get guildNavbarAddMembersOrRoles => 'Добавить участников или роли';
 
   @override
-  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+  String get guildNavbarAddMembersOrRolesHint => 'Поиск участников или ролей';
 
   @override
   String get guildNavbarCreateCategory => 'Создать категорию';
@@ -12412,333 +12429,343 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get permissionSetVoiceRegion => 'Изменение голосового региона';
 
   @override
-  String get permissionManageThreads => 'Manage threads';
+  String get permissionManageThreads => 'Управлять ветками';
 
   @override
   String get permissionManageThreadsDescription =>
-      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+      'Переименовывать, архивировать, блокировать и удалять ветки, настраивать в них медленный режим и просматривать приватные ветки.';
 
   @override
-  String get permissionCreatePublicThreads => 'Create public threads';
+  String get permissionCreatePublicThreads => 'Создавать публичные ветки';
 
   @override
   String get permissionCreatePublicThreadsDescription =>
-      'Start threads that everyone who can view the channel can see.';
+      'Создавать ветки, которые видят все, кто может просматривать канал.';
 
   @override
-  String get permissionCreatePrivateThreads => 'Create private threads';
+  String get permissionCreatePrivateThreads => 'Создавать приватные ветки';
 
   @override
   String get permissionCreatePrivateThreadsDescription =>
-      'Start invite-only threads.';
+      'Создавать ветки только по приглашению.';
 
   @override
-  String get permissionSendMessagesInThreads => 'Send messages in threads';
+  String get permissionSendMessagesInThreads => 'Отправлять сообщения в ветках';
 
   @override
   String get permissionSendMessagesInThreadsDescription =>
-      'Send messages in threads and forum posts.';
+      'Отправлять сообщения в ветках и публикациях форума.';
 
   @override
-  String get threadErrorArchived => 'This thread is archived.';
+  String get threadErrorArchived => 'Эта ветка закрыта.';
 
   @override
   String get threadErrorLocked =>
-      'This thread is locked. Only moderators can post or reopen it.';
+      'Эта ветка заблокирована. Писать в ней или снова открыть ее могут только модераторы.';
 
   @override
-  String get threadErrorAlreadyCreated =>
-      'A thread already exists for this message.';
+  String get threadErrorAlreadyCreated => 'Для этого сообщения уже есть ветка.';
 
   @override
   String get threadErrorMaxActiveThreads =>
-      'This community has reached its limit of active threads.';
+      'В этом сообществе достигнут лимит активных веток.';
 
   @override
   String get threadErrorMaxMembers =>
-      'This thread has reached its member limit.';
+      'В этой ветке достигнут лимит участников.';
 
   @override
   String get threadErrorMaxPinnedPosts =>
-      'Only one post can be pinned in this forum.';
+      'В этом форуме можно закрепить только одну публикацию.';
 
   @override
-  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+  String get threadErrorMaxForumTags =>
+      'В форуме может быть не более 20 тегов.';
 
   @override
-  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+  String get threadErrorTagNamesUnique =>
+      'Названия тегов должны быть уникальными.';
 
   @override
   String get threadErrorNoTagsForEveryone =>
-      'Add a tag everyone can use before requiring tags.';
+      'Прежде чем требовать теги, добавьте тег, который могут использовать все.';
 
   @override
-  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+  String get threadErrorTagRequired =>
+      'Выберите хотя бы один тег для этой публикации.';
 
   @override
   String get threadErrorUnknownTag =>
-      'One of the selected tags no longer exists.';
+      'Один из выбранных тегов больше не существует.';
 
   @override
   String get threadErrorInvalidNotificationSettings =>
-      'Those notification settings are not valid for a thread.';
+      'Эти настройки уведомлений недопустимы для ветки.';
 
   @override
   String get threadErrorSearchIndexNotReady =>
-      'Posts are still being indexed. Try again in a moment.';
+      'Публикации ещё индексируются. Попробуйте чуть позже.';
 
   @override
   String get threadErrorInvalidChannelType =>
-      'This action is not available in this channel.';
+      'Это действие недоступно в этом канале.';
 
   @override
-  String get threadCreate => 'Create thread';
+  String get threadCreate => 'Создать ветку';
 
   @override
-  String get threadName => 'Thread name';
+  String get threadName => 'Название ветки';
 
   @override
-  String get threadNameRequired => 'Give the thread a name.';
+  String get threadNameRequired => 'Укажите название ветки.';
 
   @override
-  String get threadNewThreadPlaceholder => 'New thread';
+  String get threadNewThreadPlaceholder => 'Новая ветка';
 
   @override
-  String get threadPrivate => 'Private thread';
+  String get threadPrivate => 'Приватная ветка';
 
   @override
   String get threadPrivateDescription =>
-      'Only people you invite and moderators can see this thread.';
+      'Эту ветку видят только приглашённые вами участники и модераторы.';
 
   @override
-  String get threadStarterMessage => 'Message';
+  String get threadStarterMessage => 'Сообщение';
 
   @override
   String get threadStarterMessagePlaceholder =>
-      'Enter a message to start the conversation!';
+      'Введите сообщение, чтобы начать беседу!';
 
   @override
   String threadCreateCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can start another thread in $seconds seconds.',
-      one: 'You can start another thread in 1 second.',
+      other: 'Вы сможете создать еще одну ветку через $seconds секунды.',
+      many: 'Вы сможете создать еще одну ветку через $seconds секунд.',
+      few: 'Вы сможете создать еще одну ветку через $seconds секунды.',
+      one: 'Вы сможете создать еще одну ветку через $seconds секунду.',
     );
     return '$_temp0';
   }
 
   @override
   String threadCreateFailed(String detail) {
-    return 'Could not start the thread: $detail';
+    return 'Не удалось создать ветку: $detail';
   }
 
   @override
-  String get threadBrowserTitle => 'Threads';
+  String get threadBrowserTitle => 'Ветки';
 
   @override
-  String get threadBrowserActive => 'Active';
+  String get threadBrowserActive => 'Активные';
 
   @override
-  String get threadBrowserArchived => 'Closed';
+  String get threadBrowserArchived => 'Закрытые';
 
   @override
-  String get threadBrowserJoined => 'Joined';
+  String get threadBrowserJoined => 'Вы участвуете';
 
   @override
-  String get threadBrowserOtherActive => 'Other active threads';
+  String get threadBrowserOtherActive => 'Другие активные ветки';
 
   @override
-  String get threadBrowserPublic => 'Public threads';
+  String get threadBrowserPublic => 'Публичные ветки';
 
   @override
-  String get threadBrowserPrivate => 'Private threads';
+  String get threadBrowserPrivate => 'Приватные ветки';
 
   @override
   String get threadBrowserEmpty =>
-      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+      'Веток нет. Ветка — это временный текстовый канал, который помогает не отвлекаться от обсуждения.';
 
   @override
-  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+  String get threadBrowserArchivedEmpty => 'Закрытых веток нет.';
 
   @override
-  String get threadBrowserLoadMore => 'Load more';
+  String get threadBrowserLoadMore => 'Загрузить ещё';
 
   @override
-  String get threadBrowserSearch => 'Search threads';
+  String get threadBrowserSearch => 'Поиск веток';
 
   @override
-  String get threadBrowserSearchEmpty => 'No threads match';
+  String get threadBrowserSearchEmpty => 'Подходящих веток нет';
 
   @override
   String get threadBrowserSearchEmptyHint =>
-      'Try a different name or check the other tab.';
+      'Попробуйте другое название или проверьте другую вкладку.';
 
   @override
   String get threadBrowserSearchFailed =>
-      'Couldn\'t search threads. Try again later.';
+      'Не удалось выполнить поиск по веткам. Попробуйте позже.';
 
   @override
   String get threadBrowserSearchIndexing =>
-      'Search is getting ready for this community. Trying again shortly...';
+      'Поиск в этом сообществе ещё готовится. Скоро попробуем снова...';
 
   @override
   String threadMessageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count messages',
-      one: '1 message',
+      other: '$count сообщения',
+      many: '$count сообщений',
+      few: '$count сообщения',
+      one: '$count сообщение',
     );
     return '$_temp0';
   }
 
   @override
   String get threadFailedToMentionSomeRoles =>
-      'Some mentioned roles were not added to this thread.';
+      'Некоторые упомянутые роли не были добавлены в эту ветку.';
 
   @override
-  String get threadMembers => 'Thread members';
+  String get threadMembers => 'Участники ветки';
 
   @override
   String threadMembersCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count members',
-      one: '1 member',
+      other: '$count участника',
+      many: '$count участников',
+      few: '$count участника',
+      one: '$count участник',
     );
     return '$_temp0';
   }
 
   @override
-  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+  String get threadMembersEmpty => 'К этой ветке пока никто не присоединился.';
 
   @override
   String threadRemoveMember(String name) {
-    return 'Remove $name from thread';
+    return 'Удалить $name из ветки';
   }
 
   @override
-  String get threadJoin => 'Join thread';
+  String get threadJoin => 'Присоединиться к ветке';
 
   @override
-  String get threadLeave => 'Leave thread';
+  String get threadLeave => 'Покинуть ветку';
 
   @override
   String get threadJoinNotice =>
-      'Join this thread to follow it in your channel list and get notifications.';
+      'Присоединитесь к этой ветке, чтобы видеть её в списке каналов и получать уведомления.';
 
   @override
   String get threadArchivedNotice =>
-      'This thread is closed. Sending a message will open it again.';
+      'Эта ветка закрыта. Отправка сообщения снова откроет её.';
 
   @override
   String get threadLockedNotice =>
-      'This thread is locked. Only moderators can send messages.';
+      'Эта ветка заблокирована. Писать в ней могут только модераторы.';
 
   @override
-  String get threadArchive => 'Close thread';
+  String get threadArchive => 'Закрыть ветку';
 
   @override
-  String get threadUnarchive => 'Open thread again';
+  String get threadUnarchive => 'Снова открыть ветку';
 
   @override
-  String get threadLock => 'Lock thread';
+  String get threadLock => 'Заблокировать ветку';
 
   @override
-  String get threadUnlock => 'Unlock thread';
+  String get threadUnlock => 'Разблокировать ветку';
 
   @override
-  String get threadDelete => 'Delete thread';
+  String get threadDelete => 'Удалить ветку';
 
   @override
   String threadDeleteConfirm(String threadName) {
-    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+    return 'Вы уверены, что хотите удалить $threadName? Это действие нельзя будет отменить.';
   }
 
   @override
-  String get threadDeleted => 'Thread deleted';
+  String get threadDeleted => 'Ветка удалена';
 
   @override
-  String get threadMarkAsRead => 'Mark as read';
+  String get threadMarkAsRead => 'Отметить как прочитанное';
 
   @override
-  String get threadMute => 'Mute thread';
+  String get threadMute => 'Отключить уведомления в ветке';
 
   @override
-  String get threadUnmute => 'Unmute thread';
+  String get threadUnmute => 'Включить уведомления в ветке';
 
   @override
-  String get threadMuted => 'Thread muted';
+  String get threadMuted => 'Уведомления ветки отключены';
 
   @override
-  String get threadUnmuted => 'Thread unmuted';
+  String get threadUnmuted => 'Уведомления ветки включены';
 
   @override
-  String get threadNotificationSettings => 'Notification settings';
+  String get threadNotificationSettings => 'Настройки уведомлений';
 
   @override
-  String get threadNotificationParentDefault => 'Use channel default';
+  String get threadNotificationParentDefault =>
+      'Использовать настройки канала по умолчанию';
 
   @override
-  String get threadCopyLink => 'Copy link';
+  String get threadCopyLink => 'Скопировать ссылку';
 
   @override
-  String get threadCopyId => 'Copy thread ID';
+  String get threadCopyId => 'Скопировать ID ветки';
 
   @override
-  String get threadMoreOptions => 'More options';
+  String get threadMoreOptions => 'Другие действия';
 
   @override
-  String get threadSettings => 'Thread settings';
+  String get threadSettings => 'Настройки ветки';
 
   @override
-  String get threadSettingsSaved => 'Thread settings saved';
+  String get threadSettingsSaved => 'Настройки ветки сохранены';
 
   @override
-  String get threadAutoArchive => 'Hide after inactivity';
+  String get threadAutoArchive => 'Скрывать после бездействия';
 
   @override
   String get threadAutoArchiveDescription =>
-      'The thread stops showing in the channel list after this period of inactivity.';
+      'Ветка перестает отображаться в списке каналов после такого периода бездействия.';
 
   @override
-  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+  String get threadDefaultAutoArchive =>
+      'Скрывать после бездействия по умолчанию';
 
   @override
   String get threadDefaultAutoArchiveDescription =>
-      'New threads stop showing in the channel list after this period of inactivity.';
+      'Новые ветки перестают отображаться в списке каналов после такого периода бездействия.';
 
   @override
-  String get threadDefaultSlowmode => 'Default thread slowmode';
+  String get threadDefaultSlowmode => 'Медленный режим веток по умолчанию';
 
   @override
-  String get threadAutoArchiveOneHour => '1 Hour';
+  String get threadAutoArchiveOneHour => '1 час';
 
   @override
-  String get threadAutoArchiveOneDay => '24 Hours';
+  String get threadAutoArchiveOneDay => '24 часа';
 
   @override
-  String get threadAutoArchiveThreeDays => '3 Days';
+  String get threadAutoArchiveThreeDays => '3 дня';
 
   @override
-  String get threadAutoArchiveOneWeek => '1 Week';
+  String get threadAutoArchiveOneWeek => '1 неделя';
 
   @override
-  String get threadInvitable => 'Allow anyone to invite';
+  String get threadInvitable => 'Разрешить приглашать всем';
 
   @override
   String get threadInvitableDescription =>
-      'Members of this private thread can add other people.';
+      'Участники этой приватной ветки могут добавлять других людей.';
 
   @override
   String threadStartedBy(String name) {
-    return 'Started by $name';
+    return 'Автор: $name';
   }
 
   @override
-  String get threadStarterDeleted => 'Original message was deleted.';
+  String get threadStarterDeleted => 'Исходное сообщение было удалено.';
 
   @override
   String systemThreadCreated(
@@ -12746,18 +12773,18 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
     String threadLink,
     String allThreadsLink,
   ) {
-    return '$username started a thread: $threadLink. See $allThreadsLink.';
+    return '$username создал(а) ветку: $threadLink. Смотрите $allThreadsLink.';
   }
 
   @override
-  String get systemThreadCreatedAllThreadsLink => 'all threads';
+  String get systemThreadCreatedAllThreadsLink => 'все ветки';
 
   @override
-  String get systemThreadCreatedThreadFallback => 'a thread';
+  String get systemThreadCreatedThreadFallback => 'ветку';
 
   @override
   String systemPreviewThreadCreated(String username) {
-    return '$username started a thread.';
+    return '$username создал(а) ветку.';
   }
 
   @override
@@ -12880,13 +12907,13 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get auditLogActionChannelDelete => 'Канал удалён';
 
   @override
-  String get auditLogActionThreadCreate => 'Thread created';
+  String get auditLogActionThreadCreate => 'Ветка создана';
 
   @override
-  String get auditLogActionThreadUpdate => 'Thread updated';
+  String get auditLogActionThreadUpdate => 'Ветка обновлена';
 
   @override
-  String get auditLogActionThreadDelete => 'Thread deleted';
+  String get auditLogActionThreadDelete => 'Ветка удалена';
 
   @override
   String get auditLogActionChannelOverwriteCreate =>
@@ -13006,17 +13033,17 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String auditLogSummaryThreadCreate(String actor, String target) {
-    return '$actor started the thread $target.';
+    return '$actor создал(а) ветку $target.';
   }
 
   @override
   String auditLogSummaryThreadUpdate(String actor, String target) {
-    return '$actor updated the thread $target.';
+    return '$actor обновил(а) ветку $target.';
   }
 
   @override
   String auditLogSummaryThreadDelete(String actor, String target) {
-    return '$actor deleted the thread $target.';
+    return '$actor удалил(а) ветку $target.';
   }
 
   @override
@@ -13318,49 +13345,50 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Значок сообщества обновлен.';
 
   @override
-  String get auditLogChangePausedInvites => 'Paused invites.';
+  String get auditLogChangePausedInvites => 'Приглашения приостановлены.';
 
   @override
-  String get auditLogChangeResumedInvites => 'Resumed invites.';
+  String get auditLogChangeResumedInvites => 'Приглашения возобновлены.';
 
   @override
   String get auditLogChangeTurnedOnDetachedBanner =>
-      'Turned on the detached banner.';
+      'Откреплённый баннер включен.';
 
   @override
   String get auditLogChangeTurnedOffDetachedBanner =>
-      'Turned off the detached banner.';
+      'Откреплённый баннер выключен.';
 
   @override
   String get auditLogChangeAllowedFlexibleChannelNames =>
-      'Allowed flexible text channel names.';
+      'Разрешены гибкие названия текстовых каналов.';
 
   @override
   String get auditLogChangeDisallowedFlexibleChannelNames =>
-      'Stopped allowing flexible text channel names.';
+      'Гибкие названия текстовых каналов больше не разрешены.';
 
   @override
-  String get auditLogChangeHidOwnerCrown => 'Hid the community owner crown.';
+  String get auditLogChangeHidOwnerCrown =>
+      'Корона владельца сообщества скрыта.';
 
   @override
   String get auditLogChangeShowedOwnerCrown =>
-      'Stopped hiding the community owner crown.';
+      'Корона владельца сообщества больше не скрыта.';
 
   @override
   String get auditLogChangeAllowedEmojiCloning =>
-      'Allowed others to clone this community\'s emojis.';
+      'Другим разрешено копировать эмодзи этого сообщества.';
 
   @override
   String get auditLogChangeStoppedEmojiCloning =>
-      'Stopped allowing others to clone this community\'s emojis.';
+      'Другим больше не разрешено копировать эмодзи этого сообщества.';
 
   @override
   String get auditLogChangeAllowedStickerCloning =>
-      'Allowed others to clone this community\'s stickers.';
+      'Другим разрешено копировать стикеры этого сообщества.';
 
   @override
   String get auditLogChangeStoppedStickerCloning =>
-      'Stopped allowing others to clone this community\'s stickers.';
+      'Другим больше не разрешено копировать стикеры этого сообщества.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
@@ -13986,16 +14014,16 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Не удалось удалить это сообщество';
 
   @override
-  String get guildSettingsCategoryExpressions => 'Expressions';
+  String get guildSettingsCategoryExpressions => 'Выражения';
 
   @override
-  String get guildSettingsCategoryCommunity => 'Community';
+  String get guildSettingsCategoryCommunity => 'Сообщество';
 
   @override
-  String get guildSettingsCategoryIntegrations => 'Integrations';
+  String get guildSettingsCategoryIntegrations => 'Интеграции';
 
   @override
-  String get guildSettingsCategoryPeople => 'People';
+  String get guildSettingsCategoryPeople => 'Люди';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Оформление';
@@ -15234,74 +15262,75 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get channelDetailsUnsupportedChannel => 'Неподдерживаемый канал';
 
   @override
-  String get forumChannelTypeForum => 'Forum';
+  String get forumChannelTypeForum => 'Форум';
 
   @override
   String get forumChannelTypeForumDescription =>
-      'Posts organized by topic and tags';
+      'Публикации, упорядоченные по темам и тегам';
 
   @override
-  String get forumChannelTypeMedia => 'Media';
+  String get forumChannelTypeMedia => 'Медиа';
 
   @override
   String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos';
+      'Публикации с изображениями и видео';
 
   @override
-  String get forumNewPost => 'New post';
+  String get forumNewPost => 'Новая публикация';
 
   @override
-  String get forumNewMediaPost => 'New media post';
+  String get forumNewMediaPost => 'Новая медиапубликация';
 
   @override
-  String get forumSearchPosts => 'Search posts';
+  String get forumSearchPosts => 'Поиск публикаций';
 
   @override
-  String get forumViewOptions => 'Sort and view';
+  String get forumViewOptions => 'Сортировка и вид';
 
   @override
   String get forumSearchIndexing =>
-      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+      'Поиск для этого сообщества ещё готовится. Публикации появятся здесь, как только он будет готов.';
 
   @override
-  String get forumNoPosts => 'There are no posts yet';
+  String get forumNoPosts => 'Публикаций пока нет';
 
   @override
-  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+  String get forumNoPostsHint => 'Начните здесь первое обсуждение.';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search';
+  String get forumNoSearchResults =>
+      'Нет публикаций, соответствующих вашему запросу';
 
   @override
   String get forumNoSearchResultsHint =>
-      'Try different words or clear the tag filter.';
+      'Попробуйте другие слова или очистите фильтр тегов.';
 
   @override
-  String get forumCreateFirstPost => 'Create the first post';
+  String get forumCreateFirstPost => 'Создать первую публикацию';
 
   @override
-  String get forumOlderPosts => 'Older posts';
+  String get forumOlderPosts => 'Более старые публикации';
 
   @override
-  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+  String get forumPostsLoadFailed => 'Не удалось загрузить публикации.';
 
   @override
-  String get forumRetry => 'Try again';
+  String get forumRetry => 'Повторить';
 
   @override
-  String get forumPostPinned => 'Pinned';
+  String get forumPostPinned => 'Закреплено';
 
   @override
-  String get forumPostLocked => 'Locked';
+  String get forumPostLocked => 'Заблокирована';
 
   @override
-  String get forumPostArchived => 'Archived';
+  String get forumPostArchived => 'В архиве';
 
   @override
   String get forumPostNewBadge => 'Новое';
 
   @override
-  String get forumPostStarterDeleted => 'The original message was deleted.';
+  String get forumPostStarterDeleted => 'Исходное сообщение было удалено.';
 
   @override
   String forumPostSnippet(String author, String content) {
@@ -15320,927 +15349,954 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
-  String get forumPostReact => 'Add the default reaction';
+  String get forumPostReact => 'Добавить реакцию по умолчанию';
 
   @override
-  String get forumOpenPost => 'Open post';
+  String get forumOpenPost => 'Открыть публикацию';
 
   @override
-  String get forumEditTags => 'Edit tags';
+  String get forumEditTags => 'Редактировать теги';
 
   @override
-  String get forumSaveTags => 'Save tags';
+  String get forumSaveTags => 'Сохранить теги';
 
   @override
   String forumTagsLimitHint(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Pick up to $count tags.',
-      one: 'Pick up to 1 tag.',
+      other: 'Выберите не более $count тегов.',
+      one: 'Выберите не более $count тега.',
     );
     return '$_temp0';
   }
 
   @override
-  String get forumPinPost => 'Pin post';
+  String get forumPinPost => 'Закрепить публикацию';
 
   @override
-  String get forumUnpinPost => 'Unpin post';
+  String get forumUnpinPost => 'Открепить публикацию';
 
   @override
-  String get forumMarkPostRead => 'Mark as read';
+  String get forumMarkPostRead => 'Отметить как прочитанное';
 
   @override
-  String get forumCopyPostLink => 'Copy link';
+  String get forumCopyPostLink => 'Скопировать ссылку';
 
   @override
-  String get forumPostGuidelines => 'Post guidelines';
+  String get forumPostGuidelines => 'Правила публикации';
 
   @override
   String get forumGuidelinesPlaceholder =>
-      'Tell people what to post here and how to post it.';
+      'Расскажите, что здесь публиковать и как это делать.';
 
   @override
-  String get forumPostTitle => 'Title';
+  String get forumPostTitle => 'Заголовок';
 
   @override
-  String get forumPostMessage => 'Message';
+  String get forumPostMessage => 'Сообщение';
 
   @override
   String get forumPostMessagePlaceholder =>
-      'Write the first message of your post';
+      'Напишите первое сообщение публикации';
 
   @override
-  String get forumPostMediaPlaceholder => 'Add a caption';
+  String get forumPostMediaPlaceholder => 'Добавьте подпись';
 
   @override
-  String get forumPostTags => 'Tags';
+  String get forumPostTags => 'Теги';
 
   @override
-  String get forumPostTagsRequired => 'Tags (required)';
+  String get forumPostTagsRequired => 'Теги (обязательно)';
 
   @override
-  String get forumPostAddMedia => 'Add media';
+  String get forumPostAddMedia => 'Добавить медиа';
 
   @override
-  String get forumPostAddFile => 'Add file';
+  String get forumPostAddFile => 'Добавить файл';
 
   @override
-  String get forumPostRemoveAttachment => 'Remove attachment';
+  String get forumPostRemoveAttachment => 'Удалить вложение';
 
   @override
-  String get forumPostSubmit => 'Post';
+  String get forumPostSubmit => 'Опубликовать';
 
   @override
-  String get forumPostTitleRequired => 'Give your post a title.';
+  String get forumPostTitleRequired => 'Укажите заголовок публикации.';
 
   @override
   String get forumPostMediaRequired =>
-      'Add at least one image or video to post here.';
+      'Чтобы опубликовать здесь, добавьте хотя бы одно изображение или видео.';
 
   @override
-  String get forumPostContentRequired => 'Write a message or add a file.';
+  String get forumPostContentRequired =>
+      'Напишите сообщение или добавьте файл.';
 
   @override
-  String get forumSortLatestActivity => 'Recently active';
+  String get forumSortLatestActivity => 'Недавно активные';
 
   @override
-  String get forumSortCreationTime => 'Date posted';
+  String get forumSortCreationTime => 'Дата публикации';
 
   @override
-  String get forumLayoutList => 'List view';
+  String get forumLayoutList => 'Список';
 
   @override
-  String get forumLayoutGallery => 'Gallery view';
+  String get forumLayoutGallery => 'Галерея';
 
   @override
-  String get forumNewPostsUnread => 'Show unread for new posts';
+  String get forumNewPostsUnread =>
+      'Отмечать новые публикации как непрочитанные';
 
   @override
   String get forumNewPostsUnreadDescription =>
-      'Mark this channel unread when someone creates a post.';
+      'Помечать этот канал непрочитанным, когда кто-то создаёт публикацию.';
 
   @override
-  String get forumPostSlowmode => 'Post slowmode';
+  String get forumPostSlowmode => 'Медленный режим для публикаций';
 
   @override
   String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
-    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'Задержка между созданием публикаций. Участники с правом «$bypassSlowmodePermissionLabel» могут её обходить.';
   }
 
   @override
-  String get forumMessageSlowmode => 'Message slowmode in posts';
+  String get forumMessageSlowmode => 'Медленный режим сообщений в публикациях';
 
   @override
   String get forumMessageSlowmodeDescription =>
-      'Slowmode applied to messages in new posts.';
+      'Медленный режим для сообщений в новых публикациях.';
 
   @override
-  String get forumDefaultAutoArchive => 'Hide after inactivity';
+  String get forumDefaultAutoArchive => 'Скрывать после бездействия';
 
   @override
   String get forumDefaultAutoArchiveDescription =>
-      'New posts are archived after this long without activity.';
+      'Новые публикации архивируются, если в них нет активности в течение этого времени.';
 
   @override
-  String get forumDefaultReaction => 'Default reaction';
+  String get forumDefaultReaction => 'Реакция по умолчанию';
 
   @override
-  String get forumSetDefaultReaction => 'Pick an emoji';
+  String get forumSetDefaultReaction => 'Выберите эмодзи';
 
   @override
-  String get forumChangeDefaultReaction => 'Change';
+  String get forumChangeDefaultReaction => 'Изменить';
 
   @override
-  String get forumRemoveDefaultReaction => 'Remove';
+  String get forumRemoveDefaultReaction => 'Удалить';
 
   @override
-  String get forumDefaultSortOrder => 'Default sort order';
+  String get forumDefaultSortOrder => 'Порядок сортировки по умолчанию';
 
   @override
-  String get forumDefaultLayout => 'Default layout';
+  String get forumDefaultLayout => 'Макет по умолчанию';
 
   @override
-  String get forumTagMatchSetting => 'Tag filter';
+  String get forumTagMatchSetting => 'Фильтр по тегам';
 
   @override
-  String get forumTagMatchSome => 'Match any selected tag';
+  String get forumTagMatchSome => 'Любой из выбранных тегов';
 
   @override
-  String get forumTagMatchAll => 'Match all selected tags';
+  String get forumTagMatchAll => 'Все выбранные теги';
 
   @override
-  String get forumRequireTag => 'Require tags';
+  String get forumRequireTag => 'Требовать теги';
 
   @override
   String get forumRequireTagDescription =>
-      'People must pick at least one tag when they create a post.';
+      'При создании публикации нужно выбрать хотя бы один тег.';
 
   @override
-  String get forumHideMediaDownloads => 'Hide media download options';
+  String get forumHideMediaDownloads =>
+      'Скрыть варианты скачивания медиафайлов';
 
   @override
   String get forumHideMediaDownloadsDescription =>
-      'Hide download, open in browser and copy link for images and videos in posts.';
+      'Скрыть скачивание, открытие в браузере и копирование ссылки для изображений и видео в публикациях.';
 
   @override
   String forumTagsTitle(int count, int max) {
-    return 'Tags ($count/$max)';
+    return 'Теги ($count/$max)';
   }
 
   @override
   String get forumTagsDescription =>
-      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+      'Теги помогают находить и фильтровать публикации. Модерируемые теги могут ставить только модераторы.';
 
   @override
-  String get forumCreateTag => 'Create tag';
+  String get forumCreateTag => 'Создать тег';
 
   @override
-  String get forumEditTag => 'Edit tag';
+  String get forumEditTag => 'Редактировать тег';
 
   @override
-  String get forumSaveTag => 'Save tag';
+  String get forumSaveTag => 'Сохранить тег';
 
   @override
-  String get forumDeleteTag => 'Delete tag';
+  String get forumDeleteTag => 'Удалить тег';
 
   @override
-  String get forumTagName => 'Tag name';
+  String get forumTagName => 'Название тега';
 
   @override
-  String get forumTagEmoji => 'Emoji';
+  String get forumTagEmoji => 'Эмодзи';
 
   @override
-  String get forumTagRemoveEmoji => 'Remove emoji';
+  String get forumTagRemoveEmoji => 'Убрать эмодзи';
 
   @override
-  String get forumTagModerated => 'Only moderators can apply';
+  String get forumTagModerated => 'Только для модераторов';
 
   @override
   String get forumTagModeratedDescription =>
-      'Only members who can manage threads can apply or remove this tag.';
+      'Ставить и снимать этот тег могут только участники с правом управлять ветками.';
 
   @override
-  String get forumTagModeratedBadge => 'Moderated';
+  String get forumTagModeratedBadge => 'Модерируемый';
 
   @override
   String forumPostCooldown(int seconds) {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: 'You can post again in $seconds seconds.',
-      one: 'You can post again in 1 second.',
+      other: 'Вы сможете снова опубликовать через $seconds секунды.',
+      many: 'Вы сможете снова опубликовать через $seconds секунд.',
+      few: 'Вы сможете снова опубликовать через $seconds секунды.',
+      one: 'Вы сможете снова опубликовать через $seconds секунду.',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceP2pStartTitle => 'Start in P2P mode?';
+  String get voiceP2pStartTitle => 'Начать в режиме P2P?';
 
   @override
   String voiceP2pStartDescription(int maxParticipants) {
-    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+    return 'Аудио и видео передаются напрямую между участниками с меньшей задержкой. Другие участники могут видеть ваш IP-адрес. Участвовать могут до $maxParticipants человек. Те, кто не может подключиться напрямую, не смогут участвовать, пока кто-нибудь не переключит звонок в обычный режим.';
   }
 
   @override
-  String get voiceP2pStartConfirm => 'Start in P2P mode';
+  String get voiceP2pStartConfirm => 'Начать в режиме P2P';
 
   @override
-  String get voiceP2pStartStandard => 'Start standard call';
+  String get voiceP2pStartStandard => 'Начать обычный звонок';
 
   @override
-  String get voiceP2pJoinTitle => 'Join a P2P call?';
+  String get voiceP2pJoinTitle => 'Присоединиться к P2P-звонку?';
 
   @override
   String voiceP2pJoinDescription(int maxParticipants) {
-    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+    return 'В этом звонке участники подключаются напрямую. Другие участники могут видеть ваш IP-адрес. Участвовать могут до $maxParticipants человек. Если вы не можете подключиться напрямую, вы не сможете участвовать, пока кто-нибудь не переключит звонок в обычный режим.';
   }
 
   @override
   String voiceP2pPinnedJoinDescription(int maxParticipants) {
-    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+    return 'В этом канале разрешены только P2P-звонки. Участники подключаются напрямую и могут видеть ваш IP-адрес. Участвовать могут до $maxParticipants человек. Если вы не можете подключиться напрямую, вы не сможете участвовать.';
   }
 
   @override
-  String get voiceP2pJoinConfirm => 'Join';
+  String get voiceP2pJoinConfirm => 'Присоединиться';
 
   @override
-  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+  String get voiceP2pAlwaysAgreeLabel =>
+      'Больше не спрашивать, всегда соглашаться';
 
   @override
   String get voiceP2pAlwaysAgreeSettingLabel =>
-      'Always agree to join P2P calls';
+      'Всегда соглашаться на P2P-звонки';
 
   @override
   String get voiceP2pAlwaysAgreeSettingDescription =>
-      'Join P2P calls without asking. Other participants can see your IP address.';
+      'Присоединяться к P2P-звонкам без подтверждения. Другие участники могут видеть ваш IP-адрес.';
 
   @override
   String get voiceP2pIndicatorLabel => 'P2P';
 
   @override
   String get voiceP2pIndicatorDescription =>
-      'Direct connection. Media is encrypted between participants.';
+      'Прямое соединение. Медиаданные шифруются между участниками.';
 
   @override
-  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+  String get voiceP2pSwitchToStandard => 'Переключиться на обычный звонок';
 
   @override
   String get voiceP2pSwitchToStandardDescription =>
-      'Everyone in the call moves to a standard call through the server.';
+      'Все участники звонка перейдут на обычный звонок через сервер.';
 
   @override
   String get voiceP2pPeerFailedDescription =>
-      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+      'Не удалось установить прямое соединение. Покиньте звонок или переключите всех на обычный звонок.';
 
   @override
-  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+  String get voiceP2pUnavailableError => 'P2P-звонки сейчас недоступны.';
 
   @override
   String get voiceP2pConsentRequiredError =>
-      'This call is P2P and needs your agreement to join.';
+      'Это P2P-звонок, и для подключения нужно ваше согласие.';
 
   @override
-  String get voiceChannelFullError => 'This call is full.';
+  String get voiceChannelFullError => 'В этом звонке нет свободных мест.';
 
   @override
   String get voiceP2pScreenShareUnavailable =>
-      'Screen sharing from this device is not available in P2P calls.';
+      'Демонстрация экрана с этого устройства недоступна в P2P-звонках.';
 
   @override
-  String get channelMenuJoinP2p => 'Start P2P call';
+  String get channelMenuJoinP2p => 'Начать P2P-звонок';
 
   @override
-  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+  String get channelSettingsRtcP2pLabel => 'Только P2P-звонки';
 
   @override
   String channelSettingsRtcP2pDescription(int maxParticipants) {
-    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+    return 'Участники подключаются напрямую и видят IP-адреса друг друга. Перед подключением каждый должен дать согласие. Участвовать могут до $maxParticipants человек.';
   }
 
   @override
   String voiceP2pPeerFailedTitle(String name) {
-    return 'Cannot connect directly to $name';
+    return 'Не удаётся подключиться напрямую к $name';
   }
 
   @override
   String get favoritesRenameCategory => 'Переименовать категорию';
 
   @override
-  String get friendAcceptFailedTitle => 'Couldn\'t accept friend request';
+  String get friendAcceptFailedTitle =>
+      'Не удалось принять запрос на добавление в друзья';
 
   @override
   String get friendAcceptUnavailable =>
-      'That friend request is no longer available. Refresh and try again.';
+      'Этот запрос на добавление в друзья больше недоступен. Обновите данные и попробуйте снова.';
 
   @override
   String get friendAcceptClaimToAccept =>
-      'Finish signing up to accept friend requests.';
+      'Завершите регистрацию, чтобы принимать запросы на добавление в друзья.';
 
   @override
   String get friendAcceptFailedMessage =>
-      'Couldn\'t accept the friend request. Try again.';
+      'Не удалось принять запрос на добавление в друзья. Повторите попытку.';
 
   @override
-  String get friendCancelFailedTitle => 'Couldn\'t cancel friend request';
+  String get friendCancelFailedTitle =>
+      'Не удалось отменить запрос на добавление в друзья';
 
   @override
-  String get friendIgnoreFailedTitle => 'Couldn\'t ignore friend request';
+  String get friendIgnoreFailedTitle =>
+      'Не удалось проигнорировать запрос на добавление в друзья';
 
   @override
   String get friendIgnoreFailedMessage =>
-      'Couldn\'t ignore the friend request. Try again.';
+      'Не удалось проигнорировать запрос на добавление в друзья. Попробуйте ещё раз.';
 
   @override
-  String get friendRemoveFailedTitle => 'Couldn\'t remove friend';
+  String get friendRemoveFailedTitle => 'Не удалось удалить друга';
 
   @override
   String get friendRemoveFailedMessage =>
-      'Couldn\'t remove this friend. Try again.';
+      'Не удалось удалить этого друга. Попробуйте ещё раз.';
 
   @override
-  String get userBlockFailedTitle => 'Couldn\'t block user';
+  String get userBlockFailedTitle => 'Не удалось заблокировать пользователя';
 
   @override
-  String get userBlockSystemAccount => 'This account can\'t be blocked.';
+  String get userBlockSystemAccount => 'Этот аккаунт нельзя заблокировать.';
 
   @override
-  String get userBlockFailedMessage => 'Couldn\'t block this user. Try again.';
+  String get userBlockFailedMessage =>
+      'Не удалось заблокировать пользователя. Повторите попытку.';
 
   @override
-  String get userUnblockFailedTitle => 'Couldn\'t unblock user';
+  String get userUnblockFailedTitle => 'Не удалось разблокировать пользователя';
 
   @override
   String get userUnblockFailedMessage =>
-      'Couldn\'t unblock this user. Try again.';
+      'Не удалось разблокировать пользователя. Повторите попытку.';
 
   @override
   String friendCancelRequestConfirmDescription(String userName) {
-    return 'Cancel your friend request to $userName?';
+    return 'Отменить запрос в друзья пользователю $userName?';
   }
 
   @override
-  String get errorSomethingWentWrongTitle => 'Something went wrong';
+  String get errorSomethingWentWrongTitle => 'Что-то пошло не так';
 
   @override
   String get errorUnexpectedTryAgain =>
-      'An unexpected error occurred. Try again.';
+      'Произошла непредвиденная ошибка. Повторите попытку.';
 
   @override
-  String get errorMessagingPausedTitle => 'Messaging is paused';
+  String get errorMessagingPausedTitle => 'Отправка сообщений на паузе';
 
   @override
   String get errorMessagingPausedMessage =>
-      'Messaging is paused on your account. Check your email for a quick step to continue.';
+      'Отправка сообщений в вашем аккаунте на паузе. Загляните в почту: чтобы продолжить, нужен всего один быстрый шаг.';
 
   @override
-  String get errorFeatureDisabledTitle => 'Feature temporarily disabled';
+  String get errorFeatureDisabledTitle => 'Функция временно отключена';
 
   @override
   String get errorFeatureDisabledMessage =>
-      'This feature is paused. Try again later.';
+      'Эта функция приостановлена. Повторите попытку позже.';
 
   @override
-  String get dmErrorStartConversationTitle =>
-      'Couldn\'t start this conversation';
+  String get dmErrorStartConversationTitle => 'Не удалось начать этот чат';
 
   @override
   String get dmErrorCannotMessageMessage =>
-      'They might not be accepting messages from you, or you no longer share a community.';
+      'Возможно, этот пользователь не принимает от вас сообщения, или у вас больше нет общих сообществ.';
 
   @override
   String get dmErrorUnknownUserMessage =>
-      'This user no longer exists. Refresh and try again.';
+      'Этого пользователя больше нет. Обновите данные и попробуйте снова.';
 
   @override
   String get dmErrorClaimMessage =>
-      'You need to claim your account before you can start a direct message.';
+      'Чтобы начать личный чат, нужно подтвердить аккаунт.';
 
   @override
   String get dmErrorVerifyEmailMessage =>
-      'You need to verify your email address before you can start a direct message.';
+      'Чтобы начать личный чат, нужно подтвердить адрес электронной почты.';
 
   @override
-  String get dmErrorTooManyRecipientsTitle => 'This group has too many people';
+  String get dmErrorTooManyRecipientsTitle =>
+      'В этой группе слишком много участников';
 
   @override
   String get dmErrorTooManyRecipientsMessage =>
-      'You\'ve added more people than a group DM allows. Remove a few and try again.';
+      'Вы добавили больше людей, чем допускает групповой чат. Уберите несколько человек и попробуйте снова.';
 
   @override
-  String get dmErrorMaxGroupDmsTitle => 'You\'ve reached the group DM limit';
+  String get dmErrorMaxGroupDmsTitle => 'Вы достигли лимита групповых чатов';
 
   @override
   String get dmErrorMaxGroupDmsMessage =>
-      'You or someone you\'re adding already has the maximum number of group DMs open. Leave one and try again.';
+      'У вас или у кого-то из добавляемых уже открыто максимальное количество групповых чатов. Закройте один и попробуйте снова.';
 
   @override
-  String get groupDmAddFailedTitle => 'Couldn\'t add to group';
+  String get groupDmAddFailedTitle => 'Не удалось добавить в группу';
 
   @override
-  String get groupDmInviteFailedTitle => 'Couldn\'t create invite link';
+  String get groupDmInviteFailedTitle =>
+      'Не удалось создать ссылку-приглашение';
 
   @override
-  String get dmCloseFailedTitle => 'Couldn\'t close DM';
+  String get dmCloseFailedTitle => 'Не удалось закрыть личный чат';
 
   @override
-  String get groupDmLeaveFailedTitle => 'Couldn\'t leave group';
+  String get groupDmLeaveFailedTitle => 'Не удалось покинуть группу';
 
   @override
-  String get inviteJoinFailedTitle => 'Couldn\'t join community';
+  String get inviteJoinFailedTitle => 'Не удалось присоединиться к сообществу';
 
   @override
   String get inviteErrorPausedMessage =>
-      'Admins paused invites — you can\'t join right now.';
+      'Администраторы приостановили приглашения, сейчас присоединиться нельзя.';
 
   @override
-  String get inviteErrorAtCapacityTitle => 'Community at capacity';
+  String get inviteErrorAtCapacityTitle => 'Сообщество заполнено';
 
   @override
   String get inviteErrorAtCapacityMessage =>
-      'This community has reached its maximum member limit and is not accepting new members at this time.';
+      'Это сообщество достигло максимального количества участников и сейчас не принимает новых.';
 
   @override
-  String get inviteErrorPresenceTitle => 'Gateway connection required';
+  String get inviteErrorPresenceTitle => 'Требуется подключение к шлюзу';
 
   @override
   String get inviteErrorPresenceMessage =>
-      'Temporary invites need a live connection. Check yours and try again.';
+      'Для временных приглашений требуется активное подключение. Проверьте его и попробуйте снова.';
 
   @override
-  String get inviteErrorBannedTitle => 'You\'re banned';
+  String get inviteErrorBannedTitle => 'Вы забанены';
 
   @override
   String get inviteErrorBannedMessage =>
-      'You are banned from this community and cannot join.';
+      'Вы забанены в этом сообществе и не можете присоединиться.';
 
   @override
-  String get inviteErrorIpBannedTitle => 'Your IP is banned';
+  String get inviteErrorIpBannedTitle => 'Ваш IP-адрес забанен';
 
   @override
   String get inviteErrorIpBannedMessage =>
-      'Your IP address is banned from this community and you cannot join.';
+      'Ваш IP-адрес забанен в этом сообществе, и вы не можете присоединиться.';
 
   @override
-  String get inviteErrorClaimTitle => 'Account verification required';
+  String get inviteErrorClaimTitle => 'Требуется подтверждение аккаунта';
 
   @override
   String get inviteErrorClaimMessage =>
-      'Add an email and password to your account first.';
+      'Сначала добавьте адрес электронной почты и пароль к своему аккаунту.';
 
   @override
-  String get leaveCommunityFailedTitle => 'Failed to leave community';
+  String get leaveCommunityFailedTitle => 'Не удалось покинуть сообщество';
 
   @override
   String get leaveCommunityFailedMessage =>
-      'Couldn\'t leave right now. Try again in a moment.';
+      'Сейчас не удалось покинуть сообщество. Повторите попытку позже.';
 
   @override
-  String get chatSendFailedTitle => 'Your message didn\'t send';
+  String get chatSendFailedTitle => 'Сообщение не отправлено';
 
   @override
-  String get chatSendFailedMessage => 'Try sending your message again.';
+  String get chatSendFailedMessage => 'Попробуйте отправить сообщение ещё раз.';
 
   @override
-  String get chatSendTooQuickTitle => 'You\'re sending messages too quickly';
+  String get chatSendTooQuickTitle => 'Вы отправляете сообщения слишком быстро';
 
   @override
   String get chatRateLimitedMessage =>
-      'Slow down — wait a moment before trying again.';
+      'Притормозите — подождите немного, прежде чем повторить попытку.';
 
   @override
-  String get chatMatureContentTitle => 'Mature content not allowed';
+  String get chatMatureContentTitle => 'Контент для взрослых не разрешен';
 
   @override
   String get chatMatureContentGuildMessage =>
-      'This channel is not marked for mature content. Mature content can only be sent in channels marked for mature content. Ask a moderator to update this channel if appropriate.';
+      'Этот канал не помечен как содержащий контент для взрослых. Контент для взрослых можно отправлять только в каналах, помеченных соответствующим образом. Попросите модератора обновить этот канал, если это необходимо.';
 
   @override
   String chatMatureContentDmMessage(String settingsPath) {
-    return 'You or the person you are messaging has chosen to block sensitive media in direct messages. Each of you can change this in $settingsPath.';
+    return 'Вы или ваш собеседник решили блокировать деликатные медиафайлы в личных сообщениях. Каждый из вас может изменить это в $settingsPath.';
   }
 
   @override
   String get chatMatureContentGroupDmMessage =>
-      'This group is not marked for mature content. The group owner can turn on Mature content in the group settings if everyone in the group is 18 or older.';
+      'Этот чат не помечен как содержащий материалы для взрослых. Владелец чата может включить материалы для взрослых в настройках чата, если всем участникам есть 18 лет или больше.';
 
   @override
-  String get chatFileTooLargeTitle => 'File size too large';
+  String get chatFileTooLargeTitle => 'Размер файла слишком большой';
 
   @override
   String chatFileTooLargeMessage(String maxSize) {
-    return 'One or more files you\'re trying to upload exceed the maximum size limit of $maxSize per file.';
+    return 'Один или несколько файлов, которые вы пытаетесь загрузить, превышают максимальный размер $maxSize на файл.';
   }
 
   @override
-  String get chatHeavyTitle => 'Whoa, this is heavy';
+  String get chatHeavyTitle => 'Ого, это слишком много';
 
   @override
   String get chatReactionsHeavyMessage =>
-      'This is one heavy message. Some reactions need to be removed before you can add more.';
+      'Слишком много реакций. Удалите некоторые, чтобы добавить новые.';
 
   @override
   String get chatReactionTimedOut =>
-      'You can\'t add new reactions while you\'re timed out.';
+      'Вы не можете добавлять новые реакции, пока у вас тайм-аут.';
 
   @override
   String chatTooManyAttachmentsMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '$count file',
+      other: '$count файлов',
+      one: '$count файла',
     );
-    return 'You can only upload $_temp0 at a time. Try again with fewer files.';
+    return 'За один раз можно загрузить не более $_temp0. Попробуйте снова с меньшим количеством файлов.';
   }
 
   @override
-  String get chatEditTooQuickTitle => 'You\'re editing messages too quickly';
+  String get chatEditTooQuickTitle =>
+      'Вы слишком быстро редактируете сообщения';
 
   @override
-  String get chatEditFailedMessage => 'Try editing your message again.';
+  String get chatEditFailedMessage =>
+      'Попробуйте отредактировать сообщение ещё раз.';
 
   @override
-  String get chatDeleteTooQuickTitle => 'You\'re deleting messages too quickly';
+  String get chatDeleteTooQuickTitle => 'Вы слишком быстро удаляете сообщения';
 
   @override
   String get chatDeleteTooQuickMessage =>
-      'Wait a moment before deleting more messages.';
+      'Подождите немного, прежде чем удалять другие сообщения.';
 
   @override
-  String get chatDeleteFailedTitle => 'That message couldn\'t be deleted';
+  String get chatDeleteFailedTitle => 'Не удалось удалить сообщение';
 
   @override
-  String get chatDeleteFailedMessage => 'Try deleting that message again.';
+  String get chatDeleteFailedMessage => 'Попробуйте удалить сообщение ещё раз.';
 
   @override
-  String get chatAttachmentDeleteFailedTitle => 'Couldn\'t delete attachment';
+  String get chatAttachmentDeleteFailedTitle => 'Не удалось удалить вложение';
 
   @override
   String get chatAttachmentDeleteFailedMessage =>
-      'Try deleting that attachment again.';
+      'Попробуйте удалить это вложение ещё раз.';
 
   @override
-  String get chatAltTextFailedTitle => 'Couldn\'t update alt text';
+  String get chatAltTextFailedTitle =>
+      'Не удалось обновить альтернативный текст';
 
   @override
-  String get chatAltTextUnknownMessage => 'This message no longer exists.';
+  String get chatAltTextUnknownMessage => 'Этого сообщения больше нет.';
 
   @override
-  String get chatAltTextNoPermission => 'You can\'t edit this message.';
+  String get chatAltTextNoPermission =>
+      'Вы не можете редактировать это сообщение.';
 
   @override
   String get chatAltTextUnavailable =>
-      'Editing is temporarily unavailable. Please try again later.';
+      'Редактирование временно недоступно. Повторите попытку позже.';
 
   @override
   String get chatAltTextFailedMessage =>
-      'Couldn\'t update the alt text. Please try again.';
+      'Не удалось обновить альтернативный текст. Повторите попытку.';
 
   @override
-  String get chatPinFailedTitle => 'Failed to pin message';
+  String get chatPinFailedTitle => 'Не удалось закрепить сообщение';
 
   @override
-  String get chatUnpinFailedTitle => 'Failed to unpin message';
+  String get chatUnpinFailedTitle => 'Не удалось открепить сообщение';
 
   @override
-  String get chatPinFailedMessage => 'Something went wrong. Try again later.';
+  String get chatPinFailedMessage =>
+      'Что-то пошло не так. Повторите попытку позже.';
 
   @override
   String get chatPinBlockedMessage =>
-      'You cannot interact with this user right now.';
+      'Вы не можете взаимодействовать с этим пользователем прямо сейчас.';
 
   @override
-  String get bookmarkLimitTitle => 'Bookmark limit reached';
+  String get bookmarkLimitTitle => 'Достигнут лимит закладок';
 
   @override
   String bookmarkLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count bookmarks',
-      one: '$count bookmark',
+      other: '$count закладки',
+      many: '$count закладок',
+      few: '$count закладки',
+      one: '$count закладка',
     );
-    return 'You\'re at $_temp0. Remove one to add another.';
+    return 'У вас уже $_temp0. Удалите одну, чтобы добавить новую.';
   }
 
   @override
-  String get savedMediaLimitTitle => 'Saved media limit reached';
+  String get savedMediaLimitTitle => 'Достигнут лимит сохраненных медиа';
 
   @override
   String savedMediaLimitMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count saved media items',
-      one: '$count saved media item',
+      other: '$count сохранённого медиафайла',
+      many: '$count сохранённых медиафайлов',
+      few: '$count сохранённых медиафайла',
+      one: '$count сохранённый медиафайл',
     );
-    return 'You\'re at the cap of $_temp0. Remove one to add another.';
+    return 'Достигнут лимит в $_temp0. Удалите один, чтобы добавить новый.';
   }
 
   @override
-  String get errorContentBlockedTitle => 'Content blocked';
+  String get errorContentBlockedTitle => 'Контент заблокирован';
 
   @override
   String get errorContentBlockedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'Ваше действие не удалось выполнить, так как оно было отмечено нашими системами безопасности. Если вы считаете, что это ошибка, обратитесь в поддержку.';
 
   @override
   String get errorContentBlockedSelfHostedMessage =>
-      'Your action could not be completed because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+      'Ваше действие не удалось выполнить, так как оно было отмечено нашими системами безопасности. Если вы считаете, что это ошибка, обратитесь к администраторам этого экземпляра.';
 
   @override
-  String get channelDeletedToast => 'Channel deleted';
+  String get channelDeletedToast => 'Канал удалён';
 
   @override
-  String get categoryDeletedToast => 'Category deleted';
+  String get categoryDeletedToast => 'Категория удалена';
 
   @override
-  String get channelDeleteNoPermissionTitle => 'You can\'t delete this';
+  String get channelDeleteNoPermissionTitle => 'Вы не можете удалить это';
 
   @override
   String get channelDeleteNoPermissionChannel =>
-      'You don\'t have permission to delete this channel.';
+      'У вас нет разрешения на удаление этого канала.';
 
   @override
   String get channelDeleteNoPermissionCategory =>
-      'You don\'t have permission to delete this category.';
+      'У вас нет разрешения на удаление этой категории.';
 
   @override
-  String get channelDeleteAlreadyDeletedTitle => 'Already deleted';
+  String get channelDeleteAlreadyDeletedTitle => 'Уже удалено';
 
   @override
   String get channelDeleteAlreadyDeletedChannel =>
-      'This channel no longer exists. It may have already been deleted.';
+      'Этого канала больше не существует. Возможно, он уже был удален.';
 
   @override
   String get channelDeleteAlreadyDeletedCategory =>
-      'This category no longer exists. It may have already been deleted.';
+      'Этой категории больше не существует. Возможно, она уже была удалена.';
 
   @override
-  String get channelDeleteFailedChannelTitle => 'Couldn\'t delete this channel';
+  String get channelDeleteFailedChannelTitle => 'Не удалось удалить этот канал';
 
   @override
   String get channelDeleteFailedCategoryTitle =>
-      'Couldn\'t delete this category';
+      'Не удалось удалить эту категорию';
 
   @override
   String get channelPermissionsUpdateFailedTitle =>
-      'Couldn\'t update channel permissions';
+      'Не удалось обновить разрешения канала';
 
   @override
   String get channelSettingsSaveFailedTitle =>
-      'Couldn\'t save channel settings';
+      'Не удалось сохранить настройки канала';
 
   @override
-  String get emojiSlotsFullTitle => 'No emoji slots available';
+  String get emojiSlotsFullTitle => 'Нет свободных слотов для эмодзи';
 
   @override
-  String get stickerSlotsFullTitle => 'No sticker slots available';
+  String get stickerSlotsFullTitle => 'Нет доступных слотов для стикеров';
 
   @override
   String get emojiSomeFailedMessage =>
-      'Review these files and try again with smaller or simpler images.';
+      'Проверьте эти файлы и повторите попытку с меньшими или более простыми изображениями.';
 
   @override
   String get emojiNameInvalidCharacters =>
-      'Emoji names can only use letters, numbers and underscores.';
+      'Названия эмодзи могут содержать только буквы, цифры и подчёркивания.';
 
   @override
-  String get emojiErrorGoneTitle => 'This emoji no longer exists';
+  String get emojiErrorGoneTitle => 'Этого эмодзи больше нет';
 
   @override
   String get emojiRenameGoneMessage =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'Возможно, оно было удалено. Название вернулось к прежнему.';
 
   @override
-  String get emojiRenameNoPermissionTitle => 'You can\'t rename this emoji';
+  String get emojiRenameNoPermissionTitle =>
+      'Вы не можете переименовать этот эмодзи';
 
   @override
   String get emojiRenameNoPermissionMessage =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'У вас нет разрешения на переименование этого эмодзи. Имя было возвращено к предыдущему.';
 
   @override
   String get emojiRenameRateLimitedMessage =>
-      'Please wait a moment and try renaming again.';
+      'Пожалуйста, подождите немного и попробуйте переименовать ещё раз.';
 
   @override
   String get emojiRenameFailedMessage =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'Имя вернулось к прежнему. Попробуйте ещё раз чуть позже.';
 
   @override
-  String get emojiDeleteGoneMessage => 'It looks like it was already deleted.';
+  String get emojiDeleteGoneMessage => 'Похоже, оно уже было удалено.';
 
   @override
-  String get emojiDeleteNoPermissionTitle => 'You can\'t delete this emoji';
+  String get emojiDeleteNoPermissionTitle => 'Вы не можете удалить этот эмодзи';
 
   @override
   String get emojiDeleteNoPermissionMessage =>
-      'You don\'t have permission to delete this emoji.';
+      'У вас нет разрешения на удаление этого эмодзи.';
 
   @override
   String get emojiDeleteRateLimitedMessage =>
-      'Please wait a moment and try deleting again.';
+      'Пожалуйста, подождите немного и попробуйте удалить снова.';
 
   @override
-  String get stickerTooLargeTitle => 'Sticker is too large';
+  String get stickerTooLargeTitle => 'Стикер слишком большой';
 
   @override
   String stickerTooLargeMessage(String maxSize) {
-    return 'The upload service rejected this sticker as larger than $maxSize. Try a smaller file, a simpler image, or a shorter animation.';
+    return 'Сервис загрузки отклонил этот стикер, так как его размер превышает $maxSize. Попробуйте файл меньшего размера, более простое изображение или более короткую анимацию.';
   }
 
   @override
   String get stickerCreateFailedMessage =>
-      'Something went wrong while preparing this sticker. Try another file or try again in a moment.';
+      'Что-то пошло не так при подготовке стикера. Попробуйте другой файл или повторите попытку через минуту.';
 
   @override
-  String get stickerUpdateFailedTitle => 'Couldn\'t update this sticker';
+  String get stickerUpdateFailedTitle => 'Не удалось обновить этот стикер';
 
   @override
-  String get moderationTimeoutFailed => 'Failed to time out member. Try again.';
+  String get moderationTimeoutFailed =>
+      'Не удалось отправить участника в тайм-аут. Повторите попытку.';
 
   @override
   String get moderationRemoveTimeoutFailed =>
-      'Failed to remove timeout. Try again.';
+      'Не удалось снять тайм-аут. Повторите попытку.';
 
   @override
-  String get moderationKickFailed => 'Failed to kick member. Try again.';
+  String get moderationKickFailed =>
+      'Не удалось исключить участника. Повторите попытку.';
 
   @override
-  String get moderationBanFailed => 'Failed to ban member. Try again.';
+  String get moderationBanFailed =>
+      'Не удалось забанить участника. Повторите попытку.';
 
   @override
-  String get transferOwnershipFailedTitle => 'Failed to transfer ownership';
+  String get transferOwnershipFailedTitle =>
+      'Не удалось передать права владельца';
 
   @override
   String transferOwnershipFailedMessage(String username) {
-    return 'Ownership could not be transferred to $username at this time.';
+    return 'Сейчас не удалось передать права владельца пользователю $username.';
   }
 
   @override
-  String get revokeBanFailedTitle => 'Couldn\'t revoke ban';
+  String get revokeBanFailedTitle => 'Не удалось снять бан';
 
   @override
-  String get voiceModerationNoPermissionTitle => 'You can\'t do that';
+  String get voiceModerationNoPermissionTitle => 'Вы не можете это сделать';
 
   @override
   String get voiceModerationNoPermissionMessage =>
-      'You don\'t have permission to do this to this member.';
+      'У вас нет разрешения на это действие с этим участником.';
 
   @override
-  String get voiceModerationLeftTitle => 'They left the call';
+  String get voiceModerationLeftTitle => 'Участник вышел из звонка';
 
   @override
   String get voiceModerationLeftMessage =>
-      'This member isn\'t connected to voice anymore.';
+      'Этот участник больше не подключен к голосовому каналу.';
 
   @override
-  String get voiceModerationUnknownMemberTitle => 'Member not found';
+  String get voiceModerationUnknownMemberTitle => 'Участник не найден';
 
   @override
   String get voiceModerationUnknownMemberMessage =>
-      'This member is no longer in the community. Refresh and try again.';
+      'Этого участника больше нет в сообществе. Обновите данные и попробуйте снова.';
 
   @override
-  String get voiceJoinTimedOut => 'You can\'t join while you\'re timed out.';
+  String get voiceJoinTimedOut =>
+      'Вы не можете присоединиться, пока находитесь в тайм-ауте.';
 
   @override
   String get voiceJoinClaimAccount =>
-      'Claim your account to join this voice channel.';
+      'Подтвердите аккаунт, чтобы присоединиться к этому голосовому каналу.';
 
   @override
   String get voiceJoinClaimAccountDirectCall =>
-      'Claim your account to start or join 1:1 calls.';
+      'Подтвердите аккаунт, чтобы начать или присоединиться к звонкам 1:1.';
 
   @override
   String get voiceJoinUserLimit =>
-      'This voice channel has reached its user limit. Try again later or join a different channel.';
+      'В этом голосовом канале достигнут лимит пользователей. Попробуйте позже или присоединитесь к другому каналу.';
 
   @override
   String get voiceJoinConnectionLimit =>
-      'You\'ve reached this voice channel\'s connection limit.';
+      'Вы достигли лимита подключений для этого голосового канала.';
 
   @override
   String get voiceJoinChannelUnavailable =>
-      'This voice channel is no longer available.';
+      'Этот голосовой канал больше недоступен.';
 
   @override
-  String get avatarUploadFailedTitle => 'Couldn\'t upload avatar';
+  String get avatarUploadFailedTitle => 'Не удалось загрузить аватар';
 
   @override
-  String get bannerUploadFailedTitle => 'Couldn\'t upload banner';
+  String get bannerUploadFailedTitle => 'Не удалось загрузить баннер';
 
   @override
-  String get animatedImageUseStatic => 'Upload a static image instead.';
+  String get animatedImageUseStatic => 'Загрузите статичное изображение.';
 
   @override
-  String get passkeyDeleteFailedTitle => 'Couldn\'t delete passkey';
+  String get passkeyDeleteFailedTitle => 'Не удалось удалить ключ доступа';
 
   @override
-  String get premiumPaymentsUnavailableTitle => 'Payments are unavailable';
+  String get premiumPaymentsUnavailableTitle => 'Платежи недоступны';
 
   @override
   String get premiumPaymentsUnavailableMessage =>
-      'Payments are temporarily unavailable. Please try again in a moment.';
+      'Платежи временно недоступны. Пожалуйста, попробуйте ещё раз через некоторое время.';
 
   @override
-  String get premiumNoSubscriptionTitle => 'No active subscription';
+  String get premiumNoSubscriptionTitle => 'Нет активной подписки';
 
   @override
   String get premiumNoSubscriptionMessage =>
-      'We couldn\'t find an active subscription on this account. Refresh and try again.';
+      'Нам не удалось найти активную подписку в этом аккаунте. Обновите данные и попробуйте ещё раз.';
 
   @override
-  String get premiumAlreadyCancelingTitle => 'Already set to cancel';
+  String get premiumAlreadyCancelingTitle => 'Отмена уже запланирована';
 
   @override
   String get premiumAlreadyCancelingMessage =>
-      'Your subscription is already set to cancel at the end of your billing period.';
+      'Отмена подписки уже запланирована на конец расчётного периода.';
 
   @override
-  String get premiumNotCancelingTitle =>
-      'Subscription is not scheduled to cancel';
+  String get premiumNotCancelingTitle => 'Отмена подписки не запланирована';
 
   @override
   String get premiumNotCancelingMessage =>
-      'Your subscription isn\'t set to cancel, so there\'s nothing to reactivate.';
+      'Отмена подписки не запланирована, поэтому возобновлять нечего.';
 
   @override
-  String get premiumCancelFailedTitle => 'Couldn\'t cancel your subscription';
+  String get premiumCancelFailedTitle => 'Не удалось отменить подписку';
 
   @override
   String get premiumCancelFailedMessage =>
-      'Something went wrong while canceling your subscription. Please try again in a moment.';
+      'Что-то пошло не так при отмене подписки. Повторите попытку через минуту.';
 
   @override
   String get premiumReactivateFailedTitle =>
-      'Couldn\'t reactivate your subscription';
+      'Не удалось повторно активировать подписку';
 
   @override
   String get premiumReactivateFailedMessage =>
-      'Something went wrong while reactivating your subscription. Please try again in a moment.';
+      'Что-то пошло не так при повторной активации подписки. Повторите попытку через минуту.';
 
   @override
-  String get premiumRefundConfirmTitle => 'Refund your most recent purchase?';
+  String get premiumRefundConfirmTitle =>
+      'Вернуть деньги за последнюю покупку?';
 
   @override
   String get premiumRefundConfirmBody =>
-      'This refunds your most recent invoice and cancels any associated subscription. You won\'t be able to self-refund again for 30 days.';
+      'Это вернет средства по последнему счету и отменит связанную с ним подписку. Вы не сможете самостоятельно вернуть средства в течение 30 дней.';
 
   @override
-  String get premiumRefundConfirm => 'Refund purchase';
+  String get premiumRefundConfirm => 'Вернуть деньги за покупку';
 
   @override
   String get premiumRefundIssuedToast =>
-      'Refund issued. May take a few business days to appear.';
+      'Возврат средств оформлен. Поступление средств может занять несколько рабочих дней.';
 
   @override
-  String get premiumRefundOutsideWindowTitle => 'Outside the refund window';
+  String get premiumRefundOutsideWindowTitle => 'Срок возврата истёк';
 
   @override
   String get premiumRefundOutsideWindowMessage =>
-      'Your most recent purchase is no longer within the refund window. Contact support for billing issues.';
+      'С момента вашей последней покупки прошло слишком много времени, чтобы оформить возврат. Обратитесь в службу поддержки по вопросам оплаты.';
 
   @override
-  String get premiumRefundCooldownTitle => 'You have refunded recently';
+  String get premiumRefundCooldownTitle => 'Вы недавно оформляли возврат';
 
   @override
   String get premiumRefundCooldownMessage =>
-      'You\'ve already used a self-serve refund recently. You can refund again once the cooldown ends.';
+      'Вы недавно уже использовали самостоятельный возврат средств. Вы сможете вернуть средства снова, как только закончится период ожидания.';
 
   @override
-  String get premiumRefundNothingTitle => 'Nothing to refund';
+  String get premiumRefundNothingTitle => 'Возвращать нечего';
 
   @override
   String get premiumRefundNothingMessage =>
-      'We couldn\'t find a recent purchase to refund on this account.';
+      'Нам не удалось найти недавнюю покупку для возврата на этом аккаунте.';
 
   @override
-  String get premiumRefundFailedTitle => 'Couldn\'t refund this purchase';
+  String get premiumRefundFailedTitle =>
+      'Не удалось вернуть средства за эту покупку';
 
   @override
   String get premiumRefundFailedMessage =>
-      'Something went wrong while issuing your refund. Contact support if this keeps happening.';
+      'Что-то пошло не так при оформлении возврата. Если это повторится, обратитесь в службу поддержки.';
 
   @override
-  String get premiumVerifyEmailTitle => 'Verify your email first';
+  String get premiumVerifyEmailTitle => 'Сначала подтвердите почту';
 
   @override
   String premiumVerifyEmailBody(String productName) {
-    return 'You need to verify your email before you can purchase $productName.';
+    return 'Чтобы приобрести $productName, вам нужно подтвердить адрес электронной почты.';
   }
 
   @override
-  String get premiumCheckoutBlockedTitle => 'Checkout unavailable';
+  String get premiumCheckoutBlockedTitle => 'Оформление заказа недоступно';
 
   @override
   String premiumCheckoutBlockedBody(String supportEmail) {
-    return 'Checkout is blocked for this account. Contact $supportEmail if you need help.';
+    return 'Оформление заказа для этого аккаунта заблокировано. Если вам нужна помощь, свяжитесь с нами по адресу $supportEmail.';
   }
 
   @override
   String get premiumCheckoutBlockedBodySelfHosted =>
-      'Checkout is blocked for this account.';
+      'Оформление заказа для этого аккаунта заблокировано.';
 }
