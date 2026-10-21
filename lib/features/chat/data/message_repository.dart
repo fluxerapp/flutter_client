@@ -582,6 +582,16 @@ class MessageRepository {
     return messages;
   }
 
+  Future<Set<String>> _composerDraftReplyMessageIds(String channelId) async {
+    final String? replyId = (await _db.composerDraftDao.getDraft(
+      channelId,
+    ))?.replyToMessageId;
+    if (replyId == null || replyId.isEmpty) {
+      return const <String>{};
+    }
+    return <String>{replyId};
+  }
+
   Future<void> _pruneStaleMessagesForNetworkPage(
     String channelId,
     List<Message> networkPage, {
@@ -590,7 +600,12 @@ class MessageRepository {
   }) async {
     if (networkPage.isEmpty) {
       if (isLatestPage) {
-        await _db.messageDao.deleteSentMessagesForChannel(channelId);
+        final Set<String> preserveMessageIds =
+            await _composerDraftReplyMessageIds(channelId);
+        await _db.messageDao.deleteSentMessagesForChannel(
+          channelId,
+          preserveMessageIds: preserveMessageIds,
+        );
       }
       return;
     }

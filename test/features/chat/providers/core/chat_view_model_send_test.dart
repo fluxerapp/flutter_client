@@ -62,6 +62,7 @@ Map<String, Object?> _messageJson({
   required String authorId,
   String content = 'message',
   String? nonce,
+  DateTime? timestamp,
 }) => <String, Object?>{
   'id': id,
   'channel_id': channelId,
@@ -78,7 +79,9 @@ Map<String, Object?> _messageJson({
   'flags': 0,
   'tts': false,
   'content': content,
-  'timestamp': dateTimeFromUserSnowflakeOrNull(id)!.toIso8601String(),
+  'timestamp':
+      (timestamp ?? dateTimeFromUserSnowflakeOrNull(id))?.toIso8601String() ??
+      DateTime.utc(2026, 6, 16, 12).toIso8601String(),
   'pinned': false,
   'mention_everyone': false,
   'mentions': <Object?>[],
@@ -892,6 +895,14 @@ void main() {
         db,
         _SendAdapter(
           serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+          latestMessages: <Map<String, Object?>>[
+            _messageJson(
+              id: replyTo.id,
+              channelId: replyTo.channelId,
+              authorId: replyTo.authorId,
+              content: replyTo.content,
+            ),
+          ],
         ),
       );
       addTearDown(container.dispose);
@@ -1797,6 +1808,14 @@ void main() {
           adapter ??
           _SendAdapter(
             serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+            latestMessages: <Map<String, Object?>>[
+              _messageJson(
+                id: 'src-1',
+                channelId: 'channel-1',
+                authorId: 'other',
+                content: 'original',
+              ),
+            ],
           );
       final container = _container(db, sendAdapter);
       addTearDown(() {
@@ -1821,6 +1840,14 @@ void main() {
         final (container, _, notifier) = await setUpForward(
           adapter: _SendAdapter(
             serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+            latestMessages: <Map<String, Object?>>[
+              _messageJson(
+                id: 'src-1',
+                channelId: 'channel-1',
+                authorId: 'other',
+                content: 'original',
+              ),
+            ],
           )..holdSend = true,
         );
 
@@ -2153,15 +2180,19 @@ class _SendAdapter implements HttpClientAdapter {
           },
         );
       }
-      return _json(
-        _messageJson(
-          id: serverMessageId,
-          channelId: 'channel-1',
-          authorId: 'me',
-          content: body['content'] as String? ?? '',
-          nonce: lastSentNonce,
-        ),
+      final Map<String, Object?> sent = _messageJson(
+        id: serverMessageId,
+        channelId: 'channel-1',
+        authorId: 'me',
+        content: body['content'] as String? ?? '',
+        nonce: lastSentNonce,
       );
+      if (!latestMessages.any(
+        (Map<String, Object?> row) => row['id'] == sent['id'],
+      )) {
+        latestMessages.add(sent);
+      }
+      return _json(sent);
     }
     if (options.method == 'PUT' && path.contains('/reactions/')) {
       reactionPuts.add(Uri.decodeComponent(path));

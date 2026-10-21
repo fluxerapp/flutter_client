@@ -263,6 +263,66 @@ void main() {
       expect(indicatorController.bottomIndicator.value.show, isFalse);
     });
 
+    testWidgets(
+      'a mention in a lazy-list gap still beats a closer plain unread below',
+      (WidgetTester tester) async {
+        final scrollController = ScrollController();
+        final itemKeys = <String, GlobalKey>{};
+        final List<String> order = <String>[
+          for (var i = 0; i < 50; i++) 'item-$i',
+        ];
+        final indicatorController = GuildScrollIndicatorController(
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+          resolveSeverity: (String id) => switch (id) {
+            'item-12' => GuildScrollIndicatorSeverity.mention,
+            'item-30' => GuildScrollIndicatorSeverity.unread,
+            _ => null,
+          },
+          orderedIds: () => order,
+        );
+        addTearDown(() {
+          indicatorController.detach();
+          scrollController.dispose();
+        });
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Center(
+              child: SizedBox(
+                width: 240,
+                height: 120,
+                child: ListView.builder(
+                  controller: scrollController,
+                  scrollCacheExtent: const ScrollCacheExtent.pixels(0),
+                  itemCount: order.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final String id = order[index];
+                    final GlobalKey? key = switch (id) {
+                      'item-0' ||
+                      'item-1' ||
+                      'item-30' => itemKeys.putIfAbsent(id, GlobalKey.new),
+                      _ => null,
+                    };
+                    return SizedBox(key: key, height: 40);
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+        expect(itemKeys['item-12']?.currentContext, isNull);
+        indicatorController.update();
+
+        expect(indicatorController.bottomIndicator.value.show, isTrue);
+        expect(
+          indicatorController.bottomIndicator.value.severity,
+          GuildScrollIndicatorSeverity.mention,
+        );
+        expect(indicatorController.bottomIndicator.value.targetId, 'item-12');
+      },
+    );
+
     testWidgets('an unread item far below the viewport shows the bottom pill '
         'even though the lazy list never built it', (
       WidgetTester tester,
