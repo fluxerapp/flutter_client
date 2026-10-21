@@ -143,10 +143,12 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
     this.enabled = true,
     this.allowCombine = true,
     this.allowsGuildMergeAsSource = true,
+    this.parentFolderId,
     this.longPressMenu,
     this.peekMenu,
     this.folderPeekMenu,
     this.onPeekOpened,
+    this.suppressInsertionGapAfter = false,
     super.key,
   });
 
@@ -155,6 +157,8 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
   final bool enabled;
   final bool allowCombine;
   final bool allowsGuildMergeAsSource;
+  final String? parentFolderId;
+  final bool suppressInsertionGapAfter;
   final Widget dragFeedback;
   final Widget child;
   final ValueGetter<GuildLongPressMenu?>? longPressMenu;
@@ -185,7 +189,10 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.itemId != widget.itemId ||
         oldWidget.isFolder != widget.isFolder ||
-        oldWidget.allowCombine != widget.allowCombine) {
+        oldWidget.allowCombine != widget.allowCombine ||
+        oldWidget.parentFolderId != widget.parentFolderId ||
+        oldWidget.suppressInsertionGapAfter !=
+            widget.suppressInsertionGapAfter) {
       ref
           .read(guildDragProvider.notifier)
           .unregisterDragTarget(oldWidget.itemId);
@@ -211,6 +218,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
             isFolder: widget.isFolder,
             allowCombine: widget.allowCombine,
             boundsKey: _dragTargetKey,
+            parentFolderId: widget.parentFolderId,
           ),
         );
   }
@@ -273,6 +281,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
             color: brandPrimary,
             useTouchInsertionGaps: useTouchDrag,
             suppressInsertionGapBefore: widget.isFolder,
+            suppressInsertionGapAfter: widget.suppressInsertionGapAfter,
             touchInsertionSingleSlot: showOriginInsertionSlot,
             child: dragTargetChild,
           );
@@ -418,6 +427,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
           targetId: widget.itemId,
           isFolder: widget.isFolder,
           position: position,
+          pointerGlobalY: details.offset.dy,
         );
   }
 
@@ -429,19 +439,20 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
   void _commitPendingDropIfNeeded() {
     final DragState dragState = ref.read(guildDragProvider);
     final String? sourceId = dragState.dragItemId;
-    final String? targetId = dragState.hoverTargetId;
-    final DropPosition? position = dragState.dropPosition;
-    if (sourceId == null || targetId == null || position == null) {
+    final GuildDropHoverIntent? dropIntent = ref
+        .read(guildDragProvider.notifier)
+        .resolvedDropIntentForCommit();
+    if (sourceId == null || dropIntent == null) {
       return;
     }
-    if (sourceId == targetId) {
+    if (sourceId == dropIntent.targetId) {
       return;
     }
     _applyDragDrop(
       sourceId: sourceId,
-      targetId: targetId,
-      targetIsFolder: dragState.hoverTargetIsFolder,
-      position: position,
+      targetId: dropIntent.targetId,
+      targetIsFolder: dropIntent.isFolder,
+      position: dropIntent.position,
     );
   }
 
@@ -751,6 +762,11 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable>
       data: widget.data,
       dragAnchorStrategy: pointerDragAnchorStrategy,
       onDragStarted: () => widget.onDragStarted(_anchorGlobalCenterX(context)),
+      onDragUpdate: (DragUpdateDetails details) {
+        ref
+            .read(guildDragProvider.notifier)
+            .updateDragMovement(details.globalPosition, updateHover: false);
+      },
       onDragEnd: (_) => widget.onDragEnded(),
       onDraggableCanceled: (_, _) => widget.onDragEnded(),
       feedback: Transform.scale(scale: 0.9, child: widget.dragFeedback),
@@ -768,6 +784,7 @@ class _DragTargetContent extends StatelessWidget {
     required this.suppressInsertionGapBefore,
     required this.touchInsertionSingleSlot,
     required this.child,
+    this.suppressInsertionGapAfter = false,
   });
 
   final DropPosition? dropPosition;
@@ -775,6 +792,7 @@ class _DragTargetContent extends StatelessWidget {
   final bool useTouchInsertionGaps;
   final bool suppressInsertionGapBefore;
   final bool touchInsertionSingleSlot;
+  final bool suppressInsertionGapAfter;
   final Widget child;
 
   @override
@@ -790,58 +808,17 @@ class _DragTargetContent extends StatelessWidget {
     return _TouchInsertionDragTargetContent(
       dropPosition: dropPosition,
       suppressInsertionGapBefore: suppressInsertionGapBefore,
+      suppressInsertionGapAfter: suppressInsertionGapAfter,
       singleSlot: touchInsertionSingleSlot,
       child: child,
     );
   }
 }
 
-class _TouchInsertionDragTargetContent extends StatelessWidget {
-  const _TouchInsertionDragTargetContent({
-    required this.dropPosition,
-    required this.suppressInsertionGapBefore,
-    required this.singleSlot,
-    required this.child,
-  });
-
-  final DropPosition? dropPosition;
-  final bool suppressInsertionGapBefore;
-  final bool singleSlot;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    if (singleSlot) {
-      return const _TouchInsertionGap(isOpen: true);
-    }
-
-    final bool openBefore =
-        dropPosition == DropPosition.before && !suppressInsertionGapBefore;
-    final bool openAfter = dropPosition == DropPosition.after;
-    final bool isCombine = dropPosition == DropPosition.combine;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _TouchInsertionGap(isOpen: openBefore),
-        AnimatedScale(
-          scale: isCombine ? 0.9 : 1,
-          duration: _kTouchReorderSpringDuration,
-          curve: _kTouchReorderSpringCurve,
-          child: child,
-        ),
-        _TouchInsertionGap(isOpen: openAfter),
-      ],
-    );
-  }
-}
-
-class _TouchInsertionGap extends StatelessWidget {
-  const _TouchInsertionGap({required this.isOpen});
+class GuildTouchInsertionGap extends StatelessWidget {
+  const GuildTouchInsertionGap({required this.isOpen, super.key});
 
   final bool isOpen;
-
-  static const Widget _closedGap = SizedBox(width: double.infinity, height: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -854,7 +831,50 @@ class _TouchInsertionGap extends StatelessWidget {
               width: double.infinity,
               height: kGuildTouchInsertionSlotHeight,
             )
-          : _closedGap,
+          : const SizedBox(width: double.infinity, height: 0),
+    );
+  }
+}
+
+class _TouchInsertionDragTargetContent extends StatelessWidget {
+  const _TouchInsertionDragTargetContent({
+    required this.dropPosition,
+    required this.suppressInsertionGapBefore,
+    required this.suppressInsertionGapAfter,
+    required this.singleSlot,
+    required this.child,
+  });
+
+  final DropPosition? dropPosition;
+  final bool suppressInsertionGapBefore;
+  final bool suppressInsertionGapAfter;
+  final bool singleSlot;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (singleSlot) {
+      return const GuildTouchInsertionGap(isOpen: true);
+    }
+
+    final bool openBefore =
+        dropPosition == DropPosition.before && !suppressInsertionGapBefore;
+    final bool openAfter =
+        dropPosition == DropPosition.after && !suppressInsertionGapAfter;
+    final bool isCombine = dropPosition == DropPosition.combine;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GuildTouchInsertionGap(isOpen: openBefore),
+        AnimatedScale(
+          scale: isCombine ? 0.9 : 1,
+          duration: _kTouchReorderSpringDuration,
+          curve: _kTouchReorderSpringCurve,
+          child: child,
+        ),
+        GuildTouchInsertionGap(isOpen: openAfter),
+      ],
     );
   }
 }
