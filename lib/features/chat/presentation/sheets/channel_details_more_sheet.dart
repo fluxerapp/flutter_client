@@ -542,12 +542,28 @@ String? _detailsSubtitle({
   return null;
 }
 
+void _completeChannelDetailsJump(
+  BuildContext context,
+  ChannelDetailsJumpRequest request,
+) {
+  final void Function(ChannelDetailsJumpRequest request)? completeWithResult =
+      context
+          .findAncestorWidgetOfExactType<ChannelDetailsSheet>()
+          ?.completeWithResult;
+  if (completeWithResult != null) {
+    completeWithResult(request);
+    return;
+  }
+  Navigator.of(context).pop(request);
+}
+
 void _popWithJumpRequest(
   BuildContext context, {
   required Message message,
   String? guildId,
 }) {
-  Navigator.of(
+  _completeChannelDetailsJump(
     context,
-  ).pop(ChannelDetailsJumpRequest(message: message, guildId: guildId));
+    ChannelDetailsJumpRequest(message: message, guildId: guildId),
+  );
 }

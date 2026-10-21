@@ -299,11 +299,7 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     if (request == null || !mounted) {
       return;
     }
-    if (widget.completeWithResult != null) {
-      widget.completeWithResult!(request);
-    } else {
-      Navigator.of(context).pop(request);
-    }
+    _completeChannelDetailsJump(context, request);
   }
 
   Future<void> _markRead() async {

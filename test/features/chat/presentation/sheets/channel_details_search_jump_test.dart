@@ -236,6 +236,51 @@ void main() {
     );
   });
 
+  testWidgets('tapping a pinned message reports through completeWithResult', (
+    tester,
+  ) async {
+    final ProviderContainer container = buildContainer();
+    ChannelDetailsJumpRequest? captured;
+    final ScrollController scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: buildDarkColorTheme(),
+            textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: Scaffold(
+            body: ChannelDetailsSheet(
+              channel: _channel,
+              dm: null,
+              initialTab: ChannelDetailsInitialTab.pins,
+              openSearchImmediately: false,
+              scrollController: scrollController,
+              close: () {},
+              completeWithResult: (ChannelDetailsJumpRequest request) {
+                captured = request;
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(MessagePreviewTile).first);
+    await tester.pumpAndSettle();
+
+    expect(captured, isNotNull);
+    expect(captured!.message.id, _messageId);
+  });
+
   testWidgets('tapping a pinned message hands the jump to its opener', (
     tester,
   ) async {
