@@ -2033,13 +2033,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "Komunitas yang bisa ditemukan",
+    "emojiInfoDiscoverableCommunity": "Terdaftar di Jelajahi",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "Komunitas pribadi",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "Komunitas terverifikasi",
     "@emojiInfoVerifiedCommunity": {
@@ -12242,21 +12242,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Jelajahi Komunitas yang Dapat Ditemukan",
+    "guildNavbarExploreDiscoverableCommunities": "Jelajahi komunitas",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Jelajahi",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Jelajahi komunitas publik",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "Ingin mendaftarkan komunitas Anda di sini? Ajukan jika Anda memenuhi persyaratan di pengaturan komunitas Anda > Penemuan.",
+    "discoveryListingSubheading": "Ingin mendaftarkan komunitas Anda di sini? Ajukan jika Anda memenuhi persyaratan di pengaturan komunitas Anda > Jelajahi.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Cari komunitas",
     "@discoverySearchCommunities": {
@@ -12264,7 +12264,7 @@
     },
     "discoveryFilterByLanguage": "Filter berdasarkan bahasa",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Semua bahasa",
     "@discoveryAllLanguages": {
@@ -12272,59 +12272,59 @@
     },
     "discoveryAllCategories": "Semua",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Game",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Musik",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Hiburan",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Edukasi",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Sains & teknologi",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Kreator konten",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Anime & manga",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Film & TV",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Lainnya",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Tidak ada komunitas yang cocok.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Gabung komunitas",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Sudah bergabung",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} online",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -12333,7 +12333,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 anggota} other{{count} anggota}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -12343,31 +12343,31 @@
     },
     "discoveryNoDescription": "Tidak ada deskripsi.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Komunitas",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Aplikasi",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Tidak dapat bergabung dengan komunitas ini",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Terjadi kesalahan. Silakan coba lagi sebentar lagi.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Komunitas ini sudah penuh",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Komunitas ini telah mencapai batas anggotanya, jadi kamu tidak bisa bergabung sekarang.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Kamu sudah mencapai batas komunitas",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -12379,27 +12379,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Kamu tidak dapat bergabung dengan komunitas ini",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Kamu telah diblokir dari komunitas ini.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Komunitas ini tidak lagi tersedia",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "Mungkin komunitas ini sudah keluar dari Discovery atau tidak lagi menerima anggota baru. Segarkan halaman dan kamu tidak akan melihatnya lagi.",
+    "discoveryJoinErrorNotAvailableMessage": "Mungkin komunitas ini sudah keluar dari Jelajahi atau tidak lagi menerima anggota baru. Segarkan halaman dan kamu tidak akan melihatnya lagi.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Kamu terlalu cepat",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Harap tunggu sebentar dan coba lagi.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Tambahkan komunitas",
     "@guildNavbarAddCommunity": {
@@ -12983,9 +12983,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "Discovery",
+    "guildMenuSettingsDiscovery": "Jelajahi",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Anggota",
     "@guildMenuSettingsMembers": {
@@ -13544,9 +13544,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Komunitas yang terdaftar di Discovery memerlukan setidaknya email terverifikasi. Tidak ada yang tidak dapat dipilih saat Discovery diaktifkan.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Komunitas yang terdaftar di Jelajahi minimal memerlukan verifikasi email. Kamu tidak bisa memilih \"Tidak ada\" selama komunitasmu terdaftar di Jelajahi.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Konten dewasa & peringatan konten",
     "@guildSettingsModerationMatureTitle": {
@@ -14620,17 +14620,17 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "Daftarkan komunitasmu di Discovery agar orang lain dapat menemukannya dan bergabung.",
+    "guildSettingsDiscoveryDescription": "Daftarkan komunitasmu di Jelajahi agar orang lain dapat menemukannya dan bergabung.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Subtitle for the community Discovery settings tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "Anggota tidak cukup",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
-    "guildSettingsDiscoveryNotEligible": "Komunitas Anda harus memiliki setidaknya {count} anggota agar dapat terdaftar di Discovery.",
+    "guildSettingsDiscoveryNotEligible": "Komunitasmu perlu memiliki setidaknya {count, plural, other{{count} anggota}} sebelum bisa terdaftar di Jelajahi.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -14639,72 +14639,72 @@
     },
     "guildSettingsDiscoveryStatusLabel": "Status:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "Tertunda",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "Disetujui",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "Ditolak",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "Dihapus",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "Alasan: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
             }
         }
     },
-    "guildSettingsDiscoveryApprovedInfo": "Komunitasmu terdaftar di Discovery. Kamu bisa memperbarui detail pendaftaranmu di bawah atau menarik pengajuan untuk menghapusnya.",
+    "guildSettingsDiscoveryApprovedInfo": "Komunitasmu terdaftar di Jelajahi. Kamu bisa memperbarui detail pendaftaranmu di bawah atau menarik pengajuan untuk menghapusnya.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "Pengajuanmu sedang ditinjau. Kamu masih bisa memperbarui detail pendaftaranmu atau menarik pengajuannya.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategory": "Kategori",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryCategoryHelp": "Pilih kategori yang paling sesuai dengan komunitasmu. Kamu bisa mengubahnya kapan saja.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "Bahasa utama",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "Bahasa yang digunakan sebagian besar anggota komunitasmu. Dipakai untuk memfilter hasil Discovery.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "Bahasa yang digunakan sebagian besar anggota komunitasmu. Dipakai untuk memfilter hasil di Jelajahi.",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionField": "Deskripsi",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "Jelaskan tentang komunitasmu",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "Deskripsi wajib diisi.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "Deskripsi harus minimal {minLength} karakter.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -14713,7 +14713,7 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "Deskripsi tidak boleh lebih dari {maxLength} karakter.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14722,9 +14722,9 @@
     },
     "guildSettingsDiscoveryTags": "Tag khusus",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery custom tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
-    "guildSettingsDiscoveryTagsHelp": "Hingga {maxTags} tag membantu orang menemukan komunitas Anda. Tag tersebut muncul di penelusuran Discovery.",
+    "guildSettingsDiscoveryTagsHelp": "Hingga {maxTags} tag membantu orang menemukan komunitasmu. Tag ini muncul saat orang mencari di Jelajahi.",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -14739,11 +14739,11 @@
     },
     "guildSettingsDiscoveryAddTag": "Tambah",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "Hapus tag {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -14752,11 +14752,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "Tidak dapat menambahkan tag",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "Tag harus terdiri dari 2 hingga {maxLength} karakter dan alfanumerik.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14774,35 +14774,35 @@
     },
     "guildSettingsDiscoveryApply": "Terapkan",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit a new discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoverySave": "Simpan",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Tarik pengajuan",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
-    "guildSettingsDiscoveryApplicationSent": "Pengajuan Discovery terkirim",
+    "guildSettingsDiscoveryApplicationSent": "Pengajuan ke Jelajahi terkirim",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
-    "guildSettingsDiscoveryListingUpdated": "Pendaftaran Discovery diperbarui",
+    "guildSettingsDiscoveryListingUpdated": "Pendaftaran di Jelajahi diperbarui",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationWithdrawn": "Pengajuan Discovery ditarik",
+    "guildSettingsDiscoveryApplicationWithdrawn": "Pengajuan ke Jelajahi ditarik",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "Tidak dapat menarik pengajuan",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "Coba lagi sebentar lagi.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildSettingsMembersSearchHint": "Cari berdasarkan nama pengguna atau ID",
     "@guildSettingsMembersSearchHint": {
@@ -14992,7 +14992,7 @@
     "@guildMembersJoinSourcePlatformAdmin": {
         "description": "Join method label on the community members page."
     },
-    "guildMembersJoinSourceDiscovery": "Discovery",
+    "guildMembersJoinSourceDiscovery": "Jelajahi",
     "@guildMembersJoinSourceDiscovery": {
         "description": "Join method label on the community members page."
     },
@@ -15235,7 +15235,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -15456,7 +15456,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Filter konten",
     "guildSettingsModerationContentFilterDescription": "Saring pesan secara otomatis dari konten eksplisit di saluran yang tidak ditandai sebagai konten dewasa.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Komunitas yang tercantum di Penemuan wajib memindai semua anggota. Pengaturan ini tidak dapat diubah saat Penemuan diaktifkan.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "Komunitas yang terdaftar di Jelajahi wajib memindai pesan dari semua anggota. Kamu tidak bisa mengubah pengaturan ini selama komunitasmu terdaftar di Jelajahi.",
     "guildSettingsContentFilterOff": "Nonaktif",
     "guildSettingsContentFilterOffDescription": "Biarkan komunitas memoderasi sendiri",
     "guildSettingsContentFilterNoRole": "Filter anggota tanpa peran",

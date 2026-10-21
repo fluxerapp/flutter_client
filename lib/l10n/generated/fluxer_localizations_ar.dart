@@ -1615,7 +1615,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'هذا الرمز التعبيري من';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'مجتمع قابل للاكتشاف';
+  String get emojiInfoDiscoverableCommunity => 'مُدرج في «استكشاف»';
 
   @override
   String get emojiInfoPrivateCommunity => 'مجتمع خاص';
@@ -11202,8 +11202,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'الرسائل المباشرة';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'استكشاف المجتمعات القابلة للاكتشاف';
+  String get guildNavbarExploreDiscoverableCommunities => 'استكشاف المجتمعات';
 
   @override
   String get discoveryExplore => 'استكشاف';
@@ -11213,7 +11212,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'هل ترغب في إدراج مجتمعك هنا؟ قدم طلبًا إذا كنت تستوفي المتطلبات في إعدادات مجتمعك > الاستكشاف.';
+      'هل ترغب في إدراج مجتمعك هنا؟ قدم طلبًا إذا كنت تستوفي المتطلبات في إعدادات مجتمعك > استكشاف.';
 
   @override
   String get discoverySearchCommunities => 'البحث عن مجتمعات';
@@ -11326,7 +11325,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'ربما خرج هذا المجتمع من الاكتشاف أو أوقف انضمام أعضاء جدد. حدّث الصفحة ولن يظهر لك مرة أخرى.';
+      'ربما خرج هذا المجتمع من «استكشاف» أو أوقف انضمام أعضاء جدد. حدّث الصفحة ولن يظهر لك مرة أخرى.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'أنت تفعل ذلك بسرعة كبيرة';
@@ -11787,7 +11786,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'الويب هوك';
 
   @override
-  String get guildMenuSettingsDiscovery => 'الاكتشاف';
+  String get guildMenuSettingsDiscovery => 'استكشاف';
 
   @override
   String get guildMenuSettingsMembers => 'الأعضاء';
@@ -12589,7 +12588,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'تتطلب المجتمعات المدرجة في الاكتشاف بريدًا إلكترونيًا تم التحقق منه على الأقل. لا يمكن تحديد \"لا شيء\" أثناء تمكين الاكتشاف.';
+      'تحتاج المجتمعات المدرجة في «استكشاف» إلى التحقق من البريد الإلكتروني على الأقل. لا يمكنك اختيار «لا شيء» ما دام مجتمعك مُدرجًا في «استكشاف».';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13303,7 +13302,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'أدرج مجتمعك في \"الاكتشاف\" ليتمكن الآخرون من العثور عليه والانضمام إليه.';
+      'أدرج مجتمعك في «استكشاف» ليتمكن الآخرون من العثور عليه والانضمام إليه.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13311,7 +13310,17 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'يحتاج مجتمعك إلى ما لا يقل عن $count عضوًا قبل إدراجه في الاكتشاف.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عضو',
+      many: '$count عضوًا',
+      few: '$count أعضاء',
+      two: 'عضوين',
+      one: 'عضو واحد',
+      zero: '$count عضو',
+    );
+    return 'يحتاج مجتمعك إلى $_temp0 على الأقل قبل أن يمكن إدراجه في «استكشاف».';
   }
 
   @override
@@ -13336,7 +13345,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'مجتمعك مُدرج في الاكتشاف. يمكنك تحديث تفاصيل الإدراج أدناه أو سحبه لإزالته.';
+      'مجتمعك مُدرج في «استكشاف». يمكنك تحديث تفاصيل الإدراج أدناه أو سحبه لإزالته.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13354,7 +13363,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'اللغة التي يتحدثها معظم أفراد مجتمعك. تُستخدم لتصفية نتائج الاكتشاف.';
+      'اللغة التي يتحدثها معظم أفراد مجتمعك. تُستخدم لتصفية النتائج في «استكشاف».';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'الوصف';
@@ -13380,7 +13389,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'يمكن لما يصل إلى $maxTags علامة مساعدة الأشخاص في العثور على مجتمعك. تظهر في بحث الاكتشاف.';
+    return 'تساعد الوسوم الناس في العثور على مجتمعك، ويمكنك إضافة ما يصل إلى $maxTags. تظهر الوسوم عندما يبحث الناس في «استكشاف».';
   }
 
   @override
@@ -13418,15 +13427,15 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'تم إرسال طلب الإدراج في الاكتشاف';
+      'تم إرسال طلب الإدراج في «استكشاف»';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'تم تحديث الإدراج في الاكتشاف';
+      'تم تحديث إدراجك في «استكشاف»';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'تم سحب طلب الإدراج في الاكتشاف';
+      'تم سحب طلب الإدراج في «استكشاف»';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle => 'تعذر سحب الطلب';
@@ -13567,7 +13576,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'مسؤول المنصة';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'الاكتشاف';
+  String get guildMembersJoinSourceDiscovery => 'استكشاف';
 
   @override
   String get guildMembersJoinMethodUnknown => 'غير معروف';
@@ -14016,7 +14025,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'يُطلب من المجتمعات المدرجة في الاكتشاف فحص جميع الأعضاء. لا يمكن تغيير هذا الإعداد أثناء تمكين الاكتشاف.';
+      'يجب على المجتمعات المدرجة في «استكشاف» فحص رسائل جميع الأعضاء. لا يمكنك تغيير هذا الإعداد ما دام مجتمعك مُدرجًا في «استكشاف».';
 
   @override
   String get guildSettingsContentFilterOff => 'إيقاف';

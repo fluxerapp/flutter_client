@@ -1553,7 +1553,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get emojiInfoFromHeader => '이 이모지는 다음 커뮤니티에서 가져왔습니다.';
 
   @override
-  String get emojiInfoDiscoverableCommunity => '디스커버리에 등록된 커뮤니티';
+  String get emojiInfoDiscoverableCommunity => '둘러보기에 등록됨';
 
   @override
   String get emojiInfoPrivateCommunity => '비공개 커뮤니티';
@@ -10810,7 +10810,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'DM';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities => '탐색 가능한 커뮤니티 탐색';
+  String get guildNavbarExploreDiscoverableCommunities => '커뮤니티 둘러보기';
 
   @override
   String get discoveryExplore => '둘러보기';
@@ -10820,7 +10820,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      '커뮤니티를 여기에 등록하고 싶으신가요? 커뮤니티 설정 > 디스커버리에서 요구 사항을 충족하는 경우 신청하세요.';
+      '커뮤니티를 여기에 등록하고 싶으신가요? 커뮤니티 설정 > 둘러보기에서 요구 사항을 충족하는 경우 신청하세요.';
 
   @override
   String get discoverySearchCommunities => '커뮤니티 검색';
@@ -10930,7 +10930,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      '디스커버리 등록을 철회했거나 새로운 참여를 받지 않을 수 있습니다. 페이지를 새로고침하면 다시 표시되지 않습니다.';
+      '둘러보기에서 빠졌거나 새로운 참여를 받지 않을 수 있습니다. 페이지를 새로고침하면 다시 표시되지 않습니다.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => '너무 빠르시네요';
@@ -11380,7 +11380,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => '웹훅';
 
   @override
-  String get guildMenuSettingsDiscovery => '디스커버리';
+  String get guildMenuSettingsDiscovery => '둘러보기';
 
   @override
   String get guildMenuSettingsMembers => '멤버';
@@ -12170,7 +12170,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Discovery에 나열된 커뮤니티는 확인된 이메일이 최소한 필요합니다. Discovery가 활성화된 동안에는 \'없음\'을 선택할 수 없습니다.';
+      '둘러보기에 등록된 커뮤니티는 최소한 이메일 인증이 필요합니다. 커뮤니티가 둘러보기에 등록되어 있는 동안에는 \"없음\"을 선택할 수 없습니다.';
 
   @override
   String get guildSettingsModerationMatureTitle => '성인 콘텐츠 및 콘텐츠 경고';
@@ -12877,14 +12877,20 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      '다른 사람들이 찾아서 참여할 수 있도록 커뮤니티를 디스커버리에 등록하세요.';
+      '다른 사람들이 찾아서 참여할 수 있도록 커뮤니티를 둘러보기에 등록하세요.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => '멤버 부족';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return '커뮤니티가 디스커버리에 등록되려면 최소 $count명의 멤버가 필요합니다.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count명',
+      one: '$count명',
+    );
+    return '커뮤니티를 둘러보기에 등록하려면 멤버가 최소 $_temp0 필요합니다.';
   }
 
   @override
@@ -12909,7 +12915,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      '회원님의 커뮤니티가 디스커버리에 등록되어 있습니다. 아래에서 등록 정보를 업데이트하거나 등록을 철회할 수 있습니다.';
+      '커뮤니티가 둘러보기에 등록되어 있습니다. 아래에서 등록 정보를 업데이트하거나 등록을 철회해 삭제할 수 있습니다.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -12927,7 +12933,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      '커뮤니티 멤버 대부분이 사용하는 언어입니다. 디스커버리 결과를 필터링하는 데 사용됩니다.';
+      '커뮤니티 멤버 대부분이 사용하는 언어입니다. 둘러보기에서 결과를 필터링하는 데 사용됩니다.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => '설명';
@@ -12953,7 +12959,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return '최대 $maxTags개의 태그로 커뮤니티를 더 쉽게 찾을 수 있도록 도와주세요. 디스커버리 검색에 표시됩니다.';
+    return '최대 $maxTags개의 태그로 커뮤니티를 더 쉽게 찾을 수 있습니다. 사람들이 둘러보기에서 검색하면 태그가 표시됩니다.';
   }
 
   @override
@@ -12990,13 +12996,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildSettingsDiscoveryWithdraw => '신청 철회';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => '디스커버리 신청 완료';
+  String get guildSettingsDiscoveryApplicationSent => '둘러보기 등록 신청 완료';
 
   @override
-  String get guildSettingsDiscoveryListingUpdated => '디스커버리 등록 정보 업데이트됨';
+  String get guildSettingsDiscoveryListingUpdated => '둘러보기 등록 정보 업데이트됨';
 
   @override
-  String get guildSettingsDiscoveryApplicationWithdrawn => '디스커버리 신청 철회됨';
+  String get guildSettingsDiscoveryApplicationWithdrawn => '둘러보기 등록 신청 철회됨';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle => '신청을 철회할 수 없습니다';
@@ -13136,7 +13142,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => '플랫폼 관리자';
 
   @override
-  String get guildMembersJoinSourceDiscovery => '디스커버리';
+  String get guildMembersJoinSourceDiscovery => '둘러보기';
 
   @override
   String get guildMembersJoinMethodUnknown => '알 수 없음';
@@ -13568,7 +13574,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Discovery에 등록된 커뮤니티는 모든 멤버를 스캔해야 합니다. Discovery가 활성화된 동안에는 이 설정을 변경할 수 없습니다.';
+      '둘러보기에 등록된 커뮤니티는 모든 멤버의 메시지를 스캔해야 합니다. 커뮤니티가 둘러보기에 등록되어 있는 동안에는 이 설정을 변경할 수 없습니다.';
 
   @override
   String get guildSettingsContentFilterOff => '꺼짐';

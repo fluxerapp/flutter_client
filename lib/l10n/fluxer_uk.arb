@@ -6557,21 +6557,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Дослідити доступні спільноти",
+    "guildNavbarExploreDiscoverableCommunities": "Знайти спільноти",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Огляд",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Дослідити публічні спільноти",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "Хочете додати свою спільноту сюди? Подайте заявку, якщо ви відповідаєте вимогам у налаштуваннях вашої спільноти > Дослідження.",
+    "discoveryListingSubheading": "Хочете додати свою спільноту сюди? Подайте заявку, якщо ви відповідаєте вимогам у налаштуваннях вашої спільноти > Огляд.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Пошук спільнот",
     "@discoverySearchCommunities": {
@@ -6579,7 +6579,7 @@
     },
     "discoveryFilterByLanguage": "Фільтрувати за мовою",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Усі мови",
     "@discoveryAllLanguages": {
@@ -6587,59 +6587,59 @@
     },
     "discoveryAllCategories": "Усі",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Ігри",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Музика",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Розваги",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Освіта",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Наука й технології",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Автор контенту",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Аніме та манґа",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Фільми й ТБ",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Інше",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Спільнот не знайдено.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Приєднатися до спільноти",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Приєднано",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} онлайн",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -6648,7 +6648,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 учасник} other{{count} учасників}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -6658,31 +6658,31 @@
     },
     "discoveryNoDescription": "Без опису.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Спільноти",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Застосунки",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Не вдалося приєднатися до цієї спільноти",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Щось пішло не так. Спробуйте ще раз за мить.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Ця спільнота заповнена",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Ця спільнота досягла ліміту учасників, тому ви не можете приєднатися зараз.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Ви досягли ліміту спільнот",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -6694,27 +6694,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Ви не можете приєднатися до цієї спільноти",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Вас заблоковано в цій спільноті.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Ця спільнота більше недоступна",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "Можливо, спільноту вилучено з Discovery або вимкнено нові приєднання. Оновіть сторінку, і ви більше її не побачите.",
+    "discoveryJoinErrorNotAvailableMessage": "Можливо, спільноту вилучено з розділу «Огляд» або вимкнено нові приєднання. Оновіть сторінку, і ви більше її не побачите.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Ви надто поспішаєте",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Зачекайте трохи й спробуйте ще раз.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Додати спільноту",
     "@guildNavbarAddCommunity": {
@@ -7089,9 +7089,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "Discovery",
+    "guildMenuSettingsDiscovery": "Огляд",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Учасники",
     "@guildMenuSettingsMembers": {
@@ -7153,9 +7153,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Спільноти, перелічені в Discovery, вимагають принаймні підтвердженої електронної пошти. Неможливо вибрати «Жодного», коли увімкнено Discovery.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Спільноти в розділі «Огляд» потребують щонайменше підтвердження електронної пошти. Поки ваша спільнота є в розділі «Огляд», не можна вибрати «Немає».",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Контент для дорослих і попередження про вміст",
     "@guildSettingsModerationMatureTitle": {
@@ -8191,13 +8191,13 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "Додайте свою спільноту до Discovery, щоб інші могли знайти її та приєднатися.",
+    "guildSettingsDiscoveryDescription": "Додайте свою спільноту до розділу «Огляд», щоб інші могли знайти її та приєднатися.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Вашій спільноті потрібно щонайменше {count} учасників, щоб її можна було додати до каталогу.",
+    "guildSettingsDiscoveryNotEligible": "Щоб спільноту можна було додати до розділу «Огляд», у ній має бути щонайменше {count, plural, one{{count} учасник} few{{count} учасники} many{{count} учасників} other{{count} учасника}}.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -8206,11 +8206,11 @@
     },
     "guildSettingsDiscoveryCategory": "Категорія",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionField": "Опис",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTags": "Власні теги",
     "@guildSettingsDiscoveryTags": {
@@ -8226,7 +8226,7 @@
     },
     "guildSettingsDiscoveryWithdraw": "Відкликати",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
     "guildSettingsMembersSearchHint": "Пошук за іменем користувача або ID",
     "@guildSettingsMembersSearchHint": {
@@ -8321,7 +8321,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -8542,7 +8542,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Фільтрування вмісту",
     "guildSettingsModerationContentFilterDescription": "Автоматично перевіряти повідомлення на наявність відвертого вмісту в каналах, не позначених як вміст для дорослих.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Спільноти, перелічені в Discovery, зобов'язані сканувати всіх учасників. Цей параметр не можна змінити, доки увімкнено Discovery.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "Спільноти в розділі «Огляд» мають перевіряти повідомлення від усіх учасників. Поки ваша спільнота є в розділі «Огляд», цей параметр не можна змінити.",
     "guildSettingsContentFilterOff": "Вимкнено",
     "guildSettingsContentFilterOffDescription": "Дозволити спільноті модерувати себе",
     "guildSettingsContentFilterNoRole": "Фільтрувати учасників без ролей",
@@ -12218,13 +12218,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "Спільнота в Discovery",
+    "emojiInfoDiscoverableCommunity": "У розділі «Огляд»",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "Приватна спільнота",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "Верифікована спільнота",
     "@emojiInfoVerifiedCommunity": {
@@ -15340,68 +15340,68 @@
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "Недостатньо учасників",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
     "guildSettingsDiscoveryStatusLabel": "Статус:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "Очікує",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "Схвалено",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "Відхилено",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "Видалено",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "Причина: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
             }
         }
     },
-    "guildSettingsDiscoveryApprovedInfo": "Ваша спільнота є в Discovery. Ви можете оновити деталі оголошення нижче або відкликати його, щоб прибрати спільноту звідти.",
+    "guildSettingsDiscoveryApprovedInfo": "Ваша спільнота є в розділі «Огляд». Ви можете оновити деталі оголошення нижче або відкликати його, щоб прибрати спільноту звідти.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "Ваша заявка очікує на розгляд. Ви все ще можете оновити деталі оголошення або відкликати заявку.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategoryHelp": "Виберіть категорію, яка найкраще описує вашу спільноту. Ви можете змінити це будь-коли.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "Основна мова",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "Мова, якою спілкується більшість вашої спільноти. Використовується для фільтрації результатів у Discovery.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "Мова, якою спілкується більшість вашої спільноти. За нею фільтруються результати в розділі «Огляд».",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "Опишіть, про що ваша спільнота",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "Потрібен опис.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "Опис має бути щонайменше на {minLength} символів.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -15410,14 +15410,14 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "Опис має бути не довшим за {maxLength} символів.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
             }
         }
     },
-    "guildSettingsDiscoveryTagsHelp": "До {maxTags} тегів допоможуть людям знайти вашу спільноту. Вони відображатимуться в пошуку Discovery.",
+    "guildSettingsDiscoveryTagsHelp": "До {maxTags} тегів допомагають людям знаходити вашу спільноту. Вони показуються, коли люди шукають у розділі «Огляд».",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -15428,11 +15428,11 @@
     },
     "guildSettingsDiscoveryAddTag": "Додати",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "Видалити тег {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -15441,11 +15441,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "Не вдалося додати тег",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "Теги мають містити від 2 до {maxLength} буквено-цифрових символів.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -15463,27 +15463,27 @@
     },
     "guildSettingsDiscoverySave": "Зберегти",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationSent": "Заявку в Discovery надіслано",
+    "guildSettingsDiscoveryApplicationSent": "Заявку до розділу «Огляд» надіслано",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
-    "guildSettingsDiscoveryListingUpdated": "Оголошення в Discovery оновлено",
+    "guildSettingsDiscoveryListingUpdated": "Оголошення в розділі «Огляд» оновлено",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationWithdrawn": "Заявку в Discovery відкликано",
+    "guildSettingsDiscoveryApplicationWithdrawn": "Заявку до розділу «Огляд» відкликано",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "Не вдалося відкликати заявку",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "Спробуйте ще раз за мить.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildMembersRecentTitle": "Нові учасники",
     "@guildMembersRecentTitle": {
@@ -15656,7 +15656,7 @@
     "@guildMembersJoinSourcePlatformAdmin": {
         "description": "Join method label on the community members page."
     },
-    "guildMembersJoinSourceDiscovery": "Discovery",
+    "guildMembersJoinSourceDiscovery": "Огляд",
     "@guildMembersJoinSourceDiscovery": {
         "description": "Join method label on the community members page."
     },

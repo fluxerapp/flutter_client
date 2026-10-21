@@ -1612,7 +1612,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Emoji này đến từ';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Cộng đồng có trong Khám phá';
+  String get emojiInfoDiscoverableCommunity => 'Được liệt kê trong Khám phá';
 
   @override
   String get emojiInfoPrivateCommunity => 'Cộng đồng riêng tư';
@@ -11287,8 +11287,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Tin nhắn trực tiếp';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Khám phá các cộng đồng có thể hiển thị';
+  String get guildNavbarExploreDiscoverableCommunities => 'Khám phá cộng đồng';
 
   @override
   String get discoveryExplore => 'Khám phá';
@@ -12692,7 +12691,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Các cộng đồng hiển thị trong Khám phá yêu cầu phải có ít nhất email đã xác minh. Không thể chọn \"Không có\" khi Khám phá được bật.';
+      'Các cộng đồng được liệt kê trong Khám phá cần có ít nhất mức xác minh email. Bạn không thể chọn \"Không\" khi cộng đồng của bạn đang được liệt kê trong Khám phá.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13419,7 +13418,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Cộng đồng của bạn cần có ít nhất $count thành viên trước khi có thể được liệt kê trong Khám phá.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count thành viên',
+    );
+    return 'Cộng đồng của bạn cần có ít nhất $_temp0 trước khi có thể được liệt kê trong Khám phá.';
   }
 
   @override
@@ -13462,7 +13466,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Ngôn ngữ mà hầu hết cộng đồng của bạn sử dụng. Dùng để lọc kết quả trong Khám phá.';
+      'Ngôn ngữ mà hầu hết cộng đồng của bạn sử dụng. Ngôn ngữ này được dùng để lọc kết quả trong Khám phá.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Mô tả';
@@ -13489,7 +13493,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Tối đa $maxTags thẻ giúp mọi người tìm thấy cộng đồng của bạn. Chúng hiển thị trong tìm kiếm Khám phá.';
+    return 'Tối đa $maxTags thẻ giúp mọi người tìm thấy cộng đồng của bạn. Các thẻ này hiển thị khi mọi người tìm kiếm trong Khám phá.';
   }
 
   @override
@@ -14134,7 +14138,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Các cộng đồng được liệt kê trong Khám phá phải quét tất cả thành viên. Bạn không thể thay đổi cài đặt này khi Khám phá được bật.';
+      'Các cộng đồng được liệt kê trong Khám phá phải quét tin nhắn từ tất cả thành viên. Bạn không thể thay đổi cài đặt này khi cộng đồng của bạn đang được liệt kê trong Khám phá.';
 
   @override
   String get guildSettingsContentFilterOff => 'Tắt';

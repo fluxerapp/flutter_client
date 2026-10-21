@@ -2033,13 +2033,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "Comunitate listată în Discovery",
+    "emojiInfoDiscoverableCommunity": "Listată în secțiunea „Explorează”",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "Comunitate privată",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "Comunitate verificată",
     "@emojiInfoVerifiedCommunity": {
@@ -12242,21 +12242,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Explore Comunități Descoperibile",
+    "guildNavbarExploreDiscoverableCommunities": "Explorează comunități",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Explorează",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Explore comunități publice",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "Vrei să-ți listezi comunitatea aici? Aplică dacă îndeplinești cerințele din setările comunității tale > Descoperire.",
+    "discoveryListingSubheading": "Vrei să-ți listezi comunitatea aici? Aplică dacă îndeplinești cerințele din setările comunității tale > Explorează.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Caută comunități",
     "@discoverySearchCommunities": {
@@ -12264,7 +12264,7 @@
     },
     "discoveryFilterByLanguage": "Filtrează după limbă",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Toate limbile",
     "@discoveryAllLanguages": {
@@ -12272,59 +12272,59 @@
     },
     "discoveryAllCategories": "Toate",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Jocuri",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Muzică",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Divertisment",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Educație",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Știință și tehnologie",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Creator de conținut",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Anime și manga",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Filme și TV",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Altele",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Nicio comunitate nu se potrivește.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Alătură-te comunității",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Alăturat",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} online",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -12333,7 +12333,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 membru} other{{count} membri}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -12343,31 +12343,31 @@
     },
     "discoveryNoDescription": "Fără descriere.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Comunități",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Aplicații",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Nu te-ai putut alătura acestei comunități",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Ceva nu a mers bine. Te rugăm să încerci din nou mai târziu.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Această comunitate este plină",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Această comunitate a atins limita de membri, așa că nu te poți alătura acum.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Ai atins limita de comunități",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -12379,27 +12379,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Nu te poți alătura acestei comunități",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Ai interdicție în această comunitate.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Această comunitate nu mai este disponibilă",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "Este posibil să fi părăsit Discovery sau să fi dezactivat înscrierile noi. Reîmprospătează pagina și nu o vei mai vedea.",
+    "discoveryJoinErrorNotAvailableMessage": "Este posibil să fi părăsit secțiunea „Explorează” sau să fi dezactivat înscrierile noi. Reîmprospătează pagina și nu o vei mai vedea.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Mergi prea repede",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Te rugăm să aștepți un moment și să încerci din nou.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Adaugă o comunitate",
     "@guildNavbarAddCommunity": {
@@ -12983,9 +12983,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "Discovery",
+    "guildMenuSettingsDiscovery": "Explorează",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Membri",
     "@guildMenuSettingsMembers": {
@@ -13544,9 +13544,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Comunitățile listate în Discovery necesită cel puțin un e-mail verificat. Niciuna nu poate fi selectată cât timp Discovery este activat.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Comunitățile listate în secțiunea „Explorează” au nevoie cel puțin de verificarea adresei de e-mail. Nu poți alege „Niciunul” cât timp comunitatea ta este listată în secțiunea „Explorează”.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Conținut matur și avertismente de conținut",
     "@guildSettingsModerationMatureTitle": {
@@ -14620,17 +14620,17 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "Listează-ți comunitatea în Discovery, ca alții să o poată găsi și să i se alăture.",
+    "guildSettingsDiscoveryDescription": "Listează-ți comunitatea în secțiunea „Explorează”, ca alții să o poată găsi și să i se alăture.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Subtitle for the community Discovery settings tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "Nu sunt suficienți membri",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
-    "guildSettingsDiscoveryNotEligible": "Comunitatea ta are nevoie de cel puțin {count} membri înainte de a putea fi listată în Descoperire.",
+    "guildSettingsDiscoveryNotEligible": "Comunitatea ta are nevoie de cel puțin {count, plural, one{{count} membru} few{{count} membri} other{{count} de membri}} pentru a putea fi listată în secțiunea „Explorează”.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -14639,72 +14639,72 @@
     },
     "guildSettingsDiscoveryStatusLabel": "Stare:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "În așteptare",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "Aprobat",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "Respins",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "Eliminat",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "Motiv: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
             }
         }
     },
-    "guildSettingsDiscoveryApprovedInfo": "Comunitatea ta este listată în Discovery. Poți actualiza detaliile listării mai jos sau o poți retrage pentru a o elimina.",
+    "guildSettingsDiscoveryApprovedInfo": "Comunitatea ta este listată în secțiunea „Explorează”. Poți actualiza detaliile listării mai jos sau o poți retrage pentru a o elimina.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "Cererea ta este în curs de examinare. Poți actualiza în continuare detaliile listării sau poți retrage cererea.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategory": "Categorie",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryCategoryHelp": "Alege categoria care descrie cel mai bine comunitatea ta. O poți schimba oricând.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "Limba principală",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "Limba vorbită de majoritatea membrilor comunității tale. Folosită pentru a filtra rezultatele din Discovery.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "Limba vorbită de majoritatea membrilor comunității tale. Este folosită pentru a filtra rezultatele din secțiunea „Explorează”.",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionField": "Descriere",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "Descrie despre ce este vorba în comunitatea ta",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "Este necesară o descriere.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "Descrierea trebuie să aibă cel puțin {minLength} caractere.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -14713,7 +14713,7 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "Descrierea nu poate depăși {maxLength} de caractere.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14722,9 +14722,9 @@
     },
     "guildSettingsDiscoveryTags": "Etichete personalizate",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery custom tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
-    "guildSettingsDiscoveryTagsHelp": "Până la {maxTags} etichete ajută oamenii să-ți găsească comunitatea. Ele apar în căutarea din Descoperire.",
+    "guildSettingsDiscoveryTagsHelp": "Până la {maxTags} etichete îi ajută pe oameni să-ți găsească comunitatea. Acestea apar când oamenii caută în secțiunea „Explorează”.",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -14739,11 +14739,11 @@
     },
     "guildSettingsDiscoveryAddTag": "Adaugă",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "Elimină eticheta {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -14752,11 +14752,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "Nu s-a putut adăuga eticheta",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "Etichetele trebuie să aibă între 2 și {maxLength} caractere și să fie alfanumerice.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14774,35 +14774,35 @@
     },
     "guildSettingsDiscoveryApply": "Aplică",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit a new discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoverySave": "Salvează",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Retrage",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
-    "guildSettingsDiscoveryApplicationSent": "Cererea pentru Discovery a fost trimisă",
+    "guildSettingsDiscoveryApplicationSent": "Cererea pentru secțiunea „Explorează” a fost trimisă",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
-    "guildSettingsDiscoveryListingUpdated": "Listarea Discovery a fost actualizată",
+    "guildSettingsDiscoveryListingUpdated": "Listarea din secțiunea „Explorează” a fost actualizată",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationWithdrawn": "Cererea pentru Discovery a fost retrasă",
+    "guildSettingsDiscoveryApplicationWithdrawn": "Cererea pentru secțiunea „Explorează” a fost retrasă",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "Nu s-a putut retrage cererea",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "Încearcă din nou peste un moment.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildSettingsMembersSearchHint": "Caută după nume de utilizator sau ID",
     "@guildSettingsMembersSearchHint": {
@@ -14992,7 +14992,7 @@
     "@guildMembersJoinSourcePlatformAdmin": {
         "description": "Join method label on the community members page."
     },
-    "guildMembersJoinSourceDiscovery": "Discovery",
+    "guildMembersJoinSourceDiscovery": "Explorează",
     "@guildMembersJoinSourceDiscovery": {
         "description": "Join method label on the community members page."
     },
@@ -15235,7 +15235,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -15456,7 +15456,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Filtrarea conținutului",
     "guildSettingsModerationContentFilterDescription": "Filtrează automat mesajele cu conținut explicit în canalele care nu sunt marcate pentru conținut matur.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Comunitățile listate în Descoperire trebuie să scaneze toți membrii. Această setare nu poate fi modificată cât timp Descoperirea este activată.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "Comunitățile listate în secțiunea „Explorează” trebuie să scaneze mesajele tuturor membrilor. Nu poți modifica această setare cât timp comunitatea ta este listată în secțiunea „Explorează”.",
     "guildSettingsContentFilterOff": "Dezactivat",
     "guildSettingsContentFilterOffDescription": "Permite comunității să se automodereze",
     "guildSettingsContentFilterNoRole": "Filtrează membrii fără roluri",

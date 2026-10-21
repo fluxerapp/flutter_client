@@ -2033,13 +2033,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "Vindbare community",
+    "emojiInfoDiscoverableCommunity": "Staat in Ontdekken",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "Privécommunity",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "Geverifieerde community",
     "@emojiInfoVerifiedCommunity": {
@@ -12242,21 +12242,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Ontdek vindbare communities",
+    "guildNavbarExploreDiscoverableCommunities": "Ontdek communities",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Ontdekken",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Ontdek openbare communities",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "Wil je je community hier vermelden? Vraag dit aan als je voldoet aan de vereisten in de instellingen van je community > Ontdekking.",
+    "discoveryListingSubheading": "Wil je je community hier vermelden? Vraag dit aan als je voldoet aan de vereisten in de instellingen van je community > Ontdekken.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Communities zoeken",
     "@discoverySearchCommunities": {
@@ -12264,7 +12264,7 @@
     },
     "discoveryFilterByLanguage": "Filteren op taal",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Alle talen",
     "@discoveryAllLanguages": {
@@ -12272,59 +12272,59 @@
     },
     "discoveryAllCategories": "Alles",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Gaming",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Muziek",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Amusement",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Onderwijs",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Wetenschap en technologie",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Contentmaker",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Anime en manga",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Films en tv",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Overig",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Geen communities gevonden.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Word lid van community",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Lid",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} online",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -12333,7 +12333,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 lid} other{{count} leden}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -12343,31 +12343,31 @@
     },
     "discoveryNoDescription": "Geen beschrijving.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Communities",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Apps",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Kon geen lid worden van deze community",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Er is iets misgegaan. Probeer het over een ogenblik opnieuw.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Deze community is vol",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Deze community heeft de ledengrens bereikt, dus je kunt nu niet deelnemen.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Je hebt de communitylimiet bereikt",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -12379,27 +12379,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Je kunt niet deelnemen aan deze community",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Je bent verbannen uit deze community.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Deze community is niet meer beschikbaar",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "De community is mogelijk niet meer opgenomen in Ontdekken of accepteert geen nieuwe leden meer. Vernieuw de pagina en je ziet deze niet meer.",
+    "discoveryJoinErrorNotAvailableMessage": "De community staat mogelijk niet meer in Ontdekken of accepteert geen nieuwe leden meer. Vernieuw de pagina en je ziet deze niet meer.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Je gaat te snel",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Wacht even en probeer het opnieuw.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Community toevoegen",
     "@guildNavbarAddCommunity": {
@@ -12985,7 +12985,7 @@
     },
     "guildMenuSettingsDiscovery": "Ontdekken",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Leden",
     "@guildMenuSettingsMembers": {
@@ -13544,9 +13544,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Community's die in Ontdekken worden vermeld, vereisen minimaal een geverifieerd e-mailadres. Geen kan niet worden geselecteerd zolang Ontdekken is ingeschakeld.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Communities die in Ontdekken staan, hebben minimaal e-mailverificatie nodig. Je kunt \"Geen\" niet kiezen zolang je community in Ontdekken staat.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Inhoud voor volwassenen en inhoudswaarschuwingen",
     "@guildSettingsModerationMatureTitle": {
@@ -14622,15 +14622,15 @@
     },
     "guildSettingsDiscoveryDescription": "Zet je community in Ontdekken, zodat anderen deze kunnen vinden en lid kunnen worden.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Subtitle for the community Discovery settings tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "Niet genoeg leden",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
-    "guildSettingsDiscoveryNotEligible": "Je community moet minimaal {count} leden hebben voordat deze in Ontdekking kan worden opgenomen.",
+    "guildSettingsDiscoveryNotEligible": "Je community heeft minimaal {count, plural, one{{count} lid} other{{count} leden}} nodig om in Ontdekken te kunnen worden vermeld.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -14639,27 +14639,27 @@
     },
     "guildSettingsDiscoveryStatusLabel": "Status:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "In behandeling",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "Goedgekeurd",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "Geweigerd",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "Verwijderd",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "Reden: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
@@ -14668,43 +14668,43 @@
     },
     "guildSettingsDiscoveryApprovedInfo": "Je community staat in Ontdekken. Je kunt je vermelding hieronder bijwerken of intrekken om deze te verwijderen.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "Je aanvraag wacht op beoordeling. Je kunt de gegevens van je vermelding nog bijwerken of de aanvraag intrekken.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategory": "Categorie",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryCategoryHelp": "Kies de categorie die het beste bij je community past. Je kunt dit op elk moment wijzigen.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "Hoofdtaal",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "De taal die de meeste mensen in je community spreken. Wordt gebruikt om de resultaten in Ontdekken te filteren.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "De taal die de meeste mensen in je community spreken. Hiermee worden de resultaten in Ontdekken gefilterd.",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionField": "Beschrijving",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "Beschrijf waar je community over gaat",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "Een beschrijving is vereist.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "Beschrijving moet minimaal {minLength} tekens lang zijn.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -14713,7 +14713,7 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "Beschrijving mag niet langer zijn dan {maxLength} tekens.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14722,9 +14722,9 @@
     },
     "guildSettingsDiscoveryTags": "Aangepaste tags",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery custom tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
-    "guildSettingsDiscoveryTagsHelp": "Maximaal {maxTags} tags helpen mensen je community te vinden. Ze verschijnen in de Discovery-zoekfunctie.",
+    "guildSettingsDiscoveryTagsHelp": "Met maximaal {maxTags} tags vinden mensen je community makkelijker. Ze verschijnen wanneer mensen zoeken in Ontdekken.",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -14739,11 +14739,11 @@
     },
     "guildSettingsDiscoveryAddTag": "Toevoegen",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "Tag {tag} verwijderen",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -14752,11 +14752,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "Tag kon niet worden toegevoegd",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "Tags moeten 2 tot {maxLength} alfanumerieke tekens lang zijn.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14774,35 +14774,35 @@
     },
     "guildSettingsDiscoveryApply": "Toepassen",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit a new discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoverySave": "Opslaan",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Intrekken",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
     "guildSettingsDiscoveryApplicationSent": "Aanvraag voor Ontdekken verzonden",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
     "guildSettingsDiscoveryListingUpdated": "Vermelding in Ontdekken bijgewerkt",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
     "guildSettingsDiscoveryApplicationWithdrawn": "Aanvraag voor Ontdekken ingetrokken",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "Aanvraag kon niet worden ingetrokken",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "Probeer het over een ogenblik opnieuw.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildSettingsMembersSearchHint": "Zoeken op gebruikersnaam of ID",
     "@guildSettingsMembersSearchHint": {
@@ -15235,7 +15235,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -15456,7 +15456,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Inhoud filteren",
     "guildSettingsModerationContentFilterDescription": "Berichten automatisch controleren op seksueel expliciete inhoud in kanalen die niet zijn gemarkeerd voor inhoud voor volwassenen.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Communities die in Ontdekken worden vermeld, moeten alle leden scannen. Deze instelling kan niet worden gewijzigd zolang Ontdekken is ingeschakeld.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "Communities die in Ontdekken staan, moeten berichten van alle leden scannen. Je kunt deze instelling niet wijzigen zolang je community in Ontdekken staat.",
     "guildSettingsContentFilterOff": "Uit",
     "guildSettingsContentFilterOffDescription": "Laat de community zelf modereren",
     "guildSettingsContentFilterNoRole": "Berichten van leden zonder rollen filteren",

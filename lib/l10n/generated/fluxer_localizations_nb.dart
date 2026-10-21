@@ -1614,7 +1614,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Denne emojien er fra';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Fellesskap i Oppdag';
+  String get emojiInfoDiscoverableCommunity => 'Oppført i Utforsk';
 
   @override
   String get emojiInfoPrivateCommunity => 'Privat fellesskap';
@@ -11291,8 +11291,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Direktemeldinger';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Utforsk samfunn som kan oppdages';
+  String get guildNavbarExploreDiscoverableCommunities => 'Utforsk fellesskap';
 
   @override
   String get discoveryExplore => 'Utforsk';
@@ -11302,7 +11301,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Vil du liste samfunnet ditt her? Søk hvis du oppfyller kravene i samfunnets innstillinger > Oppdagelse.';
+      'Vil du liste samfunnet ditt her? Søk hvis du oppfyller kravene i samfunnets innstillinger > Utforsk.';
 
   @override
   String get discoverySearchCommunities => 'Søk i fellesskap';
@@ -11418,7 +11417,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Det kan ha blitt fjernet fra Oppdag eller stengt for nye medlemmer. Oppdater siden, så vises det ikke lenger.';
+      'Det kan ha blitt fjernet fra Utforsk eller stengt for nye medlemmer. Oppdater siden, så vises det ikke lenger.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Du er for rask';
@@ -11884,7 +11883,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhooker';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Oppdag';
+  String get guildMenuSettingsDiscovery => 'Utforsk';
 
   @override
   String get guildMenuSettingsMembers => 'Medlemmer';
@@ -12693,7 +12692,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Fellesskap som er oppført i Oppdagelse krever minst en bekreftet e-post. Ingen kan velges mens Oppdagelse er aktivert.';
+      'Fellesskap som er oppført i Utforsk, må kreve minst bekreftet e-postadresse. Du kan ikke velge «Ingen» mens fellesskapet ditt er oppført i Utforsk.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13412,7 +13411,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Vis fellesskapet ditt i Oppdag, slik at andre kan finne og bli med.';
+      'Vis fellesskapet ditt i Utforsk, slik at andre kan finne og bli med.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13420,7 +13419,13 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Fellesskapet ditt må ha minst $count medlemmer før det kan listes i Oppdag.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count medlemmer',
+      one: '$count medlem',
+    );
+    return 'Fellesskapet ditt må ha minst $_temp0 før det kan oppføres i Utforsk.';
   }
 
   @override
@@ -13445,7 +13450,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Fellesskapet ditt er oppført i Oppdag. Du kan oppdatere oppføringsdetaljene nedenfor eller trekke tilbake oppføringen for å fjerne den.';
+      'Fellesskapet ditt er oppført i Utforsk. Du kan oppdatere oppføringsdetaljene nedenfor eller trekke tilbake oppføringen for å fjerne den.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13463,7 +13468,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Språket de fleste i fellesskapet ditt snakker. Brukes til å filtrere resultater i Oppdag.';
+      'Språket de fleste i fellesskapet ditt snakker. Det brukes til å filtrere resultater i Utforsk.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Beskrivelse';
@@ -13491,7 +13496,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Opptil $maxTags tagger hjelper folk med å finne fellesskapet ditt. De vises i Discovery-søk.';
+    return 'Opptil $maxTags tagger hjelper folk med å finne fellesskapet ditt. De vises når folk søker i Utforsk.';
   }
 
   @override
@@ -13529,15 +13534,16 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildSettingsDiscoveryWithdraw => 'Trekk tilbake';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => 'Søknad til Oppdag sendt';
+  String get guildSettingsDiscoveryApplicationSent =>
+      'Søknad til Utforsk sendt';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Oppføring i Oppdag oppdatert';
+      'Oppføring i Utforsk oppdatert';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Søknad til Oppdag trukket tilbake';
+      'Søknad til Utforsk trukket tilbake';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13682,7 +13688,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Plattformadministrator';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Oppdag';
+  String get guildMembersJoinSourceDiscovery => 'Utforsk';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Ukjent';
@@ -14140,7 +14146,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Fellesskap som er listet i Discovery er pålagt å skanne alle medlemmer. Denne innstillingen kan ikke endres mens Discovery er aktivert.';
+      'Fellesskap som er oppført i Utforsk, må skanne meldinger fra alle medlemmer. Du kan ikke endre denne innstillingen mens fellesskapet ditt er oppført i Utforsk.';
 
   @override
   String get guildSettingsContentFilterOff => 'Av';

@@ -6557,21 +6557,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Εξερεύνηση Κοινοτήτων που Γίνονται Αντιληπτές",
+    "guildNavbarExploreDiscoverableCommunities": "Εξερεύνηση κοινοτήτων",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Εξερεύνηση",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Εξερεύνηση δημόσιων κοινοτήτων",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
     "discoveryListingSubheading": "Θέλετε να καταχωρήσετε την κοινότητά σας εδώ; Υποβάλετε αίτηση εάν πληροίτε τις απαιτήσεις στις ρυθμίσεις της κοινότητάς σας > Εξερεύνηση.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Αναζήτηση κοινοτήτων",
     "@discoverySearchCommunities": {
@@ -6579,7 +6579,7 @@
     },
     "discoveryFilterByLanguage": "Φιλτράρισμα κατά γλώσσα",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Όλες οι γλώσσες",
     "@discoveryAllLanguages": {
@@ -6587,59 +6587,59 @@
     },
     "discoveryAllCategories": "Όλα",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Παιχνίδια",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Μουσική",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Ψυχαγωγία",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Εκπαίδευση",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Επιστήμη και τεχνολογία",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Δημιουργός περιεχομένου",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Anime και manga",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Ταινίες και τηλεόραση",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Άλλο",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Δεν βρέθηκαν κοινότητες.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Συμμετοχή στην κοινότητα",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Συμμετείχατε",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} σε σύνδεση",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -6648,7 +6648,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 μέλος} other{{count} μέλη}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -6658,31 +6658,31 @@
     },
     "discoveryNoDescription": "Χωρίς περιγραφή.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Κοινότητες",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Εφαρμογές",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Δεν ήταν δυνατή η συμμετοχή σε αυτήν την κοινότητα",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Κάτι πήγε στραβά. Δοκιμάστε ξανά σε λίγο.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Αυτή η κοινότητα είναι πλήρης",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Αυτή η κοινότητα έχει φτάσει το όριο μελών της, οπότε δεν μπορείτε να συμμετάσχετε αυτήν τη στιγμή.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Έχετε φτάσει το όριο κοινοτήτων",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -6694,27 +6694,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Δεν μπορείτε να μπείτε σε αυτήν την κοινότητα",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Έχετε αποκλειστεί από αυτήν την κοινότητα.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Αυτή η κοινότητα δεν είναι πλέον διαθέσιμη",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "Ενδέχεται να έχει καταργηθεί από την Ανακάλυψη ή να έχει απενεργοποιήσει τις νέες συμμετοχές. Ανανεώστε τη σελίδα και δεν θα το ξαναδείτε.",
+    "discoveryJoinErrorNotAvailableMessage": "Ενδέχεται να έχει αφαιρεθεί από την Εξερεύνηση ή να έχει απενεργοποιήσει τις νέες συμμετοχές. Ανανεώστε τη σελίδα και δεν θα τη δείτε ξανά.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Προχωράτε πολύ γρήγορα",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Παρακαλώ περιμένετε λίγο και δοκιμάστε ξανά.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Προσθήκη κοινότητας",
     "@guildNavbarAddCommunity": {
@@ -7089,9 +7089,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "Ανακάλυψη",
+    "guildMenuSettingsDiscovery": "Εξερεύνηση",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Μέλη",
     "@guildMenuSettingsMembers": {
@@ -7153,9 +7153,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Οι κοινότητες που αναφέρονται στην Εξερεύνηση απαιτούν τουλάχιστον επαληθευμένο email. Το 'Κανένα' δεν μπορεί να επιλεγεί ενώ η Εξερεύνηση είναι ενεργοποιημένη.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Οι κοινότητες που εμφανίζονται στην Εξερεύνηση χρειάζονται τουλάχιστον επαληθευμένο email. Δεν μπορείτε να επιλέξετε «Καμία» όσο η κοινότητά σας εμφανίζεται στην Εξερεύνηση.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Περιεχόμενο για ενήλικες και προειδοποιήσεις περιεχομένου",
     "@guildSettingsModerationMatureTitle": {
@@ -8191,13 +8191,13 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "Καταχώρισε την κοινότητά σου στην Ανακάλυψη, για να μπορούν άλλοι να τη βρουν και να μπουν σε αυτήν.",
+    "guildSettingsDiscoveryDescription": "Καταχώρισε την κοινότητά σου στην Εξερεύνηση, για να μπορούν άλλοι να τη βρουν και να μπουν σε αυτήν.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Η κοινότητά σας χρειάζεται τουλάχιστον {count} μέλη για να μπορεί να εμφανιστεί στην Ανακάλυψη.",
+    "guildSettingsDiscoveryNotEligible": "Η κοινότητά σας χρειάζεται τουλάχιστον {count, plural, one{{count} μέλος} other{{count} μέλη}} για να μπορεί να καταχωριστεί στην Εξερεύνηση.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -8206,11 +8206,11 @@
     },
     "guildSettingsDiscoveryCategory": "Κατηγορία",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionField": "Περιγραφή",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTags": "Προσαρμοσμένες ετικέτες",
     "@guildSettingsDiscoveryTags": {
@@ -8226,7 +8226,7 @@
     },
     "guildSettingsDiscoveryWithdraw": "Απόσυρση",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
     "guildSettingsMembersSearchHint": "Αναζήτηση με όνομα χρήστη ή ID",
     "@guildSettingsMembersSearchHint": {
@@ -8321,7 +8321,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -8542,7 +8542,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Φιλτράρισμα περιεχομένου",
     "guildSettingsModerationContentFilterDescription": "Αυτόματος έλεγχος των μηνυμάτων για ακατάλληλο περιεχόμενο σε κανάλια που δεν έχουν επισημανθεί για περιεχόμενο ενηλίκων.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Οι κοινότητες που αναφέρονται στο Discovery υποχρεούνται να σαρώνουν όλα τα μέλη. Αυτή η ρύθμιση δεν μπορεί να αλλάξει ενώ είναι ενεργοποιημένο το Discovery.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "Οι κοινότητες που εμφανίζονται στην Εξερεύνηση πρέπει να σαρώνουν τα μηνύματα από όλα τα μέλη. Δεν μπορείτε να αλλάξετε αυτή τη ρύθμιση όσο η κοινότητά σας εμφανίζεται στην Εξερεύνηση.",
     "guildSettingsContentFilterOff": "Ανενεργό",
     "guildSettingsContentFilterOffDescription": "Άσε την κοινότητα να συντονίζεται μόνη της",
     "guildSettingsContentFilterNoRole": "Φιλτράρισμα μελών χωρίς ρόλους",
@@ -12218,13 +12218,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "Κοινότητα στην Ανακάλυψη",
+    "emojiInfoDiscoverableCommunity": "Καταχωρισμένη στην Εξερεύνηση",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "Ιδιωτική κοινότητα",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "Επαληθευμένη κοινότητα",
     "@emojiInfoVerifiedCommunity": {
@@ -15332,68 +15332,68 @@
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "Δεν υπάρχουν αρκετά μέλη",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
     "guildSettingsDiscoveryStatusLabel": "Κατάσταση:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "Σε εκκρεμότητα",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "Εγκεκριμένο",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "Απορρίφθηκε",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "Καταργήθηκε",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "Λόγος: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
             }
         }
     },
-    "guildSettingsDiscoveryApprovedInfo": "Η κοινότητά σας είναι καταχωρισμένη στην Ανακάλυψη. Μπορείτε να ενημερώσετε τα στοιχεία της καταχώρισής σας παρακάτω ή να την αποσύρετε για να την καταργήσετε.",
+    "guildSettingsDiscoveryApprovedInfo": "Η κοινότητά σας είναι καταχωρισμένη στην Εξερεύνηση. Μπορείτε να ενημερώσετε τα στοιχεία της καταχώρισής σας παρακάτω ή να την αποσύρετε για να την καταργήσετε.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "Η αίτησή σας εκκρεμεί για έλεγχο. Μπορείτε ακόμα να ενημερώσετε τα στοιχεία της καταχώρισής σας ή να αποσύρετε την αίτηση.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategoryHelp": "Επίλεξε την κατηγορία που περιγράφει καλύτερα την κοινότητά σου. Μπορείς να την αλλάξεις οποιαδήποτε στιγμή.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "Κύρια γλώσσα",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "Η γλώσσα που μιλάει η κοινότητά σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Ανακάλυψη.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "Η γλώσσα που μιλάει η κοινότητά σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Εξερεύνηση.",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "Περιγράψτε την κοινότητά σας",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "Απαιτείται περιγραφή.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "Η περιγραφή πρέπει να έχει τουλάχιστον {minLength} χαρακτήρες.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -15402,14 +15402,14 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "Η περιγραφή δεν πρέπει να υπερβαίνει τους {maxLength} χαρακτήρες.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
             }
         }
     },
-    "guildSettingsDiscoveryTagsHelp": "Έως {maxTags} ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σας. Εμφανίζονται στην αναζήτηση του Discovery.",
+    "guildSettingsDiscoveryTagsHelp": "Έως {maxTags} ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σου. Εμφανίζονται όταν κάποιος κάνει αναζήτηση στην Εξερεύνηση.",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -15420,11 +15420,11 @@
     },
     "guildSettingsDiscoveryAddTag": "Προσθήκη",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "Κατάργηση ετικέτας {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -15433,11 +15433,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "Δεν ήταν δυνατή η προσθήκη ετικέτας",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "Οι ετικέτες πρέπει να είναι 2 έως {maxLength} χαρακτήρες και να περιέχουν μόνο αλφαριθμητικούς χαρακτήρες.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -15455,27 +15455,27 @@
     },
     "guildSettingsDiscoverySave": "Αποθήκευση",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationSent": "Η αίτηση για την Ανακάλυψη στάλθηκε",
+    "guildSettingsDiscoveryApplicationSent": "Η αίτηση για την Εξερεύνηση στάλθηκε",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
-    "guildSettingsDiscoveryListingUpdated": "Η καταχώριση στην Ανακάλυψη ενημερώθηκε",
+    "guildSettingsDiscoveryListingUpdated": "Η καταχώριση στην Εξερεύνηση ενημερώθηκε",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationWithdrawn": "Η αίτηση για την Ανακάλυψη αποσύρθηκε",
+    "guildSettingsDiscoveryApplicationWithdrawn": "Η αίτηση για την Εξερεύνηση αποσύρθηκε",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "Δεν ήταν δυνατή η απόσυρση της αίτησης",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "Δοκιμάστε ξανά σε λίγο.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildMembersRecentTitle": "Πρόσφατα μέλη",
     "@guildMembersRecentTitle": {
@@ -15648,7 +15648,7 @@
     "@guildMembersJoinSourcePlatformAdmin": {
         "description": "Join method label on the community members page."
     },
-    "guildMembersJoinSourceDiscovery": "Ανακάλυψη",
+    "guildMembersJoinSourceDiscovery": "Εξερεύνηση",
     "@guildMembersJoinSourceDiscovery": {
         "description": "Join method label on the community members page."
     },

@@ -1626,8 +1626,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Dieses Emoji stammt aus';
 
   @override
-  String get emojiInfoDiscoverableCommunity =>
-      'Unter „Entdecken“ aufgeführte Community';
+  String get emojiInfoDiscoverableCommunity => 'Unter „Entdecken“ aufgeführt';
 
   @override
   String get emojiInfoPrivateCommunity => 'Private Community';
@@ -11401,7 +11400,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Entdeckbare Communitys durchsuchen';
+      'Communitys entdecken';
 
   @override
   String get discoveryExplore => 'Entdecken';
@@ -11528,7 +11527,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Sie wird möglicherweise nicht mehr unter „Entdecken“ aufgeführt oder hat neue Beitritte deaktiviert. Aktualisiere die Seite, dann wird sie nicht mehr angezeigt.';
+      'Sie ist möglicherweise nicht mehr unter „Entdecken“ aufgeführt oder hat neue Beitritte deaktiviert. Aktualisiere die Seite, dann wird sie nicht mehr angezeigt.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Du bist zu schnell';
@@ -12814,7 +12813,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communitys die in der Suche aufgeführt sind, benötigen mindestens eine verifizierte E-Mail-Adresse. „Keine“ kann nicht ausgewählt werden, wenn die Suche aktiviert ist.';
+      'Unter „Entdecken“ aufgeführte Communitys brauchen mindestens eine verifizierte E-Mail-Adresse. Solange deine Community unter „Entdecken“ aufgeführt ist, kannst du „Keine“ nicht auswählen.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13546,7 +13545,13 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Deine Community benötigt mindestens $count Mitglieder, bevor sie in Discovery gelistet werden kann.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Mitglieder',
+      one: '$count Mitglied',
+    );
+    return 'Deine Community braucht mindestens $_temp0, bevor sie unter „Entdecken“ aufgeführt werden kann.';
   }
 
   @override
@@ -13589,7 +13594,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Die Sprache, die die meisten Mitglieder deiner Community sprechen. Wird zum Filtern der Ergebnisse unter „Entdecken“ verwendet.';
+      'Die Sprache, die die meisten Mitglieder deiner Community sprechen. Damit werden die Ergebnisse unter „Entdecken“ gefiltert.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Beschreibung';
@@ -13617,7 +13622,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Bis zu $maxTags Tags helfen Leuten, deine Community zu finden. Sie werden in der Discovery-Suche angezeigt.';
+    return 'Bis zu $maxTags Tags helfen anderen, deine Community zu finden. Sie erscheinen, wenn jemand unter „Entdecken“ sucht.';
   }
 
   @override
@@ -14266,7 +14271,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'In der Suche gelistete Communitys müssen alle Mitglieder scannen. Diese Einstellung kann nicht geändert werden, solange die Suche aktiviert ist.';
+      'Unter „Entdecken“ aufgeführte Communitys müssen die Nachrichten aller Mitglieder prüfen. Solange deine Community unter „Entdecken“ aufgeführt ist, kannst du diese Einstellung nicht ändern.';
 
   @override
   String get guildSettingsContentFilterOff => 'Aus';

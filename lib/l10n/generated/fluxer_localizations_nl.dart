@@ -1618,7 +1618,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Deze emoji is van';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Vindbare community';
+  String get emojiInfoDiscoverableCommunity => 'Staat in Ontdekken';
 
   @override
   String get emojiInfoPrivateCommunity => 'Privécommunity';
@@ -11335,8 +11335,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Directe berichten';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Ontdek vindbare communities';
+  String get guildNavbarExploreDiscoverableCommunities => 'Ontdek communities';
 
   @override
   String get discoveryExplore => 'Ontdekken';
@@ -11346,7 +11345,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Wil je je community hier vermelden? Vraag dit aan als je voldoet aan de vereisten in de instellingen van je community > Ontdekking.';
+      'Wil je je community hier vermelden? Vraag dit aan als je voldoet aan de vereisten in de instellingen van je community > Ontdekken.';
 
   @override
   String get discoverySearchCommunities => 'Communities zoeken';
@@ -11463,7 +11462,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'De community is mogelijk niet meer opgenomen in Ontdekken of accepteert geen nieuwe leden meer. Vernieuw de pagina en je ziet deze niet meer.';
+      'De community staat mogelijk niet meer in Ontdekken of accepteert geen nieuwe leden meer. Vernieuw de pagina en je ziet deze niet meer.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Je gaat te snel';
@@ -12741,7 +12740,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Community\'s die in Ontdekken worden vermeld, vereisen minimaal een geverifieerd e-mailadres. Geen kan niet worden geselecteerd zolang Ontdekken is ingeschakeld.';
+      'Communities die in Ontdekken staan, hebben minimaal e-mailverificatie nodig. Je kunt \"Geen\" niet kiezen zolang je community in Ontdekken staat.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13469,7 +13468,13 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Je community moet minimaal $count leden hebben voordat deze in Ontdekking kan worden opgenomen.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count leden',
+      one: '$count lid',
+    );
+    return 'Je community heeft minimaal $_temp0 nodig om in Ontdekken te kunnen worden vermeld.';
   }
 
   @override
@@ -13512,7 +13517,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'De taal die de meeste mensen in je community spreken. Wordt gebruikt om de resultaten in Ontdekken te filteren.';
+      'De taal die de meeste mensen in je community spreken. Hiermee worden de resultaten in Ontdekken gefilterd.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Beschrijving';
@@ -13540,7 +13545,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Maximaal $maxTags tags helpen mensen je community te vinden. Ze verschijnen in de Discovery-zoekfunctie.';
+    return 'Met maximaal $maxTags tags vinden mensen je community makkelijker. Ze verschijnen wanneer mensen zoeken in Ontdekken.';
   }
 
   @override
@@ -14192,7 +14197,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities die in Ontdekken worden vermeld, moeten alle leden scannen. Deze instelling kan niet worden gewijzigd zolang Ontdekken is ingeschakeld.';
+      'Communities die in Ontdekken staan, moeten berichten van alle leden scannen. Je kunt deze instelling niet wijzigen zolang je community in Ontdekken staat.';
 
   @override
   String get guildSettingsContentFilterOff => 'Uit';

@@ -6557,21 +6557,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "สำรวจชุมชนที่ค้นหาได้",
+    "guildNavbarExploreDiscoverableCommunities": "สำรวจคอมมูนิตี้",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "สำรวจ",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "สำรวจชุมชนสาธารณะ",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "ต้องการลงรายการชุมชนของคุณที่นี่หรือไม่? สมัครหากคุณมีคุณสมบัติตรงตามข้อกำหนดใน การตั้งค่าชุมชน > การค้นพบ",
+    "discoveryListingSubheading": "ต้องการลงรายการชุมชนของคุณที่นี่หรือไม่? สมัครหากคุณมีคุณสมบัติตรงตามข้อกำหนดใน การตั้งค่าชุมชน > สำรวจ",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "ค้นหาคอมมูนิตี้",
     "@discoverySearchCommunities": {
@@ -6579,7 +6579,7 @@
     },
     "discoveryFilterByLanguage": "กรองตามภาษา",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "ทุกภาษา",
     "@discoveryAllLanguages": {
@@ -6587,59 +6587,59 @@
     },
     "discoveryAllCategories": "ทั้งหมด",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "เกม",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "เพลง",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "บันเทิง",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "การศึกษา",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "วิทยาศาสตร์และเทคโนโลยี",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "ผู้สร้างเนื้อหา",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "อนิเมะและมังงะ",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "ภาพยนตร์และทีวี",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "อื่น ๆ",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "ไม่พบคอมมูนิตี้ที่ตรงกัน",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "เข้าร่วมคอมมูนิตี้",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "เข้าร่วมแล้ว",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} ออนไลน์",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -6648,7 +6648,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{สมาชิก 1 คน} other{{count} สมาชิก}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -6658,31 +6658,31 @@
     },
     "discoveryNoDescription": "ไม่มีคำอธิบาย",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "คอมมูนิตี้",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "แอป",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "ไม่สามารถเข้าร่วมคอมมูนิตี้นี้ได้",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "คอมมูนิตี้นี้เต็มแล้ว",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "คอมมูนิตี้นี้มีสมาชิกเต็มแล้ว คุณจึงเข้าร่วมตอนนี้ไม่ได้",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "คุณถึงขีดจำกัดจำนวนคอมมูนิตี้แล้ว",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -6694,27 +6694,27 @@
     },
     "discoveryJoinErrorBannedTitle": "คุณไม่สามารถเข้าร่วมคอมมูนิตี้นี้ได้",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "คุณถูกแบนจากคอมมูนิตี้นี้แล้ว",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "คอมมูนิตี้นี้ไม่พร้อมใช้งานแล้ว",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "คอมมูนิตี้นี้อาจออกจาก Discovery หรือปิดรับสมาชิกใหม่ไปแล้ว รีเฟรชหน้านี้แล้วจะไม่เห็นอีก",
+    "discoveryJoinErrorNotAvailableMessage": "คอมมูนิตี้นี้อาจออกจากหน้าสำรวจหรือปิดรับสมาชิกใหม่ไปแล้ว รีเฟรชหน้านี้แล้วจะไม่เห็นอีก",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "คุณทำเร็วเกินไป",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "โปรดรอสักครู่แล้วลองอีกครั้ง",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "เพิ่มคอมมูนิตี้",
     "@guildNavbarAddCommunity": {
@@ -7089,9 +7089,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "Discovery",
+    "guildMenuSettingsDiscovery": "สำรวจ",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "สมาชิก",
     "@guildMenuSettingsMembers": {
@@ -7153,9 +7153,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "ชุมชนที่แสดงใน Discovery ต้องมีอีเมลที่ยืนยันแล้วเป็นอย่างน้อย ไม่สามารถเลือก 'ไม่มี' ได้ในขณะที่เปิดใช้งาน Discovery",
+    "guildSettingsModerationVerificationDiscoveryNote": "คอมมูนิตี้ที่แสดงในหน้าสำรวจต้องมีการยืนยันอีเมลเป็นอย่างน้อย คุณจะเลือก \"ไม่มี\" ไม่ได้ขณะที่คอมมูนิตี้ของคุณแสดงอยู่ในหน้าสำรวจ",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "เนื้อหาสำหรับผู้ใหญ่และคำเตือนเนื้อหา",
     "@guildSettingsModerationMatureTitle": {
@@ -8191,13 +8191,13 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "แสดงคอมมูนิตี้ของคุณใน Discovery เพื่อให้คนอื่นค้นหาและเข้าร่วมได้",
+    "guildSettingsDiscoveryDescription": "แสดงคอมมูนิตี้ของคุณในหน้าสำรวจ เพื่อให้คนอื่นค้นหาและเข้าร่วมได้",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "ชุมชนของคุณต้องมีสมาชิกอย่างน้อย {count} คนก่อนจึงจะสามารถแสดงใน Discovery ได้",
+    "guildSettingsDiscoveryNotEligible": "คอมมูนิตี้ของคุณต้องมีสมาชิกอย่างน้อย {count, plural, one{{count} คน} other{{count} คน}} จึงจะแสดงในหน้าสำรวจได้",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -8206,11 +8206,11 @@
     },
     "guildSettingsDiscoveryCategory": "หมวดหมู่",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionField": "คำอธิบาย",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTags": "แท็กที่กำหนดเอง",
     "@guildSettingsDiscoveryTags": {
@@ -8226,7 +8226,7 @@
     },
     "guildSettingsDiscoveryWithdraw": "ถอนคำขอ",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
     "guildSettingsMembersSearchHint": "ค้นหาด้วยชื่อผู้ใช้หรือ ID",
     "@guildSettingsMembersSearchHint": {
@@ -8321,7 +8321,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -8542,7 +8542,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "การกรองเนื้อหา",
     "guildSettingsModerationContentFilterDescription": "คัดกรองข้อความที่มีเนื้อหาโจ่งแจ้งโดยอัตโนมัติในช่องที่ไม่ได้ระบุว่าเป็นเนื้อหาสำหรับผู้ใหญ่",
-    "guildSettingsModerationContentFilterDiscoveryNote": "ชุมชนที่แสดงใน Discovery ต้องสแกนสมาชิกทั้งหมด การตั้งค่านี้ไม่สามารถเปลี่ยนแปลงได้ในขณะที่เปิดใช้งาน Discovery",
+    "guildSettingsModerationContentFilterDiscoveryNote": "คอมมูนิตี้ที่แสดงในหน้าสำรวจต้องสแกนข้อความจากสมาชิกทุกคน คุณจะเปลี่ยนการตั้งค่านี้ไม่ได้ขณะที่คอมมูนิตี้ของคุณแสดงอยู่ในหน้าสำรวจ",
     "guildSettingsContentFilterOff": "ปิด",
     "guildSettingsContentFilterOffDescription": "ให้คอมมูนิตี้จัดการกันเอง",
     "guildSettingsContentFilterNoRole": "กรองสมาชิกที่ไม่มีบทบาท",
@@ -12218,13 +12218,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "คอมมูนิตี้ที่เปิดให้ค้นพบได้",
+    "emojiInfoDiscoverableCommunity": "แสดงในหน้าสำรวจ",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "ชุมชนส่วนตัว",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "คอมมูนิตี้ที่ยืนยันแล้ว",
     "@emojiInfoVerifiedCommunity": {
@@ -15332,68 +15332,68 @@
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "สมาชิกไม่พอ",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
     "guildSettingsDiscoveryStatusLabel": "สถานะ:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "รอดำเนินการ",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "อนุมัติแล้ว",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "ถูกปฏิเสธ",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "นำออกแล้ว",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "เหตุผล: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
             }
         }
     },
-    "guildSettingsDiscoveryApprovedInfo": "คอมมูนิตี้ของคุณแสดงอยู่ใน Discovery แล้ว คุณสามารถอัปเดตรายละเอียดประกาศด้านล่าง หรือถอนออกเพื่อนำรายการออกก็ได้",
+    "guildSettingsDiscoveryApprovedInfo": "คอมมูนิตี้ของคุณแสดงอยู่ในหน้าสำรวจแล้ว คุณสามารถอัปเดตรายละเอียดประกาศด้านล่าง หรือถอนออกเพื่อนำรายการออกก็ได้",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "ใบสมัครของคุณอยู่ระหว่างการตรวจสอบ คุณยังสามารถอัปเดตรายละเอียดประกาศหรือถอนใบสมัครได้",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategoryHelp": "เลือกหมวดหมู่ที่ตรงกับคอมมูนิตี้ของคุณมากที่สุด เปลี่ยนได้ทุกเมื่อ",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "ภาษาหลัก",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "ภาษาที่คนส่วนใหญ่ในคอมมูนิตี้ของคุณใช้ ใช้เพื่อกรองผลลัพธ์ใน Discovery",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "ภาษาที่คนส่วนใหญ่ในคอมมูนิตี้ของคุณใช้ ใช้เพื่อกรองผลลัพธ์ในหน้าสำรวจ",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "อธิบายเกี่ยวกับคอมมูนิตี้ของคุณ",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "ต้องระบุคำอธิบาย",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "คำอธิบายต้องมีความยาวอย่างน้อย {minLength} ตัวอักษร",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -15402,14 +15402,14 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "คำอธิบายต้องไม่เกิน {maxLength} ตัวอักษร",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
             }
         }
     },
-    "guildSettingsDiscoveryTagsHelp": "แท็กสูงสุด {maxTags} แท็กจะช่วยให้ผู้คนค้นหาชุมชนของคุณได้ แท็กเหล่านี้จะแสดงในการค้นหาของ Discovery",
+    "guildSettingsDiscoveryTagsHelp": "เพิ่มแท็กได้สูงสุด {maxTags} แท็กเพื่อให้คนอื่นค้นหาคอมมูนิตี้ของคุณเจอ แท็กจะแสดงเมื่อมีคนค้นหาในหน้าสำรวจ",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -15420,11 +15420,11 @@
     },
     "guildSettingsDiscoveryAddTag": "เพิ่ม",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "ลบแท็ก {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -15433,11 +15433,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "เพิ่มแท็กไม่ได้",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "แท็กต้องมีความยาว 2 ถึง {maxLength} ตัวอักษร และเป็นตัวอักษรหรือตัวเลขเท่านั้น",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -15455,27 +15455,27 @@
     },
     "guildSettingsDiscoverySave": "บันทึก",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationSent": "ส่งใบสมัคร Discovery แล้ว",
+    "guildSettingsDiscoveryApplicationSent": "ส่งใบสมัครเพื่อแสดงในหน้าสำรวจแล้ว",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
-    "guildSettingsDiscoveryListingUpdated": "อัปเดตรายการ Discovery แล้ว",
+    "guildSettingsDiscoveryListingUpdated": "อัปเดตรายการในหน้าสำรวจแล้ว",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationWithdrawn": "ถอนใบสมัคร Discovery แล้ว",
+    "guildSettingsDiscoveryApplicationWithdrawn": "ถอนใบสมัครเพื่อแสดงในหน้าสำรวจแล้ว",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "ถอนใบสมัครไม่ได้",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "ลองอีกครั้งในอีกสักครู่",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildMembersRecentTitle": "สมาชิกล่าสุด",
     "@guildMembersRecentTitle": {
@@ -15648,7 +15648,7 @@
     "@guildMembersJoinSourcePlatformAdmin": {
         "description": "Join method label on the community members page."
     },
-    "guildMembersJoinSourceDiscovery": "Discovery",
+    "guildMembersJoinSourceDiscovery": "สำรวจ",
     "@guildMembersJoinSourceDiscovery": {
         "description": "Join method label on the community members page."
     },

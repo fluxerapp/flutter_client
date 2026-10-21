@@ -1626,7 +1626,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Šią emodži paimta iš';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Atrandama bendruomenė';
+  String get emojiInfoDiscoverableCommunity => 'Įtraukta į skiltį „Naršyti“';
 
   @override
   String get emojiInfoPrivateCommunity => 'Privati bendruomenė';
@@ -11394,7 +11394,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Norite, kad jūsų bendruomenė būtų čia? Pateikite paraišką, jei atitinkate reikalavimus jūsų bendruomenės nustatymuose > Naršymas.';
+      'Norite, kad jūsų bendruomenė būtų čia? Pateikite paraišką, jei atitinkate reikalavimus jūsų bendruomenės nustatymuose > Naršyti.';
 
   @override
   String get discoverySearchCommunities => 'Ieškoti bendruomenių';
@@ -11511,7 +11511,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Gali būti, kad ji pasitraukė iš Atradimo arba išjungė naujų narių prisijungimą. Atnaujinkite puslapį ir jos daugiau nebematysite.';
+      'Gali būti, kad ji pasitraukė iš skilties „Naršyti“ arba išjungė naujų narių prisijungimą. Atnaujinkite puslapį ir jos daugiau nebematysite.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Per greitai';
@@ -11978,7 +11978,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhookai';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Atradimas';
+  String get guildMenuSettingsDiscovery => 'Naršyti';
 
   @override
   String get guildMenuSettingsMembers => 'Nariai';
@@ -12786,7 +12786,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Bendruomenės, įtrauktos į „Discovery“, reikalauja bent patvirtinto el. pašto. Negalima pasirinkti „None“, kai „Discovery“ yra įjungta.';
+      'Į skiltį „Naršyti“ įtrauktoms bendruomenėms būtinas bent el. pašto patvirtinimas. Kol jūsų bendruomenė įtraukta į skiltį „Naršyti“, negalite pasirinkti „Nėra“.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13508,14 +13508,21 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Įtraukite savo bendruomenę į Atradimą, kad kiti galėtų ją rasti ir prie jos prisijungti.';
+      'Įtraukite savo bendruomenę į skiltį „Naršyti“, kad kiti galėtų ją rasti ir prie jos prisijungti.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'Nepakanka narių';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Jūsų bendruomenei reikia bent $count narių, kad ji galėtų būti įtraukta į „Discovery“.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count narių',
+      few: '$count nariai',
+      one: '$count narys',
+    );
+    return 'Jūsų bendruomenėje turi būti bent $_temp0, kad ją būtų galima įtraukti į skiltį „Naršyti“.';
   }
 
   @override
@@ -13540,7 +13547,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Jūsų bendruomenė įtraukta į Atradimą. Galite atnaujinti savo įrašo informaciją žemiau arba atšaukti, kad jį pašalintumėte.';
+      'Jūsų bendruomenė įtraukta į skiltį „Naršyti“. Galite atnaujinti savo įrašo informaciją žemiau arba atšaukti, kad jį pašalintumėte.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13558,7 +13565,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Kalba, kuria kalba didžioji jūsų bendruomenės dalis. Naudojama Atradimo rezultatams filtruoti.';
+      'Kalba, kuria kalba didžioji jūsų bendruomenės dalis. Ji naudojama rezultatams skiltyje „Naršyti“ filtruoti.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Aprašymas';
@@ -13586,7 +13593,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Iki $maxTags žymų padeda žmonėms rasti jūsų bendruomenę. Jos rodomos „Discovery“ paieškoje.';
+    return 'Iki $maxTags žymų padeda žmonėms rasti jūsų bendruomenę. Jos rodomos, kai žmonės ieško skiltyje „Naršyti“.';
   }
 
   @override
@@ -13625,15 +13632,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Atradimo paraiška išsiųsta';
+      'Paraiška į skiltį „Naršyti“ išsiųsta';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Atradimo įrašas atnaujintas';
+      'Įrašas skiltyje „Naršyti“ atnaujintas';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Atradimo paraiška atšaukta';
+      'Paraiška į skiltį „Naršyti“ atšaukta';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13779,7 +13786,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Platformos administratorius';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Atradimas';
+  String get guildMembersJoinSourceDiscovery => 'Naršyti';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Nežinoma';
@@ -14237,7 +14244,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Bendruomenėms, įtrauktoms į „Discovery“, privaloma tikrinti visus narius. Šio nustatymo negalima pakeisti, kai įjungtas „Discovery“.';
+      'Į skiltį „Naršyti“ įtrauktos bendruomenės privalo tikrinti visų narių žinutes. Kol jūsų bendruomenė įtraukta į skiltį „Naršyti“, šio nustatymo pakeisti negalite.';
 
   @override
   String get guildSettingsContentFilterOff => 'Išjungta';

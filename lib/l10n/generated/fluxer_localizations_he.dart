@@ -1594,7 +1594,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'האימוג\'י הזה מגיע מ-';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'קהילה ניתנת לגילוי';
+  String get emojiInfoDiscoverableCommunity => 'מופיעה בגילוי';
 
   @override
   String get emojiInfoPrivateCommunity => 'קהילה פרטית';
@@ -11129,8 +11129,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'הודעות פרטיות';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'גלה קהילות שניתן לגלות';
+  String get guildNavbarExploreDiscoverableCommunities => 'גילוי קהילות';
 
   @override
   String get discoveryExplore => 'גילוי';
@@ -12508,7 +12507,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'קהילות המופיעות ב\'גילוי\' דורשות אימייל מאומת לפחות. לא ניתן לבחור באפשרות \'ללא\' כש\'גילוי\' מופעל.';
+      'קהילות המופיעות בגילוי צריכות לפחות אימות אימייל. לא ניתן לבחור \"ללא\" כל עוד הקהילה שלך מופיעה בגילוי.';
 
   @override
   String get guildSettingsModerationMatureTitle => 'תוכן למבוגרים ואזהרות תוכן';
@@ -13226,7 +13225,14 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'הקהילה שלך צריכה לפחות $count חברים לפני שניתן יהיה לרשום אותה ב-Discovery.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count חברים',
+      two: '$count חברים',
+      one: 'חבר אחד',
+    );
+    return 'הקהילה שלך צריכה לפחות $_temp0 כדי שתוכל להופיע בגילוי.';
   }
 
   @override
@@ -13269,7 +13275,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'השפה שרוב הקהילה שלך דוברת. משמשת לסינון תוצאות הגילוי.';
+      'השפה שרוב הקהילה שלך דוברת. משמשת לסינון התוצאות בגילוי.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'תיאור';
@@ -13296,7 +13302,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'עד $maxTags תגיות יעזרו לאנשים למצוא את הקהילה שלך. הן יופיעו בחיפוש ב-Discovery.';
+    return 'עד $maxTags תגיות עוזרות לאנשים למצוא את הקהילה שלך. הן מופיעות כשאנשים מחפשים בגילוי.';
   }
 
   @override
@@ -13333,13 +13339,15 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get guildSettingsDiscoveryWithdraw => 'ביטול הבקשה';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => 'בקשת גילוי נשלחה';
+  String get guildSettingsDiscoveryApplicationSent =>
+      'בקשת ההצטרפות לגילוי נשלחה';
 
   @override
   String get guildSettingsDiscoveryListingUpdated => 'הרישום בגילוי עודכן';
 
   @override
-  String get guildSettingsDiscoveryApplicationWithdrawn => 'בקשת הגילוי בוטלה';
+  String get guildSettingsDiscoveryApplicationWithdrawn =>
+      'בקשת ההצטרפות לגילוי בוטלה';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13926,7 +13934,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'קהילות המופיעות ב\'גילוי\' נדרשות לסרוק את כל החברים. לא ניתן לשנות הגדרה זו כל עוד \'גילוי\' מופעל.';
+      'קהילות המופיעות בגילוי חייבות לסרוק הודעות מכל החברים. לא ניתן לשנות הגדרה זו כל עוד הקהילה שלך מופיעה בגילוי.';
 
   @override
   String get guildSettingsContentFilterOff => 'כבוי';

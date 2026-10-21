@@ -1608,7 +1608,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Emoji ini berasal dari';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Komunitas yang bisa ditemukan';
+  String get emojiInfoDiscoverableCommunity => 'Terdaftar di Jelajahi';
 
   @override
   String get emojiInfoPrivateCommunity => 'Komunitas pribadi';
@@ -11280,8 +11280,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Pesan langsung';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Jelajahi Komunitas yang Dapat Ditemukan';
+  String get guildNavbarExploreDiscoverableCommunities => 'Jelajahi komunitas';
 
   @override
   String get discoveryExplore => 'Jelajahi';
@@ -11291,7 +11290,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Ingin mendaftarkan komunitas Anda di sini? Ajukan jika Anda memenuhi persyaratan di pengaturan komunitas Anda > Penemuan.';
+      'Ingin mendaftarkan komunitas Anda di sini? Ajukan jika Anda memenuhi persyaratan di pengaturan komunitas Anda > Jelajahi.';
 
   @override
   String get discoverySearchCommunities => 'Cari komunitas';
@@ -11407,7 +11406,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Mungkin komunitas ini sudah keluar dari Discovery atau tidak lagi menerima anggota baru. Segarkan halaman dan kamu tidak akan melihatnya lagi.';
+      'Mungkin komunitas ini sudah keluar dari Jelajahi atau tidak lagi menerima anggota baru. Segarkan halaman dan kamu tidak akan melihatnya lagi.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Kamu terlalu cepat';
@@ -11874,7 +11873,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Jelajahi';
 
   @override
   String get guildMenuSettingsMembers => 'Anggota';
@@ -12682,7 +12681,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Komunitas yang terdaftar di Discovery memerlukan setidaknya email terverifikasi. Tidak ada yang tidak dapat dipilih saat Discovery diaktifkan.';
+      'Komunitas yang terdaftar di Jelajahi minimal memerlukan verifikasi email. Kamu tidak bisa memilih \"Tidak ada\" selama komunitasmu terdaftar di Jelajahi.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13403,7 +13402,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Daftarkan komunitasmu di Discovery agar orang lain dapat menemukannya dan bergabung.';
+      'Daftarkan komunitasmu di Jelajahi agar orang lain dapat menemukannya dan bergabung.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13411,7 +13410,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Komunitas Anda harus memiliki setidaknya $count anggota agar dapat terdaftar di Discovery.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count anggota',
+    );
+    return 'Komunitasmu perlu memiliki setidaknya $_temp0 sebelum bisa terdaftar di Jelajahi.';
   }
 
   @override
@@ -13436,7 +13440,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Komunitasmu terdaftar di Discovery. Kamu bisa memperbarui detail pendaftaranmu di bawah atau menarik pengajuan untuk menghapusnya.';
+      'Komunitasmu terdaftar di Jelajahi. Kamu bisa memperbarui detail pendaftaranmu di bawah atau menarik pengajuan untuk menghapusnya.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13454,7 +13458,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Bahasa yang digunakan sebagian besar anggota komunitasmu. Dipakai untuk memfilter hasil Discovery.';
+      'Bahasa yang digunakan sebagian besar anggota komunitasmu. Dipakai untuk memfilter hasil di Jelajahi.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Deskripsi';
@@ -13482,7 +13486,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Hingga $maxTags tag membantu orang menemukan komunitas Anda. Tag tersebut muncul di penelusuran Discovery.';
+    return 'Hingga $maxTags tag membantu orang menemukan komunitasmu. Tag ini muncul saat orang mencari di Jelajahi.';
   }
 
   @override
@@ -13521,15 +13525,15 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Pengajuan Discovery terkirim';
+      'Pengajuan ke Jelajahi terkirim';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Pendaftaran Discovery diperbarui';
+      'Pendaftaran di Jelajahi diperbarui';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Pengajuan Discovery ditarik';
+      'Pengajuan ke Jelajahi ditarik';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13675,7 +13679,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Admin platform';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Discovery';
+  String get guildMembersJoinSourceDiscovery => 'Jelajahi';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Tidak diketahui';
@@ -14130,7 +14134,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Komunitas yang tercantum di Penemuan wajib memindai semua anggota. Pengaturan ini tidak dapat diubah saat Penemuan diaktifkan.';
+      'Komunitas yang terdaftar di Jelajahi wajib memindai pesan dari semua anggota. Kamu tidak bisa mengubah pengaturan ini selama komunitasmu terdaftar di Jelajahi.';
 
   @override
   String get guildSettingsContentFilterOff => 'Nonaktif';

@@ -6591,21 +6591,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Explorar Comunidades Descobríveis",
+    "guildNavbarExploreDiscoverableCommunities": "Explorar comunidades",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Explorar",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Explorar comunidades públicas",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "Quer listar sua comunidade aqui? Candidate-se se você atender aos requisitos em Configurações da sua comunidade > Descoberta.",
+    "discoveryListingSubheading": "Quer listar sua comunidade aqui? Candidate-se se você atender aos requisitos em Configurações da sua comunidade > Explorar.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Pesquisar comunidades",
     "@discoverySearchCommunities": {
@@ -6613,7 +6613,7 @@
     },
     "discoveryFilterByLanguage": "Filtrar por idioma",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Todos os idiomas",
     "@discoveryAllLanguages": {
@@ -6621,59 +6621,59 @@
     },
     "discoveryAllCategories": "Todos",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Jogos",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Música",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Entretenimento",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Educação",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Ciência e Tecnologia",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Criador de Conteúdo",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Anime e Mangá",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Filmes e TV",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Outros",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Nenhuma comunidade encontrada.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Entrar na comunidade",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Entrou",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} online",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -6682,7 +6682,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 membro} other{{count} membros}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -6692,31 +6692,31 @@
     },
     "discoveryNoDescription": "Sem descrição.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Comunidades",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Apps",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Não foi possível entrar nesta comunidade",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Algo deu errado. Tente novamente em um momento.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Esta comunidade está cheia",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Esta comunidade atingiu o limite de membros, então você não pode entrar no momento.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Você atingiu o limite de comunidades",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -6728,27 +6728,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Você não pode entrar nesta comunidade",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Você foi banido desta comunidade.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Esta comunidade não está mais disponível",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "Ela pode ter saído da descoberta ou desativado novas entradas. Atualize a página e você não a verá novamente.",
+    "discoveryJoinErrorNotAvailableMessage": "Talvez ela tenha saído de Explorar ou desativado novas entradas. Atualize a página para removê-la dos resultados.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Você está indo rápido demais",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Por favor, espere um momento e tente novamente.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Adicionar uma Comunidade",
     "@guildNavbarAddCommunity": {
@@ -7119,9 +7119,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "Descoberta",
+    "guildMenuSettingsDiscovery": "Explorar",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Membros",
     "@guildMenuSettingsMembers": {
@@ -7183,9 +7183,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Comunidades listadas em Descoberta exigem pelo menos um e-mail verificado. Nenhum pode ser selecionado enquanto a Descoberta estiver ativada.",
+    "guildSettingsModerationVerificationDiscoveryNote": "As comunidades listadas em Explorar precisam de, no mínimo, verificação de e-mail. Você não pode escolher \"Nenhum\" enquanto sua comunidade estiver listada em Explorar.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Conteúdo maduro e avisos de conteúdo",
     "@guildSettingsModerationMatureTitle": {
@@ -8221,13 +8221,13 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "Candidate-se para ser listado na descoberta de servidores.",
+    "guildSettingsDiscoveryDescription": "Liste sua comunidade em Explorar para que outras pessoas possam encontrá-la e participar.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Requer pelo menos {count} membros para se candidatar.",
+    "guildSettingsDiscoveryNotEligible": "Sua comunidade precisa de pelo menos {count, plural, one{{count} membro} other{{count} membros}} para poder ser listada em Explorar.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -8236,11 +8236,11 @@
     },
     "guildSettingsDiscoveryCategory": "Categoria",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionField": "Descrição",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTags": "Tags",
     "@guildSettingsDiscoveryTags": {
@@ -8256,7 +8256,7 @@
     },
     "guildSettingsDiscoveryWithdraw": "Retirar",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
     "guildSettingsMembersSearchHint": "Pesquisar membros",
     "@guildSettingsMembersSearchHint": {
@@ -8351,7 +8351,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -8572,7 +8572,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Filtragem de conteúdo",
     "guildSettingsModerationContentFilterDescription": "Verifique automaticamente as mensagens em busca de conteúdo explícito em canais não marcados como adultos.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Comunidades listadas na Discovery são obrigadas a verificar todos os membros. Esta configuração não pode ser alterada enquanto a Discovery estiver ativada.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "As comunidades listadas em Explorar precisam analisar as mensagens de todos os membros. Você não pode alterar esta configuração enquanto sua comunidade estiver listada em Explorar.",
     "guildSettingsContentFilterOff": "Desativado",
     "guildSettingsContentFilterOffDescription": "Deixe a comunidade se auto-moderar",
     "guildSettingsContentFilterNoRole": "Filtrar membros sem cargos",

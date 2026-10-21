@@ -1611,7 +1611,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Bu emoji şuradan';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Keşfedilebilir topluluk';
+  String get emojiInfoDiscoverableCommunity => 'Keşfet\'te listeleniyor';
 
   @override
   String get emojiInfoPrivateCommunity => 'Özel topluluk';
@@ -11286,8 +11286,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Doğrudan mesajlar';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Keşfedilebilir Toplulukları Keşfet';
+  String get guildNavbarExploreDiscoverableCommunities => 'Toplulukları keşfet';
 
   @override
   String get discoveryExplore => 'Keşfet';
@@ -12679,7 +12678,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Keşfet\'te listelenen toplulukların en azından doğrulanmış bir e-postaya sahip olması gerekir. Keşfet etkinleştirildiğinde Hiçbiri seçilemez.';
+      'Keşfet\'te listelenen topluluklarda en az e-posta doğrulaması gerekir. Topluluğunuz Keşfet\'te listelendiği sürece \"Yok\" seçeneğini seçemezsiniz.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13406,7 +13405,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Topluluğunuzun Keşfet\'te listelenebilmesi için en az $count üyeye sahip olması gerekir.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count üyesi',
+      one: '$count üyesi',
+    );
+    return 'Topluluğunuzun Keşfet\'te listelenebilmesi için en az $_temp0 olmalı.';
   }
 
   @override
@@ -13449,7 +13454,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Topluluğunuzdaki çoğu kişinin konuştuğu dil. Keşfet sonuçlarını filtrelemek için kullanılır.';
+      'Topluluğunuzdaki çoğu kişinin konuştuğu dil. Keşfet\'teki sonuçları filtrelemek için kullanılır.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Açıklama';
@@ -13476,7 +13481,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'En fazla $maxTags etiket, topluluğunuzun bulunmasına yardımcı olur. Keşfet aramalarında görünürler.';
+    return 'En fazla $maxTags etiket, insanların topluluğunuzu bulmasına yardımcı olur. İnsanlar Keşfet\'te arama yaptığında görünürler.';
   }
 
   @override
@@ -14119,7 +14124,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Keşfedilen toplulukların tüm üyeleri taraması zorunludur. Keşif etkinleştirildiğinde bu ayar değiştirilemez.';
+      'Keşfet\'te listelenen toplulukların tüm üyelerden gelen mesajları taraması gerekir. Topluluğunuz Keşfet\'te listelendiği sürece bu ayarı değiştiremezsiniz.';
 
   @override
   String get guildSettingsContentFilterOff => 'Kapalı';

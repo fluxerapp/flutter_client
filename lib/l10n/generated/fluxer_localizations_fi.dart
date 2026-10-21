@@ -1617,7 +1617,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Tämä emoji on peräisin';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Löydettävissä oleva yhteisö';
+  String get emojiInfoDiscoverableCommunity => 'Listattu osioon ”Tutustu”';
 
   @override
   String get emojiInfoPrivateCommunity => 'Yksityinen yhteisö';
@@ -11299,8 +11299,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Yksityisviestit';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Tutustu löydettäviin yhteisöihin';
+  String get guildNavbarExploreDiscoverableCommunities => 'Tutustu yhteisöihin';
 
   @override
   String get discoveryExplore => 'Tutustu';
@@ -11311,7 +11310,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Haluatko listata yhteisösi tänne? Hae, jos täytät yhteisösi asetusten > Discovery vaatimukset.';
+      'Haluatko yhteisösi tänne? Hae, jos täytät vaatimukset kohdassa yhteisösi asetukset > Tutustu.';
 
   @override
   String get discoverySearchCommunities => 'Hae yhteisöjä';
@@ -11426,7 +11425,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Se on ehkä poistunut Löydä-osiosta tai estänyt uudet liittymiset. Päivitä sivu, niin et näe sitä enää.';
+      'Se on ehkä poistunut osiosta ”Tutustu” tai estänyt uudet liittymiset. Päivitä sivu, niin et näe sitä enää.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Toimit liian nopeasti';
@@ -11891,7 +11890,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhookit';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Löydettävyys';
+  String get guildMenuSettingsDiscovery => 'Tutustu';
 
   @override
   String get guildMenuSettingsMembers => 'Jäsenet';
@@ -12701,7 +12700,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Discoveryyn listatut yhteisöt vaativat vähintään vahvistetun sähköpostin. Mitään ei voi valita, kun Discovery on käytössä.';
+      'Osioon ”Tutustu” listatuilta yhteisöiltä vaaditaan vähintään sähköpostin vahvistus. Et voi valita vaihtoehtoa ”Ei mitään”, kun yhteisösi on listattu osioon ”Tutustu”.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13424,7 +13423,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Listaa yhteisösi Löydä-osiossa, jotta muut voivat löytää sen ja liittyä siihen.';
+      'Listaa yhteisösi osioon ”Tutustu”, jotta muut voivat löytää sen ja liittyä siihen.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13432,7 +13431,13 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Yhteisössäsi on oltava vähintään $count jäsentä, ennen kuin se voidaan listata Löydöissä.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jäsentä',
+      one: '$count jäsen',
+    );
+    return 'Yhteisössäsi on oltava vähintään $_temp0, ennen kuin se voidaan listata osioon ”Tutustu”.';
   }
 
   @override
@@ -13457,7 +13462,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Yhteisösi näkyy Löydä-osiossa. Voit päivittää listauksesi tietoja alta tai poistaa listauksen.';
+      'Yhteisösi on listattu osioon ”Tutustu”. Voit päivittää listauksesi tietoja alla tai poistaa listauksen.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13475,7 +13480,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Kieli, jota suurin osa yhteisöstäsi puhuu. Käytetään Löydä-osion tulosten suodattamiseen.';
+      'Kieli, jota suurin osa yhteisöstäsi puhuu. Sillä suodatetaan tuloksia osiossa ”Tutustu”.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Kuvaus';
@@ -13502,7 +13507,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Enintään $maxTags tunnisteella autat ihmisiä löytämään yhteisösi. Ne näkyvät Discovery-haussa.';
+    return 'Enintään $maxTags tunnistetta auttaa ihmisiä löytämään yhteisösi. Ne näkyvät, kun ihmiset hakevat osiosta ”Tutustu”.';
   }
 
   @override
@@ -13540,14 +13545,16 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildSettingsDiscoveryWithdraw => 'Peru hakemus';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => 'Löydä-hakemus lähetetty';
+  String get guildSettingsDiscoveryApplicationSent =>
+      'Hakemus osioon ”Tutustu” lähetetty';
 
   @override
-  String get guildSettingsDiscoveryListingUpdated => 'Löydä-listaus päivitetty';
+  String get guildSettingsDiscoveryListingUpdated =>
+      'Listaus osiossa ”Tutustu” päivitetty';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Löydä-hakemus peruutettu';
+      'Hakemus osioon ”Tutustu” peruutettu';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13692,7 +13699,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Alustan ylläpitäjä';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Löytö';
+  String get guildMembersJoinSourceDiscovery => 'Tutustu';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Tuntematon';
@@ -14149,7 +14156,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Discoveryyn listattujen yhteisöjen on skannattava kaikki jäsenet. Tätä asetusta ei voi muuttaa, kun Discovery on käytössä.';
+      'Osioon ”Tutustu” listattujen yhteisöjen on tarkistettava kaikkien jäsenten viestit. Et voi muuttaa tätä asetusta, kun yhteisösi on listattu osioon ”Tutustu”.';
 
   @override
   String get guildSettingsContentFilterOff => 'Pois päältä';

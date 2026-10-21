@@ -2033,13 +2033,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "Cộng đồng có trong Khám phá",
+    "emojiInfoDiscoverableCommunity": "Được liệt kê trong Khám phá",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "Cộng đồng riêng tư",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "Cộng đồng đã xác minh",
     "@emojiInfoVerifiedCommunity": {
@@ -12242,21 +12242,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Khám phá các cộng đồng có thể hiển thị",
+    "guildNavbarExploreDiscoverableCommunities": "Khám phá cộng đồng",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Khám phá",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Khám phá cộng đồng công khai",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
     "discoveryListingSubheading": "Muốn liệt kê cộng đồng của bạn ở đây? Hãy đăng ký nếu bạn đáp ứng các yêu cầu trong cài đặt cộng đồng của bạn > Khám phá.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Tìm cộng đồng",
     "@discoverySearchCommunities": {
@@ -12264,7 +12264,7 @@
     },
     "discoveryFilterByLanguage": "Lọc theo ngôn ngữ",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Tất cả ngôn ngữ",
     "@discoveryAllLanguages": {
@@ -12272,59 +12272,59 @@
     },
     "discoveryAllCategories": "Tất cả",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Trò chơi",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Âm nhạc",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Giải trí",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Giáo dục",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Khoa học & công nghệ",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Nhà sáng tạo nội dung",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Anime & manga",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Phim & TV",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Khác",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Không có cộng đồng nào khớp.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Tham gia cộng đồng",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Đã tham gia",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} trực tuyến",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -12333,7 +12333,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 thành viên} other{{count} thành viên}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -12343,31 +12343,31 @@
     },
     "discoveryNoDescription": "Không có mô tả.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Cộng đồng",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Ứng dụng",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Không thể tham gia cộng đồng này",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Đã xảy ra lỗi. Vui lòng thử lại sau giây lát.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Cộng đồng này đã đầy",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Cộng đồng này đã đạt đến giới hạn thành viên, nên bạn không thể tham gia ngay bây giờ.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Bạn đã đạt đến giới hạn cộng đồng",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -12379,27 +12379,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Bạn không thể tham gia cộng đồng này",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Bạn đã bị cấm khỏi cộng đồng này.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Cộng đồng này không còn khả dụng",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorNotAvailableMessage": "Có thể cộng đồng này đã rời khỏi Khám phá hoặc đã ngừng nhận thành viên mới. Hãy làm mới trang và bạn sẽ không thấy cộng đồng này nữa.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Bạn đang thao tác quá nhanh",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Vui lòng đợi một lát rồi thử lại.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Thêm cộng đồng",
     "@guildNavbarAddCommunity": {
@@ -12985,7 +12985,7 @@
     },
     "guildMenuSettingsDiscovery": "Khám phá",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Thành viên",
     "@guildMenuSettingsMembers": {
@@ -13544,9 +13544,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Các cộng đồng hiển thị trong Khám phá yêu cầu phải có ít nhất email đã xác minh. Không thể chọn \"Không có\" khi Khám phá được bật.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Các cộng đồng được liệt kê trong Khám phá cần có ít nhất mức xác minh email. Bạn không thể chọn \"Không\" khi cộng đồng của bạn đang được liệt kê trong Khám phá.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Nội dung người lớn & cảnh báo nội dung",
     "@guildSettingsModerationMatureTitle": {
@@ -14622,15 +14622,15 @@
     },
     "guildSettingsDiscoveryDescription": "Đưa cộng đồng của bạn vào Khám phá để người khác có thể tìm thấy và tham gia.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Subtitle for the community Discovery settings tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "Không đủ thành viên",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
-    "guildSettingsDiscoveryNotEligible": "Cộng đồng của bạn cần có ít nhất {count} thành viên trước khi có thể được liệt kê trong Khám phá.",
+    "guildSettingsDiscoveryNotEligible": "Cộng đồng của bạn cần có ít nhất {count, plural, other{{count} thành viên}} trước khi có thể được liệt kê trong Khám phá.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -14639,27 +14639,27 @@
     },
     "guildSettingsDiscoveryStatusLabel": "Trạng thái:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "Đang chờ",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "Đã duyệt",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "Đã từ chối",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "Đã gỡ",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "Lý do: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
@@ -14668,43 +14668,43 @@
     },
     "guildSettingsDiscoveryApprovedInfo": "Cộng đồng của bạn đã được liệt kê trong Khám phá. Bạn có thể cập nhật thông tin chi tiết bên dưới hoặc rút lại để gỡ bỏ.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "Đơn đăng ký của bạn đang chờ xét duyệt. Bạn vẫn có thể cập nhật chi tiết hoặc rút lại đơn đăng ký.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategory": "Danh mục",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryCategoryHelp": "Chọn danh mục mô tả đúng nhất về cộng đồng của bạn. Bạn có thể thay đổi bất cứ lúc nào.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "Ngôn ngữ chính",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "Ngôn ngữ mà hầu hết cộng đồng của bạn sử dụng. Dùng để lọc kết quả trong Khám phá.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "Ngôn ngữ mà hầu hết cộng đồng của bạn sử dụng. Ngôn ngữ này được dùng để lọc kết quả trong Khám phá.",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionField": "Mô tả",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "Mô tả về cộng đồng của bạn",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "Cần có mô tả.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "Mô tả phải có ít nhất {minLength} ký tự.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -14713,7 +14713,7 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "Mô tả không được dài quá {maxLength} ký tự.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14722,9 +14722,9 @@
     },
     "guildSettingsDiscoveryTags": "Thẻ tùy chỉnh",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery custom tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
-    "guildSettingsDiscoveryTagsHelp": "Tối đa {maxTags} thẻ giúp mọi người tìm thấy cộng đồng của bạn. Chúng hiển thị trong tìm kiếm Khám phá.",
+    "guildSettingsDiscoveryTagsHelp": "Tối đa {maxTags} thẻ giúp mọi người tìm thấy cộng đồng của bạn. Các thẻ này hiển thị khi mọi người tìm kiếm trong Khám phá.",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -14739,11 +14739,11 @@
     },
     "guildSettingsDiscoveryAddTag": "Thêm",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "Xóa thẻ {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -14752,11 +14752,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "Không thể thêm thẻ",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "Thẻ phải có từ 2 đến {maxLength} ký tự và chỉ chứa chữ cái và số.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14774,35 +14774,35 @@
     },
     "guildSettingsDiscoveryApply": "Áp dụng",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit a new discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoverySave": "Lưu",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Rút đơn",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
     "guildSettingsDiscoveryApplicationSent": "Đã gửi đơn đăng ký Khám phá",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
     "guildSettingsDiscoveryListingUpdated": "Đã cập nhật thông tin trên Khám phá",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
     "guildSettingsDiscoveryApplicationWithdrawn": "Đã rút đơn đăng ký Khám phá",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "Không thể rút đơn đăng ký",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "Thử lại sau giây lát.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildSettingsMembersSearchHint": "Tìm theo tên người dùng hoặc ID",
     "@guildSettingsMembersSearchHint": {
@@ -15235,7 +15235,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -15456,7 +15456,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Lọc nội dung",
     "guildSettingsModerationContentFilterDescription": "Tự động sàng lọc tin nhắn có nội dung nhạy cảm trong các kênh không được đánh dấu là nội dung người lớn.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Các cộng đồng được liệt kê trong Khám phá phải quét tất cả thành viên. Bạn không thể thay đổi cài đặt này khi Khám phá được bật.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "Các cộng đồng được liệt kê trong Khám phá phải quét tin nhắn từ tất cả thành viên. Bạn không thể thay đổi cài đặt này khi cộng đồng của bạn đang được liệt kê trong Khám phá.",
     "guildSettingsContentFilterOff": "Tắt",
     "guildSettingsContentFilterOffDescription": "Để cộng đồng tự kiểm duyệt",
     "guildSettingsContentFilterNoRole": "Lọc thành viên chưa có vai trò",

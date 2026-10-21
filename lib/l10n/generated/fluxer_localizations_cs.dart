@@ -1620,7 +1620,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Tato emoji pochází z';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Komunita v Objevování';
+  String get emojiInfoDiscoverableCommunity => 'Uvedeno v sekci „Prozkoumat“';
 
   @override
   String get emojiInfoPrivateCommunity => 'Soukromé společenství';
@@ -11324,8 +11324,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Přímé zprávy';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Prozkoumat komunity k objevování';
+  String get guildNavbarExploreDiscoverableCommunities => 'Prozkoumat komunity';
 
   @override
   String get discoveryExplore => 'Prozkoumat';
@@ -11335,7 +11334,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Chcete mít svou komunitu uvedenou zde? Požádejte o to, pokud splňujete požadavky v nastavení vaší komunity > Objevování.';
+      'Chcete mít svou komunitu uvedenou zde? Požádejte o to, pokud splňujete požadavky v nastavení vaší komunity > Prozkoumat.';
 
   @override
   String get discoverySearchCommunities => 'Hledat komunity';
@@ -11450,7 +11449,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Komunita už možná není v Objevování nebo nepřijímá nové členy. Obnovte stránku a už se vám nezobrazí.';
+      'Komunita už možná není v sekci „Prozkoumat“ nebo nepřijímá nové členy. Obnovte stránku a už se vám nezobrazí.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Postupujete příliš rychle';
@@ -11912,7 +11911,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhooky';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Objevování';
+  String get guildMenuSettingsDiscovery => 'Prozkoumat';
 
   @override
   String get guildMenuSettingsMembers => 'Členové';
@@ -12720,7 +12719,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Komunity uvedené v sekci Objevit vyžadují alespoň ověřený e-mail. Při zapnutém Objevit nelze vybrat možnost Žádné.';
+      'Komunity uvedené v sekci „Prozkoumat“ potřebují alespoň ověření e-mailu. Dokud je vaše komunita uvedena v sekci „Prozkoumat“, nemůžete vybrat „Žádné“.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13436,14 +13435,22 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Zařaďte svou komunitu do Objevování, aby ji ostatní mohli najít a připojit se k ní.';
+      'Zařaďte svou komunitu do sekce „Prozkoumat“, aby ji ostatní mohli najít a připojit se k ní.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'Nedostatek členů';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Vaše komunita musí mít alespoň $count členů, než ji bude možné zařadit do sekce Objevit.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count členů',
+      many: '$count člena',
+      few: '$count členy',
+      one: '$count člena',
+    );
+    return 'Vaše komunita musí mít alespoň $_temp0, aby mohla být uvedena v sekci „Prozkoumat“.';
   }
 
   @override
@@ -13468,7 +13475,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Vaše komunita je uvedena v Objevování. Níže můžete upravit údaje v záznamu nebo ho odstranit stažením žádosti.';
+      'Vaše komunita je uvedena v sekci „Prozkoumat“. Níže můžete upravit údaje v záznamu nebo ho stažením odstranit.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13486,7 +13493,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Jazyk, kterým mluví většina vaší komunity. Používá se k filtrování výsledků v Objevování.';
+      'Jazyk, kterým mluví většina vaší komunity. Používá se k filtrování výsledků v sekci „Prozkoumat“.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Popis';
@@ -13513,7 +13520,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Až $maxTags štítků pomůže lidem najít vaši komunitu. Zobrazují se ve vyhledávání v sekci Objevit.';
+    return 'Až $maxTags štítků pomůže lidem najít vaši komunitu. Zobrazují se, když lidé vyhledávají v sekci „Prozkoumat“.';
   }
 
   @override
@@ -13553,15 +13560,15 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Žádost o zařazení do Objevování odeslána';
+      'Žádost o zařazení do sekce „Prozkoumat“ odeslána';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Záznam v Objevování aktualizován';
+      'Záznam v sekci „Prozkoumat“ aktualizován';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Žádost o zařazení do Objevování stažena';
+      'Žádost o zařazení do sekce „Prozkoumat“ stažena';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13706,7 +13713,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Správce platformy';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Objevování';
+  String get guildMembersJoinSourceDiscovery => 'Prozkoumat';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Neznámý';
@@ -14163,7 +14170,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Komunity uvedené v Discovery musí skenovat všechny členy. Toto nastavení nelze změnit, dokud je povoleno Discovery.';
+      'Komunity uvedené v sekci „Prozkoumat“ musí kontrolovat zprávy všech členů. Dokud je vaše komunita uvedena v sekci „Prozkoumat“, toto nastavení nemůžete změnit.';
 
   @override
   String get guildSettingsContentFilterOff => 'Vypnuto';

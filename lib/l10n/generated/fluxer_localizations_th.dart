@@ -1598,7 +1598,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'อิโมจินี้มาจาก';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'คอมมูนิตี้ที่เปิดให้ค้นพบได้';
+  String get emojiInfoDiscoverableCommunity => 'แสดงในหน้าสำรวจ';
 
   @override
   String get emojiInfoPrivateCommunity => 'ชุมชนส่วนตัว';
@@ -11201,8 +11201,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'ข้อความส่วนตัว';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'สำรวจชุมชนที่ค้นหาได้';
+  String get guildNavbarExploreDiscoverableCommunities => 'สำรวจคอมมูนิตี้';
 
   @override
   String get discoveryExplore => 'สำรวจ';
@@ -11212,7 +11211,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'ต้องการลงรายการชุมชนของคุณที่นี่หรือไม่? สมัครหากคุณมีคุณสมบัติตรงตามข้อกำหนดใน การตั้งค่าชุมชน > การค้นพบ';
+      'ต้องการลงรายการชุมชนของคุณที่นี่หรือไม่? สมัครหากคุณมีคุณสมบัติตรงตามข้อกำหนดใน การตั้งค่าชุมชน > สำรวจ';
 
   @override
   String get discoverySearchCommunities => 'ค้นหาคอมมูนิตี้';
@@ -11327,7 +11326,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'คอมมูนิตี้นี้อาจออกจาก Discovery หรือปิดรับสมาชิกใหม่ไปแล้ว รีเฟรชหน้านี้แล้วจะไม่เห็นอีก';
+      'คอมมูนิตี้นี้อาจออกจากหน้าสำรวจหรือปิดรับสมาชิกใหม่ไปแล้ว รีเฟรชหน้านี้แล้วจะไม่เห็นอีก';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'คุณทำเร็วเกินไป';
@@ -11786,7 +11785,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'สำรวจ';
 
   @override
   String get guildMenuSettingsMembers => 'สมาชิก';
@@ -12584,7 +12583,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'ชุมชนที่แสดงใน Discovery ต้องมีอีเมลที่ยืนยันแล้วเป็นอย่างน้อย ไม่สามารถเลือก \'ไม่มี\' ได้ในขณะที่เปิดใช้งาน Discovery';
+      'คอมมูนิตี้ที่แสดงในหน้าสำรวจต้องมีการยืนยันอีเมลเป็นอย่างน้อย คุณจะเลือก \"ไม่มี\" ไม่ได้ขณะที่คอมมูนิตี้ของคุณแสดงอยู่ในหน้าสำรวจ';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13298,14 +13297,20 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'แสดงคอมมูนิตี้ของคุณใน Discovery เพื่อให้คนอื่นค้นหาและเข้าร่วมได้';
+      'แสดงคอมมูนิตี้ของคุณในหน้าสำรวจ เพื่อให้คนอื่นค้นหาและเข้าร่วมได้';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'สมาชิกไม่พอ';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'ชุมชนของคุณต้องมีสมาชิกอย่างน้อย $count คนก่อนจึงจะสามารถแสดงใน Discovery ได้';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count คน',
+      one: '$count คน',
+    );
+    return 'คอมมูนิตี้ของคุณต้องมีสมาชิกอย่างน้อย $_temp0 จึงจะแสดงในหน้าสำรวจได้';
   }
 
   @override
@@ -13330,7 +13335,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'คอมมูนิตี้ของคุณแสดงอยู่ใน Discovery แล้ว คุณสามารถอัปเดตรายละเอียดประกาศด้านล่าง หรือถอนออกเพื่อนำรายการออกก็ได้';
+      'คอมมูนิตี้ของคุณแสดงอยู่ในหน้าสำรวจแล้ว คุณสามารถอัปเดตรายละเอียดประกาศด้านล่าง หรือถอนออกเพื่อนำรายการออกก็ได้';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13348,7 +13353,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'ภาษาที่คนส่วนใหญ่ในคอมมูนิตี้ของคุณใช้ ใช้เพื่อกรองผลลัพธ์ใน Discovery';
+      'ภาษาที่คนส่วนใหญ่ในคอมมูนิตี้ของคุณใช้ ใช้เพื่อกรองผลลัพธ์ในหน้าสำรวจ';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'คำอธิบาย';
@@ -13375,7 +13380,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'แท็กสูงสุด $maxTags แท็กจะช่วยให้ผู้คนค้นหาชุมชนของคุณได้ แท็กเหล่านี้จะแสดงในการค้นหาของ Discovery';
+    return 'เพิ่มแท็กได้สูงสุด $maxTags แท็กเพื่อให้คนอื่นค้นหาคอมมูนิตี้ของคุณเจอ แท็กจะแสดงเมื่อมีคนค้นหาในหน้าสำรวจ';
   }
 
   @override
@@ -13413,15 +13418,15 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'ส่งใบสมัคร Discovery แล้ว';
+      'ส่งใบสมัครเพื่อแสดงในหน้าสำรวจแล้ว';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'อัปเดตรายการ Discovery แล้ว';
+      'อัปเดตรายการในหน้าสำรวจแล้ว';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'ถอนใบสมัคร Discovery แล้ว';
+      'ถอนใบสมัครเพื่อแสดงในหน้าสำรวจแล้ว';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle => 'ถอนใบสมัครไม่ได้';
@@ -13562,7 +13567,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'ผู้ดูแลแพลตฟอร์ม';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Discovery';
+  String get guildMembersJoinSourceDiscovery => 'สำรวจ';
 
   @override
   String get guildMembersJoinMethodUnknown => 'ไม่ทราบ';
@@ -14012,7 +14017,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'ชุมชนที่แสดงใน Discovery ต้องสแกนสมาชิกทั้งหมด การตั้งค่านี้ไม่สามารถเปลี่ยนแปลงได้ในขณะที่เปิดใช้งาน Discovery';
+      'คอมมูนิตี้ที่แสดงในหน้าสำรวจต้องสแกนข้อความจากสมาชิกทุกคน คุณจะเปลี่ยนการตั้งค่านี้ไม่ได้ขณะที่คอมมูนิตี้ของคุณแสดงอยู่ในหน้าสำรวจ';
 
   @override
   String get guildSettingsContentFilterOff => 'ปิด';

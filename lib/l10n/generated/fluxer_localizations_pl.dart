@@ -1632,7 +1632,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Ten emoji pochodzi z';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Społeczność w Odkrywaniu';
+  String get emojiInfoDiscoverableCommunity => 'Widoczna w sekcji „Odkrywaj”';
 
   @override
   String get emojiInfoPrivateCommunity => 'Prywatna społeczność';
@@ -11389,7 +11389,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Przeglądaj społeczności dostępne do odkrycia';
+      'Odkrywaj społeczności';
 
   @override
   String get discoveryExplore => 'Odkrywaj';
@@ -11400,7 +11400,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Chcesz umieścić swoją społeczność tutaj? Złóż wniosek, jeśli spełniasz wymagania w ustawieniach swojej społeczności > Odkrywanie.';
+      'Chcesz umieścić swoją społeczność tutaj? Złóż wniosek, jeśli spełniasz wymagania w ustawieniach swojej społeczności > Odkrywaj.';
 
   @override
   String get discoverySearchCommunities => 'Szukaj społeczności';
@@ -11515,7 +11515,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Być może społeczność opuściła sekcję Odkrywanie lub wyłączyła możliwość dołączania. Odśwież stronę, a już jej nie zobaczysz.';
+      'Być może społeczność opuściła sekcję „Odkrywaj” lub wyłączyła możliwość dołączania. Odśwież stronę, a już jej nie zobaczysz.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Działasz za szybko';
@@ -11983,7 +11983,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhooki';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Odkrywanie';
+  String get guildMenuSettingsDiscovery => 'Odkrywaj';
 
   @override
   String get guildMenuSettingsMembers => 'Członkowie';
@@ -12791,7 +12791,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Społeczności wymienione w sekcji Odkrycia wymagają co najmniej zweryfikowanego adresu e-mail. Nie można wybrać opcji Brak, gdy włączono Odkrycia.';
+      'Społeczności widoczne w sekcji „Odkrywaj” wymagają co najmniej weryfikacji adresu e-mail. Nie możesz wybrać opcji „Brak”, dopóki Twoja społeczność jest widoczna w sekcji „Odkrywaj”.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13513,14 +13513,22 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Umieść swoją społeczność w Odkrywaniu, aby inni mogli ją znaleźć i dołączyć.';
+      'Umieść swoją społeczność w sekcji „Odkrywaj”, aby inni mogli ją znaleźć i dołączyć.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'Za mało członków';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Twoja społeczność musi liczyć co najmniej $count członków, aby mogła zostać uwzględniona w funkcji Odkryj.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count członka',
+      many: '$count członków',
+      few: '$count członków',
+      one: '$count członka',
+    );
+    return 'Twoja społeczność musi mieć co najmniej $_temp0, zanim będzie mogła pojawić się w sekcji „Odkrywaj”.';
   }
 
   @override
@@ -13545,7 +13553,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Twoja społeczność jest widoczna w Odkrywaniu. Poniżej możesz zaktualizować szczegóły wpisu lub go wycofać, aby usunąć społeczność z Odkrywania.';
+      'Twoja społeczność jest widoczna w sekcji „Odkrywaj”. Poniżej możesz zaktualizować szczegóły wpisu lub go wycofać, aby usunąć społeczność z tej sekcji.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13563,7 +13571,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Język używany przez większość Twojej społeczności. Służy do filtrowania wyników w Odkrywaniu.';
+      'Język używany przez większość Twojej społeczności. Służy do filtrowania wyników w sekcji „Odkrywaj”.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Opis';
@@ -13590,7 +13598,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Do $maxTags tagów pomogą ludziom znaleźć Twoją społeczność. Pojawią się w wyszukiwarce Odkryj.';
+    return 'Tagi pomagają innym znaleźć Twoją społeczność. Możesz dodać ich maksymalnie $maxTags, a pojawiają się, gdy ktoś szuka w sekcji „Odkrywaj”.';
   }
 
   @override
@@ -13628,15 +13636,15 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Wysłano zgłoszenie do Odkrywania';
+      'Wysłano zgłoszenie do sekcji „Odkrywaj”';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Zaktualizowano wpis w Odkrywaniu';
+      'Zaktualizowano wpis w sekcji „Odkrywaj”';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Wycofano zgłoszenie do Odkrywania';
+      'Wycofano zgłoszenie do sekcji „Odkrywaj”';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13780,7 +13788,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Administrator platformy';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Odkrywanie';
+  String get guildMembersJoinSourceDiscovery => 'Odkrywaj';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Nieznany';
@@ -14239,7 +14247,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Społeczności wymienione w sekcji Odkrycia muszą skanować wszystkich członków. Tego ustawienia nie można zmienić, gdy funkcja Odkrycia jest włączona.';
+      'Społeczności widoczne w sekcji „Odkrywaj” muszą skanować wiadomości wszystkich członków. Nie możesz zmienić tego ustawienia, dopóki Twoja społeczność jest widoczna w sekcji „Odkrywaj”.';
 
   @override
   String get guildSettingsContentFilterOff => 'Wyłączone';

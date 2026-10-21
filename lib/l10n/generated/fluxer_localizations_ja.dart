@@ -1552,7 +1552,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'この絵文字は〜から来ています';
 
   @override
-  String get emojiInfoDiscoverableCommunity => '「見つける」掲載コミュニティ';
+  String get emojiInfoDiscoverableCommunity => '「探索」に掲載中';
 
   @override
   String get emojiInfoPrivateCommunity => '非公開コミュニティ';
@@ -10825,17 +10825,17 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'ダイレクトメッセージ';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities => '公開コミュニティを探す';
+  String get guildNavbarExploreDiscoverableCommunities => 'コミュニティを探す';
 
   @override
-  String get discoveryExplore => '見つける';
+  String get discoveryExplore => '探索';
 
   @override
   String get discoveryExplorePublicCommunities => '公開コミュニティを探す';
 
   @override
   String get discoveryListingSubheading =>
-      'ここにコミュニティを掲載したいですか？ コミュニティの設定 > ディスカバリーで要件を確認し、申請してください。';
+      'ここにコミュニティを掲載したいですか？ コミュニティの設定 > 探索で要件を確認し、申請してください。';
 
   @override
   String get discoverySearchCommunities => 'コミュニティを検索';
@@ -10946,7 +10946,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'このコミュニティは「見つける」の掲載から外れたか、新規参加を停止した可能性があります。ページを更新すると、表示されなくなります。';
+      'このコミュニティは「探索」の掲載から外れたか、新規参加を停止した可能性があります。ページを更新すると、表示されなくなります。';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'ペースが速すぎます';
@@ -11396,7 +11396,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'ウェブフック';
 
   @override
-  String get guildMenuSettingsDiscovery => '見つける';
+  String get guildMenuSettingsDiscovery => '探索';
 
   @override
   String get guildMenuSettingsMembers => 'メンバー';
@@ -12182,7 +12182,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Discoveryに表示されるコミュニティは、少なくともメール認証が必要です。Discoveryが有効な場合、Noneは選択できません。';
+      '「探索」に掲載されているコミュニティには、少なくともメールアドレスの認証が必要です。コミュニティが「探索」に掲載されている間は「なし」を選択できません。';
 
   @override
   String get guildSettingsModerationMatureTitle => '成人向けコンテンツとコンテンツ警告';
@@ -12890,14 +12890,20 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'コミュニティを「見つける」に掲載して、他のユーザーに見つけてもらい、参加してもらいましょう。';
+      'コミュニティを「探索」に掲載して、他のユーザーに見つけてもらい、参加してもらいましょう。';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'メンバーが足りません';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'コミュニティがディスカバリーに掲載されるには、$count人以上のメンバーが必要です。';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count人',
+      one: '$count人',
+    );
+    return 'コミュニティを「探索」に掲載するには、メンバーが$_temp0以上必要です。';
   }
 
   @override
@@ -12922,7 +12928,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'コミュニティは「見つける」に掲載されています。掲載内容を編集したり、掲載を取り下げることができます。';
+      'コミュニティは「探索」に掲載されています。下で掲載内容を編集するか、掲載を取り下げて削除できます。';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -12940,7 +12946,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'コミュニティで最も話されている言語です。「見つける」の検索結果の絞り込みに使用されます。';
+      'コミュニティで最も話されている言語です。「探索」の検索結果の絞り込みに使用されます。';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => '説明';
@@ -12967,7 +12973,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return '最大$maxTags個のタグで、コミュニティを見つけやすくしましょう。Discovery検索に表示されます。';
+    return '最大$maxTags個のタグで、コミュニティを見つけてもらいやすくなります。タグは「探索」で検索したときに表示されます。';
   }
 
   @override
@@ -13004,14 +13010,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsDiscoveryWithdraw => '取り下げ';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => '「見つける」への掲載申請を送信しました';
+  String get guildSettingsDiscoveryApplicationSent => '「探索」への掲載申請を送信しました';
 
   @override
-  String get guildSettingsDiscoveryListingUpdated => '「見つける」の掲載情報を更新しました';
+  String get guildSettingsDiscoveryListingUpdated => '「探索」の掲載情報を更新しました';
 
   @override
-  String get guildSettingsDiscoveryApplicationWithdrawn =>
-      '「見つける」への掲載申請を取り下げました';
+  String get guildSettingsDiscoveryApplicationWithdrawn => '「探索」への掲載申請を取り下げました';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle => '申請を取り下げられませんでした';
@@ -13151,7 +13156,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'プラットフォーム管理者';
 
   @override
-  String get guildMembersJoinSourceDiscovery => '見つける';
+  String get guildMembersJoinSourceDiscovery => '探索';
 
   @override
   String get guildMembersJoinMethodUnknown => '不明';
@@ -13585,7 +13590,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Discoveryに掲載されているコミュニティは、すべてのメンバーをスキャンする必要があります。Discoveryが有効な間はこの設定を変更できません。';
+      '「探索」に掲載されているコミュニティは、すべてのメンバーのメッセージをスキャンする必要があります。コミュニティが「探索」に掲載されている間は、この設定を変更できません。';
 
   @override
   String get guildSettingsContentFilterOff => 'オフ';

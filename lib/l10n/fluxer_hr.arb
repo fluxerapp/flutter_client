@@ -2033,13 +2033,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "Zajednica u Otkrivanju",
+    "emojiInfoDiscoverableCommunity": "Navedena u odjeljku „Istraži”",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "Privatna zajednica",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "Provjerena zajednica",
     "@emojiInfoVerifiedCommunity": {
@@ -12242,21 +12242,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Istraži zajednice koje se mogu otkriti",
+    "guildNavbarExploreDiscoverableCommunities": "Istraži zajednice",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "Istraži",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "Istraži javne zajednice",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "Želite staviti svoju zajednicu ovdje? Prijavite se ako ispunjavate uvjete u postavkama vaše zajednice > Otkrivanje.",
+    "discoveryListingSubheading": "Želite staviti svoju zajednicu ovdje? Prijavite se ako ispunjavate uvjete u postavkama vaše zajednice > Istraži.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "Pretražite zajednice",
     "@discoverySearchCommunities": {
@@ -12264,7 +12264,7 @@
     },
     "discoveryFilterByLanguage": "Filtriraj po jeziku",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "Svi jezici",
     "@discoveryAllLanguages": {
@@ -12272,59 +12272,59 @@
     },
     "discoveryAllCategories": "Sve",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "Igranje",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "Glazba",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "Zabava",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "Obrazovanje",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "Znanost i tehnologija",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "Kreator sadržaja",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "Anime i manga",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "Filmovi i TV",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "Ostalo",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "Nema podudarnih zajednica.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "Pridruži se zajednici",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "Pridruženi",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} na mreži",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -12333,7 +12333,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{1 član} other{{count} člana}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -12343,31 +12343,31 @@
     },
     "discoveryNoDescription": "Nema opisa.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "Zajednice",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "Aplikacije",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "Nije moguće pridružiti se ovoj zajednici",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "Nešto je pošlo po zlu. Pokušajte ponovno za nekoliko trenutaka.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "Ova je zajednica puna",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "Ova je zajednica dosegla ograničenje broja članova, tako da joj se trenutačno ne možete pridružiti.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "Dosegli ste ograničenje broja zajednica",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -12379,27 +12379,27 @@
     },
     "discoveryJoinErrorBannedTitle": "Ne možete se pridružiti ovoj zajednici",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "Zabranjen vam je pristup ovoj zajednici.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "Ova zajednica više nije dostupna",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "Moguće je da je napustila Otkrivanje ili isključila nova pridruživanja. Osvježite stranicu i više je nećete vidjeti.",
+    "discoveryJoinErrorNotAvailableMessage": "Moguće je da je napustila odjeljak „Istraži” ili isključila nova pridruživanja. Osvježite stranicu i više je nećete vidjeti.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "Usporite malo",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "Pričekajte trenutak pa pokušajte ponovno.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "Dodaj zajednicu",
     "@guildNavbarAddCommunity": {
@@ -12983,9 +12983,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "Otkrivanje",
+    "guildMenuSettingsDiscovery": "Istraži",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "Članovi",
     "@guildMenuSettingsMembers": {
@@ -13544,9 +13544,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Zajednice navedene u Otkrivanju zahtijevaju barem potvrđenu e-poštu. Opcija \"Ništa\" ne može se odabrati dok je Otkrivanje omogućeno.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Zajednice navedene u odjeljku „Istraži” trebaju barem potvrđenu e-poštu. Ne možete odabrati „Ništa” dok je vaša zajednica navedena u odjeljku „Istraži”.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "Sadržaj za odrasle i upozorenja o sadržaju",
     "@guildSettingsModerationMatureTitle": {
@@ -14620,17 +14620,17 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "Uvrstite svoju zajednicu u Otkrivanje kako bi je drugi mogli pronaći i pridružiti joj se.",
+    "guildSettingsDiscoveryDescription": "Uvrstite svoju zajednicu u odjeljak „Istraži” kako bi je drugi mogli pronaći i pridružiti joj se.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Subtitle for the community Discovery settings tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "Nema dovoljno članova",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
-    "guildSettingsDiscoveryNotEligible": "Vaša zajednica treba imati najmanje {count} članova prije nego što se može navesti u Otkriću.",
+    "guildSettingsDiscoveryNotEligible": "Vaša zajednica treba imati najmanje {count, plural, one{{count} člana} few{{count} člana} other{{count} članova}} prije nego što se može uvrstiti u odjeljak „Istraži”.",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -14639,72 +14639,72 @@
     },
     "guildSettingsDiscoveryStatusLabel": "Status:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "Na čekanju",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "Odobreno",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "Odbijeno",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "Uklonjeno",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "Razlog: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
             }
         }
     },
-    "guildSettingsDiscoveryApprovedInfo": "Vaša je zajednica navedena u Otkrivanju. Pojedinosti unosa možete ažurirati u nastavku ili ga povući da biste ga uklonili.",
+    "guildSettingsDiscoveryApprovedInfo": "Vaša je zajednica navedena u odjeljku „Istraži”. Pojedinosti unosa možete ažurirati u nastavku ili ga povući da biste ga uklonili.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "Vaša prijava čeka pregled. I dalje možete ažurirati pojedinosti unosa ili povući prijavu.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategory": "Kategorija",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryCategoryHelp": "Odaberite kategoriju koja najbolje opisuje vašu zajednicu. Možete je promijeniti bilo kada.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "Primarni jezik",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "Jezik kojim govori većina vaše zajednice. Koristi se za filtriranje rezultata Otkrivanja.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "Jezik kojim govori većina vaše zajednice. Koristi se za filtriranje rezultata u odjeljku „Istraži”.",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionField": "Opis",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "Opišite o čemu se radi u vašoj zajednici",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "Opis je obavezan.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "Opis mora imati najmanje {minLength} znakova.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -14713,7 +14713,7 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "Opis ne smije biti duži od {maxLength} znakova.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14722,9 +14722,9 @@
     },
     "guildSettingsDiscoveryTags": "Prilagođene oznake",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery custom tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
-    "guildSettingsDiscoveryTagsHelp": "Do {maxTags} oznaka pomaže ljudima pronaći tvoju zajednicu. Prikazuju se u pretraživanju Otkrića.",
+    "guildSettingsDiscoveryTagsHelp": "Do {maxTags} oznaka pomaže ljudima da pronađu vašu zajednicu. Prikazuju se kad ljudi pretražuju odjeljak „Istraži”.",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -14739,11 +14739,11 @@
     },
     "guildSettingsDiscoveryAddTag": "Dodaj",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "Ukloni oznaku {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -14752,11 +14752,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "Nije moguće dodati oznaku",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "Oznake moraju imati od 2 do {maxLength} alfanumeričkih znakova.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -14774,35 +14774,35 @@
     },
     "guildSettingsDiscoveryApply": "Primijeni",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit a new discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoverySave": "Spremi",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
     "guildSettingsDiscoveryWithdraw": "Povuci",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
-    "guildSettingsDiscoveryApplicationSent": "Prijava za Otkrivanje poslana",
+    "guildSettingsDiscoveryApplicationSent": "Prijava za odjeljak „Istraži” poslana",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
-    "guildSettingsDiscoveryListingUpdated": "Unos u Otkrivanju ažuriran",
+    "guildSettingsDiscoveryListingUpdated": "Unos u odjeljku „Istraži” ažuriran",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationWithdrawn": "Prijava za Otkrivanje povučena",
+    "guildSettingsDiscoveryApplicationWithdrawn": "Prijava za odjeljak „Istraži” povučena",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "Nije moguće povući prijavu",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "Pokušajte ponovno za trenutak.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildSettingsMembersSearchHint": "Pretražite po korisničkom imenu ili ID-u",
     "@guildSettingsMembersSearchHint": {
@@ -14992,7 +14992,7 @@
     "@guildMembersJoinSourcePlatformAdmin": {
         "description": "Join method label on the community members page."
     },
-    "guildMembersJoinSourceDiscovery": "Otkrivanje",
+    "guildMembersJoinSourceDiscovery": "Istraži",
     "@guildMembersJoinSourceDiscovery": {
         "description": "Join method label on the community members page."
     },
@@ -15235,7 +15235,7 @@
     },
     "guildSettingsCategoryCommunity": "Community",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
     "guildSettingsCategoryIntegrations": "Integrations",
     "@guildSettingsCategoryIntegrations": {
@@ -15456,7 +15456,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "Filtriranje sadržaja",
     "guildSettingsModerationContentFilterDescription": "Poruke se automatski provjeravaju radi otkrivanja eksplicitnog sadržaja u kanalima koji nisu označeni za sadržaj za odrasle.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "Zajednice navedene u Otkrivanju moraju skenirati sve članove. Ova se postavka ne može promijeniti dok je Otkrivanje omogućeno.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "Zajednice navedene u odjeljku „Istraži” moraju skenirati poruke svih članova. Ne možete promijeniti ovu postavku dok je vaša zajednica navedena u odjeljku „Istraži”.",
     "guildSettingsContentFilterOff": "Isključeno",
     "guildSettingsContentFilterOffDescription": "Neka se zajednica sama moderira",
     "guildSettingsContentFilterNoRole": "Filtriraj članove bez uloga",

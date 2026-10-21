@@ -1620,7 +1620,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Това емоджи е от';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Общност в Откриване';
+  String get emojiInfoDiscoverableCommunity => 'Включена в „Разглеждане“';
 
   @override
   String get emojiInfoPrivateCommunity => 'Частна общност';
@@ -11398,8 +11398,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Директни съобщения';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Разгледай откриваеми общности';
+  String get guildNavbarExploreDiscoverableCommunities => 'Разгледай общности';
 
   @override
   String get discoveryExplore => 'Разглеждане';
@@ -11410,7 +11409,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Искате да включите вашата общност тук? Кандидатствайте, ако отговаряте на изискванията в настройките на вашата общност > Откриване.';
+      'Искате да включите вашата общност тук? Кандидатствайте, ако отговаряте на изискванията в настройките на вашата общност > Разглеждане.';
 
   @override
   String get discoverySearchCommunities => 'Търсене на общности';
@@ -11525,7 +11524,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Може да е напуснала Откриване или да е изключила новите присъединявания. Презареди страницата и няма да я виждаш повече.';
+      'Може да е напуснала „Разглеждане“ или да е изключила новите присъединявания. Презареди страницата и няма да я виждаш повече.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Действаш твърде бързо';
@@ -11999,7 +11998,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Уебхукове';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Откриване';
+  String get guildMenuSettingsDiscovery => 'Разглеждане';
 
   @override
   String get guildMenuSettingsMembers => 'Членове';
@@ -12814,7 +12813,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Общностите, включени в Откриване, изискват поне потвърден имейл. Не може да бъде избрано нито едно, докато Откриване е активирано.';
+      'Общностите, включени в „Разглеждане“, трябва да изискват поне потвърждение на имейл. Не можеш да избереш „Няма“, докато общността ти е включена в „Разглеждане“.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13539,7 +13538,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Включи общността си в Откриване, за да могат другите да я намират и да се присъединяват към нея.';
+      'Включи общността си в „Разглеждане“, за да могат другите да я намират и да се присъединяват към нея.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13547,7 +13546,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Вашата общност трябва да има поне $count членове, преди да може да бъде включена в Откриване.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count членове',
+      one: '$count член',
+    );
+    return 'Общността ти трябва да има поне $_temp0, преди да може да бъде включена в „Разглеждане“.';
   }
 
   @override
@@ -13572,7 +13577,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Общността ти е включена в Откриване. Можеш да актуализираш данните за обявата си по-долу или да се оттеглиш, за да я премахнеш.';
+      'Общността ти е включена в „Разглеждане“. Можеш да актуализираш данните на обявата си по-долу или да я оттеглиш, за да я премахнеш.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13590,7 +13595,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Езикът, който общността ти говори най-често. Използва се за филтриране на резултатите от Откриване.';
+      'Езикът, който общността ти говори най-често. Използва се за филтриране на резултатите в „Разглеждане“.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Описание';
@@ -13618,7 +13623,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'До $maxTags етикета помагат на хората да открият вашата общност. Те се показват в търсенето в секция \"Откриване\".';
+    return 'До $maxTags етикета помагат на хората да открият общността ти. Те се показват, когато хората търсят в „Разглеждане“.';
   }
 
   @override
@@ -13657,15 +13662,15 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Заявлението за Откриване е изпратено';
+      'Заявлението за „Разглеждане“ е изпратено';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Включването в Откриване е актуализирано';
+      'Обявата в „Разглеждане“ е актуализирана';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Заявлението за Откриване е оттеглено';
+      'Заявлението за „Разглеждане“ е оттеглено';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13812,7 +13817,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Администратор на платформата';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Откриване';
+  String get guildMembersJoinSourceDiscovery => 'Разглеждане';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Неизвестен';
@@ -14275,7 +14280,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Общностите, включени в Откриване, трябва да сканират всички членове. Тази настройка не може да бъде променяна, докато Откриване е активирано.';
+      'Общностите, включени в „Разглеждане“, трябва да сканират съобщенията от всички членове. Не можеш да промениш тази настройка, докато общността ти е включена в „Разглеждане“.';
 
   @override
   String get guildSettingsContentFilterOff => 'Изкл';

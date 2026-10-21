@@ -1611,7 +1611,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'यह इमोजी इससे है';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'डिस्कवरेबल कम्युनिटी';
+  String get emojiInfoDiscoverableCommunity => 'एक्सप्लोर में लिस्टेड';
 
   @override
   String get emojiInfoPrivateCommunity => 'निजी समुदाय';
@@ -11263,10 +11263,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'खोजें खोजने योग्य समुदाय';
+      'कम्युनिटी एक्सप्लोर करें';
 
   @override
-  String get discoveryExplore => 'एक्सप्लोर करें';
+  String get discoveryExplore => 'एक्सप्लोर';
 
   @override
   String get discoveryExplorePublicCommunities =>
@@ -11274,7 +11274,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'क्या आप अपना समुदाय यहाँ सूचीबद्ध करना चाहते हैं? यदि आप अपनी कम्युनिटी की सेटिंग्स > डिस्कवरी में आवश्यकताओं को पूरा करते हैं तो आवेदन करें।';
+      'क्या आप अपना समुदाय यहाँ सूचीबद्ध करना चाहते हैं? यदि आप अपनी कम्युनिटी की सेटिंग्स > एक्सप्लोर में दी गई आवश्यकताओं को पूरा करते हैं तो आवेदन करें।';
 
   @override
   String get discoverySearchCommunities => 'कम्युनिटी खोजें';
@@ -11390,7 +11390,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'हो सकता है कि यह डिस्कवरी से हट गई हो या इसने नए लोगों का शामिल होना बंद कर दिया हो। पेज रीफ़्रेश करें और यह आपको दोबारा नहीं दिखेगी।';
+      'हो सकता है कि यह एक्सप्लोर से हट गई हो या इसने नए लोगों का शामिल होना बंद कर दिया हो। पेज रीफ़्रेश करें और यह आपको दोबारा नहीं दिखेगी।';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'आप बहुत तेज़ जा रहे हैं';
@@ -11855,7 +11855,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'वेबहुक';
 
   @override
-  String get guildMenuSettingsDiscovery => 'डिस्कवरी';
+  String get guildMenuSettingsDiscovery => 'एक्सप्लोर';
 
   @override
   String get guildMenuSettingsMembers => 'सदस्य';
@@ -12660,7 +12660,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'डिस्कवरी में लिस्ट की गई कम्युनिटी के लिए कम से कम वेरिफ़ाइड ईमेल की ज़रूरत होती है. जब तक डिस्कवरी चालू है, तब तक \'कोई नहीं\' को नहीं चुना जा सकता।';
+      'एक्सप्लोर में लिस्ट की गई कम्युनिटी के लिए कम से कम ईमेल वेरिफ़िकेशन ज़रूरी है। जब तक आपकी कम्युनिटी एक्सप्लोर में लिस्ट है, आप \"कोई नहीं\" नहीं चुन सकते।';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13379,7 +13379,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'अपनी कम्युनिटी को डिस्कवरी में लिस्ट करें ताकि दूसरे उसे ढूंढकर जॉइन कर सकें।';
+      'अपनी कम्युनिटी को एक्सप्लोर में लिस्ट करें ताकि दूसरे उसे ढूंढकर जॉइन कर सकें।';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13387,7 +13387,13 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'आपके समुदाय को डिस्कवरी में सूचीबद्ध होने के लिए कम से कम $count सदस्यों की आवश्यकता है।';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count सदस्य',
+      one: '$count सदस्य',
+    );
+    return 'एक्सप्लोर में लिस्ट होने के लिए आपकी कम्युनिटी में कम से कम $_temp0 होने चाहिए।';
   }
 
   @override
@@ -13412,7 +13418,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'आपकी कम्युनिटी डिस्कवरी में लिस्ट की गई है। आप नीचे अपनी लिस्टिंग की जानकारी अपडेट कर सकते हैं या इसे हटाने के लिए वापस ले सकते हैं।';
+      'आपकी कम्युनिटी एक्सप्लोर में लिस्ट की गई है। आप नीचे अपनी लिस्टिंग की जानकारी अपडेट कर सकते हैं या इसे हटाने के लिए वापस ले सकते हैं।';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13430,7 +13436,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'आपकी कम्युनिटी के ज़्यादातर लोग जिस भाषा में बात करते हैं। डिस्कवरी के नतीजों को फ़िल्टर करने के लिए इस्तेमाल किया जाता है।';
+      'आपकी कम्युनिटी के ज़्यादातर लोग जिस भाषा में बात करते हैं। इसका इस्तेमाल एक्सप्लोर में नतीजों को फ़िल्टर करने के लिए किया जाता है।';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'विवरण';
@@ -13457,7 +13463,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return '$maxTags टैग आपकी कम्युनिटी को खोजने में लोगों की मदद करते हैं। वे डिस्कवरी सर्च में दिखाई देते हैं।';
+    return 'ज़्यादा से ज़्यादा $maxTags टैग लोगों को आपकी कम्युनिटी ढूंढने में मदद करते हैं। जब लोग एक्सप्लोर में सर्च करते हैं, तब ये दिखते हैं।';
   }
 
   @override
@@ -13494,15 +13500,16 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get guildSettingsDiscoveryWithdraw => 'आवेदन वापस लें';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => 'डिस्कवरी आवेदन भेजा गया';
+  String get guildSettingsDiscoveryApplicationSent =>
+      'एक्सप्लोर में लिस्टिंग का आवेदन भेजा गया';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'डिस्कवरी लिस्टिंग अपडेट की गई';
+      'एक्सप्लोर लिस्टिंग अपडेट की गई';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'डिस्कवरी आवेदन वापस ले लिया गया';
+      'एक्सप्लोर में लिस्टिंग का आवेदन वापस ले लिया गया';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13647,7 +13654,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'प्लेटफ़ॉर्म एडमिन';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'डिस्कवरी';
+  String get guildMembersJoinSourceDiscovery => 'एक्सप्लोर';
 
   @override
   String get guildMembersJoinMethodUnknown => 'अज्ञात';
@@ -14104,7 +14111,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'डिस्कवरी में लिस्ट की गई कम्युनिटी के लिए सभी सदस्यों को स्कैन करना ज़रूरी है. डिस्कवरी चालू होने पर यह सेटिंग बदली नहीं जा सकती।';
+      'एक्सप्लोर में लिस्ट की गई कम्युनिटी को सभी सदस्यों के मैसेज स्कैन करने होंगे। जब तक आपकी कम्युनिटी एक्सप्लोर में लिस्ट है, आप यह सेटिंग नहीं बदल सकते।';
 
   @override
   String get guildSettingsContentFilterOff => 'बंद';

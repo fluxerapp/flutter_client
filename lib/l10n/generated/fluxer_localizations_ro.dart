@@ -1623,7 +1623,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get emojiInfoDiscoverableCommunity =>
-      'Comunitate listată în Discovery';
+      'Listată în secțiunea „Explorează”';
 
   @override
   String get emojiInfoPrivateCommunity => 'Comunitate privată';
@@ -11365,7 +11365,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Comunități Descoperibile';
+      'Explorează comunități';
 
   @override
   String get discoveryExplore => 'Explorează';
@@ -11375,7 +11375,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Vrei să-ți listezi comunitatea aici? Aplică dacă îndeplinești cerințele din setările comunității tale > Descoperire.';
+      'Vrei să-ți listezi comunitatea aici? Aplică dacă îndeplinești cerințele din setările comunității tale > Explorează.';
 
   @override
   String get discoverySearchCommunities => 'Caută comunități';
@@ -11492,7 +11492,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Este posibil să fi părăsit Discovery sau să fi dezactivat înscrierile noi. Reîmprospătează pagina și nu o vei mai vedea.';
+      'Este posibil să fi părăsit secțiunea „Explorează” sau să fi dezactivat înscrierile noi. Reîmprospătează pagina și nu o vei mai vedea.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Mergi prea repede';
@@ -11963,7 +11963,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhook-uri';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Explorează';
 
   @override
   String get guildMenuSettingsMembers => 'Membri';
@@ -12773,7 +12773,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Comunitățile listate în Discovery necesită cel puțin un e-mail verificat. Niciuna nu poate fi selectată cât timp Discovery este activat.';
+      'Comunitățile listate în secțiunea „Explorează” au nevoie cel puțin de verificarea adresei de e-mail. Nu poți alege „Niciunul” cât timp comunitatea ta este listată în secțiunea „Explorează”.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13500,7 +13500,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Listează-ți comunitatea în Discovery, ca alții să o poată găsi și să i se alăture.';
+      'Listează-ți comunitatea în secțiunea „Explorează”, ca alții să o poată găsi și să i se alăture.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13508,7 +13508,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Comunitatea ta are nevoie de cel puțin $count membri înainte de a putea fi listată în Descoperire.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de membri',
+      few: '$count membri',
+      one: '$count membru',
+    );
+    return 'Comunitatea ta are nevoie de cel puțin $_temp0 pentru a putea fi listată în secțiunea „Explorează”.';
   }
 
   @override
@@ -13533,7 +13540,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Comunitatea ta este listată în Discovery. Poți actualiza detaliile listării mai jos sau o poți retrage pentru a o elimina.';
+      'Comunitatea ta este listată în secțiunea „Explorează”. Poți actualiza detaliile listării mai jos sau o poți retrage pentru a o elimina.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13551,7 +13558,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Limba vorbită de majoritatea membrilor comunității tale. Folosită pentru a filtra rezultatele din Discovery.';
+      'Limba vorbită de majoritatea membrilor comunității tale. Este folosită pentru a filtra rezultatele din secțiunea „Explorează”.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Descriere';
@@ -13579,7 +13586,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Până la $maxTags etichete ajută oamenii să-ți găsească comunitatea. Ele apar în căutarea din Descoperire.';
+    return 'Până la $maxTags etichete îi ajută pe oameni să-ți găsească comunitatea. Acestea apar când oamenii caută în secțiunea „Explorează”.';
   }
 
   @override
@@ -13619,15 +13626,15 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Cererea pentru Discovery a fost trimisă';
+      'Cererea pentru secțiunea „Explorează” a fost trimisă';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Listarea Discovery a fost actualizată';
+      'Listarea din secțiunea „Explorează” a fost actualizată';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Cererea pentru Discovery a fost retrasă';
+      'Cererea pentru secțiunea „Explorează” a fost retrasă';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13772,7 +13779,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Administrator platformă';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Discovery';
+  String get guildMembersJoinSourceDiscovery => 'Explorează';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Necunoscut';
@@ -14232,7 +14239,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Comunitățile listate în Descoperire trebuie să scaneze toți membrii. Această setare nu poate fi modificată cât timp Descoperirea este activată.';
+      'Comunitățile listate în secțiunea „Explorează” trebuie să scaneze mesajele tuturor membrilor. Nu poți modifica această setare cât timp comunitatea ta este listată în secțiunea „Explorează”.';
 
   @override
   String get guildSettingsContentFilterOff => 'Dezactivat';

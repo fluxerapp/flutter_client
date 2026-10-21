@@ -1526,7 +1526,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get emojiInfoFromHeader => '此表情符号来自';
 
   @override
-  String get emojiInfoDiscoverableCommunity => '可发现的社区';
+  String get emojiInfoDiscoverableCommunity => '已列入“探索”';
 
   @override
   String get emojiInfoPrivateCommunity => '私有社区';
@@ -10594,7 +10594,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildNavbarDirectMessages => '私信';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities => '探索可发现的社区';
+  String get guildNavbarExploreDiscoverableCommunities => '探索社区';
 
   @override
   String get discoveryExplore => '探索';
@@ -10603,7 +10603,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get discoveryExplorePublicCommunities => '探索公开社区';
 
   @override
-  String get discoveryListingSubheading => '想在此列出您的社区？如果符合社区设置 > 发现中的要求，请申请。';
+  String get discoveryListingSubheading => '想在此列出您的社区？如果符合社区设置 > 探索中的要求，请申请。';
 
   @override
   String get discoverySearchCommunities => '搜索社区';
@@ -10712,7 +10712,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      '它可能已退出社区发现，或关闭了新成员加入。刷新页面后，你就不会再看到它了。';
+      '它可能已退出“探索”，或关闭了新成员加入。刷新页面后，你就不会再看到它了。';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => '你的操作过于频繁';
@@ -11160,7 +11160,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
-  String get guildMenuSettingsDiscovery => '社区发现';
+  String get guildMenuSettingsDiscovery => '探索';
 
   @override
   String get guildMenuSettingsMembers => '成员';
@@ -11931,7 +11931,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      '列在“发现”中的社区至少需要已验证的电子邮件。启用“发现”时无法选择“无”。';
+      '列入“探索”的社区至少需要邮箱验证。社区列入“探索”期间，无法选择“无”。';
 
   @override
   String get guildSettingsModerationMatureTitle => '成人内容和内容警告';
@@ -12636,14 +12636,19 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildSettingsCopiedUrl => '网址已复制到剪贴板';
 
   @override
-  String get guildSettingsDiscoveryDescription => '将你的社区列入社区发现，以便其他人找到并加入。';
+  String get guildSettingsDiscoveryDescription => '将你的社区列入“探索”，以便其他人找到并加入。';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => '成员不足';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return '您的社区需要至少有 $count 名成员才能在发现中列出。';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 位成员',
+    );
+    return '你的社区至少需要 $_temp0 才能列入“探索”。';
   }
 
   @override
@@ -12668,7 +12673,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      '你的社区已列入社区发现。你可以在下方更新展示信息，或撤回以将其移除。';
+      '你的社区已列入“探索”。你可以在下方更新展示信息，或撤回以将其移除。';
 
   @override
   String get guildSettingsDiscoveryPendingInfo => '你的申请正在审核中。你仍可以更新展示信息或撤回申请。';
@@ -12684,7 +12689,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      '社区中大多数成员使用的语言。用于筛选社区发现结果。';
+      '社区中大多数成员使用的语言。用于筛选“探索”中的结果。';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => '描述';
@@ -12710,7 +12715,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return '最多 $maxTags 个标签可帮助人们找到你的社群。它们会显示在“发现”搜索中。';
+    return '最多可添加 $maxTags 个标签，帮助大家发现你的社区。大家在“探索”中搜索时会看到这些标签。';
   }
 
   @override
@@ -12747,13 +12752,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildSettingsDiscoveryWithdraw => '撤回';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => '社区发现申请已发送';
+  String get guildSettingsDiscoveryApplicationSent => '“探索”收录申请已发送';
 
   @override
-  String get guildSettingsDiscoveryListingUpdated => '社区发现展示信息已更新';
+  String get guildSettingsDiscoveryListingUpdated => '“探索”展示信息已更新';
 
   @override
-  String get guildSettingsDiscoveryApplicationWithdrawn => '社区发现申请已撤回';
+  String get guildSettingsDiscoveryApplicationWithdrawn => '“探索”收录申请已撤回';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle => '无法撤回申请';
@@ -12892,7 +12897,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => '平台管理员';
 
   @override
-  String get guildMembersJoinSourceDiscovery => '社区发现';
+  String get guildMembersJoinSourceDiscovery => '探索';
 
   @override
   String get guildMembersJoinMethodUnknown => '未知';
@@ -13313,7 +13318,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      '已在发现中列出的社群必须扫描所有成员。启用发现功能时，此设置无法更改。';
+      '列入“探索”的社区必须扫描所有成员的消息。社区列入“探索”期间，无法更改此设置。';
 
   @override
   String get guildSettingsContentFilterOff => '关';
@@ -16725,7 +16730,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get emojiInfoFromHeader => '這個表情符號來自';
 
   @override
-  String get emojiInfoDiscoverableCommunity => '可被探索的社群';
+  String get emojiInfoDiscoverableCommunity => '已列在探索中';
 
   @override
   String get emojiInfoPrivateCommunity => '私人社群';
@@ -25318,7 +25323,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get guildNavbarDirectMessages => '私訊';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities => '探索可發現的社群';
+  String get guildNavbarExploreDiscoverableCommunities => '探索社群';
 
   @override
   String get discoveryExplore => '探索';
@@ -26295,7 +26300,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      '列在「探索」中的社群需要至少驗證過的電子郵件。啟用「探索」時無法選擇「無」。';
+      '列在探索中的社群至少需要驗證電子郵件。您的社群列在探索中時，無法選擇「無」。';
 
   @override
   String get guildSettingsModerationMatureTitle => '成人內容與內容警告';
@@ -26937,7 +26942,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return '您的社群需要至少有 $count 位成員，才能列入探索功能。';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 位成員',
+      one: '$count 位成員',
+    );
+    return '您的社群至少需要 $_temp0 才能列入探索。';
   }
 
   @override
@@ -26977,7 +26988,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get guildSettingsDiscoveryPrimaryLanguage => '主要語言';
 
   @override
-  String get guildSettingsDiscoveryPrimaryLanguageHelp => '社群中最常用的語言。用於篩選探索結果。';
+  String get guildSettingsDiscoveryPrimaryLanguageHelp =>
+      '社群中最常用的語言。用於篩選探索中的結果。';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => '說明';
@@ -27003,7 +27015,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return '最多 $maxTags 個標籤可協助人們找到你的社群。這些標籤會顯示在「探索」搜尋結果中。';
+    return '最多可設定 $maxTags 個標籤，讓大家更容易找到您的社群。大家在探索中搜尋時會看到這些標籤。';
   }
 
   @override
@@ -27040,13 +27052,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get guildSettingsDiscoveryWithdraw => '撤回';
 
   @override
-  String get guildSettingsDiscoveryApplicationSent => '已送出探索申請';
+  String get guildSettingsDiscoveryApplicationSent => '已送出列入探索的申請';
 
   @override
-  String get guildSettingsDiscoveryListingUpdated => '探索資訊已更新';
+  String get guildSettingsDiscoveryListingUpdated => '探索刊登資訊已更新';
 
   @override
-  String get guildSettingsDiscoveryApplicationWithdrawn => '已撤回探索申請';
+  String get guildSettingsDiscoveryApplicationWithdrawn => '已撤回列入探索的申請';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle => '無法撤回申請';
@@ -27607,7 +27619,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      '列於 Discovery 中的社群必須掃描所有成員。啟用 Discovery 時無法變更此設定。';
+      '列在探索中的社群必須掃描所有成員的訊息。您的社群列在探索中時，無法變更此設定。';
 
   @override
   String get guildSettingsContentFilterOff => '關閉';

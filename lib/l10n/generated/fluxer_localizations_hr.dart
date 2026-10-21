@@ -1619,7 +1619,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Ovaj emoji je iz';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Zajednica u Otkrivanju';
+  String get emojiInfoDiscoverableCommunity => 'Navedena u odjeljku „Istraži”';
 
   @override
   String get emojiInfoPrivateCommunity => 'Privatna zajednica';
@@ -11318,8 +11318,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Izravne poruke';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Istraži zajednice koje se mogu otkriti';
+  String get guildNavbarExploreDiscoverableCommunities => 'Istraži zajednice';
 
   @override
   String get discoveryExplore => 'Istraži';
@@ -11329,7 +11328,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Želite staviti svoju zajednicu ovdje? Prijavite se ako ispunjavate uvjete u postavkama vaše zajednice > Otkrivanje.';
+      'Želite staviti svoju zajednicu ovdje? Prijavite se ako ispunjavate uvjete u postavkama vaše zajednice > Istraži.';
 
   @override
   String get discoverySearchCommunities => 'Pretražite zajednice';
@@ -11445,7 +11444,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Moguće je da je napustila Otkrivanje ili isključila nova pridruživanja. Osvježite stranicu i više je nećete vidjeti.';
+      'Moguće je da je napustila odjeljak „Istraži” ili isključila nova pridruživanja. Osvježite stranicu i više je nećete vidjeti.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Usporite malo';
@@ -11910,7 +11909,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhookovi';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Otkrivanje';
+  String get guildMenuSettingsDiscovery => 'Istraži';
 
   @override
   String get guildMenuSettingsMembers => 'Članovi';
@@ -12721,7 +12720,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Zajednice navedene u Otkrivanju zahtijevaju barem potvrđenu e-poštu. Opcija \"Ništa\" ne može se odabrati dok je Otkrivanje omogućeno.';
+      'Zajednice navedene u odjeljku „Istraži” trebaju barem potvrđenu e-poštu. Ne možete odabrati „Ništa” dok je vaša zajednica navedena u odjeljku „Istraži”.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13442,7 +13441,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Uvrstite svoju zajednicu u Otkrivanje kako bi je drugi mogli pronaći i pridružiti joj se.';
+      'Uvrstite svoju zajednicu u odjeljak „Istraži” kako bi je drugi mogli pronaći i pridružiti joj se.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13450,7 +13449,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Vaša zajednica treba imati najmanje $count članova prije nego što se može navesti u Otkriću.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count članova',
+      few: '$count člana',
+      one: '$count člana',
+    );
+    return 'Vaša zajednica treba imati najmanje $_temp0 prije nego što se može uvrstiti u odjeljak „Istraži”.';
   }
 
   @override
@@ -13475,7 +13481,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Vaša je zajednica navedena u Otkrivanju. Pojedinosti unosa možete ažurirati u nastavku ili ga povući da biste ga uklonili.';
+      'Vaša je zajednica navedena u odjeljku „Istraži”. Pojedinosti unosa možete ažurirati u nastavku ili ga povući da biste ga uklonili.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13493,7 +13499,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Jezik kojim govori većina vaše zajednice. Koristi se za filtriranje rezultata Otkrivanja.';
+      'Jezik kojim govori većina vaše zajednice. Koristi se za filtriranje rezultata u odjeljku „Istraži”.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Opis';
@@ -13520,7 +13526,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Do $maxTags oznaka pomaže ljudima pronaći tvoju zajednicu. Prikazuju se u pretraživanju Otkrića.';
+    return 'Do $maxTags oznaka pomaže ljudima da pronađu vašu zajednicu. Prikazuju se kad ljudi pretražuju odjeljak „Istraži”.';
   }
 
   @override
@@ -13559,15 +13565,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Prijava za Otkrivanje poslana';
+      'Prijava za odjeljak „Istraži” poslana';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Unos u Otkrivanju ažuriran';
+      'Unos u odjeljku „Istraži” ažuriran';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Prijava za Otkrivanje povučena';
+      'Prijava za odjeljak „Istraži” povučena';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13712,7 +13718,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Administrator platforme';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Otkrivanje';
+  String get guildMembersJoinSourceDiscovery => 'Istraži';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Nepoznato';
@@ -14170,7 +14176,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Zajednice navedene u Otkrivanju moraju skenirati sve članove. Ova se postavka ne može promijeniti dok je Otkrivanje omogućeno.';
+      'Zajednice navedene u odjeljku „Istraži” moraju skenirati poruke svih članova. Ne možete promijeniti ovu postavku dok je vaša zajednica navedena u odjeljku „Istraži”.';
 
   @override
   String get guildSettingsContentFilterOff => 'Isključeno';

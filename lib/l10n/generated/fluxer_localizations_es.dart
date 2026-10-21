@@ -1626,8 +1626,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Este emoji es de';
 
   @override
-  String get emojiInfoDiscoverableCommunity =>
-      'Comunidad que aparece en Descubrir';
+  String get emojiInfoDiscoverableCommunity => 'Aparece en Explorar';
 
   @override
   String get emojiInfoPrivateCommunity => 'Comunidad privada';
@@ -11413,7 +11412,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explorar comunidades descubribles';
+      'Explorar comunidades';
 
   @override
   String get discoveryExplore => 'Explorar';
@@ -11424,7 +11423,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      '¿Quieres que tu comunidad aparezca aquí? Solicítalo si cumples los requisitos en los ajustes de tu comunidad > Descubrimiento.';
+      '¿Quieres que tu comunidad aparezca aquí? Solicítalo si cumples los requisitos en los ajustes de tu comunidad > Explorar.';
 
   @override
   String get discoverySearchCommunities => 'Buscar comunidades';
@@ -11540,7 +11539,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Es posible que haya dejado de aparecer en Descubrir o haya desactivado la admisión de nuevos miembros. Actualiza la página y no volverás a verla.';
+      'Es posible que haya dejado de aparecer en Explorar o haya desactivado la admisión de nuevos miembros. Actualiza la página y no volverás a verla.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Vas demasiado rápido';
@@ -12009,7 +12008,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhooks';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Descubrir';
+  String get guildMenuSettingsDiscovery => 'Explorar';
 
   @override
   String get guildMenuSettingsMembers => 'Miembros';
@@ -12826,7 +12825,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Las comunidades listadas en Descubrimiento requieren al menos un correo electrónico verificado. No se puede seleccionar Ninguno mientras Descubrimiento esté activado.';
+      'Las comunidades que aparecen en Explorar necesitan al menos un correo electrónico verificado. No puedes elegir «Ninguna» mientras tu comunidad aparezca en Explorar.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13550,7 +13549,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Muestra tu comunidad en Descubrir para que otros puedan encontrarla y unirse.';
+      'Muestra tu comunidad en Explorar para que otros puedan encontrarla y unirse.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13558,7 +13557,14 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Tu comunidad necesita al menos $count miembros para poder aparecer en Descubrimiento.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miembros',
+      many: '$count miembros',
+      one: '$count miembro',
+    );
+    return 'Tu comunidad necesita al menos $_temp0 para poder aparecer en Explorar.';
   }
 
   @override
@@ -13583,7 +13589,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Tu comunidad aparece en Descubrir. Puedes actualizar los datos publicados a continuación o retirarla de Descubrir.';
+      'Tu comunidad aparece en Explorar. Puedes actualizar los datos de la ficha a continuación o retirarla para quitarla.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13601,7 +13607,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'El idioma que habla la mayor parte de tu comunidad. Se usa para filtrar los resultados de Descubrir.';
+      'El idioma que habla la mayor parte de tu comunidad. Se usa para filtrar los resultados en Explorar.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Descripción';
@@ -13629,7 +13635,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Hasta $maxTags etiquetas ayudan a la gente a encontrar tu comunidad. Aparecen en la búsqueda de Descubrimiento.';
+    return 'Hasta $maxTags etiquetas ayudan a la gente a encontrar tu comunidad. Aparecen cuando la gente busca en Explorar.';
   }
 
   @override
@@ -13669,15 +13675,15 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Solicitud para aparecer en Descubrir enviada';
+      'Solicitud para aparecer en Explorar enviada';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Ficha de Descubrir actualizada';
+      'Ficha de Explorar actualizada';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Solicitud para aparecer en Descubrir retirada';
+      'Solicitud para aparecer en Explorar retirada';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13823,7 +13829,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Administrador de la plataforma';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Descubrir';
+  String get guildMembersJoinSourceDiscovery => 'Explorar';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Desconocido';
@@ -14283,7 +14289,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Las comunidades listadas en Descubrimiento deben escanear a todos los miembros. Esta configuración no se puede cambiar mientras Descubrimiento esté activado.';
+      'Las comunidades que aparecen en Explorar deben analizar los mensajes de todos los miembros. No puedes cambiar este ajuste mientras tu comunidad aparezca en Explorar.';
 
   @override
   String get guildSettingsContentFilterOff => 'Desactivado';
@@ -17886,8 +17892,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get emojiInfoFromHeader => 'Este emoji es de';
 
   @override
-  String get emojiInfoDiscoverableCommunity =>
-      'Comunidad que aparece en Descubrir';
+  String get emojiInfoDiscoverableCommunity => 'Aparece en Explorar';
 
   @override
   String get emojiInfoPrivateCommunity => 'Comunidad privada';
@@ -27181,7 +27186,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explorar comunidades descubribles';
+      'Explorar comunidades';
 
   @override
   String get discoveryExplore => 'Explorar';
@@ -27192,7 +27197,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get discoveryListingSubheading =>
-      'Quieres listar tu comunidad aquí? Postula si cumples los requisitos en la configuración de tu comunidad > Descubrimiento.';
+      '¿Quieres que tu comunidad aparezca aquí? Postula si cumples los requisitos en la configuración de tu comunidad > Explorar.';
 
   @override
   String get discoverySearchCommunities => 'Buscar comunidades';
@@ -27308,7 +27313,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Es posible que haya dejado de aparecer en Descubrir o haya desactivado la admisión de nuevos miembros. Actualiza la página y no volverás a verla.';
+      'Es posible que haya dejado de aparecer en Explorar o haya desactivado la admisión de nuevos miembros. Actualiza la página y no volverás a verla.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Vas demasiado rápido';
@@ -27765,7 +27770,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get guildMenuSettingsWebhooks => 'Webhooks';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Descubrir';
+  String get guildMenuSettingsDiscovery => 'Explorar';
 
   @override
   String get guildMenuSettingsMembers => 'Miembros';
@@ -28233,7 +28238,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Las comunidades listadas en Descubrimiento requieren al menos un correo electrónico verificado. No se puede seleccionar Ninguno mientras Descubrimiento esté habilitado.';
+      'Las comunidades que aparecen en Explorar necesitan al menos un correo electrónico verificado. No puedes elegir \"Ninguna\" mientras tu comunidad aparezca en Explorar.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -28888,7 +28893,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Muestra tu comunidad en Descubrir para que otros puedan encontrarla y unirse.';
+      'Muestra tu comunidad en Explorar para que otros puedan encontrarla y unirse.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -28896,7 +28901,14 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Tu comunidad necesita al menos $count miembros para poder aparecer en Descubrimiento.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miembros',
+      many: '$count miembros',
+      one: '$count miembro',
+    );
+    return 'Tu comunidad necesita al menos $_temp0 para poder aparecer en Explorar.';
   }
 
   @override
@@ -28921,7 +28933,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Tu comunidad aparece en Descubrir. Puedes actualizar los datos publicados a continuación o retirarla de Descubrir.';
+      'Tu comunidad aparece en Explorar. Puedes actualizar los datos de la ficha a continuación o retirarla para quitarla.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -28939,7 +28951,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'El idioma que la mayoría de tu comunidad habla. Se usa para filtrar los resultados de Descubrir.';
+      'El idioma que habla la mayoría de tu comunidad. Se usa para filtrar los resultados en Explorar.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Descripción';
@@ -28967,7 +28979,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Hasta $maxTags etiquetas ayudan a la gente a encontrar tu comunidad. Aparecen en la búsqueda de Descubrimiento.';
+    return 'Hasta $maxTags etiquetas ayudan a que la gente encuentre tu comunidad. Aparecen cuando la gente busca en Explorar.';
   }
 
   @override
@@ -29007,15 +29019,15 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Solicitud para aparecer en Descubrir enviada';
+      'Solicitud para aparecer en Explorar enviada';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Ficha de Descubrir actualizada';
+      'Ficha de Explorar actualizada';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Solicitud para aparecer en Descubrir retirada';
+      'Solicitud para aparecer en Explorar retirada';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -29161,7 +29173,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       'Administrador de la plataforma';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Descubrir';
+  String get guildMembersJoinSourceDiscovery => 'Explorar';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Desconocido';
@@ -29621,7 +29633,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Las comunidades listadas en Discovery deben escanear a todos los miembros. Esta configuración no se puede cambiar mientras Discovery esté habilitado.';
+      'Las comunidades que aparecen en Explorar deben analizar los mensajes de todos los miembros. No puedes cambiar esta configuración mientras tu comunidad aparezca en Explorar.';
 
   @override
   String get guildSettingsContentFilterOff => 'Desactivado';

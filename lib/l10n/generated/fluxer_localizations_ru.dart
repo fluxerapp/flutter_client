@@ -1629,7 +1629,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Этот эмодзи из';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Сообщество в каталоге';
+  String get emojiInfoDiscoverableCommunity => 'В разделе «Обзор»';
 
   @override
   String get emojiInfoPrivateCommunity => 'Закрытое сообщество';
@@ -11381,8 +11381,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Личные сообщения';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Поиск доступных сообществ';
+  String get guildNavbarExploreDiscoverableCommunities => 'Найти сообщества';
 
   @override
   String get discoveryExplore => 'Обзор';
@@ -11392,7 +11391,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Хотите добавить свое сообщество сюда? Подайте заявку, если оно соответствует требованиям в настройках вашего сообщества > Поиск.';
+      'Хотите добавить свое сообщество сюда? Подайте заявку, если оно соответствует требованиям в настройках вашего сообщества > Обзор.';
 
   @override
   String get discoverySearchCommunities => 'Поиск сообществ';
@@ -11507,7 +11506,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Возможно, оно покинуло каталог или отключило новые вступления. Обновите страницу, и вы больше его не увидите.';
+      'Возможно, оно покинуло раздел «Обзор» или отключило новые вступления. Обновите страницу, и вы больше его не увидите.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Слишком быстро';
@@ -11976,7 +11975,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Вебхуки';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Каталог';
+  String get guildMenuSettingsDiscovery => 'Обзор';
 
   @override
   String get guildMenuSettingsMembers => 'Участники';
@@ -12782,7 +12781,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Сообщества, перечисленные в разделе «Обзор», требуют как минимум подтвержденного адреса электронной почты. Невозможно выбрать «Нет», если включен раздел «Обзор».';
+      'Сообщества в разделе «Обзор» должны требовать как минимум подтвержденный адрес электронной почты. Пока ваше сообщество размещено в разделе «Обзор», выбрать «Нет» нельзя.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13504,7 +13503,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Разместите сообщество в каталоге, чтобы другие могли его найти и присоединиться.';
+      'Разместите сообщество в разделе «Обзор», чтобы другие могли его найти и присоединиться.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13512,7 +13511,15 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Вашему сообществу нужно как минимум $count участников, чтобы оно могло быть добавлено в Discovery.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count участников',
+      many: '$count участников',
+      few: '$count участников',
+      one: '$count участника',
+    );
+    return 'Чтобы разместить сообщество в разделе «Обзор», в нем должно быть не менее $_temp0.';
   }
 
   @override
@@ -13537,7 +13544,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Ваше сообщество размещено в каталоге. Вы можете обновить данные карточки ниже или отозвать заявку, чтобы убрать его из каталога.';
+      'Ваше сообщество размещено в разделе «Обзор». Вы можете обновить данные карточки ниже или отозвать заявку, чтобы убрать его оттуда.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13555,7 +13562,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Язык, на котором говорит большинство участников вашего сообщества. Используется для фильтрации результатов в каталоге.';
+      'Язык, на котором говорит большинство участников вашего сообщества. По нему фильтруются результаты в разделе «Обзор».';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Описание';
@@ -13582,7 +13589,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'До $maxTags тегов помогут людям найти ваше сообщество. Они отображаются в поиске Discovery.';
+    return 'До $maxTags тегов помогут людям найти ваше сообщество. Они показываются, когда люди ищут в разделе «Обзор».';
   }
 
   @override
@@ -13620,15 +13627,15 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Заявка в каталог отправлена';
+      'Заявка в раздел «Обзор» отправлена';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Карточка в каталоге обновлена';
+      'Карточка в разделе «Обзор» обновлена';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Заявка в каталог отозвана';
+      'Заявка в раздел «Обзор» отозвана';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13773,7 +13780,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Администратор платформы';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Каталог';
+  String get guildMembersJoinSourceDiscovery => 'Обзор';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Неизвестно';
@@ -14231,7 +14238,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Сообщества, перечисленные в Discovery, обязаны сканировать всех участников. Этот параметр нельзя изменить, пока включен Discovery.';
+      'Сообщества в разделе «Обзор» обязаны проверять сообщения всех участников. Пока ваше сообщество размещено в разделе «Обзор», этот параметр изменить нельзя.';
 
   @override
   String get guildSettingsContentFilterOff => 'Выкл';

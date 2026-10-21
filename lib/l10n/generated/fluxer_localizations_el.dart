@@ -1625,7 +1625,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Αυτό το emoji προέρχεται από';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Κοινότητα στην Ανακάλυψη';
+  String get emojiInfoDiscoverableCommunity => 'Καταχωρισμένη στην Εξερεύνηση';
 
   @override
   String get emojiInfoPrivateCommunity => 'Ιδιωτική κοινότητα';
@@ -11420,7 +11420,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Εξερεύνηση Κοινοτήτων που Γίνονται Αντιληπτές';
+      'Εξερεύνηση κοινοτήτων';
 
   @override
   String get discoveryExplore => 'Εξερεύνηση';
@@ -11547,7 +11547,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Ενδέχεται να έχει καταργηθεί από την Ανακάλυψη ή να έχει απενεργοποιήσει τις νέες συμμετοχές. Ανανεώστε τη σελίδα και δεν θα το ξαναδείτε.';
+      'Ενδέχεται να έχει αφαιρεθεί από την Εξερεύνηση ή να έχει απενεργοποιήσει τις νέες συμμετοχές. Ανανεώστε τη σελίδα και δεν θα τη δείτε ξανά.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Προχωράτε πολύ γρήγορα';
@@ -12018,7 +12018,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Ανακάλυψη';
+  String get guildMenuSettingsDiscovery => 'Εξερεύνηση';
 
   @override
   String get guildMenuSettingsMembers => 'Μέλη';
@@ -12836,7 +12836,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Οι κοινότητες που αναφέρονται στην Εξερεύνηση απαιτούν τουλάχιστον επαληθευμένο email. Το \'Κανένα\' δεν μπορεί να επιλεγεί ενώ η Εξερεύνηση είναι ενεργοποιημένη.';
+      'Οι κοινότητες που εμφανίζονται στην Εξερεύνηση χρειάζονται τουλάχιστον επαληθευμένο email. Δεν μπορείτε να επιλέξετε «Καμία» όσο η κοινότητά σας εμφανίζεται στην Εξερεύνηση.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13563,7 +13563,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Καταχώρισε την κοινότητά σου στην Ανακάλυψη, για να μπορούν άλλοι να τη βρουν και να μπουν σε αυτήν.';
+      'Καταχώρισε την κοινότητά σου στην Εξερεύνηση, για να μπορούν άλλοι να τη βρουν και να μπουν σε αυτήν.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13571,7 +13571,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Η κοινότητά σας χρειάζεται τουλάχιστον $count μέλη για να μπορεί να εμφανιστεί στην Ανακάλυψη.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count μέλη',
+      one: '$count μέλος',
+    );
+    return 'Η κοινότητά σας χρειάζεται τουλάχιστον $_temp0 για να μπορεί να καταχωριστεί στην Εξερεύνηση.';
   }
 
   @override
@@ -13596,7 +13602,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Η κοινότητά σας είναι καταχωρισμένη στην Ανακάλυψη. Μπορείτε να ενημερώσετε τα στοιχεία της καταχώρισής σας παρακάτω ή να την αποσύρετε για να την καταργήσετε.';
+      'Η κοινότητά σας είναι καταχωρισμένη στην Εξερεύνηση. Μπορείτε να ενημερώσετε τα στοιχεία της καταχώρισής σας παρακάτω ή να την αποσύρετε για να την καταργήσετε.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13614,7 +13620,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Η γλώσσα που μιλάει η κοινότητά σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Ανακάλυψη.';
+      'Η γλώσσα που μιλάει η κοινότητά σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Εξερεύνηση.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Περιγραφή';
@@ -13642,7 +13648,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Έως $maxTags ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σας. Εμφανίζονται στην αναζήτηση του Discovery.';
+    return 'Έως $maxTags ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σου. Εμφανίζονται όταν κάποιος κάνει αναζήτηση στην Εξερεύνηση.';
   }
 
   @override
@@ -13682,15 +13688,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Η αίτηση για την Ανακάλυψη στάλθηκε';
+      'Η αίτηση για την Εξερεύνηση στάλθηκε';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Η καταχώριση στην Ανακάλυψη ενημερώθηκε';
+      'Η καταχώριση στην Εξερεύνηση ενημερώθηκε';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Η αίτηση για την Ανακάλυψη αποσύρθηκε';
+      'Η αίτηση για την Εξερεύνηση αποσύρθηκε';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13836,7 +13842,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Διαχειριστής πλατφόρμας';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Ανακάλυψη';
+  String get guildMembersJoinSourceDiscovery => 'Εξερεύνηση';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Άγνωστο';
@@ -14297,7 +14303,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Οι κοινότητες που αναφέρονται στο Discovery υποχρεούνται να σαρώνουν όλα τα μέλη. Αυτή η ρύθμιση δεν μπορεί να αλλάξει ενώ είναι ενεργοποιημένο το Discovery.';
+      'Οι κοινότητες που εμφανίζονται στην Εξερεύνηση πρέπει να σαρώνουν τα μηνύματα από όλα τα μέλη. Δεν μπορείτε να αλλάξετε αυτή τη ρύθμιση όσο η κοινότητά σας εμφανίζεται στην Εξερεύνηση.';
 
   @override
   String get guildSettingsContentFilterOff => 'Ανενεργό';

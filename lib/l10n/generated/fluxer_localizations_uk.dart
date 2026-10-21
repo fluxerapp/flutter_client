@@ -1625,7 +1625,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Цей емоджі з';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Спільнота в Discovery';
+  String get emojiInfoDiscoverableCommunity => 'У розділі «Огляд»';
 
   @override
   String get emojiInfoPrivateCommunity => 'Приватна спільнота';
@@ -11380,8 +11380,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildNavbarDirectMessages => 'Особисті повідомлення';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Дослідити доступні спільноти';
+  String get guildNavbarExploreDiscoverableCommunities => 'Знайти спільноти';
 
   @override
   String get discoveryExplore => 'Огляд';
@@ -11392,7 +11391,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get discoveryListingSubheading =>
-      'Хочете додати свою спільноту сюди? Подайте заявку, якщо ви відповідаєте вимогам у налаштуваннях вашої спільноти > Дослідження.';
+      'Хочете додати свою спільноту сюди? Подайте заявку, якщо ви відповідаєте вимогам у налаштуваннях вашої спільноти > Огляд.';
 
   @override
   String get discoverySearchCommunities => 'Пошук спільнот';
@@ -11507,7 +11506,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Можливо, спільноту вилучено з Discovery або вимкнено нові приєднання. Оновіть сторінку, і ви більше її не побачите.';
+      'Можливо, спільноту вилучено з розділу «Огляд» або вимкнено нові приєднання. Оновіть сторінку, і ви більше її не побачите.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Ви надто поспішаєте';
@@ -11978,7 +11977,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Вебхуки';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Огляд';
 
   @override
   String get guildMenuSettingsMembers => 'Учасники';
@@ -12785,7 +12784,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Спільноти, перелічені в Discovery, вимагають принаймні підтвердженої електронної пошти. Неможливо вибрати «Жодного», коли увімкнено Discovery.';
+      'Спільноти в розділі «Огляд» потребують щонайменше підтвердження електронної пошти. Поки ваша спільнота є в розділі «Огляд», не можна вибрати «Немає».';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13503,7 +13502,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Додайте свою спільноту до Discovery, щоб інші могли знайти її та приєднатися.';
+      'Додайте свою спільноту до розділу «Огляд», щоб інші могли знайти її та приєднатися.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13511,7 +13510,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Вашій спільноті потрібно щонайменше $count учасників, щоб її можна було додати до каталогу.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count учасника',
+      many: '$count учасників',
+      few: '$count учасники',
+      one: '$count учасник',
+    );
+    return 'Щоб спільноту можна було додати до розділу «Огляд», у ній має бути щонайменше $_temp0.';
   }
 
   @override
@@ -13536,7 +13543,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Ваша спільнота є в Discovery. Ви можете оновити деталі оголошення нижче або відкликати його, щоб прибрати спільноту звідти.';
+      'Ваша спільнота є в розділі «Огляд». Ви можете оновити деталі оголошення нижче або відкликати його, щоб прибрати спільноту звідти.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13554,7 +13561,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Мова, якою спілкується більшість вашої спільноти. Використовується для фільтрації результатів у Discovery.';
+      'Мова, якою спілкується більшість вашої спільноти. За нею фільтруються результати в розділі «Огляд».';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Опис';
@@ -13581,7 +13588,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'До $maxTags тегів допоможуть людям знайти вашу спільноту. Вони відображатимуться в пошуку Discovery.';
+    return 'До $maxTags тегів допомагають людям знаходити вашу спільноту. Вони показуються, коли люди шукають у розділі «Огляд».';
   }
 
   @override
@@ -13619,15 +13626,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Заявку в Discovery надіслано';
+      'Заявку до розділу «Огляд» надіслано';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Оголошення в Discovery оновлено';
+      'Оголошення в розділі «Огляд» оновлено';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Заявку в Discovery відкликано';
+      'Заявку до розділу «Огляд» відкликано';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13772,7 +13779,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Адміністратор платформи';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Discovery';
+  String get guildMembersJoinSourceDiscovery => 'Огляд';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Невідомо';
@@ -14230,7 +14237,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Спільноти, перелічені в Discovery, зобов\'язані сканувати всіх учасників. Цей параметр не можна змінити, доки увімкнено Discovery.';
+      'Спільноти в розділі «Огляд» мають перевіряти повідомлення від усіх учасників. Поки ваша спільнота є в розділі «Огляд», цей параметр не можна змінити.';
 
   @override
   String get guildSettingsContentFilterOff => 'Вимкнено';

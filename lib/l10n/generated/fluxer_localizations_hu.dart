@@ -1626,7 +1626,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Ez az emoji innen származik:';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Felfedezhető közösség';
+  String get emojiInfoDiscoverableCommunity => 'Szerepel a Felfedezésben';
 
   @override
   String get emojiInfoPrivateCommunity => 'Privát közösség';
@@ -11385,7 +11385,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Fedezd fel a közösségeket';
+      'Közösségek felfedezése';
 
   @override
   String get discoveryExplore => 'Felfedezés';
@@ -12793,7 +12793,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'A Felfedezésben szereplő közösségekhez legalább ellenőrzött e-mail cím szükséges. A Felfedezés engedélyezésekor a „Nincs” nem választható.';
+      'A Felfedezésben szereplő közösségeknek legalább e-mail-cím-megerősítést kell megkövetelniük. Amíg a közösséged szerepel a Felfedezésben, nem választhatod a „Nincs” lehetőséget.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
@@ -13520,7 +13520,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'A közösségednek legalább $count taggal kell rendelkeznie, mielőtt felkerülhetne a Felfedezésbe.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tagra',
+      one: '$count tagra',
+    );
+    return 'A közösségednek legalább $_temp0 van szüksége ahhoz, hogy megjelenhessen a Felfedezésben.';
   }
 
   @override
@@ -13563,7 +13569,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'A közösségedben leggyakrabban használt nyelv. Ezzel szűrheted a Felfedezés találatait.';
+      'A közösségedben leggyakrabban használt nyelv. Ezzel szűrhetők a találatok a Felfedezésben.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Leírás';
@@ -13591,7 +13597,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Legfeljebb $maxTags címke segít a közösséged megtalálásában. Ezek a Felfedezés keresőben jelennek meg.';
+    return 'Akár $maxTags címke is segíthet az embereknek megtalálni a közösségedet. Akkor jelennek meg, amikor valaki a Felfedezésben keres.';
   }
 
   @override
@@ -14244,7 +14250,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'A Discoveryben szereplő közösségek kötelesek minden tagot szűrni. Ez a beállítás nem változtatható meg, amíg a Discovery engedélyezve van.';
+      'A Felfedezésben szereplő közösségeknek minden tag üzeneteit ellenőrizniük kell. Amíg a közösséged szerepel a Felfedezésben, ez a beállítás nem módosítható.';
 
   @override
   String get guildSettingsContentFilterOff => 'Ki';
