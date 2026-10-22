@@ -17639,7 +17639,7 @@
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
     },
-    "appIconOptionGreyscale": "Greyscale",
+    "appIconOptionGreyscale": "Grayscale",
     "@appIconOptionGreyscale": {
         "description": "App icon option for the greyscale alternate icon."
     },
@@ -17659,7 +17659,7 @@
     "@appIconOptionDefaultBrutalist": {
         "description": "App icon option for the default brutalist alternate icon."
     },
-    "appIconOptionGreyscaleBrutalist": "Greyscale brutalist",
+    "appIconOptionGreyscaleBrutalist": "Grayscale brutalist",
     "@appIconOptionGreyscaleBrutalist": {
         "description": "App icon option for the greyscale brutalist alternate icon."
     },
