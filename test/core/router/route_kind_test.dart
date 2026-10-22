@@ -24,12 +24,17 @@ void main() {
     });
 
     test('returns null for discover route', () {
+      expect(extractChannelId('/channels/@explore'), isNull);
       expect(extractChannelId('/channels/@discover'), isNull);
     });
   });
 
   group('classifyRoute', () {
     test('classifies discover route', () {
+      expect(classifyRoute('/channels/@explore'), RouteKind.discover);
+    });
+
+    test('classifies the legacy discover route', () {
       expect(classifyRoute('/channels/@discover'), RouteKind.discover);
     });
   });

@@ -23,7 +23,7 @@ RouteKind classifyRoute(String location) {
   if (!location.startsWith('/channels/')) {
     return RouteKind.nonChannel;
   }
-  if (location == RoutePaths.discover) {
+  if (isDiscoverRoute(location)) {
     return RouteKind.discover;
   }
   if (_channelsRootPattern.hasMatch(location)) {
@@ -41,7 +41,8 @@ RouteKind classifyRoute(String location) {
   return RouteKind.nonChannel;
 }
 
-bool isDiscoverRoute(String location) => location == RoutePaths.discover;
+bool isDiscoverRoute(String location) =>
+    location == RoutePaths.discover || location == RoutePaths.legacyDiscover;
 
 final _guildIdPattern = RegExp('^/channels/([^@/][^/]*)');
 

@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
+import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -27,7 +28,7 @@ class RootOverlayReturnLocation extends _$RootOverlayReturnLocation {
 }
 
 bool isRestorableShellReturnLocation(String location) {
-  if (location == RoutePaths.discover || !isRestorableAppLocation(location)) {
+  if (isDiscoverRoute(location) || !isRestorableAppLocation(location)) {
     return false;
   }
   return true;

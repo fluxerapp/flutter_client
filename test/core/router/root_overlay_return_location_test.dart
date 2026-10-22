@@ -37,6 +37,7 @@ void main() {
     expect(container.read(rootOverlayReturnLocationProvider), isNull);
     expect(isRestorableShellReturnLocation('/channels/@me'), isTrue);
     expect(isRestorableShellReturnLocation(RoutePaths.discover), isFalse);
+    expect(isRestorableShellReturnLocation(RoutePaths.legacyDiscover), isFalse);
     expect(isRestorableAppLocation('/login'), isFalse);
   });
 }

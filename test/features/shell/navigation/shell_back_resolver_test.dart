@@ -68,7 +68,7 @@ void main() {
           hasExpressionPanelOpen: false,
           hasChannelDetailsDrawerOpen: false,
           revealSide: RevealSide.left,
-          shellLocation: '/channels/@discover',
+          shellLocation: '/channels/@explore',
         ),
         ShellBackAction.closeDrawer,
       );
