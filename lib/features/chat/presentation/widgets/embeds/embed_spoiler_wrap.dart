@@ -14,7 +14,8 @@ Widget wrapEmbedSpoiler({
   final BorderRadius borderRadius =
       type == EmbedType.image ||
           type == EmbedType.gifv ||
-          type == EmbedType.video
+          type == EmbedType.video ||
+          type == EmbedType.audio
       ? const BorderRadius.all(Radius.circular(4))
       : const BorderRadius.all(Radius.circular(8));
 

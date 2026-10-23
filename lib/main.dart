@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/app.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_entrypoint.dart';
 import 'package:fluxer_app/core/bootstrap/flutter_error_ui.dart';
@@ -13,6 +15,7 @@ import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_root.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
+import 'package:fluxer_app/core/observability/measure_log_redaction.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
@@ -70,6 +73,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   if (Platform.isAndroid &&
       PushProviderGuard.isUnifiedPush &&
       args.contains('--unifiedpush-bg')) {
+    DartPluginRegistrant.ensureInitialized();
     await UnifiedPushService.ensureBackgroundInitialized();
     return;
   }
@@ -188,7 +192,8 @@ Future<void> main(List<String> args) async {
       await _bootstrapFluxer(args);
     },
     (Object error, StackTrace stack) {
-      if (isDriftCancellation(error)) {
+      if (isDriftCancellation(error) ||
+          isTransientNetworkError(unwrapMeasureSanitizedError(error))) {
         return;
       }
       FluxerObservability.instance.reportUncaughtError(

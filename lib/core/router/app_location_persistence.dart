@@ -71,7 +71,7 @@ bool _isNavigableSettingsPath(String path) {
 }
 
 bool _isNavigableChannelsPath(String path) {
-  if (path == RoutePaths.discover ||
+  if (isDiscoverRoute(path) ||
       path == RoutePaths.me ||
       path == RoutePaths.favoritesBase) {
     return true;

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -68,6 +69,7 @@ void main() {
     container
         .read(gatewayConnectionFailedProvider.notifier)
         .setFailed(value: false);
+    container.read(splashExitAllowedProvider.notifier).allow();
     container.read(pushNotificationTapHandlerProvider.notifier).handlePayload(
       <String, String>{'url': '/channels/@me/dm-1/msg-9'},
     );

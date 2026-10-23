@@ -414,6 +414,28 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> deleteMessagesForChannel(String channelId) =>
       (delete(messages)..where((m) => m.channelId.equals(channelId))).go();
 
+  Future<void> deleteSentMessagesForChannel(
+    String channelId, {
+    required String upToId,
+    Set<String> preserveMessageIds = const <String>{},
+  }) {
+    final Set<String> preserve = preserveMessageIds
+        .where((String id) => id.isNotEmpty)
+        .toSet();
+    return (delete(messages)..where(
+          (m) =>
+              m.channelId.equals(channelId) &
+              m.deliveryState.equals(MessageDeliveryState.sent.index) &
+              m.id.cast<int>().isSmallerOrEqual(
+                Variable<String>(upToId).cast<int>(),
+              ) &
+              (preserve.isEmpty
+                  ? const Constant(true)
+                  : m.id.isNotIn(preserve)),
+        ))
+        .go();
+  }
+
   Future<void> deleteMessagesForChannels(List<String> channelIds) {
     if (channelIds.isEmpty) {
       return Future.value();

@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -199,6 +200,22 @@ class VoiceSession extends _$VoiceSession {
         );
       });
     return const VoiceSessionState();
+  }
+
+  void _runVoiceAsync(Future<void> Function() body, {String? label}) {
+    unawaited(() async {
+      try {
+        await body();
+      } on Object catch (error, stackTrace) {
+        final String tag = label ?? 'async voice work';
+        final String message = '[Voice] $tag: $error';
+        if (isTransientNetworkError(error)) {
+          talker.debug(message, error, stackTrace);
+        } else {
+          talker.warning(message, error, stackTrace);
+        }
+      }
+    }());
   }
 
   void _cancelConnectWatchdog() {
@@ -2068,6 +2085,12 @@ class VoiceSession extends _$VoiceSession {
     _leaveVoiceInFlight = leaveCompleter.future;
     try {
       await _leaveVoiceImpl();
+    } on Object catch (error, stackTrace) {
+      if (isTransientNetworkError(error)) {
+        talker.debug('[Voice] leaveVoice: $error', error, stackTrace);
+      } else {
+        talker.warning('[Voice] leaveVoice: $error', error, stackTrace);
+      }
     } finally {
       try {
         await _finishRequestedEndCall();
@@ -3751,14 +3774,15 @@ class VoiceSession extends _$VoiceSession {
         if (!_isLatestRoomAttempt(attempt) || _intentionalLiveKitTeardown) {
           return;
         }
-        unawaited(
-          _onLiveKitRoomConnected(
+        _runVoiceAsync(
+          () => _onLiveKitRoomConnected(
             room: room,
             attempt: attempt,
             resolvedChannelId: resolvedChannelId,
             resolvedGuildId: resolvedGuildId,
             connectionId: connectionId,
           ),
+          label: 'room connected handler',
         );
       })
       ..on<RoomDisconnectedEvent>((RoomDisconnectedEvent evt) {
@@ -3766,7 +3790,10 @@ class VoiceSession extends _$VoiceSession {
           return;
         }
         talker.warning('[Voice] LiveKit room disconnected: ${evt.reason}');
-        unawaited(leaveVoice(endCall: false));
+        _runVoiceAsync(
+          () => leaveVoice(endCall: false),
+          label: 'leave after disconnect',
+        );
       })
       ..on<RoomReconnectingEvent>((RoomReconnectingEvent _) {
         if (!_isLatestRoomAttempt(attempt)) {
@@ -3779,21 +3806,28 @@ class VoiceSession extends _$VoiceSession {
           return;
         }
         state = state.copyWith(isReconnecting: false);
-        unawaited(
-          _reconcileRemoteAudioForSelfConnection(reason: 'room_reconnected'),
+        _runVoiceAsync(
+          () => _reconcileRemoteAudioForSelfConnection(
+            reason: 'room_reconnected',
+          ),
+          label: 'reconcile remote audio after reconnect',
         );
-        unawaited(
-          _reconcileLocalAudioPublish(
+        _runVoiceAsync(
+          () => _reconcileLocalAudioPublish(
             reason: 'room_reconnected',
             attempt: attempt,
           ),
+          label: 'reconcile local publish after reconnect',
         );
       })
       ..on<TrackPublishedEvent>((TrackPublishedEvent evt) {
         if (!_isLatestRoomAttempt(attempt) || _intentionalLiveKitTeardown) {
           return;
         }
-        unawaited(_subscribeRemotePublicationIfNeeded(evt.publication));
+        _runVoiceAsync(
+          () => _subscribeRemotePublicationIfNeeded(evt.publication),
+          label: 'subscribe remote track',
+        );
       })
       ..on<ParticipantConnectedEvent>((ParticipantConnectedEvent evt) {
         if (_intentionalLiveKitTeardown) {
@@ -3805,14 +3839,15 @@ class VoiceSession extends _$VoiceSession {
         final bool isUserParticipant = evt.participant.identity.startsWith(
           'user_',
         );
-        unawaited(
-          playFluxerSoundEffect(
+        _runVoiceAsync(
+          () => playFluxerSoundEffect(
             prefs: ref.read(soundPreferencesProvider),
             sfx: ref.read(fluxerSfxProvider),
             clip: isUserParticipant
                 ? FluxerSfxClip.userJoin
                 : FluxerSfxClip.viewerJoin,
           ),
+          label: 'participant join sound',
         );
       })
       ..on<ParticipantDisconnectedEvent>((ParticipantDisconnectedEvent evt) {
@@ -3825,14 +3860,15 @@ class VoiceSession extends _$VoiceSession {
         final bool isUserParticipant = evt.participant.identity.startsWith(
           'user_',
         );
-        unawaited(
-          playFluxerSoundEffect(
+        _runVoiceAsync(
+          () => playFluxerSoundEffect(
             prefs: ref.read(soundPreferencesProvider),
             sfx: ref.read(fluxerSfxProvider),
             clip: isUserParticipant
                 ? FluxerSfxClip.userLeave
                 : FluxerSfxClip.viewerLeave,
           ),
+          label: 'participant leave sound',
         );
       });
   }

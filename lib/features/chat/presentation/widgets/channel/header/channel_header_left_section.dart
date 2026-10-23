@@ -184,9 +184,10 @@ class _ChannelHeaderLeftSectionState
   void _handleTitleTap(BuildContext context) {
     if (!isWideLayout(context)) {
       unawaited(
-        openHandheldChannelDetails(
+        openHandheldChannelDetailsAndJump(
           context,
           ref: ref,
+          container: ref.container,
           channel: widget.channel,
           dm: widget.dm,
         ),

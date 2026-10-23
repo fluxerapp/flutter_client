@@ -122,7 +122,7 @@
     "@register": {
         "description": "Generic label to create a new account."
     },
-    "orDivider": "OR",
+    "orDivider": "أو",
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
@@ -909,7 +909,7 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "mentionUnknownChannel": "unknown-channel",
+    "mentionUnknownChannel": "قناة-غير-معروفة",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
     },
@@ -1331,30 +1331,6 @@
     "@dmFriendRequestSentToast": {
         "description": "Toast message when a friend request is sent."
     },
-    "dmFriendRequestFailed": "فشل إرسال طلب الصداقة",
-    "@dmFriendRequestFailed": {
-        "description": "Toast message when sending a friend request fails."
-    },
-    "dmAcceptFriendRequestFailed": "فشل قبول طلب الصداقة",
-    "@dmAcceptFriendRequestFailed": {
-        "description": "Toast message when accepting a friend request fails."
-    },
-    "dmRemoveFriendFailed": "فشل إزالة الصديق",
-    "@dmRemoveFriendFailed": {
-        "description": "Toast message when removing a friend fails."
-    },
-    "dmBlockFailed": "فشل حظر المستخدم",
-    "@dmBlockFailed": {
-        "description": "Toast message when blocking a user fails."
-    },
-    "dmUnblockFailed": "فشل إلغاء حظر المستخدم",
-    "@dmUnblockFailed": {
-        "description": "Toast message when unblocking a user fails."
-    },
-    "dmIgnoreFriendRequestFailed": "فشل تجاهل طلب الصداقة",
-    "@dmIgnoreFriendRequestFailed": {
-        "description": "Toast message when ignoring a friend request fails."
-    },
     "dmAddFriends": "إضافة أصدقاء",
     "@dmAddFriends": {
         "description": "Mobile DM list header button to open the add friends sheet."
@@ -1499,7 +1475,7 @@
     "@addFriendClaimToSend": {
         "description": "Error when an unclaimed account tries to send a friend request."
     },
-    "userTagBot": "BOT",
+    "userTagBot": "بوت",
     "@userTagBot": {
         "description": "Tag label shown next to bot user names."
     },
@@ -1779,8 +1755,8 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "cropTouchHint": "Pinch to zoom, drag to reposition",
-    "cropMouseHint": "Drag corners to resize, drag inside to move",
+    "cropTouchHint": "اقرص للتكبير واسحب لتغيير الموضع",
+    "cropMouseHint": "اسحب الزوايا لتغيير الحجم واسحب من الداخل للتحريك",
     "changeYourFluxerTag": "تغيير اسم المستخدم",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
@@ -3111,17 +3087,9 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "فشل فتح الرسالة المباشرة",
-    "@userProfileFailedOpenDm": {
-        "description": "Toast shown when opening a DM channel fails."
-    },
     "userProfileFailedSaveNote": "فشل حفظ الملاحظة",
     "@userProfileFailedSaveNote": {
         "description": "Toast shown when saving the user note fails."
-    },
-    "userProfileActionFailed": "فشل الإجراء، يرجى المحاولة مرة أخرى",
-    "@userProfileActionFailed": {
-        "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
     "userProfileChangeNickname": "تغيير الاسم المستعار",
     "@userProfileChangeNickname": {
@@ -3875,19 +3843,6 @@
             }
         }
     },
-    "chatAttachmentTooMany": "ملفات مرفقة كثيرة جدًا (الحد الأقصى {max})",
-    "@chatAttachmentTooMany": {
-        "description": "Shown when adding files would exceed the per-message attachment limit.",
-        "placeholders": {
-            "max": {
-                "type": "int"
-            }
-        }
-    },
-    "chatAttachmentFileTooLarge": "{fileName} يتجاوز الحد الأقصى للحجم ({fileSize})",
-    "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
-    },
     "chatAttachmentPayloadTooLarge": "هذه الملفات كبيرة جدًا لإرسالها معًا",
     "@chatAttachmentPayloadTooLarge": {
         "description": "Shown when the estimated multipart request exceeds the limit."
@@ -3988,7 +3943,7 @@
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
     },
-    "chatMediaSpoilerOverlayLabel": "SPOILER",
+    "chatMediaSpoilerOverlayLabel": "محتوى مخفي",
     "@chatMediaSpoilerOverlayLabel": {
         "description": "Label shown on the overlay that conceals spoiler attachment and embed image media."
     },
@@ -5859,11 +5814,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "ON",
+    "chatReplyMentionOn": "مفعّل",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "OFF",
+    "chatReplyMentionOff": "معطّل",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6029,10 +5984,6 @@
     "@addGuildInviteInvalid": {
         "description": "Error when the entered invite code cannot be resolved."
     },
-    "addGuildJoinFailed": "تعذر الانضمام إلى المجتمع. يرجى المحاولة مرة أخرى.",
-    "@addGuildJoinFailed": {
-        "description": "Generic error when joining a community via invite fails."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "إزالة جميع التفاعلات",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -6097,9 +6048,9 @@
             }
         }
     },
-    "channelWelcomeDescription": "في البداية، لم يكن هناك شيء. ثم، كان هناك {channelName}. وكان ذلك جيداً.",
+    "channelWelcomeDescription": "هذه بداية {channelName}.",
     "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "description": "Body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
         "placeholders": {
             "channelName": {
                 "type": "String"
@@ -6141,7 +6092,7 @@
     "@groupDmComposerHint": {
         "description": "Placeholder in the message composer for a group DM without a custom name."
     },
-    "composerHint": "Message",
+    "composerHint": "رسالة",
     "@composerHint": {
         "description": "Generic fallback placeholder in the message composer."
     },
@@ -6182,15 +6133,15 @@
     "@userSettingsGroupYourAccount": {
         "description": "Section heading for account-related items in user settings navigation."
     },
-    "userSettingsGroupApplication": "Application",
+    "userSettingsGroupApplication": "التطبيق",
     "@userSettingsGroupApplication": {
         "description": "Section heading for app preference items in user settings navigation."
     },
-    "userSettingsGroupDeveloper": "Developer",
+    "userSettingsGroupDeveloper": "مطور",
     "@userSettingsGroupDeveloper": {
         "description": "Section heading for developer items in user settings navigation."
     },
-    "userSettingsGroupStaffOnly": "Staff-only",
+    "userSettingsGroupStaffOnly": "للموظفين فقط",
     "@userSettingsGroupStaffOnly": {
         "description": "Section heading for staff-only items in user settings navigation."
     },
@@ -6390,7 +6341,7 @@
     "@quickSwitcherSearchAliasYou": {
         "description": "Quick switcher search alias for user settings."
     },
-    "quickSwitcherSearchAliasDm": "DM",
+    "quickSwitcherSearchAliasDm": "رسالة مباشرة",
     "@quickSwitcherSearchAliasDm": {
         "description": "Quick switcher search alias for the home DM list."
     },
@@ -6557,21 +6508,21 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "استكشاف المجتمعات القابلة للاكتشاف",
+    "guildNavbarExploreDiscoverableCommunities": "استكشاف المجتمعات",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
     "discoveryExplore": "استكشاف",
     "@discoveryExplore": {
-        "description": "Short label in the discovery page header."
+        "description": "Short label in the Explore page header."
     },
     "discoveryExplorePublicCommunities": "استكشاف المجتمعات العامة",
     "@discoveryExplorePublicCommunities": {
-        "description": "Main heading on the Discovery page."
+        "description": "Main heading on the Explore page."
     },
-    "discoveryListingSubheading": "هل ترغب في إدراج مجتمعك هنا؟ قدم طلبًا إذا كنت تستوفي المتطلبات في إعدادات مجتمعك > الاستكشاف.",
+    "discoveryListingSubheading": "هل ترغب في إدراج مجتمعك هنا؟ قدم طلبًا إذا كنت تستوفي المتطلبات في إعدادات مجتمعك > استكشاف.",
     "@discoveryListingSubheading": {
-        "description": "Subheading on the Discovery page explaining how to apply for listing."
+        "description": "Subheading on the Explore page explaining how to apply for listing."
     },
     "discoverySearchCommunities": "البحث عن مجتمعات",
     "@discoverySearchCommunities": {
@@ -6579,7 +6530,7 @@
     },
     "discoveryFilterByLanguage": "تصفية حسب اللغة",
     "@discoveryFilterByLanguage": {
-        "description": "Label for the language filter on the discovery page."
+        "description": "Label for the language filter on the Explore page."
     },
     "discoveryAllLanguages": "كل اللغات",
     "@discoveryAllLanguages": {
@@ -6587,59 +6538,59 @@
     },
     "discoveryAllCategories": "الكل",
     "@discoveryAllCategories": {
-        "description": "Label for the all-categories tab on the discovery page."
+        "description": "Label for the all-categories tab on the Explore page."
     },
     "discoveryCategoryGaming": "ألعاب",
     "@discoveryCategoryGaming": {
-        "description": "Discovery category label for gaming communities."
+        "description": "Explore category label for gaming communities."
     },
     "discoveryCategoryMusic": "موسيقى",
     "@discoveryCategoryMusic": {
-        "description": "Discovery category label for music communities."
+        "description": "Explore category label for music communities."
     },
     "discoveryCategoryEntertainment": "ترفيه",
     "@discoveryCategoryEntertainment": {
-        "description": "Discovery category label for entertainment communities."
+        "description": "Explore category label for entertainment communities."
     },
     "discoveryCategoryEducation": "تعليم",
     "@discoveryCategoryEducation": {
-        "description": "Discovery category label for education communities."
+        "description": "Explore category label for education communities."
     },
     "discoveryCategoryScienceAndTechnology": "العلوم والتكنولوجيا",
     "@discoveryCategoryScienceAndTechnology": {
-        "description": "Discovery category label for science and technology communities."
+        "description": "Explore category label for science and technology communities."
     },
     "discoveryCategoryContentCreator": "صانع محتوى",
     "@discoveryCategoryContentCreator": {
-        "description": "Discovery category label for content creator communities."
+        "description": "Explore category label for content creator communities."
     },
     "discoveryCategoryAnimeAndManga": "أنمي ومانغا",
     "@discoveryCategoryAnimeAndManga": {
-        "description": "Discovery category label for anime and manga communities."
+        "description": "Explore category label for anime and manga communities."
     },
     "discoveryCategoryMoviesAndTv": "أفلام وتلفزيون",
     "@discoveryCategoryMoviesAndTv": {
-        "description": "Discovery category label for movies and TV communities."
+        "description": "Explore category label for movies and TV communities."
     },
     "discoveryCategoryOther": "أخرى",
     "@discoveryCategoryOther": {
-        "description": "Discovery category label for communities that do not fit other categories."
+        "description": "Explore category label for communities that do not fit other categories."
     },
     "discoveryNoCommunitiesMatch": "لا توجد مجتمعات مطابقة.",
     "@discoveryNoCommunitiesMatch": {
-        "description": "Empty-state text when no discovery communities match the filters."
+        "description": "Empty-state text when no communities in Explore match the filters."
     },
     "discoveryJoinCommunity": "الانضمام إلى المجتمع",
     "@discoveryJoinCommunity": {
-        "description": "Button label to join a discovery community."
+        "description": "Button label to join a community listed in Explore."
     },
     "discoveryJoined": "منضم",
     "@discoveryJoined": {
-        "description": "Button label when the user is already in a discovery community."
+        "description": "Button label when the user is already in a community listed in Explore."
     },
     "discoveryOnlineCount": "{count} متصل",
     "@discoveryOnlineCount": {
-        "description": "Online member count on a discovery guild card.",
+        "description": "Online member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "String"
@@ -6648,7 +6599,7 @@
     },
     "discoveryMemberCount": "{count, plural, one{عضو واحد} other{{count} أعضاء}}",
     "@discoveryMemberCount": {
-        "description": "Member count on a discovery guild card.",
+        "description": "Member count on a community card in Explore.",
         "placeholders": {
             "count": {
                 "type": "num",
@@ -6658,31 +6609,31 @@
     },
     "discoveryNoDescription": "لا يوجد وصف.",
     "@discoveryNoDescription": {
-        "description": "Fallback text when a discovery guild has no description."
+        "description": "Fallback text when a community in Explore has no description."
     },
     "discoveryCommunities": "المجتمعات",
     "@discoveryCommunities": {
-        "description": "Discovery sidebar section label for communities."
+        "description": "Explore sidebar section label for communities."
     },
     "discoveryApps": "التطبيقات",
     "@discoveryApps": {
-        "description": "Discovery sidebar section label for apps."
+        "description": "Explore sidebar section label for apps."
     },
     "discoveryJoinErrorGenericTitle": "تعذّر الانضمام إلى هذا المجتمع",
     "@discoveryJoinErrorGenericTitle": {
-        "description": "Title of the generic join error dialog on the discovery page."
+        "description": "Title of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorGenericMessage": "حدث خطأ ما. يرجى المحاولة مرة أخرى بعد قليل.",
     "@discoveryJoinErrorGenericMessage": {
-        "description": "Body of the generic join error dialog on the discovery page."
+        "description": "Body of the generic join error dialog on the Explore page."
     },
     "discoveryJoinErrorFullTitle": "هذا المجتمع ممتلئ",
     "@discoveryJoinErrorFullTitle": {
-        "description": "Title when a discovery community has reached its member limit."
+        "description": "Title when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorFullMessage": "لقد وصل هذا المجتمع إلى الحد الأقصى لعدد الأعضاء، لذا لا يمكنك الانضمام الآن.",
     "@discoveryJoinErrorFullMessage": {
-        "description": "Body when a discovery community has reached its member limit."
+        "description": "Body when a community listed in Explore has reached its member limit."
     },
     "discoveryJoinErrorMaxGuildsTitle": "لقد وصلت إلى الحد الأقصى من المجتمعات",
     "@discoveryJoinErrorMaxGuildsTitle": {
@@ -6694,27 +6645,27 @@
     },
     "discoveryJoinErrorBannedTitle": "لا يمكنك الانضمام إلى هذا المجتمع",
     "@discoveryJoinErrorBannedTitle": {
-        "description": "Title when the user is banned from a discovery community."
+        "description": "Title when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorBannedMessage": "لقد تم حظرك من هذا المجتمع.",
     "@discoveryJoinErrorBannedMessage": {
-        "description": "Body when the user is banned from a discovery community."
+        "description": "Body when the user is banned from a community listed in Explore."
     },
     "discoveryJoinErrorNotAvailableTitle": "هذا المجتمع لم يعد متاحًا",
     "@discoveryJoinErrorNotAvailableTitle": {
-        "description": "Title when a discovery community is no longer joinable."
+        "description": "Title when a community listed in Explore is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "ربما خرج هذا المجتمع من الاكتشاف أو أوقف انضمام أعضاء جدد. حدّث الصفحة ولن يظهر لك مرة أخرى.",
+    "discoveryJoinErrorNotAvailableMessage": "ربما خرج هذا المجتمع من «استكشاف» أو أوقف انضمام أعضاء جدد. حدّث الصفحة ولن يظهر لك مرة أخرى.",
     "@discoveryJoinErrorNotAvailableMessage": {
-        "description": "Body when a discovery community is no longer joinable."
+        "description": "Body when a community listed in Explore is no longer joinable."
     },
     "discoveryJoinErrorRateLimitTitle": "أنت تفعل ذلك بسرعة كبيرة",
     "@discoveryJoinErrorRateLimitTitle": {
-        "description": "Title when joining a discovery community is rate limited."
+        "description": "Title when joining a community listed in Explore is rate limited."
     },
     "discoveryJoinErrorRateLimitMessage": "الرجاء الانتظار لحظة والمحاولة مرة أخرى.",
     "@discoveryJoinErrorRateLimitMessage": {
-        "description": "Body when joining a discovery community is rate limited."
+        "description": "Body when joining a community listed in Explore is rate limited."
     },
     "guildNavbarAddCommunity": "إضافة مجتمع",
     "@guildNavbarAddCommunity": {
@@ -6781,11 +6732,11 @@
     "@guildNavbarNameLabel": {
         "description": "Label for name input fields in guild navbar modals."
     },
-    "guildNavbarNewChannelHint": "new-channel",
+    "guildNavbarNewChannelHint": "قناة-جديدة",
     "@guildNavbarNewChannelHint": {
         "description": "Placeholder hint for new channel name input."
     },
-    "guildNavbarUrlLabel": "URL",
+    "guildNavbarUrlLabel": "عنوان URL",
     "@guildNavbarUrlLabel": {
         "description": "Label for URL input in link channel creation."
     },
@@ -7089,9 +7040,9 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsDiscovery": "الاكتشاف",
+    "guildMenuSettingsDiscovery": "استكشاف",
     "@guildMenuSettingsDiscovery": {
-        "description": "Community settings tab for discovery settings."
+        "description": "Community settings tab for Explore."
     },
     "guildMenuSettingsMembers": "الأعضاء",
     "@guildMenuSettingsMembers": {
@@ -7153,9 +7104,9 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "تتطلب المجتمعات المدرجة في الاكتشاف بريدًا إلكترونيًا تم التحقق منه على الأقل. لا يمكن تحديد \"لا شيء\" أثناء تمكين الاكتشاف.",
+    "guildSettingsModerationVerificationDiscoveryNote": "تحتاج المجتمعات المدرجة في «استكشاف» إلى التحقق من البريد الإلكتروني على الأقل. لا يمكنك اختيار «لا شيء» ما دام مجتمعك مُدرجًا في «استكشاف».",
     "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
+        "description": "Note on the verification level restriction while the community is listed in Explore."
     },
     "guildSettingsModerationMatureTitle": "المحتوى للبالغين وتحذيرات المحتوى",
     "@guildSettingsModerationMatureTitle": {
@@ -7772,7 +7723,7 @@
             }
         }
     },
-    "auditLogSummaryWebhookDelete": "{actor} deleted the webhook {target}.",
+    "auditLogSummaryWebhookDelete": "قام {actor} بحذف الويب هوك {target}.",
     "@auditLogSummaryWebhookDelete": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7784,7 +7735,7 @@
             }
         }
     },
-    "auditLogSummaryEmojiCreate": "{actor} added the emoji {target}.",
+    "auditLogSummaryEmojiCreate": "قام {actor} بإضافة الرمز التعبيري {target}.",
     "@auditLogSummaryEmojiCreate": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7796,7 +7747,7 @@
             }
         }
     },
-    "auditLogSummaryEmojiUpdate": "{actor} updated the emoji {target}.",
+    "auditLogSummaryEmojiUpdate": "قام {actor} بتحديث الرمز التعبيري {target}.",
     "@auditLogSummaryEmojiUpdate": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7808,7 +7759,7 @@
             }
         }
     },
-    "auditLogSummaryEmojiDelete": "{actor} deleted the emoji {target}.",
+    "auditLogSummaryEmojiDelete": "قام {actor} بحذف الرمز التعبيري {target}.",
     "@auditLogSummaryEmojiDelete": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7820,7 +7771,7 @@
             }
         }
     },
-    "auditLogSummaryStickerCreate": "{actor} added the sticker {target}.",
+    "auditLogSummaryStickerCreate": "قام {actor} بإضافة الملصق {target}.",
     "@auditLogSummaryStickerCreate": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7832,7 +7783,7 @@
             }
         }
     },
-    "auditLogSummaryStickerUpdate": "{actor} updated the sticker {target}.",
+    "auditLogSummaryStickerUpdate": "قام {actor} بتحديث الملصق {target}.",
     "@auditLogSummaryStickerUpdate": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7844,7 +7795,7 @@
             }
         }
     },
-    "auditLogSummaryStickerDelete": "{actor} deleted the sticker {target}.",
+    "auditLogSummaryStickerDelete": "قام {actor} بحذف الملصق {target}.",
     "@auditLogSummaryStickerDelete": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7856,7 +7807,7 @@
             }
         }
     },
-    "auditLogSummaryMessageDelete": "{actor} deleted a message.",
+    "auditLogSummaryMessageDelete": "قام {actor} بحذف رسالة.",
     "@auditLogSummaryMessageDelete": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7865,7 +7816,7 @@
             }
         }
     },
-    "auditLogSummaryMessageDeleteInChannel": "{actor} deleted a message in {channel}.",
+    "auditLogSummaryMessageDeleteInChannel": "قام {actor} بحذف رسالة في {channel}.",
     "@auditLogSummaryMessageDeleteInChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7877,7 +7828,7 @@
             }
         }
     },
-    "auditLogSummaryMessageBulkDelete": "{actor} deleted multiple messages.",
+    "auditLogSummaryMessageBulkDelete": "قام {actor} بحذف عدة رسائل.",
     "@auditLogSummaryMessageBulkDelete": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7886,7 +7837,7 @@
             }
         }
     },
-    "auditLogSummaryMessageBulkDeleteCount": "{actor} deleted {count} messages.",
+    "auditLogSummaryMessageBulkDeleteCount": "قام {actor} بحذف {count} من الرسائل.",
     "@auditLogSummaryMessageBulkDeleteCount": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7898,7 +7849,7 @@
             }
         }
     },
-    "auditLogSummaryMessageBulkDeleteInChannel": "{actor} deleted multiple messages in {channel}.",
+    "auditLogSummaryMessageBulkDeleteInChannel": "قام {actor} بحذف عدة رسائل في {channel}.",
     "@auditLogSummaryMessageBulkDeleteInChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7910,7 +7861,7 @@
             }
         }
     },
-    "auditLogSummaryMessageBulkDeleteCountInChannel": "{actor} deleted {count} messages in {channel}.",
+    "auditLogSummaryMessageBulkDeleteCountInChannel": "قام {actor} بحذف {count} من الرسائل في {channel}.",
     "@auditLogSummaryMessageBulkDeleteCountInChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7925,7 +7876,7 @@
             }
         }
     },
-    "auditLogSummaryMessagePin": "{actor} pinned a message.",
+    "auditLogSummaryMessagePin": "قام {actor} بتثبيت رسالة.",
     "@auditLogSummaryMessagePin": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7934,7 +7885,7 @@
             }
         }
     },
-    "auditLogSummaryMessagePinInChannel": "{actor} pinned a message in {channel}.",
+    "auditLogSummaryMessagePinInChannel": "قام {actor} بتثبيت رسالة في {channel}.",
     "@auditLogSummaryMessagePinInChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7946,7 +7897,7 @@
             }
         }
     },
-    "auditLogSummaryMessageUnpin": "{actor} unpinned a message.",
+    "auditLogSummaryMessageUnpin": "قام {actor} بإلغاء تثبيت رسالة.",
     "@auditLogSummaryMessageUnpin": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7955,7 +7906,7 @@
             }
         }
     },
-    "auditLogSummaryMessageUnpinInChannel": "{actor} unpinned a message in {channel}.",
+    "auditLogSummaryMessageUnpinInChannel": "قام {actor} بإلغاء تثبيت رسالة في {channel}.",
     "@auditLogSummaryMessageUnpinInChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7967,7 +7918,7 @@
             }
         }
     },
-    "auditLogSummaryDefault": "{actor} performed an audit action on {target}.",
+    "auditLogSummaryDefault": "نفّذ {actor} إجراءً على {target}.",
     "@auditLogSummaryDefault": {
         "description": "Fallback activity log entry summary.",
         "placeholders": {
@@ -7979,7 +7930,7 @@
             }
         }
     },
-    "auditLogChangeUpdatedFromTo": "Updated {field} from {oldValue} to {newValue}.",
+    "auditLogChangeUpdatedFromTo": "تم تحديث {field} من {oldValue} إلى {newValue}.",
     "@auditLogChangeUpdatedFromTo": {
         "description": "Fallback change detail sentence.",
         "placeholders": {
@@ -7994,7 +7945,7 @@
             }
         }
     },
-    "auditLogChangeSetTo": "Set {field} to {newValue}.",
+    "auditLogChangeSetTo": "تم تعيين {field} إلى {newValue}.",
     "@auditLogChangeSetTo": {
         "description": "Fallback change detail sentence.",
         "placeholders": {
@@ -8006,7 +7957,7 @@
             }
         }
     },
-    "auditLogChangeCleared": "Cleared {field} (was {oldValue}).",
+    "auditLogChangeCleared": "تم مسح {field} (كانت القيمة {oldValue}).",
     "@auditLogChangeCleared": {
         "description": "Fallback change detail sentence.",
         "placeholders": {
@@ -8018,7 +7969,7 @@
             }
         }
     },
-    "auditLogChangeUpdated": "Updated {field}.",
+    "auditLogChangeUpdated": "تم تحديث {field}.",
     "@auditLogChangeUpdated": {
         "description": "Fallback change detail sentence.",
         "placeholders": {
@@ -8027,7 +7978,7 @@
             }
         }
     },
-    "auditLogChangeRenamedCommunity": "Renamed the community to {name}.",
+    "auditLogChangeRenamedCommunity": "تمت إعادة تسمية المجتمع إلى {name}.",
     "@auditLogChangeRenamedCommunity": {
         "description": "Guild change detail sentence.",
         "placeholders": {
@@ -8036,11 +7987,11 @@
             }
         }
     },
-    "auditLogChangeUpdatedCommunityIcon": "Updated the community icon.",
+    "auditLogChangeUpdatedCommunityIcon": "تم تحديث أيقونة المجتمع.",
     "@auditLogChangeUpdatedCommunityIcon": {
         "description": "Guild change detail sentence."
     },
-    "auditLogChangeRenamedChannel": "Renamed the channel to {name}.",
+    "auditLogChangeRenamedChannel": "تمت إعادة تسمية القناة إلى {name}.",
     "@auditLogChangeRenamedChannel": {
         "description": "Channel change detail sentence.",
         "placeholders": {
@@ -8049,11 +8000,11 @@
             }
         }
     },
-    "auditLogChangeClearedTopic": "Cleared the topic.",
+    "auditLogChangeClearedTopic": "تم مسح الموضوع.",
     "@auditLogChangeClearedTopic": {
         "description": "Channel change detail sentence."
     },
-    "auditLogChangeUpdatedTopic": "Updated the topic to {topic}.",
+    "auditLogChangeUpdatedTopic": "تم تحديث الموضوع إلى {topic}.",
     "@auditLogChangeUpdatedTopic": {
         "description": "Channel change detail sentence.",
         "placeholders": {
@@ -8062,15 +8013,15 @@
             }
         }
     },
-    "auditLogChangeEnabledMatureContent": "Enabled mature content.",
+    "auditLogChangeEnabledMatureContent": "تم تفعيل محتوى البالغين.",
     "@auditLogChangeEnabledMatureContent": {
         "description": "Channel change detail sentence."
     },
-    "auditLogChangeDisabledMatureContent": "Disabled mature content.",
+    "auditLogChangeDisabledMatureContent": "تم تعطيل محتوى البالغين.",
     "@auditLogChangeDisabledMatureContent": {
         "description": "Channel change detail sentence."
     },
-    "auditLogChangeSetNickname": "Set nickname to {nickname}.",
+    "auditLogChangeSetNickname": "تم تعيين اللقب إلى {nickname}.",
     "@auditLogChangeSetNickname": {
         "description": "Member change detail sentence.",
         "placeholders": {
@@ -8079,7 +8030,7 @@
             }
         }
     },
-    "auditLogChangeRemovedNickname": "Removed nickname {nickname}.",
+    "auditLogChangeRemovedNickname": "تمت إزالة اللقب {nickname}.",
     "@auditLogChangeRemovedNickname": {
         "description": "Member change detail sentence.",
         "placeholders": {
@@ -8088,23 +8039,23 @@
             }
         }
     },
-    "auditLogChangeMutedMember": "Muted the member.",
+    "auditLogChangeMutedMember": "تم كتم صوت العضو.",
     "@auditLogChangeMutedMember": {
         "description": "Member change detail sentence."
     },
-    "auditLogChangeUnmutedMember": "Unmuted the member.",
+    "auditLogChangeUnmutedMember": "تم إلغاء كتم صوت العضو.",
     "@auditLogChangeUnmutedMember": {
         "description": "Member change detail sentence."
     },
-    "auditLogChangeDeafenedMember": "Deafened the member.",
+    "auditLogChangeDeafenedMember": "تم تعطيل سمع العضو.",
     "@auditLogChangeDeafenedMember": {
         "description": "Member change detail sentence."
     },
-    "auditLogChangeUndeafenedMember": "Undeafened the member.",
+    "auditLogChangeUndeafenedMember": "تم إلغاء تعطيل سمع العضو.",
     "@auditLogChangeUndeafenedMember": {
         "description": "Member change detail sentence."
     },
-    "auditLogChangeAddedRoles": "Added {roles}.",
+    "auditLogChangeAddedRoles": "تمت إضافة {roles}.",
     "@auditLogChangeAddedRoles": {
         "description": "Member change detail sentence.",
         "placeholders": {
@@ -8113,7 +8064,7 @@
             }
         }
     },
-    "auditLogChangeRemovedRoles": "Removed {roles}.",
+    "auditLogChangeRemovedRoles": "تمت إزالة {roles}.",
     "@auditLogChangeRemovedRoles": {
         "description": "Member change detail sentence.",
         "placeholders": {
@@ -8122,7 +8073,7 @@
             }
         }
     },
-    "auditLogOptionChannel": "Channel: {value}.",
+    "auditLogOptionChannel": "القناة: {value}.",
     "@auditLogOptionChannel": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8131,7 +8082,7 @@
             }
         }
     },
-    "auditLogOptionMessage": "Message: {value}.",
+    "auditLogOptionMessage": "الرسالة: {value}.",
     "@auditLogOptionMessage": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8140,7 +8091,7 @@
             }
         }
     },
-    "auditLogOptionInvitedBy": "Invited by {value}.",
+    "auditLogOptionInvitedBy": "بدعوة من {value}.",
     "@auditLogOptionInvitedBy": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8149,7 +8100,7 @@
             }
         }
     },
-    "auditLogOptionDeletedMessages": "{count, plural, =1{Deleted {count} message.} other{Deleted {count} messages.}}",
+    "auditLogOptionDeletedMessages": "{count, plural, =1{تم حذف رسالة واحدة.} =2{تم حذف رسالتين.} few{تم حذف {count} رسائل.} many{تم حذف {count} رسالة.} other{تم حذف {count} رسالة.}}",
     "@auditLogOptionDeletedMessages": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8158,7 +8109,7 @@
             }
         }
     },
-    "auditLogOptionRemovedMembers": "{count, plural, =1{Removed {count} member.} other{Removed {count} members.}}",
+    "auditLogOptionRemovedMembers": "{count, plural, =1{تمت إزالة عضو واحد.} =2{تمت إزالة عضوين.} few{تمت إزالة {count} أعضاء.} many{تمت إزالة {count} عضوًا.} other{تمت إزالة {count} عضو.}}",
     "@auditLogOptionRemovedMembers": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8167,15 +8118,15 @@
             }
         }
     },
-    "auditLogOptionInviteNeverExpires": "This invite never expires.",
+    "auditLogOptionInviteNeverExpires": "لا تنتهي صلاحية هذه الدعوة أبدًا.",
     "@auditLogOptionInviteNeverExpires": {
         "description": "Audit log option detail sentence."
     },
-    "auditLogOptionTemporaryMembership": "Grants temporary membership.",
+    "auditLogOptionTemporaryMembership": "تمنح عضوية مؤقتة.",
     "@auditLogOptionTemporaryMembership": {
         "description": "Audit log option detail sentence."
     },
-    "auditLogOptionPermanentMembership": "Grants permanent membership.",
+    "auditLogOptionPermanentMembership": "تمنح عضوية دائمة.",
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
@@ -8191,13 +8142,13 @@
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
     },
-    "guildSettingsDiscoveryDescription": "أدرج مجتمعك في \"الاكتشاف\" ليتمكن الآخرون من العثور عليه والانضمام إليه.",
+    "guildSettingsDiscoveryDescription": "أدرج مجتمعك في «استكشاف» ليتمكن الآخرون من العثور عليه والانضمام إليه.",
     "@guildSettingsDiscoveryDescription": {
-        "description": "Description for discovery tab."
+        "description": "Subtitle for the \"Explore\" community settings tab."
     },
-    "guildSettingsDiscoveryNotEligible": "يحتاج مجتمعك إلى ما لا يقل عن {count} عضوًا قبل إدراجه في الاكتشاف.",
+    "guildSettingsDiscoveryNotEligible": "يحتاج مجتمعك إلى {count, plural, zero{{count} عضو} one{عضو واحد} two{عضوين} few{{count} أعضاء} many{{count} عضوًا} other{{count} عضو}} على الأقل قبل أن يمكن إدراجه في «استكشاف».",
     "@guildSettingsDiscoveryNotEligible": {
-        "description": "Discovery eligibility message.",
+        "description": "Message when the community does not have enough members to be listed in Explore.",
         "placeholders": {
             "count": {
                 "type": "int"
@@ -8206,27 +8157,27 @@
     },
     "guildSettingsDiscoveryCategory": "الفئة",
     "@guildSettingsDiscoveryCategory": {
-        "description": "Label for discovery category dropdown."
+        "description": "Label for the category dropdown in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionField": "الوصف",
     "@guildSettingsDiscoveryDescriptionField": {
-        "description": "Label for discovery description field."
+        "description": "Label for the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTags": "وسوم مخصصة",
     "@guildSettingsDiscoveryTags": {
-        "description": "Label for discovery tags field."
+        "description": "Label for the custom tags field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryTagsHint": "أضف وسمًا واضغط على Enter",
     "@guildSettingsDiscoveryTagsHint": {
-        "description": "Hint for discovery tags field."
+        "description": "Placeholder in the custom tags input field."
     },
     "guildSettingsDiscoveryApply": "تطبيق",
     "@guildSettingsDiscoveryApply": {
-        "description": "Button to submit discovery application."
+        "description": "Button to submit a new application to Explore."
     },
     "guildSettingsDiscoveryWithdraw": "سحب الطلب",
     "@guildSettingsDiscoveryWithdraw": {
-        "description": "Button to withdraw discovery application."
+        "description": "Button to withdraw the application to Explore."
     },
     "guildSettingsMembersSearchHint": "البحث باسم المستخدم أو المعرف",
     "@guildSettingsMembersSearchHint": {
@@ -8307,27 +8258,23 @@
             }
         }
     },
-    "guildSettingsRevokeBanError": "تعذر إلغاء الحظر. حاول مرة أخرى.",
-    "@guildSettingsRevokeBanError": {
-        "description": "Error when revoking a ban fails."
-    },
     "guildSettingsCommunitySettings": "إعدادات المجتمع",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
-    "guildSettingsCategoryExpressions": "Expressions",
+    "guildSettingsCategoryExpressions": "التعبيرات",
     "@guildSettingsCategoryExpressions": {
         "description": "Sidebar category for emoji and stickers."
     },
-    "guildSettingsCategoryCommunity": "Community",
+    "guildSettingsCategoryCommunity": "المجتمع",
     "@guildSettingsCategoryCommunity": {
-        "description": "Sidebar category for discovery and vanity URL."
+        "description": "Sidebar category for Explore and vanity URL."
     },
-    "guildSettingsCategoryIntegrations": "Integrations",
+    "guildSettingsCategoryIntegrations": "التكاملات",
     "@guildSettingsCategoryIntegrations": {
         "description": "Sidebar category for webhooks."
     },
-    "guildSettingsCategoryPeople": "People",
+    "guildSettingsCategoryPeople": "الأشخاص",
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
@@ -8542,7 +8489,7 @@
     },
     "guildSettingsModerationContentFilterTitle": "فلترة المحتوى",
     "guildSettingsModerationContentFilterDescription": "فحص الرسائل تلقائيًا بحثًا عن المحتوى الصريح في القنوات غير المصنفة للبالغين.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "يُطلب من المجتمعات المدرجة في الاكتشاف فحص جميع الأعضاء. لا يمكن تغيير هذا الإعداد أثناء تمكين الاكتشاف.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "يجب على المجتمعات المدرجة في «استكشاف» فحص رسائل جميع الأعضاء. لا يمكنك تغيير هذا الإعداد ما دام مجتمعك مُدرجًا في «استكشاف».",
     "guildSettingsContentFilterOff": "إيقاف",
     "guildSettingsContentFilterOffDescription": "ترك الإشراف للمجتمع نفسه",
     "guildSettingsContentFilterNoRole": "تصفية رسائل الأعضاء بدون أدوار",
@@ -9790,10 +9737,6 @@
     "@createDmUnaddableNotFriends": {
         "description": "Reason when a recipient is not a friend."
     },
-    "createDmFailed": "تعذر إنشاء المحادثة. حاول مرة أخرى.",
-    "@createDmFailed": {
-        "description": "Generic error when DM or group DM creation fails."
-    },
     "voicePanelSettingsSectionTitle": "إعدادات الصوت",
     "@voicePanelSettingsSectionTitle": {
         "description": "Section header for in-call voice settings in the expandable control panel."
@@ -10380,10 +10323,6 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
-    "voiceParticipantModerationFailed": "تعذر تحديث هذا العضو. يُرجى المحاولة مرة أخرى.",
-    "@voiceParticipantModerationFailed": {
-        "description": "Toast shown when a voice participant moderation action fails."
-    },
     "channelMenuDeleteMyMessagesTitle": "هل تريد حذف رسائلك في هذه القناة؟",
     "@channelMenuDeleteMyMessagesTitle": {
         "description": "Confirmation title for deleting all of the caller's messages in a channel."
@@ -10813,10 +10752,6 @@
     "nagbarEnableNotifications": "تفعيل الإشعارات",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
-    },
-    "nagbarBillingPortalFailed": "تعذر فتح بوابة الفوترة. يُرجى المحاولة مرة أخرى بعد لحظة.",
-    "@nagbarBillingPortalFailed": {
-        "description": "Toast when opening the billing portal from a nagbar fails."
     },
     "groupDmIconFileTooLargeBody": "الملف كبير جدًا. اختر ملفًا أصغر من {maxSize}.",
     "@groupDmIconFileTooLargeBody": {
@@ -11492,7 +11427,7 @@
     "@channelSettingsChannelNamePlaceholder": {
         "description": "Placeholder for channel name field in channel settings."
     },
-    "channelSettingsUrl": "URL",
+    "channelSettingsUrl": "عنوان URL",
     "@channelSettingsUrl": {
         "description": "Label for link channel URL field."
     },
@@ -12218,13 +12153,13 @@
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
-    "emojiInfoDiscoverableCommunity": "مجتمع قابل للاكتشاف",
+    "emojiInfoDiscoverableCommunity": "مُدرج في «استكشاف»",
     "@emojiInfoDiscoverableCommunity": {
-        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community listed in Explore in the emoji info sheet."
     },
     "emojiInfoPrivateCommunity": "مجتمع خاص",
     "@emojiInfoPrivateCommunity": {
-        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+        "description": "Subtitle for a source community not listed in Explore in the emoji info sheet."
     },
     "emojiInfoVerifiedCommunity": "مجتمع موثّق",
     "@emojiInfoVerifiedCommunity": {
@@ -14404,10 +14339,6 @@
     "@guildNavbarCreateInviteMaxInvites": {
         "description": "Error when the community is at MAX_INVITES."
     },
-    "guildNavbarCreateInviteTemporarilyDisabled": "تم تعطيل إنشاء الدعوات مؤقتًا لهذا المجتمع.",
-    "@guildNavbarCreateInviteTemporarilyDisabled": {
-        "description": "Error when instant invites are temporarily disabled."
-    },
     "composerOpenExpressionPicker": "فتح مُنتقي التعبيرات",
     "@composerOpenExpressionPicker": {
         "description": "Accessibility label for the composer button that opens the emoji and media picker."
@@ -14515,7 +14446,7 @@
     "@messageAccessibilityEmptySummary": {
         "description": "Screen reader summary fallback for a message without visible text."
     },
-    "userSettingsGroupBilling": "Billing",
+    "userSettingsGroupBilling": "الفوترة",
     "@userSettingsGroupBilling": {
         "description": "Section heading for billing items in user settings navigation."
     },
@@ -15332,68 +15263,68 @@
     },
     "guildSettingsDiscoveryNotEnoughMembersTitle": "عدد الأعضاء غير كافٍ",
     "@guildSettingsDiscoveryNotEnoughMembersTitle": {
-        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+        "description": "Title for the eligibility warning when a community cannot apply to be listed in Explore yet."
     },
     "guildSettingsDiscoveryStatusLabel": "الحالة:",
     "@guildSettingsDiscoveryStatusLabel": {
-        "description": "Label before the discovery application status badge."
+        "description": "Label before the status badge of the application to Explore."
     },
     "guildSettingsDiscoveryStatusPending": "معلّق",
     "@guildSettingsDiscoveryStatusPending": {
-        "description": "Discovery application status badge when awaiting staff review."
+        "description": "Status badge of the application to Explore when awaiting staff review."
     },
     "guildSettingsDiscoveryStatusApproved": "تمت الموافقة",
     "@guildSettingsDiscoveryStatusApproved": {
-        "description": "Discovery application status badge when approved and listed."
+        "description": "Status badge of the application to Explore when approved and listed."
     },
     "guildSettingsDiscoveryStatusRejected": "مرفوض",
     "@guildSettingsDiscoveryStatusRejected": {
-        "description": "Discovery application status badge when declined by staff."
+        "description": "Status badge of the application to Explore when declined by staff."
     },
     "guildSettingsDiscoveryStatusRemoved": "تمت الإزالة",
     "@guildSettingsDiscoveryStatusRemoved": {
-        "description": "Discovery application status badge when delisted from Discovery."
+        "description": "Status badge of the application to Explore when removed from Explore."
     },
     "guildSettingsDiscoveryReason": "السبب: {reason}",
     "@guildSettingsDiscoveryReason": {
-        "description": "Review or removal reason shown on the discovery application status card.",
+        "description": "Review or removal reason shown on the status card of the application to Explore.",
         "placeholders": {
             "reason": {
                 "type": "String"
             }
         }
     },
-    "guildSettingsDiscoveryApprovedInfo": "مجتمعك مُدرج في الاكتشاف. يمكنك تحديث تفاصيل الإدراج أدناه أو سحبه لإزالته.",
+    "guildSettingsDiscoveryApprovedInfo": "مجتمعك مُدرج في «استكشاف». يمكنك تحديث تفاصيل الإدراج أدناه أو سحبه لإزالته.",
     "@guildSettingsDiscoveryApprovedInfo": {
-        "description": "Info banner when the community is approved and listed in Discovery."
+        "description": "Info banner when the community is approved and listed in Explore."
     },
     "guildSettingsDiscoveryPendingInfo": "طلبك قيد المراجعة. لا يزال بإمكانك تحديث تفاصيل الإدراج أو سحب الطلب.",
     "@guildSettingsDiscoveryPendingInfo": {
-        "description": "Info banner when the discovery application is pending review."
+        "description": "Info banner when the application to Explore is pending review."
     },
     "guildSettingsDiscoveryCategoryHelp": "اختر الفئة التي تصف مجتمعك بشكل أفضل. يمكنك تغيير هذا في أي وقت.",
     "@guildSettingsDiscoveryCategoryHelp": {
-        "description": "Help text below the discovery category field."
+        "description": "Help text below the category field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryPrimaryLanguage": "اللغة الأساسية",
     "@guildSettingsDiscoveryPrimaryLanguage": {
-        "description": "Label for the primary language field on the discovery application form."
+        "description": "Label for the primary language field on the application form for Explore."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "اللغة التي يتحدثها معظم أفراد مجتمعك. تُستخدم لتصفية نتائج الاكتشاف.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "اللغة التي يتحدثها معظم أفراد مجتمعك. تُستخدم لتصفية النتائج في «استكشاف».",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
     "guildSettingsDiscoveryDescriptionPlaceholder": "صف موضوع مجتمعك",
     "@guildSettingsDiscoveryDescriptionPlaceholder": {
-        "description": "Placeholder in the discovery description field."
+        "description": "Placeholder in the listing description field in the \"Explore\" tab."
     },
     "guildSettingsDiscoveryDescriptionRequired": "الوصف مطلوب.",
     "@guildSettingsDiscoveryDescriptionRequired": {
-        "description": "Validation error when the discovery description is empty."
+        "description": "Validation error when the listing description for Explore is empty."
     },
     "guildSettingsDiscoveryDescriptionMinLength": "يجب أن يكون الوصف بطول {minLength} أحرف على الأقل.",
     "@guildSettingsDiscoveryDescriptionMinLength": {
-        "description": "Validation error when the discovery description is too short.",
+        "description": "Validation error when the listing description for Explore is too short.",
         "placeholders": {
             "minLength": {
                 "type": "int"
@@ -15402,14 +15333,14 @@
     },
     "guildSettingsDiscoveryDescriptionMaxLength": "يجب ألا يتجاوز الوصف {maxLength} حرفًا.",
     "@guildSettingsDiscoveryDescriptionMaxLength": {
-        "description": "Validation error when the discovery description is too long.",
+        "description": "Validation error when the listing description for Explore is too long.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
             }
         }
     },
-    "guildSettingsDiscoveryTagsHelp": "يمكن لما يصل إلى {maxTags} علامة مساعدة الأشخاص في العثور على مجتمعك. تظهر في بحث الاكتشاف.",
+    "guildSettingsDiscoveryTagsHelp": "تساعد الوسوم الناس في العثور على مجتمعك، ويمكنك إضافة ما يصل إلى {maxTags}. تظهر الوسوم عندما يبحث الناس في «استكشاف».",
     "@guildSettingsDiscoveryTagsHelp": {
         "description": "Help text below the custom tags field.",
         "placeholders": {
@@ -15420,11 +15351,11 @@
     },
     "guildSettingsDiscoveryAddTag": "إضافة",
     "@guildSettingsDiscoveryAddTag": {
-        "description": "Button to add a custom discovery tag."
+        "description": "Button to add a custom tag for Explore."
     },
     "guildSettingsDiscoveryRemoveTag": "إزالة الوسم {tag}",
     "@guildSettingsDiscoveryRemoveTag": {
-        "description": "Accessibility label for removing a custom discovery tag.",
+        "description": "Accessibility label for removing a custom tag for Explore.",
         "placeholders": {
             "tag": {
                 "type": "String"
@@ -15433,11 +15364,11 @@
     },
     "guildSettingsDiscoveryTagErrorTitle": "تعذر إضافة العلامة",
     "@guildSettingsDiscoveryTagErrorTitle": {
-        "description": "Error modal title when a custom discovery tag cannot be added."
+        "description": "Error modal title when a custom tag for Explore cannot be added."
     },
     "guildSettingsDiscoveryTagRequirements": "يجب أن يتراوح طول الوسوم بين 2 و{maxLength} من الأحرف، وأن تحتوي على حروف وأرقام فقط.",
     "@guildSettingsDiscoveryTagRequirements": {
-        "description": "Validation error for invalid custom discovery tags.",
+        "description": "Validation error for invalid custom tags for Explore.",
         "placeholders": {
             "maxLength": {
                 "type": "int"
@@ -15455,27 +15386,27 @@
     },
     "guildSettingsDiscoverySave": "حفظ",
     "@guildSettingsDiscoverySave": {
-        "description": "Button to save changes to an existing discovery listing."
+        "description": "Button to save changes to an existing listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationSent": "تم إرسال طلب الإدراج في الاكتشاف",
+    "guildSettingsDiscoveryApplicationSent": "تم إرسال طلب الإدراج في «استكشاف»",
     "@guildSettingsDiscoveryApplicationSent": {
-        "description": "Success toast after submitting a discovery application."
+        "description": "Success toast after submitting an application to Explore."
     },
-    "guildSettingsDiscoveryListingUpdated": "تم تحديث الإدراج في الاكتشاف",
+    "guildSettingsDiscoveryListingUpdated": "تم تحديث إدراجك في «استكشاف»",
     "@guildSettingsDiscoveryListingUpdated": {
-        "description": "Success toast after updating a discovery listing."
+        "description": "Success toast after updating a listing in Explore."
     },
-    "guildSettingsDiscoveryApplicationWithdrawn": "تم سحب طلب الإدراج في الاكتشاف",
+    "guildSettingsDiscoveryApplicationWithdrawn": "تم سحب طلب الإدراج في «استكشاف»",
     "@guildSettingsDiscoveryApplicationWithdrawn": {
-        "description": "Success toast after withdrawing a discovery application."
+        "description": "Success toast after withdrawing an application to Explore."
     },
     "guildSettingsDiscoveryWithdrawErrorTitle": "تعذر سحب الطلب",
     "@guildSettingsDiscoveryWithdrawErrorTitle": {
-        "description": "Error modal title when withdrawing a discovery application fails."
+        "description": "Error modal title when withdrawing an application to Explore fails."
     },
     "guildSettingsDiscoveryWithdrawErrorDescription": "حاول مرة أخرى بعد قليل.",
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
-        "description": "Error modal body when withdrawing a discovery application fails."
+        "description": "Error modal body when withdrawing an application to Explore fails."
     },
     "guildMembersRecentTitle": "أحدث الأعضاء",
     "@guildMembersRecentTitle": {
@@ -15648,7 +15579,7 @@
     "@guildMembersJoinSourcePlatformAdmin": {
         "description": "Join method label on the community members page."
     },
-    "guildMembersJoinSourceDiscovery": "الاكتشاف",
+    "guildMembersJoinSourceDiscovery": "استكشاف",
     "@guildMembersJoinSourceDiscovery": {
         "description": "Join method label on the community members page."
     },
@@ -16634,5 +16565,2406 @@
     "favoritesRenameCategory": "إعادة تسمية الفئة",
     "@favoritesRenameCategory": {
         "description": "Favorites category context menu action and sheet title for renaming a favorites category."
+    },
+    "create": "إنشاء",
+    "@create": {
+        "description": "Generic create action label in a full-screen form header."
+    },
+    "addFriendSendFailedTitle": "تعذر إرسال طلب الصداقة",
+    "@addFriendSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a friend request fails."
+    },
+    "addFriendSendFailedMessage": "تعذّر إرسال طلب الصداقة. حاول مرة أخرى.",
+    "@addFriendSendFailedMessage": {
+        "description": "Fallback body of the send friend request error dialog when the error has no specific message."
+    },
+    "lookAndFeelThemeColorsGroupText": "نص",
+    "lookAndFeelThemeColorsGroupStatus": "الحالة",
+    "lookAndFeelChatFontScalingTitle": "حجم خط الدردشة",
+    "@lookAndFeelChatFontScalingTitle": {
+        "description": "Search label for chat font size within the Messages section."
+    },
+    "lookAndFeelChatFontScalingDescription": "اضبط حجم الخط في منطقة الدردشة.",
+    "@lookAndFeelChatFontScalingDescription": {
+        "description": "Search description for chat font size."
+    },
+    "shellResizeSidebar": "تغيير حجم الشريط الجانبي",
+    "@shellResizeSidebar": {
+        "description": "Accessible label for the draggable handle that resizes the channel or direct message sidebar."
+    },
+    "messagesMediaGesturesDoubleTapActionReactName": "إضافة رد فعل",
+    "@messagesMediaGesturesDoubleTapActionReactName": {
+        "description": "Double tap adds the default reaction emoji."
+    },
+    "messagesMediaGesturesDoubleTapActionEditName": "تعديل الرسالة",
+    "@messagesMediaGesturesDoubleTapActionEditName": {
+        "description": "Double tap edits your own message."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneName": "لا شيء",
+    "@messagesMediaGesturesDoubleTapActionNoneName": {
+        "description": "Double tap does nothing."
+    },
+    "chatMessagesFailedToLoad": "فشل تحميل الرسائل",
+    "@chatMessagesFailedToLoad": {
+        "description": "Shown in a bottom bar when message history fails to load while scrolling in a channel."
+    },
+    "chatEditFailed": "لم يتم تحديث رسالتك",
+    "@chatEditFailed": {
+        "description": "Toast when saving an edit to a message fails and the message reverts."
+    },
+    "composerAutocompleteEmojisHeading": "الرموز التعبيرية",
+    "@composerAutocompleteEmojisHeading": {
+        "description": "Section heading in composer autocomplete for emoji suggestions."
+    },
+    "channelMenuNoCategory": "بلا فئة",
+    "@channelMenuNoCategory": {
+        "description": "Option in the move to category sheet that moves the channel out of its category."
+    },
+    "channelMoveCategoryFullTitle": "الفئة ممتلئة",
+    "@channelMoveCategoryFullTitle": {
+        "description": "Dialog title shown when a channel cannot be moved because the target category is full."
+    },
+    "channelMoveCategoryFullMessage": "تحتوي هذه الفئة بالفعل على الحد الأقصى من القنوات وهو {maxChannelsPerCategory}.",
+    "@channelMoveCategoryFullMessage": {
+        "description": "Dialog body shown when a category cannot accept another channel because the per-category limit is reached.",
+        "placeholders": {
+            "maxChannelsPerCategory": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSearchTabMessages": "الرسائل",
+    "@channelSearchTabMessages": {
+        "description": "Result tab in mobile message search showing every matching message."
+    },
+    "channelSearchTabImages": "الصور",
+    "@channelSearchTabImages": {
+        "description": "Result tab in mobile message search showing matching messages with an image upload."
+    },
+    "channelSearchTabPins": "الرسائل المثبتة",
+    "@channelSearchTabPins": {
+        "description": "Result tab in mobile message search showing matching pinned messages."
+    },
+    "channelSearchTabLinks": "الروابط",
+    "@channelSearchTabLinks": {
+        "description": "Result tab in mobile message search showing matching messages with a link."
+    },
+    "groupDmRemoveFromGroup": "إزالة من المجموعة",
+    "@groupDmRemoveFromGroup": {
+        "description": "Group DM member action and confirm title for removing the selected member from the group."
+    },
+    "groupDmRemoveFromGroupConfirm": "هل تريد إزالة {userName} من المجموعة؟",
+    "@groupDmRemoveFromGroupConfirm": {
+        "description": "Confirm dialog body before removing a member from a group DM.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmRemoveFromGroupAction": "إزالة",
+    "@groupDmRemoveFromGroupAction": {
+        "description": "Confirm button that removes the selected member from a group DM."
+    },
+    "groupDmRemovedFromGroup": "تمت إزالته من المجموعة",
+    "@groupDmRemovedFromGroup": {
+        "description": "Toast confirming the selected member was removed from the group DM."
+    },
+    "chatAttachmentLibraryLimitedManage": "إدارة",
+    "@chatAttachmentLibraryLimitedManage": {
+        "description": "Opens the system picker to change which photos the app can access."
+    },
+    "userSettingsCopyLinkToSection": "نسخ رابط القسم",
+    "@userSettingsCopyLinkToSection": {
+        "description": "Tooltip and accessibility label for copying a deep link to a settings section."
+    },
+    "userSettingsCopyLinkToPage": "نسخ رابط الصفحة",
+    "@userSettingsCopyLinkToPage": {
+        "description": "Tooltip and accessibility label for copying a deep link to a settings page."
+    },
+    "userSettingsJumpLinkPremiumPage": "صفحة {productName}",
+    "@userSettingsJumpLinkPremiumPage": {
+        "description": "In-chat jump link label for the instance premium subscription settings page.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsPushDeliveryRelayOff": "معطّل",
+    "@notificationsPushDeliveryRelayOff": {
+        "description": "Fluxer relay is required but not enabled for this device."
+    },
+    "appIconAndroidChangeConfirm": "تغيير الأيقونة",
+    "@appIconAndroidChangeConfirm": {
+        "description": "Confirm button for changing the app icon on Android."
+    },
+    "quickSwitcherSectionThreads": "السلاسل",
+    "@quickSwitcherSectionThreads": {
+        "description": "Quick switcher section header for thread and forum post results."
+    },
+    "uiUnderstood": "فهمت",
+    "@uiUnderstood": {
+        "description": "Label of the single button that dismisses an error or info dialog after reading it."
+    },
+    "instanceConnectFailedDomain": "تعذر الاتصال بـ {domain}. حاول مرة أخرى.",
+    "@instanceConnectFailedDomain": {
+        "description": "Error when instance discovery fails for a specific domain.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceCompatibilityRetry": "حاول مرة أخرى",
+    "@instanceCompatibilityRetry": {
+        "description": "Button to re-fetch instance discovery on the compatibility blocker."
+    },
+    "instanceCompatibilityUpdateApp": "تحديث التطبيق",
+    "@instanceCompatibilityUpdateApp": {
+        "description": "Button to open the app store or download page when the client is too old."
+    },
+    "guildNavbarPrivateChannel": "قناة خاصة",
+    "@guildNavbarPrivateChannel": {
+        "description": "Label for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarPrivateChannelDescription": "سيتمكن الأعضاء والأدوار المحددة فقط من رؤية هذه القناة.",
+    "@guildNavbarPrivateChannelDescription": {
+        "description": "Description for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarAddMembersOrRoles": "إضافة أعضاء أو أدوار",
+    "@guildNavbarAddMembersOrRoles": {
+        "description": "Title of the create channel step that picks who can view a private channel."
+    },
+    "guildNavbarAddMembersOrRolesHint": "ابحث عن أعضاء أو أدوار",
+    "@guildNavbarAddMembersOrRolesHint": {
+        "description": "Search hint in the create channel step that picks who can view a private channel."
+    },
+    "permissionManageThreads": "إدارة السلاسل",
+    "@permissionManageThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePublicThreads": "إنشاء سلاسل عامة",
+    "@permissionCreatePublicThreads": {
+        "description": "Permission name."
+    },
+    "permissionCreatePrivateThreads": "إنشاء سلاسل خاصة",
+    "@permissionCreatePrivateThreads": {
+        "description": "Permission name."
+    },
+    "permissionSendMessagesInThreads": "إرسال الرسائل في السلاسل",
+    "@permissionSendMessagesInThreads": {
+        "description": "Permission name."
+    },
+    "threadErrorTagRequired": "اختر وسمًا واحدًا على الأقل لهذا المنشور.",
+    "@threadErrorTagRequired": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadCreate": "إنشاء سلسلة",
+    "@threadCreate": {
+        "description": "Action that opens the new thread form for a channel or a message."
+    },
+    "threadName": "اسم السلسلة",
+    "@threadName": {
+        "description": "Label of the thread name input."
+    },
+    "threadNewThreadPlaceholder": "سلسلة جديدة",
+    "@threadNewThreadPlaceholder": {
+        "description": "Placeholder of the thread name input when there is no source message."
+    },
+    "threadPrivate": "سلسلة خاصة",
+    "@threadPrivate": {
+        "description": "Label of the toggle that makes a new thread private."
+    },
+    "threadPrivateDescription": "لا يمكن رؤية هذه السلسلة إلا للأشخاص الذين تدعوهم وللمشرفين.",
+    "@threadPrivateDescription": {
+        "description": "Help text under the private thread toggle."
+    },
+    "threadStarterMessagePlaceholder": "أدخل رسالة لبدء المحادثة!",
+    "@threadStarterMessagePlaceholder": {
+        "description": "Placeholder of the first message input in the new thread form."
+    },
+    "threadCreateFailed": "تعذّر بدء السلسلة: {detail}",
+    "@threadCreateFailed": {
+        "description": "Toast when creating a thread failed. {detail} is the server error message.",
+        "placeholders": {
+            "detail": {
+                "type": "String"
+            }
+        }
+    },
+    "threadBrowserTitle": "السلاسل",
+    "@threadBrowserTitle": {
+        "description": "Title of the thread browser and label of the threads header button."
+    },
+    "threadBrowserActive": "النشطة",
+    "@threadBrowserActive": {
+        "description": "Tab in the thread browser that lists active threads."
+    },
+    "threadBrowserArchived": "المغلقة",
+    "@threadBrowserArchived": {
+        "description": "Tab in the thread browser that lists archived threads."
+    },
+    "threadBrowserJoined": "السلاسل التي انضممت إليها",
+    "@threadBrowserJoined": {
+        "description": "Section header in the thread browser for threads the user joined."
+    },
+    "threadBrowserOtherActive": "سلاسل نشطة أخرى",
+    "@threadBrowserOtherActive": {
+        "description": "Section header in the thread browser for active threads the user did not join."
+    },
+    "threadBrowserLoadMore": "تحميل المزيد",
+    "@threadBrowserLoadMore": {
+        "description": "Button that loads the next page of closed threads."
+    },
+    "threadBrowserSearch": "البحث في السلاسل",
+    "@threadBrowserSearch": {
+        "description": "Placeholder of the search field at the top of the thread browser."
+    },
+    "threadBrowserSearchEmpty": "لا توجد سلاسل مطابقة",
+    "@threadBrowserSearchEmpty": {
+        "description": "Empty state of the thread browser while searching."
+    },
+    "threadBrowserSearchEmptyHint": "جرب اسمًا مختلفًا أو تحقق من علامة التبويب الأخرى.",
+    "@threadBrowserSearchEmptyHint": {
+        "description": "Hint under the empty search state in the thread browser."
+    },
+    "threadBrowserSearchFailed": "تعذّر البحث في السلاسل. حاول مرة أخرى لاحقًا.",
+    "@threadBrowserSearchFailed": {
+        "description": "Error state of the thread browser search."
+    },
+    "threadBrowserSearchIndexing": "جارٍ تجهيز البحث لهذا المجتمع. سنحاول مرة أخرى بعد قليل...",
+    "@threadBrowserSearchIndexing": {
+        "description": "Shown in the thread browser while the search index is being built."
+    },
+    "threadMembers": "أعضاء السلسلة",
+    "@threadMembers": {
+        "description": "Title of the thread member list."
+    },
+    "threadJoin": "الانضمام إلى السلسلة",
+    "@threadJoin": {
+        "description": "Action that adds the current user to a thread."
+    },
+    "threadLeave": "مغادرة السلسلة",
+    "@threadLeave": {
+        "description": "Action that removes the current user from a thread."
+    },
+    "threadJoinNotice": "انضم إلى هذه السلسلة لمتابعتها في قائمة قنواتك وتلقي الإشعارات.",
+    "@threadJoinNotice": {
+        "description": "Notice above the composer when the user is not a member of the thread."
+    },
+    "threadArchivedNotice": "هذه السلسلة مغلقة. سيؤدي إرسال رسالة إلى فتحها مرة أخرى.",
+    "@threadArchivedNotice": {
+        "description": "Notice above the composer of an archived thread."
+    },
+    "threadLockedNotice": "هذه السلسلة مقفلة. يمكن للمشرفين فقط إرسال الرسائل.",
+    "@threadLockedNotice": {
+        "description": "Barrier shown instead of the composer in a locked thread."
+    },
+    "threadArchive": "إغلاق السلسلة",
+    "@threadArchive": {
+        "description": "Action that archives a thread so it leaves the channel list."
+    },
+    "threadUnarchive": "إعادة فتح السلسلة",
+    "@threadUnarchive": {
+        "description": "Action that unarchives an archived thread."
+    },
+    "threadLock": "قفل السلسلة",
+    "@threadLock": {
+        "description": "Moderator action that stops non-moderators from sending messages in a thread."
+    },
+    "threadUnlock": "إلغاء قفل السلسلة",
+    "@threadUnlock": {
+        "description": "Moderator action that lets everyone send messages in a locked thread again."
+    },
+    "threadDelete": "حذف السلسلة",
+    "@threadDelete": {
+        "description": "Destructive moderator action that deletes a thread and all its messages."
+    },
+    "threadDeleted": "تم حذف السلسلة",
+    "@threadDeleted": {
+        "description": "Toast after a thread was deleted."
+    },
+    "threadMarkAsRead": "وضع علامة كمقروءة",
+    "@threadMarkAsRead": {
+        "description": "Action that marks a thread as read."
+    },
+    "threadMute": "كتم السلسلة",
+    "@threadMute": {
+        "description": "Action that mutes notifications and unread badges for a thread."
+    },
+    "threadUnmute": "إلغاء كتم السلسلة",
+    "@threadUnmute": {
+        "description": "Action that unmutes a thread."
+    },
+    "threadNotificationSettings": "إعدادات الإشعارات",
+    "@threadNotificationSettings": {
+        "description": "Title of the thread notification settings."
+    },
+    "threadNotificationParentDefault": "استخدام إعدادات القناة الافتراضية",
+    "@threadNotificationParentDefault": {
+        "description": "Thread notification option that follows the parent channel setting."
+    },
+    "threadCopyLink": "نسخ الرابط",
+    "@threadCopyLink": {
+        "description": "Action that copies a link to the thread."
+    },
+    "threadCopyId": "نسخ معرف السلسلة",
+    "@threadCopyId": {
+        "description": "Developer mode action that copies the thread ID."
+    },
+    "threadMoreOptions": "المزيد من الخيارات",
+    "@threadMoreOptions": {
+        "description": "Header button that opens the thread actions."
+    },
+    "threadSettings": "إعدادات السلسلة",
+    "@threadSettings": {
+        "description": "Title of the thread settings form."
+    },
+    "threadAutoArchive": "إخفاء بعد عدم النشاط",
+    "@threadAutoArchive": {
+        "description": "Label of the thread auto archive duration setting."
+    },
+    "threadDefaultAutoArchive": "مدة الإخفاء الافتراضية بعد عدم النشاط",
+    "@threadDefaultAutoArchive": {
+        "description": "Label of the default auto archive duration for new threads in a text channel."
+    },
+    "threadDefaultSlowmode": "الوضع البطيء الافتراضي للسلاسل",
+    "@threadDefaultSlowmode": {
+        "description": "Label of the slowmode copied onto new threads in a text channel."
+    },
+    "threadInvitable": "السماح لأي شخص بالدعوة",
+    "@threadInvitable": {
+        "description": "Private thread setting that lets non-moderators add other members."
+    },
+    "threadStartedBy": "بدأها {name}",
+    "@threadStartedBy": {
+        "description": "Subtitle at the start of a thread naming its creator.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadStarterDeleted": "تم حذف الرسالة الأصلية.",
+    "@threadStarterDeleted": {
+        "description": "Shown at the top of a thread when the message it was started from was deleted."
+    },
+    "auditLogActionThreadCreate": "تم إنشاء السلسلة",
+    "@auditLogActionThreadCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadUpdate": "تم تحديث السلسلة",
+    "@auditLogActionThreadUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionThreadDelete": "تم حذف السلسلة",
+    "@auditLogActionThreadDelete": {
+        "description": "Audit log action filter label."
+    },
+    "forumChannelTypeForum": "منتدى",
+    "@forumChannelTypeForum": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeForumDescription": "منشورات منظمة حسب الموضوع والوسوم",
+    "@forumChannelTypeForumDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMedia": "الوسائط",
+    "@forumChannelTypeMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChannelTypeMediaDescription": "منشورات مبنية حول الصور ومقاطع الفيديو",
+    "@forumChannelTypeMediaDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPost": "منشور جديد",
+    "@forumNewPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchPosts": "البحث في المنشورات",
+    "@forumSearchPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNoPosts": "لا توجد منشورات بعد",
+    "@forumNoPosts": {
+        "description": "Title of the empty state in a forum channel without posts."
+    },
+    "forumNoPostsHint": "كن أول من يبدأ محادثة هنا.",
+    "@forumNoPostsHint": {
+        "description": "Body of the empty state in a forum channel without posts."
+    },
+    "forumNoSearchResults": "لا توجد منشورات تطابق بحثك",
+    "@forumNoSearchResults": {
+        "description": "Title of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumNoSearchResultsHint": "جرّب كلمات مختلفة أو امسح عامل تصفية الوسوم.",
+    "@forumNoSearchResultsHint": {
+        "description": "Body of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumOlderPosts": "المنشورات الأقدم",
+    "@forumOlderPosts": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRetry": "حاول مرة أخرى",
+    "@forumRetry": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostPinned": "مثبت",
+    "@forumPostPinned": {
+        "description": "Forum and media channel UI."
+    },
+    "forumEditTags": "تعديل الوسوم",
+    "@forumEditTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPinPost": "تثبيت المنشور",
+    "@forumPinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumUnpinPost": "إلغاء تثبيت المنشور",
+    "@forumUnpinPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMarkPostRead": "وضع علامة كمقروءة",
+    "@forumMarkPostRead": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCopyPostLink": "نسخ الرابط",
+    "@forumCopyPostLink": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostGuidelines": "إرشادات النشر",
+    "@forumPostGuidelines": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTags": "الوسوم",
+    "@forumPostTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostRemoveAttachment": "إزالة المرفق",
+    "@forumPostRemoveAttachment": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSubmit": "نشر",
+    "@forumPostSubmit": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortLatestActivity": "آخر نشاط",
+    "@forumSortLatestActivity": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSortCreationTime": "تاريخ النشر",
+    "@forumSortCreationTime": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchive": "إخفاء بعد عدم النشاط",
+    "@forumDefaultAutoArchive": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultReaction": "رد الفعل الافتراضي",
+    "@forumDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSetDefaultReaction": "اختر رمزًا تعبيريًا",
+    "@forumSetDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRemoveDefaultReaction": "إزالة",
+    "@forumRemoveDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultSortOrder": "ترتيب الفرز الافتراضي",
+    "@forumDefaultSortOrder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultLayout": "التخطيط الافتراضي",
+    "@forumDefaultLayout": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloads": "إخفاء خيارات تنزيل الوسائط",
+    "@forumHideMediaDownloads": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsTitle": "الوسوم ({count}/{max})",
+    "@forumTagsTitle": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "forumCreateTag": "إنشاء وسم",
+    "@forumCreateTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumEditTag": "تعديل الوسم",
+    "@forumEditTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDeleteTag": "حذف الوسم",
+    "@forumDeleteTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagName": "اسم الوسم",
+    "@forumTagName": {
+        "description": "Forum and media channel UI."
+    },
+    "voiceP2pStartTitle": "هل تريد البدء في وضع P2P؟",
+    "@voiceP2pStartTitle": {
+        "description": "Title of the sheet offering to start a call in P2P mode."
+    },
+    "voiceP2pStartConfirm": "البدء في وضع P2P",
+    "@voiceP2pStartConfirm": {
+        "description": "Button that starts a call in P2P mode."
+    },
+    "voiceP2pStartStandard": "بدء مكالمة عادية",
+    "@voiceP2pStartStandard": {
+        "description": "Button that starts an ordinary call through the server."
+    },
+    "voiceP2pJoinTitle": "هل تريد الانضمام إلى مكالمة P2P؟",
+    "@voiceP2pJoinTitle": {
+        "description": "Title of the sheet asking for agreement before joining a P2P call."
+    },
+    "voiceP2pAlwaysAgreeLabel": "لا تسأل مرة أخرى، وافق دائمًا",
+    "@voiceP2pAlwaysAgreeLabel": {
+        "description": "Checkbox on the P2P join sheet that skips the sheet in future."
+    },
+    "voiceP2pIndicatorDescription": "اتصال مباشر. الوسائط مشفرة بين المشاركين.",
+    "@voiceP2pIndicatorDescription": {
+        "description": "Status line shown while a call is in P2P mode."
+    },
+    "voiceP2pSwitchToStandard": "التبديل إلى مكالمة عادية",
+    "@voiceP2pSwitchToStandard": {
+        "description": "Action that moves a P2P call to the server for everyone."
+    },
+    "voiceP2pUnavailableError": "مكالمات P2P غير متاحة حاليًا.",
+    "@voiceP2pUnavailableError": {
+        "description": "Shown when the server rejects a P2P call."
+    },
+    "channelMenuJoinP2p": "بدء مكالمة P2P",
+    "@channelMenuJoinP2p": {
+        "description": "Voice channel menu item that starts a call in P2P mode."
+    },
+    "channelSettingsRtcP2pLabel": "مكالمات P2P فقط",
+    "@channelSettingsRtcP2pLabel": {
+        "description": "Channel setting that makes every call in the channel a P2P call."
+    },
+    "friendAcceptFailedTitle": "تعذّر قبول طلب الصداقة",
+    "@friendAcceptFailedTitle": {
+        "description": "Title of the dialog shown when accepting a friend request fails."
+    },
+    "friendAcceptUnavailable": "طلب الصداقة هذا لم يعد متاحًا. حدّث الصفحة وحاول مرة أخرى.",
+    "@friendAcceptUnavailable": {
+        "description": "Body of the accept friend request error dialog when the request no longer exists."
+    },
+    "friendAcceptClaimToAccept": "أكمل التسجيل لقبول طلبات الصداقة.",
+    "@friendAcceptClaimToAccept": {
+        "description": "Body of the accept friend request error dialog when the account is unclaimed."
+    },
+    "friendAcceptFailedMessage": "تعذّر قبول طلب الصداقة. حاول مرة أخرى.",
+    "@friendAcceptFailedMessage": {
+        "description": "Fallback body of the accept friend request error dialog."
+    },
+    "friendCancelFailedTitle": "تعذّر إلغاء طلب الصداقة",
+    "@friendCancelFailedTitle": {
+        "description": "Title of the dialog shown when cancelling an outgoing friend request fails."
+    },
+    "friendIgnoreFailedTitle": "تعذر تجاهل طلب الصداقة",
+    "@friendIgnoreFailedTitle": {
+        "description": "Title of the dialog shown when ignoring an incoming friend request fails."
+    },
+    "friendIgnoreFailedMessage": "تعذّر تجاهل طلب الصداقة. يُرجى المحاولة مرة أخرى.",
+    "@friendIgnoreFailedMessage": {
+        "description": "Body of the ignore friend request error dialog."
+    },
+    "friendRemoveFailedTitle": "تعذّرت إزالة الصديق",
+    "@friendRemoveFailedTitle": {
+        "description": "Title of the dialog shown when removing a friend fails."
+    },
+    "friendRemoveFailedMessage": "تعذرت إزالة هذا الصديق. حاول مرة أخرى.",
+    "@friendRemoveFailedMessage": {
+        "description": "Body of the remove friend error dialog."
+    },
+    "userBlockFailedTitle": "تعذّر حظر المستخدم",
+    "@userBlockFailedTitle": {
+        "description": "Title of the dialog shown when blocking a user fails."
+    },
+    "userBlockSystemAccount": "لا يمكن حظر هذا الحساب.",
+    "@userBlockSystemAccount": {
+        "description": "Body of the block user error dialog when the target is a system account."
+    },
+    "userBlockFailedMessage": "تعذّر حظر هذا المستخدم. حاول مرة أخرى.",
+    "@userBlockFailedMessage": {
+        "description": "Fallback body of the block user error dialog."
+    },
+    "userUnblockFailedTitle": "تعذّر إلغاء حظر المستخدم",
+    "@userUnblockFailedTitle": {
+        "description": "Title of the dialog shown when unblocking a user fails."
+    },
+    "userUnblockFailedMessage": "تعذّر إلغاء حظر هذا المستخدم. يُرجى المحاولة مرة أخرى.",
+    "@userUnblockFailedMessage": {
+        "description": "Body of the unblock user error dialog."
+    },
+    "friendCancelRequestConfirmDescription": "هل تريد إلغاء طلب الصداقة المرسل إلى {userName}؟",
+    "@friendCancelRequestConfirmDescription": {
+        "description": "Confirmation body before cancelling an outgoing friend request.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorSomethingWentWrongTitle": "حدث خطأ ما",
+    "@errorSomethingWentWrongTitle": {
+        "description": "Title of a generic error dialog when an action fails."
+    },
+    "errorUnexpectedTryAgain": "حدث خطأ غير متوقع. يُرجى المحاولة مرة أخرى.",
+    "@errorUnexpectedTryAgain": {
+        "description": "Fallback body of a generic error dialog when the server gives no reason."
+    },
+    "errorMessagingPausedTitle": "إرسال الرسائل متوقف مؤقتًا",
+    "@errorMessagingPausedTitle": {
+        "description": "Title of the dialog shown when the account is temporarily limited from messaging."
+    },
+    "errorMessagingPausedMessage": "إرسال الرسائل متوقف مؤقتًا في حسابك. ستجد في بريدك الإلكتروني خطوة سريعة واحدة للمتابعة.",
+    "@errorMessagingPausedMessage": {
+        "description": "Fallback body of the messaging paused dialog when the server gives no reason."
+    },
+    "errorFeatureDisabledTitle": "الميزة معطلة مؤقتًا",
+    "@errorFeatureDisabledTitle": {
+        "description": "Title of the dialog shown when the server has paused a feature."
+    },
+    "errorFeatureDisabledMessage": "هذه الميزة متوقفة مؤقتًا. حاول مرة أخرى لاحقًا.",
+    "@errorFeatureDisabledMessage": {
+        "description": "Body of the feature temporarily disabled dialog."
+    },
+    "dmErrorStartConversationTitle": "تعذر بدء هذه المحادثة",
+    "@dmErrorStartConversationTitle": {
+        "description": "Title of the dialog shown when opening or creating a direct message fails."
+    },
+    "dmErrorCannotMessageMessage": "قد لا يقبل هذا المستخدم رسائل منك، أو لم يعد بينكما مجتمع مشترك.",
+    "@dmErrorCannotMessageMessage": {
+        "description": "Body of the open DM error dialog when the user can't be messaged."
+    },
+    "dmErrorUnknownUserMessage": "لم يعد هذا المستخدم موجودًا. يُرجى التحديث والمحاولة مرة أخرى.",
+    "@dmErrorUnknownUserMessage": {
+        "description": "Body of the open DM error dialog when the user no longer exists."
+    },
+    "dmErrorClaimMessage": "يجب المطالبة بحسابك قبل أن تتمكن من بدء رسالة مباشرة.",
+    "@dmErrorClaimMessage": {
+        "description": "Body of the open DM error dialog when the account is unclaimed."
+    },
+    "dmErrorVerifyEmailMessage": "يجب عليك التحقق من عنوان بريدك الإلكتروني قبل أن تتمكن من بدء رسالة مباشرة.",
+    "@dmErrorVerifyEmailMessage": {
+        "description": "Body of the open DM error dialog when the email is unverified."
+    },
+    "dmErrorTooManyRecipientsTitle": "عدد الأشخاص في هذه المجموعة كبير جدًا",
+    "@dmErrorTooManyRecipientsTitle": {
+        "description": "Title of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorTooManyRecipientsMessage": "لقد أضفت أشخاصًا أكثر مما تسمح به المحادثة الجماعية. أزل بعضهم وحاول مرة أخرى.",
+    "@dmErrorTooManyRecipientsMessage": {
+        "description": "Body of the create group DM error dialog when too many people were added."
+    },
+    "dmErrorMaxGroupDmsTitle": "لقد وصلت إلى الحد الأقصى للمحادثات الجماعية",
+    "@dmErrorMaxGroupDmsTitle": {
+        "description": "Title of the create group DM error dialog when someone has too many group DMs."
+    },
+    "dmErrorMaxGroupDmsMessage": "لقد وصلت أنت أو أحد الأشخاص الذين تضيفهم إلى الحد الأقصى لعدد المحادثات الجماعية المفتوحة. غادر إحداها وحاول مرة أخرى.",
+    "@dmErrorMaxGroupDmsMessage": {
+        "description": "Body of the create group DM error dialog when someone has too many group DMs."
+    },
+    "groupDmAddFailedTitle": "تعذّر الإضافة إلى المجموعة",
+    "@groupDmAddFailedTitle": {
+        "description": "Title of the dialog shown when adding a friend to a group DM fails."
+    },
+    "groupDmInviteFailedTitle": "تعذّر إنشاء رابط الدعوة",
+    "@groupDmInviteFailedTitle": {
+        "description": "Title of the dialog shown when creating a group DM invite link fails."
+    },
+    "dmCloseFailedTitle": "تعذّر إغلاق الرسالة المباشرة",
+    "@dmCloseFailedTitle": {
+        "description": "Title of the dialog shown when closing a direct message fails."
+    },
+    "groupDmLeaveFailedTitle": "تعذّر مغادرة المجموعة",
+    "@groupDmLeaveFailedTitle": {
+        "description": "Title of the dialog shown when leaving a group DM fails."
+    },
+    "inviteJoinFailedTitle": "تعذّر الانضمام إلى المجتمع",
+    "@inviteJoinFailedTitle": {
+        "description": "Title of the dialog shown when accepting an invite fails for an unknown reason."
+    },
+    "inviteErrorPausedMessage": "أوقف المسؤولون الدعوات مؤقتًا، لذا لا يمكنك الانضمام الآن.",
+    "@inviteErrorPausedMessage": {
+        "description": "Body of the invite error dialog when the community has paused invites."
+    },
+    "inviteErrorAtCapacityTitle": "المجتمع ممتلئ",
+    "@inviteErrorAtCapacityTitle": {
+        "description": "Title of the invite error dialog when the community is full."
+    },
+    "inviteErrorAtCapacityMessage": "لقد وصل هذا المجتمع إلى الحد الأقصى لعدد الأعضاء ولا يقبل أعضاء جددًا في الوقت الحالي.",
+    "@inviteErrorAtCapacityMessage": {
+        "description": "Body of the invite error dialog when the community is full."
+    },
+    "inviteErrorPresenceTitle": "يلزم الاتصال بالبوابة",
+    "@inviteErrorPresenceTitle": {
+        "description": "Title of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorPresenceMessage": "تتطلب الدعوات المؤقتة اتصالًا نشطًا. تحقق من اتصالك وحاول مرة أخرى.",
+    "@inviteErrorPresenceMessage": {
+        "description": "Body of the invite error dialog when a temporary invite needs a live connection."
+    },
+    "inviteErrorBannedTitle": "لقد تم حظرك",
+    "@inviteErrorBannedTitle": {
+        "description": "Title of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorBannedMessage": "لقد تم حظرك من هذا المجتمع ولا يمكنك الانضمام إليه.",
+    "@inviteErrorBannedMessage": {
+        "description": "Body of the invite error dialog when the user is banned from the community."
+    },
+    "inviteErrorIpBannedTitle": "تم حظر عنوان IP الخاص بك",
+    "@inviteErrorIpBannedTitle": {
+        "description": "Title of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorIpBannedMessage": "تم حظر عنوان IP الخاص بك من هذا المجتمع ولا يمكنك الانضمام.",
+    "@inviteErrorIpBannedMessage": {
+        "description": "Body of the invite error dialog when the user's IP address is banned."
+    },
+    "inviteErrorClaimTitle": "يلزم التحقق من الحساب",
+    "@inviteErrorClaimTitle": {
+        "description": "Title of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "inviteErrorClaimMessage": "أضف بريدًا إلكترونيًا وكلمة مرور إلى حسابك أولًا.",
+    "@inviteErrorClaimMessage": {
+        "description": "Body of the invite error dialog when an unclaimed account tries to join a group."
+    },
+    "leaveCommunityFailedTitle": "تعذّر مغادرة المجتمع",
+    "@leaveCommunityFailedTitle": {
+        "description": "Title of the dialog shown when leaving a community fails."
+    },
+    "leaveCommunityFailedMessage": "تعذّر المغادرة الآن. يُرجى المحاولة مرة أخرى بعد قليل.",
+    "@leaveCommunityFailedMessage": {
+        "description": "Body of the dialog shown when leaving a community fails."
+    },
+    "chatSendFailedTitle": "تعذّر إرسال رسالتك",
+    "@chatSendFailedTitle": {
+        "description": "Title of the dialog shown when sending a message fails."
+    },
+    "chatSendFailedMessage": "حاول إرسال رسالتك مرة أخرى.",
+    "@chatSendFailedMessage": {
+        "description": "Body of the dialog shown when sending a message fails."
+    },
+    "chatSendTooQuickTitle": "أنت ترسل الرسائل بسرعة كبيرة",
+    "@chatSendTooQuickTitle": {
+        "description": "Title of the dialog shown when sending is rate limited."
+    },
+    "chatRateLimitedMessage": "تمهّل، وانتظر لحظة قبل المحاولة مرة أخرى.",
+    "@chatRateLimitedMessage": {
+        "description": "Body of the dialog shown when a message action is rate limited."
+    },
+    "chatMatureContentTitle": "المحتوى للبالغين غير مسموح به",
+    "@chatMatureContentTitle": {
+        "description": "Title of the dialog shown when a message with mature content is rejected."
+    },
+    "chatMatureContentGuildMessage": "هذه القناة غير مصنفة للمحتوى للبالغين. لا يمكن إرسال المحتوى للبالغين إلا في القنوات المصنفة لذلك. اطلب من أحد المشرفين تحديث هذه القناة إذا كان ذلك مناسبًا.",
+    "@chatMatureContentGuildMessage": {
+        "description": "Body of the mature content dialog in a community channel."
+    },
+    "chatMatureContentDmMessage": "لقد اخترت أنت أو الشخص الذي تراسله حظر الوسائط الحساسة في الرسائل المباشرة. يمكن لكل منكما تغيير هذا في {settingsPath}.",
+    "@chatMatureContentDmMessage": {
+        "description": "Body of the mature content dialog in a direct message. settingsPath is the settings location, such as User settings > Privacy dashboard > Sensitive content.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMatureContentGroupDmMessage": "هذه المجموعة غير مصنّفة للمحتوى للبالغين. يمكن لمالك المجموعة تفعيل «محتوى للبالغين» في إعدادات المجموعة إذا كان جميع أعضائها في سن 18 عامًا أو أكبر.",
+    "@chatMatureContentGroupDmMessage": {
+        "description": "Body of the mature content dialog in a group DM."
+    },
+    "chatFileTooLargeTitle": "حجم الملف كبير جدًا",
+    "@chatFileTooLargeTitle": {
+        "description": "Title of the dialog shown when an attachment is over the size limit."
+    },
+    "chatFileTooLargeMessage": "يتجاوز ملف واحد أو أكثر تحاول تحميله الحد الأقصى للحجم وهو {maxSize} لكل ملف.",
+    "@chatFileTooLargeMessage": {
+        "description": "Body of the dialog shown when an attachment is over the size limit. maxSize is a formatted size such as 25 MB.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "chatHeavyTitle": "يا للهول، هذا كثير جدًا",
+    "@chatHeavyTitle": {
+        "description": "Title of the dialog shown when a message has too many reactions or too many files are attached."
+    },
+    "chatReactionsHeavyMessage": "هذه رسالة ثقيلة جدًا. يجب إزالة بعض التفاعلات قبل أن تتمكن من إضافة المزيد.",
+    "@chatReactionsHeavyMessage": {
+        "description": "Body of the dialog shown when a message has the maximum number of reactions."
+    },
+    "chatReactionTimedOut": "لا يمكنك إضافة ردود فعل جديدة أثناء المهلة.",
+    "@chatReactionTimedOut": {
+        "description": "Toast shown when adding a reaction fails because the user is timed out."
+    },
+    "chatEditTooQuickTitle": "أنت تعدّل الرسائل بسرعة كبيرة",
+    "@chatEditTooQuickTitle": {
+        "description": "Title of the dialog shown when editing is rate limited."
+    },
+    "chatEditFailedMessage": "حاول تعديل رسالتك مرة أخرى.",
+    "@chatEditFailedMessage": {
+        "description": "Body of the dialog shown when editing a message fails."
+    },
+    "chatDeleteTooQuickTitle": "أنت تحذف الرسائل بسرعة كبيرة",
+    "@chatDeleteTooQuickTitle": {
+        "description": "Title of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteTooQuickMessage": "انتظر لحظة قبل حذف المزيد من الرسائل.",
+    "@chatDeleteTooQuickMessage": {
+        "description": "Body of the dialog shown when deleting is rate limited."
+    },
+    "chatDeleteFailedTitle": "تعذّر حذف هذه الرسالة",
+    "@chatDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a message fails."
+    },
+    "chatDeleteFailedMessage": "حاول حذف هذه الرسالة مرة أخرى.",
+    "@chatDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting a message fails."
+    },
+    "chatAltTextFailedTitle": "تعذر تحديث النص البديل",
+    "@chatAltTextFailedTitle": {
+        "description": "Title of the dialog shown when updating attachment alt text fails."
+    },
+    "chatAltTextUnknownMessage": "لم تعد هذه الرسالة موجودة.",
+    "@chatAltTextUnknownMessage": {
+        "description": "Body of the alt text error dialog when the message was deleted."
+    },
+    "chatAltTextNoPermission": "لا يمكنك تعديل هذه الرسالة.",
+    "@chatAltTextNoPermission": {
+        "description": "Body of the alt text error dialog when the user lacks permission."
+    },
+    "chatAltTextUnavailable": "التعديل غير متاح مؤقتًا. يُرجى المحاولة مرة أخرى لاحقًا.",
+    "@chatAltTextUnavailable": {
+        "description": "Body of the alt text error dialog when editing is paused."
+    },
+    "chatAltTextFailedMessage": "تعذر تحديث النص البديل. الرجاء المحاولة مرة أخرى.",
+    "@chatAltTextFailedMessage": {
+        "description": "Fallback body of the alt text error dialog."
+    },
+    "chatPinFailedTitle": "تعذّر تثبيت الرسالة",
+    "@chatPinFailedTitle": {
+        "description": "Title of the dialog shown when pinning a message fails."
+    },
+    "chatUnpinFailedTitle": "تعذّر إلغاء تثبيت الرسالة",
+    "@chatUnpinFailedTitle": {
+        "description": "Title of the dialog shown when unpinning a message fails."
+    },
+    "chatPinFailedMessage": "حدث خطأ ما. يُرجى المحاولة مرة أخرى لاحقًا.",
+    "@chatPinFailedMessage": {
+        "description": "Body of the dialog shown when pinning or unpinning a message fails."
+    },
+    "chatPinBlockedMessage": "لا يمكنك التفاعل مع هذا المستخدم الآن.",
+    "@chatPinBlockedMessage": {
+        "description": "Body of the pin error dialog when the other user can't be interacted with."
+    },
+    "bookmarkLimitTitle": "تم بلوغ الحد الأقصى من الإشارات المرجعية",
+    "@bookmarkLimitTitle": {
+        "description": "Title of the dialog shown when the bookmark limit is reached."
+    },
+    "savedMediaLimitTitle": "تم بلوغ الحد الأقصى للوسائط المحفوظة",
+    "@savedMediaLimitTitle": {
+        "description": "Title of the dialog shown when the saved media limit is reached."
+    },
+    "errorContentBlockedTitle": "المحتوى محظور",
+    "@errorContentBlockedTitle": {
+        "description": "Title of the dialog shown when an action is flagged by safety systems."
+    },
+    "errorContentBlockedMessage": "تعذّر إكمال الإجراء الذي طلبته لأن أنظمة الأمان لدينا وضعت عليه علامة. إذا كنت تعتقد أن هذا خطأ، فيُرجى التواصل مع الدعم.",
+    "@errorContentBlockedMessage": {
+        "description": "Body of the content blocked dialog on the official instance."
+    },
+    "errorContentBlockedSelfHostedMessage": "تعذّر إكمال الإجراء الذي طلبته لأن أنظمة الأمان لدينا وضعت عليه علامة. إذا كنت تعتقد أن هذا خطأ، فيُرجى التواصل مع مسؤولي هذا المثيل.",
+    "@errorContentBlockedSelfHostedMessage": {
+        "description": "Body of the content blocked dialog on a self-hosted instance."
+    },
+    "channelDeletedToast": "تم حذف القناة",
+    "@channelDeletedToast": {
+        "description": "Toast shown after a channel is deleted."
+    },
+    "categoryDeletedToast": "تم حذف الفئة",
+    "@categoryDeletedToast": {
+        "description": "Toast shown after a category is deleted."
+    },
+    "channelDeleteNoPermissionTitle": "لا يمكنك حذف هذا",
+    "@channelDeleteNoPermissionTitle": {
+        "description": "Title of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionChannel": "ليس لديك إذن لحذف هذه القناة.",
+    "@channelDeleteNoPermissionChannel": {
+        "description": "Body of the delete channel error dialog when the user lacks permission."
+    },
+    "channelDeleteNoPermissionCategory": "ليس لديك إذن لحذف هذه الفئة.",
+    "@channelDeleteNoPermissionCategory": {
+        "description": "Body of the delete category error dialog when the user lacks permission."
+    },
+    "channelDeleteAlreadyDeletedTitle": "تم الحذف بالفعل",
+    "@channelDeleteAlreadyDeletedTitle": {
+        "description": "Title of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedChannel": "لم تعد هذه القناة موجودة. ربما تكون قد حُذفت بالفعل.",
+    "@channelDeleteAlreadyDeletedChannel": {
+        "description": "Body of the delete channel error dialog when the channel no longer exists."
+    },
+    "channelDeleteAlreadyDeletedCategory": "لم تعد هذه الفئة موجودة. ربما تم حذفها بالفعل.",
+    "@channelDeleteAlreadyDeletedCategory": {
+        "description": "Body of the delete category error dialog when the category no longer exists."
+    },
+    "channelDeleteFailedChannelTitle": "تعذّر حذف هذه القناة",
+    "@channelDeleteFailedChannelTitle": {
+        "description": "Title of the delete channel error dialog for other failures."
+    },
+    "channelDeleteFailedCategoryTitle": "تعذر حذف هذه الفئة",
+    "@channelDeleteFailedCategoryTitle": {
+        "description": "Title of the delete category error dialog for other failures."
+    },
+    "channelPermissionsUpdateFailedTitle": "تعذر تحديث أذونات القناة",
+    "@channelPermissionsUpdateFailedTitle": {
+        "description": "Title of the dialog shown when saving channel permissions fails."
+    },
+    "channelSettingsSaveFailedTitle": "تعذر حفظ إعدادات القناة",
+    "@channelSettingsSaveFailedTitle": {
+        "description": "Title of the dialog shown when saving channel settings fails."
+    },
+    "emojiSlotsFullTitle": "لا توجد خانات رموز تعبيرية متاحة",
+    "@emojiSlotsFullTitle": {
+        "description": "Title of the dialog shown when a community has no free emoji slots."
+    },
+    "stickerSlotsFullTitle": "لا توجد خانات ملصقات متاحة",
+    "@stickerSlotsFullTitle": {
+        "description": "Title of the dialog shown when a community has no free sticker slots."
+    },
+    "emojiSomeFailedMessage": "راجع هذه الملفات وحاول مرة أخرى باستخدام صور أصغر أو أبسط.",
+    "@emojiSomeFailedMessage": {
+        "description": "Body of the dialog shown when some emoji files could not be added."
+    },
+    "emojiErrorGoneTitle": "لم يعد هذا الرمز التعبيري موجودًا",
+    "@emojiErrorGoneTitle": {
+        "description": "Title of the emoji error dialog when the emoji was deleted."
+    },
+    "emojiRenameGoneMessage": "ربما تم حذفه. تمت إعادة الاسم إلى ما كان عليه من قبل.",
+    "@emojiRenameGoneMessage": {
+        "description": "Body of the rename emoji error dialog when the emoji was deleted."
+    },
+    "emojiRenameNoPermissionTitle": "لا يمكنك إعادة تسمية هذا الرمز التعبيري",
+    "@emojiRenameNoPermissionTitle": {
+        "description": "Title of the rename emoji error dialog when the user lacks permission."
+    },
+    "emojiRenameNoPermissionMessage": "ليس لديك إذن لإعادة تسمية هذا الرمز التعبيري. أُعيد الاسم إلى ما كان عليه.",
+    "@emojiRenameNoPermissionMessage": {
+        "description": "Body of the rename emoji error dialog when the user lacks permission."
+    },
+    "emojiRenameRateLimitedMessage": "الرجاء الانتظار لحظة ثم حاول إعادة التسمية مرة أخرى.",
+    "@emojiRenameRateLimitedMessage": {
+        "description": "Body of the rename emoji error dialog when rate limited."
+    },
+    "emojiRenameFailedMessage": "تمت إعادة الاسم إلى ما كان عليه سابقًا. يرجى المحاولة مرة أخرى بعد قليل.",
+    "@emojiRenameFailedMessage": {
+        "description": "Fallback body of the rename emoji error dialog."
+    },
+    "emojiDeleteGoneMessage": "يبدو أنه تم حذفه بالفعل.",
+    "@emojiDeleteGoneMessage": {
+        "description": "Body of the delete emoji error dialog when the emoji was already deleted."
+    },
+    "emojiDeleteNoPermissionTitle": "لا يمكنك حذف هذا الرمز التعبيري",
+    "@emojiDeleteNoPermissionTitle": {
+        "description": "Title of the delete emoji error dialog when the user lacks permission."
+    },
+    "emojiDeleteNoPermissionMessage": "ليس لديك إذن لحذف هذا الرمز التعبيري.",
+    "@emojiDeleteNoPermissionMessage": {
+        "description": "Body of the delete emoji error dialog when the user lacks permission."
+    },
+    "emojiDeleteRateLimitedMessage": "الرجاء الانتظار لحظة ثم حاول الحذف مرة أخرى.",
+    "@emojiDeleteRateLimitedMessage": {
+        "description": "Body of the delete emoji error dialog when rate limited."
+    },
+    "stickerTooLargeTitle": "الملصق كبير جدًا",
+    "@stickerTooLargeTitle": {
+        "description": "Title of the dialog shown when a sticker upload is over the size limit."
+    },
+    "stickerTooLargeMessage": "رفضت خدمة التحميل هذا الملصق لأنه أكبر من {maxSize}. جرّب ملفًا أصغر، أو صورة أبسط، أو رسومًا متحركة أقصر.",
+    "@stickerTooLargeMessage": {
+        "description": "Body of the dialog shown when a sticker upload is over the size limit. maxSize is a formatted size such as 512 KB.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "stickerCreateFailedMessage": "حدث خطأ أثناء إعداد هذا الملصق. جرّب ملفًا آخر أو أعد المحاولة بعد قليل.",
+    "@stickerCreateFailedMessage": {
+        "description": "Fallback body of the create sticker error dialog."
+    },
+    "moderationTimeoutFailed": "تعذّر فرض مهلة على العضو. حاول مرة أخرى.",
+    "@moderationTimeoutFailed": {
+        "description": "Body of the dialog shown when timing out a member fails."
+    },
+    "moderationRemoveTimeoutFailed": "تعذّر إزالة المهلة. حاول مرة أخرى.",
+    "@moderationRemoveTimeoutFailed": {
+        "description": "Body of the dialog shown when removing a member's timeout fails."
+    },
+    "moderationKickFailed": "تعذّر طرد العضو. حاول مرة أخرى.",
+    "@moderationKickFailed": {
+        "description": "Body of the dialog shown when kicking a member fails."
+    },
+    "moderationBanFailed": "تعذّر حظر العضو. حاول مرة أخرى.",
+    "@moderationBanFailed": {
+        "description": "Body of the dialog shown when banning a member fails."
+    },
+    "transferOwnershipFailedTitle": "تعذّر نقل الملكية",
+    "@transferOwnershipFailedTitle": {
+        "description": "Title of the dialog shown when transferring community ownership fails."
+    },
+    "revokeBanFailedTitle": "تعذر إلغاء الحظر",
+    "@revokeBanFailedTitle": {
+        "description": "Title of the dialog shown when revoking a ban fails."
+    },
+    "voiceModerationNoPermissionTitle": "لا يمكنك فعل ذلك",
+    "@voiceModerationNoPermissionTitle": {
+        "description": "Title of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationNoPermissionMessage": "ليس لديك إذن لتنفيذ هذا الإجراء على هذا العضو.",
+    "@voiceModerationNoPermissionMessage": {
+        "description": "Body of the voice moderation error dialog when the user lacks permission."
+    },
+    "voiceModerationLeftTitle": "غادر العضو المكالمة",
+    "@voiceModerationLeftTitle": {
+        "description": "Title of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationLeftMessage": "لم يعد هذا العضو متصلًا بالقناة الصوتية.",
+    "@voiceModerationLeftMessage": {
+        "description": "Body of the voice moderation error dialog when the member already left voice."
+    },
+    "voiceModerationUnknownMemberTitle": "لم يتم العثور على العضو",
+    "@voiceModerationUnknownMemberTitle": {
+        "description": "Title of the voice moderation error dialog when the member left the community."
+    },
+    "voiceModerationUnknownMemberMessage": "لم يعد هذا العضو موجودًا في المجتمع. حدّث الصفحة وحاول مرة أخرى.",
+    "@voiceModerationUnknownMemberMessage": {
+        "description": "Body of the voice moderation error dialog when the member left the community."
+    },
+    "voiceJoinTimedOut": "لا يمكنك الانضمام أثناء المهلة.",
+    "@voiceJoinTimedOut": {
+        "description": "Shown when joining a voice channel fails because the user is timed out."
+    },
+    "voiceJoinClaimAccount": "طالب بحسابك للانضمام إلى هذه القناة الصوتية.",
+    "@voiceJoinClaimAccount": {
+        "description": "Shown when an unclaimed account tries to join a community voice channel."
+    },
+    "voiceJoinClaimAccountDirectCall": "طالب بحسابك لبدء مكالمات فردية أو الانضمام إليها.",
+    "@voiceJoinClaimAccountDirectCall": {
+        "description": "Shown when an unclaimed account tries to start or join a direct call."
+    },
+    "voiceJoinUserLimit": "وصلت هذه القناة الصوتية إلى الحد الأقصى لعدد المستخدمين. حاول مرة أخرى لاحقًا أو انضم إلى قناة مختلفة.",
+    "@voiceJoinUserLimit": {
+        "description": "Shown when joining a voice channel fails because it is full."
+    },
+    "voiceJoinConnectionLimit": "لقد وصلت إلى الحد الأقصى للاتصالات في هذه القناة الصوتية.",
+    "@voiceJoinConnectionLimit": {
+        "description": "Shown when joining a voice channel fails because the user has too many connections."
+    },
+    "voiceJoinChannelUnavailable": "هذه القناة الصوتية لم تعد متاحة.",
+    "@voiceJoinChannelUnavailable": {
+        "description": "Shown when joining a voice channel fails because it no longer exists."
+    },
+    "avatarUploadFailedTitle": "تعذر تحميل الصورة الرمزية",
+    "@avatarUploadFailedTitle": {
+        "description": "Title of the dialog shown when an avatar can't be used."
+    },
+    "bannerUploadFailedTitle": "تعذّر تحميل اللافتة",
+    "@bannerUploadFailedTitle": {
+        "description": "Title of the dialog shown when a profile banner can't be used."
+    },
+    "passkeyDeleteFailedTitle": "تعذّر حذف مفتاح المرور",
+    "@passkeyDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting a passkey fails."
+    },
+    "premiumPaymentsUnavailableTitle": "المدفوعات غير متاحة",
+    "@premiumPaymentsUnavailableTitle": {
+        "description": "Title of the billing error dialog when payments are temporarily unavailable."
+    },
+    "premiumPaymentsUnavailableMessage": "المدفوعات غير متاحة مؤقتًا. يُرجى المحاولة مرة أخرى بعد قليل.",
+    "@premiumPaymentsUnavailableMessage": {
+        "description": "Body of the billing error dialog when payments are temporarily unavailable."
+    },
+    "premiumNoSubscriptionTitle": "لا يوجد اشتراك نشط",
+    "@premiumNoSubscriptionTitle": {
+        "description": "Title of the billing error dialog when there is no active subscription."
+    },
+    "premiumNoSubscriptionMessage": "لم نتمكن من العثور على اشتراك نشط في هذا الحساب. يُرجى التحديث والمحاولة مرة أخرى.",
+    "@premiumNoSubscriptionMessage": {
+        "description": "Body of the billing error dialog when there is no active subscription."
+    },
+    "premiumAlreadyCancelingTitle": "الإلغاء مجدول بالفعل",
+    "@premiumAlreadyCancelingTitle": {
+        "description": "Title of the billing error dialog when the subscription is already set to cancel."
+    },
+    "premiumAlreadyCancelingMessage": "تم بالفعل تعيين اشتراكك للإلغاء في نهاية فترة الفوترة.",
+    "@premiumAlreadyCancelingMessage": {
+        "description": "Body of the billing error dialog when the subscription is already set to cancel."
+    },
+    "premiumNotCancelingTitle": "الاشتراك غير مجدول للإلغاء",
+    "@premiumNotCancelingTitle": {
+        "description": "Title of the billing error dialog when there is nothing to reactivate."
+    },
+    "premiumNotCancelingMessage": "اشتراكك ليس مُعدًا للإلغاء، لذا لا يوجد ما يمكن إعادة تفعيله.",
+    "@premiumNotCancelingMessage": {
+        "description": "Body of the billing error dialog when there is nothing to reactivate."
+    },
+    "premiumCancelFailedTitle": "تعذّر إلغاء اشتراكك",
+    "@premiumCancelFailedTitle": {
+        "description": "Title of the dialog shown when cancelling the subscription fails."
+    },
+    "premiumCancelFailedMessage": "حدث خطأ أثناء إلغاء اشتراكك. يرجى المحاولة مرة أخرى بعد قليل.",
+    "@premiumCancelFailedMessage": {
+        "description": "Body of the dialog shown when cancelling the subscription fails."
+    },
+    "premiumReactivateFailedTitle": "تعذر إعادة تنشيط اشتراكك",
+    "@premiumReactivateFailedTitle": {
+        "description": "Title of the dialog shown when reactivating the subscription fails."
+    },
+    "premiumReactivateFailedMessage": "حدث خطأ ما أثناء إعادة تنشيط اشتراكك. يُرجى المحاولة مرة أخرى بعد قليل.",
+    "@premiumReactivateFailedMessage": {
+        "description": "Body of the dialog shown when reactivating the subscription fails."
+    },
+    "premiumRefundConfirmTitle": "هل تريد استرداد قيمة آخر عملية شراء؟",
+    "@premiumRefundConfirmTitle": {
+        "description": "Title of the confirmation before a self-serve refund."
+    },
+    "premiumRefundConfirmBody": "سيؤدي هذا إلى استرداد فاتورتك الأخيرة وإلغاء أي اشتراك مرتبط بها. لن تتمكن من استرداد المبلغ بنفسك مرة أخرى لمدة 30 يومًا.",
+    "@premiumRefundConfirmBody": {
+        "description": "Body of the confirmation before a self-serve refund."
+    },
+    "premiumRefundConfirm": "استرداد قيمة الشراء",
+    "@premiumRefundConfirm": {
+        "description": "Confirm button of the self-serve refund confirmation."
+    },
+    "premiumRefundIssuedToast": "تم رد المبلغ. قد يستغرق ظهوره بضعة أيام عمل.",
+    "@premiumRefundIssuedToast": {
+        "description": "Toast shown after a self-serve refund succeeds."
+    },
+    "premiumRefundOutsideWindowTitle": "خارج فترة الاسترداد",
+    "@premiumRefundOutsideWindowTitle": {
+        "description": "Title of the refund error dialog when the purchase is too old."
+    },
+    "premiumRefundOutsideWindowMessage": "لم يعد آخر شراء لك ضمن فترة استرداد الأموال. اتصل بالدعم بخصوص مشكلات الفوترة.",
+    "@premiumRefundOutsideWindowMessage": {
+        "description": "Body of the refund error dialog when the purchase is too old."
+    },
+    "premiumRefundCooldownTitle": "لقد استرددت أموالك مؤخرًا",
+    "@premiumRefundCooldownTitle": {
+        "description": "Title of the refund error dialog during the refund cooldown."
+    },
+    "premiumRefundCooldownMessage": "لقد استخدمت الاسترداد الذاتي مؤخرًا. يمكنك طلب استرداد آخر بعد انتهاء فترة الانتظار.",
+    "@premiumRefundCooldownMessage": {
+        "description": "Body of the refund error dialog during the refund cooldown."
+    },
+    "premiumRefundNothingTitle": "لا توجد مشتريات قابلة للاسترداد",
+    "@premiumRefundNothingTitle": {
+        "description": "Title of the refund error dialog when there is no recent purchase."
+    },
+    "premiumRefundNothingMessage": "لم نتمكن من العثور على عملية شراء حديثة لاسترداد ثمنها في هذا الحساب.",
+    "@premiumRefundNothingMessage": {
+        "description": "Body of the refund error dialog when there is no recent purchase."
+    },
+    "premiumRefundFailedTitle": "تعذر استرداد ثمن عملية الشراء هذه",
+    "@premiumRefundFailedTitle": {
+        "description": "Title of the refund error dialog for other failures."
+    },
+    "premiumRefundFailedMessage": "حدث خطأ أثناء إصدار استرداد المبلغ. تواصل مع الدعم إذا تكررت المشكلة.",
+    "@premiumRefundFailedMessage": {
+        "description": "Body of the refund error dialog for other failures."
+    },
+    "premiumVerifyEmailTitle": "تحقق من بريدك الإلكتروني أولاً",
+    "@premiumVerifyEmailTitle": {
+        "description": "Title of the checkout error dialog when the email is unverified."
+    },
+    "premiumVerifyEmailBody": "يجب عليك التحقق من بريدك الإلكتروني قبل أن تتمكن من شراء {productName}.",
+    "@premiumVerifyEmailBody": {
+        "description": "Body of the checkout error dialog when the email is unverified. productName is the premium product name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCheckoutBlockedTitle": "الدفع غير متاح",
+    "@premiumCheckoutBlockedTitle": {
+        "description": "Title of the checkout error dialog when checkout is blocked for the account."
+    },
+    "premiumCheckoutBlockedBody": "عملية الدفع محظورة لهذا الحساب. تواصل مع {supportEmail} إذا كنت بحاجة إلى مساعدة.",
+    "@premiumCheckoutBlockedBody": {
+        "description": "Body of the checkout error dialog when checkout is blocked, on the official instance.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCheckoutBlockedBodySelfHosted": "تم حظر الدفع لهذا الحساب.",
+    "@premiumCheckoutBlockedBodySelfHosted": {
+        "description": "Body of the checkout error dialog when checkout is blocked, on a self-hosted instance."
+    },
+    "accountSignOutTitle": "هل تريد تسجيل الخروج من {identifier}؟",
+    "@accountSignOutTitle": {
+        "description": "Title of the confirmation before signing out of one saved account. The identifier is the account's username.",
+        "placeholders": {
+            "identifier": {
+                "type": "String"
+            }
+        }
+    },
+    "userTagOp": "الناشر",
+    "@userTagOp": {
+        "description": "Tag next to the author of a forum post on their own messages in that post. Short for original poster, keep it to two or three letters."
+    },
+    "lookAndFeelThemeColorsTitle": "ألوان السمة",
+    "@lookAndFeelThemeColorsTitle": {
+        "description": "Title for the theme color token editor page."
+    },
+    "lookAndFeelThemeColorsConfigureDescription": "خصّص ألوان السمة الفردية لهذا الجهاز.",
+    "@lookAndFeelThemeColorsConfigureDescription": {
+        "description": "Description on the configure row that opens theme colors."
+    },
+    "lookAndFeelThemeColorsEditingMode": "تعديل {mode}",
+    "@lookAndFeelThemeColorsEditingMode": {
+        "description": "Subtitle showing which theme mode color overrides apply to.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsSyncSectionTitle": "المزامنة مع Theme Studio",
+    "lookAndFeelThemeColorsSyncFromStudioLabel": "استخدام الألوان من Theme Studio",
+    "@lookAndFeelThemeColorsSyncFromStudioLabel": {
+        "description": "Toggle to apply custom CSS colors synced from desktop Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioDescription": "عند التفعيل، تُطبَّق تغييرات الألوان من Theme Studio على سطح المكتب على هذا الجهاز. عند التعطيل، يحتفظ هذا الجهاز بألوانه الخاصة.",
+    "@lookAndFeelThemeColorsSyncFromStudioDescription": {
+        "description": "Description for pulling theme colors from Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncToStudioLabel": "إرسال تغييرات الألوان إلى Theme Studio",
+    "@lookAndFeelThemeColorsSyncToStudioLabel": {
+        "description": "Toggle to push mobile theme color edits to synced preferences."
+    },
+    "lookAndFeelThemeColorsSyncToStudioDescription": "عند التفعيل، تتم مزامنة الألوان التي تغيّرها هنا مع Theme Studio على أجهزتك الأخرى. عند التعطيل، يحتفظ Theme Studio على سطح المكتب بألوانه الخاصة.",
+    "@lookAndFeelThemeColorsSyncToStudioDescription": {
+        "description": "Description for pushing theme colors to Theme Studio."
+    },
+    "lookAndFeelThemeColorsSyncFromStudioOffBanner": "لن تُطبَّق تغييرات الألوان من Theme Studio على سطح المكتب على هذا الجهاز.",
+    "@lookAndFeelThemeColorsSyncFromStudioOffBanner": {
+        "description": "Banner when pull from Theme Studio is disabled."
+    },
+    "lookAndFeelThemeColorsEssentialSectionTitle": "الألوان الأساسية",
+    "@lookAndFeelThemeColorsEssentialSectionTitle": {
+        "description": "Section for the most impactful theme color tokens."
+    },
+    "lookAndFeelThemeColorsChatBackgroundWallpaperNote": "إذا كانت لديك خلفية دردشة مُعيّنة، فلن ترى هذا اللون.",
+    "@lookAndFeelThemeColorsChatBackgroundWallpaperNote": {
+        "description": "Note under the chat background color picker when wallpaper may hide it."
+    },
+    "lookAndFeelThemeColorsResetForMode": "إعادة تعيين كل الألوان لـ {mode}",
+    "@lookAndFeelThemeColorsResetForMode": {
+        "description": "Button to clear all scoped color overrides for a theme mode.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsResetConfirmTitle": "هل تريد إعادة تعيين ألوان السمة؟",
+    "@lookAndFeelThemeColorsResetConfirmTitle": {
+        "description": "Title for reset-all theme colors confirmation."
+    },
+    "lookAndFeelThemeColorsResetConfirmBody": "سيؤدي هذا إلى إزالة تخصيصات الألوان الخاصة بك لـ {mode} على هذا الجهاز.",
+    "@lookAndFeelThemeColorsResetConfirmBody": {
+        "description": "Body for reset-all theme colors confirmation.",
+        "placeholders": {
+            "mode": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelThemeColorsGroupBrandButtons": "العلامة التجارية والأزرار",
+    "lookAndFeelThemeColorsGroupChatSurfaces": "الدردشة والرسائل",
+    "lookAndFeelThemeColorsGroupSidebars": "الأشرطة الجانبية والتنقل",
+    "lookAndFeelThemeColorsGroupHeaders": "الترويسات",
+    "lookAndFeelThemeColorsGroupEmbedsMarkup": "التضمينات والإشارات",
+    "lookAndFeelThemeColorsGroupAccentsAlerts": "ألوان التمييز والتنبيهات",
+    "lookAndFeelThemeColorsGroupControls": "الأسطح وعناصر التحكم",
+    "lookAndFeelOpenCommunitiesToLastChannelLabel": "فتح المجتمعات على آخر قناة زرتها",
+    "@lookAndFeelOpenCommunitiesToLastChannelLabel": {
+        "description": "Toggle label. When on, tapping a community in the community list opens the last channel the user viewed there instead of its channel list."
+    },
+    "lookAndFeelOpenCommunitiesToLastChannelDescription": "عند النقر على مجتمع، تنتقل مباشرةً إلى آخر قناة شاهدتها فيه. اسحب إلى اليمين لرؤية قائمة قنواته.",
+    "@lookAndFeelOpenCommunitiesToLastChannelDescription": {
+        "description": "Toggle description for opening communities to the last viewed channel."
+    },
+    "voiceScreenShareEnterFullscreenTooltip": "ملء الشاشة",
+    "@voiceScreenShareEnterFullscreenTooltip": {
+        "description": "Tooltip for expanding a watched screen share to full screen."
+    },
+    "voiceScreenShareExitFullscreenTooltip": "الخروج من ملء الشاشة",
+    "@voiceScreenShareExitFullscreenTooltip": {
+        "description": "Tooltip for leaving full screen while watching a screen share."
+    },
+    "notificationsMentionedYouIn": "أشار إليك {author} في {place}:",
+    "@notificationsMentionedYouIn": {
+        "description": "Title of a Notifications row for a message that mentions the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYouIn": "ردّ عليك {author} في {place}:",
+    "@notificationsRepliedToYouIn": {
+        "description": "Title of a Notifications row for a reply that pings the user. place is a server and channel or a group name.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionedYou": "أشار إليك {author}:",
+    "@notificationsMentionedYou": {
+        "description": "Title of a Notifications row for a mention inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsRepliedToYou": "ردّ عليك {author}:",
+    "@notificationsRepliedToYou": {
+        "description": "Title of a Notifications row for a reply that pings the user inside a direct message.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsMentionPlace": "{server} – {channel}",
+    "@notificationsMentionPlace": {
+        "description": "Server and channel a notification came from, used inside the Notifications row title.",
+        "placeholders": {
+            "server": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsSendReply": "إرسال رد",
+    "@notificationsSendReply": {
+        "description": "Button on a new Notifications row that opens the channel with a reply to that message started."
+    },
+    "notificationsRecentActivity": "النشاط الأخير",
+    "@notificationsRecentActivity": {
+        "description": "Section label above Notifications rows the user has already seen."
+    },
+    "notificationsRemoveNotification": "إزالة الإشعار",
+    "@notificationsRemoveNotification": {
+        "description": "Menu action that removes a row from the Notifications list."
+    },
+    "doubleTapEditHint": "انقر نقرًا مزدوجًا على رسالتك لتعديلها",
+    "@doubleTapEditHint": {
+        "description": "Hint under quick reactions in the message actions sheet when the double-tap action is set to edit."
+    },
+    "messagesMediaGesturesSectionTitle": "الإيماءات",
+    "@messagesMediaGesturesSectionTitle": {
+        "description": "Title for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesSectionDescription": "اضبط النقر المزدوج والسحب على الرسائل.",
+    "@messagesMediaGesturesSectionDescription": {
+        "description": "Description for message gesture settings on mobile."
+    },
+    "messagesMediaGesturesReactionLabel": "رمز التفاعل التعبيري",
+    "@messagesMediaGesturesReactionLabel": {
+        "description": "Label for choosing the default double-tap reaction emoji."
+    },
+    "messagesMediaGesturesReactionDescription": "يُستخدم عندما يكون النقر المزدوج مضبوطًا لإضافة تفاعل.",
+    "@messagesMediaGesturesReactionDescription": {
+        "description": "Help text for the double-tap reaction emoji setting."
+    },
+    "messagesMediaGesturesDoubleTapActionLabel": "إجراء النقر المزدوج",
+    "@messagesMediaGesturesDoubleTapActionLabel": {
+        "description": "Label for the double-tap action radio group."
+    },
+    "messagesMediaGesturesDoubleTapActionReactDescription": "يضيف رمزك التعبيري الافتراضي للنقر المزدوج كتفاعل.",
+    "@messagesMediaGesturesDoubleTapActionReactDescription": {
+        "description": "Help text for the react double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionEditDescription": "يفتح المحرر على الرسائل التي أرسلتها. لا يتغير شيء في الرسائل الأخرى.",
+    "@messagesMediaGesturesDoubleTapActionEditDescription": {
+        "description": "Help text for the edit double-tap action."
+    },
+    "messagesMediaGesturesDoubleTapActionNoneDescription": "النقر المزدوج معطّل.",
+    "@messagesMediaGesturesDoubleTapActionNoneDescription": {
+        "description": "Help text for the none double-tap action."
+    },
+    "messagesMediaGesturesSwipeRightToLeftLabel": "السحب من اليمين إلى اليسار",
+    "@messagesMediaGesturesSwipeRightToLeftLabel": {
+        "description": "Label for the swipe right to left action radio group."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyName": "السحب للرد",
+    "@messagesMediaGesturesSwipeRightToLeftReplyName": {
+        "description": "Swipe opens reply on the message."
+    },
+    "messagesMediaGesturesSwipeRightToLeftReplyDescription": "اسحب رسالة للرد عليها، واضغط مطولًا لتعديل رسائلك.",
+    "@messagesMediaGesturesSwipeRightToLeftReplyDescription": {
+        "description": "Help text for swipe to reply."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsName": "عرض تفاصيل القناة",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsName": {
+        "description": "Swipe opens channel details in a side panel."
+    },
+    "messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": "اسحب رسالة أو انقر على ترويسة القناة لفتح تفاصيل القناة في لوحة جانبية.",
+    "@messagesMediaGesturesSwipeRightToLeftChannelDetailsDescription": {
+        "description": "Help text for swipe to channel details."
+    },
+    "chatMessageDeleteAttachmentConfirmDescription": "هل أنت متأكد أنك تريد حذف هذا المرفق؟",
+    "@chatMessageDeleteAttachmentConfirmDescription": {
+        "description": "Body text for the delete attachment confirmation dialog."
+    },
+    "chatEditFailedEditAgain": "التعديل مرة أخرى",
+    "@chatEditFailedEditAgain": {
+        "description": "Action on the failed edit toast that reopens the editor with the unsaved text."
+    },
+    "channelDuplicateHelper": "ستستخدم القناة الجديدة الأذونات نفسها من {channelName}.",
+    "@channelDuplicateHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDuplicateVoiceHelper": "ستستخدم القناة الصوتية الجديدة الأذونات وحد المستخدمين ومعدل البت نفسها من {channelName}.",
+    "@channelDuplicateVoiceHelper": {
+        "description": "Helper text under the name field in the duplicate channel sheet when the source is a voice channel. channelName is the source channel name with a leading #.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelMenuMoveToCategory": "نقل إلى فئة",
+    "@channelMenuMoveToCategory": {
+        "description": "Guild channel menu action that opens a sheet to move the channel into another category or out of any category."
+    },
+    "channelSearchRemoveRecent": "إزالة من عمليات البحث الأخيرة",
+    "@channelSearchRemoveRecent": {
+        "description": "Accessibility label for the x button on a recent search row in mobile message search. Removes that one entry from the recent searches list."
+    },
+    "channelSearchFiltersButton": "عوامل التصفية",
+    "@channelSearchFiltersButton": {
+        "description": "Tooltip and accessibility label for the filter button next to the mobile message search field."
+    },
+    "channelSearchFilterMenuTitle": "تصفية النتائج",
+    "@channelSearchFilterMenuTitle": {
+        "description": "Section title in the mobile message search filter menu, above the list of filters."
+    },
+    "channelSearchFilterFromLabel": "من شخص محدد",
+    "@channelSearchFilterFromLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterMentionsLabel": "تشير إلى شخص محدد",
+    "@channelSearchFilterMentionsLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterHasLabel": "تحتوي على رابط أو ملف أو تضمين",
+    "@channelSearchFilterHasLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterInLabel": "في قناة محددة",
+    "@channelSearchFilterInLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterDuringLabel": "أُرسلت في تاريخ",
+    "@channelSearchFilterDuringLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterBeforeLabel": "أُرسلت قبل تاريخ",
+    "@channelSearchFilterBeforeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAfterLabel": "أُرسلت بعد تاريخ",
+    "@channelSearchFilterAfterLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterPinnedLabel": "مثبتة أو غير مثبتة",
+    "@channelSearchFilterPinnedLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchFilterAuthorTypeLabel": "حسب نوع المؤلف",
+    "@channelSearchFilterAuthorTypeLabel": {
+        "description": "Row in the mobile message search filter list and filter menu. Tapping it starts that filter in the search field. Sentence case."
+    },
+    "channelSearchDateToday": "اليوم",
+    "@channelSearchDateToday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchDateYesterday": "أمس",
+    "@channelSearchDateYesterday": {
+        "description": "Date suggestion in mobile message search for the before, after and on filters."
+    },
+    "channelSearchTabFiles": "الملفات",
+    "@channelSearchTabFiles": {
+        "description": "Result tab in mobile message search showing matching messages with a file upload."
+    },
+    "channelSearchTabCount": "{label} ({count})",
+    "@channelSearchTabCount": {
+        "description": "Selected result tab label with the number of results, for example Messages (12). Preserve {label} and {count}.",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
+    "groupDmRemoveFromGroupFailed": "لا يزال {userName} في المجموعة. حاول مرة أخرى بعد لحظة.",
+    "@groupDmRemoveFromGroupFailed": {
+        "description": "Error shown when removing a member from a group DM fails.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatAttachmentLibraryLimitedBody": "تظهر هنا فقط الصور ومقاطع الفيديو التي اخترت مشاركتها.",
+    "@chatAttachmentLibraryLimitedBody": {
+        "description": "Explains limited photo library access in the attachment gallery."
+    },
+    "storePlutoniumRestorePurchases": "استعادة المشتريات",
+    "@storePlutoniumRestorePurchases": {
+        "description": "Button on the iOS Plutonium store page that restores App Store subscriptions bought with the same Apple ID."
+    },
+    "notificationsPushDeliveryProviderLabel": "مزوّد الإشعارات الفورية",
+    "@notificationsPushDeliveryProviderLabel": {
+        "description": "Label for the compile-time mobile push provider on notification settings."
+    },
+    "notificationsPushDeliveryDistributorLabel": "الموزّع",
+    "@notificationsPushDeliveryDistributorLabel": {
+        "description": "Label for the UnifiedPush distributor on notification settings."
+    },
+    "notificationsPushDeliveryDistributorNone": "غير محدد",
+    "@notificationsPushDeliveryDistributorNone": {
+        "description": "Shown when no UnifiedPush distributor is selected."
+    },
+    "notificationsPushDeliveryDistributorSheetTitle": "اختيار الموزّع",
+    "@notificationsPushDeliveryDistributorSheetTitle": {
+        "description": "Title of the UnifiedPush distributor picker sheet."
+    },
+    "notificationsPushDeliveryDistributorPickAccessibility": "تغيير موزّع الإشعارات الفورية",
+    "@notificationsPushDeliveryDistributorPickAccessibility": {
+        "description": "Accessibility label when the distributor row opens a picker."
+    },
+    "notificationsPushDeliveryGatewayLabel": "البوابة",
+    "@notificationsPushDeliveryGatewayLabel": {
+        "description": "Label for the UnifiedPush gateway host on notification settings."
+    },
+    "notificationsPushDeliveryRelayLabel": "مُرحِّل Fluxer Push",
+    "@notificationsPushDeliveryRelayLabel": {
+        "description": "Label for Fluxer Push relay status on notification settings."
+    },
+    "notificationsPushDeliveryRelayInUse": "قيد الاستخدام",
+    "@notificationsPushDeliveryRelayInUse": {
+        "description": "Fluxer relay is active for this device."
+    },
+    "notificationsPushDeliveryRelayNotUsed": "غير مستخدم",
+    "@notificationsPushDeliveryRelayNotUsed": {
+        "description": "This push provider does not use the Fluxer relay."
+    },
+    "appIconSectionDescriptionAndroid": "اختر الأيقونة التي تظهر على شاشتك الرئيسية. يؤدي تغيير الأيقونة إلى إعادة تشغيل التطبيق.",
+    "@appIconSectionDescriptionAndroid": {
+        "description": "Description for the app icon settings section on Android."
+    },
+    "appIconAndroidChangeTitle": "هل تريد تغيير أيقونة التطبيق؟",
+    "@appIconAndroidChangeTitle": {
+        "description": "Title for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconAndroidChangeDescription": "ستتم إعادة تشغيل Fluxer لتطبيق أيقونة الشاشة الرئيسية الجديدة.",
+    "@appIconAndroidChangeDescription": {
+        "description": "Body for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconOptionGreyscale": "تدرّج رمادي",
+    "@appIconOptionGreyscale": {
+        "description": "App icon option for the greyscale alternate icon."
+    },
+    "appIconOptionRainbow": "قوس قزح",
+    "@appIconOptionRainbow": {
+        "description": "App icon option for the rainbow alternate icon."
+    },
+    "appIconOptionWaves": "أمواج",
+    "@appIconOptionWaves": {
+        "description": "App icon option for the waves alternate icon."
+    },
+    "appIconOptionChromaticAberration": "زيغ لوني",
+    "@appIconOptionChromaticAberration": {
+        "description": "App icon option for the chromatic aberration alternate icon."
+    },
+    "appIconOptionDefaultBrutalist": "وحشي",
+    "@appIconOptionDefaultBrutalist": {
+        "description": "App icon option for the default brutalist alternate icon."
+    },
+    "appIconOptionGreyscaleBrutalist": "وحشي بتدرّج رمادي",
+    "@appIconOptionGreyscaleBrutalist": {
+        "description": "App icon option for the greyscale brutalist alternate icon."
+    },
+    "advancedCrashReportingSectionDescription": "ساعد Fluxer على إصلاح الأخطاء في هذا التطبيق بمشاركة بيانات الأعطال والأداء. هذا الخيار معطّل افتراضيًا.",
+    "@advancedCrashReportingSectionDescription": {
+        "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
+    },
+    "advancedCrashReportingDescription": "تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Fluxer، حتى عندما تكون مسجّلًا الدخول إلى مثيل آخر. لا تتضمن أسماء المثيلات أو المعرّفات أو محتوى الرسائل.",
+    "@advancedCrashReportingDescription": {
+        "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentTitle": "ساعد في إصلاح الأعطال",
+    "@observabilityReportingConsentTitle": {
+        "description": "Title of the post-crash opt-in sheet for crash and error reporting."
+    },
+    "observabilityReportingConsentSubtitle": "أُغلق Fluxer بشكل غير متوقع. تساعدنا مشاركة بيانات الأعطال والأخطاء المجهولة على إصلاح المشكلات بشكل أسرع.",
+    "@observabilityReportingConsentSubtitle": {
+        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
+    },
+    "observabilityReportingConsentBody": "تتضمن التقارير سجلات الأعطال والأخطاء وبيانات الأداء الأساسية. لا تتم مشاركتها مع أطراف ثالثة ويمكنك إيقاف هذا في أي وقت.",
+    "@observabilityReportingConsentBody": {
+        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
+    },
+    "observabilityReportingConsentEnableLater": "للتفعيل لاحقًا، افتح الإعدادات ← متقدم ← {reportingToggle}.",
+    "@observabilityReportingConsentEnableLater": {
+        "description": "Hint on the post-crash crash reporting opt-in sheet for finding the setting later.",
+        "placeholders": {
+            "reportingToggle": {
+                "type": "String",
+                "example": "Send crash and performance reports"
+            }
+        }
+    },
+    "observabilityReportingConsentAgree": "إرسال تقارير الأعطال",
+    "@observabilityReportingConsentAgree": {
+        "description": "Primary button on the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentDecline": "لا أريد التفعيل",
+    "@observabilityReportingConsentDecline": {
+        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "userSettingsGiveFeedback": "إرسال ملاحظات",
+    "@userSettingsGiveFeedback": {
+        "description": "User settings navigation action to open the Fluxer feedback site."
+    },
+    "instanceInvalidDiscoveryResponse": "تعذّرت قراءة إعدادات هذا المثيل. تحقق من العنوان وحاول مرة أخرى.",
+    "@instanceInvalidDiscoveryResponse": {
+        "description": "Error when the instance discovery document cannot be parsed."
+    },
+    "instanceOutdatedForClient": "هذا المثيل قديم بالنسبة لهذا التطبيق. اطلب من المسؤول عن {domain} تحديث Fluxer.",
+    "@instanceOutdatedForClient": {
+        "description": "Error when the instance api_code_version is below what this client requires.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceRequiresNewerClient": "يعمل {domain} بإصدار من Fluxer أحدث من هذا التطبيق. حدّث التطبيق، ثم حاول مرة أخرى.",
+    "@instanceRequiresNewerClient": {
+        "description": "Error when the instance speaks a protocol generation this client does not support.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceCompatibilityTitle": "لا يمكن استخدام هذا المثيل",
+    "@instanceCompatibilityTitle": {
+        "description": "Title on the full-screen instance compatibility blocker."
+    },
+    "instanceCompatibilityStatusPagePrompt": "راجع صفحة الحالة للاطلاع على التحديثات.",
+    "@instanceCompatibilityStatusPagePrompt": {
+        "description": "Hint below compatibility error copy when a status page URL is available."
+    },
+    "instanceCompatibilityStatusPageLink": "صفحة الحالة",
+    "@instanceCompatibilityStatusPageLink": {
+        "description": "Link label for the instance status page on the compatibility blocker."
+    },
+    "permissionManageThreadsDescription": "إعادة تسمية السلاسل وأرشفتها وقفلها وحذفها، وضبط الوضع البطيء لها، وعرض السلاسل الخاصة.",
+    "@permissionManageThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePublicThreadsDescription": "بدء سلاسل يمكن لكل من يستطيع عرض القناة رؤيتها.",
+    "@permissionCreatePublicThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreatePrivateThreadsDescription": "بدء سلاسل بالدعوة فقط.",
+    "@permissionCreatePrivateThreadsDescription": {
+        "description": "Permission description."
+    },
+    "permissionSendMessagesInThreadsDescription": "إرسال الرسائل في السلاسل ومنشورات المنتدى.",
+    "@permissionSendMessagesInThreadsDescription": {
+        "description": "Permission description."
+    },
+    "threadErrorArchived": "هذه السلسلة مؤرشفة.",
+    "@threadErrorArchived": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorLocked": "هذه السلسلة مقفلة. يمكن للمشرفين فقط النشر فيها أو إعادة فتحها.",
+    "@threadErrorLocked": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorAlreadyCreated": "توجد سلسلة بالفعل لهذه الرسالة.",
+    "@threadErrorAlreadyCreated": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxActiveThreads": "وصل هذا المجتمع إلى الحد الأقصى للسلاسل النشطة.",
+    "@threadErrorMaxActiveThreads": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxMembers": "وصلت هذه السلسلة إلى الحد الأقصى للأعضاء.",
+    "@threadErrorMaxMembers": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxPinnedPosts": "يمكن تثبيت منشور واحد فقط في هذا المنتدى.",
+    "@threadErrorMaxPinnedPosts": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorMaxForumTags": "يمكن أن يحتوي المنتدى على 20 وسمًا كحد أقصى.",
+    "@threadErrorMaxForumTags": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorTagNamesUnique": "يجب أن تكون أسماء الوسوم فريدة.",
+    "@threadErrorTagNamesUnique": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorNoTagsForEveryone": "أضف وسمًا يمكن للجميع استخدامه قبل جعل الوسوم مطلوبة.",
+    "@threadErrorNoTagsForEveryone": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorUnknownTag": "أحد الوسوم المحددة لم يعد موجودًا.",
+    "@threadErrorUnknownTag": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidNotificationSettings": "إعدادات الإشعارات هذه غير صالحة للسلسلة.",
+    "@threadErrorInvalidNotificationSettings": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorSearchIndexNotReady": "لا تزال المنشورات قيد الفهرسة. حاول مرة أخرى بعد لحظة.",
+    "@threadErrorSearchIndexNotReady": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadErrorInvalidChannelType": "هذا الإجراء غير متاح في هذه القناة.",
+    "@threadErrorInvalidChannelType": {
+        "description": "Error shown when a thread or forum request is refused."
+    },
+    "threadNameRequired": "أدخل اسمًا للسلسلة.",
+    "@threadNameRequired": {
+        "description": "Error shown when a thread is created or renamed without a name."
+    },
+    "threadStarterMessage": "رسالة",
+    "@threadStarterMessage": {
+        "description": "Label of the optional first message input in the new thread form."
+    },
+    "threadCreateCooldown": "{seconds, plural, =1{يمكنك بدء سلسلة أخرى بعد ثانية واحدة.} two{يمكنك بدء سلسلة أخرى بعد ثانيتين.} few{يمكنك بدء سلسلة أخرى بعد {seconds} ثوانٍ.} many{يمكنك بدء سلسلة أخرى بعد {seconds} ثانية.} other{يمكنك بدء سلسلة أخرى بعد {seconds} ثانية.}}",
+    "@threadCreateCooldown": {
+        "description": "Cooldown notice in the new thread form when the parent channel has slowmode.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "threadBrowserPublic": "السلاسل العامة",
+    "@threadBrowserPublic": {
+        "description": "Option in the closed thread list that shows public threads."
+    },
+    "threadBrowserPrivate": "السلاسل الخاصة",
+    "@threadBrowserPrivate": {
+        "description": "Option in the closed thread list that shows private threads."
+    },
+    "threadBrowserEmpty": "لا توجد سلاسل. ابقَ مركّزًا على محادثة باستخدام سلسلة، وهي قناة نصية مؤقتة.",
+    "@threadBrowserEmpty": {
+        "description": "Empty state of the active threads list."
+    },
+    "threadBrowserArchivedEmpty": "لا توجد سلاسل مغلقة.",
+    "@threadBrowserArchivedEmpty": {
+        "description": "Empty state of the closed threads list."
+    },
+    "threadMessageCount": "{count, plural, =1{رسالة واحدة} two{رسالتان} few{{count} رسائل} many{{count} رسالة} other{{count} رسالة}}",
+    "@threadMessageCount": {
+        "description": "Message count on a thread chip and in the thread browser.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadFailedToMentionSomeRoles": "لم تتم إضافة بعض الأدوار المُشار إليها إلى هذه السلسلة.",
+    "@threadFailedToMentionSomeRoles": {
+        "description": "Note under a thread message when some mentioned roles had too many members to add to the thread."
+    },
+    "threadMembersCount": "{count, plural, =1{عضو واحد} two{عضوان} few{{count} أعضاء} many{{count} عضوًا} other{{count} عضو}}",
+    "@threadMembersCount": {
+        "description": "Header above the thread member list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "threadMembersEmpty": "لم ينضم أحد إلى هذه السلسلة بعد.",
+    "@threadMembersEmpty": {
+        "description": "Empty state of the thread member list."
+    },
+    "threadRemoveMember": "إزالة {name} من السلسلة",
+    "@threadRemoveMember": {
+        "description": "Accessible label of the button that removes a member from a thread.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "threadDeleteConfirm": "هل أنت متأكد أنك تريد حذف {threadName}؟ لا يمكن التراجع عن هذا الإجراء.",
+    "@threadDeleteConfirm": {
+        "description": "Confirmation text before deleting a thread.",
+        "placeholders": {
+            "threadName": {
+                "type": "String"
+            }
+        }
+    },
+    "threadMuted": "تم كتم السلسلة",
+    "@threadMuted": {
+        "description": "Toast after a thread was muted."
+    },
+    "threadUnmuted": "تم إلغاء كتم السلسلة",
+    "@threadUnmuted": {
+        "description": "Toast after a thread was unmuted."
+    },
+    "threadSettingsSaved": "تم حفظ إعدادات السلسلة",
+    "@threadSettingsSaved": {
+        "description": "Toast after thread settings were saved."
+    },
+    "threadAutoArchiveDescription": "تتوقف السلسلة عن الظهور في قائمة القنوات بعد هذه المدة من عدم النشاط.",
+    "@threadAutoArchiveDescription": {
+        "description": "Help text of the thread auto archive duration setting."
+    },
+    "threadDefaultAutoArchiveDescription": "تتوقف السلاسل الجديدة عن الظهور في قائمة القنوات بعد هذه المدة من عدم النشاط.",
+    "@threadDefaultAutoArchiveDescription": {
+        "description": "Help text of the default thread auto archive duration setting."
+    },
+    "threadAutoArchiveOneHour": "ساعة واحدة",
+    "@threadAutoArchiveOneHour": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneDay": "24 ساعة",
+    "@threadAutoArchiveOneDay": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveThreeDays": "3 أيام",
+    "@threadAutoArchiveThreeDays": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadAutoArchiveOneWeek": "أسبوع واحد",
+    "@threadAutoArchiveOneWeek": {
+        "description": "Thread auto archive duration option."
+    },
+    "threadInvitableDescription": "يمكن لأعضاء هذه السلسلة الخاصة إضافة أشخاص آخرين.",
+    "@threadInvitableDescription": {
+        "description": "Help text of the private thread invite setting."
+    },
+    "systemThreadCreated": "بدأ {username} سلسلة: {threadLink}. اطّلع على {allThreadsLink}.",
+    "@systemThreadCreated": {
+        "description": "System message when a user starts a thread. Keep {username}, {threadLink}, and {allThreadsLink} in place and translate the surrounding sentence.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "threadLink": {
+                "type": "String"
+            },
+            "allThreadsLink": {
+                "type": "String"
+            }
+        }
+    },
+    "systemThreadCreatedAllThreadsLink": "كل السلاسل",
+    "@systemThreadCreatedAllThreadsLink": {
+        "description": "Link text in the thread started system message that opens the thread browser."
+    },
+    "systemThreadCreatedThreadFallback": "سلسلة",
+    "@systemThreadCreatedThreadFallback": {
+        "description": "Link text in the thread started system message when the thread name is unknown."
+    },
+    "systemPreviewThreadCreated": "بدأ {username} سلسلة.",
+    "@systemPreviewThreadCreated": {
+        "description": "Plaintext preview for a thread started system message.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadCreate": "قام {actor} ببدء السلسلة {target}.",
+    "@auditLogSummaryThreadCreate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadUpdate": "قام {actor} بتحديث السلسلة {target}.",
+    "@auditLogSummaryThreadUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryThreadDelete": "قام {actor} بحذف السلسلة {target}.",
+    "@auditLogSummaryThreadDelete": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogChangePausedInvites": "تم إيقاف الدعوات مؤقتًا.",
+    "@auditLogChangePausedInvites": {
+        "description": "Guild change detail sentence shown when invites were paused. Pausing invites disables every invite link of the community until they are resumed. Past tense record, not a command."
+    },
+    "auditLogChangeResumedInvites": "تم استئناف الدعوات.",
+    "@auditLogChangeResumedInvites": {
+        "description": "Guild change detail sentence shown when paused invites were enabled again. Past tense record, not a command."
+    },
+    "auditLogChangeTurnedOnDetachedBanner": "تم تشغيل اللافتة المنفصلة.",
+    "@auditLogChangeTurnedOnDetachedBanner": {
+        "description": "Guild change detail sentence shown when the detached banner setting was turned on."
+    },
+    "auditLogChangeTurnedOffDetachedBanner": "تم إيقاف اللافتة المنفصلة.",
+    "@auditLogChangeTurnedOffDetachedBanner": {
+        "description": "Guild change detail sentence shown when the detached banner setting was turned off."
+    },
+    "auditLogChangeAllowedFlexibleChannelNames": "تم السماح بأسماء مرنة للقنوات النصية.",
+    "@auditLogChangeAllowedFlexibleChannelNames": {
+        "description": "Guild change detail sentence shown when flexible text channel names were allowed."
+    },
+    "auditLogChangeDisallowedFlexibleChannelNames": "تم إيقاف السماح بأسماء مرنة للقنوات النصية.",
+    "@auditLogChangeDisallowedFlexibleChannelNames": {
+        "description": "Guild change detail sentence shown when flexible text channel names were no longer allowed."
+    },
+    "auditLogChangeHidOwnerCrown": "تم إخفاء تاج مالك المجتمع.",
+    "@auditLogChangeHidOwnerCrown": {
+        "description": "Guild change detail sentence shown when the crown next to the community owner was hidden."
+    },
+    "auditLogChangeShowedOwnerCrown": "تم إيقاف إخفاء تاج مالك المجتمع.",
+    "@auditLogChangeShowedOwnerCrown": {
+        "description": "Guild change detail sentence shown when the crown next to the community owner was shown again."
+    },
+    "auditLogChangeAllowedEmojiCloning": "تم السماح للآخرين بنسخ الرموز التعبيرية لهذا المجتمع.",
+    "@auditLogChangeAllowedEmojiCloning": {
+        "description": "Guild change detail sentence shown when other communities were allowed to clone this community's emojis."
+    },
+    "auditLogChangeStoppedEmojiCloning": "تم إيقاف السماح للآخرين بنسخ الرموز التعبيرية لهذا المجتمع.",
+    "@auditLogChangeStoppedEmojiCloning": {
+        "description": "Guild change detail sentence shown when cloning this community's emojis was no longer allowed."
+    },
+    "auditLogChangeAllowedStickerCloning": "تم السماح للآخرين بنسخ ملصقات هذا المجتمع.",
+    "@auditLogChangeAllowedStickerCloning": {
+        "description": "Guild change detail sentence shown when other communities were allowed to clone this community's stickers."
+    },
+    "auditLogChangeStoppedStickerCloning": "تم إيقاف السماح للآخرين بنسخ ملصقات هذا المجتمع.",
+    "@auditLogChangeStoppedStickerCloning": {
+        "description": "Guild change detail sentence shown when cloning this community's stickers was no longer allowed."
+    },
+    "forumNewMediaPost": "منشور وسائط جديد",
+    "@forumNewMediaPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumViewOptions": "الترتيب والعرض",
+    "@forumViewOptions": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSearchIndexing": "لا يزال البحث قيد التجهيز لهذا المجتمع. ستظهر المنشورات هنا بمجرد أن يصبح جاهزًا.",
+    "@forumSearchIndexing": {
+        "description": "Forum and media channel UI."
+    },
+    "forumCreateFirstPost": "أنشئ أول منشور",
+    "@forumCreateFirstPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostsLoadFailed": "تعذّر تحميل المنشورات.",
+    "@forumPostsLoadFailed": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostLocked": "مقفل",
+    "@forumPostLocked": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostArchived": "مؤرشف",
+    "@forumPostArchived": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostStarterDeleted": "تم حذف الرسالة الأصلية.",
+    "@forumPostStarterDeleted": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSnippet": "{author}: {content}",
+    "@forumPostSnippet": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "content": {
+                "type": "String"
+            }
+        }
+    },
+    "forumPostReact": "إضافة رد الفعل الافتراضي",
+    "@forumPostReact": {
+        "description": "Forum and media channel UI."
+    },
+    "forumOpenPost": "فتح المنشور",
+    "@forumOpenPost": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTags": "حفظ الوسوم",
+    "@forumSaveTags": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsLimitHint": "{count, plural, =1{اختر وسمًا واحدًا كحد أقصى.} =2{اختر وسمين كحد أقصى.} few{اختر {count} وسوم كحد أقصى.} many{اختر {count} وسمًا كحد أقصى.} other{اختر {count} وسم كحد أقصى.}}",
+    "@forumTagsLimitHint": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "forumGuidelinesPlaceholder": "أخبر الأشخاص بما ينشرونه هنا وكيف ينشرونه.",
+    "@forumGuidelinesPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitle": "العنوان",
+    "@forumPostTitle": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessage": "الرسالة",
+    "@forumPostMessage": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMessagePlaceholder": "اكتب الرسالة الأولى في منشورك",
+    "@forumPostMessagePlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaPlaceholder": "أضف تعليقًا توضيحيًا",
+    "@forumPostMediaPlaceholder": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTagsRequired": "الوسوم (مطلوبة)",
+    "@forumPostTagsRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddMedia": "إضافة وسائط",
+    "@forumPostAddMedia": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostAddFile": "إضافة ملف",
+    "@forumPostAddFile": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostTitleRequired": "أضف عنوانًا لمنشورك.",
+    "@forumPostTitleRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostMediaRequired": "أضف صورة أو فيديو واحدًا على الأقل للنشر هنا.",
+    "@forumPostMediaRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostContentRequired": "اكتب رسالة أو أضف ملفًا.",
+    "@forumPostContentRequired": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutList": "عرض القائمة",
+    "@forumLayoutList": {
+        "description": "Forum and media channel UI."
+    },
+    "forumLayoutGallery": "عرض المعرض",
+    "@forumLayoutGallery": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnread": "إظهار المنشورات الجديدة كغير مقروءة",
+    "@forumNewPostsUnread": {
+        "description": "Forum and media channel UI."
+    },
+    "forumNewPostsUnreadDescription": "تمييز هذه القناة كغير مقروءة عندما ينشئ أحدهم منشورًا.",
+    "@forumNewPostsUnreadDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmode": "الوضع البطيء للمنشورات",
+    "@forumPostSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostSlowmodeDescription": "الانتظار بين إنشاء المنشورات. يمكن لمن لديهم \"{bypassSlowmodePermissionLabel}\" تجاوزه.",
+    "@forumPostSlowmodeDescription": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "bypassSlowmodePermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "forumMessageSlowmode": "الوضع البطيء للرسائل في المنشورات",
+    "@forumMessageSlowmode": {
+        "description": "Forum and media channel UI."
+    },
+    "forumMessageSlowmodeDescription": "الوضع البطيء المطبّق على الرسائل في المنشورات الجديدة.",
+    "@forumMessageSlowmodeDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumDefaultAutoArchiveDescription": "تُؤرشف المنشورات الجديدة بعد مرور هذه المدة دون نشاط.",
+    "@forumDefaultAutoArchiveDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumChangeDefaultReaction": "تغيير",
+    "@forumChangeDefaultReaction": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSetting": "تصفية الوسوم",
+    "@forumTagMatchSetting": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchSome": "مطابقة أي وسم محدد",
+    "@forumTagMatchSome": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagMatchAll": "مطابقة جميع الوسوم المحددة",
+    "@forumTagMatchAll": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTag": "اشتراط الوسوم",
+    "@forumRequireTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumRequireTagDescription": "يجب على الأشخاص اختيار وسم واحد على الأقل عند إنشاء منشور.",
+    "@forumRequireTagDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumHideMediaDownloadsDescription": "إخفاء خيارات التنزيل والفتح في المتصفح ونسخ الرابط للصور ومقاطع الفيديو في المنشورات.",
+    "@forumHideMediaDownloadsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagsDescription": "تساعد الوسوم الأشخاص على العثور على المنشورات وتصفيتها. يمكن للمشرفين فقط تطبيق الوسوم الخاضعة للإشراف.",
+    "@forumTagsDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumSaveTag": "حفظ الوسم",
+    "@forumSaveTag": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagEmoji": "رمز تعبيري",
+    "@forumTagEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagRemoveEmoji": "إزالة الرمز التعبيري",
+    "@forumTagRemoveEmoji": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModerated": "يمكن للمشرفين فقط تطبيقه",
+    "@forumTagModerated": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedDescription": "يمكن فقط للأعضاء الذين يستطيعون إدارة السلاسل تطبيق هذا الوسم أو إزالته.",
+    "@forumTagModeratedDescription": {
+        "description": "Forum and media channel UI."
+    },
+    "forumTagModeratedBadge": "خاضع للإشراف",
+    "@forumTagModeratedBadge": {
+        "description": "Forum and media channel UI."
+    },
+    "forumPostCooldown": "{seconds, plural, =1{يمكنك النشر مرة أخرى بعد ثانية واحدة.} =2{يمكنك النشر مرة أخرى بعد ثانيتين.} few{يمكنك النشر مرة أخرى بعد {seconds} ثوانٍ.} many{يمكنك النشر مرة أخرى بعد {seconds} ثانية.} other{يمكنك النشر مرة أخرى بعد {seconds} ثانية.}}",
+    "@forumPostCooldown": {
+        "description": "Forum and media channel UI.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pStartDescription": "ينتقل الصوت والفيديو مباشرة بين المشاركين، مع زمن انتقال أقل. يمكن للمشاركين الآخرين رؤية عنوان IP الخاص بك. الحد الأقصى لعدد المشاركين هو {maxParticipants}. لا يمكن لمن يتعذر عليه الاتصال المباشر المشاركة حتى يحوّل أحدهم المكالمة إلى مكالمة عادية.",
+    "@voiceP2pStartDescription": {
+        "description": "Explains the costs of starting a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pJoinDescription": "تربط هذه المكالمة المشاركين مباشرة. يمكن للمشاركين الآخرين رؤية عنوان IP الخاص بك. الحد الأقصى لعدد المشاركين هو {maxParticipants}. إذا تعذّر عليك الاتصال المباشر، فلن تتمكن من المشاركة حتى يحوّل أحدهم المكالمة إلى مكالمة عادية.",
+    "@voiceP2pJoinDescription": {
+        "description": "Explains the costs of joining a P2P call. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPinnedJoinDescription": "تسمح هذه القناة بمكالمات P2P فقط. يتصل المشاركون مباشرة ويمكنهم رؤية عنوان IP الخاص بك. الحد الأقصى لعدد المشاركين هو {maxParticipants}. إذا تعذّر عليك الاتصال المباشر، فلن تتمكن من المشاركة.",
+    "@voiceP2pPinnedJoinDescription": {
+        "description": "Explains the costs of joining a channel that only allows P2P calls. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pJoinConfirm": "انضمام",
+    "@voiceP2pJoinConfirm": {
+        "description": "Button that agrees to join a P2P call."
+    },
+    "voiceP2pAlwaysAgreeSettingLabel": "الموافقة دائمًا على الانضمام إلى مكالمات P2P",
+    "@voiceP2pAlwaysAgreeSettingLabel": {
+        "description": "Settings toggle that skips the P2P join agreement."
+    },
+    "voiceP2pAlwaysAgreeSettingDescription": "الانضمام إلى مكالمات P2P دون سؤال. يمكن للمشاركين الآخرين رؤية عنوان IP الخاص بك.",
+    "@voiceP2pAlwaysAgreeSettingDescription": {
+        "description": "Description of the setting that skips the P2P join agreement."
+    },
+    "voiceP2pIndicatorLabel": "P2P",
+    "@voiceP2pIndicatorLabel": {
+        "description": "Short label shown while a call is in P2P mode."
+    },
+    "voiceP2pSwitchToStandardDescription": "ينتقل جميع من في المكالمة إلى مكالمة عادية عبر الخادم.",
+    "@voiceP2pSwitchToStandardDescription": {
+        "description": "Explains what switching a P2P call to a standard call does."
+    },
+    "voiceP2pPeerFailedDescription": "تعذّر إنشاء اتصال مباشر. غادر المكالمة أو حوّل الجميع إلى مكالمة عادية.",
+    "@voiceP2pPeerFailedDescription": {
+        "description": "Shown on a participant tile when a direct connection failed."
+    },
+    "voiceP2pConsentRequiredError": "هذه المكالمة من نوع P2P وتتطلب موافقتك للانضمام.",
+    "@voiceP2pConsentRequiredError": {
+        "description": "Shown when the server rejects a join because P2P agreement is missing."
+    },
+    "voiceChannelFullError": "هذه المكالمة ممتلئة.",
+    "@voiceChannelFullError": {
+        "description": "Shown when the server rejects a join because the call is full."
+    },
+    "voiceP2pScreenShareUnavailable": "مشاركة الشاشة من هذا الجهاز غير متاحة في مكالمات P2P.",
+    "@voiceP2pScreenShareUnavailable": {
+        "description": "Explains why the screen share button is disabled in a P2P call."
+    },
+    "channelSettingsRtcP2pDescription": "يتصل المشاركون مباشرة ويمكنهم رؤية عناوين IP الخاصة ببعضهم. يجب على الجميع الموافقة قبل الانضمام. الحد الأقصى لعدد المشاركين هو {maxParticipants}.",
+    "@channelSettingsRtcP2pDescription": {
+        "description": "Description of the P2P calls only channel setting. maxParticipants is the participant cap, for example 4.",
+        "placeholders": {
+            "maxParticipants": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceP2pPeerFailedTitle": "يتعذّر الاتصال مباشرة بـ {name}",
+    "@voiceP2pPeerFailedTitle": {
+        "description": "Shown on a participant tile when a direct connection to them failed.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "chatTooManyAttachmentsMessage": "يمكنك رفع {count, plural, =1{ملف واحد} =2{ملفين} few{{count} ملفات} many{{count} ملفًا} other{{count} ملف}} فقط في كل مرة. حاول مرة أخرى بعدد أقل من الملفات.",
+    "@chatTooManyAttachmentsMessage": {
+        "description": "Body of the dialog shown when too many files are attached to one message.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatAttachmentDeleteFailedTitle": "تعذّر حذف المرفق",
+    "@chatAttachmentDeleteFailedTitle": {
+        "description": "Title of the dialog shown when deleting an attachment from a message fails."
+    },
+    "chatAttachmentDeleteFailedMessage": "حاول حذف ذلك المرفق مرة أخرى.",
+    "@chatAttachmentDeleteFailedMessage": {
+        "description": "Body of the dialog shown when deleting an attachment from a message fails."
+    },
+    "bookmarkLimitMessage": "لديك {count, plural, =1{إشارة مرجعية واحدة} =2{إشارتان مرجعيتان} few{{count} إشارات مرجعية} many{{count} إشارة مرجعية} other{{count} إشارة مرجعية}}. أزل واحدة لإضافة أخرى.",
+    "@bookmarkLimitMessage": {
+        "description": "Body of the dialog shown when the bookmark limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "savedMediaLimitMessage": "وصلت إلى الحد الأقصى البالغ {count, plural, =1{عنصر وسائط محفوظ واحد} =2{عنصرَي وسائط محفوظين} few{{count} عناصر وسائط محفوظة} many{{count} عنصر وسائط محفوظًا} other{{count} عنصر وسائط محفوظ}}. أزل عنصرًا لإضافة آخر.",
+    "@savedMediaLimitMessage": {
+        "description": "Body of the dialog shown when the saved media limit is reached.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "emojiNameInvalidCharacters": "يمكن أن تحتوي أسماء الرموز التعبيرية على أحرف وأرقام وشرطات سفلية فقط.",
+    "@emojiNameInvalidCharacters": {
+        "description": "Body of the invalid emoji name dialog when the name has unsupported characters."
+    },
+    "stickerUpdateFailedTitle": "تعذّر تحديث هذا الملصق",
+    "@stickerUpdateFailedTitle": {
+        "description": "Title of the dialog shown when editing a sticker fails."
+    },
+    "transferOwnershipFailedMessage": "تعذّر نقل الملكية إلى {username} في الوقت الحالي.",
+    "@transferOwnershipFailedMessage": {
+        "description": "Body of the dialog shown when transferring community ownership fails.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "animatedImageUseStatic": "ارفع صورة ثابتة بدلًا من ذلك.",
+    "@animatedImageUseStatic": {
+        "description": "Body of the dialog shown when an animated image can't be used on this account."
     }
 }

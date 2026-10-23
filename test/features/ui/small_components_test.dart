@@ -119,10 +119,7 @@ void main() {
 
       expect(find.text('Row 0'), findsOneWidget);
       await tester.pumpAndSettle();
-      expect(
-        find.byKey(const Key('fluxer_smooth_scrollbar_thumb')),
-        findsOneWidget,
-      );
+      expect(find.byType(FluxerScroller), findsOneWidget);
     });
 
     testWidgets('uses provided controller', (tester) async {
@@ -146,10 +143,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(
-        find.byKey(const Key('fluxer_smooth_scrollbar_thumb')),
-        findsOneWidget,
-      );
+      expect(find.byType(FluxerScroller), findsOneWidget);
     });
   });
 }

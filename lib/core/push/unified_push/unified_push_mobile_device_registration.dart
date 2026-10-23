@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/well_known_compat.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/push/push_sync_retry.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_instance_id.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_registration_logic.dart';
@@ -27,6 +28,18 @@ import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'unified_push_mobile_device_registration.g.dart';
+
+class _PendingUnifiedPushDelete {
+  const _PendingUnifiedPushDelete({
+    required this.account,
+    required this.pushSubscriptionId,
+    required this.endpointUrl,
+  });
+
+  final _PushAccount account;
+  final String pushSubscriptionId;
+  final String endpointUrl;
+}
 
 class _PushAccount {
   const _PushAccount({
@@ -50,6 +63,10 @@ class UnifiedPushMobileDeviceRegistration
   StreamSubscription<UnifiedPushEndpoint>? _endpointSubscription;
   Future<void>? _authSyncFuture;
   bool _authSyncAgain = false;
+  final PushSyncRetry _registerRetry = PushSyncRetry();
+  final PushSyncRetry _deleteRetry = PushSyncRetry();
+  _PendingUnifiedPushDelete? _pendingDelete;
+  Object? _deleteAttempt;
   final Set<String> _blockedUserIds = <String>{};
   Future<void> _registerQueue = Future<void>.value();
   final WebPushKeyStore _keyStore = WebPushKeyStore();
@@ -121,6 +138,13 @@ class UnifiedPushMobileDeviceRegistration
   }
 
   Future<void> syncAllAccounts() {
+    return _syncAllAccounts(external: true);
+  }
+
+  Future<void> _syncAllAccounts({required bool external}) {
+    if (external) {
+      _registerRetry.beginExternalAttempt();
+    }
     final Future<void>? inFlight = _authSyncFuture;
     if (inFlight != null) {
       _authSyncAgain = true;
@@ -180,27 +204,36 @@ class UnifiedPushMobileDeviceRegistration
     }
     for (final MapEntry<String, List<_PushAccount>> entry
         in byInstance.entries) {
-      final String? vapid = await _vapidForInstance(entry.value);
-      if (!ref.mounted) {
-        return;
+      try {
+        final String? vapid = await _vapidForInstance(entry.value);
+        if (!ref.mounted) {
+          return;
+        }
+        final bool hasPersisted = await _instanceHasPersistedSubscription(
+          entry.value,
+        );
+        await UnifiedPushService.instance.syncInstance(
+          instance: entry.key,
+          vapid: vapid,
+          hasPersistedSubscription: hasPersisted,
+        );
+        final upEndpoint = UnifiedPushService.instance.endpointFor(entry.key);
+        if (upEndpoint == null) {
+          continue;
+        }
+        await _registerAccounts(
+          UnifiedPushEndpoint(instance: entry.key, endpoint: upEndpoint),
+          entry.value,
+          vapid,
+        );
+      } on Object catch (e, st) {
+        if (kDebugMode) {
+          debugPrint(
+            '[UnifiedPushMobileDeviceRegistration] instance ${entry.key} '
+            'sync failed: $e\n$st',
+          );
+        }
       }
-      final bool hasPersisted = await _instanceHasPersistedSubscription(
-        entry.value,
-      );
-      await UnifiedPushService.instance.syncInstance(
-        instance: entry.key,
-        vapid: vapid,
-        hasPersistedSubscription: hasPersisted,
-      );
-      final upEndpoint = UnifiedPushService.instance.endpointFor(entry.key);
-      if (upEndpoint == null) {
-        continue;
-      }
-      await _registerAccounts(
-        UnifiedPushEndpoint(instance: entry.key, endpoint: upEndpoint),
-        entry.value,
-        vapid,
-      );
     }
     await UnifiedPushService.instance.retainInstances(<String>{
       for (final _PushAccount account in accounts)
@@ -358,13 +391,22 @@ class UnifiedPushMobileDeviceRegistration
       if (!ref.mounted) {
         return;
       }
+      var needsRetry = false;
       for (final _PushAccount account in accounts) {
         if (_blockedUserIds.contains(account.userId)) {
           continue;
         }
         try {
-          await _registerAccount(account, update, vapid);
+          final bool registered = await _registerAccount(
+            account,
+            update,
+            vapid,
+          );
+          if (!registered) {
+            needsRetry = true;
+          }
         } on Object catch (e, st) {
+          needsRetry = true;
           if (kDebugMode) {
             debugPrint(
               '[UnifiedPushMobileDeviceRegistration] register failed: $e\n$st',
@@ -372,6 +414,15 @@ class UnifiedPushMobileDeviceRegistration
           }
         }
       }
+      if (!needsRetry || !ref.mounted) {
+        return;
+      }
+      _registerRetry.schedule(() {
+        if (!ref.mounted) {
+          return;
+        }
+        unawaited(_syncAllAccounts(external: false));
+      });
     });
     _registerQueue = run.then<void>(
       (_) {},
@@ -387,13 +438,13 @@ class UnifiedPushMobileDeviceRegistration
         .getForUser(userId);
   }
 
-  Future<void> _registerAccount(
+  Future<bool> _registerAccount(
     _PushAccount account,
     UnifiedPushEndpoint update,
     String? vapid,
   ) async {
     if (_blockedUserIds.contains(account.userId) || !ref.mounted) {
-      return;
+      return true;
     }
     final String url = update.endpoint.url;
     final String? pubKey = update.endpoint.pubKeySet?.pubKey;
@@ -403,13 +454,13 @@ class UnifiedPushMobileDeviceRegistration
         pubKey.isEmpty ||
         auth == null ||
         auth.isEmpty) {
-      return;
+      return true;
     }
     final MobilePushRegistration? persisted = await _loadPersistedForUser(
       account.userId,
     );
     if (_blockedUserIds.contains(account.userId) || !ref.mounted) {
-      return;
+      return true;
     }
     await _moveSecretsToSecureStorage(account.userId, persisted);
     final storedKeys = await _keyStore.read(account.userId);
@@ -424,36 +475,24 @@ class UnifiedPushMobileDeviceRegistration
       persistedEncryptionKey: storedKeys?.publicKey,
       persistedAuthSecret: storedKeys?.authSecret,
     )) {
-      return;
+      return true;
     }
-    if (hasUnifiedPushEndpointRotated(
+    final bool endpointRotated = hasUnifiedPushEndpointRotated(
       endpointUrl: url,
       encryptionKey: pubKey,
       authSecret: auth,
       persistedEndpointUrl: persisted?.endpointUrl,
       persistedEncryptionKey: storedKeys?.publicKey,
       persistedAuthSecret: storedKeys?.authSecret,
-    )) {
-      final String? oldSubscriptionId = persisted?.pushSubscriptionId;
-      final String? oldEndpointUrl = persisted?.endpointUrl;
-      if (oldSubscriptionId != null &&
-          oldSubscriptionId.isNotEmpty &&
-          oldEndpointUrl != null &&
-          oldEndpointUrl.isNotEmpty &&
-          !_blockedUserIds.contains(account.userId)) {
-        await ref
-            .read(fluxerDatabaseProvider)
-            .mobilePushRegistrationDao
-            .clearForUser(account.userId);
-        await _deleteServerRegistration(
-          account: account,
-          pushSubscriptionId: oldSubscriptionId,
-          endpointUrl: oldEndpointUrl,
-        );
-      }
-    }
+    );
+    final String? oldSubscriptionId = endpointRotated
+        ? persisted?.pushSubscriptionId
+        : null;
+    final String? oldEndpointUrl = endpointRotated
+        ? persisted?.endpointUrl
+        : null;
     if (_blockedUserIds.contains(account.userId) || !ref.mounted) {
-      return;
+      return true;
     }
     final String? deviceId = await _postDeviceRegistration(
       account: account,
@@ -461,11 +500,11 @@ class UnifiedPushMobileDeviceRegistration
       encryptionKey: pubKey,
       authSecret: auth,
     );
-    if (deviceId == null ||
-        deviceId.isEmpty ||
-        _blockedUserIds.contains(account.userId) ||
-        !ref.mounted) {
-      return;
+    if (deviceId == null || deviceId.isEmpty) {
+      return false;
+    }
+    if (_blockedUserIds.contains(account.userId) || !ref.mounted) {
+      return true;
     }
     await ref
         .read(fluxerDatabaseProvider)
@@ -485,12 +524,73 @@ class UnifiedPushMobileDeviceRegistration
         authSecret: auth,
       ),
     );
+    if (shouldDeletePriorUnifiedPushRegistration(
+          endpointRotated: endpointRotated,
+          oldSubscriptionId: oldSubscriptionId,
+          oldEndpointUrl: oldEndpointUrl,
+          newDeviceId: deviceId,
+        ) &&
+        !_blockedUserIds.contains(account.userId)) {
+      await _deleteOrRetry(
+        account: account,
+        pushSubscriptionId: oldSubscriptionId!,
+        endpointUrl: oldEndpointUrl!,
+        fresh: true,
+      );
+    }
     if (kDebugMode) {
       debugPrint(
         '[UnifiedPushMobileDeviceRegistration] registered device $deviceId '
         'for ${account.userId}',
       );
     }
+    return true;
+  }
+
+  Future<void> _deleteOrRetry({
+    required _PushAccount account,
+    required String pushSubscriptionId,
+    required String endpointUrl,
+    bool fresh = false,
+  }) async {
+    final Object attempt = Object();
+    _deleteAttempt = attempt;
+    if (fresh &&
+        (_pendingDelete?.pushSubscriptionId != pushSubscriptionId ||
+            _pendingDelete?.endpointUrl != endpointUrl)) {
+      _deleteRetry.succeeded();
+    }
+    final bool deleted = await _deleteServerRegistration(
+      account: account,
+      pushSubscriptionId: pushSubscriptionId,
+      endpointUrl: endpointUrl,
+    );
+    if (!identical(_deleteAttempt, attempt) || !ref.mounted) {
+      return;
+    }
+    if (deleted) {
+      _pendingDelete = null;
+      _deleteRetry.succeeded();
+      return;
+    }
+    _pendingDelete = _PendingUnifiedPushDelete(
+      account: account,
+      pushSubscriptionId: pushSubscriptionId,
+      endpointUrl: endpointUrl,
+    );
+    final _PendingUnifiedPushDelete pending = _pendingDelete!;
+    _deleteRetry.schedule(() {
+      if (!ref.mounted || !identical(_pendingDelete, pending)) {
+        return;
+      }
+      unawaited(
+        _deleteOrRetry(
+          account: pending.account,
+          pushSubscriptionId: pending.pushSubscriptionId,
+          endpointUrl: pending.endpointUrl,
+        ),
+      );
+    });
   }
 
   Future<String?> _postDeviceRegistration({
@@ -530,7 +630,7 @@ class UnifiedPushMobileDeviceRegistration
     }
   }
 
-  Future<void> _deleteServerRegistration({
+  Future<bool> _deleteServerRegistration({
     required _PushAccount account,
     required String pushSubscriptionId,
     required String endpointUrl,
@@ -539,6 +639,7 @@ class UnifiedPushMobileDeviceRegistration
     final UsersApi users = UsersApi(dio, baseUrl: account.apiBaseUrl);
     try {
       await users.deleteMobilePushDevice(deviceId: pushSubscriptionId);
+      return true;
     } on DioException catch (e) {
       if (kDebugMode) {
         debugPrint(
@@ -556,6 +657,7 @@ class UnifiedPushMobileDeviceRegistration
             providerEnvironment: _unregisterProviderEnvironment,
           ),
         );
+        return true;
       } on DioException catch (e2, st) {
         if (kDebugMode) {
           debugPrint(
@@ -563,6 +665,7 @@ class UnifiedPushMobileDeviceRegistration
             '$e2\n$st',
           );
         }
+        return false;
       }
     } finally {
       dio.close();

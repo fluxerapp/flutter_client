@@ -22,7 +22,6 @@ import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/startup_session_expiry.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
-import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
 import 'package:fluxer_app/core/push/launch_notification_account.dart';
@@ -163,12 +162,13 @@ class AppStartup extends _$AppStartup {
             .read(pushNotificationTapHandlerProvider.notifier)
             .handlePayloadJson,
       );
+      await FirebaseMessagingPushService.bootstrapAfterAuth();
+      await awaitInFlightFcmTapHandlers();
     }
   }
 
   Future<void> _flushLaunchNavigation() async {
     ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();
-    ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
     ref.read(pendingHomeQuickActionProvider.notifier).flushIfReady();
   }
 
@@ -223,7 +223,6 @@ class AppStartup extends _$AppStartup {
     unawaited(EmojiRegistry.preload());
     unawaited(FluxerHaptics.warmSend());
     unawaited(ref.read(wellKnownProvider.future));
-    unawaited(bootstrapFcmAfterRunApp());
     final Future<void> restoreIdentifyGuildId = restoreIdentifyInitialGuildId(
       ref.read(identifyInitialGuildIdProvider.notifier),
       database,
@@ -412,9 +411,6 @@ class AppStartup extends _$AppStartup {
       '[AppStartup] Completed in ${startupStopwatch.elapsedMilliseconds}ms',
     );
 
-    if (PushProviderGuard.isFirebaseMessaging && Platform.isAndroid) {
-      unawaited(FirebaseMessagingPushService.bootstrapAfterAuth());
-    }
     if (PushProviderGuard.isFirebaseMessaging) {
       ref.read(fcmMobileDeviceRegistrationProvider);
     }

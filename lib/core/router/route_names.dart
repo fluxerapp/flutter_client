@@ -57,7 +57,8 @@ abstract final class RoutePaths {
   static String dmChannelMessage(String channelId, String messageId) =>
       '/channels/@me/$channelId/$messageId';
   static const favoritesBase = '/channels/@favorites';
-  static const discover = '/channels/@discover';
+  static const discover = '/channels/@explore';
+  static const legacyDiscover = '/channels/@discover';
   static String favoritesChannel(String channelId) =>
       '/channels/@favorites/$channelId';
   static String favoritesChannelMessage(String channelId, String messageId) =>

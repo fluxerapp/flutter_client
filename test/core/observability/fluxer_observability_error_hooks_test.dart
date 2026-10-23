@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
@@ -88,6 +91,57 @@ void main() {
     PlatformDispatcher.instance.onError!(Exception(_raw), StackTrace.empty);
 
     expect(measurePlatformErrors.single.toString(), _scrubbed);
+  });
+
+  test('transient media load errors stay out of Measure', () async {
+    await routedObservability(on: true);
+
+    final HttpExceptionWithStatus error = HttpExceptionWithStatus(
+      504,
+      'Gateway Timeout',
+      uri: Uri.parse('https://media.test/emojis/1.webp'),
+    );
+    FlutterError.onError!(
+      FlutterErrorDetails(exception: error, stack: StackTrace.empty),
+    );
+    PlatformDispatcher.instance.onError!(error, StackTrace.empty);
+
+    expect(localErrors, isEmpty);
+    expect(measureFlutterErrors, isEmpty);
+    expect(measurePlatformErrors, isEmpty);
+  });
+
+  test('connection reset stays out of Measure', () async {
+    await routedObservability(on: true);
+
+    const SocketException error = SocketException('Connection reset by peer');
+    final bool handled = PlatformDispatcher.instance.onError!(
+      error,
+      StackTrace.empty,
+    );
+
+    expect(handled, isTrue);
+    expect(localErrors, isEmpty);
+    expect(measurePlatformErrors, isEmpty);
+  });
+
+  test('transient platform errors are marked handled', () async {
+    await routedObservability(on: true);
+
+    final HttpExceptionWithStatus error = HttpExceptionWithStatus(
+      504,
+      'Gateway Timeout',
+      uri: Uri.parse('https://media.test/emojis/1.webp'),
+    );
+    expect(
+      PlatformDispatcher.instance.onError!(error, StackTrace.empty),
+      isTrue,
+    );
+
+    expect(
+      PlatformDispatcher.instance.onError!(StateError('bug'), StackTrace.empty),
+      isFalse,
+    );
   });
 
   test('nothing reaches Measure while the switch is off', () async {

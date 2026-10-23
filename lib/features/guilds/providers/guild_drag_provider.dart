@@ -96,12 +96,156 @@ class GuildDragTargetBounds {
     required this.isFolder,
     required this.top,
     required this.bottom,
+    this.parentFolderId,
   });
 
   final String itemId;
   final bool isFolder;
   final double top;
   final double bottom;
+  final String? parentFolderId;
+}
+
+double guildFolderColumnBottom({
+  required String folderId,
+  required List<GuildDragTargetBounds> targets,
+}) {
+  double bottom = double.negativeInfinity;
+  for (final GuildDragTargetBounds target in targets) {
+    final String groupId = target.parentFolderId ?? target.itemId;
+    if (groupId != folderId) {
+      continue;
+    }
+    if (target.bottom > bottom) {
+      bottom = target.bottom;
+    }
+  }
+  return bottom;
+}
+
+Set<String> folderIdsInGuildDragTargets(List<GuildDragTargetBounds> targets) {
+  final Set<String> folderIds = <String>{};
+  for (final GuildDragTargetBounds target in targets) {
+    if (target.isFolder) {
+      folderIds.add(target.itemId);
+    }
+    final String? parentFolderId = target.parentFolderId;
+    if (parentFolderId != null) {
+      folderIds.add(parentFolderId);
+    }
+  }
+  return folderIds;
+}
+
+double? lastGuildBottomInExpandedFolder({
+  required String folderId,
+  required List<GuildDragTargetBounds> targets,
+}) {
+  double? bottom;
+  for (final GuildDragTargetBounds target in targets) {
+    if (target.isFolder || target.parentFolderId != folderId) {
+      continue;
+    }
+    if (bottom == null || target.bottom > bottom) {
+      bottom = target.bottom;
+    }
+  }
+  return bottom;
+}
+
+bool shouldPlaceBelowExpandedFolderColumn({
+  required String folderId,
+  required double globalY,
+  required List<GuildDragTargetBounds> targets,
+}) {
+  final double columnBottom = guildFolderColumnBottom(
+    folderId: folderId,
+    targets: targets,
+  );
+  if (!columnBottom.isFinite) {
+    return false;
+  }
+  if (globalY > columnBottom + kGuildDragSeamAdjacentTolerance) {
+    return true;
+  }
+  final double? lastGuildBottom = lastGuildBottomInExpandedFolder(
+    folderId: folderId,
+    targets: targets,
+  );
+  if (lastGuildBottom == null) {
+    return false;
+  }
+  return globalY > lastGuildBottom;
+}
+
+GuildDropHoverIntent? guildDropIntentForPointerBelowExpandedFolder({
+  required double globalY,
+  required List<GuildDragTargetBounds> targets,
+}) {
+  String? selectedFolderId;
+  double selectedColumnBottom = double.negativeInfinity;
+  for (final String folderId in folderIdsInGuildDragTargets(targets)) {
+    if (!shouldPlaceBelowExpandedFolderColumn(
+      folderId: folderId,
+      globalY: globalY,
+      targets: targets,
+    )) {
+      continue;
+    }
+    final double columnBottom = guildFolderColumnBottom(
+      folderId: folderId,
+      targets: targets,
+    );
+    if (columnBottom > selectedColumnBottom) {
+      selectedColumnBottom = columnBottom;
+      selectedFolderId = folderId;
+    }
+  }
+  if (selectedFolderId == null) {
+    return null;
+  }
+  return GuildDropHoverIntent(
+    targetId: selectedFolderId,
+    isFolder: true,
+    position: DropPosition.after,
+  );
+}
+
+GuildDropHoverIntent adjustGuildDropIntentBelowExpandedFolder({
+  required GuildDropHoverIntent intent,
+  required double globalY,
+  required List<GuildDragTargetBounds> targets,
+}) {
+  final String? folderId = intent.isFolder
+      ? intent.targetId
+      : parentFolderIdForGuildDragTarget(intent.targetId, targets);
+  if (folderId == null) {
+    return intent;
+  }
+  if (!shouldPlaceBelowExpandedFolderColumn(
+    folderId: folderId,
+    globalY: globalY,
+    targets: targets,
+  )) {
+    return intent;
+  }
+  return GuildDropHoverIntent(
+    targetId: folderId,
+    isFolder: true,
+    position: DropPosition.after,
+  );
+}
+
+String? parentFolderIdForGuildDragTarget(
+  String itemId,
+  List<GuildDragTargetBounds> targets,
+) {
+  for (final GuildDragTargetBounds target in targets) {
+    if (target.itemId == itemId) {
+      return target.parentFolderId;
+    }
+  }
+  return null;
 }
 
 bool shouldDeferGuildHoverUpdate({
@@ -147,13 +291,20 @@ GuildDropHoverIntent normalizeGuildDropSeam({
     return intent;
   }
 
+  final double seamBottom = current.isFolder
+      ? guildFolderColumnBottom(folderId: current.itemId, targets: targets)
+      : current.bottom;
+
   GuildDragTargetBounds? nextTarget;
   double? nextTop;
   for (final GuildDragTargetBounds target in targets) {
     if (target.itemId == intent.targetId) {
       continue;
     }
-    if (target.top < current.bottom - kGuildDragSeamAdjacentTolerance) {
+    if (current.isFolder && target.parentFolderId == current.itemId) {
+      continue;
+    }
+    if (target.top < seamBottom - kGuildDragSeamAdjacentTolerance) {
       continue;
     }
     if (nextTop == null || target.top < nextTop) {
@@ -164,7 +315,7 @@ GuildDropHoverIntent normalizeGuildDropSeam({
   if (nextTarget == null) {
     return intent;
   }
-  if (nextTarget.top > current.bottom + kGuildDragSeamAdjacentTolerance) {
+  if (nextTarget.top > seamBottom + kGuildDragSeamAdjacentTolerance) {
     return intent;
   }
 
@@ -181,12 +332,14 @@ class RegisteredGuildDragTarget {
     required this.isFolder,
     required this.allowCombine,
     required this.boundsKey,
+    this.parentFolderId,
   });
 
   final String itemId;
   final bool isFolder;
   final bool allowCombine;
   final GlobalKey boundsKey;
+  final String? parentFolderId;
 }
 
 class DragState {
@@ -354,6 +507,29 @@ bool isGuildReorderSeamOnDragSourceSlot({
   return false;
 }
 
+bool folderHasTopLevelReorderHover({
+  required DragState state,
+  required String folderId,
+}) {
+  return state.hoverTargetId == folderId &&
+      state.hoverTargetIsFolder &&
+      (state.dropPosition == DropPosition.before ||
+          state.dropPosition == DropPosition.after);
+}
+
+bool showFolderExternalTouchInsertionGap({
+  required DragState state,
+  required String folderId,
+  required bool useTouchDrag,
+  required DropPosition edge,
+}) {
+  if (!useTouchDrag || !state.hasMovedFromHoldPoint) {
+    return false;
+  }
+  return folderHasTopLevelReorderHover(state: state, folderId: folderId) &&
+      state.dropPosition == edge;
+}
+
 GuildDragItemVisualState guildDragVisualStateForItem({
   required DragState state,
   required String itemId,
@@ -478,8 +654,11 @@ class GuildDrag extends _$GuildDrag {
     );
   }
 
-  bool updateDragMovement(Offset globalPosition) {
+  bool updateDragMovement(Offset globalPosition, {bool updateHover = true}) {
     _lastRawDragGlobalPosition = globalPosition;
+    if (!updateHover) {
+      return false;
+    }
     _dragStartGlobalPosition ??= globalPosition;
     final bool hasMoved =
         state.hasMovedFromHoldPoint ||
@@ -511,16 +690,34 @@ class GuildDrag extends _$GuildDrag {
     );
   }
 
+  GuildDropHoverIntent? resolvedDropIntentForCommit() {
+    final Offset? globalPosition = _lastRawDragGlobalPosition;
+    if (globalPosition != null) {
+      _updateHoverFromGlobalPosition(globalPosition, stabilizeHover: false);
+    }
+    return _hoverIntentFromState();
+  }
+
   bool _updateHoverFromGlobalPosition(
     Offset globalPosition, {
     required bool stabilizeHover,
   }) {
-    final Offset hoverPosition = _clampHoverGlobalPosition(globalPosition);
-    final _ResolvedGuildHoverIntent resolved = _resolveHoverIntent(
-      hoverPosition,
-    );
+    final List<GuildDragTargetBounds> bounds = _collectTargetBounds();
+    final GuildDropHoverIntent? belowFolderIntent =
+        guildDropIntentForPointerBelowExpandedFolder(
+          globalY: globalPosition.dy,
+          targets: bounds,
+        );
+    final _ResolvedGuildHoverIntent resolved = belowFolderIntent != null
+        ? _ResolvedGuildHoverIntent(intent: belowFolderIntent, bounds: bounds)
+        : _resolveHoverIntent(
+            _clampHoverGlobalPosition(globalPosition),
+            bounds: bounds,
+          );
     if (stabilizeHover) {
-      final double speed = _recordHoverSpeedSample(hoverPosition);
+      final double speed = _recordHoverSpeedSample(
+        _clampHoverGlobalPosition(globalPosition),
+      );
       _trackPendingDwell(resolved.intent);
       final GuildDropHoverIntent? applied = _hoverIntentFromState();
       final bool hasPendingChange = resolved.intent != applied;
@@ -535,34 +732,21 @@ class GuildDrag extends _$GuildDrag {
         return false;
       }
     }
-    return _applyHoverIntent(resolved.intent, targetBounds: resolved.bounds);
+    return _applyHoverIntent(
+      resolved.intent,
+      targetBounds: resolved.bounds,
+      pointerGlobalY: globalPosition.dy,
+    );
   }
 
-  _ResolvedGuildHoverIntent _resolveHoverIntent(Offset globalPosition) {
+  _ResolvedGuildHoverIntent _resolveHoverIntent(
+    Offset globalPosition, {
+    required List<GuildDragTargetBounds> bounds,
+  }) {
     RegisteredGuildDragTarget? matchedTarget;
     RegisteredGuildDragTarget? closestTarget;
     double smallestMatchingArea = double.infinity;
     double closestDistance = double.infinity;
-    final List<GuildDragTargetBounds> bounds = <GuildDragTargetBounds>[];
-
-    for (final RegisteredGuildDragTarget target in _dragTargets.values) {
-      final RenderBox? renderBox =
-          target.boundsKey.currentContext?.findRenderObject() as RenderBox?;
-      if (renderBox == null || !renderBox.hasSize) {
-        continue;
-      }
-      final Offset topLeft = renderBox.localToGlobal(Offset.zero);
-      final double top = topLeft.dy;
-      final double bottom = top + renderBox.size.height;
-      bounds.add(
-        GuildDragTargetBounds(
-          itemId: target.itemId,
-          isFolder: target.isFolder,
-          top: top,
-          bottom: bottom,
-        ),
-      );
-    }
 
     final GuildDropHoverIntent? originSlotIntent =
         guildDropHoverIntentForDragSourceSlot(
@@ -778,6 +962,7 @@ class GuildDrag extends _$GuildDrag {
           isFolder: target.isFolder,
           top: topLeft.dy,
           bottom: topLeft.dy + renderBox.size.height,
+          parentFolderId: target.parentFolderId,
         ),
       );
     }
@@ -800,6 +985,7 @@ class GuildDrag extends _$GuildDrag {
   bool _applyHoverIntent(
     GuildDropHoverIntent? intent, {
     List<GuildDragTargetBounds>? targetBounds,
+    double? pointerGlobalY,
   }) {
     if (intent == null) {
       final bool hadHover = state.hasHoverTarget || state.dropPosition != null;
@@ -811,6 +997,7 @@ class GuildDrag extends _$GuildDrag {
       isFolder: intent.isFolder,
       position: intent.position,
       targetBounds: targetBounds,
+      pointerGlobalY: pointerGlobalY,
     );
   }
 
@@ -853,15 +1040,25 @@ class GuildDrag extends _$GuildDrag {
     required bool isFolder,
     required DropPosition position,
     List<GuildDragTargetBounds>? targetBounds,
+    double? pointerGlobalY,
   }) {
-    final GuildDropHoverIntent intent = normalizeGuildDropSeam(
+    final List<GuildDragTargetBounds> bounds =
+        targetBounds ?? _collectTargetBounds();
+    GuildDropHoverIntent intent = normalizeGuildDropSeam(
       intent: GuildDropHoverIntent(
         targetId: targetId,
         isFolder: isFolder,
         position: position,
       ),
-      targets: targetBounds ?? _collectTargetBounds(),
+      targets: bounds,
     );
+    if (pointerGlobalY != null) {
+      intent = adjustGuildDropIntentBelowExpandedFolder(
+        intent: intent,
+        globalY: pointerGlobalY,
+        targets: bounds,
+      );
+    }
     final bool didChangeTarget = state.hoverTargetId != intent.targetId;
     final bool didChangePosition = state.dropPosition != intent.position;
     if (!didChangeTarget &&

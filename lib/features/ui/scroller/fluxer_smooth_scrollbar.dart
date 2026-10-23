@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show precisionErrorTolerance;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar_metrics.dart';
@@ -8,7 +9,7 @@ import 'package:fluxer_app/material_ui.dart';
 
 const Duration _kIdleFadeDelay = Duration(milliseconds: 1000);
 const Duration _kFadeDuration = Duration(milliseconds: 200);
-const double _kTrackHitWidth = 14;
+const double _kCrossAxisMargin = 2;
 
 class FluxerSmoothScrollbar extends StatefulWidget {
   const FluxerSmoothScrollbar({
@@ -32,41 +33,16 @@ class FluxerSmoothScrollbar extends StatefulWidget {
   State<FluxerSmoothScrollbar> createState() => _FluxerSmoothScrollbarState();
 }
 
-class _ScrollbarGeometry {
-  const _ScrollbarGeometry({
-    required this.pixels,
-    required this.minScrollExtent,
-    required this.maxScrollExtent,
-    required this.thumbVisible,
-    required this.thumbHovered,
-  });
-
-  static const _ScrollbarGeometry empty = _ScrollbarGeometry(
-    pixels: 0,
-    minScrollExtent: 0,
-    maxScrollExtent: 0,
-    thumbVisible: false,
-    thumbHovered: false,
+class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _fadeController;
+  late final CurvedAnimation _fadeAnimation;
+  late final ScrollbarPainter _painter;
+  final GlobalKey _painterKey = GlobalKey(
+    debugLabel: 'fluxer_smooth_scrollbar',
   );
-
-  final double pixels;
-  final double minScrollExtent;
-  final double maxScrollExtent;
-  final bool thumbVisible;
-  final bool thumbHovered;
-
-  bool matches(_ScrollbarGeometry other) {
-    return pixels == other.pixels &&
-        minScrollExtent == other.minScrollExtent &&
-        maxScrollExtent == other.maxScrollExtent &&
-        thumbVisible == other.thumbVisible &&
-        thumbHovered == other.thumbHovered;
-  }
-}
-
-class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
-  final ValueNotifier<_ScrollbarGeometry> _geometry =
-      ValueNotifier<_ScrollbarGeometry>(_ScrollbarGeometry.empty);
+  final GlobalKey<RawGestureDetectorState> _gestureDetectorKey =
+      GlobalKey<RawGestureDetectorState>();
 
   double _smoothedMinExtent = 0;
   double _smoothedMaxExtent = 0;
@@ -81,10 +57,32 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
   Timer? _idleTimer;
   ScrollPosition? _attachedPosition;
   bool _reduceMotion = false;
+  bool _scrollGesturesReady = false;
+
+  Offset? _startDragScrollbarAxisOffset;
+  Offset? _lastDragUpdateOffset;
+  double? _startDragThumbOffset;
+  ScrollHoldController? _thumbHold;
+  Drag? _thumbDrag;
 
   @override
   void initState() {
     super.initState();
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: _kFadeDuration,
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.fastOutSlowIn,
+    );
+    _painter = ScrollbarPainter(
+      color: const Color(0x00000000),
+      fadeoutOpacityAnimation: _fadeAnimation,
+      minLength: kFluxerSmoothScrollbarMinThumbExtent,
+      minOverscrollLength: kFluxerSmoothScrollbarMinThumbExtent,
+      crossAxisMargin: _kCrossAxisMargin,
+    );
     widget.controller.addListener(_onControllerChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
@@ -114,21 +112,25 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
         } else {
           _smoothedMinExtent = _targetMinExtent;
           _smoothedMaxExtent = _targetMaxExtent;
-          _updateGeometry();
+          _refreshPainter();
         }
       }
     }
-    if (oldWidget.pinTrailingEdge != widget.pinTrailingEdge) {
-      _updateGeometry();
+    if (oldWidget.pinTrailingEdge != widget.pinTrailingEdge ||
+        oldWidget.topInset != widget.topInset ||
+        oldWidget.bottomInset != widget.bottomInset) {
+      _refreshPainter();
     }
   }
 
   @override
   void dispose() {
     _idleTimer?.cancel();
+    _fadeAnimation.dispose();
+    _fadeController.dispose();
     _detachPosition();
     widget.controller.removeListener(_onControllerChanged);
-    _geometry.dispose();
+    _painter.dispose();
     super.dispose();
   }
 
@@ -167,6 +169,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
     _attachedPosition = position;
     position?.addListener(_onPositionChanged);
     _syncExtentTarget(snap: true);
+    _refreshPainter();
     _scheduleFrame();
   }
 
@@ -184,9 +187,11 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
     if (_lerpExtents && !_extentsSettled) {
       _scheduleFrame();
     } else {
-      _updateGeometry();
+      _refreshPainter();
     }
   }
+
+  bool get _lerpExtents => _hoveringTrack || _draggingThumb;
 
   bool _syncExtentTarget({bool snap = false}) {
     final ScrollPosition? position = _attachedPosition;
@@ -212,8 +217,6 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
           kFluxerSmoothScrollbarExtentEpsilon &&
       (_smoothedMaxExtent - _targetMaxExtent).abs() <=
           kFluxerSmoothScrollbarExtentEpsilon;
-
-  bool get _lerpExtents => _hoveringTrack || _draggingThumb;
 
   void _scheduleFrame() {
     if (_frameScheduled) {
@@ -242,31 +245,78 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
           _smoothedMaxExtent = _targetMaxExtent;
         }
       }
-      _updateGeometry();
+      _refreshPainter();
       if (_hasExtent && !_extentsSettled && _lerpExtents) {
         _scheduleFrame();
       }
     });
   }
 
-  void _updateGeometry() {
-    final _ScrollbarGeometry next = _ScrollbarGeometry(
-      pixels: _attachedPosition?.pixels ?? 0,
-      minScrollExtent: _smoothedMinExtent,
-      maxScrollExtent: _smoothedMaxExtent,
-      thumbVisible: _hoveringTrack || _draggingThumb || _scrollActivity,
-      thumbHovered: _hoveringTrack || _draggingThumb,
-    );
-    if (next.matches(_geometry.value)) {
+  void _refreshPainter() {
+    final ScrollPosition? position = _attachedPosition;
+    if (position == null || !position.hasContentDimensions) {
+      _updateScrollGesturesReady();
       return;
     }
-    _geometry.value = next;
+    _updateScrollbarTheme();
+    final FixedScrollMetrics? metrics = fluxerSmoothScrollbarPaintMetrics(
+      source: position,
+      smoothedMinScrollExtent: _smoothedMinExtent,
+      smoothedMaxScrollExtent: _smoothedMaxExtent,
+      pinTrailingEdge: widget.pinTrailingEdge,
+    );
+    if (metrics == null) {
+      _updateScrollGesturesReady();
+      return;
+    }
+    _painter.update(metrics, position.axisDirection);
+    _updateScrollGesturesReady();
+  }
+
+  void _updateScrollGesturesReady() {
+    final bool ready = _canHandleGestures();
+    if (ready == _scrollGesturesReady) {
+      return;
+    }
+    _scrollGesturesReady = ready;
+    setState(() {});
+  }
+
+  void _updateScrollbarTheme() {
+    final ScrollbarThemeData scrollbarTheme = Theme.of(context).scrollbarTheme;
+    final bool hovered = _hoveringTrack || _draggingThumb;
+    _painter
+      ..thickness = scrollbarTheme.thickness?.resolve({}) ?? 6
+      ..radius = scrollbarTheme.radius ?? const Radius.circular(4)
+      ..color = hovered
+          ? context.colors.scrollbarThumbBgHover
+          : context.colors.scrollbarThumbBg
+      ..textDirection = Directionality.of(context)
+      ..padding = EdgeInsets.only(
+        top: widget.topInset,
+        bottom: widget.bottomInset,
+      )
+      ..scrollbarOrientation = ScrollbarOrientation.right;
+  }
+
+  void _syncFadeVisibility() {
+    final bool show = _hoveringTrack || _draggingThumb || _scrollActivity;
+    if (show) {
+      if (_fadeController.value < 1) {
+        _fadeController.forward();
+      }
+    } else if (_reduceMotion) {
+      _fadeController.value = 0;
+    } else if (_fadeController.value > 0) {
+      _fadeController.reverse();
+    }
   }
 
   void _noteActivity() {
     _idleDeadline = DateTime.now().add(_kIdleFadeDelay);
     final bool started = !_scrollActivity;
     _scrollActivity = true;
+    _syncFadeVisibility();
     if (_reduceMotion) {
       _idleTimer?.cancel();
       _idleTimer = null;
@@ -274,7 +324,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
       _idleTimer ??= Timer(_kIdleFadeDelay, _onIdleTimer);
     }
     if (started) {
-      _scheduleFrame();
+      _refreshPainter();
     }
   }
 
@@ -296,7 +346,8 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
       return;
     }
     _scrollActivity = false;
-    _scheduleFrame();
+    _syncFadeVisibility();
+    _refreshPainter();
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
@@ -317,8 +368,19 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
     } else if (notification is ScrollUpdateNotification &&
         notification.dragDetails != null) {
       _noteActivity();
+    } else if (notification is ScrollEndNotification && _thumbDrag == null) {
+      _maybeStartIdleFade();
     }
     return false;
+  }
+
+  void _maybeStartIdleFade() {
+    if (_hoveringTrack || _draggingThumb) {
+      return;
+    }
+    _idleDeadline = DateTime.now().add(_kIdleFadeDelay);
+    _idleTimer?.cancel();
+    _idleTimer = Timer(_kIdleFadeDelay, _onIdleTimer);
   }
 
   bool _handleScrollMetrics(ScrollMetricsNotification notification) {
@@ -331,235 +393,365 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar> {
       if (targetChanged || !_extentsSettled) {
         _smoothedMinExtent = _targetMinExtent;
         _smoothedMaxExtent = _targetMaxExtent;
-        _updateGeometry();
+        _refreshPainter();
       }
       return false;
     }
     if (targetChanged || !_extentsSettled) {
       _scheduleFrame();
+    } else {
+      _refreshPainter();
     }
     return false;
   }
 
-  void _jumpToTrackY(double localY, double viewportDimension) {
+  bool _canHandleGestures() {
+    final ScrollPosition? position = _attachedPosition;
+    return position != null &&
+        position.hasContentDimensions &&
+        position.maxScrollExtent - position.minScrollExtent >
+            precisionErrorTolerance;
+  }
+
+  void _disposeThumbDrag() {
+    _thumbDrag = null;
+  }
+
+  void _disposeThumbHold() {
+    _thumbHold = null;
+  }
+
+  void _handleThumbDragDown(DragDownDetails details) {
     final ScrollPosition? position = _attachedPosition;
     if (position == null) {
       return;
     }
-    final double trackLength = fluxerSmoothScrollbarTrackLength(
-      viewportDimension: viewportDimension,
-      topInset: widget.topInset,
-      bottomInset: widget.bottomInset,
+    _fadeController.forward();
+    _thumbHold = position.hold(_disposeThumbHold);
+  }
+
+  void _handleThumbDragStart(DragStartDetails details) {
+    final ScrollPosition? position = _attachedPosition;
+    if (position == null) {
+      return;
+    }
+    _draggingThumb = true;
+    _noteActivity();
+    _syncExtentTarget(snap: true);
+    _refreshPainter();
+
+    final Offset localPosition = _scrollbarLocalOffset(
+      _painterKey,
+      details.globalPosition,
     );
-    final double thumbExtent = fluxerSmoothScrollbarThumbExtent(
-      trackLength: trackLength,
-      viewportDimension: viewportDimension,
-      scrollableExtent: position.maxScrollExtent - position.minScrollExtent,
+    _thumbDrag = position.drag(
+      DragStartDetails(
+        localPosition: localPosition,
+        globalPosition: details.globalPosition,
+        kind: details.kind,
+      ),
+      _disposeThumbDrag,
     );
-    final double pixels = fluxerSmoothScrollbarPixelsForTrackY(
-      localY: localY,
-      topInset: widget.topInset,
-      trackLength: trackLength,
-      thumbExtent: thumbExtent,
+    _startDragScrollbarAxisOffset = localPosition;
+    _lastDragUpdateOffset = localPosition;
+    _startDragThumbOffset = _painter.getThumbScrollOffset();
+    _updateScrollbarTheme();
+  }
+
+  void _handleThumbDragUpdate(DragUpdateDetails details) {
+    final ScrollPosition? position = _attachedPosition;
+    if (position == null || _thumbDrag == null) {
+      return;
+    }
+    if (!position.physics.shouldAcceptUserOffset(position)) {
+      return;
+    }
+    final Offset localPosition = _scrollbarLocalOffset(
+      _painterKey,
+      details.globalPosition,
+    );
+    if (_lastDragUpdateOffset == localPosition) {
+      return;
+    }
+    final double? primaryDelta = fluxerSmoothScrollbarDragScrollDelta(
+      axisDirection: position.axisDirection,
+      startDragScrollbarAxisOffset: _startDragScrollbarAxisOffset!,
+      lastDragUpdateOffset: _lastDragUpdateOffset!,
+      localPosition: localPosition,
+      startDragThumbOffset: _startDragThumbOffset!,
+      painter: _painter,
+      currentPixels: position.pixels,
       minScrollExtent: position.minScrollExtent,
       maxScrollExtent: position.maxScrollExtent,
     );
-    if (pixels == position.pixels) {
+    if (primaryDelta == null || primaryDelta == 0) {
+      _lastDragUpdateOffset = localPosition;
       return;
     }
-    position.jumpTo(pixels);
+    final Offset delta = position.axis == Axis.horizontal
+        ? Offset(primaryDelta, 0)
+        : Offset(0, primaryDelta);
+    _thumbDrag!.update(
+      DragUpdateDetails(
+        delta: delta,
+        primaryDelta: primaryDelta,
+        globalPosition: details.globalPosition,
+        localPosition: localPosition,
+      ),
+    );
+    _lastDragUpdateOffset = localPosition;
+    _noteActivity();
+  }
+
+  void _handleThumbDragEnd(DragEndDetails details) {
+    _draggingThumb = false;
+    _startDragScrollbarAxisOffset = null;
+    _lastDragUpdateOffset = null;
+    _startDragThumbOffset = null;
+    _thumbHold?.cancel();
+    _thumbDrag?.end(
+      DragEndDetails(
+        primaryVelocity: 0,
+        globalPosition: details.globalPosition,
+        localPosition: _scrollbarLocalOffset(
+          _painterKey,
+          details.globalPosition,
+        ),
+      ),
+    );
+    _thumbDrag = null;
+    _updateScrollbarTheme();
+    _maybeStartIdleFade();
+    _scheduleFrame();
+  }
+
+  void _handleThumbDragCancel() {
+    _draggingThumb = false;
+    _startDragScrollbarAxisOffset = null;
+    _lastDragUpdateOffset = null;
+    _startDragThumbOffset = null;
+    _thumbHold?.cancel();
+    _thumbDrag?.cancel();
+    _thumbDrag = null;
+    _updateScrollbarTheme();
+    _maybeStartIdleFade();
+    _scheduleFrame();
+  }
+
+  void _handleTrackTapDown(TapDownDetails details) {
+    final ScrollPosition? position = _attachedPosition;
+    if (position == null || !_canHandleGestures()) {
+      return;
+    }
+    if (!position.physics.shouldAcceptUserOffset(position)) {
+      return;
+    }
+    _noteActivity();
+    final Offset localPosition = _scrollbarLocalOffset(
+      _painterKey,
+      details.globalPosition,
+    );
+    final double thumbTrackOffset = _painter.getThumbScrollOffset();
+    final AxisDirection scrollDirection = localPosition.dy > thumbTrackOffset
+        ? AxisDirection.down
+        : AxisDirection.up;
+    final ScrollableState? state = Scrollable.maybeOf(
+      position.context.notificationContext!,
+    );
+    if (state == null) {
+      return;
+    }
+    final double scrollIncrement = ScrollAction.getDirectionalIncrement(
+      state,
+      ScrollIntent(direction: scrollDirection, type: ScrollIncrementType.page),
+    );
+    position.moveTo(
+      position.pixels + scrollIncrement,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _initThumbDragGestureRecognizer(DragGestureRecognizer instance) {
+    instance
+      ..onDown = _handleThumbDragDown
+      ..onStart = _handleThumbDragStart
+      ..onUpdate = _handleThumbDragUpdate
+      ..onEnd = _handleThumbDragEnd
+      ..onCancel = _handleThumbDragCancel
+      ..gestureSettings = const DeviceGestureSettings(touchSlop: 0)
+      ..dragStartBehavior = DragStartBehavior.down;
+  }
+
+  Map<Type, GestureRecognizerFactory> get _gestures {
+    final Map<Type, GestureRecognizerFactory> gestures =
+        <Type, GestureRecognizerFactory>{};
+    if (!_canHandleGestures()) {
+      return gestures;
+    }
+    gestures[_VerticalThumbDragGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<
+          _VerticalThumbDragGestureRecognizer
+        >(
+          () => _VerticalThumbDragGestureRecognizer(
+            debugOwner: this,
+            customPaintKey: _painterKey,
+          ),
+          _initThumbDragGestureRecognizer,
+        );
+    gestures[_TrackTapGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<_TrackTapGestureRecognizer>(
+          () => _TrackTapGestureRecognizer(
+            debugOwner: this,
+            customPaintKey: _painterKey,
+          ),
+          (_TrackTapGestureRecognizer instance) {
+            instance.onTapDown = _handleTrackTapDown;
+          },
+        );
+    return gestures;
+  }
+
+  bool _isPointerOverScrollbar(Offset position, {bool forHover = false}) {
+    if (_painterKey.currentContext == null) {
+      return false;
+    }
+    final RenderBox renderBox =
+        _painterKey.currentContext!.findRenderObject()! as RenderBox;
+    final Offset local = renderBox.globalToLocal(position);
+    return _painter.hitTestInteractive(
+      local,
+      PointerDeviceKind.mouse,
+      forHover: forHover,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     _reduceMotion = MediaQuery.disableAnimationsOf(context);
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        NotificationListener<ScrollMetricsNotification>(
-          onNotification: _handleScrollMetrics,
-          child: NotificationListener<ScrollNotification>(
-            onNotification: _handleScrollNotification,
-            child: widget.child,
-          ),
-        ),
-        Positioned(
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: _kTrackHitWidth,
-          child: RepaintBoundary(
-            child: ValueListenableBuilder<_ScrollbarGeometry>(
-              valueListenable: _geometry,
-              builder: (BuildContext context, _ScrollbarGeometry geometry, _) {
-                return _FluxerSmoothScrollbarThumb(
-                  geometry: geometry,
-                  topInset: widget.topInset,
-                  bottomInset: widget.bottomInset,
-                  pinTrailingEdge: widget.pinTrailingEdge,
-                  onHoverChanged: (bool hovering) {
-                    _hoveringTrack = hovering;
-                    if (hovering) {
-                      _noteActivity();
-                    }
-                    _scheduleFrame();
-                  },
-                  onDragStart: (double localY, double viewportDimension) {
-                    _draggingThumb = true;
-                    _noteActivity();
-                    _syncExtentTarget(snap: true);
-                    _jumpToTrackY(localY, viewportDimension);
-                    _scheduleFrame();
-                  },
-                  onDragUpdate: (double localY, double viewportDimension) {
-                    _noteActivity();
-                    _jumpToTrackY(localY, viewportDimension);
-                  },
-                  onDragEnd: () {
-                    _draggingThumb = false;
-                    _scheduleFrame();
-                  },
-                  onTrackTap: (double localY, double viewportDimension) {
-                    _noteActivity();
-                    _syncExtentTarget(snap: true);
-                    _jumpToTrackY(localY, viewportDimension);
-                    _scheduleFrame();
-                  },
+    _updateScrollbarTheme();
+    return NotificationListener<ScrollMetricsNotification>(
+      onNotification: _handleScrollMetrics,
+      child: NotificationListener<ScrollNotification>(
+        onNotification: _handleScrollNotification,
+        child: RawGestureDetector(
+          key: _gestureDetectorKey,
+          gestures: _gestures,
+          child: MouseRegion(
+            onExit: (PointerExitEvent event) {
+              if (event.kind == PointerDeviceKind.mouse ||
+                  event.kind == PointerDeviceKind.trackpad) {
+                if (_hoveringTrack) {
+                  _hoveringTrack = false;
+                  _updateScrollbarTheme();
+                  _syncFadeVisibility();
+                  _maybeStartIdleFade();
+                }
+              }
+            },
+            onHover: (PointerHoverEvent event) {
+              if (event.kind == PointerDeviceKind.mouse ||
+                  event.kind == PointerDeviceKind.trackpad) {
+                final bool over = _isPointerOverScrollbar(
+                  event.position,
+                  forHover: true,
                 );
-              },
+                if (over != _hoveringTrack) {
+                  _hoveringTrack = over;
+                  if (over) {
+                    _noteActivity();
+                  } else {
+                    _updateScrollbarTheme();
+                    _syncFadeVisibility();
+                    _maybeStartIdleFade();
+                  }
+                } else if (over) {
+                  _fadeController.forward();
+                  _idleTimer?.cancel();
+                }
+              }
+            },
+            child: CustomPaint(
+              key: _painterKey,
+              foregroundPainter: _painter,
+              child: RepaintBoundary(child: widget.child),
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }
 
-class _FluxerSmoothScrollbarThumb extends StatelessWidget {
-  const _FluxerSmoothScrollbarThumb({
-    required this.geometry,
-    required this.topInset,
-    required this.bottomInset,
-    required this.pinTrailingEdge,
-    required this.onHoverChanged,
-    required this.onDragStart,
-    required this.onDragUpdate,
-    required this.onDragEnd,
-    required this.onTrackTap,
+Offset _scrollbarLocalOffset(GlobalKey customPaintKey, Offset position) {
+  final RenderBox renderBox =
+      customPaintKey.currentContext!.findRenderObject()! as RenderBox;
+  return renderBox.globalToLocal(position);
+}
+
+bool _isThumbPointer(GlobalKey customPaintKey, PointerEvent event) {
+  if (customPaintKey.currentContext == null) {
+    return false;
+  }
+  final CustomPaint customPaint =
+      customPaintKey.currentContext!.widget as CustomPaint;
+  final ScrollbarPainter painter =
+      customPaint.foregroundPainter! as ScrollbarPainter;
+  final Offset localOffset = _scrollbarLocalOffset(
+    customPaintKey,
+    event.position,
+  );
+  return painter.hitTestOnlyThumbInteractive(localOffset, event.kind);
+}
+
+bool _isTrackPointer(GlobalKey customPaintKey, PointerEvent event) {
+  if (customPaintKey.currentContext == null) {
+    return false;
+  }
+  final CustomPaint customPaint =
+      customPaintKey.currentContext!.widget as CustomPaint;
+  final ScrollbarPainter painter =
+      customPaint.foregroundPainter! as ScrollbarPainter;
+  final Offset localOffset = _scrollbarLocalOffset(
+    customPaintKey,
+    event.position,
+  );
+  return painter.hitTestInteractive(localOffset, event.kind) &&
+      !painter.hitTestOnlyThumbInteractive(localOffset, event.kind);
+}
+
+class _VerticalThumbDragGestureRecognizer
+    extends VerticalDragGestureRecognizer {
+  _VerticalThumbDragGestureRecognizer({
+    required Object super.debugOwner,
+    required this._customPaintKey,
   });
 
-  final _ScrollbarGeometry geometry;
-  final double topInset;
-  final double bottomInset;
-  final bool pinTrailingEdge;
-  final ValueChanged<bool> onHoverChanged;
-  final void Function(double localY, double viewportDimension) onDragStart;
-  final void Function(double localY, double viewportDimension) onDragUpdate;
-  final VoidCallback onDragEnd;
-  final void Function(double localY, double viewportDimension) onTrackTap;
+  final GlobalKey _customPaintKey;
 
   @override
-  Widget build(BuildContext context) {
-    final double range = geometry.maxScrollExtent - geometry.minScrollExtent;
-    if (range <= kFluxerSmoothScrollbarExtentEpsilon) {
-      return const SizedBox.shrink();
-    }
-    final ScrollbarThemeData scrollbarTheme = Theme.of(context).scrollbarTheme;
-    final double thickness = scrollbarTheme.thickness?.resolve({}) ?? 6;
-    final Radius radius = scrollbarTheme.radius ?? const Radius.circular(4);
-    final Color color = geometry.thumbHovered
-        ? context.colors.scrollbarThumbBgHover
-        : context.colors.scrollbarThumbBg;
-    final Duration fadeDuration = context.motion.normal == Duration.zero
-        ? Duration.zero
-        : _kFadeDuration;
+  bool isPointerPanZoomAllowed(PointerPanZoomStartEvent event) {
+    return false;
+  }
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final double viewportDimension = constraints.maxHeight;
-        final double trackLength = fluxerSmoothScrollbarTrackLength(
-          viewportDimension: viewportDimension,
-          topInset: topInset,
-          bottomInset: bottomInset,
-        );
-        final double thumbExtent = fluxerSmoothScrollbarThumbExtent(
-          trackLength: trackLength,
-          viewportDimension: viewportDimension,
-          scrollableExtent: range,
-        );
-        final double fraction = fluxerSmoothScrollbarScrollFraction(
-          pixels: geometry.pixels,
-          minExtent: geometry.minScrollExtent,
-          maxExtent: geometry.maxScrollExtent,
-          pinTrailingEdge: pinTrailingEdge,
-        );
-        final double thumbTop = fluxerSmoothScrollbarThumbOffset(
-          fraction: fraction,
-          topInset: topInset,
-          trackLength: trackLength,
-          thumbExtent: thumbExtent,
-        );
-        final double hitWidth = math.max(thickness, _kTrackHitWidth);
-        return Stack(
-          children: <Widget>[
-            Positioned(
-              top: thumbTop,
-              right: 0,
-              width: hitWidth,
-              height: thumbExtent,
-              child: IgnorePointer(
-                ignoring: !geometry.thumbVisible && !geometry.thumbHovered,
-                child: MouseRegion(
-                  onEnter: (_) => onHoverChanged(true),
-                  onExit: (_) => onHoverChanged(false),
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onVerticalDragStart: (DragStartDetails details) {
-                      onDragStart(
-                        thumbTop + details.localPosition.dy,
-                        viewportDimension,
-                      );
-                    },
-                    onVerticalDragUpdate: (DragUpdateDetails details) {
-                      onDragUpdate(
-                        thumbTop + details.localPosition.dy,
-                        viewportDimension,
-                      );
-                    },
-                    onVerticalDragEnd: (_) => onDragEnd(),
-                    onVerticalDragCancel: onDragEnd,
-                    onTapDown: (TapDownDetails details) {
-                      onTrackTap(
-                        thumbTop + details.localPosition.dy,
-                        viewportDimension,
-                      );
-                    },
-                    child: AnimatedOpacity(
-                      opacity: geometry.thumbVisible ? 1 : 0,
-                      duration: fadeDuration,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 2),
-                          child: Container(
-                            key: const Key('fluxer_smooth_scrollbar_thumb'),
-                            width: thickness,
-                            height: thumbExtent,
-                            decoration: BoxDecoration(
-                              color: color,
-                              borderRadius: BorderRadius.all(radius),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  bool isPointerAllowed(PointerEvent event) {
+    return _isThumbPointer(_customPaintKey, event) &&
+        super.isPointerAllowed(event);
+  }
+}
+
+class _TrackTapGestureRecognizer extends TapGestureRecognizer {
+  _TrackTapGestureRecognizer({
+    required super.debugOwner,
+    required this._customPaintKey,
+  });
+
+  final GlobalKey _customPaintKey;
+
+  @override
+  bool isPointerAllowed(PointerDownEvent event) {
+    return _isTrackPointer(_customPaintKey, event) &&
+        super.isPointerAllowed(event);
   }
 }

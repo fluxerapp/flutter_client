@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_audio.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_link.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.dart';
@@ -21,6 +22,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_s
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_render_utils.dart';
 import 'package:fluxer_app/features/chat/utils/messages/spoiler_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
@@ -271,6 +273,24 @@ class _ForwardedEmbed extends StatelessWidget {
         embedIndex: embedIndex,
         videoActionScope: mediaActionScope,
       ),
+      EmbedType.audio when embed.hasRichEmbedContent => EmbedRich(
+        embed: embed,
+        galleryIndex: galleryIndex,
+        embedIndex: embedIndex ?? 0,
+        dimensionSize: dimensionSize,
+        revealSpoilers: revealSpoilers,
+        spoilerSyncController: spoilerSyncController,
+        channelId: channelId,
+        messageId: messageId,
+        videoActionScope: mediaActionScope,
+      ),
+      EmbedType.audio when shouldRenderMediaOnlyAudioEmbed(embed) => EmbedAudio(
+        embed: embed,
+        dimensionSize: dimensionSize,
+        channelId: channelId,
+        embedIndex: embedIndex,
+      ),
+      EmbedType.audio => const SizedBox.shrink(),
     };
 
     return wrapEmbedSpoiler(

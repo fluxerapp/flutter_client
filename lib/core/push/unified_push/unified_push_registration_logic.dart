@@ -20,6 +20,24 @@ bool shouldSkipMobilePushRegistration({
       persistedAuthSecret == authSecret;
 }
 
+bool shouldDeletePriorUnifiedPushRegistration({
+  required bool endpointRotated,
+  required String? oldSubscriptionId,
+  required String? oldEndpointUrl,
+  required String newDeviceId,
+}) {
+  if (!endpointRotated) {
+    return false;
+  }
+  if (oldSubscriptionId == null ||
+      oldSubscriptionId.isEmpty ||
+      oldEndpointUrl == null ||
+      oldEndpointUrl.isEmpty) {
+    return false;
+  }
+  return oldSubscriptionId != newDeviceId;
+}
+
 bool hasUnifiedPushEndpointRotated({
   required String endpointUrl,
   required String encryptionKey,

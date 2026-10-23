@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -23,6 +25,79 @@ Widget _buildApp(Widget child) {
   );
 }
 
+double _thumbExtentForPosition(
+  ScrollPosition position, {
+  double? smoothedMinScrollExtent,
+  double? smoothedMaxScrollExtent,
+  double topInset = 0,
+  double bottomInset = 0,
+}) {
+  final double smoothMin = smoothedMinScrollExtent ?? position.minScrollExtent;
+  final double smoothMax = smoothedMaxScrollExtent ?? position.maxScrollExtent;
+  final FixedScrollMetrics? metrics = fluxerSmoothScrollbarPaintMetrics(
+    source: position,
+    smoothedMinScrollExtent: smoothMin,
+    smoothedMaxScrollExtent: smoothMax,
+    pinTrailingEdge: false,
+  );
+  if (metrics == null) {
+    return 0;
+  }
+  final double trackLength = fluxerSmoothScrollbarTrackLength(
+    viewportDimension: position.viewportDimension,
+    topInset: topInset,
+    bottomInset: bottomInset,
+  );
+  return fluxerSmoothScrollbarThumbExtent(
+    trackLength: trackLength,
+    viewportDimension: position.viewportDimension,
+    scrollableExtent: metrics.maxScrollExtent - metrics.minScrollExtent,
+  );
+}
+
+Offset _thumbDragPoint(
+  ScrollPosition position, {
+  required double viewportWidth,
+  double topInset = 0,
+  double bottomInset = 0,
+  bool pinTrailingEdge = false,
+  double smoothedMinScrollExtent = 0,
+  double? smoothedMaxScrollExtent,
+}) {
+  final double smoothMax = smoothedMaxScrollExtent ?? position.maxScrollExtent;
+  final double fraction = fluxerSmoothScrollbarScrollFraction(
+    pixels: position.pixels,
+    minExtent: position.minScrollExtent,
+    maxExtent: position.maxScrollExtent,
+    pinTrailingEdge: pinTrailingEdge,
+  );
+  final double trackLength = fluxerSmoothScrollbarTrackLength(
+    viewportDimension: position.viewportDimension,
+    topInset: topInset,
+    bottomInset: bottomInset,
+  );
+  final double thumbExtent = _thumbExtentForPosition(
+    position,
+    smoothedMinScrollExtent: smoothedMinScrollExtent,
+    smoothedMaxScrollExtent: smoothMax,
+    topInset: topInset,
+    bottomInset: bottomInset,
+  );
+  final double thumbTop = fluxerSmoothScrollbarThumbOffset(
+    fraction: fraction,
+    topInset: topInset,
+    trackLength: trackLength,
+    thumbExtent: thumbExtent,
+  );
+  return Offset(viewportWidth - 4, thumbTop + thumbExtent / 2);
+}
+
+Future<void> _revealScrollbar(WidgetTester tester) async {
+  await tester.drag(find.byType(Scrollable), const Offset(0, -40));
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 250));
+}
+
 void main() {
   testWidgets('thumb is shorter for a longer list', (tester) async {
     Future<double> thumbHeight(int itemCount) async {
@@ -46,10 +121,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      final Container thumb = tester.widget<Container>(
-        find.byKey(const Key('fluxer_smooth_scrollbar_thumb')),
-      );
-      return thumb.constraints!.maxHeight;
+      return _thumbExtentForPosition(controller.position);
     }
 
     final double shortList = await thumbHeight(8);
@@ -85,36 +157,29 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final Finder thumb = find.byKey(const Key('fluxer_smooth_scrollbar_thumb'));
-    expect(thumb, findsOneWidget);
-
-    final double initialThumbExtent = tester
-        .widget<Container>(thumb)
-        .constraints!
-        .maxHeight;
+    final ScrollPosition position = controller.position;
+    final double initialMax = position.maxScrollExtent;
+    final double initialThumbExtent = _thumbExtentForPosition(
+      position,
+      smoothedMinScrollExtent: position.minScrollExtent,
+      smoothedMaxScrollExtent: initialMax,
+    );
 
     await tester.drag(find.byType(Scrollable), const Offset(0, -200));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    final double scrolledThumbExtent = tester
-        .widget<Container>(thumb)
-        .constraints!
-        .maxHeight;
-    expect((scrolledThumbExtent - initialThumbExtent).abs(), lessThan(8));
-
-    final ScrollPosition position = controller.position;
-    expect(
-      initialThumbExtent,
-      closeTo(
-        fluxerSmoothScrollbarThumbExtent(
-          trackLength: 300,
-          viewportDimension: position.viewportDimension,
-          scrollableExtent: position.maxScrollExtent - position.minScrollExtent,
-        ),
-        8,
+    final double smoothedThumbExtent = _thumbExtentForPosition(
+      controller.position,
+      smoothedMinScrollExtent: controller.position.minScrollExtent,
+      smoothedMaxScrollExtent: fluxerSmoothScrollbarLerpExtent(
+        current: initialMax,
+        target: controller.position.maxScrollExtent,
+        snap: false,
       ),
     );
+
+    expect((smoothedThumbExtent - initialThumbExtent).abs(), lessThan(8));
   });
 
   testWidgets('small scroll off a trailing anchor stays near the bottom', (
@@ -128,6 +193,7 @@ void main() {
       _buildApp(
         SizedBox(
           height: 300,
+          width: 240,
           child: FluxerSmoothScrollbar(
             controller: controller,
             child: CustomScrollView(
@@ -159,12 +225,8 @@ void main() {
     position.jumpTo(position.maxScrollExtent - 80);
     await tester.pump();
 
-    expect(
-      tester
-          .getRect(find.byKey(const Key('fluxer_smooth_scrollbar_thumb')))
-          .top,
-      greaterThan(150),
-    );
+    final Offset thumbPoint = _thumbDragPoint(position, viewportWidth: 240);
+    expect(thumbPoint.dy, greaterThan(150));
   });
 
   testWidgets('programmatic scroll does not block pumpAndSettle', (
@@ -200,7 +262,7 @@ void main() {
     await tester.pumpAndSettle();
   });
 
-  testWidgets('dragging thumb changes scroll offset', (tester) async {
+  testWidgets('dragging thumb tracks pointer movement', (tester) async {
     final ScrollController controller = ScrollController();
     addTearDown(controller.dispose);
 
@@ -222,22 +284,30 @@ void main() {
         ),
       ),
     );
-    await tester.pump();
-    await tester.pump();
+    await tester.pumpAndSettle();
+    await _revealScrollbar(tester);
 
-    await tester.drag(find.byType(Scrollable), const Offset(0, -40));
-    await tester.pump();
-    await tester.pump();
-    final double offsetAfterScroll = controller.offset;
-
-    final Offset thumbCenter = tester.getCenter(
-      find.byKey(const Key('fluxer_smooth_scrollbar_thumb')),
+    final ScrollPosition position = controller.position;
+    final double offsetBefore = controller.offset;
+    final double range = position.maxScrollExtent - position.minScrollExtent;
+    final double trackLength = fluxerSmoothScrollbarTrackLength(
+      viewportDimension: position.viewportDimension,
+      topInset: 0,
+      bottomInset: 0,
     );
-    final TestGesture gesture = await tester.startGesture(thumbCenter);
-    await gesture.moveBy(const Offset(0, 80));
+    final double thumbExtent = _thumbExtentForPosition(position);
+    final double thumbTravel = math.max(1, trackLength - thumbExtent);
+    const double dragDelta = 40;
+
+    final Offset start = _thumbDragPoint(position, viewportWidth: 200);
+    final TestGesture gesture = await tester.startGesture(start);
+    await gesture.moveBy(const Offset(0, dragDelta));
     await tester.pump();
 
-    expect(controller.offset, greaterThan(offsetAfterScroll));
+    expect(
+      controller.offset,
+      closeTo(offsetBefore + dragDelta / thumbTravel * range, 24),
+    );
     await gesture.up();
   });
 

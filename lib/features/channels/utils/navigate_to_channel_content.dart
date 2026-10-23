@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_join_bottom_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
@@ -40,8 +41,11 @@ Future<void> navigateToChannelContent({
     return;
   }
 
-  final Channel? resolvedChannel =
+  Channel? resolvedChannel =
       channel ?? await loadGuildChannelById(ref, channelId);
+  resolvedChannel ??= await ref
+      .read(threadsRepositoryProvider)
+      .loadCachedThread(guildId: guildId, threadId: channelId);
   if (!context.mounted) {
     return;
   }

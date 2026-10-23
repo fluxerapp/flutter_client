@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
+import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -37,7 +38,7 @@ AppPageId? appPageIdForPath(
   final String normalized = normalizeAppPagePath(
     path.split(RegExp('[?#]')).first,
   );
-  if (normalized == RoutePaths.discover && !availability.singleCommunity) {
+  if (isDiscoverRoute(normalized) && !availability.singleCommunity) {
     return AppPageId.discovery;
   }
   if (normalized == RoutePaths.favoritesBase) {

@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:flutter/widgets.dart';
+
 const double kFluxerSmoothScrollbarMinThumbExtent = 24;
 const double kFluxerSmoothScrollbarExtentLerp = 0.15;
 const double kFluxerSmoothScrollbarExtentEpsilon = 0.5;
@@ -74,20 +76,123 @@ double fluxerSmoothScrollbarLerpExtent({
   return next;
 }
 
-double fluxerSmoothScrollbarPixelsForTrackY({
-  required double localY,
-  required double topInset,
-  required double trackLength,
-  required double thumbExtent,
+FixedScrollMetrics? fluxerSmoothScrollbarPaintMetrics({
+  required ScrollMetrics source,
+  required double smoothedMinScrollExtent,
+  required double smoothedMaxScrollExtent,
+  required bool pinTrailingEdge,
+}) {
+  final double minReal = source.minScrollExtent;
+  final double maxReal = source.maxScrollExtent;
+  final double pixelsReal = source.pixels;
+  final double rangeReal = maxReal - minReal;
+  if (rangeReal <= kFluxerSmoothScrollbarExtentEpsilon) {
+    return null;
+  }
+
+  if (source.outOfRange) {
+    return FixedScrollMetrics(
+      minScrollExtent: minReal,
+      maxScrollExtent: maxReal,
+      pixels: pixelsReal,
+      viewportDimension: source.viewportDimension,
+      axisDirection: source.axisDirection,
+      devicePixelRatio: source.devicePixelRatio,
+    );
+  }
+
+  final double minSmooth = smoothedMinScrollExtent;
+  final double maxSmooth = smoothedMaxScrollExtent;
+  final double rangeSmooth = maxSmooth - minSmooth;
+  if (rangeSmooth <= kFluxerSmoothScrollbarExtentEpsilon) {
+    return FixedScrollMetrics(
+      minScrollExtent: minReal,
+      maxScrollExtent: maxReal,
+      pixels: pixelsReal,
+      viewportDimension: source.viewportDimension,
+      axisDirection: source.axisDirection,
+      devicePixelRatio: source.devicePixelRatio,
+    );
+  }
+
+  if (pinTrailingEdge) {
+    return FixedScrollMetrics(
+      minScrollExtent: minSmooth,
+      maxScrollExtent: maxSmooth,
+      pixels: maxSmooth,
+      viewportDimension: source.viewportDimension,
+      axisDirection: source.axisDirection,
+      devicePixelRatio: source.devicePixelRatio,
+    );
+  }
+
+  final double fraction = ((pixelsReal - minReal) / rangeReal).clamp(0.0, 1.0);
+  final double pixelsPaint = minSmooth + fraction * rangeSmooth;
+  return FixedScrollMetrics(
+    minScrollExtent: minSmooth,
+    maxScrollExtent: maxSmooth,
+    pixels: pixelsPaint,
+    viewportDimension: source.viewportDimension,
+    axisDirection: source.axisDirection,
+    devicePixelRatio: source.devicePixelRatio,
+  );
+}
+
+double? fluxerSmoothScrollbarDragScrollDelta({
+  required AxisDirection axisDirection,
+  required Offset startDragScrollbarAxisOffset,
+  required Offset lastDragUpdateOffset,
+  required Offset localPosition,
+  required double startDragThumbOffset,
+  required ScrollbarPainter painter,
+  required double currentPixels,
   required double minScrollExtent,
   required double maxScrollExtent,
 }) {
-  final double travel = math.max(1, trackLength - thumbExtent);
-  final double thumbCenterY = (localY - topInset).clamp(
-    thumbExtent / 2,
-    trackLength - thumbExtent / 2,
+  late double primaryDeltaFromDragStart;
+  late double primaryDeltaFromLastDragUpdate;
+  switch (axisDirection) {
+    case AxisDirection.up:
+      primaryDeltaFromDragStart =
+          startDragScrollbarAxisOffset.dy - localPosition.dy;
+      primaryDeltaFromLastDragUpdate =
+          lastDragUpdateOffset.dy - localPosition.dy;
+    case AxisDirection.right:
+      primaryDeltaFromDragStart =
+          localPosition.dx - startDragScrollbarAxisOffset.dx;
+      primaryDeltaFromLastDragUpdate =
+          localPosition.dx - lastDragUpdateOffset.dx;
+    case AxisDirection.down:
+      primaryDeltaFromDragStart =
+          localPosition.dy - startDragScrollbarAxisOffset.dy;
+      primaryDeltaFromLastDragUpdate =
+          localPosition.dy - lastDragUpdateOffset.dy;
+    case AxisDirection.left:
+      primaryDeltaFromDragStart =
+          startDragScrollbarAxisOffset.dx - localPosition.dx;
+      primaryDeltaFromLastDragUpdate =
+          lastDragUpdateOffset.dx - localPosition.dx;
+  }
+
+  double scrollOffsetGlobal = painter.getTrackToScroll(
+    startDragThumbOffset + primaryDeltaFromDragStart,
   );
-  final double fraction = (thumbCenterY - thumbExtent / 2) / travel;
-  return minScrollExtent +
-      fraction.clamp(0, 1) * (maxScrollExtent - minScrollExtent);
+
+  if (primaryDeltaFromDragStart > 0 && scrollOffsetGlobal < currentPixels ||
+      primaryDeltaFromDragStart < 0 && scrollOffsetGlobal > currentPixels) {
+    scrollOffsetGlobal =
+        currentPixels +
+        painter.getTrackToScroll(primaryDeltaFromLastDragUpdate);
+  }
+  if (scrollOffsetGlobal == currentPixels) {
+    return null;
+  }
+
+  final double clamped = scrollOffsetGlobal.clamp(
+    minScrollExtent,
+    maxScrollExtent,
+  );
+  final bool isReversed =
+      axisDirection == AxisDirection.up || axisDirection == AxisDirection.left;
+  return isReversed ? clamped - currentPixels : currentPixels - clamped;
 }

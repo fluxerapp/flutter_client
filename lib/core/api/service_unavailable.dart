@@ -1,3 +1,4 @@
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:dio/dio.dart';
 
 const Set<int> _kHttpServiceUnavailableStatusCodes = <int>{502, 503, 504};
@@ -13,14 +14,24 @@ class ServiceUnavailableException implements Exception {
   String toString() => 'ServiceUnavailableException(statusCode: $statusCode)';
 }
 
+int? httpErrorStatusCode(Object error) {
+  if (error is ServiceUnavailableException) {
+    return error.statusCode;
+  }
+  if (error is DioException) {
+    return error.response?.statusCode;
+  }
+  if (error is HttpExceptionWithStatus) {
+    return error.statusCode;
+  }
+  return null;
+}
+
 bool isHttpServiceUnavailable(Object error) {
   if (error is ServiceUnavailableException) {
     return true;
   }
-  if (error is DioException) {
-    final int? statusCode = error.response?.statusCode;
-    return statusCode != null &&
-        _kHttpServiceUnavailableStatusCodes.contains(statusCode);
-  }
-  return false;
+  final int? statusCode = httpErrorStatusCode(error);
+  return statusCode != null &&
+      _kHttpServiceUnavailableStatusCodes.contains(statusCode);
 }

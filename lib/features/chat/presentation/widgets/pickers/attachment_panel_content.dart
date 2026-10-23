@@ -374,12 +374,6 @@ class _AttachmentLibraryPermissionState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            PhosphorIcon(
-              PhosphorIconsFill.image,
-              size: 42,
-              color: colors.textTertiary,
-            ),
-            SizedBox(height: layout.s2),
             Text(
               title,
               textAlign: TextAlign.center,

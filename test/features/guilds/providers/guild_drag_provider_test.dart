@@ -255,6 +255,157 @@ void main() {
     });
   });
 
+  group('adjustGuildDropIntentBelowExpandedFolder', () {
+    const String folderId = 'folder-1';
+    const List<GuildDragTargetBounds> expandedFolderTargets =
+        <GuildDragTargetBounds>[
+          GuildDragTargetBounds(
+            itemId: folderId,
+            isFolder: true,
+            top: 100,
+            bottom: 156,
+          ),
+          GuildDragTargetBounds(
+            itemId: 'guild-a',
+            isFolder: false,
+            top: 156,
+            bottom: 212,
+            parentFolderId: folderId,
+          ),
+          GuildDragTargetBounds(
+            itemId: 'guild-b',
+            isFolder: false,
+            top: 212,
+            bottom: 268,
+            parentFolderId: folderId,
+          ),
+        ];
+
+    test('maps in-folder hover below the column to folder after', () {
+      expect(
+        adjustGuildDropIntentBelowExpandedFolder(
+          intent: const GuildDropHoverIntent(
+            targetId: 'guild-b',
+            isFolder: false,
+            position: DropPosition.after,
+          ),
+          globalY: 280,
+          targets: expandedFolderTargets,
+        ),
+        const GuildDropHoverIntent(
+          targetId: folderId,
+          isFolder: true,
+          position: DropPosition.after,
+        ),
+      );
+    });
+
+    test('keeps in-folder hover while still inside the column', () {
+      const GuildDropHoverIntent intent = GuildDropHoverIntent(
+        targetId: 'guild-b',
+        isFolder: false,
+        position: DropPosition.after,
+      );
+      expect(
+        adjustGuildDropIntentBelowExpandedFolder(
+          intent: intent,
+          globalY: 260,
+          targets: expandedFolderTargets,
+        ),
+        intent,
+      );
+    });
+
+    test('maps in-folder hover in column padding below last guild', () {
+      expect(
+        adjustGuildDropIntentBelowExpandedFolder(
+          intent: const GuildDropHoverIntent(
+            targetId: 'guild-b',
+            isFolder: false,
+            position: DropPosition.after,
+          ),
+          globalY: 270,
+          targets: expandedFolderTargets,
+        ),
+        const GuildDropHoverIntent(
+          targetId: folderId,
+          isFolder: true,
+          position: DropPosition.after,
+        ),
+      );
+    });
+
+    test('maps folder combine below the column to folder after', () {
+      expect(
+        adjustGuildDropIntentBelowExpandedFolder(
+          intent: const GuildDropHoverIntent(
+            targetId: folderId,
+            isFolder: true,
+            position: DropPosition.combine,
+          ),
+          globalY: 280,
+          targets: expandedFolderTargets,
+        ),
+        const GuildDropHoverIntent(
+          targetId: folderId,
+          isFolder: true,
+          position: DropPosition.after,
+        ),
+      );
+    });
+  });
+
+  group('guildDropIntentForPointerBelowExpandedFolder', () {
+    const String folderId = 'folder-1';
+    const List<GuildDragTargetBounds> expandedFolderTargets =
+        <GuildDragTargetBounds>[
+          GuildDragTargetBounds(
+            itemId: folderId,
+            isFolder: true,
+            top: 100,
+            bottom: 156,
+          ),
+          GuildDragTargetBounds(
+            itemId: 'guild-a',
+            isFolder: false,
+            top: 156,
+            bottom: 212,
+            parentFolderId: folderId,
+          ),
+          GuildDragTargetBounds(
+            itemId: 'guild-b',
+            isFolder: false,
+            top: 212,
+            bottom: 268,
+            parentFolderId: folderId,
+          ),
+        ];
+
+    test('returns folder after below the last nested guild', () {
+      expect(
+        guildDropIntentForPointerBelowExpandedFolder(
+          globalY: 270,
+          targets: expandedFolderTargets,
+        ),
+        const GuildDropHoverIntent(
+          targetId: folderId,
+          isFolder: true,
+          position: DropPosition.after,
+        ),
+      );
+    });
+
+    test('returns null while still over the last nested guild', () {
+      expect(
+        guildDropIntentForPointerBelowExpandedFolder(
+          globalY: 260,
+          targets: expandedFolderTargets,
+        ),
+        isNull,
+      );
+    });
+  });
+
   group('normalizeGuildDropSeam', () {
     const List<GuildDragTargetBounds> targets = <GuildDragTargetBounds>[
       GuildDragTargetBounds(itemId: 'a', isFolder: false, top: 0, bottom: 56),
@@ -287,6 +438,48 @@ void main() {
       );
       expect(normalizeGuildDropSeam(intent: intent, targets: targets), intent);
     });
+
+    test(
+      'maps folder after to before on next top-level row, not nested guild',
+      () {
+        const String folderId = 'folder-1';
+        expect(
+          normalizeGuildDropSeam(
+            intent: const GuildDropHoverIntent(
+              targetId: folderId,
+              isFolder: true,
+              position: DropPosition.after,
+            ),
+            targets: <GuildDragTargetBounds>[
+              const GuildDragTargetBounds(
+                itemId: folderId,
+                isFolder: true,
+                top: 100,
+                bottom: 156,
+              ),
+              const GuildDragTargetBounds(
+                itemId: 'nested',
+                isFolder: false,
+                top: 156,
+                bottom: 212,
+                parentFolderId: folderId,
+              ),
+              const GuildDragTargetBounds(
+                itemId: 'next',
+                isFolder: false,
+                top: 214,
+                bottom: 270,
+              ),
+            ],
+          ),
+          const GuildDropHoverIntent(
+            targetId: 'next',
+            isFolder: false,
+            position: DropPosition.before,
+          ),
+        );
+      },
+    );
 
     test('leaves after when next row is not adjacent', () {
       const GuildDropHoverIntent intent = GuildDropHoverIntent(

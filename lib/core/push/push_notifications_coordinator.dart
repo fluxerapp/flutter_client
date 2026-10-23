@@ -68,6 +68,11 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
           .listen((_) {
             _requestUnifiedPushDistributorPicker();
           });
+      if (UnifiedPushService.instance.needsDistributorPicker) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          _requestUnifiedPushDistributorPicker();
+        });
+      }
     }
     if (!_bootstrapScheduled) {
       _bootstrapScheduled = true;

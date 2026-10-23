@@ -147,6 +147,13 @@ String scrubForMeasure(String value) {
       .replaceAll(_snowflake, _kRedactedId);
 }
 
+Object unwrapMeasureSanitizedError(Object error) {
+  if (error is _MeasureRedactedError) {
+    return error._source;
+  }
+  return error;
+}
+
 Object sanitizeErrorForMeasure(Object error) {
   return _MeasureRedactedError(error);
 }

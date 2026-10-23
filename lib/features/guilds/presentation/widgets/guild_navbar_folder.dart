@@ -29,11 +29,32 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     );
     final DragState dragState = ref.watch(guildDragProvider);
     final bool useTouchDrag = isTouchPrimaryInput(ref);
+    final String folderId = folder.id.toString();
     final bool collapseWhileDragging = dragState.shouldCollapseDragSource(
-      itemId: folder.id.toString(),
+      itemId: folderId,
       useTouchDrag: useTouchDrag,
     );
     final bool visuallyExpanded = isExpanded && !collapseWhileDragging;
+    final bool showLeadingInsertionGap = ref.watch(
+      guildDragProvider.select(
+        (DragState state) => showFolderExternalTouchInsertionGap(
+          state: state,
+          folderId: folderId,
+          useTouchDrag: useTouchDrag,
+          edge: DropPosition.before,
+        ),
+      ),
+    );
+    final bool showTrailingInsertionGap = ref.watch(
+      guildDragProvider.select(
+        (DragState state) => showFolderExternalTouchInsertionGap(
+          state: state,
+          folderId: folderId,
+          useTouchDrag: useTouchDrag,
+          edge: DropPosition.after,
+        ),
+      ),
+    );
 
     var anyUnread = false;
     var totalMentions = 0;
@@ -74,77 +95,87 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
       padding: const EdgeInsets.symmetric(
         vertical: GuildNavbarIconShape.itemSpacing / 2,
       ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.topCenter,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          if (visuallyExpanded)
-            Positioned.fill(
-              child: Center(
-                child: Container(
-                  width: GuildNavbarIconShape.size,
-                  decoration: BoxDecoration(
-                    color: folderSurface,
-                    borderRadius: BorderRadius.circular(
-                      GuildNavbarIconShape.activeRadius,
+          GuildTouchInsertionGap(isOpen: showLeadingInsertionGap),
+          Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.topCenter,
+            children: [
+              if (visuallyExpanded)
+                Positioned.fill(
+                  child: Center(
+                    child: Container(
+                      width: GuildNavbarIconShape.size,
+                      decoration: BoxDecoration(
+                        color: folderSurface,
+                        borderRadius: BorderRadius.circular(
+                          GuildNavbarIconShape.activeRadius,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GuildDragWrapper(
-                itemId: folder.id.toString(),
-                isFolder: true,
-                dragFeedback: GuildFolderDragFeedback(
-                  guilds: folder.guilds,
-                  folderIcon: folder.icon,
-                  showIconWhenCollapsed: folder.showIconWhenCollapsed,
-                ),
-                folderPeekMenu: isMobileLayout(context)
-                    ? GuildFolderPeekMenuConfig(
-                        folderName: folder.name ?? _derivedFolderName,
-                        guilds: folder.guilds,
-                        hasUnread: anyUnread,
-                        onAction: (FolderMenuAction action) async {
-                          setState(() => _suppressNextFolderTap = true);
-                          await _handleFolderMenuAction(action);
-                        },
-                      )
-                    : null,
-                onPeekOpened: () {
-                  setState(() => _suppressNextFolderTap = true);
-                },
-                child: _buildFolderButton(
-                  context,
-                  folderAccent: folderAccent,
-                  folderSurface: folderSurface,
-                  anyUnread: anyUnread,
-                  totalMentions: totalMentions,
-                  folderVoiceActivity: folderVoiceActivity,
-                  isExpanded: visuallyExpanded,
-                ),
-              ),
-              AnimatedSize(
-                duration: context.motion.panel,
-                curve: const Cubic(0.25, 0.1, 0.25, 1),
-                alignment: Alignment.topCenter,
-                child: visuallyExpanded
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            for (final guild in folder.guilds)
-                              _buildGuildItemInFolder(context, guild),
-                          ],
-                        ),
-                      )
-                    : const SizedBox(width: kGuildNavbarWidth),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GuildDragWrapper(
+                    itemId: folderId,
+                    isFolder: true,
+                    suppressInsertionGapAfter: visuallyExpanded,
+                    dragFeedback: GuildFolderDragFeedback(
+                      guilds: folder.guilds,
+                      folderIcon: folder.icon,
+                      showIconWhenCollapsed: folder.showIconWhenCollapsed,
+                    ),
+                    folderPeekMenu: isMobileLayout(context)
+                        ? GuildFolderPeekMenuConfig(
+                            folderName: folder.name ?? _derivedFolderName,
+                            guilds: folder.guilds,
+                            hasUnread: anyUnread,
+                            onAction: (FolderMenuAction action) async {
+                              setState(() => _suppressNextFolderTap = true);
+                              await _handleFolderMenuAction(action);
+                            },
+                          )
+                        : null,
+                    onPeekOpened: () {
+                      setState(() => _suppressNextFolderTap = true);
+                    },
+                    child: _buildFolderButton(
+                      context,
+                      folderAccent: folderAccent,
+                      folderSurface: folderSurface,
+                      anyUnread: anyUnread,
+                      totalMentions: totalMentions,
+                      folderVoiceActivity: folderVoiceActivity,
+                      isExpanded: visuallyExpanded,
+                    ),
+                  ),
+                  AnimatedSize(
+                    duration: context.motion.panel,
+                    curve: const Cubic(0.25, 0.1, 0.25, 1),
+                    alignment: Alignment.topCenter,
+                    child: visuallyExpanded
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                for (final guild in folder.guilds)
+                                  _buildGuildItemInFolder(context, guild),
+                              ],
+                            ),
+                          )
+                        : const SizedBox(width: kGuildNavbarWidth),
+                  ),
+                ],
               ),
             ],
+          ),
+          GuildTouchInsertionGap(
+            isOpen: visuallyExpanded && showTrailingInsertionGap,
           ),
         ],
       ),
@@ -362,6 +393,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
           isFolder: false,
           allowCombine: false,
           allowsGuildMergeAsSource: false,
+          parentFolderId: widget.folder.id.toString(),
           dragFeedback: GuildDragFeedback(
             label: guild.name,
             iconUrl: guild.iconUrl,

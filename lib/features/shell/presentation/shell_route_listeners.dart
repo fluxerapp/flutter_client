@@ -393,7 +393,6 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
     required String? previous,
     required String? next,
   }) {
-    final bool available = next != null && _loadActiveGuildChannels(next);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
@@ -402,7 +401,10 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       if (previous != null && previous != activeGuildId) {
         unawaited(evictInactiveGuildPermissionState(ref.container, previous));
       }
-      if (!available || activeGuildId != next) {
+      if (next == null || activeGuildId != next) {
+        return;
+      }
+      if (!_loadActiveGuildChannels(next)) {
         return;
       }
       ref.read(guildSyncProvider.notifier).syncIfNeeded(next);

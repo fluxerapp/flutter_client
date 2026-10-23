@@ -18,6 +18,7 @@ class FluxerFcmPushService {
       StreamController<String>.broadcast();
 
   bool _initialized = false;
+  Future<void>? _initializeFuture;
   void Function(Map<String, String> payload)? _onNotificationTap;
   Map<String, String>? _pendingNotificationTapPayload;
   StreamSubscription<RemoteMessage>? _onMessageSubscription;
@@ -45,15 +46,28 @@ class FluxerFcmPushService {
     if (_initialized) {
       return;
     }
+    final Future<void>? inFlight = _initializeFuture;
+    if (inFlight != null) {
+      return inFlight;
+    }
+    final Future<void> run = _initializeOnce(firebaseOptions: firebaseOptions);
+    _initializeFuture = run;
+    try {
+      await run;
+    } finally {
+      if (identical(_initializeFuture, run)) {
+        _initializeFuture = null;
+      }
+    }
+  }
+
+  Future<void> _initializeOnce({FirebaseOptions? firebaseOptions}) async {
+    if (_initialized) {
+      return;
+    }
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(options: firebaseOptions);
     }
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
     _onMessageSubscription = FirebaseMessaging.onMessage.listen(
       _onForegroundMessage,
     );
@@ -140,6 +154,7 @@ class FluxerFcmPushService {
   @visibleForTesting
   void resetForTesting() {
     _initialized = false;
+    _initializeFuture = null;
     _onNotificationTap = null;
     _pendingNotificationTapPayload = null;
     unawaited(_onMessageSubscription?.cancel());

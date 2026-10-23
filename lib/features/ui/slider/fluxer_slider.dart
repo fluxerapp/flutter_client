@@ -84,6 +84,14 @@ class _FluxerSliderState extends State<FluxerSlider> {
   @override
   void didUpdateWidget(FluxerSlider oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (_isDragging) {
+      return;
+    }
+    final double? nextValue = widget.value;
+    if (nextValue != null && nextValue != oldWidget.value) {
+      _value = nextValue;
+      return;
+    }
     if (oldWidget.defaultValue != widget.defaultValue) {
       _value = widget.defaultValue;
     }

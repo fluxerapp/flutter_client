@@ -38,6 +38,41 @@ void main() {
     });
   });
 
+  group('shouldDeletePriorUnifiedPushRegistration', () {
+    test('deletes the prior device only after a new id is stored', () {
+      expect(
+        shouldDeletePriorUnifiedPushRegistration(
+          endpointRotated: true,
+          oldSubscriptionId: 'old',
+          oldEndpointUrl: 'https://up.example/push',
+          newDeviceId: 'new',
+        ),
+        isTrue,
+      );
+      expect(
+        shouldDeletePriorUnifiedPushRegistration(
+          endpointRotated: false,
+          oldSubscriptionId: 'old',
+          oldEndpointUrl: 'https://up.example/push',
+          newDeviceId: 'new',
+        ),
+        isFalse,
+      );
+    });
+
+    test('is false when the server returns the same device id', () {
+      expect(
+        shouldDeletePriorUnifiedPushRegistration(
+          endpointRotated: true,
+          oldSubscriptionId: 'device',
+          oldEndpointUrl: 'https://up.example/push',
+          newDeviceId: 'device',
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('hasUnifiedPushEndpointRotated', () {
     test('is false before anything is stored', () {
       expect(

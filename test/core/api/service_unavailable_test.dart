@@ -1,3 +1,4 @@
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
@@ -30,6 +31,19 @@ void main() {
       expect(
         isHttpServiceUnavailable(
           const ServiceUnavailableException(statusCode: 503),
+        ),
+        isTrue,
+      );
+    });
+
+    test('is true for image loader HttpExceptionWithStatus', () {
+      expect(
+        isHttpServiceUnavailable(
+          HttpExceptionWithStatus(
+            504,
+            'Gateway Timeout',
+            uri: Uri.parse('https://media.test/emojis/1.webp'),
+          ),
         ),
         isTrue,
       );

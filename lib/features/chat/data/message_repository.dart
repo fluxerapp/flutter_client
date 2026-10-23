@@ -431,6 +431,14 @@ class MessageRepository {
     );
     final data = response.data;
     if (data == null) {
+      if (isLatestPage) {
+        await _pruneStaleMessagesForNetworkPage(
+          channelId,
+          const <Message>[],
+          isLatestPage: true,
+          localTailBeforeFetch: localTailBeforeFetch,
+        );
+      }
       return [];
     }
 
@@ -563,7 +571,25 @@ class MessageRepository {
       return persisted;
     }
 
+    if (isLatestPage) {
+      await _pruneStaleMessagesForNetworkPage(
+        channelId,
+        messages,
+        isLatestPage: true,
+        localTailBeforeFetch: localTailBeforeFetch,
+      );
+    }
     return messages;
+  }
+
+  Future<Set<String>> _composerDraftReplyMessageIds(String channelId) async {
+    final String? replyId = (await _db.composerDraftDao.getDraft(
+      channelId,
+    ))?.replyToMessageId;
+    if (replyId == null || replyId.isEmpty) {
+      return const <String>{};
+    }
+    return <String>{replyId};
   }
 
   Future<void> _pruneStaleMessagesForNetworkPage(
@@ -573,6 +599,15 @@ class MessageRepository {
     String? localTailBeforeFetch,
   }) async {
     if (networkPage.isEmpty) {
+      if (isLatestPage && localTailBeforeFetch != null) {
+        final Set<String> preserveMessageIds =
+            await _composerDraftReplyMessageIds(channelId);
+        await _db.messageDao.deleteSentMessagesForChannel(
+          channelId,
+          upToId: localTailBeforeFetch,
+          preserveMessageIds: preserveMessageIds,
+        );
+      }
       return;
     }
     final String oldestId = networkPage.first.id;

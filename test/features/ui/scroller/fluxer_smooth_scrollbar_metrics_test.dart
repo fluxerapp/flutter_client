@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar_metrics.dart';
 
@@ -90,31 +91,52 @@ void main() {
     });
   });
 
-  group('fluxerSmoothScrollbarPixelsForTrackY', () {
-    test('maps track Y to scroll offset', () {
-      const double topInset = 0;
-      const double trackLength = 200;
-      const double thumbExtent = 48;
-
-      final double top = fluxerSmoothScrollbarPixelsForTrackY(
-        localY: topInset + thumbExtent / 2,
-        topInset: topInset,
-        trackLength: trackLength,
-        thumbExtent: thumbExtent,
-        minScrollExtent: -500,
-        maxScrollExtent: 500,
+  group('fluxerSmoothScrollbarPaintMetrics', () {
+    FixedScrollMetrics source({
+      required double pixels,
+      required double min,
+      required double max,
+    }) {
+      return FixedScrollMetrics(
+        minScrollExtent: min,
+        maxScrollExtent: max,
+        pixels: pixels,
+        viewportDimension: 300,
+        axisDirection: AxisDirection.down,
+        devicePixelRatio: 1,
       );
-      expect(top, -500);
+    }
 
-      final double bottom = fluxerSmoothScrollbarPixelsForTrackY(
-        localY: topInset + trackLength - thumbExtent / 2,
-        topInset: topInset,
-        trackLength: trackLength,
-        thumbExtent: thumbExtent,
-        minScrollExtent: -500,
-        maxScrollExtent: 500,
-      );
-      expect(bottom, 500);
+    test('keeps the real scroll fraction with a smoothed range', () {
+      final FixedScrollMetrics metrics = fluxerSmoothScrollbarPaintMetrics(
+        source: source(pixels: 250, min: 0, max: 1000),
+        smoothedMinScrollExtent: 0,
+        smoothedMaxScrollExtent: 2000,
+        pinTrailingEdge: false,
+      )!;
+      expect(metrics.pixels, 500);
+      expect(metrics.maxScrollExtent, 2000);
+    });
+
+    test('uses real metrics while overscrolling', () {
+      final FixedScrollMetrics metrics = fluxerSmoothScrollbarPaintMetrics(
+        source: source(pixels: 1100, min: 0, max: 1000),
+        smoothedMinScrollExtent: 0,
+        smoothedMaxScrollExtent: 2000,
+        pinTrailingEdge: false,
+      )!;
+      expect(metrics.pixels, 1100);
+      expect(metrics.maxScrollExtent, 1000);
+    });
+
+    test('pins the thumb to the trailing edge', () {
+      final FixedScrollMetrics metrics = fluxerSmoothScrollbarPaintMetrics(
+        source: source(pixels: 10, min: -4000, max: 40),
+        smoothedMinScrollExtent: -5000,
+        smoothedMaxScrollExtent: 80,
+        pinTrailingEdge: true,
+      )!;
+      expect(metrics.pixels, metrics.maxScrollExtent);
     });
   });
 }

@@ -7,10 +7,10 @@ void main() {
   group('resolveShellLocation', () {
     test('returns null when shell is not mounted', () {
       final GoRouter router = GoRouter(
-        initialLocation: '/channels/@discover',
+        initialLocation: '/channels/@explore',
         routes: <RouteBase>[
           GoRoute(
-            path: '/channels/@discover',
+            path: '/channels/@explore',
             builder: (BuildContext context, GoRouterState state) =>
                 const SizedBox.shrink(),
           ),

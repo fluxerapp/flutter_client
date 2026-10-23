@@ -196,18 +196,18 @@ class GuildScrollIndicatorController {
     GuildScrollIndicatorCandidate? topCandidate;
     GuildScrollIndicatorCandidate? bottomCandidate;
     for (var i = 0; i < ids.length; i++) {
-      final _GuildScrollIndicatorBox? box = boxes[i];
+      final _GuildScrollIndicatorBox? measured = boxes[i];
       final double distance;
       final bool above;
-      if (box != null) {
-        if (box.bottom <=
+      if (measured != null) {
+        if (measured.bottom <=
             scrollableTop + kGuildScrollIndicatorVisibilityEpsilon) {
           above = true;
-          distance = scrollableTop - box.bottom;
-        } else if (box.top >=
+          distance = scrollableTop - measured.bottom;
+        } else if (measured.top >=
             scrollableBottom - kGuildScrollIndicatorVisibilityEpsilon) {
           above = false;
-          distance = box.top - scrollableBottom;
+          distance = measured.top - scrollableBottom;
         } else {
           continue;
         }
@@ -227,6 +227,26 @@ class GuildScrollIndicatorController {
               double.infinity,
             ) +
             (i - lastLaidOut) * averageHeight;
+      } else if (placeUnbuilt) {
+        final _GuildScrollIndicatorBox? estimated = _estimateGapBox(
+          boxes: boxes,
+          index: i,
+          averageHeight: averageHeight,
+        );
+        if (estimated == null) {
+          continue;
+        }
+        if (estimated.bottom <=
+            scrollableTop + kGuildScrollIndicatorVisibilityEpsilon) {
+          above = true;
+          distance = scrollableTop - estimated.bottom;
+        } else if (estimated.top >=
+            scrollableBottom - kGuildScrollIndicatorVisibilityEpsilon) {
+          above = false;
+          distance = estimated.top - scrollableBottom;
+        } else {
+          continue;
+        }
       } else {
         continue;
       }
@@ -394,6 +414,45 @@ class GuildScrollIndicatorController {
       current = current.parent;
     }
     return true;
+  }
+
+  static int? _nearestLaidOutIndex(
+    List<_GuildScrollIndicatorBox?> boxes,
+    int from,
+    int step,
+  ) {
+    for (var i = from + step; i >= 0 && i < boxes.length; i += step) {
+      if (boxes[i] != null) {
+        return i;
+      }
+    }
+    return null;
+  }
+
+  static _GuildScrollIndicatorBox? _estimateGapBox({
+    required List<_GuildScrollIndicatorBox?> boxes,
+    required int index,
+    required double averageHeight,
+  }) {
+    final int? before = _nearestLaidOutIndex(boxes, index, -1);
+    final int? after = _nearestLaidOutIndex(boxes, index, 1);
+    if (before == null && after == null) {
+      return null;
+    }
+    final double top;
+    if (before != null && after != null) {
+      final _GuildScrollIndicatorBox beforeBox = boxes[before]!;
+      final _GuildScrollIndicatorBox afterBox = boxes[after]!;
+      final double span = (after - before).toDouble();
+      final double t = span == 0 ? 0.5 : (index - before) / span;
+      top = beforeBox.bottom + (afterBox.top - beforeBox.bottom) * t;
+    } else if (before != null) {
+      top = boxes[before]!.bottom + (index - before) * averageHeight;
+    } else {
+      final int afterIndex = after!;
+      top = boxes[afterIndex]!.top - (afterIndex - index) * averageHeight;
+    }
+    return (top: top, bottom: top + averageHeight);
   }
 
   static bool _isBetterCandidate(

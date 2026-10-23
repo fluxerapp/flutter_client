@@ -3073,6 +3073,13 @@ class ChatViewModel extends _$ChatViewModel {
             channelId: channelId,
             paramsList: windowParamsList,
           );
+          if (page.messages.isEmpty) {
+            page = await repo.loadMessagePage(
+              channelId: channelId,
+              limit: effectiveLimit,
+            );
+            isLatestPage = true;
+          }
         } else {
           page = await repo.loadMessagePage(
             channelId: channelId,

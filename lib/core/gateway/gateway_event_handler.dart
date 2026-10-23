@@ -845,7 +845,10 @@ class GatewayEventHandler {
       processedGuilds = await parseReadyGuilds(
         rawGuilds: event.rawGuilds,
         guildPositions: guildPositions,
-        users: <Map<String, dynamic>>[...?event.users, event.user.toJson()],
+        users: <Map<String, dynamic>>[
+          ...?event.users,
+          jsonDecode(jsonEncode(event.user)) as Map<String, dynamic>,
+        ],
       );
       guildsMs = parsePhase.elapsedMilliseconds;
     }

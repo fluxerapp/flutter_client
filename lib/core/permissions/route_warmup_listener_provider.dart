@@ -39,14 +39,20 @@ void routeWarmupListener(Ref ref) {
       ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
   }
 
+  void scheduleEnsureChannelsLoaded(String guildId) {
+    scheduleMicrotask(() {
+      ref
+          .read(channelListViewModelProvider.notifier)
+          .ensureChannelsLoaded(guildId);
+    });
+  }
+
   void syncActiveGuildChannels() {
     final String? guildId = ref.read(contextualGuildIdProvider);
     if (guildId == null || guildId.isEmpty) {
       return;
     }
-    ref
-        .read(channelListViewModelProvider.notifier)
-        .ensureChannelsLoaded(guildId);
+    scheduleEnsureChannelsLoaded(guildId);
   }
 
   ref.listen<int>(gatewayFullRecoveryProvider, (int? previous, int next) {
@@ -69,7 +75,7 @@ void routeWarmupListener(Ref ref) {
     if (next == null || next.isEmpty || previous == next) {
       return;
     }
-    ref.read(channelListViewModelProvider.notifier).ensureChannelsLoaded(next);
+    scheduleEnsureChannelsLoaded(next);
     warmActiveChannelBits(ref.read(activeChannelIdProvider));
   });
 

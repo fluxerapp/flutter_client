@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_deni
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
+import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 
 String buildChannelJumpRoutePath({
   required String channelId,
@@ -109,7 +110,7 @@ Future<ChannelJumpResolution> resolveChannelJumpLink({
   );
   if (!link.isDm) {
     final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
-    final db.Channel? channel = await database.channelDao.getChannelById(
+    db.Channel? channel = await database.channelDao.getChannelById(
       link.channelId,
     );
     if (channel == null) {
@@ -126,7 +127,15 @@ Future<ChannelJumpResolution> resolveChannelJumpLink({
         talker.debug('[ChannelJump] pending path=$path');
         return ChannelJumpPending(path: path);
       }
-      return const ChannelJumpAccessDenied();
+      channel = await container
+          .read(threadsRepositoryProvider)
+          .ensureThreadInDatabase(
+            guildId: link.scope,
+            threadId: link.channelId,
+          );
+      if (channel == null) {
+        return const ChannelJumpAccessDenied();
+      }
     }
     if (ChannelType.fromWire(channel.type) == ChannelType.guildLink) {
       return ChannelJumpOpenLink(channelId: link.channelId);

@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_route.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -15,6 +16,20 @@ bool isPendingNavigationReady({
   required bool isConnectionFailed,
 }) {
   return isAuthenticated && isGatewayReady && !isConnectionFailed;
+}
+
+bool shouldApplyPendingPushNavigation({
+  required bool isAuthenticated,
+  required bool isGatewayReady,
+  required bool isConnectionFailed,
+  required bool splashExitAllowed,
+}) {
+  return isPendingNavigationReady(
+        isAuthenticated: isAuthenticated,
+        isGatewayReady: isGatewayReady,
+        isConnectionFailed: isConnectionFailed,
+      ) &&
+      splashExitAllowed;
 }
 
 @Riverpod(keepAlive: true)
@@ -69,12 +84,12 @@ class PendingPushNotificationPath extends _$PendingPushNotificationPath {
     if (pending == null || pending.path.isEmpty) {
       return;
     }
-    final bool ready = isPendingNavigationReady(
+    if (!shouldApplyPendingPushNavigation(
       isAuthenticated: ref.read(authStateProvider),
       isGatewayReady: ref.read(gatewayReadyProvider),
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
-    );
-    if (!ready) {
+      splashExitAllowed: ref.read(splashExitAllowedProvider),
+    )) {
       return;
     }
     final String? currentUserId = ref.read(currentUserIdProvider);

@@ -289,7 +289,7 @@ EmbedMedia? resolveMessageEmbedMedia(Message message, int? embedIndex) {
     return null;
   }
   final Embed embed = message.embeds[embedIndex];
-  return embed.image ?? embed.video ?? embed.thumbnail;
+  return embed.image ?? embed.video ?? embed.audio ?? embed.thumbnail;
 }
 
 String? cleanFilenameStem(String filename) {

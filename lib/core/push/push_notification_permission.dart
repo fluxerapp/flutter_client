@@ -18,12 +18,30 @@ Future<bool> requiresPushNotificationSystemSettings() async {
   return requiresPushNotificationSystemSettingsForStatus(status);
 }
 
+Future<bool>? _pushNotificationPermissionRequestInFlight;
+
 Future<bool> requestPushNotificationPermission({
   bool openSystemSettingsIfBlocked = false,
 }) async {
   if (openSystemSettingsIfBlocked) {
     return ensureSystemPermission(null, SystemPermissionKind.notifications);
   }
+  final Future<bool>? inFlight = _pushNotificationPermissionRequestInFlight;
+  if (inFlight != null) {
+    return inFlight;
+  }
+  final Future<bool> run = _requestPushNotificationPermissionOnce();
+  _pushNotificationPermissionRequestInFlight = run;
+  try {
+    return await run;
+  } finally {
+    if (identical(_pushNotificationPermissionRequestInFlight, run)) {
+      _pushNotificationPermissionRequestInFlight = null;
+    }
+  }
+}
+
+Future<bool> _requestPushNotificationPermissionOnce() async {
   final SystemPermissionOutcome outcome = await requestSystemPermission(
     SystemPermissionKind.notifications,
   );

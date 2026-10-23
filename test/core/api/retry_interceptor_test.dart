@@ -3,10 +3,13 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
+import 'package:http/http.dart' show ClientException;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 DioException _dio({
   int? statusCode,
@@ -202,6 +205,54 @@ void main() {
         isFalse,
       );
       expect(isTransientNetworkError(StateError('bug')), isFalse);
+    });
+
+    test('is true for HttpExceptionWithStatus gateway failures', () {
+      expect(
+        isTransientNetworkError(
+          HttpExceptionWithStatus(
+            504,
+            'Gateway Timeout',
+            uri: Uri.parse('https://media.test/emojis/1.webp'),
+          ),
+        ),
+        isTrue,
+      );
+    });
+
+    test('unwraps WebSocket, http client, and nested Dio failures', () {
+      expect(
+        isTransientNetworkError(
+          WebSocketChannelException.from(
+            const SocketException('Connection reset by peer'),
+          ),
+        ),
+        isTrue,
+      );
+      expect(
+        isTransientNetworkError(
+          ClientException(
+            'Connection closed while receiving data',
+            Uri.parse('https://instance/emojis/1.webp'),
+          ),
+        ),
+        isTrue,
+      );
+      expect(
+        isTransientNetworkError(
+          _dio(type: DioExceptionType.unknown, error: StateError('wrapper')),
+        ),
+        isFalse,
+      );
+      expect(
+        isTransientNetworkError(
+          _dio(
+            type: DioExceptionType.unknown,
+            error: WebSocketChannelException('Connection closed'),
+          ),
+        ),
+        isTrue,
+      );
     });
   });
 

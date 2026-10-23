@@ -13,7 +13,7 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 
-enum EmbedType { rich, image, gifv, link, video }
+enum EmbedType { rich, image, gifv, link, video, audio }
 
 enum MessageDeliveryState { sending, sent, failed }
 
@@ -113,6 +113,7 @@ class EmbedMedia {
   final String? placeholder;
   final int flags;
   final String? contentHash;
+  final int? duration;
 
   const EmbedMedia({
     required this.url,
@@ -123,6 +124,7 @@ class EmbedMedia {
     this.placeholder,
     this.flags = 0,
     this.contentHash,
+    this.duration,
   });
 
   bool get isAnimated =>
@@ -138,6 +140,7 @@ class EmbedMedia {
     placeholder: sdk.placeholder,
     flags: sdk.flags,
     contentHash: sdk.contentHash,
+    duration: sdk.duration,
   );
 
   factory EmbedMedia.fromJson(Map<String, dynamic> json) => EmbedMedia(
@@ -150,6 +153,7 @@ class EmbedMedia {
     flags: json['flags'] as int? ?? 0,
     contentHash:
         (json['content_hash'] as String?) ?? (json['contentHash'] as String?),
+    duration: json['duration'] as int?,
   );
 
   Map<String, dynamic> toJson() => {
@@ -161,6 +165,7 @@ class EmbedMedia {
     'placeholder': placeholder,
     'flags': flags,
     if (contentHash != null) 'content_hash': contentHash,
+    if (duration != null) 'duration': duration,
   };
 }
 
@@ -203,6 +208,7 @@ class Embed {
   final EmbedMedia? thumbnail;
   final EmbedMedia? image;
   final EmbedMedia? video;
+  final EmbedMedia? audio;
   final List<EmbedField> fields;
   final String? providerName;
   final String? providerUrl;
@@ -220,6 +226,7 @@ class Embed {
     this.thumbnail,
     this.image,
     this.video,
+    this.audio,
     this.fields = const [],
     this.providerName,
     this.providerUrl,
@@ -246,7 +253,7 @@ class Embed {
     if (hasRichEmbedContent) {
       return false;
     }
-    return image != null || thumbnail != null || video != null;
+    return image != null || thumbnail != null || video != null || audio != null;
   }
 
   String get copyableText {
@@ -278,6 +285,7 @@ class Embed {
         : null,
     image: sdk.image != null ? EmbedMedia.fromSdk(sdk.image!) : null,
     video: sdk.video != null ? EmbedMedia.fromSdk(sdk.video!) : null,
+    audio: sdk.audio != null ? EmbedMedia.fromSdk(sdk.audio!) : null,
     fields: sdk.fields?.map(EmbedField.fromSdk).toList() ?? const [],
     providerName: sdk.provider?.name,
     providerUrl: sdk.provider?.url,
@@ -306,6 +314,9 @@ class Embed {
     video: json['video'] != null
         ? EmbedMedia.fromJson(json['video'] as Map<String, dynamic>)
         : null,
+    audio: json['audio'] != null
+        ? EmbedMedia.fromJson(json['audio'] as Map<String, dynamic>)
+        : null,
     fields:
         (json['fields'] as List<dynamic>?)
             ?.map((e) => EmbedField.fromJson(e as Map<String, dynamic>))
@@ -332,6 +343,7 @@ class Embed {
     'thumbnail': thumbnail?.toJson(),
     'image': image?.toJson(),
     'video': video?.toJson(),
+    'audio': audio?.toJson(),
     'fields': fields.map((f) => f.toJson()).toList(),
     'providerName': providerName,
     'providerUrl': providerUrl,
@@ -343,6 +355,7 @@ class Embed {
     'gifv' => EmbedType.gifv,
     'link' => EmbedType.link,
     'video' => EmbedType.video,
+    'audio' => EmbedType.audio,
     _ => EmbedType.rich,
   };
 }

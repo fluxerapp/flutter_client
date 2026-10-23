@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
+import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_build_environment.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
@@ -251,12 +252,26 @@ class FluxerObservability {
     }
     _globalErrorHandlersInstalled = true;
     FlutterError.onError = (FlutterErrorDetails details) {
+      if (_isIgnoredObservabilityError(details.exception)) {
+        return;
+      }
       FlutterError.presentError(details);
       recordFlutterError(details);
+    };
+    final bool Function(Object, StackTrace)? previousPlatformHandler =
+        PlatformDispatcher.instance.onError;
+    PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+      if (isDriftCancellation(error) || _isIgnoredObservabilityError(error)) {
+        return true;
+      }
+      return previousPlatformHandler?.call(error, stack) ?? false;
     };
   }
 
   void recordFlutterError(FlutterErrorDetails details) {
+    if (_isIgnoredObservabilityError(details.exception)) {
+      return;
+    }
     _logErrorToTalker(
       details.exception,
       stackTrace: details.stack,
@@ -270,6 +285,9 @@ class FluxerObservability {
     StackTrace stackTrace, {
     required String library,
   }) {
+    if (_isIgnoredObservabilityError(error)) {
+      return;
+    }
     final FlutterErrorDetails details = FlutterErrorDetails(
       exception: error,
       stack: stackTrace,
@@ -288,6 +306,9 @@ class FluxerObservability {
     StackTrace? stackTrace,
     String? context,
   }) {
+    if (_isIgnoredObservabilityError(error)) {
+      return;
+    }
     _logErrorToTalker(
       error,
       stackTrace: stackTrace,
@@ -355,6 +376,9 @@ class FluxerObservability {
   ) {
     final FlutterExceptionHandler? measureFlutterHandler = FlutterError.onError;
     FlutterError.onError = (FlutterErrorDetails details) {
+      if (_isIgnoredObservabilityError(details.exception)) {
+        return;
+      }
       localHandler?.call(details);
       if (_shouldSendErrorsToMeasure) {
         measureFlutterHandler?.call(sanitizeErrorDetailsForMeasure(details));
@@ -364,6 +388,9 @@ class FluxerObservability {
         PlatformDispatcher.instance.onError;
     PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
       if (isDriftCancellation(error)) {
+        return true;
+      }
+      if (_isIgnoredObservabilityError(error)) {
         return true;
       }
       recordFlutterError(
@@ -382,6 +409,10 @@ class FluxerObservability {
       forceFlush();
       return false;
     };
+  }
+
+  bool _isIgnoredObservabilityError(Object error) {
+    return isTransientNetworkError(unwrapMeasureSanitizedError(error));
   }
 
   void _logErrorToTalker(

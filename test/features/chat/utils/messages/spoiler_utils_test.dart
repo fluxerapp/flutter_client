@@ -70,6 +70,23 @@ void main() {
       final spoilered = extractSpoileredUrls('||https://example.com||');
       expect(spoilerSyncKeysForEmbed(googleEmbed, spoilered), isEmpty);
     });
+
+    test('matches spoilered direct audio urls', () {
+      const Embed audioEmbed = Embed(
+        type: EmbedType.audio,
+        url: 'https://cdn.example.test/song.mp3',
+        audio: EmbedMedia(
+          url: 'https://cdn.example.test/song.mp3',
+          proxyUrl: 'https://proxy.example.test/song.mp3',
+        ),
+      );
+      final spoilered = extractSpoileredUrls(
+        '||https://cdn.example.test/song.mp3||',
+      );
+      expect(spoilerSyncKeysForEmbed(audioEmbed, spoilered), <String>[
+        'https://cdn.example.test/song.mp3',
+      ]);
+    });
   });
 
   group('spoilerSyncKeysForMessageEmbed', () {

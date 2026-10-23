@@ -11,6 +11,7 @@ import io.flutter.embedding.engine.FlutterEngine
 
 class MainActivity : AudioServiceActivity() {
     private val imeEditingShortcutBridge = ImeEditingShortcutBridge()
+    private var ownsMainEngine = false
 
     private val callkitEventCallback = object : CallkitEventCallback {
         override fun onCallEvent(
@@ -35,8 +36,13 @@ class MainActivity : AudioServiceActivity() {
     }
 
     override fun onDestroy() {
+        val ownedEngine = ownsMainEngine
+        ownsMainEngine = false
         FlutterCallkitIncomingPlugin.unregisterEventCallback(callkitEventCallback)
         super.onDestroy()
+        if (ownedEngine) {
+            FluxerUnifiedPushService.noteMainEngineStopped()
+        }
     }
 
     override fun popSystemNavigator(): Boolean = moveTaskToBack(true)
@@ -50,6 +56,8 @@ class MainActivity : AudioServiceActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        ownsMainEngine = true
+        FluxerUnifiedPushService.noteMainEngineStarted()
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
         AnimatorDurationScaleBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
