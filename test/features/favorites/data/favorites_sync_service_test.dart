@@ -313,45 +313,6 @@ void main() {
       },
     );
 
-    test(
-      'hydrate ignores remote shrink while dirty and recently acked',
-      () async {
-        const initial = FavoritesLocalState(
-          channels: [
-            db.FavoriteChannel(
-              channelId: 'local-1',
-              guildId: 'guild-1',
-              position: 0,
-            ),
-          ],
-          categories: [],
-          collapsedCategoryIds: [],
-          hideMutedChannels: false,
-          muted: false,
-        );
-        const remoteShrink = _emptyFavorites;
-
-        await syncStore.hydrateFromUserSettings(_settingsFor(initial));
-        await database.favoriteChannelsDao.addChannel(
-          channelId: 'local-2',
-          guildId: 'guild-1',
-        );
-        syncStore.markDirty(SyncedPreferenceField.favorites);
-        await _waitForDebounce(syncStore);
-        expect(usersApi.pushCount, 1);
-
-        await syncStore.hydrateFromUserSettings(_settingsFor(remoteShrink));
-
-        final channels = await database.favoriteChannelsDao
-            .watchChannels()
-            .first;
-        expect(
-          channels.map((channel) => channel.channelId),
-          containsAll(['local-1', 'local-2']),
-        );
-      },
-    );
-
     test('session reset clears hydrated state and wire blob', () async {
       const server = FavoritesLocalState(
         channels: [
@@ -481,57 +442,6 @@ void main() {
         'channel-b',
         'channel-a',
       ]);
-    });
-
-    test('hydrate merges remote additions while dirty', () async {
-      const initial = FavoritesLocalState(
-        channels: [
-          db.FavoriteChannel(
-            channelId: 'local-1',
-            guildId: 'guild-1',
-            position: 0,
-          ),
-        ],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
-      const expanded = FavoritesLocalState(
-        channels: [
-          db.FavoriteChannel(
-            channelId: 'local-1',
-            guildId: 'guild-1',
-            position: 0,
-          ),
-          db.FavoriteChannel(
-            channelId: 'desktop-added',
-            guildId: 'guild-1',
-            position: 1,
-          ),
-        ],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
-
-      await syncStore.hydrateFromUserSettings(_settingsFor(initial));
-      await database.favoriteChannelsDao.addChannel(
-        channelId: 'local-2',
-        guildId: 'guild-1',
-      );
-      syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce(syncStore);
-      expect(usersApi.pushCount, 1);
-
-      await syncStore.hydrateFromUserSettings(_settingsFor(expanded));
-
-      final channels = await database.favoriteChannelsDao.watchChannels().first;
-      expect(
-        channels.map((channel) => channel.channelId),
-        containsAll(['local-1', 'local-2', 'desktop-added']),
-      );
     });
 
     test('retries push after 429 rate limit', () async {

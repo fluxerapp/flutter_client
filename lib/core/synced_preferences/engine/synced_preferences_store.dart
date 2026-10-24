@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cryptography/cryptography.dart' show Sha256;
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
@@ -27,8 +28,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'synced_preferences_store.g.dart';
 
-const Duration _kRecentAckWindow = Duration(seconds: 60);
 const int _kRateLimitMaxAttempts = 6;
+const int _kConflictMaxRetries = 3;
+const int _kPendingEchoLimit = 8;
+const String _kSyncedPreferencesConflictCode = 'SYNCED_PREFERENCES_CONFLICT';
 const int _kRateLimitBackoffCapMs = 60000;
 const int _kRateLimitRetryAfterMinMs = 250;
 
@@ -70,21 +73,25 @@ class SyncedPreferencesStore {
   bool _hasHydrated = false;
   final StreamController<void> _hydrations = StreamController<void>.broadcast();
   bool _hasServerSnapshot = false;
-  bool _isApplyingRemote = false;
+  int _hydratesInFlight = 0;
   bool _isPushInFlight = false;
   bool _pendingPush = false;
   final Set<SyncedPreferenceField> _dirtyFields = {};
   final Set<SyncedPreferenceField> _inFlightFields = {};
   pb.SyncedPreferences? _inFlightSnapshot;
-  final Map<SyncedPreferenceField, DateTime> _recentlyAckedUntil = {};
+  final List<({String base, String acked})> _pendingEchoes = [];
   Timer? _pushTimer;
   Duration? _pushTimerDelay;
   Timer? _pushRetryTimer;
   Set<SyncedPreferenceField> _restoredDirtyFields = {};
   int _pushGeneration = 0;
   int _pushRetryAttempts = 0;
+  int _conflictRetries = 0;
+  int _accountGeneration = 0;
 
   bool get hasHydrated => _hasHydrated;
+
+  int get accountGeneration => _accountGeneration;
 
   Stream<void> get hydrations => _hydrations.stream;
 
@@ -116,16 +123,18 @@ class SyncedPreferencesStore {
     _hydrateBaselineWire = null;
     _hasHydrated = false;
     _hasServerSnapshot = false;
-    _isApplyingRemote = false;
+    _hydratesInFlight = 0;
     _isPushInFlight = false;
     _pendingPush = false;
     _dirtyFields.clear();
     _inFlightFields.clear();
     _inFlightSnapshot = null;
-    _recentlyAckedUntil.clear();
+    _pendingEchoes.clear();
     _restoredDirtyFields = {};
     _pushGeneration++;
     _pushRetryAttempts = 0;
+    _conflictRetries = 0;
+    _accountGeneration++;
   }
 
   void markSessionChanging() {}
@@ -137,6 +146,7 @@ class SyncedPreferencesStore {
       return;
     }
     _pushRetryAttempts = 0;
+    _conflictRetries = 0;
     _pushRetryTimer?.cancel();
     _pushRetryTimer = null;
     scheduleFlush();
@@ -144,7 +154,7 @@ class SyncedPreferencesStore {
 
   void scheduleFlush() {
     _pendingPush = true;
-    if (_isApplyingRemote) {
+    if (_hydratesInFlight > 0) {
       return;
     }
     _startPushTimer();
@@ -177,30 +187,56 @@ class SyncedPreferencesStore {
     UserSettingsResponse settings, {
     SyncedThemeCustomizationApplier? themeCustomizationApplier,
     bool fromCache = false,
+    int? accountGeneration,
   }) async {
-    var encoded = settings.syncedPreferences;
-    if (_hasHydrated &&
-        _wireBlob.isNotEmpty &&
-        encoded.isNotEmpty &&
-        encoded != _wireBlob &&
-        await _shouldPreferLocalWireOverIncoming(encoded)) {
-      encoded = _wireBlob;
+    final int generation = accountGeneration ?? _accountGeneration;
+    if (generation != _accountGeneration) {
+      return;
+    }
+    _hydratesInFlight++;
+    try {
+      await _hydrate(
+        settings.syncedPreferences,
+        generation: generation,
+        themeCustomizationApplier: themeCustomizationApplier,
+        fromCache: fromCache,
+      );
+    } finally {
+      if (generation == _accountGeneration) {
+        _hydratesInFlight--;
+        _flushPendingPush();
+      }
+    }
+  }
+
+  bool _isStale(int generation) =>
+      generation != _accountGeneration || !_ref.mounted;
+
+  Future<void> _hydrate(
+    String encoded, {
+    required int generation,
+    required SyncedThemeCustomizationApplier? themeCustomizationApplier,
+    required bool fromCache,
+  }) async {
+    if (_hasHydrated && _isStaleSnapshot(encoded)) {
+      return;
     }
     if (!fromCache) {
       _hasServerSnapshot = true;
     }
     if (_hasHydrated && encoded.isEmpty) {
-      _flushPendingPush();
       return;
     }
     _wireBlob = encoded;
-    final decodeStatus = await _decodeIncoming(encoded);
+    final decodeStatus = _decodeIncoming(encoded);
     if (decodeStatus == _DecodeStatus.failure) {
       if (!fromCache) {
-        await _attemptBoundedRepair(encoded);
+        await _attemptBoundedRepair(encoded, generation: generation);
+        if (_isStale(generation)) {
+          return;
+        }
       }
       _hasHydrated = true;
-      _flushPendingPush();
       return;
     }
     final incoming = decodeStatus == _DecodeStatus.empty
@@ -208,16 +244,19 @@ class SyncedPreferencesStore {
         : SyncedPreferencesEngine.decode(encoded);
     final wasFirstHydrate = !_hasHydrated;
     if (wasFirstHydrate) {
-      await _restorePersistedDirtyFields();
+      final Set<SyncedPreferenceField> restored =
+          await _readPersistedDirtyFields();
+      if (_isStale(generation)) {
+        return;
+      }
+      _restoredDirtyFields = restored;
+      _dirtyFields.addAll(restored);
     }
     final protectedFields = _protectedFields(wasFirstHydrate: wasFirstHydrate);
-    final recentlyAcked = _recentlyAckedFields();
     final mergeResult = SyncedPreferencesEngine.mergeIncoming(
       local: _local,
-      wire: _wire,
       incoming: incoming,
       protectedFields: protectedFields,
-      recentlyAckedFields: recentlyAcked,
       inFlight: _inFlightSnapshot,
       syncInFlight: _isPushInFlight,
     );
@@ -225,7 +264,7 @@ class SyncedPreferencesStore {
       _dirtyFields.add(field);
     }
     final previousWire = _wire;
-    _wire = mergeResult.wire;
+    _wire = incoming;
     _local = mergeResult.merged;
     if (encoded.isNotEmpty && decodeStatus == _DecodeStatus.success) {
       _lastKnownGoodWire = encoded;
@@ -236,44 +275,58 @@ class SyncedPreferencesStore {
         incoming: incoming,
         wasFirstHydrate: wasFirstHydrate,
         protectedFields: protectedFields,
-        recentlyAckedFields: recentlyAcked,
+        protectedBaselineWire: wasFirstHydrate && fromCache
+            ? incoming
+            : previousWire,
+        generation: generation,
       );
     } finally {
-      _hydrateBaselineWire = null;
+      if (generation == _accountGeneration) {
+        _hydrateBaselineWire = null;
+      }
+    }
+    if (_isStale(generation)) {
+      return;
     }
     if (encoded.isNotEmpty && decodeStatus == _DecodeStatus.success) {
-      await _clearStaleDirtyForAbsentServerFields(incoming: incoming);
+      await _clearStaleDirtyForAbsentServerFields(
+        incoming: incoming,
+        generation: generation,
+      );
+      if (_isStale(generation)) {
+        return;
+      }
     }
     await _applyMergedAccessibilityTheme(
       themeCustomizationApplier: themeCustomizationApplier,
     );
+    if (_isStale(generation)) {
+      return;
+    }
     _hasHydrated = true;
     _restoredDirtyFields = {};
     _persistDirtyFields();
-    _flushPendingPush();
     if (!_hydrations.isClosed) {
       _hydrations.add(null);
     }
   }
 
-  Future<void> _restorePersistedDirtyFields() async {
+  Future<Set<SyncedPreferenceField>> _readPersistedDirtyFields() async {
     final String? userId = _ref.read(currentUserIdProvider);
     if (userId == null) {
-      return;
+      return {};
     }
     final List<String> names = await _ref
         .read(fluxerDatabaseProvider)
         .userPreferencesDao
         .getSyncedPreferencesDirtyFields(userId);
-    final restored = <SyncedPreferenceField>{
+    return {
       for (final name in names)
         if (SyncedPreferenceField.values.asNameMap()[name]
             case final SyncedPreferenceField field
             when _adapters[field]?.keepsUnpushedEditsAcrossLaunches ?? false)
           field,
     };
-    _restoredDirtyFields = restored;
-    _dirtyFields.addAll(restored);
   }
 
   Future<void> _persistSyncedPreferencesToUserSettingsCache(
@@ -377,55 +430,41 @@ class SyncedPreferencesStore {
     required pb.SyncedPreferences incoming,
     required bool wasFirstHydrate,
     required Set<SyncedPreferenceField> protectedFields,
-    required Set<SyncedPreferenceField> recentlyAckedFields,
+    required pb.SyncedPreferences protectedBaselineWire,
+    required int generation,
   }) async {
     for (final entry in _adapters.entries) {
       final field = entry.key;
       final adapter = entry.value;
       final local = await adapter.readLocalValue();
+      if (_isStale(generation)) {
+        return;
+      }
       final remote = adapter.readFromProto(incoming);
       final hasLocal = adapter.hasLocalData(local);
       final hasRemote = remote != null && adapter.hasRemoteData(remote);
       final isProtected = protectedFields.contains(field);
-      final isRecentlyAcked = recentlyAckedFields.contains(field);
       if (!isProtected && !_dirtyFields.contains(field)) {
         if (remote != null) {
-          if (isRecentlyAcked &&
-              adapter.ignoreAckedRemoteShrink(local, remote)) {
-            _restoreAckedFieldFromBaseline(adapter, local);
-            continue;
+          final target = adapter.mergeRemote(local: local, remote: remote);
+          if (!_statesEqual(adapter, local, target)) {
+            await _applyAdapterRemote(adapter, target, generation: generation);
           }
-          if (isRecentlyAcked && adapter.mergeAckedInbound(local, remote)) {
-            final target = adapter.mergeRecentlyAckedInbound(
-              local: local,
-              remote: remote,
-            );
-            if (!_statesEqual(adapter, local, target)) {
-              await _applyAdapterRemote(adapter, target);
-            }
-            if (!_statesEqual(adapter, target, remote)) {
-              _dirtyFields.add(field);
-              scheduleFlush();
-            } else {
-              _dirtyFields.remove(field);
-            }
+          if (_statesEqual(adapter, target, remote)) {
+            _dirtyFields.remove(field);
           } else {
-            final target = adapter.mergeRemote(local: local, remote: remote);
-            if (!_statesEqual(adapter, local, target)) {
-              await _applyAdapterRemote(adapter, target);
-            }
-            if (_statesEqual(adapter, target, remote)) {
-              _dirtyFields.remove(field);
-            } else {
-              _dirtyFields.add(field);
-              scheduleFlush();
-            }
+            _dirtyFields.add(field);
+            scheduleFlush();
           }
         } else if (hasLocal && encodedIsEmpty()) {
           _dirtyFields.add(field);
           scheduleFlush();
         } else {
-          await _applyOmittedFieldClear(adapter: adapter, local: local);
+          await _applyOmittedFieldClear(
+            adapter: adapter,
+            local: local,
+            generation: generation,
+          );
         }
         continue;
       }
@@ -440,19 +479,27 @@ class SyncedPreferencesStore {
           final target = adapter.mergeProtectedInbound(
             local: local,
             remote: remote,
-            baseline: adapter.readFromProto(_hydrateBaselineWire ?? _wire),
+            baseline: adapter.readFromProto(protectedBaselineWire),
           );
           if (!_statesEqual(adapter, local, target)) {
-            await _applyAdapterRemote(adapter, target);
+            await _applyAdapterRemote(adapter, target, generation: generation);
           }
         } else if (!_dirtyFields.contains(field) &&
             adapter.clearedRemoteValue() != null) {
           if (remote != null) {
             if (!_statesEqual(adapter, local, remote)) {
-              await _applyAdapterRemote(adapter, remote);
+              await _applyAdapterRemote(
+                adapter,
+                remote,
+                generation: generation,
+              );
             }
           } else {
-            await _applyOmittedFieldClear(adapter: adapter, local: local);
+            await _applyOmittedFieldClear(
+              adapter: adapter,
+              local: local,
+              generation: generation,
+            );
           }
         }
         continue;
@@ -463,7 +510,7 @@ class SyncedPreferencesStore {
           !_statesEqual(adapter, local, remote)) {
         final target = adapter.mergeForMigration(local: local, remote: remote);
         if (!_statesEqual(adapter, local, target)) {
-          await _applyAdapterRemote(adapter, target);
+          await _applyAdapterRemote(adapter, target, generation: generation);
         }
         if (!_statesEqual(adapter, target, remote)) {
           _dirtyFields.add(field);
@@ -489,7 +536,7 @@ class SyncedPreferencesStore {
         continue;
       }
       if (remote != null) {
-        await _applyAdapterRemote(adapter, remote);
+        await _applyAdapterRemote(adapter, remote, generation: generation);
         _dirtyFields.remove(field);
       }
     }
@@ -500,6 +547,7 @@ class SyncedPreferencesStore {
   Future<void> _applyOmittedFieldClear({
     required SyncedFieldAdapter<Object?> adapter,
     required Object? local,
+    required int generation,
   }) async {
     if (!adapter.hasLocalData(local) || encodedIsEmpty()) {
       return;
@@ -508,23 +556,7 @@ class SyncedPreferencesStore {
     if (cleared == null || _statesEqual(adapter, local, cleared)) {
       return;
     }
-    await _applyAdapterRemote(adapter, cleared);
-  }
-
-  void _restoreAckedFieldFromBaseline(
-    SyncedFieldAdapter<Object?> adapter,
-    Object? local,
-  ) {
-    final baseline = _hydrateBaselineWire;
-    if (baseline == null) {
-      return;
-    }
-    _wire = SyncedPreferencesEngine.copyField(
-      target: _wire,
-      source: baseline,
-      field: adapter.field,
-    );
-    _local = _applyAdapterToProto(_local, adapter, local, wire: baseline);
+    await _applyAdapterRemote(adapter, cleared, generation: generation);
   }
 
   FavoritesLocalState? _readSyncedLocalFavorites() {
@@ -537,6 +569,7 @@ class SyncedPreferencesStore {
 
   Future<void> _clearStaleDirtyForAbsentServerFields({
     required pb.SyncedPreferences incoming,
+    required int generation,
   }) async {
     for (final field in List<SyncedPreferenceField>.from(_dirtyFields)) {
       if (_inFlightFields.contains(field)) {
@@ -549,7 +582,11 @@ class SyncedPreferencesStore {
       if (adapter.readFromProto(incoming) != null) {
         continue;
       }
-      if (adapter.hasLocalData(await adapter.readLocalValue())) {
+      final Object? local = await adapter.readLocalValue();
+      if (_isStale(generation)) {
+        return;
+      }
+      if (adapter.hasLocalData(local)) {
         continue;
       }
       _dirtyFields.remove(field);
@@ -572,7 +609,7 @@ class SyncedPreferencesStore {
     }
   }
 
-  Future<_DecodeStatus> _decodeIncoming(String encoded) async {
+  _DecodeStatus _decodeIncoming(String encoded) {
     if (encoded.isEmpty) {
       return _DecodeStatus.empty;
     }
@@ -584,7 +621,10 @@ class SyncedPreferencesStore {
     }
   }
 
-  Future<void> _attemptBoundedRepair(String encoded) async {
+  Future<void> _attemptBoundedRepair(
+    String encoded, {
+    required int generation,
+  }) async {
     if (_lastKnownGoodWire.isEmpty) {
       final foreignCount = SyncedPreferencesWireCodec.countForeignFields(
         encoded,
@@ -601,7 +641,8 @@ class SyncedPreferencesStore {
       return;
     }
     final local = await favoritesAdapter.readLocalValue();
-    if (!favoritesAdapter.hasLocalData(local) ||
+    if (_isStale(generation) ||
+        !favoritesAdapter.hasLocalData(local) ||
         !favoritesAdapter.verifyRoundtrip(local)) {
       return;
     }
@@ -618,14 +659,23 @@ class SyncedPreferencesStore {
       )) {
         return;
       }
+      final String baseHash = await syncedPreferencesBaseHash(encoded);
+      if (_isStale(generation)) {
+        return;
+      }
       final client = _ref.read(fluxerClientProvider);
-      await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(
-          syncedPreferences: JsonNullable.of(repairWire),
-        ),
-      );
-      _wireBlob = repairWire;
-      _lastKnownGoodWire = repairWire;
+      final UserSettingsResponse response = await client.users
+          .updateCurrentUserSettings(
+            body: UserSettingsUpdateRequest(
+              syncedPreferences: JsonNullable.of(repairWire),
+              syncedPreferencesBaseHash: baseHash,
+            ),
+          );
+      if (_isStale(generation)) {
+        return;
+      }
+      _wireBlob = response.syncedPreferences;
+      _lastKnownGoodWire = response.syncedPreferences;
       talker.info('[SyncedPreferences] Repaired favorites field on wire');
     } on Object catch (error, stackTrace) {
       talker.error(
@@ -640,20 +690,14 @@ class SyncedPreferencesStore {
     if (!_ref.mounted) {
       return;
     }
-    if (_isApplyingRemote) {
-      _pendingPush = true;
-      return;
-    }
-    if (!_hasServerSnapshot) {
-      _pendingPush = true;
-      return;
-    }
-    if (_isPushInFlight) {
+    if (_hydratesInFlight > 0 || !_hasServerSnapshot || _isPushInFlight) {
       _pendingPush = true;
       return;
     }
     final generation = ++_pushGeneration;
+    final int accountGeneration = _accountGeneration;
     _isPushInFlight = true;
+    var conflicted = false;
     pb.SyncedPreferences? inFlightSnapshot;
     try {
       final changedFields = await _changedRegisteredFields();
@@ -676,13 +720,14 @@ class SyncedPreferencesStore {
       _inFlightFields
         ..clear()
         ..addAll(fieldsInRequest);
+      final String baseWire = _wireBlob;
       inFlightSnapshot = await _buildLocalSnapshot();
       _inFlightSnapshot = inFlightSnapshot;
       if (!_ref.mounted) {
         return;
       }
       final encoded = await _encodeLocalSnapshot(
-        inFlightSnapshot,
+        baseWire: baseWire,
         fieldsToEncode: fieldsInRequest,
       );
       if (!_ref.mounted || encoded.isEmpty) {
@@ -704,34 +749,49 @@ class SyncedPreferencesStore {
           return;
         }
       }
+      final String baseHash = await syncedPreferencesBaseHash(baseWire);
       if (generation != _pushGeneration || !_ref.mounted) {
         return;
       }
       final client = _ref.read(fluxerClientProvider);
-      await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(
-          syncedPreferences: JsonNullable.of(encoded),
-        ),
-      );
+      final UserSettingsResponse response = await client.users
+          .updateCurrentUserSettings(
+            body: UserSettingsUpdateRequest(
+              syncedPreferences: JsonNullable.of(encoded),
+              syncedPreferencesBaseHash: baseHash,
+            ),
+          );
       if (generation != _pushGeneration || !_ref.mounted) {
         return;
       }
-      _wireBlob = encoded;
-      _lastKnownGoodWire = encoded;
-      _wire = SyncedPreferencesEngine.decode(encoded);
+      final String acked = response.syncedPreferences;
+      if (_wireBlob != acked) {
+        _pendingEchoes.add((base: baseWire, acked: acked));
+        if (_pendingEchoes.length > _kPendingEchoLimit) {
+          _pendingEchoes.removeAt(0);
+        }
+      }
+      _wireBlob = acked;
+      if (acked.isNotEmpty) {
+        _lastKnownGoodWire = acked;
+      }
+      _wire = acked.isEmpty
+          ? SyncedPreferencesEngine.createEmpty()
+          : SyncedPreferencesEngine.decode(acked);
       final pb.SyncedPreferences latestLocal = await _buildLocalSnapshot();
       if (!_ref.mounted) {
         return;
       }
       _local = latestLocal;
       _dirtyFields.removeAll(fieldsInRequest);
-      await _persistSyncedPreferencesToUserSettingsCache(encoded);
-      final stillChanged = await _changedRegisteredFields();
-      _dirtyFields.addAll(stillChanged);
+      await _persistSyncedPreferencesToUserSettingsCache(acked);
+      final List<SyncedPreferenceField> stillChanged =
+          await _changedRegisteredFields();
+      _dirtyFields.addAll(stillChanged.where(fieldsInRequest.contains));
       _pendingPush = _dirtyFields.isNotEmpty;
       _persistDirtyFields();
-      _markFieldsAcked(fieldsInRequest);
       _pushRetryAttempts = 0;
+      _conflictRetries = 0;
       final fieldNames = fieldsInRequest.map((field) => field.name).join(', ');
       talker.debug(
         '[SyncedPreferences] Pushed ${fieldsInRequest.length} field(s) '
@@ -743,6 +803,13 @@ class SyncedPreferencesStore {
       talker.error('[SyncedPreferences] Wire encode failed', error, stackTrace);
       _pendingPush = false;
     } on Object catch (error, stackTrace) {
+      if (_isSyncedPreferencesConflict(error)) {
+        talker.warning(
+          '[SyncedPreferences] Push conflicted with a newer server snapshot',
+        );
+        conflicted = true;
+        return;
+      }
       if (isTransientNetworkError(error)) {
         talker.warning('[SyncedPreferences] Push failed, will retry: $error');
       } else {
@@ -750,90 +817,58 @@ class SyncedPreferencesStore {
       }
       _schedulePushRetry(error);
     } finally {
-      _isPushInFlight = false;
-      _inFlightFields.clear();
-      _inFlightSnapshot = null;
-      if (_ref.mounted) {
+      if (accountGeneration == _accountGeneration) {
+        _isPushInFlight = false;
+        _inFlightFields.clear();
+        _inFlightSnapshot = null;
+      }
+      if (conflicted && accountGeneration == _accountGeneration) {
+        unawaited(_resolveConflict(accountGeneration));
+      } else if (_ref.mounted) {
         _flushPendingPush();
       }
     }
   }
 
-  Future<bool> _localStateDiffersFromWireBlob(String wireBlob) async {
-    final pb.SyncedPreferences wire = wireBlob.isEmpty
-        ? SyncedPreferencesEngine.createEmpty()
-        : SyncedPreferencesEngine.decodeLenient(wireBlob);
-    for (final MapEntry<SyncedPreferenceField, SyncedFieldAdapter<Object?>>
-        entry
-        in _adapters.entries) {
-      if (!_ref.mounted) {
-        return false;
-      }
-      final SyncedFieldAdapter<Object?> adapter = entry.value;
-      final Object? local = await adapter.readLocalValue();
-      final Object? remote = adapter.readFromProto(wire);
-      if (remote == null) {
-        if (adapter.hasLocalData(local)) {
-          return true;
-        }
-        continue;
-      }
-      if (!_adapterValuesEqual(adapter, local, remote)) {
-        return true;
-      }
+  Future<void> _resolveConflict(int accountGeneration) async {
+    if (_conflictRetries >= _kConflictMaxRetries) {
+      talker.warning(
+        '[SyncedPreferences] Giving up after $_conflictRetries conflicts',
+      );
+      _pendingPush = false;
+      return;
     }
-    return false;
+    _conflictRetries++;
+    _pendingPush = true;
+    try {
+      final UserSettingsResponse settings = await _ref
+          .read(fluxerClientProvider)
+          .users
+          .getCurrentUserSettings();
+      if (_isStale(accountGeneration)) {
+        return;
+      }
+      await hydrateFromUserSettings(
+        settings,
+        accountGeneration: accountGeneration,
+      );
+    } on Object catch (error, stackTrace) {
+      if (_isStale(accountGeneration)) {
+        return;
+      }
+      talker.warning(
+        '[SyncedPreferences] Refetch after conflict failed',
+        error,
+        stackTrace,
+      );
+      _schedulePushRetry(error);
+    }
   }
 
-  Future<bool> _shouldPreferLocalWireOverIncoming(
-    String incomingEncoded,
-  ) async {
-    if (_wireBlob.isEmpty || incomingEncoded.isEmpty) {
-      return false;
-    }
-    if (!await _localStateDiffersFromWireBlob(incomingEncoded)) {
-      return false;
-    }
-    if (await _localStateDiffersFromWireBlob(_wireBlob)) {
-      return false;
-    }
-    final Set<SyncedPreferenceField> recentlyAcked = _recentlyAckedFields();
-    if (recentlyAcked.isEmpty) {
-      return false;
-    }
-    final pb.SyncedPreferences incomingWire =
-        SyncedPreferencesEngine.decodeLenient(incomingEncoded);
-    final pb.SyncedPreferences localWire =
-        SyncedPreferencesEngine.decodeLenient(_wireBlob);
-    for (final MapEntry<SyncedPreferenceField, SyncedFieldAdapter<Object?>>
-        entry
-        in _adapters.entries) {
-      if (!_ref.mounted) {
-        return false;
-      }
-      final SyncedFieldAdapter<Object?> adapter = entry.value;
-      final Object? local = await adapter.readLocalValue();
-      final Object? fromIncoming = adapter.readFromProto(incomingWire);
-      final Object? fromLocalWire = adapter.readFromProto(localWire);
-      if (_adapterValuesEqual(adapter, fromIncoming, fromLocalWire)) {
-        continue;
-      }
-      if (fromIncoming == null && fromLocalWire != null) {
-        return false;
-      }
-      if (!_adapterValuesEqual(adapter, local, fromLocalWire)) {
-        return false;
-      }
-      if (!recentlyAcked.contains(entry.key)) {
-        return false;
-      }
-      if (fromIncoming != null &&
-          adapter.hasRemoteAdditions(local, fromIncoming)) {
-        return false;
-      }
-    }
-    return true;
-  }
+  bool _isSyncedPreferencesConflict(Object error) =>
+      error is DioException &&
+      error.response?.statusCode == 409 &&
+      apiErrorCodeFromDioException(error) == _kSyncedPreferencesConflictCode;
 
   Future<List<SyncedPreferenceField>> _changedRegisteredFields() async {
     final wire = _wireBlob.isEmpty
@@ -877,13 +912,13 @@ class SyncedPreferencesStore {
     return snapshot;
   }
 
-  Future<String> _encodeLocalSnapshot(
-    pb.SyncedPreferences snapshot, {
+  Future<String> _encodeLocalSnapshot({
+    required String baseWire,
     required Iterable<SyncedPreferenceField> fieldsToEncode,
   }) async {
-    final wire = _wireBlob.isEmpty
+    final wire = baseWire.isEmpty
         ? SyncedPreferencesEngine.createEmpty()
-        : SyncedPreferencesEngine.decodeLenient(_wireBlob);
+        : SyncedPreferencesEngine.decodeLenient(baseWire);
     final fieldMessages = <int, Uint8List>{};
     final fieldWireTypes = <int, int>{};
     for (final field in fieldsToEncode) {
@@ -903,7 +938,7 @@ class SyncedPreferencesStore {
       fieldWireTypes[adapter.fieldNumber] = adapter.fieldPushWireType;
     }
     return SyncedPreferencesWireCodec.encodeSnapshotIntoWire(
-      currentWire: _wireBlob.isEmpty ? null : _wireBlob,
+      currentWire: baseWire.isEmpty ? null : baseWire,
       fieldMessages: fieldMessages,
       fieldWireTypes: fieldWireTypes,
     );
@@ -962,20 +997,18 @@ class SyncedPreferencesStore {
 
   Future<void> _applyAdapterRemote(
     SyncedFieldAdapter<Object?> adapter,
-    Object? value,
-  ) async {
-    _isApplyingRemote = true;
-    try {
-      await adapter.applyRemote(value);
-      final local = await adapter.readLocalValue();
-      final wire = _wireBlob.isEmpty
-          ? SyncedPreferencesEngine.createEmpty()
-          : SyncedPreferencesEngine.decodeLenient(_wireBlob);
-      _local = _applyAdapterToProto(_local, adapter, local, wire: wire);
-    } finally {
-      _isApplyingRemote = false;
-      _flushPendingPush();
+    Object? value, {
+    required int generation,
+  }) async {
+    await adapter.applyRemote(value);
+    final local = await adapter.readLocalValue();
+    if (_isStale(generation)) {
+      return;
     }
+    final wire = _wireBlob.isEmpty
+        ? SyncedPreferencesEngine.createEmpty()
+        : SyncedPreferencesEngine.decodeLenient(_wireBlob);
+    _local = _applyAdapterToProto(_local, adapter, local, wire: wire);
   }
 
   bool _statesEqual(SyncedFieldAdapter<Object?> adapter, Object? a, Object? b) {
@@ -1010,36 +1043,24 @@ class SyncedPreferencesStore {
     return protected;
   }
 
-  Set<SyncedPreferenceField> _recentlyAckedFields() {
-    final now = DateTime.now();
-    final active = <SyncedPreferenceField>{};
-    final expired = <SyncedPreferenceField>[];
-    for (final entry in _recentlyAckedUntil.entries) {
-      if (entry.value.isAfter(now)) {
-        active.add(entry.key);
-      } else {
-        expired.add(entry.key);
-      }
+  bool _isStaleSnapshot(String encoded) {
+    final int echoIndex = _pendingEchoes.indexWhere(
+      (push) => push.acked == encoded,
+    );
+    if (echoIndex >= 0) {
+      _pendingEchoes.removeRange(0, echoIndex + 1);
+      return encoded != _wireBlob;
     }
-    for (final field in expired) {
-      _recentlyAckedUntil.remove(field);
+    if (_pendingEchoes.any((push) => push.base == encoded)) {
+      return true;
     }
-    return active;
-  }
-
-  void _markFieldsAcked(Iterable<SyncedPreferenceField> fields) {
-    final expiresAt = DateTime.now().add(_kRecentAckWindow);
-    for (final field in fields) {
-      if (_dirtyFields.contains(field)) {
-        continue;
-      }
-      _recentlyAckedUntil[field] = expiresAt;
-    }
+    _pendingEchoes.clear();
+    return false;
   }
 
   void _flushPendingPush() {
     if (!_pendingPush ||
-        _isApplyingRemote ||
+        _hydratesInFlight > 0 ||
         _isPushInFlight ||
         (_pushRetryTimer?.isActive ?? false)) {
       return;
@@ -1119,6 +1140,15 @@ class SyncedPreferencesStore {
     }
     return false;
   }
+}
+
+Future<String> syncedPreferencesBaseHash(String encoded) async {
+  final hash = await Sha256().hash(
+    encoded.isEmpty ? [] : base64Decode(encoded),
+  );
+  return [
+    for (final int byte in hash.bytes) byte.toRadixString(16).padLeft(2, '0'),
+  ].join();
 }
 
 enum _DecodeStatus { empty, success, failure }

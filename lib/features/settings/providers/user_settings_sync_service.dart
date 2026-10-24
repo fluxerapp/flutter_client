@@ -47,12 +47,13 @@ class UserSettingsSyncService {
 
   Future<void> pushAfkTimeout(int minutes) async {
     final client = _ref.read(fluxerClientProvider);
+    final String? userId = _ref.read(currentUserIdProvider);
     try {
       final UserSettingsResponse updated = await client.users
           .updateCurrentUserSettings(
             body: UserSettingsUpdateRequest(afkTimeout: minutes * 60),
           );
-      await _persistSettings(updated);
+      await _persistSettings(userId, updated);
       talker.debug('[UserSettingsSync] Pushed afkTimeout=${minutes}m');
     } on Object catch (e, st) {
       talker.error('[UserSettingsSync] Push afkTimeout failed', e, st);
@@ -62,12 +63,13 @@ class UserSettingsSyncService {
 
   Future<void> pushLocale(sdk.Locale locale) async {
     final client = _ref.read(fluxerClientProvider);
+    final String? userId = _ref.read(currentUserIdProvider);
     try {
       final UserSettingsResponse updated = await client.users
           .updateCurrentUserSettings(
             body: UserSettingsUpdateRequest(locale: locale),
           );
-      await _persistSettings(updated);
+      await _persistSettings(userId, updated);
       talker.debug('[UserSettingsSync] Pushed locale=${locale.json}');
     } on Object catch (e, st) {
       talker.error('[UserSettingsSync] Push locale failed', e, st);
@@ -75,9 +77,11 @@ class UserSettingsSyncService {
     }
   }
 
-  Future<void> _persistSettings(UserSettingsResponse settings) async {
-    final String? userId = _ref.read(currentUserIdProvider);
-    if (userId == null) {
+  Future<void> _persistSettings(
+    String? userId,
+    UserSettingsResponse settings,
+  ) async {
+    if (userId == null || userId != _ref.read(currentUserIdProvider)) {
       return;
     }
     await _ref

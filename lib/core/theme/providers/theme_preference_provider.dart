@@ -376,8 +376,14 @@ class ThemePreference extends _$ThemePreference {
 
   Future<void> load(String userId) async {
     _userId = userId;
+    final int accountGeneration = ref
+        .read(syncedPreferencesStoreProvider)
+        .accountGeneration;
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
+    if (!_isCurrentLoad(userId, accountGeneration)) {
+      return;
+    }
     if (prefs != null) {
       final mode =
           FluxerThemeMode.fromApiValue(prefs.theme) ?? FluxerThemeMode.dark;
@@ -396,13 +402,25 @@ class ThemePreference extends _$ThemePreference {
     } else {
       state = ThemePreferenceState();
     }
-    final bool hadCachedSettings = await _applyCachedUserSettings(userId);
-    if (!hadCachedSettings) {
-      await _hydrateThemeFromServerOnLoad();
+    final bool hadCachedSettings = await _applyCachedUserSettings(
+      userId,
+      accountGeneration,
+    );
+    if (!hadCachedSettings && _isCurrentLoad(userId, accountGeneration)) {
+      await _hydrateThemeFromServerOnLoad(userId, accountGeneration);
     }
   }
 
-  Future<bool> _applyCachedUserSettings(String userId) async {
+  bool _isCurrentLoad(String userId, int accountGeneration) =>
+      ref.mounted &&
+      _userId == userId &&
+      ref.read(syncedPreferencesStoreProvider).accountGeneration ==
+          accountGeneration;
+
+  Future<bool> _applyCachedUserSettings(
+    String userId,
+    int accountGeneration,
+  ) async {
     final row = await ref
         .read(fluxerDatabaseProvider)
         .userSettingsDao
@@ -417,6 +435,8 @@ class ThemePreference extends _$ThemePreference {
       }
       await _applyRemoteUserSettings(
         UserSettingsResponse.fromJson(decoded),
+        userId: userId,
+        accountGeneration: accountGeneration,
         fromCache: true,
       );
       return true;
@@ -426,12 +446,19 @@ class ThemePreference extends _$ThemePreference {
     }
   }
 
-  Future<void> _hydrateThemeFromServerOnLoad() async {
+  Future<void> _hydrateThemeFromServerOnLoad(
+    String userId,
+    int accountGeneration,
+  ) async {
     try {
       final UserSettingsResponse settings = await ref
           .read(userSettingsSyncProvider)
           .fetchCurrentSettings();
-      await _applyRemoteUserSettings(settings);
+      await _applyRemoteUserSettings(
+        settings,
+        userId: userId,
+        accountGeneration: accountGeneration,
+      );
     } on Object catch (e, st) {
       talker.warning('[ThemePreference] Server theme fetch failed', e, st);
     }
@@ -439,15 +466,24 @@ class ThemePreference extends _$ThemePreference {
 
   Future<void> _applyRemoteUserSettings(
     UserSettingsResponse settings, {
+    required String userId,
+    required int accountGeneration,
     bool fromCache = false,
   }) async {
+    if (!_isCurrentLoad(userId, accountGeneration)) {
+      return;
+    }
     await ref
         .read(syncedPreferencesStoreProvider)
         .hydrateFromUserSettings(
           settings,
           themeCustomizationApplier: applySyncedThemeCustomization,
           fromCache: fromCache,
+          accountGeneration: accountGeneration,
         );
+    if (!_isCurrentLoad(userId, accountGeneration)) {
+      return;
+    }
     if (state.syncAcrossDevices && state.mode != FluxerThemeMode.system) {
       await applyServerSettings(settings);
     }

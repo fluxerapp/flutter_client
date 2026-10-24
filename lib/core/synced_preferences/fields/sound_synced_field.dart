@@ -69,11 +69,6 @@ class SoundSyncedField
   }
 
   @override
-  bool ignoreAckedRemoteShrink(SoundLocalState local, SoundLocalState remote) {
-    return !statesEqual(local, remote);
-  }
-
-  @override
   bool statesEqual(SoundLocalState a, SoundLocalState b) {
     return a.allSoundsDisabled == b.allSoundsDisabled &&
         a.masterVolume == b.masterVolume &&

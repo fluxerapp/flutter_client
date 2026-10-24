@@ -600,11 +600,12 @@ Future<void> _handleUserSettingsHydrate(
   }
   final notifier = ref.read(themePreferenceProvider.notifier);
   final store = ref.read(syncedPreferencesStoreProvider);
+  final int accountGeneration = store.accountGeneration;
   await store.hydrateFromUserSettings(
     settings,
     themeCustomizationApplier: notifier.applySyncedThemeCustomization,
   );
-  if (!ref.mounted) {
+  if (!ref.mounted || store.accountGeneration != accountGeneration) {
     return;
   }
   await notifier.applyServerSettings(settings);

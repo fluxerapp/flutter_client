@@ -64,11 +64,4 @@ abstract class SyncedFieldAdapter<T> {
   bool hasInboundUpdatesWhileProtected(T local, T remote) {
     return hasRemoteAdditions(local, remote);
   }
-
-  bool ignoreAckedRemoteShrink(T local, T remote) => false;
-
-  bool mergeAckedInbound(T local, T remote) => false;
-
-  T mergeRecentlyAckedInbound({required T local, required T remote}) =>
-      mergeForMigration(local: local, remote: remote);
 }
