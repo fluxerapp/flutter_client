@@ -100,6 +100,7 @@ WellKnownFluxerResponse _selfHostedWellKnown({bool premiumEnabled = false}) {
         signInBackdropUrl: null,
         customCss: null,
         uploadLimitMessage: null,
+        trustedDomains: <String>[],
       ),
       setup: InstanceSetupSchema(configured: true, adminUrl: null),
       legal: InstanceAppPublicSchemaLegal(

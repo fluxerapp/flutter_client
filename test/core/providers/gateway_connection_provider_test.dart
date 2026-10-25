@@ -24,6 +24,8 @@ void main() {
       clientVersion: '1.2.3',
       releaseChannel: 'beta',
       browserVersion: '1.2.3',
+      buildNumber: 412,
+      betaNumber: 14,
     );
 
     final GatewayIdentifyProperties gateway = buildGatewayIdentifyProperties(
@@ -37,6 +39,11 @@ void main() {
     );
     expect(gateway.toJson(), containsPair('browser', 'fluxer'));
     expect(gateway.toJson(), containsPair('device', 'mobile'));
+    expect(gateway.toJson(), containsPair('build_number', 412));
+    expect(gateway.toJson(), containsPair('beta_number', 14));
+    final Map<String, dynamic> wire = toClientPropertiesWireMap(properties);
+    expect(wire, containsPair('build_number', 412));
+    expect(wire, containsPair('beta_number', 14));
   });
 
   test('gateway identify properties serialises mobile', () {

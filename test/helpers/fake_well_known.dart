@@ -83,6 +83,7 @@ class FakeWellKnown extends WellKnown {
           signInBackdropUrl: null,
           customCss: null,
           uploadLimitMessage: null,
+          trustedDomains: <String>[],
         ),
         setup: InstanceSetupSchema(configured: true, adminUrl: null),
         legal: InstanceAppPublicSchemaLegal(

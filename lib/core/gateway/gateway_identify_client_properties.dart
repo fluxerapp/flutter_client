@@ -18,6 +18,8 @@ GatewayIdentifyProperties buildGatewayIdentifyProperties(
     browserVersion: properties.browserVersion,
     buildTimestamp: properties.buildTimestamp,
     buildVersion: buildVersion,
+    buildNumber: properties.buildNumber,
+    betaNumber: properties.betaNumber,
     userAgent: properties.userAgent,
     releaseChannel: properties.releaseChannel,
     clientPlatform: properties.clientPlatform,

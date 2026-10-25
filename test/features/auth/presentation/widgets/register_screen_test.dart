@@ -464,6 +464,7 @@ InstanceConfigSnapshot _snapshot({
           signInBackdropUrl: null,
           customCss: null,
           uploadLimitMessage: null,
+          trustedDomains: <String>[],
         ),
         setup: const InstanceSetupSchema(configured: true, adminUrl: null),
         legal: InstanceAppPublicSchemaLegal(

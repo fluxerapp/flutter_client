@@ -32,6 +32,7 @@ class FluxerClientProperties {
     this.architecture,
     this.buildTimestamp,
     this.buildNumber,
+    this.betaNumber,
     this.desktopAppVersion,
     this.desktopAppChannel,
     this.desktopArch,
@@ -54,6 +55,7 @@ class FluxerClientProperties {
   final String userAgent;
   final String? buildTimestamp;
   final int? buildNumber;
+  final int? betaNumber;
   final String? desktopAppVersion;
   final String? desktopAppChannel;
   final String? desktopArch;
@@ -191,6 +193,8 @@ Map<String, dynamic> toClientPropertiesWireMap(
     'client_runtime': properties.clientRuntime,
     'client_version': properties.clientVersion,
     'release_channel': properties.releaseChannel,
+    'build_number': properties.buildNumber,
+    'beta_number': properties.betaNumber,
     'user_agent': properties.userAgent,
   };
 }
@@ -238,5 +242,8 @@ FluxerClientProperties buildFluxerClientProperties({
     browserVersion: clientVersion,
     architecture: mapAbiToFluxerArchitecture(),
     buildNumber: parsedBuildNumber,
+    betaNumber: environment == AppBuildEnvironment.beta
+        ? AppBuildConfig.betaNumber
+        : null,
   );
 }
