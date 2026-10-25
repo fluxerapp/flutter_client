@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -29,6 +30,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
+import '../../../helpers/wide_layout_test_sizes.dart';
 
 const String _guildId = 'g1';
 const String _channelId = 'voice-1';
@@ -128,6 +130,35 @@ void main() {
     await tester.pump(const Duration(seconds: 4));
     await releaseTestWidgetTree(tester);
   });
+
+  testWidgets('tablet grid centers for visible and hidden call controls', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = await _pumpTabletGridCall(tester);
+
+    final double screenHeight = kTabletLandscapeTestViewportSize.height;
+    final double controlsFootprint =
+        voiceChannelControlMorphingHeaderHeight() +
+        kVoiceControlBarVerticalPadding * 2;
+    final double stageCenterY = (screenHeight - controlsFootprint) / 2;
+
+    expect(
+      _mediaRect(tester, VoiceParticipantTileSource.camera).center.dy,
+      closeTo(stageCenterY, 48),
+    );
+
+    container.read(voiceCallOverlayProvider.notifier).hide();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(
+      _mediaRect(tester, VoiceParticipantTileSource.camera).center.dy,
+      closeTo(screenHeight / 2, 48),
+    );
+
+    await tester.pump(const Duration(seconds: 4));
+    await releaseTestWidgetTree(tester);
+  });
 }
 
 VoiceParticipantMediaTile _mediaTile(
@@ -146,6 +177,74 @@ Finder _mediaFinder(VoiceParticipantTileSource source) {
     (Widget widget) =>
         widget is VoiceParticipantMediaTile && widget.tileSource == source,
   );
+}
+
+Future<ProviderContainer> _pumpTabletGridCall(WidgetTester tester) async {
+  tester.view.physicalSize = kTabletLandscapeTestViewportSize;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+
+  final FluxerDatabase db = openTestDatabase();
+  final String participantKey = voiceChannelParticipantsFamilyKey(
+    _guildId,
+    _channelId,
+  );
+  const VoiceState soloVoice = VoiceState(
+    userId: _me,
+    guildId: _guildId,
+    channelId: _channelId,
+    connectionId: 'tablet',
+  );
+  final ProviderContainer container = ProviderContainer(
+    overrides: [
+      fluxerDatabaseProvider.overrideWithValue(db),
+      voiceSessionProvider.overrideWith(_ConnectedVoiceSession.new),
+      currentUserIdProvider.overrideWithValue(_me),
+      localVoiceStateProvider.overrideWithValue(const LocalVoiceStateData()),
+      guildUserDisplayFromDbProvider.overrideWith(
+        (Ref ref, (String, String?) args) =>
+            const AsyncValue<GuildUserDisplay?>.data(null),
+      ),
+      voiceChannelGridStructureProvider(
+        participantKey,
+      ).overrideWith((Ref ref) => 'tablet'),
+      voiceChannelParticipantsProvider(participantKey).overrideWith(
+        (Ref ref) => const <VoiceChannelParticipantData>[
+          VoiceChannelParticipantData(userId: _me, voice: soloVoice),
+        ],
+      ),
+    ],
+  );
+  addTearDown(container.dispose);
+  final FluxerColorTheme colorTheme = buildDarkColorTheme();
+  await tester.pumpWidget(
+    UncontrolledProviderScope(
+      container: container,
+      child: MaterialApp(
+        locale: kTestLocale,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: const Scaffold(
+          body: VoiceCallMobilePageLayout(
+            channelId: _channelId,
+            child: VoiceChannelParticipantGrid(
+              guildId: _guildId,
+              channelId: _channelId,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 400));
+  return container;
 }
 
 Future<ProviderContainer> _pumpCall(WidgetTester tester) async {

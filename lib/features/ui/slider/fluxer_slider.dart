@@ -23,6 +23,8 @@ class FluxerSlider extends StatefulWidget {
     this.onValueChange,
     this.onValueRender,
     this.onMarkerRender,
+    this.markerVisible,
+    this.showMarkerDash = true,
     this.asValueChanges,
     this.step,
     this.semanticLabel,
@@ -46,6 +48,8 @@ class FluxerSlider extends StatefulWidget {
   final ValueChanged<double>? onValueChange;
   final Widget Function(double value)? onValueRender;
   final Widget Function(double value)? onMarkerRender;
+  final bool Function(double value)? markerVisible;
+  final bool showMarkerDash;
   final ValueChanged<double>? asValueChanges;
   final double? step;
   final String? semanticLabel;
@@ -373,82 +377,85 @@ class _FluxerSliderState extends State<FluxerSlider> {
       clipBehavior: Clip.none,
       children: [
         for (int i = 0; i < sorted.length; i++)
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final trackWidth = constraints.maxWidth;
-                final markerX =
-                    (positions[i] / 100.0) * trackWidth -
-                    widget.markerLabelWidth / 2;
-                final isFactoryDefault =
-                    widget.factoryDefaultValue != null &&
-                    sorted[i] == widget.factoryDefaultValue;
-                final labelColor = isFactoryDefault
-                    ? colors.textPositive
-                    : colors.textSecondary;
+          if (widget.markerVisible == null || widget.markerVisible!(sorted[i]))
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final trackWidth = constraints.maxWidth;
+                  final markerX =
+                      (positions[i] / 100.0) * trackWidth -
+                      widget.markerLabelWidth / 2;
+                  final isFactoryDefault =
+                      widget.factoryDefaultValue != null &&
+                      sorted[i] == widget.factoryDefaultValue;
+                  final labelColor = isFactoryDefault
+                      ? colors.textPositive
+                      : colors.textSecondary;
 
-                final markerLabel = widget.onMarkerRender != null
-                    ? widget.onMarkerRender!(sorted[i])
-                    : Text(
-                        _formatMarkerValue(sorted[i]),
-                        style: textStyles.smallText.copyWith(color: labelColor),
-                        textAlign: TextAlign.center,
-                      );
+                  final markerLabel = widget.onMarkerRender != null
+                      ? widget.onMarkerRender!(sorted[i])
+                      : Text(
+                          _formatMarkerValue(sorted[i]),
+                          style: textStyles.smallText.copyWith(
+                            color: labelColor,
+                          ),
+                          textAlign: TextAlign.center,
+                        );
 
-                final dashColor = isFactoryDefault
-                    ? colors.textPositive
-                    : colors.interactiveMuted;
+                  final Widget? dash = widget.showMarkerDash
+                      ? Container(
+                          width: _kMarkerDashWidth,
+                          height: _kMarkerDashHeight / 4,
+                          decoration: BoxDecoration(
+                            color: isFactoryDefault
+                                ? colors.textPositive
+                                : colors.interactiveMuted,
+                            borderRadius: BorderRadius.circular(1),
+                          ),
+                        )
+                      : null;
 
-                final dash = Container(
-                  width: _kMarkerDashWidth,
-                  height: _kMarkerDashHeight / 4,
-                  decoration: BoxDecoration(
-                    color: dashColor,
-                    borderRadius: BorderRadius.circular(1),
-                  ),
-                );
+                  final Widget markerLabelWidget = widget.shrinkMarkerLabels
+                      ? Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: markerLabel,
+                          ),
+                        )
+                      : markerLabel;
 
-                final Widget markerLabelWidget = widget.shrinkMarkerLabels
-                    ? Flexible(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: markerLabel,
-                        ),
-                      )
-                    : markerLabel;
-
-                return Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      left: markerX,
-                      top: 0,
-                      child: SizedBox(
-                        width: widget.markerLabelWidth,
-                        height: widget.markerAreaHeight,
-                        child: Column(
-                          mainAxisAlignment:
-                              widget.markerPosition ==
-                                  FluxerSliderMarkerPosition.above
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
-                          children:
-                              widget.markerPosition ==
-                                  FluxerSliderMarkerPosition.above
-                              ? <Widget>[markerLabelWidget, dash]
-                              : <Widget>[dash, markerLabelWidget],
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Positioned(
+                        left: markerX,
+                        top: 0,
+                        child: SizedBox(
+                          width: widget.markerLabelWidth,
+                          height: widget.markerAreaHeight,
+                          child: Column(
+                            mainAxisAlignment:
+                                widget.markerPosition ==
+                                    FluxerSliderMarkerPosition.above
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.end,
+                            children:
+                                widget.markerPosition ==
+                                    FluxerSliderMarkerPosition.above
+                                ? <Widget>[markerLabelWidget, ?dash]
+                                : <Widget>[?dash, markerLabelWidget],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
       ],
     );
   }

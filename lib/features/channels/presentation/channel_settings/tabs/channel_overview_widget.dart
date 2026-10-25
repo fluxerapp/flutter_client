@@ -12,20 +12,20 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_mature_content_section.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/widgets/channel_overview_voice_section.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_settings/widgets/channel_slowmode_slider.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/unrecognized_channel_view.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_settings_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
-import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/threads/presentation/thread_defaults_section.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_defaults_section.dart'
+    show ThreadDefaultsSection, showChannelThreadDefaultsSection;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
-import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -275,35 +275,6 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
     _resetFromChannel(widget.channel);
   }
 
-  List<FluxerSelectItem<int>> _slowmodeItems(FluxerLocalizations l10n) {
-    return <FluxerSelectItem<int>>[
-      FluxerSelectItem<int>(value: 0, label: l10n.channelSettingsSlowmodeOff),
-      for (final int seconds in kSlowmodeOptionsSeconds.where((int s) => s > 0))
-        FluxerSelectItem<int>(
-          value: seconds,
-          label: _slowmodeLabel(l10n, seconds),
-        ),
-    ];
-  }
-
-  String _slowmodeLabel(FluxerLocalizations l10n, int seconds) {
-    if (seconds < 60) {
-      return l10n.channelSettingsSlowmodeSeconds(seconds);
-    }
-    if (seconds < 3600) {
-      final int minutes = seconds ~/ 60;
-      if (minutes == 1) {
-        return l10n.channelSettingsSlowmodeOneMinute(minutes);
-      }
-      return l10n.channelSettingsSlowmodeMinutes(minutes);
-    }
-    final int hours = seconds ~/ 3600;
-    if (hours == 1) {
-      return l10n.channelSettingsSlowmodeOneHour(hours);
-    }
-    return l10n.channelSettingsSlowmodeHours(hours);
-  }
-
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -340,6 +311,10 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
         : const AsyncValue<List<RtcRegionResponse>>.data(<RtcRegionResponse>[]);
     final bool showRtcP2p =
         ref.watch(voiceP2pEnabledProvider) || _original.rtcP2p;
+    final bool showThreadDefaults = showChannelThreadDefaultsSection(
+      channel: channel,
+      canManageChannel: _canManageChannel,
+    );
     return FluxerSettingsSheet(
       hasUnsavedChanges: _isDirty,
       isSaving: _isSaving,
@@ -381,22 +356,6 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
             ],
           ],
           if (showMessaging) ...<Widget>[
-            if (isAnnouncementConvertibleChannel(channel.type)) ...<Widget>[
-              SizedBox(height: context.layout.s6),
-              FluxerSwitchGroup(
-                children: <Widget>[
-                  FluxerSwitchGroupItem(
-                    label: l10n.channelSettingsAnnouncementChannel,
-                    description:
-                        l10n.channelSettingsAnnouncementChannelDescription,
-                    value: _current.announcement,
-                    onChanged: (bool value) {
-                      _updateCurrent(_current.copyWith(announcement: value));
-                    },
-                  ),
-                ],
-              ),
-            ],
             SizedBox(height: context.layout.s6),
             ListenableBuilder(
               listenable: _topicController,
@@ -443,20 +402,47 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
               },
             ),
             SizedBox(height: context.layout.s4),
-            FluxerSelect<int>(
-              label: l10n.channelSettingsSlowmode,
-              description: l10n.channelSettingsSlowmodeDescription(
-                permissionTitle(l10n, Permission.bypassSlowmode),
-              ),
+            ChannelSlowmodeSlider(
+              l10n: l10n,
               value: _current.slowmode,
-              stretch: true,
-              items: _slowmodeItems(l10n),
-              enableSearch: false,
               onChanged: (int value) {
                 _updateCurrent(_current.copyWith(slowmode: value));
               },
             ),
-            ThreadDefaultsSection(channel: channel),
+            if (isAnnouncementConvertibleChannel(channel.type)) ...<Widget>[
+              SizedBox(height: context.layout.s4),
+              FluxerSwitchGroup(
+                children: <Widget>[
+                  FluxerSwitchGroupItem(
+                    label: l10n.channelSettingsAnnouncementChannel,
+                    description:
+                        l10n.channelSettingsAnnouncementChannelDescription,
+                    value: _current.announcement,
+                    onChanged: (bool value) {
+                      _updateCurrent(_current.copyWith(announcement: value));
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ],
+          if (showThreadDefaults) ...<Widget>[
+            SizedBox(height: context.layout.s6),
+            ThreadDefaultsSection(
+              l10n: l10n,
+              autoArchive: _current.defaultAutoArchiveDuration,
+              threadSlowmode: _current.defaultThreadRateLimitPerUser,
+              onAutoArchiveChanged: (int value) {
+                _updateCurrent(
+                  _current.copyWith(defaultAutoArchiveDuration: value),
+                );
+              },
+              onThreadSlowmodeChanged: (int value) {
+                _updateCurrent(
+                  _current.copyWith(defaultThreadRateLimitPerUser: value),
+                );
+              },
+            ),
           ],
           if (showVoice) ...<Widget>[
             SizedBox(height: context.layout.s6),

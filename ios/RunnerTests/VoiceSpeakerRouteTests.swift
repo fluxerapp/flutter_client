@@ -49,4 +49,26 @@ final class VoiceSpeakerRouteTests: XCTestCase {
       .headsetUnavailable
     )
   }
+
+  func testActiveRoutePrefersHeadsetOutputs() {
+    XCTAssertEqual(
+      voiceActiveRouteName(outputPorts: [.builtInReceiver, .bluetoothHFP]),
+      "headset"
+    )
+    XCTAssertEqual(
+      voiceActiveRouteName(outputPorts: [.headphones]),
+      "headset"
+    )
+  }
+
+  func testActiveRouteMapsReceiverAndSpeaker() {
+    XCTAssertEqual(
+      voiceActiveRouteName(outputPorts: [.builtInReceiver]),
+      "earpiece"
+    )
+    XCTAssertEqual(
+      voiceActiveRouteName(outputPorts: [.builtInSpeaker]),
+      "speaker"
+    )
+  }
 }

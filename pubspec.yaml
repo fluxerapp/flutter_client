@@ -202,7 +202,6 @@ flutter:
     - assets/haptics/
     - assets/images/icons/
     - assets/images/icons/channels/
-    - assets/images/badges/
     - assets/images/connections/
     - assets/images/browsers/
     - assets/images/app_icon_previews/ios/

@@ -32,7 +32,7 @@ class GuildFolderSettingsModal extends ConsumerStatefulWidget {
         useRootNavigator: true,
         builder: (BuildContext sheetContext, VoidCallback close) {
           return SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, 0),
             child: GuildFolderSettingsModal(folderId: folderId),
           );
         },

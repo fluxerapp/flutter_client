@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/notificat
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_list_states.dart';
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -589,7 +590,11 @@ class _NotificationsMentionsBodyState
       onRefresh: _pullToRefresh,
       slivers: <Widget>[
         SliverPadding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: EdgeInsets.only(
+            bottom: FluxerBottomSheet.isInSheet(context)
+                ? FluxerBottomSheet.scrollBottomPaddingOf(context)
+                : 12,
+          ),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext _, int index) {

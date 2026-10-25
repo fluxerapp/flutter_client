@@ -19,7 +19,11 @@ class BottomInputSpacer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!isMobileLayout(context)) {
-      return const SizedBox.shrink();
+      final double inset = resolvedKeyboardInsetBottom(context);
+      if (inset <= 0) {
+        return const SizedBox.shrink();
+      }
+      return KeyboardResizeSpacer(height: inset);
     }
 
     final bool isPanelOpen = isComposerPanelOpen(

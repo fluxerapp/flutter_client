@@ -383,7 +383,6 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
               isLoading: _submitting,
               label: l10n.forumPostSubmit,
             ),
-            SizedBox(height: layout.s4),
           ],
         ),
       ),

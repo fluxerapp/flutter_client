@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_change_audio_output_row.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
@@ -212,7 +213,9 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
           FluxerListSection(
             header: l10n.voicePanelSettingsSectionTitle,
             children: <Widget>[
-              if (canSwitchSpeaker && showRoutePicker)
+              if (showNativeVoiceAudioRoutePicker())
+                const VoiceChangeAudioOutputPanelRow()
+              else if (canSwitchSpeaker && showRoutePicker)
                 Padding(
                   key: kVoiceControlPanelUseEarpieceKey,
                   padding: EdgeInsets.all(layout.s4),

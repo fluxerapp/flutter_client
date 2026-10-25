@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
@@ -271,6 +272,9 @@ class AppearancePreferences extends _$AppearancePreferences {
     _userId = userId;
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
+    if (_userId != userId) {
+      return;
+    }
     if (prefs != null) {
       state = AppearancePreferencesState(
         channelTypingIndicatorMode: ChannelTypingIndicatorMode.values
@@ -329,6 +333,7 @@ class AppearancePreferences extends _$AppearancePreferences {
   }
 
   Future<void> applySyncedAccessibility(AccessibilityLocalState value) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -382,6 +387,7 @@ class AppearancePreferences extends _$AppearancePreferences {
     required bool keepGifAutoPlayUnderReducedMotion,
     required bool keepStickerAnimationUnderReducedMotion,
   }) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -398,6 +404,7 @@ class AppearancePreferences extends _$AppearancePreferences {
   }
 
   Future<void> applySyncedSidebar(SidebarLocalState value) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(collapseDMs: value.inlineDmsCollapsed);
@@ -408,6 +415,7 @@ class AppearancePreferences extends _$AppearancePreferences {
   }
 
   Future<void> applySyncedPrivacy(PrivacyLocalState value) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(showActiveNow: value.showActiveNow);
@@ -689,9 +697,17 @@ class AppearancePreferences extends _$AppearancePreferences {
         .markDirty(SyncedPreferenceField.privacy);
   }
 
+  Future<void> _adoptCurrentUser() async {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (currentUserId != null && currentUserId != _userId) {
+      await load(currentUserId);
+    }
+  }
+
   Future<void> _persist() async {
     final userId = _userId;
-    if (userId == null) {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (userId == null || (currentUserId != null && currentUserId != userId)) {
       return;
     }
     final db = ref.read(fluxerDatabaseProvider);

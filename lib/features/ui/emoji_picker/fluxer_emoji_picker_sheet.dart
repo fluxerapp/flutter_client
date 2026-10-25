@@ -87,6 +87,7 @@ class FluxerEmojiPickerSheet {
       context,
       title: title,
       subtitle: subtitle,
+      bottomGap: false,
       sheetHeight: sheetHeight,
       animationStyle: sheetHeight == null
           ? null

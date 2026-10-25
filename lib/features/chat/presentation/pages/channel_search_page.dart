@@ -500,12 +500,7 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
 
         return ListView(
           shrinkWrap: true,
-          padding: FluxerBottomSheet.scrollViewPadding(
-            sheetContext,
-            padding: EdgeInsets.only(
-              bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
-            ),
-          ),
+          padding: FluxerBottomSheet.scrollViewPadding(sheetContext),
           children: <Widget>[
             FluxerBottomSheetGroupColumn(
               children: <Widget>[

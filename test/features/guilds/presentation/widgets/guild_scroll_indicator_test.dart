@@ -93,6 +93,60 @@ Widget _buildLazyList({
   );
 }
 
+class _KeepAliveRow extends StatefulWidget {
+  const _KeepAliveRow({super.key});
+
+  @override
+  State<_KeepAliveRow> createState() => _KeepAliveRowState();
+}
+
+class _KeepAliveRowState extends State<_KeepAliveRow>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return const SizedBox(height: 40);
+  }
+}
+
+Future<void> _pumpKeptAliveRowsAtBottom({
+  required WidgetTester tester,
+  required ScrollController scrollController,
+  required Map<String, GlobalKey> itemKeys,
+  required int count,
+}) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      theme: ThemeData(
+        extensions: const <ThemeExtension<dynamic>>[
+          FluxerMotionTheme.standard(),
+        ],
+      ),
+      home: Center(
+        child: SizedBox(
+          width: 240,
+          height: 120,
+          child: ListView.builder(
+            controller: scrollController,
+            scrollCacheExtent: const ScrollCacheExtent.pixels(0),
+            itemCount: count,
+            itemBuilder: (BuildContext context, int index) => _KeepAliveRow(
+              key: itemKeys.putIfAbsent('item-$index', GlobalKey.new),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+  scrollController.jumpTo(scrollController.position.maxScrollExtent);
+  await tester.pump();
+  scrollController.jumpTo(0);
+  await tester.pump();
+}
+
 void main() {
   group('GuildScrollIndicatorController', () {
     testWidgets('scheduleUpdate skips an attached keyed item before layout', (
@@ -406,6 +460,76 @@ void main() {
         targetTop + targetBox.size.height,
         lessThanOrEqualTo(viewportTop + viewport.size.height),
       );
+    });
+
+    testWidgets('a kept-alive mention scrolled far below the viewport beats '
+        'a closer unread', (WidgetTester tester) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{};
+      final List<String> order = <String>[
+        for (var i = 0; i < 40; i++) 'item-$i',
+      ];
+      final indicatorController = GuildScrollIndicatorController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+        resolveSeverity: (String id) => switch (id) {
+          'item-5' => GuildScrollIndicatorSeverity.unread,
+          'item-39' => GuildScrollIndicatorSeverity.mention,
+          _ => null,
+        },
+        orderedIds: () => order,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+      });
+
+      await _pumpKeptAliveRowsAtBottom(
+        tester: tester,
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+        count: order.length,
+      );
+      expect(itemKeys['item-39']?.currentContext, isNotNull);
+      indicatorController.update();
+
+      expect(indicatorController.bottomIndicator.value.show, isTrue);
+      expect(
+        indicatorController.bottomIndicator.value.severity,
+        GuildScrollIndicatorSeverity.mention,
+      );
+      expect(indicatorController.bottomIndicator.value.targetId, 'item-39');
+    });
+
+    testWidgets('a kept-alive unread scrolled far below the viewport still '
+        'shows the bottom pill', (WidgetTester tester) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{};
+      final List<String> order = <String>[
+        for (var i = 0; i < 40; i++) 'item-$i',
+      ];
+      final indicatorController = GuildScrollIndicatorController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+        resolveSeverity: (String id) =>
+            id == 'item-39' ? GuildScrollIndicatorSeverity.unread : null,
+        orderedIds: () => order,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+      });
+
+      await _pumpKeptAliveRowsAtBottom(
+        tester: tester,
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+        count: order.length,
+      );
+      expect(itemKeys['item-39']?.currentContext, isNotNull);
+      indicatorController.update();
+
+      _expectShowing(indicatorController.bottomIndicator.value, 'item-39');
     });
 
     testWidgets('an unchanged indicator does not notify listeners again', (

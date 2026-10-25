@@ -11,7 +11,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
-import 'package:fluxer_app/features/profile/utils/premium_badge_visibility.dart';
+import 'package:fluxer_app/features/profile/providers/own_profile_badges_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
@@ -23,6 +23,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -198,23 +199,13 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
     FluxerLocalizations l10n,
   ) {
     final effectiveBio = _effectiveBio();
-    final ({bool selfHosted, bool showsPremium}) instance = ref.watch(
-      instanceRuntimeConfigProvider.select(
-        (config) => (
-          selfHosted: config.selfHosted,
-          showsPremium: config.showsPremiumFeatures,
-        ),
-      ),
+    final AsyncValue<List<ProfileBadgeResponse>> previewBadgesAsync = ref.watch(
+      ownProfileBadgesPreviewProvider,
     );
-    final PremiumBadgeVisibility premiumBadges =
-        PremiumBadgeVisibility.fromSettings(s);
-    final bool showPremiumBadge =
-        instance.showsPremium && premiumBadges.hasPlutonium;
-    final hasBadges = UserProfileBadges.hasBadges(
-      flags: s.publicFlags,
-      hasPlutonium: showPremiumBadge,
-      selfHosted: instance.selfHosted,
-    );
+    final List<ProfileBadgeResponse> previewBadges =
+        previewBadgesAsync.value ?? const <ProfileBadgeResponse>[];
+    final bool hasBadges = UserProfileBadges.hasBadges(previewBadges);
+    final bool isMobile = isMobileLayout(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -290,12 +281,11 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: UserProfileBadges(
-                      flags: s.publicFlags,
-                      hasPlutonium: showPremiumBadge,
-                      isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
-                      premiumSince: premiumBadges.premiumSince,
-                      premiumLifetimeSequence:
-                          premiumBadges.premiumLifetimeSequence,
+                      badges: previewBadges,
+                      size: isMobile
+                          ? UserProfileBadgesSize.mobile
+                          : UserProfileBadgesSize.desktop,
+                      touch: isMobile,
                     ),
                   ),
                 ),

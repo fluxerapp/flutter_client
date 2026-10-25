@@ -111,7 +111,12 @@ class _GuildMessageHistoryThresholdSheetState
         ? l10n.guildSettingsMessageHistoryThresholdDate
         : formatUserMediumDate(_thresholdDate!, l10n.localeName);
     return Padding(
-      padding: EdgeInsets.all(context.layout.s4),
+      padding: EdgeInsets.fromLTRB(
+        context.layout.s4,
+        context.layout.s4,
+        context.layout.s4,
+        0,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

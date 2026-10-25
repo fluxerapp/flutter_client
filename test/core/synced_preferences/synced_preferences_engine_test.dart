@@ -18,13 +18,6 @@ void main() {
           ],
         ),
       );
-      final wire = pb.SyncedPreferences(
-        favorites: pb.FavoritesState(
-          channels: [
-            pb.FavoriteChannel(channelId: 'wire', guildId: 'g', position: 0),
-          ],
-        ),
-      );
       final incoming = pb.SyncedPreferences(
         favorites: pb.FavoritesState(
           channels: [
@@ -34,64 +27,13 @@ void main() {
       );
       final result = SyncedPreferencesEngine.mergeIncoming(
         local: local,
-        wire: wire,
         incoming: incoming,
         protectedFields: {SyncedPreferenceField.favorites},
-        recentlyAckedFields: {},
         inFlight: null,
         syncInFlight: false,
       );
       expect(result.merged.favorites.channels.single.channelId, 'local');
     });
-
-    test('mergeIncoming keeps local when incoming matches acked wire', () {
-      final local = pb.SyncedPreferences(
-        sidebar: pb.SidebarPreferences(inlineDmsCollapsed: true),
-      );
-      final wire = pb.SyncedPreferences(
-        sidebar: pb.SidebarPreferences(inlineDmsCollapsed: false),
-      );
-      final incoming = pb.SyncedPreferences(
-        sidebar: pb.SidebarPreferences(inlineDmsCollapsed: false),
-      );
-      final result = SyncedPreferencesEngine.mergeIncoming(
-        local: local,
-        wire: wire,
-        incoming: incoming,
-        protectedFields: {},
-        recentlyAckedFields: {SyncedPreferenceField.sidebar},
-        inFlight: null,
-        syncInFlight: false,
-      );
-      expect(result.merged.sidebar.inlineDmsCollapsed, isTrue);
-      expect(result.wire.sidebar.inlineDmsCollapsed, isFalse);
-    });
-
-    test(
-      'mergeIncoming applies other-session update for a recently acked field',
-      () {
-        final local = pb.SyncedPreferences(
-          sidebar: pb.SidebarPreferences(inlineDmsCollapsed: true),
-        );
-        final wire = pb.SyncedPreferences(
-          sidebar: pb.SidebarPreferences(inlineDmsCollapsed: true),
-        );
-        final incoming = pb.SyncedPreferences(
-          sidebar: pb.SidebarPreferences(inlineDmsCollapsed: false),
-        );
-        final result = SyncedPreferencesEngine.mergeIncoming(
-          local: local,
-          wire: wire,
-          incoming: incoming,
-          protectedFields: {},
-          recentlyAckedFields: {SyncedPreferenceField.sidebar},
-          inFlight: null,
-          syncInFlight: false,
-        );
-        expect(result.merged.sidebar.inlineDmsCollapsed, isFalse);
-        expect(result.wire.sidebar.inlineDmsCollapsed, isFalse);
-      },
-    );
 
     test('decode reads base64 wire bytes', () {
       final message = pb.SyncedPreferences(

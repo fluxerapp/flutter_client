@@ -61,6 +61,7 @@ import 'package:fluxer_app/features/voice/utils/voice_media_teardown.dart';
 import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
 import 'package:fluxer_app/features/voice/utils/voice_server_update_decision.dart';
+import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -3138,6 +3139,9 @@ class VoiceSession extends _$VoiceSession {
   void _attachMediaDeviceChangeListener() {
     if (_mediaDeviceChangeSubscription != null) {
       return;
+    }
+    if (Platform.isIOS) {
+      ref.read(voiceIosNativeRouteSyncProvider);
     }
     _mediaDeviceChangeSubscription = Hardware.instance.onDeviceChange.stream
         .listen(_scheduleAudioRouteRecovery);

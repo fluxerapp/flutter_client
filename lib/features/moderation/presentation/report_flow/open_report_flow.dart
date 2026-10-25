@@ -9,6 +9,7 @@ Future<void> openReportFlow(
 }) {
   return FluxerBottomSheet.show<void>(
     context,
+    bottomGap: false,
     builder: (sheetContext, close) =>
         ReportFlowSheet(target: iarContext, close: close),
   );

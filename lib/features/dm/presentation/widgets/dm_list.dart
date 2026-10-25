@@ -1736,12 +1736,7 @@ class _DmBottomSheet extends ConsumerWidget {
       controller: scrollController,
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: EdgeInsets.fromLTRB(
-          layout.s4,
-          0,
-          layout.s4,
-          FluxerBottomSheet.bottomGapOf(context),
-        ),
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
       ),
       children: [FluxerBottomSheetGroupColumn(children: groups)],
     );
@@ -1762,12 +1757,7 @@ class _DmBottomSheet extends ConsumerWidget {
             controller: scrollController,
             padding: FluxerBottomSheet.scrollViewPadding(
               sheetContext,
-              padding: EdgeInsets.fromLTRB(
-                layout.s4,
-                0,
-                layout.s4,
-                FluxerBottomSheet.bottomGapOf(sheetContext),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: layout.s4),
             ),
             children: [
               MuteDurationSheetBody(
@@ -1883,12 +1873,7 @@ class _DmInviteSheet extends StatelessWidget {
       controller: scrollController,
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: EdgeInsets.fromLTRB(
-          layout.s4,
-          0,
-          layout.s4,
-          FluxerBottomSheet.bottomGapOf(context),
-        ),
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
       ),
       children: [
         FluxerBottomSheetGroupColumn(

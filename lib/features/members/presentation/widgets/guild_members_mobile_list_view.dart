@@ -564,12 +564,7 @@ class _MembersFilterOptionsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       controller: scrollController,
-      padding: FluxerBottomSheet.scrollViewPadding(
-        sheetContext,
-        padding: EdgeInsets.only(
-          bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
-        ),
-      ),
+      padding: FluxerBottomSheet.scrollViewPadding(sheetContext),
       children: <Widget>[
         FluxerBottomSheetSection(child: FluxerMenuGroup(children: children)),
       ],

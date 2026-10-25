@@ -381,12 +381,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     final bool disabled =
         _submitting || cooldown > 0 || (!canPublic && !canPrivate);
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        context.layout.s4,
-        0,
-        context.layout.s4,
-        context.layout.s4,
-      ),
+      padding: EdgeInsets.fromLTRB(context.layout.s4, 0, context.layout.s4, 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

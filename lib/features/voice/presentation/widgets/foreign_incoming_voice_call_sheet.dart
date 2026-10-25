@@ -130,7 +130,6 @@ class _ForeignIncomingCallSheet extends StatelessWidget {
             ),
             child: Text(l10n.incomingVoiceCallIgnore),
           ),
-          SizedBox(height: layout.s4),
         ],
       ),
     );

@@ -31,6 +31,7 @@ Future<void> showVoiceChannelChatSheet(
     useRootNavigator: useRootNavigator,
     reserveBottomInset: false,
     manageKeyboardInset: false,
+    bottomGap: false,
     builder: (BuildContext sheetContext, VoidCallback close) {
       return SizedBox(
         width: double.infinity,

@@ -87,7 +87,6 @@ class _DebugSheetBody extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: layout.s4),
         ],
       ),
     );

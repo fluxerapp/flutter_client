@@ -15,11 +15,13 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/profile/domain/profile_timezone_privacy_flags.dart';
+import 'package:fluxer_app/features/profile/providers/own_profile_badges_provider.dart';
 import 'package:fluxer_app/features/profile/utils/timezone_catalog.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart'
     as external_link_utils;
+import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
@@ -88,6 +90,10 @@ class UserSettingsViewState {
   final bool premiumBadgeMasked;
   final bool premiumBadgeTimestampHidden;
   final bool premiumBadgeSequenceHidden;
+  final String? operatorPassSince;
+  final bool operatorPassBadgeHidden;
+  final bool operatorPassBadgeTimestampHidden;
+  final bool operatorPassBadgeCountHidden;
   final bool premiumDiscriminator;
   final String? premiumUntil;
   final String? premiumBillingCycle;
@@ -96,6 +102,9 @@ class UserSettingsViewState {
   final Object? _editedPremiumBadgeMasked;
   final Object? _editedPremiumBadgeTimestampHidden;
   final Object? _editedPremiumBadgeSequenceHidden;
+  final Object? _editedOperatorPassBadgeHidden;
+  final Object? _editedOperatorPassBadgeTimestampHidden;
+  final Object? _editedOperatorPassBadgeCountHidden;
 
   final Object? _editedDisplayName;
   final Object? _editedBio;
@@ -182,6 +191,10 @@ class UserSettingsViewState {
     this.premiumBadgeMasked = false,
     this.premiumBadgeTimestampHidden = false,
     this.premiumBadgeSequenceHidden = false,
+    this.operatorPassSince,
+    this.operatorPassBadgeHidden = false,
+    this.operatorPassBadgeTimestampHidden = false,
+    this.operatorPassBadgeCountHidden = false,
     this.premiumDiscriminator = false,
     this.premiumUntil,
     this.premiumBillingCycle,
@@ -189,6 +202,9 @@ class UserSettingsViewState {
     this._editedPremiumBadgeMasked = _unset,
     this._editedPremiumBadgeTimestampHidden = _unset,
     this._editedPremiumBadgeSequenceHidden = _unset,
+    this._editedOperatorPassBadgeHidden = _unset,
+    this._editedOperatorPassBadgeTimestampHidden = _unset,
+    this._editedOperatorPassBadgeCountHidden = _unset,
     this._editedDisplayName = _unset,
     this._editedBio = _unset,
     this._editedPronouns = _unset,
@@ -295,6 +311,29 @@ class UserSettingsViewState {
   bool get isEditedPremiumBadgeSequenceHiddenSet =>
       _editedPremiumBadgeSequenceHidden != _unset;
 
+  bool? get editedOperatorPassBadgeHidden =>
+      _editedOperatorPassBadgeHidden == _unset
+      ? null
+      : _editedOperatorPassBadgeHidden as bool?;
+  bool get isEditedOperatorPassBadgeHiddenSet =>
+      _editedOperatorPassBadgeHidden != _unset;
+
+  bool? get editedOperatorPassBadgeTimestampHidden =>
+      _editedOperatorPassBadgeTimestampHidden == _unset
+      ? null
+      : _editedOperatorPassBadgeTimestampHidden as bool?;
+  bool get isEditedOperatorPassBadgeTimestampHiddenSet =>
+      _editedOperatorPassBadgeTimestampHidden != _unset;
+
+  bool? get editedOperatorPassBadgeCountHidden =>
+      _editedOperatorPassBadgeCountHidden == _unset
+      ? null
+      : _editedOperatorPassBadgeCountHidden as bool?;
+  bool get isEditedOperatorPassBadgeCountHiddenSet =>
+      _editedOperatorPassBadgeCountHidden != _unset;
+
+  bool get hasOperatorPassProfileBadge => operatorPassSince != null;
+
   bool get isPremium => computeIsEffectivelyPremium(
     premiumType: premiumType,
     traits: traits,
@@ -334,6 +373,16 @@ class UserSettingsViewState {
 
   bool get effectivePremiumBadgeSequenceHidden =>
       editedPremiumBadgeSequenceHidden ?? premiumBadgeSequenceHidden;
+
+  bool get effectiveOperatorPassBadgeHidden =>
+      editedOperatorPassBadgeHidden ?? operatorPassBadgeHidden;
+
+  bool get effectiveOperatorPassBadgeTimestampHidden =>
+      editedOperatorPassBadgeTimestampHidden ??
+      operatorPassBadgeTimestampHidden;
+
+  bool get effectiveOperatorPassBadgeCountHidden =>
+      editedOperatorPassBadgeCountHidden ?? operatorPassBadgeCountHidden;
 
   bool get isPerGuildProfile => selectedGuildId != null;
 
@@ -541,6 +590,19 @@ class UserSettingsViewState {
         editedPremiumBadgeSequenceHidden != premiumBadgeSequenceHidden) {
       return true;
     }
+    if (isEditedOperatorPassBadgeHiddenSet &&
+        editedOperatorPassBadgeHidden != operatorPassBadgeHidden) {
+      return true;
+    }
+    if (isEditedOperatorPassBadgeTimestampHiddenSet &&
+        editedOperatorPassBadgeTimestampHidden !=
+            operatorPassBadgeTimestampHidden) {
+      return true;
+    }
+    if (isEditedOperatorPassBadgeCountHiddenSet &&
+        editedOperatorPassBadgeCountHidden != operatorPassBadgeCountHidden) {
+      return true;
+    }
     return false;
   }
 
@@ -622,6 +684,10 @@ class UserSettingsViewState {
     bool? premiumBadgeMasked,
     bool? premiumBadgeTimestampHidden,
     bool? premiumBadgeSequenceHidden,
+    Object? operatorPassSince = _unset,
+    bool? operatorPassBadgeHidden,
+    bool? operatorPassBadgeTimestampHidden,
+    bool? operatorPassBadgeCountHidden,
     bool? premiumDiscriminator,
     Object? premiumUntil = _unset,
     Object? premiumBillingCycle = _unset,
@@ -629,6 +695,9 @@ class UserSettingsViewState {
     Object? editedPremiumBadgeMasked = _unset,
     Object? editedPremiumBadgeTimestampHidden = _unset,
     Object? editedPremiumBadgeSequenceHidden = _unset,
+    Object? editedOperatorPassBadgeHidden = _unset,
+    Object? editedOperatorPassBadgeTimestampHidden = _unset,
+    Object? editedOperatorPassBadgeCountHidden = _unset,
     Object? editedDisplayName = _unset,
     Object? editedBio = _unset,
     Object? editedPronouns = _unset,
@@ -730,6 +799,16 @@ class UserSettingsViewState {
           premiumBadgeTimestampHidden ?? this.premiumBadgeTimestampHidden,
       premiumBadgeSequenceHidden:
           premiumBadgeSequenceHidden ?? this.premiumBadgeSequenceHidden,
+      operatorPassSince: operatorPassSince == _unset
+          ? this.operatorPassSince
+          : operatorPassSince as String?,
+      operatorPassBadgeHidden:
+          operatorPassBadgeHidden ?? this.operatorPassBadgeHidden,
+      operatorPassBadgeTimestampHidden:
+          operatorPassBadgeTimestampHidden ??
+          this.operatorPassBadgeTimestampHidden,
+      operatorPassBadgeCountHidden:
+          operatorPassBadgeCountHidden ?? this.operatorPassBadgeCountHidden,
       premiumDiscriminator: premiumDiscriminator ?? this.premiumDiscriminator,
       premiumUntil: premiumUntil == _unset
           ? this.premiumUntil
@@ -759,6 +838,23 @@ class UserSettingsViewState {
           : editedPremiumBadgeSequenceHidden == _resetEdited
           ? _unset
           : editedPremiumBadgeSequenceHidden,
+      editedOperatorPassBadgeHidden: editedOperatorPassBadgeHidden == _unset
+          ? _editedOperatorPassBadgeHidden
+          : editedOperatorPassBadgeHidden == _resetEdited
+          ? _unset
+          : editedOperatorPassBadgeHidden,
+      editedOperatorPassBadgeTimestampHidden:
+          editedOperatorPassBadgeTimestampHidden == _unset
+          ? _editedOperatorPassBadgeTimestampHidden
+          : editedOperatorPassBadgeTimestampHidden == _resetEdited
+          ? _unset
+          : editedOperatorPassBadgeTimestampHidden,
+      editedOperatorPassBadgeCountHidden:
+          editedOperatorPassBadgeCountHidden == _unset
+          ? _editedOperatorPassBadgeCountHidden
+          : editedOperatorPassBadgeCountHidden == _resetEdited
+          ? _unset
+          : editedOperatorPassBadgeCountHidden,
       editedDisplayName: editedDisplayName == _unset
           ? _editedDisplayName
           : editedDisplayName == _resetEdited
@@ -942,6 +1038,11 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
                   premiumBadgeMasked: user.premiumBadgeMasked,
                   premiumBadgeTimestampHidden: user.premiumBadgeTimestampHidden,
                   premiumBadgeSequenceHidden: user.premiumBadgeSequenceHidden,
+                  operatorPassBadgeHidden: user.operatorPassBadgeHidden,
+                  operatorPassBadgeTimestampHidden:
+                      user.operatorPassBadgeTimestampHidden,
+                  operatorPassBadgeCountHidden:
+                      user.operatorPassBadgeCountHidden,
                 ),
         )
         .distinct()
@@ -963,6 +1064,10 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
             premiumBadgeMasked: fields.premiumBadgeMasked,
             premiumBadgeTimestampHidden: fields.premiumBadgeTimestampHidden,
             premiumBadgeSequenceHidden: fields.premiumBadgeSequenceHidden,
+            operatorPassBadgeHidden: fields.operatorPassBadgeHidden,
+            operatorPassBadgeTimestampHidden:
+                fields.operatorPassBadgeTimestampHidden,
+            operatorPassBadgeCountHidden: fields.operatorPassBadgeCountHidden,
           );
         });
     ref.onDispose(subscription.cancel);
@@ -1036,6 +1141,13 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
             profile.premiumBadgeTimestampHidden,
           ),
           premiumBadgeSequenceHidden: Value(profile.premiumBadgeSequenceHidden),
+          operatorPassBadgeHidden: Value(profile.operatorPassBadgeHidden),
+          operatorPassBadgeTimestampHidden: Value(
+            profile.operatorPassBadgeTimestampHidden,
+          ),
+          operatorPassBadgeCountHidden: Value(
+            profile.operatorPassBadgeCountHidden,
+          ),
         ),
       ),
     );
@@ -1070,6 +1182,12 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       premiumBadgeMasked: profile.premiumBadgeMasked,
       premiumBadgeTimestampHidden: profile.premiumBadgeTimestampHidden,
       premiumBadgeSequenceHidden: profile.premiumBadgeSequenceHidden,
+      operatorPassSince: profile.operatorPassSince,
+      operatorPassBadgeHidden: profile.operatorPassBadgeHidden ?? false,
+      operatorPassBadgeTimestampHidden:
+          profile.operatorPassBadgeTimestampHidden ?? false,
+      operatorPassBadgeCountHidden:
+          profile.operatorPassBadgeCountHidden ?? false,
       premiumDiscriminator: profile.premiumDiscriminator,
       premiumUntil: profile.premiumUntil,
       premiumBillingCycle: profile.premiumBillingCycle,
@@ -1138,6 +1256,18 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void setPremiumBadgeSequenceHidden({required bool value}) {
     state = state.copyWith(editedPremiumBadgeSequenceHidden: value);
+  }
+
+  void setOperatorPassBadgeHidden({required bool value}) {
+    state = state.copyWith(editedOperatorPassBadgeHidden: value);
+  }
+
+  void setOperatorPassBadgeTimestampHidden({required bool value}) {
+    state = state.copyWith(editedOperatorPassBadgeTimestampHidden: value);
+  }
+
+  void setOperatorPassBadgeCountHidden({required bool value}) {
+    state = state.copyWith(editedOperatorPassBadgeCountHidden: value);
   }
 
   void setAvatar(String base64) {
@@ -1403,6 +1533,8 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       await client.users.updateCurrentUser(body: body);
 
       await loadProfile();
+      await ref.read(currentUserFullProfileProvider.notifier).refresh();
+      ref.invalidate(ownProfileBadgesPreviewProvider);
       reset();
     } on Exception catch (e) {
       talker.error('Failed to save profile', e);
@@ -1434,6 +1566,10 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       editedPremiumBadgeMasked: UserSettingsViewState._resetEdited,
       editedPremiumBadgeTimestampHidden: UserSettingsViewState._resetEdited,
       editedPremiumBadgeSequenceHidden: UserSettingsViewState._resetEdited,
+      editedOperatorPassBadgeHidden: UserSettingsViewState._resetEdited,
+      editedOperatorPassBadgeTimestampHidden:
+          UserSettingsViewState._resetEdited,
+      editedOperatorPassBadgeCountHidden: UserSettingsViewState._resetEdited,
       editedAvatarBase64: null,
       editedBannerBase64: null,
       avatarCleared: false,

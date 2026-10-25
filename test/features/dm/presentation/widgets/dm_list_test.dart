@@ -236,6 +236,35 @@ void main() {
       expect(find.text("Friend's username"), findsOneWidget);
     });
 
+    testWidgets(
+      'personal notes long-press menu keeps a gap above the navigation bar',
+      (tester) async {
+        _setMobileSurface(tester);
+        tester.view.padding = FakeViewPadding.zero;
+        tester.view.viewPadding = FakeViewPadding.zero;
+        addTearDown(tester.view.resetPadding);
+        addTearDown(tester.view.resetViewPadding);
+
+        await tester.pumpWidget(
+          _buildTestApp(overrides: _buildOverrides(conversations: const [])),
+        );
+        await tester.pump();
+
+        await tester.longPress(find.text('Personal notes'));
+        await tester.pumpAndSettle();
+
+        final double itemBottom = tester
+            .getRect(
+              find.ancestor(
+                of: find.text('Purge personal notes'),
+                matching: find.byType(FluxerBottomSheetMenuItem),
+              ),
+            )
+            .bottom;
+        expect(itemBottom, lessThanOrEqualTo(844 - 16));
+      },
+    );
+
     testWidgets('Add friends badge is a capped pill cut out of the sidebar', (
       tester,
     ) async {

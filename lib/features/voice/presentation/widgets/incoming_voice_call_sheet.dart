@@ -212,7 +212,6 @@ class _IncomingVoiceCallSheetBodyState
             ),
             child: Text(l10n.incomingVoiceCallIgnore),
           ),
-          SizedBox(height: layout.s4),
         ],
       ),
     );

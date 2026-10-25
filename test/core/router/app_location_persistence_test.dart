@@ -380,10 +380,14 @@ void main() {
 
   group('clearPersistedLocation', () {
     test('clears app location and guild last channel', () async {
+      await addGuild('guild-1');
+      await addGuildChannel('chan-1', 'guild-1');
+      await addGuild('guild-2');
+      await addGuildChannel('other', 'guild-2');
       persistAppLocation(db, '/channels/guild-1/chan-1');
       persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1');
       persistGuildChannelFromLocation(db, '/channels/guild-2/other');
-      await Future<void>.delayed(Duration.zero);
+      await pumpEventQueue();
 
       await clearPersistedLocation(db, '/channels/guild-1/chan-1');
 

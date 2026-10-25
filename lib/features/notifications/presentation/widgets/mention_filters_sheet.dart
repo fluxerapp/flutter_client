@@ -20,12 +20,7 @@ Future<void> showMentionFiltersSheet(
     variant: FluxerBottomSheetVariant.menu,
     useRootNavigator: true,
     builder: (BuildContext sheetContext, VoidCallback close) => Padding(
-      padding: EdgeInsets.fromLTRB(
-        16,
-        0,
-        16,
-        FluxerBottomSheet.bottomGapOf(sheetContext),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: FluxerBottomSheetGroupColumn(
         children: <Widget>[
           const _MentionFilterSwitches(),

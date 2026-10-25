@@ -581,6 +581,12 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     label: _l((l10n) => l10n.accessibilityPlayAnimatedEmojisLabel),
   ),
   _UserSettingsSearchOption(
+    id: 'av:change-audio-output',
+    section: UserSettingsSection.audioAndVideo,
+    fieldId: 'audio',
+    label: _l((l10n) => l10n.voiceChangeAudioOutputLabel),
+  ),
+  _UserSettingsSearchOption(
     id: 'av:input-device',
     section: UserSettingsSection.audioAndVideo,
     fieldId: 'audio',
@@ -730,6 +736,13 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     description: _l(
       (l10n) => l10n.advancedSettingMobileSplashZoomAnimationDescription,
     ),
+  ),
+  _UserSettingsSearchOption(
+    id: 'advanced:splash-quotes',
+    section: UserSettingsSection.advanced,
+    fieldId: 'advanced-settings-appearance',
+    label: _l((l10n) => l10n.advancedSettingSplashQuotesLabel),
+    description: _l((l10n) => l10n.advancedSettingSplashQuotesDescription),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:keyboard-hints',

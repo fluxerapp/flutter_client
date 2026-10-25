@@ -195,7 +195,6 @@ class _ForumTagEditorState extends ConsumerState<_ForumTagEditor> {
               label: l10n.forumDeleteTag,
             ),
           ],
-          SizedBox(height: layout.s4),
         ],
       ),
     );

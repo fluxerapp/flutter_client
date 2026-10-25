@@ -1638,7 +1638,7 @@ class _GifActionsSheet extends StatelessWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final double maxPreviewHeight = MediaQuery.sizeOf(context).height * 0.5;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

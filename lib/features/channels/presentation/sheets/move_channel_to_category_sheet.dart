@@ -52,12 +52,7 @@ Future<void> showMoveChannelToCategorySheet(
             controller: scrollController,
             padding: FluxerBottomSheet.scrollViewPadding(
               sheetContext,
-              padding: EdgeInsets.fromLTRB(
-                layout.s4,
-                0,
-                layout.s4,
-                FluxerBottomSheet.bottomGapOf(sheetContext),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: layout.s4),
             ),
             children: <Widget>[
               FluxerBottomSheetGroupColumn(

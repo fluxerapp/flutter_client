@@ -3,7 +3,9 @@ import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_settings/widgets/channel_slowmode_slider.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_settings_options.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -18,39 +20,6 @@ Future<void> showThreadSettingsSheet(BuildContext context, Channel thread) {
         _ThreadSettingsBody(thread: thread, close: close),
   );
 }
-
-List<FluxerSelectItem<int>> threadSlowmodeItems(FluxerLocalizations l10n) {
-  String label(int seconds) {
-    if (seconds < 60) {
-      return l10n.channelSettingsSlowmodeSeconds(seconds);
-    }
-    if (seconds < 3600) {
-      final int minutes = seconds ~/ 60;
-      return minutes == 1
-          ? l10n.channelSettingsSlowmodeOneMinute(minutes)
-          : l10n.channelSettingsSlowmodeMinutes(minutes);
-    }
-    final int hours = seconds ~/ 3600;
-    return hours == 1
-        ? l10n.channelSettingsSlowmodeOneHour(hours)
-        : l10n.channelSettingsSlowmodeHours(hours);
-  }
-
-  return <FluxerSelectItem<int>>[
-    FluxerSelectItem<int>(value: 0, label: l10n.channelSettingsSlowmodeOff),
-    for (final int seconds in kSlowmodeOptionsSeconds.where((int s) => s > 0))
-      FluxerSelectItem<int>(value: seconds, label: label(seconds)),
-  ];
-}
-
-List<FluxerSelectItem<int>> threadAutoArchiveItems(FluxerLocalizations l10n) =>
-    <FluxerSelectItem<int>>[
-      for (final int minutes in threadAutoArchiveDurations)
-        FluxerSelectItem<int>(
-          value: minutes,
-          label: threadAutoArchiveLabel(l10n, minutes),
-        ),
-    ];
 
 class _ThreadSettingsBody extends ConsumerStatefulWidget {
   const _ThreadSettingsBody({required this.thread, required this.close});
@@ -76,7 +45,7 @@ class _ThreadSettingsBodyState extends ConsumerState<_ThreadSettingsBody> {
     super.initState();
     _name = TextEditingController(text: widget.thread.name);
     _autoArchive = widget.thread.threadAutoArchiveMinutes;
-    _slowmode = widget.thread.rateLimitPerUser;
+    _slowmode = snapSlowmodeSeconds(widget.thread.rateLimitPerUser);
     _invitable = widget.thread.threadInvitable ?? true;
   }
 
@@ -147,12 +116,7 @@ class _ThreadSettingsBodyState extends ConsumerState<_ThreadSettingsBody> {
             ) ==
             null;
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        context.layout.s4,
-        0,
-        context.layout.s4,
-        context.layout.s4,
-      ),
+      padding: EdgeInsets.fromLTRB(context.layout.s4, 0, context.layout.s4, 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -180,12 +144,9 @@ class _ThreadSettingsBodyState extends ConsumerState<_ThreadSettingsBody> {
           ),
           if (isModerator) ...<Widget>[
             SizedBox(height: context.layout.s4),
-            FluxerSelect<int>(
-              label: l10n.channelSettingsSlowmode,
+            ChannelSlowmodeSlider(
+              l10n: l10n,
               value: _slowmode,
-              stretch: true,
-              enableSearch: false,
-              items: threadSlowmodeItems(l10n),
               onChanged: (int value) => setState(() => _slowmode = value),
             ),
           ],

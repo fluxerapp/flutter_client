@@ -168,7 +168,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
             ),
           ),
         ),
-        if (isMobileLayout(context)) const BottomInputSpacer(),
+        const BottomInputSpacer(),
       ],
     );
   }

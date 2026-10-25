@@ -133,13 +133,14 @@ class _EmptyGuildListViewModel extends GuildListViewModel {
 List<Override> composerChannelTextareaOverrides({
   required FluxerDatabase database,
   ChannelMessagePermissions? guildChannelPermissions,
+  ChannelMessagePermissions Function(Ref ref)? guildChannelPermissionsOf,
 }) {
+  final bool isGuildChannel =
+      guildChannelPermissions != null || guildChannelPermissionsOf != null;
   return <Override>[
     chatViewModelProvider.overrideWith(MutableChatViewModel.new),
     dmViewModelProvider.overrideWith(
-      guildChannelPermissions == null
-          ? _HarnessDmViewModel.new
-          : _GuildChannelDmViewModel.new,
+      isGuildChannel ? _GuildChannelDmViewModel.new : _HarnessDmViewModel.new,
     ),
     guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
     blockedUserIdsProvider.overrideWithValue(<String>{}),
@@ -149,7 +150,10 @@ List<Override> composerChannelTextareaOverrides({
     instanceRuntimeConfigOverride(),
     maxMessageLengthProvider.overrideWithValue(2000),
     channelMessagePermissionsProvider(kComposerHarnessChannelA).overrideWith(
-      (ref) => guildChannelPermissions ?? ChannelMessagePermissions.all,
+      (ref) =>
+          guildChannelPermissionsOf?.call(ref) ??
+          guildChannelPermissions ??
+          ChannelMessagePermissions.all,
     ),
     channelMessagePermissionsProvider(
       kComposerHarnessChannelB,
@@ -162,6 +166,7 @@ Future<ProviderContainer> pumpComposerChannelTextareaHarness(
   List<Override> extraOverrides = const <Override>[],
   FluxerDatabase? database,
   ChannelMessagePermissions? guildChannelPermissions,
+  ChannelMessagePermissions Function(Ref ref)? guildChannelPermissionsOf,
   Widget home = const Scaffold(body: ChannelTextarea()),
 }) async {
   final FluxerDatabase db = database ?? openTestDatabase();
@@ -171,6 +176,7 @@ Future<ProviderContainer> pumpComposerChannelTextareaHarness(
       ...composerChannelTextareaOverrides(
         database: db,
         guildChannelPermissions: guildChannelPermissions,
+        guildChannelPermissionsOf: guildChannelPermissionsOf,
       ),
       ...extraOverrides,
     ],

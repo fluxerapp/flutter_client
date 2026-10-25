@@ -44,9 +44,7 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
       gift: 'https://example.test/gift',
       webapp: 'https://example.test/webapp',
     ),
-    captcha: const InstanceCaptchaSchema(
-      provider: InstanceCaptchaProviderSchema.none,
-    ),
+    captcha: const InstanceCaptchaSchema(provider: CaptchaProviderSchema.none),
     features: const InstanceFeaturesSchema(
       voiceEnabled: true,
       stripeEnabled: false,
@@ -68,6 +66,7 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
       enabled: false,
       enforced: false,
       displayName: null,
+      buttonLabel: null,
       redirectUri: 'https://example.test/sso',
     ),
     registration: const InstanceRegistrationSchema(
@@ -110,6 +109,11 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
         statusPageIncidentHistoryUrl: null,
         premiumProductName: 'Plutonium',
         premiumInfoUrl: null,
+        faviconDarkUrl: null,
+        signInBackdropUrl: null,
+        customCss: null,
+        uploadLimitMessage: null,
+        trustedDomains: <String>[],
       ),
       setup: InstanceSetupSchema(configured: true, adminUrl: null),
       legal: InstanceAppPublicSchemaLegal(

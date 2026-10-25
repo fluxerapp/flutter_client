@@ -82,10 +82,8 @@ class SyncedPreferencesEngine {
 
   static MergeIncomingResult mergeIncoming({
     required pb.SyncedPreferences local,
-    required pb.SyncedPreferences wire,
     required pb.SyncedPreferences incoming,
     required Set<SyncedPreferenceField> protectedFields,
-    required Set<SyncedPreferenceField> recentlyAckedFields,
     required pb.SyncedPreferences? inFlight,
     required bool syncInFlight,
   }) {
@@ -97,14 +95,8 @@ class SyncedPreferencesEngine {
     final protectedSet = protectedFields
         .map((field) => field.fieldNumber)
         .toSet();
-    final ackedSet = recentlyAckedFields
-        .map((field) => field.fieldNumber)
-        .toSet();
     final localFields = _indexFieldChunks(
       _parseTopLevelFieldChunks(localBytes),
-    );
-    final wireFields = _indexFieldChunks(
-      _parseTopLevelFieldChunks(preferencesToBytes(wire)),
     );
     final incomingFields = _indexFieldChunks(
       _parseTopLevelFieldChunks(incomingBytes),
@@ -113,7 +105,6 @@ class SyncedPreferencesEngine {
         ? <int, List<Uint8List>>{}
         : _indexFieldChunks(_parseTopLevelFieldChunks(inFlightBytes));
     var merged = incomingBytes;
-    var nextWire = incomingBytes;
     final dirtyFieldNumbers = <int>[];
     final fieldNumbers = <int>{
       ...localFields.keys,
@@ -129,20 +120,6 @@ class SyncedPreferencesEngine {
         );
         continue;
       }
-      if (ackedSet.contains(field) &&
-          _chunksEqual(incomingFields[field], wireFields[field])) {
-        merged = SyncedPreferencesWireCodec.replaceField(
-          target: merged,
-          fieldNumber: field,
-          sourceFieldChunks: localFields[field] ?? <Uint8List>[],
-        );
-        nextWire = SyncedPreferencesWireCodec.replaceField(
-          target: nextWire,
-          fieldNumber: field,
-          sourceFieldChunks: wireFields[field] ?? <Uint8List>[],
-        );
-        continue;
-      }
       if (syncInFlight &&
           inFlightBytes != null &&
           !_chunksEqual(incomingFields[field], inFlightFields[field])) {
@@ -151,21 +128,15 @@ class SyncedPreferencesEngine {
     }
     return MergeIncomingResult(
       merged: preferencesFromBytes(merged),
-      wire: preferencesFromBytes(nextWire),
       dirtyFields: _toFieldNames(dirtyFieldNumbers),
     );
   }
 }
 
 class MergeIncomingResult {
-  const MergeIncomingResult({
-    required this.merged,
-    required this.wire,
-    required this.dirtyFields,
-  });
+  const MergeIncomingResult({required this.merged, required this.dirtyFields});
 
   final pb.SyncedPreferences merged;
-  final pb.SyncedPreferences wire;
   final List<SyncedPreferenceField> dirtyFields;
 }
 

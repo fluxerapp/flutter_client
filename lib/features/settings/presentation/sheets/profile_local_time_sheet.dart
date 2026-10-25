@@ -191,12 +191,7 @@ class _ProfileLocalTimeEditorBody extends ConsumerWidget {
     if (scrollController != null) {
       return SingleChildScrollView(
         controller: scrollController,
-        padding: EdgeInsets.fromLTRB(
-          layout.s4,
-          layout.s2,
-          layout.s4,
-          layout.s6,
-        ),
+        padding: EdgeInsets.fromLTRB(layout.s4, layout.s2, layout.s4, 0),
         child: content,
       );
     }

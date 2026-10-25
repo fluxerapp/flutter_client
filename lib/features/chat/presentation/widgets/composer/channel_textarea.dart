@@ -103,7 +103,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kComposerDisabledOpacity = 0.6;
 
-const double _kTouchComposerActionSpacing = 8;
 const double _kDesktopComposerAttachIconSize = 26;
 const double _kWideComposerActionExtent = WideComposerLayout.actionButtonExtent;
 const double _kWideComposerIconSize = 24;
@@ -152,21 +151,7 @@ TextStyle _composerInputHintStyle(
   );
 }
 
-OutlineInputBorder _composerTouchInputOutlineBorder(
-  BuildContext context, {
-  required bool focused,
-}) {
-  return OutlineInputBorder(
-    borderRadius: BorderRadius.circular(24),
-    borderSide: BorderSide(
-      color: focused
-          ? context.colors.backgroundModifierAccentFocus
-          : context.colors.backgroundModifierAccent,
-    ),
-  );
-}
-
-InputDecoration _composerTouchInputDecoration({
+InputDecoration _composerDesktopInputDecoration({
   required BuildContext context,
   required String hintText,
   required bool enabled,
@@ -176,16 +161,12 @@ InputDecoration _composerTouchInputDecoration({
     hintMaxLines: 1,
     hintStyle: _composerInputHintStyle(context, enabled: enabled),
     hintFadeDuration: context.motion.panel,
-    filled: true,
-    fillColor: context.colors.backgroundTertiary,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-    border: _composerTouchInputOutlineBorder(context, focused: false),
-    enabledBorder: _composerTouchInputOutlineBorder(context, focused: false),
-    focusedBorder: _composerTouchInputOutlineBorder(
-      context,
-      focused: !isFluxerMobileOs,
-    ),
-    disabledBorder: _composerTouchInputOutlineBorder(context, focused: false),
+    filled: false,
+    border: InputBorder.none,
+    enabledBorder: InputBorder.none,
+    focusedBorder: InputBorder.none,
+    disabledBorder: InputBorder.none,
+    contentPadding: const EdgeInsets.symmetric(vertical: 2),
     isDense: true,
   );
 }
@@ -332,7 +313,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return wrapped;
     }
     return Padding(
-      padding: const EdgeInsets.only(left: _kTouchComposerActionSpacing),
+      padding: const EdgeInsets.only(left: WideComposerLayout.actionGap),
       child: wrapped,
     );
   }
@@ -724,7 +705,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         context,
         title: l10n.plutoniumNotAvailableTitle,
         builder: (sheetContext, _) => Padding(
-          padding: EdgeInsets.all(sheetContext.layout.s4),
+          padding: EdgeInsets.fromLTRB(
+            sheetContext.layout.s4,
+            sheetContext.layout.s4,
+            sheetContext.layout.s4,
+            0,
+          ),
           child: Text(
             l10n.plutoniumNotAvailableBody,
             style: sheetContext.textStyles.bodyMedium.copyWith(
@@ -964,13 +950,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       AsyncValue<ChannelMessagePermissions>? previous,
       AsyncValue<ChannelMessagePermissions> next,
     ) {
-      final bool wasEnabled = channelMessagePermissionsForComposer(
+      final bool wasDenied = channelMessagePermissionsForComposer(
         previous ?? const AsyncValue<ChannelMessagePermissions>.loading(),
-      ).isComposerEnabled;
-      final bool isEnabled = channelMessagePermissionsForComposer(
+      ).showsNoSendPermissionHint;
+      final bool isDenied = channelMessagePermissionsForComposer(
         next,
-      ).isComposerEnabled;
-      if (wasEnabled && !isEnabled) {
+      ).showsNoSendPermissionHint;
+      if (!wasDenied && isDenied) {
         _clearComposerForBlockedAccess();
       }
     });
@@ -1350,34 +1336,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       gifEnabled: gifEnabled,
     );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool touchInputStyle = isTouchPrimaryInput(ref);
-    final bool touchActions = touchInputStyle;
+    final bool touchActions = isTouchPrimaryInput(ref);
     final bool composerEnabled = perms.isComposerEnabled;
     final String hintText = perms.showsNoSendPermissionHint
         ? l10n.channelNoSendPermissionHint
         : _resolveHintText();
-    final InputDecoration inputDecoration = touchInputStyle
-        ? _composerTouchInputDecoration(
-            context: context,
-            hintText: hintText,
-            enabled: composerEnabled,
-          )
-        : InputDecoration(
-            hintText: hintText,
-            hintMaxLines: 1,
-            hintStyle: _composerInputHintStyle(
-              context,
-              enabled: composerEnabled,
-            ),
-            hintFadeDuration: context.motion.panel,
-            filled: false,
-            border: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(vertical: 2),
-            isDense: true,
-          );
+    final InputDecoration inputDecoration = _composerDesktopInputDecoration(
+      context: context,
+      hintText: hintText,
+      enabled: composerEnabled,
+    );
     return ListenableBuilder(
       listenable: _voiceRecording,
       builder: (BuildContext context, Widget? _) {
@@ -1385,17 +1353,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         final FluxerButtonSize actionSize = touchActions
             ? FluxerButtonSize.small
             : FluxerButtonSize.compact;
-        final double leadingGap = touchActions
-            ? _kTouchComposerActionSpacing
-            : WideComposerLayout.denseColumnGap;
+        final EdgeInsets wideRowPadding = WideComposerLayout.denseRowPadding(
+          touchPrimary: touchActions,
+        );
         return _voiceComposerMorph(
           recording: recording,
           recordingChild: VoiceMessageRecordingBar(
             controller: _voiceRecording,
             actionSize: actionSize,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: touchActions ? 12 : 8,
-              vertical: WideComposerLayout.densePaddingY,
+            contentPadding: wideRowPadding.copyWith(
+              top: WideComposerLayout.densePaddingY,
+              bottom: WideComposerLayout.densePaddingY,
             ),
             backgroundShape: VoiceMessageRecordingBar.wideBackgroundShape(
               hasActionStack: hasWideActionStack,
@@ -1410,105 +1378,103 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               onNoSendPermission: _showNoSendPermissionToast,
             ),
           ),
-          idleChild: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: actionSize.height),
-            child: Row(
-              children: <Widget>[
-                _composerSlot(
-                  context: context,
-                  visible: perms.canShowAttachControls,
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Builder(
-                        builder: (BuildContext attachContext) {
-                          return _buildComposerActionButton(
-                            context: context,
-                            icon: touchActions
-                                ? PhosphorIconsBold.plus
-                                : PhosphorIconsFill.plusCircle,
-                            iconSize: touchActions
-                                ? 20
-                                : _kDesktopComposerAttachIconSize,
-                            tooltip: l10n.chatAttachmentSourceBrowse,
-                            onPressed: perms.isAttachEnabled
-                                ? () =>
-                                      unawaited(_onAttachPressed(attachContext))
-                                : null,
-                          );
-                        },
-                      ),
-                      SizedBox(width: leadingGap),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: _buildComposerField(
+          idleChild: Padding(
+            padding: wideRowPadding,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: actionSize.height),
+              child: Row(
+                children: <Widget>[
+                  _composerSlot(
                     context: context,
-                    channelId: channelId,
-                    perms: perms,
-                    maxMessageLength: maxMessageLength,
-                    premiumMaxLength: premiumMaxLength,
-                    minLines: 1,
-                    maxLines: 5,
-                    decoration: inputDecoration,
-                  ),
-                ),
-                SizedBox(
-                  width: touchActions ? _kTouchComposerActionSpacing : 4,
-                ),
-                ListenableBuilder(
-                  listenable: _controller,
-                  builder: (BuildContext context, Widget? child) {
-                    final String sendableWire = _sendableWireText();
-                    final bool hasSendable =
-                        composerHasSendableContent(
-                          ref,
-                          channelId,
-                          sendableWire,
-                        ) ||
-                        _slashSession.isActive;
-                    final bool isOverCharacterLimit =
-                        _composerContentLength(sendableWire) > maxMessageLength;
-                    return Wrap(
-                      alignment: WrapAlignment.end,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: touchActions ? _kTouchComposerActionSpacing : 4,
+                    visible: perms.canShowAttachControls,
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        if (!hasSendable)
-                          _composerSlot(
-                            context: context,
-                            visible: composerButtonTabs.isNotEmpty,
-                            alignment: Alignment.centerRight,
-                            child: _buildLargeExpressionPickerActions(
+                        Builder(
+                          builder: (BuildContext attachContext) {
+                            return _buildComposerActionButton(
                               context: context,
-                              channelId: channelId,
-                              perms: perms,
-                              composerButtonTabs: composerButtonTabs,
-                              popoutTabs: popoutTabs,
-                            ),
-                          ),
-                        if (!touchActions)
-                          VerticalDivider(
-                            color: context.colors.borderColor,
-                            width: 16,
-                            thickness: 1,
-                          ),
-                        ComposerSendAndVoiceButton(
-                          perms: perms,
-                          hasSendable: hasSendable,
-                          isOverCharacterLimit: isOverCharacterLimit,
-                          useHoldToRecord: false,
-                          voiceRecording: _voiceRecording,
-                          onSend: () => unawaited(_onSendPressed()),
-                          onNoSendPermission: _showNoSendPermissionToast,
+                              icon: touchActions
+                                  ? PhosphorIconsBold.plus
+                                  : PhosphorIconsFill.plusCircle,
+                              iconSize: touchActions
+                                  ? 20
+                                  : _kDesktopComposerAttachIconSize,
+                              tooltip: l10n.chatAttachmentSourceBrowse,
+                              onPressed: perms.isAttachEnabled
+                                  ? () => unawaited(
+                                      _onAttachPressed(attachContext),
+                                    )
+                                  : null,
+                            );
+                          },
                         ),
+                        const SizedBox(width: WideComposerLayout.actionGap),
                       ],
-                    );
-                  },
-                ),
-              ],
+                    ),
+                  ),
+                  Expanded(
+                    child: _buildComposerField(
+                      context: context,
+                      channelId: channelId,
+                      perms: perms,
+                      maxMessageLength: maxMessageLength,
+                      premiumMaxLength: premiumMaxLength,
+                      minLines: 1,
+                      maxLines: 5,
+                      decoration: inputDecoration,
+                    ),
+                  ),
+                  const SizedBox(width: WideComposerLayout.actionGap),
+                  ListenableBuilder(
+                    listenable: _controller,
+                    builder: (BuildContext context, Widget? child) {
+                      final String sendableWire = _sendableWireText();
+                      final bool hasSendable =
+                          composerHasSendableContent(
+                            ref,
+                            channelId,
+                            sendableWire,
+                          ) ||
+                          _slashSession.isActive;
+                      final bool isOverCharacterLimit =
+                          _composerContentLength(sendableWire) >
+                          maxMessageLength;
+                      return Wrap(
+                        alignment: WrapAlignment.end,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: WideComposerLayout.actionGap,
+                        children: <Widget>[
+                          if (!hasSendable)
+                            _composerSlot(
+                              context: context,
+                              visible: composerButtonTabs.isNotEmpty,
+                              alignment: Alignment.centerRight,
+                              child: _buildLargeExpressionPickerActions(
+                                context: context,
+                                channelId: channelId,
+                                perms: perms,
+                                composerButtonTabs: composerButtonTabs,
+                                popoutTabs: popoutTabs,
+                              ),
+                            ),
+                          if (!touchActions) const WideComposerVoiceSeparator(),
+                          ComposerSendAndVoiceButton(
+                            perms: perms,
+                            hasSendable: hasSendable,
+                            isOverCharacterLimit: isOverCharacterLimit,
+                            useHoldToRecord: false,
+                            voiceRecording: _voiceRecording,
+                            onSend: () => unawaited(_onSendPressed()),
+                            onNoSendPermission: _showNoSendPermissionToast,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );

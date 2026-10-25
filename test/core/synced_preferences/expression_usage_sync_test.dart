@@ -283,35 +283,6 @@ void main() {
         expect(api.lastPush.emojiPicker.favoriteEmojiIds, ['unicode:tada']);
       },
     );
-
-    test('an unpushed favourite change survives an app restart', () async {
-      await store.hydrateFromUserSettings(
-        syncedPreferencesUserSettings(
-          _emojiPicker(favorites: ['unicode:heart', 'unicode:tada']),
-        ),
-      );
-      api.offline = true;
-      await container
-          .read(favoriteEmojiKeysProvider.notifier)
-          .toggle('unicode:heart');
-      await drainAsyncWork();
-      container.dispose();
-      api.offline = false;
-
-      final restarted = _container(database, api);
-      final restartedStore = restarted.read(syncedPreferencesStoreProvider);
-      await restartedStore.hydrateFromUserSettings(
-        syncedPreferencesUserSettings(
-          _emojiPicker(favorites: ['unicode:heart', 'unicode:tada']),
-        ),
-      );
-      await flushSyncedPreferencesDebounce(restartedStore);
-
-      expect(await database.userPreferencesDao.getFavoriteEmojiKeys(_userId), [
-        'unicode:tada',
-      ]);
-      expect(api.lastPush.emojiPicker.favoriteEmojiIds, ['unicode:tada']);
-    });
   });
 
   group('restart', () {

@@ -683,6 +683,28 @@ void main() {
     });
   });
 
+  group('wideLayoutKeyboardSlotOccupied', () {
+    test('is true when view insets reserve keyboard space', () {
+      expect(
+        wideLayoutKeyboardSlotOccupied(
+          bottomInputSlotHeight: 0,
+          keyboardInsetBottom: 280,
+        ),
+        isTrue,
+      );
+    });
+
+    test('is false when neither slot nor inset is active', () {
+      expect(
+        wideLayoutKeyboardSlotOccupied(
+          bottomInputSlotHeight: 0,
+          keyboardInsetBottom: 0,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('chatLayoutReservesBottomSafeArea', () {
     test(
       'mobile defers bottom inset to composer safe bar when keyboard is closed',

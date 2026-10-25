@@ -17,6 +17,7 @@ class TimeoutMemberSheet {
       context,
       title: l10n.userProfileTimeoutSheetTitle(username),
       useRootNavigator: true,
+      bottomGap: false,
       builder: (sheetContext, close) => const _TimeoutMemberBody(),
     );
   }

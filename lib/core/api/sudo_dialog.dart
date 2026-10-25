@@ -181,6 +181,7 @@ class _SudoVerificationSheetContentState
     final textStyles = context.textStyles;
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
+    final bool inSheet = FluxerBottomSheet.isInSheet(context);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: layout.s4),
@@ -253,7 +254,8 @@ class _SudoVerificationSheetContentState
               onPressed: _submit,
               label: l10n.continueAction,
             ),
-            SizedBox(height: layout.s2),
+            if (widget.challenge.webauthn || !inSheet)
+              SizedBox(height: layout.s2),
           ],
           if (widget.challenge.webauthn) ...[
             if (_canShowTextInput)
@@ -266,7 +268,7 @@ class _SudoVerificationSheetContentState
                 onPressedAsync: _verifyWithPasskey,
                 label: l10n.mfaMethodWebauthn,
               ),
-            SizedBox(height: layout.s2),
+            if (!inSheet) SizedBox(height: layout.s2),
           ],
         ],
       ),

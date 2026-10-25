@@ -327,6 +327,13 @@ double bottomInputKeyboardSpacerHeight({
   );
 }
 
+bool wideLayoutKeyboardSlotOccupied({
+  required double bottomInputSlotHeight,
+  required double keyboardInsetBottom,
+}) {
+  return bottomInputSlotHeight > 0 || keyboardInsetBottom > 0;
+}
+
 bool chatLayoutReservesBottomSafeArea({
   required bool isMobile,
   required bool keyboardSlotOccupied,

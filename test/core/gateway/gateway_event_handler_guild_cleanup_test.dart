@@ -97,6 +97,37 @@ void main() {
       },
     );
 
+    test(
+      'READY writes the own member when its user is only an id reference',
+      () async {
+        final ctx = await buildHandler();
+
+        await sendReady(
+          ctx.handler,
+          rawGuilds: [
+            {
+              ..._guildRaw(id: '200'),
+              'members': <Map<String, Object?>>[
+                <String, Object?>{
+                  'user': <String, Object?>{'id': '100'},
+                  'roles': <String>['300'],
+                  'joined_at': '2026-10-01T00:00:00.000Z',
+                  'mute': false,
+                  'deaf': false,
+                },
+              ],
+            },
+          ],
+        );
+
+        final Member? own = await ctx.database.memberDao.getMemberByUserId(
+          '100',
+          '200',
+        );
+        expect(own?.roleIdsJson, '["300"]');
+      },
+    );
+
     test('GUILD_MEMBER_REMOVE for current user removes guild', () async {
       final ctx = await buildHandler();
       await ctx.database.guildDao.upsertServer(

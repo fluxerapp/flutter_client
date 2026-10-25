@@ -6,6 +6,10 @@ const double voiceGridEdgePaddingPx = 20;
 const double voiceGridMinTileWidthPx = 220;
 const double voiceGridMinTileHeightPx =
     voiceGridMinTileWidthPx / voiceGridTileAspectRatio;
+const double voiceGridMaxSquareTileSidePx = 483;
+const double voiceGridMaxTileWidthPx = 644;
+const double voiceGridMaxTileHeightPx =
+    voiceGridMaxTileWidthPx / voiceGridTileAspectRatio;
 const double voiceGridCompactMinTileWidthPx = 148;
 const double voiceGridCompactMinTileHeightPx =
     voiceGridCompactMinTileWidthPx / voiceGridTileAspectRatio;

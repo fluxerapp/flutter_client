@@ -230,20 +230,19 @@ class _ExpressionPickerSyncedField
     required ExpressionPickerSyncedLocalState remote,
     required ExpressionPickerSyncedLocalState? baseline,
   }) {
-    if (baseline == null) {
-      return mergeForMigration(local: local, remote: remote);
-    }
+    final ExpressionPickerSyncedLocalState base =
+        baseline ?? ExpressionPickerSyncedLocalState.empty;
     return _normalize(
       ExpressionPickerSyncedLocalState(
         favoriteKeys: mergeExpressionPickerListsThreeWay(
           local: local.favoriteKeys,
           remote: remote.favoriteKeys,
-          baseline: baseline.favoriteKeys,
+          baseline: base.favoriteKeys,
         ),
         collapsedCategoryIds: mergeExpressionPickerListsThreeWay(
           local: local.collapsedCategoryIds,
           remote: remote.collapsedCategoryIds,
-          baseline: baseline.collapsedCategoryIds,
+          baseline: base.collapsedCategoryIds,
         ),
         usage: _mergeUsage(local, remote),
       ),

@@ -306,7 +306,12 @@ class _FluxerTagChangeContentState
       context,
       title: l10n.fluxerTagAlreadyTaken,
       builder: (sheetContext, _) => Padding(
-        padding: EdgeInsets.all(sheetContext.layout.s4),
+        padding: EdgeInsets.fromLTRB(
+          sheetContext.layout.s4,
+          sheetContext.layout.s4,
+          sheetContext.layout.s4,
+          0,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -351,7 +356,12 @@ class _FluxerTagChangeContentState
       context,
       title: l10n.customTagIsTemporary,
       builder: (sheetContext, _) => Padding(
-        padding: EdgeInsets.all(sheetContext.layout.s4),
+        padding: EdgeInsets.fromLTRB(
+          sheetContext.layout.s4,
+          sheetContext.layout.s4,
+          sheetContext.layout.s4,
+          0,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

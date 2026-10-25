@@ -12,12 +12,6 @@ const _kRetryCountKey = '_retryCount';
 
 const kNoRetryKey = 'noRetry';
 
-const Set<DioExceptionType> _kRetryableTypes = {
-  DioExceptionType.connectionError,
-  DioExceptionType.connectionTimeout,
-  DioExceptionType.sendTimeout,
-};
-
 const Set<String> _kIdempotentMethods = <String>{
   'GET',
   'HEAD',

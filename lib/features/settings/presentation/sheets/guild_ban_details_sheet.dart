@@ -163,7 +163,7 @@ class _GuildBanDetailsBodyState extends ConsumerState<_GuildBanDetailsBody> {
         layout.s4,
         layout.s4,
         layout.s4,
-        kSettingsScrollBottomPadding,
+        FluxerBottomSheet.isInSheet(context) ? 0 : kSettingsScrollBottomPadding,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -177,13 +177,15 @@ Future<void> openGuildChannelContent({
       voiceSession.channelId == channel.id;
 
   void recordAndNavigate() {
-    ref
-        .read(recentChannelVisitsProvider.notifier)
-        .recordVisit(
-          channelId: channel.id,
-          guildId: guildId,
-          isThread: channel.isThread,
-        );
+    if (!isVoiceChannel) {
+      ref
+          .read(recentChannelVisitsProvider.notifier)
+          .recordVisit(
+            channelId: channel.id,
+            guildId: guildId,
+            isThread: channel.isThread,
+          );
+    }
     if (isAnnouncementConvertibleChannel(channel.type) || channel.isThread) {
       unawaited(
         ref

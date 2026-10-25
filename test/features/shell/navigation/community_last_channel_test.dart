@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
-import 'package:fluxer_app/features/settings/providers/open_communities_to_last_channel_provider.dart';
+import 'package:fluxer_app/features/settings/providers/local_settings_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -245,9 +245,7 @@ void main() {
       SharedPreferences.setMockInitialValues(<String, Object>{
         'open_communities_to_last_channel': enabled,
       });
-      await container
-          .read(openCommunitiesToLastChannelProvider.notifier)
-          .load();
+      await container.read(localSettingsProvider.notifier).load();
       await _pumpApp(tester, container, router);
       router.go('/channels/g1/g1-general');
       await _settle(tester);

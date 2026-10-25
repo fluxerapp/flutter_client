@@ -206,6 +206,15 @@ class ChannelHeader extends ConsumerWidget {
     required bool isMemberListVisible,
     required bool highContrast,
   }) {
+    final bool isThread = channel?.isThread ?? false;
+    final int backButtonUnreadCount = ref.watch(
+      chatBackButtonUnreadCountProvider(channelId),
+    );
+    final bool showBackButton = showsChannelHeaderBackButton(
+      context,
+      ref,
+      isThread: isThread,
+    );
     return FluxerConstrainedUiTextScale(
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: context.layout.headerHeight),
@@ -213,6 +222,14 @@ class ChannelHeader extends ConsumerWidget {
           padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
           child: Row(
             children: [
+              if (showBackButton)
+                ChatBackButton(
+                  unreadCount: backButtonUnreadCount,
+                  badgeCutoutColor: highContrast
+                      ? Colors.transparent
+                      : context.colors.backgroundSecondaryLighter,
+                  onPressed: () => invokeShellBack(context, ref),
+                ),
               Expanded(
                 child: ChannelHeaderLeftSection(
                   channelId: channelId,
@@ -276,8 +293,9 @@ class ChannelHeader extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            if (showsInAppShellChatBackButton(
+            if (showsChannelHeaderBackButton(
               context,
+              ref,
               isThread: channel?.isThread ?? false,
             ))
               ChatBackButton(

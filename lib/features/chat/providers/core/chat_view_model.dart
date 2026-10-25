@@ -5246,8 +5246,10 @@ class ChatViewModel extends _$ChatViewModel {
         }
       } else {
         talker.debug(
-          '[ChatViewModel] send permissions unresolved channelId=$channelId',
+          '[ChatViewModel] send blocked: permissions_unresolved channelId=$channelId',
         );
+        _notifySendBlocked(_SendBlockReason.channelNotReady);
+        return false;
       }
     }
     final rateLimit = channelRow?.rateLimitPerUser ?? 0;

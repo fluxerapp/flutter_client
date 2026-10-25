@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
+import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 void main() {
@@ -83,6 +84,27 @@ void main() {
         canUpdateRtcRegion: false,
       );
       expect(body.containsKey('nsfw_override'), isFalse);
+    });
+
+    test('includes thread default fields when dirty on text channel', () {
+      final ChannelOverviewFormState original =
+          ChannelOverviewFormState.fromChannel(textChannel);
+      final ChannelOverviewFormState current = original.copyWith(
+        defaultThreadRateLimitPerUser: 60,
+        defaultAutoArchiveDuration: threadAutoArchiveDurations.first,
+      );
+      final Map<String, dynamic> body = buildChannelOverviewPatchBody(
+        channel: textChannel,
+        current: current,
+        original: original,
+        canManageChannel: true,
+        canUpdateRtcRegion: false,
+      );
+      expect(body['default_thread_rate_limit_per_user'], 60);
+      expect(
+        body['default_auto_archive_duration'],
+        threadAutoArchiveDurations.first,
+      );
     });
   });
 
@@ -212,6 +234,17 @@ void main() {
       expect(body['bitrate'], 128000);
       expect(body['user_limit'], 10);
       expect(body['voice_connection_limit'], 8);
+    });
+  });
+
+  group('snapSlowmodeSeconds', () {
+    test('returns exact option when present', () {
+      expect(snapSlowmodeSeconds(60), 60);
+    });
+
+    test('snaps to nearest option', () {
+      expect(snapSlowmodeSeconds(58), 60);
+      expect(snapSlowmodeSeconds(7), 5);
     });
   });
 

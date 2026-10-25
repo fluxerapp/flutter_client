@@ -94,7 +94,7 @@ class _GroupDmInvitesContentState extends ConsumerState<GroupDmInvitesContent> {
               context.layout.s4,
               context.layout.s4,
               context.layout.s4,
-              FluxerBottomSheet.bottomGapOf(context),
+              FluxerBottomSheet.isInSheet(context) ? 0 : context.layout.s4,
             ),
           ),
           itemCount: state.invites.length,
@@ -138,7 +138,7 @@ class _GroupDmInvitesContentState extends ConsumerState<GroupDmInvitesContent> {
               context.layout.s4,
               context.layout.s4,
               context.layout.s4,
-              FluxerBottomSheet.bottomGapOf(context),
+              FluxerBottomSheet.isInSheet(context) ? 0 : context.layout.s4,
             ),
           ),
           children: <Widget>[

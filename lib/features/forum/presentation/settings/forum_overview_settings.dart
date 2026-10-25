@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_mature_content_section.dart';
+import 'package:fluxer_app/features/channels/utils/channel_slowmode_duration_label.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
@@ -159,36 +160,17 @@ class _ForumOverviewSettingsState extends ConsumerState<ForumOverviewSettings> {
     );
   }
 
-  String _slowmodeLabel(FluxerLocalizations l10n, int seconds) {
-    if (seconds == 0) {
-      return l10n.channelSettingsSlowmodeOff;
-    }
-    if (seconds < 60) {
-      return l10n.channelSettingsSlowmodeSeconds(seconds);
-    }
-    if (seconds < 3600) {
-      final int minutes = seconds ~/ 60;
-      return minutes == 1
-          ? l10n.channelSettingsSlowmodeOneMinute(minutes)
-          : l10n.channelSettingsSlowmodeMinutes(minutes);
-    }
-    final int hours = seconds ~/ 3600;
-    return hours == 1
-        ? l10n.channelSettingsSlowmodeOneHour(hours)
-        : l10n.channelSettingsSlowmodeHours(hours);
-  }
-
   List<FluxerSelectItem<int>> _slowmodeItems(
     FluxerLocalizations l10n,
     int current,
   ) => <FluxerSelectItem<int>>[
     for (final int seconds in <int>{
       ...kSlowmodeOptionsSeconds,
-      current,
+      snapSlowmodeSeconds(current),
     }.toList()..sort())
       FluxerSelectItem<int>(
         value: seconds,
-        label: _slowmodeLabel(l10n, seconds),
+        label: channelSlowmodeDurationLabel(l10n, seconds),
       ),
   ];
 

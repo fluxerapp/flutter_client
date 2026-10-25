@@ -111,18 +111,6 @@ class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
   }
 
   @override
-  bool hasRemoteAdditions(
-    FavoritesLocalState local,
-    FavoritesLocalState remote,
-  ) {
-    final localIds = local.channels.map((channel) => channel.channelId).toSet();
-    final remoteIds = remote.channels
-        .map((channel) => channel.channelId)
-        .toSet();
-    return remoteIds.difference(localIds).isNotEmpty;
-  }
-
-  @override
   bool hasInboundUpdatesWhileProtected(
     FavoritesLocalState local,
     FavoritesLocalState remote,
@@ -131,22 +119,6 @@ class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
       return false;
     }
     return !statesEqual(local, remote);
-  }
-
-  @override
-  bool ignoreAckedRemoteShrink(
-    FavoritesLocalState local,
-    FavoritesLocalState remote,
-  ) {
-    return FavoritesStateHelpers.isRemoteShrink(local: local, remote: remote);
-  }
-
-  @override
-  bool mergeAckedInbound(
-    FavoritesLocalState local,
-    FavoritesLocalState remote,
-  ) {
-    return hasInboundUpdatesWhileProtected(local, remote);
   }
 }
 

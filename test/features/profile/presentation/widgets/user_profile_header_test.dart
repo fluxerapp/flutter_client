@@ -35,8 +35,7 @@ Widget _buildHeader(String displayName) {
     username: 'sampleuser',
     discriminator: '0000',
     displayName: displayName,
-    flags: 0,
-    hasPlutonium: false,
+    badges: const [],
     customStatus: null,
   );
 }
@@ -80,8 +79,7 @@ void main() {
             username: 'sampleuser',
             discriminator: '0000',
             displayName: 'Sample User',
-            flags: 0,
-            hasPlutonium: false,
+            badges: const [],
             customStatus: null,
             onDisplayNameTap: () => tapped = true,
           ),

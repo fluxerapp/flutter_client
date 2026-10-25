@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
@@ -137,6 +138,9 @@ class AdvancedPreferences extends _$AdvancedPreferences {
     _userId = userId;
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
+    if (_userId != userId) {
+      return;
+    }
 
     SearchEnginesState searchEngines = SearchEnginesState.defaults();
     if (prefs != null && prefs.searchEnginesJson.isNotEmpty) {
@@ -190,6 +194,7 @@ class AdvancedPreferences extends _$AdvancedPreferences {
   Future<void> applySyncedAccessibility(
     AdvancedAccessibilityLocalState value,
   ) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -220,6 +225,7 @@ class AdvancedPreferences extends _$AdvancedPreferences {
   }
 
   Future<void> applySyncedPrivacy(AdvancedPrivacyLocalState value) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -233,6 +239,7 @@ class AdvancedPreferences extends _$AdvancedPreferences {
   }
 
   Future<void> applySyncedSearchEngines(SearchEnginesState value) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -385,6 +392,7 @@ class AdvancedPreferences extends _$AdvancedPreferences {
   Future<void> applySyncedSaveGifFavoritesAsSavedMedia({
     required bool value,
   }) async {
+    await _adoptCurrentUser();
     _isApplyingRemote = true;
     try {
       state = state.copyWith(saveGifFavoritesAsSavedMedia: value);
@@ -493,9 +501,17 @@ class AdvancedPreferences extends _$AdvancedPreferences {
     ref.markSyncedDirty(SyncedPreferenceField.searchEngines);
   }
 
+  Future<void> _adoptCurrentUser() async {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (currentUserId != null && currentUserId != _userId) {
+      await load(currentUserId);
+    }
+  }
+
   Future<void> _persist() async {
     final userId = _userId;
-    if (userId == null) {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (userId == null || (currentUserId != null && currentUserId != userId)) {
       return;
     }
     final db = ref.read(fluxerDatabaseProvider);

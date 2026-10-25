@@ -133,7 +133,7 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
     value: isThreadChannelType(channelRow.type)
         ? threadViewPermissions(value)
         : value,
-    shouldCache: memberRow != null || _guildIsListed(ref, guildId),
+    shouldCache: memberRow != null,
   );
 }
 
@@ -245,10 +245,7 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
             channel.permissionOverwritesJson,
           ]);
         }
-        return (
-          value: value,
-          shouldCache: memberRow != null || _guildIsListed(ref, guildId),
-        );
+        return (value: value, shouldCache: memberRow != null);
       }(),
   };
 }

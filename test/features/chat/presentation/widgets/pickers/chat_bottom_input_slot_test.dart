@@ -62,7 +62,26 @@ Widget _buildSpacerHarness(
   );
 }
 
+const MediaQueryData _wideMediaQuery = MediaQueryData(
+  size: Size(1400, 900),
+  viewInsets: EdgeInsets.only(bottom: 280),
+);
+
 void main() {
+  testWidgets('BottomInputSpacer follows view insets on wide layout', (
+    tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      _buildSpacerHarness(container, mediaQuery: _wideMediaQuery),
+    );
+    await tester.pump();
+
+    expect(tester.getSize(_spacerSizedBoxFinder()).height, 280);
+  });
+
   testWidgets('BottomInputSpacer reserves anchor height when panel is open', (
     tester,
   ) async {

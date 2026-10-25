@@ -1,10 +1,8 @@
-import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_system_ui_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
@@ -14,6 +12,7 @@ import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscree
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_call_grid_stage_insets.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
@@ -74,14 +73,16 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
       landscape: landscape,
       prefs: ref.watch(voiceScreenShareFullscreenProvider),
     );
-    final double controlsFootprint =
-        voiceChannelControlMorphingHeaderHeight() +
-        kVoiceControlBarVerticalPadding * 2 +
-        mediaQuery.viewPadding.bottom;
-    final EdgeInsets systemInsets = hostedUiSystemInsets(context);
-    final double gridBottomInset = screenShareExpanded
-        ? systemInsets.bottom
-        : math.max(systemInsets.bottom, controlsFootprint);
+    final bool reserveHandheldControls = voiceCallReserveHandheldControls(
+      context,
+      showsOverlay: showsOverlay,
+      screenShareExpanded: screenShareExpanded,
+    );
+    final EdgeInsets gridStageInsets = voiceCallGridStageInsets(
+      context,
+      screenShareExpanded: screenShareExpanded,
+      reserveHandheldControls: reserveHandheldControls,
+    );
     return VoiceScreenShareOverlaySync(
       child: VoiceCallSystemUiSync(
         child: LayoutBuilder(
@@ -90,9 +91,7 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
               fit: StackFit.expand,
               children: <Widget>[
                 MediaQuery(
-                  data: mediaQuery.copyWith(
-                    padding: systemInsets.copyWith(bottom: gridBottomInset),
-                  ),
+                  data: mediaQuery.copyWith(padding: gridStageInsets),
                   child: child,
                 ),
                 Positioned(

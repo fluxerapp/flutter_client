@@ -236,7 +236,7 @@ class _PrivacyDataRequestSheetState
             layout.s4,
             layout.s2,
             layout.s4,
-            layout.s4,
+            FluxerBottomSheet.scrollBottomPaddingOf(context),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -5,28 +5,22 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dm_folder_view_model.g.dart';
 
 class DmFolderViewState {
-  final bool collapseDMs;
   final bool expanded;
   final Set<String> allowlistedIds;
 
   const DmFolderViewState({
-    this.collapseDMs = false,
     this.expanded = false,
     this.allowlistedIds = const {},
   });
 
-  DmFolderViewState copyWith({
-    bool? collapseDMs,
-    bool? expanded,
-    Set<String>? allowlistedIds,
-  }) {
+  DmFolderViewState copyWith({bool? expanded, Set<String>? allowlistedIds}) {
     return DmFolderViewState(
-      collapseDMs: collapseDMs ?? this.collapseDMs,
       expanded: expanded ?? this.expanded,
       allowlistedIds: allowlistedIds ?? this.allowlistedIds,
     );
@@ -38,13 +32,30 @@ class DmFolder extends _$DmFolder {
   @override
   DmFolderViewState build() {
     ref.watch(currentUserIdProvider);
+    ref.listen(appearancePreferencesProvider, (
+      AppearancePreferencesState? previous,
+      AppearancePreferencesState next,
+    ) {
+      if (previous != null &&
+          previous.collapseDMs != next.collapseDMs &&
+          state.expanded) {
+        state = state.copyWith(expanded: false);
+      }
+    });
     unawaited(_loadFromDb());
     return const DmFolderViewState();
   }
 
   Future<void> _loadFromDb() async {
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId == null) {
+      return;
+    }
     final db = ref.read(fluxerDatabaseProvider);
     final row = await db.dmFolderSettingsDao.getSettings();
+    if (!ref.mounted || ref.read(currentUserIdProvider) != userId) {
+      return;
+    }
     if (row == null) {
       return;
     }
@@ -53,10 +64,7 @@ class DmFolder extends _$DmFolder {
             jsonDecode(row.allowlistedIdsJson) as List<dynamic>,
           ).toSet()
         : <String>{};
-    state = DmFolderViewState(
-      collapseDMs: row.collapseDms,
-      allowlistedIds: allowlist,
-    );
+    state = state.copyWith(allowlistedIds: allowlist);
   }
 
   Future<void> _persist() async {
@@ -64,7 +72,6 @@ class DmFolder extends _$DmFolder {
     await db.dmFolderSettingsDao.upsertSettings(
       DmFolderSettingsTableCompanion(
         id: const Value(0),
-        collapseDms: Value(state.collapseDMs),
         allowlistedIdsJson: Value(jsonEncode(state.allowlistedIds.toList())),
       ),
     );

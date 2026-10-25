@@ -46,7 +46,17 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
     if (voice.isConnected) {
       _connectedAt ??= DateTime.now();
     }
-    _syncSession(null, voice, trackConnectEdge: false, resetWhenIdle: false);
+    scheduleMicrotask(() {
+      if (!ref.mounted) {
+        return;
+      }
+      _syncSession(
+        null,
+        ref.read(voiceSessionProvider),
+        trackConnectEdge: false,
+        resetWhenIdle: false,
+      );
+    });
     return const VoiceConnectionStats();
   }
 
@@ -68,7 +78,7 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
       _timer?.cancel();
       _timer = null;
       _detachListener();
-      if (resetWhenIdle) {
+      if (resetWhenIdle && ref.mounted) {
         state = const VoiceConnectionStats();
       }
       return;
@@ -107,7 +117,12 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
       return;
     }
     _timer = Timer.periodic(const Duration(seconds: 2), (_) => _refresh());
-    _refresh();
+    scheduleMicrotask(() {
+      if (!ref.mounted) {
+        return;
+      }
+      _refresh();
+    });
   }
 
   void _refresh() {
@@ -138,6 +153,9 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
   }
 
   void _applySample({required int? rtt, required int participantCount}) {
+    if (!ref.mounted) {
+      return;
+    }
     final VoiceSessionState voice = ref.read(voiceSessionProvider);
     if (!voice.isConnected) {
       return;

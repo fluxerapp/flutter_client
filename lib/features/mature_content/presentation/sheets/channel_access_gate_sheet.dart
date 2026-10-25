@@ -54,7 +54,7 @@ Future<bool> showChannelAccessGateSheet({
       final textStyles = sheetContext.textStyles;
       final colors = sheetContext.colors;
       return Padding(
-        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, 0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

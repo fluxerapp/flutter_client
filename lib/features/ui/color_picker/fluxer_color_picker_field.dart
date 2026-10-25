@@ -377,7 +377,12 @@ class _ColorPickerContentState extends State<_ColorPickerContent> {
     final layout = context.layout;
 
     return Padding(
-      padding: EdgeInsets.all(layout.s4),
+      padding: EdgeInsets.fromLTRB(
+        layout.s4,
+        layout.s4,
+        layout.s4,
+        FluxerBottomSheet.isInSheet(context) ? 0 : layout.s4,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

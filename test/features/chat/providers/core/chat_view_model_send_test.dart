@@ -2013,6 +2013,40 @@ void main() {
       },
     );
   });
+
+  test(
+    'send in a guild channel with unresolved permissions makes no request',
+    () async {
+      final db = openTestDatabase();
+      await db.guildDao.upsertServer(
+        ServersCompanion.insert(id: 'guild-1', name: 'Guild'),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+      final adapter = _SendAdapter(
+        serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      await notifier.sendMessage(text: 'hi');
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 0);
+      expect(
+        container.read(toastProvider).single.toast.message,
+        container.read(appLocalizationsProvider).chatChannelNotReady,
+      );
+    },
+  );
 }
 
 ProviderContainer _container(

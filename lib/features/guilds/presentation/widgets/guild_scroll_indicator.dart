@@ -411,7 +411,13 @@ class GuildScrollIndicatorController {
       if (current is RenderBox && !current.hasSize) {
         return false;
       }
-      current = current.parent;
+      final RenderObject? parent = current.parent;
+      if (parent is RenderSliverMultiBoxAdaptor &&
+          current is RenderBox &&
+          !parent.paintsChild(current)) {
+        return false;
+      }
+      current = parent;
     }
     return true;
   }

@@ -3566,6 +3566,204 @@ abstract class FluxerLocalizations {
   /// **'Remove your Visionary ID badge'**
   String get hideVisionaryIdDescription;
 
+  /// Product name for Operator Pass.
+  ///
+  /// In en, this message translates to:
+  /// **'Operator Pass'**
+  String get operatorPassName;
+
+  /// Subtitle under Operator Pass settings heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Operator Pass since {since}'**
+  String operatorPassSince(String since);
+
+  /// Switch to show the Operator Pass badge on the profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Show badge on my profile'**
+  String get operatorPassShowBadgeOnProfile;
+
+  /// Switch to hide Operator Pass date on the badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide when you got your {operatorPassName}'**
+  String operatorPassHideDate(String operatorPassName);
+
+  /// Switch to hide Operator Pass count on the badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide how many Operator Passes you have'**
+  String get operatorPassHideCount;
+
+  /// Heading for Operators' wall settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Operators\' wall'**
+  String get operatorPassWallTitle;
+
+  /// Link to Operator Pass wall help.
+  ///
+  /// In en, this message translates to:
+  /// **'How the wall works'**
+  String get operatorPassWallHowItWorks;
+
+  /// Status when not on the Operators' wall.
+  ///
+  /// In en, this message translates to:
+  /// **'Not listed.'**
+  String get operatorPassWallNotListed;
+
+  /// Label for the live wall entry.
+  ///
+  /// In en, this message translates to:
+  /// **'On the wall'**
+  String get operatorPassWallOnTheWall;
+
+  /// Label for a pending wall name.
+  ///
+  /// In en, this message translates to:
+  /// **'In review'**
+  String get operatorPassWallInReview;
+
+  /// Review due date label.
+  ///
+  /// In en, this message translates to:
+  /// **'by {date}'**
+  String operatorPassWallReviewBy(String date);
+
+  /// Status when a wall name is live.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get operatorPassWallLive;
+
+  /// Declined wall name status.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined: {name}. {reason}.'**
+  String operatorPassWallDeclined(String name, String reason);
+
+  /// Team note on a declined wall name.
+  ///
+  /// In en, this message translates to:
+  /// **'Team note: {note}'**
+  String operatorPassWallTeamNote(String note);
+
+  /// Wall listing hidden by staff.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden by our team for now.'**
+  String get operatorPassWallHidden;
+
+  /// Link after hidden wall status.
+  ///
+  /// In en, this message translates to:
+  /// **'Why?'**
+  String get operatorPassWallHiddenWhy;
+
+  /// Wall listing removed when benefits are removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Off the wall while your benefits are removed.'**
+  String get operatorPassWallRemoved;
+
+  /// Link to Operator Pass terms.
+  ///
+  /// In en, this message translates to:
+  /// **'Operator Pass terms'**
+  String get operatorPassTermsLink;
+
+  /// Switch to send profile changes to the wall.
+  ///
+  /// In en, this message translates to:
+  /// **'Send profile changes to the wall'**
+  String get operatorPassWallSendChanges;
+
+  /// Switch for yearly Operators list opt-in.
+  ///
+  /// In en, this message translates to:
+  /// **'Add my name to the yearly Operators list'**
+  String get operatorPassWallReleaseList;
+
+  /// Hint for yearly Operators list opt-in.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.'**
+  String get operatorPassWallReleaseListHint;
+
+  /// Save Operators' wall settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get operatorPassWallSave;
+
+  /// Toast after saving wall settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved.'**
+  String get operatorPassWallSaved;
+
+  /// Toast when wall settings save fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save. Try again.'**
+  String get operatorPassWallSaveFailed;
+
+  /// Label for wall name field in settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Name on the wall'**
+  String get operatorPassWallNameSettingsLabel;
+
+  /// Hint under wall name field.
+  ///
+  /// In en, this message translates to:
+  /// **'We check new names before they go live.'**
+  String get operatorPassWallNameHint;
+
+  /// Opt out of the Operators' wall.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t list me'**
+  String get operatorPassWallDontListMe;
+
+  /// Validation when wall name is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name, or check Don\'t list me.'**
+  String get operatorPassWallNameRequired;
+
+  /// Validation when wall name is too long.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 32 characters or fewer.'**
+  String get operatorPassWallNameTooLong;
+
+  /// Decline reason for wall name.
+  ///
+  /// In en, this message translates to:
+  /// **'Breaks the community guidelines'**
+  String get operatorPassWallDeclineGuidelines;
+
+  /// Decline reason for wall name.
+  ///
+  /// In en, this message translates to:
+  /// **'Pretends to be someone else'**
+  String get operatorPassWallDeclineImpersonation;
+
+  /// Decline reason for wall name.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses a name or image without the rights to it'**
+  String get operatorPassWallDeclineRights;
+
+  /// Decline reason for wall name.
+  ///
+  /// In en, this message translates to:
+  /// **'Not suitable for younger users'**
+  String get operatorPassWallDeclineAge;
+
   /// Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars.
   ///
   /// In en, this message translates to:
@@ -9765,6 +9963,12 @@ abstract class FluxerLocalizations {
   /// **'Headphones'**
   String get voiceOutputRouteHeadset;
 
+  /// Opens the system audio route picker for voice calls on iOS.
+  ///
+  /// In en, this message translates to:
+  /// **'Change audio output'**
+  String get voiceChangeAudioOutputLabel;
+
   /// Switch label to hide voice participants who do not have their camera on.
   ///
   /// In en, this message translates to:
@@ -12823,10 +13027,10 @@ abstract class FluxerLocalizations {
   /// **'Slowmode'**
   String get channelSettingsSlowmode;
 
-  /// Description under the slowmode select in channel settings.
+  /// Description under the slowmode slider in channel settings.
   ///
   /// In en, this message translates to:
-  /// **'Wait between messages. \"{bypassSlowmodePermissionLabel}\" can bypass it.'**
+  /// **'Wait between messages. Members with \"{bypassSlowmodePermissionLabel}\" can bypass this.'**
   String channelSettingsSlowmodeDescription(
     String bypassSlowmodePermissionLabel,
   );
@@ -17294,6 +17498,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Zoom the logo out when leaving the splash screen'**
   String get advancedSettingMobileSplashZoomAnimationDescription;
+
+  /// Toggle label for splash screen loading quotes in advanced settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Splash screen quotes'**
+  String get advancedSettingSplashQuotesLabel;
+
+  /// Toggle description for the local-only splash screen quotes setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Show a random quote on the splash screen. Won\'t sync across devices.'**
+  String get advancedSettingSplashQuotesDescription;
 
   /// No description provided for @advancedSettingKeyboardHintsLabel.
   ///

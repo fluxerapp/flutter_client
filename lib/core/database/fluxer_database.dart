@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 99;
+  int get schemaVersion => 100;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1577,6 +1577,21 @@ class FluxerDatabase extends _$FluxerDatabase {
         await customStatement(
           'ALTER TABLE read_states DROP COLUMN missing_since',
         );
+      }
+      if (from < 100) {
+        for (final GeneratedColumn<Object> column in <GeneratedColumn<Object>>[
+          users.operatorPassBadgeHidden,
+          users.operatorPassBadgeTimestampHidden,
+          users.operatorPassBadgeCountHidden,
+        ]) {
+          if (!await _tableHasColumn(
+            m.database,
+            tableName: 'users',
+            columnName: column.name,
+          )) {
+            await m.addColumn(users, column);
+          }
+        }
       }
     },
   );

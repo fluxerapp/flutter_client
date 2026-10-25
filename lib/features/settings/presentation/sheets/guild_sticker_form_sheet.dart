@@ -76,7 +76,12 @@ class _GuildStickerFormSheetState
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Padding(
-      padding: EdgeInsets.all(context.layout.s4),
+      padding: EdgeInsets.fromLTRB(
+        context.layout.s4,
+        context.layout.s4,
+        context.layout.s4,
+        0,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -242,10 +242,13 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
       isMobile: isMobile,
       keyboardSlotOccupied:
           !isMobile &&
-          ref.watch(
-            bottomInputSlotProvider.select(
-              (BottomInputSlotState state) => state.slotHeight > 0,
+          wideLayoutKeyboardSlotOccupied(
+            bottomInputSlotHeight: ref.watch(
+              bottomInputSlotProvider.select(
+                (BottomInputSlotState state) => state.slotHeight,
+              ),
             ),
+            keyboardInsetBottom: resolvedKeyboardInsetBottom(context),
           ),
     );
 

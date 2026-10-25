@@ -188,7 +188,7 @@ class AuthRepository {
         );
       }
 
-      final tokenResponse = response.toAuthTokenWithUserIdResponse();
+      final tokenResponse = response.toAuthRegisterSuccessResponse();
       final session = AuthSession(
         token: tokenResponse.token,
         userId: tokenResponse.userId,
@@ -581,15 +581,19 @@ class AuthRepository {
       final SsoCompleteResponse response = await _client.auth.completeSso(
         body: SsoCompleteRequest(code: code, state: state),
       );
+      if (response.toJson()['mfa'] == true) {
+        throw const AuthFailure('MFA is required to complete SSO.');
+      }
+      final SsoCompleteResponseVariant1 success = response.toVariant1();
       final AuthSession session = AuthSession(
-        token: response.token,
-        userId: response.userId,
+        token: success.token,
+        userId: success.userId,
       );
       await _saveSession(
         session,
-        username: response.user.username,
-        discriminator: response.user.discriminator,
-        avatar: response.user.avatar,
+        username: success.user.username,
+        discriminator: success.user.discriminator,
+        avatar: success.user.avatar,
       );
       return session;
     } on DioException catch (error) {

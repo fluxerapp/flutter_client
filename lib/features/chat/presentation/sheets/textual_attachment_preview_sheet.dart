@@ -18,6 +18,7 @@ Future<void> showTextualAttachmentPreviewSheet({
     context,
     title: attachmentPreviewFileName(attachment),
     minChildSize: 0.45,
+    bottomGap: false,
     builder: (BuildContext sheetContext, ScrollController scrollController, _) {
       return Padding(
         padding: EdgeInsets.only(

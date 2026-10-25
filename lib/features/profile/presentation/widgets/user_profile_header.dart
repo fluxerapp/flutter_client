@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_cu
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileHeader extends ConsumerWidget {
@@ -14,13 +15,9 @@ class UserProfileHeader extends ConsumerWidget {
     required this.username,
     required this.discriminator,
     required this.displayName,
-    required this.flags,
-    required this.hasPlutonium,
+    required this.badges,
     required this.customStatus,
-    this.isLifetimePlutonium = false,
-    this.premiumSince,
     this.pronouns,
-    this.premiumLifetimeSequence,
     this.showUsername = true,
     this.isBot = false,
     this.isSystem = false,
@@ -32,13 +29,9 @@ class UserProfileHeader extends ConsumerWidget {
   final String username;
   final String discriminator;
   final String displayName;
-  final int flags;
-  final bool hasPlutonium;
+  final List<ProfileBadgeResponse> badges;
   final String? customStatus;
-  final bool isLifetimePlutonium;
-  final String? premiumSince;
   final String? pronouns;
-  final int? premiumLifetimeSequence;
   final bool showUsername;
   final bool isBot;
   final bool isSystem;
@@ -112,13 +105,7 @@ class UserProfileHeader extends ConsumerWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              UserProfileBadges(
-                flags: flags,
-                hasPlutonium: hasPlutonium,
-                isLifetimePlutonium: isLifetimePlutonium,
-                premiumSince: premiumSince,
-                premiumLifetimeSequence: premiumLifetimeSequence,
-              ),
+              UserProfileBadges(badges: badges),
             ],
           ),
         ],

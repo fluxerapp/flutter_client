@@ -393,6 +393,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
     required String? previous,
     required String? next,
   }) {
+    if (next != null) {
+      _loadActiveGuildChannels(next);
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;

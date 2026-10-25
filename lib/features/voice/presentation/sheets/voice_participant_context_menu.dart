@@ -69,12 +69,7 @@ class VoiceParticipantContextMenu {
           scrollController: scrollController,
           sheetPadding: FluxerBottomSheet.scrollViewPadding(
             sheetContext,
-            padding: EdgeInsets.fromLTRB(
-              sheetContext.layout.s4,
-              0,
-              sheetContext.layout.s4,
-              FluxerBottomSheet.bottomGapOf(sheetContext),
-            ),
+            padding: EdgeInsets.symmetric(horizontal: sheetContext.layout.s4),
           ),
         );
       },

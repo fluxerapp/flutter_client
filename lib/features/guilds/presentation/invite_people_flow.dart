@@ -25,6 +25,7 @@ class InvitePeopleFlow {
         context,
         title: title,
         useRootNavigator: true,
+        bottomGap: false,
         minChildSize: 0.5,
         builder:
             (
@@ -188,7 +189,7 @@ class InvitePeopleFlow {
         builder: (BuildContext sheetContext, VoidCallback close) {
           final layout = sheetContext.layout;
           return Padding(
-            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, 0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,

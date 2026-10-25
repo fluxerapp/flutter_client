@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show Member, User;
@@ -18,8 +17,10 @@ import 'package:fluxer_app/features/members/domain/member.dart' show MemberRole;
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/status_change_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_image.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_loading_skeleton.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_view.dart';
+import 'package:fluxer_app/features/profile/providers/own_profile_badges_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
@@ -163,6 +164,40 @@ User _onlineUser() {
   );
 }
 
+ProfileBadgeResponse _plutoniumProfileBadge({required bool hideTimestamp}) {
+  return ProfileBadgeResponse(
+    kind: 'plutonium',
+    label: 'Fluxer Plutonium',
+    asset: '42cd5fbc480b7847',
+    aspectRatio: null,
+    caption: null,
+    href: null,
+    details: ProfileBadgeResponseDetails(
+      title: 'Fluxer Plutonium',
+      lines: hideTimestamp
+          ? const <String>[]
+          : const <String>['Fluxer Plutonium subscriber since Mar 14, 2026'],
+    ),
+  );
+}
+
+ProfileBadgeResponse _visionaryProfileBadge({required bool hideTimestamp}) {
+  return ProfileBadgeResponse(
+    kind: 'visionary',
+    label: 'Fluxer Visionary',
+    asset: '42cd5fbc480b7847',
+    aspectRatio: null,
+    caption: null,
+    href: null,
+    details: ProfileBadgeResponseDetails(
+      title: 'Fluxer Visionary',
+      lines: hideTimestamp
+          ? const <String>[]
+          : const <String>['Fluxer Visionary since Mar 14, 2026'],
+    ),
+  );
+}
+
 CurrentUserCachedProfile _cachedProfile() {
   return const CurrentUserCachedProfile(
     id: _kUserId,
@@ -183,6 +218,7 @@ List<Override> _overrides({
   UserSettingsViewModel Function()? settings,
   UserSettingsResponse? settingsStatus,
   List<StoredAccount> accounts = const <StoredAccount>[],
+  List<ProfileBadgeResponse>? profileBadges,
 }) {
   return <Override>[
     if (settingsStatus != null)
@@ -203,6 +239,8 @@ List<Override> _overrides({
     currentUserFullProfileProvider.overrideWith(
       _FakeCurrentUserFullProfile.new,
     ),
+    if (profileBadges != null)
+      ownProfileBadgesProvider.overrideWithValue(profileBadges),
   ];
 }
 
@@ -211,6 +249,7 @@ Widget _buildApp(
   UserSettingsViewModel Function()? settings,
   UserSettingsResponse? settingsStatus,
   List<StoredAccount> accounts = const <StoredAccount>[],
+  List<ProfileBadgeResponse>? profileBadges,
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -218,6 +257,7 @@ Widget _buildApp(
       settings: settings,
       settingsStatus: settingsStatus,
       accounts: accounts,
+      profileBadges: profileBadges,
     ),
     child: MaterialApp(
       locale: kTestLocale,
@@ -518,11 +558,14 @@ void main() {
             premiumSince: '2026-03-14',
             premiumBadgeTimestampHidden: true,
           ),
+          profileBadges: <ProfileBadgeResponse>[
+            _plutoniumProfileBadge(hideTimestamp: true),
+          ],
         ),
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(SvgPicture));
+      await tester.longPress(find.byType(ProfileBadgeImage));
       await tester.pump();
 
       expect(find.text('Fluxer Plutonium'), findsOneWidget);
@@ -544,11 +587,14 @@ void main() {
             premiumSince: '2026-03-14',
             premiumBadgeTimestampHidden: true,
           ),
+          profileBadges: <ProfileBadgeResponse>[
+            _visionaryProfileBadge(hideTimestamp: true),
+          ],
         ),
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(SvgPicture));
+      await tester.longPress(find.byType(ProfileBadgeImage));
       await tester.pump();
 
       expect(find.text('Fluxer Visionary'), findsOneWidget);

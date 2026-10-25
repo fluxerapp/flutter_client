@@ -72,7 +72,6 @@ class GuildOwnershipWarningSheet extends StatelessWidget {
               color: colors.textSecondary,
             ),
           ),
-          SizedBox(height: layout.s4),
         ],
       ),
     );

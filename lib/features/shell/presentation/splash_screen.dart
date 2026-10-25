@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/local_settings_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/service_status_connection_footer.dart';
@@ -58,7 +59,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   static const Color _splashQuoteText = Color(0xFFD6D0EC);
 
   late final AnimationController _pulseController;
-  late final SplashQuote _selectedQuote;
+  SplashQuote? _selectedQuote;
   Timer? _statusTimer;
   Timer? _statusPrefetchTimer;
   Timer? _problemsTimer;
@@ -79,7 +80,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   void initState() {
     super.initState();
-    _selectedQuote = pickRandomSplashQuote();
     _pulseController = AnimationController(
       vsync: this,
       duration: _pulseDuration,
@@ -89,6 +89,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         return;
       }
       ref.read(splashExitAllowedProvider.notifier).reset();
+      if (ref.read(localSettingsProvider).splashQuotesEnabled) {
+        _selectedQuote = pickRandomSplashQuote();
+      }
       _enteredForAccountSwitch = ref.read(accountManagerProvider).isSwitching;
       final SplashRevealComplete revealComplete = ref.read(
         splashRevealCompleteProvider.notifier,
@@ -431,12 +434,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         _cancelSplashIfReady();
         _scheduleExitReveal();
       });
+    final bool splashQuotesEnabled = ref.watch(
+      localSettingsProvider.select((state) => state.splashQuotesEnabled),
+    );
     final ServiceStatusIncident? liveIncident = _showStatusData
         ? ref.watch(serviceStatusIncidentReadProvider)
         : null;
     final String liveText = liveIncident != null
         ? liveIncident.name
-        : _selectedQuote.text;
+        : (splashQuotesEnabled ? (_selectedQuote?.text ?? '') : '');
     if (!isReady) {
       _frozenIncident = liveIncident;
       _frozenDisplayText = liveText;
@@ -599,6 +605,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                     visibleIncident,
                                     displayText,
                                     incidentCtaStyle,
+                                    splashQuotesEnabled: splashQuotesEnabled,
                                   ),
                           ),
                         ),
@@ -715,8 +722,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     FluxerLocalizations strings,
     ServiceStatusIncident? visibleIncident,
     String displayText,
-    TextStyle incidentCtaStyle,
-  ) {
+    TextStyle incidentCtaStyle, {
+    required bool splashQuotesEnabled,
+  }) {
     if (visibleIncident != null) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -750,6 +758,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         ],
       );
     }
+    if (!splashQuotesEnabled || _selectedQuote == null) {
+      return const SizedBox.shrink();
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -760,7 +771,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         ),
         const SizedBox(height: 4),
         Text(
-          _selectedQuote.source,
+          _selectedQuote!.source,
           style: context.textStyles.quoteLink.copyWith(
             color: _splashMutedText,
             fontStyle: FontStyle.normal,

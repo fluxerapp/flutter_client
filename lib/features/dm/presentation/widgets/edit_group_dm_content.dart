@@ -366,8 +366,7 @@ class _EditGroupDmContentState extends ConsumerState<EditGroupDmContent> {
               context.layout.s4,
               context.layout.s3,
               context.layout.s4,
-              context.layout.s4 +
-                  FluxerBottomSheet.scrollBottomPaddingOf(context),
+              FluxerBottomSheet.scrollBottomPaddingOf(context),
             ),
             child: saveButton,
           ),

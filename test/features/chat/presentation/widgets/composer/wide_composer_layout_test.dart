@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -74,6 +75,21 @@ void _expectIdleRowUsesActionHeightMin(
   expect(constrained.constraints.minHeight, actionSize.height);
 }
 
+void _expectWideRowHorizontalInset(
+  WidgetTester tester, {
+  required double inset,
+  required FluxerButtonSize actionSize,
+}) {
+  final Finder rowSlot = _wideComposerRowSlot(rowMinHeight: actionSize.height);
+  expect(rowSlot, findsOneWidget);
+  final Padding padding = tester
+      .element(rowSlot)
+      .findAncestorWidgetOfExactType<Padding>()!;
+  final EdgeInsets resolved = padding.padding.resolve(TextDirection.ltr);
+  expect(resolved.left, inset);
+  expect(resolved.right, inset);
+}
+
 Future<void> _clearComposerDraft(WidgetTester tester) async {
   await tester.enterText(channelComposerField(), '');
   await tester.pumpAndSettle();
@@ -99,6 +115,11 @@ void main() {
         tester,
         actionSize: FluxerButtonSize.compact,
       );
+      _expectWideRowHorizontalInset(
+        tester,
+        inset: WideComposerLayout.densePaddingXMouse,
+        actionSize: FluxerButtonSize.compact,
+      );
       await releaseTestWidgetTree(tester);
     });
 
@@ -114,6 +135,11 @@ void main() {
       await _clearComposerDraft(tester);
       _expectIdleRowUsesActionHeightMin(
         tester,
+        actionSize: FluxerButtonSize.small,
+      );
+      _expectWideRowHorizontalInset(
+        tester,
+        inset: WideComposerLayout.densePaddingXTouch,
         actionSize: FluxerButtonSize.small,
       );
       await releaseTestWidgetTree(tester);

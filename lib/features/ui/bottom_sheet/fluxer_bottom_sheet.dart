@@ -221,14 +221,6 @@ class FluxerBottomSheet {
     return _fluxerSystemBottomInset(MediaQuery.of(context));
   }
 
-  static double bottomGapOf(BuildContext context) {
-    final bool sheetCoversInset =
-        _FluxerSheetSurfaceScope.contains(context) &&
-        systemBottomInsetOf(context) > 0 &&
-        MediaQuery.viewInsetsOf(context).bottom <= 0;
-    return sheetCoversInset ? 0 : context.layout.s4;
-  }
-
   static Color cardColorOf(BuildContext context) {
     final FluxerColorTheme colors = context.colors;
     return _FluxerSheetSurfaceScope.contains(context)
@@ -279,6 +271,7 @@ class FluxerBottomSheet {
     bool isDismissible = true,
     bool reserveBottomInset = true,
     bool manageKeyboardInset = true,
+    bool bottomGap = true,
     Color? barrierColor,
   }) {
     final layout = context.layout;
@@ -320,6 +313,7 @@ class FluxerBottomSheet {
                 insetContext,
                 reserveBottomInset,
                 keyboardBottomInset: keyboardInset,
+                bottomGap: bottomGap,
               );
               return Padding(
                 padding: EdgeInsets.only(bottom: keyboardInset),
@@ -403,6 +397,7 @@ class FluxerBottomSheet {
     bool isDismissible = true,
     bool reserveBottomInset = true,
     bool manageKeyboardInset = true,
+    bool bottomGap = true,
     double? sheetHeight,
     AnimationStyle? animationStyle,
     Color? barrierColor,
@@ -490,6 +485,7 @@ class FluxerBottomSheet {
                   insetContext,
                   reserveBottomInset,
                   keyboardBottomInset: keyboardInset,
+                  bottomGap: bottomGap,
                 ),
                 sheetContext: sheetContext,
                 builder: builder,
@@ -578,14 +574,18 @@ double _effectiveBottomSheetBottomPadding(
   BuildContext context,
   bool reserveBottomInset, {
   required double keyboardBottomInset,
+  required bool bottomGap,
 }) {
-  if (!reserveBottomInset) {
-    return 0;
+  final MediaQueryData mediaQuery = MediaQuery.of(context);
+  final double systemInset = _fluxerSystemBottomInset(mediaQuery);
+  final double inset = reserveBottomInset
+      ? math.max(0, systemInset - keyboardBottomInset)
+      : 0;
+  if (!bottomGap) {
+    return inset;
   }
-  return math.max(
-    0,
-    _fluxerSystemBottomInset(MediaQuery.of(context)) - keyboardBottomInset,
-  );
+  final bool coversInset = systemInset > 0 && mediaQuery.viewInsets.bottom <= 0;
+  return inset + (coversInset ? 0 : context.layout.s4);
 }
 
 Widget _wrapBottomSheetSurface({

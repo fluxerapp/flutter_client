@@ -1087,7 +1087,7 @@ class _StickerActionsSheet extends StatelessWidget {
         (_kStickerSheetPreviewSize * MediaQuery.devicePixelRatioOf(context))
             .round();
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

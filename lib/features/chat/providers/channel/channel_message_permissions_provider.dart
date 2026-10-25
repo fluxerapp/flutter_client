@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -59,7 +60,7 @@ class ChannelMessagePermissions {
     canUseExternalStickers: true,
   );
 
-  bool get isComposerEnabled => !isResolved || canSendMessages;
+  bool get isComposerEnabled => isResolved && canSendMessages;
 
   bool get showsNoSendPermissionHint => isResolved && !canSendMessages;
 
@@ -127,7 +128,13 @@ Future<ChannelMessagePermissions> channelMessagePermissions(
       .read(fluxerDatabaseProvider)
       .dmChannelDao
       .getDmChannelById(channelId);
-  if (dmRow != null && isDmPersonalNotesType(dmRow.type)) {
+  if (dmRow != null) {
+    if (isDmPersonalNotesType(dmRow.type)) {
+      return ChannelMessagePermissions.all;
+    }
+    if (!isDmGroupType(dmRow.type) && dmRow.recipientId == fluxerBotUserId) {
+      return ChannelMessagePermissions.none;
+    }
     return ChannelMessagePermissions.all;
   }
   await ref.watch(channelPermissionIdentityProvider(channelId).future);
@@ -136,26 +143,39 @@ Future<ChannelMessagePermissions> channelMessagePermissions(
       .channelDao
       .getChannelById(channelId);
   if (channelRow == null) {
-    return ChannelMessagePermissions.none;
+    return ChannelMessagePermissions.unresolved;
   }
   final Channel channel = Channel.fromRow(channelRow);
   if (channel.guildId.isEmpty) {
     return ChannelMessagePermissions.none;
   }
   final String guildId = channel.guildId;
+  final AsyncValue<CurrentUserMemberIdentity?> memberIdentity = ref.watch(
+    currentUserMemberIdentityProvider(guildId),
+  );
   ref
     ..watch(guildListViewModelProvider)
-    ..watch(currentUserMemberIdentityProvider(guildId))
     ..watch(guildRolePermissionsIdentityProvider(guildId))
-    ..watch(channelPermissionCacheProvider);
+    ..watch(
+      channelPermissionCacheProvider.select(
+        (ChannelPermissionCaches caches) => caches.effective[channelId],
+      ),
+    );
   await ref
       .read(channelPermissionCacheProvider.notifier)
       .rebuildChannel(channelId);
   final int? bits = ref
       .read(channelPermissionCacheProvider.notifier)
       .getChannelBits(channelId);
+  final GuildSync guildSync = ref.read(guildSyncProvider.notifier);
+  if (memberIdentity.value != null) {
+    guildSync.ownMemberPresent(guildId);
+  }
   if (bits == null) {
-    return ChannelMessagePermissions.none;
+    if (memberIdentity.hasValue && memberIdentity.value == null) {
+      guildSync.requestOwnMemberSync(guildId);
+    }
+    return ChannelMessagePermissions.unresolved;
   }
   return channelMessagePermissionsFromBits(
     bits: bits,

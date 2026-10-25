@@ -41,6 +41,7 @@ Future<void> showShareMediaSheet(
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: l10n.shareMediaTitle,
+    bottomGap: false,
     builder: (sheetContext, scrollController, close) => _ShareMediaSheetBody(
       files: files,
       initialMessage: initialMessage,

@@ -63,7 +63,6 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
         padding: EdgeInsets.only(
           left: context.layout.s3,
           right: context.layout.s3,
-          bottom: context.layout.s5,
         ),
       ),
       children: <Widget>[

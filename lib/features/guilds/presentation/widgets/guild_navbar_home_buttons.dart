@@ -7,9 +7,10 @@ class _HomeDmButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pendingFriendCount =
         ref.watch(pendingFriendRequestCountProvider).value ?? 0;
-    final (bool collapseDMs, bool expanded) = ref.watch(
-      dmFolderProvider.select((s) => (s.collapseDMs, s.expanded)),
+    final collapseDMs = ref.watch(
+      appearancePreferencesProvider.select((s) => s.collapseDMs),
     );
+    final expanded = ref.watch(dmFolderProvider.select((s) => s.expanded));
     final isCollapsed = collapseDMs && !expanded;
     final isDm = ref.watch(
       currentLocationProvider.select((l) => l.startsWith('/channels/@me')),

@@ -189,12 +189,7 @@ class _ForumPostActions extends ConsumerWidget {
       shrinkWrap: true,
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
-        padding: EdgeInsets.fromLTRB(
-          context.layout.s4,
-          0,
-          context.layout.s4,
-          FluxerBottomSheet.bottomGapOf(context),
-        ),
+        padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
       ),
       children: <Widget>[
         FluxerBottomSheetGroupColumn(
@@ -366,7 +361,6 @@ class _ForumPostTagsEditorState extends ConsumerState<_ForumPostTagsEditor> {
             isLoading: _saving,
             label: l10n.forumSaveTags,
           ),
-          SizedBox(height: context.layout.s4),
         ],
       ),
     );

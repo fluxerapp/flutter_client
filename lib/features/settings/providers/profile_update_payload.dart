@@ -72,6 +72,23 @@ UserUpdateWithVerificationRequest buildCurrentUserProfileUpdateRequest(
                 state.premiumBadgeSequenceHidden
         ? state.editedPremiumBadgeSequenceHidden
         : null,
+    operatorPassBadgeHidden:
+        state.isEditedOperatorPassBadgeHiddenSet &&
+            state.editedOperatorPassBadgeHidden != state.operatorPassBadgeHidden
+        ? state.editedOperatorPassBadgeHidden
+        : null,
+    operatorPassBadgeTimestampHidden:
+        state.isEditedOperatorPassBadgeTimestampHiddenSet &&
+            state.editedOperatorPassBadgeTimestampHidden !=
+                state.operatorPassBadgeTimestampHidden
+        ? state.editedOperatorPassBadgeTimestampHidden
+        : null,
+    operatorPassBadgeCountHidden:
+        state.isEditedOperatorPassBadgeCountHiddenSet &&
+            state.editedOperatorPassBadgeCountHidden !=
+                state.operatorPassBadgeCountHidden
+        ? state.editedOperatorPassBadgeCountHidden
+        : null,
   );
 }
 

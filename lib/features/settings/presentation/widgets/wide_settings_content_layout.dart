@@ -101,12 +101,7 @@ EdgeInsets settingsScrollPaddingWithSaveBar(BuildContext context) {
 
 EdgeInsets settingsSheetScrollPadding(BuildContext context) {
   final layout = context.layout;
-  return EdgeInsets.fromLTRB(
-    layout.pageGutter,
-    0,
-    layout.pageGutter,
-    kSettingsScrollBottomPadding,
-  );
+  return EdgeInsets.fromLTRB(layout.pageGutter, 0, layout.pageGutter, 0);
 }
 
 class WideSettingsContentLayout extends StatelessWidget {

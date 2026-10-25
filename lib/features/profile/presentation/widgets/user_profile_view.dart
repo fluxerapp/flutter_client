@@ -36,11 +36,11 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mu
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_note_card.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_relationship_button.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_self_card.dart';
+import 'package:fluxer_app/features/profile/providers/own_profile_badges_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_relationship_provider.dart';
-import 'package:fluxer_app/features/profile/utils/premium_badge_visibility.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -309,11 +309,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     required String? guildName,
     required String? guildIconUrl,
     required List<MemberRole> memberRoles,
-    required int flags,
-    required bool hasPlutonium,
-    required bool isLifetimePlutonium,
-    required String? premiumSince,
-    required int? premiumLifetimeSequence,
+    required List<ProfileBadgeResponse> profileBadges,
     required List<UserPartialResponse> mutualFriends,
     required List<UserProfileFullResponseMutualGuilds> mutualCommunities,
     required UserPartialResponse? actionUser,
@@ -343,11 +339,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
   }) {
     final layout = context.layout;
     final colors = context.colors;
-    final bool showsPremiumFeatures = ref.watch(
-      instanceRuntimeConfigProvider.select(
-        (config) => config.showsPremiumFeatures,
-      ),
-    );
     final bool isBlocked = relationship?.friendStatus == FriendStatus.blocked;
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -543,7 +534,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               layout.s4,
               layout.s2,
               layout.s4,
-              layout.s4 + FluxerBottomSheet.scrollBottomPaddingOf(context),
+              (FluxerBottomSheet.isInSheet(context) ? 0 : layout.s4) +
+                  FluxerBottomSheet.scrollBottomPaddingOf(context),
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate.fixed(<Widget>[
@@ -551,11 +543,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   username: username,
                   discriminator: discriminator,
                   displayName: displayName,
-                  flags: flags,
-                  hasPlutonium: hasPlutonium && showsPremiumFeatures,
-                  isLifetimePlutonium: isLifetimePlutonium,
-                  premiumSince: premiumSince,
-                  premiumLifetimeSequence: premiumLifetimeSequence,
+                  badges: profileBadges,
                   customStatus: customStatus,
                   pronouns: pronouns,
                   showUsername: !isWebhook,
@@ -697,11 +685,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       guildName: null,
       guildIconUrl: null,
       memberRoles: const <MemberRole>[],
-      flags: 0,
-      hasPlutonium: false,
-      isLifetimePlutonium: false,
-      premiumSince: null,
-      premiumLifetimeSequence: null,
+      profileBadges: const <ProfileBadgeResponse>[],
       mutualFriends: const <UserPartialResponse>[],
       mutualCommunities: const <UserProfileFullResponseMutualGuilds>[],
       actionUser: null,
@@ -733,9 +717,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       userNoteViewModelProvider(userId: widget.userId),
     );
     final String ownUserId = ref.watch(userSettingsViewModelProvider).userId;
-    final UserSettingsViewState settingsState = ref.watch(
-      userSettingsViewModelProvider,
-    );
     _maybeAutoFocusNote(noteAsync);
     if (widget.useCurrentUserCache) {
       final UserProfileFullResponse? ownFullProfile = ref.watch(
@@ -750,8 +731,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           showTopHandle: widget.showTopHandle,
         );
       }
-      final PremiumBadgeVisibility premiumBadges =
-          PremiumBadgeVisibility.fromSettings(settingsState);
+      final List<ProfileBadgeResponse> profileBadges = ref.watch(
+        ownProfileBadgesProvider,
+      );
       return _buildLoadedView(
         userId: profile.id,
         username: profile.username,
@@ -780,11 +762,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         guildName: null,
         guildIconUrl: null,
         memberRoles: const <MemberRole>[],
-        flags: profile.publicFlags,
-        hasPlutonium: premiumBadges.hasPlutonium,
-        isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
-        premiumSince: premiumBadges.premiumSince,
-        premiumLifetimeSequence: premiumBadges.premiumLifetimeSequence,
+        profileBadges: profileBadges,
         mutualFriends: const <UserPartialResponse>[],
         mutualCommunities: const <UserProfileFullResponseMutualGuilds>[],
         actionUser: null,
@@ -949,13 +927,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               friendNickname: relationshipAsync.value?.nickname,
               showGlobalProfile: _showGlobalProfile,
             );
-        final PremiumBadgeVisibility premiumBadges = isCurrentProfile
-            ? PremiumBadgeVisibility.fromSettings(settingsState)
-            : PremiumBadgeVisibility.fromProfile(
-                premiumType: response.premiumType,
-                premiumSince: response.premiumSince,
-                premiumLifetimeSequence: response.premiumLifetimeSequence,
-              );
+        final List<ProfileBadgeResponse> profileBadges =
+            response.profileBadges ?? const <ProfileBadgeResponse>[];
         return _buildLoadedView(
           userId: response.user.id,
           username: response.user.username,
@@ -982,13 +955,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   hash: guildInfo.icon,
                 ),
           memberRoles: memberRoles,
-          flags: response.user.flags,
+          profileBadges: profileBadges,
           isBot: response.user.bot ?? false,
           isSystem: response.user.system ?? false,
-          hasPlutonium: premiumBadges.hasPlutonium,
-          isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
-          premiumSince: premiumBadges.premiumSince,
-          premiumLifetimeSequence: premiumBadges.premiumLifetimeSequence,
           mutualFriends: isCurrentProfile
               ? const <UserPartialResponse>[]
               : response.mutualFriends ?? const <UserPartialResponse>[],

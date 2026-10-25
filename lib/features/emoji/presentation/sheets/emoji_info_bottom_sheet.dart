@@ -99,7 +99,7 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     final bool showSkinTones = toneEntry != null && toneEntry.hasDiversity;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s6),
+      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

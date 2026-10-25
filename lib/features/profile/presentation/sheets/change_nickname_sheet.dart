@@ -20,6 +20,7 @@ class ChangeNicknameSheet {
       context,
       title: l10n.userProfileChangeNickname,
       useRootNavigator: true,
+      bottomGap: false,
       builder: (sheetContext, close) =>
           _ChangeNicknameBody(currentNick: currentNick),
     );

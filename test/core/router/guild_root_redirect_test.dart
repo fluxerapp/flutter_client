@@ -67,6 +67,81 @@ void main() {
     },
   ]);
 
+  group('resolveGuildMinimizeVoiceRedirect', () {
+    const guildId = 'guild-1';
+
+    test('restores persisted text channel while in voice', () async {
+      await addChannel('general', guildId);
+      await addChannel('voice', guildId, type: 2, position: 1);
+      await db.guildLastChannelDao.setLastChannel(guildId, 'general');
+
+      final result = await resolveGuildMinimizeVoiceRedirect(
+        guildId: guildId,
+        db: db,
+        currentUserId: null,
+        excludeChannelId: 'voice',
+      );
+
+      expect(result, RoutePaths.guildChannel(guildId, 'general'));
+    });
+
+    test(
+      'falls back to first text channel when only voice is persisted',
+      () async {
+        await addChannel('general', guildId);
+        await addChannel('voice', guildId, type: 2, position: 1);
+        await db.guildLastChannelDao.setLastChannel(guildId, 'voice');
+
+        final result = await resolveGuildMinimizeVoiceRedirect(
+          guildId: guildId,
+          db: db,
+          currentUserId: null,
+          excludeChannelId: 'voice',
+        );
+
+        expect(result, RoutePaths.guildChannel(guildId, 'general'));
+      },
+    );
+
+    test(
+      'uses remembered text channel when it is not the active voice channel',
+      () async {
+        await addChannel('general', guildId);
+        await addChannel('other', guildId, position: 1);
+        await db.guildLastChannelDao.setLastChannel(guildId, 'other');
+
+        final result = await resolveGuildMinimizeVoiceRedirect(
+          guildId: guildId,
+          db: db,
+          currentUserId: null,
+          excludeChannelId: 'voice',
+        );
+
+        expect(result, RoutePaths.guildChannel(guildId, 'other'));
+      },
+    );
+
+    test(
+      'uses recent text channel visits when last persisted channel is voice',
+      () async {
+        await addChannel('top', guildId);
+        await addChannel('general', guildId, position: 1);
+        await addChannel('voice', guildId, type: 2, position: 2);
+        await db.guildLastChannelDao.setLastChannel(guildId, 'voice');
+
+        final result = await resolveGuildMinimizeVoiceRedirect(
+          guildId: guildId,
+          db: db,
+          currentUserId: null,
+          excludeChannelId: 'voice',
+          recentChannelIdsInGuild: const <String>['voice', 'general'],
+        );
+
+        expect(result, RoutePaths.guildChannel(guildId, 'general'));
+      },
+    );
+  });
+
   group('resolveGuildRootRedirect', () {
     const guildId = 'guild-1';
 
@@ -352,8 +427,20 @@ void main() {
 
   group('persistGuildChannelFromLocation', () {
     test('saves guild channel paths', () async {
+      await addChannel('chan-1', 'guild-1');
       persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1');
+      await pumpEventQueue();
       expect(await db.guildLastChannelDao.getLastChannel('guild-1'), 'chan-1');
+    });
+
+    test('does not persist voice channels as the guild last channel', () async {
+      await addChannel('text', 'guild-1');
+      await addChannel('voice', 'guild-1', type: 2);
+      persistGuildChannelFromLocation(db, '/channels/guild-1/text');
+      await pumpEventQueue();
+      persistGuildChannelFromLocation(db, '/channels/guild-1/voice');
+      await pumpEventQueue();
+      expect(await db.guildLastChannelDao.getLastChannel('guild-1'), 'text');
     });
 
     test('saves favorites channel paths', () async {

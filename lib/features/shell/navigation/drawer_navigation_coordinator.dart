@@ -9,7 +9,9 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
-import 'package:fluxer_app/features/settings/providers/open_communities_to_last_channel_provider.dart';
+import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
+import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
+import 'package:fluxer_app/features/settings/providers/local_settings_provider.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
@@ -68,9 +70,9 @@ class DrawerNavigationCoordinator {
     final int generation = ++_selectGuildGeneration;
     final bool switchingGuild =
         container.read(activeGuildIdProvider) != guildId;
-    final bool openLastChannel = container.read(
-      openCommunitiesToLastChannelProvider,
-    );
+    final bool openLastChannel = container
+        .read(localSettingsProvider)
+        .openCommunitiesToLastChannel;
     container
         .read(channelListViewModelProvider.notifier)
         .loadActiveGuild(guildId);
@@ -110,7 +112,7 @@ class DrawerNavigationCoordinator {
     ProviderContainer container,
     String guildId,
   ) async {
-    if (!container.read(openCommunitiesToLastChannelProvider) ||
+    if (!container.read(localSettingsProvider).openCommunitiesToLastChannel ||
         container.read(activeGuildIdProvider) == guildId) {
       return null;
     }
@@ -127,21 +129,42 @@ class DrawerNavigationCoordinator {
     return path;
   }
 
-  static void openGuildChannelList(
+  static Future<void> openGuildChatAfterMinimizeVoice(
     ProviderContainer container,
-    String guildId,
-  ) {
-    talker.debug('[DrawerNavigation] openGuildChannelList guildId=$guildId');
+    String guildId, {
+    String? excludeVoiceChannelId,
+  }) async {
+    talker.debug(
+      '[DrawerNavigation] openGuildChatAfterMinimizeVoice guildId=$guildId',
+    );
     container
         .read(channelListViewModelProvider.notifier)
         .loadActiveGuild(guildId);
-    revealDrawer(container);
+    final List<String> recentChannelIdsInGuild = container
+        .read(recentChannelVisitsProvider)
+        .where((RecentChannelVisit visit) => visit.guildId == guildId)
+        .map((RecentChannelVisit visit) => visit.channelId)
+        .toList(growable: false);
+    final String? chatPath = await resolveGuildMinimizeVoiceRedirect(
+      guildId: guildId,
+      db: container.read(fluxerDatabaseProvider),
+      currentUserId: container.read(currentUserIdProvider),
+      excludeChannelId: excludeVoiceChannelId,
+      trackedUnavailableGuildIds: container.read(guildAvailabilityProvider),
+      recentChannelIdsInGuild: recentChannelIdsInGuild,
+    );
+    if (chatPath != null) {
+      navigateToContent(container, chatPath);
+      syncForShellLocation(container, chatPath);
+      closeDrawer(container);
+      return;
+    }
+    final String path = RoutePaths.guildChannelList(guildId);
     container
         .read(fluxerRouterProvider)
-        .go(
-          RoutePaths.guildChannelList(guildId),
-          extra: kGuildRootStayOnListExtra,
-        );
+        .go(path, extra: kGuildRootStayOnListExtra);
+    syncForShellLocation(container, path);
+    revealDrawer(container);
   }
 
   static void openImmersiveGuildVoiceCall(

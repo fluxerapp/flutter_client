@@ -421,6 +421,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     );
 
     final dmFolderState = ref.watch(dmFolderProvider);
+    final collapseDMs = ref.watch(
+      appearancePreferencesProvider.select((s) => s.collapseDMs),
+    );
     ref.watch(unreadDmChannelsProvider.select(dmNavbarMembershipToken));
     final List<DmChannel> unreadDms = _reconcileRailDms(
       ref.read(unreadDmChannelsProvider).channels,
@@ -433,7 +436,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     final List<DmChannel> allowlistedDms;
     final List<DmChannel> regularDms;
 
-    if (dmFolderState.collapseDMs && !dmFolderState.expanded) {
+    if (collapseDMs && !dmFolderState.expanded) {
       allowlistedDms = unreadDms
           .where((dm) => dmFolderState.allowlistedIds.contains(dm.id))
           .toList();
@@ -445,7 +448,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       regularDms = unreadDms;
     }
 
-    final dmItemsVisible = !dmFolderState.collapseDMs || dmFolderState.expanded;
+    final dmItemsVisible = !collapseDMs || dmFolderState.expanded;
 
     ref
       ..listen<List<GuildNavbarItem>>(organizedGuildListProvider, (
@@ -510,7 +513,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         return _buildNavbarListItem(
           context,
           entry: navbarEntries[index],
-          dmFolderState: dmFolderState,
+          collapseDMs: collapseDMs,
           unavailableCount: unavailableCount,
         );
       },
@@ -542,7 +545,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   Widget _buildNavbarListItem(
     BuildContext context, {
     required _NavbarListEntry entry,
-    required DmFolderViewState dmFolderState,
+    required bool collapseDMs,
     required int unavailableCount,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -567,7 +570,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
               context,
               position: position,
               dm: dm,
-              isCollapsed: dmFolderState.collapseDMs,
+              isCollapsed: collapseDMs,
               isAllowlisted: true,
             ),
           ),
@@ -588,7 +591,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
               context,
               position: position,
               dm: dm,
-              isCollapsed: dmFolderState.collapseDMs,
+              isCollapsed: collapseDMs,
               isAllowlisted: false,
             ),
           ),

@@ -13,7 +13,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
-import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
@@ -41,6 +40,7 @@ import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscree
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_call_grid_stage_insets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_focus_layout_metrics.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_hangout_layout.dart';
@@ -784,9 +784,20 @@ class _VoiceChannelParticipantGridState
     final double maxWidth = constraints.maxWidth;
     final double maxHeight = constraints.maxHeight;
     final bool screenShareExpanded = _screenShareExpanded(watchedTileIds);
-    final EdgeInsets stageInsets = screenShareExpanded
-        ? EdgeInsets.zero
-        : hostedUiSystemInsets(context);
+    final bool reserveHandheldControls = voiceCallReserveHandheldControls(
+      context,
+      showsOverlay: ref.watch(
+        voiceCallOverlayProvider.select(
+          (VoiceCallOverlayState state) => state.showsOverlay,
+        ),
+      ),
+      screenShareExpanded: screenShareExpanded,
+    );
+    final EdgeInsets stageInsets = voiceCallGridStageInsets(
+      context,
+      screenShareExpanded: screenShareExpanded,
+      reserveHandheldControls: reserveHandheldControls,
+    );
     final double innerWidth = math.max(0, maxWidth - stageInsets.horizontal);
     final double innerHeight = math.max(0, maxHeight - stageInsets.vertical);
     final bool compact = innerWidth < 520 || innerHeight < 360;

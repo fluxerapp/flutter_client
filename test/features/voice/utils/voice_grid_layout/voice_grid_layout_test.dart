@@ -21,6 +21,40 @@ double _usedHeight(VoiceGridPackedLayoutMetrics packed) {
 }
 
 void main() {
+  group('voiceGridPlacedTileSize', () {
+    test('caps a lone avatar tile on large stages', () {
+      final ({double width, double height}) placed = voiceGridPlacedTileSize(
+        cellWidth: 1100,
+        cellHeight: 900,
+        tileCount: 1,
+        squareTile: true,
+      );
+      expect(placed.width, voiceGridMaxSquareTileSidePx);
+      expect(placed.height, voiceGridMaxSquareTileSidePx);
+    });
+
+    test('caps wide grid cells without affecting phone-sized tiles', () {
+      final ({double width, double height}) placed = voiceGridPlacedTileSize(
+        cellWidth: 900,
+        cellHeight: 700,
+        tileCount: 4,
+        squareTile: false,
+      );
+      expect(placed.width, lessThan(voiceGridMaxTileWidthPx));
+      expect(placed.height, closeTo(voiceGridMaxTileHeightPx, 0.01));
+      expect(placed.width / placed.height, closeTo(900 / 700, 0.01));
+
+      final ({double width, double height}) phone = voiceGridPlacedTileSize(
+        cellWidth: 360,
+        cellHeight: 200,
+        tileCount: 2,
+        squareTile: false,
+      );
+      expect(phone.width, 360);
+      expect(phone.height, 200);
+    });
+  });
+
   group('voiceGridFitAspect', () {
     test('centers a 16:9 box in a tall cell', () {
       final Rect fitted = voiceGridFitAspect(

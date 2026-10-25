@@ -67,6 +67,83 @@ Future<String?> resolveGuildRootRedirect({
   return RoutePaths.guildChannel(guildId, defaultChannelId);
 }
 
+Future<String?> resolveGuildMinimizeVoiceRedirect({
+  required String guildId,
+  required FluxerDatabase db,
+  required String? currentUserId,
+  String? excludeChannelId,
+  Set<String> trackedUnavailableGuildIds = const {},
+  Iterable<String> recentChannelIdsInGuild = const <String>[],
+}) async {
+  final existing = await db.guildDao.getServerById(guildId);
+  if (isGuildOutageUnavailable(
+    guildId: guildId,
+    trackedUnavailableGuildIds: trackedUnavailableGuildIds,
+    guild: existing == null ? null : Guild.fromRow(existing),
+  )) {
+    return null;
+  }
+  final String? lastChannelId = await db.guildLastChannelDao.getLastChannel(
+    guildId,
+  );
+  if (lastChannelId != null &&
+      lastChannelId != excludeChannelId &&
+      await isGuildTextChannelRouteTarget(
+        db,
+        guildId,
+        lastChannelId,
+        currentUserId: currentUserId,
+      )) {
+    return RoutePaths.guildChannel(guildId, lastChannelId);
+  }
+  for (final String channelId in recentChannelIdsInGuild) {
+    if (channelId == excludeChannelId) {
+      continue;
+    }
+    if (await isGuildTextChannelRouteTarget(
+      db,
+      guildId,
+      channelId,
+      currentUserId: currentUserId,
+    )) {
+      return RoutePaths.guildChannel(guildId, channelId);
+    }
+  }
+  final String? defaultChannelId = await _resolveDefaultGuildChannelId(
+    db,
+    guildId,
+    currentUserId: currentUserId,
+  );
+  if (defaultChannelId == null) {
+    return null;
+  }
+  return RoutePaths.guildChannel(guildId, defaultChannelId);
+}
+
+Future<bool> isGuildTextChannelRouteTarget(
+  FluxerDatabase db,
+  String guildId,
+  String channelId, {
+  required String? currentUserId,
+}) async {
+  if (!await isRestorableGuildChannel(
+    db,
+    guildId,
+    channelId,
+    currentUserId: currentUserId,
+  )) {
+    return false;
+  }
+  final db_row.Channel? channel = await db.channelDao.getChannelById(channelId);
+  if (channel == null) {
+    return false;
+  }
+  final int type = channel.type;
+  return !isGuildVoiceChannelType(type) &&
+      !isGuildCategoryChannelType(type) &&
+      !isGuildLinkChannelType(type);
+}
+
 Future<String?> _resolveDefaultGuildChannelId(
   FluxerDatabase db,
   String guildId, {
@@ -199,7 +276,24 @@ void persistGuildChannelFromLocation(FluxerDatabase db, String location) {
   if (match == null) {
     return;
   }
+  final String guildId = match.group(1)!;
+  final String channelId = match.group(2)!;
   unawaited(
-    db.guildLastChannelDao.setLastChannel(match.group(1)!, match.group(2)!),
+    persistGuildLastChannelIfText(db, guildId: guildId, channelId: channelId),
   );
+}
+
+Future<void> persistGuildLastChannelIfText(
+  FluxerDatabase db, {
+  required String guildId,
+  required String channelId,
+}) async {
+  final db_row.Channel? channel = await db.channelDao.getChannelById(channelId);
+  if (channel == null || channel.guildId != guildId) {
+    return;
+  }
+  if (isGuildVoiceChannelType(channel.type)) {
+    return;
+  }
+  await db.guildLastChannelDao.setLastChannel(guildId, channelId);
 }

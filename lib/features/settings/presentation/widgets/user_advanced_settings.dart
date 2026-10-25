@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/local_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
@@ -124,6 +124,18 @@ class UserAdvancedSettings extends ConsumerWidget {
                     .read(appearancePreferencesProvider.notifier)
                     .setMobileSplashZoomAnimation(value: value),
               ),
+              FluxerSettingsSwitchItem(
+                label: l10n.advancedSettingSplashQuotesLabel,
+                description: l10n.advancedSettingSplashQuotesDescription,
+                value: ref.watch(
+                  localSettingsProvider.select(
+                    (state) => state.splashQuotesEnabled,
+                  ),
+                ),
+                onChanged: (value) => ref
+                    .read(localSettingsProvider.notifier)
+                    .setSplashQuotesEnabled(value: value),
+              ),
               if (showKeyboardShortcutAdvancedSettings(context))
                 FluxerSettingsSwitchItem(
                   label: l10n.advancedSettingKeyboardHintsLabel,
@@ -191,10 +203,12 @@ class UserAdvancedSettings extends ConsumerWidget {
               FluxerSettingsSwitchItem(
                 label: l10n.advancedSettingHapticFeedbackLabel,
                 description: l10n.advancedSettingHapticFeedbackDescription,
-                value: ref.watch(hapticsPreferencesProvider),
+                value: ref.watch(
+                  localSettingsProvider.select((state) => state.hapticsEnabled),
+                ),
                 onChanged: (value) => ref
-                    .read(hapticsPreferencesProvider.notifier)
-                    .setEnabled(value: value),
+                    .read(localSettingsProvider.notifier)
+                    .setHapticsEnabled(value: value),
               ),
             ],
           ),

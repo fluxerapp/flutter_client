@@ -212,12 +212,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
   }) {
     return ListView(
       shrinkWrap: true,
-      padding: FluxerBottomSheet.scrollViewPadding(
-        sheetContext,
-        padding: EdgeInsets.only(
-          bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
-        ),
-      ),
+      padding: FluxerBottomSheet.scrollViewPadding(sheetContext),
       children: [
         FluxerBottomSheetSection(
           child: FluxerMenuGroup(
@@ -368,12 +363,7 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
                 )
               : ListView(
                   controller: widget.scrollController,
-                  padding: FluxerBottomSheet.scrollViewPadding(
-                    context,
-                    padding: EdgeInsets.only(
-                      bottom: FluxerBottomSheet.bottomGapOf(context),
-                    ),
-                  ),
+                  padding: FluxerBottomSheet.scrollViewPadding(context),
                   children: [
                     FluxerBottomSheetSection(
                       child: FluxerMenuGroup(

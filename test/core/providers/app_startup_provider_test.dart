@@ -47,9 +47,7 @@ class _FakeWellKnown extends WellKnown {
         gift: '',
         webapp: '',
       ),
-      captcha: InstanceCaptchaSchema(
-        provider: InstanceCaptchaProviderSchema.none,
-      ),
+      captcha: InstanceCaptchaSchema(provider: CaptchaProviderSchema.none),
       features: InstanceFeaturesSchema(
         voiceEnabled: false,
         stripeEnabled: false,
@@ -71,6 +69,7 @@ class _FakeWellKnown extends WellKnown {
         enabled: false,
         enforced: false,
         displayName: null,
+        buttonLabel: null,
         redirectUri: '',
       ),
       registration: InstanceRegistrationSchema(
@@ -108,6 +107,11 @@ class _FakeWellKnown extends WellKnown {
           statusPageIncidentHistoryUrl: null,
           premiumProductName: 'Plutonium',
           premiumInfoUrl: null,
+          faviconDarkUrl: null,
+          signInBackdropUrl: null,
+          customCss: null,
+          uploadLimitMessage: null,
+          trustedDomains: <String>[],
         ),
         setup: InstanceSetupSchema(configured: true, adminUrl: null),
         legal: InstanceAppPublicSchemaLegal(

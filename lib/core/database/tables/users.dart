@@ -21,6 +21,9 @@ class Users extends Table {
   BoolColumn get premiumBadgeMasked => boolean().nullable()();
   BoolColumn get premiumBadgeTimestampHidden => boolean().nullable()();
   BoolColumn get premiumBadgeSequenceHidden => boolean().nullable()();
+  BoolColumn get operatorPassBadgeHidden => boolean().nullable()();
+  BoolColumn get operatorPassBadgeTimestampHidden => boolean().nullable()();
+  BoolColumn get operatorPassBadgeCountHidden => boolean().nullable()();
   IntColumn get mentionFlags => integer().nullable()();
 
   @override

@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const int kMaxChannelTopicLength = 1024;
@@ -28,6 +29,21 @@ const List<int> kSlowmodeOptionsSeconds = <int>[
   21600,
 ];
 
+const Set<int> kSlowmodeSliderMarkerSeconds = <int>{0, 60, 3600, 21600};
+
+int snapSlowmodeSeconds(int seconds) {
+  if (kSlowmodeOptionsSeconds.contains(seconds)) {
+    return seconds;
+  }
+  int closest = kSlowmodeOptionsSeconds.first;
+  for (final int option in kSlowmodeOptionsSeconds) {
+    if ((option - seconds).abs() < (closest - seconds).abs()) {
+      closest = option;
+    }
+  }
+  return closest;
+}
+
 class ChannelOverviewFormState {
   const ChannelOverviewFormState({
     required this.name,
@@ -43,6 +59,8 @@ class ChannelOverviewFormState {
     required this.rtcRegion,
     this.rtcP2p = false,
     this.announcement = false,
+    this.defaultAutoArchiveDuration = defaultThreadAutoArchiveDuration,
+    this.defaultThreadRateLimitPerUser = 0,
   });
 
   final String name;
@@ -58,13 +76,15 @@ class ChannelOverviewFormState {
   final String? rtcRegion;
   final bool rtcP2p;
   final bool announcement;
+  final int defaultAutoArchiveDuration;
+  final int defaultThreadRateLimitPerUser;
 
   factory ChannelOverviewFormState.fromChannel(Channel channel) {
     return ChannelOverviewFormState(
       name: channel.name,
       topic: channel.topic ?? '',
       url: channel.url ?? '',
-      slowmode: channel.rateLimitPerUser,
+      slowmode: snapSlowmodeSeconds(channel.rateLimitPerUser),
       nsfwOverride: channel.nsfwOverride,
       contentWarningLevel: channel.contentWarningLevel,
       contentWarningText: channel.contentWarningText ?? '',
@@ -77,6 +97,12 @@ class ChannelOverviewFormState {
       rtcRegion: channel.rtcRegion,
       rtcP2p: channel.rtcP2p,
       announcement: channel.type == ChannelType.guildAnnouncement,
+      defaultAutoArchiveDuration:
+          channel.defaultAutoArchiveDuration ??
+          defaultThreadAutoArchiveDuration,
+      defaultThreadRateLimitPerUser: snapSlowmodeSeconds(
+        channel.defaultThreadRateLimitPerUser ?? 0,
+      ),
     );
   }
 
@@ -93,7 +119,9 @@ class ChannelOverviewFormState {
         voiceConnectionLimit != original.voiceConnectionLimit ||
         rtcRegion != original.rtcRegion ||
         rtcP2p != original.rtcP2p ||
-        announcement != original.announcement;
+        announcement != original.announcement ||
+        defaultAutoArchiveDuration != original.defaultAutoArchiveDuration ||
+        defaultThreadRateLimitPerUser != original.defaultThreadRateLimitPerUser;
   }
 
   static const Object _unset = Object();
@@ -112,6 +140,8 @@ class ChannelOverviewFormState {
     Object? rtcRegion = _unset,
     bool? rtcP2p,
     bool? announcement,
+    int? defaultAutoArchiveDuration,
+    int? defaultThreadRateLimitPerUser,
   }) {
     return ChannelOverviewFormState(
       name: name ?? this.name,
@@ -131,6 +161,10 @@ class ChannelOverviewFormState {
           : rtcRegion as String?,
       rtcP2p: rtcP2p ?? this.rtcP2p,
       announcement: announcement ?? this.announcement,
+      defaultAutoArchiveDuration:
+          defaultAutoArchiveDuration ?? this.defaultAutoArchiveDuration,
+      defaultThreadRateLimitPerUser:
+          defaultThreadRateLimitPerUser ?? this.defaultThreadRateLimitPerUser,
     );
   }
 }
@@ -302,6 +336,18 @@ Map<String, dynamic> buildChannelOverviewPatchBody({
   if (includeNullFields.contains('content_warning_text')) {
     final String trimmed = current.contentWarningText.trim();
     patch['content_warning_text'] = trimmed.isEmpty ? null : trimmed;
+  }
+  if (canManageChannel && isTextThreadParentType(channel.type)) {
+    if (current.defaultAutoArchiveDuration !=
+        original.defaultAutoArchiveDuration) {
+      patch['default_auto_archive_duration'] =
+          current.defaultAutoArchiveDuration;
+    }
+    if (current.defaultThreadRateLimitPerUser !=
+        original.defaultThreadRateLimitPerUser) {
+      patch['default_thread_rate_limit_per_user'] =
+          current.defaultThreadRateLimitPerUser;
+    }
   }
   return patch;
 }

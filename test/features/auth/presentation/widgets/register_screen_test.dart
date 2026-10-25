@@ -399,7 +399,7 @@ InstanceConfigSnapshot _snapshot({
         webapp: 'https://self.example/webapp',
       ),
       captcha: const InstanceCaptchaSchema(
-        provider: InstanceCaptchaProviderSchema.none,
+        provider: CaptchaProviderSchema.none,
       ),
       features: InstanceFeaturesSchema(
         voiceEnabled: true,
@@ -422,6 +422,7 @@ InstanceConfigSnapshot _snapshot({
         enabled: false,
         enforced: false,
         displayName: null,
+        buttonLabel: null,
         redirectUri: 'https://self.example/sso',
       ),
       registration: InstanceRegistrationSchema(
@@ -459,6 +460,11 @@ InstanceConfigSnapshot _snapshot({
           statusPageIncidentHistoryUrl: null,
           premiumProductName: 'Plutonium',
           premiumInfoUrl: null,
+          faviconDarkUrl: null,
+          signInBackdropUrl: null,
+          customCss: null,
+          uploadLimitMessage: null,
+          trustedDomains: <String>[],
         ),
         setup: const InstanceSetupSchema(configured: true, adminUrl: null),
         legal: InstanceAppPublicSchemaLegal(

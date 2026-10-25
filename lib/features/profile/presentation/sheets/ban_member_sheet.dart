@@ -42,6 +42,7 @@ class BanMemberSheet {
       context,
       title: l10n.userProfileBanSheetTitle(username),
       useRootNavigator: true,
+      bottomGap: false,
       builder: (sheetContext, close) => const _BanMemberBody(),
     );
   }

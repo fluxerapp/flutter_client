@@ -3,10 +3,7 @@
 // ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -14,17 +11,13 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_dart/export.dart';
 
 import '../../../../helpers/test_l10n.dart';
 
-Widget _buildApp(Widget child, {InstanceRuntimeConfig? config}) {
+Widget _buildApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [
-      instanceRuntimeConfigProvider.overrideWithValue(
-        config ?? InstanceRuntimeConfig.defaults,
-      ),
-    ],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,
@@ -41,272 +34,50 @@ Widget _buildApp(Widget child, {InstanceRuntimeConfig? config}) {
   );
 }
 
+ProfileBadgeResponse _badge({
+  required String kind,
+  String? asset,
+  String? caption,
+  String label = 'Badge label',
+}) {
+  return ProfileBadgeResponse(
+    kind: kind,
+    label: label,
+    asset: asset,
+    aspectRatio: null,
+    caption: caption,
+    href: null,
+  );
+}
+
 void main() {
   group('UserProfileBadges', () {
-    testWidgets('renders nothing for zero flags', (tester) async {
-      await tester.pumpWidget(_buildApp(const UserProfileBadges(flags: 0)));
-      expect(find.byType(SvgPicture), findsNothing);
+    testWidgets('renders nothing for empty badges', (tester) async {
+      await tester.pumpWidget(_buildApp(const UserProfileBadges(badges: [])));
+      expect(find.byType(UserProfileBadges), findsOneWidget);
+      expect(find.text('Badge label'), findsNothing);
     });
 
-    testWidgets('renders Staff badge for flag bit 0', (tester) async {
-      await tester.pumpWidget(_buildApp(const UserProfileBadges(flags: 1)));
-      expect(find.byType(SvgPicture), findsOneWidget);
-      expect(find.byTooltip('Fluxer Staff'), findsOneWidget);
-    });
-
-    testWidgets('renders CTP badge for flag bit 1', (tester) async {
-      await tester.pumpWidget(_buildApp(const UserProfileBadges(flags: 2)));
-      expect(find.byType(SvgPicture), findsOneWidget);
-      expect(find.byTooltip('Fluxer Community Team'), findsOneWidget);
-    });
-
-    testWidgets('renders four badges for staff+ctp+partner+bug-hunter', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildApp(const UserProfileBadges(flags: 1 | 2 | 4 | 8)),
-      );
-      expect(find.byType(SvgPicture), findsNWidgets(4));
-      expect(find.byTooltip('Fluxer Partner'), findsOneWidget);
-      expect(find.byTooltip('Fluxer Bug Hunter'), findsOneWidget);
-    });
-
-    testWidgets('renders Plutonium badge when user has Plutonium', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildApp(const UserProfileBadges(flags: 0, hasPlutonium: true)),
-      );
-      expect(find.byType(SvgPicture), findsOneWidget);
-      expect(find.byTooltip('Fluxer Plutonium'), findsOneWidget);
-    });
-
-    testWidgets('tapping a badge reveals its name as a toast', (tester) async {
-      await tester.pumpWidget(_buildApp(const UserProfileBadges(flags: 1)));
-
-      await tester.tap(find.byType(SvgPicture));
-      await tester.pump();
-
-      expect(find.text('Fluxer Staff'), findsOneWidget);
-    });
-
-    testWidgets('tapping a lifetime Plutonium badge toasts Visionary since', (
-      tester,
-    ) async {
+    testWidgets('renders caption badge text', (tester) async {
       await tester.pumpWidget(
         _buildApp(
-          const UserProfileBadges(
-            flags: 0,
-            hasPlutonium: true,
-            isLifetimePlutonium: true,
-            premiumSince: '2026-03-14',
-          ),
-        ),
-      );
-
-      await tester.tap(find.byType(SvgPicture));
-      await tester.pump();
-
-      expect(find.text('Fluxer Visionary since Mar 14, 2026'), findsOneWidget);
-    });
-
-    testWidgets('tapping a dateless lifetime badge toasts Visionary', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(
-            flags: 0,
-            hasPlutonium: true,
-            isLifetimePlutonium: true,
-          ),
-        ),
-      );
-
-      await tester.tap(find.byType(SvgPicture));
-      await tester.pump();
-
-      expect(find.text('Fluxer Visionary'), findsOneWidget);
-    });
-
-    testWidgets(
-      'tapping a subscriber Plutonium badge toasts subscriber since',
-      (tester) async {
-        await tester.pumpWidget(
-          _buildApp(
-            const UserProfileBadges(
-              flags: 0,
-              hasPlutonium: true,
-              premiumSince: '2026-03-14',
-            ),
-          ),
-        );
-
-        await tester.tap(find.byType(SvgPicture));
-        await tester.pump();
-
-        expect(
-          find.text('Fluxer Plutonium subscriber since Mar 14, 2026'),
-          findsOneWidget,
-        );
-      },
-    );
-
-    testWidgets('renders Visionary ID when sequence is provided', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(
-            flags: 0,
-            hasPlutonium: true,
-            premiumLifetimeSequence: 42,
+          UserProfileBadges(
+            badges: <ProfileBadgeResponse>[
+              _badge(kind: 'visionary_number', caption: '#42'),
+            ],
           ),
         ),
       );
       expect(find.text('#42'), findsOneWidget);
-      expect(find.byTooltip('Visionary ID #42'), findsOneWidget);
     });
 
-    testWidgets('does not render Visionary ID when sequence is null', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildApp(const UserProfileBadges(flags: 0, hasPlutonium: true)),
-      );
-      expect(find.textContaining('#'), findsNothing);
-    });
-
-    testWidgets('does not render Visionary ID without Plutonium badge', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(flags: 0, premiumLifetimeSequence: 42),
-        ),
-      );
-      expect(find.text('#42'), findsNothing);
-    });
-
-    testWidgets('hides official and Plutonium badges on self-hosted', (
-      tester,
-    ) async {
-      const InstanceRuntimeConfig selfHosted = InstanceRuntimeConfig(
-        productName: 'Acme',
-        selfHosted: true,
-        stripeEnabled: true,
-        emailsEnabled: true,
-        voiceEnabled: true,
-        presignedAttachmentUploads: true,
-        gifEnabled: true,
-        blueskyEnabled: true,
-        gifAttributionRequired: false,
-        singleCommunity: false,
-        directMessagesDisabled: false,
-        registrationClosed: false,
-        adminRegistrationUrlsEnabled: false,
-        collectDateOfBirth: true,
-      );
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(
-            flags: 1 | 2 | 4 | 8,
-            hasPlutonium: true,
-            premiumLifetimeSequence: 42,
-          ),
-          config: selfHosted,
-        ),
-      );
-      expect(find.byType(SvgPicture), findsOneWidget);
-      expect(find.byTooltip('Acme Staff'), findsOneWidget);
-      expect(find.byTooltip('Acme Community Team'), findsNothing);
-      expect(find.byTooltip('Acme Partner'), findsNothing);
-      expect(find.byTooltip('Acme Bug Hunter'), findsNothing);
-      expect(find.byTooltip('Acme Plutonium'), findsNothing);
-      expect(find.text('#42'), findsNothing);
-    });
-
-    testWidgets('shows Plutonium on self-hosted with premium enabled', (
-      tester,
-    ) async {
-      const InstanceRuntimeConfig selfHosted = InstanceRuntimeConfig(
-        productName: 'Acme',
-        selfHosted: true,
-        premiumEnabled: true,
-        stripeEnabled: true,
-        emailsEnabled: true,
-        voiceEnabled: true,
-        presignedAttachmentUploads: true,
-        gifEnabled: true,
-        blueskyEnabled: true,
-        gifAttributionRequired: false,
-        singleCommunity: false,
-        directMessagesDisabled: false,
-        registrationClosed: false,
-        adminRegistrationUrlsEnabled: false,
-        collectDateOfBirth: true,
-      );
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(
-            flags: 0,
-            hasPlutonium: true,
-            isLifetimePlutonium: true,
-            premiumLifetimeSequence: 42,
-          ),
-          config: selfHosted,
-        ),
-      );
-      expect(find.byTooltip('Acme Plutonium'), findsOneWidget);
-      expect(find.text('#42'), findsNothing);
-    });
-
-    testWidgets('names the instance premium product on self-hosted', (
-      tester,
-    ) async {
-      const InstanceRuntimeConfig selfHosted = InstanceRuntimeConfig(
-        productName: 'Acme',
-        premiumProductName: 'Premium',
-        selfHosted: true,
-        premiumEnabled: true,
-        stripeEnabled: false,
-        emailsEnabled: true,
-        voiceEnabled: true,
-        presignedAttachmentUploads: true,
-        gifEnabled: true,
-        blueskyEnabled: true,
-        gifAttributionRequired: false,
-        singleCommunity: false,
-        directMessagesDisabled: false,
-        registrationClosed: false,
-        adminRegistrationUrlsEnabled: false,
-        collectDateOfBirth: true,
-      );
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(flags: 0, hasPlutonium: true),
-          config: selfHosted,
-        ),
-      );
-      expect(find.byTooltip('Acme Premium'), findsOneWidget);
-      expect(find.byTooltip('Acme Plutonium'), findsNothing);
-
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(
-            flags: 0,
-            hasPlutonium: true,
-            premiumSince: '2026-10-14',
-          ),
-          config: selfHosted,
-        ),
-      );
-      await tester.tap(find.byType(SvgPicture));
-      await tester.pump();
-
+    test('hasBadges reflects list length', () {
+      expect(UserProfileBadges.hasBadges([]), isFalse);
       expect(
-        find.text('Acme Premium subscriber since Oct 14, 2026'),
-        findsOneWidget,
+        UserProfileBadges.hasBadges(<ProfileBadgeResponse>[
+          _badge(kind: 'staff', asset: 'abc'),
+        ]),
+        isTrue,
       );
     });
   });

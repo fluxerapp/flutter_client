@@ -51,12 +51,7 @@ class FluxerActionMenu {
 
         return ListView(
           shrinkWrap: true,
-          padding: FluxerBottomSheet.scrollViewPadding(
-            sheetContext,
-            padding: EdgeInsets.only(
-              bottom: FluxerBottomSheet.bottomGapOf(sheetContext),
-            ),
-          ),
+          padding: FluxerBottomSheet.scrollViewPadding(sheetContext),
           children: [
             FluxerBottomSheetGroupColumn(
               children: [

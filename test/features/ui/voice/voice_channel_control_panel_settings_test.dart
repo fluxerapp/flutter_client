@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -6,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_change_audio_output_row.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -75,6 +77,49 @@ void main() {
       container.read(voiceCallLayoutProvider).mode,
       VoiceCallLayoutMode.grid,
     );
+  });
+
+  testWidgets('on iOS shows native change audio output instead of earpiece', (
+    WidgetTester tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    final ProviderContainer container = ProviderContainer(
+      overrides: <Override>[
+        voiceSessionProvider.overrideWith(_TestVoiceSession.new),
+        voiceChannelTextChatSupportedProvider(
+          'voice-1',
+        ).overrideWith((Ref ref) => Future<bool>.value(false)),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: fluxerLocalizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(
+            body: SingleChildScrollView(
+              child: VoiceChannelControlPanelSettings(channelId: 'voice-1'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(kVoiceChangeAudioOutputKey), findsOneWidget);
+    expect(find.byKey(kVoiceControlPanelUseEarpieceKey), findsNothing);
+    expect(find.text(testL10n.voiceChangeAudioOutputLabel), findsOneWidget);
+
+    debugDefaultTargetPlatformOverride = null;
   });
 }
 

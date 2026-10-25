@@ -122,6 +122,7 @@ Future<void> _showForwardSheet(
       await FluxerBottomSheet.showScrollable<_ForwardNavigationTarget?>(
         host,
         useRootNavigator: true,
+        bottomGap: false,
         title: l10n.forwardMessageTitle,
         builder: (sheetContext, scrollController, _) =>
             _ForwardMessageSheetBody(

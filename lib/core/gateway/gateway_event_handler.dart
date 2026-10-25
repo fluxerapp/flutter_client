@@ -908,6 +908,13 @@ class GatewayEventHandler {
           premiumBadgeSequenceHidden: Value(
             event.user.premiumBadgeSequenceHidden,
           ),
+          operatorPassBadgeHidden: Value(event.user.operatorPassBadgeHidden),
+          operatorPassBadgeTimestampHidden: Value(
+            event.user.operatorPassBadgeTimestampHidden,
+          ),
+          operatorPassBadgeCountHidden: Value(
+            event.user.operatorPassBadgeCountHidden,
+          ),
           customStatus: Value(
             serializeCustomStatus(event.userSettings?.customStatus),
           ),
@@ -2499,6 +2506,13 @@ class GatewayEventHandler {
           ),
           premiumBadgeSequenceHidden: Value(
             event.user.premiumBadgeSequenceHidden,
+          ),
+          operatorPassBadgeHidden: Value(event.user.operatorPassBadgeHidden),
+          operatorPassBadgeTimestampHidden: Value(
+            event.user.operatorPassBadgeTimestampHidden,
+          ),
+          operatorPassBadgeCountHidden: Value(
+            event.user.operatorPassBadgeCountHidden,
           ),
         ),
       ),

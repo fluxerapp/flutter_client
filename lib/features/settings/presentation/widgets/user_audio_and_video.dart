@@ -10,10 +10,12 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_options.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_change_audio_output_row.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_video_quality_provider.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
+import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -118,6 +120,8 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     );
     final bool canSwitchSpeaker = AudioManager.instance.canSwitchSpeakerphone;
     final bool showCameraDevicePicker = !isMobileVoiceCameraPlatform();
+    final bool useNativeVoiceAudioRoutePicker =
+        showNativeVoiceAudioRoutePicker();
 
     return SingleChildScrollView(
       controller: widget.scrollController,
@@ -131,34 +135,38 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
             description: l10n.audioAndVideoAudioSectionDescription,
             isFirst: true,
             children: [
-              FluxerSelect<String>(
-                label: l10n.audioAndVideoInputDeviceLabel,
-                value: settings.inputDeviceId,
-                items: _deviceItems(l10n, devices.audioInputs),
-                onChanged: (String value) =>
-                    unawaited(settingsNotifier.setInputDeviceId(value)),
-              ),
-              if (canSwitchSpeaker)
-                FluxerSettingsSwitchItem(
-                  label: l10n.audioAndVideoUseSpeakerLabel,
-                  description: l10n.audioAndVideoUseSpeakerDescription,
-                  value: settings.outputRoute == VoiceOutputRoute.speaker,
-                  onChanged: (bool value) => unawaited(
-                    settingsNotifier.setOutputRoute(
-                      value
-                          ? VoiceOutputRoute.speaker
-                          : VoiceOutputRoute.earpiece,
-                    ),
-                  ),
-                )
-              else if (devices.audioOutputs.length > 1)
+              if (useNativeVoiceAudioRoutePicker)
+                const VoiceChangeAudioOutputSettingsRow()
+              else ...<Widget>[
                 FluxerSelect<String>(
-                  label: l10n.audioAndVideoOutputDeviceLabel,
-                  value: settings.outputDeviceId,
-                  items: _deviceItems(l10n, devices.audioOutputs),
+                  label: l10n.audioAndVideoInputDeviceLabel,
+                  value: settings.inputDeviceId,
+                  items: _deviceItems(l10n, devices.audioInputs),
                   onChanged: (String value) =>
-                      unawaited(settingsNotifier.setOutputDeviceId(value)),
+                      unawaited(settingsNotifier.setInputDeviceId(value)),
                 ),
+                if (canSwitchSpeaker)
+                  FluxerSettingsSwitchItem(
+                    label: l10n.audioAndVideoUseSpeakerLabel,
+                    description: l10n.audioAndVideoUseSpeakerDescription,
+                    value: settings.outputRoute == VoiceOutputRoute.speaker,
+                    onChanged: (bool value) => unawaited(
+                      settingsNotifier.setOutputRoute(
+                        value
+                            ? VoiceOutputRoute.speaker
+                            : VoiceOutputRoute.earpiece,
+                      ),
+                    ),
+                  )
+                else if (devices.audioOutputs.length > 1)
+                  FluxerSelect<String>(
+                    label: l10n.audioAndVideoOutputDeviceLabel,
+                    value: settings.outputDeviceId,
+                    items: _deviceItems(l10n, devices.audioOutputs),
+                    onChanged: (String value) =>
+                        unawaited(settingsNotifier.setOutputDeviceId(value)),
+                  ),
+              ],
               FluxerSettingsSubsection(
                 title: l10n.audioAndVideoInputVolumeLabel,
                 children: [

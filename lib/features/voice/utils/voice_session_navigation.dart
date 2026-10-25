@@ -87,7 +87,13 @@ void minimizePhoneVoiceCall({
     DrawerNavigationCoordinator.closeDrawer(container);
     return;
   }
-  DrawerNavigationCoordinator.openGuildChannelList(container, guildId);
+  unawaited(
+    DrawerNavigationCoordinator.openGuildChatAfterMinimizeVoice(
+      container,
+      guildId,
+      excludeVoiceChannelId: voice.channelId,
+    ),
+  );
 }
 
 Future<void> endPhoneVoiceCall({

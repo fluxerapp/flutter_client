@@ -13,10 +13,20 @@ import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_lay
   final double width = math.max(0, cellWidth);
   final double height = math.max(0, cellHeight);
   if (squareTile && tileCount == 1) {
-    final double side = math.min(width, height);
+    final double side = math.min(
+      math.min(width, height),
+      voiceGridMaxSquareTileSidePx,
+    );
     return (width: side, height: side);
   }
-  return (width: width, height: height);
+  if (width <= voiceGridMaxTileWidthPx && height <= voiceGridMaxTileHeightPx) {
+    return (width: width, height: height);
+  }
+  final double scale = math.min(
+    voiceGridMaxTileWidthPx / width,
+    voiceGridMaxTileHeightPx / height,
+  );
+  return (width: width * scale, height: height * scale);
 }
 
 Rect voiceGridFitAspect(Rect cell, double aspectRatio) {

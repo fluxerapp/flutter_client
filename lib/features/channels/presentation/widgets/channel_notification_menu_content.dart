@@ -76,9 +76,11 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
   ) {
     return FluxerBottomSheetContent(
       scrollable: false,
-      padding: EdgeInsets.symmetric(
-        horizontal: context.layout.pageGutter,
-        vertical: 4,
+      padding: EdgeInsets.fromLTRB(
+        context.layout.pageGutter,
+        4,
+        context.layout.pageGutter,
+        0,
       ),
       child: FluxerBottomSheetGroupColumn(
         children: <Widget>[

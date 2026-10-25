@@ -9,7 +9,20 @@ abstract final class WideComposerLayout {
   static const double ringWidth = 1;
   static const double boxMinHeight = 58;
   static const double densePaddingY = 10;
+  static const double densePaddingXMouse = 8;
+  static const double densePaddingXTouch = 12;
+  static const double actionGap = 8;
+  static const double mouseVoiceDividerHeight = 24;
   static const double denseColumnGap = 12;
+
+  static double densePaddingX({required bool touchPrimary}) =>
+      touchPrimary ? densePaddingXTouch : densePaddingXMouse;
+
+  static EdgeInsets denseRowPadding({required bool touchPrimary}) =>
+      EdgeInsets.symmetric(
+        horizontal: densePaddingX(touchPrimary: touchPrimary),
+      );
+
   static const double actionButtonExtent = 32;
   static const double statusLineHeight = 18;
   static const double statusSafeGap = 8;
@@ -57,6 +70,22 @@ Color wideComposerActionStackColor(BuildContext context) {
     context.colors.backgroundTertiary,
     0.16,
   )!;
+}
+
+class WideComposerVoiceSeparator extends StatelessWidget {
+  const WideComposerVoiceSeparator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: WideComposerLayout.mouseVoiceDividerHeight,
+      child: VerticalDivider(
+        color: context.colors.borderColor,
+        width: 1,
+        thickness: 1,
+      ),
+    );
+  }
 }
 
 class WideComposerFade extends StatelessWidget {

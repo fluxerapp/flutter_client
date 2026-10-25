@@ -1061,6 +1061,7 @@ void main() {
                       FluxerBottomSheet.show(
                         context,
                         manageKeyboardInset: false,
+                        bottomGap: false,
                         builder: (context, close) {
                           return const SizedBox(
                             key: _insetBodyKey,
@@ -1869,5 +1870,144 @@ void main() {
         ),
       );
     });
+
+    testWidgets('content sheet leaves a gap above the navigation bar at '
+        'inset 0', (tester) async {
+      await _openInsetSheet(tester);
+
+      expect(_insetBodyBottom(tester), lessThanOrEqualTo(800 - 16));
+    });
+
+    testWidgets('sheet adds no extra gap when it covers a system inset', (
+      tester,
+    ) async {
+      await _openInsetSheet(tester, viewPaddingBottom: 34);
+
+      expect(_insetBodyBottom(tester), 800 - 34);
+    });
+
+    testWidgets('bottomGap false lets content reach the sheet bottom', (
+      tester,
+    ) async {
+      await _openInsetSheet(tester, bottomGap: false);
+
+      expect(_insetBodyBottom(tester), 800);
+    });
+
+    testWidgets('keyboard open keeps the gap above the keyboard', (
+      tester,
+    ) async {
+      await _openInsetSheet(
+        tester,
+        viewPaddingBottom: 34,
+        viewInsetsBottom: 300,
+      );
+
+      expect(_insetBodyBottom(tester), 800 - 300 - 16);
+    });
+
+    testWidgets('scrollable list ends a gap above the bottom at inset 0', (
+      tester,
+    ) async {
+      _setInsetView(tester);
+      ScrollController? controller;
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      builder: (sheetContext, scrollController, close) {
+                        controller = scrollController;
+                        return ListView(
+                          controller: scrollController,
+                          padding: FluxerBottomSheet.scrollViewPadding(
+                            sheetContext,
+                          ),
+                          children: <Widget>[
+                            for (int i = 0; i < 39; i++)
+                              SizedBox(height: 50, child: Text('Row $i')),
+                            const SizedBox(key: _insetBodyKey, height: 50),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      controller!.jumpTo(controller!.position.maxScrollExtent);
+      await tester.pumpAndSettle();
+
+      expect(_insetBodyBottom(tester), lessThanOrEqualTo(800 - 16));
+    });
   });
+}
+
+void _setInsetView(
+  WidgetTester tester, {
+  double viewPaddingBottom = 0,
+  double viewInsetsBottom = 0,
+}) {
+  tester.view.physicalSize = const Size(400, 800);
+  tester.view.devicePixelRatio = 1;
+  tester.view.padding = FakeViewPadding(bottom: viewPaddingBottom);
+  tester.view.viewPadding = FakeViewPadding(bottom: viewPaddingBottom);
+  tester.view.viewInsets = FakeViewPadding(bottom: viewInsetsBottom);
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+  addTearDown(tester.view.resetPadding);
+  addTearDown(tester.view.resetViewPadding);
+  addTearDown(tester.view.resetViewInsets);
+}
+
+Future<void> _openInsetSheet(
+  WidgetTester tester, {
+  double viewPaddingBottom = 0,
+  double viewInsetsBottom = 0,
+  bool bottomGap = true,
+}) async {
+  _setInsetView(
+    tester,
+    viewPaddingBottom: viewPaddingBottom,
+    viewInsetsBottom: viewInsetsBottom,
+  );
+  await tester.pumpWidget(
+    buildTestApp(
+      Builder(
+        builder: (context) {
+          return ElevatedButton(
+            onPressed: () {
+              unawaited(
+                FluxerBottomSheet.show(
+                  context,
+                  bottomGap: bottomGap,
+                  builder: (context, close) {
+                    return const SizedBox(key: _insetBodyKey, height: 100);
+                  },
+                ),
+              );
+            },
+            child: const Text('Open'),
+          );
+        },
+      ),
+    ),
+  );
+  await tester.tap(find.text('Open'));
+  await tester.pumpAndSettle();
+}
+
+double _insetBodyBottom(WidgetTester tester) {
+  return tester.getRect(find.byKey(_insetBodyKey)).bottom;
 }

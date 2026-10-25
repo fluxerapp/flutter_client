@@ -46,7 +46,8 @@ class PremiumStoreState {
     return switch (purchaseBlockedReason) {
       StorePurchaseBlockedReason.lifetime ||
       StorePurchaseBlockedReason.existingSubscription ||
-      StorePurchaseBlockedReason.purchaseDisabled => true,
+      StorePurchaseBlockedReason.purchaseDisabled ||
+      StorePurchaseBlockedReason.paymentDisputeOpen => true,
       StorePurchaseBlockedReason.$unknown || null => false,
     };
   }

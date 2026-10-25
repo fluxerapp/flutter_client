@@ -267,12 +267,7 @@ class _QuickSwitcherSheetBodyState
     return ListView(
       controller: widget.scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: FluxerBottomSheet.scrollViewPadding(
-        context,
-        padding: EdgeInsets.only(
-          bottom: FluxerBottomSheet.bottomGapOf(context),
-        ),
-      ),
+      padding: FluxerBottomSheet.scrollViewPadding(context),
       children: children,
     );
   }
@@ -284,12 +279,7 @@ class _QuickSwitcherSheetBodyState
     return ListView(
       controller: widget.scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: FluxerBottomSheet.scrollViewPadding(
-        context,
-        padding: EdgeInsets.only(
-          bottom: FluxerBottomSheet.bottomGapOf(context),
-        ),
-      ),
+      padding: FluxerBottomSheet.scrollViewPadding(context),
       children: <Widget>[
         SizedBox(
           height: MediaQuery.sizeOf(context).height * 0.25,

@@ -22,13 +22,17 @@ class GuildSync extends _$GuildSync {
   @override
   Set<String> build() => {};
 
+  final Set<String> _ownMemberSyncRequested = <String>{};
+  String? _pendingGuildId;
+
   void syncIfNeeded(String guildId, {bool force = false}) {
     if (!force && state.contains(guildId)) {
       return;
     }
 
-    final connection = ref.read(gatewayConnectionProvider);
+    final GatewayConnection connection = ref.read(gatewayConnectionProvider);
     if (connection.state != GatewayState.connected) {
+      _pendingGuildId = guildId;
       return;
     }
 
@@ -37,10 +41,31 @@ class GuildSync extends _$GuildSync {
         subscriptions: {guildId: kGuildSyncSubscription},
       );
       state = {...state, guildId};
+      if (_pendingGuildId == guildId) {
+        _pendingGuildId = null;
+      }
       prefetchGuildRoles(ref.read(memberRepositoryProvider), guildId);
     } on Object catch (e) {
       talker.warning('[GuildSync] Failed to sync guild $guildId: $e');
     }
+  }
+
+  void flushPending() {
+    final String? guildId = _pendingGuildId;
+    if (guildId != null) {
+      syncIfNeeded(guildId, force: true);
+    }
+  }
+
+  void requestOwnMemberSync(String guildId) {
+    if (!_ownMemberSyncRequested.add(guildId)) {
+      return;
+    }
+    syncIfNeeded(guildId, force: true);
+  }
+
+  void ownMemberPresent(String guildId) {
+    _ownMemberSyncRequested.remove(guildId);
   }
 
   Future<void> backfillMembersIfSparse(String guildId) async {
@@ -55,6 +80,7 @@ class GuildSync extends _$GuildSync {
   }
 
   void clearAll() {
+    _ownMemberSyncRequested.clear();
     if (state.isEmpty) {
       return;
     }
