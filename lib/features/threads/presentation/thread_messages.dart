@@ -6,12 +6,13 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
-import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -27,12 +28,18 @@ Future<void> openThreadById(
   WidgetRef ref, {
   required String guildId,
   required String threadId,
-}) => navigateToChannelContent(
-  context: context,
-  ref: ref,
-  guildId: guildId,
-  channelId: threadId,
-);
+  required bool fromParent,
+}) {
+  ref
+      .read(threadEnteredFromParentProvider.notifier)
+      .enter(threadId, fromParent: fromParent);
+  return navigateToChannelContent(
+    context: context,
+    ref: ref,
+    guildId: guildId,
+    channelId: threadId,
+  );
+}
 
 class ThreadStarterMessage extends ConsumerWidget {
   const ThreadStarterMessage({
@@ -211,6 +218,7 @@ class MessageThreadChip extends ConsumerWidget {
                 ref,
                 guildId: resolvedGuildId,
                 threadId: message.id,
+                fromParent: true,
               ),
             ),
             child: Padding(

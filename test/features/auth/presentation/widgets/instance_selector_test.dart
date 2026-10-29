@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_selector.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/material_ui.dart';

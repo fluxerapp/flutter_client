@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/utils/user_settings_deep_link_scope.dart';
-import 'package:fluxer_app/features/settings/utils/user_settings_section_scroll.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_deep_link_scope.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_section_scroll.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';

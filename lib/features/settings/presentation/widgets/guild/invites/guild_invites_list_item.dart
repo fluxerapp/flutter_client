@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_invite_entry.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invite_countdown_text.dart';
-import 'package:fluxer_app/features/settings/utils/guild_invites_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_invites_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

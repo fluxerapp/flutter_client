@@ -1,7 +1,7 @@
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';

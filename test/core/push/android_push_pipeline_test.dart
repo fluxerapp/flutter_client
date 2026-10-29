@@ -3,9 +3,10 @@ import 'dart:typed_data';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
+import 'package:fluxer_app/core/push/android/media/cache.dart';
+import 'package:fluxer_app/core/push/android/media/instance_urls.dart';
+import 'package:fluxer_app/core/push/android/pipeline.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_media.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_codec.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_crypto.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
@@ -144,15 +145,18 @@ void main() {
   });
 
   test('avatar prefers author_avatar_url and skips non-http icons', () {
+    final PushMediaInstanceUrls endpoints = PushMediaInstanceUrls.official();
     expect(
       pushAuthorAvatarUrl(<String, String>{
         'author_avatar_url': 'https://cdn.example/a.png',
         'icon': 'https://cdn.example/b.png',
-      }),
+      }, endpoints: endpoints),
       'https://cdn.example/a.png?format=png&animated=false&size=160',
     );
     expect(
-      pushAuthorAvatarUrl(<String, String>{'icon': '/icons/app.png'}),
+      pushAuthorAvatarUrl(<String, String>{
+        'icon': '/icons/app.png',
+      }, endpoints: endpoints),
       isNull,
     );
     expect(
@@ -160,14 +164,77 @@ void main() {
         'has_media': 'true',
         'image_url': 'https://cdn.example/pic.png',
         'image': 'https://cdn.example/other.png',
-      }),
+      }, endpoints: endpoints),
       'https://cdn.example/pic.png',
     );
     expect(
       pushAuthorAvatarUrl(<String, String>{
-        'icon': 'https://cdn.example/a.webp?animated=true&size=4096',
-      }),
-      'https://cdn.example/a.webp?format=png&animated=false&size=160',
+        'icon': 'https://cdn.example/avatars/99/a.webp?animated=true&size=4096',
+      }, endpoints: endpoints),
+      'https://cdn.example/avatars/99/a.webp?format=png&animated=false&size=160',
+    );
+    expect(
+      pushAuthorAvatarUrl(<String, String>{
+        'icon': 'https://cdn.example/icon.png',
+        'author_id': '7',
+      }, endpoints: endpoints),
+      'https://fluxerstatic.com/avatars/1.png',
+    );
+  });
+
+  test('avatar uses default static avatars like the in-app avatar', () {
+    final PushMediaInstanceUrls endpoints = PushMediaInstanceUrls.official();
+    expect(
+      pushAuthorAvatarUrl(<String, String>{
+        'author_id': '7',
+      }, endpoints: endpoints),
+      'https://fluxerstatic.com/avatars/1.png',
+    );
+    expect(
+      pushAuthorAvatarUrl(<String, String>{
+        'icon': 'https://fluxerstatic.com/avatars/3.png',
+      }, endpoints: endpoints),
+      'https://fluxerstatic.com/avatars/3.png',
+    );
+    expect(
+      pushNotificationStaticImageUrl(
+        'https://fluxerstatic.com/avatars/2.png',
+        size: 160,
+      ),
+      'https://fluxerstatic.com/avatars/2.png',
+    );
+    expect(
+      pushAuthorIdFromAvatarUrl(
+        'https://cdn.example/avatars/123456789012345678/deadbeef.webp',
+      ),
+      '123456789012345678',
+    );
+  });
+
+  test('avatar and attachment URLs follow the account instance CDNs', () {
+    const PushMediaInstanceUrls endpoints = PushMediaInstanceUrls(
+      mediaBaseUrl: 'https://media.selfhosted.test',
+      staticCdn: 'https://static.selfhosted.test',
+    );
+    expect(
+      pushAuthorAvatarUrl(<String, String>{
+        'author_id': '7',
+      }, endpoints: endpoints),
+      'https://static.selfhosted.test/avatars/1.png',
+    );
+    expect(
+      pushAuthorAvatarUrl(<String, String>{
+        'author_avatar_url':
+            'https://fluxerusercontent.com/avatars/1/deadbeef.webp?size=160',
+      }, endpoints: endpoints),
+      'https://media.selfhosted.test/avatars/1/deadbeef.webp?format=png&animated=false&size=160',
+    );
+    expect(
+      pushAttachmentImageUrl(<String, String>{
+        'has_media': 'true',
+        'image_url': 'https://fluxerusercontent.com/attachments/1/preview.webp',
+      }, endpoints: endpoints),
+      'https://media.selfhosted.test/attachments/1/preview.webp',
     );
   });
 

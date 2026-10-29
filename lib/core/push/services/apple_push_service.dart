@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:fluxer_app/core/push/local_push_notifications.dart';
+import 'package:fluxer_app/core/push/android/local_notifications.dart';
+import 'package:fluxer_app/core/push/notification/reply.dart';
+import 'package:fluxer_app/core/push/notification/sound_settings.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_reply.dart';
-import 'package:fluxer_app/core/push/push_notification_sound_settings.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 
 class ApplePushService implements PushService {

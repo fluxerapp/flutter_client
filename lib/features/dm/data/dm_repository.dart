@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_code.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';

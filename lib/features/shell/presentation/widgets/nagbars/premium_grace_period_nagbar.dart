@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
-import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
+import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/nagbar_widget.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_nagbar_manage.dart';
-import 'package:fluxer_app/features/shell/providers/nagbar_conditions_provider.dart';
-import 'package:fluxer_app/features/shell/providers/nagbar_dismissals_provider.dart';
+import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_button.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';

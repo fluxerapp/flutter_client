@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/default_web_browser_icon.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
-import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/default_web_browser_l10n.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

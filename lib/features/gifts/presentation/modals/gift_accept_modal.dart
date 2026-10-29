@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/gifts/services/gift_redeem_service.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_duration_text.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';

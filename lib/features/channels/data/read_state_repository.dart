@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/core/push/push_notification_clear.dart';
-import 'package:fluxer_app/core/push/push_tray_registry.dart';
+import 'package:fluxer_app/core/push/notification/clear.dart';
+import 'package:fluxer_app/core/push/tray/registry.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';

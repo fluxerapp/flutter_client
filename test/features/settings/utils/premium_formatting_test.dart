@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/settings/utils/premium_formatting.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/premium_formatting.dart';
 
 void main() {
   group('formatPremiumMinorUnitPrice', () {

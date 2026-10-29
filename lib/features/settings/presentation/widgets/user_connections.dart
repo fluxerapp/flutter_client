@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/connection_add_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/connection_edit_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/connection_remove_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
-import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/connections_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_connection_icon.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_unverified_connection_icon.dart';

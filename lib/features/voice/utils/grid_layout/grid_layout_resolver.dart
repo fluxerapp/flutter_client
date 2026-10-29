@@ -1,0 +1,333 @@
+import 'dart:math' as math;
+import 'dart:ui' show Rect;
+
+import 'package:fluxer_app/features/voice/utils/grid_layout/grid_layout_config.dart';
+import 'package:fluxer_app/features/voice/utils/grid_layout/grid_layout_metrics.dart';
+
+({double width, double height}) voiceGridPlacedTileSize({
+  required double cellWidth,
+  required double cellHeight,
+  required int tileCount,
+  required bool squareTile,
+}) {
+  final double width = math.max(0, cellWidth);
+  final double height = math.max(0, cellHeight);
+  if (squareTile && tileCount == 1) {
+    final double side = math.min(
+      math.min(width, height),
+      voiceGridMaxSquareTileSidePx,
+    );
+    return (width: side, height: side);
+  }
+  if (width <= voiceGridMaxTileWidthPx && height <= voiceGridMaxTileHeightPx) {
+    return (width: width, height: height);
+  }
+  final double scale = math.min(
+    voiceGridMaxTileWidthPx / width,
+    voiceGridMaxTileHeightPx / height,
+  );
+  return (width: width * scale, height: height * scale);
+}
+
+Rect voiceGridFitAspect(Rect cell, double aspectRatio) {
+  if (cell.isEmpty || aspectRatio <= 0) {
+    return cell;
+  }
+  final double width = math.min(cell.width, cell.height * aspectRatio);
+  final double height = width / aspectRatio;
+  return Rect.fromCenter(center: cell.center, width: width, height: height);
+}
+
+int _sanitizeCount(int tileCount) => math.max(0, tileCount);
+
+double _sanitizeDimension(double value) {
+  if (!value.isFinite) {
+    return 0;
+  }
+  return math.max(0, value);
+}
+
+double _clamp(double value, double min, double max) =>
+    math.max(min, math.min(max, value));
+
+int voiceGridRowCount(int tileCount, int columnCount) {
+  final int safeColumns = math.max(1, columnCount);
+  return math.max(1, (_sanitizeCount(tileCount) / safeColumns).ceil());
+}
+
+int voiceGridColumnCount({
+  required int tileCount,
+  required double containerWidth,
+  required double containerHeight,
+}) {
+  final int count = _sanitizeCount(tileCount);
+  final double width = _sanitizeDimension(containerWidth);
+  final double height = _sanitizeDimension(containerHeight);
+  for (final VoiceGridColumnRule rule in voiceGridColumnRules) {
+    if (count >= rule.minTileCount &&
+        width >= rule.minWidth &&
+        height >= rule.minHeight) {
+      return rule.columns;
+    }
+  }
+  return 1;
+}
+
+double voiceGridGap({
+  required int tileCount,
+  required double containerHeight,
+  bool compact = false,
+}) {
+  final int count = _sanitizeCount(tileCount);
+  if (count >= 40) {
+    return 4;
+  }
+  if (compact && count >= 24) {
+    return 5;
+  }
+  if (count >= 24) {
+    return 6;
+  }
+  if (compact && count >= 12) {
+    return 6;
+  }
+  if (count >= 12) {
+    return 8;
+  }
+  if (count >= 6) {
+    return 10;
+  }
+  if (compact) {
+    return _clamp(_sanitizeDimension(containerHeight) * 0.024, 6, 10);
+  }
+  return voiceGridDefaultGapPx;
+}
+
+({double sidePadding, double verticalPadding}) voiceGridPadding({
+  required double containerWidth,
+  required double containerHeight,
+  bool compact = false,
+  bool edgeToEdge = false,
+}) {
+  if (edgeToEdge) {
+    return (sidePadding: 0, verticalPadding: 0);
+  }
+  if (compact) {
+    final double height = _sanitizeDimension(containerHeight);
+    return (
+      sidePadding: _clamp(height * 0.02, 6, 12),
+      verticalPadding: _clamp(height * 0.018, 5, 10),
+    );
+  }
+  return (
+    sidePadding: voiceGridEdgePaddingPx,
+    verticalPadding: voiceGridEdgePaddingPx,
+  );
+}
+
+VoiceGridMinTileSize voiceGridMinTileSize({bool compact = false}) {
+  return compact
+      ? const VoiceGridMinTileSize(
+          minTileWidth: voiceGridCompactMinTileWidthPx,
+          minTileHeight: voiceGridCompactMinTileHeightPx,
+        )
+      : const VoiceGridMinTileSize(
+          minTileWidth: voiceGridMinTileWidthPx,
+          minTileHeight: voiceGridMinTileHeightPx,
+        );
+}
+
+VoiceGridLayoutMetrics _emptyMetrics({
+  required int tileCount,
+  required double containerWidth,
+  required double containerHeight,
+  required bool compact,
+  required bool edgeToEdge,
+}) {
+  final int count = _sanitizeCount(tileCount);
+  final double width = _sanitizeDimension(containerWidth);
+  final double height = _sanitizeDimension(containerHeight);
+  final double gap = voiceGridGap(
+    tileCount: count,
+    compact: compact,
+    containerHeight: height,
+  );
+  final ({double sidePadding, double verticalPadding}) padding =
+      voiceGridPadding(
+        containerWidth: width,
+        containerHeight: height,
+        compact: compact,
+        edgeToEdge: edgeToEdge,
+      );
+  final double availableWidth = math.max(0, width - padding.sidePadding * 2);
+  final double availableHeight = math.max(
+    0,
+    height - padding.verticalPadding * 2,
+  );
+  return VoiceGridLayoutMetrics(
+    columns: 1,
+    gap: gap,
+    sidePadding: padding.sidePadding,
+    verticalPadding: padding.verticalPadding,
+    availableWidth: availableWidth,
+    availableHeight: availableHeight,
+    tileWidth: 0,
+    tileHeight: 0,
+  );
+}
+
+VoiceGridLayoutMetrics _metricsForColumns({
+  required int tileCount,
+  required double containerWidth,
+  required double containerHeight,
+  required bool compact,
+  required bool edgeToEdge,
+  required int columns,
+}) {
+  final int count = _sanitizeCount(tileCount);
+  if (count <= 0) {
+    return _emptyMetrics(
+      tileCount: count,
+      containerWidth: containerWidth,
+      containerHeight: containerHeight,
+      compact: compact,
+      edgeToEdge: edgeToEdge,
+    );
+  }
+  final double width = _sanitizeDimension(containerWidth);
+  final double height = _sanitizeDimension(containerHeight);
+  final int resolvedColumns = math.max(
+    1,
+    math.min(math.max(1, count), columns),
+  );
+  final int rows = voiceGridRowCount(count, resolvedColumns);
+  final double gap = voiceGridGap(
+    tileCount: count,
+    compact: compact,
+    containerHeight: height,
+  );
+  final ({double sidePadding, double verticalPadding}) padding =
+      voiceGridPadding(
+        containerWidth: width,
+        containerHeight: height,
+        compact: compact,
+        edgeToEdge: edgeToEdge,
+      );
+  final double availableWidth = math.max(0, width - padding.sidePadding * 2);
+  final double availableHeight = math.max(
+    0,
+    height - padding.verticalPadding * 2,
+  );
+  final double columnGapTotal = gap * math.max(0, resolvedColumns - 1);
+  final double rowGapTotal = gap * math.max(0, rows - 1);
+  if (columnGapTotal > availableWidth + 1e-6 ||
+      rowGapTotal > availableHeight + 1e-6) {
+    return _emptyMetrics(
+      tileCount: count,
+      containerWidth: containerWidth,
+      containerHeight: containerHeight,
+      compact: compact,
+      edgeToEdge: edgeToEdge,
+    );
+  }
+  final double columnWidth = math.max(
+    0,
+    (availableWidth - columnGapTotal) / resolvedColumns,
+  );
+  final double rowHeight = math.max(0, (availableHeight - rowGapTotal) / rows);
+  final double tileWidth = columnWidth;
+  final double tileHeight = rowHeight;
+  return VoiceGridLayoutMetrics(
+    columns: resolvedColumns,
+    gap: gap,
+    sidePadding: padding.sidePadding,
+    verticalPadding: padding.verticalPadding,
+    availableWidth: availableWidth,
+    availableHeight: availableHeight,
+    tileWidth: tileWidth,
+    tileHeight: tileHeight,
+  );
+}
+
+VoiceGridPackedLayoutMetrics resolveVoiceGridPackedLayoutMetrics({
+  required int tileCount,
+  required double containerWidth,
+  required double containerHeight,
+  bool compact = false,
+  bool edgeToEdge = false,
+  double? minTileWidth,
+  double? minTileHeight,
+}) {
+  final int count = _sanitizeCount(tileCount);
+  final double width = _sanitizeDimension(containerWidth);
+  final double height = _sanitizeDimension(containerHeight);
+  if (count <= 0) {
+    return VoiceGridPackedLayoutMetrics(
+      metrics: _emptyMetrics(
+        tileCount: 0,
+        containerWidth: width,
+        containerHeight: height,
+        compact: compact,
+        edgeToEdge: edgeToEdge,
+      ),
+      visibleTileCount: 0,
+    );
+  }
+  final VoiceGridMinTileSize minSize = voiceGridMinTileSize(compact: compact);
+  final double effectiveMinWidth = _sanitizeDimension(
+    minTileWidth ?? minSize.minTileWidth,
+  );
+  final double effectiveMinHeight = _sanitizeDimension(
+    minTileHeight ?? minSize.minTileHeight,
+  );
+  for (int visibleCount = count; visibleCount >= 1; visibleCount--) {
+    VoiceGridLayoutMetrics? best;
+    final int preferredColumns = voiceGridColumnCount(
+      tileCount: visibleCount,
+      containerWidth: width,
+      containerHeight: height,
+    );
+    final int columnLimit = height >= width
+        ? math.max(1, preferredColumns)
+        : visibleCount;
+    for (
+      int columns = 1;
+      columns <= math.min(visibleCount, columnLimit);
+      columns++
+    ) {
+      final VoiceGridLayoutMetrics metrics = _metricsForColumns(
+        tileCount: visibleCount,
+        containerWidth: width,
+        containerHeight: height,
+        compact: compact,
+        edgeToEdge: edgeToEdge,
+        columns: columns,
+      );
+      if (metrics.tileWidth < effectiveMinWidth ||
+          metrics.tileHeight < effectiveMinHeight) {
+        continue;
+      }
+      if (best == null ||
+          metrics.tileWidth * metrics.tileHeight >
+              best.tileWidth * best.tileHeight) {
+        best = metrics;
+      }
+    }
+    if (best != null) {
+      return VoiceGridPackedLayoutMetrics(
+        metrics: best,
+        visibleTileCount: visibleCount,
+      );
+    }
+  }
+  return VoiceGridPackedLayoutMetrics(
+    metrics: _emptyMetrics(
+      tileCount: count,
+      containerWidth: width,
+      containerHeight: height,
+      compact: compact,
+      edgeToEdge: edgeToEdge,
+    ),
+    visibleTileCount: 0,
+  );
+}

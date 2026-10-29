@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -12,6 +12,8 @@ import 'package:fluxer_app/features/settings/presentation/delete_community_flow.
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_nav_list.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -63,43 +65,49 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
           .isStockCommunityGuild(widget.guildId),
     );
     final Color backgroundColor = guildSettingsPageBackgroundColor(context);
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
+    return HostedUiBackgroundBleed(
+      color: backgroundColor,
+      child: Scaffold(
         backgroundColor: backgroundColor,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: Colors.transparent,
-        title: Text(l10n.guildSettingsCommunitySettings),
-        leading: IconButton(
-          icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
-          onPressed: () => context.pop(),
+        appBar: AppBar(
+          backgroundColor: backgroundColor,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          surfaceTintColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          title: Text(l10n.guildSettingsCommunitySettings),
+          leading: showsInAppShellBackButton(context)
+              ? IconButton(
+                  icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
+                  onPressed: () => context.pop(),
+                )
+              : null,
         ),
-      ),
-      body: FluxerSettingsNavList(
-        padding: settingsScrollPadding(context),
-        groups: _buildNavGroups(l10n, tabs, context, widget.guildId, ref),
-        footer: canDelete
-            ? Padding(
-                padding: EdgeInsets.only(top: context.layout.s2),
-                child: FluxerMenuGroup(
-                  children: <Widget>[
-                    FluxerBottomSheetMenuItem(
-                      label: l10n.guildSettingsDeleteCommunity,
-                      icon: PhosphorIconsFill.trash,
-                      isDanger: true,
-                      onTap: () => unawaited(
-                        DeleteCommunityFlow.confirmAndDelete(
-                          context,
-                          ref,
-                          guildId: widget.guildId,
+        body: FluxerSettingsNavList(
+          padding: settingsScrollPadding(context),
+          groups: _buildNavGroups(l10n, tabs, context, widget.guildId, ref),
+          footer: canDelete
+              ? Padding(
+                  padding: EdgeInsets.only(top: context.layout.s2),
+                  child: FluxerMenuGroup(
+                    children: <Widget>[
+                      FluxerBottomSheetMenuItem(
+                        label: l10n.guildSettingsDeleteCommunity,
+                        icon: PhosphorIconsFill.trash,
+                        isDanger: true,
+                        onTap: () => unawaited(
+                          DeleteCommunityFlow.confirmAndDelete(
+                            context,
+                            ref,
+                            guildId: widget.guildId,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : null,
+                    ],
+                  ),
+                )
+              : null,
+        ),
       ),
     );
   }

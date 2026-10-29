@@ -14,8 +14,8 @@ import 'package:fluxer_app/core/api/sudo_interceptor.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_dio.dart';
 import 'package:fluxer_app/core/observability/measure_http_policy.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -25,7 +25,7 @@ import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
-export 'package:fluxer_app/core/providers/active_instance_provider.dart';
+export 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 
 part 'fluxer_client_provider.g.dart';
 

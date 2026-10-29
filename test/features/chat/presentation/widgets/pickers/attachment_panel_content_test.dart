@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_source_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:path/path.dart' as path_lib;

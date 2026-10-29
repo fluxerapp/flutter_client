@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
-import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/guild_invite_action_state.dart';
 
 void main() {
   group('resolveGuildInviteActionState', () {

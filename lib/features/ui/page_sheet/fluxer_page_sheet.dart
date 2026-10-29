@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:cupertino_ui/cupertino_ui.dart' hide RichText, Text;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
+import 'package:fluxer_app/core/providers/app/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_motion.dart';

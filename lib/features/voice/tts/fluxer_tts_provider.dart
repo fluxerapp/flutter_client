@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_eve
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/settings/domain/tts_notification_mode.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/notification_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts.dart';
 import 'package:fluxer_app/features/voice/tts/tts_incoming_message_handler.dart';
 import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';

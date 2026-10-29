@@ -1925,6 +1925,29 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get emojiPickerTitle => '이모티콘';
 
   @override
+  String get profileBadgesSettingsTitle => 'Badges';
+
+  @override
+  String get profileBadgesSettingsDescription =>
+      'Choose which badges other people see on your profile.';
+
+  @override
+  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+
+  @override
+  String get profileBadgesSettingsLoadFailed =>
+      'Your badges couldn\'t be loaded.';
+
+  @override
+  String profileBadgesShowOnProfile(String badgeLabel) {
+    return 'Show $badgeLabel on your profile';
+  }
+
+  @override
+  String get profileBadgesVisionaryNumberNote =>
+      'Shown only when your Visionary badge is visible and not masked.';
+
+  @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium 배지 개인 정보';
 
   @override
@@ -5947,6 +5970,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get voiceScreenShareExitFullscreenTooltip => '전체 화면 종료';
+
+  @override
+  String voiceVideoZoomLevel(String scale) {
+    return 'Zoom $scale';
+  }
 
   @override
   String get voiceOwnScreenShareTitle => '방송 중입니다';

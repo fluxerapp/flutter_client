@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';

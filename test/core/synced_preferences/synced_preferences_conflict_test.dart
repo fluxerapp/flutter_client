@@ -19,8 +19,8 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pb;
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 

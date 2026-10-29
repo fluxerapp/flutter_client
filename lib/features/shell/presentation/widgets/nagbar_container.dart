@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/scheduled
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/terms_acceptance_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/unclaimed_account_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/visionary_mfa_nagbar.dart';
-import 'package:fluxer_app/features/shell/providers/visible_nagbars_provider.dart';
+import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class NagbarContainer extends ConsumerWidget {

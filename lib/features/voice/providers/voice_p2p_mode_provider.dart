@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
-import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
-import 'package:fluxer_app/core/push/push_notification_reply.dart';
+import 'package:fluxer_app/core/push/notification/reply.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 
 void main() {

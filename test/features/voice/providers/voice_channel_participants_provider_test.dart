@@ -128,6 +128,7 @@ void main() {
             system: false,
             status: 'online',
             mobile: false,
+            hiddenProfileBadgesJson: '[]',
           ),
         );
 

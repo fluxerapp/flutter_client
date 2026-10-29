@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/foreground_push_notification_policy.dart';
+import 'package:fluxer_app/core/push/notification/foreground_policy.dart';
 
 void main() {
   group('ForegroundPushNotificationPolicy', () {

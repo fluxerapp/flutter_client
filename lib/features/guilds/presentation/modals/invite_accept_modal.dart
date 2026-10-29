@@ -5,14 +5,14 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/invite_accept_provider.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
-import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/guild_invite_action_state.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
@@ -452,6 +452,7 @@ class _GuildInviteContent extends ConsumerWidget {
               iconUrl: _iconUrl,
               guildName: invite.guild.name,
               features: features,
+              badgeIds: localGuild?.badgeIds ?? invite.guild.badgeIds,
               subtitle: l10n.inviteAcceptTitle,
               onlineLabel: l10n.embedInviteOnline(onlineStr),
               membersLabel: l10n.embedInviteMembers(memberStr),
@@ -506,6 +507,7 @@ class _InviteGuildHeader extends StatelessWidget {
     required this.iconUrl,
     required this.guildName,
     required this.features,
+    required this.badgeIds,
     required this.subtitle,
     required this.onlineLabel,
     required this.membersLabel,
@@ -514,6 +516,7 @@ class _InviteGuildHeader extends StatelessWidget {
   final String? iconUrl;
   final String guildName;
   final List<String> features;
+  final List<String> badgeIds;
   final String subtitle;
   final String onlineLabel;
   final String membersLabel;
@@ -546,7 +549,7 @@ class _InviteGuildHeader extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 6),
-              child: FluxerGuildBadge(features: features),
+              child: FluxerGuildBadge(features: features, badgeIds: badgeIds),
             ),
           ],
         ),

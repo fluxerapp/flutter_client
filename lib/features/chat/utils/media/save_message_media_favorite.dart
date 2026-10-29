@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provide
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';

@@ -25,8 +25,8 @@ import 'package:fluxer_app/features/chat/utils/messages/message_action_permissio
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_translate_offer.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_web_translation.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -421,6 +421,12 @@ List<Widget> buildMessageActionMenuGroups({
             label: l10n.retry,
             onTap: () => onAction(MessageAction.retry),
           ),
+          if (message.content.isNotEmpty)
+            FluxerBottomSheetMenuItem(
+              icon: PhosphorIconsFill.copy,
+              label: l10n.chatMessageCopyText,
+              onTap: () => onAction(MessageAction.copyText),
+            ),
         ],
       ),
       FluxerMenuGroup(

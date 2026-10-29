@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_availability_provider
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/models/user_settings_response_guild_folders.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

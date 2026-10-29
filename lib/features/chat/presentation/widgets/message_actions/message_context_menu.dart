@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/qu
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -187,6 +187,28 @@ class _ContextMenuPage extends ConsumerWidget {
   List<Widget> _buildItems(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     void pop(MessageAction action) => Navigator.of(context).pop(action);
+    if (message.hasFailed) {
+      return [
+        _MenuItem(
+          label: l10n.retry,
+          icon: PhosphorIconsBold.arrowClockwise,
+          onTap: () => pop(MessageAction.retry),
+        ),
+        if (message.content.isNotEmpty)
+          _MenuItem(
+            label: l10n.chatMessageCopyText,
+            icon: PhosphorIconsBold.copy,
+            onTap: () => pop(MessageAction.copyText),
+          ),
+        const _MenuDivider(),
+        _MenuItem(
+          label: l10n.chatMessageDeleteFailed,
+          icon: PhosphorIconsBold.trash,
+          isDanger: true,
+          onTap: () => pop(MessageAction.deleteFailed),
+        ),
+      ];
+    }
     final bool showShortcuts =
         !isTouchPrimaryInput(ref) &&
         ref.watch(
@@ -209,8 +231,7 @@ class _ContextMenuPage extends ConsumerWidget {
       appearancePreferencesProvider.select((s) => s.showSuppressEmbedsButton),
     );
 
-    final bool canReact =
-        !message.hasFailed && !message.isSending && permissions.canAddReactions;
+    final bool canReact = !message.isSending && permissions.canAddReactions;
 
     return [
       if (canReact)
@@ -244,12 +265,6 @@ class _ContextMenuPage extends ConsumerWidget {
           label: l10n.chatMessageTranslate,
           icon: PhosphorIconsBold.translate,
           onTap: () => pop(MessageAction.translate),
-        ),
-      if (message.hasFailed)
-        _MenuItem(
-          label: l10n.retry,
-          icon: PhosphorIconsBold.arrowClockwise,
-          onTap: () => pop(MessageAction.retry),
         ),
       const _MenuDivider(),
       if (permissions.isOwnMessage)
@@ -334,15 +349,6 @@ class _ContextMenuPage extends ConsumerWidget {
           icon: PhosphorIconsBold.trash,
           isDanger: true,
           onTap: () => pop(MessageAction.delete),
-        ),
-      ],
-      if (message.hasFailed) ...[
-        const _MenuDivider(),
-        _MenuItem(
-          label: l10n.chatMessageDeleteFailed,
-          icon: PhosphorIconsBold.trash,
-          isDanger: true,
-          onTap: () => pop(MessageAction.deleteFailed),
         ),
       ],
       const _MenuDivider(),

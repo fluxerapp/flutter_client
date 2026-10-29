@@ -5,23 +5,38 @@ import 'package:fluxer_dart/export.dart';
 
 class ProfileBadgeImage extends StatelessWidget {
   const ProfileBadgeImage({
-    required this.hash,
     required this.height,
+    this.hash,
+    this.imageUrl,
     this.aspectRatio,
     super.key,
-  });
+  }) : assert(hash != null || imageUrl != null, 'hash or imageUrl is required');
 
-  final HexString16Type hash;
+  final HexString16Type? hash;
+  final String? imageUrl;
   final double height;
   final num? aspectRatio;
+
+  factory ProfileBadgeImage.fromBadge(
+    ProfileBadgeResponse badge, {
+    required double height,
+  }) {
+    return ProfileBadgeImage(
+      hash: profileBadgeImageHash(badge, displayHeight: height),
+      imageUrl: profileBadgeDisplayImageUrl(badge, displayHeight: height),
+      height: height,
+      aspectRatio: badge.aspectRatio,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final double width = aspectRatio != null && aspectRatio! > 0
         ? height * aspectRatio!.toDouble()
         : height;
+    final String url = imageUrl ?? profileBadgeImageUrl(hash!);
     return CachedNetworkImage(
-      imageUrl: profileBadgeImageUrl(hash),
+      imageUrl: url,
       height: height,
       width: width,
       fit: BoxFit.contain,

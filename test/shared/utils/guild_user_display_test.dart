@@ -796,6 +796,7 @@ db.User _dbUser() {
     system: false,
     status: 'online',
     mobile: true,
+    hiddenProfileBadgesJson: '[]',
   );
 }
 

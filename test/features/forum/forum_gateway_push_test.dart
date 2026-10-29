@@ -8,9 +8,9 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
-import 'package:fluxer_app/core/push/local_push_notifications.dart';
-import 'package:fluxer_app/core/push/push_notification_payload.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/push/android/local_notifications.dart';
+import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/features/forum/providers/forum_post_unreads_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 

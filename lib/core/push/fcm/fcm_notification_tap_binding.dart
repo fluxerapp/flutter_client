@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
-import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
+import 'package:fluxer_app/core/push/android/pipeline.dart';
+import 'package:fluxer_app/core/push/notification/tap_handler.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -47,6 +47,7 @@ Future<void> _handleFcmNotificationTap(
   Ref ref,
   Map<String, String> payload,
 ) async {
+  Map<String, String> resolvedPayload = payload;
   final String? ciphertext = payload['p'];
   if (ciphertext != null &&
       ciphertext.isNotEmpty &&
@@ -59,7 +60,9 @@ Future<void> _handleFcmNotificationTap(
     if (message == null) {
       return;
     }
-    payload = message.payload;
+    resolvedPayload = message.payload;
   }
-  ref.read(pushNotificationTapHandlerProvider.notifier).handlePayload(payload);
+  ref
+      .read(pushNotificationTapHandlerProvider.notifier)
+      .handlePayload(resolvedPayload);
 }

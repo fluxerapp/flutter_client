@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_render_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class EmbedAudio extends StatelessWidget {

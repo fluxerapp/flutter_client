@@ -22,7 +22,7 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channel_groups_
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/favorites/utils/favorite_entry_subtitle.dart';
 import 'package:fluxer_app/features/favorites/utils/favorite_entry_unread.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';

@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/mention_f
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';

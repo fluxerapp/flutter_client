@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
-import 'package:fluxer_app/features/voice/utils/voice_pip_snap.dart';
+import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class VoiceCallAvatar extends StatelessWidget {

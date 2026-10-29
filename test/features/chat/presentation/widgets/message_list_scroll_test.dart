@@ -8,7 +8,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
@@ -6121,6 +6121,204 @@ void main() {
       await disposeMessageList(tester);
     });
   });
+
+  group('restored scroll anchor', () {
+    Future<void> pumpAnchorList(
+      WidgetTester tester,
+      _AnchorChatViewModel chatViewModel, {
+      db.FluxerDatabase? database,
+    }) async {
+      await tester.pumpWidget(
+        messageListApp(
+          database: database ?? openTestDatabase(),
+          chatViewModel: chatViewModel,
+        ),
+      );
+      await pumpFluxerFrames(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump();
+      }
+    }
+
+    testWidgets('returning to a channel restores the saved anchor', (
+      WidgetTester tester,
+    ) async {
+      configureMessageListViewport(tester);
+      final List<Message> messages = seedMessages(60);
+      final db.FluxerDatabase database = openTestDatabase();
+      final _AnchorChatViewModel leaving = _AnchorChatViewModel(
+        detachedState(messages, hasMoreNewer: false),
+      );
+      await pumpAnchorList(tester, leaving, database: database);
+      await tester.drag(messageListScrollable(), const Offset(0, 900));
+      await pumpFluxerFrames(tester);
+
+      final ChannelScrollAnchor? saved = leaving.captureAnchor!();
+      expect(saved, isNotNull);
+      final ({String id, Rect rect}) before = anchorSample(
+        tester,
+        saved!.messageId,
+      );
+      await disposeMessageList(tester);
+
+      await pumpAnchorList(
+        tester,
+        _AnchorChatViewModel(
+          detachedState(messages, hasMoreNewer: false),
+          restoredAnchor: saved,
+        ),
+        database: database,
+      );
+
+      expectPreserved(
+        tester,
+        before,
+        reason: 'the reading row must reopen where it was left',
+      );
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('saved anchor whose message is gone falls back to the bottom', (
+      WidgetTester tester,
+    ) async {
+      configureMessageListViewport(tester);
+      final List<Message> messages = seedMessages(60);
+      await pumpAnchorList(
+        tester,
+        _AnchorChatViewModel(
+          detachedState(messages, hasMoreNewer: false),
+          restoredAnchor: (messageId: '123', fraction: 0.4, offset: 0),
+        ),
+      );
+
+      expect(messageListAnchorId(tester), messages.last.id);
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(
+        position.maxScrollExtent - position.pixels,
+        lessThanOrEqualTo(kMessageListReadBottomThreshold),
+      );
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('an unread marker beats the saved anchor', (
+      WidgetTester tester,
+    ) async {
+      configureMessageListViewport(tester);
+      final AroundAckMessageListHarness harness =
+          await createAroundAckMessageListHarness(
+            ackIndex: 30,
+            hasMoreNewerMessages: false,
+          );
+      await pumpAnchorList(
+        tester,
+        _AnchorChatViewModel(
+          detachedState(harness.messages, hasMoreNewer: false),
+          restoredAnchor: (
+            messageId: harness.messages[5].id,
+            fraction: 0.4,
+            offset: 0,
+          ),
+        ),
+        database: harness.database,
+      );
+
+      expect(messageListAnchorId(tester), harness.firstUnreadId);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('a channel left at the bottom reopens at the bottom', (
+      WidgetTester tester,
+    ) async {
+      configureMessageListViewport(tester);
+      final _AnchorChatViewModel leaving = _AnchorChatViewModel(
+        detachedState(seedMessages(60), hasMoreNewer: false),
+      );
+      await pumpAnchorList(tester, leaving);
+
+      expect(leaving.captureAnchor!(), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('a reader inside a message taller than the viewport returns '
+        'to the same place', (WidgetTester tester) async {
+      configureMessageListViewport(tester);
+      final List<Message> seeded = seedMessages(20);
+      final Message tall = harnessMessage(
+        id: seeded[10].id,
+        content: List<String>.generate(
+          120,
+          (int line) => 'tall line $line',
+        ).join('\n'),
+        timestamp: seeded[10].timestamp,
+      );
+      final List<Message> messages = <Message>[
+        ...seeded.take(10),
+        tall,
+        ...seeded.skip(11),
+      ];
+      final db.FluxerDatabase database = openTestDatabase();
+      final _AnchorChatViewModel leaving = _AnchorChatViewModel(
+        detachedState(messages, hasMoreNewer: false),
+      );
+      await pumpAnchorList(tester, leaving, database: database);
+      final Rect viewport = tester.getRect(messageListScrollable());
+      await tester.drag(
+        messageListScrollable(),
+        Offset(
+          0,
+          viewport.top - 400 - tester.getRect(messageItemFor(tall.id)).top,
+        ),
+      );
+      await pumpFluxerFrames(tester);
+      final Rect spanning = tester.getRect(messageItemFor(tall.id));
+      expect(spanning.top, lessThan(viewport.top));
+      expect(spanning.bottom, greaterThan(viewport.bottom));
+
+      final ChannelScrollAnchor? saved = leaving.captureAnchor!();
+      expect(saved?.messageId, tall.id);
+      final ({String id, Rect rect}) before = anchorSample(tester, tall.id);
+      await disposeMessageList(tester);
+
+      await pumpAnchorList(
+        tester,
+        _AnchorChatViewModel(
+          detachedState(messages, hasMoreNewer: false),
+          restoredAnchor: saved,
+        ),
+        database: database,
+      );
+
+      expectPreserved(
+        tester,
+        before,
+        reason: 'the reader must reopen at the same line of the tall message',
+      );
+      await disposeMessageList(tester);
+    });
+  });
+}
+
+class _AnchorChatViewModel extends InstrumentedChatViewModel {
+  _AnchorChatViewModel(super.initialState, {this.restoredAnchor});
+
+  ChannelScrollAnchor? restoredAnchor;
+  ChannelScrollAnchor? Function()? captureAnchor;
+
+  @override
+  void registerScrollAnchorSource({
+    required String channelId,
+    required ChannelScrollAnchor? Function() read,
+  }) {
+    captureAnchor = read;
+    super.registerScrollAnchorSource(channelId: channelId, read: read);
+  }
+
+  @override
+  ChannelScrollAnchor? takeRestoredScrollAnchor(String channelId) {
+    final ChannelScrollAnchor? anchor = restoredAnchor;
+    restoredAnchor = null;
+    return anchor;
+  }
 }
 
 class _UnreadOpenFrameSample {

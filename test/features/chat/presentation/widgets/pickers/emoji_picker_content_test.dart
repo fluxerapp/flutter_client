@@ -26,9 +26,9 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
-import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_sprite_sheet.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../../helpers/open_test_database.dart';

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/utils/profile_timezone_utils.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 

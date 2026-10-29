@@ -231,7 +231,11 @@ class AuthRepository {
       return;
     }
     for (final ({String userId, String token}) entry in legacyTokens) {
-      await _tokenStorage.saveToken(userId: entry.userId, token: entry.token);
+      try {
+        await _tokenStorage.saveToken(userId: entry.userId, token: entry.token);
+      } on AuthTokenStorageException {
+        return;
+      }
     }
     await _db.authSessionDao.clearLegacyTokens();
     await _db.authSessionDao.dropLegacyTokenColumnIfPresent();
@@ -310,7 +314,7 @@ class AuthRepository {
     if (migrated == null) {
       return;
     }
-    await _tokenStorage.saveApiBaseUrl(userId: userId, apiBaseUrl: migrated);
+    await _persistApiBaseUrl(userId, migrated);
   }
 
   Future<void> pruneTokenlessSessions() async {
@@ -432,7 +436,14 @@ class AuthRepository {
     if (existing == apiBaseUrl) {
       return;
     }
-    await _tokenStorage.saveApiBaseUrl(userId: userId, apiBaseUrl: apiBaseUrl);
+    try {
+      await _tokenStorage.saveApiBaseUrl(
+        userId: userId,
+        apiBaseUrl: apiBaseUrl,
+      );
+    } on AuthTokenStorageException {
+      return;
+    }
   }
 
   Future<InstanceConfigSnapshot> resolveInstanceSnapshotForUser(

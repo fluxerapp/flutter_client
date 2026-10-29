@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/quick_actions/home_quick_action.dart';
 import 'package:fluxer_app/core/quick_actions/home_quick_action_items.dart';
 import 'package:fluxer_app/core/quick_actions/home_quick_actions_plugin.dart';

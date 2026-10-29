@@ -1,8 +1,8 @@
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
-import 'package:fluxer_app/features/settings/utils/user_settings_deep_link_scope.dart';
-import 'package:fluxer_app/features/settings/utils/user_settings_field_registry.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_deep_link_scope.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_field_registry.dart';
 
 final RegExp _safeSettingsParamRegex = RegExp(r'^[A-Za-z0-9_-]+$');
 

@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/members/domain/member_role_management.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 
 class GuildMemberMenuState {

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 
 void main() {
   test('pinned hinge chat uses drawer reveal when the list is hidden', () {

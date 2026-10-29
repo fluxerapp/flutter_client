@@ -25,9 +25,9 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:riverpod/src/framework.dart' show Override;
@@ -550,9 +550,9 @@ List<Override> messageListOverrides({
 
 class InstrumentedChatViewModel extends ChatViewModel {
   InstrumentedChatViewModel(
-    this._initialState, {
+    ChatViewState initialState, {
     this.enableTrimToNewestWindow = false,
-  });
+  }) : _initialState = initialState;
 
   final ChatViewState _initialState;
   final bool enableTrimToNewestWindow;
@@ -701,7 +701,7 @@ class InstrumentedChatViewModel extends ChatViewModel {
 
 class PagingInstrumentedChatViewModel extends InstrumentedChatViewModel {
   PagingInstrumentedChatViewModel(
-    super._initialState, {
+    super.initialState, {
     required List<List<Message>> newerPages,
     super.enableTrimToNewestWindow,
   }) : _newerPages = newerPages.map(List<Message>.from).toList();

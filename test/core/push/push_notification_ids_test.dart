@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/push_notification_ids.dart';
+import 'package:fluxer_app/core/push/notification/ids.dart';
 
 void main() {
   group('javaStringHashCode', () {

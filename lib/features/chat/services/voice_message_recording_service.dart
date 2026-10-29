@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_mes
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_wav_encoder.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_waveform.dart';
-import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
+import 'package:fluxer_app/features/voice/utils/audio/microphone_permission.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 

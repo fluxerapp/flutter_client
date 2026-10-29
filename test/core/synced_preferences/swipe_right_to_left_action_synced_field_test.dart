@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wir
 import 'package:fluxer_app/core/synced_preferences/fields/swipe_right_to_left_action_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
-import 'package:fluxer_app/features/settings/providers/swipe_right_to_left_action_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 
 SwipeRightToLeftActionSyncedField _field() {
   final container = ProviderContainer();

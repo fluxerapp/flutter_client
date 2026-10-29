@@ -71,7 +71,7 @@ class FluxerMeasureDioInterceptor extends Interceptor {
           statusCode: response.statusCode,
         );
       }
-    } catch (e, stacktrace) {
+    } on Object catch (e, stacktrace) {
       _logInternalError(e, stacktrace);
     } finally {
       handler.next(response);
@@ -109,7 +109,7 @@ class FluxerMeasureDioInterceptor extends Interceptor {
         failureReason: _failureReason(err),
         failureDescription: err.message ?? err.error?.toString(),
       );
-    } catch (e, stacktrace) {
+    } on Object catch (e, stacktrace) {
       _logInternalError(e, stacktrace);
     } finally {
       handler.next(err);

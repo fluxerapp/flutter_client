@@ -251,7 +251,12 @@ def _cli() -> int:
                 print("GITHUB_REPOSITORY is required", file=sys.stderr)
                 return 1
             version_name, beta_number = resolve_beta_version_from_github()
-            _write_github_output(version_name=version_name, beta_number=beta_number)
+            tag_name = f"v{semver_beta_version_name(version_name)}"
+            _write_github_output(
+                version_name=version_name,
+                beta_number=beta_number,
+                tag_name=tag_name,
+            )
             return 0
     except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as exc:
         print(f"::error::{exc}", file=sys.stderr)

@@ -1,4 +1,4 @@
-import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
+import 'package:fluxer_app/features/voice/utils/audio/effective_audio_state.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:test/test.dart';
 

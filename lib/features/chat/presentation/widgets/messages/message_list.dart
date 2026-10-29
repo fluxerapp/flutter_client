@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -92,11 +92,11 @@ import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.dart';
@@ -322,6 +322,10 @@ class _MessageListState extends ConsumerState<MessageList> {
     _demandSource = MessageListDemandSource(
       port: ref.read(messagePaginationCoordinatorProvider),
     );
+    _chatViewModel.registerScrollAnchorSource(
+      channelId: _viewportChannelId,
+      read: _captureScrollAnchor,
+    );
     _scrollController.addListener(_onScroll);
     _setPendingScrollTarget(widget.targetMessageId);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -403,6 +407,7 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   @override
   void dispose() {
+    _chatViewModel.unregisterScrollAnchorSource(_captureScrollAnchor);
     _chatKeybindEffectsSubscription?.close();
     _messageKeyboardNavigation.unregister(
       focusNext: _focusNextMessage,
@@ -753,6 +758,8 @@ class _MessageListState extends ConsumerState<MessageList> {
                 messageIds: messages.map((Message m) => m.id),
               )
             : null;
+        final ChannelScrollAnchor? restoredAnchor = _chatViewModel
+            .takeRestoredScrollAnchor(channelId);
         _anchorResolved = true;
         _anchorEpoch++;
         _pin.pinned = false;
@@ -773,6 +780,13 @@ class _MessageListState extends ConsumerState<MessageList> {
           _anchorEdge = MessageListAnchorEdge.before;
           _scheduleUnderfillBottomReanchor();
           _scheduleJumpHighlightConfirm(jumpRequestId!);
+        } else if (restoredAnchor != null &&
+            streamIndex.itemOfMessage(restoredAnchor.messageId) != null) {
+          _anchorId = restoredAnchor.messageId;
+          _anchorFraction = restoredAnchor.fraction;
+          _anchorEdge = MessageListAnchorEdge.before;
+          _scrollController.armedInitialOffset = restoredAnchor.offset;
+          _scheduleUnderfillBottomReanchor();
         } else {
           _anchorId = messages.isEmpty ? null : messages.last.id;
           _anchorFraction = 1;
@@ -2603,13 +2617,10 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
-  void _holdReadingRowAcrossRegroup() {
+  ({String id, double fraction, double correction})? _measureReadingRow() {
     final MessageListViewport? built = _builtViewport;
-    if (built == null ||
-        !_anchorResolved ||
-        !_scrollController.hasClients ||
-        _isNearLiveTail()) {
-      return;
+    if (built == null || !_anchorResolved || !_scrollController.hasClients) {
+      return null;
     }
     RenderViewport? viewport;
     void findViewport(RenderObject node) {
@@ -2633,7 +2644,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final RenderViewport? laidOut = viewport;
     if (laidOut == null || !laidOut.hasSize) {
-      return;
+      return null;
     }
     final double viewportTop = laidOut.localToGlobal(Offset.zero).dy;
     final double viewportHeight = laidOut.size.height;
@@ -2661,25 +2672,50 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
     final String? anchorId = rowId ?? straddlingId;
     if (anchorId == null) {
-      return;
+      return null;
     }
     final double splitY = rowId != null ? rowTop : straddlingTop;
     final double fraction = ((splitY - viewportTop) / viewportHeight).clamp(
       0.0,
       1.0,
     );
-    _scrollController.listPosition!.correctPixels(
-      viewportTop + fraction * viewportHeight - splitY,
+    return (
+      id: anchorId,
+      fraction: fraction,
+      correction: viewportTop + fraction * viewportHeight - splitY,
     );
+  }
+
+  void _holdReadingRowAcrossRegroup() {
+    if (_isNearLiveTail()) {
+      return;
+    }
+    final ({String id, double fraction, double correction})? row =
+        _measureReadingRow();
+    if (row == null) {
+      return;
+    }
+    _scrollController.listPosition!.correctPixels(row.correction);
     setState(() {
-      _anchorId = anchorId;
-      _anchorFraction = fraction;
+      _anchorId = row.id;
+      _anchorFraction = row.fraction;
       _anchorEdge = MessageListAnchorEdge.before;
       _unreadOpenLayout = false;
       _setUnreadLeadingPad(0);
       _exposeOlderRowsNow();
       _uiEpoch++;
     });
+  }
+
+  ChannelScrollAnchor? _captureScrollAnchor() {
+    if (_isNearLiveTail()) {
+      return null;
+    }
+    final ({String id, double fraction, double correction})? row =
+        _measureReadingRow();
+    return row == null
+        ? null
+        : (messageId: row.id, fraction: row.fraction, offset: row.correction);
   }
 
   void _maybeRecenterPinnedTail(List<Message> messages) {
@@ -3494,6 +3530,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                     ref,
                     guildId: guildId,
                     threadId: message.messageReference?.channelId ?? '',
+                    fromParent: true,
                   ),
                 )
               : null,

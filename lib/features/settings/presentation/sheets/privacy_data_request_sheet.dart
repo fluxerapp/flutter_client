@@ -7,11 +7,11 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/domain/privacy_data_request.dart';
-import 'package:fluxer_app/features/settings/providers/privacy_dashboard_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/privacy_dashboard_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:intl/intl.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
 class PrivacyDataRequestSheet extends ConsumerStatefulWidget {
   const PrivacyDataRequestSheet({
@@ -187,7 +187,10 @@ class _PrivacyDataRequestSheetState
   }
 
   String _formatSummaryDate(DateTime date) {
-    return DateFormat.yMMMd().format(date);
+    return formatUserMediumDate(
+      date,
+      FluxerLocalizations.of(context).localeName,
+    );
   }
 
   @override
@@ -676,7 +679,10 @@ class _DateField extends StatelessWidget {
     final colors = context.colors;
     final String display = value == null
         ? '—'
-        : DateFormat.yMMMd().format(value!);
+        : formatUserMediumDate(
+            value!,
+            FluxerLocalizations.of(context).localeName,
+          );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

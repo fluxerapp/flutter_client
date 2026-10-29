@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_code.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_link_parser.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';

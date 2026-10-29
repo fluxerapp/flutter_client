@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
-import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
+import 'package:fluxer_app/core/push/notification/tap_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'apple_push_notification_tap_binding.g.dart';

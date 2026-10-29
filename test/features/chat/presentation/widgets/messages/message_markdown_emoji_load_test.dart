@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 const String _body = 'hi \u{1F600} \u{1F44B}\u{1F3FD} \u2764\uFE0F';

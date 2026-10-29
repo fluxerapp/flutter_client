@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/profile/utils/profile_hosted_layout.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -62,6 +63,9 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
     final layout = context.layout;
     final colors = context.colors;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final EdgeInsets hostedSide = profileHostedSideContentInsets(context);
+    final double contentPadLeft = layout.s4 + hostedSide.left;
+    final double contentPadRight = layout.s4 + hostedSide.right;
     final bool reduceMotion = MediaQuery.disableAnimationsOf(context);
     _pulseController.syncWithVisibility(
       isVisible: true,
@@ -131,7 +135,7 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
                             ),
                           ),
                         Positioned(
-                          left: layout.s4,
+                          left: contentPadLeft,
                           top: _kBannerHeight - _kAvatarOverlap,
                           child: Container(
                             padding: const EdgeInsets.all(4),
@@ -148,7 +152,7 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
                           ),
                         ),
                         Positioned(
-                          right: layout.s4,
+                          right: contentPadRight,
                           top: _kBannerHeight + layout.s2,
                           child: Row(
                             children: <Widget>[
@@ -172,9 +176,9 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
                 ),
                 SliverPadding(
                   padding: EdgeInsets.fromLTRB(
-                    layout.s4,
+                    contentPadLeft,
                     layout.s2,
-                    layout.s4,
+                    contentPadRight,
                     layout.s4 +
                         FluxerBottomSheet.scrollBottomPaddingOf(context),
                   ),

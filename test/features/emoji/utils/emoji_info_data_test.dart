@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
 void main() {
   setUpAll(() async {

@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_pip_snap.dart';
+import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const Duration kVoiceSpeakingRingInDuration = Duration.zero;

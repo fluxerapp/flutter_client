@@ -18,6 +18,7 @@ class Guild {
   final String? ownerId;
   final int position;
   final List<String> features;
+  final List<String> badgeIds;
   final bool unavailable;
   final int disabledOperations;
   final int verificationLevel;
@@ -38,6 +39,7 @@ class Guild {
     this.ownerId,
     this.position = 0,
     this.features = const [],
+    this.badgeIds = const [],
     this.unavailable = false,
     this.disabledOperations = 0,
     this.verificationLevel = 0,
@@ -60,6 +62,7 @@ class Guild {
       ownerId: row.ownerId,
       position: row.position,
       features: (jsonDecode(row.featuresJson) as List<dynamic>).cast<String>(),
+      badgeIds: (jsonDecode(row.badgeIdsJson) as List<dynamic>).cast<String>(),
       unavailable: row.unavailable,
       disabledOperations: row.disabledOperations,
       verificationLevel: row.verificationLevel,

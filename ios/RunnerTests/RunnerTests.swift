@@ -61,6 +61,55 @@ class RunnerTests: XCTestCase {
     XCTAssertEqual(PushNotificationPayload.resolveMessageId(from: userInfo), "msg-fallback")
   }
 
+  func testResolveMessageIdFromNumericSnowflake() {
+    let snowflake = "1122334455667788990"
+    let userInfo: [AnyHashable: Any] = [
+      "message_id": NSDecimalNumber(string: snowflake),
+    ]
+    XCTAssertEqual(PushNotificationPayload.resolveMessageId(from: userInfo), snowflake)
+  }
+
+  func testResolveMessageIdFromChannelTag() {
+    let channelId = "456"
+    let userInfo: [AnyHashable: Any] = [
+      "tag": "channel:456:1122334455667788990",
+    ]
+    XCTAssertEqual(
+      PushNotificationPayload.resolveMessageId(from: userInfo, channelId: channelId),
+      "1122334455667788990"
+    )
+    XCTAssertEqual(
+      PushNotificationPayload.messageIdFromChannelTag(
+        "channel:456:1122334455667788990",
+        channelId: channelId
+      ),
+      "1122334455667788990"
+    )
+    XCTAssertNil(
+      PushNotificationPayload.messageIdFromChannelTag("channel:456", channelId: channelId)
+    )
+  }
+
+  func testParseBadgeCountAcceptsNumericStrings() {
+    XCTAssertEqual(PushNotificationPayload.parseBadgeCount(3), 3)
+    XCTAssertEqual(PushNotificationPayload.parseBadgeCount(NSNumber(value: 7)), 7)
+    XCTAssertEqual(PushNotificationPayload.parseBadgeCount("12"), 12)
+    XCTAssertNil(PushNotificationPayload.parseBadgeCount(""))
+    XCTAssertNil(PushNotificationPayload.parseBadgeCount(nil))
+  }
+
+  func testIsClearPayloadDetectsNestedNotificationData() {
+    let nested: [AnyHashable: Any] = [
+      "notification": [
+        "data": [
+          "type": "notification_clear",
+          "channel_id": "456",
+        ],
+      ],
+    ]
+    XCTAssertTrue(PushNotificationPayload.isClearPayload(from: nested))
+  }
+
   func testResolveNotificationIdentifierUsesMessageId() {
     let userInfo: [AnyHashable: Any] = [
       "aps": ["thread-id": "channel:456"],

@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/push/push_delivery_display.dart';
+import 'package:fluxer_app/core/push/delivery/display.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_picker_sheet.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_fonts.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/providers/push_delivery_details_provider.dart';
+import 'package:fluxer_app/features/settings/providers/commerce/push_delivery_details_provider.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;

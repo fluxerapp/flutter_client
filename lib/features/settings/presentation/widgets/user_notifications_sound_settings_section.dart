@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
-import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
+import 'package:fluxer_app/core/providers/app/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
-import 'package:fluxer_app/features/settings/utils/sound_type_utils.dart';
-import 'package:fluxer_app/features/settings/utils/sound_volume_utils.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/utils/sound/sound_sfx_playback.dart';
+import 'package:fluxer_app/features/settings/utils/sound/sound_type_utils.dart';
+import 'package:fluxer_app/features/settings/utils/sound/sound_volume_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/ui.dart';

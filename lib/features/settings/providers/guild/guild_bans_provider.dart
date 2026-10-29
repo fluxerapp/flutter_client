@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_bans_state.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
-import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_bans_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

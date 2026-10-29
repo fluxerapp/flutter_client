@@ -29,7 +29,7 @@ import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout
 import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_scroll_physics.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/foldable/tabletop_hinge_column.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/mobile_scaffold_resize_policy.dart';

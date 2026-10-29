@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/messages/system_message_text.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

@@ -1,4 +1,4 @@
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
 final RegExp _shortcodePattern = RegExp(
   r':([\p{L}\p{N}_+~.-]{2,}):',

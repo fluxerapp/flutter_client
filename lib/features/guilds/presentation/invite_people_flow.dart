@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/invite_people_content.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_people_actions.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

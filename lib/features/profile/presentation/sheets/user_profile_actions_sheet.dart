@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/constants/user_flags.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -17,7 +17,7 @@ import 'package:fluxer_app/features/moderation/providers/local_user_spam_overrid
 import 'package:fluxer_app/features/profile/presentation/menus/guild_member_moderation_menu_items.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

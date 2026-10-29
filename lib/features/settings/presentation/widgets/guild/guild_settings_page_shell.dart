@@ -4,6 +4,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_access_gate.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -40,22 +42,27 @@ class GuildSettingsPageShell extends StatelessWidget {
     final Color appBarColor = isMobile
         ? backgroundColor
         : context.colors.backgroundSecondary;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        backgroundColor: appBarColor,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
-          onPressed: () => context.pop(),
+    return HostedUiBackgroundBleed(
+      color: backgroundColor,
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          backgroundColor: appBarColor,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          surfaceTintColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          leading: showsInAppShellBackButton(context)
+              ? IconButton(
+                  icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
+                  onPressed: () => context.pop(),
+                )
+              : null,
+          title: Text(guildSettingsTabTitle(l10n, tab)),
+          actions: <Widget>[...actions],
         ),
-        title: Text(guildSettingsTabTitle(l10n, tab)),
-        actions: <Widget>[...actions],
+        body: GuildSettingsAccessGate(guildId: guildId, tab: tab, child: body),
       ),
-      body: GuildSettingsAccessGate(guildId: guildId, tab: tab, child: body),
     );
   }
 }

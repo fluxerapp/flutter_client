@@ -1,7 +1,7 @@
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/push/account/sync_retry.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_sync_coalescing.dart';
-import 'package:fluxer_app/core/push/push_sync_retry.dart';
 
 void main() {
   group('fcmSyncShouldRunAnotherPass', () {

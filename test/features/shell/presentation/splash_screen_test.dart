@@ -5,20 +5,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
-import 'package:fluxer_app/core/providers/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
-import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
+import 'package:fluxer_app/features/shell/providers/service_status/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
@@ -197,6 +197,38 @@ void main() {
 
   testWidgets('account switch reveal skips the logo zoom', (tester) async {
     expect(await _revealCompleteAfter(tester, switching: true), isTrue);
+    await releaseTestWidgetTree(tester);
+  });
+
+  testWidgets('hydration wait exits the splash with animations disabled', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        overrides: _splashOverrides(<Override>[
+          fluxerDatabaseProvider.overrideWithValue(_database),
+          appStartupProvider.overrideWith(_ReadyAppStartup.new),
+          gatewayReadyProvider.overrideWith(_ReadyGateway.new),
+          authStateProvider.overrideWith(_Authenticated.new),
+          appearancePreferencesProvider.overrideWithValue(
+            const AppearancePreferencesState(),
+          ),
+          unreadDmChannelsProvider.overrideWithValue(const UnreadDmState()),
+        ]),
+        child: const SplashScreen(),
+      ),
+    );
+    await tester.pump();
+    final ProviderContainer container = ProviderScope.containerOf(
+      tester.element(find.byType(SplashScreen)),
+    );
+    container.read(guildReadStateReadyProvider.notifier).markReady();
+    await tester.pump();
+    expect(container.read(splashExitAllowedProvider), isFalse);
+
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pump();
+    expect(container.read(splashExitAllowedProvider), isTrue);
     await releaseTestWidgetTree(tester);
   });
 

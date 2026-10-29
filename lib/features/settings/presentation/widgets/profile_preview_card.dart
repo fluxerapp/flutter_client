@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/profile/providers/own_profile_badges_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';

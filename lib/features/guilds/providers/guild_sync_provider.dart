@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fluxer_app/core/providers/gateway_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 
 const Set<String> _plaintextSymbols = {
   '\u2122',

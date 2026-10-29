@@ -5,7 +5,7 @@ import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_dart/export.dart';
 

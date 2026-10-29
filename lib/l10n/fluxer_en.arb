@@ -2517,7 +2517,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"
@@ -2596,6 +2596,35 @@
     "emojiPickerTitle": "Emoji",
     "@emojiPickerTitle": {
         "description": "Title for the emoji picker sheet."
+    },
+    "profileBadgesSettingsTitle": "Badges",
+    "@profileBadgesSettingsTitle": {
+        "description": "Title of the profile settings section that lists held badges and visibility toggles."
+    },
+    "profileBadgesSettingsDescription": "Choose which badges other people see on your profile.",
+    "@profileBadgesSettingsDescription": {
+        "description": "Description under the Badges title in profile settings."
+    },
+    "profileBadgesSettingsEmpty": "You don't have any badges yet.",
+    "@profileBadgesSettingsEmpty": {
+        "description": "Shown in profile badge settings when the user holds no badges."
+    },
+    "profileBadgesSettingsLoadFailed": "Your badges couldn't be loaded.",
+    "@profileBadgesSettingsLoadFailed": {
+        "description": "Shown when the badge list fails to load in profile settings."
+    },
+    "profileBadgesShowOnProfile": "Show {badgeLabel} on your profile",
+    "@profileBadgesShowOnProfile": {
+        "description": "Screen reader label for a badge visibility switch in profile settings.",
+        "placeholders": {
+            "badgeLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "profileBadgesVisionaryNumberNote": "Shown only when your Visionary badge is visible and not masked.",
+    "@profileBadgesVisionaryNumberNote": {
+        "description": "Note under the Visionary ID row when its visibility switch is disabled."
     },
     "plutoniumBadgePrivacyTitle": "Plutonium badge privacy",
     "@plutoniumBadgePrivacyTitle": {
@@ -7886,6 +7915,15 @@
     "voiceScreenShareExitFullscreenTooltip": "Exit full screen",
     "@voiceScreenShareExitFullscreenTooltip": {
         "description": "Tooltip for leaving full screen while watching a screen share."
+    },
+    "voiceVideoZoomLevel": "Zoom {scale}",
+    "@voiceVideoZoomLevel": {
+        "description": "Accessibility label for the fullscreen call video pinch-zoom level indicator.",
+        "placeholders": {
+            "scale": {
+                "type": "String"
+            }
+        }
     },
     "voiceOwnScreenShareTitle": "You are broadcasting",
     "@voiceOwnScreenShareTitle": {

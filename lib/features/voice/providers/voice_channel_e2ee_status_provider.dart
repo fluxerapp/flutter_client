@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

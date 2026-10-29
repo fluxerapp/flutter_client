@@ -6,8 +6,8 @@ import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart'
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
-import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -429,6 +429,7 @@ UserPrivateResponse _privateUser(
     lastVoiceActivitySharingChangeAt: null,
     premiumBadgeHidden: false,
     premiumPerksDisabled: false,
+    hiddenProfileBadges: const <String>[],
   );
 }
 

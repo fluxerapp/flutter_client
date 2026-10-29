@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_status/voice_connection_status.dart';

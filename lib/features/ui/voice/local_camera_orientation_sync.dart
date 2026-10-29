@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
+import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class LocalCameraOrientationSync extends ConsumerStatefulWidget {

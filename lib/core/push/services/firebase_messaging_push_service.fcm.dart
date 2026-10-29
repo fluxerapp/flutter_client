@@ -1,4 +1,4 @@
-import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
+import 'package:fluxer_app/core/push/android/pipeline.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_tap_binding_host.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_service.dart';

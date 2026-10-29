@@ -13,7 +13,7 @@ jobs:
       LANG: en_US.UTF-8
       LC_ALL: en_US.UTF-8
       LANGUAGE: en_US.UTF-8
-      DEVELOPER_DIR: /Applications/Xcode_27.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
       FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
     steps:
       - name: Checkout repository
@@ -23,6 +23,12 @@ jobs:
 
       - name: Sync submodules
         run: git submodule update --init --recursive
+
+      - name: Verify Xcode 27.1 toolchain
+        run: |
+          set -euo pipefail
+          xcodebuild -version
+          xcodebuild -showsdks | grep -q 'iphoneos27.1'
 
       - name: Fetch shared canary build number
         id: canary_build_number

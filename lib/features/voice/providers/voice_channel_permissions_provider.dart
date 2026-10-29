@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_channel_permissions.dart';
+import 'package:fluxer_app/features/voice/utils/connection/channel_permissions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_channel_permissions_provider.g.dart';

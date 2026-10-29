@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_fiel
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 
 class SearchEnginesSyncedField
     extends

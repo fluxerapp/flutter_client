@@ -1877,7 +1877,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Anpassa din 4-siffriga tagg (#{discriminator}) som du vill med Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

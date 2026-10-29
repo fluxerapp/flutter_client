@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 class _PendingWellKnown extends WellKnown {

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_invite_entry.dart';
@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_invites_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
-import 'package:fluxer_app/features/settings/utils/guild_invites_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_invites_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';

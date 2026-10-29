@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/double_tap_reaction.dart';
-import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 
 void main() {

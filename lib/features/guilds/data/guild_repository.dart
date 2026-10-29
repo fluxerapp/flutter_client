@@ -86,6 +86,7 @@ class GuildRepository {
         embedSplash: Value(guild.embedSplash),
         splashCardAlignment: Value(guild.splashCardAlignment.json ?? 0),
         featuresJson: Value(jsonEncode(guild.features)),
+        badgeIdsJson: Value(jsonEncode(guild.badgeIds)),
         memberCount: Value(invite.memberCount),
         onlineCount: Value(invite.presenceCount),
       ),

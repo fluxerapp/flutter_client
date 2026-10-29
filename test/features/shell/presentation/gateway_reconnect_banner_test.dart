@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/gateway_reconnect_banner.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';

@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/operator_pass/operator_pass_wall_name_field.dart';
-import 'package:fluxer_app/features/settings/providers/operator_pass_listing_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
-import 'package:fluxer_app/features/settings/utils/operator_pass_marketing_urls.dart';
-import 'package:fluxer_app/features/settings/utils/operator_pass_utils.dart';
+import 'package:fluxer_app/features/settings/providers/commerce/operator_pass_listing_provider.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/operator_pass_marketing_urls.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/operator_pass_utils.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
@@ -87,7 +87,7 @@ class _OperatorPassWallSettingsState
       return;
     }
     final OperatorPassWallNameProblem? nextProblem =
-        getOperatorPassWallNameProblem(_nameController.text, _optOut);
+        getOperatorPassWallNameProblem(_nameController.text, optOut: _optOut);
     setState(() => _problem = nextProblem);
     if (nextProblem != null) {
       return;

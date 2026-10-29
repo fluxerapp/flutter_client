@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/gallery_attachment_selection.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
-import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -75,6 +75,8 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
     return const AttachmentGalleryState();
   }
 
+  // Wired from the panel when scroll dependencies are available
+  // ignore: use_setters_to_change_properties
   void attachScrollController(ScrollController scrollController) {
     _scrollController = scrollController;
   }

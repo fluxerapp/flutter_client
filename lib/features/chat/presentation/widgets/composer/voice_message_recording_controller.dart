@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/chat/services/voice_message_recording_servic
 import 'package:fluxer_app/features/chat/services/voice_message_send.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_recording_gestures.dart';
-import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';

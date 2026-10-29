@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_view.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -31,13 +32,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final UserSettingsViewState state = ref.watch(
       userSettingsViewModelProvider,
     );
+    final Color background = context.colors.backgroundPrimary;
     return Scaffold(
-      backgroundColor: context.colors.backgroundPrimary,
-      body: UserProfileView(
-        userId: state.userId,
-        autoFocusNote: false,
-        scrollController: _scrollController,
-        useCurrentUserCache: true,
+      backgroundColor: background,
+      body: HostedUiBackgroundBleed(
+        color: background,
+        child: UserProfileView(
+          userId: state.userId,
+          autoFocusNote: false,
+          scrollController: _scrollController,
+          useCurrentUserCache: true,
+        ),
       ),
     );
   }

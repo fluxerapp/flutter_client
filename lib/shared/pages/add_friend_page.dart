@@ -2,6 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/fullscreen_flow/fluxer_fullscreen_flow.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -12,18 +15,49 @@ class AddFriendPage {
   AddFriendPage._();
 
   static Future<void> show(BuildContext context) {
+    if (_presentAsBottomSheet(context)) {
+      return _showBottomSheet(context);
+    }
     return FluxerFullscreenFlow.push<void>(
       context,
       builder: (BuildContext pageContext) => FluxerPushPage(
         title: FluxerLocalizations.of(pageContext).addFriendSheetTitle,
+        useHostedAppBar: false,
         body: const _AddFriendPageBody(),
       ),
+    );
+  }
+
+  static bool _presentAsBottomSheet(BuildContext context) {
+    if (hasIphoneDuoSideStrip(context)) {
+      return false;
+    }
+    return isTabletLayout(context);
+  }
+
+  static Future<void> _showBottomSheet(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return FluxerBottomSheet.showScrollable<void>(
+      context,
+      title: l10n.addFriendSheetTitle,
+      useRootNavigator: true,
+      minChildSize: 0.55,
+      builder:
+          (
+            BuildContext sheetContext,
+            ScrollController scrollController,
+            VoidCallback close,
+          ) {
+            return _AddFriendPageBody(scrollController: scrollController);
+          },
     );
   }
 }
 
 class _AddFriendPageBody extends ConsumerWidget {
-  const _AddFriendPageBody();
+  const _AddFriendPageBody({this.scrollController});
+
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,6 +71,7 @@ class _AddFriendPageBody extends ConsumerWidget {
         .toList();
     final hasPendingRequests = incoming.isNotEmpty || outgoing.isNotEmpty;
     return ListView(
+      controller: scrollController,
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       padding: EdgeInsets.fromLTRB(
         context.layout.s4,

@@ -9,8 +9,8 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dir
 import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 import 'package:riverpod/riverpod.dart' as rp;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -146,6 +146,79 @@ void main() {
     expect(restored.hasMoreNewerMessages, isTrue);
   });
 
+  Future<(ChatViewModel, String)> loadChannelWithReader() async {
+    final db = openTestDatabase();
+    for (final String id in <String>['channel-1', 'channel-2']) {
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: id, guildId: 'guild-1', name: id),
+      );
+    }
+    final List<Map<String, Object?>> all = paginationChannelMessages(
+      'channel-1',
+      250,
+    );
+    final adapter = PaginatingAdapter(
+      messagesByChannel: {'channel-1': all},
+      pageLimit: 150,
+    );
+    final container = paginationContainer(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await paginationFlushAsync();
+    await notifier.loadMore();
+    await paginationFlushAsync();
+    final String readerId = all[125]['id']! as String;
+    notifier.setPendingTrimAround(channelId: 'channel-1', messageId: readerId);
+    return (notifier, readerId);
+  }
+
+  Future<void> leaveAndReturnToChannelOne(ChatViewModel notifier) async {
+    await notifier.switchChannel('channel-2', loadMessages: false);
+    await paginationFlushAsync();
+    await notifier.switchChannel('channel-1');
+    await paginationFlushAsync();
+  }
+
+  test('returning to a channel hands back the anchor saved when it was '
+      'parked', () async {
+    final (ChatViewModel notifier, String readerId) =
+        await loadChannelWithReader();
+    final ChannelScrollAnchor saved = (
+      messageId: readerId,
+      fraction: 0.25,
+      offset: 0,
+    );
+    notifier.registerScrollAnchorSource(
+      channelId: 'channel-1',
+      read: () => saved,
+    );
+    await leaveAndReturnToChannelOne(notifier);
+
+    expect(notifier.takeRestoredScrollAnchor('channel-1'), saved);
+  });
+
+  test('another list unregistering keeps the parked channel anchor '
+      'source', () async {
+    final (ChatViewModel notifier, String readerId) =
+        await loadChannelWithReader();
+    final ChannelScrollAnchor saved = (
+      messageId: readerId,
+      fraction: 0.25,
+      offset: 0,
+    );
+    ChannelScrollAnchor? voiceAnchor() =>
+        (messageId: 'voice-message', fraction: 0.5, offset: 0);
+    notifier
+      ..registerScrollAnchorSource(channelId: 'channel-1', read: () => saved)
+      ..registerScrollAnchorSource(channelId: 'voice-1', read: voiceAnchor)
+      ..unregisterScrollAnchorSource(voiceAnchor);
+    await leaveAndReturnToChannelOne(notifier);
+
+    expect(notifier.takeRestoredScrollAnchor('channel-1'), saved);
+  });
+
   test('recovery reconcile defers while the user is scrolling', () async {
     final db = openTestDatabase();
     final List<Map<String, Object?>> all = paginationChannelMessages(

@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_codec.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_crypto.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_decrypt.dart';

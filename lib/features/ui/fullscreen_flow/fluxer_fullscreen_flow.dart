@@ -1,11 +1,59 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoPageRoute;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
+import 'package:fluxer_app/core/providers/app/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_material_wrap.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+Widget _duoPushPageShell({
+  required Color backgroundColor,
+  required VoidCallback onBack,
+  required Widget child,
+}) {
+  return Material(
+    color: backgroundColor,
+    child: HostedUiBackgroundBleed(
+      color: backgroundColor,
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, _) {
+          if (didPop) {
+            return;
+          }
+          onBack();
+        },
+        child: child,
+      ),
+    ),
+  );
+}
+
+Widget _hostedUiFlowPage({
+  required BuildContext context,
+  required Color backgroundColor,
+  required String title,
+  required VoidCallback onBack,
+  required Widget body,
+}) {
+  return _duoPushPageShell(
+    backgroundColor: backgroundColor,
+    onBack: onBack,
+    child: AdaptiveScaffold(
+      backgroundColor: backgroundColor,
+      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
+      appBar: AdaptiveAppBar(title: title),
+      body: hostedUiMaterialWrap(context, color: backgroundColor, child: body),
+    ),
+  );
+}
 
 class FluxerFullscreenFlow {
   FluxerFullscreenFlow._();
@@ -18,7 +66,12 @@ class FluxerFullscreenFlow {
   static Future<T?> push<T>(
     BuildContext context, {
     required WidgetBuilder builder,
-  }) => _push<T>(context, MaterialPageRoute<T>(builder: builder));
+  }) {
+    final Route<T> route = defaultTargetPlatform == TargetPlatform.iOS
+        ? CupertinoPageRoute<T>(builder: builder)
+        : MaterialPageRoute<T>(builder: builder);
+    return _push<T>(context, route);
+  }
 
   static Future<T?> _push<T>(BuildContext context, Route<T> route) {
     final ProviderContainer container = ProviderScope.containerOf(context);
@@ -237,81 +290,92 @@ class FluxerFlowStep extends StatelessWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final textStyles = context.textStyles;
-    return Scaffold(
-      backgroundColor: colors.backgroundSecondary,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(
-              height: 48,
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.only(start: 4),
-                  child: IconButton(
-                    onPressed: onLeading,
-                    tooltip: isFirst ? l10n.uiClose : l10n.back,
-                    icon: PhosphorIcon(
-                      isFirst
-                          ? PhosphorIconsBold.x
-                          : PhosphorIconsBold.arrowLeft,
-                      size: 24,
-                      color: colors.textPrimary,
-                    ),
+    final bool hostedUiFlow = hasIphoneDuoSideStrip(context);
+    final Widget pageBody = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (!hostedUiFlow)
+          SizedBox(
+            height: 48,
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Padding(
+                padding: const EdgeInsetsDirectional.only(start: 4),
+                child: IconButton(
+                  onPressed: onLeading,
+                  tooltip: isFirst ? l10n.uiClose : l10n.back,
+                  icon: PhosphorIcon(
+                    isFirst ? PhosphorIconsBold.x : PhosphorIconsBold.arrowLeft,
+                    size: 24,
+                    color: colors.textPrimary,
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: EdgeInsets.fromLTRB(
-                  16,
-                  12,
-                  16,
-                  16 + MediaQuery.paddingOf(context).bottom,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: textStyles.heading.copyWith(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        height: 1.25,
-                        color: colors.textPrimary,
-                      ),
-                    ),
-                    if (description != null) ...<Widget>[
-                      const SizedBox(height: 8),
-                      Text(
-                        description!,
-                        textAlign: TextAlign.center,
-                        style: textStyles.bodyMedium.copyWith(
-                          fontSize: 15,
-                          height: 1.35,
-                          color: colors.textSecondary,
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: 24),
-                    child,
-                    if (action != null) ...<Widget>[
-                      const SizedBox(height: 24),
-                      action!,
-                    ],
-                  ],
-                ),
-              ),
+          ),
+        Expanded(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: EdgeInsets.fromLTRB(
+              16,
+              12,
+              16,
+              16 + MediaQuery.paddingOf(context).bottom,
             ),
-          ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                if (!hostedUiFlow)
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: textStyles.heading.copyWith(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      height: 1.25,
+                      color: colors.textPrimary,
+                    ),
+                  ),
+                if (description != null) ...<Widget>[
+                  if (!hostedUiFlow) const SizedBox(height: 8),
+                  Text(
+                    description!,
+                    textAlign: TextAlign.center,
+                    style: textStyles.bodyMedium.copyWith(
+                      fontSize: 15,
+                      height: 1.35,
+                      color: colors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ] else if (!hostedUiFlow)
+                  const SizedBox(height: 24),
+                child,
+                if (action != null) ...<Widget>[
+                  const SizedBox(height: 24),
+                  action!,
+                ],
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
+    );
+    final Widget column = hostedUiFlow
+        ? pageBody
+        : SafeArea(bottom: false, child: pageBody);
+    if (!hostedUiFlow) {
+      return Scaffold(
+        backgroundColor: colors.backgroundSecondary,
+        body: column,
+      );
+    }
+    return _hostedUiFlowPage(
+      context: context,
+      backgroundColor: colors.backgroundSecondary,
+      title: title,
+      onBack: onLeading,
+      body: column,
     );
   }
 }
@@ -323,6 +387,7 @@ class FluxerPushPage extends StatelessWidget {
     this.closes = false,
     this.onLeading,
     this.trailing,
+    this.useHostedAppBar = true,
     super.key,
   });
 
@@ -331,42 +396,49 @@ class FluxerPushPage extends StatelessWidget {
   final bool closes;
   final VoidCallback? onLeading;
   final Widget? trailing;
+  final bool useHostedAppBar;
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
-    return Scaffold(
-      backgroundColor: colors.backgroundSecondary,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(
-              height: 48,
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 88),
-                    child: Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: context.textStyles.heading.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: colors.textPrimary,
-                      ),
+    final bool duoSideStrip = hasIphoneDuoSideStrip(context);
+    final bool useHostedUiAppBar = duoSideStrip && useHostedAppBar;
+    final bool showInPageAppBar = !useHostedUiAppBar;
+    final bool showInPageLeading =
+        showInPageAppBar && showsInAppShellBackButton(context);
+    final VoidCallback leadingAction =
+        onLeading ?? () => Navigator.of(context).pop();
+    final Widget pageBody = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (showInPageAppBar)
+          SizedBox(
+            height: 48,
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: showInPageLeading ? 88 : 16,
+                  ),
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: context.textStyles.heading.copyWith(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: colors.textPrimary,
                     ),
                   ),
+                ),
+                if (showInPageLeading)
                   PositionedDirectional(
                     start: 4,
                     child: IconButton(
-                      onPressed:
-                          onLeading ?? () => Navigator.of(context).maybePop(),
+                      onPressed: leadingAction,
                       tooltip: closes ? l10n.uiClose : l10n.back,
                       icon: PhosphorIcon(
                         closes
@@ -377,13 +449,43 @@ class FluxerPushPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (trailing != null)
-                    PositionedDirectional(end: 4, child: trailing!),
-                ],
-              ),
+                if (trailing != null)
+                  PositionedDirectional(end: 4, child: trailing!),
+              ],
             ),
-            Expanded(child: body),
-          ],
+          ),
+        Expanded(child: body),
+      ],
+    );
+    final Widget column = duoSideStrip
+        ? pageBody
+        : SafeArea(bottom: false, child: pageBody);
+    if (useHostedUiAppBar) {
+      return _hostedUiFlowPage(
+        context: context,
+        backgroundColor: colors.backgroundSecondary,
+        title: title,
+        onBack: leadingAction,
+        body: column,
+      );
+    }
+    if (!duoSideStrip) {
+      return Scaffold(
+        backgroundColor: colors.backgroundSecondary,
+        body: column,
+      );
+    }
+    return _duoPushPageShell(
+      backgroundColor: colors.backgroundSecondary,
+      onBack: leadingAction,
+      child: AdaptiveScaffold(
+        backgroundColor: colors.backgroundSecondary,
+        resizeToAvoidBottomInset: false,
+        appBar: const AdaptiveAppBar(),
+        body: hostedUiMaterialWrap(
+          context,
+          color: colors.backgroundSecondary,
+          child: SafeArea(bottom: false, child: column),
         ),
       ),
     );

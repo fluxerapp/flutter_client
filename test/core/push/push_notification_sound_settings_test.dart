@@ -1,11 +1,11 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/android_push_channels.dart';
-import 'package:fluxer_app/core/push/android_push_conversation_history.dart';
-import 'package:fluxer_app/core/push/android_push_conversation_notification.dart';
-import 'package:fluxer_app/core/push/push_notification_sound.dart';
-import 'package:fluxer_app/core/push/push_notification_sound_settings.dart';
-import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
+import 'package:fluxer_app/core/push/android/channels.dart';
+import 'package:fluxer_app/core/push/android/conversation/history.dart';
+import 'package:fluxer_app/core/push/android/conversation/messaging_style.dart';
+import 'package:fluxer_app/core/push/notification/sound.dart';
+import 'package:fluxer_app/core/push/notification/sound_settings.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
 
 const Map<String, String> _guildPush = <String, String>{'guild_id': 'g1'};
 const Map<String, String> _dmPush = <String, String>{'guild_id': '@me'};

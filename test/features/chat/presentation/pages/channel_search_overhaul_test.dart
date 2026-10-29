@@ -26,7 +26,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/cha
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_token_chip.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';

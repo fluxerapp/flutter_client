@@ -11,9 +11,9 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
-import 'package:fluxer_app/features/settings/providers/local_settings_provider.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 
 class DrawerNavigationCoordinator {

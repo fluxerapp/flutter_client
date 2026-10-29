@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_pip_visibility.dart';
+import 'package:fluxer_app/features/voice/utils/pip/pip_visibility.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';

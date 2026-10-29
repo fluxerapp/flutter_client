@@ -260,7 +260,10 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     }
     removeDeliveredNotificationsForChannel(
       channelId: channelId,
-      upToMessageId: PushNotificationPayload.resolveMessageId(from: userInfo)
+      upToMessageId: PushNotificationPayload.resolveMessageId(
+        from: userInfo,
+        channelId: channelId
+      )
     ) {
       DispatchQueue.main.async(execute: finish)
     }
@@ -271,16 +274,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     completion: @escaping () -> Void
   ) {
     let raw = userInfo["badge_count"] ?? (userInfo["data"] as? [AnyHashable: Any])?["badge_count"]
-    let count: Int?
-    if let number = raw as? Int {
-      count = number
-    } else if let number = raw as? NSNumber {
-      count = number.intValue
-    } else if let text = raw as? String {
-      count = Int(text)
-    } else {
-      count = nil
-    }
+    let count = PushNotificationPayload.parseBadgeCount(raw)
     guard let count else {
       completion()
       return
@@ -304,22 +298,11 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       return
     }
     UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
-      let identifiers = notifications.compactMap { notification -> String? in
-        guard PushNotificationPayload.notificationMatchesChannel(notification, channelId: channelId)
-        else {
-          return nil
-        }
-        let messageId = PushNotificationPayload.resolveMessageId(
-          from: notification.request.content.userInfo
-        )
-        guard PushNotificationPayload.messageIsCoveredByAck(
-          messageId: messageId,
-          upToMessageId: upToMessageId
-        ) else {
-          return nil
-        }
-        return notification.request.identifier
-      }
+      let identifiers = PushNotificationPayload.deliveredNotificationIdentifiersToRemove(
+        from: notifications,
+        channelId: channelId,
+        upToMessageId: upToMessageId
+      )
       if identifiers.isEmpty {
         completion?()
         return

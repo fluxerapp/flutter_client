@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/local_day_provider.dart';
+import 'package:fluxer_app/core/providers/app/local_day_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -13,12 +13,12 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_r
 import 'package:fluxer_app/features/chat/utils/messages/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/messages/system_message_text.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
+import 'package:fluxer_app/features/voice/utils/connection/connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';

@@ -12,10 +12,10 @@ import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
@@ -23,17 +23,17 @@ import 'package:fluxer_app/core/system_permissions/system_permission_service.dar
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
-import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
-import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
+import 'package:fluxer_app/features/settings/utils/sound/sound_sfx_playback.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
-import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_callkit_engine_gate_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_capability_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_permissions_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
@@ -43,26 +43,26 @@ import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_til
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
-import 'package:fluxer_app/features/voice/utils/android_screen_share_background.dart';
-import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
-import 'package:fluxer_app/features/voice/utils/entrance_sound_playback.dart';
-import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
-import 'package:fluxer_app/features/voice/utils/voice_audio_publish_options.dart';
-import 'package:fluxer_app/features/voice/utils/voice_audio_route_recovery.dart';
-import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
-import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
-import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
-import 'package:fluxer_app/features/voice/utils/voice_channel_permissions.dart';
-import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_join_timing.dart';
-import 'package:fluxer_app/features/voice/utils/voice_lifecycle_log.dart';
-import 'package:fluxer_app/features/voice/utils/voice_media_teardown.dart';
-import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
-import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
-import 'package:fluxer_app/features/voice/utils/voice_server_update_decision.dart';
-import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
-import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
+import 'package:fluxer_app/features/voice/utils/audio/audio_publish_options.dart';
+import 'package:fluxer_app/features/voice/utils/audio/audio_route_recovery.dart';
+import 'package:fluxer_app/features/voice/utils/audio/effective_audio_state.dart';
+import 'package:fluxer_app/features/voice/utils/audio/entrance_sound_playback.dart';
+import 'package:fluxer_app/features/voice/utils/audio/microphone_permission.dart';
+import 'package:fluxer_app/features/voice/utils/audio/participant_volume_utils.dart';
+import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
+import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
+import 'package:fluxer_app/features/voice/utils/connection/channel_join_guard.dart';
+import 'package:fluxer_app/features/voice/utils/connection/channel_permissions.dart';
+import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
+import 'package:fluxer_app/features/voice/utils/connection/join_timing.dart';
+import 'package:fluxer_app/features/voice/utils/connection/media_teardown.dart';
+import 'package:fluxer_app/features/voice/utils/connection/server_update_decision.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
+import 'package:fluxer_app/features/voice/utils/lifecycle/lifecycle_log.dart';
+import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/android_screen_share_background.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
@@ -3157,6 +3157,7 @@ class VoiceSession extends _$VoiceSession {
     _isRecoveringAudioRoute = false;
     unawaited(_mediaDeviceChangeSubscription?.cancel());
     _mediaDeviceChangeSubscription = null;
+    unawaited(clearNativeVoiceOutputRouteHold());
   }
 
   Set<String> _audioInputDeviceIds(List<MediaDevice> devices) {
@@ -3226,19 +3227,51 @@ class VoiceSession extends _$VoiceSession {
 
     final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
     final VoiceSettingsApplicator applicator = _voiceSettingsApplicator();
+    final bool isAndroid = Platform.isAndroid;
+    final bool isIos = Platform.isIOS;
+    final bool isMobile = isAndroid || isIos;
+    final bool isDesktop = !isMobile;
 
     _isRecoveringAudioRoute = true;
     try {
-      if (outputChanged) {
+      if (shouldReapplyMobileVoiceOutputOnDeviceChange(
+        isIos: isIos,
+        isAndroid: isAndroid,
+        outputChanged: outputChanged,
+      )) {
         await _runAudioRouteRecoveryStep(
           'applySpeakerOutput',
           () => applicator.applySpeakerOutput(settings: settings),
         );
+      } else if (shouldReapplyDesktopAudioOutputOnDeviceChange(
+        isDesktop: isDesktop,
+        outputChanged: outputChanged,
+        configuredOutputDeviceId: settings.outputDeviceId,
+        availableOutputDeviceIds: outputIds,
+      )) {
+        await _runAudioRouteRecoveryStep(
+          'applyDesktopAudioOutput',
+          () => _applyAudioOutputDevice(settings.outputDeviceId),
+        );
+      } else if (shouldClearMissingDesktopOutputDevice(
+        isDesktop: isDesktop,
+        outputChanged: outputChanged,
+        configuredOutputDeviceId: settings.outputDeviceId,
+        availableOutputDeviceIds: outputIds,
+      )) {
+        await _runAudioRouteRecoveryStep('clearDesktopAudioOutput', () async {
+          await ref
+              .read(voiceSettingsProvider.notifier)
+              .setOutputDeviceId(kDefaultVoiceDeviceId);
+        });
       }
       if (inputChanged &&
           shouldRefreshMicrophoneOnAudioRouteChange(
-            isIos: Platform.isIOS,
+            isIos: isIos,
+            isAndroid: isAndroid,
             isForeground: ref.read(appUiForegroundProvider),
+            configuredInputDeviceId: settings.inputDeviceId,
+            availableInputDeviceIds: inputIds,
           ) &&
           _shouldPublishMicrophone()) {
         await _runAudioRouteRecoveryStep('refreshMicrophone', () async {
@@ -3380,6 +3413,7 @@ class VoiceSession extends _$VoiceSession {
         isInVoice: state.isInVoice,
         speakerPreferenceChanged:
             previous != null && previous.outputRoute != next.outputRoute,
+        isAndroid: Platform.isAndroid,
       )) {
         _scheduleSpeakerOutputRetry();
       }

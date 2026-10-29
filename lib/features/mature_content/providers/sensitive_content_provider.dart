@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

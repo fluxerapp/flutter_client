@@ -8,11 +8,12 @@ import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
-import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/threads/data/thread_api_errors.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
+import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -71,14 +72,20 @@ Future<void> openThread(
   BuildContext context,
   WidgetRef ref,
   Channel thread, {
+  required bool fromParent,
   String? messageId,
-}) => navigateToGuildChannelContent(
-  context: context,
-  ref: ref,
-  guildId: thread.guildId,
-  channel: thread,
-  messageId: messageId,
-);
+}) {
+  ref
+      .read(threadEnteredFromParentProvider.notifier)
+      .enter(thread.id, fromParent: fromParent);
+  return navigateToGuildChannelContent(
+    context: context,
+    ref: ref,
+    guildId: thread.guildId,
+    channel: thread,
+    messageId: messageId,
+  );
+}
 
 Future<bool> joinThread(BuildContext context, WidgetRef ref, Channel thread) =>
     runThreadAction(

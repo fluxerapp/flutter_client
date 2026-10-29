@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/premium/premium_state_response_json.dart';
-import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/premium_subscription_status.dart';
 import 'package:fluxer_dart/export.dart';
 
 UserPrivateResponse _user({
@@ -54,6 +54,7 @@ UserPrivateResponse _user({
     lastVoiceActivitySharingChangeAt: null,
     premiumBadgeHidden: false,
     premiumPerksDisabled: false,
+    hiddenProfileBadges: const <String>[],
   );
 }
 

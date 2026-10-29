@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 VoiceState _voiceState({

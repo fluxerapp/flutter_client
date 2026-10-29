@@ -12,10 +12,14 @@ class ObservabilityReportingPromptDismissed
   @override
   bool build() => false;
 
-  Future<void> load() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
+  void restoreFromPreferences(SharedPreferences preferences) {
     state =
         preferences.getBool(kObservabilityReportingPromptDismissedKey) ?? false;
+  }
+
+  Future<void> load() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    restoreFromPreferences(preferences);
   }
 
   Future<void> dismissPermanently() async {
@@ -39,12 +43,18 @@ class ObservabilityReportingPrompt extends _$ObservabilityReportingPrompt {
     state = true;
   }
 
-  void beginPresentation() {
+  bool beginPresentation() {
+    if (_presentationInFlight) {
+      return false;
+    }
     _presentationInFlight = true;
     state = false;
+    return true;
   }
 
   void endPresentation() {
     _presentationInFlight = false;
   }
+
+  bool get isPresentationInFlight => _presentationInFlight;
 }

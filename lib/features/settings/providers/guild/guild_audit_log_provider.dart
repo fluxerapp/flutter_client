@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_entry.
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_state.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_audit_log_member_repository_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
-import 'package:fluxer_app/features/settings/utils/guild_audit_log_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_audit_log_utils.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

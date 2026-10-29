@@ -14,7 +14,7 @@ import 'package:fluxer_app/features/chat/data/channel_search_history_repository.
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_recent_row.dart';
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';

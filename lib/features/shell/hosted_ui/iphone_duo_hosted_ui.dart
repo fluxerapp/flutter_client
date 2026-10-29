@@ -5,14 +5,7 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-bool usesIphoneDuoHostedUi(BuildContext context) {
-  if (kIsWeb || !Platform.isIOS || !PlatformInfo.isIOS26OrHigher()) {
-    return false;
-  }
-  final EdgeInsets viewPadding = MediaQuery.viewPaddingOf(context);
-  if (viewPadding.top != 0) {
-    return false;
-  }
+bool hasIphoneDuoAsymmetricSideInset(EdgeInsets viewPadding) {
   if (viewPadding.right > 0 && viewPadding.left == 0) {
     return true;
   }
@@ -22,8 +15,22 @@ bool usesIphoneDuoHostedUi(BuildContext context) {
   return false;
 }
 
+bool hasIphoneDuoSideStrip(BuildContext context) {
+  if (kIsWeb || !Platform.isIOS || !PlatformInfo.isIOS26OrHigher()) {
+    return false;
+  }
+  return hasIphoneDuoAsymmetricSideInset(MediaQuery.viewPaddingOf(context));
+}
+
+bool usesIphoneDuoHostedUi(BuildContext context) {
+  if (!hasIphoneDuoSideStrip(context)) {
+    return false;
+  }
+  return MediaQuery.viewPaddingOf(context).top == 0;
+}
+
 bool showsInAppShellBackButton(BuildContext context) =>
-    !usesIphoneDuoHostedUi(context);
+    !hasIphoneDuoSideStrip(context);
 
 bool isPreShellRoute(String location) {
   return location == '/login' ||
@@ -35,8 +42,9 @@ bool showsIphoneDuoWindowBackground({
   required bool isAuthenticated,
   required String location,
   required bool splashExitAllowed,
+  required bool splashRevealComplete,
 }) {
-  if (!isAuthenticated || !splashExitAllowed) {
+  if (!isAuthenticated || !splashExitAllowed || !splashRevealComplete) {
     return false;
   }
   return !isPreShellRoute(location);

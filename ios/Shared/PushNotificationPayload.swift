@@ -42,11 +42,11 @@ enum PushNotificationPayload {
   }
 
   static func replyMessageId(from userInfo: [AnyHashable: Any]) -> String? {
-    if let messageId = userInfo["message_id"] as? String, !messageId.isEmpty {
+    if let messageId = nonEmptyText(userInfo["message_id"]) {
       return messageId
     }
     if let data = userInfo["data"] as? [AnyHashable: Any],
-      let messageId = data["message_id"] as? String, !messageId.isEmpty
+      let messageId = nonEmptyText(data["message_id"])
     {
       return messageId
     }
@@ -123,17 +123,85 @@ enum PushNotificationPayload {
     return Date(timeIntervalSince1970: TimeInterval(sentMs) / 1000)
   }
 
-  static func resolveMessageId(from userInfo: [AnyHashable: Any]) -> String? {
+  static func resolveMessageId(
+    from userInfo: [AnyHashable: Any],
+    channelId: String? = nil
+  ) -> String? {
     if let messageId = replyMessageId(from: userInfo) {
       return messageId
     }
-    if let id = userInfo["id"] as? String, !id.isEmpty {
+    if let id = nonEmptyText(userInfo["id"]) {
       return id
     }
     if let data = userInfo["data"] as? [AnyHashable: Any],
-      let id = data["id"] as? String, !id.isEmpty
+      let id = nonEmptyText(data["id"])
     {
       return id
+    }
+    if let channelId, !channelId.isEmpty {
+      if let messageId = messageIdFromPayloadTags(in: userInfo, channelId: channelId) {
+        return messageId
+      }
+      if let threadId = resolveChannelThreadIdentifier(from: userInfo),
+        let messageId = messageIdFromChannelTag(threadId, channelId: channelId)
+      {
+        return messageId
+      }
+    }
+    return nil
+  }
+
+  static func messageIdFromChannelTag(_ tag: String, channelId: String) -> String? {
+    let channelTag = "channel:\(channelId)"
+    let prefix = "\(channelTag):"
+    guard tag.hasPrefix(prefix) else {
+      return nil
+    }
+    let messageId = String(tag.dropFirst(prefix.count))
+    return messageId.isEmpty ? nil : messageId
+  }
+
+  static func deliveredNotificationIdentifiersToRemove(
+    from notifications: [UNNotification],
+    channelId: String,
+    upToMessageId: String?
+  ) -> [String] {
+    let matched = notifications.filter {
+      notificationMatchesChannel($0, channelId: channelId)
+    }
+    let entries = matched.map { notification -> (identifier: String, messageId: String?) in
+      let messageId = resolveMessageIdForDeliveredNotification(
+        notification.request.content,
+        channelId: channelId
+      )
+      return (notification.request.identifier, messageId)
+    }
+    let unreadRemain = entries.contains { entry in
+      !messageIsCoveredByAck(messageId: entry.messageId, upToMessageId: upToMessageId)
+    }
+    return entries.compactMap { entry in
+      if entry.messageId == nil {
+        return unreadRemain ? nil : entry.identifier
+      }
+      guard messageIsCoveredByAck(messageId: entry.messageId, upToMessageId: upToMessageId) else {
+        return nil
+      }
+      return entry.identifier
+    }
+  }
+
+  private static func resolveMessageIdForDeliveredNotification(
+    _ content: UNNotificationContent,
+    channelId: String
+  ) -> String? {
+    if let messageId = resolveMessageId(from: content.userInfo, channelId: channelId) {
+      return messageId
+    }
+    let threadId = content.threadIdentifier
+    if !threadId.isEmpty,
+      let messageId = messageIdFromChannelTag(threadId, channelId: channelId)
+    {
+      return messageId
     }
     return nil
   }
@@ -201,6 +269,16 @@ enum PushNotificationPayload {
     if let data = userInfo["data"] as? [AnyHashable: Any] {
       if isClearValue(data["type"]) || isClearValue(data["action"]) {
         return true
+      }
+    }
+    if let notification = userInfo["notification"] as? [AnyHashable: Any] {
+      if isClearValue(notification["type"]) || isClearValue(notification["action"]) {
+        return true
+      }
+      if let data = notification["data"] as? [AnyHashable: Any] {
+        if isClearValue(data["type"]) || isClearValue(data["action"]) {
+          return true
+        }
       }
     }
     return false
@@ -391,9 +469,17 @@ enum PushNotificationPayload {
     {
       return true
     }
-    let tag = (userInfo["tag"] as? String) ?? (userInfo["notification_tag"] as? String)
-    if let tag, tag == channelTag || tag.hasPrefix("\(channelTag):") {
-      return true
+    if let tag = nonEmptyText(userInfo["tag"]) ?? nonEmptyText(userInfo["notification_tag"]) {
+      if tag == channelTag || tag.hasPrefix("\(channelTag):") {
+        return true
+      }
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any] {
+      if let tag = nonEmptyText(data["tag"]) ?? nonEmptyText(data["notification_tag"]) {
+        if tag == channelTag || tag.hasPrefix("\(channelTag):") {
+          return true
+        }
+      }
     }
     return false
   }
@@ -404,6 +490,29 @@ enum PushNotificationPayload {
     }
     if let data = userInfo["data"] as? [AnyHashable: Any] {
       return nonEmptyText(data[key])
+    }
+    return nil
+  }
+
+  private static func messageIdFromPayloadTags(
+    in userInfo: [AnyHashable: Any],
+    channelId: String
+  ) -> String? {
+    for key in ["tag", "notification_tag"] {
+      if let tag = nonEmptyText(userInfo[key]),
+        let messageId = messageIdFromChannelTag(tag, channelId: channelId)
+      {
+        return messageId
+      }
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any] {
+      for key in ["tag", "notification_tag"] {
+        if let tag = nonEmptyText(data[key]),
+          let messageId = messageIdFromChannelTag(tag, channelId: channelId)
+        {
+          return messageId
+        }
+      }
     }
     return nil
   }
@@ -443,10 +552,17 @@ enum PushNotificationPayload {
   }
 
   private static func isClearValue(_ value: Any?) -> Bool {
-    guard let string = value as? String, !string.isEmpty else {
+    guard let string = nonEmptyText(value) else {
       return false
     }
     return string == "notification_clear" || string == "clear_channel"
+  }
+
+  static func parseBadgeCount(_ value: Any?) -> Int? {
+    guard let text = nonEmptyText(value) else {
+      return nil
+    }
+    return Int(text)
   }
 
   private static func nonEmptyText(_ value: Any?) -> String? {

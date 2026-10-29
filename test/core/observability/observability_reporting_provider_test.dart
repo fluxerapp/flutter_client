@@ -140,16 +140,33 @@ void main() {
     expect(harness.measure.starts, 1);
   });
 
-  test('a build without native keys never starts and saves off', () async {
+  test(
+    'a build without native keys records on but does not start the SDK',
+    () async {
+      final _Harness harness = _Harness(nativeConfigured: false);
+      addTearDown(harness.container.dispose);
+
+      await harness.notifier.setEnabled(value: true);
+
+      expect(harness.state, isFalse);
+      expect(await _storedSwitch(), isTrue);
+      expect(harness.nativeInitializations, 1);
+      expect(harness.measure.starts, 0);
+      expect(harness.observability.isEnabled, isFalse);
+    },
+  );
+
+  test('opt-in stays saved when the SDK fails to start on launch', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'flutter.$kObservabilityReportingEnabledKey': true,
+    });
     final _Harness harness = _Harness(nativeConfigured: false);
     addTearDown(harness.container.dispose);
 
-    await harness.notifier.setEnabled(value: true);
+    await harness.notifier.load();
 
     expect(harness.state, isFalse);
-    expect(await _storedSwitch(), isFalse);
-    expect(harness.nativeInitializations, 1);
+    expect(await _storedSwitch(), isTrue);
     expect(harness.measure.starts, 0);
-    expect(harness.observability.isEnabled, isFalse);
   });
 }

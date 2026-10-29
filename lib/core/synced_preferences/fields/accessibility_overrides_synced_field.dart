@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as accessibility_pb;
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 
 class AccessibilityOverridesLocalState {
   const AccessibilityOverridesLocalState({

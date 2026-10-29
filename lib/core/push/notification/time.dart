@@ -1,0 +1,17 @@
+import 'package:fluxer_app/core/push/notification/ids.dart';
+import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+
+const int _kMaxFutureSkewMs = 60 * 1000;
+
+int? resolvePushNotificationWhenMillis(Map<String, String> payload) {
+  final String? messageId = resolvePushNotificationMessageId(payload);
+  final int? ms = snowflakeTimestampMsOrNull(messageId);
+  if (ms == null || ms < kSnowflakeEpochMs) {
+    return null;
+  }
+  final int now = DateTime.now().millisecondsSinceEpoch;
+  if (ms > now + _kMaxFutureSkewMs) {
+    return null;
+  }
+  return ms;
+}

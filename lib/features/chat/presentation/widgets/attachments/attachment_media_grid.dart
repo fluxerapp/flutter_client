@@ -19,13 +19,14 @@ import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/messages/spoiler_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:intl/intl.dart';
 
 class AttachmentMediaGrid extends ConsumerWidget {
   const AttachmentMediaGrid({
@@ -59,6 +60,11 @@ class AttachmentMediaGrid extends ConsumerWidget {
         (AppearancePreferencesState state) => state.hdrDisplayMode,
       ),
     );
+    final bool showExpiryIndicator = ref.watch(
+      advancedPreferencesProvider.select(
+        (AdvancedPreferencesState state) => state.showAttachmentExpiryIndicator,
+      ),
+    );
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
     );
@@ -68,7 +74,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildLayout(context),
-          if (_hasExpiry)
+          if (_hasExpiry && showExpiryIndicator)
             AttachmentExpiryFootnote(text: _buildExpiryText(context)),
         ],
       ),
@@ -395,9 +401,14 @@ class AttachmentMediaGrid extends ConsumerWidget {
       return '';
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final DateFormat dateFormat = DateFormat('dd MMM, yyyy', l10n.localeName);
-    final String earliest = dateFormat.format(dates.first);
-    final String latest = dateFormat.format(dates.last);
+    final String earliest = formatUserMediumDate(
+      dates.first.toLocal(),
+      l10n.localeName,
+    );
+    final String latest = formatUserMediumDate(
+      dates.last.toLocal(),
+      l10n.localeName,
+    );
     if (earliest == latest) {
       return l10n.chatAttachmentExpiresOn(earliest);
     }

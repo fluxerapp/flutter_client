@@ -6,13 +6,13 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_system_ui_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
-import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_capability_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_fullscreen_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_call_grid_stage_insets.dart';
+import 'package:fluxer_app/features/voice/utils/grid_layout/call_grid_stage_insets.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_limits.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_limits.dart';
 import 'package:fluxer_dart/export.dart';
 
 void main() {

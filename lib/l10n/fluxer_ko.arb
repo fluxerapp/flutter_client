@@ -1877,7 +1877,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Plutonium으로 4자리 태그(#{discriminator})를 원하는 대로 꾸며보세요",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

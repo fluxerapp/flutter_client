@@ -255,20 +255,22 @@ class _GuildTooltipContent extends ConsumerWidget {
     this.muteEndTime,
   });
 
-  String _mutedText(FluxerLocalizations l10n) {
+  String _mutedText(FluxerLocalizations l10n, {required bool use12Hour}) {
     if (muteEndTime == null) {
       return l10n.voiceParticipantTooltipMuted;
     }
-    final String formattedDate = DateFormat(
-      'MMM d, y h:mm a',
+    final String formattedDate = formatUserDateTime(
+      muteEndTime!.toLocal(),
       l10n.localeName,
-    ).format(muteEndTime!);
+      use12Hour: use12Hour,
+    );
     return l10n.guildNavbarMutedUntil(formattedDate);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
     final voiceRows =
         ref.watch(guildVoiceParticipantsProvider(guild.id)).value ??
         const <VoiceParticipantRow>[];
@@ -341,7 +343,7 @@ class _GuildTooltipContent extends ConsumerWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        _mutedText(l10n),
+                        _mutedText(l10n, use12Hour: use12Hour),
                         style: context.textStyles.bodySmall.copyWith(
                           color: context.colors.textSecondary,
                           fontSize: 13,

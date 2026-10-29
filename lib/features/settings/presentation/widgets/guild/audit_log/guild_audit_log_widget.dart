@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_lo
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_audit_log_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

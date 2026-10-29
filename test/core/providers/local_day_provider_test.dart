@@ -4,9 +4,9 @@ import 'package:clock/clock.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
-import 'package:fluxer_app/core/providers/local_day_provider.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/local_day_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 class _IdleWellKnown extends WellKnown {

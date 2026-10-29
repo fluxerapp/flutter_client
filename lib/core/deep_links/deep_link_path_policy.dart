@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_link_parser.dart';
 
 const String appProtocolScheme = 'fluxer';
 

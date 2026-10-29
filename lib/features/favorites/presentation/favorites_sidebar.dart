@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_cha
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_header.dart';
 import 'package:fluxer_app/features/favorites/utils/navigate_to_favorite_channel.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class FavoritesSidebar extends ConsumerWidget {

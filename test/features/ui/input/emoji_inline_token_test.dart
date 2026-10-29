@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controlle
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
-import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_sprite_sheet.dart';
 
 ({String display, String wire, int chips}) _substitute(
   String raw, {

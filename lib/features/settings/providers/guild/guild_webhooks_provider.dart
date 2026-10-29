@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
-import 'package:fluxer_app/features/settings/utils/guild_webhook_updates.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_webhook_updates.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

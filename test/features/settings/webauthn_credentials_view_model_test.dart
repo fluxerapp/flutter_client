@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/webauthn_credentials_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 
 class _FakeUsersApi implements UsersApi {

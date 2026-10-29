@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_members_sheet.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_settings_sheet.dart';

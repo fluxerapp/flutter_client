@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_hangout_layout.dart';
+import 'package:fluxer_app/features/voice/utils/grid_layout/hangout_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class VoiceGalleryPageDots extends StatelessWidget {

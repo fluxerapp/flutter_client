@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/profile/utils/profile_badge_keys.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,11 +14,11 @@ ProfileBadgePreviewRequest profileBadgePreviewRequestFrom(
   UserSettingsViewState settings,
 ) {
   return ProfileBadgePreviewRequest(
-    premiumBadgeHidden: settings.effectivePremiumBadgeHidden,
+    hiddenProfileBadges: sortedProfileBadgeKeys(
+      settings.effectiveHiddenProfileBadges,
+    ),
     premiumBadgeMasked: settings.effectivePremiumBadgeMasked,
     premiumBadgeTimestampHidden: settings.effectivePremiumBadgeTimestampHidden,
-    premiumBadgeSequenceHidden: settings.effectivePremiumBadgeSequenceHidden,
-    operatorPassBadgeHidden: settings.effectiveOperatorPassBadgeHidden,
     operatorPassBadgeTimestampHidden:
         settings.effectiveOperatorPassBadgeTimestampHidden,
     operatorPassBadgeCountHidden:
@@ -34,26 +35,27 @@ List<ProfileBadgeResponse> ownProfileBadges(Ref ref) {
 }
 
 @riverpod
-class OwnProfileBadgesPreview extends _$OwnProfileBadgesPreview {
+class OwnProfileBadgesSettingsPreview
+    extends _$OwnProfileBadgesSettingsPreview {
   @override
-  Future<List<ProfileBadgeResponse>> build() async {
+  Future<ProfileBadgePreviewResponse?> build() async {
     final UserSettingsViewState settings = ref.watch(
       userSettingsViewModelProvider,
     );
     if (settings.userId.isEmpty || !settings.isProfileLoaded) {
-      return const <ProfileBadgeResponse>[];
+      return null;
     }
 
     await Future<void>.delayed(_kProfileBadgesPreviewDebounce);
     if (!ref.mounted) {
-      return const <ProfileBadgeResponse>[];
+      return null;
     }
 
     final UserSettingsViewState latest = ref.read(
       userSettingsViewModelProvider,
     );
     if (latest.userId.isEmpty || !latest.isProfileLoaded) {
-      return const <ProfileBadgeResponse>[];
+      return null;
     }
 
     final ProfileBadgePreviewRequest body = profileBadgePreviewRequestFrom(
@@ -61,14 +63,25 @@ class OwnProfileBadgesPreview extends _$OwnProfileBadgesPreview {
     );
 
     try {
-      final ProfileBadgePreviewResponse response = await ref
+      return await ref
           .read(fluxerClientProvider)
           .users
           .previewProfileBadges(body: body);
-      return response.profileBadges;
     } on Object catch (e, st) {
       talker.error('Failed to preview profile badges', e, st);
-      return const <ProfileBadgeResponse>[];
+      return null;
     }
+  }
+}
+
+@riverpod
+class OwnProfileBadgesPreview extends _$OwnProfileBadgesPreview {
+  @override
+  Future<List<ProfileBadgeResponse>> build() async {
+    final AsyncValue<ProfileBadgePreviewResponse?> settingsPreview = ref.watch(
+      ownProfileBadgesSettingsPreviewProvider,
+    );
+    return settingsPreview.value?.profileBadges ??
+        const <ProfileBadgeResponse>[];
   }
 }

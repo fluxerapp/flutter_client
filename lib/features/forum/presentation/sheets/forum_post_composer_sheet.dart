@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.dart';
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -189,11 +190,12 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
     final BuildContext hostContext = widget.hostContext;
     final WidgetRef hostRef = widget.hostRef;
     widget.close();
-    await navigateToChannelContent(
-      context: hostContext,
-      ref: hostRef,
+    await openThreadById(
+      hostContext,
+      hostRef,
       guildId: forum.guildId,
-      channelId: postId,
+      threadId: postId,
+      fromParent: true,
     );
   }
 

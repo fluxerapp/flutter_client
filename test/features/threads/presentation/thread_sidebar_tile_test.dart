@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_sidebar_tile.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';

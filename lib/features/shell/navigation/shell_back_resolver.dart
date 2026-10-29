@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 
 enum ShellBackAction {
   popOverlay,
@@ -65,6 +65,9 @@ ShellBackAction resolveShellBackAction({
       return ShellBackAction.leaveChat;
     }
     return ShellBackAction.closeDrawer;
+  }
+  if (isThreadChat) {
+    return ShellBackAction.leaveChat;
   }
   return ShellBackAction.revealDrawer;
 }

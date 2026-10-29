@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
@@ -25,7 +25,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator
         FileUploadValidationResult,
         FileUploadValidator;
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:path/path.dart' as path_lib;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

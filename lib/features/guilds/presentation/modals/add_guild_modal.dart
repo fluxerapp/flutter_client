@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/data/discord_template_fetcher.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_create_view.dart';
@@ -14,8 +14,8 @@ import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.
 import 'package:fluxer_app/features/guilds/services/create_community_service.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
 import 'package:fluxer_app/features/guilds/utils/discord_template_parser.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_link_parser.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';

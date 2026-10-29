@@ -347,6 +347,7 @@ void main() {
                 system: false,
                 status: 'idle',
                 mobile: false,
+                hiddenProfileBadgesJson: '[]',
               ),
             }),
           ],

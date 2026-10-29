@@ -8,8 +8,8 @@ import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_screen_share_audio.dart';
 import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
-import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
-import 'package:fluxer_app/features/voice/utils/voice_video_subscription.dart';
+import 'package:fluxer_app/features/voice/utils/media/participant_track_resolver.dart';
+import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -70,6 +70,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   bool _trackSyncScheduled = false;
   Timer? _unsubscribeGrace;
   bool _hadScreenShareFrame = false;
+  String? _trackSyncKey;
 
   @override
   void didUpdateWidget(covariant VoiceParticipantMediaTile oldWidget) {
@@ -139,31 +140,48 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
     if (participant == null) {
       return;
     }
-    if (widget.tileSource == VoiceParticipantTileSource.screenShare) {
-      unawaited(
-        participant.setVideoWanted(
-          TrackSource.screenShareVideo,
-          wanted: shouldSubscribeRemoteScreenShare(
+    final bool screenShare =
+        widget.tileSource == VoiceParticipantTileSource.screenShare;
+    final bool wanted = screenShare
+        ? shouldSubscribeRemoteScreenShare(
             isActiveScreenShare: widget.isActiveScreenShare,
-          ),
-          quality: widget.subscribeQuality,
-        ),
-      );
-      unawaited(
-        participant.setScreenShareAudioWanted(
-          wanted: widget.isActiveScreenShare,
-        ),
-      );
+          )
+        : shouldSubscribeRemoteCamera(
+            tileVisible: _tileVisible,
+            omitVideoTrack: widget.omitVideoTrack,
+          );
+    final String key =
+        '${identityHashCode(participant)}|'
+        '${screenShare ? participant.hasScreenShare : participant.hasCamera}|'
+        '$wanted|${widget.subscribeQuality.index}|${widget.isActiveScreenShare}';
+    if (key == _trackSyncKey) {
       return;
     }
+    _trackSyncKey = key;
+    final Future<void> pending = screenShare
+        ? Future.wait<void>(<Future<void>>[
+            participant.setVideoWanted(
+              TrackSource.screenShareVideo,
+              wanted: wanted,
+              quality: widget.subscribeQuality,
+            ),
+            participant.setScreenShareAudioWanted(
+              wanted: widget.isActiveScreenShare,
+            ),
+          ])
+        : participant.setVideoWanted(
+            TrackSource.camera,
+            wanted: wanted,
+            quality: widget.subscribeQuality,
+          );
     unawaited(
-      participant.setVideoWanted(
-        TrackSource.camera,
-        wanted: shouldSubscribeRemoteCamera(
-          tileVisible: _tileVisible,
-          omitVideoTrack: widget.omitVideoTrack,
-        ),
-        quality: widget.subscribeQuality,
+      pending.then<void>(
+        (_) {},
+        onError: (Object _) {
+          if (_trackSyncKey == key) {
+            _trackSyncKey = null;
+          }
+        },
       ),
     );
   }
@@ -265,10 +283,12 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
             } else {
               mirrorMode = VideoViewMirrorMode.off;
             }
-            final Widget videoChild = VoiceCachedVideoTrack(
-              track: track,
-              fit: fit,
-              mirrorMode: mirrorMode,
+            final Widget videoChild = _SettledVideoSize(
+              child: VoiceCachedVideoTrack(
+                track: track,
+                fit: fit,
+                mirrorMode: mirrorMode,
+              ),
             );
             Widget videoWidget = ColoredBox(
               color: widget.backgroundColor,
@@ -460,5 +480,75 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
         ),
       ),
     );
+  }
+}
+
+class _SettledVideoSize extends StatefulWidget {
+  const _SettledVideoSize({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_SettledVideoSize> createState() => _SettledVideoSizeState();
+}
+
+class _SettledVideoSizeState extends State<_SettledVideoSize> {
+  Size? _layoutSize;
+  Size? _pendingSize;
+  int _generation = 0;
+
+  bool _near(Size a, Size b) {
+    return (a.width - b.width).abs() < 0.5 && (a.height - b.height).abs() < 0.5;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double width = constraints.maxWidth;
+        final double height = constraints.maxHeight;
+        if (!width.isFinite || !height.isFinite || width < 1 || height < 1) {
+          return widget.child;
+        }
+        final Size frame = Size(width, height);
+        final Size layout = _layoutSize ?? frame;
+        if (_layoutSize == null) {
+          _layoutSize = frame;
+        } else if (!_near(frame, layout)) {
+          _scheduleAdopt(frame);
+        }
+        return FittedBox(
+          fit: BoxFit.fill,
+          alignment: Alignment.topLeft,
+          child: SizedBox(
+            width: layout.width,
+            height: layout.height,
+            child: widget.child,
+          ),
+        );
+      },
+    );
+  }
+
+  void _scheduleAdopt(Size frame) {
+    final Size? pending = _pendingSize;
+    if (pending != null && _near(pending, frame)) {
+      return;
+    }
+    _pendingSize = frame;
+    _generation++;
+    final int generation = _generation;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || generation != _generation) {
+          return;
+        }
+        _pendingSize = null;
+        if (_layoutSize != null && _near(_layoutSize!, frame)) {
+          return;
+        }
+        setState(() => _layoutSize = frame);
+      });
+    });
   }
 }

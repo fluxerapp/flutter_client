@@ -5,13 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_past_half_screen_provider.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
-import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
-import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_blocks_horizontal_gestures_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_reveal_physics.dart';
@@ -281,7 +283,26 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         _isSidebarDrawerLocked() && targetSide == RevealSide.main
         ? RevealSide.left
         : targetSide;
+    if (resolvedSide == RevealSide.left &&
+        _currentSide == RevealSide.main &&
+        _leavesThreadToParent()) {
+      await _moveToState(RevealSide.main);
+      if (!mounted) {
+        return;
+      }
+      applyShellBackAction(
+        context: context,
+        container: ref.container,
+        action: ShellBackAction.leaveChat,
+      );
+      return;
+    }
     await _moveToState(resolvedSide);
+  }
+
+  bool _leavesThreadToParent() {
+    return !shellShowsConcurrentChannelList(context) &&
+        shellChatBackContext(context, ref).isThread;
   }
 
   double _peekOverlayT() {

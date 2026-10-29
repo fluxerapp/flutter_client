@@ -37,7 +37,7 @@ class UploadKeepAliveBridge(private val context: Context) {
                     }
                     "stop" -> {
                         if (UploadKeepAliveService.pendingStarts == 0) {
-                            context.stopService(Intent(context, UploadKeepAliveService::class.java))
+                            UploadKeepAliveService.stop(context)
                         } else {
                             UploadKeepAliveService.stopRequested = true
                         }
@@ -53,6 +53,13 @@ class UploadKeepAliveService : Service() {
     companion object {
         var pendingStarts = 0
         var stopRequested = false
+
+        fun stop(context: Context) {
+            pendingStarts = 0
+            stopRequested = false
+            context.stopService(Intent(context, UploadKeepAliveService::class.java))
+            context.getSystemService(NotificationManager::class.java)?.cancel(NOTIFICATION_ID)
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -68,10 +75,18 @@ class UploadKeepAliveService : Service() {
         val started = runCatching {
             ServiceCompat.startForeground(this, NOTIFICATION_ID, buildNotification(title), type)
         }
-        if (started.isFailure || (stopRequested && pendingStarts == 0)) {
+        if (started.isFailure) {
+            getSystemService(NotificationManager::class.java)?.cancel(NOTIFICATION_ID)
+            stopSelf(startId)
+        } else if (stopRequested && pendingStarts == 0) {
             stopSelf(startId)
         }
         return START_NOT_STICKY
+    }
+
+    override fun onDestroy() {
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+        super.onDestroy()
     }
 
     override fun onTimeout(startId: Int, fgsType: Int) {

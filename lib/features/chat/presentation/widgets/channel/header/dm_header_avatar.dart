@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_display.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';

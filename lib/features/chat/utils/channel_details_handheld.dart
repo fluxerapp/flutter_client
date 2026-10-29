@@ -6,10 +6,10 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
-import 'package:fluxer_app/features/settings/providers/swipe_right_to_left_action_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 bool handheldChannelDetailsGesturesApply(BuildContext context) {

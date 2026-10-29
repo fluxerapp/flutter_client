@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_dart/export.dart';
 

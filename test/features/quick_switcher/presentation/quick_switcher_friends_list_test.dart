@@ -63,6 +63,7 @@ List<Override> _overrides() {
           system: false,
           status: 'online',
           mobile: false,
+          hiddenProfileBadgesJson: '[]',
         ),
       ),
     ),

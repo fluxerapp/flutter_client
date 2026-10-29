@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/shell_sidebar_resize_handle.dart';
 import 'package:fluxer_app/features/shell/presentation/shell_sidebar_width.dart';
-import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ResizableShellSidebarLayout extends ConsumerWidget {

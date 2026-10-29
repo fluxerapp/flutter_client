@@ -1877,7 +1877,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "ปรับแต่งแท็ก 4 หลักของคุณ (#{discriminator}) ได้ตามต้องการด้วย Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_expression_uploader.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_entry.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_search_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_search_utils.dart';
 
 void main() {
   const GuildExpressionUploader uploader = GuildExpressionUploader(

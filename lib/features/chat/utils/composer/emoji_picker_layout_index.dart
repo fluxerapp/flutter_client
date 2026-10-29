@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_display_categories.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_rendering_policy.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
 class EmojiPickerGridMetrics {
   const EmojiPickerGridMetrics({

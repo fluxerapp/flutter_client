@@ -3,8 +3,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_p2p_indicator.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_e2ee_status_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_p2p_mode_provider.dart';
-import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
-import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 

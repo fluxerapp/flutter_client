@@ -1,4 +1,4 @@
-import 'package:fluxer_app/core/push/push_notification_time.dart';
+import 'package:fluxer_app/core/push/notification/time.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:test/test.dart';
 

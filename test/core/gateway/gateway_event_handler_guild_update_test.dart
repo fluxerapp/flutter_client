@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart' show FluxerClient;
 import 'package:fluxer_dart/gateway.dart';
 

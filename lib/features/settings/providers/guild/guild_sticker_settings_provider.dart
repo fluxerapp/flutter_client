@@ -7,8 +7,8 @@ import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_stic
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_state.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_expressions_repository_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
-import 'package:fluxer_app/features/settings/utils/expression_image_optimizer.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_search_utils.dart';
+import 'package:fluxer_app/features/settings/utils/expressions/expression_image_optimizer.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_search_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -159,6 +159,29 @@ jobs:
       - name: Build beta app bundle
         run: flutter build appbundle --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@4c56a21280b36d862b5fc31348f463d60bdc55d5
+        with:
+          ruby-version: "4.0"
+      - name: Restore Bundler cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-bundler-ruby-4.0-${{ hashFiles('Gemfile.lock', 'Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-bundler-ruby-4.0-
+      - name: Install Ruby gems
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install --jobs 4 --retry 3
+
+      - name: Upload beta AAB to Google Play
+        env:
+          BETA_RELEASE_TAG: ${{ steps.beta_version_name.outputs.tag_name }}
+          PLAY_STORE_TRACK: beta
+          SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
+        run: bundle exec fastlane android upload_beta_fcm_aab
+
       - name: Upload beta APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:

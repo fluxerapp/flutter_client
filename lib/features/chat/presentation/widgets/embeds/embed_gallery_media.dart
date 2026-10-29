@@ -1,7 +1,7 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_media_grid.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class EmbedGalleryMedia extends StatelessWidget {

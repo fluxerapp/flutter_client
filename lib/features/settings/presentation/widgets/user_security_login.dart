@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/recovery_kit/presentation/recovery_kit_settings_section.dart';
@@ -16,8 +16,8 @@ import 'package:fluxer_app/features/settings/presentation/sheets/password_change
 import 'package:fluxer_app/features/settings/presentation/sheets/totp_disable_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/totp_enable_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
-import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';

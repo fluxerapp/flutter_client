@@ -1,5 +1,5 @@
 import 'package:fluxer_app/features/friends/domain/friend.dart';
-import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/blocked_users_view_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'blocked_user_ids_provider.g.dart';

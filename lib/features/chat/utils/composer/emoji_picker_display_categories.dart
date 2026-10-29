@@ -1,4 +1,4 @@
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
 const List<String> kEmojiPickerSymbolHeartNames = [
   'heart',

@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/observability/observability_reporting_provider.d
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_bootstrap_provider.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_logic.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> loadObservabilityReportingPrompt(
   ProviderContainer container,
@@ -12,16 +13,18 @@ Future<void> loadObservabilityReportingPrompt(
   if (!observabilityReportingPromptIsMobilePlatform()) {
     return;
   }
-  await container
+  final SharedPreferences preferences = await SharedPreferences.getInstance();
+  container
       .read(observabilityReportingPromptDismissedProvider.notifier)
-      .load();
+      .restoreFromPreferences(preferences);
   final FluxerObservability observability = container.read(
     fluxerObservabilityProvider,
   );
   final bool reportingAvailable =
       AppBuildConfig.hasObservabilityConfig &&
       observabilityReportingIsAvailable(observability);
-  final bool reportingEnabled = container.read(observabilityReportingProvider);
+  final bool reportingEnabled =
+      preferences.getBool(kObservabilityReportingEnabledKey) ?? false;
   final bool promptDismissed = container.read(
     observabilityReportingPromptDismissedProvider,
   );

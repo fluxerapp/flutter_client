@@ -8,6 +8,8 @@ import 'package:fluxer_app/features/channels/presentation/channel_settings/chann
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_page_shell.dart';
 import 'package:fluxer_app/features/channels/presentation/delete_channel_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_nav_list.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -41,72 +43,78 @@ class ChannelSettingsNavPage extends ConsumerWidget {
                   permissions: permissions,
                 );
             final bool canDelete = canDeleteChannel(permissions: permissions);
-            return Scaffold(
-              backgroundColor: backgroundColor,
-              appBar: AppBar(
+            return HostedUiBackgroundBleed(
+              color: backgroundColor,
+              child: Scaffold(
                 backgroundColor: backgroundColor,
-                elevation: 0,
-                scrolledUnderElevation: 0,
-                surfaceTintColor: Colors.transparent,
-                leading: IconButton(
-                  icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
-                  onPressed: () => context.pop(),
-                ),
-                centerTitle: true,
-                title: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ChannelIcon(type: channel.type, channel: channel),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        channel.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
+                appBar: AppBar(
+                  backgroundColor: backgroundColor,
+                  elevation: 0,
+                  scrolledUnderElevation: 0,
+                  surfaceTintColor: Colors.transparent,
+                  automaticallyImplyLeading: false,
+                  leading: showsInAppShellBackButton(context)
+                      ? IconButton(
+                          icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
+                          onPressed: () => context.pop(),
+                        )
+                      : null,
+                  centerTitle: true,
+                  title: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ChannelIcon(type: channel.type, channel: channel),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          channel.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  actions: const <Widget>[SizedBox(width: 48)],
                 ),
-                actions: const <Widget>[SizedBox(width: 48)],
-              ),
-              body: FluxerSettingsNavList(
-                padding: EdgeInsets.fromLTRB(
-                  context.layout.s4,
-                  context.layout.s4,
-                  context.layout.s4,
-                  context.layout.s4,
-                ),
-                groups: _buildNavGroups(
-                  context: context,
-                  l10n: l10n,
-                  channelId: channelId,
-                  visibleTabs: visibleTabs,
-                ),
-                footer: canDelete
-                    ? Padding(
-                        padding: EdgeInsets.only(top: context.layout.s2),
-                        child: FluxerMenuGroup(
-                          children: <Widget>[
-                            FluxerBottomSheetMenuItem(
-                              label: channelSettingsDeleteLabel(
-                                l10n,
-                                channel: channel,
-                              ),
-                              icon: PhosphorIconsFill.trash,
-                              isDanger: true,
-                              onTap: () => unawaited(
-                                DeleteChannelFlow.confirmAndDelete(
-                                  context,
-                                  ref,
+                body: FluxerSettingsNavList(
+                  padding: EdgeInsets.fromLTRB(
+                    context.layout.s4,
+                    context.layout.s4,
+                    context.layout.s4,
+                    context.layout.s4,
+                  ),
+                  groups: _buildNavGroups(
+                    context: context,
+                    l10n: l10n,
+                    channelId: channelId,
+                    visibleTabs: visibleTabs,
+                  ),
+                  footer: canDelete
+                      ? Padding(
+                          padding: EdgeInsets.only(top: context.layout.s2),
+                          child: FluxerMenuGroup(
+                            children: <Widget>[
+                              FluxerBottomSheetMenuItem(
+                                label: channelSettingsDeleteLabel(
+                                  l10n,
                                   channel: channel,
                                 ),
+                                icon: PhosphorIconsFill.trash,
+                                isDanger: true,
+                                onTap: () => unawaited(
+                                  DeleteChannelFlow.confirmAndDelete(
+                                    context,
+                                    ref,
+                                    channel: channel,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : null,
+                            ],
+                          ),
+                        )
+                      : null,
+                ),
               ),
             );
           },

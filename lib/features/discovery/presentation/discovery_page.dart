@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_category_tabs.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_filters.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_grid_slivers.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_language_select.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -31,6 +34,7 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
   static const double _loadMoreThreshold = 320;
 
   final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<double> _headerStretch = ValueNotifier<double>(0);
   bool _showCollapsedTitle = false;
 
   @override
@@ -44,6 +48,7 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
     _scrollController
       ..removeListener(_handleScroll)
       ..dispose();
+    _headerStretch.dispose();
     super.dispose();
   }
 
@@ -93,6 +98,62 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
     popRootOverlay(context, ref);
   }
 
+  double _mobileDiscoveryFiltersBrandHeight(FluxerLayoutTheme layout) {
+    return layout.s4 + kPickerSearchInputHeight;
+  }
+
+  double _duoBrandSideStripHeight(BuildContext context) {
+    final FluxerLayoutTheme layout = context.layout;
+    final double top = MediaQuery.paddingOf(context).top;
+    final double expandedBottom =
+        top +
+        _mobileExpandedHeight +
+        _mobileDiscoveryFiltersBrandHeight(layout);
+    final double collapsedBottom = top + kToolbarHeight;
+    if (!_scrollController.hasClients) {
+      return expandedBottom;
+    }
+    final ScrollPosition position = _scrollController.position;
+    final double minExtent = position.minScrollExtent;
+    final double pixels = position.pixels;
+    if (pixels < minExtent) {
+      return math.max(collapsedBottom, expandedBottom - pixels);
+    }
+    return math.max(
+      collapsedBottom,
+      expandedBottom - pixels + _headerStretch.value,
+    );
+  }
+
+  bool _handleHeaderScrollNotification(ScrollNotification notification) {
+    final double next = _nextHeaderStretch(notification, _headerStretch.value);
+    if (next != _headerStretch.value) {
+      _headerStretch.value = next;
+    }
+    return false;
+  }
+
+  static double _nextHeaderStretch(
+    ScrollNotification notification,
+    double current,
+  ) {
+    if (!notification.metrics.hasPixels) {
+      return current;
+    }
+    final ScrollMetrics metrics = notification.metrics;
+    if (metrics.pixels < metrics.minScrollExtent ||
+        metrics.pixels > metrics.minScrollExtent + 1) {
+      return 0;
+    }
+    if (notification is ScrollEndNotification) {
+      return 0;
+    }
+    if (notification is OverscrollNotification && notification.overscroll < 0) {
+      return math.max(current, -notification.overscroll);
+    }
+    return current;
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isMobile = isMobileLayout(context);
@@ -122,8 +183,8 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
       state: state,
       isMobile: isMobile,
     );
-    final Widget content = ColoredBox(
-      color: colors.backgroundPrimary,
+    Widget scrollView = NotificationListener<ScrollNotification>(
+      onNotification: _handleHeaderScrollNotification,
       child: CustomScrollView(
         controller: _scrollController,
         slivers: isMobile
@@ -162,6 +223,31 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
                 ...gridSlivers,
               ],
       ),
+    );
+    final bool duoSideStrip = isMobile && hasIphoneDuoSideStrip(context);
+    if (duoSideStrip) {
+      scrollView = Stack(
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          ListenableBuilder(
+            listenable: Listenable.merge(<Listenable>[
+              _scrollController,
+              _headerStretch,
+            ]),
+            builder: (BuildContext context, Widget? _) {
+              return HostedUiSideStripFill(
+                color: colors.brandPrimary,
+                height: _duoBrandSideStripHeight(context),
+              );
+            },
+          ),
+          scrollView,
+        ],
+      );
+    }
+    final Widget content = HostedUiBackgroundBleed(
+      color: colors.backgroundPrimary,
+      child: ColoredBox(color: colors.backgroundPrimary, child: scrollView),
     );
     return content;
   }
@@ -215,6 +301,7 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
       expandedHeight: _mobileExpandedHeight,
       backgroundColor: colors.brandPrimary,
       surfaceTintColor: Colors.transparent,
+      automaticallyImplyLeading: false,
       leading: showBackButton
           ? IconButton(
               icon: const PhosphorIcon(
@@ -235,6 +322,7 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
       ),
       actions: const <Widget>[DiscoveryLanguageAppBarAction()],
       flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
         background: ColoredBox(
           color: colors.brandPrimary,
           child: SafeArea(

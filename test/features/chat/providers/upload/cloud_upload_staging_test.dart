@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controlle
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:path/path.dart' as path_lib;
 
 void main() {

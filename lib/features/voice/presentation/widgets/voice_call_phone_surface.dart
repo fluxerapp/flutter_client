@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
-import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
+import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
+import 'package:fluxer_app/features/voice/utils/pip/pip_morph.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class VoiceCallJoinOverlay extends ConsumerStatefulWidget {

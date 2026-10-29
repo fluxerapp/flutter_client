@@ -1877,7 +1877,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "使用 Plutonium 自訂您的 4 位數字標籤 (#{discriminator})",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

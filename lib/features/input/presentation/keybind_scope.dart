@@ -14,7 +14,7 @@ import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart'
 import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_provider.dart';
 import 'package:fluxer_app/features/input/services/keybind_dispatcher.dart';
 import 'package:fluxer_app/features/input/services/keybind_handlers.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/material_ui.dart';

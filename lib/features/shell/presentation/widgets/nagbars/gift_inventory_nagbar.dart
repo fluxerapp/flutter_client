@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
-import 'package:fluxer_app/features/settings/utils/open_user_billing_settings.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/shell/data/nagbar_user_updates.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/nagbar_widget.dart';
-import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
-import 'package:fluxer_app/features/shell/providers/nagbar_dismissals_provider.dart';
+import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
+import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_button.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';

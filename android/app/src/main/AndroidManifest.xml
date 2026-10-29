@@ -49,6 +49,7 @@
     <!-- Without a category, Xiaomi Game Turbo treats the app as a game and caps it at 60 Hz (flutter/flutter#192600). -->
     <application
         android:name=".FluxerApplication"
+        android:allowBackup="false"
         android:label="${appLabel}"
         android:icon="@mipmap/ic_launcher"
         android:localeConfig="@xml/locales_config"

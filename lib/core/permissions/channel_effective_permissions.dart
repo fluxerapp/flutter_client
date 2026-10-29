@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
 import 'package:riverpod/riverpod.dart';
 

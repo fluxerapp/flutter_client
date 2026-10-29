@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/settings/utils/plutonium_store_bar_mode.dart';
-import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/plutonium_store_bar_mode.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/premium_subscription_status.dart';
 
 PremiumSubscriptionStatus _status({
   bool isPremium = false,

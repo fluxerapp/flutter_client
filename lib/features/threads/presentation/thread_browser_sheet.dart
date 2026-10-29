@@ -232,7 +232,7 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
     final BuildContext hostContext = widget.hostContext;
     widget.close();
     if (hostContext.mounted) {
-      await openThread(hostContext, hostRef, thread);
+      await openThread(hostContext, hostRef, thread, fromParent: true);
     }
   }
 

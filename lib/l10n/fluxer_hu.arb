@@ -1877,7 +1877,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Tetszés szerint alakítsd 4 számjegyű Felhasználónév (#{discriminator}) Plutoniummal",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

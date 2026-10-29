@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_code.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

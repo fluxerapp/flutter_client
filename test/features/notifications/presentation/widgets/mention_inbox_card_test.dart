@@ -45,7 +45,7 @@ Future<List<Message>> _pumpCard(
         currentUserIdProvider.overrideWithValue('test-user'),
         dmViewModelProvider.overrideWith(_EmptyDmViewModel.new),
         channelMessagePermissionsProvider(_channelId).overrideWith(
-          (Ref ref) async => channelMessagePermissionsFromBits(
+          (Ref ref) => channelMessagePermissionsFromBits(
             bits: permissionBits,
             channelType: ChannelType.guildText,
           ),

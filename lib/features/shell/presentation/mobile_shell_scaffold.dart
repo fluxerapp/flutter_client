@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/adaptive_shell_tab_bar.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_material_wrap.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_branch_navigation.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_layout_mode.dart';
@@ -141,7 +142,7 @@ class AppLayoutShell extends ConsumerWidget {
               ),
             )
           : null,
-      body: shell,
+      body: hostedUiMaterialWrap(context, child: shell),
     );
   }
 }

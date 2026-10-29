@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/pending_push_notification_route.dart';
+import 'package:fluxer_app/core/push/notification/pending_route.dart';
 
 void main() {
   test('currentAccountPendingNavigationPath waits for the target account', () {

@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
 import 'package:fluxer_app/features/settings/data/guild_audit_log_member_repository.dart';
 import 'package:fluxer_dart/gateway.dart';

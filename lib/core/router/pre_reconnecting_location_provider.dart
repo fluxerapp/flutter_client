@@ -1,7 +1,7 @@
 import 'dart:async' show unawaited;
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
+import 'package:fluxer_app/core/push/notification/pending_path_provider.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/pending_app_location.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

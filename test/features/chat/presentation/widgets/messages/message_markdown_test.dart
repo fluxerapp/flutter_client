@@ -10,7 +10,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/date_symbol_data_local.dart';

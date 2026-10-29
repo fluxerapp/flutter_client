@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/members/presentation/widgets/manage_member_r
 import 'package:fluxer_app/features/members/utils/guild_member_menu_state.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
-import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -19,8 +19,8 @@ import 'package:fluxer_app/features/voice/providers/voice_participant_volume_pro
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_participant_menu_capabilities.dart';
-import 'package:fluxer_app/features/voice/utils/voice_participant_moderation.dart';
+import 'package:fluxer_app/features/voice/utils/participant/participant_menu_capabilities.dart';
+import 'package:fluxer_app/features/voice/utils/participant/participant_moderation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';

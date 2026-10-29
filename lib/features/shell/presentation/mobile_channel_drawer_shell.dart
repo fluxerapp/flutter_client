@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.da
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
-import 'package:fluxer_app/features/shell/providers/shell_sidebar_width_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/material_ui.dart';

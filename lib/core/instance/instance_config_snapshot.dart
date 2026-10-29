@@ -126,6 +126,14 @@ class InstanceConfigSnapshot {
 
   String get mediaBaseUrl => InstanceEndpoints.mediaOf(wellKnown);
 
+  String get staticCdnBaseUrl {
+    final String configured = wellKnown?.endpoints.staticCdn.trim() ?? '';
+    if (configured.isEmpty) {
+      return InstanceEndpoints.defaultStaticCdn;
+    }
+    return configured.replaceAll(RegExp(r'/+$'), '');
+  }
+
   InstanceSsoSchema? get ssoConfig => wellKnown?.sso;
 
   bool get isSsoEnabled => ssoConfig?.enabled ?? false;

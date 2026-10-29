@@ -23,7 +23,7 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<void> openForumPost(BuildContext context, WidgetRef ref, Channel post) =>
-    openThread(context, ref, post);
+    openThread(context, ref, post, fromParent: true);
 
 Future<void> toggleForumDefaultReaction(
   BuildContext context,

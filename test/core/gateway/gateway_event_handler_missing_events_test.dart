@@ -208,5 +208,6 @@ UserPrivateResponse _privateUser(String id) {
     lastVoiceActivitySharingChangeAt: null,
     premiumBadgeHidden: false,
     premiumPerksDisabled: false,
+    hiddenProfileBadges: const <String>[],
   );
 }

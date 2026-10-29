@@ -1,7 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
+
+Future<bool> _phoneThreadBackIsThread(
+  WidgetTester tester, {
+  required String enteredThreadId,
+  required bool fromParent,
+}) async {
+  final ProviderContainer container = ProviderContainer(
+    overrides: [
+      shellLocationProvider.overrideWithValue('/channels/guild-1/thread-1'),
+      channelByIdProvider('thread-1').overrideWith(
+        (ref) => Stream<Channel?>.value(
+          const Channel(
+            id: 'thread-1',
+            guildId: 'guild-1',
+            name: 'thread',
+            type: ChannelType.publicThread,
+            parentId: 'channel-1',
+          ),
+        ),
+      ),
+    ],
+  );
+  addTearDown(container.dispose);
+  container.listen(channelByIdProvider('thread-1'), (_, _) {});
+  await container.read(channelByIdProvider('thread-1').future);
+  container
+      .read(threadEnteredFromParentProvider.notifier)
+      .enter(enteredThreadId, fromParent: fromParent);
+  late bool isThread;
+  await tester.pumpWidget(
+    UncontrolledProviderScope(
+      container: container,
+      child: MediaQuery(
+        data: const MediaQueryData(size: Size(390, 844)),
+        child: Consumer(
+          builder: (context, ref, _) {
+            isThread = shellChatBackContext(context, ref).isThread;
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    ),
+  );
+  return isThread;
+}
 
 void main() {
   group('showsShellChatBackButton', () {
@@ -107,6 +157,48 @@ void main() {
             },
           ),
         ),
+      );
+    });
+  });
+
+  group('shellChatBackContext', () {
+    testWidgets('phone thread entered from its parent leaves to the parent', (
+      tester,
+    ) async {
+      expect(
+        await _phoneThreadBackIsThread(
+          tester,
+          enteredThreadId: 'thread-1',
+          fromParent: true,
+        ),
+        isTrue,
+      );
+    });
+
+    testWidgets(
+      'phone thread entered from the channel list stays on the list',
+      (tester) async {
+        expect(
+          await _phoneThreadBackIsThread(
+            tester,
+            enteredThreadId: 'thread-1',
+            fromParent: false,
+          ),
+          isFalse,
+        );
+      },
+    );
+
+    testWidgets('phone thread does not match another entered thread', (
+      tester,
+    ) async {
+      expect(
+        await _phoneThreadBackIsThread(
+          tester,
+          enteredThreadId: 'thread-2',
+          fromParent: true,
+        ),
+        isFalse,
       );
     });
   });

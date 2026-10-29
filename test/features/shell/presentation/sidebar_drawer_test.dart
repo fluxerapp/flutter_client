@@ -7,11 +7,15 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_past_half_screen_provider.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
-import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/drawer_providers.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
@@ -1292,6 +1296,147 @@ void main() {
 
     expect(await _ticksDuring(tester, sliderLog), greaterThan(0));
   });
+
+  testWidgets('swipe on a thread entered from its parent goes to the parent '
+      'channel', (tester) async {
+    final router = _routerFor('/channels/guild-1/thread-1');
+    addTearDown(router.dispose);
+    final container = await _swipeOnThread(
+      tester,
+      router: router,
+      fromParent: true,
+    );
+
+    expect(
+      router.routerDelegate.currentConfiguration.uri.path,
+      '/channels/guild-1/channel-1',
+    );
+    expect(container.read(currentRevealSideProvider), RevealSide.main);
+  });
+
+  testWidgets('swipe on a thread entered from the channel list reveals the '
+      'drawer', (tester) async {
+    final router = _routerFor('/channels/guild-1/thread-1');
+    addTearDown(router.dispose);
+    final container = await _swipeOnThread(
+      tester,
+      router: router,
+      fromParent: false,
+    );
+
+    expect(
+      router.routerDelegate.currentConfiguration.uri.path,
+      '/channels/guild-1/thread-1',
+    );
+    expect(container.read(currentRevealSideProvider), RevealSide.left);
+  });
+
+  testWidgets('swipe back to the parent switches the chat before the route '
+      'changes', (tester) async {
+    final router = _routerFor('/channels/guild-1/thread-1');
+    addTearDown(router.dispose);
+    final container = await _swipeOnThread(
+      tester,
+      router: router,
+      fromParent: true,
+    );
+
+    final recorder =
+        container.read(chatViewModelProvider.notifier)
+            as _SwitchRecordingChatViewModel;
+    expect(recorder.switches, <(String, String)>[
+      ('channel-1', '/channels/guild-1/thread-1'),
+    ]);
+  });
+}
+
+Future<ProviderContainer> _swipeOnThread(
+  WidgetTester tester, {
+  required GoRouter router,
+  required bool fromParent,
+}) async {
+  final container = _containerFor(
+    router,
+    extraOverrides: <Override>[
+      channelByIdProvider('thread-1').overrideWith(
+        (ref) => Stream<Channel?>.value(
+          const Channel(
+            id: 'thread-1',
+            guildId: 'guild-1',
+            name: 'thread',
+            type: ChannelType.publicThread,
+            parentId: 'channel-1',
+          ),
+        ),
+      ),
+      channelByIdProvider('channel-1').overrideWith(
+        (ref) => Stream<Channel?>.value(
+          const Channel(id: 'channel-1', guildId: 'guild-1', name: 'parent'),
+        ),
+      ),
+      chatViewModelProvider.overrideWith(
+        () => _SwitchRecordingChatViewModel(router),
+      ),
+    ],
+  );
+  await container
+      .listen(channelByIdProvider('thread-1').future, (_, _) {})
+      .read();
+  await container
+      .listen(channelByIdProvider('channel-1').future, (_, _) {})
+      .read();
+  container
+      .read(threadEnteredFromParentProvider.notifier)
+      .enter('thread-1', fromParent: fromParent);
+
+  await tester.pumpWidget(
+    _buildDrawerApp(container: container, router: router),
+  );
+  await tester.pump();
+  expect(container.read(currentRevealSideProvider), RevealSide.main);
+
+  await tester.dragFrom(const Offset(10, 400), const Offset(260, 0));
+  await tester.pumpAndSettle();
+  return container;
+}
+
+class _SwitchRecordingChatViewModel extends ChatViewModel {
+  _SwitchRecordingChatViewModel(this.router);
+
+  final GoRouter router;
+  final List<(String, String)> switches = <(String, String)>[];
+
+  @override
+  ChatViewState build() {
+    return const ChatViewState(
+      channelId: 'thread-1',
+      messages: [],
+      replyingTo: null,
+      replyMentioning: false,
+      editingMessage: null,
+      messageText: '',
+      scrollToBottomSignal: 0,
+      isLoading: false,
+      isSyncingMessages: false,
+      isLoadingMore: false,
+      isLoadingNewer: false,
+      hasMoreMessages: false,
+      hasMoreNewerMessages: false,
+      errorMessage: null,
+    );
+  }
+
+  @override
+  Future<void> switchChannel(
+    String channelId, {
+    String? targetMessageId,
+    bool loadMessages = true,
+  }) async {
+    switches.add((
+      channelId,
+      router.routerDelegate.currentConfiguration.uri.path,
+    ));
+  }
 }
 
 const _sliderKey = ValueKey<String>('slider');

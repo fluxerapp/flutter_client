@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/utils/operator_pass_utils.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/operator_pass_utils.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

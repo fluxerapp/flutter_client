@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
-import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/data/message_write_batcher.dart';

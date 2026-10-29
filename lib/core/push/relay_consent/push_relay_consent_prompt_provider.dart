@@ -16,9 +16,13 @@ class PushRelayConsentPrompt extends _$PushRelayConsentPrompt {
     state = true;
   }
 
-  void beginPresentation() {
+  bool beginPresentation() {
+    if (_presentationInFlight) {
+      return false;
+    }
     _presentationInFlight = true;
     state = false;
+    return true;
   }
 
   void endPresentation() {

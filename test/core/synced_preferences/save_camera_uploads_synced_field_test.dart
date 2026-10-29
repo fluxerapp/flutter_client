@@ -8,7 +8,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/core/synced_preferences/fields/save_camera_uploads_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
-import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 
 import '../../helpers/open_test_database.dart';
 import '../../helpers/synced_preferences_test_helpers.dart';

@@ -16,7 +16,7 @@ import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
-import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/guild_invite_action_state.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -202,7 +202,10 @@ class _GuildInviteCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 4),
-              child: FluxerGuildBadge(features: features),
+              child: FluxerGuildBadge(
+                features: features,
+                badgeIds: localGuild?.badgeIds ?? invite.guild.badgeIds,
+              ),
             ),
           ],
         ),

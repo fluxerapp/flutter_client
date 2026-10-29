@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 100;
+  int get schemaVersion => 101;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1591,6 +1591,22 @@ class FluxerDatabase extends _$FluxerDatabase {
           )) {
             await m.addColumn(users, column);
           }
+        }
+      }
+      if (from < 101) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'servers',
+          columnName: servers.badgeIdsJson.name,
+        )) {
+          await m.addColumn(servers, servers.badgeIdsJson);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'users',
+          columnName: users.hiddenProfileBadgesJson.name,
+        )) {
+          await m.addColumn(users, users.hiddenProfileBadgesJson);
         }
       }
     },

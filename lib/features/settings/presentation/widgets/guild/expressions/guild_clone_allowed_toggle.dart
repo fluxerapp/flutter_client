@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permi
 import 'package:fluxer_app/features/settings/providers/guild/guild_emoji_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_sticker_settings_provider.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_permissions.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_permissions.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

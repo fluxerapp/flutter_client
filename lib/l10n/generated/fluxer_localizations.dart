@@ -3386,7 +3386,7 @@ abstract class FluxerLocalizations {
   /// **'Change username'**
   String get changeFluxerTag;
 
-  /// Tooltip on the crown upsell button next to the username button.
+  /// Tooltip on the Plutonium upsell button next to the username button.
   ///
   /// In en, this message translates to:
   /// **'Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium'**
@@ -3493,6 +3493,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Emoji'**
   String get emojiPickerTitle;
+
+  /// Title of the profile settings section that lists held badges and visibility toggles.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get profileBadgesSettingsTitle;
+
+  /// Description under the Badges title in profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which badges other people see on your profile.'**
+  String get profileBadgesSettingsDescription;
+
+  /// Shown in profile badge settings when the user holds no badges.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any badges yet.'**
+  String get profileBadgesSettingsEmpty;
+
+  /// Shown when the badge list fails to load in profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Your badges couldn\'t be loaded.'**
+  String get profileBadgesSettingsLoadFailed;
+
+  /// Screen reader label for a badge visibility switch in profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {badgeLabel} on your profile'**
+  String profileBadgesShowOnProfile(String badgeLabel);
+
+  /// Note under the Visionary ID row when its visibility switch is disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown only when your Visionary badge is visible and not masked.'**
+  String get profileBadgesVisionaryNumberNote;
 
   /// Heading for the premium badge privacy settings section.
   ///
@@ -10058,6 +10094,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Exit full screen'**
   String get voiceScreenShareExitFullscreenTooltip;
+
+  /// Accessibility label for the fullscreen call video pinch-zoom level indicator.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom {scale}'**
+  String voiceVideoZoomLevel(String scale);
 
   /// Title on the participant's own screen-share tile when they are sharing their screen.
   ///

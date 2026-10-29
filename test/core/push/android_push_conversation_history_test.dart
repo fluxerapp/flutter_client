@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/android_push_conversation_history.dart';
+import 'package:fluxer_app/core/push/android/conversation/history.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +72,28 @@ void main() {
     expect(state?.lines, hasLength(kPushConversationHistoryMaxLines));
     expect(state?.lines.first.messageId, '3');
     expect(state?.lines.last.messageId, '12');
+  });
+
+  test('reuses a sender avatar when a later download fails', () async {
+    await AndroidPushConversationHistoryStore.appendLine(
+      conversationTag: tag,
+      line: const PushConversationLine(
+        messageId: '10',
+        senderName: 'Alice',
+        senderKey: 'alice',
+        body: 'one',
+        timestampMs: 10,
+        avatarPath: '/cache/alice.png',
+      ),
+      payload: payload,
+    );
+    final PushConversationState state =
+        await AndroidPushConversationHistoryStore.appendLine(
+          conversationTag: tag,
+          line: line('11', body: 'two'),
+          payload: payload,
+        );
+    expect(state.lines.last.avatarPath, '/cache/alice.png');
   });
 
   test('trimAck drops covered lines and keeps newer ones', () async {

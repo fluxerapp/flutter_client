@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
 import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibi
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_preview.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_tts_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.d
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
-import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
 typedef DoubleTapActionLocalState = DoubleTapActionPreferencesState;

@@ -11,7 +11,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_typing_indicator.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_typing_dots.dart';
 import 'package:fluxer_app/material_ui.dart';

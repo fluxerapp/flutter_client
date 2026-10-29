@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/shell_popup_overlay_sync.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
-import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
-import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/incoming_call_actions.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class IncomingVoiceCallLayer extends ConsumerStatefulWidget {

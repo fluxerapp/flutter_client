@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/dm/domain/create_dm_restriction.dart';
 import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:test/test.dart';
 
 const UserSettingsViewState _baseSettings = UserSettingsViewState(

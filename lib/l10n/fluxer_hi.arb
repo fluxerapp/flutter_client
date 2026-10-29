@@ -2421,7 +2421,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Plutonium के साथ अपनी 4-अंकीय टैग (#{discriminator}) को अपनी पसंद के अनुसार अनुकूलित करें",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

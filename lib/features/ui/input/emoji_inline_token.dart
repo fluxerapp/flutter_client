@@ -3,9 +3,9 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
-import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart'
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_sprite_sheet.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart'
     show kSkinToneSurrogates;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 

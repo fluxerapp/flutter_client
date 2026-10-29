@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_voice_button_visibility.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

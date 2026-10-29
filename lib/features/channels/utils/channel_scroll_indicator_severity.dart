@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 
 GuildScrollIndicatorSeverity? channelScrollIndicatorSeverity({
   required WidgetRef ref,

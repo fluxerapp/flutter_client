@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
-import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_utils.dart';
 
 void main() {
   group('isUserSettingsBillingSectionAvailable', () {

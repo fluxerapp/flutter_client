@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_expression_uploader.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_entry.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_permissions.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_permissions.dart';
 
 void main() {
   const GuildExpressionUploader ownerUploader = GuildExpressionUploader(

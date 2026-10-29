@@ -41,9 +41,11 @@ ProfileBadgeResponse _badge({
   String label = 'Badge label',
 }) {
   return ProfileBadgeResponse(
+    key: kind,
     kind: kind,
     label: label,
     asset: asset,
+    assetUrl: null,
     aspectRatio: null,
     caption: caption,
     href: null,

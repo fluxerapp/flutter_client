@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
+import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 void main() {

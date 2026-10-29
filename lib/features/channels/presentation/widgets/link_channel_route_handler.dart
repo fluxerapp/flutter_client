@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
+import 'package:fluxer_app/features/channels/utils/navigation/link_channel_navigator.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class LinkChannelRouteHandler extends ConsumerStatefulWidget {

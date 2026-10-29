@@ -13,6 +13,7 @@ private const val DATA_TRANSPORT_ALARM_RECEIVER =
 class FluxerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        UploadKeepAliveService.stop(this)
         val meta =
             packageManager
                 .getApplicationInfo(packageName, PackageManager.GET_META_DATA)

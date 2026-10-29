@@ -1,7 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/android_push_conversation_history.dart';
-import 'package:fluxer_app/core/push/android_push_conversation_notification.dart';
+import 'package:fluxer_app/core/push/android/conversation/history.dart';
+import 'package:fluxer_app/core/push/android/conversation/messaging_style.dart';
 
 void main() {
   group('resolvePushSenderName', () {

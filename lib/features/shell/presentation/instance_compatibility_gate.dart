@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility_messages.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
-import 'package:fluxer_app/core/providers/active_instance_compatibility_provider.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_compatibility_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart'

@@ -19,10 +19,10 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/settings/providers/guild/guild_emoji_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_expression_limits_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
-import 'package:fluxer_app/features/settings/utils/expression_file_picker.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_limits.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_name_validation.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_permissions.dart';
+import 'package:fluxer_app/features/settings/utils/expressions/expression_file_picker.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_limits.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_name_validation.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_permissions.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';

@@ -26,8 +26,8 @@ import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provid
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_context_menu.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 

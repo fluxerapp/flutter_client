@@ -15,9 +15,9 @@ import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_lay
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
-import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
-import 'package:fluxer_app/features/voice/utils/voice_pip_snap.dart';
+import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
+import 'package:fluxer_app/features/voice/utils/pip/pip_morph.dart';
+import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 

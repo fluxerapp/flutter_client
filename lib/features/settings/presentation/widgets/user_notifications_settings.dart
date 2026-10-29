@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/apns/apns_voip_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
@@ -19,9 +19,9 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_notificat
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_sound_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_tts_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
-import 'package:fluxer_app/features/settings/providers/mention_preference_provider.dart';
-import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/mention_preference_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/notification_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/sync/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
 import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
 import 'package:fluxer_app/features/ui/ui.dart';

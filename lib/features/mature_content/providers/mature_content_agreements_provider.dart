@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/mature_content/domain/mature_content_types.d
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_media_policy_utils.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

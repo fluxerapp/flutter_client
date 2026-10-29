@@ -5,6 +5,8 @@ const implicitlyTrustedDomains = <String>[
   '*.fluxer.com',
   'fluxer.app',
   '*.fluxer.app',
+  'fluxer.dev',
+  '*.fluxer.dev',
   'fluxer.gg',
   'fluxer.gift',
   'fluxerusercontent.com',

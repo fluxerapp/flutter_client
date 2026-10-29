@@ -580,65 +580,72 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     final bool isSearching =
         _typingPending || state.isSearching || state.indexing;
 
-    return Scaffold(
-      backgroundColor: background,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                layout.s1,
-                layout.s2,
-                layout.s1,
-                layout.s2,
-              ),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: const PhosphorIcon(PhosphorIconsBold.caretLeft),
-                    iconSize: 20,
-                    color: context.colors.textSecondary,
-                    tooltip: l10n.back,
-                    onPressed: () => Navigator.of(context).pop(),
+    final bool showInAppBack = showsInAppShellBackButton(context);
+    return HostedUiRootScaffold(
+      child: HostedUiBackgroundBleed(
+        color: background,
+        child: Scaffold(
+          backgroundColor: background,
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    showInAppBack ? layout.s1 : layout.s2,
+                    layout.s2,
+                    layout.s1,
+                    layout.s2,
                   ),
-                  Expanded(
-                    child: ChannelSearchField(
-                      controller: _textController,
-                      focusNode: _focusNode,
-                      tokens: _tokens,
-                      guildId: widget.guildId,
-                      hintText: l10n.channelDetailsSearchHint,
-                      isSearching: isSearching && _hasQuery,
-                      onSubmitted: _onSubmitted,
-                      onRemoveToken: _removeToken,
-                      onClear: _clearAll,
-                    ),
+                  child: Row(
+                    children: <Widget>[
+                      if (showInAppBack)
+                        IconButton(
+                          icon: const PhosphorIcon(PhosphorIconsBold.caretLeft),
+                          iconSize: 20,
+                          color: context.colors.textSecondary,
+                          tooltip: l10n.back,
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      Expanded(
+                        child: ChannelSearchField(
+                          controller: _textController,
+                          focusNode: _focusNode,
+                          tokens: _tokens,
+                          guildId: widget.guildId,
+                          hintText: l10n.channelDetailsSearchHint,
+                          isSearching: isSearching && _hasQuery,
+                          onSubmitted: _onSubmitted,
+                          onRemoveToken: _removeToken,
+                          onClear: _clearAll,
+                        ),
+                      ),
+                      IconButton(
+                        key: const ValueKey<String>('search-filter-button'),
+                        icon: const PhosphorIcon(
+                          PhosphorIconsBold.slidersHorizontal,
+                        ),
+                        iconSize: 20,
+                        color: context.colors.textPrimary,
+                        tooltip: l10n.channelSearchFiltersButton,
+                        onPressed: () => unawaited(_openFilterMenu()),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    key: const ValueKey<String>('search-filter-button'),
-                    icon: const PhosphorIcon(
-                      PhosphorIconsBold.slidersHorizontal,
-                    ),
-                    iconSize: 20,
-                    color: context.colors.textPrimary,
-                    tooltip: l10n.channelSearchFiltersButton,
-                    onPressed: () => unawaited(_openFilterMenu()),
-                  ),
-                ],
-              ),
-            ),
-            if (showTabs) _buildTabs(context, l10n, state),
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: context.motion.fast,
-                child: KeyedSubtree(
-                  key: ValueKey<String>(_bodyKey(state)),
-                  child: _buildBody(context, l10n, state),
                 ),
-              ),
+                if (showTabs) _buildTabs(context, l10n, state),
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: context.motion.fast,
+                    child: KeyedSubtree(
+                      key: ValueKey<String>(_bodyKey(state)),
+                      child: _buildBody(context, l10n, state),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

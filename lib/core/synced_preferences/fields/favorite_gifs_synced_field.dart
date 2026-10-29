@@ -8,7 +8,7 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pb;
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 
 @immutable
 class FavoriteGifsSyncedLocalState {

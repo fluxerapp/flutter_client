@@ -154,11 +154,15 @@ class GuildSidebarHeaderBody extends StatelessWidget {
       children: [
         if (guild != null &&
             !outageUnavailable &&
-            (guild!.isPartnered || guild!.isVerified || guild!.isDiscoverable))
+            (guild!.isPartnered ||
+                guild!.isVerified ||
+                guild!.isDiscoverable ||
+                guild!.badgeIds.isNotEmpty))
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: FluxerGuildBadge(
               features: guild!.features,
+              badgeIds: guild!.badgeIds,
               shadows: bannerShadows,
               color: bannerForeground > 0.5 ? Colors.white : null,
               forceBrightness: bannerForeground > 0.5 ? Brightness.dark : null,

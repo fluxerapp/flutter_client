@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/members/domain/member_list_viewport_state.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 const int kMaxCachedMembersPerGuild = 5000;

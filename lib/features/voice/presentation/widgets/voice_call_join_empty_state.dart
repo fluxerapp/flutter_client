@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_e2ee_indicator.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_join_empty_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
+import 'package:fluxer_app/features/voice/utils/connection/connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';

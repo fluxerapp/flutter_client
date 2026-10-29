@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/providers/privacy_dashboard_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/privacy_dashboard_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/privacy_duration_formatting.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

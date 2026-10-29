@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/database/daos/user_preferences_dao.dart'
     as preferences_dao;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/open_test_database.dart';

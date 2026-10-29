@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';

@@ -8,8 +8,8 @@ import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
-import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
+import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
+import 'package:fluxer_app/features/voice/utils/pip/pip_morph.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/test_l10n.dart';

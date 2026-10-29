@@ -12,6 +12,7 @@ void main() {
       system: false,
       status: 'online',
       mobile: false,
+      hiddenProfileBadgesJson: '[]',
     );
     final Member member = Member(
       userId: '2',

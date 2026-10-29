@@ -1,0 +1,270 @@
+import 'package:flutter/widgets.dart';
+import 'package:uuid/uuid.dart';
+
+const String kVoiceCallKitExtraChannelId = 'channelId';
+const Uuid _voiceCallKitUuid = Uuid();
+const String kVoiceCallKitExtraMessageId = 'messageId';
+
+const String kVoiceCallKitExtraIsDm = 'isDm';
+const String kVoiceCallKitExtraTargetUserId = 'targetUserId';
+const String kVoiceCallKitExtraGuildId = 'guildId';
+const String kVoiceCallKitExtraActiveVoice = 'activeVoice';
+const Duration kVoiceCallKitGatewayRingSyncDelay = Duration(seconds: 10);
+
+enum VoiceCallKitSessionKind { incomingRing, activeVoice }
+
+typedef VoiceCallKitVoiceSnapshot = ({
+  bool isInVoice,
+  bool isConnected,
+  bool isConnecting,
+  String? channelId,
+  String? activeConnectionId,
+});
+
+class VoiceCallKitSession {
+  const VoiceCallKitSession({
+    required this.callKitId,
+    required this.channelId,
+    required this.kind,
+    this.messageId,
+    this.connectionId,
+    this.targetUserId,
+    this.guildId,
+  });
+
+  final String callKitId;
+  final String channelId;
+  final VoiceCallKitSessionKind kind;
+  final String? messageId;
+  final String? connectionId;
+  final String? targetUserId;
+  final String? guildId;
+}
+
+bool isStaleNativeVoiceCallOnLaunch({
+  required Map<String, dynamic>? extra,
+  required String? channelId,
+  required String? interruptedChannelId,
+}) {
+  if (extra?[kVoiceCallKitExtraActiveVoice] == true) {
+    return true;
+  }
+  return channelId != null && channelId == interruptedChannelId;
+}
+
+bool incomingRingBelongsToOtherAccount({
+  required String? ringTargetUserId,
+  required String? activeUserId,
+}) {
+  if (ringTargetUserId == null ||
+      ringTargetUserId.isEmpty ||
+      activeUserId == null ||
+      activeUserId.isEmpty) {
+    return false;
+  }
+  return ringTargetUserId != activeUserId;
+}
+
+bool shouldPresentIncomingVoiceSheet({
+  required bool isNativeVoiceCallKitPlatform,
+  required bool isRuntimeMobileFormFactor,
+  required bool isForeground,
+}) {
+  if (isNativeVoiceCallKitPlatform || isRuntimeMobileFormFactor) {
+    return isForeground;
+  }
+  return true;
+}
+
+bool shouldPresentIncomingVoiceCallKit({
+  required bool isMobileCallKitPlatform,
+  required bool isForeground,
+  required bool hasPendingIncoming,
+}) {
+  if (!isMobileCallKitPlatform || isForeground || !hasPendingIncoming) {
+    return false;
+  }
+  return true;
+}
+
+bool shouldSuppressIncomingVoiceCallKitForChannel({
+  required String channelId,
+  required VoiceCallKitVoiceSnapshot? activeVoice,
+}) {
+  if (activeVoice == null || !activeVoice.isInVoice) {
+    return false;
+  }
+  return activeVoice.channelId == channelId;
+}
+
+bool shouldPlayIncomingVoiceRingSfx({
+  required bool isNativeVoiceCallKitPlatform,
+  required bool isForeground,
+  required bool hasPendingIncoming,
+}) {
+  if (!hasPendingIncoming) {
+    return false;
+  }
+  if (!isNativeVoiceCallKitPlatform) {
+    return true;
+  }
+  return isForeground;
+}
+
+bool shouldMaintainBackgroundVoiceCallKit({
+  required bool isMobileCallKitPlatform,
+  required bool isForeground,
+  required bool isInVoice,
+}) {
+  if (!isMobileCallKitPlatform || isForeground || !isInVoice) {
+    return false;
+  }
+  return true;
+}
+
+bool shouldStartCallKitOnVoiceJoin({required VoiceCallKitVoiceSnapshot voice}) {
+  return voice.isConnected;
+}
+
+bool shouldLeaveVoiceFromCallKitEnd({
+  required VoiceCallKitVoiceSnapshot voice,
+  required String channelId,
+}) {
+  return voice.channelId == channelId && voice.isInVoice;
+}
+
+bool shouldIgnoreCallKitUserEndEvent({
+  required bool isEndingProgrammatically,
+  required DateTime? suppressUntil,
+  required DateTime now,
+  required bool isLiveVoiceCall,
+}) {
+  if (isEndingProgrammatically) {
+    return true;
+  }
+  if (isLiveVoiceCall) {
+    return false;
+  }
+  if (suppressUntil == null || !now.isBefore(suppressUntil)) {
+    return false;
+  }
+  return true;
+}
+
+bool didJoinVoiceCall({
+  required VoiceCallKitVoiceSnapshot? previous,
+  required VoiceCallKitVoiceSnapshot next,
+}) {
+  if (!next.isInVoice || next.channelId == null || next.channelId!.isEmpty) {
+    return false;
+  }
+  if (previous == null || !previous.isInVoice) {
+    return true;
+  }
+  return previous.channelId != next.channelId;
+}
+
+bool shouldEndIncomingRingCallKitSession({
+  required VoiceCallKitSession session,
+  required Set<String> pendingIncomingChannelIds,
+}) {
+  if (session.kind != VoiceCallKitSessionKind.incomingRing) {
+    return false;
+  }
+  return !pendingIncomingChannelIds.contains(session.channelId);
+}
+
+bool shouldEndCallKitSessionForActiveCallsChange({
+  required VoiceCallKitSession session,
+  required Set<String> activeCallChannelIds,
+}) {
+  if (session.kind == VoiceCallKitSessionKind.activeVoice &&
+      session.messageId == null) {
+    return false;
+  }
+  return !activeCallChannelIds.contains(session.channelId);
+}
+
+bool shouldDeferMobileCallKitStartCall({
+  required bool isMobileCallKitPlatform,
+  required AppLifecycleState? lifecycleState,
+}) {
+  if (!isMobileCallKitPlatform) {
+    return false;
+  }
+  return lifecycleState == AppLifecycleState.paused ||
+      lifecycleState == AppLifecycleState.hidden;
+}
+
+bool shouldDismissCallKitOnForeground({
+  required bool isInVoice,
+  AppLifecycleState? lifecycleState,
+}) {
+  if (isInVoice) {
+    return false;
+  }
+  return lifecycleState == AppLifecycleState.resumed;
+}
+
+String resolveVoiceCallKitSessionId() {
+  return _voiceCallKitUuid.v4();
+}
+
+String? resolveChannelIdFromCallKitExtra(Map<String, dynamic>? extra) {
+  if (extra == null) {
+    return null;
+  }
+  final dynamic channelId = extra[kVoiceCallKitExtraChannelId];
+  if (channelId is String && channelId.isNotEmpty) {
+    return channelId;
+  }
+  return null;
+}
+
+bool shouldEnableLiveKitEngineForCallKitAudioSession({
+  required bool isAudioSessionActive,
+}) {
+  return isAudioSessionActive;
+}
+
+bool shouldRestoreLiveKitAutomaticAudioSession({
+  required bool callKitOwnsAudio,
+  required bool hasCallKitSessions,
+}) {
+  return callKitOwnsAudio && !hasCallKitSessions;
+}
+
+bool shouldScheduleCallKitAudioSessionRecovery({
+  required bool isAudioSessionActive,
+  required bool hasActiveVoiceSession,
+}) {
+  return !isAudioSessionActive && hasActiveVoiceSession;
+}
+
+bool shouldApplySpeakerOutputWhileInVoice({
+  required bool hasActiveVoiceSession,
+  required bool isInVoice,
+}) {
+  return hasActiveVoiceSession || isInVoice;
+}
+
+bool shouldReapplySpeakerOutputOnPreferenceChange({
+  required bool isInVoice,
+  required bool speakerPreferenceChanged,
+  required bool isAndroid,
+}) {
+  if (isAndroid) {
+    return false;
+  }
+  return isInVoice && speakerPreferenceChanged;
+}
+
+const Duration kVoiceCallKitAudioSessionRecoveryDelay = Duration(
+  milliseconds: 750,
+);
+
+const List<Duration> kVoiceCallKitSpeakerReapplyDelays = <Duration>[
+  Duration(milliseconds: 300),
+  Duration(milliseconds: 1000),
+  Duration(milliseconds: 2500),
+];

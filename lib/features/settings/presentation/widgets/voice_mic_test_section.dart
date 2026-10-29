@@ -7,14 +7,14 @@ import 'package:fluxer_app/core/system_permissions/system_permission_service.dar
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/audio_level_meter.dart';
-import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
-import 'package:fluxer_app/features/voice/utils/voice_mic_test_track.dart';
-import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
+import 'package:fluxer_app/features/voice/utils/audio/mic_test_track.dart';
+import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -70,7 +70,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       voiceSettingsApplicatorProvider,
     );
     try {
-      await applicator.applySpeakerOutput(settings: settings);
+      await applicator.applySpeakerOutput(settings: settings, holdRoute: false);
       await _configureOutputDevice(settings.outputDeviceId);
       final LocalAudioTrack track = await _createMicTestTrack(
         applicator: applicator,

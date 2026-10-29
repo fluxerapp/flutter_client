@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
@@ -19,10 +18,11 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
+import 'package:fluxer_app/features/chat/utils/chat_shell_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -290,9 +290,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     );
 
     return ColoredBox(
-      color: isMobile
-          ? context.colors.chatInputBackground
-          : context.colors.chatBackground,
+      color: channelChatShellBackgroundColor(context),
       child: SafeArea(
         bottom: reserveBottomSafeArea,
         child: UploadDropOverlay(

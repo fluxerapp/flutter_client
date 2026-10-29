@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
@@ -124,7 +124,9 @@ class ThreadSidebarTile extends ConsumerWidget {
                   mentionCount: showMentionBadge ? mentionCount : 0,
                   isMuted: muted,
                 ),
-                onTap: () => unawaited(openThread(context, ref, thread)),
+                onTap: () => unawaited(
+                  openThread(context, ref, thread, fromParent: false),
+                ),
                 onLongPress: () =>
                     unawaited(showThreadMenuSheet(context, ref, thread)),
                 onSecondaryTapUp: (_) =>

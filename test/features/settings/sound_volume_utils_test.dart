@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/utils/sound_volume_utils.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/utils/sound/sound_volume_utils.dart';
 
 void main() {
   group('computeEffectiveSfxVolume', () {

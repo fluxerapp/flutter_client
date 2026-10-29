@@ -18,7 +18,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';

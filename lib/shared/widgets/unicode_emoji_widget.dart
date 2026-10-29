@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 class UnicodeEmojiWidget extends StatelessWidget {

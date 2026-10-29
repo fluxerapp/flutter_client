@@ -57,16 +57,12 @@ class UserProfileBadges extends ConsumerWidget {
       spacing: size == UserProfileBadgesSize.mobile ? 8 : 6,
       runSpacing: 4,
       children: badges.map((ProfileBadgeResponse badge) {
-        final HexString16Type? imageHash = profileBadgeImageHash(
+        final String? imageUrl = profileBadgeDisplayImageUrl(
           badge,
           displayHeight: badgeHeight,
         );
-        final Widget badgeContent = imageHash != null
-            ? ProfileBadgeImage(
-                hash: imageHash,
-                height: badgeHeight,
-                aspectRatio: badge.aspectRatio,
-              )
+        final Widget badgeContent = imageUrl != null
+            ? ProfileBadgeImage.fromBadge(badge, height: badgeHeight)
             : SizedBox(
                 height: badgeHeight,
                 child: Center(
@@ -97,7 +93,7 @@ class UserProfileBadges extends ConsumerWidget {
         final bool opensLink = href != null && !touch && !opensPremium;
 
         return Semantics(
-          key: ValueKey<String>(badge.kind),
+          key: ValueKey<String>(badge.key.isNotEmpty ? badge.key : badge.kind),
           label: _semanticLabel(badge),
           button: opensPremium || opensLink,
           child: FluxerTappable(

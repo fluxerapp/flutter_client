@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_webhooks_provider.dart';
-import 'package:fluxer_app/features/settings/utils/guild_webhook_updates.dart';
-import 'package:fluxer_app/features/settings/utils/guild_webhooks_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_webhook_updates.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_webhooks_utils.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';

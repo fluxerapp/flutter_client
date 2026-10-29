@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'plutonium_upsell_banner.g.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_upload_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_upload_utils.dart';
 
 void main() {
   test('chunkExpressionUploadBatch splits requests into batches of 50', () {

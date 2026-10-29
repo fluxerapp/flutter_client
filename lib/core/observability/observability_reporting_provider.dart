@@ -43,15 +43,19 @@ class ObservabilityReporting extends _$ObservabilityReporting {
     if (!observabilityReportingIsAvailable(_observability)) {
       return;
     }
-    if (value) {
-      await _start();
-    } else {
-      await _observability.stop();
-    }
-    final bool enabled = value && _observability.isEnabled;
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(kObservabilityReportingEnabledKey, enabled);
-    state = enabled;
+    if (!value) {
+      await _observability.stop();
+      await preferences.setBool(kObservabilityReportingEnabledKey, false);
+      state = false;
+      return;
+    }
+    await preferences.setBool(kObservabilityReportingEnabledKey, true);
+    state = true;
+    await _start();
+    if (!_observability.isEnabled) {
+      state = false;
+    }
   }
 
   Future<void> _start() async {

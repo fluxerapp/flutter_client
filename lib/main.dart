@@ -21,9 +21,9 @@ import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_s
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
 import 'package:fluxer_app/core/platform/bundled_root_certificates.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
-import 'package:fluxer_app/core/providers/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/services/apple_push_service.dart';
@@ -31,7 +31,8 @@ import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/zoom/fluxer_app_zoom.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
-import 'package:fluxer_app/features/settings/providers/local_settings_provider.dart';
+import 'package:fluxer_app/features/chat/services/upload_keep_alive.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -79,6 +80,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   if (Platform.isAndroid) {
     installImeEditingShortcutHandler();
+    UploadKeepAlive.ensureAndroidResumeSync();
   }
   if (Platform.isIOS) {
     installNativePasteHandler();

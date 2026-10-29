@@ -20,7 +20,7 @@ import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/foldable/tabletop_hinge_column.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';

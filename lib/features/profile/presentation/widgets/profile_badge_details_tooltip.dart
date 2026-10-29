@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_image.dart';
+import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -17,19 +18,18 @@ class ProfileBadgeDetailsTooltip extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyles = context.textStyles;
     final colors = context.colors;
-    final HexString16Type? artHash = badge.asset;
+    final String? artUrl = profileBadgeDisplayImageUrl(
+      badge,
+      displayHeight: 48,
+    );
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 280),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (artHash != null) ...[
-            ProfileBadgeImage(
-              hash: artHash,
-              height: 48,
-              aspectRatio: badge.aspectRatio,
-            ),
+          if (artUrl != null) ...[
+            ProfileBadgeImage.fromBadge(badge, height: 48),
             const SizedBox(height: 4),
           ],
           Text(

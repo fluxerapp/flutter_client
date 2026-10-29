@@ -1,7 +1,7 @@
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
-import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
+import 'package:fluxer_app/features/voice/utils/media/participant_track_resolver.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 class VoiceSessionState {

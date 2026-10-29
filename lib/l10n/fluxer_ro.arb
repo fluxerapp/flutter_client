@@ -2421,7 +2421,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Personalizează-ți eticheta cu 4 cifre (#{discriminator}) după bunul plac cu Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

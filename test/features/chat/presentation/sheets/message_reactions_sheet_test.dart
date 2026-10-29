@@ -16,7 +16,7 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_vi
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -90,6 +90,7 @@ List<Override> _overrides(Map<String, List<UserPartialResponse>> byEmoji) {
           system: false,
           status: 'online',
           mobile: false,
+          hiddenProfileBadgesJson: '[]',
         ),
       ),
     ),

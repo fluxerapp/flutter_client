@@ -107,6 +107,64 @@ class VoiceSpeakerRouteTest {
     }
 
     @Test
+    fun speakerRouteStaysSpeakerWhenHeadsetTypesExist() {
+        assertEquals(
+            AudioDeviceInfo.TYPE_BUILTIN_SPEAKER,
+            communicationDeviceTypeForRoute(
+                VoiceOutputRoute.Speaker,
+                listOf(
+                    AudioDeviceInfo.TYPE_BUILTIN_SPEAKER,
+                    AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+                ),
+            ),
+        )
+    }
+
+    @Test
+    fun activeRouteMatchesSpeakerOnCommunicationDevice() {
+        assertTrue(
+            activeCommunicationDeviceTypeMatchesRoute(
+                route = VoiceOutputRoute.Speaker,
+                activeDeviceType = AudioDeviceInfo.TYPE_BUILTIN_SPEAKER,
+                speakerphoneOn = false,
+                sdkAtLeast31 = true,
+            ),
+        )
+    }
+
+    @Test
+    fun activeRouteMatchesEarpieceOverBluetoothTypes() {
+        assertTrue(
+            activeCommunicationDeviceTypeMatchesRoute(
+                route = VoiceOutputRoute.Earpiece,
+                activeDeviceType = AudioDeviceInfo.TYPE_BUILTIN_EARPIECE,
+                speakerphoneOn = false,
+                sdkAtLeast31 = true,
+            ),
+        )
+        assertFalse(
+            activeCommunicationDeviceTypeMatchesRoute(
+                route = VoiceOutputRoute.Earpiece,
+                activeDeviceType = AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+                speakerphoneOn = false,
+                sdkAtLeast31 = true,
+            ),
+        )
+    }
+
+    @Test
+    fun activeRouteMatchesHeadsetCommunicationDevice() {
+        assertTrue(
+            activeCommunicationDeviceTypeMatchesRoute(
+                route = VoiceOutputRoute.Headset,
+                activeDeviceType = AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+                speakerphoneOn = false,
+                sdkAtLeast31 = true,
+            ),
+        )
+    }
+
+    @Test
     fun omitsHeadsetWhenOnlyA2dpOutputExists() {
         assertEquals(
             listOf("speaker", "earpiece"),

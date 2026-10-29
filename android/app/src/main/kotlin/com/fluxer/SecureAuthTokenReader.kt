@@ -99,7 +99,7 @@ internal class SecureAuthTokenReader(
 
         fun secureStorageOptions(): HashMap<String, Any> {
             val options = HashMap<String, Any>()
-            options["resetOnError"] = "false"
+            options["resetOnError"] = "true"
             options["migrateOnAlgorithmChange"] = "true"
             options["migrateWithBackup"] = "false"
             options["enforceBiometrics"] = "false"

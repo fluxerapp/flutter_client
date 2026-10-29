@@ -5,7 +5,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
+import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent_provider.dart';
+import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 bool shellShowsConcurrentChannelList(BuildContext context) {
@@ -80,12 +81,20 @@ bool isThreadChatForShell(WidgetRef ref) {
   return ref.read(channelByIdProvider(channelId)).value?.isThread ?? false;
 }
 
+bool _isThreadEnteredFromParent(WidgetRef ref) {
+  final String? threadId = ref.read(threadEnteredFromParentProvider);
+  return threadId != null &&
+      threadId == extractChannelId(ref.read(shellLocationProvider));
+}
+
 ShellChatBackContext shellChatBackContext(BuildContext context, WidgetRef ref) {
   final bool showsConcurrentChannelList = shellShowsConcurrentChannelList(
     context,
   );
+  final bool leavesThreadToParent =
+      showsConcurrentChannelList || _isThreadEnteredFromParent(ref);
   return ShellChatBackContext(
-    isThread: showsConcurrentChannelList && isThreadChatForShell(ref),
+    isThread: leavesThreadToParent && isThreadChatForShell(ref),
     showsConcurrentChannelList: showsConcurrentChannelList,
   );
 }

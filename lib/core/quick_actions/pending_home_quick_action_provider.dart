@@ -1,9 +1,9 @@
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
-import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/push/notification/pending_path_provider.dart';
 import 'package:fluxer_app/core/quick_actions/home_quick_action.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';

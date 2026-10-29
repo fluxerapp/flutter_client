@@ -24,7 +24,7 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/sheet_corner_pixels.dart';

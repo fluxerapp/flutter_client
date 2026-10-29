@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/features/voice/providers/voice_track_handoff_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_track_renderer_cache.dart';
+import 'package:fluxer_app/features/voice/utils/media/track_renderer_cache.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:livekit_client/livekit_client.dart';
 

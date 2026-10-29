@@ -60,6 +60,7 @@ db.ServersCompanion guildFromSdk(
         ? const Value.absent()
         : Value(onlineCount),
     featuresJson: Value(jsonEncode(sdk.features)),
+    badgeIdsJson: Value(jsonEncode(sdk.badgeIds)),
     position: Value(position),
     unavailable: Value(unavailable),
     disabledOperations: Value(sdk.disabledOperations),

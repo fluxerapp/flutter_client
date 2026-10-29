@@ -1,7 +1,7 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/messages/system_message_text.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 sealed class DmListMessagePreview {

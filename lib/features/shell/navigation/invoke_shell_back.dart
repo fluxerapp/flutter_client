@@ -8,10 +8,10 @@ import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
-import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
-import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_manual_gesture_block_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 void invokeShellBack(BuildContext context, WidgetRef ref) {

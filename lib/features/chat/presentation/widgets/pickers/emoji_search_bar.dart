@@ -3,11 +3,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_sea
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart'
+import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart'
     show kSkinToneSurrogates;
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 
-export 'package:fluxer_app/shared/utils/emoji_utils.dart'
+export 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart'
     show kSkinToneSurrogates, skinToneToName;
 
 const _kClapEmoji = '\u{1F44F}';

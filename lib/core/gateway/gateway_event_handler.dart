@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
-import 'package:fluxer_app/core/push/push_notification_clear.dart';
+import 'package:fluxer_app/core/push/notification/clear.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
@@ -914,6 +914,9 @@ class GatewayEventHandler {
           ),
           operatorPassBadgeCountHidden: Value(
             event.user.operatorPassBadgeCountHidden,
+          ),
+          hiddenProfileBadgesJson: Value(
+            jsonEncode(event.user.hiddenProfileBadges),
           ),
           customStatus: Value(
             serializeCustomStatus(event.userSettings?.customStatus),
@@ -2513,6 +2516,9 @@ class GatewayEventHandler {
           ),
           operatorPassBadgeCountHidden: Value(
             event.user.operatorPassBadgeCountHidden,
+          ),
+          hiddenProfileBadgesJson: Value(
+            jsonEncode(event.user.hiddenProfileBadges),
           ),
         ),
       ),

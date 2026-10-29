@@ -1877,7 +1877,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Настройте свой 4-значный тег (#{discriminator}) по своему вкусу с помощью Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

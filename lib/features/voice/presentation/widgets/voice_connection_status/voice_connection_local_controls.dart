@@ -6,8 +6,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/user_panel_widgets.dart';
-import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
-import 'package:fluxer_app/features/voice/providers/video_camera_capability_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_capability_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_screen_share_audio_session.dart';
-import 'package:fluxer_app/features/voice/utils/voice_stream_audio_utils.dart';
-import 'package:fluxer_app/features/voice/utils/voice_track_renderer_cache.dart';
+import 'package:fluxer_app/features/voice/utils/audio/stream_audio_utils.dart';
+import 'package:fluxer_app/features/voice/utils/media/track_renderer_cache.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_audio_session.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 final voiceTrackRendererCacheProvider =

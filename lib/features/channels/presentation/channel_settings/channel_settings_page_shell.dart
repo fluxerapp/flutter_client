@@ -1,5 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/iphone_duo_hosted_ui.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -31,23 +33,28 @@ class ChannelSettingsPageShell extends StatelessWidget {
     final Color appBarColor = isMobile
         ? backgroundColor
         : context.colors.backgroundSecondary;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        backgroundColor: appBarColor,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
-          onPressed: () => context.pop(),
+    return HostedUiBackgroundBleed(
+      color: backgroundColor,
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          backgroundColor: appBarColor,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          surfaceTintColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          leading: showsInAppShellBackButton(context)
+              ? IconButton(
+                  icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft),
+                  onPressed: () => context.pop(),
+                )
+              : null,
+          centerTitle: true,
+          title: Text(channelSettingsTabTitle(l10n, tab)),
+          actions: const <Widget>[SizedBox(width: 48)],
         ),
-        centerTitle: true,
-        title: Text(channelSettingsTabTitle(l10n, tab)),
-        actions: const <Widget>[SizedBox(width: 48)],
+        body: body,
       ),
-      body: body,
     );
   }
 }

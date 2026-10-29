@@ -18,7 +18,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/attachment_preview_ut
 import 'package:fluxer_app/features/chat/utils/attachments/csv_attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_content.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_fullscreen.dart';
-import 'package:fluxer_app/features/settings/providers/textual_preview_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';

@@ -20,7 +20,7 @@ import 'package:fluxer_app/core/theme/themes/dark_legacy.dart';
 import 'package:fluxer_app/core/theme/themes/light.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
+import 'package:fluxer_app/features/settings/providers/sync/user_settings_sync_service.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

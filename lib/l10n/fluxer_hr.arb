@@ -2421,7 +2421,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Prilagodi svoju četveroznamenkastu oznaku (#{discriminator}) po želji uz Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/premium_billing_service.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_purchase_client.dart';
-import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/premium_subscription_manage.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';

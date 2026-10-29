@@ -2421,7 +2421,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Pas je 4-cijferige tag (#{discriminator}) naar wens aan met Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

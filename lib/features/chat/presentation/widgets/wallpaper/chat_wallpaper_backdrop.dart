@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/wallpaper/chat_wallpaper.dart';
+import 'package:fluxer_app/features/shell/hosted_ui/hosted_ui_background_bleed.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -26,31 +27,34 @@ class ChatWallpaperBackdrop extends ConsumerWidget {
 
     final ImageProvider? imageProvider = paint.imageProvider;
 
-    return RepaintBoundary(
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          ColoredBox(color: paint.fallbackColor),
-          if (paint.gradient != null)
-            DecoratedBox(decoration: BoxDecoration(gradient: paint.gradient)),
-          if (imageProvider != null)
-            Image(
-              key: ObjectKey(imageProvider),
-              image: ResizeImage(
-                imageProvider,
-                width: cacheWidth,
-                height: cacheHeight,
-                policy: ResizeImagePolicy.fit,
+    return HostedUiBackgroundBleed(
+      color: paint.fallbackColor,
+      child: RepaintBoundary(
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            ColoredBox(color: paint.fallbackColor),
+            if (paint.gradient != null)
+              DecoratedBox(decoration: BoxDecoration(gradient: paint.gradient)),
+            if (imageProvider != null)
+              Image(
+                key: ObjectKey(imageProvider),
+                image: ResizeImage(
+                  imageProvider,
+                  width: cacheWidth,
+                  height: cacheHeight,
+                  policy: ResizeImagePolicy.fit,
+                ),
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.low,
+                gaplessPlayback: true,
               ),
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
-              gaplessPlayback: true,
-            ),
-          if (resolved.kind == ChatWallpaperKind.starfield)
-            const StarfieldBackground(animate: false),
-          if (!resolved.isThemeBackground)
-            ColoredBox(color: chatWallpaperDimColor(resolved.dim)),
-        ],
+            if (resolved.kind == ChatWallpaperKind.starfield)
+              const StarfieldBackground(animate: false),
+            if (!resolved.isThemeBackground)
+              ColoredBox(color: chatWallpaperDimColor(resolved.dim)),
+          ],
+        ),
       ),
     );
   }

@@ -2001,6 +2001,29 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get emojiPickerTitle => 'Emoji';
 
   @override
+  String get profileBadgesSettingsTitle => 'Badges';
+
+  @override
+  String get profileBadgesSettingsDescription =>
+      'Choose which badges other people see on your profile.';
+
+  @override
+  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+
+  @override
+  String get profileBadgesSettingsLoadFailed =>
+      'Your badges couldn\'t be loaded.';
+
+  @override
+  String profileBadgesShowOnProfile(String badgeLabel) {
+    return 'Show $badgeLabel on your profile';
+  }
+
+  @override
+  String get profileBadgesVisionaryNumberNote =>
+      'Shown only when your Visionary badge is visible and not masked.';
+
+  @override
   String get plutoniumBadgePrivacyTitle => 'Privatliv for Plutonium-badge';
 
   @override
@@ -6173,6 +6196,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get voiceScreenShareExitFullscreenTooltip => 'Afslut fuld skærm';
+
+  @override
+  String voiceVideoZoomLevel(String scale) {
+    return 'Zoom $scale';
+  }
 
   @override
   String get voiceOwnScreenShareTitle => 'Du sender';

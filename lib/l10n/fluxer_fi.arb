@@ -1877,7 +1877,7 @@
     },
     "customizeTagWithPlutoniumTooltip": "Mukauta 4-numeroinen tunnuksesi (#{discriminator}) Plutoniumilla",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the username button.",
+        "description": "Tooltip on the Plutonium upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

@@ -39,21 +39,6 @@ VoiceOutputRoute resolveVoiceOutputRoute({
   return VoiceOutputRoute.earpiece;
 }
 
-VoiceOutputRoute effectiveVoiceOutputRoute({
-  required VoiceOutputRoute preference,
-  required Set<VoiceOutputRoute> available,
-}) {
-  final VoiceOutputRoute preferenceRoute = resolveVoiceOutputRoute(
-    preference: preference,
-    available: available,
-  );
-  if (preferenceRoute == VoiceOutputRoute.speaker &&
-      available.contains(VoiceOutputRoute.headset)) {
-    return VoiceOutputRoute.headset;
-  }
-  return preferenceRoute;
-}
-
 bool liveKitPrefersSpeaker(VoiceOutputRoute route) {
   return route == VoiceOutputRoute.speaker;
 }

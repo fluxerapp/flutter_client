@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 100;
+const int _expectedSchemaVersion = 101;
 
 const int _guardedBaselineVersion = 67;
 
@@ -454,6 +454,31 @@ void main() {
       expect(
         _tableColumns(raw, 'servers'),
         isNot(contains('thread_channels_active')),
+      );
+      expect((await db.guildDao.getServerById('g1'))?.name, 'Guild');
+      expect(_userVersion(raw), _expectedSchemaVersion);
+    });
+
+    test('upgrade from 100 adds guild and profile badge columns', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 100);
+      raw
+        ..execute('ALTER TABLE servers DROP COLUMN badge_ids_json')
+        ..execute('ALTER TABLE users DROP COLUMN hidden_profile_badges_json')
+        ..execute("INSERT INTO servers (id, name) VALUES ('g1', 'Guild')");
+      expect(_userVersion(raw), 100);
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      await db.customSelect('SELECT 1').get();
+
+      expect(_tableColumns(raw, 'servers'), contains('badge_ids_json'));
+      expect(
+        _tableColumns(raw, 'users'),
+        contains('hidden_profile_badges_json'),
       );
       expect((await db.guildDao.getServerById('g1'))?.name, 'Guild');
       expect(_userVersion(raw), _expectedSchemaVersion);

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_logic.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

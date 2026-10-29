@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/providers/startup_session_expiry.dart';
+import 'package:fluxer_app/core/providers/instance/startup_session_expiry.dart';
 
 void main() {
   test('a 401 on the stored host expires the session', () {

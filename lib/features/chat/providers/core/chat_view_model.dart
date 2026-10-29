@@ -16,12 +16,12 @@ import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
@@ -86,8 +86,8 @@ import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.d
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -659,16 +659,26 @@ class _WindowSwapCommit {
   final Completer<bool> done = Completer<bool>();
 }
 
+/// Reading position: the message's top at `fraction` of the viewport height,
+/// scrolled by `offset` pixels when the message starts above the viewport.
+typedef ChannelScrollAnchor = ({
+  String messageId,
+  double fraction,
+  double offset,
+});
+
 class _ParkedChannelWindow {
   const _ParkedChannelWindow({
     required this.messages,
     required this.hasMoreMessages,
     required this.hasMoreNewerMessages,
+    this.scrollAnchor,
   });
 
   final List<Message> messages;
   final bool hasMoreMessages;
   final bool hasMoreNewerMessages;
+  final ChannelScrollAnchor? scrollAnchor;
 }
 
 @Riverpod(keepAlive: true)
@@ -714,6 +724,9 @@ class ChatViewModel extends _$ChatViewModel {
       LinkedHashMap<String, _ParkedChannelWindow>();
   String? _forgottenLiveChannelId;
   ({String channelId, String messageId})? _pendingTrimAround;
+  final Map<String, ChannelScrollAnchor? Function()> _scrollAnchorSources =
+      <String, ChannelScrollAnchor? Function()>{};
+  ({String channelId, ChannelScrollAnchor anchor})? _restoredScrollAnchor;
   int _windowGeneration = 0;
   bool _jumpToLatestActive = false;
   int _ingressOrdinal = 0;
@@ -749,6 +762,7 @@ class ChatViewModel extends _$ChatViewModel {
     _channelSwitchGeneration++;
     _windowGeneration++;
     _parkedWindows.clear();
+    _restoredScrollAnchor = null;
     _forgottenLiveChannelId = null;
     _displayWarmer.releaseAll();
     _pendingTrimAround = null;
@@ -1808,6 +1822,7 @@ class ChatViewModel extends _$ChatViewModel {
       messages: List<Message>.unmodifiable(remaining),
       hasMoreMessages: parked.hasMoreMessages,
       hasMoreNewerMessages: parked.hasMoreNewerMessages,
+      scrollAnchor: parked.scrollAnchor,
     );
   }
 
@@ -2085,6 +2100,7 @@ class ChatViewModel extends _$ChatViewModel {
       messages: List<Message>.unmodifiable(parkedMessages),
       hasMoreMessages: state.hasMoreMessages || trim.droppedOlder,
       hasMoreNewerMessages: state.hasMoreNewerMessages || trim.droppedNewer,
+      scrollAnchor: _scrollAnchorSources[channelId]?.call(),
     );
     while (_parkedWindows.length > _kMaxParkedWindows) {
       _dropParkedWindow(_parkedWindows.keys.first);
@@ -2216,12 +2232,47 @@ class ChatViewModel extends _$ChatViewModel {
     return true;
   }
 
+  void registerScrollAnchorSource({
+    required String channelId,
+    required ChannelScrollAnchor? Function() read,
+  }) {
+    _scrollAnchorSources[channelId] = read;
+  }
+
+  void unregisterScrollAnchorSource(ChannelScrollAnchor? Function() read) {
+    _scrollAnchorSources.removeWhere(
+      (String _, ChannelScrollAnchor? Function() source) => source == read,
+    );
+  }
+
+  /// Returns, once, the anchor saved when [channelId]'s window was parked.
+  ChannelScrollAnchor? takeRestoredScrollAnchor(String channelId) {
+    final ({String channelId, ChannelScrollAnchor anchor})? restored =
+        _restoredScrollAnchor;
+    if (restored == null || restored.channelId != channelId) {
+      return null;
+    }
+    _restoredScrollAnchor = null;
+    return restored.anchor;
+  }
+
+  void _offerRestoredScrollAnchor(
+    String channelId,
+    _ParkedChannelWindow parked,
+  ) {
+    final ChannelScrollAnchor? anchor = parked.scrollAnchor;
+    _restoredScrollAnchor = anchor == null
+        ? null
+        : (channelId: channelId, anchor: anchor);
+  }
+
   void _bindIncomingChannelWindow({
     required String channelId,
     required bool loadMessages,
     required String? targetMessageId,
   }) {
     final _ParkedChannelWindow? parked = _parkedWindows[channelId];
+    _restoredScrollAnchor = null;
     final bool restoreParked =
         loadMessages &&
         (targetMessageId == null || targetMessageId.isEmpty) &&
@@ -2229,6 +2280,7 @@ class ChatViewModel extends _$ChatViewModel {
         parked.messages.isNotEmpty &&
         _canRestoreParkedWindow(parked, channelId);
     if (restoreParked) {
+      _offerRestoredScrollAnchor(channelId, parked);
       _replaceLiveWindow(
         channelId: channelId,
         messages: _mergeInFlightSends(channelId, parked.messages),
@@ -2657,6 +2709,7 @@ class ChatViewModel extends _$ChatViewModel {
                   channelId: state.channelId,
                   messages: state.messages,
                 )) {
+              _offerRestoredScrollAnchor(channelId, parked);
               _replaceLiveWindow(
                 channelId: channelId,
                 messages: _finalizeLoadedMessages(

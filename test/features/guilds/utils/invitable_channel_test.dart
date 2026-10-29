@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/guilds/utils/invitable_channel.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invitable_channel.dart';
 
 void main() {
   const String guildId = 'guild-1';

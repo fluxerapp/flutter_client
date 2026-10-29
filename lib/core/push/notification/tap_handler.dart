@@ -1,0 +1,135 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/push/notification/clear.dart';
+import 'package:fluxer_app/core/push/notification/path_resolver.dart';
+import 'package:fluxer_app/core/push/notification/payload.dart';
+import 'package:fluxer_app/core/push/notification/pending_path_provider.dart'
+    show pendingPushNotificationPathProvider, shouldApplyPendingPushNavigation;
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'tap_handler.g.dart';
+
+enum PushNotificationTapSource { local, fcm }
+
+@Riverpod(keepAlive: true)
+class PushNotificationTapHandler extends _$PushNotificationTapHandler {
+  @override
+  void build() {}
+
+  void handlePayloadJson(String? payloadJson) {
+    if (payloadJson == null || payloadJson.isEmpty) {
+      return;
+    }
+    try {
+      final Object? decoded = jsonDecode(payloadJson);
+      if (decoded is! Map<String, dynamic>) {
+        return;
+      }
+      final Map<String, String> payload = decoded.map(
+        (String key, dynamic value) =>
+            MapEntry<String, String>(key, value?.toString() ?? ''),
+      );
+      handlePayload(payload, source: PushNotificationTapSource.local);
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[PushNotificationTap] payload parse failed: $e\n$st');
+      }
+    }
+  }
+
+  void handlePayload(
+    Map<String, String> payload, {
+    PushNotificationTapSource source = PushNotificationTapSource.fcm,
+  }) {
+    final Map<String, String> normalized = normalizePushTapPayload(payload);
+    unawaited(PushNotificationClear.cancelForPayload(normalized));
+    final String? path = resolvePushNotificationPath(normalized);
+    if (path == null) {
+      talker.warning(
+        '[PushNotificationTap] no navigable path '
+        '(source=${source.name}) in $normalized',
+      );
+      return;
+    }
+    unawaited(
+      _navigateToPath(path, targetUserId: normalized['target_user_id']),
+    );
+  }
+
+  Future<void> _navigateToPath(String path, {String? targetUserId}) async {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (targetUserId != null &&
+        targetUserId.isNotEmpty &&
+        targetUserId != currentUserId) {
+      final bool known = await _isKnownValidAccount(targetUserId);
+      if (!ref.mounted) {
+        return;
+      }
+      if (!known) {
+        talker.warning(
+          '[PushNotificationTap] target account is not on this device',
+        );
+        return;
+      }
+      ref
+          .read(pendingPushNotificationPathProvider.notifier)
+          .store(path, accountUserId: targetUserId);
+      try {
+        await ref
+            .read(accountManagerProvider.notifier)
+            .switchToAccount(targetUserId);
+      } on Object catch (error, stackTrace) {
+        talker.handle(
+          error,
+          stackTrace,
+          '[PushNotificationTap] account switch',
+        );
+      }
+      return;
+    }
+    if (!shouldApplyPendingPushNavigation(
+      isAuthenticated: ref.read(authStateProvider),
+      isGatewayReady: ref.read(gatewayReadyProvider),
+      isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
+      splashExitAllowed: ref.read(splashExitAllowedProvider),
+    )) {
+      ref.read(pendingPushNotificationPathProvider.notifier).store(path);
+      return;
+    }
+    ref.read(pendingPushNotificationPathProvider.notifier).open(path);
+  }
+
+  Future<bool> _isKnownValidAccount(String userId) async {
+    if (_listedValidAccount(userId)) {
+      return true;
+    }
+    try {
+      await ref.read(accountManagerProvider.notifier).loadAccounts();
+    } on Object catch (error, stackTrace) {
+      talker.handle(error, stackTrace, '[PushNotificationTap] load accounts');
+    }
+    if (!ref.mounted) {
+      return false;
+    }
+    return _listedValidAccount(userId);
+  }
+
+  bool _listedValidAccount(String userId) {
+    return ref
+        .read(accountManagerProvider)
+        .accounts
+        .any(
+          (StoredAccount account) =>
+              account.userId == userId && account.isValid,
+        );
+  }
+}

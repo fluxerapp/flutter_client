@@ -1,5 +1,5 @@
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_entry.dart';
-import 'package:fluxer_app/features/settings/utils/guild_audit_log_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_audit_log_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 

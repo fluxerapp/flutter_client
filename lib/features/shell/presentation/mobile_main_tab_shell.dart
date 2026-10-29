@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/router/shell_popup_route_observer.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class MobileMainTabShell extends StatefulWidget {

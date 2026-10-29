@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/settings/utils/expression_image_optimizer.dart';
+import 'package:fluxer_app/features/settings/utils/expressions/expression_image_optimizer.dart';
 import 'package:image/image.dart' as img;
 
 void main() {

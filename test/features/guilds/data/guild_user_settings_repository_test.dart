@@ -10,7 +10,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';

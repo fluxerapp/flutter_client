@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

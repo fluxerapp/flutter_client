@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_fiel
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/shell/domain/nagbar_dismissals_state.dart';
-import 'package:fluxer_app/features/shell/providers/nagbar_dismissals_provider.dart';
+import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart';
 
 class NagbarDismissalsSyncedField
     extends

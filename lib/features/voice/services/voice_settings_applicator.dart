@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
@@ -7,14 +8,14 @@ import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
-import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
-import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
-import 'package:fluxer_app/features/voice/utils/voice_audio_publish_options.dart';
-import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
-import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
-import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
-import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
-import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
+import 'package:fluxer_app/features/voice/utils/audio/audio_publish_options.dart';
+import 'package:fluxer_app/features/voice/utils/audio/processing_profile.dart';
+import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
+import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
+import 'package:fluxer_app/features/voice/utils/e2ee/p2p_mode.dart';
+import 'package:fluxer_app/features/voice/utils/media/camera_platform.dart';
+import 'package:fluxer_app/features/voice/utils/media/camera_resolution_presets.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_presets.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -547,25 +548,40 @@ class VoiceSettingsApplicator {
     await track.restartTrack(options);
   }
 
+  Future<void> _applyLiveKitOutputRoutePreference(
+    VoiceOutputRoute route,
+  ) async {
+    try {
+      switch (route) {
+        case VoiceOutputRoute.speaker:
+          await AudioManager.instance.setSpeakerOutputPreferred(
+            true,
+            force: true,
+          );
+        case VoiceOutputRoute.headset:
+        case VoiceOutputRoute.earpiece:
+          await AudioManager.instance.setSpeakerOutputPreferred(false);
+      }
+    } on Object catch (_) {}
+  }
+
   Future<void> applySpeakerOutput({
     required VoiceSettingsState settings,
+    bool holdRoute = true,
   }) async {
-    if (AudioManager.instance.canSwitchSpeakerphone) {
-      final Set<VoiceOutputRoute> available =
-          await readAvailableVoiceOutputRoutes();
-      final VoiceOutputRoute route = effectiveVoiceOutputRoute(
-        preference: settings.outputRoute,
-        available: available,
-      );
-      final bool speaker = liveKitPrefersSpeaker(route);
-      try {
-        await AudioManager.instance.setSpeakerOutputPreferred(
-          speaker,
-          force: speaker,
-        );
-      } on Object catch (_) {}
-      await applyNativeVoiceOutputRoute(route);
+    if (!AudioManager.instance.canSwitchSpeakerphone) {
+      return;
     }
+    final Set<VoiceOutputRoute> available =
+        await readAvailableVoiceOutputRoutes();
+    final VoiceOutputRoute route = resolveVoiceOutputRoute(
+      preference: settings.outputRoute,
+      available: available,
+    );
+    await _applyLiveKitOutputRoutePreference(route);
+    final bool nativeHold =
+        defaultTargetPlatform == TargetPlatform.android && holdRoute;
+    await applyNativeVoiceOutputRoute(route, hold: nativeHold);
   }
 
   String? _resolveDeviceId(String deviceId) {

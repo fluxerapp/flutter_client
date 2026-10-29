@@ -19,6 +19,8 @@ abstract class ChannelDetailsDrawerPhysicsHost {
 class ChannelDetailsDrawerDragBridge {
   ChannelDetailsDrawerPhysicsHost? _host;
 
+  // attach keeps a symmetric API with detach
+  // ignore: use_setters_to_change_properties
   void attach(ChannelDetailsDrawerPhysicsHost host) {
     _host = host;
   }

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/push_tray_registry.dart';
+import 'package:fluxer_app/core/push/tray/registry.dart';
 
 void main() {
   group('PushTrayRegistry', () {

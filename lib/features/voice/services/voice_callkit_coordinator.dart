@@ -11,15 +11,15 @@ import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/push/apns/apns_voip_mobile_device_registration.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
-import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/foreign_incoming_voice_call_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_sheet.dart';
@@ -29,14 +29,14 @@ import 'package:fluxer_app/features/voice/providers/voice_callkit_engine_gate_pr
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
-import 'package:fluxer_app/features/voice/utils/foreign_account_call_ring.dart';
-import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
-import 'package:fluxer_app/features/voice/utils/voice_call_in_progress_marker.dart';
-import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
-import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
-import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
-import 'package:fluxer_app/features/voice/utils/voice_callkit_session_store.dart';
-import 'package:fluxer_app/features/voice/utils/voice_session_navigation.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/call_in_progress_marker.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/call_ring.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/callkit_params.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/callkit_session_store.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/foreign_account_call_ring.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/incoming_call_actions.dart';
+import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -184,6 +184,7 @@ class VoiceCallKitCoordinatorLogic {
         if (!shouldReapplySpeakerOutputOnPreferenceChange(
           isInVoice: voice.isInVoice,
           speakerPreferenceChanged: previous?.outputRoute != next.outputRoute,
+          isAndroid: Platform.isAndroid,
         )) {
           return;
         }

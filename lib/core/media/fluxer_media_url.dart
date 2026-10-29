@@ -16,18 +16,19 @@ abstract final class FluxerMediaUrl {
 
   static const int defaultAvatarCount = 6;
 
-  static String? defaultAvatar({required String userId}) {
+  static String? defaultAvatar({required String userId, String? staticCdn}) {
     if (userId.isEmpty) {
       return null;
     }
+    final String cdn = staticCdn ?? fluxerStaticCdn;
     final int? index = _decimalMod(userId, defaultAvatarCount);
     if (index != null) {
-      return '$fluxerStaticCdn/avatars/$index.png';
+      return '$cdn/avatars/$index.png';
     }
     try {
       final BigInt bigIndex =
           BigInt.parse(userId) % BigInt.from(defaultAvatarCount);
-      return '$fluxerStaticCdn/avatars/$bigIndex.png';
+      return '$cdn/avatars/$bigIndex.png';
     } on FormatException {
       return null;
     }

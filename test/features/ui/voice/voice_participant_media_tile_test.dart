@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
-import 'package:fluxer_app/features/voice/utils/voice_video_subscription.dart';
+import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';

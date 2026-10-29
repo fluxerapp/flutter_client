@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
-import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
+import 'package:fluxer_app/features/guilds/utils/invites/invite_people_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

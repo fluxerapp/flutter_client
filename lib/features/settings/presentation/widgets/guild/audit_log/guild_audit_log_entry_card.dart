@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_consta
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_entry.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_change_formatters.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_summary_builder.dart';
-import 'package:fluxer_app/features/settings/utils/guild_audit_log_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_audit_log_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

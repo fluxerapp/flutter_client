@@ -1,2 +1,6 @@
 app_identifier("app.fluxer")
 team_id(ENV["APPLE_TEAM_ID"])
+
+for_platform :android do
+  package_name("com.fluxer")
+end

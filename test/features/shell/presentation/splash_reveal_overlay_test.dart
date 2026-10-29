@@ -5,7 +5,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';

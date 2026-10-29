@@ -134,6 +134,7 @@ UserPrivateResponse _privateUser(String id) => UserPrivateResponse(
   lastVoiceActivitySharingChangeAt: null,
   premiumBadgeHidden: false,
   premiumPerksDisabled: false,
+  hiddenProfileBadges: const <String>[],
 );
 
 MessagesCompanion _cachedMessage({

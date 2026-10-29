@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
-import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/premium_subscription_manage.dart';
 import 'package:fluxer_dart/export.dart';
 
 void main() {

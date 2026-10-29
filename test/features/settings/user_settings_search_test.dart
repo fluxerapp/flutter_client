@@ -5,8 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
-import 'package:fluxer_app/features/settings/utils/user_settings_search.dart';
-import 'package:fluxer_app/features/settings/utils/user_settings_search_index.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_search.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_search_index.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 Future<FluxerLocalizations> _loadL10n() {

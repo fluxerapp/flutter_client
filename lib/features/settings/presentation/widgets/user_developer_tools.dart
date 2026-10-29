@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/observability/reporting_consent/observability_re
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_coordinator.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_provider.dart';
 import 'package:fluxer_app/core/premium/app_store_distribution.dart';
-import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/push/services/apple_push_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_fonts.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -251,15 +251,16 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
   }
 
   Future<void> _showObservabilityReportingConsentSheet() async {
+    final ObservabilityReporting reporting = ref.read(
+      observabilityReportingProvider.notifier,
+    );
+    final ObservabilityReportingPromptDismissed dismissed = ref.read(
+      observabilityReportingPromptDismissedProvider.notifier,
+    );
     final bool? optedIn = await showObservabilityReportingConsentSheet(context);
-    if (!mounted) {
-      return;
-    }
     await recordObservabilityReportingConsentSheetResult(
-      reporting: ref.read(observabilityReportingProvider.notifier),
-      dismissed: ref.read(
-        observabilityReportingPromptDismissedProvider.notifier,
-      ),
+      reporting: reporting,
+      dismissed: dismissed,
       optedIn: optedIn,
     );
   }

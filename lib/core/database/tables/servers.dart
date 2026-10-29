@@ -16,6 +16,7 @@ class Servers extends Table {
   TextColumn get ownerId => text().nullable()();
   IntColumn get position => integer().withDefault(const Constant(0))();
   TextColumn get featuresJson => text().withDefault(const Constant('[]'))();
+  TextColumn get badgeIdsJson => text().withDefault(const Constant('[]'))();
   BoolColumn get unavailable => boolean().withDefault(const Constant(false))();
   IntColumn get disabledOperations =>
       integer().withDefault(const Constant(0))();

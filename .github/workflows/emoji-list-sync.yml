@@ -84,7 +84,7 @@ jobs:
           flutter config --enable-native-assets
 
       - name: Verify emoji registry
-        run: flutter test test/shared/utils/emoji_registry_test.dart
+        run: flutter test test/shared/utils/emoji/emoji_registry_test.dart
 
       - name: Open pull request
         env:

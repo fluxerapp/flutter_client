@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
@@ -19,8 +19,8 @@ import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.d
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_kit_player_lifecycle.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/android_push_conversation_notification.dart';
-import 'package:fluxer_app/core/push/push_notification_payload.dart';
+import 'package:fluxer_app/core/push/android/conversation/messaging_style.dart';
+import 'package:fluxer_app/core/push/notification/payload.dart';
 
 void main() {
   group('isNotificationClearPayload', () {

@@ -1,4 +1,4 @@
-import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_bans_utils.dart';
 import 'package:fluxer_dart/export.dart';
 
 class GuildBanEntry {

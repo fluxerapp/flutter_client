@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/bookmarks/data/saved_messages_repository.dart';
 import 'package:fluxer_app/features/bookmarks/domain/saved_messages.dart';
 import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';

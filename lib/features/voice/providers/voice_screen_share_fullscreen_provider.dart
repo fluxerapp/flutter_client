@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
-import 'package:fluxer_app/features/voice/utils/voice_screen_share_fullscreen.dart';
+import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_fullscreen.dart';
 
 class VoiceScreenShareFullscreen
     extends Notifier<VoiceScreenShareFullscreenPrefs> {
@@ -10,7 +10,11 @@ class VoiceScreenShareFullscreen
       Set<String>? previous,
       Set<String> next,
     ) {
-      if (next.isEmpty) {
+      if (next.isNotEmpty || previous == null || previous.isEmpty) {
+        return;
+      }
+      final String? tileId = state.expandedTileId;
+      if (tileId == null || previous.contains(tileId)) {
         state = const VoiceScreenShareFullscreenPrefs();
       }
     });
@@ -22,10 +26,19 @@ class VoiceScreenShareFullscreen
       state = state.copyWith(
         userExpanded: false,
         blockLandscapeAutoExpand: true,
+        clearExpandedTileId: true,
       );
       return;
     }
     state = state.copyWith(userExpanded: true, blockLandscapeAutoExpand: false);
+  }
+
+  void expandTile(String tileId) {
+    state = state.copyWith(
+      userExpanded: true,
+      blockLandscapeAutoExpand: false,
+      expandedTileId: tileId,
+    );
   }
 
   void reset() {

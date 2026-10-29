@@ -34,45 +34,6 @@ void main() {
     });
   });
 
-  group('effectiveVoiceOutputRoute', () {
-    test('routes speaker preference through headset when available', () {
-      expect(
-        effectiveVoiceOutputRoute(
-          preference: VoiceOutputRoute.speaker,
-          available: VoiceOutputRoute.values.toSet(),
-        ),
-        VoiceOutputRoute.headset,
-      );
-    });
-
-    test('keeps speaker when no headset is available', () {
-      expect(
-        effectiveVoiceOutputRoute(
-          preference: VoiceOutputRoute.speaker,
-          available: kPhoneVoiceOutputRoutes,
-        ),
-        VoiceOutputRoute.speaker,
-      );
-    });
-
-    test('keeps explicit headset and earpiece routes', () {
-      expect(
-        effectiveVoiceOutputRoute(
-          preference: VoiceOutputRoute.headset,
-          available: VoiceOutputRoute.values.toSet(),
-        ),
-        VoiceOutputRoute.headset,
-      );
-      expect(
-        effectiveVoiceOutputRoute(
-          preference: VoiceOutputRoute.earpiece,
-          available: VoiceOutputRoute.values.toSet(),
-        ),
-        VoiceOutputRoute.earpiece,
-      );
-    });
-  });
-
   group('liveKitPrefersSpeaker', () {
     test('forces the speaker only for the speaker route', () {
       expect(liveKitPrefersSpeaker(VoiceOutputRoute.speaker), isTrue);

@@ -1,4 +1,4 @@
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:media_kit/media_kit.dart';
 
 Map<String, String> chatVideoHdrMpvProperties(HdrDisplayMode mode) {

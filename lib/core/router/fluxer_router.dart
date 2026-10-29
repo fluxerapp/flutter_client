@@ -2,14 +2,14 @@ import 'dart:async' show unawaited;
 
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/observability/fluxer_measure_navigator_observer.dart';
-import 'package:fluxer_app/core/providers/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
-import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
-import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
-import 'package:fluxer_app/core/push/pending_push_notification_route.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/push/notification/pending_path_provider.dart';
+import 'package:fluxer_app/core/push/notification/pending_route.dart';
 import 'package:fluxer_app/core/router/channel_persistence_observer.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
@@ -62,7 +62,7 @@ import 'package:fluxer_app/features/shell/presentation/invalid_deep_link_screen.
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
-import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_route_gate.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'

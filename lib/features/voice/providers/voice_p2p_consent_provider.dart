@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/features/settings/providers/voice_prompts_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_prompts_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_p2p_sheets.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';

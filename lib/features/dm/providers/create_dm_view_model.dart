@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/dm/presentation/modals/duplicate_group_confi
 import 'package:fluxer_app/features/dm/presentation/modals/unaddable_recipients_confirm_modal.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/utils/create_dm_api_errors.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';

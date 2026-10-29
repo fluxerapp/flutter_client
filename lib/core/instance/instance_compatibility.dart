@@ -2,6 +2,8 @@ import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Shared entry points for instance discovery and well-known validation
+// ignore: avoid_classes_with_only_static_members
 abstract final class InstanceCompatibility {
   static const String currentInstanceCodename = 'tungsten';
 

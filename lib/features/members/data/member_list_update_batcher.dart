@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/members/data/member_list_drift_sync.dart';
 import 'package:fluxer_app/features/members/domain/member_list_range_utils.dart';
 import 'package:fluxer_app/features/members/domain/member_list_viewport_state.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 const int kMemberListUpdateBatchMs = 1000;

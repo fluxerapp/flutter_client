@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/privacy/privac
 import 'package:fluxer_app/features/settings/presentation/widgets/privacy/privacy_profile_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/privacy/privacy_sensitive_content_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
-import 'package:fluxer_app/features/settings/providers/privacy_dashboard_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/privacy_dashboard_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

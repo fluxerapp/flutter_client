@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_payload.dart';
 
 const String kWebPushDefaultTitle = 'Fluxer';
 

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 
 void main() {
   group('resolveShellBackAction', () {
@@ -203,6 +203,35 @@ void main() {
           isThreadChat: true,
         ),
         ShellBackAction.leaveChat,
+      );
+    });
+
+    test('phone thread chat entered from parent leaves to the parent', () {
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          hasChannelDetailsDrawerOpen: false,
+          revealSide: RevealSide.main,
+          shellLocation: '/channels/guild-1/thread-1',
+          isThreadChat: true,
+        ),
+        ShellBackAction.leaveChat,
+      );
+    });
+
+    test('phone thread chat entered from the list reveals the drawer', () {
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          hasChannelDetailsDrawerOpen: false,
+          revealSide: RevealSide.main,
+          shellLocation: '/channels/guild-1/thread-1',
+        ),
+        ShellBackAction.revealDrawer,
       );
     });
 

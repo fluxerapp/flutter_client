@@ -8,10 +8,10 @@ import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoj
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_state.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_expressions_repository_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
-import 'package:fluxer_app/features/settings/utils/expression_image_optimizer.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_name_validation.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_search_utils.dart';
-import 'package:fluxer_app/features/settings/utils/guild_expression_upload_utils.dart';
+import 'package:fluxer_app/features/settings/utils/expressions/expression_image_optimizer.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_name_validation.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_search_utils.dart';
+import 'package:fluxer_app/features/settings/utils/guild/guild_expression_upload_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -6,12 +6,12 @@ import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility_messages.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
-import 'package:fluxer_app/core/providers/active_instance_compatibility_provider.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
-import 'package:fluxer_app/core/providers/app_startup_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_compatibility_provider.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/color_utils.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -21,12 +21,12 @@ import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/local_settings_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/local_settings_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/service_status_connection_footer.dart';
-import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
+import 'package:fluxer_app/features/shell/providers/service_status/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/shell/utils/splash_quotes.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
@@ -177,12 +177,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   void _scheduleExitReveal() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      _maybeStartExitReveal();
-    });
+    WidgetsBinding.instance
+      ..addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _maybeStartExitReveal();
+      })
+      ..ensureVisualUpdate();
   }
 
   void _maybeStartExitReveal() {

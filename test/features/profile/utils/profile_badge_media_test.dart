@@ -12,9 +12,11 @@ void main() {
 
   test('profileBadgeImageHash prefers small asset at low height', () {
     const ProfileBadgeResponse badge = ProfileBadgeResponse(
+      key: 'operator_pass',
       kind: 'operator_pass',
       label: 'Operator',
       asset: 'fullhash',
+      assetUrl: null,
       smallAsset: 'smallhash',
       aspectRatio: null,
       caption: null,

@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
-import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/providers/double_tap_reaction_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
