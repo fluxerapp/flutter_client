@@ -176,12 +176,14 @@ jobs:
           bundle install --jobs 4 --retry 3
 
       - name: Upload beta AAB to Google Play
-        continue-on-error: true
         env:
           BETA_RELEASE_TAG: ${{ steps.beta_version_name.outputs.tag_name }}
           PLAY_STORE_TRACK: beta
           SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
-        run: bundle exec fastlane android upload_beta_fcm_aab
+        run: |
+          if ! bundle exec fastlane android upload_beta_fcm_aab; then
+            echo "::warning::Google Play upload failed. APK/AAB artifacts will still be uploaded."
+          fi
 
       - name: Upload beta APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
