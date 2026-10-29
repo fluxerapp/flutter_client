@@ -24,6 +24,7 @@ class InstanceRuntimeConfig {
     this.usernameSignIn = false,
     this.uniqueUsernames = false,
     this.guildCreateAccess = true,
+    this.discoveryEnabled = true,
     this.iconUrl,
     this.symbolUrl,
     this.logoUrl,
@@ -55,6 +56,7 @@ class InstanceRuntimeConfig {
   final String? singleCommunityGuildId;
   final bool directMessagesDisabled;
   final bool guildCreateAccess;
+  final bool discoveryEnabled;
   final bool registrationClosed;
   final bool adminRegistrationUrlsEnabled;
   final bool collectDateOfBirth;
@@ -126,6 +128,7 @@ class InstanceRuntimeConfig {
           : singleCommunityGuildId,
       directMessagesDisabled: response.community.directMessagesDisabled,
       guildCreateAccess: response.community.guildCreateAccess,
+      discoveryEnabled: response.features.discoveryEnabled ?? true,
       registrationClosed:
           response.registration.mode == InstanceRegistrationModeSchema.closed,
       adminRegistrationUrlsEnabled:
@@ -136,6 +139,8 @@ class InstanceRuntimeConfig {
 
   String? get compactMarkUrl =>
       _nonEmpty(symbolUrl) ?? _nonEmpty(iconUrl) ?? _nonEmpty(logoUrl);
+
+  bool get exploreAvailable => !singleCommunity && discoveryEnabled;
 
   bool get showsPremiumFeatures => !selfHosted || premiumEnabled;
 
@@ -182,6 +187,7 @@ class InstanceRuntimeConfig {
         other.singleCommunityGuildId == singleCommunityGuildId &&
         other.directMessagesDisabled == directMessagesDisabled &&
         other.guildCreateAccess == guildCreateAccess &&
+        other.discoveryEnabled == discoveryEnabled &&
         other.registrationClosed == registrationClosed &&
         other.adminRegistrationUrlsEnabled == adminRegistrationUrlsEnabled &&
         other.collectDateOfBirth == collectDateOfBirth &&
@@ -212,6 +218,7 @@ class InstanceRuntimeConfig {
     singleCommunityGuildId,
     directMessagesDisabled,
     guildCreateAccess,
+    discoveryEnabled,
     registrationClosed,
     adminRegistrationUrlsEnabled,
     collectDateOfBirth,

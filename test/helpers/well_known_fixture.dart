@@ -10,6 +10,7 @@ WellKnownFluxerResponse wellKnownFixture({
   bool selfHosted = true,
   String? accountIdentity,
   String? tagStyle,
+  bool? discoveryEnabled,
 }) {
   return parseWellKnownFluxer(<String, dynamic>{
     'api_code_version': 1,
@@ -37,6 +38,7 @@ WellKnownFluxerResponse wellKnownFixture({
       'emails_enabled': accountIdentity != 'username',
       'account_identity': ?accountIdentity,
       'tag_style': ?tagStyle,
+      'discovery_enabled': ?discoveryEnabled,
     },
     'registration': <String, dynamic>{
       'mode': 'open',

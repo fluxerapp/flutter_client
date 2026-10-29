@@ -101,6 +101,41 @@ void main() {
       expect(closed.giftsEnabled, isFalse);
     });
 
+    test('shows Explore unless the instance turns discovery off', () {
+      InstanceRuntimeConfig config({bool? discoveryEnabled}) =>
+          InstanceRuntimeConfig.fromWellKnown(
+            wellKnownFixture(
+              media: 'https://chat.example/media',
+              staticCdn: 'https://chat.example/static',
+              discoveryEnabled: discoveryEnabled,
+            ),
+          );
+      expect(config().exploreAvailable, isTrue);
+      expect(config(discoveryEnabled: true).exploreAvailable, isTrue);
+      expect(config(discoveryEnabled: false).exploreAvailable, isFalse);
+      expect(InstanceRuntimeConfig.defaults.exploreAvailable, isTrue);
+    });
+
+    test('hides Explore in single-community mode', () {
+      const InstanceRuntimeConfig single = InstanceRuntimeConfig(
+        productName: 'Acme',
+        selfHosted: true,
+        stripeEnabled: false,
+        emailsEnabled: false,
+        voiceEnabled: true,
+        presignedAttachmentUploads: false,
+        gifEnabled: false,
+        blueskyEnabled: false,
+        gifAttributionRequired: false,
+        singleCommunity: true,
+        directMessagesDisabled: false,
+        registrationClosed: false,
+        adminRegistrationUrlsEnabled: false,
+        collectDateOfBirth: false,
+      );
+      expect(single.exploreAvailable, isFalse);
+    });
+
     test('treats equal configs as equal', () {
       expect(
         InstanceRuntimeConfig.defaults,

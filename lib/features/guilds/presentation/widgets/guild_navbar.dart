@@ -274,6 +274,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required int pendingUnavailableCount,
     required List<GuildNavbarItem> organizedItems,
     required bool showAddCommunity,
+    required bool showExplore,
     required bool hideDirectMessages,
   }) {
     final List<_NavbarListEntry> entries = <_NavbarListEntry>[];
@@ -326,9 +327,11 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           );
       }
     }
-    entries.add(
-      const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
-    );
+    if (showExplore) {
+      entries.add(
+        const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
+      );
+    }
     if (showAddCommunity) {
       entries.add(
         const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
@@ -479,6 +482,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       });
 
     final bool showAddCommunity = ref.watch(addGuildEnabledProvider);
+    final bool showExplore = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.exploreAvailable),
+    );
     final bool hideDirectMessages = ref.watch(
       instanceRuntimeConfigProvider.select(
         (config) => config.directMessagesDisabled,
@@ -493,6 +499,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       pendingUnavailableCount: pendingUnavailableCount,
       organizedItems: organizedItems,
       showAddCommunity: showAddCommunity,
+      showExplore: showExplore,
       hideDirectMessages: hideDirectMessages,
     );
     _indicatorEntries = navbarEntries;
