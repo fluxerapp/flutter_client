@@ -675,20 +675,25 @@ end
 platform :android do
   desc "Upload beta FCM app bundle to Google Play"
   lane :upload_beta_fcm_aab do
-    aab_glob = File.join(project_root_path, "build/app/outputs/bundle/betaFcmRelease/*.aab")
-    aab_path = Dir.glob(aab_glob).first
-    if aab_path.nil? || !File.exist?(aab_path)
-      UI.user_error!("Beta FCM AAB not found (expected #{aab_glob})")
+    aab_path = File.join(
+      project_root_path,
+      "build/app/outputs/bundle/betaFcmRelease/app-beta-fcm-release.aab"
+    )
+    unless File.exist?(aab_path)
+      UI.user_error!("Beta FCM AAB not found (expected #{aab_path})")
     end
+
+    metadata_dir = Dir.mktmpdir("play-store-beta")
+    changelog_dir = File.join(metadata_dir, "android", "en-US", "changelogs")
+    sh("mkdir", "-p", changelog_dir)
+    File.write(File.join(changelog_dir, "default.txt"), play_store_beta_release_notes)
 
     upload_to_play_store(
       package_name: "com.fluxer",
       aab: aab_path,
       track: fetchOptionalEnvironmentValue("PLAY_STORE_TRACK", "beta"),
       json_key_data: fetchRequiredEnvironmentValue("SUPPLY_JSON_KEY_DATA"),
-      release_notes: {
-        "en-US" => play_store_beta_release_notes
-      },
+      metadata_path: metadata_dir,
       skip_upload_apk: true,
       skip_upload_metadata: true,
       skip_upload_images: true,

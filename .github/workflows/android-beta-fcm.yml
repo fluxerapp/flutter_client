@@ -176,6 +176,7 @@ jobs:
           bundle install --jobs 4 --retry 3
 
       - name: Upload beta AAB to Google Play
+        continue-on-error: true
         env:
           BETA_RELEASE_TAG: ${{ steps.beta_version_name.outputs.tag_name }}
           PLAY_STORE_TRACK: beta
@@ -195,5 +196,5 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: beta-fcm-aab
-          path: build/app/outputs/bundle/betaFcmRelease/*.aab
+          path: build/app/outputs/bundle/betaFcmRelease/app-beta-fcm-release.aab
           if-no-files-found: error
