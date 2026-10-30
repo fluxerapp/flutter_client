@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/message_list_unread_ack_test_helpers.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
 import 'messages/message_list_test_harness.dart';
@@ -3301,9 +3302,10 @@ void main() {
               targetMessageId: targetId,
             ),
             overrides: <Override>[
-              messageListReadStateProvider(
-                messageListChannelId,
-              ).overrideWith((ref) => readStateController.stream),
+              messageListReadStateProvider(messageListChannelId).overrideWith(
+                (ref) =>
+                    mapReadStateStreamToUnreadAck(readStateController.stream),
+              ),
             ],
           ),
         );
@@ -3393,9 +3395,10 @@ void main() {
               targetMessageId: targetId,
             ),
             overrides: <Override>[
-              messageListReadStateProvider(
-                messageListChannelId,
-              ).overrideWith((ref) => readStateController.stream),
+              messageListReadStateProvider(messageListChannelId).overrideWith(
+                (ref) =>
+                    mapReadStateStreamToUnreadAck(readStateController.stream),
+              ),
             ],
           ),
         );
@@ -3483,9 +3486,10 @@ void main() {
               targetMessageId: target.id,
             ),
             overrides: <Override>[
-              messageListReadStateProvider(
-                messageListChannelId,
-              ).overrideWith((ref) => readStateController.stream),
+              messageListReadStateProvider(messageListChannelId).overrideWith(
+                (ref) =>
+                    mapReadStateStreamToUnreadAck(readStateController.stream),
+              ),
             ],
           ),
         );
@@ -3561,9 +3565,10 @@ void main() {
             database: source.database,
             chatViewModel: loadingChatViewModel,
             overrides: <Override>[
-              messageListReadStateProvider(
-                messageListChannelId,
-              ).overrideWith((ref) => readStateController.stream),
+              messageListReadStateProvider(messageListChannelId).overrideWith(
+                (ref) =>
+                    mapReadStateStreamToUnreadAck(readStateController.stream),
+              ),
             ],
           ),
         );
@@ -3657,9 +3662,10 @@ void main() {
             database: source.database,
             chatViewModel: chatViewModel,
             overrides: <Override>[
-              messageListReadStateProvider(
-                messageListChannelId,
-              ).overrideWith((ref) => readStateController.stream),
+              messageListReadStateProvider(messageListChannelId).overrideWith(
+                (ref) =>
+                    mapReadStateStreamToUnreadAck(readStateController.stream),
+              ),
             ],
           ),
         );
@@ -5302,11 +5308,11 @@ void main() {
         final ProviderContainer container = ProviderScope.containerOf(
           tester.element(find.byType(MessageList)),
         );
-        final ProviderSubscription<AsyncValue<db.ReadState?>> warmReadState =
-            container.listen(
-              messageListReadStateProvider(switchChannelId),
-              (_, _) {},
-            );
+        final ProviderSubscription<AsyncValue<MessageListUnreadAckFields>>
+        warmReadState = container.listen(
+          messageListReadStateProvider(switchChannelId),
+          (_, _) {},
+        );
         addTearDown(warmReadState.close);
         await pumpFluxerFrames(tester);
 

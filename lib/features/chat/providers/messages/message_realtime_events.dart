@@ -57,9 +57,11 @@ class MessagesDeletedBulk extends MessageRealtimeEvent {
 class MessageReactionsChanged extends MessageRealtimeEvent {
   final String channelId;
   final String messageId;
+  final String? reactionsJson;
 
   const MessageReactionsChanged({
     required this.channelId,
     required this.messageId,
+    this.reactionsJson,
   });
 }

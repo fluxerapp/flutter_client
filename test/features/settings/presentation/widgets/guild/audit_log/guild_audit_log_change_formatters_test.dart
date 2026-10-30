@@ -86,4 +86,21 @@ void main() {
       <String>['Renamed the community to New.'],
     );
   });
+
+  test('formats role unicode emoji changes', () {
+    expect(
+      GuildAuditLogChangeFormatters.formatChangeLines(
+        change: const GuildAuditLogChange(
+          key: 'unicode_emoji',
+          newValue: '🛡️',
+        ),
+        actionType: AuditLogActionType.roleUpdate,
+        l10n: l10n,
+        channelNames: const <String, String>{},
+        roleNames: const <String, String>{},
+        userNames: const <String, String>{},
+      ),
+      <String>['Set the role icon to 🛡️'],
+    );
+  });
 }

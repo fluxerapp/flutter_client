@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart'
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/settings/data/guild_role_settings_repository.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_hierarchy.dart';
+import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_icon_field_update.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_order.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_update.dart';
@@ -30,6 +31,7 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 
 class GuildRolesSettingsWidget extends ConsumerStatefulWidget {
   const GuildRolesSettingsWidget({
@@ -307,6 +309,13 @@ class _GuildRolesSettingsWidgetState
     bool showMobileBack = false,
     VoidCallback? onMobileBack,
   }) {
+    final UserSettingsViewState userSettings = ref.watch(
+      userSettingsViewModelProvider,
+    );
+    final String previewDisplayName = resolveDisplayName(
+      username: userSettings.username,
+      globalName: userSettings.displayName,
+    );
     return GuildRoleEditor(
       guildId: widget.guildId,
       role: selectedRoleWithUpdates,
@@ -316,6 +325,10 @@ class _GuildRolesSettingsWidgetState
       filteredPermissionSpecs: filteredPermissionSpecs,
       showMobileBack: showMobileBack,
       onMobileBack: onMobileBack,
+      previewDisplayName: previewDisplayName,
+      previewAvatarUrl: userSettings.avatarUrl,
+      previewUserId: userSettings.userId,
+      previewAvatarColor: userSettings.avatarColor,
       onRoleUpdate:
           ({
             String? name,
@@ -323,6 +336,7 @@ class _GuildRolesSettingsWidgetState
             bool? hoist,
             bool? mentionable,
             int? permissions,
+            GuildRoleIconFieldUpdate? iconField,
           }) => _handleRoleUpdate(
             roleId: selectedRoleWithUpdates.id,
             rolesById: rolesById,
@@ -332,6 +346,7 @@ class _GuildRolesSettingsWidgetState
             hoist: hoist,
             mentionable: mentionable,
             permissions: permissions,
+            iconField: iconField,
           ),
       onDeleteRole: () => _deleteRole(
         l10n: l10n,
@@ -621,6 +636,7 @@ class _GuildRolesSettingsWidgetState
     bool? hoist,
     bool? mentionable,
     int? permissions,
+    GuildRoleIconFieldUpdate? iconField,
   }) {
     final MemberRole? original = rolesById[roleId];
     if (original == null || isRoleLocked(original)) {
@@ -633,6 +649,7 @@ class _GuildRolesSettingsWidgetState
       hoist: hoist,
       mentionable: mentionable,
       permissions: permissions,
+      iconField: iconField,
     );
     setState(() {
       final GuildRoleUpdate? merged = mergeGuildRoleUpdate(
@@ -797,6 +814,7 @@ class _GuildRolesSettingsWidgetState
           hoist: update.hoist,
           mentionable: update.mentionable,
           permissions: update.permissions,
+          iconField: update.iconField,
         );
       }
       if (!mounted) {

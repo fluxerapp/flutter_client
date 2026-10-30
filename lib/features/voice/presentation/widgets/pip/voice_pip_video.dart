@@ -18,6 +18,8 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/grid_layout/participant_tile_id.dart';
 import 'package:fluxer_app/features/voice/utils/media/participant_track_resolver.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 
@@ -62,13 +64,21 @@ class VoicePipVideo extends ConsumerWidget {
       localConnectionId: voice.activeConnectionId,
     );
     final database.User? user = match.user;
-    final Color background = user?.avatarColor == null
+    final GuildUserDisplay? userDisplay = watchGuildScopedUserDisplay(
+      ref: ref,
+      userId: match.userId,
+      guildId: voice.guildId,
+      currentUserId: me,
+    );
+    final int? avatarArgb = userDisplay?.avatarColor ?? user?.avatarColor;
+    final Color background = avatarArgb == null
         ? context.colors.brandPrimary
-        : Color(0xFF000000 | user!.avatarColor!);
+        : Color(0xFF000000 | avatarArgb);
     if (participant == null) {
       return _PipAvatarFallback(
         user: user,
         userId: match.userId,
+        userDisplay: userDisplay,
         background: background,
       );
     }
@@ -86,6 +96,7 @@ class VoicePipVideo extends ConsumerWidget {
       ),
       voice: match.voice,
       user: user,
+      userDisplay: userDisplay,
       userId: match.userId,
       background: background,
     );
@@ -100,6 +111,7 @@ class _PipTrackView extends StatefulWidget {
     required this.mirrorOwnCamera,
     required this.voice,
     required this.user,
+    required this.userDisplay,
     required this.userId,
     required this.background,
   });
@@ -110,6 +122,7 @@ class _PipTrackView extends StatefulWidget {
   final bool mirrorOwnCamera;
   final VoiceState voice;
   final database.User? user;
+  final GuildUserDisplay? userDisplay;
   final String userId;
   final Color background;
 
@@ -173,6 +186,7 @@ class _PipTrackViewState extends State<_PipTrackView> {
         final Widget fallback = _PipAvatarFallback(
           user: widget.user,
           userId: widget.userId,
+          userDisplay: widget.userDisplay,
           background: widget.background,
         );
         if (track == null) {
@@ -239,15 +253,22 @@ class _PipAvatarFallback extends StatelessWidget {
   const _PipAvatarFallback({
     required this.user,
     required this.userId,
+    required this.userDisplay,
     required this.background,
   });
 
   final database.User? user;
   final String userId;
+  final GuildUserDisplay? userDisplay;
   final Color background;
 
   @override
   Widget build(BuildContext context) {
-    return VoiceCallAvatar(background: background, userId: userId, user: user);
+    return VoiceCallAvatar(
+      background: background,
+      userId: userId,
+      user: user,
+      userDisplay: userDisplay,
+    );
   }
 }

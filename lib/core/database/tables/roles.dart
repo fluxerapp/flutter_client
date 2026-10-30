@@ -11,6 +11,8 @@ class Roles extends Table {
   BoolColumn get mentionable => boolean().withDefault(const Constant(false))();
   TextColumn get permissions => text().withDefault(const Constant('0'))();
   IntColumn get hoistPosition => integer().nullable()();
+  TextColumn get icon => text().nullable()();
+  TextColumn get unicodeEmoji => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

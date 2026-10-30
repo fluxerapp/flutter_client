@@ -246,6 +246,20 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
+  Future<String?> getLastMessageId(String channelId) {
+    final GeneratedColumn<String> idColumn = messages.id;
+    return (selectOnly(messages)
+          ..addColumns([idColumn])
+          ..where(messages.channelId.equals(channelId))
+          ..orderBy([
+            OrderingTerm.desc(messages.timestamp),
+            OrderingTerm.desc(messages.id.cast<int>()),
+          ])
+          ..limit(1))
+        .map((TypedResult row) => row.read(idColumn)!)
+        .getSingleOrNull();
+  }
+
   Future<Message?> getLastMessage(String channelId) =>
       (select(messages)
             ..where((m) => m.channelId.equals(channelId))
@@ -374,15 +388,29 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     String channelId,
     String messageId,
     String json,
-  ) => (update(messages)..where((_) => _matchesKey(channelId, messageId)))
-      .write(MessagesCompanion(reactionsJson: Value(json)));
+  ) => customUpdate(
+    'UPDATE messages SET reactions_json = ?1 '
+    'WHERE channel_id = ?2 AND id = ?3',
+    variables: <Variable<Object>>[
+      Variable<String>(json),
+      Variable<String>(channelId),
+      Variable<String>(messageId),
+    ],
+  );
 
   Future<void> updateThreadJson({
     required String messageId,
     required String channelId,
     required String? json,
-  }) => (update(messages)..where((_) => _matchesKey(channelId, messageId)))
-      .write(MessagesCompanion(threadJson: Value(json)));
+  }) => customUpdate(
+    'UPDATE messages SET thread_json = ?1 '
+    'WHERE channel_id = ?2 AND id = ?3',
+    variables: <Variable<Object>>[
+      Variable<String>(json),
+      Variable<String>(channelId),
+      Variable<String>(messageId),
+    ],
+  );
 
   Future<void> deleteMessages(String channelId, List<String> ids) {
     if (ids.isEmpty) {
@@ -490,7 +518,8 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
         .toList();
     final List<Message> latestMessages = await customSelect(
       '''
-      SELECT m.*
+      SELECT m.channel_id, m.id, m.content, m.type, m.author_id,
+             m.attachments_json, m.mentioned_user_ids_json, m.timestamp
       FROM messages m
       INNER JOIN (
         SELECT channel_id, MAX(timestamp) AS max_timestamp
@@ -504,11 +533,38 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       ''',
       variables: <Variable<Object>>[...channelVariables, ...channelVariables],
       readsFrom: <TableInfo<Table, Object?>>{messages},
-    ).map((QueryRow row) => messages.map(row.data)).get();
+    ).map(_messageFromDmListPreviewRow).get();
     return <String, Message>{
       for (final Message message in latestMessages) message.channelId: message,
     };
   }
 
   Future<void> clearAll() => delete(messages).go();
+}
+
+Message _messageFromDmListPreviewRow(QueryRow row) {
+  return Message(
+    id: row.read<String>('id'),
+    channelId: row.read<String>('channel_id'),
+    authorId: row.read<String>('author_id'),
+    authorName: '',
+    authorIsBot: false,
+    authorIsSystem: false,
+    authorPublicFlags: 0,
+    content: row.read<String>('content'),
+    timestamp: row.read<DateTime>('timestamp'),
+    embedsJson: '[]',
+    attachmentsJson: row.read<String>('attachments_json'),
+    stickersJson: '[]',
+    reactionsJson: '[]',
+    messageSnapshotsJson: '[]',
+    pinned: false,
+    isMentioned: false,
+    mentionedUserIdsJson: row.read<String>('mentioned_user_ids_json'),
+    mentionChannelsJson: '[]',
+    type: row.read<int>('type'),
+    flags: 0,
+    deliveryState: MessageDeliveryState.sent.index,
+    translationShowOriginal: false,
+  );
 }

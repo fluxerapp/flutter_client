@@ -41,7 +41,7 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 
 **F-Droid**: *Coming once out of beta*
 
-**iOS TestFlight**: Join with the [TestFlight link](https://testflight.apple.com/join/PKZR6pK9).
+**iOS TestFlight**: Join with the [TestFlight link](https://testflight.apple.com/join/PKZR6pK9). **Currently broken due to a bug on Apple's side, We have contacted support**
 
 **Obtainium**: Download OSS and FCM builds automatically directly from the Github builds. [Find out more here](#auto-updates-with-obtainium).
 

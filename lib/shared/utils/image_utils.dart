@@ -3,12 +3,22 @@ import 'dart:io' show Platform;
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path_lib;
 
 typedef AnimationCheckResult = ({bool isAnimated, String? format});
 
 const int _kMaxImageSizeBytes = 10 * 1024 * 1024;
+const int kRoleIconMaxBytes = 256 * 1024;
+const int kRoleIconMinDimension = 32;
+const List<String> kRoleIconAllowedExtensions = <String>[
+  'png',
+  'jpeg',
+  'jpg',
+  'webp',
+  'avif',
+];
 
 // Preserves the existing image utility API used by profile settings.
 // ignore: avoid_classes_with_only_static_members
@@ -58,6 +68,68 @@ abstract final class ImageUtils {
 
   static bool isOverSizeLimit(Uint8List bytes) {
     return bytes.length > _kMaxImageSizeBytes;
+  }
+
+  static bool isOverRoleIconSizeLimit(Uint8List bytes) {
+    return bytes.length > kRoleIconMaxBytes;
+  }
+
+  static bool isRoleIconExtensionAllowed(String filename) {
+    final String ext = path_lib
+        .extension(filename)
+        .toLowerCase()
+        .replaceFirst('.', '');
+    return kRoleIconAllowedExtensions.contains(ext);
+  }
+
+  static Future<Uint8List> prepareRoleIconUploadBytes(Uint8List bytes) async {
+    final img.Image? decoded = img.decodeImage(bytes);
+    if (decoded == null) {
+      throw const FormatException('decode');
+    }
+    img.Image working = decoded;
+    if (working.width < kRoleIconMinDimension ||
+        working.height < kRoleIconMinDimension) {
+      working = img.copyResize(
+        working,
+        width: kRoleIconMinDimension * 2,
+        height: kRoleIconMinDimension * 2,
+        interpolation: img.Interpolation.average,
+      );
+    }
+    final int side = working.width > working.height
+        ? working.width
+        : working.height;
+    if (working.width != side || working.height != side) {
+      working = img.copyResize(
+        working,
+        width: side,
+        height: side,
+        interpolation: img.Interpolation.average,
+      );
+    }
+    return Uint8List.fromList(img.encodePng(working));
+  }
+
+  static Future<Uint8List> squareCustomEmojiForRoleIcon(
+    Uint8List bytes, {
+    int side = 128,
+  }) async {
+    final img.Image? decoded = img.decodeImage(bytes);
+    if (decoded == null) {
+      throw const FormatException('decode');
+    }
+    final int maxSide = decoded.width > decoded.height
+        ? decoded.width
+        : decoded.height;
+    final int target = maxSide > side ? side : maxSide;
+    final img.Image squared = img.copyResize(
+      decoded,
+      width: target,
+      height: target,
+      interpolation: img.Interpolation.average,
+    );
+    return Uint8List.fromList(img.encodePng(squared));
   }
 
   static String detectMimeType(Uint8List bytes) {

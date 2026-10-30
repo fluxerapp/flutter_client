@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/voice/utils/media/participant_track_resolver
 import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -35,6 +36,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
     this.fillContainer = false,
     this.videoCornerRadius = 12,
     this.user,
+    this.userDisplay,
     this.mirrorCamera = false,
     this.omitVideoTrack = false,
     this.subscribeQuality = kVoiceCameraSubscribeQuality,
@@ -56,6 +58,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
   final bool pauseOwnScreenSharePreviewOnUnfocus;
   final String? streamPreviewUrl;
   final database.User? user;
+  final GuildUserDisplay? userDisplay;
   final bool mirrorCamera;
   final bool omitVideoTrack;
   final VideoQuality subscribeQuality;
@@ -403,6 +406,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
             background: backgroundColor,
             userId: widget.userId,
             user: widget.user,
+            userDisplay: widget.userDisplay,
             fallbackText: widget.display,
           ),
           if (showVideoPending)

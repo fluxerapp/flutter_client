@@ -47,6 +47,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../../helpers/message_list_unread_ack_test_helpers.dart';
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
@@ -802,7 +803,7 @@ void main() {
             ).overrideWith((ref) => ChannelMessagePermissions.all),
             messageListReadStateProvider(
               _otherChannelId,
-            ).overrideWith((ref) => Stream<db.ReadState?>.value(null)),
+            ).overrideWith((ref) => messageListUnreadAckStream()),
           ],
         );
         addTearDown(container.dispose);
@@ -1088,7 +1089,7 @@ void main() {
           ).overrideWith((ref) => ChannelMessagePermissions.all),
           messageListReadStateProvider(
             _otherChannelId,
-          ).overrideWith((ref) => Stream<db.ReadState?>.value(null)),
+          ).overrideWith((ref) => messageListUnreadAckStream()),
         ],
       );
       addTearDown(container.dispose);
@@ -1255,7 +1256,9 @@ List<Override> _surfaceOverrides({
       _channelId,
     ).overrideWith((ref) => ChannelMessagePermissions.all),
     messageListReadStateProvider(_channelId).overrideWith(
-      (ref) => readStateStream ?? Stream<db.ReadState?>.value(null),
+      (ref) => readStateStream != null
+          ? mapReadStateStreamToUnreadAck(readStateStream)
+          : messageListUnreadAckStream(),
     ),
     maxMessageLengthProvider.overrideWithValue(2000),
     themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
@@ -1334,7 +1337,7 @@ List<Override> _jumpContentOverrides({required ChatViewModel recorder}) {
     ).overrideWith((ref) => ChannelMessagePermissions.all),
     messageListReadStateProvider(
       _channelId,
-    ).overrideWith((ref) => Stream<db.ReadState?>.value(null)),
+    ).overrideWith((ref) => messageListUnreadAckStream()),
     themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
   ];
 }
@@ -1361,7 +1364,7 @@ List<Override> _contentOverrides({
     ).overrideWith((ref) => ChannelMessagePermissions.all),
     messageListReadStateProvider(
       _channelId,
-    ).overrideWith((ref) => Stream<db.ReadState?>.value(null)),
+    ).overrideWith((ref) => messageListUnreadAckStream()),
     themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
     userSettingsViewModelProvider.overrideWithValue(
       const UserSettingsViewState(
@@ -1774,6 +1777,7 @@ class _FakeWellKnown extends WellKnown {
       sso: InstanceSsoSchema(
         enabled: false,
         enforced: false,
+        usernameFromProvider: false,
         displayName: null,
         buttonLabel: null,
         redirectUri: '',

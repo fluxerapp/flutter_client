@@ -237,6 +237,36 @@ void main() {
       expect(header, isNotNull);
       expect(header!.name, 'Admin');
       expect(header.count, 2);
+      expect(header.iconRole, isNull);
+    });
+
+    test('includes icon role when hoist role has an icon', () {
+      const List<MemberListGroup> groups = <MemberListGroup>[];
+      final List<MemberListGroupLayout> layouts = buildMemberListLayout(
+        <MemberListGroup>[
+          const MemberListGroup(id: '1473045383154057326', count: 2),
+        ],
+      );
+      final Map<String, db.Role> rolesById = <String, db.Role>{
+        '1473045383154057326': const db.Role(
+          id: '1473045383154057326',
+          guildId: 'guild',
+          name: 'Admin',
+          color: 0xFFABCDEF,
+          position: 10,
+          hoist: true,
+          mentionable: true,
+          permissions: '0',
+          unicodeEmoji: '🛡️',
+        ),
+      };
+      final MemberListGroupHeaderData? header = resolveMemberListGroupHeader(
+        groups: groups,
+        layouts: layouts,
+        rowIndex: 0,
+        rolesById: rolesById,
+      );
+      expect(header?.iconRole?.unicodeEmoji, '🛡️');
     });
   });
 }

@@ -4,12 +4,14 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/voice/utils/pip/pip_snap.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
 class VoiceCallAvatar extends StatelessWidget {
   const VoiceCallAvatar({
     required this.background,
     required this.userId,
     this.user,
+    this.userDisplay,
     this.fallbackText,
     super.key,
   });
@@ -17,6 +19,7 @@ class VoiceCallAvatar extends StatelessWidget {
   final Color background;
   final String userId;
   final database.User? user;
+  final GuildUserDisplay? userDisplay;
   final String? fallbackText;
 
   @override
@@ -29,23 +32,33 @@ class VoiceCallAvatar extends StatelessWidget {
             constraints.maxWidth,
             constraints.maxHeight,
           );
-          final double display = voiceTileAvatarSize(shortest);
-          return Center(
-            child: user != null
-                ? FluxerAvatar.fromUserRow(
-                    user!,
-                    size: display,
-                    showStatus: false,
-                  )
-                : FluxerAvatar.user(
-                    userId: userId,
-                    fallbackText: fallbackText,
-                    size: display,
-                    showStatus: false,
-                  ),
-          );
+          final double size = voiceTileAvatarSize(shortest);
+          return Center(child: _avatar(size));
         },
       ),
+    );
+  }
+
+  Widget _avatar(double size) {
+    final GuildUserDisplay? display = userDisplay;
+    if (display != null) {
+      return FluxerAvatar.user(
+        userId: userId,
+        fallbackText: display.displayName,
+        imageUrl: display.avatarUrl,
+        avatarColor: display.avatarColor,
+        size: size,
+        showStatus: false,
+      );
+    }
+    if (user != null) {
+      return FluxerAvatar.fromUserRow(user!, size: size, showStatus: false);
+    }
+    return FluxerAvatar.user(
+      userId: userId,
+      fallbackText: fallbackText,
+      size: size,
+      showStatus: false,
     );
   }
 }

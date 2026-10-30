@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/members/presentation/widgets/role_icon.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -14,6 +15,7 @@ class GuildRoleListItem extends StatelessWidget {
     this.dragHandle,
     this.showChevron = false,
     this.useMobileTileStyle = false,
+    this.reserveIconSlot = false,
     super.key,
   });
 
@@ -25,6 +27,7 @@ class GuildRoleListItem extends StatelessWidget {
   final Widget? dragHandle;
   final bool showChevron;
   final bool useMobileTileStyle;
+  final bool reserveIconSlot;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,16 @@ class GuildRoleListItem extends StatelessWidget {
           height: 12,
           decoration: BoxDecoration(color: roleColor, shape: BoxShape.circle),
         ),
+        if (reserveIconSlot || role.hasIcon) ...<Widget>[
+          const SizedBox(width: 6),
+          SizedBox(
+            width: 16,
+            height: 16,
+            child: role.hasIcon
+                ? RoleIcon(role: role, size: 16, decorative: true)
+                : const SizedBox.shrink(),
+          ),
+        ],
         const SizedBox(width: 8),
         Expanded(
           child: Text(

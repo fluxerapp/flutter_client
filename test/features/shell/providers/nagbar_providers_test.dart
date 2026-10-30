@@ -322,6 +322,7 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
     sso: const InstanceSsoSchema(
       enabled: false,
       enforced: false,
+      usernameFromProvider: false,
       displayName: null,
       buttonLabel: null,
       redirectUri: 'https://example.test/sso',

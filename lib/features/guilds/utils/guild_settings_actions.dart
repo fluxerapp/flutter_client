@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart' show Value;
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/data/read_state_persist.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadChannelType;
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
@@ -58,7 +59,8 @@ Future<void> markGuildAsRead(
   }
 
   for (final entry in ackEntries) {
-    await db.readStateDao.upsertReadState(
+    await upsertReadStateIfChanged(
+      db,
       ReadStatesCompanion(
         channelId: Value(entry.channelId),
         lastMessageId: Value(entry.messageId),

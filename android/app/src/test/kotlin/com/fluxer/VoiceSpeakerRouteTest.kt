@@ -17,6 +17,13 @@ class VoiceSpeakerRouteTest {
     }
 
     @Test
+    fun speakerRouteKeepsSpeakerphoneOn() {
+        assertTrue(speakerphoneOnForRoute(VoiceOutputRoute.Speaker))
+        assertFalse(speakerphoneOnForRoute(VoiceOutputRoute.Earpiece))
+        assertFalse(speakerphoneOnForRoute(VoiceOutputRoute.Headset))
+    }
+
+    @Test
     fun fallsBackOnlyWhenSpeakerDeviceIsRejected() {
         assertTrue(
             needsSpeakerphoneFallback(

@@ -66,7 +66,9 @@ Future<({String? id, bool existsInCache})> resolveLatestMessageIdForChannel(
   String channelId, {
   String? channelLastMessageId,
 }) async {
-  final lastCachedMessage = await db.messageDao.getLastMessage(channelId);
+  final String? cachedLastMessageId = await db.messageDao.getLastMessageId(
+    channelId,
+  );
   var channelLastExists = false;
   if (channelLastMessageId != null && channelLastMessageId.isNotEmpty) {
     channelLastExists =
@@ -74,7 +76,7 @@ Future<({String? id, bool existsInCache})> resolveLatestMessageIdForChannel(
   }
   final id = resolveLatestMessageId(
     channelLastMessageId: channelLastMessageId,
-    cachedLastMessageId: lastCachedMessage?.id,
+    cachedLastMessageId: cachedLastMessageId,
     channelLastMessageExistsInCache: channelLastExists,
   );
   return (id: id, existsInCache: channelLastExists);
@@ -91,15 +93,15 @@ resolveLatestMessageIdsForChannelsBulk(
   if (channelList.isEmpty) {
     return const <String, ChannelLatestMessageResolution>{};
   }
-  final Map<String, Message> lastByChannel = await db.messageDao
-      .getLastMessageForChannels(channelList.map((Channel c) => c.id).toList());
+  final Map<String, String> lastIdsByChannel = await db.messageDao
+      .getLastMessageIds(channelList.map((Channel c) => c.id).toList());
   final Set<MessageKey> pointersToVerify = <MessageKey>{};
   for (final Channel channel in channelList) {
     final String? pointer = channel.lastMessageId;
     if (pointer == null || pointer.isEmpty) {
       continue;
     }
-    final String? cachedId = lastByChannel[channel.id]?.id;
+    final String? cachedId = lastIdsByChannel[channel.id];
     if (cachedId != pointer) {
       pointersToVerify.add((channelId: channel.id, id: pointer));
     }
@@ -112,14 +114,14 @@ resolveLatestMessageIdsForChannelsBulk(
     final String? pointer = channel.lastMessageId;
     var existsInCache = false;
     if (pointer != null && pointer.isNotEmpty) {
-      final String? cachedId = lastByChannel[channel.id]?.id;
+      final String? cachedId = lastIdsByChannel[channel.id];
       existsInCache =
           pointer == cachedId ||
           existingPointers.contains((channelId: channel.id, id: pointer));
     }
     final String? id = resolveLatestMessageId(
       channelLastMessageId: pointer,
-      cachedLastMessageId: lastByChannel[channel.id]?.id,
+      cachedLastMessageId: lastIdsByChannel[channel.id],
       channelLastMessageExistsInCache: existsInCache,
     );
     out[channel.id] = (id: id, existsInCache: existsInCache);

@@ -223,6 +223,8 @@ db.RolesCompanion roleFromSdk(GuildRoleResponse sdk, String guildId) {
     hoistPosition: sdk.hoistPosition == null
         ? const Value.absent()
         : Value(sdk.hoistPosition),
+    icon: Value(sdk.icon),
+    unicodeEmoji: Value(sdk.unicodeEmoji),
   );
 }
 

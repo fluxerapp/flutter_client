@@ -62,7 +62,7 @@ class MainActivity : AudioServiceActivity() {
         AnimatorDurationScaleBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
         NotificationReplyBridge(applicationContext).register(flutterEngine)
-        VoiceSpeakerRouteBridge(applicationContext).register(flutterEngine)
+        VoiceSpeakerRouteBridge(this).register(flutterEngine)
         AppRestartBridge(this).register(flutterEngine)
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)

@@ -113,6 +113,8 @@ class GuildReadState extends _$GuildReadState {
   final Map<String, List<String>> _channelIdsByGuild = <String, List<String>>{};
   Map<String, String> _roleSignatureByGuild = <String, String>{};
   Map<String, String> _memberSignatureByGuild = <String, String>{};
+  ChannelUnreadPermissionSeedCache? _permissionSeedCache;
+  String _permissionSeedCacheSignature = '';
   @override
   Map<String, GuildReadStateEntry> build() {
     final db = ref.watch(fluxerDatabaseProvider);
@@ -392,6 +394,8 @@ class GuildReadState extends _$GuildReadState {
           guilds: guilds,
           channelSnapshot: _channelSnapshot,
         );
+    _permissionSeedCache = permissionCache;
+    _permissionSeedCacheSignature = _permissionSignatureKey();
     final Map<String, ChannelLatestMessageResolution> latestByChannel =
         await resolveLatestMessageIdsForChannelsBulk(db, trackableChannels);
     final now = DateTime.now();
@@ -553,11 +557,20 @@ class GuildReadState extends _$GuildReadState {
         unreadPatch[id] = const UnreadState();
         continue;
       }
-      final canRead = await canReadChannelForUnread(
-        database: db,
-        channel: channel,
-        currentUserId: currentUserId,
-      );
+      final ChannelUnreadPermissionSeedCache permissionCache =
+          await _permissionSeedCacheForRecompute(db, currentUserId);
+      final ChannelUnreadPermissionOutcome? permissionOutcome =
+          permissionCache.byChannelId[id];
+      final bool canRead;
+      if (permissionOutcome != null && permissionOutcome.isDefinitive) {
+        canRead = permissionOutcome.canRead;
+      } else {
+        canRead = await canReadChannelForUnread(
+          database: db,
+          channel: channel,
+          currentUserId: currentUserId,
+        );
+      }
       if (!canRead) {
         _channelContributions[id] = const _Contribution(
           unreadEligible: false,
@@ -772,7 +785,63 @@ class GuildReadState extends _$GuildReadState {
       ..removeWhere((id, _) => removed.contains(id));
   }
 
+  String _channelOverwriteSignatureKey() {
+    final List<String> parts = <String>[];
+    for (final Channel channel in _channelSnapshot.values) {
+      if (!_tracksUnread(channel.type)) {
+        continue;
+      }
+      parts.add('${channel.id}:${channel.permissionOverwritesJson ?? ''}');
+    }
+    parts.sort();
+    return parts.join('|');
+  }
+
+  String _permissionSignatureKey() {
+    final List<String> roleParts =
+        _roleSignatureByGuild.entries
+            .map((MapEntry<String, String> e) => '${e.key}:${e.value}')
+            .toList()
+          ..sort();
+    final List<String> memberParts =
+        _memberSignatureByGuild.entries
+            .map((MapEntry<String, String> e) => '${e.key}:${e.value}')
+            .toList()
+          ..sort();
+    return '${roleParts.join('|')}|${memberParts.join('|')}|'
+        '${_channelOverwriteSignatureKey()}';
+  }
+
+  Future<ChannelUnreadPermissionSeedCache> _permissionSeedCacheForRecompute(
+    FluxerDatabase db,
+    String? currentUserId,
+  ) async {
+    final String signature = _permissionSignatureKey();
+    final ChannelUnreadPermissionSeedCache? cached = _permissionSeedCache;
+    if (cached != null && signature == _permissionSeedCacheSignature) {
+      return cached;
+    }
+    final List<Server> guilds = await db.guildDao.getServers();
+    final List<Channel> trackableChannels = <Channel>[
+      for (final Channel channel in _channelSnapshot.values)
+        if (_tracksUnread(channel.type)) channel,
+    ];
+    final ChannelUnreadPermissionSeedCache built =
+        await buildChannelUnreadPermissionSeedCache(
+          database: db,
+          currentUserId: currentUserId,
+          channels: trackableChannels,
+          guilds: guilds,
+          channelSnapshot: _channelSnapshot,
+        );
+    _permissionSeedCache = built;
+    _permissionSeedCacheSignature = signature;
+    return built;
+  }
+
   void _clearCaches() {
+    _permissionSeedCache = null;
+    _permissionSeedCacheSignature = '';
     _channelContributions.clear();
     _contributionGuild.clear();
     _latestMessageIdByChannel.clear();

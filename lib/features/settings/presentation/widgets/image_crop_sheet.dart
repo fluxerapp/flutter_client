@@ -20,6 +20,10 @@ Future<Uint8List?> showImageCropSheet(
   required double aspectRatio,
   required String title,
   CropMaskShape maskShape = CropMaskShape.rectangle,
+  String? hintText,
+  String? saveLabel,
+  String? skipLabel,
+  bool showSkip = true,
 }) async {
   final imageSize = await imageCropDecodeImageSize(imageBytes);
   if (!context.mounted) {
@@ -34,6 +38,10 @@ Future<Uint8List?> showImageCropSheet(
         aspectRatio: aspectRatio,
         maskShape: maskShape,
         title: title,
+        hintText: hintText,
+        saveLabel: saveLabel,
+        skipLabel: skipLabel,
+        showSkip: showSkip,
       ),
     ),
   );
@@ -46,6 +54,10 @@ class _ImageCropDialog extends StatelessWidget {
     required this.aspectRatio,
     required this.maskShape,
     required this.title,
+    this.hintText,
+    this.saveLabel,
+    this.skipLabel,
+    this.showSkip = true,
   });
 
   final Uint8List imageBytes;
@@ -53,6 +65,10 @@ class _ImageCropDialog extends StatelessWidget {
   final double aspectRatio;
   final CropMaskShape maskShape;
   final String title;
+  final String? hintText;
+  final String? saveLabel;
+  final String? skipLabel;
+  final bool showSkip;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +88,10 @@ class _ImageCropDialog extends StatelessWidget {
         imageSize: imageSize,
         aspectRatio: aspectRatio,
         maskShape: maskShape,
+        hintText: hintText,
+        saveLabel: saveLabel,
+        skipLabel: skipLabel,
+        showSkip: showSkip,
       ),
     );
   }
@@ -83,12 +103,20 @@ class _ImageCropContent extends ConsumerStatefulWidget {
     required this.imageSize,
     required this.aspectRatio,
     required this.maskShape,
+    this.hintText,
+    this.saveLabel,
+    this.skipLabel,
+    this.showSkip = true,
   });
 
   final Uint8List imageBytes;
   final Size? imageSize;
   final double aspectRatio;
   final CropMaskShape maskShape;
+  final String? hintText;
+  final String? saveLabel;
+  final String? skipLabel;
+  final bool showSkip;
 
   @override
   ConsumerState<_ImageCropContent> createState() => _ImageCropContentState();
@@ -225,7 +253,8 @@ class _ImageCropContentState extends ConsumerState<_ImageCropContent> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            _isTouchMode ? l10n.cropTouchHint : l10n.cropMouseHint,
+            widget.hintText ??
+                (_isTouchMode ? l10n.cropTouchHint : l10n.cropMouseHint),
             textAlign: TextAlign.center,
             style: context.textStyles.smallText.copyWith(
               color: colors.textSecondary,
@@ -234,17 +263,19 @@ class _ImageCropContentState extends ConsumerState<_ImageCropContent> {
           SizedBox(height: layout.s4),
           Row(
             children: [
-              Expanded(
-                child: FluxerButton.secondary(
-                  onPressed: _isCropping ? null : _skip,
-                  label: l10n.skip,
+              if (widget.showSkip) ...<Widget>[
+                Expanded(
+                  child: FluxerButton.secondary(
+                    onPressed: _isCropping ? null : _skip,
+                    label: widget.skipLabel ?? l10n.skip,
+                  ),
                 ),
-              ),
-              SizedBox(width: layout.s3),
+                SizedBox(width: layout.s3),
+              ],
               Expanded(
                 child: FluxerButton.primary(
                   onPressed: _isCropping ? null : _confirmCrop,
-                  label: l10n.crop,
+                  label: widget.saveLabel ?? l10n.crop,
                   isLoading: _isCropping,
                 ),
               ),

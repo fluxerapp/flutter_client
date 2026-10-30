@@ -243,4 +243,24 @@ void main() {
       );
     });
   });
+
+  group('FluxerMediaUrl.roleIcon', () {
+    test('returns data uri unchanged', () {
+      const String dataUri = 'data:image/png;base64,abc';
+      expect(
+        FluxerMediaUrl.roleIcon(roleId: '1', hash: dataUri, cssSize: 20),
+        dataUri,
+      );
+    });
+
+    test('returns webp role icon url', () {
+      final String? actual = FluxerMediaUrl.roleIcon(
+        roleId: '99',
+        hash: 'abc123',
+        cssSize: 20,
+      );
+      expect(actual, contains('/role-icons/99/abc123.webp'));
+      expect(actual, contains('size='));
+    });
+  });
 }

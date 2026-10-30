@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/push/notification/clear.dart';
 import 'package:fluxer_app/core/push/tray/registry.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
+import 'package:fluxer_app/features/channels/data/read_state_persist.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_dart/export.dart';
@@ -13,7 +14,7 @@ import 'package:fluxer_dart/export.dart';
 const int readStateFlagIsThread = 1 << 1;
 
 class ReadStateRepository {
-  const ReadStateRepository(
+  ReadStateRepository(
     this._client,
     this._db, {
     this._batcher,
@@ -70,7 +71,8 @@ class ReadStateRepository {
           decision.kind == ReadStateServerAckKind.ignoreOlderMessage) {
         continue;
       }
-      await _db.readStateDao.upsertReadState(
+      await upsertReadStateIfChanged(
+        _db,
         ReadStatesCompanion(
           channelId: Value(rs.id),
           lastMessageId: Value(messageId),
@@ -190,7 +192,8 @@ class ReadStateRepository {
     bool manual = false,
     String? stickyUnreadMessageId,
   }) async {
-    await _db.readStateDao.upsertReadState(
+    await upsertReadStateIfChanged(
+      _db,
       ReadStatesCompanion(
         channelId: Value(channelId),
         lastMessageId: Value(messageId),
@@ -320,7 +323,8 @@ class ReadStateRepository {
     if (next == current.mentionCount) {
       return;
     }
-    await _db.readStateDao.upsertReadState(
+    await upsertReadStateIfChanged(
+      _db,
       ReadStatesCompanion(
         channelId: Value(channelId),
         lastMessageId: Value(current.lastMessageId),

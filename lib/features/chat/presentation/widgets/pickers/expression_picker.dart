@@ -59,6 +59,7 @@ class ExpressionPicker extends ConsumerStatefulWidget {
     this.sheetDragHandlers,
     this.onEmojiBackspace,
     this.autofocusSearch = false,
+    this.roleIconGuildId,
     super.key,
   });
 
@@ -88,6 +89,7 @@ class ExpressionPicker extends ConsumerStatefulWidget {
   final ExpandableSheetDragHandlers? sheetDragHandlers;
   final VoidCallback? onEmojiBackspace;
   final bool autofocusSearch;
+  final String? roleIconGuildId;
 
   @override
   ConsumerState<ExpressionPicker> createState() => _ExpressionPickerState();
@@ -258,6 +260,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
         onHoveredEmojiChanged: _onHoveredChanged,
         onSelect: widget.onEmojiSelect,
         channelId: widget.channelId,
+        roleIconGuildId: widget.roleIconGuildId,
         onBackspace: widget.onEmojiBackspace,
       );
     }

@@ -20123,6 +20123,124 @@ abstract class FluxerLocalizations {
   /// **'Members with the \"{permission}\" permission can always mention roles, regardless of this setting.'**
   String guildSettingsRolesAllowMentionsHelper(String permission);
 
+  /// Label for the role icon field in role settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Role icon'**
+  String get guildSettingsRolesRoleIcon;
+
+  /// Helper text under the role icon field.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload an image or pick an emoji. Members get the icon of their highest role that has one.'**
+  String get guildSettingsRolesRoleIconHelper;
+
+  /// File requirements hint under role icon upload controls.
+  ///
+  /// In en, this message translates to:
+  /// **'{formats}. At least {minimumSize}, up to {maxSize}.'**
+  String guildSettingsRolesRoleIconUploadHint(
+    String formats,
+    String minimumSize,
+    String maxSize,
+  );
+
+  /// Accessibility label for empty role icon upload tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload role icon'**
+  String get guildSettingsRolesRoleIconUploadAccessibility;
+
+  /// Accessibility label when role icon is an emoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Current role icon, {emojiName}'**
+  String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName);
+
+  /// Accessibility label when role icon is an uploaded image.
+  ///
+  /// In en, this message translates to:
+  /// **'Current role icon, uploaded image'**
+  String get guildSettingsRolesRoleIconCurrentImageAccessibility;
+
+  /// Button to pick a unicode or guild emoji as role icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose emoji'**
+  String get guildSettingsRolesRoleIconChooseEmoji;
+
+  /// Button to upload a role icon image.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload image'**
+  String get guildSettingsRolesRoleIconUploadImage;
+
+  /// Button to remove the role icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove icon'**
+  String get guildSettingsRolesRoleIconRemove;
+
+  /// Error when user picks an animated image for role icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated icons are not supported. Use a static image.'**
+  String get guildSettingsRolesRoleIconAnimatedError;
+
+  /// Error when role icon file type is not allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'This file type is not supported. Supported types are {formats}.'**
+  String guildSettingsRolesRoleIconUnsupportedTypeError(String formats);
+
+  /// Error when role icon image or emoji could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'This image could not be loaded. Try another one.'**
+  String get guildSettingsRolesRoleIconLoadError;
+
+  /// Sample message body in role icon usage preview.
+  ///
+  /// In en, this message translates to:
+  /// **'This is how messages appear'**
+  String get guildSettingsRolesRoleIconUsagePreviewMessage;
+
+  /// Accessibility label for a role icon next to a member name.
+  ///
+  /// In en, this message translates to:
+  /// **'Role icon, {roleName}'**
+  String roleIconAccessibilityLabel(String roleName);
+
+  /// Title for role icon crop sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop role icon'**
+  String get roleIconCropTitle;
+
+  /// Primary action on role icon crop sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save icon'**
+  String get roleIconCropSave;
+
+  /// Skip crop and use original image for role icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip cropping'**
+  String get roleIconCropSkip;
+
+  /// Toast when role icon crop fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to crop icon. Try again.'**
+  String get roleIconCropFailed;
+
+  /// Instructions on role icon crop sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is {minimumWidth}×{minimumHeight} pixels.'**
+  String roleIconCropDescription(int minimumWidth, int minimumHeight);
+
   /// Help text above the clear permissions button.
   ///
   /// In en, this message translates to:
@@ -22265,6 +22383,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Removed {roles}.'**
   String auditLogChangeRemovedRoles(String roles);
+
+  /// Role audit log detail when emoji icon is set.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the role icon to {emoji}'**
+  String auditLogChangeRoleEmojiSet(String emoji);
+
+  /// Role audit log detail when emoji icon changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed the role icon from {oldEmoji} to {newEmoji}'**
+  String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji);
+
+  /// Role audit log detail when emoji icon is removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed the role icon'**
+  String get auditLogChangeRoleEmojiRemoved;
+
+  /// Role audit log detail when image icon is set.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a custom role icon'**
+  String get auditLogChangeRoleIconSet;
+
+  /// Role audit log detail when image icon changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed the custom role icon'**
+  String get auditLogChangeRoleIconChanged;
+
+  /// Role audit log detail when image icon is removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed the custom role icon'**
+  String get auditLogChangeRoleIconRemoved;
 
   /// Audit log option detail sentence.
   ///

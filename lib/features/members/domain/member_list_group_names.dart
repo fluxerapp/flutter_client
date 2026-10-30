@@ -1,15 +1,21 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/domain/member_list_layout.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 class MemberListGroupHeaderData {
-  const MemberListGroupHeaderData({required this.count, required this.name});
+  const MemberListGroupHeaderData({
+    required this.count,
+    required this.name,
+    this.iconRole,
+  });
 
   final int count;
   final String name;
+  final MemberRole? iconRole;
 }
 
 String resolveMemberListGroupName({
@@ -111,6 +117,14 @@ MemberListGroupHeaderData? resolveMemberListGroupHeader({
   if (groupId.isEmpty) {
     return null;
   }
+  final db.Role? roleRow = rolesById[groupId];
+  MemberRole? iconRole;
+  if (roleRow != null) {
+    final MemberRole role = MemberRole.fromRow(roleRow);
+    if (role.hasIcon) {
+      iconRole = role;
+    }
+  }
   return MemberListGroupHeaderData(
     count: count,
     name: resolveMemberListGroupName(
@@ -119,5 +133,6 @@ MemberListGroupHeaderData? resolveMemberListGroupHeader({
       onlineLabel: onlineLabel,
       offlineLabel: offlineLabel,
     ),
+    iconRole: iconRole,
   );
 }

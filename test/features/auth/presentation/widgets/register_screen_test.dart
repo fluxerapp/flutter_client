@@ -421,6 +421,7 @@ InstanceConfigSnapshot _snapshot({
       sso: const InstanceSsoSchema(
         enabled: false,
         enforced: false,
+        usernameFromProvider: false,
         displayName: null,
         buttonLabel: null,
         redirectUri: 'https://self.example/sso',

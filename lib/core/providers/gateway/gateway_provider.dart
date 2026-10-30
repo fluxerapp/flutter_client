@@ -24,8 +24,8 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
 import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
-import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -177,10 +177,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
 
   final handler = GatewayEventHandler(
     database: db,
-    readStateRepository: ReadStateRepository(
-      ref.watch(fluxerClientProvider),
-      db,
-    ),
+    readStateRepository: ref.read(readStateRepositoryProvider),
     readStateWriteBatcher: ref.read(readStateWriteBatcherProvider),
     ackBatcher: ref.read(ackBatcherProvider),
     messageMentionContextCache: mentionCache,
@@ -434,11 +431,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onMessageDeleteBulk: (event) => ifMounted(() {
       messageBus.emit(MessagesDeletedBulk(event));
     }),
-    onMessageReactionChange: (channelId, messageId) => ifMounted(() {
-      messageBus.emit(
-        MessageReactionsChanged(channelId: channelId, messageId: messageId),
-      );
-    }),
+    onMessageReactionChange: (channelId, messageId, {reactionsJson}) =>
+        ifMounted(() {
+          messageBus.emit(
+            MessageReactionsChanged(
+              channelId: channelId,
+              messageId: messageId,
+              reactionsJson: reactionsJson,
+            ),
+          );
+        }),
     onOwnMessageCreated: (channelId, sentAt) => ifMounted(() {
       ref.read(chatViewModelProvider.notifier)
         ..clearStickyUnreadFor(channelId)

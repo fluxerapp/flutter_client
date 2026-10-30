@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
+import 'package:fluxer_app/features/channels/data/read_state_persist.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
@@ -69,7 +70,7 @@ typedef MessageUpdateCallback =
 typedef MessageDeleteCallback = void Function(MessageDeleteEvent event);
 typedef MessageDeleteBulkCallback = void Function(MessageDeleteBulkEvent event);
 typedef MessageReactionChangeCallback =
-    void Function(String channelId, String messageId);
+    void Function(String channelId, String messageId, {String? reactionsJson});
 typedef ConnectionsUpdateCallback =
     void Function(List<ConnectionResponse> connections);
 typedef WebauthnCredentialsUpdateCallback =
@@ -209,9 +210,16 @@ class GatewayEventHandler {
     if (batcher == null) {
       return;
     }
-    batcher.onFlush = (String channelId, String messageId) {
-      _emit(() => onMessageReactionChange?.call(channelId, messageId));
-    };
+    batcher.onFlush =
+        (String channelId, String messageId, String reactionsJson) {
+          _emit(
+            () => onMessageReactionChange?.call(
+              channelId,
+              messageId,
+              reactionsJson: reactionsJson,
+            ),
+          );
+        };
   }
 
   final db.FluxerDatabase database;
@@ -1270,7 +1278,7 @@ class GatewayEventHandler {
             flags: rs.flags,
           );
         }
-        await database.readStateDao.upsertReadStates(readStateCompanions);
+        await upsertReadStatesIfChanged(database, readStateCompanions);
       }
 
       readstatesMs = phase.elapsedMilliseconds;
@@ -2004,7 +2012,8 @@ class GatewayEventHandler {
     required db.ReadState? existing,
     required bool clearSticky,
   }) async {
-    await database.readStateDao.upsertReadState(
+    await upsertReadStateIfChanged(
+      database,
       db.ReadStatesCompanion(
         channelId: Value(channelId),
         lastMessageId: Value(messageId),
@@ -2044,7 +2053,8 @@ class GatewayEventHandler {
         existing.lastMessageId != ackMessageId ||
         shouldMention;
     if (readStateChanged) {
-      await database.readStateDao.upsertReadState(
+      await upsertReadStateIfChanged(
+        database,
         db.ReadStatesCompanion(
           channelId: Value(msg.channelId),
           lastMessageId: Value(ackMessageId),
@@ -3132,7 +3142,8 @@ class GatewayEventHandler {
     } else {
       newSticky = null;
     }
-    await database.readStateDao.upsertReadState(
+    await upsertReadStateIfChanged(
+      database,
       db.ReadStatesCompanion(
         channelId: Value(channelId),
         lastMessageId: Value(messageId),

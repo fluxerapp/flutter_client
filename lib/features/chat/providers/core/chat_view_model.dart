@@ -1837,8 +1837,15 @@ class ChatViewModel extends _$ChatViewModel {
           return null;
         }
         return dao.getMessage(event.message.channelId, messageId);
-      case MessageReactionsChanged(:final channelId, :final messageId):
+      case MessageReactionsChanged(
+        :final channelId,
+        :final messageId,
+        :final reactionsJson,
+      ):
         if (channelId != state.channelId) {
+          return null;
+        }
+        if (reactionsJson != null) {
           return null;
         }
         return dao.getMessage(channelId, messageId);
@@ -1923,8 +1930,27 @@ class ChatViewModel extends _$ChatViewModel {
           return null;
         }
         return _removeIds(messages, event.ids.toSet());
-      case MessageReactionsChanged(:final channelId):
-        if (channelId != state.channelId || prefetchedRow == null) {
+      case MessageReactionsChanged(
+        :final channelId,
+        :final messageId,
+        :final reactionsJson,
+      ):
+        if (channelId != state.channelId) {
+          return null;
+        }
+        final int idx = messages.indexWhere((Message m) => m.id == messageId);
+        if (idx == -1) {
+          return null;
+        }
+        if (reactionsJson != null) {
+          return _replaceById(
+            messages,
+            messages[idx].copyWith(
+              reactions: Message.reactionsFromStorageJson(reactionsJson),
+            ),
+          );
+        }
+        if (prefetchedRow == null) {
           return null;
         }
         return _replaceById(messages, Message.fromRow(prefetchedRow));

@@ -107,9 +107,10 @@ void main() {
         database: db,
         currentUserId: 'me',
         reactionWriteBatcher: batcher,
-        onMessageReactionChange: (String channelId, String messageId) {
-          changes.add((channelId, messageId));
-        },
+        onMessageReactionChange:
+            (String channelId, String messageId, {String? reactionsJson}) {
+              changes.add((channelId, messageId));
+            },
       );
 
       await handler.handle(

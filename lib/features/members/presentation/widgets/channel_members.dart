@@ -209,6 +209,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
             return MemberListSidebarGroupHeader(
               groupName: header.name,
               count: header.count,
+              iconRole: header.iconRole,
             );
           }
           final MemberListViewportRow? row = listState.rows[rowIndex];

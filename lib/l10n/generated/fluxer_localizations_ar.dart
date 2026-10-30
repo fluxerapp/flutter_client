@@ -12031,6 +12031,83 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
+  String get guildSettingsRolesRoleIcon => 'Role icon';
+
+  @override
+  String get guildSettingsRolesRoleIconHelper =>
+      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+
+  @override
+  String guildSettingsRolesRoleIconUploadHint(
+    String formats,
+    String minimumSize,
+    String maxSize,
+  ) {
+    return '$formats. At least $minimumSize, up to $maxSize.';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconUploadAccessibility =>
+      'Upload role icon';
+
+  @override
+  String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
+    return 'Current role icon, $emojiName';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
+      'Current role icon, uploaded image';
+
+  @override
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+
+  @override
+  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+
+  @override
+  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+
+  @override
+  String get guildSettingsRolesRoleIconAnimatedError =>
+      'Animated icons are not supported. Use a static image.';
+
+  @override
+  String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
+    return 'This file type is not supported. Supported types are $formats.';
+  }
+
+  @override
+  String get guildSettingsRolesRoleIconLoadError =>
+      'This image could not be loaded. Try another one.';
+
+  @override
+  String get guildSettingsRolesRoleIconUsagePreviewMessage =>
+      'This is how messages appear';
+
+  @override
+  String roleIconAccessibilityLabel(String roleName) {
+    return 'Role icon, $roleName';
+  }
+
+  @override
+  String get roleIconCropTitle => 'Crop role icon';
+
+  @override
+  String get roleIconCropSave => 'Save icon';
+
+  @override
+  String get roleIconCropSkip => 'Skip cropping';
+
+  @override
+  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+
+  @override
+  String roleIconCropDescription(int minimumWidth, int minimumHeight) {
+    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+  }
+
+  @override
   String get guildSettingsRolesClearPermissionsHelp =>
       'استخدم هذا الزر لمسح جميع الأذونات بسرعة.';
 
@@ -13384,6 +13461,28 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String auditLogChangeRemovedRoles(String roles) {
     return 'تمت إزالة $roles.';
   }
+
+  @override
+  String auditLogChangeRoleEmojiSet(String emoji) {
+    return 'Set the role icon to $emoji';
+  }
+
+  @override
+  String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
+    return 'Changed the role icon from $oldEmoji to $newEmoji';
+  }
+
+  @override
+  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+
+  @override
+  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+
+  @override
+  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+
+  @override
+  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
 
   @override
   String auditLogOptionChannel(String value) {

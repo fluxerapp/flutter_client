@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/data/read_state_effective.dart';
+import 'package:fluxer_app/features/channels/data/read_state_persist.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 
 const int kReadStateWriteBatchMs = 1000;
@@ -338,7 +339,8 @@ class ReadStateWriteBatcher {
         final bool shouldWrite =
             fieldsChanged || (working == null && unreadMessages > 0);
         if (shouldWrite) {
-          await _database.readStateDao.upsertReadState(
+          await upsertReadStateIfChanged(
+            _database,
             ReadStatesCompanion(
               channelId: Value(channelId),
               lastMessageId: Value(lastMessageId),
@@ -384,7 +386,8 @@ class ReadStateWriteBatcher {
         final ReadState? existing = await _database.readStateDao.getReadState(
           channelId,
         );
-        await _database.readStateDao.upsertReadState(
+        await upsertReadStateIfChanged(
+          _database,
           ReadStatesCompanion(
             channelId: Value(channelId),
             lastMessageId: Value(messageId),

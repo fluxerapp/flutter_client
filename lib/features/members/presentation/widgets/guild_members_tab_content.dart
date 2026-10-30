@@ -184,6 +184,7 @@ class _GuildMembersTabContentState
           return MemberListDetailsGroupHeader(
             groupName: header.name,
             count: header.count,
+            iconRole: header.iconRole,
           );
         }
         final MemberListViewportRow? row = listState.rows[rowIndex];

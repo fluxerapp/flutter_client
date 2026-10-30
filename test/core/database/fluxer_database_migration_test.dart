@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-const int _expectedSchemaVersion = 101;
+const int _expectedSchemaVersion = 103;
 
 const int _guardedBaselineVersion = 67;
 
@@ -484,6 +484,35 @@ void main() {
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
 
+    test('upgrade from 101 adds role icon columns', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 101);
+      raw
+        ..execute('ALTER TABLE roles DROP COLUMN icon')
+        ..execute('ALTER TABLE roles DROP COLUMN unicode_emoji')
+        ..execute(
+          "INSERT INTO roles (id, guild_id, name) VALUES ('r1', 'g1', 'Mods')",
+        );
+      expect(_userVersion(raw), 101);
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      await db.customSelect('SELECT 1').get();
+
+      expect(
+        _tableColumns(raw, 'roles'),
+        containsAll(<String>['icon', 'unicode_emoji']),
+      );
+      final List<Role> roles = await db.roleDao.getRoles('g1');
+      expect(roles.single.name, 'Mods');
+      expect(roles.single.icon, isNull);
+      expect(roles.single.unicodeEmoji, isNull);
+      expect(_userVersion(raw), _expectedSchemaVersion);
+    });
+
     test('upgrade from 98 drops the read state missing column', () async {
       final Database raw = sqlite3.openInMemory();
       addTearDown(raw.close);
@@ -590,14 +619,9 @@ void main() {
             .map((Row row) => row['name'] as String),
         <String>['id', 'channel_id'],
       );
-      expect(
-        _schemaIndexes(raw),
-        containsAll(<String>[
-          'idx_messages_channel',
-          'idx_messages_author',
-          'idx_messages_channel_timestamp',
-        ]),
-      );
+      expect(_schemaIndexes(raw), contains('idx_messages_channel_timestamp'));
+      expect(_schemaIndexes(raw), isNot(contains('idx_messages_channel')));
+      expect(_schemaIndexes(raw), isNot(contains('idx_messages_author')));
       expect(_userVersion(raw), _expectedSchemaVersion);
     });
 

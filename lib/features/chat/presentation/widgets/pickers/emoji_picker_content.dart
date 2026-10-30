@@ -72,6 +72,7 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
     this.skinTone = '',
     this.isMobile = false,
     this.channelId,
+    this.roleIconGuildId,
     this.scrollController,
     this.onBackspace,
     super.key,
@@ -84,6 +85,7 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
   final String skinTone;
   final bool isMobile;
   final String? channelId;
+  final String? roleIconGuildId;
   final ScrollController? scrollController;
 
   @override
@@ -457,11 +459,18 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
   _EmojiPickerData _watchPickerData() {
     ref.watch(emojiRegistryLoadedProvider);
-    final activeGuildId = resolveGuildIdForChannel(ref, widget.channelId);
-    final guilds = _guildsFor(
-      organized: ref.watch(organizedGuildListProvider),
-      activeGuildId: activeGuildId,
-    );
+    final String? roleIconGuildId = widget.roleIconGuildId;
+    final String? activeGuildId =
+        roleIconGuildId ?? resolveGuildIdForChannel(ref, widget.channelId);
+    final guilds = roleIconGuildId != null
+        ? _guildsFor(
+            organized: ref.watch(organizedGuildListProvider),
+            activeGuildId: roleIconGuildId,
+          ).where((Guild guild) => guild.id == roleIconGuildId).toList()
+        : _guildsFor(
+            organized: ref.watch(organizedGuildListProvider),
+            activeGuildId: activeGuildId,
+          );
     final bool hasGlobalExpressions = ref.watch(
       instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
     );
@@ -485,11 +494,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
             guildEmojisByGuild,
           );
     final rankedUsageKeys = _pinnedRankedUsageKeys(watch: true);
-    final frecent = _frecentFor(
-      rankedUsageKeys: rankedUsageKeys,
-      guildEmojisByGuild: guildEmojisByGuild,
-    );
-    final favoriteItems = _favoriteEmojiItems(favoriteKeys, guildEmojisByGuild);
+    final frecent = roleIconGuildId != null
+        ? const <FrecentEmojiItem>[]
+        : _frecentFor(
+            rankedUsageKeys: rankedUsageKeys,
+            guildEmojisByGuild: guildEmojisByGuild,
+          );
+    final favoriteItems = roleIconGuildId != null
+        ? const <_FavoriteEmojiItem>[]
+        : _favoriteEmojiItems(favoriteKeys, guildEmojisByGuild);
 
     return _EmojiPickerData(
       guilds: guilds,
@@ -813,7 +826,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                   child: _buildEmojiGrid(context, colors, data),
                 ),
               ),
-              _buildInspector(context, colors),
+              if (widget.roleIconGuildId == null)
+                _buildInspector(context, colors),
             ],
           ),
         ),

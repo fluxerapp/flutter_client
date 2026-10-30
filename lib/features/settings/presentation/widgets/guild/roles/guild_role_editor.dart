@@ -3,7 +3,9 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_icon_field_update.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_icon_field.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_permission_category.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/permission_layout_provider.dart';
@@ -31,6 +33,10 @@ class GuildRoleEditor extends ConsumerStatefulWidget {
     required this.onPermissionToggle,
     required this.onPermissionSearchQueryChange,
     required this.permissionDisabledReason,
+    required this.previewDisplayName,
+    required this.previewAvatarUrl,
+    required this.previewUserId,
+    required this.previewAvatarColor,
     this.showMobileBack = false,
     this.onMobileBack,
     super.key,
@@ -48,6 +54,7 @@ class GuildRoleEditor extends ConsumerStatefulWidget {
     bool? hoist,
     bool? mentionable,
     int? permissions,
+    GuildRoleIconFieldUpdate? iconField,
   })
   onRoleUpdate;
   final VoidCallback onDeleteRole;
@@ -55,6 +62,10 @@ class GuildRoleEditor extends ConsumerStatefulWidget {
   final ValueChanged<Permission> onPermissionToggle;
   final ValueChanged<String> onPermissionSearchQueryChange;
   final String? Function(Permission permission) permissionDisabledReason;
+  final String previewDisplayName;
+  final String? previewAvatarUrl;
+  final String previewUserId;
+  final int? previewAvatarColor;
   final bool showMobileBack;
   final VoidCallback? onMobileBack;
 
@@ -161,6 +172,18 @@ class _GuildRoleEditorState extends ConsumerState<GuildRoleEditor> {
             },
           ),
           if (!isEveryone) ...<Widget>[
+            const SizedBox(height: 12),
+            GuildRoleIconField(
+              guildId: widget.guildId,
+              role: widget.role,
+              disabled: editorDisabled,
+              previewDisplayName: widget.previewDisplayName,
+              previewAvatarUrl: widget.previewAvatarUrl,
+              previewUserId: widget.previewUserId,
+              previewAvatarColor: widget.previewAvatarColor,
+              onChange: (GuildRoleIconFieldUpdate update) =>
+                  widget.onRoleUpdate(iconField: update),
+            ),
             const SizedBox(height: 12),
             FluxerSettingsSwitchItem(
               label: l10n.guildSettingsRolesShowSeparately,

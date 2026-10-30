@@ -63,6 +63,7 @@ WellKnownFluxerResponse wellKnownFixture({
     'sso': <String, dynamic>{
       'enabled': false,
       'enforced': false,
+      'username_from_provider': false,
       'display_name': null,
       'redirect_uri': '',
     },

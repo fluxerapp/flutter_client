@@ -68,6 +68,7 @@ class _FakeWellKnown extends WellKnown {
       sso: InstanceSsoSchema(
         enabled: false,
         enforced: false,
+        usernameFromProvider: false,
         displayName: null,
         buttonLabel: null,
         redirectUri: '',

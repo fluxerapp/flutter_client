@@ -53,6 +53,7 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
     sso: InstanceSsoSchema(
       enabled: false,
       enforced: false,
+      usernameFromProvider: false,
       displayName: null,
       buttonLabel: null,
       redirectUri: 'https://example.test/sso',

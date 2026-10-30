@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_icon_field_update.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_update.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_editor.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -36,6 +37,10 @@ class _EditorHostState extends State<_EditorHost> {
       canManageRoles: true,
       mentionEveryonePermissionLabel: '@everyone',
       filteredPermissionSpecs: const [],
+      previewDisplayName: 'Preview User',
+      previewAvatarUrl: null,
+      previewUserId: 'preview-user',
+      previewAvatarColor: null,
       onRoleUpdate:
           ({
             String? name,
@@ -43,6 +48,7 @@ class _EditorHostState extends State<_EditorHost> {
             bool? hoist,
             bool? mentionable,
             int? permissions,
+            GuildRoleIconFieldUpdate? iconField,
           }) {
             if (name != null) {
               setState(

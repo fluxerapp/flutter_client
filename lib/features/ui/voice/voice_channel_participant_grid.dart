@@ -658,9 +658,17 @@ class _VoiceChannelParticipantGridState
                 : s.guildId == widget.guildId),
       ),
     );
-    final database.User? selfUser = me != null && onThisChannel
-        ? ref.watch(userPresenceProvider(me)).value
-        : null;
+    database.User? selfUser;
+    if (me != null && onThisChannel) {
+      ref.watch(
+        userPresenceProvider(me).select(
+          (AsyncValue<database.User?> async) => async.value == null
+              ? null
+              : guildUserProfileSignature(async.value!),
+        ),
+      );
+      selfUser = ref.read(userPresenceProvider(me)).value;
+    }
     final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
     final VoiceCallDisplayPreferencesState displayPreferences = ref.watch(
       voiceCallDisplayPreferencesProvider,
@@ -738,10 +746,13 @@ class _VoiceChannelParticipantGridState
     final Set<String> watchedTileIds = ref.watch(
       voiceScreenShareWatchTileProvider,
     );
-    final String? featuredTileId = ref.watch(voicePipFeaturedTileIdProvider);
     final VoicePipOverlayPhase pipPhase = ref.watch(
       voicePipOverlayPhaseProvider,
     );
+    final bool hostFeatured = voicePipHostsFeatured(pipPhase);
+    final String? featuredTileId = hostFeatured
+        ? ref.watch(voicePipFeaturedTileIdProvider)
+        : _featuredTileId;
     final bool isConnected = ref.watch(
       voiceSessionProvider.select((VoiceSessionState s) => s.isConnected),
     );
@@ -2447,9 +2458,12 @@ class _VoiceParticipantCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final database.User? user = data.user;
-    final GuildUserDisplay? resolvedDisplay = ref
-        .watch(guildUserDisplayFromDbProvider((data.userId, guildId)))
-        .value;
+    final GuildUserDisplay? resolvedDisplay = watchGuildScopedUserDisplay(
+      ref: ref,
+      userId: data.userId,
+      guildId: guildId,
+      currentUserId: currentUserId,
+    );
     final String fallbackDisplay = user != null
         ? (user.globalName ?? user.username)
         : data.userId;
@@ -2467,7 +2481,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
       );
       voice = _withLocalAudio(voice, selfMute: selfMute, selfDeaf: selfDeaf);
     }
-    final int? avatarArgb = user?.avatarColor;
+    final int? avatarArgb = resolvedDisplay?.avatarColor ?? user?.avatarColor;
     final VoiceMediaParticipant? participant = resolveVoiceParticipant(
       media: media,
       voice: voice,
@@ -2512,6 +2526,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
         display: display,
         backgroundColor: cardColor,
         user: user,
+        userDisplay: resolvedDisplay,
         tileSource: tileSource,
         isActiveScreenShare: isActiveScreenShare,
         fillContainer: fillContainer,

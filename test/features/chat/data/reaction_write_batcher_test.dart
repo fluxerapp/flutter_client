@@ -42,9 +42,14 @@ void main() {
     return ReactionWriteBatcher(
       database: db,
       window: const Duration(hours: 1),
-      onFlush: (String flushedChannelId, String flushedMessageId) {
-        flushes.add((flushedChannelId, flushedMessageId));
-      },
+      onFlush:
+          (
+            String flushedChannelId,
+            String flushedMessageId,
+            String reactionsJson,
+          ) {
+            flushes.add((flushedChannelId, flushedMessageId));
+          },
     );
   }
 

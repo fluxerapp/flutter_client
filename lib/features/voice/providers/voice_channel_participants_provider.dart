@@ -19,6 +19,17 @@ String voiceChannelParticipantsFamilyKey(String guildId, String channelId) {
   return '$guildId|$channelId';
 }
 
+String? voiceGuildIdFromParticipantsKey(String guildChannelKey) {
+  if (guildChannelKey.startsWith(kVoiceDmParticipantsKeyPrefix)) {
+    return null;
+  }
+  final int sep = guildChannelKey.indexOf('|');
+  if (sep <= 0) {
+    return null;
+  }
+  return guildChannelKey.substring(0, sep);
+}
+
 String voiceParticipantUserIdsKey(Set<String> userIds) {
   if (userIds.isEmpty) {
     return '';
@@ -84,7 +95,20 @@ void prefetchVoiceParticipantsForChannel(
     }
     ids.add(vs.userId);
   }
+  if (ids.isEmpty) {
+    return;
+  }
   unawaited(prefetchVoiceParticipantUsers(ref, ids));
+  if (guildId != null && guildId.isNotEmpty) {
+    unawaited(
+      ref.read(
+        voiceGuildMembersLoaderProvider(
+          voiceGuildMembersKey(guildId, ids),
+        ).future,
+      ),
+    );
+  }
+  unawaited(ref.read(friendNicknamesLoaderProvider.future));
 }
 
 Future<Map<String, database.User>> _resolveVoiceParticipantUsers(

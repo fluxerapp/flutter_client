@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_icon_field_update.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_order.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -30,7 +31,23 @@ class GuildRoleSettingsRepository {
     bool? hoist,
     bool? mentionable,
     int? permissions,
+    GuildRoleIconFieldUpdate? iconField,
   }) async {
+    JsonNullable<Base64ImageType> icon =
+        const JsonNullable<Base64ImageType>.undefined();
+    JsonNullable<String> unicodeEmoji = const JsonNullable<String>.undefined();
+    if (iconField != null) {
+      if (iconField.isImage) {
+        icon = JsonNullable<Base64ImageType>.of(iconField.icon);
+        unicodeEmoji = const JsonNullable<String>.of(null);
+      } else if (iconField.isUnicodeEmoji) {
+        icon = const JsonNullable<Base64ImageType>.of(null);
+        unicodeEmoji = JsonNullable<String>.of(iconField.unicodeEmoji);
+      } else if (iconField.isClear) {
+        icon = const JsonNullable<Base64ImageType>.of(null);
+        unicodeEmoji = const JsonNullable<String>.of(null);
+      }
+    }
     try {
       return await _client.guilds.updateGuildRole(
         guildId: guildId,
@@ -41,6 +58,8 @@ class GuildRoleSettingsRepository {
           hoist: hoist,
           mentionable: mentionable,
           permissions: permissions?.toString(),
+          icon: icon,
+          unicodeEmoji: unicodeEmoji,
         ),
       );
     } on DioException catch (error) {

@@ -220,6 +220,30 @@ abstract final class FluxerMediaUrl {
     );
   }
 
+  static String? roleIcon({
+    required String roleId,
+    required String? hash,
+    required double cssSize,
+    double devicePixelRatio = 2,
+  }) {
+    if (hash == null || hash.isEmpty) {
+      return null;
+    }
+    if (hash.startsWith('data:')) {
+      return hash;
+    }
+    final int requested = (cssSize * devicePixelRatio * 2).round();
+    final int size = requested.clamp(
+      MediaProxySizes.roleIconMin,
+      MediaProxySizes.roleIconMax,
+    );
+    final String normalizedHash = normalizeMediaHash(hash);
+    return _url(
+      path: 'role-icons/$roleId/$normalizedHash.webp',
+      query: <String, String>{'size': '$size'},
+    );
+  }
+
   static String _url({
     required String path,
     Map<String, String> query = const <String, String>{},

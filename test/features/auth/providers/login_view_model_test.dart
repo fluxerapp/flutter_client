@@ -72,6 +72,7 @@ class _FakeAuthRepository implements AuthRepository {
         authorizationUrl: 'https://example.com/sso',
         state: 'state',
         redirectUri: 'fluxer://auth/sso/callback',
+        clientBinding: '',
       ),
     );
   }

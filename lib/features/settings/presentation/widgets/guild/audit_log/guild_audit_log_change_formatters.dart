@@ -130,6 +130,12 @@ class GuildAuditLogChangeFormatters {
         ),
       'icon_hash' when actionType == AuditLogActionType.guildUpdate =>
         l10n.auditLogChangeUpdatedCommunityIcon,
+      'unicode_emoji' when _isRoleAction(actionType) =>
+        _formatRoleUnicodeEmojiChange(change, l10n),
+      'icon_hash' when _isRoleAction(actionType) => _formatRoleIconHashChange(
+        change,
+        l10n,
+      ),
       'name' when _isChannelAction(actionType) =>
         l10n.auditLogChangeRenamedChannel(
           _resolveValue(change.newValue, l10n, userNames, channelNames),
@@ -285,6 +291,49 @@ class GuildAuditLogChangeFormatters {
     return actionType == AuditLogActionType.channelCreate ||
         actionType == AuditLogActionType.channelUpdate ||
         actionType == AuditLogActionType.channelDelete;
+  }
+
+  static bool _isRoleAction(AuditLogActionType actionType) {
+    return actionType == AuditLogActionType.roleCreate ||
+        actionType == AuditLogActionType.roleUpdate;
+  }
+
+  static String _formatRoleUnicodeEmojiChange(
+    GuildAuditLogChange change,
+    FluxerLocalizations l10n,
+  ) {
+    final String? oldEmoji = GuildAuditLogUtils.scalarToString(change.oldValue);
+    final String? newEmoji = GuildAuditLogUtils.scalarToString(change.newValue);
+    if (oldEmoji == null && newEmoji != null) {
+      return l10n.auditLogChangeRoleEmojiSet(newEmoji);
+    }
+    if (oldEmoji != null && newEmoji == null) {
+      return l10n.auditLogChangeRoleEmojiRemoved;
+    }
+    if (oldEmoji != null && newEmoji != null) {
+      return l10n.auditLogChangeRoleEmojiChanged(oldEmoji, newEmoji);
+    }
+    return l10n.auditLogChangeRoleEmojiRemoved;
+  }
+
+  static String _formatRoleIconHashChange(
+    GuildAuditLogChange change,
+    FluxerLocalizations l10n,
+  ) {
+    final bool hadOld =
+        change.oldValue != null && !_isEmptyString(change.oldValue);
+    final bool hasNew =
+        change.newValue != null && !_isEmptyString(change.newValue);
+    if (!hadOld && hasNew) {
+      return l10n.auditLogChangeRoleIconSet;
+    }
+    if (hadOld && !hasNew) {
+      return l10n.auditLogChangeRoleIconRemoved;
+    }
+    if (hadOld && hasNew) {
+      return l10n.auditLogChangeRoleIconChanged;
+    }
+    return l10n.auditLogChangeRoleIconRemoved;
   }
 
   static bool _isEmptyString(Object? value) {

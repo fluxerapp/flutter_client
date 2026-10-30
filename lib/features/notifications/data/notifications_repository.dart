@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
+import 'package:fluxer_app/features/channels/data/read_state_persist.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -176,7 +177,8 @@ class NotificationsRepository {
       messageId: messageId,
       body: const MessageAckRequest(),
     );
-    await _database.readStateDao.upsertReadState(
+    await upsertReadStateIfChanged(
+      _database,
       ReadStatesCompanion(
         channelId: Value(channelId),
         lastMessageId: Value(messageId),

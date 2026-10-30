@@ -1,5 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/members/presentation/widgets/role_icon.dart';
 import 'package:fluxer_app/features/members/utils/member_list_access.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -225,22 +227,36 @@ class MemberListSidebarGroupHeader extends StatelessWidget {
   const MemberListSidebarGroupHeader({
     required this.groupName,
     required this.count,
+    this.iconRole,
     super.key,
   });
 
   final String groupName;
   final int count;
+  final MemberRole? iconRole;
 
   @override
   Widget build(BuildContext context) {
     final FluxerLayoutTheme layout = context.layout;
     return Padding(
       padding: EdgeInsets.fromLTRB(layout.s2, layout.s3, layout.s2, layout.s1),
-      child: Text(
-        '$groupName — $count',
-        style: context.textStyles.categoryName.copyWith(
-          color: context.colors.textPrimaryMuted,
-        ),
+      child: Row(
+        children: <Widget>[
+          if (iconRole != null && iconRole!.hasIcon) ...<Widget>[
+            RoleIcon(role: iconRole!, size: 16, decorative: true),
+            SizedBox(width: layout.s1),
+          ],
+          Expanded(
+            child: Text(
+              '$groupName — $count',
+              style: context.textStyles.categoryName.copyWith(
+                color: context.colors.textPrimaryMuted,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -250,11 +266,13 @@ class MemberListDetailsGroupHeader extends StatelessWidget {
   const MemberListDetailsGroupHeader({
     required this.groupName,
     required this.count,
+    this.iconRole,
     super.key,
   });
 
   final String groupName;
   final int count;
+  final MemberRole? iconRole;
 
   @override
   Widget build(BuildContext context) {
@@ -269,11 +287,23 @@ class MemberListDetailsGroupHeader extends StatelessWidget {
         ),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            '$groupName — $count',
-            style: context.textStyles.categoryName.copyWith(
-              color: context.colors.textPrimaryMuted,
-            ),
+          child: Row(
+            children: <Widget>[
+              if (iconRole != null && iconRole!.hasIcon) ...<Widget>[
+                RoleIcon(role: iconRole!, size: 16, decorative: true),
+                SizedBox(width: context.layout.s1),
+              ],
+              Expanded(
+                child: Text(
+                  '$groupName — $count',
+                  style: context.textStyles.categoryName.copyWith(
+                    color: context.colors.textPrimaryMuted,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
         ),
       ),

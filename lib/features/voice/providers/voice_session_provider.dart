@@ -1556,7 +1556,7 @@ class VoiceSession extends _$VoiceSession {
       channelId: resolvedChannelId,
     );
     try {
-      unawaited(applicator.applySpeakerOutput(settings: voiceSettings));
+      await applicator.applySpeakerOutput(settings: voiceSettings);
       await restoreAutomaticAudioSessionAfterMesh();
       await room.connect(
         event.endpoint,
@@ -3129,11 +3129,16 @@ class VoiceSession extends _$VoiceSession {
     }
     _joinTiming?.mark('connected');
     unawaited(_reconcileRemoteAudioForSelfConnection(reason: 'room_connected'));
-    unawaited(_applyVoiceOutputRouting(ref.read(voiceSettingsProvider)));
     _attachMediaDeviceChangeListener();
-    unawaited(
-      _ensureLocalMicrophone(reason: 'room_connected', attempt: attempt),
-    );
+    unawaited(_startCallAudio(attempt));
+  }
+
+  Future<void> _startCallAudio(int attempt) async {
+    await _applyVoiceOutputRouting(ref.read(voiceSettingsProvider));
+    if (!ref.mounted || !_isLatestRoomAttempt(attempt) || !state.isConnected) {
+      return;
+    }
+    await _ensureLocalMicrophone(reason: 'room_connected', attempt: attempt);
   }
 
   void _attachMediaDeviceChangeListener() {

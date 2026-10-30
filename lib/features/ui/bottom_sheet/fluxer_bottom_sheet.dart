@@ -1863,6 +1863,19 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
         final double iconBoxSize = dense ? kSidebarPeekMenuItemIconSize : 20;
         final double iconSize = dense ? kSidebarPeekMenuItemIconSize : 20;
         final double rowGap = dense ? kSidebarPeekMenuItemRowGap : 12;
+        final Color rowIconColor = iconColor ?? baseColor;
+        final Widget? rowIcon = switch ((leading, icon)) {
+          (final Widget leadingWidget, _) => IconTheme.merge(
+            data: IconThemeData(color: rowIconColor, size: iconSize),
+            child: leadingWidget,
+          ),
+          (_, final IconData iconData) => PhosphorIcon(
+            iconData,
+            color: rowIconColor,
+            size: iconSize,
+          ),
+          _ => null,
+        };
 
         final BoxDecoration? rowDecoration = dense
             ? BoxDecoration(
@@ -1897,24 +1910,11 @@ class FluxerBottomSheetMenuItem extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  if (leading case final leading?) ...[
+                  if (rowIcon != null) ...[
                     SizedBox(
                       width: iconBoxSize,
                       height: iconBoxSize,
-                      child: Center(child: leading),
-                    ),
-                    SizedBox(width: rowGap),
-                  ] else if (icon != null) ...[
-                    SizedBox(
-                      width: iconBoxSize,
-                      height: iconBoxSize,
-                      child: Center(
-                        child: PhosphorIcon(
-                          icon!,
-                          color: iconColor ?? baseColor,
-                          size: iconSize,
-                        ),
-                      ),
+                      child: Center(child: rowIcon),
                     ),
                     SizedBox(width: rowGap),
                   ],

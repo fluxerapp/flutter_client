@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_icon_field_update.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_update.dart';
 
 void main() {
@@ -28,6 +29,33 @@ void main() {
       expect(actual.color, original.color);
       expect(actual.permissions, 16);
       expect(actual.mentionable, true);
+    });
+
+    test('applies icon field updates', () {
+      const GuildRoleUpdate update = GuildRoleUpdate(
+        id: 'role-1',
+        iconField: GuildRoleIconFieldUpdate.unicodeEmoji('🛡️'),
+      );
+      final MemberRole actual = applyGuildRoleUpdate(original, update);
+      expect(actual.unicodeEmoji, '🛡️');
+      expect(actual.icon, isNull);
+    });
+
+    test('clears staged icon values', () {
+      const MemberRole withIcon = MemberRole(
+        id: 'role-1',
+        name: 'Moderator',
+        color: 0,
+        unicodeEmoji: '🛡️',
+      );
+      const GuildRoleUpdate update = GuildRoleUpdate(
+        id: 'role-1',
+        iconField: GuildRoleIconFieldUpdate.clear(),
+      );
+      final MemberRole actual = applyGuildRoleUpdate(withIcon, update);
+      expect(actual.unicodeEmoji, isNull);
+      expect(actual.icon, isNull);
+      expect(const GuildRoleIconFieldUpdate.clear().isClear, isTrue);
     });
   });
 

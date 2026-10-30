@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
 import 'package:fluxer_app/features/members/utils/guild_member_menu_state.dart';
@@ -23,6 +24,8 @@ import 'package:fluxer_app/features/voice/utils/participant/participant_menu_cap
 import 'package:fluxer_app/features/voice/utils/participant/participant_moderation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -290,7 +293,7 @@ class VoiceParticipantContextMenu {
     }
 
     if (guildId != null && roleMenuState != null) {
-      final String username = _voiceParticipantUsername(target);
+      final String username = _voiceParticipantUsername(ref, target);
       final List<VoiceParticipantMenuEntry> moderationEntries =
           buildVoiceParticipantGuildModerationEntries(
             context: context,
@@ -311,7 +314,19 @@ class VoiceParticipantContextMenu {
     return groups;
   }
 
-  static String _voiceParticipantUsername(VoiceParticipantMenuTarget target) {
+  static String _voiceParticipantUsername(
+    WidgetRef ref,
+    VoiceParticipantMenuTarget target,
+  ) {
+    final GuildUserDisplay? display = watchGuildScopedUserDisplay(
+      ref: ref,
+      userId: target.participant.userId,
+      guildId: target.guildId,
+      currentUserId: ref.watch(currentUserIdProvider),
+    );
+    if (display != null) {
+      return display.displayName;
+    }
     final database.User? user = target.participant.user;
     if (user == null) {
       return target.participant.userId;

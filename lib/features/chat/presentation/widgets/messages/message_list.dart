@@ -129,13 +129,27 @@ const double _kMessageListStatusOverlayInsetWide =
 
 const int _kPinnedRecenterTrailingThreshold = 60;
 
+typedef MessageListUnreadAckFields = ({
+  bool manual,
+  String? lastMessageId,
+  int mentionCount,
+});
+
 @visibleForTesting
 // Riverpod family type is not expressible without this ignore.
 // ignore: specify_nonobvious_property_types
 final messageListReadStateProvider = StreamProvider.autoDispose
-    .family<drift_db.ReadState?, String>((ref, channelId) {
+    .family<MessageListUnreadAckFields, String>((ref, channelId) {
       final db = ref.watch(fluxerDatabaseProvider);
-      return db.readStateDao.watchReadState(channelId);
+      return db.readStateDao.watchReadState(channelId).map((
+        drift_db.ReadState? row,
+      ) {
+        return (
+          manual: row?.manual ?? false,
+          lastMessageId: row?.lastMessageId,
+          mentionCount: row?.mentionCount ?? 0,
+        );
+      });
     });
 
 // Riverpod does not export the concrete auto-dispose family type.
@@ -654,14 +668,21 @@ class _MessageListState extends ConsumerState<MessageList> {
               (ChannelPermissionCaches caches) => caches.effective[channelId],
             ),
           );
-    final AsyncValue<drift_db.ReadState?> readStateAsync = channelId.isEmpty
-        ? const AsyncValue<drift_db.ReadState?>.data(null)
+    final AsyncValue<MessageListUnreadAckFields> readStateAsync =
+        channelId.isEmpty
+        ? const AsyncValue<MessageListUnreadAckFields>.data((
+            manual: false,
+            lastMessageId: null,
+            mentionCount: 0,
+          ))
         : ref.watch(messageListReadStateProvider(channelId));
-    final drift_db.ReadState? readState = readStateAsync.asData?.value;
+    final MessageListUnreadAckFields readState =
+        readStateAsync.asData?.value ??
+        (manual: false, lastMessageId: null, mentionCount: 0);
     final bool autoAckImminent =
         channelId.isNotEmpty &&
         !hasMoreNewerMessages &&
-        !(readState?.manual ?? false) &&
+        !readState.manual &&
         ref.watch(
           chatReadViewportProvider.select(
             (ChatReadViewportState viewport) =>
@@ -670,11 +691,11 @@ class _MessageListState extends ConsumerState<MessageList> {
                 viewport.canAutoAck,
           ),
         );
-    final String? effectiveAckId = readState?.manual ?? false
-        ? readState?.lastMessageId
-        : compareSnowflakeIds(pendingAutoAckId, readState?.lastMessageId) > 0
+    final String? effectiveAckId = readState.manual
+        ? readState.lastMessageId
+        : compareSnowflakeIds(pendingAutoAckId, readState.lastMessageId) > 0
         ? pendingAutoAckId
-        : readState?.lastMessageId;
+        : readState.lastMessageId;
     final int cachedUnreadCount =
         hasMoreNewerMessages &&
             effectiveAckId != null &&
@@ -693,7 +714,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final ChatUnreadSummary unreadSummary = _unreadSummaryFor(
       messages: messages,
       ackLastMessageId: effectiveAckId,
-      mentionCount: readState?.mentionCount ?? 0,
+      mentionCount: readState.mentionCount,
       channelLastMessageId: _channelLastMessageIdFor(channelId),
       hasMoreNewerMessages: hasMoreNewerMessages,
       hasMoreOlderMessages: hasMoreMessages,

@@ -10,7 +10,7 @@ import 'package:fluxer_dart/gateway.dart';
 const int kReactionWriteBatchMs = 50;
 
 typedef ReactionWriteBatcherFlushCallback =
-    void Function(String channelId, String messageId);
+    void Function(String channelId, String messageId, String reactionsJson);
 
 class ReactionWriteBatcher {
   ReactionWriteBatcher({
@@ -109,12 +109,13 @@ class ReactionWriteBatcher {
       if (!changed) {
         return;
       }
+      final String encoded = jsonEncode(reactions);
       await _database.messageDao.updateReactions(
         key.channelId,
         messageId,
-        jsonEncode(reactions),
+        encoded,
       );
-      onFlush?.call(key.channelId, messageId);
+      onFlush?.call(key.channelId, messageId, encoded);
     } on Object catch (e, st) {
       talker.error('[ReactionWriteBatcher] flush failed for $messageId', e, st);
     }
