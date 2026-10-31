@@ -16023,6 +16023,24 @@ abstract class FluxerLocalizations {
   /// **'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.'**
   String get storePlutoniumFilesBody;
 
+  /// No description provided for @storePlutoniumStreamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream in 4K at 60 FPS'**
+  String get storePlutoniumStreamTitle;
+
+  /// No description provided for @storePlutoniumStreamBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.'**
+  String get storePlutoniumStreamBody;
+
+  /// No description provided for @storePlutoniumManageHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Your subscription'**
+  String get storePlutoniumManageHeading;
+
   /// No description provided for @storePlutoniumCompareTitle.
   ///
   /// In en, this message translates to:

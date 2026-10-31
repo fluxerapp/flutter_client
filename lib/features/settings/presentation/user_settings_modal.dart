@@ -28,8 +28,8 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_search_query.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/app_licenses.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_page.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_page.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
@@ -343,18 +343,19 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                 color: context.colors.borderColor,
               ),
               Expanded(
-                child: ColoredBox(
-                  color: storePane
-                      ? PremiumStoreStyle.of(context).spaceTop
-                      : Colors.transparent,
-                  child: Column(
-                    children: [
-                      Padding(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ColoredBox(
+                      color: storePane
+                          ? PremiumStoreStyle.of(context).heroTop
+                          : Colors.transparent,
+                      child: Padding(
                         padding: EdgeInsets.fromLTRB(
                           contentGutter,
                           12,
                           contentGutter,
-                          0,
+                          storePane ? 12 : 0,
                         ),
                         child: Row(
                           children: [
@@ -397,21 +398,24 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: storePane
-                            ? _buildContent(state, desktopNav)
-                            : Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: contentGutter,
-                                ),
-                                child: WideSettingsContentLayout(
-                                  includeHorizontalGutter: false,
-                                  child: _buildContent(state, desktopNav),
-                                ),
+                    ),
+                    Expanded(
+                      child: storePane
+                          ? ColoredBox(
+                              color: PremiumStoreStyle.of(context).page,
+                              child: _buildContent(state, desktopNav),
+                            )
+                          : Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: contentGutter,
                               ),
-                      ),
-                    ],
-                  ),
+                              child: WideSettingsContentLayout(
+                                includeHorizontalGutter: false,
+                                child: _buildContent(state, desktopNav),
+                              ),
+                            ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -843,7 +847,7 @@ Future<void> _showMobileSettingsSection(
             href: pageLink,
             target: FluxerSettingsHeadingLinkTarget.page,
           ),
-    backgroundColor: storePage ? PremiumStoreStyle.of(context).spaceTop : null,
+    backgroundColor: storePage ? PremiumStoreStyle.of(context).heroTop : null,
     foregroundColor: storePage ? PremiumStoreStyle.of(context).ink : null,
     presentation: presentation,
     canDismissNotifier: canDismiss,

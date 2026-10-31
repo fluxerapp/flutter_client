@@ -9880,6 +9880,16 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Partagez des vidéos complètes et des fichiers volumineux sans les compresser. Les comptes gratuits peuvent envoyer jusqu\'à 25 Mo.';
 
   @override
+  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+
+  @override
+  String get storePlutoniumStreamBody =>
+      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Your subscription';
+
+  @override
   String get storePlutoniumCompareTitle => 'Comparer Gratuit et Plutonium';
 
   @override

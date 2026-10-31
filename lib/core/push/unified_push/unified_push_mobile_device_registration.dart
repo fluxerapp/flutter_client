@@ -454,7 +454,7 @@ class UnifiedPushMobileDeviceRegistration
         pubKey.isEmpty ||
         auth == null ||
         auth.isEmpty) {
-      return true;
+      return false;
     }
     final MobilePushRegistration? persisted = await _loadPersistedForUser(
       account.userId,

@@ -6,6 +6,8 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+  attestations: write
 
 jobs:
   draft-release:
@@ -25,11 +27,11 @@ jobs:
     uses: ./.github/workflows/android-beta-oss.yml
     secrets: inherit
 
-  ios-testflight:
-    name: iOS TestFlight build
-    needs: draft-release
-    uses: ./.github/workflows/ios-beta-testflight.yml
-    secrets: inherit
+  # ios-testflight:
+  #   name: iOS TestFlight build
+  #   needs: draft-release
+  #   uses: ./.github/workflows/ios-beta-testflight.yml
+  #   secrets: inherit
 
   publish-release-assets:
     name: Upload Android assets to draft release

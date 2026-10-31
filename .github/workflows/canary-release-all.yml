@@ -5,6 +5,8 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+  attestations: write
 
 jobs:
   android-fcm:
@@ -17,15 +19,15 @@ jobs:
     uses: ./.github/workflows/android-canary-oss.yml
     secrets: inherit
 
-  ios-testflight:
-    name: iOS TestFlight build
-    uses: ./.github/workflows/ios-canary-testflight.yml
-    secrets: inherit
+  # ios-testflight:
+  #   name: iOS TestFlight build
+  #   uses: ./.github/workflows/ios-canary-testflight.yml
+  #   secrets: inherit
 
-  macos-testflight:
-    name: macOS TestFlight build
-    uses: ./.github/workflows/macos-canary-testflight.yml
-    secrets: inherit
+  # macos-testflight:
+  #   name: macOS TestFlight build
+  #   uses: ./.github/workflows/macos-canary-testflight.yml
+  #   secrets: inherit
 
   upload-canary-apks-to-vps:
     name: Upload canary APKs to VPS

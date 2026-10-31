@@ -9828,6 +9828,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ossz meg teljes hosszúságú videókat és nagy fájlokat anélkül, hogy előbb lekicsinyítenéd őket. Az ingyenes fiókok legfeljebb 25 MB-ot küldhetnek.';
 
   @override
+  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+
+  @override
+  String get storePlutoniumStreamBody =>
+      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Your subscription';
+
+  @override
   String get storePlutoniumCompareTitle =>
       'Ingyenes és Plutonium összehasonlítása';
 

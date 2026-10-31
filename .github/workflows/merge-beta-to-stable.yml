@@ -1,0 +1,67 @@
+name: Merge Beta to Stable
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  merge-beta-to-stable:
+    name: Merge beta into stable
+    runs-on: ubuntu-latest
+    environment: release-builds
+    steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+
+      - name: Checkout stable
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: stable
+          token: ${{ steps.create-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Fast-forward or merge beta into stable
+        run: |
+          set -euo pipefail
+          git config user.name "fluxer-ci[bot]"
+          git config user.email "${{ vars.FLUXER_CI_APP_USER_ID }}+fluxer-ci[bot]@users.noreply.github.com"
+          git fetch origin beta
+          if git merge-base --is-ancestor origin/beta HEAD; then
+            echo "::notice::stable already contains beta. Nothing to merge."
+            exit 0
+          fi
+          resolve_beta_merge_conflicts() {
+            local file
+            while IFS= read -r file; do
+              [ -n "$file" ] || continue
+              if git cat-file -e "origin/beta:${file}" 2>/dev/null; then
+                git checkout --theirs -- "$file"
+                git add -- "$file"
+              else
+                git rm -f -- "$file"
+              fi
+            done < <(git diff --name-only --diff-filter=U)
+            [ -z "$(git diff --name-only --diff-filter=U)" ]
+          }
+          if git merge --ff-only origin/beta; then
+            echo "::notice::Fast-forwarded stable to beta at $(git rev-parse --short HEAD)"
+          elif git merge --no-ff -X theirs origin/beta --no-edit -m "Merge branch 'beta' into stable"; then
+            echo "::notice::Merged beta into stable (conflicts resolved in favor of beta) at $(git rev-parse --short HEAD)"
+          elif resolve_beta_merge_conflicts; then
+            git commit --no-edit
+            echo "::notice::Merged beta into stable (remaining conflicts auto-resolved in favor of beta) at $(git rev-parse --short HEAD)"
+          else
+            echo "::error::Merge conflict while merging beta into stable. Could not auto-resolve."
+            git merge --abort || true
+            exit 1
+          fi
+          git push origin HEAD:stable

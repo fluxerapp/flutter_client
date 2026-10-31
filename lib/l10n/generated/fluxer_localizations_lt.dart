@@ -9832,6 +9832,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Bendrinkite viso ilgio vaizdo įrašus ir didelius failus jų nesumažinę. Nemokamos paskyros gali siųsti iki 25 MB.';
 
   @override
+  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+
+  @override
+  String get storePlutoniumStreamBody =>
+      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Your subscription';
+
+  @override
   String get storePlutoniumCompareTitle =>
       'Palyginkite nemokamą planą ir Plutonium';
 

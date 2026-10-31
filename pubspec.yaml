@@ -48,7 +48,7 @@ dependencies:
   flutter_thumbhash: ^0.1.0+1
   flutter_tts: ^4.2.5
   flutter_web_auth_2: ^5.1.0
-  flutter_webrtc: ^1.6.2+hotfix.3
+  flutter_webrtc: ^1.6.3
   fluxer_android_notifications:
     path: packages/fluxer_android_notifications
   fluxer_dart:
@@ -71,7 +71,7 @@ dependencies:
   in_app_purchase: ^3.3.1
   in_app_purchase_android: ^0.5.3
   intl: ^0.20.2
-  livekit_client: ^2.13.0
+  livekit_client: ^2.13.2
   local_translation: ^0.1.1
   markdown: ^7.3.1
   material_ui: ^1.5.0
@@ -144,6 +144,10 @@ dependency_overrides:
       url: https://github.com/wangqiang1588/flutter_inappwebview
       path: flutter_inappwebview_macos
       ref: fc33a449b9290b127a471808e22eb7b0edebad92
+  # fluxerapp fork with commit https://github.com/fluxerapp/flutter-webrtc/commit/01d3de483e285f7ec8b67fbf85aeab4600ef0a44
+  flutter_webrtc:
+    git:
+      url: https://github.com/fluxerapp/flutter-webrtc
   # Temp: fluxerapp/media-kit fork (revert with the dependencies above).
   media_kit:
     git:

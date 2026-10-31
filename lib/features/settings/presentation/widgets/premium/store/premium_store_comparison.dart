@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_duration_text.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_panel.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_panel.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -107,27 +107,22 @@ class PremiumStoreComparison extends StatelessWidget {
     ];
 
     return PremiumStorePanel(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 28, 16, 20),
-        child: Column(
-          children: [
-            Text(
-              l10n.storePlutoniumCompareTitle,
-              textAlign: TextAlign.center,
-              style: context.textStyles.heading.copyWith(color: style.ink),
-            ),
-            const SizedBox(height: 8),
-            _CompareTable(rows: rows),
-            const SizedBox(height: 16),
-            Text(
-              l10n.storePlutoniumCompareMobileNote,
-              textAlign: TextAlign.center,
-              style: context.textStyles.bodySmall.copyWith(
-                color: style.inkMuted,
-              ),
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(
+            l10n.storePlutoniumCompareTitle,
+            textAlign: TextAlign.center,
+            style: context.textStyles.heading.copyWith(color: style.ink),
+          ),
+          const SizedBox(height: 8),
+          _CompareTable(rows: rows),
+          const SizedBox(height: 16),
+          Text(
+            l10n.storePlutoniumCompareMobileNote,
+            textAlign: TextAlign.center,
+            style: context.textStyles.bodySmall.copyWith(color: style.inkMuted),
+          ),
+        ],
       ),
     );
   }

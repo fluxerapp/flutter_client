@@ -41,7 +41,18 @@ void main() {
     expect(serviceContent, contains('GeneratedPluginRegistrant.registerWith'));
     expect(serviceContent, contains('--unifiedpush-bg'));
     expect(serviceContent, contains('PARTIAL_WAKE_LOCK'));
+    expect(serviceContent, contains('startForeground'));
+    expect(serviceContent, contains('pendingFlutterEvents'));
+    expect(serviceContent, contains('onDartBackgroundReady'));
     expect(serviceContent, contains('noteMainEngineStopped'));
     expect(serviceContent, contains('discardBackgroundEngine'));
+  });
+
+  test('unifiedpush flavor foreground service type is declared', () {
+    final String manifestContent = manifest.readAsStringSync();
+    expect(
+      manifestContent,
+      contains('android:foregroundServiceType="dataSync"'),
+    );
   });
 }

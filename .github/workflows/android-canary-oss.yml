@@ -4,6 +4,11 @@ on:
   workflow_dispatch:
   workflow_call:
 
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
 jobs:
   build-canary-oss:
     name: Build canary OSS APK (UnifiedPush)
@@ -132,19 +137,16 @@ jobs:
         run: flutter build apk --release --flavor canaryUnifiedpush --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=unifiedpush --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=CANARY_NUMBER=${{ steps.android_build_number.outputs.build_number }}
 
       - name: Rename canary OSS APK artifacts
-        run: |
-          set -euo pipefail
-          APK_DIR="build/app/outputs/flutter-apk"
-          for apk in "$APK_DIR"/*canaryunifiedpush*.apk; do
-            new_name=$(basename "$apk" | sed 's/unifiedpush/oss/g')
-            mv "$apk" "$APK_DIR/$new_name"
-          done
+        run: bash .github/scripts/rename_oss_apk_artifacts.sh canaryunifiedpush
+
+      - name: Attest canary OSS release binaries
+        uses: ./.github/actions/attest-android-binaries
+        with:
+          patterns: build/app/outputs/flutter-apk/*-canaryoss-release.apk
 
       - name: Upload canary OSS APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: canary-oss-apk
-          path: |
-            build/app/outputs/flutter-apk/app-*-canaryoss-release.apk
-            build/app/outputs/flutter-apk/app-canaryoss-release.apk
+          path: build/app/outputs/flutter-apk/*-canaryoss-release.apk
           if-no-files-found: error

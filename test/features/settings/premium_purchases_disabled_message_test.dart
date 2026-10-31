@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_bar.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_bar.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/settings/services/premium_checkout_service.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/plutonium_store_bar_mode.dart';

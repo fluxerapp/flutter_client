@@ -180,6 +180,13 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       ref,
       context,
     );
+    final double savedScrollOffset =
+        guildId != null &&
+            guildReady &&
+            !guildOutageUnavailable &&
+            !hasReceivedInitialChannelList
+        ? ref.read(guildSidebarScrollStoreProvider).offsetFor(guildId) ?? 0
+        : 0;
 
     return Container(
       width: channelSidebarHasFixedWidth(context) ? channelSidebarWidth : null,
@@ -195,6 +202,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
               guild: guild,
               outageUnavailable: guildOutageUnavailable,
               channelSidebarWidth: channelSidebarWidth,
+              scrollOffset: savedScrollOffset,
               onTap: guildOutageUnavailable || guild == null
                   ? null
                   : () => unawaited(_handleServerHeaderTap(context, guild)),

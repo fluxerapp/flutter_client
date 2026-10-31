@@ -50,6 +50,7 @@ import 'package:fluxer_app/features/voice/utils/audio/entrance_sound_playback.da
 import 'package:fluxer_app/features/voice/utils/audio/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/audio/participant_volume_utils.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
+import 'package:fluxer_app/features/voice/utils/audio/voice_join_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_join_guard.dart';
@@ -152,6 +153,7 @@ class VoiceSession extends _$VoiceSession {
   VoiceChannelPermissions? _channelPermissions;
   VoiceJoinTiming? _joinTiming;
   Future<void>? _liveKitTeardownTail;
+  bool _preJoinPermissionsInFlight = false;
 
   @override
   VoiceSessionState build() {
@@ -610,8 +612,31 @@ class VoiceSession extends _$VoiceSession {
       );
       return false;
     }
+    if (_preJoinPermissionsInFlight) {
+      talker.info(
+        '[Voice] Join skipped: pre-join permissions in progress '
+        '(channelId=$channelId).',
+      );
+      return false;
+    }
+    _preJoinPermissionsInFlight = true;
+    bool joinMicrophoneGranted = false;
+    bool joinCameraGranted = false;
+    try {
+      joinMicrophoneGranted = await requestVoiceJoinMediaPermissionGranted(
+        SystemPermissionKind.microphone,
+      );
+      joinCameraGranted = await requestVoiceJoinMediaPermissionGranted(
+        SystemPermissionKind.camera,
+      );
+    } finally {
+      _preJoinPermissionsInFlight = false;
+    }
+    if (!ref.mounted) {
+      return false;
+    }
     _lastConnectRequestAt = now;
-    _startWithVideoAfterConnect = initialSelfVideo;
+    _startWithVideoAfterConnect = initialSelfVideo && joinCameraGranted;
     final local = ref.read(localVoiceStateProvider);
     bool resolvedSelfMute = initialSelfDeaf || initialSelfMute;
     bool resolvedSelfDeaf = initialSelfDeaf;
@@ -627,6 +652,9 @@ class VoiceSession extends _$VoiceSession {
           !hasPermission(permissionBits, Permission.speak)) {
         resolvedSelfMute = true;
       }
+    }
+    if (!joinMicrophoneGranted) {
+      resolvedSelfMute = true;
     }
     _pendingSelfMute = resolvedSelfMute;
     _pendingSelfDeaf = resolvedSelfDeaf;
@@ -669,6 +697,7 @@ class VoiceSession extends _$VoiceSession {
       clearError: true,
       guildId: _expectedGuildId,
       channelId: channelId,
+      joinCameraGranted: joinCameraGranted,
     );
     _joinTiming = VoiceJoinTiming(channelId: channelId);
     _joinTiming?.mark('opcode');
@@ -717,35 +746,12 @@ class VoiceSession extends _$VoiceSession {
       return false;
     }
     _armConnectWatchdog(_connectGeneration);
-    unawaited(_warmupMicrophoneForJoin(channelId: channelId));
-    if (initialSelfVideo) {
-      unawaited(requestSystemPermission(SystemPermissionKind.camera));
-    }
     prefetchVoiceParticipantsForChannel(
       ref,
       guildId: _expectedGuildId,
       channelId: channelId,
     );
     return true;
-  }
-
-  Future<void> _warmupMicrophoneForJoin({required String channelId}) async {
-    final SystemPermissionOutcome outcome = await requestSystemPermission(
-      SystemPermissionKind.microphone,
-    );
-    if (outcome == SystemPermissionOutcome.granted) {
-      return;
-    }
-    talker.info(
-      '[Voice] Microphone warmup denied; joining listen-only '
-      '(channelId=$channelId).',
-    );
-    if (outcome == SystemPermissionOutcome.requiresSettings) {
-      await ensureSystemPermission(
-        resolveSystemPermissionContext(null),
-        SystemPermissionKind.microphone,
-      );
-    }
   }
 
   String? _acceptedVoiceServerChannelId({
@@ -2025,23 +2031,14 @@ class VoiceSession extends _$VoiceSession {
     if (_togglingVideo || !_hasTransport()) {
       return;
     }
+    if (!state.joinCameraGranted) {
+      return;
+    }
     final SystemPermissionOutcome cameraOutcome = await requestSystemPermission(
       SystemPermissionKind.camera,
     );
     if (cameraOutcome != SystemPermissionOutcome.granted ||
         attempt != _connectGeneration) {
-      if (attempt == _connectGeneration) {
-        if (cameraOutcome == SystemPermissionOutcome.denied) {
-          state = state.copyWith(
-            errorMessage: kVoiceSessionErrorCameraPermission,
-          );
-        } else if (cameraOutcome == SystemPermissionOutcome.requiresSettings) {
-          await ensureSystemPermission(
-            resolveSystemPermissionContext(null),
-            SystemPermissionKind.camera,
-          );
-        }
-      }
       return;
     }
     _togglingVideo = true;
@@ -2455,6 +2452,14 @@ class VoiceSession extends _$VoiceSession {
     }
     final VoiceState? vs = _selfConnectionVoiceState();
     final bool nextMute = !(vs?.selfMute ?? false);
+    if (!nextMute) {
+      final bool micGranted = await requestVoiceJoinMediaPermissionGranted(
+        SystemPermissionKind.microphone,
+      );
+      if (!ref.mounted || !micGranted) {
+        return;
+      }
+    }
     await setSelfMute(isMuted: nextMute, playSound: true);
     await ref
         .read(localVoiceStateProvider.notifier)
@@ -2538,11 +2543,17 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (nextVideo) {
-      final bool camOk = await _ensureSystemPermissionForVoice(
+      if (!state.joinCameraGranted) {
+        return;
+      }
+      final bool camOk = await requestVoiceJoinMediaPermissionGranted(
         SystemPermissionKind.camera,
-        deniedErrorCode: kVoiceSessionErrorCameraPermission,
       );
+      if (!ref.mounted) {
+        return;
+      }
       if (!camOk) {
+        state = state.copyWith(joinCameraGranted: false);
         return;
       }
     }

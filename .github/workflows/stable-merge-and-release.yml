@@ -1,0 +1,19 @@
+name: Stable release from Beta merge
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  merge-beta-to-stable:
+    name: Merge beta into stable
+    uses: ./.github/workflows/merge-beta-to-stable.yml
+    secrets: inherit
+
+  stable-release:
+    name: Stable release
+    needs: merge-beta-to-stable
+    uses: ./.github/workflows/stable-release-all.yml
+    secrets: inherit

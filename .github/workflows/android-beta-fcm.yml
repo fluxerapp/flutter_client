@@ -6,6 +6,8 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+  attestations: write
 
 jobs:
   build-beta:
@@ -185,13 +187,18 @@ jobs:
             echo "::warning::Google Play upload failed. APK/AAB artifacts will still be uploaded."
           fi
 
+      - name: Attest beta FCM release binaries
+        uses: ./.github/actions/attest-android-binaries
+        with:
+          patterns: |
+            build/app/outputs/flutter-apk/*-betafcm-release.apk
+            build/app/outputs/bundle/betaFcmRelease/app-beta-fcm-release.aab
+
       - name: Upload beta APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: beta-fcm-apk
-          path: |
-            build/app/outputs/flutter-apk/app-*-betafcm-release.apk
-            build/app/outputs/flutter-apk/app-betafcm-release.apk
+          path: build/app/outputs/flutter-apk/*-betafcm-release.apk
           if-no-files-found: error
 
       - name: Upload beta AAB artifact

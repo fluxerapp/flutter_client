@@ -23,6 +23,8 @@ void main() {
     final String content = service.readAsStringSync();
     expect(content, contains('void _completeBackgroundMessageWait()'));
     expect(content, contains('_completeBackgroundMessageWait();'));
+    expect(content, contains('prepareUnifiedPushBackgroundNative'));
+    expect(content, contains('finishUnifiedPushBackgroundNative'));
     expect(content, isNot(contains('_finishBackgroundEvent')));
     expect(content, isNot(contains('_backgroundWork')));
   });

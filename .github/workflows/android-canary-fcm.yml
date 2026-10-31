@@ -4,6 +4,11 @@ on:
   workflow_dispatch:
   workflow_call:
 
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
 jobs:
   build-canary:
     name: Build canary APK
@@ -152,11 +157,14 @@ jobs:
       - name: Build canary combined APK
         run: flutter build apk --release --flavor canaryFcm --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=CANARY_NUMBER=${{ steps.android_build_number.outputs.build_number }}
 
+      - name: Attest canary FCM release binaries
+        uses: ./.github/actions/attest-android-binaries
+        with:
+          patterns: build/app/outputs/flutter-apk/*-canaryfcm-release.apk
+
       - name: Upload canary APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: canary-fcm-apk
-          path: |
-            build/app/outputs/flutter-apk/app-*-canaryfcm-release.apk
-            build/app/outputs/flutter-apk/app-canaryfcm-release.apk
+          path: build/app/outputs/flutter-apk/*-canaryfcm-release.apk
           if-no-files-found: error

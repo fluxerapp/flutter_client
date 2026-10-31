@@ -6,6 +6,8 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+  attestations: write
 
 jobs:
   build-beta-oss:
@@ -142,19 +144,16 @@ jobs:
         run: flutter build apk --release --flavor betaUnifiedpush --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=unifiedpush --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
 
       - name: Rename beta OSS APK artifacts
-        run: |
-          set -euo pipefail
-          APK_DIR="build/app/outputs/flutter-apk"
-          for apk in "$APK_DIR"/*betaunifiedpush*.apk; do
-            new_name=$(basename "$apk" | sed 's/unifiedpush/oss/g')
-            mv "$apk" "$APK_DIR/$new_name"
-          done
+        run: bash .github/scripts/rename_oss_apk_artifacts.sh betaunifiedpush
+
+      - name: Attest beta OSS release binaries
+        uses: ./.github/actions/attest-android-binaries
+        with:
+          patterns: build/app/outputs/flutter-apk/*-betaoss-release.apk
 
       - name: Upload beta OSS APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: beta-oss-apk
-          path: |
-            build/app/outputs/flutter-apk/app-*-betaoss-release.apk
-            build/app/outputs/flutter-apk/app-betaoss-release.apk
+          path: build/app/outputs/flutter-apk/*-betaoss-release.apk
           if-no-files-found: error

@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/push/android/pipeline.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_account_index.dart';
+import 'package:fluxer_app/core/push/unified_push/unified_push_background_native.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_message_mapper.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
 import 'package:unifiedpush/unifiedpush.dart' as up;
@@ -89,12 +90,18 @@ class UnifiedPushService implements PushService {
     }
     _backgroundMode = true;
     instance._backgroundMessageHandled = Completer<void>();
-    await LocalPushNotifications().ensureInitialized();
-    await instance._ensureUnifiedPushInitialized();
-    await instance._backgroundMessageHandled!.future.timeout(
-      _kBackgroundMessageWait,
-      onTimeout: () {},
-    );
+    try {
+      await LocalPushNotifications().ensureInitialized();
+      await instance._ensureUnifiedPushInitialized();
+      await prepareUnifiedPushBackgroundNative();
+      await instance._backgroundMessageHandled!.future.timeout(
+        _kBackgroundMessageWait,
+        onTimeout: () {},
+      );
+    } finally {
+      await finishUnifiedPushBackgroundNative();
+      instance._backgroundMessageHandled = null;
+    }
   }
 
   @override
@@ -456,15 +463,11 @@ class UnifiedPushService implements PushService {
     String instance,
   ) async {
     if (message.content.isEmpty) {
-      if (kDebugMode) {
-        debugPrint('[UnifiedPushService] skip empty push');
-      }
+      debugPrint('[UnifiedPushService] skip empty push');
       return;
     }
     if (!message.decrypted) {
-      if (kDebugMode) {
-        debugPrint('[UnifiedPushService] skip undecrypted push');
-      }
+      debugPrint('[UnifiedPushService] skip undecrypted push');
       if (_backgroundMode) {
         await _healDecryptionFailure(instance);
       } else {
@@ -476,9 +479,7 @@ class UnifiedPushService implements PushService {
     try {
       mapped = mapUnifiedPushMessage(message);
     } on FormatException {
-      if (kDebugMode) {
-        debugPrint('[UnifiedPushService] skip invalid push payload');
-      }
+      debugPrint('[UnifiedPushService] skip invalid push payload');
       return;
     }
     await _stampTargetUser(mapped, instance);

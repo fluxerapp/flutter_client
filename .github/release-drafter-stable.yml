@@ -52,10 +52,10 @@ change-template: "- $TITLE (#$NUMBER) @$AUTHOR"
 change-title-escapes: '\<*_&'
 
 template: |
-  ## Stable release
+  ## What's New
 
-  Production build for App Store and Android APK distribution
+  > Add custom changelog notes here! (remove this text)
 
-  ## Changes
+  ## Detailed changes
 
   $CHANGES

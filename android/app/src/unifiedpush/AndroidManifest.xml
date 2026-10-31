@@ -9,7 +9,8 @@
             tools:node="remove" />
         <service
             android:name="com.fluxer.FluxerUnifiedPushService"
-            android:exported="false">
+            android:exported="false"
+            android:foregroundServiceType="dataSync">
             <intent-filter>
                 <action android:name="org.unifiedpush.android.connector.PUSH_EVENT" />
             </intent-filter>

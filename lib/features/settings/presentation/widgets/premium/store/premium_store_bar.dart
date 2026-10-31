@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_button.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/plutonium_store_bar_mode.dart';
@@ -249,11 +250,11 @@ class _SubscribeActions extends ConsumerWidget {
       monthlyRawPrice: store.monthly?.rawPrice ?? 0,
       yearlyRawPrice: store.yearly?.rawPrice ?? 0,
     );
-    final bool missingProducts =
-        !store.loading && store.monthly == null && store.yearly == null;
     final bool selfHosted = ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.selfHosted),
     );
+    final bool missingProducts =
+        !store.loading && store.monthly == null && store.yearly == null;
     final String? blockMessage = purchaseDisabled
         ? purchaseDisabledMessage
         : store.storeUnavailable
@@ -272,32 +273,34 @@ class _SubscribeActions extends ConsumerWidget {
       null => null,
     };
 
-    final Widget yearly = _PlanButton(
-      title: l10n.premiumYearly,
+    final Widget yearly = PremiumStoreButton(
+      label: l10n.premiumYearly,
       price: _priced(store.yearly?.priceLabel, l10n.storePlutoniumYearSuffix),
       savings: savings == null ? null : l10n.storePlutoniumSavePercent(savings),
       primary: true,
       isLoading: store.purchasingPlan == PremiumStorePlan.yearly,
-      disabled:
+      onPressed:
           purchaseDisabled ||
-          store.storeUnavailable ||
-          store.subscriptionPurchaseBlocked ||
-          store.yearly == null ||
-          store.purchasingPlan != null,
-      onPressed: () => onBuy(PremiumStorePlan.yearly),
+              store.storeUnavailable ||
+              store.subscriptionPurchaseBlocked ||
+              store.yearly == null ||
+              store.purchasingPlan != null
+          ? null
+          : () => onBuy(PremiumStorePlan.yearly),
     );
-    final Widget monthly = _PlanButton(
-      title: l10n.premiumMonthly,
+    final Widget monthly = PremiumStoreButton(
+      label: l10n.premiumMonthly,
       price: _priced(store.monthly?.priceLabel, l10n.storePlutoniumMonthSuffix),
       primary: false,
       isLoading: store.purchasingPlan == PremiumStorePlan.monthly,
-      disabled:
+      onPressed:
           purchaseDisabled ||
-          store.storeUnavailable ||
-          store.subscriptionPurchaseBlocked ||
-          store.monthly == null ||
-          store.purchasingPlan != null,
-      onPressed: () => onBuy(PremiumStorePlan.monthly),
+              store.storeUnavailable ||
+              store.subscriptionPurchaseBlocked ||
+              store.monthly == null ||
+              store.purchasingPlan != null
+          ? null
+          : () => onBuy(PremiumStorePlan.monthly),
     );
 
     return Column(
@@ -405,82 +408,6 @@ class _PurchaseTerms extends StatelessWidget {
         ],
       ),
       textAlign: TextAlign.center,
-    );
-  }
-}
-
-class _PlanButton extends StatelessWidget {
-  const _PlanButton({
-    required this.title,
-    required this.price,
-    required this.primary,
-    required this.isLoading,
-    required this.disabled,
-    required this.onPressed,
-    this.savings,
-  });
-
-  final String title;
-  final String? price;
-  final String? savings;
-  final bool primary;
-  final bool isLoading;
-  final bool disabled;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
-    final Color foreground = primary
-        ? colors.textOnBrandPrimary
-        : colors.textPrimary;
-    final String semantics = [title, ?price, ?savings].join(', ');
-    final Widget body = Row(
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: textStyles.categoryName.copyWith(color: foreground),
-          ),
-        ),
-        if (price != null) ...[
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                price!,
-                style: textStyles.categoryName.copyWith(color: foreground),
-              ),
-              if (savings != null)
-                Text(
-                  savings!,
-                  style: textStyles.timestamp.copyWith(
-                    color: foreground.withValues(alpha: 0.82),
-                  ),
-                ),
-            ],
-          ),
-        ],
-      ],
-    );
-    if (primary) {
-      return FluxerButton.primary(
-        semanticLabel: semantics,
-        isLoading: isLoading,
-        onPressed: disabled ? null : onPressed,
-        child: body,
-      );
-    }
-    return FluxerButton.secondary(
-      semanticLabel: semantics,
-      isLoading: isLoading,
-      onPressed: disabled ? null : onPressed,
-      child: body,
     );
   }
 }

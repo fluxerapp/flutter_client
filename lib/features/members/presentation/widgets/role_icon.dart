@@ -77,12 +77,12 @@ class _RoleIconState extends State<RoleIcon> {
       if (url == null) {
         return const SizedBox.shrink();
       }
-      final bool lightTheme = Theme.of(context).brightness == Brightness.light;
-      Widget image = Image.network(
+      return Image.network(
         url,
         width: imageSize,
         height: imageSize,
         fit: BoxFit.contain,
+        gaplessPlayback: true,
         errorBuilder: (BuildContext _, Object _, StackTrace? _) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
@@ -92,17 +92,6 @@ class _RoleIconState extends State<RoleIcon> {
           return SizedBox(width: imageSize, height: imageSize);
         },
       );
-      if (lightTheme) {
-        image = DecoratedBox(
-          decoration: const BoxDecoration(
-            boxShadow: <BoxShadow>[
-              BoxShadow(color: Color(0x59000000), blurRadius: 0.5),
-            ],
-          ),
-          child: image,
-        );
-      }
-      return image;
     }
     final String? emoji = widget.role.unicodeEmoji;
     if (emoji != null && emoji.isNotEmpty) {

@@ -35,11 +35,13 @@ void main() {
         guildId: 'g1',
         channelId: 'voice-1',
         activeConnectionId: 'conn-1',
+        joinCameraGranted: false,
       );
       final VoiceSessionState after = before.copyWith(clearChannel: true);
       expect(after.guildId, isNull);
       expect(after.channelId, isNull);
       expect(after.activeConnectionId, 'conn-1');
+      expect(after.joinCameraGranted, isTrue);
     });
 
     test('clearActiveConnectionId nulls connection fields', () {

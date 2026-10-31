@@ -2,14 +2,16 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_backdrop.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_bar.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_comparison.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_hero.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_highlights.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_perk.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_backdrop.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_bar.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_art.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_band.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_highlights.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_prices.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_marketing.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -26,7 +28,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
 const String _kDonateUrl = 'https://fluxer.app/donate';
-const String _kVisionaryUrl = 'https://fluxer.app/help/visionary';
 
 class PremiumStorePage extends ConsumerStatefulWidget {
   const PremiumStorePage({this.scrollController, super.key});
@@ -59,7 +60,6 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final PremiumStoreState store = ref.watch(premiumStoreProvider);
     ref.listen(premiumStoreProvider, (
@@ -122,72 +122,52 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
       store.yearly?.priceLabel,
       l10n.storePlutoniumYearSuffix,
     );
+    final bool selfHosted = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.selfHosted),
+    );
+    final String heroAsset = premiumStoreHeroArtAsset(selfHosted: selfHosted);
 
-    return ColoredBox(
-      color: style.spaceTop,
-      child: PremiumStoreBackdrop(
+    return PremiumStoreBackdrop(
+      bar: PremiumStoreBar(
+        mode: mode,
+        status: status,
+        store: store,
+        purchaseDisabled: purchaseDisabled,
+        purchaseDisabledMessage: purchaseDisabledMessage,
+        onBuy: (PremiumStorePlan plan) {
+          unawaited(ref.read(premiumStoreProvider.notifier).buy(plan));
+        },
+        onManage: onManage,
+        onRestore:
+            store.billingStore == PremiumBillingStore.appStore &&
+                !store.storeUnavailable
+            ? ref.read(premiumStoreProvider.notifier).restore
+            : null,
+        otherStoreNotice: otherStoreNotice,
+      ),
+      child: SingleChildScrollView(
         controller: _scrollController,
-        bar: PremiumStoreBar(
-          mode: mode,
-          status: status,
-          store: store,
-          purchaseDisabled: purchaseDisabled,
-          purchaseDisabledMessage: purchaseDisabledMessage,
-          onBuy: (PremiumStorePlan plan) {
-            unawaited(ref.read(premiumStoreProvider.notifier).buy(plan));
-          },
-          onManage: onManage,
-          onRestore:
-              store.billingStore == PremiumBillingStore.appStore &&
-                  !store.storeUnavailable
-              ? ref.read(premiumStoreProvider.notifier).restore
-              : null,
-          otherStoreNotice: otherStoreNotice,
-        ),
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              PremiumStoreHero(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            PremiumStoreHeroBand(
+              heroArtAsset: heroAsset,
+              title: l10n.userSettingsNavFluxerPlutonium,
+              scrollController: _scrollController,
+              priceRow: PremiumStoreHeroPricesFromStore(
                 monthlyPrice: monthlyPrice,
                 yearlyPrice: yearlyPrice,
                 priceLoading:
                     store.loading &&
                     (monthlyPrice == null || yearlyPrice == null),
+                monthlyRawPrice: store.monthly?.rawPrice ?? 0,
+                yearlyRawPrice: store.yearly?.rawPrice ?? 0,
               ),
-              const SizedBox(height: 16),
-              const _DonateLine(),
-              const SizedBox(height: 16),
-              const PremiumStoreHighlights(),
-              const SizedBox(height: 16),
-              PremiumStorePerk(
-                asset: 'assets/images/plutonium/perk-expressions.webp',
-                title: l10n.storePlutoniumEmojiTitle,
-                body: l10n.storePlutoniumEmojiBody,
-                imageFirst: true,
-              ),
-              const SizedBox(height: 16),
-              PremiumStorePerk(
-                asset: 'assets/images/plutonium/perk-profile.webp',
-                title: l10n.storePlutoniumProfileTitle,
-                body: l10n.storePlutoniumProfileBody,
-                imageFirst: false,
-              ),
-              const SizedBox(height: 16),
-              PremiumStorePerk(
-                asset: 'assets/images/plutonium/perk-upload.webp',
-                title: l10n.storePlutoniumFilesTitle,
-                body: l10n.storePlutoniumFilesBody,
-                imageFirst: true,
-              ),
-              const SizedBox(height: 16),
-              const PremiumStoreComparison(),
-              const SizedBox(height: 16),
-              const _TagFootnote(),
-            ],
-          ),
+              footer: selfHosted ? null : const _DonateLine(),
+              highlights: const PremiumStoreHeroHighlights(),
+            ),
+            const PremiumStoreMarketingSections(),
+          ],
         ),
       ),
     );
@@ -225,7 +205,7 @@ class _DonateLine extends StatelessWidget {
     final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted = context.textStyles.bodySmall.copyWith(
-      color: style.inkMuted,
+      color: style.inkSoft,
     );
     return Text.rich(
       TextSpan(
@@ -250,38 +230,6 @@ class _DonateLine extends StatelessWidget {
         ],
       ),
       textAlign: TextAlign.center,
-    );
-  }
-}
-
-class _TagFootnote extends StatelessWidget {
-  const _TagFootnote();
-
-  @override
-  Widget build(BuildContext context) {
-    final PremiumStoreStyle style = PremiumStoreStyle.of(context);
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final TextStyle muted = context.textStyles.timestamp.copyWith(
-      color: style.inkMuted,
-    );
-    return Text.rich(
-      TextSpan(
-        style: muted,
-        children: [
-          TextSpan(text: '${l10n.storePlutoniumTagFootnote} '),
-          WidgetSpan(
-            alignment: PlaceholderAlignment.baseline,
-            baseline: TextBaseline.alphabetic,
-            child: MediaQuery.withNoTextScaling(
-              child: FluxerTextLink(
-                text: l10n.storePlutoniumLearnVisionary,
-                url: _kVisionaryUrl,
-                style: muted.copyWith(color: style.accent),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

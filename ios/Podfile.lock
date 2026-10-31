@@ -4,8 +4,6 @@ PODS:
     - Flutter
   - irondash_engine_context (0.0.1):
     - Flutter
-  - smart_keyboard_insets (0.3.0):
-    - Flutter
   - super_native_extensions (0.0.1):
     - Flutter
 
@@ -13,7 +11,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
   - irondash_engine_context (from `.symlinks/plugins/irondash_engine_context/ios`)
-  - smart_keyboard_insets (from `.symlinks/plugins/smart_keyboard_insets/ios`)
   - super_native_extensions (from `.symlinks/plugins/super_native_extensions/ios`)
 
 EXTERNAL SOURCES:
@@ -23,8 +20,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_tts/ios"
   irondash_engine_context:
     :path: ".symlinks/plugins/irondash_engine_context/ios"
-  smart_keyboard_insets:
-    :path: ".symlinks/plugins/smart_keyboard_insets/ios"
   super_native_extensions:
     :path: ".symlinks/plugins/super_native_extensions/ios"
 
@@ -32,7 +27,6 @@ SPEC CHECKSUMS:
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
   flutter_tts: 35ac3c7d42412733e795ea96ad2d7e05d0a75113
   irondash_engine_context: 8e58ca8e0212ee9d1c7dc6a42121849986c88486
-  smart_keyboard_insets: b00e57060ff1ad731853fb8fa27c2d7f3ba29c33
   super_native_extensions: b763c02dc3a8fd078389f410bf15149179020cb4
 
 PODFILE CHECKSUM: 162f8371452379e0819aedeaa0bb1f5b123bdc8b

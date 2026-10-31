@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../../helpers/test_l10n.dart';
-import 'plutonium_store_test_app.dart';
+import 'premium_store_test_app.dart';
 
 Color _textColor(WidgetTester tester, String text) {
   return tester
@@ -18,7 +18,7 @@ Color _barColor(WidgetTester tester) {
       .widget<ColoredBox>(
         find
             .ancestor(
-              of: find.byKey(plutoniumStoreTestBarKey),
+              of: find.byKey(premiumStoreTestBarKey),
               matching: find.byType(ColoredBox),
             )
             .first,
@@ -33,34 +33,28 @@ void main() {
     final ScrollController controller = ScrollController();
     addTearDown(controller.dispose);
     await tester.pumpWidget(
-      plutoniumStoreTestApp(
-        brightness: Brightness.light,
-        controller: controller,
-      ),
+      premiumStoreTestApp(brightness: Brightness.light, controller: controller),
     );
     await tester.pumpAndSettle();
 
     expect(
       _textColor(tester, testL10n.storePlutoniumCompareTitle),
-      const Color(0xFF121122),
+      const Color(0xFF0A0A0D),
     );
     expect(
       _textColor(tester, testL10n.storePlutoniumCompareTag),
-      const Color(0xFF121122),
+      const Color(0xFF0A0A0D),
     );
-    expect(_barColor(tester).computeLuminance(), greaterThan(0.8));
+    expect(_barColor(tester), equals(const Color(0xFFFFFFFF)));
   });
 
-  testWidgets('dark theme keeps the space palette', (
+  testWidgets('dark theme keeps the premium page palette', (
     WidgetTester tester,
   ) async {
     final ScrollController controller = ScrollController();
     addTearDown(controller.dispose);
     await tester.pumpWidget(
-      plutoniumStoreTestApp(
-        brightness: Brightness.dark,
-        controller: controller,
-      ),
+      premiumStoreTestApp(brightness: Brightness.dark, controller: controller),
     );
     await tester.pumpAndSettle();
 
@@ -68,6 +62,6 @@ void main() {
       _textColor(tester, testL10n.storePlutoniumCompareTitle),
       const Color(0xFFFFFFFF),
     );
-    expect(_barColor(tester).computeLuminance(), lessThan(0.05));
+    expect(_barColor(tester), equals(const Color(0xFF0F0D2D)));
   });
 }

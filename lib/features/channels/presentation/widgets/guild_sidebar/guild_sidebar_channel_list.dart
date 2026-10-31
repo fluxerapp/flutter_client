@@ -38,19 +38,17 @@ class _GuildSidebarChannelListHostState
     required Guild guild,
     required bool isActive,
   }) {
-    final Widget scope = FluxerEntranceSettleScope(
-      key: ValueKey<String>(guildId),
-      child: _GuildSidebarChannelList(
-        guildId: guildId,
-        guild: guild,
-        isActive: isActive,
-        onHeaderTap: widget.onHeaderTap,
+    return ExcludeSemantics(
+      excluding: !isActive,
+      child: FluxerEntranceSettleScope(
+        child: _GuildSidebarChannelList(
+          guildId: guildId,
+          guild: guild,
+          isActive: isActive,
+          onHeaderTap: widget.onHeaderTap,
+        ),
       ),
     );
-    if (isActive) {
-      return scope;
-    }
-    return ExcludeSemantics(child: scope);
   }
 
   @override
@@ -61,6 +59,7 @@ class _GuildSidebarChannelListHostState
       children: <Widget>[
         for (final MapEntry<String, Guild> entry in _guildsById.entries)
           Offstage(
+            key: ValueKey<String>(entry.key),
             offstage: entry.key != widget.activeGuildId,
             child: _offstageGuildSidebarScope(
               guildId: entry.key,
@@ -106,6 +105,7 @@ class _GuildSidebarChannelListState
   bool _selectedRevealScheduled = false;
   int _selectedRevealSteps = 0;
   GuildSidebarScrollStore? _scrollStore;
+  final _PendingGuildScrollOffset _pendingScroll = _PendingGuildScrollOffset();
   Widget? _inactiveList;
 
   double _savedScrollOffset() => _scrollStore?.offsetFor(widget.guildId) ?? 0;
@@ -114,6 +114,16 @@ class _GuildSidebarChannelListState
     _needsScrollClamp = _savedScrollOffset() > 0;
     _needsSelectedReveal = _scrollStore?.offsetFor(widget.guildId) == null;
     _selectedRevealSteps = 0;
+    _armPendingScroll();
+  }
+
+  void _armPendingScroll() {
+    final double? next = _needsScrollClamp ? _savedScrollOffset() : null;
+    if (_pendingScroll.value == next) {
+      return;
+    }
+    _pendingScroll.value = next;
+    _pendingScroll.corrected = false;
   }
 
   void _refreshGuildPermissions() {
@@ -328,7 +338,7 @@ class _GuildSidebarChannelListState
   }
 
   void _persistScroll() {
-    if (_restoring) {
+    if (_restoring || _needsScrollClamp) {
       return;
     }
     if (_scrollStore != null && _scrollController.hasClients) {
@@ -345,6 +355,7 @@ class _GuildSidebarChannelListState
       return;
     }
     _needsScrollClamp = false;
+    _pendingScroll.value = null;
     final double target = _savedScrollOffset().clamp(0.0, maxExtent);
     if ((_scrollController.offset - target).abs() > 0.5) {
       _jumpWithoutPersisting(target);
@@ -370,29 +381,16 @@ class _GuildSidebarChannelListState
       return _inactiveList ?? const SizedBox.shrink();
     }
     _scrollStore = ref.read(guildSidebarScrollStoreProvider);
+    _armPendingScroll();
     final List<GuildSidebarEntry> sidebarEntries = ref.watch(
       guildSidebarEntriesProvider,
     );
-    final List<String> indicatorOrder = <String>[
-      for (final GuildSidebarEntry entry in sidebarEntries)
-        if (entry.kind == GuildSidebarEntryKind.channel ||
-            entry.kind == GuildSidebarEntryKind.thread)
-          entry.channel!.id,
-    ];
-    if (!listEquals(indicatorOrder, _indicatorOrder)) {
-      _indicatorOrder = indicatorOrder;
-      if (_needsSelectedReveal && indicatorOrder.isNotEmpty) {
-        _scheduleSelectedReveal();
-      }
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted || !widget.isActive) {
-          return;
-        }
-        ref
-            .read(recentGuildUnreadRetentionProvider.notifier)
-            .retain(widget.guildId, _indicatorOrder);
-      });
-    }
+    final bool channelListReady = ref.watch(
+      channelListViewModelProvider.select(
+        (ChannelListState state) =>
+            state.guild?.id == widget.guildId && state.categories.isNotEmpty,
+      ),
+    );
     ref
       ..listen(guildReadStateProvider.select((s) => s[widget.guildId]), (_, _) {
         _scrollIndicator.scheduleUpdate();
@@ -417,6 +415,32 @@ class _GuildSidebarChannelListState
           _scheduleRevealIfHidden();
         }
       });
+    if (sidebarEntries.isEmpty &&
+        channelListReady &&
+        _inactiveList != null &&
+        _savedScrollOffset() > 0) {
+      return _inactiveList!;
+    }
+    final List<String> indicatorOrder = <String>[
+      for (final GuildSidebarEntry entry in sidebarEntries)
+        if (entry.kind == GuildSidebarEntryKind.channel ||
+            entry.kind == GuildSidebarEntryKind.thread)
+          entry.channel!.id,
+    ];
+    if (!listEquals(indicatorOrder, _indicatorOrder)) {
+      _indicatorOrder = indicatorOrder;
+      if (_needsSelectedReveal && indicatorOrder.isNotEmpty) {
+        _scheduleSelectedReveal();
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !widget.isActive) {
+          return;
+        }
+        ref
+            .read(recentGuildUnreadRetentionProvider.notifier)
+            .retain(widget.guildId, _indicatorOrder);
+      });
+    }
     final bool showMembersEntry =
         !isMobileLayout(context) &&
         hasMembersPagePermission(
@@ -435,7 +459,10 @@ class _GuildSidebarChannelListState
       builder: (BuildContext context, BoxConstraints constraints) {
         return CustomScrollView(
           controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: _GuildSidebarScrollPhysics(
+            pending: _pendingScroll,
+            parent: const AlwaysScrollableScrollPhysics(),
+          ),
           scrollCacheExtent: const ScrollCacheExtent.pixels(600),
           slivers: <Widget>[
             SliverPersistentHeader(
@@ -446,6 +473,7 @@ class _GuildSidebarChannelListState
                 onTap: widget.onHeaderTap,
                 bannerWidth: constraints.maxWidth,
                 viewportHeight: viewport.height,
+                minimumShrinkOffset: _pendingScroll.value ?? 0,
               ),
             ),
             SliverPadding(
@@ -546,5 +574,50 @@ class _GuildSidebarChannelListState
     );
     _inactiveList = child;
     return child;
+  }
+}
+
+class _PendingGuildScrollOffset {
+  double? value;
+  bool corrected = false;
+}
+
+class _GuildSidebarScrollPhysics extends ScrollPhysics {
+  const _GuildSidebarScrollPhysics({required this.pending, super.parent});
+
+  final _PendingGuildScrollOffset pending;
+
+  @override
+  _GuildSidebarScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return _GuildSidebarScrollPhysics(
+      pending: pending,
+      parent: buildParent(ancestor),
+    );
+  }
+
+  @override
+  double adjustPositionForNewDimensions({
+    required ScrollMetrics oldPosition,
+    required ScrollMetrics newPosition,
+    required bool isScrolling,
+    required double velocity,
+  }) {
+    final double? target = pending.value;
+    if (target == null ||
+        pending.corrected ||
+        isScrolling ||
+        newPosition.maxScrollExtent < target) {
+      return super.adjustPositionForNewDimensions(
+        oldPosition: oldPosition,
+        newPosition: newPosition,
+        isScrolling: isScrolling,
+        velocity: velocity,
+      );
+    }
+    pending.corrected = true;
+    return target.clamp(
+      newPosition.minScrollExtent,
+      newPosition.maxScrollExtent,
+    );
   }
 }

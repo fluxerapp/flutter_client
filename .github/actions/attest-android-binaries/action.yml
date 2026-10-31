@@ -1,0 +1,68 @@
+name: Attest Android release binaries
+description: GitHub build provenance for release APK/AAB files on disk.
+
+inputs:
+  patterns:
+    description: Glob pattern(s) relative to the repo root, one per line.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve release binaries
+      id: resolve
+      shell: bash
+      env:
+        ATTEST_PATTERNS: ${{ inputs.patterns }}
+      run: |
+        set -euo pipefail
+        shopt -s nullglob
+        subjects=()
+        while IFS= read -r pattern || [ -n "$pattern" ]; do
+          pattern="${pattern//$'\r'/}"
+          [ -z "$pattern" ] && continue
+          matches=($pattern)
+          if [ "${#matches[@]}" -eq 0 ]; then
+            echo "::error::No files matched pattern: $pattern"
+            exit 1
+          fi
+          for file in "${matches[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "::error::Not a regular file: $file"
+              exit 1
+            fi
+            subjects+=("$file")
+          done
+        done <<< "$ATTEST_PATTERNS"
+        if [ "${#subjects[@]}" -eq 0 ]; then
+          echo "::error::No release binaries matched attestation patterns"
+          exit 1
+        fi
+        unique=()
+        for file in "${subjects[@]}"; do
+          duplicate=0
+          if ((${#unique[@]} > 0)); then
+            for existing in "${unique[@]}"; do
+              if [ "$existing" = "$file" ]; then
+                duplicate=1
+                break
+              fi
+            done
+          fi
+          if [ "$duplicate" -eq 0 ]; then
+            unique+=("$file")
+          fi
+        done
+        subjects=("${unique[@]}")
+        {
+          echo "subject-path<<EOF"
+          printf '%s\n' "${subjects[@]}"
+          echo "EOF"
+        } >> "$GITHUB_OUTPUT"
+        echo "Attesting ${#subjects[@]} file(s):"
+        printf '  %s\n' "${subjects[@]}"
+
+    - name: Generate build provenance attestation
+      uses: actions/attest-build-provenance@8beda2b7ed98355c0e97c0a63bec38ae472e66c4
+      with:
+        subject-path: ${{ steps.resolve.outputs.subject-path }}
