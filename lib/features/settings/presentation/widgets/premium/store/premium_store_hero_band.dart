@@ -8,7 +8,6 @@ class PremiumStoreHeroBand extends StatelessWidget {
     required this.heroArtAsset,
     required this.title,
     this.lead,
-    this.priceRow,
     this.footer,
     this.highlights,
     this.scrollController,
@@ -18,7 +17,6 @@ class PremiumStoreHeroBand extends StatelessWidget {
   final String heroArtAsset;
   final String title;
   final String? lead;
-  final Widget? priceRow;
   final Widget? footer;
   final Widget? highlights;
   final ScrollController? scrollController;
@@ -95,10 +93,6 @@ class PremiumStoreHeroBand extends StatelessWidget {
                         if (footer != null) ...[
                           SizedBox(height: lead != null ? 12 : 10),
                           footer!,
-                        ],
-                        if (priceRow != null) ...[
-                          SizedBox(height: footer != null ? 14 : 16),
-                          priceRow!,
                         ],
                         if (highlights != null) ...[
                           const SizedBox(height: 20),

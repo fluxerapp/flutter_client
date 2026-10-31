@@ -11,13 +11,11 @@ import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_art.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_band.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_highlights.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_prices.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_marketing.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
-import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/services/premium_checkout_service.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/premium_formatting.dart';
@@ -172,21 +170,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
               title: l10n.userSettingsNavFluxerPlutonium,
               lead: heroLead,
               scrollController: widget.scrollController,
-              priceRow: showPurchaseGrid
-                  ? PremiumStoreHeroPrices(
-                      monthlyPrice:
-                          '$monthlyPrice${l10n.storePlutoniumMonthSuffix}',
-                      yearlyPrice:
-                          '$yearlyPrice${l10n.storePlutoniumYearSuffix}',
-                      priceLoading: false,
-                      yearlySavingsPercent: plutoniumYearlySavingsPercent(
-                        monthlyRawPrice: (priceIds.monthlyAmountMinor ?? 0)
-                            .toDouble(),
-                        yearlyRawPrice: (priceIds.yearlyAmountMinor ?? 0)
-                            .toDouble(),
-                      ),
-                    )
-                  : null,
               highlights: const PremiumStoreHeroHighlights(),
             ),
             Padding(
