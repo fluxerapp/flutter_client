@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_art.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_band.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_highlights.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_hero_prices.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_marketing.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_style.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/plutonium_store_provider.dart';
@@ -114,14 +113,6 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
         ? l10n.storePlutoniumAlreadySubscribed
         : null;
 
-    final String? monthlyPrice = _periodPrice(
-      store.monthly?.priceLabel,
-      l10n.storePlutoniumMonthSuffix,
-    );
-    final String? yearlyPrice = _periodPrice(
-      store.yearly?.priceLabel,
-      l10n.storePlutoniumYearSuffix,
-    );
     final bool selfHosted = ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.selfHosted),
     );
@@ -154,15 +145,6 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
               heroArtAsset: heroAsset,
               title: l10n.userSettingsNavFluxerPlutonium,
               scrollController: _scrollController,
-              priceRow: PremiumStoreHeroPricesFromStore(
-                monthlyPrice: monthlyPrice,
-                yearlyPrice: yearlyPrice,
-                priceLoading:
-                    store.loading &&
-                    (monthlyPrice == null || yearlyPrice == null),
-                monthlyRawPrice: store.monthly?.rawPrice ?? 0,
-                yearlyRawPrice: store.yearly?.rawPrice ?? 0,
-              ),
               footer: selfHosted ? null : const _DonateLine(),
               highlights: const PremiumStoreHeroHighlights(),
             ),
@@ -171,13 +153,6 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
         ),
       ),
     );
-  }
-
-  String? _periodPrice(String? price, String suffix) {
-    if (price == null) {
-      return null;
-    }
-    return '$price$suffix';
   }
 
   Future<void> _showPurchaseError(FluxerLocalizations l10n) async {
