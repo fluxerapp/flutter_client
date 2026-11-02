@@ -148,6 +148,7 @@ class GatewayEventHandler {
     this.reactionWriteBatcher,
     this.currentUserId,
     this.isAutoAckActive,
+    this.isAtLiveTail,
     this.onReady,
     this.onResumed,
     this.onTypingStart,
@@ -234,6 +235,7 @@ class GatewayEventHandler {
   final ReactionWriteBatcher? reactionWriteBatcher;
   final String? currentUserId;
   final bool Function(String channelId)? isAutoAckActive;
+  final bool Function(String channelId)? isAtLiveTail;
   final ReadyCallback? onReady;
   final ReadyCallback? onResumed;
   final TypingCallback? onTypingStart;
@@ -1267,6 +1269,16 @@ class GatewayEventHandler {
               flags: Value(rs.flags),
             ),
           );
+          readStateWriteBatcher?.adoptPersisted(
+            channelId: rs.id,
+            lastMessageId: rs.lastMessageId,
+            mentionCount: rs.mentionCount,
+            manual: keepManual,
+            stickyUnreadMessageId: sticky,
+            lastPinTimestamp: rs.lastPinTimestamp,
+            version: rs.version,
+            flags: rs.flags,
+          );
           existingByChannelId[rs.id] = db.ReadState(
             channelId: rs.id,
             lastMessageId: rs.lastMessageId,
@@ -1876,28 +1888,39 @@ class GatewayEventHandler {
     required MessageMentionContext mentionCtx,
   }) async {
     final isOwnMessage = _selfUserId != null && msg.authorId == _selfUserId;
-    final readState = await database.readStateDao.getReadState(msg.channelId);
-    final ackMessageId = readState?.lastMessageId;
+    final ReadStateWriteBatcher? batcher = readStateWriteBatcher;
+    final ReadStateAckCursor? cursor = batcher == null
+        ? null
+        : (batcher.peekCursor(msg.channelId) ??
+              await batcher.ensureCursor(msg.channelId));
+    final db.ReadState? readState = cursor == null
+        ? await database.readStateDao.getReadState(msg.channelId)
+        : null;
+    final String? ackMessageId =
+        cursor?.lastMessageId ?? readState?.lastMessageId;
     final readStateKnown = ackMessageId != null;
-    final manual = readState?.manual ?? false;
+    final manual = cursor?.manual ?? readState?.manual ?? false;
+    final int mentionCount =
+        cursor?.mentionCount ?? readState?.mentionCount ?? 0;
     final authorBlocked =
         !isOwnMessage && mentionCtx.blockedUserIds.contains(msg.authorId);
     final hadUnread =
         readStateKnown &&
         compareSnowflakeIds(ackMessageId, previousChannelLastMessageId) < 0;
     final hadUnreadOrMentions =
-        (readState?.mentionCount ?? 0) > 0 ||
+        mentionCount > 0 ||
         hadUnread ||
-        (readStateWriteBatcher?.hasPending(msg.channelId) ?? false);
+        (readStateWriteBatcher?.hasPendingUnread(msg.channelId) ?? false);
     final autoAckActive =
         !_disposed &&
         !manual &&
         (isAutoAckActive?.call(msg.channelId) ?? false);
+    final bool liveTail = isAtLiveTail?.call(msg.channelId) ?? true;
     return resolveReadStateIncomingMessageDecision(
       ReadStateIncomingMessageInput(
         isCurrentUserAuthor: isOwnMessage,
         automaticAckEnabled: autoAckActive,
-        isAtBottom: true,
+        isAtBottom: liveTail,
         authorBlocked: authorBlocked,
         hadUnreadOrMentions: hadUnreadOrMentions,
         readStateKnown: readStateKnown,
@@ -1917,12 +1940,12 @@ class GatewayEventHandler {
   }) async {
     switch (decision.kind) {
       case ReadStateIncomingMessageKind.ackCurrentUserMessage:
+        ackBatcher?.cancel(msg.channelId);
         await _enqueueOrAckReadState(
           channelId: msg.channelId,
           messageId: msg.id,
-          isDm: isDm,
           clearSticky: true,
-          markDmRead: true,
+          markDmRead: false,
         );
         return;
       case ReadStateIncomingMessageKind.ackAutomaticMessage:
@@ -1930,7 +1953,6 @@ class GatewayEventHandler {
         await _enqueueOrAckReadState(
           channelId: msg.channelId,
           messageId: msg.id,
-          isDm: isDm,
           clearSticky: false,
           markDmRead: isDm,
         );
@@ -1945,9 +1967,6 @@ class GatewayEventHandler {
       case ReadStateIncomingMessageKind.coveredByAck:
         return;
       case ReadStateIncomingMessageKind.recordUnread:
-        final readState = await database.readStateDao.getReadState(
-          msg.channelId,
-        );
         if (readStateWriteBatcher != null) {
           final shouldMention = isDm
               ? !await _isDmMuted(msg.channelId)
@@ -1965,6 +1984,9 @@ class GatewayEventHandler {
             seedAckCandidate: seedAckCandidate,
           );
         } else {
+          final readState = await database.readStateDao.getReadState(
+            msg.channelId,
+          );
           await _recordUnreadForCreatedMessage(
             msg,
             isDm: isDm,
@@ -1981,7 +2003,6 @@ class GatewayEventHandler {
   Future<void> _enqueueOrAckReadState({
     required String channelId,
     required String messageId,
-    required bool isDm,
     required bool clearSticky,
     required bool markDmRead,
   }) async {
@@ -1989,9 +2010,7 @@ class GatewayEventHandler {
       readStateWriteBatcher!.enqueueAck(
         channelId: channelId,
         messageId: messageId,
-        isDm: isDm,
         clearSticky: clearSticky,
-        markDmRead: markDmRead,
       );
       return;
     }
@@ -1999,18 +2018,18 @@ class GatewayEventHandler {
     await _ackReadStateForCreatedMessage(
       channelId: channelId,
       messageId: messageId,
-      isDm: isDm,
       existing: existing,
       clearSticky: clearSticky,
+      markDmRead: markDmRead,
     );
   }
 
   Future<void> _ackReadStateForCreatedMessage({
     required String channelId,
     required String messageId,
-    required bool isDm,
     required db.ReadState? existing,
     required bool clearSticky,
+    required bool markDmRead,
   }) async {
     await upsertReadStateIfChanged(
       database,
@@ -2026,7 +2045,7 @@ class GatewayEventHandler {
         version: Value(existing?.version),
       ),
     );
-    if (isDm) {
+    if (markDmRead) {
       await database.dmChannelDao.markAsRead(channelId);
     }
   }
@@ -3077,13 +3096,18 @@ class GatewayEventHandler {
   Future<void> _handleMessageAck(MessageAckEvent event) async {
     final mentionCount = event.mentionCount ?? 0;
     final manual = event.manual ?? false;
-    final current = await database.readStateDao.getReadState(event.channelId);
+    final ReadStateAckCursor? cursor = readStateWriteBatcher == null
+        ? null
+        : await readStateWriteBatcher!.ensureCursor(event.channelId);
+    final current = cursor == null
+        ? await database.readStateDao.getReadState(event.channelId)
+        : null;
 
     final decision = resolveReadStateServerAckDecision(
       ReadStateServerAckInput(
         messageId: event.messageId,
-        ackMessageId: current?.lastMessageId,
-        serverVersion: current?.version,
+        ackMessageId: cursor?.lastMessageId ?? current?.lastMessageId,
+        serverVersion: cursor?.version ?? current?.version,
         version: event.version,
         manual: manual,
         hasMentionCount: event.mentionCount != null,
@@ -3106,33 +3130,52 @@ class GatewayEventHandler {
         ),
       );
     }
+    if (decision.kind != ReadStateServerAckKind.ignoreStaleVersion &&
+        decision.kind != ReadStateServerAckKind.ignoreOlderMessage) {
+      ackBatcher?.cancelIfCovered(event.channelId, event.messageId);
+    }
     if (!shouldWrite) {
       return;
     }
 
     await readStateWriteBatcher?.flush(event.channelId);
-    await _writeServerAck(
+    final String? sticky = await _writeServerAck(
       channelId: event.channelId,
       messageId: event.messageId,
       mentionCount: mentionCount,
       manual: manual,
       current: current,
-      version: event.version,
+      stickyUnreadMessageId: cursor?.stickyUnreadMessageId,
+      lastPinTimestamp: cursor?.lastPinTimestamp,
+      version: event.version ?? cursor?.version,
+      flags: event.flags,
+    );
+    readStateWriteBatcher?.adoptPersisted(
+      channelId: event.channelId,
+      lastMessageId: event.messageId,
+      mentionCount: mentionCount,
+      manual: manual,
+      stickyUnreadMessageId: sticky,
+      lastPinTimestamp: cursor?.lastPinTimestamp ?? current?.lastPinTimestamp,
+      version: event.version ?? cursor?.version ?? current?.version,
       flags: event.flags,
     );
     _emit(() => onMessageAcked?.call(event.channelId, manual: manual));
   }
 
-  Future<void> _writeServerAck({
+  Future<String?> _writeServerAck({
     required String channelId,
     required String messageId,
     required int mentionCount,
     required bool manual,
     required db.ReadState? current,
+    required String? stickyUnreadMessageId,
+    required String? lastPinTimestamp,
     required String? version,
     int? flags,
   }) async {
-    final existingSticky = current?.stickyUnreadMessageId;
+    final existingSticky =
+        current?.stickyUnreadMessageId ?? stickyUnreadMessageId;
     final String? newSticky;
     if (manual) {
       newSticky = existingSticky ?? messageId;
@@ -3148,7 +3191,7 @@ class GatewayEventHandler {
         channelId: Value(channelId),
         lastMessageId: Value(messageId),
         mentionCount: Value(mentionCount),
-        lastPinTimestamp: Value(current?.lastPinTimestamp),
+        lastPinTimestamp: Value(current?.lastPinTimestamp ?? lastPinTimestamp),
         manual: Value(manual),
         stickyUnreadMessageId: Value(newSticky),
         version: Value(version ?? current?.version),
@@ -3159,6 +3202,7 @@ class GatewayEventHandler {
     if (dm != null) {
       await database.dmChannelDao.updateUnreadCount(channelId, mentionCount);
     }
+    return newSticky;
   }
 
   void _handleReactionAddMany(MessageReactionAddManyEvent event) {

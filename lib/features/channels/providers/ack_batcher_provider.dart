@@ -15,10 +15,18 @@ part 'ack_batcher_provider.g.dart';
 AckBatcher ackBatcher(Ref ref) {
   final FluxerClient client = ref.watch(fluxerClientProvider);
   final db = ref.watch(fluxerDatabaseProvider);
-  final AckBatcher batcher = AckBatcher(
+  late final AckBatcher batcher;
+  batcher = AckBatcher(
     client: client,
-    onResponse: (response) =>
-        ReadStateRepository(client, db).applyAckResponse(response),
+    onResponse: (response) async {
+      for (final readState in response.readStates) {
+        final String? messageId = readState.lastMessageId;
+        if (messageId != null) {
+          batcher.cancelIfCovered(readState.id, messageId);
+        }
+      }
+      await ReadStateRepository(client, db).applyAckResponse(response);
+    },
   );
 
   ref

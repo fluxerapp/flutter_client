@@ -43,6 +43,7 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channels_provid
 import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invitable_channel.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_people_actions.dart';
@@ -52,6 +53,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/appearance_pr
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
+import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -650,50 +652,57 @@ class _DMListState extends ConsumerState<DMList> {
       );
     }
 
-    return ListView.builder(
-      controller: _scrollController,
-      physics: const AlwaysScrollableScrollPhysics(),
-      scrollCacheExtent: const ScrollCacheExtent.pixels(600),
-      padding: listPadding,
-      itemExtent: isMobile ? _kMobileRowExtent : _kDesktopRowExtent,
-      itemCount: convos.length + leadingRows,
-      findChildIndexCallback: (Key key) {
-        if (key is! ValueKey<String>) {
-          return null;
-        }
-        if (key.value == _kPersonalNotesRowKey) {
-          return isMobile ? 0 : null;
-        }
-        final int convoIndex = convos.indexWhere(
-          (DmConversation c) => c.id == key.value,
-        );
-        return convoIndex < 0 ? null : convoIndex + leadingRows;
-      },
-      itemBuilder: (context, index) {
-        if (isMobile && index == 0) {
-          return KeyedSubtree(
-            key: const ValueKey<String>(_kPersonalNotesRowKey),
-            child: _buildMobilePersonalNotes(
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: FluxerSmoothScrollbar(
+        controller: _scrollController,
+        bottomInset: kGuildScrollIndicatorEdgeInset,
+        child: ListView.builder(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          scrollCacheExtent: const ScrollCacheExtent.pixels(600),
+          padding: listPadding,
+          itemExtent: isMobile ? _kMobileRowExtent : _kDesktopRowExtent,
+          itemCount: convos.length + leadingRows,
+          findChildIndexCallback: (Key key) {
+            if (key is! ValueKey<String>) {
+              return null;
+            }
+            if (key.value == _kPersonalNotesRowKey) {
+              return isMobile ? 0 : null;
+            }
+            final int convoIndex = convos.indexWhere(
+              (DmConversation c) => c.id == key.value,
+            );
+            return convoIndex < 0 ? null : convoIndex + leadingRows;
+          },
+          itemBuilder: (context, index) {
+            if (isMobile && index == 0) {
+              return KeyedSubtree(
+                key: const ValueKey<String>(_kPersonalNotesRowKey),
+                child: _buildMobilePersonalNotes(
+                  context,
+                  userId,
+                  isSelected: selectedId == userId,
+                ),
+              );
+            }
+
+            final convo = convos[index - leadingRows];
+            final isSelected = convo.id == selectedId;
+
+            return _buildConvoTile(
               context,
-              userId,
-              isSelected: selectedId == userId,
-            ),
-          );
-        }
-
-        final convo = convos[index - leadingRows];
-        final isSelected = convo.id == selectedId;
-
-        return _buildConvoTile(
-          context,
-          key: ValueKey<String>(convo.id),
-          convo: convo,
-          isSelected: isSelected,
-          isMobile: isMobile,
-          isPinned: pinnedIds.contains(convo.id),
-          isMuted: mutedIds.contains(convo.id),
-        );
-      },
+              key: ValueKey<String>(convo.id),
+              convo: convo,
+              isSelected: isSelected,
+              isMobile: isMobile,
+              isPinned: pinnedIds.contains(convo.id),
+              isMuted: mutedIds.contains(convo.id),
+            );
+          },
+        ),
+      ),
     );
   }
 

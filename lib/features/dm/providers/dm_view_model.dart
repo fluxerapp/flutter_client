@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -124,10 +126,14 @@ class DmViewModel extends _$DmViewModel {
       },
     );
 
-    ref.onDispose(() {
-      unawaited(_dmSub?.cancel());
-      unawaited(_friendSub?.cancel());
-    });
+    ref
+      ..listen<int>(readStateOverlayVersionProvider, (_, _) {
+        _applyAckOverlay();
+      })
+      ..onDispose(() {
+        unawaited(_dmSub?.cancel());
+        unawaited(_friendSub?.cancel());
+      });
 
     return const DmViewState(
       conversations: [],
@@ -135,6 +141,44 @@ class DmViewModel extends _$DmViewModel {
       activeTab: FriendsTab.online,
       searchQuery: '',
     );
+  }
+
+  void _applyAckOverlay() {
+    if (!state.hasReceivedInitialConversations || state.conversations.isEmpty) {
+      return;
+    }
+    final batcher = ref.read(readStateWriteBatcherProvider);
+    var changed = false;
+    final List<DmConversation> next = <DmConversation>[];
+    for (final DmConversation convo in state.conversations) {
+      if (!batcher.hasOverlay(convo.id)) {
+        next.add(convo);
+        continue;
+      }
+      final effective = batcher.effectiveFields(
+        convo.id,
+        batcher.persistedReadState(convo.id),
+      );
+      final int count = dmUnreadCountFromReadState(
+        latestMessageId: convo.lastMessageId,
+        ackLastMessageId: effective.lastMessageId,
+        fallbackAckMs: snowflakeTimestampMs(convo.id),
+        mentionCount: effective.mentionCount,
+        cachedUnreadCount: effective.lastMessageId == null
+            ? convo.unreadCount
+            : 0,
+      );
+      if (count == convo.unreadCount) {
+        next.add(convo);
+        continue;
+      }
+      changed = true;
+      next.add(convo.withUnreadCount(count));
+    }
+    if (!changed) {
+      return;
+    }
+    state = state.copyWith(conversations: next);
   }
 
   void selectTab(FriendsTab tab) {

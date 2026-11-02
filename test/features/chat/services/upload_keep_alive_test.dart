@@ -30,8 +30,8 @@ void main() {
     expect(calls, <String>['stop']);
 
     calls.clear();
-    final UploadKeepAlive keepAlive = UploadKeepAlive();
-    keepAlive.begin(notificationTitle: 'uploading');
+    final UploadKeepAlive keepAlive = UploadKeepAlive()
+      ..begin(notificationTitle: 'uploading');
     await pumpEventQueue();
     expect(calls, <String>['start']);
 

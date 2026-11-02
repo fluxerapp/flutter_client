@@ -16,6 +16,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/system_message_actions_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -116,7 +117,8 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Add reaction'), findsOneWidget);
+      expect(find.byType(MessageQuickReactionRow), findsOneWidget);
+      expect(find.text(testL10n.chatMessageAddReaction), findsNothing);
       expect(find.text('Mark as unread'), findsOneWidget);
       expect(find.text('Copy message link'), findsOneWidget);
       expect(find.text('Copy message ID'), findsOneWidget);

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
+import 'package:fluxer_dart/gateway.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -848,6 +849,123 @@ void main() {
           extra: null,
           channelId: null,
           interruptedChannelId: null,
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('shouldLeaveVoiceOnAndroidTaskRemoved', () {
+    test('leaves when in voice', () {
+      expect(shouldLeaveVoiceOnAndroidTaskRemoved(isInVoice: true), isTrue);
+      expect(shouldLeaveVoiceOnAndroidTaskRemoved(isInVoice: false), isFalse);
+    });
+  });
+
+  group('shouldHandleAndroidAppTaskRemoved', () {
+    test('handles in-voice or tracked CallKit sessions', () {
+      expect(
+        shouldHandleAndroidAppTaskRemoved(
+          isInVoice: true,
+          hasTrackedCallKitSessions: false,
+        ),
+        isTrue,
+      );
+      expect(
+        shouldHandleAndroidAppTaskRemoved(
+          isInVoice: false,
+          hasTrackedCallKitSessions: true,
+        ),
+        isTrue,
+      );
+      expect(
+        shouldHandleAndroidAppTaskRemoved(
+          isInVoice: false,
+          hasTrackedCallKitSessions: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('shouldLeaveVoiceForInterruptedSession', () {
+    VoiceCallKitVoiceSnapshot voiceInChannel(String channelId) {
+      return (
+        isInVoice: true,
+        isConnected: true,
+        isConnecting: false,
+        channelId: channelId,
+        activeConnectionId: 'conn',
+      );
+    }
+
+    test('leaves when local session matches interrupted channel', () {
+      expect(
+        shouldLeaveVoiceForInterruptedSession(
+          interruptedChannelId: 'c1',
+          voice: voiceInChannel('c1'),
+          selfInChannelOnServer: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('leaves when server still lists self in interrupted channel', () {
+      expect(
+        shouldLeaveVoiceForInterruptedSession(
+          interruptedChannelId: 'c1',
+          voice: (
+            isInVoice: false,
+            isConnected: false,
+            isConnecting: false,
+            channelId: null,
+            activeConnectionId: null,
+          ),
+          selfInChannelOnServer: true,
+        ),
+        isTrue,
+      );
+    });
+
+    test('skips when interrupted id is missing or unrelated', () {
+      expect(
+        shouldLeaveVoiceForInterruptedSession(
+          interruptedChannelId: null,
+          voice: voiceInChannel('c1'),
+          selfInChannelOnServer: true,
+        ),
+        isFalse,
+      );
+      expect(
+        shouldLeaveVoiceForInterruptedSession(
+          interruptedChannelId: 'c2',
+          voice: voiceInChannel('c1'),
+          selfInChannelOnServer: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('selfVoiceStateInChannel', () {
+    test('matches current user in channel', () {
+      expect(
+        selfVoiceStateInChannel(
+          voiceStates: const <VoiceState>[
+            VoiceState(userId: 'u1', channelId: 'c1'),
+          ],
+          currentUserId: 'u1',
+          channelId: 'c1',
+        ),
+        isTrue,
+      );
+      expect(
+        selfVoiceStateInChannel(
+          voiceStates: const <VoiceState>[
+            VoiceState(userId: 'u1', channelId: 'c1'),
+          ],
+          currentUserId: 'u2',
+          channelId: 'c1',
         ),
         isFalse,
       );

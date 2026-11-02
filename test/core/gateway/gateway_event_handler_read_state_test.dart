@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:drift/drift.dart' show Value;
+import 'package:drift/drift.dart' hide isNotNull, isNull;
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
@@ -1878,4 +1879,158 @@ void main() {
       expect(decoded.channelOverrides?['dm-9']?.muted, isTrue);
     },
   );
+
+  test(
+    'created messages use the ack cursor and own messages cancel http',
+    () async {
+      final _ReadStateSqlCounter counter = _ReadStateSqlCounter();
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.memory().interceptWith(counter),
+      );
+      addTearDown(db.close);
+      final String olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final String firstId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final String secondId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+      final String ownId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 14));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(olderId),
+          mentionCount: const Value(0),
+        ),
+      );
+      final ReadStateWriteBatcher writeBatcher = ReadStateWriteBatcher(
+        database: db,
+      );
+      addTearDown(writeBatcher.clearAll);
+      final adapter = _ReadStateAckAdapter();
+      final AckBatcher http = _ackBatcher(adapter)
+        ..queue(
+          channelId: 'channel-1',
+          messageId: olderId,
+          immediate: false,
+          hadMentions: false,
+        );
+      final handler = GatewayEventHandler(
+        database: db,
+        currentUserId: 'me',
+        ackBatcher: http,
+        readStateWriteBatcher: writeBatcher,
+        isAutoAckActive: (_) => true,
+        isAtLiveTail: (_) => true,
+      );
+
+      await handler.handle(
+        MessageCreateEvent(
+          message: _message(
+            id: firstId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ),
+      );
+      counter
+        ..selects = 0
+        ..writes = 0;
+      await handler.handle(
+        MessageCreateEvent(
+          message: _message(
+            id: secondId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ),
+      );
+      expect(counter.selects, 0);
+      expect(counter.writes, 0);
+      expect(
+        (await db.readStateDao.getReadState('channel-1'))?.lastMessageId,
+        olderId,
+      );
+      expect(
+        (await writeBatcher.ensureCursor('channel-1')).lastMessageId,
+        secondId,
+      );
+
+      await handler.handle(
+        MessageCreateEvent(
+          message: _message(id: ownId, channelId: 'channel-1', authorId: 'me'),
+        ),
+      );
+      await http.flushPending(force: true);
+      expect(adapter.ackedReadStates, isEmpty);
+      expect(
+        (await writeBatcher.ensureCursor('channel-1')).lastMessageId,
+        ownId,
+      );
+      expect(
+        (await db.readStateDao.getReadState('channel-1'))?.lastMessageId,
+        olderId,
+      );
+    },
+  );
+}
+
+class _ReadStateSqlCounter extends QueryInterceptor {
+  int selects = 0;
+  int writes = 0;
+
+  void _count(String statement, {required bool write}) {
+    if (!statement.contains('read_states')) {
+      return;
+    }
+    if (write) {
+      writes += 1;
+    } else {
+      selects += 1;
+    }
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> runSelect(
+    QueryExecutor executor,
+    String statement,
+    List<Object?> args,
+  ) {
+    _count(statement, write: false);
+    return super.runSelect(executor, statement, args);
+  }
+
+  @override
+  Future<int> runInsert(
+    QueryExecutor executor,
+    String statement,
+    List<Object?> args,
+  ) {
+    _count(statement, write: true);
+    return super.runInsert(executor, statement, args);
+  }
+
+  @override
+  Future<int> runUpdate(
+    QueryExecutor executor,
+    String statement,
+    List<Object?> args,
+  ) {
+    _count(statement, write: true);
+    return super.runUpdate(executor, statement, args);
+  }
+
+  @override
+  Future<void> runBatched(
+    QueryExecutor executor,
+    BatchedStatements statements,
+  ) {
+    for (final String statement in statements.statements) {
+      _count(statement, write: true);
+    }
+    return super.runBatched(executor, statements);
+  }
 }

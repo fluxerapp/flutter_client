@@ -351,6 +351,7 @@ class VoiceSession extends _$VoiceSession {
       _sendVoiceDisconnectState(guildId: guildId, connectionId: connectionId);
       await _prepareVoiceMediaTeardownBeforeRoomDisconnect();
       await _disconnectAndDisposeRoom(roomToDisconnect, reason: reason);
+      await _releaseAndroidRouteIfCurrent(generation + 1);
     }
     state = state.copyWith(
       isConnecting: false,
@@ -1519,7 +1520,6 @@ class VoiceSession extends _$VoiceSession {
       }
       return;
     }
-    final VoiceSettingsState voiceSettings = ref.read(voiceSettingsProvider);
     final Room room = Room(roomOptions: roomOptions);
     _managedLiveKitRoom = room;
     if (attempt != _connectGeneration) {
@@ -1558,11 +1558,7 @@ class VoiceSession extends _$VoiceSession {
       timeouts: useE2ee ? _kE2eeConnectTimeouts : Timeouts.defaultTimeouts,
     );
     _armLiveKitConnectWatchdog(attempt);
-    final VoiceSettingsApplicator applicator = _voiceSettingsApplicator(
-      channelId: resolvedChannelId,
-    );
     try {
-      await applicator.applySpeakerOutput(settings: voiceSettings);
       await restoreAutomaticAudioSessionAfterMesh();
       await room.connect(
         event.endpoint,
@@ -2101,6 +2097,39 @@ class VoiceSession extends _$VoiceSession {
     }
   }
 
+  Future<bool> leaveInterruptedGatewayVoice(String channelId) async {
+    if (channelId.isEmpty) {
+      return false;
+    }
+    if (state.isInVoice && state.channelId == channelId) {
+      await leaveVoice(endCall: false);
+      return true;
+    }
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId == null) {
+      return false;
+    }
+    VoiceState? selfOnServer;
+    for (final VoiceState voiceState
+        in ref.read(voiceStatesMapProvider).values) {
+      if (voiceState.userId == userId && voiceState.channelId == channelId) {
+        selfOnServer = voiceState;
+        break;
+      }
+    }
+    if (selfOnServer == null) {
+      return false;
+    }
+    final String? connectionId = selfOnServer.connectionId;
+    final String? guildId = selfOnServer.guildId;
+    if (connectionId != null && guildId != null) {
+      _sendVoiceDisconnectState(guildId: guildId, connectionId: connectionId);
+    } else {
+      _sendVoiceLeaveChannelState(guildId: guildId);
+    }
+    return true;
+  }
+
   Future<void> _finishRequestedEndCall() async {
     if (!_endCallRequested) {
       return;
@@ -2218,7 +2247,12 @@ class VoiceSession extends _$VoiceSession {
     if (roomToDisconnect == null) {
       return;
     }
-    unawaited(_disconnectAndDisposeRoom(roomToDisconnect));
+    final int generation = _connectGeneration;
+    unawaited(
+      _disconnectAndDisposeRoom(roomToDisconnect).whenComplete(() {
+        unawaited(_releaseAndroidRouteIfCurrent(generation));
+      }),
+    );
   }
 
   Future<void> _prepareVoiceMediaTeardownBeforeRoomDisconnect() async {
@@ -2305,11 +2339,19 @@ class VoiceSession extends _$VoiceSession {
     }
   }
 
+  Future<void> _releaseAndroidRouteIfCurrent(int generation) async {
+    if (generation != _connectGeneration) {
+      return;
+    }
+    await clearNativeVoiceOutputRouteHold();
+  }
+
   Future<void> _disconnectRoomOnly({
     String? guildId,
     String? connectionId,
     bool skipGatewayDisconnect = false,
   }) async {
+    final int generation = _connectGeneration;
     _detachMediaDeviceChangeListener();
     _detachRoomEventsListener();
     _detachLocalParticipantListener();
@@ -2345,6 +2387,7 @@ class VoiceSession extends _$VoiceSession {
     if (roomToDisconnect != null) {
       await _disconnectAndDisposeRoom(roomToDisconnect);
     }
+    await _releaseAndroidRouteIfCurrent(generation);
   }
 
   void _sendVoiceDisconnectState({

@@ -1,0 +1,19 @@
+name: fluxer_android_host
+description: Android engine hooks that must register before Dart startup
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.24.0"
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.fluxer.host
+        pluginClass: FluxerAndroidHostPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter

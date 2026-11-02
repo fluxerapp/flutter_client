@@ -1,4 +1,4 @@
-package com.fluxer
+package com.fluxer.host
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/notifications/data/inbox_visit.dart';
 import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
@@ -148,18 +149,93 @@ Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
     db.notificationDao.watchUnreadCollapsedRows(),
     db.threadDao.watchJoinedMembers(),
   ]);
-  return tick.asyncMap((_) async {
-    final rows = await db.notificationDao.getUnreadCollapsedRows();
-    final collapsedMap = <String, bool>{
-      for (final NotificationUnreadCollapsedData r in rows)
-        r.channelId: r.isCollapsed,
-    };
-    return UnreadInboxCalculator.compute(
+  final StreamController<List<UnreadInboxEntry>> controller =
+      StreamController<List<UnreadInboxEntry>>();
+  List<UnreadInboxEntry>? snapshot;
+  var reloadGeneration = 0;
+  var closed = false;
+
+  Future<void> emitSnapshot(
+    List<UnreadInboxEntry> entries,
+    Map<String, bool> collapsed,
+  ) async {
+    snapshot = entries;
+    if (closed) {
+      return;
+    }
+    final List<UnreadInboxEntry>? patched = inboxEntriesWithAckCursor(
+      entries,
+      ref.read(readStateWriteBatcherProvider),
+    );
+    if (patched != null) {
+      controller.add(patched);
+      return;
+    }
+    final List<UnreadInboxEntry> overlaid = await UnreadInboxCalculator.compute(
       db,
-      collapsedByChannelId: collapsedMap,
+      collapsedByChannelId: collapsed,
+      currentUserId: currentUserId,
+      readStateBatcher: ref.read(readStateWriteBatcherProvider),
+    );
+    if (!closed) {
+      controller.add(overlaid);
+    }
+  }
+
+  Future<void> reload() async {
+    final int generation = ++reloadGeneration;
+    final Map<String, bool> collapsed = await _collapsedInboxRows(db);
+    final List<UnreadInboxEntry> entries = await UnreadInboxCalculator.compute(
+      db,
+      collapsedByChannelId: collapsed,
       currentUserId: currentUserId,
     );
+    if (generation != reloadGeneration || closed) {
+      return;
+    }
+    await emitSnapshot(entries, collapsed);
+  }
+
+  final StreamSubscription<void> sub = tick.listen((_) {
+    unawaited(reload());
   });
+  ref
+    ..listen<int>(readStateOverlayVersionProvider, (_, _) {
+      final List<UnreadInboxEntry>? base = snapshot;
+      if (base == null) {
+        unawaited(reload());
+        return;
+      }
+      final batcher = ref.read(readStateWriteBatcherProvider);
+      if (batcher.overlayChannelIds().isEmpty) {
+        return;
+      }
+      final List<UnreadInboxEntry>? patched = inboxEntriesWithAckCursor(
+        base,
+        batcher,
+      );
+      if (patched == null) {
+        unawaited(reload());
+        return;
+      }
+      if (!closed) {
+        controller.add(patched);
+      }
+    })
+    ..onDispose(() {
+      closed = true;
+      unawaited(sub.cancel());
+      unawaited(controller.close());
+    });
+  return controller.stream;
+}
+
+Future<Map<String, bool>> _collapsedInboxRows(FluxerDatabase db) async {
+  final rows = await db.notificationDao.getUnreadCollapsedRows();
+  return <String, bool>{
+    for (final NotificationUnreadCollapsedData r in rows)
+      r.channelId: r.isCollapsed,
+  };
 }
 
 class MentionFeedUiState {

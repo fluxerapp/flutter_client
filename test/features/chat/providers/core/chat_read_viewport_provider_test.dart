@@ -273,6 +273,12 @@ void main() {
       expect(container.read(chatReadViewportProvider).viewportActive, isFalse);
     },
   );
+
+  test('live tail ack uses the loaded tail only', () {
+    expect(ackTargetForLiveTail(eligible: true, loadedTailId: '10'), '10');
+    expect(ackTargetForLiveTail(eligible: false, loadedTailId: '10'), isNull);
+    expect(ackTargetForLiveTail(eligible: true, loadedTailId: null), isNull);
+  });
 }
 
 Future<void> _flushMicrotasks() async {

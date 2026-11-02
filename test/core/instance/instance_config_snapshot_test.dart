@@ -104,6 +104,8 @@ void main() {
       expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
       expect(snapshot.gatewayUrl, InstanceConstants.defaultGatewayUrl);
       expect(snapshot.displayDomain, 'fluxer.com');
+      expect(snapshot.termsUrl, InstanceConstants.defaultTermsUrl);
+      expect(snapshot.privacyUrl, InstanceConstants.defaultPrivacyUrl);
     });
   });
 

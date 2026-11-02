@@ -3,6 +3,11 @@ name: Android Beta FCM Build
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      android_build_number:
+        description: Pre-allocated Nodus Android versionCode for this release
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -27,24 +32,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: bash .github/scripts/resolve_beta_version_name.sh
 
-      - name: Fetch Android build number
+      - name: Resolve Android build number
         id: android_build_number
         env:
-          BUILD_SERVICE_TOKEN: ${{ secrets.BUILD_SERVICE_TOKEN }}
-          BUILD_SERVICE_URL: ${{ secrets.BUILD_SERVICE_URL }}
-        run: |
-          set -euo pipefail
-          URL="https://$BUILD_SERVICE_URL/v1/build-number?platform=android"
-          echo "Calling build service at $URL"
-          RESPONSE=$(curl -sS -X POST "$URL" \
-            -H "Authorization: Bearer $BUILD_SERVICE_TOKEN")
-          RESPONSE_ONE_LINE=$(printf '%s' "$RESPONSE" | tr -d '\n')
-          BUILD_NUMBER=$(printf '%s\n' "$RESPONSE_ONE_LINE" | sed -n 's/.*"buildNumber"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p')
-          if ! [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
-            echo "::error::Invalid or missing buildNumber in response: $RESPONSE"
-            exit 1
-          fi
-          echo "build_number=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
+          NODUS_CI_TOKEN: ${{ secrets.NODUS_CI_TOKEN }}
+          NODUS_APP: fluxer
+          PREALLOCATED_BUILD_NUMBER: ${{ inputs.android_build_number }}
+        run: bash .github/scripts/resolve_nodus_android_build_number.sh
 
       - name: Sync submodules
         run: git submodule update --init --recursive
@@ -153,7 +147,7 @@ jobs:
         run: tool/measure/write_native_measure_config.sh
 
       - name: Build beta split APKs
-        run: flutter build apk --release --split-per-abi --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
+        run: flutter build apk --release --split-per-abi --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} -P force-version-code-ignoring-abi=true --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
 
       - name: Build beta combined APK
         run: flutter build apk --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}

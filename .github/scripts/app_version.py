@@ -110,7 +110,7 @@ def roll_pubspec_calendar(now: datetime | None = None, path: Path = PUBSPEC_PATH
     return True, next_version
 
 
-def _write_github_output(*, changed: bool, version: AppVersion) -> None:
+def _write_roll_output(*, changed: bool, version: AppVersion) -> None:
     github_output = os.environ.get("GITHUB_OUTPUT", "").strip()
     if github_output == "":
         return
@@ -119,21 +119,44 @@ def _write_github_output(*, changed: bool, version: AppVersion) -> None:
         handle.write(f"version={version.name}\n")
 
 
-def _cli() -> int:
-    if len(sys.argv) != 2 or sys.argv[1] != "roll":
-        print("usage: app_version.py roll", file=sys.stderr)
-        return 2
+def _write_version_output(version: AppVersion) -> None:
+    github_output = os.environ.get("GITHUB_OUTPUT", "").strip()
+    if github_output == "":
+        return
+    with open(github_output, "a", encoding="utf-8") as handle:
+        handle.write(f"version={version.name}\n")
+
+
+def read_pubspec_app_version() -> int:
     try:
-        changed, version = roll_pubspec_calendar()
+        version = read_pubspec_version()
     except (OSError, ValueError) as exc:
         print(f"::error::{exc}", file=sys.stderr)
         return 1
-    if changed:
-        print(f"Updated pubspec version to {version.pubspec_value}")
-    else:
-        print(f"pubspec year.month already current: {version.name}")
-    _write_github_output(changed=changed, version=version)
+    _write_version_output(version)
     return 0
+
+
+def _cli() -> int:
+    if len(sys.argv) != 2:
+        print("usage: app_version.py roll|read", file=sys.stderr)
+        return 2
+    if sys.argv[1] == "roll":
+        try:
+            changed, version = roll_pubspec_calendar()
+        except (OSError, ValueError) as exc:
+            print(f"::error::{exc}", file=sys.stderr)
+            return 1
+        if changed:
+            print(f"Updated pubspec version to {version.pubspec_value}")
+        else:
+            print(f"pubspec year.month already current: {version.name}")
+        _write_roll_output(changed=changed, version=version)
+        return 0
+    if sys.argv[1] == "read":
+        return read_pubspec_app_version()
+    print("usage: app_version.py roll|read", file=sys.stderr)
+    return 2
 
 
 if __name__ == "__main__":

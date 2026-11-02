@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/instance/instance_legal_links.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_comparison.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_showcase.dart';
@@ -23,6 +24,15 @@ class PremiumStoreMarketingSections extends StatelessWidget {
           const PremiumStoreComparison(),
           const SizedBox(height: 24),
           const _TagFootnote(),
+          const SizedBox(height: 24),
+          InstanceLegalLinks(
+            linkStyle: context.textStyles.timestamp.copyWith(
+              color: PremiumStoreStyle.of(context).accent,
+            ),
+            baseStyle: context.textStyles.timestamp.copyWith(
+              color: PremiumStoreStyle.of(context).inkMuted,
+            ),
+          ),
           SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
         ],
       ),

@@ -8,16 +8,12 @@ import android.media.AudioManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import java.util.concurrent.Executor
 
 private const val CHANNEL_NAME = "fluxer_app/voice_speaker_route"
-private const val ROUTE_HOLD_DEBOUNCE_MS = 300L
-private const val ROUTE_APPLY_SUPPRESS_MS = 600L
-private const val SPEAKERPHONE_REINFORCE_MS = 400L
+private const val ROUTE_FOLLOW_UP_MS = 400L
 
 internal enum class VoiceOutputRoute {
     Speaker,
@@ -80,10 +76,10 @@ internal fun activeCommunicationDeviceTypeMatchesRoute(
         }
     }
     return when (route) {
-        VoiceOutputRoute.Speaker -> {
-            activeDeviceType == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER ||
-                (speakerphoneOn && activeDeviceType == null)
-        }
+        VoiceOutputRoute.Speaker ->
+            speakerphoneOn && activeDeviceType != AudioDeviceInfo.TYPE_BUILTIN_EARPIECE &&
+                (activeDeviceType == null ||
+                    activeDeviceType == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER)
         VoiceOutputRoute.Earpiece ->
             activeDeviceType == AudioDeviceInfo.TYPE_BUILTIN_EARPIECE
         VoiceOutputRoute.Headset ->
@@ -95,22 +91,15 @@ internal fun speakerphoneOnForRoute(route: VoiceOutputRoute): Boolean {
     return route == VoiceOutputRoute.Speaker
 }
 
-internal fun needsSpeakerphoneFallback(
-    route: VoiceOutputRoute,
-    sdkAtLeast31: Boolean,
-    availableTypes: Set<Int>,
-    communicationDeviceAccepted: Boolean,
+internal fun routesSpeakerWithCommunicationDevice(
+    manufacturer: String?,
+    brand: String? = null,
 ): Boolean {
-    if (route != VoiceOutputRoute.Speaker) {
-        return false
-    }
-    if (!sdkAtLeast31) {
-        return true
-    }
-    if (AudioDeviceInfo.TYPE_BUILTIN_SPEAKER !in availableTypes) {
-        return true
-    }
-    return !communicationDeviceAccepted
+    return manufacturer.equalsSamsung() || brand.equalsSamsung()
+}
+
+private fun String?.equalsSamsung(): Boolean {
+    return this?.equals("samsung", ignoreCase = true) == true
 }
 
 internal fun availableVoiceOutputRouteNames(
@@ -132,11 +121,7 @@ class VoiceSpeakerRouteBridge(
 ) {
     private val context: Context = activity.applicationContext
     private val mainHandler = Handler(Looper.getMainLooper())
-    private var heldRoute: VoiceOutputRoute? = null
-    private var routeHoldDebounce: Runnable? = null
-    private var speakerphoneReinforce: Runnable? = null
-    private var communicationDeviceListener: AudioManager.OnCommunicationDeviceChangedListener? = null
-    private var suppressRouteListenerUntilElapsed: Long = 0L
+    private var routeFollowUp: Runnable? = null
 
     fun register(flutterEngine: FlutterEngine) {
         MethodChannel(
@@ -151,20 +136,12 @@ class VoiceSpeakerRouteBridge(
             "setRoute" -> {
                 val route = voiceOutputRouteFromName(call.argument<String>("route"))
                 val hold = call.argument<Boolean>("hold") ?: false
+                cancelRouteFollowUp()
                 if (hold) {
-                    routeHoldDebounce?.let(mainHandler::removeCallbacks)
-                    routeHoldDebounce = null
-                    cancelSpeakerphoneReinforce()
-                    heldRoute = route
-                    startRouteHoldListener(audioManager)
-                    applyHeldRoute(audioManager, route)
                     setVoiceCallVolumeKeys(true)
-                    if (route == VoiceOutputRoute.Speaker) {
-                        scheduleSpeakerphoneReinforce(audioManager)
-                    }
-                } else {
-                    applyVoiceOutputRoute(audioManager, route)
+                    scheduleRouteFollowUp(audioManager, route)
                 }
+                applyVoiceOutputRoute(audioManager, route)
                 result.success(null)
             }
             "clearRouteHold" -> {
@@ -179,13 +156,23 @@ class VoiceSpeakerRouteBridge(
     }
 
     private fun clearRouteHold(audioManager: AudioManager) {
-        heldRoute = null
-        routeHoldDebounce?.let(mainHandler::removeCallbacks)
-        routeHoldDebounce = null
-        cancelSpeakerphoneReinforce()
-        suppressRouteListenerUntilElapsed = 0L
-        stopRouteHoldListener(audioManager)
+        cancelRouteFollowUp()
         setVoiceCallVolumeKeys(false)
+        releaseCallSpeaker(audioManager)
+        val work = Runnable { releaseCallSpeaker(audioManager) }
+        routeFollowUp = work
+        mainHandler.postDelayed(work, ROUTE_FOLLOW_UP_MS)
+    }
+
+    private fun scheduleRouteFollowUp(audioManager: AudioManager, route: VoiceOutputRoute) {
+        val work = Runnable { applyVoiceOutputRoute(audioManager, route) }
+        routeFollowUp = work
+        mainHandler.postDelayed(work, ROUTE_FOLLOW_UP_MS)
+    }
+
+    private fun cancelRouteFollowUp() {
+        routeFollowUp?.let(mainHandler::removeCallbacks)
+        routeFollowUp = null
     }
 
     private fun setVoiceCallVolumeKeys(enabled: Boolean) {
@@ -197,97 +184,6 @@ class VoiceSpeakerRouteBridge(
         activity.runOnUiThread {
             activity.volumeControlStream = stream
         }
-    }
-
-    private fun startRouteHoldListener(audioManager: AudioManager) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            return
-        }
-        if (communicationDeviceListener != null) {
-            return
-        }
-        val executor = Executor { runnable -> mainHandler.post(runnable) }
-        val listener = AudioManager.OnCommunicationDeviceChangedListener {
-            scheduleReapplyHeldRoute(audioManager)
-        }
-        communicationDeviceListener = listener
-        audioManager.addOnCommunicationDeviceChangedListener(executor, listener)
-    }
-
-    private fun stopRouteHoldListener(audioManager: AudioManager) {
-        val listener = communicationDeviceListener ?: return
-        try {
-            audioManager.removeOnCommunicationDeviceChangedListener(listener)
-        } catch (_: Exception) {
-        }
-        communicationDeviceListener = null
-    }
-
-    private fun scheduleReapplyHeldRoute(audioManager: AudioManager) {
-        if (SystemClock.elapsedRealtime() < suppressRouteListenerUntilElapsed) {
-            return
-        }
-        val route = heldRoute ?: return
-        routeHoldDebounce?.let(mainHandler::removeCallbacks)
-        val work = Runnable {
-            if (SystemClock.elapsedRealtime() < suppressRouteListenerUntilElapsed) {
-                return@Runnable
-            }
-            if (heldRoute != route) {
-                return@Runnable
-            }
-            if (routeAlreadyActive(audioManager, route)) {
-                return@Runnable
-            }
-            applyHeldRoute(audioManager, route)
-        }
-        routeHoldDebounce = work
-        mainHandler.postDelayed(work, ROUTE_HOLD_DEBOUNCE_MS)
-    }
-
-    private fun scheduleSpeakerphoneReinforce(audioManager: AudioManager) {
-        cancelSpeakerphoneReinforce()
-        val work = Runnable {
-            if (heldRoute != VoiceOutputRoute.Speaker) {
-                return@Runnable
-            }
-            @Suppress("DEPRECATION")
-            audioManager.isSpeakerphoneOn = true
-        }
-        speakerphoneReinforce = work
-        mainHandler.postDelayed(work, SPEAKERPHONE_REINFORCE_MS)
-    }
-
-    private fun cancelSpeakerphoneReinforce() {
-        speakerphoneReinforce?.let(mainHandler::removeCallbacks)
-        speakerphoneReinforce = null
-    }
-
-    private fun applyHeldRoute(audioManager: AudioManager, route: VoiceOutputRoute) {
-        markRouteApplySuppressWindow()
-        applyVoiceOutputRoute(audioManager, route)
-    }
-
-    private fun routeAlreadyActive(audioManager: AudioManager, route: VoiceOutputRoute): Boolean {
-        val sdkAtLeast31 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-        @Suppress("DEPRECATION")
-        val speakerphoneOn = audioManager.isSpeakerphoneOn
-        val activeType = if (sdkAtLeast31) {
-            audioManager.communicationDevice?.type
-        } else {
-            null
-        }
-        return activeCommunicationDeviceTypeMatchesRoute(
-            route = route,
-            activeDeviceType = activeType,
-            speakerphoneOn = speakerphoneOn,
-            sdkAtLeast31 = sdkAtLeast31,
-        )
-    }
-
-    private fun markRouteApplySuppressWindow() {
-        suppressRouteListenerUntilElapsed =
-            SystemClock.elapsedRealtime() + ROUTE_APPLY_SUPPRESS_MS
     }
 
     private fun hasEarpiece(): Boolean {
@@ -307,30 +203,44 @@ internal fun outputTypes(audioManager: AudioManager): Set<Int> {
 
 internal fun applyVoiceOutputRoute(audioManager: AudioManager, route: VoiceOutputRoute) {
     audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
-    @Suppress("DEPRECATION")
-    audioManager.isSpeakerphoneOn = speakerphoneOnForRoute(route)
+    val speakerphoneOn = speakerphoneOnForRoute(route)
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        @Suppress("DEPRECATION")
+        audioManager.isSpeakerphoneOn = speakerphoneOn
         return
     }
-    val devices = audioManager.availableCommunicationDevices
-    val availableTypes = devices.map { it.type }.toSet()
-    val device = communicationDeviceForRoute(route, devices)
-    val accepted = device != null && audioManager.setCommunicationDevice(device)
-    if (
-        needsSpeakerphoneFallback(
-            route = route,
-            sdkAtLeast31 = true,
-            availableTypes = availableTypes,
-            communicationDeviceAccepted = accepted,
-        )
+    if (route == VoiceOutputRoute.Speaker &&
+        !routesSpeakerWithCommunicationDevice(Build.MANUFACTURER, Build.BRAND)
     ) {
-        audioManager.clearCommunicationDevice()
+        val current = audioManager.communicationDevice
+        if (current != null && current.type != AudioDeviceInfo.TYPE_BUILTIN_SPEAKER) {
+            audioManager.clearCommunicationDevice()
+        }
         @Suppress("DEPRECATION")
         audioManager.isSpeakerphoneOn = true
         return
     }
-    if (speakerphoneOnForRoute(route)) {
-        @Suppress("DEPRECATION")
-        audioManager.isSpeakerphoneOn = true
+    @Suppress("DEPRECATION")
+    audioManager.isSpeakerphoneOn = speakerphoneOn
+    val device = communicationDeviceForRoute(
+        route,
+        audioManager.availableCommunicationDevices,
+    ) ?: return
+    if (audioManager.communicationDevice?.id == device.id) {
+        return
     }
+    audioManager.setCommunicationDevice(device)
+    @Suppress("DEPRECATION")
+    audioManager.isSpeakerphoneOn = speakerphoneOn
+}
+
+internal fun releaseCallSpeaker(audioManager: AudioManager) {
+    @Suppress("DEPRECATION")
+    audioManager.isSpeakerphoneOn = false
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        audioManager.clearCommunicationDevice()
+    }
+    audioManager.mode = AudioManager.MODE_NORMAL
+    @Suppress("DEPRECATION")
+    audioManager.isSpeakerphoneOn = false
 }

@@ -9,14 +9,37 @@ permissions:
   attestations: write
 
 jobs:
+  allocate-android-build-number:
+    name: Allocate Android build number
+    runs-on: ubuntu-latest
+    environment: release-builds
+    outputs:
+      build_number: ${{ steps.android_build_number.outputs.build_number }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Fetch Android build number from Nodus
+        id: android_build_number
+        env:
+          NODUS_CI_TOKEN: ${{ secrets.NODUS_CI_TOKEN }}
+          NODUS_APP: fluxer
+        run: bash .github/scripts/fetch_nodus_android_build_number.sh
+
   android-fcm:
     name: Android FCM build
+    needs: allocate-android-build-number
     uses: ./.github/workflows/android-canary-fcm.yml
+    with:
+      android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit
 
   android-oss:
     name: Android OSS build
+    needs: allocate-android-build-number
     uses: ./.github/workflows/android-canary-oss.yml
+    with:
+      android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit
 
   # ios-testflight:
@@ -29,14 +52,31 @@ jobs:
   #   uses: ./.github/workflows/macos-canary-testflight.yml
   #   secrets: inherit
 
-  upload-canary-apks-to-vps:
-    name: Upload canary APKs to VPS
+  upload-canary-apks-to-nodus:
+    name: Register release and upload canary APKs to Nodus
     runs-on: ubuntu-latest
     environment: release-builds
     needs:
+      - allocate-android-build-number
       - android-fcm
       - android-oss
+    env:
+      NODUS_APP: fluxer
+      NODUS_CI_TOKEN: ${{ secrets.NODUS_CI_TOKEN }}
+      NODUS_RUN_ID: ${{ github.run_id }}
+      NODUS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      NODUS_COMMIT: ${{ github.sha }}
+      NODUS_REF: ${{ github.ref_name }}
+      NODUS_PACKAGE_ID: com.fluxer.canary
+      NODUS_AUTHOR: fluxerapp
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Resolve app version
+        id: version
+        run: python3 .github/scripts/app_version.py read
+
       - name: Download FCM artifact
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
         with:
@@ -49,44 +89,23 @@ jobs:
           name: canary-oss-apk
           path: artifacts/oss
 
-      - name: Upload FCM APKs
+      - name: Register GitHub Actions run with Nodus
         env:
-          BASE_URL: https://${{ secrets.CANARY_APK_HOST }}
-          TOKEN: ${{ secrets.CANARY_APK_UPLOAD_TOKEN }}
-        run: |
-          set -euo pipefail
-          shopt -s globstar nullglob
-          files=(artifacts/fcm/**/*.apk)
-          if ((${#files[@]} == 0)); then
-            echo "no FCM APKs to upload" >&2
-            exit 1
-          fi
-          args=()
-          for f in "${files[@]}"; do
-            args+=(-F "file=@${f}")
-          done
-          curl -sfS -X POST \
-            -H "Authorization: Bearer ${TOKEN}" \
-            "${args[@]}" \
-            "${BASE_URL}/upload/fcm"
+          NODUS_VERSION: ${{ steps.version.outputs.version }}
+          NODUS_ANDROID_BUILD_FCM: ${{ needs.allocate-android-build-number.outputs.build_number }}
+          NODUS_ANDROID_BUILD_OSS: ${{ needs.allocate-android-build-number.outputs.build_number }}
+        run: bash .github/scripts/register_nodus_release.sh
 
-      - name: Upload OSS APKs
+      - name: Upload FCM APKs to Nodus
         env:
-          BASE_URL: https://${{ secrets.CANARY_APK_HOST }}
-          TOKEN: ${{ secrets.CANARY_APK_UPLOAD_TOKEN }}
-        run: |
-          set -euo pipefail
-          shopt -s globstar nullglob
-          files=(artifacts/oss/**/*.apk)
-          if ((${#files[@]} == 0)); then
-            echo "no OSS APKs to upload" >&2
-            exit 1
-          fi
-          args=()
-          for f in "${files[@]}"; do
-            args+=(-F "file=@${f}")
-          done
-          curl -sfS -X POST \
-            -H "Authorization: Bearer ${TOKEN}" \
-            "${args[@]}" \
-            "${BASE_URL}/upload/oss"
+          NODUS_VERSION: ${{ steps.version.outputs.version }}
+          NODUS_APK_FILTER: canaryfcm
+          NODUS_DIST_NAME: Fluxer Canary (FCM)
+        run: bash .github/scripts/upload_nodus_distribution_apks.sh fcm artifacts/fcm
+
+      - name: Upload OSS APKs to Nodus
+        env:
+          NODUS_VERSION: ${{ steps.version.outputs.version }}
+          NODUS_APK_FILTER: canaryoss
+          NODUS_DIST_NAME: Fluxer Canary (OSS)
+        run: bash .github/scripts/upload_nodus_distribution_apks.sh oss artifacts/oss

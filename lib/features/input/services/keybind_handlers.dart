@@ -6,9 +6,11 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/modals/pin_message_confirm_modal.dart';
@@ -314,8 +316,21 @@ void registerKeybindHandlers({
       if (messageId == null) {
         return false;
       }
-      await repo.applyLocalAckUpTo(channelId, messageId);
-      unawaited(repo.sendAckHttp(channelId, messageId));
+      ref.read(readStateWriteBatcherProvider)
+        ..setCursorManual(channelId, manual: false, clearSticky: true)
+        ..enqueueAck(
+          channelId: channelId,
+          messageId: messageId,
+          clearSticky: true,
+        );
+      ref
+          .read(ackBatcherProvider)
+          .queue(
+            channelId: channelId,
+            messageId: messageId,
+            immediate: true,
+            hadMentions: false,
+          );
       return true;
     })
     ..register(KeybindAction.chatToggleInbox, () async {

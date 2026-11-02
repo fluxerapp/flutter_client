@@ -573,6 +573,99 @@ void main() {
     });
   });
 
+  testWidgets('omits Add reaction row when quick reactions are shown', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: baseOverrides(
+          message.id,
+          extra: [
+            appearancePreferencesProvider.overrideWithValue(
+              const AppearancePreferencesState(),
+            ),
+          ],
+        ),
+        child: buildTestApp(
+          onOpen: (context) => showMessageBottomSheet(
+            context,
+            message: message,
+            isOwnMessage: true,
+            isDmChannel: false,
+            canDelete: true,
+            canReport: false,
+            canAddReactions: true,
+            canPinMessage: false,
+            canManageMessages: false,
+            canSendMessages: true,
+            developerMode: false,
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(testL10n.chatMessageAddReaction), findsNothing);
+    await releaseTestWidgetTree(tester);
+  });
+
+  testWidgets('own message lists Edit before Reply and Forward', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: baseOverrides(
+          message.id,
+          extra: [
+            appearancePreferencesProvider.overrideWithValue(
+              const AppearancePreferencesState(),
+            ),
+          ],
+        ),
+        child: buildTestApp(
+          onOpen: (context) => showMessageBottomSheet(
+            context,
+            message: message,
+            isOwnMessage: true,
+            isDmChannel: false,
+            canDelete: true,
+            canReport: false,
+            canAddReactions: false,
+            canPinMessage: false,
+            canManageMessages: false,
+            canSendMessages: true,
+            developerMode: false,
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    final List<String> labels = tester
+        .widgetList<FluxerBottomSheetMenuItem>(
+          find.byType(FluxerBottomSheetMenuItem),
+        )
+        .map((FluxerBottomSheetMenuItem item) => item.label)
+        .toList();
+    expect(
+      labels.indexOf(testL10n.chatMessageEdit),
+      lessThan(labels.indexOf(testL10n.chatMessageReply)),
+    );
+    expect(
+      labels.indexOf(testL10n.chatMessageReply),
+      lessThan(labels.indexOf(testL10n.chatMessageForward)),
+    );
+    expect(
+      labels.indexOf(testL10n.chatMessageCopyText),
+      lessThan(labels.indexOf(testL10n.chatMessageMarkAsUnread)),
+    );
+    await releaseTestWidgetTree(tester);
+  });
+
   group('dispatchMessageAction', () {
     testWidgets('defers onForward until the next frame', (tester) async {
       var forwarded = false;

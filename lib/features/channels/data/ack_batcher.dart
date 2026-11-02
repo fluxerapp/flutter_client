@@ -6,10 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_dart/export.dart';
 
 const Duration kAckBatchDelay = Duration(seconds: 3);
-const Duration kAckForegroundBatchDelay = Duration(milliseconds: 750);
 const int kAckBatchSize = 100;
 const Duration kAckRetryBaseDelay = Duration(seconds: 5);
 const Duration kAckRetryMaxDelay = Duration(seconds: 60);
@@ -33,9 +33,7 @@ class AckBatcher {
     this.retryBaseDelay = kAckRetryBaseDelay,
     this.retryMaxDelay = kAckRetryMaxDelay,
     Random? random,
-  }) : _random = random ?? Random() {
-    _queueBatchDelay = batchDelay;
-  }
+  }) : _random = random ?? Random();
 
   final FluxerClient _client;
 
@@ -51,15 +49,13 @@ class AckBatcher {
   Timer? _flushTimer;
   Future<void>? _inflightFlush;
   bool _disposed = false;
-  late Duration _queueBatchDelay;
 
   void setForegroundBatching({required bool foreground}) {
-    _queueBatchDelay = foreground ? kAckForegroundBatchDelay : batchDelay;
-    if (_disposed || _pending.isEmpty) {
+    if (_disposed || _pending.isEmpty || foreground) {
       return;
     }
     final DateTime now = clock.now();
-    final DateTime cap = now.add(_queueBatchDelay);
+    final DateTime cap = now.add(batchDelay);
     for (final _PendingAck entry in _pending.values) {
       if (entry.deadline.isAfter(cap)) {
         entry.deadline = cap;
@@ -78,9 +74,7 @@ class AckBatcher {
       return;
     }
     final now = clock.now();
-    final deadline = (immediate || hadMentions)
-        ? now
-        : now.add(_queueBatchDelay);
+    final deadline = (immediate || hadMentions) ? now : now.add(batchDelay);
     final existing = _pending[channelId];
     if (existing == null && _inFlight[channelId] == messageId) {
       return;
@@ -90,13 +84,28 @@ class AckBatcher {
         messageId: messageId,
         deadline: deadline,
       );
+    } else if (compareSnowflakeIds(messageId, existing.messageId) < 0) {
+      return;
     } else {
-      existing.messageId = messageId;
+      if (compareSnowflakeIds(messageId, existing.messageId) > 0) {
+        existing.messageId = messageId;
+      }
       if (deadline.isBefore(existing.deadline)) {
         existing.deadline = deadline;
       }
     }
     _rescheduleTimer();
+  }
+
+  void cancelIfCovered(String channelId, String ackedMessageId) {
+    final _PendingAck? pending = _pending[channelId];
+    if (pending == null) {
+      return;
+    }
+    if (compareSnowflakeIds(ackedMessageId, pending.messageId) < 0) {
+      return;
+    }
+    cancel(channelId);
   }
 
   void clear() {
@@ -183,7 +192,8 @@ class AckBatcher {
     }
     final List<_SentAck> due = <_SentAck>[
       for (final MapEntry<String, _PendingAck> entry in _pending.entries)
-        (channelId: entry.key, messageId: entry.value.messageId),
+        if (force || !entry.value.deadline.isAfter(now))
+          (channelId: entry.key, messageId: entry.value.messageId),
     ];
 
     final chunks = <List<_SentAck>>[];

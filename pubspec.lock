@@ -29,10 +29,10 @@ packages:
     dependency: "direct main"
     description:
       name: altcha_lib
-      sha256: "54c95d14674fe37ffbd631331ee341d01d362b564e29a7bc47686ffd0d33bc04"
+      sha256: "065916e1547719d6a4ffdb29f24bfdd80beb714223d21fd019223a3b5f27f7fd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "1.0.0"
   analysis_server_plugin:
     dependency: transitive
     description:
@@ -301,10 +301,10 @@ packages:
     dependency: "direct main"
     description:
       name: cached_network_image_ce
-      sha256: "8bc77b763c571dc3736cf00f011619315d06b917ae986a0a8191813e70c014b2"
+      sha256: "16c40ba3837a3af432c85fd0f70dfcd5f73c7d7c195d485f9866d29f886057d8"
       url: "https://pub.dev"
     source: hosted
-    version: "4.13.1"
+    version: "4.13.2"
   cached_network_image_platform_interface_ce:
     dependency: transitive
     description:
@@ -1077,6 +1077,13 @@ packages:
       url: "https://github.com/fluxerapp/flutter-webrtc"
     source: git
     version: "1.6.3"
+  fluxer_android_host:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_android_host"
+      relative: true
+    source: path
+    version: "0.0.1"
   fluxer_android_notifications:
     dependency: "direct main"
     description:
