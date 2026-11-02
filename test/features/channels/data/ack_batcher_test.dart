@@ -146,8 +146,9 @@ void main() {
 
       expect(adapter.recordedBatches, isEmpty);
 
-      async.elapse(const Duration(milliseconds: 80));
-      async.flushMicrotasks();
+      async
+        ..elapse(const Duration(milliseconds: 80))
+        ..flushMicrotasks();
 
       expect(adapter.recordedBatches, hasLength(1));
       expect(adapter.recordedBatches.first, [
@@ -200,8 +201,9 @@ void main() {
         );
       }
 
-      async.elapse(const Duration(milliseconds: 50));
-      async.flushMicrotasks();
+      async
+        ..elapse(const Duration(milliseconds: 50))
+        ..flushMicrotasks();
 
       final lengths = adapter.recordedBatches.map((b) => b.length).toList();
       expect(lengths, [3, 3, 1]);
