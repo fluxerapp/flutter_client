@@ -29,6 +29,11 @@ class AppBuildConfig {
   static const String _canaryNumberValue = String.fromEnvironment(
     'CANARY_NUMBER',
   );
+  // ignore: do_not_use_environment -- compile-time build flavor config
+  static const String _observabilityReportingValue = String.fromEnvironment(
+    'OBSERVABILITY_REPORTING',
+    defaultValue: 'true',
+  );
   static AppBuildEnvironment get environment {
     switch (_environmentValue) {
       case 'canary':
@@ -96,7 +101,21 @@ class AppBuildConfig {
     return int.tryParse(trimmed);
   }
 
+  static bool parseObservabilityReportingEnabled(String raw) {
+    final String normalized = raw.trim().toLowerCase();
+    if (normalized.isEmpty) {
+      return true;
+    }
+    return normalized != 'false' && normalized != '0';
+  }
+
+  static bool get _observabilityReportingEnabled =>
+      parseObservabilityReportingEnabled(_observabilityReportingValue);
+
   static bool get hasObservabilityConfig {
+    if (!_observabilityReportingEnabled) {
+      return false;
+    }
     if (kIsWeb) {
       return false;
     }
