@@ -10,8 +10,14 @@ void main() {
     });
 
     test('disables for false and zero', () {
-      expect(AppBuildConfig.parseObservabilityReportingEnabled('false'), isFalse);
-      expect(AppBuildConfig.parseObservabilityReportingEnabled('FALSE'), isFalse);
+      expect(
+        AppBuildConfig.parseObservabilityReportingEnabled('false'),
+        isFalse,
+      );
+      expect(
+        AppBuildConfig.parseObservabilityReportingEnabled('FALSE'),
+        isFalse,
+      );
       expect(AppBuildConfig.parseObservabilityReportingEnabled('0'), isFalse);
     });
   });
