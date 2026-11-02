@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
@@ -85,26 +86,25 @@ void main() {
     );
   });
 
-  testWidgets(
-    'falls back to the instance marketing site when not self-hosted',
-    (tester) async {
-      final ProviderContainer container = _containerFor(_snapshot());
+  testWidgets('falls back to default Fluxer legal URLs when not self-hosted', (
+    tester,
+  ) async {
+    final ProviderContainer container = _containerFor(_snapshot());
 
-      await tester.pumpWidget(_app(container));
-      await tester.pumpAndSettle();
+    await tester.pumpWidget(_app(container));
+    await tester.pumpAndSettle();
 
-      final Iterable<String?> urls = tester
-          .widgetList<FluxerTextLink>(find.byType(FluxerTextLink))
-          .map((FluxerTextLink link) => link.url);
-      expect(
-        urls,
-        containsAll(<String>[
-          'https://self.example/terms',
-          'https://self.example/privacy',
-        ]),
-      );
-    },
-  );
+    final Iterable<String?> urls = tester
+        .widgetList<FluxerTextLink>(find.byType(FluxerTextLink))
+        .map((FluxerTextLink link) => link.url);
+    expect(
+      urls,
+      containsAll(<String>[
+        InstanceConstants.defaultTermsUrl,
+        InstanceConstants.defaultPrivacyUrl,
+      ]),
+    );
+  });
 
   testWidgets('renders only the terms link when no privacy URL exists', (
     tester,
