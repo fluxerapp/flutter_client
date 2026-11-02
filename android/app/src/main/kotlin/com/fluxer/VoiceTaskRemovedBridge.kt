@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 private const val CHANNEL_NAME = "fluxer_app/voice_task_removed"
 private const val METHOD_NOTIFY_TASK_REMOVED = "notifyTaskRemoved"
+private const val METHOD_SET_WATCHER_ACTIVE = "setTaskRemovedWatcherActive"
 private const val NATIVE_CLEANUP_FALLBACK_MS = 500L
 
 internal const val VOICE_TASK_REMOVED_CHANNEL_NAME = CHANNEL_NAME
@@ -26,6 +27,15 @@ internal fun endActiveCallKitSessionsForAppTaskRemoved(context: Context) {
         CallkitNotificationService.stopService(appContext)
     } catch (_: Throwable) {
     }
+    VoiceTaskRemovedWatcherService.stop(appContext)
+}
+
+fun startVoiceTaskRemovedWatcher(context: Context) {
+    VoiceTaskRemovedWatcherService.start(context.applicationContext)
+}
+
+fun stopVoiceTaskRemovedWatcher(context: Context) {
+    VoiceTaskRemovedWatcherService.stop(context.applicationContext)
 }
 
 object VoiceTaskRemovedRegistry {
@@ -33,6 +43,10 @@ object VoiceTaskRemovedRegistry {
 
     @Volatile
     var bridge: VoiceTaskRemovedBridge? = null
+
+    fun resetForNewVoiceSession() {
+        handled.set(false)
+    }
 
     fun notifyAppTaskRemoved(context: Context) {
         if (!handled.compareAndSet(false, true)) {
@@ -54,11 +68,27 @@ class VoiceTaskRemovedBridge(
     private val mainHandler = Handler(Looper.getMainLooper())
 
     fun register(flutterEngine: FlutterEngine) {
-        methodChannel =
+        val channel =
             MethodChannel(
                 flutterEngine.dartExecutor.binaryMessenger,
                 CHANNEL_NAME,
             )
+        channel.setMethodCallHandler { call, result ->
+            when (call.method) {
+                METHOD_SET_WATCHER_ACTIVE -> {
+                    val active = call.argument<Boolean>("active") ?: false
+                    if (active) {
+                        VoiceTaskRemovedRegistry.resetForNewVoiceSession()
+                        startVoiceTaskRemovedWatcher(context)
+                    } else {
+                        stopVoiceTaskRemovedWatcher(context)
+                    }
+                    result.success(null)
+                }
+                else -> result.notImplemented()
+            }
+        }
+        methodChannel = channel
     }
 
     fun onAppTaskRemoved(skipNativeCleanup: Boolean = false) {

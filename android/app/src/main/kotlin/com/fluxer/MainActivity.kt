@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.view.KeyEvent
 import com.hiennv.flutter_callkit_incoming.CallkitEventCallback
 import com.hiennv.flutter_callkit_incoming.FlutterCallkitIncomingPlugin
+import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 
-class MainActivity : MainActivityBase() {
+class MainActivity : AudioServiceActivity() {
     private val imeEditingShortcutBridge = ImeEditingShortcutBridge()
     private var ownsMainEngine = false
 
@@ -38,15 +39,12 @@ class MainActivity : MainActivityBase() {
         val ownedEngine = ownsMainEngine
         ownsMainEngine = false
         VoiceTaskRemovedRegistry.bridge = null
+        stopVoiceTaskRemovedWatcher(applicationContext)
         FlutterCallkitIncomingPlugin.unregisterEventCallback(callkitEventCallback)
         super.onDestroy()
         if (ownedEngine) {
             FluxerUnifiedPushService.noteMainEngineStopped()
         }
-    }
-
-    override fun onFluxerAppTaskRemoved() {
-        VoiceTaskRemovedRegistry.notifyAppTaskRemoved(applicationContext)
     }
 
     override fun popSystemNavigator(): Boolean = moveTaskToBack(true)

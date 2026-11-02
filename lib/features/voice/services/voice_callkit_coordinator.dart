@@ -36,6 +36,7 @@ import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/callkit_session_store.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/foreign_account_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/incoming_call_actions.dart';
+import 'package:fluxer_app/features/voice/utils/callkit/voice_task_removed_watcher.dart';
 import 'package:fluxer_app/features/voice/utils/connection/session_navigation.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -554,6 +555,9 @@ class VoiceCallKitCoordinatorLogic {
     VoiceCallKitVoiceSnapshot? previous,
     VoiceCallKitVoiceSnapshot next,
   ) async {
+    if (Platform.isAndroid) {
+      await syncAndroidVoiceTaskRemovedWatcher(active: next.isInVoice);
+    }
     if (!next.isInVoice) {
       _cancelSpeakerOutputReapply();
       ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
