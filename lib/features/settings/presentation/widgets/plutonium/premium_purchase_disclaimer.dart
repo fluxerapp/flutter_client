@@ -1,13 +1,10 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/instance/instance_legal_links.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
-import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-const String _kTermsUrl = 'https://fluxer.app/terms';
-const String _kPrivacyUrl = 'https://fluxer.app/privacy';
-
-class PremiumPurchaseDisclaimer extends StatelessWidget {
+class PremiumPurchaseDisclaimer extends ConsumerWidget {
   const PremiumPurchaseDisclaimer({
     this.isPremium = false,
     this.alignCenter = true,
@@ -20,7 +17,7 @@ class PremiumPurchaseDisclaimer extends StatelessWidget {
   final bool showRefundNote;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final textStyles = context.textStyles;
@@ -36,42 +33,13 @@ class PremiumPurchaseDisclaimer extends StatelessWidget {
           ? CrossAxisAlignment.center
           : CrossAxisAlignment.start,
       children: [
-        Text.rich(
-          TextSpan(
-            style: mutedStyle,
-            children: [
-              TextSpan(
-                text: isPremium
-                    ? l10n.premiumDisclaimerAgreementPastPrefix
-                    : l10n.premiumDisclaimerAgreementPrefix,
-              ),
-              WidgetSpan(
-                alignment: PlaceholderAlignment.baseline,
-                baseline: TextBaseline.alphabetic,
-                child: MediaQuery.withNoTextScaling(
-                  child: FluxerTextLink(
-                    text: l10n.premiumTermsOfService,
-                    url: _kTermsUrl,
-                    style: mutedStyle.copyWith(color: colors.textLink),
-                  ),
-                ),
-              ),
-              TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
-              WidgetSpan(
-                alignment: PlaceholderAlignment.baseline,
-                baseline: TextBaseline.alphabetic,
-                child: MediaQuery.withNoTextScaling(
-                  child: FluxerTextLink(
-                    text: l10n.premiumPrivacyPolicy,
-                    url: _kPrivacyUrl,
-                    style: mutedStyle.copyWith(color: colors.textLink),
-                  ),
-                ),
-              ),
-              const TextSpan(text: '.'),
-            ],
-          ),
+        InstanceLegalAgreementText(
+          prefix: isPremium
+              ? l10n.premiumDisclaimerAgreementPastPrefix
+              : l10n.premiumDisclaimerAgreementPrefix,
           textAlign: alignCenter ? TextAlign.center : TextAlign.start,
+          baseStyle: mutedStyle,
+          linkStyle: mutedStyle.copyWith(color: colors.textLink),
         ),
         if (showRefundNote) ...[
           SizedBox(height: layout.s2),
