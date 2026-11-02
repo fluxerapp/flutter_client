@@ -118,15 +118,17 @@ class _HeldAckAdapter implements HttpClientAdapter {
 }
 
 void main() {
-  test(
-    'coalesces multiple acks into a single bulk HTTP after the delay',
-    () async {
+  test('coalesces multiple acks into a single bulk HTTP after the delay', () {
+    fakeAsync((FakeAsync async) {
       final adapter = _BulkAckAdapter();
       final batcher = AckBatcher(
         client: _client(adapter),
         batchDelay: const Duration(milliseconds: 80),
       );
-      addTearDown(batcher.dispose);
+      addTearDown(() {
+        unawaited(batcher.dispose());
+        async.flushMicrotasks();
+      });
 
       batcher
         ..queue(
@@ -144,15 +146,16 @@ void main() {
 
       expect(adapter.recordedBatches, isEmpty);
 
-      await Future<void>.delayed(const Duration(milliseconds: 150));
+      async.elapse(const Duration(milliseconds: 80));
+      async.flushMicrotasks();
 
       expect(adapter.recordedBatches, hasLength(1));
       expect(adapter.recordedBatches.first, [
         {'channel_id': 'c-1', 'message_id': 'm-1'},
         {'channel_id': 'c-2', 'message_id': 'm-2'},
       ]);
-    },
-  );
+    });
+  });
 
   test('immediate flag flushes on the next event loop tick', () async {
     final adapter = _BulkAckAdapter();
@@ -175,28 +178,34 @@ void main() {
     expect(adapter.recordedBatches.first.single['channel_id'], 'c-1');
   });
 
-  test('chunks more than batchSize acks into multiple HTTPs', () async {
-    final adapter = _BulkAckAdapter();
-    final batcher = AckBatcher(
-      client: _client(adapter),
-      batchDelay: const Duration(milliseconds: 50),
-      batchSize: 3,
-    );
-    addTearDown(batcher.dispose);
-
-    for (var i = 0; i < 7; i++) {
-      batcher.queue(
-        channelId: 'c-$i',
-        messageId: 'm-$i',
-        immediate: false,
-        hadMentions: false,
+  test('chunks more than batchSize acks into multiple HTTPs', () {
+    fakeAsync((FakeAsync async) {
+      final adapter = _BulkAckAdapter();
+      final batcher = AckBatcher(
+        client: _client(adapter),
+        batchDelay: const Duration(milliseconds: 50),
+        batchSize: 3,
       );
-    }
+      addTearDown(() {
+        unawaited(batcher.dispose());
+        async.flushMicrotasks();
+      });
 
-    await Future<void>.delayed(const Duration(milliseconds: 150));
+      for (var i = 0; i < 7; i++) {
+        batcher.queue(
+          channelId: 'c-$i',
+          messageId: 'm-$i',
+          immediate: false,
+          hadMentions: false,
+        );
+      }
 
-    final lengths = adapter.recordedBatches.map((b) => b.length).toList();
-    expect(lengths, [3, 3, 1]);
+      async.elapse(const Duration(milliseconds: 50));
+      async.flushMicrotasks();
+
+      final lengths = adapter.recordedBatches.map((b) => b.length).toList();
+      expect(lengths, [3, 3, 1]);
+    });
   });
 
   test('flushPending(force: true) sends queued acks immediately', () async {
