@@ -33,6 +33,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadChannelType;
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
@@ -111,7 +112,7 @@ const _kJumpToPresentPageSize = 50;
 const Duration _kChannelNetworkRefreshTtl = Duration(seconds: 30);
 const Duration _kSyncRetryBaseDelay = Duration(seconds: 1);
 const Duration _kSyncRetryMaxDelay = Duration(seconds: 30);
-const _kReadAckMinInterval = Duration(seconds: 1);
+const Duration _kReadAckMinInterval = Duration.zero;
 const _kDraftSaveDebounce = Duration(milliseconds: 400);
 const _kJumpHighlightDuration = Duration(milliseconds: 2000);
 const int _kMaxAutomaticSendRetries = 2;
@@ -4263,29 +4264,11 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
-  Future<String> _liveTailAckTargetId({
-    required String channelId,
-    required String visibleTailId,
-  }) async {
-    final database = ref.read(fluxerDatabaseProvider);
-    final db.Channel? channel = await database.channelDao.getChannelById(
-      channelId,
-    );
-    final db.DmChannel? dm = channel == null
-        ? await database.dmChannelDao.getDmChannelById(channelId)
-        : null;
-    final String? pointer = channel?.lastMessageId ?? dm?.lastMessageId;
-    if (pointer == null || pointer.isEmpty) {
-      return visibleTailId;
-    }
-    if (compareSnowflakeIds(pointer, visibleTailId) <= 0) {
-      return visibleTailId;
-    }
-    return pointer;
-  }
-
   Future<void> ackCurrentChannel({bool force = false}) async {
     final channelId = state.channelId;
+    if (channelId.isEmpty) {
+      return;
+    }
     if (!force && (state.isLoading || state.isSyncingMessages)) {
       return;
     }
@@ -4293,45 +4276,47 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final String? visibleTailId = newestServerBackedMessageId(state.messages);
-    if (!force && visibleTailId == null) {
-      final ChatReadViewportState viewport = ref.read(chatReadViewportProvider);
-      if (isAutoAckEligible(
-        viewport: viewport,
-        channelId: channelId,
-        hasMoreNewerMessages: state.hasMoreNewerMessages,
-        currentTailId: null,
-      )) {
-        final database = ref.read(fluxerDatabaseProvider);
-        final readState = await database.readStateDao.getReadState(channelId);
-        if (!(readState?.manual ?? false)) {
-          await ref.read(readStateRepositoryProvider).ackLatest(channelId);
-        }
-      }
-      return;
-    }
-    final now = DateTime.now();
     final ChatReadViewportState viewport = ref.read(chatReadViewportProvider);
-    final bool isReadViewportEligible = viewport.canAutoAck;
-    final bool isAtLiveTail = isAutoAckEligible(
+    final bool viewportCanAck = viewport.canAutoAck;
+    final bool liveTail = isAtLiveTail(
       viewport: viewport,
       channelId: channelId,
       hasMoreNewerMessages: state.hasMoreNewerMessages,
       currentTailId: visibleTailId,
     );
+    final bool autoAck = liveTail && viewportCanAck;
     if (force) {
       _readAckGate.clearManualUnread(channelId);
     }
+    final String? loadedTarget = force
+        ? visibleTailId
+        : ackTargetForLiveTail(eligible: autoAck, loadedTailId: visibleTailId);
+    if (!force && loadedTarget == null) {
+      return;
+    }
+    if (!force && loadedTarget != null) {
+      final peeked = ref
+          .read(readStateWriteBatcherProvider)
+          .peekCursor(channelId);
+      if (peeked != null &&
+          !peeked.manual &&
+          peeked.mentionCount == 0 &&
+          compareSnowflakeIds(peeked.lastMessageId, loadedTarget) >= 0) {
+        return;
+      }
+    }
+    final now = DateTime.now();
     if (!_readAckGate.canAttemptAck(
       channelId: channelId,
-      isActive: isReadViewportEligible,
-      isNearBottom: isAtLiveTail,
+      isActive: force || viewportCanAck,
+      isNearBottom: force || autoAck,
       now: now,
       force: force,
     )) {
       final retryDelay = _readAckGate.retryDelay(
         channelId: channelId,
-        isActive: isReadViewportEligible,
-        isNearBottom: isAtLiveTail,
+        isActive: force || viewportCanAck,
+        isNearBottom: force || autoAck,
         now: now,
       );
       if (retryDelay != null && retryDelay > Duration.zero) {
@@ -4343,22 +4328,28 @@ class ChatViewModel extends _$ChatViewModel {
     _readAckRetryTimer?.cancel();
     _readAckGate.markAttemptStarted(channelId, now: now);
     try {
-      final String? ackTargetId = force
-          ? null
-          : await _liveTailAckTargetId(
-              channelId: channelId,
-              visibleTailId: visibleTailId!,
-            );
-      final database = ref.read(fluxerDatabaseProvider);
-      final readState = await database.readStateDao.getReadState(channelId);
-      if (!force && (readState?.manual ?? false)) {
+      final batcher = ref.read(readStateWriteBatcherProvider);
+      final cursor = await batcher.ensureCursor(channelId);
+      if (!ref.mounted || state.channelId != channelId) {
+        return;
+      }
+      if (!force &&
+          (state.hasMoreNewerMessages ||
+              newestServerBackedMessageId(state.messages) != visibleTailId)) {
+        return;
+      }
+      if (!force && cursor.manual) {
         _readAckGate.markManualUnread(channelId);
         return;
       }
-      if (!(readState?.manual ?? false)) {
-        _readAckGate.clearManualUnread(channelId);
-      }
-      final hadMentions = (readState?.mentionCount ?? 0) > 0;
+      final db.ReadState readState = db.ReadState(
+        channelId: channelId,
+        lastMessageId: cursor.lastMessageId,
+        mentionCount: cursor.mentionCount,
+        manual: cursor.manual,
+        stickyUnreadMessageId: cursor.stickyUnreadMessageId,
+      );
+      final bool hadMentions = cursor.mentionCount > 0;
       if (_stickySnapshotArmed &&
           _viewportWasAtTail &&
           state.channelId == channelId) {
@@ -4372,22 +4363,29 @@ class ChatViewModel extends _$ChatViewModel {
           }
         }
       }
-      if (!force &&
-          (state.channelId != channelId ||
-              state.hasMoreNewerMessages ||
-              newestServerBackedMessageId(state.messages) != visibleTailId)) {
+      final String? ackTargetId =
+          loadedTarget ??
+          await ref
+              .read(readStateRepositoryProvider)
+              .latestAckableMessageId(channelId);
+      if (ackTargetId == null || ackTargetId.isEmpty) {
         return;
       }
-      final repository = ref.read(readStateRepositoryProvider);
-      final String? ackedMessageId = force
-          ? await repository.applyLocalAckLatest(channelId)
-          : await repository.applyLocalAckUpTo(channelId, ackTargetId!);
-      if (ackedMessageId != null) {
+      final bool alreadyCovered =
+          !cursor.manual &&
+          cursor.mentionCount == 0 &&
+          compareSnowflakeIds(cursor.lastMessageId, ackTargetId) >= 0;
+      if (!alreadyCovered || force) {
+        batcher.enqueueAck(
+          channelId: channelId,
+          messageId: ackTargetId,
+          clearSticky: force,
+        );
         ref
             .read(ackBatcherProvider)
             .queue(
               channelId: channelId,
-              messageId: ackedMessageId,
+              messageId: ackTargetId,
               immediate: force,
               hadMentions: hadMentions,
             );
@@ -4553,6 +4551,9 @@ class ChatViewModel extends _$ChatViewModel {
     } else {
       _readAckGate.clearManualUnread(channelId);
     }
+    ref
+        .read(readStateWriteBatcherProvider)
+        .setCursorManual(channelId, manual: manual, clearSticky: !manual);
     unawaited(
       ref
           .read(fluxerDatabaseProvider)
@@ -4664,8 +4665,31 @@ class ChatViewModel extends _$ChatViewModel {
     _readAckGate.clearManualUnread(channelId);
     clearStickyUnread();
     _stickySnapshotArmed = false;
+    final batcher = ref.read(readStateWriteBatcherProvider)
+      ..setCursorManual(channelId, manual: false, clearSticky: true);
     try {
-      await ref.read(readStateRepositoryProvider).ackLatest(channelId);
+      final String? messageId = await ref
+          .read(readStateRepositoryProvider)
+          .latestAckableMessageId(channelId);
+      if (!ref.mounted ||
+          state.channelId != channelId ||
+          messageId == null ||
+          messageId.isEmpty) {
+        return;
+      }
+      batcher.enqueueAck(
+        channelId: channelId,
+        messageId: messageId,
+        clearSticky: true,
+      );
+      ref
+          .read(ackBatcherProvider)
+          .queue(
+            channelId: channelId,
+            messageId: messageId,
+            immediate: true,
+            hadMentions: false,
+          );
     } on Exception catch (e) {
       debugPrint('[ChatViewModel] Failed to mark channel read: $e');
     }

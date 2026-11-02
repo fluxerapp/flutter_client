@@ -287,14 +287,42 @@ class GuildReadState extends _$GuildReadState {
     }
 
     ref.listen<int>(readStateOverlayVersionProvider, (int? prev, int next) {
-      final Set<String> overlayIds = ref
-          .read(readStateWriteBatcherProvider)
-          .overlayChannelIds();
+      final batcher = ref.read(readStateWriteBatcherProvider);
+      final Set<String> overlayIds = batcher.overlayChannelIds();
       final Set<String> released = _overlayChannelIds.difference(overlayIds);
       _overlayChannelIds = overlayIds;
       if (released.isNotEmpty) {
-        _pendingReadStateRefresh.addAll(released);
-        _enqueueChannels(released, db, currentUserId, refreshLatest: true);
+        final List<String> unresolved = <String>[];
+        for (final String id in released) {
+          final ReadState? persisted = batcher.persistedReadState(id);
+          if (persisted == null) {
+            unresolved.add(id);
+            continue;
+          }
+          final ReadState? previous = _readStateSnapshot[id];
+          _readStateSnapshot[id] = previous == null
+              ? persisted
+              : previous.copyWith(
+                  lastMessageId: Value(persisted.lastMessageId),
+                  mentionCount: persisted.mentionCount,
+                  manual: persisted.manual,
+                  stickyUnreadMessageId: Value(persisted.stickyUnreadMessageId),
+                  lastPinTimestamp: Value(persisted.lastPinTimestamp),
+                  version: Value(persisted.version),
+                  flags: Value(persisted.flags),
+                );
+        }
+        if (unresolved.isNotEmpty) {
+          _pendingReadStateRefresh.addAll(unresolved);
+          _enqueueChannels(unresolved, db, currentUserId, refreshLatest: true);
+        }
+        _enqueueChannels(
+          released,
+          db,
+          currentUserId,
+          refreshLatest: false,
+          trustIndex: true,
+        );
       }
       if (overlayIds.isNotEmpty) {
         _enqueueChannels(

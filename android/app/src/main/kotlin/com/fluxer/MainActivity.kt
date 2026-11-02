@@ -38,6 +38,8 @@ class MainActivity : AudioServiceActivity() {
     override fun onDestroy() {
         val ownedEngine = ownsMainEngine
         ownsMainEngine = false
+        VoiceTaskRemovedRegistry.bridge = null
+        stopVoiceTaskRemovedWatcher(applicationContext)
         FlutterCallkitIncomingPlugin.unregisterEventCallback(callkitEventCallback)
         super.onDestroy()
         if (ownedEngine) {
@@ -59,10 +61,13 @@ class MainActivity : AudioServiceActivity() {
         ownsMainEngine = true
         FluxerUnifiedPushService.noteMainEngineStarted()
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
-        AnimatorDurationScaleBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
         NotificationReplyBridge(applicationContext).register(flutterEngine)
         VoiceSpeakerRouteBridge(this).register(flutterEngine)
+        VoiceTaskRemovedBridge(applicationContext).also { bridge ->
+            bridge.register(flutterEngine)
+            VoiceTaskRemovedRegistry.bridge = bridge
+        }
         AppRestartBridge(this).register(flutterEngine)
         UploadKeepAliveBridge(applicationContext).register(flutterEngine)
         imeEditingShortcutBridge.register(flutterEngine)

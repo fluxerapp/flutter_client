@@ -195,7 +195,7 @@ class _FluxerSmoothScrollbarState extends State<FluxerSmoothScrollbar>
 
   bool _syncExtentTarget({bool snap = false}) {
     final ScrollPosition? position = _attachedPosition;
-    if (position == null) {
+    if (position == null || !position.hasContentDimensions) {
       return false;
     }
     final bool changed =

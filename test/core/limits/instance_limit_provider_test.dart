@@ -95,6 +95,7 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
         faviconUrl: null,
         themeColor: null,
         statusPageUrl: null,
+        statusPageInstatus: false,
         statusPageIncidentHistoryUrl: null,
         premiumProductName: 'Plutonium',
         premiumInfoUrl: null,

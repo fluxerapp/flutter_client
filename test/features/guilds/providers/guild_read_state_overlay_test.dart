@@ -110,7 +110,6 @@ void main() {
           (Ref ref) => ReadStateWriteBatcher(
             database: db,
             window: const Duration(hours: 1),
-            ackWindow: const Duration(hours: 1),
             mentionWindow: const Duration(hours: 1),
             onOverlayChanged: () =>
                 ref.read(readStateOverlayVersionProvider.notifier).bump(),
@@ -231,9 +230,7 @@ void main() {
     batcher.enqueueAck(
       channelId: _channelId,
       messageId: ownId,
-      isDm: false,
       clearSticky: true,
-      markDmRead: false,
     );
     await batcher.flushAck(_channelId);
     await _settle();

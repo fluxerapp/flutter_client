@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/instance/instance_legal_links.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_button.dart';
@@ -13,7 +14,6 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -366,48 +366,20 @@ class _SubscribeActions extends ConsumerWidget {
   }
 }
 
-class _PurchaseTerms extends StatelessWidget {
+class _PurchaseTerms extends ConsumerWidget {
   const _PurchaseTerms();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted = context.textStyles.timestamp.copyWith(
       color: style.inkMuted,
     );
-    return Text.rich(
-      TextSpan(
-        style: muted,
-        children: [
-          TextSpan(text: l10n.premiumDisclaimerAgreementPrefix),
-          WidgetSpan(
-            alignment: PlaceholderAlignment.baseline,
-            baseline: TextBaseline.alphabetic,
-            child: MediaQuery.withNoTextScaling(
-              child: FluxerTextLink(
-                text: l10n.premiumTermsOfService,
-                url: 'https://fluxer.app/terms',
-                style: muted.copyWith(color: style.accent),
-              ),
-            ),
-          ),
-          TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
-          WidgetSpan(
-            alignment: PlaceholderAlignment.baseline,
-            baseline: TextBaseline.alphabetic,
-            child: MediaQuery.withNoTextScaling(
-              child: FluxerTextLink(
-                text: l10n.premiumPrivacyPolicy,
-                url: 'https://fluxer.app/privacy',
-                style: muted.copyWith(color: style.accent),
-              ),
-            ),
-          ),
-          const TextSpan(text: '.'),
-        ],
-      ),
-      textAlign: TextAlign.center,
+    return InstanceLegalAgreementText(
+      prefix: l10n.premiumDisclaimerAgreementPrefix,
+      baseStyle: muted,
+      linkStyle: muted.copyWith(color: style.accent),
     );
   }
 }

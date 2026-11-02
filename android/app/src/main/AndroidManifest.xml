@@ -315,6 +315,9 @@
             android:exported="false"
             android:foregroundServiceType="dataSync" />
         <service
+            android:name=".VoiceTaskRemovedWatcherService"
+            android:exported="false" />
+        <service
             android:name="com.ryanheise.audioservice.AudioService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback"

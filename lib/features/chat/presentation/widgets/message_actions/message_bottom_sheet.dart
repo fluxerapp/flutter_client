@@ -448,8 +448,6 @@ List<Widget> buildMessageActionMenuGroups({
   final bool isEmbedsSuppressed = message.suppressEmbeds;
   final bool isUserMessage = message.isUserMessage;
   final bool supportsInteractiveActions = message.supportsInteractiveActions;
-  final bool canShowAddReaction =
-      permissions.canAddReactions && supportsInteractiveActions;
   final bool showMediaDeleteButton = ref.watch(
     appearancePreferencesProvider.select((s) => s.showMediaDeleteButton),
   );
@@ -477,12 +475,24 @@ List<Widget> buildMessageActionMenuGroups({
   final bool canShowRemoveAllReactions =
       permissions.canManageMessages && hasReactions;
 
-  final List<Widget> reactionItems = <Widget>[
-    if (canShowAddReaction)
+  final List<Widget> interactionItems = <Widget>[
+    if (canShowEdit)
       FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsFill.smiley,
-        label: l10n.chatMessageAddReaction,
-        onTap: () => onAction(MessageAction.addReaction),
+        icon: PhosphorIconsFill.pencilSimple,
+        label: l10n.chatMessageEdit,
+        onTap: () => onAction(MessageAction.edit),
+      ),
+    if (canShowReply)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.arrowBendUpLeft,
+        label: l10n.chatMessageReply,
+        onTap: () => onAction(MessageAction.reply),
+      ),
+    if (canShowForward)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.shareFat,
+        label: l10n.chatMessageForward,
+        onTap: () => onAction(MessageAction.forward),
       ),
     if (hasReactions)
       FluxerBottomSheetMenuItem(
@@ -496,56 +506,26 @@ List<Widget> buildMessageActionMenuGroups({
         label: l10n.chatMessageTranslate,
         onTap: () => onAction(MessageAction.translate),
       ),
-    if (canShowRemoveAllReactions)
-      FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsBold.x,
-        label: l10n.chatMessageRemoveAllReactions,
-        isDanger: true,
-        onTap: () => onAction(MessageAction.removeAllReactions),
-      ),
   ];
 
-  final List<Widget> interactionItems = <Widget>[
+  final List<Widget> primaryItems = <Widget>[
+    if (message.content.isNotEmpty)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.copy,
+        label: l10n.chatMessageCopyText,
+        onTap: () => onAction(MessageAction.copyText),
+      ),
     FluxerBottomSheetMenuItem(
       icon: PhosphorIconsFill.envelopeOpen,
       label: l10n.chatMessageMarkAsUnread,
       onTap: () => onAction(MessageAction.markAsUnread),
     ),
-    if (canShowReply)
-      FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsFill.arrowBendUpLeft,
-        label: l10n.chatMessageReply,
-        onTap: () => onAction(MessageAction.reply),
-      ),
-    if (canShowForward)
-      FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsFill.shareFat,
-        label: l10n.chatMessageForward,
-        onTap: () => onAction(MessageAction.forward),
-      ),
     if (supportsInteractiveActions &&
         watchCanCreateThreadFromMessage(ref, message))
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.chatsCircle,
         label: l10n.threadCreate,
         onTap: () => onAction(MessageAction.createThread),
-      ),
-    if (canShowEdit)
-      FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsFill.pencilSimple,
-        label: l10n.chatMessageEdit,
-        onTap: () => onAction(MessageAction.edit),
-      ),
-  ];
-
-  final List<Widget> managementItems = <Widget>[
-    if (canShowPublish)
-      FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsFill.megaphone,
-        label: message.isCrossposted
-            ? l10n.chatMessagePublished
-            : l10n.chatMessagePublish,
-        onTap: () => onAction(MessageAction.publish),
       ),
     if (canShowPin)
       FluxerBottomSheetMenuItem(
@@ -604,7 +584,22 @@ List<Widget> buildMessageActionMenuGroups({
     ),
   );
 
-  final List<Widget> utilityItems = <Widget>[
+  final List<Widget> bottomItems = <Widget>[
+    if (canShowPublish)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.megaphone,
+        label: message.isCrossposted
+            ? l10n.chatMessagePublished
+            : l10n.chatMessagePublish,
+        onTap: () => onAction(MessageAction.publish),
+      ),
+    if (canShowRemoveAllReactions)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsBold.x,
+        label: l10n.chatMessageRemoveAllReactions,
+        isDanger: true,
+        onTap: () => onAction(MessageAction.removeAllReactions),
+      ),
     FluxerBottomSheetMenuItem(
       icon: PhosphorIconsBold.link,
       label: l10n.chatMessageCopyMessageLink,
@@ -619,12 +614,6 @@ List<Widget> buildMessageActionMenuGroups({
             ? l10n.chatMessageStopSpeaking
             : l10n.chatMessageSpeak,
         onTap: () => onAction(MessageAction.speak),
-      ),
-    if (message.content.isNotEmpty)
-      FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsFill.copy,
-        label: l10n.chatMessageCopyText,
-        onTap: () => onAction(MessageAction.copyText),
       ),
     if (message.embedsCopyableText.isNotEmpty)
       FluxerBottomSheetMenuItem(
@@ -657,11 +646,10 @@ List<Widget> buildMessageActionMenuGroups({
 
   return <Widget>[
     for (final List<Widget> items in <List<Widget>>[
-      reactionItems,
       interactionItems,
-      managementItems,
+      primaryItems,
+      bottomItems,
       attachmentItems,
-      utilityItems,
       reportItems,
     ])
       if (items.isNotEmpty) FluxerMenuGroup(children: items),

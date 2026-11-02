@@ -169,7 +169,7 @@ class ChatReadViewport extends _$ChatReadViewport {
   }
 }
 
-bool isAutoAckEligible({
+bool isAtLiveTail({
   required ChatReadViewportState viewport,
   required String channelId,
   required bool hasMoreNewerMessages,
@@ -179,5 +179,28 @@ bool isAutoAckEligible({
     viewport.channelId == channelId &&
     viewport.nearLoadedTail &&
     viewport.sampledTailId == currentTailId &&
-    !hasMoreNewerMessages &&
+    !hasMoreNewerMessages;
+
+String? ackTargetForLiveTail({
+  required bool eligible,
+  required String? loadedTailId,
+}) {
+  if (!eligible || loadedTailId == null || loadedTailId.isEmpty) {
+    return null;
+  }
+  return loadedTailId;
+}
+
+bool isAutoAckEligible({
+  required ChatReadViewportState viewport,
+  required String channelId,
+  required bool hasMoreNewerMessages,
+  required String? currentTailId,
+}) =>
+    isAtLiveTail(
+      viewport: viewport,
+      channelId: channelId,
+      hasMoreNewerMessages: hasMoreNewerMessages,
+      currentTailId: currentTailId,
+    ) &&
     viewport.canAutoAck;

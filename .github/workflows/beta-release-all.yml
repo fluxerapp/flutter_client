@@ -15,16 +15,41 @@ jobs:
     uses: ./.github/workflows/_draft-beta-release.yml
     secrets: inherit
 
+  allocate-android-build-number:
+    name: Allocate Android build number
+    runs-on: ubuntu-latest
+    environment: release-builds
+    outputs:
+      build_number: ${{ steps.android_build_number.outputs.build_number }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Fetch Android build number from Nodus
+        id: android_build_number
+        env:
+          NODUS_CI_TOKEN: ${{ secrets.NODUS_CI_TOKEN }}
+          NODUS_APP: fluxer
+        run: bash .github/scripts/fetch_nodus_android_build_number.sh
+
   android-fcm:
     name: Android FCM build
-    needs: draft-release
+    needs:
+      - draft-release
+      - allocate-android-build-number
     uses: ./.github/workflows/android-beta-fcm.yml
+    with:
+      android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit
 
   android-oss:
     name: Android OSS build
-    needs: draft-release
+    needs:
+      - draft-release
+      - allocate-android-build-number
     uses: ./.github/workflows/android-beta-oss.yml
+    with:
+      android_build_number: ${{ needs.allocate-android-build-number.outputs.build_number }}
     secrets: inherit
 
   # ios-testflight:

@@ -578,7 +578,9 @@ class VoiceSettingsApplicator {
       preference: settings.outputRoute,
       available: available,
     );
-    await _applyLiveKitOutputRoutePreference(route);
+    if (defaultTargetPlatform != TargetPlatform.android) {
+      await _applyLiveKitOutputRoutePreference(route);
+    }
     final bool nativeHold =
         defaultTargetPlatform == TargetPlatform.android && holdRoute;
     await applyNativeVoiceOutputRoute(route, hold: nativeHold);

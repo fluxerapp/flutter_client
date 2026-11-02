@@ -9,8 +9,7 @@ void main() {
 
     final ObservabilityReportingPrompt notifier = container.read(
       observabilityReportingPromptProvider.notifier,
-    );
-    notifier.requestPrompt();
+    )..requestPrompt();
     expect(container.read(observabilityReportingPromptProvider), isTrue);
 
     expect(notifier.beginPresentation(), isTrue);

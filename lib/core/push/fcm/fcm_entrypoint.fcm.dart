@@ -46,4 +46,3 @@ Future<void> bootstrapFcmIfNeeded() async {
     rethrow;
   }
 }
-

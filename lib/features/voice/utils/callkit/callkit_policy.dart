@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_dart/gateway.dart';
 import 'package:uuid/uuid.dart';
 
 const String kVoiceCallKitExtraChannelId = 'channelId';
@@ -268,3 +269,47 @@ const List<Duration> kVoiceCallKitSpeakerReapplyDelays = <Duration>[
   Duration(milliseconds: 1000),
   Duration(milliseconds: 2500),
 ];
+
+bool shouldLeaveVoiceOnAndroidTaskRemoved({required bool isInVoice}) {
+  return isInVoice;
+}
+
+bool shouldHandleAndroidAppTaskRemoved({
+  required bool isInVoice,
+  required bool hasTrackedCallKitSessions,
+}) {
+  if (isInVoice) {
+    return true;
+  }
+  return hasTrackedCallKitSessions;
+}
+
+bool shouldLeaveVoiceForInterruptedSession({
+  required String? interruptedChannelId,
+  required VoiceCallKitVoiceSnapshot voice,
+  required bool selfInChannelOnServer,
+}) {
+  if (interruptedChannelId == null || interruptedChannelId.isEmpty) {
+    return false;
+  }
+  if (voice.isInVoice && voice.channelId == interruptedChannelId) {
+    return true;
+  }
+  return selfInChannelOnServer;
+}
+
+bool selfVoiceStateInChannel({
+  required Iterable<VoiceState> voiceStates,
+  required String? currentUserId,
+  required String channelId,
+}) {
+  if (currentUserId == null || currentUserId.isEmpty) {
+    return false;
+  }
+  for (final VoiceState state in voiceStates) {
+    if (state.userId == currentUserId && state.channelId == channelId) {
+      return true;
+    }
+  }
+  return false;
+}

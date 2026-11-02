@@ -187,21 +187,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     resolveMentionFilters: () => ref.read(mentionFiltersPreferencesProvider),
     reactionWriteBatcher: ref.read(reactionWriteBatcherProvider),
     currentUserId: currentUserId,
-    isAutoAckActive: (channelId) {
-      if (!ref.mounted) {
-        return false;
-      }
-      final chat = ref.read(chatViewModelProvider);
-      if (chat.channelId != channelId) {
-        return false;
-      }
-      return isAutoAckEligible(
-        viewport: ref.read(chatReadViewportProvider),
-        channelId: channelId,
-        hasMoreNewerMessages: chat.hasMoreNewerMessages,
-        currentTailId: newestServerBackedMessageId(chat.messages),
-      );
-    },
+    isAtLiveTail: (channelId) => _ackPlacement(ref, channelId).live,
+    isAutoAckActive: (channelId) => _ackPlacement(ref, channelId).auto,
     onReady: () => ifMounted(() {
       talker.info('[Gateway] Setting gatewayReady = true');
       if (!kReleaseMode) {
@@ -656,6 +643,24 @@ bool _userHasPremium(UserPrivateResponse user) {
   return (type != null && type != UserPremiumTypes.none) ||
       user.premiumPerksDisabled ||
       user.traits.contains('premium');
+}
+
+({bool live, bool auto}) _ackPlacement(Ref ref, String channelId) {
+  if (!ref.mounted) {
+    return (live: false, auto: false);
+  }
+  final chat = ref.read(chatViewModelProvider);
+  if (chat.channelId != channelId) {
+    return (live: false, auto: false);
+  }
+  final ChatReadViewportState viewport = ref.read(chatReadViewportProvider);
+  final bool live = isAtLiveTail(
+    viewport: viewport,
+    channelId: channelId,
+    hasMoreNewerMessages: chat.hasMoreNewerMessages,
+    currentTailId: newestServerBackedMessageId(chat.messages),
+  );
+  return (live: live, auto: live && viewport.canAutoAck);
 }
 
 bool _sameTraits(List<String> previous, List<String> next) {

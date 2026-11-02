@@ -1,5 +1,8 @@
 import 'dart:math' as math;
 
+// Widget tests override family providers without listing every transitive dep.
+// ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
+
 import 'package:flutter/widgets.dart' as fw;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -76,6 +76,41 @@ class DmConversation {
     this.remoteRecipientIds = const [],
   });
 
+  DmConversation withUnreadCount(int count) {
+    if (count == unreadCount) {
+      return this;
+    }
+    return DmConversation(
+      id: id,
+      type: type,
+      recipientId: recipientId,
+      recipientName: recipientName,
+      recipientUsername: recipientUsername,
+      recipientDiscriminator: recipientDiscriminator,
+      recipientAvatar: recipientAvatar,
+      recipientStatus: recipientStatus,
+      name: name,
+      icon: icon,
+      ownerId: ownerId,
+      recipientCount: recipientCount,
+      lastMessage: lastMessage,
+      lastMessageId: lastMessageId,
+      lastMessageType: lastMessageType,
+      lastMessageHasAttachments: lastMessageHasAttachments,
+      lastMessageAuthorId: lastMessageAuthorId,
+      lastMessageAuthorName: lastMessageAuthorName,
+      lastMessageMentionedUserId: lastMessageMentionedUserId,
+      lastMessageMentionedUserName: lastMessageMentionedUserName,
+      lastMessageTime: lastMessageTime,
+      unreadCount: count,
+      isBot: isBot,
+      isSystem: isSystem,
+      groupMembers: groupMembers,
+      channelNicks: channelNicks,
+      remoteRecipientIds: remoteRecipientIds,
+    );
+  }
+
   bool get isGroup => isDmGroupType(type);
 
   bool get isPersonalNotes => isDmPersonalNotesType(type);

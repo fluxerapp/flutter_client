@@ -111,27 +111,18 @@ class GuildMemberSearchRow extends ConsumerWidget {
                         ],
                       ],
                     ),
-                    if (compact)
-                      Text(
-                        '@${member.username}',
-                        style: context.textStyles.bodySmall.copyWith(
-                          color: context.colors.textPrimaryMuted,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    else
-                      Text(
-                        formatUserTag(
-                          member.username,
-                          member.discriminator,
-                          uniqueUsernames: ref.watch(uniqueUsernamesProvider),
-                          bot: member.isBot,
-                        ),
-                        style: context.textStyles.bodySmall.copyWith(
-                          color: context.colors.textPrimaryMuted,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                    Text(
+                      formatUserTag(
+                        member.username,
+                        member.discriminator,
+                        uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+                        bot: member.isBot,
                       ),
+                      style: context.textStyles.bodySmall.copyWith(
+                        color: context.colors.textPrimaryMuted,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     if (compact)
                       Text(
                         '$joinedLabel · $joinMethod',
