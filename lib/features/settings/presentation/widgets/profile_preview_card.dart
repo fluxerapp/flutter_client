@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/profile/providers/own_profile_badges_provider.dart';
+import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
@@ -286,6 +287,9 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
                           ? UserProfileBadgesSize.mobile
                           : UserProfileBadgesSize.desktop,
                       touch: isMobile,
+                      maxVisible: isMobile
+                          ? kProfileBadgesCompactMaxVisible
+                          : kProfileBadgesWideMaxVisible,
                     ),
                   ),
                 ),

@@ -3524,6 +3524,24 @@ abstract class FluxerLocalizations {
   /// **'Show {badgeLabel} on your profile'**
   String profileBadgesShowOnProfile(String badgeLabel);
 
+  /// Short count of profile badges not shown inline, opens the full list.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String profileBadgesOverflowButton(int count);
+
+  /// Tooltip for the overflow control that opens every profile badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all badges'**
+  String get profileBadgesShowAllTooltip;
+
+  /// Screen reader label for the profile badge overflow control.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {+{count} more badge, show all} other {+{count} more badges, show all}}'**
+  String profileBadgesShowAllSemantic(int count);
+
   /// Note under the Visionary ID row when its visibility switch is disabled.
   ///
   /// In en, this message translates to:

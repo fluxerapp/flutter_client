@@ -2622,6 +2622,28 @@
             }
         }
     },
+    "profileBadgesOverflowButton": "+{count}",
+    "@profileBadgesOverflowButton": {
+        "description": "Short count of profile badges not shown inline, opens the full list.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "profileBadgesShowAllTooltip": "Show all badges",
+    "@profileBadgesShowAllTooltip": {
+        "description": "Tooltip for the overflow control that opens every profile badge."
+    },
+    "profileBadgesShowAllSemantic": "{count, plural, one {+{count} more badge, show all} other {+{count} more badges, show all}}",
+    "@profileBadgesShowAllSemantic": {
+        "description": "Screen reader label for the profile badge overflow control.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "profileBadgesVisionaryNumberNote": "Shown only when your Visionary badge is visible and not masked.",
     "@profileBadgesVisionaryNumberNote": {
         "description": "Note under the Visionary ID row when its visibility switch is disabled."
