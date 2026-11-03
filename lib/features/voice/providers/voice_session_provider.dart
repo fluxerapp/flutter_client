@@ -158,14 +158,27 @@ class VoiceSession extends _$VoiceSession {
 
   @override
   VoiceSessionState build() {
+    final String? accountUserId = accountUserIdOrNull(ref, watch: true);
+
+    ref.onDispose(_teardownOnDispose);
+
+    if (accountUserId != null) {
+      ref
+        ..listen<ChannelPermissionCaches>(
+          channelPermissionCacheProvider(accountUserId),
+          (ChannelPermissionCaches? _, ChannelPermissionCaches _) {
+            unawaited(_onChannelPermissionsChanged());
+          },
+        )
+        ..listen<Map<String, VoiceState>>(
+          voiceStatesMapProvider(accountUserId),
+          (Map<String, VoiceState>? _, Map<String, VoiceState> next) {
+            _syncMeshRoster(next);
+          },
+        );
+    }
+
     ref
-      ..onDispose(_teardownOnDispose)
-      ..listen<ChannelPermissionCaches>(
-        channelPermissionCacheProvider(readAccountUserId(ref)),
-        (ChannelPermissionCaches? _, ChannelPermissionCaches _) {
-          unawaited(_onChannelPermissionsChanged());
-        },
-      )
       ..listen<VoiceSettingsState>(voiceSettingsProvider, (
         VoiceSettingsState? previous,
         VoiceSettingsState next,
@@ -175,12 +188,6 @@ class VoiceSession extends _$VoiceSession {
         }
         unawaited(_onVoiceSettingsChanged(previous, next));
       })
-      ..listen<Map<String, VoiceState>>(
-        voiceStatesMapProvider(readAccountUserId(ref)),
-        (Map<String, VoiceState>? _, Map<String, VoiceState> next) {
-          _syncMeshRoster(next);
-        },
-      )
       ..listen<bool>(voiceCallKitEngineSuppressedProvider, (
         bool? previous,
         bool next,

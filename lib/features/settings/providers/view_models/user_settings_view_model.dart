@@ -1159,16 +1159,20 @@ UserSettingsViewState _withWatchedUserFields(
 class UserSettingsViewModel extends _$UserSettingsViewModel {
   @override
   UserSettingsViewState build() {
-    final userId = ref.watch(currentUserIdProvider);
-    ref.listen<UserPrivateResponse?>(
-      currentUserPrivateReadProvider(readAccountUserId(ref)),
-      (UserPrivateResponse? _, UserPrivateResponse? next) {
+    final String? userId = accountUserIdOrNull(ref, watch: true);
+    if (userId != null) {
+      ref.listen<UserPrivateResponse?>(currentUserPrivateReadProvider(userId), (
+        UserPrivateResponse? _,
+        UserPrivateResponse? next,
+      ) {
         if (next == null || next.id != state.userId) {
           return;
         }
         applyPrivateProfile(next);
-      },
-    );
+      });
+      _watchUser(userId);
+      _watchSettings(userId);
+    }
     ref.listen<AccountIdentityFlags>(accountIdentityProvider, (
       AccountIdentityFlags? previous,
       AccountIdentityFlags next,
@@ -1177,11 +1181,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         state = state.copyWith(usernameSignIn: next.usernameSignIn);
       }
     });
-    if (userId != null) {
-      _watchUser(userId);
-      _watchSettings(userId);
-    }
-
     return UserSettingsViewState(
       userId: userId ?? '',
       username: '',

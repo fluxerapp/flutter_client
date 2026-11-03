@@ -60,6 +60,7 @@ import 'package:fluxer_app/features/shell/providers/user/current_user_private_pr
 import 'package:fluxer_app/features/voice/providers/voice_p2p_consent_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
+import 'package:fluxer_app/features/voice/services/voice_wakelock_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -88,6 +89,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(fluxerMessageSfxBindingProvider)
     ..read(fluxerTtsBindingProvider)
     ..read(voiceCallKitCoordinatorProvider)
+    ..read(voiceWakelockCoordinatorProvider)
     ..read(gatewayPresenceCoordinatorProvider)
     ..read(guildListSyncProvider)
     ..read(slowmodeSyncProvider)

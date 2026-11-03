@@ -2,17 +2,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 
 String watchAccountUserId(Object ref) {
-  final String? userId = _readCurrentUserId(ref, watch: true);
-  if (userId == null || userId.isEmpty) {
+  final String? userId = accountUserIdOrNull(ref, watch: true);
+  if (userId == null) {
     throw StateError('No active account user id');
   }
   return userId;
 }
 
 String readAccountUserId(Object ref) {
-  final String? userId = _readCurrentUserId(ref, watch: false);
-  if (userId == null || userId.isEmpty) {
+  final String? userId = accountUserIdOrNull(ref);
+  if (userId == null) {
     throw StateError('No active account user id');
+  }
+  return userId;
+}
+
+String? accountUserIdOrNull(Object ref, {bool watch = false}) {
+  final String? userId = _readCurrentUserId(ref, watch: watch);
+  if (userId == null || userId.isEmpty) {
+    return null;
   }
   return userId;
 }

@@ -22,7 +22,11 @@ class CurrentUserEntitlements extends _$CurrentUserEntitlements {
 
 @Riverpod(keepAlive: true)
 bool isEffectivelyPremium(Ref ref) {
+  final String? userId = accountUserIdOrNull(ref, watch: true);
+  if (userId == null) {
+    return false;
+  }
   return ref
-      .watch(currentUserEntitlementsProvider(watchAccountUserId(ref)))
+      .watch(currentUserEntitlementsProvider(userId))
       .isEffectivelyPremium;
 }

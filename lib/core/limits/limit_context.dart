@@ -11,8 +11,12 @@ LimitMatchContext buildUserLimitContext({required Iterable<String> traits}) {
 
 @Riverpod(keepAlive: true)
 LimitMatchContext currentUserLimitContext(Ref ref) {
+  final String? userId = accountUserIdOrNull(ref, watch: true);
+  if (userId == null) {
+    return buildUserLimitContext(traits: const <String>[]);
+  }
   final List<String> traits = ref
-      .watch(currentUserEntitlementsProvider(watchAccountUserId(ref)))
+      .watch(currentUserEntitlementsProvider(userId))
       .traits;
   return buildUserLimitContext(traits: traits);
 }
