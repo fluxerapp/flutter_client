@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -91,6 +92,57 @@ void main() {
       expect(state.hasUnread(dmId), isTrue);
     },
   );
+
+  test('an ack cursor keeps your own DM message from looking unread', () async {
+    final db = openTestDatabase();
+    final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
+    final ownId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 2));
+    await db.dmChannelDao.upsertDmChannels([
+      DmChannelsCompanion.insert(
+        id: dmId,
+        recipientId: 'other',
+        lastMessageId: Value(ownId),
+        unreadCount: const Value(0),
+      ),
+    ]);
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: Value(dmId),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(0),
+      ),
+    );
+    final container = ProviderContainer(
+      overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+    );
+    addTearDown(container.dispose);
+    final subscription = container.listen(
+      unreadDmChannelsProvider,
+      (_, _) {},
+      fireImmediately: true,
+    );
+    addTearDown(subscription.close);
+
+    await pumpEventQueue();
+    expect(container.read(unreadDmChannelsProvider).hasUnread(dmId), isTrue);
+
+    container
+        .read(readStateWriteBatcherProvider)
+        .enqueueAck(channelId: dmId, messageId: ownId, clearSticky: false);
+    await pumpEventQueue();
+    expect(container.read(unreadDmChannelsProvider).hasUnread(dmId), isFalse);
+
+    await db.dmChannelDao.updateLastMessage(
+      dmId,
+      ownId,
+      'sent',
+      'me',
+      DateTime.utc(2026, 5, 6, 12, 3),
+    );
+    await pumpEventQueue();
+    expect(container.read(unreadDmChannelsProvider).hasUnread(dmId), isFalse);
+  });
 
   test(
     'unread DM provider preserves channel order when only data updates',

@@ -110,6 +110,7 @@ class DmViewModel extends _$DmViewModel {
           conversations: convos,
           hasReceivedInitialConversations: true,
         );
+        _applyAckOverlay();
       },
       onError: (Object error) {
         talker.error('[DmViewModel] DM watch error: $error');

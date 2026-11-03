@@ -121,6 +121,34 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     return _sortChannels(unread.values.toList());
   }
 
+  ({DmChannel channel, bool hasUnread}) _unreadEntry({
+    required DmChannel channel,
+    required ReadStateEffectiveFields effective,
+    String? strictLatestMessageId,
+    bool channelLastMessageExistsInCache = false,
+  }) {
+    final String? latestMessageId = resolveLatestMessageIdForUnread(
+      strictLatestMessageId: strictLatestMessageId,
+      channelLastMessageId: channel.lastMessageId,
+      ackLastMessageId: effective.lastMessageId,
+      mentionCount: effective.mentionCount,
+      channelLastMessageExistsInCache: channelLastMessageExistsInCache,
+    );
+    final bool hasUnreadMessages =
+        (latestMessageId == null && channel.unreadCount > 0) ||
+        hasUnreadByReadState(
+          channelLastMessageId: latestMessageId,
+          ackLastMessageId: effective.lastMessageId,
+          fallbackAckMs: snowflakeTimestampMs(channel.id),
+          mentionCount: 0,
+        );
+    final int mentionCount = effective.mentionCount;
+    return (
+      channel: channel.copyWith(unreadCount: mentionCount),
+      hasUnread: hasUnreadMessages || mentionCount > 0,
+    );
+  }
+
   Future<void> _reconcile([List<DmChannel>? rows]) async {
     if (rows != null) {
       _latestRows = rows;
@@ -139,28 +167,19 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     }
     final readStateMap = {for (final rs in readStates) rs.channelId: rs};
     _dmReadStateSnapshot = readStateMap;
+    final batcher = ref.read(readStateWriteBatcherProvider);
     final allChannels = _latestRows.map((channel) {
       final readState = readStateMap[channel.id];
-      final latestMessageId = resolveLatestMessageIdForUnread(
+      final ReadStateEffectiveFields effective = batcher.effectiveFields(
+        channel.id,
+        readState,
+      );
+      return _unreadEntry(
+        channel: channel,
+        effective: effective,
         strictLatestMessageId: lastMessages[channel.id]?.id,
-        channelLastMessageId: channel.lastMessageId,
-        ackLastMessageId: readState?.lastMessageId,
-        mentionCount: readState?.mentionCount ?? 0,
         channelLastMessageExistsInCache:
             lastMessages[channel.id]?.id == channel.lastMessageId,
-      );
-      final hasUnreadMessages =
-          (latestMessageId == null && channel.unreadCount > 0) ||
-          hasUnreadByReadState(
-            channelLastMessageId: latestMessageId,
-            ackLastMessageId: readState?.lastMessageId,
-            fallbackAckMs: snowflakeTimestampMs(channel.id),
-            mentionCount: 0,
-          );
-      final mentionCount = readState?.mentionCount ?? 0;
-      return (
-        channel: channel.copyWith(unreadCount: mentionCount),
-        hasUnread: hasUnreadMessages || mentionCount > 0,
       );
     }).toList();
     final unreadChannels = allChannels
@@ -195,25 +214,15 @@ class UnreadDmChannels extends _$UnreadDmChannels {
         channel.id,
         readState,
       );
-      final int mentionCount = effective.mentionCount;
-      final String? latestMessageId = channel.lastMessageId;
-      final bool hasUnreadMessages =
-          (latestMessageId == null && channel.unreadCount > 0) ||
-          hasUnreadByReadState(
-            channelLastMessageId: latestMessageId,
-            ackLastMessageId: effective.lastMessageId,
-            fallbackAckMs: snowflakeTimestampMs(channel.id),
-            mentionCount: 0,
-          );
-      final bool hasUnread = hasUnreadMessages || mentionCount > 0;
-      if (!hasUnread || _shouldExcludeChannel(channel)) {
+      final entry = _unreadEntry(channel: channel, effective: effective);
+      if (!entry.hasUnread || _shouldExcludeChannel(channel)) {
         changed = unread.remove(channel.id) != null || changed;
         changed = unreadIds.remove(channel.id) || changed;
         continue;
       }
-      final DmChannel updated = channel.copyWith(unreadCount: mentionCount);
+      final DmChannel updated = entry.channel;
       final DmChannel? previous = unread[channel.id];
-      if (previous == null || previous.unreadCount != mentionCount) {
+      if (previous == null || previous.unreadCount != updated.unreadCount) {
         unread[channel.id] = updated;
         changed = true;
       }
