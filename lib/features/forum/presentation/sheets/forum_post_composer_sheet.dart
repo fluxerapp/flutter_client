@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
@@ -169,7 +169,9 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       postId = result.postId;
       final Message? firstMessage = result.firstMessage;
       if (firstMessage != null) {
-        ref.read(forumFirstMessagesProvider.notifier).put(firstMessage);
+        ref
+            .read(forumFirstMessagesProvider(readAccountUserId(ref)).notifier)
+            .put(firstMessage);
       }
     } on Object catch (failure) {
       if (!mounted) {

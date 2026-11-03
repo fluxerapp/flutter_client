@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
@@ -29,7 +30,12 @@ Future<void> _waitForPendingItems(
 ) async {
   for (int i = 0; i < 300; i++) {
     if (container
-            .read(cloudUploadControllerProvider('channel-1'))
+            .read(
+              cloudUploadControllerProvider(
+                readAccountUserId(container),
+                'channel-1',
+              ),
+            )
             .items
             .length >=
         count) {
@@ -137,7 +143,12 @@ void main() {
 
     expect(
       container
-          .read(cloudUploadControllerProvider('channel-1'))
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ),
+          )
           .items
           .map((PendingAttachment a) => a.galleryAssetId),
       <String>['photo-0', 'photo-1'],
@@ -161,7 +172,12 @@ void main() {
 
     expect(
       container
-          .read(cloudUploadControllerProvider('channel-1'))
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ),
+          )
           .items
           .map((PendingAttachment a) => a.filename),
       <String>['IMG_0568.GIF'],

@@ -20,7 +20,7 @@ const LazyRequestSubscription kGuildSyncSubscription = LazyRequestSubscription(
 @Riverpod(keepAlive: true)
 class GuildSync extends _$GuildSync {
   @override
-  Set<String> build() => {};
+  Set<String> build(String accountUserId) => {};
 
   final Set<String> _ownMemberSyncRequested = <String>{};
   String? _pendingGuildId;
@@ -44,7 +44,7 @@ class GuildSync extends _$GuildSync {
       if (_pendingGuildId == guildId) {
         _pendingGuildId = null;
       }
-      prefetchGuildRoles(ref.read(memberRepositoryProvider), guildId);
+      prefetchGuildRoles(ref, guildId);
     } on Object catch (e) {
       talker.warning('[GuildSync] Failed to sync guild $guildId: $e');
     }

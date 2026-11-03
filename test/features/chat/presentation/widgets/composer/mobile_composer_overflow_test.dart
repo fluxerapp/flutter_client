@@ -27,7 +27,7 @@ class _Uploads extends CloudUploadController {
   final List<PendingAttachment> _initial;
 
   @override
-  CloudComposerAttachments build(String channelId) =>
+  CloudComposerAttachments build(String accountUserId, String channelId) =>
       CloudComposerAttachments(_initial);
 }
 
@@ -128,6 +128,7 @@ Future<ProviderContainer> _pump(
     home: const _ChannelPage(),
     extraOverrides: [
       cloudUploadControllerProvider(
+        kComposerHarnessUserId,
         kComposerHarnessChannelA,
       ).overrideWith(() => _Uploads(attachments)),
     ],

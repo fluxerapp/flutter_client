@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_view.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
@@ -107,7 +108,7 @@ class _NotificationsUnreadsBodyState
 
   Future<void> _refresh() async {
     final UnreadInboxView view = _view;
-    ref.read(unreadInboxCardCacheProvider).clear();
+    ref.read(unreadInboxCardCacheProvider(readAccountUserId(ref))).clear();
     ref.invalidate(unreadInboxChannelListProvider);
     final List<UnreadInboxEntry> live;
     try {

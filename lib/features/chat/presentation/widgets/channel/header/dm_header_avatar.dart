@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
@@ -28,7 +29,7 @@ class DmHeaderAvatar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final VoiceSessionState voice = ref.watch(voiceSessionProvider);
     final Map<String, VoiceState> voiceStates = ref.watch(
-      voiceStatesMapProvider,
+      voiceStatesMapProvider(readAccountUserId(ref)),
     );
     final bool showE2eeBadge = isDmCallE2eeEncryptedForHeader(
       voiceStates: voiceStates,

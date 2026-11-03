@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -517,9 +518,9 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       ..invalidate(connectivityListenerProvider)
       ..invalidate(typingIndicatorsProvider)
       ..invalidate(voiceStatesMapProvider)
-      ..invalidate(activeCallsProvider)
-      ..invalidate(outgoingVoiceCallInitiatorProvider)
-      ..invalidate(inviteCacheProvider)
+      ..invalidate(activeCallsProvider(readAccountUserId(ref)))
+      ..invalidate(outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)))
+      ..invalidate(inviteCacheProvider(readAccountUserId(ref)))
       ..invalidate(currentUserIdProvider)
       ..invalidate(dmViewModelProvider)
       ..invalidate(guildListViewModelProvider)
@@ -806,9 +807,9 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       ..invalidate(connectivityListenerProvider)
       ..invalidate(typingIndicatorsProvider)
       ..invalidate(voiceStatesMapProvider)
-      ..invalidate(activeCallsProvider)
-      ..invalidate(outgoingVoiceCallInitiatorProvider)
-      ..invalidate(inviteCacheProvider)
+      ..invalidate(activeCallsProvider(readAccountUserId(ref)))
+      ..invalidate(outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)))
+      ..invalidate(inviteCacheProvider(readAccountUserId(ref)))
       ..invalidate(currentUserIdProvider)
       ..invalidate(dmViewModelProvider)
       ..invalidate(guildListViewModelProvider)

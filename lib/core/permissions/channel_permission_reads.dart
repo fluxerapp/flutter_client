@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:riverpod/riverpod.dart';
 
 Future<int> readEffectiveGuildChannelPermissionBits({
@@ -9,7 +10,7 @@ Future<int> readEffectiveGuildChannelPermissionBits({
     return 0;
   }
   final ChannelPermissionCache cache = container.read(
-    channelPermissionCacheProvider.notifier,
+    channelPermissionCacheProvider(readAccountUserId(container)).notifier,
   );
   final int? cached = cache.getChannelBits(channelId);
   if (cached != null) {
@@ -27,7 +28,7 @@ Future<int> readLocalGuildChannelPermissionBits({
     return 0;
   }
   final ChannelPermissionCache cache = container.read(
-    channelPermissionCacheProvider.notifier,
+    channelPermissionCacheProvider(readAccountUserId(container)).notifier,
   );
   final int? cached = cache.getLocalChannelBits(channelId);
   if (cached != null) {

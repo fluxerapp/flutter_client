@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -76,7 +77,7 @@ Future<void> _pumpTypingIndicatorBar(
     ),
   );
   container
-      .read(typingIndicatorsProvider.notifier)
+      .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
       .addTyping('channel-1', _kTyperUserId);
   await tester.pump();
 }
@@ -133,7 +134,9 @@ void main() {
       ),
       findsNothing,
     );
-    container.read(typingIndicatorsProvider.notifier).clearAll();
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .clearAll();
   });
 
   testWidgets('typing indicator label avoids bounded text clipping', (
@@ -143,7 +146,9 @@ void main() {
 
     expect(find.textContaining('is typing'), findsOneWidget);
     expect(find.byType(FluxerBoundedTextClip), findsNothing);
-    container.read(typingIndicatorsProvider.notifier).clearAll();
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .clearAll();
   });
 
   testWidgets('wide typing indicator uses circular avatar outline rings', (
@@ -171,7 +176,9 @@ void main() {
           .length,
       greaterThan(0),
     );
-    container.read(typingIndicatorsProvider.notifier).clearAll();
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .clearAll();
   });
 
   testWidgets('compact typing indicator keeps the typing dots', (
@@ -186,6 +193,8 @@ void main() {
           .outlineColor,
       isNotNull,
     );
-    container.read(typingIndicatorsProvider.notifier).clearAll();
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .clearAll();
   });
 }

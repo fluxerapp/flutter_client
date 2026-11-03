@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
@@ -95,11 +96,15 @@ void main() {
 
       final container = await _container(db);
       addTearDown(container.dispose);
-      final notifier = container.read(guildPermissionsProvider.notifier);
+      final notifier = container.read(
+        guildPermissionsProvider(readAccountUserId(container)).notifier,
+      );
 
       expect(await notifier.getPermissions(_guildId), 0);
 
-      final cached = container.read(guildPermissionsProvider);
+      final cached = container.read(
+        guildPermissionsProvider(readAccountUserId(container)),
+      );
       expect(cached.containsKey(_guildId), isTrue);
       expect(cached[_guildId], 0);
 
@@ -115,16 +120,25 @@ void main() {
 
       final container = await _container(db);
       addTearDown(container.dispose);
-      final notifier = container.read(guildPermissionsProvider.notifier);
+      final notifier = container.read(
+        guildPermissionsProvider(readAccountUserId(container)).notifier,
+      );
 
       expect(await notifier.getPermissions(_guildId), 0);
-      expect(container.read(guildPermissionsProvider)[_guildId], 0);
+      expect(
+        container.read(
+          guildPermissionsProvider(readAccountUserId(container)),
+        )[_guildId],
+        0,
+      );
 
       await _seedMember(db);
       await notifier.refreshPermissions(_guildId);
 
       expect(
-        container.read(guildPermissionsProvider)[_guildId],
+        container.read(
+          guildPermissionsProvider(readAccountUserId(container)),
+        )[_guildId],
         Permission.viewChannel.value,
       );
     },
@@ -137,12 +151,16 @@ void main() {
 
     final container = await _container(db);
     addTearDown(container.dispose);
-    final notifier = container.read(guildPermissionsProvider.notifier);
+    final notifier = container.read(
+      guildPermissionsProvider(readAccountUserId(container)).notifier,
+    );
 
     expect(await notifier.getPermissions(_guildId), 0);
 
     expect(
-      container.read(guildPermissionsProvider).containsKey(_guildId),
+      container
+          .read(guildPermissionsProvider(readAccountUserId(container)))
+          .containsKey(_guildId),
       isTrue,
     );
   });
@@ -152,12 +170,16 @@ void main() {
 
     final container = await _container(db);
     addTearDown(container.dispose);
-    final notifier = container.read(guildPermissionsProvider.notifier);
+    final notifier = container.read(
+      guildPermissionsProvider(readAccountUserId(container)).notifier,
+    );
 
     expect(await notifier.getPermissions('unknown-guild'), 0);
 
     expect(
-      container.read(guildPermissionsProvider).containsKey('unknown-guild'),
+      container
+          .read(guildPermissionsProvider(readAccountUserId(container)))
+          .containsKey('unknown-guild'),
       isFalse,
     );
   });

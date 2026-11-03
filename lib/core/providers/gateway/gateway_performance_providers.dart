@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -14,7 +15,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'gateway_performance_providers.g.dart';
 
 @Riverpod(keepAlive: true)
-ChannelLastMessageIndex channelLastMessageIndex(Ref ref) {
+ChannelLastMessageIndex channelLastMessageIndex(Ref ref, String accountUserId) {
   final ChannelLastMessageIndex index = ChannelLastMessageIndex();
   ref
     ..onDispose(index.clear)
@@ -23,7 +24,10 @@ ChannelLastMessageIndex channelLastMessageIndex(Ref ref) {
 }
 
 @Riverpod(keepAlive: true)
-MessageMentionContextCache messageMentionContextCache(Ref ref) {
+MessageMentionContextCache messageMentionContextCache(
+  Ref ref,
+  String accountUserId,
+) {
   final cache = MessageMentionContextCache(
     database: ref.watch(fluxerDatabaseProvider),
   );
@@ -33,9 +37,12 @@ MessageMentionContextCache messageMentionContextCache(Ref ref) {
 
 @Riverpod(keepAlive: true)
 MessageWriteBatcher messageWriteBatcher(Ref ref) {
+  final String accountUserId = watchAccountUserId(ref);
   final batcher = MessageWriteBatcher(
     database: ref.watch(fluxerDatabaseProvider),
-    channelLastMessageIndex: ref.watch(channelLastMessageIndexProvider),
+    channelLastMessageIndex: ref.watch(
+      channelLastMessageIndexProvider(accountUserId),
+    ),
   );
   _wireWriteBatcherLifecycle(ref, batcher.flushAll);
   ref.onDispose(() {

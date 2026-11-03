@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/data/scheduled_maintenance_dismissal_storage.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_conditions.dart';
@@ -248,9 +249,10 @@ ProviderContainer _container({
       nagbarDismissalsProvider.overrideWith(
         () => _FixedNagbarDismissals(const NagbarDismissalsState()),
       ),
-      currentUserPrivateReadProvider.overrideWith(
-        () => _FixedCurrentUserPrivate(null),
-      ),
+      currentUserIdProvider.overrideWithValue('1'),
+      currentUserPrivateReadProvider(
+        '1',
+      ).overrideWith(() => _FixedCurrentUserPrivate(null)),
       serviceStatusMaintenanceReadProvider.overrideWith(
         () => _FixedMaintenance(maintenance),
       ),
@@ -413,7 +415,7 @@ class _FixedCurrentUserPrivate extends CurrentUserPrivateRead {
   final UserPrivateResponse? _user;
 
   @override
-  UserPrivateResponse? build() => _user;
+  UserPrivateResponse? build(String accountUserId) => _user;
 }
 
 class _FixedMaintenance extends ServiceStatusMaintenanceRead {

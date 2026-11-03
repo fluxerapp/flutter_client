@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -41,7 +42,9 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
       if (!mounted) {
         return;
       }
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(widget.guildId);
+      ref
+          .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+          .syncIfNeeded(widget.guildId);
     });
   }
 

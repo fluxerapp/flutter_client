@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
@@ -77,7 +78,9 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
     final UserSettingsViewState settings = ref.watch(
       userSettingsViewModelProvider,
     );
-    final UserPrivateResponse? user = ref.watch(currentUserPrivateReadProvider);
+    final UserPrivateResponse? user = ref.watch(
+      currentUserPrivateReadProvider(watchAccountUserId(ref)),
+    );
     final bool purchaseDisabled =
         settings.isKnownUnclaimed || !(user?.verified ?? false);
     final String? purchaseDisabledMessage = settings.isKnownUnclaimed
@@ -89,7 +92,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
     final PremiumSubscriptionStatus status = computePremiumSubscriptionStatus(
       premiumState: premiumState,
       effectiveIsPremium: ref
-          .watch(currentUserEntitlementsProvider)
+          .watch(currentUserEntitlementsProvider(readAccountUserId(ref)))
           .isEffectivelyPremium,
       userPrivate: user,
     );

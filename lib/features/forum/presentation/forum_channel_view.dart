@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -135,7 +136,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
         return;
       }
       ref
-          .read(forumFirstMessagesProvider.notifier)
+          .read(forumFirstMessagesProvider(readAccountUserId(ref)).notifier)
           .request(guildId: forum.guildId, forumId: forum.id, postIds: ids);
       unawaited(
         ref
@@ -395,7 +396,7 @@ class _ForumPostItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Map<String, Message?> firstMessages = ref.watch(
-      forumFirstMessagesProvider,
+      forumFirstMessagesProvider(watchAccountUserId(ref)),
     );
     final bool joined =
         ref.watch(threadMembershipProvider(post.id)).value != null;

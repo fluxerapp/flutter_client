@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -102,7 +103,11 @@ void main() {
       final ProviderContainer container = ProviderContainer();
       addTearDown(container.dispose);
       container
-          .read(messageUploadSessionsProvider.notifier)
+          .read(
+            messageUploadSessionsProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .createSession(
             nonce: nonce,
             channelId: 'channel-1',
@@ -112,11 +117,21 @@ void main() {
             ],
           );
       container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .cancelMessageUpload(nonce);
       await expectLater(
         container
-            .read(cloudUploadControllerProvider('channel-1').notifier)
+            .read(
+              cloudUploadControllerProvider(
+                readAccountUserId(container),
+                'channel-1',
+              ).notifier,
+            )
             .prepareSessionForSend(nonce: nonce, favoriteMemePayload: false),
         throwsA(isA<MessageUploadSendCancelledException>()),
       );
@@ -134,7 +149,11 @@ void main() {
       );
       addTearDown(container.dispose);
       container
-          .read(messageUploadSessionsProvider.notifier)
+          .read(
+            messageUploadSessionsProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .createSession(
             nonce: nonce,
             channelId: 'channel-1',
@@ -144,11 +163,20 @@ void main() {
             ],
           );
       final Future<Object?> prepareFuture = container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .prepareSessionForSend(nonce: nonce, favoriteMemePayload: false);
       await pumpEventQueue();
       container
-          .read(messageUploadSessionsProvider.notifier)
+          .read(
+            messageUploadSessionsProvider(
+              readAccountUserId(container),
+            ).notifier,
+          )
           .removeSession(nonce);
       uploadBlock.complete();
       await expectLater(
@@ -215,7 +243,12 @@ void main() {
         final File fileB = File('${tempDir.path}/b.png')
           ..writeAsBytesSync(<int>[2]);
         final FileUploadValidationResult validation = await container
-            .read(cloudUploadControllerProvider('channel-1').notifier)
+            .read(
+              cloudUploadControllerProvider(
+                readAccountUserId(container),
+                'channel-1',
+              ).notifier,
+            )
             .addFiles(
               composerUploadFiles(<XFile>[
                 XFile(fileA.path),
@@ -270,7 +303,12 @@ void main() {
       harness.uploadBlock.complete();
       await _flushAsync();
       expect(harness.adapter.messagePostCount, 1);
-      expect(harness.container.read(messageUploadSessionsProvider), isEmpty);
+      expect(
+        harness.container.read(
+          messageUploadSessionsProvider(readAccountUserId(harness.container)),
+        ),
+        isEmpty,
+      );
     });
 
     test(
@@ -388,7 +426,12 @@ class _AttachmentSendHarness {
   Future<void> stageAttachmentSend() async {
     final File file = File('${tempDir.path}/a.png')..writeAsBytesSync(<int>[1]);
     final FileUploadValidationResult validation = await container
-        .read(cloudUploadControllerProvider('channel-1').notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(container),
+            'channel-1',
+          ).notifier,
+        )
         .addFiles(composerUploadFiles(<XFile>[XFile(file.path)]));
     expect(validation.isValid, isTrue);
   }

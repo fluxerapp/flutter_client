@@ -25,7 +25,7 @@ class ChannelPermissionCaches {
 @Riverpod(keepAlive: true)
 class ChannelPermissionCache extends _$ChannelPermissionCache {
   @override
-  ChannelPermissionCaches build() {
+  ChannelPermissionCaches build(String accountUserId) {
     ref.watch(currentUserIdProvider);
     return const ChannelPermissionCaches();
   }

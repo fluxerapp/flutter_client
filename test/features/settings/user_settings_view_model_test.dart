@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
@@ -300,12 +301,16 @@ void main() {
     container.read(userSettingsViewModelProvider);
     expect(container.read(userSettingsViewModelProvider).isPremium, isFalse);
     expect(
-      container.read(currentUserEntitlementsProvider).isEffectivelyPremium,
+      container
+          .read(currentUserEntitlementsProvider(readAccountUserId(container)))
+          .isEffectivelyPremium,
       isFalse,
     );
 
     container
-        .read(currentUserPrivateReadProvider.notifier)
+        .read(
+          currentUserPrivateReadProvider(readAccountUserId(container)).notifier,
+        )
         .apply(
           _privateUser(
             'u1',
@@ -321,12 +326,16 @@ void main() {
     expect(settings.premiumType, UserPremiumTypes.subscription.json);
     expect(settings.premiumSince, '2026-03-14T00:00:00.000Z');
     expect(
-      container.read(currentUserEntitlementsProvider).isEffectivelyPremium,
+      container
+          .read(currentUserEntitlementsProvider(readAccountUserId(container)))
+          .isEffectivelyPremium,
       isTrue,
     );
     expect(container.read(isEffectivelyPremiumProvider), isTrue);
     expect(
-      container.read(currentUserPremiumTypeProvider),
+      container.read(
+        currentUserPremiumTypeProvider(readAccountUserId(container)),
+      ),
       UserPremiumTypes.subscription.json,
     );
   });
@@ -344,7 +353,9 @@ void main() {
     container.read(currentUserIdProvider.notifier).set('u1');
     container.read(userSettingsViewModelProvider);
     container
-        .read(currentUserPrivateReadProvider.notifier)
+        .read(
+          currentUserPrivateReadProvider(readAccountUserId(container)).notifier,
+        )
         .apply(
           UserPrivateResponse.fromJson(<String, dynamic>{
             ..._privateUser('u1').toJson(),

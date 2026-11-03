@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -1365,7 +1366,7 @@ void main() {
       batcher = MessageWriteBatcher(
         database: db,
         channelLastMessageIndex: container.read(
-          channelLastMessageIndexProvider,
+          channelLastMessageIndexProvider(readAccountUserId(container)),
         ),
       );
       addTearDown(batcher.dispose);
@@ -1406,7 +1407,7 @@ void main() {
           currentUserId: 'me',
           readStateRepository: ReadStateRepository(FluxerClient(Dio()), db),
           channelLastMessageIndex: container.read(
-            channelLastMessageIndexProvider,
+            channelLastMessageIndexProvider(readAccountUserId(container)),
           ),
         ).handle(
           MessageDeleteEvent(channelId: 'channel-1', messageId: newMessageId),
@@ -1419,7 +1420,9 @@ void main() {
         );
         expect(
           container
-              .read(channelLastMessageIndexProvider)
+              .read(
+                channelLastMessageIndexProvider(readAccountUserId(container)),
+              )
               .lastMessageIdFor('channel-1'),
           readMessageId,
         );

@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -219,9 +220,11 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     _selectedIndex = widget.initialTab == ChannelDetailsInitialTab.pins ? 1 : 0;
     widget.scrollController.addListener(_onScroll);
     if (_targetGuildId != null && _targetChannelId != null) {
-      _memberListViewport = ref.read(memberListViewportProvider.notifier);
+      _memberListViewport = ref.read(
+        memberListViewportProvider(readAccountUserId(ref)).notifier,
+      );
       _memberListDesiredRanges = ref.read(
-        memberListDesiredRangesProvider.notifier,
+        memberListDesiredRangesProvider(readAccountUserId(ref)).notifier,
       );
     }
     if (_selectedIndex == 1) {

@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
@@ -62,9 +63,12 @@ void main() {
       ]),
     );
     final db.Message row = (await database.messageDao.getMessage('p1', 'p1'))!;
-    container.listen(forumFirstMessagesProvider, (_, _) {});
+    container.listen(
+      forumFirstMessagesProvider(readAccountUserId(container)),
+      (_, _) {},
+    );
     container
-        .read(forumFirstMessagesProvider.notifier)
+        .read(forumFirstMessagesProvider(readAccountUserId(container)).notifier)
         .put(Message.fromRow(row));
   });
 
@@ -73,7 +77,10 @@ void main() {
         .read(messageRealtimeBusProvider)
         .emit(const MessageReactionsChanged(channelId: 'p1', messageId: 'p1'));
     await pumpEventQueue();
-    return container.read(forumFirstMessagesProvider)['p1']!.reactions.single;
+    return container
+        .read(forumFirstMessagesProvider(readAccountUserId(container)))['p1']!
+        .reactions
+        .single;
   }
 
   test('post data is not requested without read message history', () async {
@@ -88,10 +95,13 @@ void main() {
       ],
     );
     addTearDown(gated.dispose);
-    gated.listen(forumFirstMessagesProvider, (_, _) {});
+    gated.listen(
+      forumFirstMessagesProvider(readAccountUserId(container)),
+      (_, _) {},
+    );
 
     gated
-        .read(forumFirstMessagesProvider.notifier)
+        .read(forumFirstMessagesProvider(readAccountUserId(container)).notifier)
         .request(guildId: 'g1', forumId: 'f1', postIds: <String>['p2']);
     await Future<void>.delayed(
       forumPostDataDebounce + const Duration(milliseconds: 50),
@@ -104,7 +114,9 @@ void main() {
     'own reaction on a post card survives a reload of the stored row',
     () async {
       container
-          .read(forumFirstMessagesProvider.notifier)
+          .read(
+            forumFirstMessagesProvider(readAccountUserId(container)).notifier,
+          )
           .applyOwnReaction(
             postId: 'p1',
             emojiId: null,
@@ -120,7 +132,9 @@ void main() {
   );
 
   test('rolled back own reaction is rolled back in the stored row', () async {
-    container.read(forumFirstMessagesProvider.notifier)
+    container.read(
+        forumFirstMessagesProvider(readAccountUserId(container)).notifier,
+      )
       ..applyOwnReaction(
         postId: 'p1',
         emojiId: null,

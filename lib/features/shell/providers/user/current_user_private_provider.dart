@@ -12,7 +12,7 @@ class CurrentUserPrivateRead extends _$CurrentUserPrivateRead {
   int _epoch = 0;
 
   @override
-  UserPrivateResponse? build() {
+  UserPrivateResponse? build(String accountUserId) {
     ref.listen<String?>(currentUserIdProvider, (
       String? previous,
       String? next,

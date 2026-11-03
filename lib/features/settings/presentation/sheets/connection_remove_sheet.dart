@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/connections_view_model.dart';
@@ -59,7 +60,11 @@ class _ConnectionRemoveBody extends ConsumerWidget {
             onPressedAsync: () async {
               try {
                 await ref
-                    .read(connectionsViewModelProvider.notifier)
+                    .read(
+                      connectionsViewModelProvider(
+                        readAccountUserId(ref),
+                      ).notifier,
+                    )
                     .deleteConnection(connection.type.toJson(), connection.id);
                 if (context.mounted) {
                   close();

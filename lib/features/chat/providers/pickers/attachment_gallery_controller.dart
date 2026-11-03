@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
@@ -248,10 +249,10 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
       return null;
     }
     final CloudUploadController uploads = ref.read(
-      cloudUploadControllerProvider(channelId).notifier,
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).notifier,
     );
     final List<PendingAttachment> attachments = ref
-        .read(cloudUploadControllerProvider(channelId))
+        .read(cloudUploadControllerProvider(readAccountUserId(ref), channelId))
         .items;
     final PendingAttachment? existing = pendingAttachmentForGalleryAsset(
       attachments: attachments,
@@ -283,7 +284,12 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
         return null;
       }
       validation = await ref
-          .read(cloudUploadControllerProvider(channelId).notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(ref),
+              channelId,
+            ).notifier,
+          )
           .addFiles(<ComposerUploadFile>[
             composerUploadFile(
               picked.file,
@@ -311,7 +317,12 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
       return null;
     }
     return ref
-        .read(cloudUploadControllerProvider(channelId).notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(ref),
+            channelId,
+          ).notifier,
+        )
         .addFiles(files);
   }
 
@@ -352,10 +363,19 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
       );
     }
     final GallerySelectionChange change = await pickNativeGallerySelection(
-      attachments: ref.read(cloudUploadControllerProvider(channelId)).items,
+      attachments: ref
+          .read(
+            cloudUploadControllerProvider(readAccountUserId(ref), channelId),
+          )
+          .items,
     );
     return ref
-        .read(cloudUploadControllerProvider(channelId).notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(ref),
+            channelId,
+          ).notifier,
+        )
         .applyGallerySelection(change);
   }
 

@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_connect_bits_provider.dart';
@@ -14,6 +16,8 @@ import 'package:fluxer_app/features/settings/providers/view_models/user_settings
 
 import '../../../helpers/open_test_database.dart';
 
+const String _testAccountUserId = 'test-user-id';
+
 void main() {
   group('channelSidebarIconConnectBitsProvider', () {
     test('returns cached bits without recomputing', () async {
@@ -21,7 +25,8 @@ void main() {
       final int cachedBits = Permission.viewChannel.value;
       final ProviderContainer container = ProviderContainer(
         overrides: [
-          channelPermissionCacheProvider.overrideWith(
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
+          channelPermissionCacheProvider(_testAccountUserId).overrideWith(
             () => _FixedChannelPermissionCache(<String, int>{
               channelId: cachedBits,
             }),
@@ -121,7 +126,11 @@ void main() {
         addTearDown(container.dispose);
 
         await container
-            .read(channelPermissionCacheProvider.notifier)
+            .read(
+              channelPermissionCacheProvider(
+                readAccountUserId(container),
+              ).notifier,
+            )
             .rebuildChannel(channelId);
 
         final int? bits = await container.read(
@@ -153,7 +162,8 @@ class _FixedChannelPermissionCache extends ChannelPermissionCache {
   final Map<String, int> _bits;
 
   @override
-  ChannelPermissionCaches build() => ChannelPermissionCaches(effective: _bits);
+  ChannelPermissionCaches build(String accountUserId) =>
+      ChannelPermissionCaches(effective: _bits);
 }
 
 class _EmptyGuildListViewModel extends GuildListViewModel {

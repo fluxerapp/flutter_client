@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -49,7 +50,9 @@ void main() {
           mode: ChannelTypingIndicatorMode.indicatorOnly,
         );
         container
-            .read(typingIndicatorsProvider.notifier)
+            .read(
+              typingIndicatorsProvider(readAccountUserId(container)).notifier,
+            )
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
@@ -62,7 +65,9 @@ void main() {
       await _runTypingIndicatorTest(tester, () async {
         await _pumpIndicator(tester, mode: ChannelTypingIndicatorMode.avatars);
         container
-            .read(typingIndicatorsProvider.notifier)
+            .read(
+              typingIndicatorsProvider(readAccountUserId(container)).notifier,
+            )
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
@@ -75,7 +80,9 @@ void main() {
       await _runTypingIndicatorTest(tester, () async {
         await _pumpIndicator(tester, mode: ChannelTypingIndicatorMode.hidden);
         container
-            .read(typingIndicatorsProvider.notifier)
+            .read(
+              typingIndicatorsProvider(readAccountUserId(container)).notifier,
+            )
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
@@ -94,7 +101,9 @@ void main() {
           isSelected: true,
         );
         container
-            .read(typingIndicatorsProvider.notifier)
+            .read(
+              typingIndicatorsProvider(readAccountUserId(container)).notifier,
+            )
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
@@ -113,7 +122,9 @@ void main() {
           showSelectedChannelTypingIndicator: true,
         );
         container
-            .read(typingIndicatorsProvider.notifier)
+            .read(
+              typingIndicatorsProvider(readAccountUserId(container)).notifier,
+            )
             .addTyping('c1', _kTyperUserId);
         await tester.pump();
 
@@ -129,7 +140,9 @@ void main() {
           blockedUserIds: {_kBlockedUserId},
         );
         container
-            .read(typingIndicatorsProvider.notifier)
+            .read(
+              typingIndicatorsProvider(readAccountUserId(container)).notifier,
+            )
             .addTyping('c1', _kBlockedUserId);
         await tester.pump();
 
@@ -148,7 +161,9 @@ Future<void> _runTypingIndicatorTest(
   try {
     await body();
   } finally {
-    container.read(typingIndicatorsProvider.notifier).clearAll();
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .clearAll();
   }
 }
 

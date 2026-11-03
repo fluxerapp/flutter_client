@@ -14,7 +14,7 @@ part 'guild_permissions_provider.g.dart';
 @Riverpod(keepAlive: true)
 class GuildPermissions extends _$GuildPermissions {
   @override
-  Map<String, int> build() {
+  Map<String, int> build(String accountUserId) {
     ref.watch(currentUserIdProvider);
     return {};
   }

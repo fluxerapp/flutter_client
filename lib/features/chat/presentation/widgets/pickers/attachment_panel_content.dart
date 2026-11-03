@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -99,7 +100,7 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
       return;
     }
     final int attachmentCount = ref
-        .read(cloudUploadControllerProvider(_channelId))
+        .read(cloudUploadControllerProvider(readAccountUserId(ref), _channelId))
         .items
         .length;
     final FileUploadValidationResult? result = await ref
@@ -115,7 +116,7 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
 
   Future<void> _onPhotosPressed() async {
     final int attachmentCount = ref
-        .read(cloudUploadControllerProvider(_channelId))
+        .read(cloudUploadControllerProvider(readAccountUserId(ref), _channelId))
         .items
         .length;
     final FileUploadValidationResult? result = await ref
@@ -273,7 +274,7 @@ class _AttachmentGalleryBodyHost extends ConsumerWidget {
     );
     final Set<String> selectedIds = <String>{
       ...ref.watch(
-        cloudUploadControllerProvider(channelId).select(
+        cloudUploadControllerProvider(readAccountUserId(ref), channelId).select(
           (CloudComposerAttachments attachments) =>
               selectedGalleryAssetIds(attachments.items),
         ),

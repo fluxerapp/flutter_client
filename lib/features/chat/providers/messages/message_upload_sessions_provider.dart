@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
@@ -8,7 +9,7 @@ part 'message_upload_sessions_provider.g.dart';
 @Riverpod(keepAlive: true)
 class MessageUploadSessions extends _$MessageUploadSessions {
   @override
-  Map<String, MessageUploadSession> build() {
+  Map<String, MessageUploadSession> build(String accountUserId) {
     return <String, MessageUploadSession>{};
   }
 
@@ -71,5 +72,7 @@ class MessageUploadSessions extends _$MessageUploadSessions {
 
 @riverpod
 MessageUploadSession? messageUploadSession(Ref ref, String nonce) {
-  return ref.watch(messageUploadSessionsProvider)[nonce];
+  return ref.watch(
+    messageUploadSessionsProvider(watchAccountUserId(ref)),
+  )[nonce];
 }

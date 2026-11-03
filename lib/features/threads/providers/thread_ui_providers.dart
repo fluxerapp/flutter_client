@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -141,9 +142,9 @@ Stream<bool> currentMemberTimedOut(Ref ref, String guildId) {
 @riverpod
 ThreadActor? parentThreadActor(Ref ref, String guildId, String parentId) {
   final int? perms = ref.watch(
-    channelPermissionCacheProvider.select(
-      (ChannelPermissionCaches caches) => caches[parentId],
-    ),
+    channelPermissionCacheProvider(
+      watchAccountUserId(ref),
+    ).select((ChannelPermissionCaches caches) => caches[parentId]),
   );
   if (perms == null) {
     return null;

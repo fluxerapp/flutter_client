@@ -5,6 +5,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -29,6 +30,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   const String guildId = 'guild-1';
+  const String testAccountUserId = 'test-user-id';
 
   Channel channel({
     required String id,
@@ -55,9 +57,10 @@ void main() {
     return ProviderScope(
       overrides: [
         channelRepositoryProvider.overrideWithValue(repository),
-        guildPermissionsProvider.overrideWithValue(<String, int>{
-          guildId: Permission.manageChannels.value,
-        }),
+        currentUserIdProvider.overrideWithValue(testAccountUserId),
+        guildPermissionsProvider(testAccountUserId).overrideWithValue(
+          <String, int>{guildId: Permission.manageChannels.value},
+        ),
       ],
       child: MaterialApp(
         locale: kTestLocale,

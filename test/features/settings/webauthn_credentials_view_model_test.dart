@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/webauthn_credentials_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -55,11 +56,15 @@ WebAuthnCredentialResponse _cred({
   );
 }
 
+const _testUserId = 'test-user';
+
 ProviderContainer _container(UsersApi api) {
   final client = _FakeClient(api);
-  return ProviderContainer(
+  final container = ProviderContainer(
     overrides: [fluxerClientProvider.overrideWithValue(client)],
   );
+  container.read(currentUserIdProvider.notifier).set(_testUserId);
+  return container;
 }
 
 Future<void> _pumpMicrotasks() async {
@@ -80,13 +85,15 @@ void main() {
       addTearDown(container.dispose);
 
       final sub = container.listen(
-        webauthnCredentialsViewModelProvider,
+        webauthnCredentialsViewModelProvider(_testUserId),
         (_, _) {},
       );
       addTearDown(sub.close);
       await _pumpMicrotasks();
 
-      final state = container.read(webauthnCredentialsViewModelProvider);
+      final state = container.read(
+        webauthnCredentialsViewModelProvider(_testUserId),
+      );
       expect(state.isLoading, isFalse);
       expect(state.error, isNull);
       expect(state.credentials.map((c) => c.id), ['a', 'b']);
@@ -100,13 +107,15 @@ void main() {
       addTearDown(container.dispose);
 
       final sub = container.listen(
-        webauthnCredentialsViewModelProvider,
+        webauthnCredentialsViewModelProvider(_testUserId),
         (_, _) {},
       );
       addTearDown(sub.close);
       await _pumpMicrotasks();
 
-      final state = container.read(webauthnCredentialsViewModelProvider);
+      final state = container.read(
+        webauthnCredentialsViewModelProvider(_testUserId),
+      );
       expect(state.isLoading, isFalse);
       expect(state.error, isNotNull);
       expect(state.credentials, isEmpty);
@@ -118,17 +127,19 @@ void main() {
       addTearDown(container.dispose);
 
       final sub = container.listen(
-        webauthnCredentialsViewModelProvider,
+        webauthnCredentialsViewModelProvider(_testUserId),
         (_, _) {},
       );
       addTearDown(sub.close);
       await _pumpMicrotasks();
 
       container
-          .read(webauthnCredentialsViewModelProvider.notifier)
+          .read(webauthnCredentialsViewModelProvider(_testUserId).notifier)
           .setCredentials([_cred(id: 'x'), _cred(id: 'y')]);
 
-      final state = container.read(webauthnCredentialsViewModelProvider);
+      final state = container.read(
+        webauthnCredentialsViewModelProvider(_testUserId),
+      );
       expect(state.credentials.map((c) => c.id), ['x', 'y']);
       expect(state.isLoading, isFalse);
       expect(state.error, isNull);
@@ -141,20 +152,22 @@ void main() {
       addTearDown(container.dispose);
 
       final sub = container.listen(
-        webauthnCredentialsViewModelProvider,
+        webauthnCredentialsViewModelProvider(_testUserId),
         (_, _) {},
       );
       addTearDown(sub.close);
       await Future<void>.delayed(Duration.zero);
 
       container
-          .read(webauthnCredentialsViewModelProvider.notifier)
+          .read(webauthnCredentialsViewModelProvider(_testUserId).notifier)
           .setCredentials([_cred(id: 'gateway')]);
 
       completer.complete([_cred(id: 'stale')]);
       await _pumpMicrotasks();
 
-      final state = container.read(webauthnCredentialsViewModelProvider);
+      final state = container.read(
+        webauthnCredentialsViewModelProvider(_testUserId),
+      );
       expect(state.credentials.map((c) => c.id), ['gateway']);
       expect(state.isLoading, isFalse);
     });

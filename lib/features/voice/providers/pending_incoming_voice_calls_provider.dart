@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -11,9 +12,11 @@ final Provider<List<String>> pendingIncomingVoiceChannelIdsProvider =
         return const <String>[];
       }
       final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-      final Map<String, CallState> calls = ref.watch(activeCallsProvider);
+      final Map<String, CallState> calls = ref.watch(
+        activeCallsProvider(watchAccountUserId(ref)),
+      );
       final Set<String> initiatorChannels = ref.watch(
-        outgoingVoiceCallInitiatorProvider,
+        outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)),
       );
       final List<String> out = <String>[];
       for (final MapEntry<String, CallState> e in calls.entries) {

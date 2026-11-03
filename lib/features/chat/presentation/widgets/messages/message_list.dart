@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding, SchedulerPhase;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -664,7 +665,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final int? channelPermissionBits = channelId.isEmpty
         ? null
         : ref.watch(
-            channelPermissionCacheProvider.select(
+            channelPermissionCacheProvider(watchAccountUserId(ref)).select(
               (ChannelPermissionCaches caches) => caches.effective[channelId],
             ),
           );
@@ -2974,7 +2975,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       return null;
     }
     final String? indexed = ref
-        .read(channelLastMessageIndexProvider)
+        .read(channelLastMessageIndexProvider(readAccountUserId(ref)))
         .lastMessageIdFor(channelId);
     return compareSnowflakeIds(indexed, row) > 0 ? indexed : row;
   }

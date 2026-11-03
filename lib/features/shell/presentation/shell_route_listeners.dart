@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/observability/reporting_consent/observability_re
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_logic.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_provider.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
@@ -419,13 +420,17 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       if (!_loadActiveGuildChannels(next)) {
         return;
       }
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(next);
+      ref
+          .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+          .syncIfNeeded(next);
     });
   }
 
   void _applyActiveGuildEffects(String guildId) {
     if (_loadActiveGuildChannels(guildId)) {
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
+      ref
+          .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+          .syncIfNeeded(guildId);
     }
   }
 
@@ -489,10 +494,12 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         return;
       }
       ref
-          .read(memberListViewportProvider.notifier)
+          .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
           .clearChannel(guildId: guildId, channelId: previousChannelId);
       ref
-          .read(memberListDesiredRangesProvider.notifier)
+          .read(
+            memberListDesiredRangesProvider(readAccountUserId(ref)).notifier,
+          )
           .clearChannel(guildId: guildId, channelId: previousChannelId);
     });
   }

@@ -100,7 +100,7 @@ Future<void> _showDetailsMoreSheet(
           ),
         if (canOfferAnnouncementFollow(
           channel,
-          ref.read(guildPermissionsProvider),
+          ref.read(guildPermissionsProvider(readAccountUserId(ref))),
         ))
           FluxerBottomSheetMenuItem(
             label: l10n.channelMenuFollow,

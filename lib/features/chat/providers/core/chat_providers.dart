@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
@@ -19,7 +20,9 @@ MessageRepository messageRepository(Ref ref) {
     dio,
     db,
     currentUserId,
-    mentionContextCache: ref.watch(messageMentionContextCacheProvider),
+    mentionContextCache: ref.watch(
+      messageMentionContextCacheProvider(watchAccountUserId(ref)),
+    ),
     gatewaySessionId: () => readGatewaySessionId(ref),
   );
 }

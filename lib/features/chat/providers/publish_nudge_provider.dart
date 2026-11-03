@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -99,7 +100,9 @@ final Provider<String?> publishNudgeMessageIdProvider = Provider<String?>((
   if (userId == null || channel == null) {
     return null;
   }
-  final int? bits = ref.watch(channelPermissionCacheProvider)[channelId];
+  final int? bits = ref.watch(
+    channelPermissionCacheProvider(watchAccountUserId(ref)),
+  )[channelId];
   if (bits == null) {
     return null;
   }

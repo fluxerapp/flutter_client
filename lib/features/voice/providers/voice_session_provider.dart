@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/app/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -159,12 +160,12 @@ class VoiceSession extends _$VoiceSession {
   VoiceSessionState build() {
     ref
       ..onDispose(_teardownOnDispose)
-      ..listen<ChannelPermissionCaches>(channelPermissionCacheProvider, (
-        ChannelPermissionCaches? _,
-        ChannelPermissionCaches _,
-      ) {
-        unawaited(_onChannelPermissionsChanged());
-      })
+      ..listen<ChannelPermissionCaches>(
+        channelPermissionCacheProvider(readAccountUserId(ref)),
+        (ChannelPermissionCaches? _, ChannelPermissionCaches _) {
+          unawaited(_onChannelPermissionsChanged());
+        },
+      )
       ..listen<VoiceSettingsState>(voiceSettingsProvider, (
         VoiceSettingsState? previous,
         VoiceSettingsState next,
@@ -174,12 +175,12 @@ class VoiceSession extends _$VoiceSession {
         }
         unawaited(_onVoiceSettingsChanged(previous, next));
       })
-      ..listen<Map<String, VoiceState>>(voiceStatesMapProvider, (
-        Map<String, VoiceState>? _,
-        Map<String, VoiceState> next,
-      ) {
-        _syncMeshRoster(next);
-      })
+      ..listen<Map<String, VoiceState>>(
+        voiceStatesMapProvider(readAccountUserId(ref)),
+        (Map<String, VoiceState>? _, Map<String, VoiceState> next) {
+          _syncMeshRoster(next);
+        },
+      )
       ..listen<bool>(voiceCallKitEngineSuppressedProvider, (
         bool? previous,
         bool next,
@@ -647,7 +648,7 @@ class VoiceSession extends _$VoiceSession {
     }
     if (guildId != null) {
       final int? permissionBits = ref
-          .read(channelPermissionCacheProvider.notifier)
+          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
           .getChannelBits(channelId);
       if (permissionBits != null &&
           !hasPermission(permissionBits, Permission.speak)) {
@@ -686,7 +687,9 @@ class VoiceSession extends _$VoiceSession {
     }
     if (startOutgoingCall) {
       ref
-          .read(outgoingVoiceCallInitiatorProvider.notifier)
+          .read(
+            outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)).notifier,
+          )
           .markInitiated(
             channelId: channelId,
             outboundRingRecipients: outboundRingRecipients ?? const [],
@@ -1067,7 +1070,9 @@ class VoiceSession extends _$VoiceSession {
     if (attempt != _connectGeneration || !identical(state.mesh, mesh)) {
       return;
     }
-    mesh.syncRoster(ref.read(voiceStatesMapProvider).values);
+    mesh.syncRoster(
+      ref.read(voiceStatesMapProvider(readAccountUserId(ref))).values,
+    );
     logVoiceLifecycle(
       'mesh_connected',
       connectGeneration: attempt,
@@ -1223,7 +1228,7 @@ class VoiceSession extends _$VoiceSession {
     ChannelE2eeStatus? channelStatus;
     if (resolvedChannelId != null) {
       channelStatus = computeChannelE2eeStatus(
-        voiceStates: ref.read(voiceStatesMapProvider),
+        voiceStates: ref.read(voiceStatesMapProvider(readAccountUserId(ref))),
         guildId: resolvedGuildId,
         channelId: resolvedChannelId,
         guildHasVoiceE2ee: _guildHasVoiceE2ee(resolvedGuildId),
@@ -1250,7 +1255,7 @@ class VoiceSession extends _$VoiceSession {
     final String channelId = state.channelId!;
     final String? guildId = state.guildId;
     final ChannelE2eeStatus status = computeChannelE2eeStatus(
-      voiceStates: ref.read(voiceStatesMapProvider),
+      voiceStates: ref.read(voiceStatesMapProvider(readAccountUserId(ref))),
       guildId: guildId,
       channelId: channelId,
       guildHasVoiceE2ee: _guildHasVoiceE2ee(guildId),
@@ -1922,7 +1927,7 @@ class VoiceSession extends _$VoiceSession {
     );
     final VoiceChannelMode mode = voiceChannelMode(
       voiceStatesForChannel(
-        voiceStates: ref.read(voiceStatesMapProvider),
+        voiceStates: ref.read(voiceStatesMapProvider(readAccountUserId(ref))),
         channelId: resolvedChannelId,
         guildId: resolvedGuildId,
       ),
@@ -2007,7 +2012,9 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     ref
-        .read(outgoingVoiceCallInitiatorProvider.notifier)
+        .read(
+          outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)).notifier,
+        )
         .clearChannel(channelId);
   }
 
@@ -2111,7 +2118,7 @@ class VoiceSession extends _$VoiceSession {
     }
     VoiceState? selfOnServer;
     for (final VoiceState voiceState
-        in ref.read(voiceStatesMapProvider).values) {
+        in ref.read(voiceStatesMapProvider(readAccountUserId(ref))).values) {
       if (voiceState.userId == userId && voiceState.channelId == channelId) {
         selfOnServer = voiceState;
         break;
@@ -2472,7 +2479,7 @@ class VoiceSession extends _$VoiceSession {
 
   VoiceState? _selfConnectionVoiceState() {
     return resolveSelfConnectionVoiceState(
-      voiceStates: ref.read(voiceStatesMapProvider),
+      voiceStates: ref.read(voiceStatesMapProvider(readAccountUserId(ref))),
       activeConnectionId: state.activeConnectionId,
       userId: ref.read(currentUserIdProvider),
       channelId: state.channelId,
@@ -3816,7 +3823,7 @@ class VoiceSession extends _$VoiceSession {
       return true;
     }
     final int? bits = ref
-        .read(channelPermissionCacheProvider.notifier)
+        .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
         .getChannelBits(channelId);
     if (bits == null) {
       return true;

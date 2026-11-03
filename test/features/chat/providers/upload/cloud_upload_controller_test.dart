@@ -5,6 +5,8 @@ import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
@@ -82,7 +84,10 @@ void main() {
     f.client.progressTicks = 500;
     int updates = 0;
     f.container.listen<List<PendingAttachment>>(
-      cloudUploadControllerProvider('channel-1').select((s) => s.items),
+      cloudUploadControllerProvider(
+        readAccountUserId(f.container),
+        'channel-1',
+      ).select((s) => s.items),
       (_, _) => updates += 1,
     );
     await f.addFile();
@@ -171,15 +176,25 @@ class _Fixture {
   final _FakeUploadClient client;
   final Directory tempDir;
 
-  CloudUploadController get controller =>
-      container.read(cloudUploadControllerProvider('channel-1').notifier);
+  CloudUploadController get controller => container.read(
+    cloudUploadControllerProvider(
+      readAccountUserId(container),
+      'channel-1',
+    ).notifier,
+  );
 
-  List<PendingAttachment> get composerItems =>
-      container.read(cloudUploadControllerProvider('channel-1')).items;
+  List<PendingAttachment> get composerItems => container
+      .read(
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
+      )
+      .items;
 
   double? progressFor(String nonce) {
     final MessageUploadSession? session = container.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(container)),
     )[nonce];
     return session == null
         ? null
@@ -193,6 +208,7 @@ class _Fixture {
     );
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        currentUserIdProvider.overrideWithValue('test-user-id'),
         maxAttachmentFileBytesProvider.overrideWithValue(maxFileBytes),
         attachmentUploadClientProvider.overrideWithValue(client),
       ],

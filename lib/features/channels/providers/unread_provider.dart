@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as local;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -92,14 +93,14 @@ class RecentGuildUnreadRetention extends _$RecentGuildUnreadRetention {
 @riverpod
 bool? channelUnreadCanView(Ref ref, String channelId) {
   final int? bits = ref.watch(
-    channelPermissionCacheProvider.select(
-      (ChannelPermissionCaches caches) => caches[channelId],
-    ),
+    channelPermissionCacheProvider(
+      watchAccountUserId(ref),
+    ).select((ChannelPermissionCaches caches) => caches[channelId]),
   );
   if (bits == null) {
     unawaited(
       ref
-          .read(channelPermissionCacheProvider.notifier)
+          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
           .rebuildChannel(channelId),
     );
     return null;
@@ -284,7 +285,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       .changes(channelId)
       .listen((_) => scheduleRecompute());
   final indexSub = ref
-      .watch(channelLastMessageIndexProvider)
+      .watch(channelLastMessageIndexProvider(readAccountUserId(ref)))
       .flushStream
       .where((Map<String, String> updates) => updates.containsKey(channelId))
       .listen((_) => scheduleRecompute());

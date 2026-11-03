@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
@@ -78,7 +79,7 @@ void main() {
       addTearDown(container.dispose);
 
       final ChannelPermissionCache cache = container.read(
-        channelPermissionCacheProvider.notifier,
+        channelPermissionCacheProvider(readAccountUserId(container)).notifier,
       );
       await cache.rebuildGuild(guildId);
       expect(cache.getChannelBits(channelA1), isNotNull);
@@ -86,7 +87,12 @@ void main() {
 
       await cache.evictGuild(guildId);
 
-      expect(container.read(channelPermissionCacheProvider), isEmpty);
+      expect(
+        container.read(
+          channelPermissionCacheProvider(readAccountUserId(container)),
+        ),
+        isEmpty,
+      );
       expect(cache.getChannelBits(channelA1), isNull);
       expect(cache.getChannelBits(channelA2), isNull);
     });
@@ -126,11 +132,14 @@ void main() {
       addTearDown(container.dispose);
 
       final ChannelPermissionCache cache = container.read(
-        channelPermissionCacheProvider.notifier,
+        channelPermissionCacheProvider(readAccountUserId(container)).notifier,
       );
       await cache.rebuildGuild(guildA);
       expect(
-        container.read(channelPermissionCacheProvider).effective.length,
+        container
+            .read(channelPermissionCacheProvider(readAccountUserId(container)))
+            .effective
+            .length,
         2,
       );
 
@@ -138,7 +147,7 @@ void main() {
       await cache.rebuildGuild(guildB);
 
       final Map<String, int> cached = container
-          .read(channelPermissionCacheProvider)
+          .read(channelPermissionCacheProvider(readAccountUserId(container)))
           .effective;
       expect(cached.length, 1);
       expect(cached.containsKey(channelB1), isTrue);
@@ -169,17 +178,25 @@ void main() {
       addTearDown(container.dispose);
 
       final ChannelPermissionCache cache = container.read(
-        channelPermissionCacheProvider.notifier,
+        channelPermissionCacheProvider(readAccountUserId(container)).notifier,
       );
       await cache.rebuildGuild(guildId);
       expect(
-        container.read(channelPermissionCacheProvider).effective.length,
+        container
+            .read(channelPermissionCacheProvider(readAccountUserId(container)))
+            .effective
+            .length,
         1,
       );
 
       await evictInactiveGuildPermissionState(container, guildId);
 
-      expect(container.read(channelPermissionCacheProvider), isEmpty);
+      expect(
+        container.read(
+          channelPermissionCacheProvider(readAccountUserId(container)),
+        ),
+        isEmpty,
+      );
       expect(cache.getChannelBits(channelId), isNull);
     });
   });

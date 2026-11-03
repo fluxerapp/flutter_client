@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
@@ -278,7 +279,9 @@ void main() {
       ],
     );
     addTearDown(container.dispose);
-    container.read(voiceStatesMapProvider.notifier).update(initialVoice);
+    container
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+        .update(initialVoice);
 
     late VoiceParticipantMenuCapabilities capabilities;
     await tester.pumpWidget(
@@ -300,7 +303,7 @@ void main() {
     expect(capabilities.isCommunityMuted, isFalse);
 
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(_voiceState(mute: true, deaf: false));
     await tester.pump();
 

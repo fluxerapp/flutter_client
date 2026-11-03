@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/members/data/member_cache_evictor.dart';
@@ -10,6 +11,9 @@ import 'package:fluxer_app/features/members/domain/member_list_viewport_state.da
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'member_list_update_batcher.g.dart';
 
 const int kMemberListUpdateBatchMs = 1000;
 
@@ -27,7 +31,7 @@ class MemberListUpdateBatcher {
       return;
     }
     final MemberListViewportListState? list = _ref
-        .read(memberListViewportProvider.notifier)
+        .read(memberListViewportProvider(readAccountUserId(_ref)).notifier)
         .getList(guildId: event.guildId, channelId: channelId);
     if (list == null || !list.hasReceivedInitialPayload) {
       _apply(event, reason: 'initial', coalesced: 1);
@@ -82,7 +86,9 @@ class MemberListUpdateBatcher {
       '[Gateway] GUILD_MEMBER_LIST_UPDATE: ${event.guildId} '
       '($reason, ${coalesced}x)',
     );
-    _ref.read(memberListViewportProvider.notifier).applyListUpdate(event);
+    _ref
+        .read(memberListViewportProvider(readAccountUserId(_ref)).notifier)
+        .applyListUpdate(event);
     unawaited(() async {
       await MemberListDriftSync(
         _ref.read(fluxerDatabaseProvider),
@@ -181,9 +187,9 @@ class _PendingMemberListBatch {
   int count;
 }
 
-final Provider<MemberListUpdateBatcher> memberListUpdateBatcherProvider =
-    Provider<MemberListUpdateBatcher>((Ref ref) {
-      final MemberListUpdateBatcher batcher = MemberListUpdateBatcher(ref);
-      ref.onDispose(batcher.dispose);
-      return batcher;
-    });
+@Riverpod(keepAlive: true)
+MemberListUpdateBatcher memberListUpdateBatcher(Ref ref, String accountUserId) {
+  final MemberListUpdateBatcher batcher = MemberListUpdateBatcher(ref);
+  ref.onDispose(batcher.dispose);
+  return batcher;
+}

@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -19,6 +20,8 @@ import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/open_test_database.dart';
 
+const String _testAccountUserId = 'test-user-id';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -29,13 +32,14 @@ void main() {
         <String, StreamController<Guild?>>{};
     final ProviderContainer container = ProviderContainer(
       overrides: <Override>[
+        currentUserIdProvider.overrideWithValue(_testAccountUserId),
         channelRepositoryProvider.overrideWithValue(
           _FakeChannelRepository(controllers),
         ),
         guildRepositoryProvider.overrideWithValue(
           _FakeGuildRepository(guildControllers),
         ),
-        channelPermissionCacheProvider.overrideWithValue(
+        channelPermissionCacheProvider(_testAccountUserId).overrideWithValue(
           ChannelPermissionCaches(
             effective: <String, int>{'c1': Permission.viewChannel.value},
           ),
@@ -103,15 +107,16 @@ void main() {
         <String, StreamController<Guild?>>{};
     final ProviderContainer container = ProviderContainer(
       overrides: <Override>[
+        currentUserIdProvider.overrideWithValue(_testAccountUserId),
         channelRepositoryProvider.overrideWithValue(
           _FakeChannelRepository(channelControllers),
         ),
         guildRepositoryProvider.overrideWithValue(
           _FakeGuildRepository(guildControllers),
         ),
-        channelPermissionCacheProvider.overrideWithValue(
-          const ChannelPermissionCaches(),
-        ),
+        channelPermissionCacheProvider(
+          _testAccountUserId,
+        ).overrideWithValue(const ChannelPermissionCaches()),
       ],
     );
     addTearDown(container.dispose);
@@ -159,13 +164,14 @@ void main() {
           <String, StreamController<Guild?>>{};
       final ProviderContainer container = ProviderContainer(
         overrides: <Override>[
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
           channelRepositoryProvider.overrideWithValue(
             _FakeChannelRepository(controllers),
           ),
           guildRepositoryProvider.overrideWithValue(
             _FakeGuildRepository(guildControllers),
           ),
-          channelPermissionCacheProvider.overrideWithValue(
+          channelPermissionCacheProvider(_testAccountUserId).overrideWithValue(
             ChannelPermissionCaches(
               effective: <String, int>{'c1': Permission.viewChannel.value},
             ),

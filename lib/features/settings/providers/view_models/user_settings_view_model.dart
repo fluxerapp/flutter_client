@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/user_entitlements.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -1159,15 +1160,15 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
   @override
   UserSettingsViewState build() {
     final userId = ref.watch(currentUserIdProvider);
-    ref.listen<UserPrivateResponse?>(currentUserPrivateReadProvider, (
-      UserPrivateResponse? _,
-      UserPrivateResponse? next,
-    ) {
-      if (next == null || next.id != state.userId) {
-        return;
-      }
-      applyPrivateProfile(next);
-    });
+    ref.listen<UserPrivateResponse?>(
+      currentUserPrivateReadProvider(readAccountUserId(ref)),
+      (UserPrivateResponse? _, UserPrivateResponse? next) {
+        if (next == null || next.id != state.userId) {
+          return;
+        }
+        applyPrivateProfile(next);
+      },
+    );
     ref.listen<AccountIdentityFlags>(accountIdentityProvider, (
       AccountIdentityFlags? previous,
       AccountIdentityFlags next,
@@ -1358,10 +1359,10 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       isProfileLoaded: true,
     );
     ref
-        .read(currentUserEntitlementsProvider.notifier)
+        .read(currentUserEntitlementsProvider(readAccountUserId(ref)).notifier)
         .applyUserProfile(profile);
     ref
-        .read(currentUserPremiumTypeProvider.notifier)
+        .read(currentUserPremiumTypeProvider(readAccountUserId(ref)).notifier)
         .set(profile.premiumType?.json ?? 0);
   }
 
@@ -1530,7 +1531,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       }
 
       final permissions = await ref
-          .read(guildPermissionsProvider.notifier)
+          .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
           .getPermissions(guildId);
 
       state = state.copyWith(

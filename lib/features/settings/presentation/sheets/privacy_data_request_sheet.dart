@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -136,7 +137,9 @@ class _PrivacyDataRequestSheetState
       return;
     }
     setState(() => _isSubmitting = true);
-    final vm = ref.read(privacyDashboardViewModelProvider.notifier);
+    final vm = ref.read(
+      privacyDashboardViewModelProvider(readAccountUserId(ref)).notifier,
+    );
     final l10n = FluxerLocalizations.of(context);
     final bool success;
     if (_isExport) {

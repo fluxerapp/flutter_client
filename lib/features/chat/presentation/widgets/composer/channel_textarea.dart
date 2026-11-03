@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
@@ -509,7 +510,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (rateLimit <= 0) {
       return null;
     }
-    final int? cachedBits = ref.read(channelPermissionCacheProvider)[channelId];
+    final int? cachedBits = ref.read(
+      channelPermissionCacheProvider(readAccountUserId(ref)),
+    )[channelId];
     if (cachedBits != null && bypassesSlowmode(cachedBits)) {
       return null;
     }
@@ -1010,7 +1013,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       keyboardInsetBottom: resolvedKeyboardInsetBottom(context),
     );
     final bool hasAttachments = ref.watch(
-      cloudUploadControllerProvider(channelId).select(
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).select(
         (CloudComposerAttachments attachments) => attachments.items.isNotEmpty,
       ),
     );
@@ -1279,7 +1282,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       chatViewModelProvider.select((s) => s.channelId),
     );
     final bool hasAttachments = ref.watch(
-      cloudUploadControllerProvider(channelId).select(
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).select(
         (CloudComposerAttachments attachments) => attachments.items.isNotEmpty,
       ),
     );
@@ -1680,6 +1683,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
     ref.watch(
       cloudUploadControllerProvider(
+        readAccountUserId(ref),
         channelId,
       ).select((CloudComposerAttachments a) => a.items.length),
     );
@@ -2168,7 +2172,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     String channelId,
     ComposerReactionShorthand command,
   ) async {
-    if (ref.read(cloudUploadControllerProvider(channelId)).items.isNotEmpty) {
+    if (ref
+        .read(cloudUploadControllerProvider(readAccountUserId(ref), channelId))
+        .items
+        .isNotEmpty) {
       return false;
     }
     final _CustomEmojiSendContext emojiContext = _readCustomEmojiSendContext(
@@ -2457,7 +2464,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       chatViewModelProvider.select((s) => s.channelId),
     );
     final CloudUploadController notifier = ref.read(
-      cloudUploadControllerProvider(channelId).notifier,
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).notifier,
     );
     final FileUploadValidationResult result = await notifier.addFiles(files);
     if (mounted) {
@@ -2470,10 +2477,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       case ComposerAttachSource.gallery:
         final String channelId = ref.read(chatViewModelProvider).channelId;
         final GallerySelectionChange change = await pickNativeGallerySelection(
-          attachments: ref.read(cloudUploadControllerProvider(channelId)).items,
+          attachments: ref
+              .read(
+                cloudUploadControllerProvider(
+                  readAccountUserId(ref),
+                  channelId,
+                ),
+              )
+              .items,
         );
         final FileUploadValidationResult result = await ref
-            .read(cloudUploadControllerProvider(channelId).notifier)
+            .read(
+              cloudUploadControllerProvider(
+                readAccountUserId(ref),
+                channelId,
+              ).notifier,
+            )
             .applyGallerySelection(change);
         if (mounted) {
           _toastUploadValidation(result);

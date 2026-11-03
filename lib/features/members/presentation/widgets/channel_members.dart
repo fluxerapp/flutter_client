@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -46,9 +47,11 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
   @override
   void initState() {
     super.initState();
-    _memberListViewport = ref.read(memberListViewportProvider.notifier);
+    _memberListViewport = ref.read(
+      memberListViewportProvider(readAccountUserId(ref)).notifier,
+    );
     _memberListDesiredRanges = ref.read(
-      memberListDesiredRangesProvider.notifier,
+      memberListDesiredRangesProvider(readAccountUserId(ref)).notifier,
     );
     _scrollController.addListener(_handleScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -56,6 +59,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         return;
       }
       prefetchGuildRolesIfMissing(
+        ref: ref,
         database: ref.read(fluxerDatabaseProvider),
         repository: ref.read(memberRepositoryProvider),
         guildId: widget.guildId,
@@ -98,12 +102,14 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
       return;
     }
     final MemberListViewportListState? listState = ref
-        .read(memberListViewportProvider.notifier)
+        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
         .getList(guildId: guildId, channelId: channelId);
     final int totalRows = listState?.totalRows ?? 0;
     if (!_scrollController.hasClients) {
       ref
-          .read(memberListDesiredRangesProvider.notifier)
+          .read(
+            memberListDesiredRangesProvider(readAccountUserId(ref)).notifier,
+          )
           .setRanges(
             guildId: guildId,
             channelId: channelId,
@@ -122,7 +128,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
       layouts: layouts.isNotEmpty ? layouts : null,
     );
     ref
-        .read(memberListDesiredRangesProvider.notifier)
+        .read(memberListDesiredRangesProvider(readAccountUserId(ref)).notifier)
         .setRanges(
           guildId: guildId,
           channelId: channelId,
@@ -155,9 +161,9 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         ),
         (_, _) {},
       )
-      ..watch(memberListViewportProvider);
+      ..watch(memberListViewportProvider(readAccountUserId(ref)));
     final MemberListViewportListState? listState = ref
-        .read(memberListViewportProvider.notifier)
+        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
         .getList(guildId: guildId, channelId: channelId);
     final Map<String, db.Role> rolesById =
         ref.watch(guildRolesByIdProvider(guildId)).value ?? <String, db.Role>{};

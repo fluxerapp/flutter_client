@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/voice/utils/e2ee/e2ee_status.dart';
@@ -14,7 +15,9 @@ ChannelE2eeStatus voiceChannelE2eeStatus(
   required String channelId,
   ChannelE2eeStatus emptyChannelStatus = ChannelE2eeStatus.none,
 }) {
-  final Map<String, VoiceState> voiceStates = ref.watch(voiceStatesMapProvider);
+  final Map<String, VoiceState> voiceStates = ref.watch(
+    voiceStatesMapProvider(watchAccountUserId(ref)),
+  );
   final List<Guild> guilds = ref.watch(guildListViewModelProvider).guilds;
   final bool guildHasVoiceE2ee =
       guildId == null ||

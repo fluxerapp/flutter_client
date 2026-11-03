@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/domain/member_list_range_utils.dart';
@@ -74,7 +75,9 @@ void memberListDetailsSubscription(
     }
     final String rangesKey = memberListDesiredRangesKey(guildId, channelId);
     final List<MemberListRange> desiredRanges =
-        ref.read(memberListDesiredRangesProvider)[rangesKey] ??
+        ref.read(
+          memberListDesiredRangesProvider(readAccountUserId(ref)),
+        )[rangesKey] ??
         kMemberListInitialSubscriptionRanges;
     final List<MemberListRange> normalized = normalizeMemberListRanges(
       desiredRanges,
@@ -83,7 +86,7 @@ void memberListDetailsSubscription(
         subscribedChannelId == channelId &&
         areMemberListRangesEqual(lastSentRanges, normalized)) {
       ref
-          .read(memberListViewportProvider.notifier)
+          .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
           .setSubscribedRanges(
             guildId: guildId,
             channelId: channelId,
@@ -94,9 +97,11 @@ void memberListDetailsSubscription(
     if (subscribedGuildId != guildId || subscribedChannelId != channelId) {
       unsubscribe();
     }
-    ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
     ref
-        .read(memberListViewportProvider.notifier)
+        .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+        .syncIfNeeded(guildId);
+    ref
+        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
         .setSubscribedRanges(
           guildId: guildId,
           channelId: channelId,
@@ -120,13 +125,15 @@ void memberListDetailsSubscription(
     subscribedChannelId = channelId;
     lastSentRanges = normalized;
     unawaited(
-      ref.read(guildSyncProvider.notifier).backfillMembersIfSparse(guildId),
+      ref
+          .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+          .backfillMembersIfSparse(guildId),
     );
   }
 
   ref
     ..listen<Map<String, List<MemberListRange>>>(
-      memberListDesiredRangesProvider,
+      memberListDesiredRangesProvider(readAccountUserId(ref)),
       (_, _) => _scheduleMemberListSync(ref, syncSubscription),
     )
     ..listen<bool>(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
@@ -191,7 +192,7 @@ class ChannelListViewModel extends _$ChannelListViewModel {
               hasReceivedInitialChannelList: true,
             );
             final ChannelPermissionCaches cachedBits = ref.read(
-              channelPermissionCacheProvider,
+              channelPermissionCacheProvider(readAccountUserId(ref)),
             );
             final Set<String> uncached = <String>{
               for (final Channel channel in channels)
@@ -200,7 +201,11 @@ class ChannelListViewModel extends _$ChannelListViewModel {
             if (uncached.isNotEmpty) {
               unawaited(
                 ref
-                    .read(channelPermissionCacheProvider.notifier)
+                    .read(
+                      channelPermissionCacheProvider(
+                        readAccountUserId(ref),
+                      ).notifier,
+                    )
                     .rebuildGuild(guildId, onlyChannelIds: uncached),
               );
             }

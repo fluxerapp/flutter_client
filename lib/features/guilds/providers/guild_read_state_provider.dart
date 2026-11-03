@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
@@ -121,7 +122,7 @@ class GuildReadState extends _$GuildReadState {
     final currentUserId = ref.watch(currentUserIdProvider);
 
     final ChannelLastMessageIndex lastMessageIndex = ref.watch(
-      channelLastMessageIndexProvider,
+      channelLastMessageIndexProvider(readAccountUserId(ref)),
     );
 
     final readStateSub = db.readStateDao.watchReadStates().listen((rows) {
@@ -380,9 +381,11 @@ class GuildReadState extends _$GuildReadState {
     final allReadStates = await db.readStateDao.getReadStates();
     final allSettings = await db.userGuildSettingsDao.getAll();
     _channelSnapshot = {for (final c in allChannels) c.id: c};
-    ref.read(channelLastMessageIndexProvider).seedAll(<String, String?>{
-      for (final Channel c in allChannels) c.id: c.lastMessageId,
-    });
+    ref.read(channelLastMessageIndexProvider(readAccountUserId(ref))).seedAll(
+      <String, String?>{
+        for (final Channel c in allChannels) c.id: c.lastMessageId,
+      },
+    );
     _readStateSnapshot = {for (final r in allReadStates) r.channelId: r};
     _updateGuildSettings(allSettings);
     _guildNotificationContexts
@@ -513,7 +516,7 @@ class GuildReadState extends _$GuildReadState {
   }) async {
     final int generation = _recomputeGeneration;
     final ChannelLastMessageIndex lastMessageIndex = ref.read(
-      channelLastMessageIndexProvider,
+      channelLastMessageIndexProvider(readAccountUserId(ref)),
     );
     if (_pendingReadStateRefresh.isNotEmpty) {
       final List<String> refreshIds = _pendingReadStateRefresh.toList();
