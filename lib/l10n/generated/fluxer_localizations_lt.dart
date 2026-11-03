@@ -845,6 +845,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nerasta jokių „passkey“ šiai programai. Vietoj to prisijunkite el. paštu ir slaptažodžiu.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported => 'Šis įrenginys nepalaiko „passkey“.';
 
   @override

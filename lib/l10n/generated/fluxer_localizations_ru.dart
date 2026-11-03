@@ -849,6 +849,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Ключи доступа для этого приложения не найдены. Вместо этого войдите с помощью электронной почты и пароля.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Ключи доступа не поддерживаются на этом устройстве.';
 

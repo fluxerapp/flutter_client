@@ -850,6 +850,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Aucune clé d\'accès trouvée pour cette application. Connectez-vous avec votre e-mail et votre mot de passe à la place.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Les clés d\'accès ne sont pas prises en charge sur cet appareil.';
 

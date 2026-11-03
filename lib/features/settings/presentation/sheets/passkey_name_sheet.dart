@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -106,6 +107,9 @@ class _PasskeyNameSheetState extends ConsumerState<PasskeyNameSheet> {
         final dio = ref.read(fluxerDioProvider);
         final optionsRes = await dio.post<Map<String, dynamic>>(
           '/users/@me/mfa/webauthn/credentials/registration-options',
+          queryParameters: <String, dynamic>{
+            'rp_id': ?preferredPasskeyRpId(dio.options.baseUrl),
+          },
           data: <String, dynamic>{},
         );
         final Map<String, dynamic> options = optionsRes.data!;

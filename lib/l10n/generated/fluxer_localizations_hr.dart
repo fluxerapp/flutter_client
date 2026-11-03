@@ -845,6 +845,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nema spremljenih prolaznih ključeva za ovu aplikaciju. Prijavite se umjesto toga e-poštom i lozinkom.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passkeys nisu podržane na ovom uređaju.';
 

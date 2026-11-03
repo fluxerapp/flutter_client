@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/sudo_interceptor.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -151,13 +152,20 @@ class _SudoVerificationSheetContentState
   Future<void> _verifyWithPasskey() async {
     setState(() => _error = null);
     try {
-      final res = await widget.dio.post<Map<String, dynamic>>(
-        '/users/@me/sudo/webauthn/authentication-options',
+      final (options, response) = await withPasskeyRelyingParty(
+        apiBaseUrl: widget.dio.options.baseUrl,
+        attempt: (rpId) async {
+          final res = await widget.dio.post<Map<String, dynamic>>(
+            '/users/@me/sudo/webauthn/authentication-options',
+            queryParameters: <String, dynamic>{'rp_id': ?rpId},
+          );
+          final options = res.data!;
+          final response = await WebAuthnService(
+            PasskeyAuthenticator(),
+          ).authenticate(options);
+          return (options, response);
+        },
       );
-      final options = res.data!;
-      final response = await WebAuthnService(
-        PasskeyAuthenticator(),
-      ).authenticate(options);
       widget.onVerified(<String, dynamic>{
         'mfa_method': 'webauthn',
         'webauthn_challenge': options['challenge'],

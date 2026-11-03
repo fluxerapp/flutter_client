@@ -844,6 +844,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν βρέθηκαν κλειδιά πρόσβασης για αυτήν την εφαρμογή. Συνδεθείτε με email και κωδικό πρόσβασης αντ\' αυτού.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Τα κλειδιά πρόσβασης δεν υποστηρίζονται σε αυτήν τη συσκευή.';
 

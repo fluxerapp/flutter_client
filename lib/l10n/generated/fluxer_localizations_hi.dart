@@ -836,6 +836,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'इस ऐप के लिए कोई पासकी नहीं मिली। इसके बजाय ईमेल और पासवर्ड से लॉग इन करें।';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'यह डिवाइस पासकी का समर्थन नहीं करता है।';
 

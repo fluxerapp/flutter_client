@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/account/lifecycle.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/data/passkey_relying_party.dart';
 import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/account_recovery_result.dart';
@@ -29,7 +30,6 @@ import 'package:fluxer_app/features/auth/providers/registration_draft_provider.d
 import 'package:fluxer_app/features/recovery_kit/domain/recovery_kit.dart';
 import 'package:fluxer_app/features/recovery_kit/providers/recovery_kit_providers.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/exceptions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -830,10 +830,17 @@ class LoginViewModel extends _$LoginViewModel {
 
     try {
       final repo = ref.read(authRepositoryProvider);
-      final webauthnService = WebAuthnService(PasskeyAuthenticator());
+      final webauthnService = WebAuthnService(
+        ref.read(passkeyAuthenticatorProvider),
+      );
 
-      final options = await repo.getPasskeyLoginOptions();
-      final authResponse = await webauthnService.authenticate(options);
+      final (options, authResponse) = await withPasskeyRelyingParty(
+        apiBaseUrl: ref.read(authFluxerBaseUrlProvider),
+        attempt: (rpId) async {
+          final options = await repo.getPasskeyLoginOptions(rpId: rpId);
+          return (options, await webauthnService.authenticate(options));
+        },
+      );
       final result = await repo.loginWithPasskey(
         response: authResponse,
         challenge: options['challenge'] as String,

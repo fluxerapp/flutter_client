@@ -845,6 +845,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Keine Passkeys für diese App gefunden. Melde dich stattdessen mit E-Mail und Passwort an.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passkeys werden auf diesem Gerät nicht unterstützt.';
 

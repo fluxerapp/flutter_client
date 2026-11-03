@@ -834,6 +834,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ไม่พบ passkey สำหรับแอปนี้ โปรดเข้าสู่ระบบด้วยอีเมลและรหัสผ่านแทน';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported => 'อุปกรณ์นี้ไม่รองรับ passkey';
 
   @override

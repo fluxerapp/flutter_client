@@ -796,6 +796,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get passkeyNoCredentials => '此应用未找到任何通行密钥。请改用电子邮件和密码登录。';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported => '此设备不支持通行密钥。';
 
   @override

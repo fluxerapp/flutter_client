@@ -846,6 +846,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu au fost găsite chei de acces pentru această aplicație. Conectați-vă în schimb cu e-mail și parolă.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Cheile de acces nu sunt acceptate pe acest dispozitiv.';
 

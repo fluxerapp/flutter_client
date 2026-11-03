@@ -841,6 +841,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tälle sovellukselle ei löytynyt passkey-tunnuksia. Kirjaudu sisään sähköpostilla ja salasanalla.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passkey-tunnuksia ei tueta tällä laitteella.';
 

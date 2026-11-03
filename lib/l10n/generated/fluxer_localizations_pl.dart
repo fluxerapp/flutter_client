@@ -849,6 +849,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Nie znaleziono kluczy dostępu dla tej aplikacji. Zaloguj się zamiast tego za pomocą adresu e-mail i hasła.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Klucze dostępu nie są obsługiwane na tym urządzeniu.';
 
