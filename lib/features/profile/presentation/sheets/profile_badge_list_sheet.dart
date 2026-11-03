@@ -25,6 +25,7 @@ class ProfileBadgeListSheet {
     return FluxerBottomSheet.show<void>(
       context,
       title: l10n.profileBadgesSettingsTitle,
+      useRootNavigator: true,
       builder: (BuildContext sheetContext, VoidCallback _) {
         return ListView.separated(
           padding: EdgeInsets.fromLTRB(

@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 enum UserProfileBadgesSize { desktop, mobile }
@@ -50,13 +51,27 @@ class UserProfileBadges extends ConsumerWidget {
     return badge.accessibleLabel ?? badge.caption ?? badge.label;
   }
 
+  Future<void> _onBadgeTap(
+    BuildContext context,
+    WidgetRef ref,
+    ProfileBadgeResponse badge, {
+    required bool touchPrimary,
+  }) async {
+    if (touchPrimary) {
+      await showProfileBadgeDetails(context, ref, badge);
+      return;
+    }
+    await handleProfileBadgeTap(context, ref, badge);
+  }
+
   Widget _badgeChip(
     BuildContext context,
     WidgetRef ref,
     ProfileBadgeResponse badge,
-    double badgeHeight,
-    bool useRichTooltip,
-  ) {
+    double badgeHeight, {
+    required bool touchPrimary,
+    required bool useHoverTooltip,
+  }) {
     final String? imageUrl = profileBadgeDisplayImageUrl(
       badge,
       displayHeight: badgeHeight,
@@ -77,20 +92,26 @@ class UserProfileBadges extends ConsumerWidget {
           );
 
     final ProfileBadgeResponseDetails? details = badge.details;
-    final Widget tooltipChild = useRichTooltip && details != null
-        ? FluxerTooltip(
-            richMessage: ProfileBadgeDetailsTooltip(
-              badge: badge,
-              details: details,
-            ),
-            child: badgeContent,
-          )
-        : FluxerTooltip(message: badge.label, child: badgeContent);
+    final Widget displayedContent;
+    if (useHoverTooltip && details != null) {
+      displayedContent = FluxerTooltip(
+        richMessage: ProfileBadgeDetailsTooltip(badge: badge, details: details),
+        child: badgeContent,
+      );
+    } else if (useHoverTooltip) {
+      displayedContent = FluxerTooltip(
+        message: badge.label,
+        child: badgeContent,
+      );
+    } else {
+      displayedContent = badgeContent;
+    }
 
-    final bool opensPremium = !touch && profileBadgeOpensPremiumSheet(badge);
+    final bool opensPremium =
+        !touchPrimary && profileBadgeOpensPremiumSheet(badge);
     final String? href = badge.href;
-    final bool opensLink = href != null && !touch && !opensPremium;
-    final bool tappable = opensPremium || opensLink;
+    final bool opensLink = href != null && !touchPrimary && !opensPremium;
+    final bool tappable = touchPrimary || opensPremium || opensLink;
 
     return Semantics(
       key: ValueKey<String>(badge.key.isNotEmpty ? badge.key : badge.kind),
@@ -99,14 +120,14 @@ class UserProfileBadges extends ConsumerWidget {
       child: FluxerTappable(
         onTap: tappable
             ? () => unawaited(
-                handleProfileBadgeTap(context, ref, badge, touch: touch),
+                _onBadgeTap(context, ref, badge, touchPrimary: touchPrimary),
               )
             : null,
         button: tappable,
         semanticLabel: _semanticLabel(badge),
         excludeChildSemantics: true,
         builder: (BuildContext context, Set<WidgetState> states) =>
-            tooltipChild,
+            displayedContent,
       ),
     );
   }
@@ -117,8 +138,9 @@ class UserProfileBadges extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool touchPrimary = touch || ref.watch(inputModalityProvider);
+    final bool useHoverTooltip = !touchPrimary;
     final double badgeHeight = _badgeHeight();
-    final bool useRichTooltip = !touch;
     final int? limit = maxVisible != null && maxVisible! > 0
         ? maxVisible
         : null;
@@ -136,33 +158,60 @@ class UserProfileBadges extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         for (final ProfileBadgeResponse badge in visible)
-          _badgeChip(context, ref, badge, badgeHeight, useRichTooltip),
+          _badgeChip(
+            context,
+            ref,
+            badge,
+            badgeHeight,
+            touchPrimary: touchPrimary,
+            useHoverTooltip: useHoverTooltip,
+          ),
         if (hiddenCount > 0)
-          FluxerTooltip(
-            message: l10n.profileBadgesShowAllTooltip,
-            child: FluxerTappable(
-              onTap: () => unawaited(
-                ProfileBadgeListSheet.show(context, badges: badges),
-              ),
-              button: true,
-              semanticLabel: l10n.profileBadgesShowAllSemantic(hiddenCount),
-              builder: (BuildContext context, Set<WidgetState> states) {
-                final textStyles = context.textStyles;
-                final colors = context.colors;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: Text(
-                    l10n.profileBadgesOverflowButton(hiddenCount),
-                    style: textStyles.bodySmall.copyWith(
-                      color: colors.textLink,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                );
-              },
-            ),
+          _overflowControl(
+            context: context,
+            l10n: l10n,
+            hiddenCount: hiddenCount,
+            useHoverTooltip: useHoverTooltip,
+            badges: badges,
           ),
       ],
+    );
+  }
+
+  Widget _overflowControl({
+    required BuildContext context,
+    required FluxerLocalizations l10n,
+    required int hiddenCount,
+    required bool useHoverTooltip,
+    required List<ProfileBadgeResponse> badges,
+  }) {
+    final Widget control = FluxerTappable(
+      onTap: () =>
+          unawaited(ProfileBadgeListSheet.show(context, badges: badges)),
+      button: true,
+      semanticLabel: l10n.profileBadgesShowAllSemantic(hiddenCount),
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final textStyles = context.textStyles;
+        final colors = context.colors;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: Text(
+            l10n.profileBadgesOverflowButton(hiddenCount),
+            style: textStyles.bodySmall.copyWith(
+              color: colors.textLink,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        );
+      },
+    );
+
+    if (!useHoverTooltip) {
+      return control;
+    }
+    return FluxerTooltip(
+      message: l10n.profileBadgesShowAllTooltip,
+      child: control,
     );
   }
 }

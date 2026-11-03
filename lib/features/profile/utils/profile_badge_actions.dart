@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/profile_badge_detail_sheet.dart';
+import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
@@ -16,6 +20,56 @@ bool profileBadgeOpensPremiumSheet(ProfileBadgeResponse badge) {
     return badge.href == null;
   }
   return badge.kind == 'plutonium';
+}
+
+bool profileBadgeUsesDetailSheet(ProfileBadgeResponse badge) {
+  final ProfileBadgeResponseDetails? details = badge.details;
+  if (details == null) {
+    return false;
+  }
+  if (details.lines.length > 1) {
+    return true;
+  }
+  if (details.lines.isEmpty) {
+    return false;
+  }
+  return profileBadgeDisplayImageUrl(
+        badge,
+        displayHeight: kProfileBadgeTooltipArtHeight,
+      ) !=
+      null;
+}
+
+String profileBadgeToastMessage(ProfileBadgeResponse badge) {
+  final ProfileBadgeResponseDetails? details = badge.details;
+  if (details == null) {
+    return badge.label;
+  }
+  if (details.lines.length == 1) {
+    final String line = details.lines.first;
+    if (details.title == badge.label || details.title.isEmpty) {
+      return line;
+    }
+    return '${details.title}\n$line';
+  }
+  if (details.lines.isEmpty) {
+    return details.title;
+  }
+  return badge.label;
+}
+
+Future<void> showProfileBadgeDetails(
+  BuildContext context,
+  WidgetRef ref,
+  ProfileBadgeResponse badge,
+) async {
+  if (profileBadgeUsesDetailSheet(badge)) {
+    await ProfileBadgeDetailSheet.show(context, ref, badge: badge);
+    return;
+  }
+  ref
+      .read(toastProvider.notifier)
+      .show(FluxerToast(message: profileBadgeToastMessage(badge)));
 }
 
 Future<void> handleProfileBadgeTap(
@@ -36,6 +90,7 @@ Future<void> handleProfileBadgeTap(
     await FluxerBottomSheet.show<void>(
       context,
       title: l10n.plutoniumNotAvailableTitle,
+      useRootNavigator: true,
       builder: (sheetContext, _) => Padding(
         padding: EdgeInsets.all(sheetContext.layout.s4),
         child: Text(
