@@ -2752,43 +2752,9 @@
     "@operatorPassWallOnTheWall": {
         "description": "Label for the live wall entry."
     },
-    "operatorPassWallInReview": "In review",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "by {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "operatorPassWallLive": "Live",
     "@operatorPassWallLive": {
         "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Declined: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Team note: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
     },
     "operatorPassWallHidden": "Hidden by our team for now.",
     "@operatorPassWallHidden": {
@@ -2834,10 +2800,6 @@
     "@operatorPassWallNameSettingsLabel": {
         "description": "Label for wall name field in settings."
     },
-    "operatorPassWallNameHint": "We check new names before they go live.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
     "operatorPassWallDontListMe": "Don't list me",
     "@operatorPassWallDontListMe": {
         "description": "Opt out of the Operators' wall."
@@ -2849,22 +2811,6 @@
     "operatorPassWallNameTooLong": "Use 32 characters or fewer.",
     "@operatorPassWallNameTooLong": {
         "description": "Validation when wall name is too long."
-    },
-    "operatorPassWallDeclineGuidelines": "Breaks the community guidelines",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Pretends to be someone else",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Uses a name or image without the rights to it",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Not suitable for younger users",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
     },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.",
     "@avatarDescriptionNonPremium": {
