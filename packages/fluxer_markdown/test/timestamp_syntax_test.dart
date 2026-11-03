@@ -159,6 +159,65 @@ void main() {
       expect(renderedTexts.any((String t) => t.contains('<t:')), isFalse);
     });
 
+    testWidgets('timestamp matches a smaller surrounding text size', (
+      tester,
+    ) async {
+      const TextStyle smallStyle = TextStyle(fontSize: 13, height: 1.375);
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: 'sent <t:1618936830:t>',
+              config: _testMarkdownConfig,
+              baseStyle: smallStyle,
+            ),
+          ),
+        ),
+      );
+
+      double? bodySize;
+      double? timestampSize;
+      for (final RichText richText in tester.widgetList<RichText>(
+        find.byType(RichText),
+      )) {
+        richText.text.visitChildren((InlineSpan span) {
+          if (span is! TextSpan || span.text == null || span.text!.isEmpty) {
+            return true;
+          }
+          if (span.text == 'sent ') {
+            bodySize = span.style?.fontSize;
+          } else {
+            timestampSize = span.style?.fontSize;
+          }
+          return true;
+        });
+      }
+
+      expect(bodySize, 13);
+      expect(timestampSize, 13);
+    });
+
+    testWidgets('relative timestamp matches a smaller surrounding text size', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: '<t:1618936830:R>',
+              config: _testMarkdownConfig,
+              baseStyle: TextStyle(fontSize: 13, height: 1.375),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerLiveTimestamp), findsOneWidget);
+      expect(tester.widget<Text>(find.byType(Text).first).style?.fontSize, 13);
+    });
+
     testWidgets('uses the configured timestamp formatter', (tester) async {
       DateTime? seenDateTime;
       String? seenStyle;
