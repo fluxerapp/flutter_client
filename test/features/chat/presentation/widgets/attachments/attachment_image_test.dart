@@ -15,20 +15,18 @@ import 'package:fluxer_app/features/settings/providers/preferences/chat_preferen
 import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../../helpers/test_l10n.dart';
-
-class _ShowAltTextAppearance extends AppearancePreferences {
-  @override
-  AppearancePreferencesState build() =>
-      const AppearancePreferencesState(showAltTextOnImages: true);
-}
 
 Widget _app(Widget child, {bool showAltText = false}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
+      ...coreTestProviderOverrides(),
       if (showAltText)
-        appearancePreferencesProvider.overrideWith(_ShowAltTextAppearance.new),
+        appearancePreferencesProvider.overrideWithValue(
+          const AppearancePreferencesState(showAltTextOnImages: true),
+        ),
     ],
     child: MaterialApp(
       locale: kTestLocale,

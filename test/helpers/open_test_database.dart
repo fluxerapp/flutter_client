@@ -34,6 +34,10 @@ Future<void> _releaseWidgetTree() async {
     binding
       ..attachRootWidget(binding.wrapWithDefaultView(const SizedBox.shrink()))
       ..scheduleFrame();
-    await binding.pump(const Duration(milliseconds: 1));
+    await binding.pump();
+    await binding.pump(Duration.zero);
+    for (int i = 0; i < 3; i++) {
+      await binding.pump(const Duration(milliseconds: 1));
+    }
   }
 }

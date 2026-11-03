@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
+import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/test_l10n.dart';
 
 class _FakeFavoriteEmojiKeys extends FavoriteEmojiKeys {
@@ -42,6 +43,7 @@ Widget _buildTestApp({
 
   return ProviderScope(
     overrides: [
+      ...coreTestProviderOverrides(),
       favoriteEmojiKeysProvider.overrideWith(_FakeFavoriteEmojiKeys.new),
       guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
       contextualGuildIdProvider.overrideWithValue(currentGuildId),

@@ -25,9 +25,11 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
       Zone.current.handleUncaughtError(StateError(message), StackTrace.current);
     }
   };
-  setUp(_failSpriteSheetLoads);
-  tearDown(() async {
-    await flushTestWidgetBinding();
+  setUp(() {
+    _failSpriteSheetLoads();
+    addTearDown(() async {
+      await flushTestWidgetBinding();
+    });
   });
   await testMain();
 }

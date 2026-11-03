@@ -92,7 +92,7 @@ void main() {
           ),
         ),
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       final Finder statusLabel = find.text(testL10n.statusChangeSheetTitle);
       final Finder accountsLabel = find.text(

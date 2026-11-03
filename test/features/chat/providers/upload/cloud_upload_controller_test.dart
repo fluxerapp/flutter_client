@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 
+import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import '../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../helpers/open_test_database.dart';
 
@@ -217,6 +218,9 @@ class _Fixture {
         instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(database),
         currentUserIdProvider.overrideWithValue('test-user-id'),
+        advancedPreferencesProvider.overrideWithValue(
+          const AdvancedPreferencesState(),
+        ),
         maxAttachmentFileBytesProvider.overrideWithValue(maxFileBytes),
         attachmentUploadClientProvider.overrideWithValue(client),
       ],

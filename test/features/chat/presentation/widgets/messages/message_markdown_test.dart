@@ -4,6 +4,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -16,17 +17,23 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../helpers/core_test_provider_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/rendered_text_test_helpers.dart';
 
 Widget _app({
   required Locale locale,
   required Widget child,
+  required FluxerDatabase database,
   bool use12Hour = false,
 }) {
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
   return ProviderScope(
     key: ValueKey<String>('${locale.toLanguageTag()}-$use12Hour'),
-    overrides: [use12HourTimeFormatProvider.overrideWithValue(use12Hour)],
+    overrides: [
+      ...coreTestProviderOverrides(database: database),
+      use12HourTimeFormatProvider.overrideWithValue(use12Hour),
+    ],
     child: MaterialApp(
       locale: locale,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -66,9 +73,11 @@ void main() {
     final String german = DateFormat.yMMMMd('de').format(dateTime);
     expect(french, isNot(german));
 
+    final FluxerDatabase database = openTestDatabase();
     await tester.pumpWidget(
       _app(
         locale: const Locale('fr'),
+        database: database,
         child: MessageMarkdown(
           data: '<t:$unix:D>',
           baseStyle: const TextStyle(),
@@ -82,6 +91,7 @@ void main() {
     await tester.pumpWidget(
       _app(
         locale: const Locale('de'),
+        database: database,
         child: MessageMarkdown(
           data: '<t:$unix:D>',
           baseStyle: const TextStyle(),
@@ -90,6 +100,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(_renderedTexts(tester), contains(german));
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('timestamp follows the user hour-cycle preference', (
@@ -97,10 +108,12 @@ void main() {
   ) async {
     final DateTime dateTime = DateTime(2026, 7, 20, 16, 5);
     final int unix = dateTime.millisecondsSinceEpoch ~/ 1000;
+    final FluxerDatabase database = openTestDatabase();
 
     await tester.pumpWidget(
       _app(
         locale: const Locale('en', 'US'),
+        database: database,
         use12Hour: true,
         child: MessageMarkdown(
           data: '<t:$unix:t>',
@@ -119,6 +132,7 @@ void main() {
     await tester.pumpWidget(
       _app(
         locale: const Locale('en', 'US'),
+        database: database,
         child: MessageMarkdown(
           data: '<t:$unix:t>',
           baseStyle: const TextStyle(),
@@ -127,5 +141,6 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(_renderedTexts(tester), contains('16:05'));
+    await releaseTestWidgetTree(tester);
   });
 }

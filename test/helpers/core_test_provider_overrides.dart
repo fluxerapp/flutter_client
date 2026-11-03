@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import 'instance_runtime_config_override.dart';
+import 'message_item_test_overrides.dart';
 import 'open_test_database.dart';
 import 'test_account_user_id.dart';
 
@@ -12,5 +13,6 @@ List<Override> coreTestProviderOverrides({FluxerDatabase? database}) {
     instanceRuntimeConfigOverride(),
     currentUserIdProvider.overrideWithValue(kTestAccountUserId),
     fluxerDatabaseProvider.overrideWithValue(database ?? openTestDatabase()),
+    ...messageItemTestProviderOverrides(),
   ];
 }

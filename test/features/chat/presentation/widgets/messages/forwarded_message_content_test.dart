@@ -23,6 +23,7 @@ import 'package:fluxer_dart/export.dart' show MessageReferenceType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 import '../../../../../helpers/wide_layout_test_sizes.dart';
@@ -221,7 +222,7 @@ void main() {
 
     await tester.pumpWidget(
       _buildTestApp(
-        overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+        database: db,
         child: ForwardedMessageContent(
           message: Message(
             id: _messageId,
@@ -263,6 +264,7 @@ void main() {
       tester.getSize(find.byType(ForwardedMessageContent)).height,
       loading,
     );
+    await releaseTestWidgetTree(tester);
   });
 }
 
@@ -310,10 +312,14 @@ Attachment _imageAttachment({required String filename}) {
 Widget _buildTestApp({
   required Widget child,
   List<Override> overrides = const [],
+  FluxerDatabase? database,
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: overrides,
+    overrides: [
+      ...coreTestProviderOverrides(database: database),
+      ...overrides,
+    ],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

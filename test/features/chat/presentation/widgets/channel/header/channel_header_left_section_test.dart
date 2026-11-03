@@ -25,8 +25,6 @@ import '../../../../../../helpers/test_l10n.dart';
 
 const String _channelId = 'channel-1';
 
-final db.FluxerDatabase _headerTestDatabase = openTestDatabase();
-
 void main() {
   testWidgets('topic preview renders markdown on one line', (tester) async {
     await tester.pumpWidget(_app(_header(topic: '**welcome** to the channel')));
@@ -60,6 +58,7 @@ void main() {
       find.ancestor(of: title, matching: find.byType(ClipRect)),
       findsWidgets,
     );
+    await releaseTestWidgetTree(tester);
   });
 }
 
@@ -82,7 +81,7 @@ Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
-      ...coreTestProviderOverrides(database: _headerTestDatabase),
+      ...coreTestProviderOverrides(),
       guildListViewModelProvider.overrideWith(_EmptyGuildList.new),
       voiceSessionProvider.overrideWith(_IdleVoiceSession.new),
       favoriteChannelProvider(

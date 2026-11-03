@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/shell/providers/nagbar/nagbar_providers.dart
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/test_l10n.dart';
 
 void main() {
@@ -22,6 +23,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
+          ...coreTestProviderOverrides(),
           visibleNagbarsProvider.overrideWith(
             (Ref ref) => <NagbarState>[
               const NagbarState(

@@ -5,6 +5,8 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../helpers/core_test_provider_overrides.dart';
+
 void main() {
   setUp(() {
     VisibilityDetectorController.instance.updateInterval = Duration.zero;
@@ -18,6 +20,7 @@ void main() {
 
   Widget wrapEmoji({required CachedEmojiImage emoji, required bool onScreen}) {
     return ProviderScope(
+      overrides: coreTestProviderOverrides(),
       child: MaterialApp(
         home: Scaffold(
           body: ClipRect(
