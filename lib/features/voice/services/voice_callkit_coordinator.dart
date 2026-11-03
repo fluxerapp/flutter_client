@@ -10,6 +10,7 @@ import 'package:flutter_callkit_incoming/entities/call_event.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
+import 'package:fluxer_app/core/audio/system_voice_call_guard.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
@@ -376,27 +377,36 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  bool _shouldApplySpeakerOutput() {
-    return shouldApplySpeakerOutputWhileInVoice(
+  Future<bool> _shouldApplySpeakerOutput() async {
+    if (!shouldApplySpeakerOutputWhileInVoice(
       hasActiveVoiceSession: _sessions.hasActiveVoiceSession,
       isInVoice: _voiceCallKitVoiceSnapshot(
         _ref.read(voiceSessionProvider),
       ).isInVoice,
-    );
+    )) {
+      return false;
+    }
+    if (await isExternalSystemVoiceCallActive()) {
+      return false;
+    }
+    return true;
   }
 
   Future<void> _applySpeakerOutputAndRetry({required String reason}) async {
-    if (!_shouldApplySpeakerOutput()) {
+    if (!await _shouldApplySpeakerOutput()) {
       return;
     }
     await _applySpeakerOutputForCallKitAudioSession(reason: reason);
+    if (!await _shouldApplySpeakerOutput()) {
+      return;
+    }
     _scheduleSpeakerOutputReapply();
   }
 
   Future<void> _applySpeakerOutputForCallKitAudioSession({
     required String reason,
   }) async {
-    if (!_shouldApplySpeakerOutput()) {
+    if (!await _shouldApplySpeakerOutput()) {
       return;
     }
     try {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/core/audio/system_voice_call_guard.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -569,6 +570,9 @@ class VoiceSettingsApplicator {
     required VoiceSettingsState settings,
     bool holdRoute = true,
   }) async {
+    if (await isExternalSystemVoiceCallActive()) {
+      return;
+    }
     if (!AudioManager.instance.canSwitchSpeakerphone) {
       return;
     }
