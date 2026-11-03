@@ -28,10 +28,11 @@ Widget _app({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [
-      ...coreTestProviderOverrides(),
-      emojiRegistryLoadedProvider.overrideWith((ref) => registryLoaded),
-    ],
+    overrides: coreTestProviderOverrides(
+      extra: [
+        emojiRegistryLoadedProvider.overrideWith((ref) => registryLoaded),
+      ],
+    ),
     child: MaterialApp(
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         FluxerLocalizations.delegate,

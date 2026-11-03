@@ -22,19 +22,20 @@ void main() {
     final FluxerColorTheme colorTheme = buildDarkColorTheme();
     await tester.pumpWidget(
       ProviderScope(
-        overrides: <Override>[
-          ...coreTestProviderOverrides(),
-          visibleNagbarsProvider.overrideWith(
-            (Ref ref) => <NagbarState>[
-              const NagbarState(
-                type: NagbarType.unclaimedAccount,
-                priority: -4,
-                visible: true,
-                dismissible: false,
-              ),
-            ],
-          ),
-        ],
+        overrides: coreTestProviderOverrides(
+          extra: <Override>[
+            visibleNagbarsProvider.overrideWith(
+              (Ref ref) => <NagbarState>[
+                const NagbarState(
+                  type: NagbarType.unclaimedAccount,
+                  priority: -4,
+                  visible: true,
+                  dismissible: false,
+                ),
+              ],
+            ),
+          ],
+        ),
         child: MaterialApp(
           locale: kTestLocale,
           localizationsDelegates: fluxerLocalizationsDelegates,

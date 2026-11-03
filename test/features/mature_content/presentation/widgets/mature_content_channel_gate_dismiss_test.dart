@@ -58,7 +58,7 @@ Widget _buildTestApp({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [...coreTestProviderOverrides(), ...overrides],
+    overrides: coreTestProviderOverrides(extra: overrides),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

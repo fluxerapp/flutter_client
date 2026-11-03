@@ -193,23 +193,25 @@ void main() {
 
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [
-            ...coreTestProviderOverrides(database: database),
-            threadsRepositoryProvider.overrideWithValue(threads),
-            fluxerRouterProvider.overrideWithValue(router),
-            chatViewModelProvider.overrideWith(() => chat),
-            currentRevealSideProvider.overrideWith(_MainRevealSide.new),
-            parentThreadActorProvider(_guildId, _parentId).overrideWithValue(
-              ThreadActor(
-                permissions:
-                    Permission.viewChannel.value |
-                    Permission.sendMessages.value |
-                    Permission.readMessageHistory.value |
-                    Permission.createPublicThreads.value |
-                    Permission.sendMessagesInThreads.value,
+          overrides: coreTestProviderOverrides(
+            database: database,
+            extra: [
+              threadsRepositoryProvider.overrideWithValue(threads),
+              fluxerRouterProvider.overrideWithValue(router),
+              chatViewModelProvider.overrideWith(() => chat),
+              currentRevealSideProvider.overrideWith(_MainRevealSide.new),
+              parentThreadActorProvider(_guildId, _parentId).overrideWithValue(
+                ThreadActor(
+                  permissions:
+                      Permission.viewChannel.value |
+                      Permission.sendMessages.value |
+                      Permission.readMessageHistory.value |
+                      Permission.createPublicThreads.value |
+                      Permission.sendMessagesInThreads.value,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
           child: MaterialApp(
             locale: kTestLocale,
             localizationsDelegates: fluxerLocalizationsDelegates,

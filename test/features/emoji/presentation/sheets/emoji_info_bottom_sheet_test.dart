@@ -42,20 +42,21 @@ Widget _buildTestApp({
   final colorTheme = buildDarkColorTheme();
 
   return ProviderScope(
-    overrides: [
-      ...coreTestProviderOverrides(),
-      favoriteEmojiKeysProvider.overrideWith(_FakeFavoriteEmojiKeys.new),
-      guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
-      contextualGuildIdProvider.overrideWithValue(currentGuildId),
-      guildByIdProvider('guild-1').overrideWith(
-        (ref) => const Guild(
-          id: 'guild-1',
-          name: 'Test Community',
-          ownerId: 'owner',
+    overrides: coreTestProviderOverrides(
+      extra: [
+        favoriteEmojiKeysProvider.overrideWith(_FakeFavoriteEmojiKeys.new),
+        guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
+        contextualGuildIdProvider.overrideWithValue(currentGuildId),
+        guildByIdProvider('guild-1').overrideWith(
+          (ref) => const Guild(
+            id: 'guild-1',
+            name: 'Test Community',
+            ownerId: 'owner',
+          ),
         ),
-      ),
-      guildByIdProvider('guild-3').overrideWith((ref) => null),
-    ],
+        guildByIdProvider('guild-3').overrideWith((ref) => null),
+      ],
+    ),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

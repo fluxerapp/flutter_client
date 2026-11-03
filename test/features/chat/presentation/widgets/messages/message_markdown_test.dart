@@ -30,10 +30,10 @@ Widget _app({
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
   return ProviderScope(
     key: ValueKey<String>('${locale.toLanguageTag()}-$use12Hour'),
-    overrides: [
-      ...coreTestProviderOverrides(database: database),
-      use12HourTimeFormatProvider.overrideWithValue(use12Hour),
-    ],
+    overrides: coreTestProviderOverrides(
+      database: database,
+      extra: [use12HourTimeFormatProvider.overrideWithValue(use12Hour)],
+    ),
     child: MaterialApp(
       locale: locale,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[

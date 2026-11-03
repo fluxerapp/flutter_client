@@ -21,13 +21,14 @@ import '../../../../../helpers/test_l10n.dart';
 Widget _app(Widget child, {bool showAltText = false}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [
-      ...coreTestProviderOverrides(),
-      if (showAltText)
-        appearancePreferencesProvider.overrideWithValue(
-          const AppearancePreferencesState(showAltTextOnImages: true),
-        ),
-    ],
+    overrides: coreTestProviderOverrides(
+      extra: [
+        if (showAltText)
+          appearancePreferencesProvider.overrideWithValue(
+            const AppearancePreferencesState(showAltTextOnImages: true),
+          ),
+      ],
+    ),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

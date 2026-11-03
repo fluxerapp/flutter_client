@@ -20,6 +20,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/core_test_provider_overrides.dart';
+import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
 const String _testAttachmentUrl =
@@ -32,13 +33,14 @@ const String _externalEmbedUrl =
 Widget _wrap(Widget child, {List<Override> overrides = const []}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: <Override>[
-      ...coreTestProviderOverrides(),
-      favoriteMemesProvider.overrideWith(
-        (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
-      ),
-      ...overrides,
-    ],
+    overrides: coreTestProviderOverrides(
+      extra: <Override>[
+        favoriteMemesProvider.overrideWith(
+          (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+        ),
+        ...overrides,
+      ],
+    ),
     child: MaterialApp(
       navigatorKey: rootNavigatorKey,
       locale: kTestLocale,
@@ -405,6 +407,7 @@ void main() {
 
     expect(viewerClosed, isTrue);
     expect(find.text('options'), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
   testWidgets('forward closes the media viewer and keeps the forward sheet', (
     tester,

@@ -84,27 +84,29 @@ void main() {
     final colorTheme = buildDarkColorTheme();
     await tester.pumpWidget(
       ProviderScope(
-        overrides: <Override>[
-          ...coreTestProviderOverrides(database: db),
-          fluxerRouterProvider.overrideWithValue(router),
-          dmRepositoryProvider.overrideWithValue(repository),
-          userPresenceProvider(
-            '200',
-          ).overrideWith((Ref ref) => Stream.value(null)),
-          matureContentGateReasonProvider('dm-channel-1').overrideWith(
-            (Ref ref) => Future.value(MatureContentGateReason.none),
-          ),
-          dmViewModelProvider.overrideWith(
-            () => _StaticDmViewModel(
-              const DmViewState(
-                conversations: <DmConversation>[],
-                friendsList: <Friend>[_alice],
-                activeTab: FriendsTab.online,
-                searchQuery: '',
+        overrides: coreTestProviderOverrides(
+          database: db,
+          extra: <Override>[
+            fluxerRouterProvider.overrideWithValue(router),
+            dmRepositoryProvider.overrideWithValue(repository),
+            userPresenceProvider(
+              '200',
+            ).overrideWith((Ref ref) => Stream.value(null)),
+            matureContentGateReasonProvider('dm-channel-1').overrideWith(
+              (Ref ref) => Future.value(MatureContentGateReason.none),
+            ),
+            dmViewModelProvider.overrideWith(
+              () => _StaticDmViewModel(
+                const DmViewState(
+                  conversations: <DmConversation>[],
+                  friendsList: <Friend>[_alice],
+                  activeTab: FriendsTab.online,
+                  searchQuery: '',
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
         child: MaterialApp.router(
           localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,

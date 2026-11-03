@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show ChannelsCompanion, FluxerDatabase, ServersCompanion;
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -162,7 +161,6 @@ void main() {
       await tester.pumpWidget(
         _buildTestApp(
           overrides: [
-            fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
             favoriteMemesProvider.overrideWith((ref) => Stream.value(const [])),
           ],
           child: _content(
@@ -316,10 +314,7 @@ Widget _buildTestApp({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [
-      ...coreTestProviderOverrides(database: database),
-      ...overrides,
-    ],
+    overrides: coreTestProviderOverrides(database: database, extra: overrides),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

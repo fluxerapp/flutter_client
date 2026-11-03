@@ -1,11 +1,13 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/core_test_provider_overrides.dart';
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   setUp(() {
@@ -18,9 +20,13 @@ void main() {
     );
   });
 
-  Widget wrapEmoji({required CachedEmojiImage emoji, required bool onScreen}) {
+  Widget wrapEmoji({
+    required CachedEmojiImage emoji,
+    required bool onScreen,
+    FluxerDatabase? database,
+  }) {
     return ProviderScope(
-      overrides: coreTestProviderOverrides(),
+      overrides: coreTestProviderOverrides(database: database),
       child: MaterialApp(
         home: Scaffold(
           body: ClipRect(
@@ -184,8 +190,9 @@ void main() {
     'duplicate on-screen animated emoji keep unique visibility keys',
     (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
+        ProviderScope(
+          overrides: coreTestProviderOverrides(),
+          child: const MaterialApp(
             home: Scaffold(
               body: Column(
                 children: <Widget>[
@@ -228,13 +235,16 @@ void main() {
         ),
         isTrue,
       );
+      await releaseTestWidgetTree(tester);
     },
   );
 
   testWidgets('animated emoji plays when scrolled on-screen', (tester) async {
+    final database = openTestDatabase();
     await tester.pumpWidget(
       wrapEmoji(
         onScreen: false,
+        database: database,
         emoji: const CachedEmojiImage(
           emojiId: '789',
           animated: true,
@@ -249,6 +259,7 @@ void main() {
     await tester.pumpWidget(
       wrapEmoji(
         onScreen: true,
+        database: database,
         emoji: const CachedEmojiImage(
           emojiId: '789',
           animated: true,
@@ -261,5 +272,6 @@ void main() {
     await tester.pump();
 
     expect(imageUrl(tester), contains('animated=true'));
+    await releaseTestWidgetTree(tester);
   });
 }

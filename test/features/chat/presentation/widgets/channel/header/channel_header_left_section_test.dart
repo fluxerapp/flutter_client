@@ -80,14 +80,15 @@ bool _hasBoldWelcome(InlineSpan span) {
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [
-      ...coreTestProviderOverrides(),
-      guildListViewModelProvider.overrideWith(_EmptyGuildList.new),
-      voiceSessionProvider.overrideWith(_IdleVoiceSession.new),
-      favoriteChannelProvider(
-        _channelId,
-      ).overrideWith((ref) => Stream<db.FavoriteChannel?>.value(null)),
-    ],
+    overrides: coreTestProviderOverrides(
+      extra: [
+        guildListViewModelProvider.overrideWith(_EmptyGuildList.new),
+        voiceSessionProvider.overrideWith(_IdleVoiceSession.new),
+        favoriteChannelProvider(
+          _channelId,
+        ).overrideWith((ref) => Stream<db.FavoriteChannel?>.value(null)),
+      ],
+    ),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

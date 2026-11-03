@@ -129,11 +129,13 @@ Widget _wrap({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: <Override>[
-      ...coreTestProviderOverrides(database: db),
-      blockedUserIdsProvider.overrideWithValue(blockedUserIds),
-      ...overrides,
-    ],
+    overrides: coreTestProviderOverrides(
+      database: db,
+      extra: <Override>[
+        blockedUserIdsProvider.overrideWithValue(blockedUserIds),
+        ...overrides,
+      ],
+    ),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,
