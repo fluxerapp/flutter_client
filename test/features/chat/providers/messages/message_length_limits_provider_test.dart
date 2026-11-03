@@ -127,6 +127,7 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
         collectDateOfBirth: true,
       ),
     ),
+    agePolicy: const InstanceAgePolicySchema(geos: []),
   );
 }
 

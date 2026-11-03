@@ -478,6 +478,7 @@ InstanceConfigSnapshot _snapshot({
           collectDateOfBirth: collectDateOfBirth,
         ),
       ),
+      agePolicy: const InstanceAgePolicySchema(geos: []),
     ),
   );
 }

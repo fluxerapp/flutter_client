@@ -114,6 +114,7 @@ WellKnownFluxerResponse _selfHostedWellKnown({bool premiumEnabled = false}) {
         collectDateOfBirth: true,
       ),
     ),
+    agePolicy: const InstanceAgePolicySchema(geos: []),
   );
 }
 

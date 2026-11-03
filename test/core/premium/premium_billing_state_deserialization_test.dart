@@ -15,8 +15,7 @@ void main() {
       'pending_subscription_change': pendingSubscriptionChange,
       'list_price_switch': listPriceSwitch,
       'subscription': null,
-      'invoices': <Object?>[],
-      'invoices_has_more': false,
+      'documents': <Object?>[],
       'payment_methods': <Object?>[],
       'refund_eligibility': <String, Object?>{
         'eligible': false,
@@ -68,8 +67,7 @@ void main() {
 
       expect(state.currentSubscriptionPrice?.toJson() ?? {}, isEmpty);
       expect(state.pendingSubscriptionChange?.toJson() ?? {}, isEmpty);
-      expect(state.invoices, isEmpty);
-      expect(state.invoicesHasMore, isFalse);
+      expect(state.documents, isEmpty);
       expect(state.refundEligibility.eligible, isFalse);
     });
 

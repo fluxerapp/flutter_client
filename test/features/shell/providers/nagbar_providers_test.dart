@@ -379,6 +379,7 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
         collectDateOfBirth: true,
       ),
     ),
+    agePolicy: const InstanceAgePolicySchema(geos: []),
   );
 }
 

@@ -17,8 +17,8 @@ void main() {
         }
       });
 
-      final File pubspec = File('${temp.path}/pubspec.yaml');
-      pubspec.writeAsStringSync('''
+      final File pubspec = File('${temp.path}/pubspec.yaml')
+        ..writeAsStringSync('''
 name: fluxer_app
 version: 2026.11.100+1
 ''');
