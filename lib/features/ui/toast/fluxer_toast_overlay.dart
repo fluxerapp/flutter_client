@@ -58,7 +58,9 @@ class FluxerToastOverlay extends ConsumerWidget {
                       child: _ToastItem(
                         key: ValueKey<int>(entry.id),
                         entry: entry,
-                        icon: _variantIcon(entry.toast.variant),
+                        icon: entry.toast.leading == null
+                            ? _variantIcon(entry.toast.variant)
+                            : null,
                         iconColor: _variantIconColor(
                           context,
                           entry.toast.variant,
@@ -158,6 +160,8 @@ class _ToastItemState extends State<_ToastItem>
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String message = widget.entry.toast.message;
     final FluxerToastAction? action = widget.entry.toast.action;
+    final Widget? leading = widget.entry.toast.leading;
+    final bool centerMessage = message.contains('\n') && leading != null;
 
     return SlideTransition(
       position: _slideAnimation,
@@ -210,7 +214,10 @@ class _ToastItemState extends State<_ToastItem>
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (widget.icon != null) ...[
+                        if (leading != null) ...[
+                          leading,
+                          SizedBox(width: layout.s3),
+                        ] else if (widget.icon != null) ...[
                           PhosphorIcon(
                             widget.icon!,
                             size: 20,
@@ -221,6 +228,7 @@ class _ToastItemState extends State<_ToastItem>
                         Flexible(
                           child: Text(
                             message,
+                            textAlign: centerMessage ? TextAlign.center : null,
                             style: textStyles.bodyMedium.copyWith(
                               fontWeight: FontWeight.w600,
                             ),

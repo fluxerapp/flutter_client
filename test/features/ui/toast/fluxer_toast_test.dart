@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../helpers/test_l10n.dart';
 
@@ -120,6 +121,73 @@ void main() {
       await tester.pump();
 
       expect(find.text('Temporary'), findsNothing);
+    });
+
+    testWidgets('badge toast multiline message is center aligned', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildTestApp(const SizedBox.shrink()));
+
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(FluxerToastOverlay)),
+      );
+      container
+          .read(toastProvider.notifier)
+          .show(
+            const FluxerToast(
+              message: 'Line one\nLine two',
+              leading: SizedBox(width: 20, height: 20),
+            ),
+          );
+
+      await tester.pump();
+
+      final dynamic textWidget = tester.widget(find.textContaining('Line one'));
+      expect(textWidget.textAlign, TextAlign.center);
+    });
+
+    testWidgets('multiline message without leading stays start aligned', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildTestApp(const SizedBox.shrink()));
+
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(FluxerToastOverlay)),
+      );
+      container
+          .read(toastProvider.notifier)
+          .show(const FluxerToast(message: 'Line one\nLine two'));
+
+      await tester.pump();
+
+      final dynamic textWidget = tester.widget(find.textContaining('Line one'));
+      expect(textWidget.textAlign, isNull);
+    });
+
+    testWidgets('custom leading replaces variant icon', (tester) async {
+      await tester.pumpWidget(buildTestApp(const SizedBox.shrink()));
+
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(FluxerToastOverlay)),
+      );
+      container
+          .read(toastProvider.notifier)
+          .show(
+            const FluxerToast(
+              message: 'Badge info',
+              variant: FluxerToastVariant.warning,
+              leading: SizedBox(
+                key: Key('toast-leading'),
+                width: 20,
+                height: 20,
+              ),
+            ),
+          );
+
+      await tester.pump();
+
+      expect(find.byKey(const Key('toast-leading')), findsOneWidget);
+      expect(find.byIcon(PhosphorIconsBold.warning), findsNothing);
     });
 
     testWidgets('hide removes a visible or pending toast', (tester) async {

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_actions.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
 ProfileBadgeResponse _badge({
@@ -94,4 +95,18 @@ void main() {
       );
     });
   });
+
+  group('profileBadgeToastLeading', () {
+    test('returns null without image or caption', () {
+      expect(
+        profileBadgeToastLeading(_FakeBuildContext(), _badge(kind: 'staff')),
+        isNull,
+      );
+    });
+  });
+}
+
+class _FakeBuildContext implements BuildContext {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_badge_detail_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_image.dart';
+import 'package:fluxer_app/features/profile/utils/profile_badge_caption_style.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
@@ -58,6 +60,48 @@ String profileBadgeToastMessage(ProfileBadgeResponse badge) {
   return badge.label;
 }
 
+const double kProfileBadgeToastLeadingSize = 20;
+
+Widget? profileBadgeToastLeading(
+  BuildContext context,
+  ProfileBadgeResponse badge,
+) {
+  final String? imageUrl = profileBadgeDisplayImageUrl(
+    badge,
+    displayHeight: kProfileBadgeToastLeadingSize,
+  );
+  if (imageUrl != null) {
+    return ProfileBadgeImage.fromBadge(
+      badge,
+      height: kProfileBadgeToastLeadingSize,
+    );
+  }
+  final String? caption = badge.caption;
+  if (caption != null && caption.isNotEmpty) {
+    return SizedBox(
+      height: kProfileBadgeToastLeadingSize,
+      width: kProfileBadgeToastLeadingSize,
+      child: Center(
+        child: Text(
+          caption,
+          style: profileBadgeCaptionTextStyle(context, fontSize: 14),
+        ),
+      ),
+    );
+  }
+  return null;
+}
+
+FluxerToast profileBadgeToast(
+  BuildContext context,
+  ProfileBadgeResponse badge,
+) {
+  return FluxerToast(
+    message: profileBadgeToastMessage(badge),
+    leading: profileBadgeToastLeading(context, badge),
+  );
+}
+
 Future<void> showProfileBadgeDetails(
   BuildContext context,
   WidgetRef ref,
@@ -67,9 +111,7 @@ Future<void> showProfileBadgeDetails(
     await ProfileBadgeDetailSheet.show(context, ref, badge: badge);
     return;
   }
-  ref
-      .read(toastProvider.notifier)
-      .show(FluxerToast(message: profileBadgeToastMessage(badge)));
+  ref.read(toastProvider.notifier).show(profileBadgeToast(context, badge));
 }
 
 Future<void> handleProfileBadgeTap(
