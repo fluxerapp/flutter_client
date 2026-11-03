@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/providers/channel_notification_menu_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -133,20 +134,14 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
       return <Widget>[
         FluxerMenuSubmenuItem(
           label: l10n.notificationMuteChannel,
-          onPressed: () {
-            onClose();
-            unawaited(_openMuteSheet(context, ref));
-          },
+          onPressed: () => unawaited(_openMuteSheet(context, ref)),
         ),
       ];
     }
     return <Widget>[
       FluxerBottomSheetSubmenuItem(
         label: l10n.notificationMuteChannel,
-        onTap: () {
-          onClose();
-          unawaited(_openMuteSheet(context, ref));
-        },
+        onTap: () => unawaited(_openMuteSheet(context, ref)),
       ),
     ];
   }
@@ -293,10 +288,12 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
     final MuteSelection? selection = await showMuteDurationSheet(
       context,
       muteTitle: l10n.notificationMuteChannel,
+      useRootNavigator: isMobileLayout(context),
     );
-    if (selection == null || !context.mounted) {
+    if (selection == null) {
       return;
     }
+    onClose();
     await ref
         .read(guildUserSettingsRepositoryProvider)
         .updateChannelOverride(
@@ -305,15 +302,13 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
           muted: true,
           durationSeconds: selection.durationSeconds,
         );
-    if (context.mounted) {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.channelDetailsMutedChannel,
-              variant: FluxerToastVariant.success,
-            ),
-          );
-    }
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.channelDetailsMutedChannel,
+            variant: FluxerToastVariant.success,
+          ),
+        );
   }
 }

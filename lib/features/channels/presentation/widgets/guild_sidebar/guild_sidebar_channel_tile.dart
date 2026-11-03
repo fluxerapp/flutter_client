@@ -410,27 +410,7 @@ class _ChannelTile extends ConsumerWidget {
       case ChannelMenuAction.notificationSettings:
         close();
         unawaited(
-          showChannelNotificationSettingsSheet(
-            menuContext,
-            channel: channel,
-            onSetNotification: (setting) async {
-              await ref
-                  .read(guildUserSettingsRepositoryProvider)
-                  .updateChannelOverride(
-                    guildId: channel.guildId,
-                    channelId: channel.id,
-                    messageNotifications: setting,
-                  );
-              ref
-                  .read(toastProvider.notifier)
-                  .show(
-                    const FluxerToast(
-                      message: 'Notification settings updated',
-                      variant: FluxerToastVariant.success,
-                    ),
-                  );
-            },
-          ),
+          showChannelNotificationSettingsSheet(menuContext, channel: channel),
         );
       case ChannelMenuAction.editChannel:
         close();

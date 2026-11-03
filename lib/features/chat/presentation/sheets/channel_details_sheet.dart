@@ -90,7 +90,6 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
-import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -461,26 +460,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     }
   }
 
-  Future<void> _setNotification(UserNotificationSettings setting) async {
-    final channel = widget.channel;
-    if (channel == null) {
-      return;
-    }
-    await ref
-        .read(guildUserSettingsRepositoryProvider)
-        .updateChannelOverride(
-          guildId: channel.guildId,
-          channelId: channel.id,
-          messageNotifications: setting,
-        );
-    if (!mounted) {
-      return;
-    }
-    _toast(
-      FluxerLocalizations.of(context).channelDetailsNotificationSettingsUpdated,
-    );
-  }
-
   void _toast(
     String message, {
     FluxerToastVariant variant = FluxerToastVariant.success,
@@ -613,7 +592,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
                         onMarkRead: _markRead,
                         onToggleFavorite: _toggleFavorite,
                         onToggleDmPin: _toggleDmPin,
-                        onSetNotification: _setNotification,
                         onCopy: _copy,
                         onCloseDm: _confirmCloseDm,
                         onDeleteMyMessages: () {
