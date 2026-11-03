@@ -1,6 +1,9 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -15,10 +18,32 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
-Widget _wrap(Widget child) {
+import '../../../../../helpers/instance_runtime_config_override.dart';
+import '../../../../../helpers/open_test_database.dart';
+import '../../../../../helpers/test_account_user_id.dart';
+
+const EmbedMedia _tapTestMedia = EmbedMedia(
+  url: 'https://x/img',
+  proxyUrl: 'https://cdn/img',
+  width: 400,
+  height: 300,
+);
+
+final FluxerDatabase _embedTestDatabase = openTestDatabase();
+
+Widget _wrap(Widget child, {bool bindDatabase = false}) {
   final colorTheme = buildDarkColorTheme();
+  final List<Override> overrides = <Override>[
+    instanceRuntimeConfigOverride(),
+    currentUserIdProvider.overrideWithValue(kTestAccountUserId),
+  ];
+  if (bindDatabase) {
+    overrides.add(fluxerDatabaseProvider.overrideWithValue(_embedTestDatabase));
+  }
   return ProviderScope(
+    overrides: overrides,
     child: MaterialApp(
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -48,7 +73,11 @@ Finder _mediaTapTarget(Finder image) => find
 
 void main() {
   group('EmbedRich large image', () {
-    Future<void> pumpRich(WidgetTester tester, EmbedMedia media) async {
+    Future<void> pumpRich(
+      WidgetTester tester,
+      EmbedMedia media, {
+      bool bindDatabase = false,
+    }) async {
       final Embed embed = Embed(
         type: EmbedType.rich,
         url: 'https://example.com/post',
@@ -62,6 +91,7 @@ void main() {
             galleryIndex: EmbedGalleryIndex(<Embed>[embed]),
             embedIndex: 0,
           ),
+          bindDatabase: bindDatabase,
         ),
       );
       await tester.pump();
@@ -107,15 +137,20 @@ void main() {
     });
 
     testWidgets('opens the media viewer when tapped', (tester) async {
-      await pumpRich(tester, _media(width: 400, height: 300));
+      await pumpRich(tester, _tapTestMedia, bindDatabase: true);
       await tester.tap(_mediaTapTarget(find.byType(CachedNetworkImage)));
       await tester.pump();
       expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
   });
 
   group('EmbedLink thumbnail', () {
-    Future<void> pumpLink(WidgetTester tester, EmbedMedia media) async {
+    Future<void> pumpLink(
+      WidgetTester tester,
+      EmbedMedia media, {
+      bool bindDatabase = false,
+    }) async {
       final Embed embed = Embed(
         type: EmbedType.link,
         url: 'https://example.com/post',
@@ -129,6 +164,7 @@ void main() {
             galleryIndex: EmbedGalleryIndex(<Embed>[embed]),
             embedIndex: 0,
           ),
+          bindDatabase: bindDatabase,
         ),
       );
       await tester.pump();
@@ -158,10 +194,11 @@ void main() {
     });
 
     testWidgets('opens the media viewer when tapped', (tester) async {
-      await pumpLink(tester, _media(width: 400, height: 300));
+      await pumpLink(tester, _tapTestMedia, bindDatabase: true);
       await tester.tap(_mediaTapTarget(find.byType(CachedNetworkImage)));
       await tester.pump();
       expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
   });
 }

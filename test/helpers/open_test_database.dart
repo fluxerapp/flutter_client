@@ -23,6 +23,8 @@ Future<void> releaseTestWidgetTree(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 1));
 }
 
+Future<void> flushTestWidgetBinding() => _releaseWidgetTree();
+
 Future<void> _releaseWidgetTree() async {
   if (BindingBase.debugBindingType() == null) {
     return;

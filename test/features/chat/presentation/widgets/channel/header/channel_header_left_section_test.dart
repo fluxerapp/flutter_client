@@ -18,10 +18,14 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:material_ui/material_ui.dart' as material;
 
+import '../../../../../../helpers/core_test_provider_overrides.dart';
+import '../../../../../../helpers/open_test_database.dart';
 import '../../../../../../helpers/rendered_text_test_helpers.dart';
 import '../../../../../../helpers/test_l10n.dart';
 
 const String _channelId = 'channel-1';
+
+final db.FluxerDatabase _headerTestDatabase = openTestDatabase();
 
 void main() {
   testWidgets('topic preview renders markdown on one line', (tester) async {
@@ -40,6 +44,7 @@ void main() {
     expect(topic.maxLines, 1);
     expect(topic.overflow, TextOverflow.ellipsis);
     expect(_hasBoldWelcome(topic.text), isTrue);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('clips the channel name to one line', (tester) async {
@@ -77,6 +82,7 @@ Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
+      ...coreTestProviderOverrides(database: _headerTestDatabase),
       guildListViewModelProvider.overrideWith(_EmptyGuildList.new),
       voiceSessionProvider.overrideWith(_IdleVoiceSession.new),
       favoriteChannelProvider(

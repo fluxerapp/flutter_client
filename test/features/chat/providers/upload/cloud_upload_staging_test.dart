@@ -13,12 +13,15 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dar
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:path/path.dart' as path_lib;
 
+import '../../../../helpers/instance_runtime_config_override.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   ProviderContainer createContainer() {
     return ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
         advancedPreferencesProvider.overrideWith(_TestAdvancedPreferences.new),
       ],

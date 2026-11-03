@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 
@@ -21,10 +22,13 @@ String readAccountUserId(Object ref) {
 
 String? accountUserIdOrNull(Object ref, {bool watch = false}) {
   final String? userId = _readCurrentUserId(ref, watch: watch);
-  if (userId == null || userId.isEmpty) {
-    return accountUserIdTestFallback;
+  if (userId != null && userId.isNotEmpty) {
+    return userId;
   }
-  return userId;
+  if (kReleaseMode) {
+    return null;
+  }
+  return accountUserIdTestFallback;
 }
 
 String? _readCurrentUserId(Object ref, {required bool watch}) {
