@@ -5,12 +5,15 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'helpers/recording_asset_channel.dart';
+import 'helpers/test_account_user_id.dart';
 import 'helpers/test_http_overrides.dart';
 
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  accountUserIdTestFallback = kTestAccountUserId;
   HttpOverrides.global = TestHttpOverrides();
   VisibilityDetectorController.instance.updateInterval = Duration.zero;
   WidgetController.hitTestWarningShouldBeFatal = true;

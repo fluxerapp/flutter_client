@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 
+String? accountUserIdTestFallback;
+
 String watchAccountUserId(Object ref) {
   final String? userId = accountUserIdOrNull(ref, watch: true);
   if (userId == null) {
@@ -20,7 +22,7 @@ String readAccountUserId(Object ref) {
 String? accountUserIdOrNull(Object ref, {bool watch = false}) {
   final String? userId = _readCurrentUserId(ref, watch: watch);
   if (userId == null || userId.isEmpty) {
-    return null;
+    return accountUserIdTestFallback;
   }
   return userId;
 }
