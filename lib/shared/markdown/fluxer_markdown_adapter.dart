@@ -273,7 +273,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
   return FluxerMarkdownConfig(
     unicodeEmojiUrlBuilder: getTwemojiUrl,
     customEmojiUrlBuilder: FluxerMediaUrl.customEmoji,
-    unicodeEmojiPattern: EmojiRegistry.unicodeEmojiRegexSync,
+    unicodeEmojiMatcher: EmojiRegistry.unicodeEmojiMatcherSync,
     animateCustomEmoji: animateCustomEmoji,
     linkColor: context?.colors.textLink,
     blockquoteBorderColor: context?.colors.interactiveMuted,

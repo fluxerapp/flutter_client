@@ -210,27 +210,11 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     BuildContext sheetContext, {
     required ValueChanged<T> onSelected,
   }) {
-    return ListView(
+    return _FluxerSelectList<T>(
+      items: items,
+      value: value,
       shrinkWrap: true,
-      padding: FluxerBottomSheet.scrollViewPadding(sheetContext),
-      children: [
-        FluxerBottomSheetSection(
-          child: FluxerMenuGroup(
-            children: [
-              for (final item in items)
-                FluxerBottomSheetMenuItem(
-                  label: item.label,
-                  hint: item.description,
-                  leading: item.leading,
-                  icon: item.icon,
-                  enabled: item.enabled,
-                  isSelected: item.value == value,
-                  onTap: () => onSelected(item.value),
-                ),
-            ],
-          ),
-        ),
-      ],
+      onSelected: onSelected,
     );
   }
 
@@ -322,6 +306,15 @@ class _FluxerSelectSheet<T> extends StatefulWidget {
 class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
   final TextEditingController _searchController = TextEditingController();
   String _query = '';
+  late List<List<String>> _searchKeys = _buildSearchKeys(widget.items);
+
+  @override
+  void didUpdateWidget(_FluxerSelectSheet<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.items, widget.items)) {
+      _searchKeys = _buildSearchKeys(widget.items);
+    }
+  }
 
   @override
   void dispose() {
@@ -334,7 +327,7 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
     final colors = context.colors;
     final layout = context.layout;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final filteredItems = widget.items.where(_matchesQuery).toList();
+    final filteredItems = _filterItems();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -361,46 +354,101 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
                     ),
                   ),
                 )
-              : ListView(
+              : _FluxerSelectList<T>(
+                  items: filteredItems,
+                  value: widget.value,
                   controller: widget.scrollController,
-                  padding: FluxerBottomSheet.scrollViewPadding(context),
-                  children: [
-                    FluxerBottomSheetSection(
-                      child: FluxerMenuGroup(
-                        children: [
-                          for (final item in filteredItems)
-                            FluxerBottomSheetMenuItem(
-                              label: item.label,
-                              hint: item.description,
-                              leading: item.leading,
-                              icon: item.icon,
-                              enabled: item.enabled,
-                              isSelected: item.value == widget.value,
-                              onTap: () => widget._onSelected(item.value),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  onSelected: widget._onSelected,
                 ),
         ),
       ],
     );
   }
 
-  bool _matchesQuery(FluxerSelectItem<T> item) {
+  List<FluxerSelectItem<T>> _filterItems() {
     final query = _query.trim().toLowerCase();
     if (query.isEmpty) {
-      return true;
+      return widget.items;
     }
-
-    final haystacks = [
-      item.label,
-      if (item.description != null) item.description!,
-      if (item.searchText != null) item.searchText!,
+    return [
+      for (var i = 0; i < widget.items.length; i++)
+        if (_searchKeys[i].any((key) => key.contains(query))) widget.items[i],
     ];
+  }
 
-    return haystacks.any((value) => value.toLowerCase().contains(query));
+  List<List<String>> _buildSearchKeys(List<FluxerSelectItem<T>> items) => [
+    for (final item in items)
+      [
+        item.label.toLowerCase(),
+        if (item.description case final description?) description.toLowerCase(),
+        if (item.searchText case final searchText?) searchText.toLowerCase(),
+      ],
+  ];
+}
+
+class _FluxerSelectList<T> extends StatelessWidget {
+  _FluxerSelectList({
+    required this.items,
+    required this.value,
+    required ValueChanged<T> onSelected,
+    this.controller,
+    this.shrinkWrap = false,
+  }) : _onSelected = ((value) => onSelected(value as T));
+
+  final List<FluxerSelectItem<T>> items;
+  final T? value;
+  final ValueChanged<Object?> _onSelected;
+  final ScrollController? controller;
+  final bool shrinkWrap;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = context.layout;
+    final Color cardColor = FluxerBottomSheet.cardColorOf(context);
+    final Radius radius = layout.radiusXxl.topLeft;
+    final int lastIndex = items.length - 1;
+
+    return ListView.separated(
+      controller: controller,
+      shrinkWrap: shrinkWrap,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: layout.pageGutter),
+      ),
+      itemCount: items.length,
+      separatorBuilder: (context, _) => ColoredBox(
+        color: cardColor,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: layout.groupRowInset),
+          child: Divider(
+            height: 1,
+            thickness: 1,
+            color: context.colors.backgroundModifierAccent,
+          ),
+        ),
+      ),
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Material(
+          color: cardColor,
+          surfaceTintColor: Colors.transparent,
+          borderRadius: BorderRadius.vertical(
+            top: index == 0 ? radius : Radius.zero,
+            bottom: index == lastIndex ? radius : Radius.zero,
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: FluxerBottomSheetMenuItem(
+            label: item.label,
+            hint: item.description,
+            leading: item.leading,
+            icon: item.icon,
+            enabled: item.enabled,
+            isSelected: item.value == value,
+            onTap: () => _onSelected(item.value),
+          ),
+        );
+      },
+    );
   }
 }
 

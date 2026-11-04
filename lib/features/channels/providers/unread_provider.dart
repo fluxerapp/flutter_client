@@ -286,11 +286,11 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       .listen((_) => scheduleRecompute());
   final indexSub = ref
       .watch(channelLastMessageIndexProvider(readAccountUserId(ref)))
-      .flushStream
-      .where((Map<String, String> updates) => updates.containsKey(channelId))
+      .flushesFor(channelId)
       .listen((_) => scheduleRecompute());
-  ref
-    ..listen<int>(readStateOverlayVersionProvider, (_, _) {
+  final void Function() stopOverlay = readStateWriteBatcher.listenOverlay(
+    channelId,
+    () {
       if (canView == false) {
         return;
       }
@@ -332,14 +332,16 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
         return;
       }
       scheduleRecompute();
-    })
-    ..onDispose(() {
-      disposed = true;
-      unawaited(sourcesSub.cancel());
-      unawaited(indexSub.cancel());
-      settingsSub?.close();
-      unawaited(controller.close());
-    });
+    },
+  );
+  ref.onDispose(() {
+    disposed = true;
+    stopOverlay();
+    unawaited(sourcesSub.cancel());
+    unawaited(indexSub.cancel());
+    settingsSub?.close();
+    unawaited(controller.close());
+  });
 
   return controller.stream;
 }

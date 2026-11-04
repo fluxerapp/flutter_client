@@ -53,13 +53,14 @@ class EmojiRegistry {
   static Map<String, EmojiEntry>? _surrogateToEntry;
   static Map<String, List<EmojiEntry>>? _categories;
   static List<EmojiEntry>? _allEmojis;
-  static RegExp? _unicodeEmojiRegex;
+  static UnicodeEmojiMatcher? _unicodeEmojiMatcher;
   static int _maxUnicodeEmojiLength = 0;
   static String? _lastSearchQuery;
   static List<EmojiEntry>? _lastSearchResults;
 
   static String? resolveSync(String name) => _nameToSurrogate?[name];
-  static RegExp? get unicodeEmojiRegexSync => _unicodeEmojiRegex;
+  static UnicodeEmojiMatcher? get unicodeEmojiMatcherSync =>
+      _unicodeEmojiMatcher;
 
   static int get maxUnicodeEmojiLength => _maxUnicodeEmojiLength;
 
@@ -91,7 +92,7 @@ class EmojiRegistry {
   static Future<void>? _pendingPreload;
 
   static Future<void> preload() {
-    if (_categories != null && _unicodeEmojiRegex != null) {
+    if (_categories != null && _unicodeEmojiMatcher != null) {
       return Future<void>.value();
     }
     return _pendingPreload ??= _doPreload().whenComplete(
@@ -207,7 +208,9 @@ class EmojiRegistry {
     _surrogateToEntry = surrogateMap;
     _categories = cats;
     _allEmojis = all;
-    _unicodeEmojiRegex = _buildUnicodeEmojiRegex(unicodeSurrogates);
+    _unicodeEmojiMatcher = unicodeSurrogates.isEmpty
+        ? null
+        : UnicodeEmojiMatcher._(unicodeSurrogates);
     _maxUnicodeEmojiLength = unicodeSurrogates.fold<int>(
       0,
       (int longest, String surrogates) =>
@@ -215,30 +218,6 @@ class EmojiRegistry {
     );
     _lastSearchQuery = null;
     _lastSearchResults = null;
-  }
-
-  static RegExp? _buildUnicodeEmojiRegex(Set<String> surrogates) {
-    if (surrogates.isEmpty) {
-      return null;
-    }
-
-    final patterns = <String, String>{};
-    for (final surrogate in surrogates) {
-      if (surrogate.endsWith('\uFE0F')) {
-        final base = surrogate.substring(0, surrogate.length - 1);
-        patterns[surrogate] = '${RegExp.escape(base)}(?:\\uFE0F)?';
-      } else {
-        patterns[surrogate] = RegExp.escape(surrogate);
-      }
-    }
-
-    final ordered = surrogates.toList()
-      ..sort((a, b) => b.length.compareTo(a.length));
-    final pattern = ordered.map((s) => patterns[s]!).join('|');
-    if (pattern.isEmpty) {
-      return null;
-    }
-    return RegExp(pattern);
   }
 
   static List<EmojiEntry> search(String query) {
@@ -275,5 +254,59 @@ class EmojiRegistry {
     _lastSearchQuery = q;
     _lastSearchResults = results;
     return results;
+  }
+}
+
+class UnicodeEmojiMatcher {
+  UnicodeEmojiMatcher._(Set<String> surrogates) {
+    for (final surrogate in surrogates) {
+      _add(surrogate);
+      if (surrogate.length > 1 && surrogate.endsWith('\uFE0F')) {
+        _add(surrogate.substring(0, surrogate.length - 1));
+      }
+    }
+  }
+
+  final Set<String> _sequences = <String>{};
+  final Map<int, int> _maxLengthByFirstUnit = <int, int>{};
+
+  void _add(String sequence) {
+    _sequences.add(sequence);
+    final int first = sequence.codeUnitAt(0);
+    final int longest = _maxLengthByFirstUnit[first] ?? 0;
+    if (sequence.length > longest) {
+      _maxLengthByFirstUnit[first] = sequence.length;
+    }
+  }
+
+  List<({int start, int end})> matches(String text) {
+    final List<({int start, int end})> found = <({int start, int end})>[];
+    int position = 0;
+    while (position < text.length) {
+      final int? longest = _maxLengthByFirstUnit[text.codeUnitAt(position)];
+      int end = position + 1;
+      bool matched = false;
+      if (longest != null) {
+        final int remaining = text.length - position;
+        for (
+          int length = longest < remaining ? longest : remaining;
+          length > 0;
+          length--
+        ) {
+          if (_sequences.contains(
+            text.substring(position, position + length),
+          )) {
+            end = position + length;
+            matched = true;
+            break;
+          }
+        }
+      }
+      if (matched) {
+        found.add((start: position, end: end));
+      }
+      position = end;
+    }
+    return found;
   }
 }

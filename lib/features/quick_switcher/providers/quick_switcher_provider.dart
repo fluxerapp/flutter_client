@@ -152,7 +152,12 @@ class QuickSwitcher extends _$QuickSwitcher {
   }
 
   Future<void> _warmCandidatesAndRecompute() async {
-    final QuickSwitcherCandidateSets sets = await _loadCandidateSets();
+    final List<Channel> guildChannels = await ref
+        .read(quickSwitcherRepositoryProvider)
+        .getGuildChannels();
+    final QuickSwitcherCandidateSets sets = await _loadCandidateSets(
+      guildChannels,
+    );
     if (!state.isOpen) {
       return;
     }
@@ -168,9 +173,7 @@ class QuickSwitcher extends _$QuickSwitcher {
     }
     _unreadChannels = unreadChannels;
     _conversations = dmState.conversations;
-    _guildChannels = await ref
-        .read(quickSwitcherRepositoryProvider)
-        .getGuildChannels();
+    _guildChannels = guildChannels;
     final Map<String, QuickSwitcherUnreadChannel> unreadByChannelId =
         <String, QuickSwitcherUnreadChannel>{
           for (final QuickSwitcherUnreadChannel entry in unreadChannels)
@@ -191,12 +194,11 @@ class QuickSwitcher extends _$QuickSwitcher {
     _recomputeResults();
   }
 
-  Future<QuickSwitcherCandidateSets> _loadCandidateSets() async {
+  Future<QuickSwitcherCandidateSets> _loadCandidateSets(
+    List<Channel> channels,
+  ) async {
     final dmState = ref.read(dmViewModelProvider);
     final guilds = ref.read(guildListViewModelProvider).guilds;
-    final List<Channel> channels = await ref
-        .read(quickSwitcherRepositoryProvider)
-        .getGuildChannels();
     final favorites = ref.read(favoriteChannelsProvider).value ?? const [];
     final String? selectedGuildId = ref.read(activeGuildIdProvider);
     List<Member> guildMembers = const <Member>[];

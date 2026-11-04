@@ -24,14 +24,14 @@ String buildFluxerEmojiContextTsv(String input) {
 }
 
 void _appendStandardRecords(StringBuffer buffer, String input) {
-  final RegExp? emojiPattern = EmojiRegistry.unicodeEmojiRegexSync;
-  if (emojiPattern == null) {
+  final UnicodeEmojiMatcher? matcher = EmojiRegistry.unicodeEmojiMatcherSync;
+  if (matcher == null) {
     return;
   }
   var utf16Cursor = 0;
   var byteCursor = 0;
-  for (final Match match in emojiPattern.allMatches(input)) {
-    final String candidate = match.group(0)!;
+  for (final match in matcher.matches(input)) {
+    final String candidate = input.substring(match.start, match.end);
     byteCursor += utf8.encode(input.substring(utf16Cursor, match.start)).length;
     utf16Cursor = match.start;
     if (!_plaintextSymbols.contains(candidate)) {

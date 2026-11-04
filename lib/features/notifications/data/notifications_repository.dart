@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
@@ -10,6 +12,7 @@ import 'package:fluxer_dart/export.dart';
 
 const int _kNotificationMessageBufferSize = 50;
 const int kUnreadPreviewMessageLimit = 25;
+const int _kAckBulkMaxChannels = 100;
 
 class NotificationsRepository {
   NotificationsRepository({
@@ -177,6 +180,10 @@ class NotificationsRepository {
       messageId: messageId,
       body: const MessageAckRequest(),
     );
+    await _applyLocalRead(channelId, messageId);
+  }
+
+  Future<void> _applyLocalRead(String channelId, String messageId) async {
     await upsertReadStateIfChanged(
       _database,
       ReadStatesCompanion(
@@ -194,12 +201,33 @@ class NotificationsRepository {
   Future<void> markAllInboxChannelsAsRead(
     List<UnreadInboxEntry> entries,
   ) async {
+    final List<ReadStateAckBulkRequestReadStates> acks =
+        <ReadStateAckBulkRequestReadStates>[];
     for (final UnreadInboxEntry entry in entries) {
       final String? messageId = await resolveMarkReadMessageId(entry.channelId);
       if (messageId == null || messageId.isEmpty) {
         continue;
       }
-      await markChannelRead(channelId: entry.channelId, messageId: messageId);
+      acks.add(
+        ReadStateAckBulkRequestReadStates(
+          channelId: entry.channelId,
+          messageId: messageId,
+        ),
+      );
+    }
+    for (int start = 0; start < acks.length; start += _kAckBulkMaxChannels) {
+      final List<ReadStateAckBulkRequestReadStates> chunk = acks.sublist(
+        start,
+        min(start + _kAckBulkMaxChannels, acks.length),
+      );
+      await _client.readStates.ackBulkMessages(
+        body: ReadStateAckBulkRequest(readStates: chunk),
+      );
+      await _database.transaction(() async {
+        for (final ReadStateAckBulkRequestReadStates ack in chunk) {
+          await _applyLocalRead(ack.channelId, ack.messageId);
+        }
+      });
     }
   }
 

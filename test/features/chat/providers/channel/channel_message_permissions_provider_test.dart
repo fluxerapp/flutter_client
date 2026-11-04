@@ -635,6 +635,80 @@ void main() {
       },
     );
 
+    test('reflects role and member writes after an earlier resolve', () async {
+      final FluxerDatabase db = openTestDatabase();
+      const String guildId = 'guild_1';
+      const String channelId = 'channel_1';
+      const String userId = 'user_1';
+      await db.guildDao.upsertServer(
+        ServersCompanion.insert(id: guildId, name: 'Guild'),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: channelId, guildId: guildId, name: 'a'),
+      );
+      await db.roleDao.upsertRoles([
+        RolesCompanion.insert(
+          id: guildId,
+          guildId: guildId,
+          name: '@everyone',
+          permissions: Value(Permission.sendMessages.value.toString()),
+        ),
+      ]);
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(userId: userId, guildId: guildId),
+      );
+
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
+          userSettingsViewModelProvider.overrideWith(
+            () => _FixedUserSettingsViewModel(userId),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      Future<bool> canSend() async {
+        final ChannelPermissionBitsOutcome outcome = await container.read(
+          FutureProvider.autoDispose<ChannelPermissionBitsOutcome>(
+            (Ref ref) => computeEffectiveGuildChannelPermissionBitsOutcome(
+              ref: ref,
+              channelId: channelId,
+            ),
+          ).future,
+        );
+        return hasPermission(outcome.value, Permission.sendMessages);
+      }
+
+      expect(await canSend(), isTrue);
+
+      await db.roleDao.upsertRoles([
+        RolesCompanion.insert(
+          id: guildId,
+          guildId: guildId,
+          name: '@everyone',
+          permissions: const Value('0'),
+        ),
+        RolesCompanion.insert(
+          id: 'speaker',
+          guildId: guildId,
+          name: 'speaker',
+          permissions: Value(Permission.sendMessages.value.toString()),
+        ),
+      ]);
+      expect(await canSend(), isFalse);
+
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: userId,
+          guildId: guildId,
+          roleIdsJson: Value(jsonEncode(<String>['speaker'])),
+        ),
+      );
+      expect(await canSend(), isTrue);
+    });
+
     test(
       'resolves view-only send deny from local rows while guild list is empty',
       () async {

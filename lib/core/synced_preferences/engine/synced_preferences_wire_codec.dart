@@ -19,6 +19,48 @@ class SyncedPreferencesWireCodec {
     required Uint8List fieldMessageBytes,
     int fieldWireType = 2,
   }) {
+    return base64Encode(
+      _encodeFieldIntoBytes(
+        current: currentWire == null || currentWire.isEmpty
+            ? Uint8List(0)
+            : base64Decode(currentWire),
+        fieldNumber: fieldNumber,
+        fieldMessageBytes: fieldMessageBytes,
+        fieldWireType: fieldWireType,
+      ),
+    );
+  }
+
+  static String encodeSnapshotIntoWire({
+    required String? currentWire,
+    required Map<int, Uint8List> fieldMessages,
+    Map<int, int>? fieldWireTypes,
+  }) {
+    if (fieldMessages.isEmpty) {
+      return currentWire ?? '';
+    }
+    var bytes = currentWire == null || currentWire.isEmpty
+        ? Uint8List(0)
+        : base64Decode(currentWire);
+    for (final entry
+        in fieldMessages.entries.toList()
+          ..sort((a, b) => a.key.compareTo(b.key))) {
+      bytes = _encodeFieldIntoBytes(
+        current: bytes,
+        fieldNumber: entry.key,
+        fieldMessageBytes: entry.value,
+        fieldWireType: fieldWireTypes?[entry.key] ?? 2,
+      );
+    }
+    return base64Encode(bytes);
+  }
+
+  static Uint8List _encodeFieldIntoBytes({
+    required Uint8List current,
+    required int fieldNumber,
+    required Uint8List fieldMessageBytes,
+    required int fieldWireType,
+  }) {
     final fieldOnlyWire = _wrapFieldMessage(
       fieldNumber,
       fieldMessageBytes,
@@ -30,45 +72,20 @@ class SyncedPreferencesWireCodec {
         'Failed to encode field $fieldNumber chunks',
       );
     }
-    if (currentWire == null || currentWire.isEmpty) {
-      return base64Encode(_concatChunks(sourceFieldChunks));
+    if (current.isEmpty) {
+      return _concatChunks(sourceFieldChunks);
     }
-    final currentBytes = base64Decode(currentWire);
     final updated = replaceField(
-      target: currentBytes,
+      target: current,
       fieldNumber: fieldNumber,
       sourceFieldChunks: sourceFieldChunks,
     );
-    final encoded = base64Encode(updated);
-    if (!verifyWirePreservesForeignFields(
-      before: currentWire,
-      after: encoded,
-      replacedFieldNumber: fieldNumber,
-    )) {
+    if (!_preservesForeignFields(current, updated, fieldNumber)) {
       throw SyncedPreferencesWireEncodeException(
         'Foreign synced preference fields were not preserved',
       );
     }
-    return encoded;
-  }
-
-  static String encodeSnapshotIntoWire({
-    required String? currentWire,
-    required Map<int, Uint8List> fieldMessages,
-    Map<int, int>? fieldWireTypes,
-  }) {
-    var wire = currentWire ?? '';
-    for (final entry
-        in fieldMessages.entries.toList()
-          ..sort((a, b) => a.key.compareTo(b.key))) {
-      wire = encodeFieldIntoWire(
-        currentWire: wire.isEmpty ? null : wire,
-        fieldNumber: entry.key,
-        fieldMessageBytes: entry.value,
-        fieldWireType: fieldWireTypes?[entry.key] ?? 2,
-      );
-    }
-    return wire;
+    return updated;
   }
 
   static Uint8List replaceField({
@@ -76,21 +93,30 @@ class SyncedPreferencesWireCodec {
     required int fieldNumber,
     required List<Uint8List> sourceFieldChunks,
   }) {
-    final targetChunks = _parseTopLevelFieldChunks(target);
+    return replaceFields(
+      target: target,
+      fieldChunks: {fieldNumber: sourceFieldChunks},
+    );
+  }
+
+  static Uint8List replaceFields({
+    required Uint8List target,
+    required Map<int, List<Uint8List>> fieldChunks,
+  }) {
     final pieces = <Uint8List>[];
-    var inserted = false;
-    for (final chunk in targetChunks) {
-      if (chunk.field == fieldNumber) {
-        if (!inserted) {
-          pieces.addAll(sourceFieldChunks);
-          inserted = true;
-        }
-        continue;
+    final inserted = <int>{};
+    for (final chunk in _parseTopLevelFieldChunks(target)) {
+      final replacement = fieldChunks[chunk.field];
+      if (replacement == null) {
+        pieces.add(chunk.bytes);
+      } else if (inserted.add(chunk.field)) {
+        pieces.addAll(replacement);
       }
-      pieces.add(chunk.bytes);
     }
-    if (!inserted) {
-      pieces.addAll(sourceFieldChunks);
+    for (final entry in fieldChunks.entries) {
+      if (!inserted.contains(entry.key)) {
+        pieces.addAll(entry.value);
+      }
     }
     return _concatChunks(pieces);
   }
@@ -104,29 +130,40 @@ class SyncedPreferencesWireCodec {
       return true;
     }
     try {
-      final beforeChunks = _foreignFieldChunks(
+      return _preservesForeignFields(
         base64Decode(before),
-        exceptFieldNumber: replacedFieldNumber,
-      );
-      final afterChunks = _foreignFieldChunks(
         base64Decode(after),
-        exceptFieldNumber: replacedFieldNumber,
+        replacedFieldNumber,
       );
-      if (beforeChunks.length != afterChunks.length) {
-        return false;
-      }
-      for (var i = 0; i < beforeChunks.length; i++) {
-        final left = beforeChunks[i];
-        final right = afterChunks[i];
-        if (left.field != right.field ||
-            !_bytesEqual(left.bytes, right.bytes)) {
-          return false;
-        }
-      }
-      return true;
     } on Object {
       return false;
     }
+  }
+
+  static bool _preservesForeignFields(
+    Uint8List before,
+    Uint8List after,
+    int? replacedFieldNumber,
+  ) {
+    final beforeChunks = _foreignFieldChunks(
+      before,
+      exceptFieldNumber: replacedFieldNumber,
+    );
+    final afterChunks = _foreignFieldChunks(
+      after,
+      exceptFieldNumber: replacedFieldNumber,
+    );
+    if (beforeChunks.length != afterChunks.length) {
+      return false;
+    }
+    for (var i = 0; i < beforeChunks.length; i++) {
+      final left = beforeChunks[i];
+      final right = afterChunks[i];
+      if (left.field != right.field || !_bytesEqual(left.bytes, right.bytes)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   static int countForeignFields(String wire, {int? exceptFieldNumber}) {

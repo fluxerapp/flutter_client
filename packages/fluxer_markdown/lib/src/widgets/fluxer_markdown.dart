@@ -13,12 +13,12 @@ typedef FluxerMarkdownAstParser =
     List<md.Node> Function(String data, FluxerMarkdownFeatures features);
 
 final MarkdownParseCache<
-  (String, FluxerMarkdownFeatures, RegExp?),
+  (String, FluxerMarkdownFeatures, Object?),
   List<md.Node>
 >
 _astNodeCache =
     MarkdownParseCache<
-      (String, FluxerMarkdownFeatures, RegExp?),
+      (String, FluxerMarkdownFeatures, Object?),
       List<md.Node>
     >();
 
@@ -180,7 +180,7 @@ class _FluxerMarkdownState extends State<FluxerMarkdown> {
     final List<md.Node> nodes = _astNodeCache.resolve((
       markdownParseCacheKey(widget.data, widget.parseCacheKey),
       features,
-      widget.config.unicodeEmojiPattern,
+      widget.config.unicodeEmojiMatcher,
     ), () => widget.astParser(widget.data, features));
     return buildFluxerMarkdownProvidedAst(
       context: context,

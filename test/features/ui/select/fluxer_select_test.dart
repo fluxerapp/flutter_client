@@ -229,6 +229,46 @@ void main() {
       expect(find.text('No matches found'), findsOneWidget);
     });
 
+    testWidgets('builds only visible rows of a long list and finds the rest '
+        'by search', (tester) async {
+      final manyItems = [
+        for (var i = 0; i < 1000; i++)
+          FluxerSelectItem(
+            value: i,
+            label: 'Channel $i',
+            searchText: 'Topic$i',
+          ),
+      ];
+      int? selectedValue;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          FluxerSelect<int>(
+            items: manyItems,
+            onChanged: (value) => selectedValue = value,
+          ),
+        ),
+      );
+
+      await tester.tap(find.byIcon(PhosphorIconsBold.caretDown));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Channel 0'), findsOneWidget);
+      expect(
+        find.byType(FluxerBottomSheetMenuItem).evaluate().length,
+        lessThan(100),
+      );
+
+      await tester.enterText(find.byType(EditableText), 'TOPIC999');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Channel 0'), findsNothing);
+      await tester.tap(find.text('Channel 999'));
+      await tester.pumpAndSettle();
+
+      expect(selectedValue, 999);
+    });
+
     testWidgets('search waits for a tap on phones', (tester) async {
       _useView(tester, const Size(400, 800));
       await tester.pumpWidget(buildTestApp(_searchableSelect()));
