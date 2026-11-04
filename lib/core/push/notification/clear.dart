@@ -73,8 +73,11 @@ final class PushNotificationClear {
     return cleared != null && pushMessageIsCoveredByAck(readThrough, cleared);
   }
 
-  static void forgetAndroidClear(String? channelId) {
-    _androidClearedThrough.remove(channelId);
+  static bool isAckedOnAndroid(String? channelId, String? messageId) {
+    final String? cleared = _androidClearedThrough[channelId];
+    return cleared != null &&
+        messageId != null &&
+        pushMessageIsCoveredByAck(messageId, cleared);
   }
 
   static Future<void> clearAllDelivered() async {

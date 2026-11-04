@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' show Locale;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
@@ -14,6 +15,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
 import 'package:fluxer_app/core/push/notification/clear.dart';
 import 'package:fluxer_app/core/push/notification/foreground_policy.dart';
+import 'package:fluxer_app/core/push/notification/localization.dart';
 import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/core/push/notification/permission.dart';
 import 'package:fluxer_app/core/push/notification/sound_settings.dart';
@@ -29,6 +31,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/call_ring.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_notifications_coordinator.g.dart';
@@ -53,7 +56,12 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       }, fireImmediately: true)
       ..listen<SoundPreferencesState>(soundPreferencesProvider, (_, _) {
         _syncSoundSettings();
-      });
+      })
+      ..listen<Locale>(effectiveAppLocaleProvider, (_, Locale next) {
+        if (defaultTargetPlatform == TargetPlatform.android) {
+          unawaited(writePushNotificationLocale(next.toLanguageTag()));
+        }
+      }, fireImmediately: true);
     unawaited(_hydrationSubscription?.cancel());
     _hydrationSubscription = ref
         .read(syncedPreferencesStoreProvider)

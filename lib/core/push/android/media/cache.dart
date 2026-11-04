@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
@@ -12,7 +13,7 @@ import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 
 const int _kMaxPushImageBytes = 5 * 1024 * 1024;
-const int kPushAvatarMaxEdge = 160;
+const int kPushAvatarMaxEdge = 256;
 const int kPushPictureMaxEdge = 720;
 const int kPushMediaCacheMaxBytes = 65 * 1024 * 1024;
 const int kPushMediaCacheMaxEntries = 128;
@@ -78,7 +79,7 @@ Future<String?> _downloadPushNotificationMedia(
     if (bytes.isEmpty) {
       return null;
     }
-    final Uint8List? encoded = encode(bytes);
+    final Uint8List? encoded = await _encodeOffIsolate(encode, bytes);
     if (encoded == null || encoded.isEmpty) {
       return null;
     }
@@ -105,6 +106,13 @@ Future<String?> _downloadPushNotificationMedia(
       }
     }
   }
+}
+
+Future<Uint8List?> _encodeOffIsolate(
+  Uint8List? Function(Uint8List bytes) encode,
+  Uint8List bytes,
+) {
+  return Isolate.run(() => encode(bytes), debugName: 'push-media-encode');
 }
 
 Future<void> prunePushNotificationMediaCache() async {

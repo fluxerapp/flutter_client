@@ -11623,6 +11623,66 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t send reply'**
   String get notificationReplyFailed;
 
+  /// Android notification channel name for community messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get notificationChannelMessages;
+
+  /// Android notification channel name for direct messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages'**
+  String get notificationChannelDirectMessages;
+
+  /// Android notification channel name for new forum posts.
+  ///
+  /// In en, this message translates to:
+  /// **'New forum posts'**
+  String get notificationChannelForumPosts;
+
+  /// Android notification channel name for community messages when the message sound is turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages without sound'**
+  String get notificationChannelMessagesSilent;
+
+  /// Android notification channel name for direct messages when the direct message sound is turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages without sound'**
+  String get notificationChannelDirectMessagesSilent;
+
+  /// Description shown for Fluxer notification channels in Android settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages and alerts'**
+  String get notificationChannelDescription;
+
+  /// Notification text used when a push has no message body.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get notificationNewMessageFallback;
+
+  /// Name used for the signed-in user inside a conversation notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get notificationLocalUserName;
+
+  /// Notification title for a group direct message.
+  ///
+  /// In en, this message translates to:
+  /// **'Group DM'**
+  String get notificationGroupDmTitle;
+
+  /// Notification sender name used when a push has no sender.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get notificationUnknownSender;
+
   /// Action label for forwarding a message.
   ///
   /// In en, this message translates to:

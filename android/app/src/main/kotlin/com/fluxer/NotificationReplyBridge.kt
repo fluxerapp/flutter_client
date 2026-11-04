@@ -8,17 +8,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodChannel
 
 class NotificationReplyBridge(
     private val context: Context,
 ) {
-    fun register(flutterEngine: FlutterEngine) {
-        MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            CHANNEL_NAME,
-        ).setMethodCallHandler { call, result ->
+    fun register(messenger: BinaryMessenger) {
+        MethodChannel(messenger, CHANNEL_NAME).setMethodCallHandler { call, result ->
             when (call.method) {
                 METHOD_ATTACH -> {
                     val id = call.argument<Int>(ARG_ID)
@@ -49,6 +46,8 @@ class NotificationReplyBridge(
                             title = title,
                             hint = hint,
                             features = call.argument<String>(ARG_FEATURES),
+                            failureTitle = call.argument<String>(ARG_FAILURE_TITLE),
+                            failureBody = call.argument<String>(ARG_FAILURE_BODY),
                         ),
                     )
                 }
@@ -68,6 +67,8 @@ class NotificationReplyBridge(
         const val ARG_TITLE = "title"
         const val ARG_HINT = "hint"
         const val ARG_FEATURES = "features"
+        const val ARG_FAILURE_TITLE = "failureTitle"
+        const val ARG_FAILURE_BODY = "failureBody"
 
         fun attachReplyAction(
             context: Context,
@@ -79,6 +80,8 @@ class NotificationReplyBridge(
             title: String,
             hint: String,
             features: String? = null,
+            failureTitle: String? = null,
+            failureBody: String? = null,
         ): Boolean {
             val manager = context.getSystemService(NotificationManager::class.java) ?: return false
             val status = postedNotification(manager, id, tag) ?: return false
@@ -98,6 +101,8 @@ class NotificationReplyBridge(
                     title = title,
                     hint = hint,
                     features = features,
+                    failureTitle = failureTitle,
+                    failureBody = failureBody,
                 ),
             )
             publish(manager, id, tag, builder.build())
@@ -150,6 +155,8 @@ class NotificationReplyBridge(
             title: String,
             hint: String,
             features: String?,
+            failureTitle: String?,
+            failureBody: String?,
         ): Notification.Action {
             val intent = Intent(context, FluxerNotificationReplyReceiver::class.java).apply {
                 action = ACTION_REPLY
@@ -160,6 +167,8 @@ class NotificationReplyBridge(
                 putExtra(EXTRA_MESSAGE_ID, messageId)
                 putExtra(EXTRA_USER_ID, userId)
                 putExtra(EXTRA_FEATURES, features)
+                putExtra(EXTRA_FAILURE_TITLE, failureTitle)
+                putExtra(EXTRA_FAILURE_BODY, failureBody)
             }
             var flags = PendingIntent.FLAG_UPDATE_CURRENT
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

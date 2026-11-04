@@ -107,6 +107,10 @@ final class AndroidPushConversationHistoryStore {
       } else {
         lines.add(_inheritSenderAvatar(line, existing: lines));
       }
+      lines.sort(
+        (PushConversationLine left, PushConversationLine right) =>
+            left.timestampMs.compareTo(right.timestampMs),
+      );
       while (lines.length > kPushConversationHistoryMaxLines) {
         lines.removeAt(0);
       }
@@ -151,6 +155,17 @@ final class AndroidPushConversationHistoryStore {
       store[conversationTag] = next;
       await _writeStore(store);
       return next;
+    });
+  }
+
+  static Future<void> retainConversations(Set<String> activeTags) {
+    return _serial(() async {
+      final Map<String, PushConversationState> store = await _readStore();
+      final int before = store.length;
+      store.removeWhere((String tag, _) => !activeTags.contains(tag));
+      if (store.length != before) {
+        await _writeStore(store);
+      }
     });
   }
 
@@ -269,7 +284,11 @@ final class AndroidPushConversationHistoryStore {
         'payload': entry.value.payload,
       };
     }
-    await file.writeAsString(jsonEncode(encoded), flush: true);
+    final File staging = File(
+      '${file.path}.${DateTime.now().microsecondsSinceEpoch}.tmp',
+    );
+    await staging.writeAsString(jsonEncode(encoded), flush: true);
+    await staging.rename(file.path);
   }
 
   static Future<File> _historyFile() async {

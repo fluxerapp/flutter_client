@@ -9147,6 +9147,46 @@
     "@notificationReplyFailed": {
         "description": "Body of the local notification shown when a notification reply fails to send."
     },
+    "notificationChannelMessages": "Messages",
+    "@notificationChannelMessages": {
+        "description": "Android notification channel name for community messages."
+    },
+    "notificationChannelDirectMessages": "Direct messages",
+    "@notificationChannelDirectMessages": {
+        "description": "Android notification channel name for direct messages."
+    },
+    "notificationChannelForumPosts": "New forum posts",
+    "@notificationChannelForumPosts": {
+        "description": "Android notification channel name for new forum posts."
+    },
+    "notificationChannelMessagesSilent": "Messages without sound",
+    "@notificationChannelMessagesSilent": {
+        "description": "Android notification channel name for community messages when the message sound is turned off."
+    },
+    "notificationChannelDirectMessagesSilent": "Direct messages without sound",
+    "@notificationChannelDirectMessagesSilent": {
+        "description": "Android notification channel name for direct messages when the direct message sound is turned off."
+    },
+    "notificationChannelDescription": "Messages and alerts",
+    "@notificationChannelDescription": {
+        "description": "Description shown for Fluxer notification channels in Android settings."
+    },
+    "notificationNewMessageFallback": "New message",
+    "@notificationNewMessageFallback": {
+        "description": "Notification text used when a push has no message body."
+    },
+    "notificationLocalUserName": "Me",
+    "@notificationLocalUserName": {
+        "description": "Name used for the signed-in user inside a conversation notification."
+    },
+    "notificationGroupDmTitle": "Group DM",
+    "@notificationGroupDmTitle": {
+        "description": "Notification title for a group direct message."
+    },
+    "notificationUnknownSender": "Unknown",
+    "@notificationUnknownSender": {
+        "description": "Notification sender name used when a push has no sender."
+    },
     "chatMessageForward": "Forward",
     "@chatMessageForward": {
         "description": "Action label for forwarding a message."

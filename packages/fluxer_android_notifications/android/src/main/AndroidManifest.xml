@@ -1,1 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <provider
+            android:name="com.fluxer.notifications.FluxerPushMediaProvider"
+            android:authorities="${applicationId}.fluxer_push_media"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fluxer_push_media_paths" />
+        </provider>
+    </application>
+</manifest>

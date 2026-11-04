@@ -106,18 +106,21 @@ String? resolvePushNotificationTag(Map<String, String> payload) {
   return null;
 }
 
-final RegExp _guildTitlePattern = RegExp(r' \(#([^,]+), .+\)$');
+const String kPushGroupDmTitleSuffix = ' (Group DM)';
+
+final RegExp _guildTitlePattern = RegExp(r' \(#([^,]+), (.+)\)$');
 
 String? resolvePushConversationName(
   Map<String, String> payload, {
   String? title,
+  String groupDmLabel = 'Group DM',
 }) {
   final String? messageTitle = _nonEmpty(title) ?? _nonEmpty(payload['title']);
   if (messageTitle == null) {
     return null;
   }
-  if (messageTitle.endsWith(' (Group DM)')) {
-    return 'Group DM';
+  if (messageTitle.endsWith(kPushGroupDmTitleSuffix)) {
+    return groupDmLabel;
   }
   if (isDmPushPayload(enrichPushPayload(payload))) {
     return null;
@@ -138,6 +141,16 @@ String? resolvePushConversationName(
     return null;
   }
   return channelName;
+}
+
+String? resolvePushCommunityName(Map<String, String> payload, {String? title}) {
+  final String? messageTitle = _nonEmpty(title) ?? _nonEmpty(payload['title']);
+  if (messageTitle == null ||
+      _nonEmpty(payload['parent_id']) != null ||
+      isDmPushPayload(enrichPushPayload(payload))) {
+    return null;
+  }
+  return _nonEmpty(_guildTitlePattern.firstMatch(messageTitle)?.group(2));
 }
 
 String? resolvePushGroupTag(Map<String, String> payload) {

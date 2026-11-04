@@ -35,6 +35,16 @@ class MainActivity : AudioServiceActivity() {
         super.onNewIntent(intent)
     }
 
+    override fun onStart() {
+        super.onStart()
+        MainEngineState.onActivityStarted()
+    }
+
+    override fun onStop() {
+        MainEngineState.onActivityStopped()
+        super.onStop()
+    }
+
     override fun onDestroy() {
         val ownedEngine = ownsMainEngine
         ownsMainEngine = false
@@ -43,7 +53,7 @@ class MainActivity : AudioServiceActivity() {
         FlutterCallkitIncomingPlugin.unregisterEventCallback(callkitEventCallback)
         super.onDestroy()
         if (ownedEngine) {
-            FluxerUnifiedPushService.noteMainEngineStopped()
+            MainEngineState.onEngineStopped()
         }
     }
 
@@ -59,10 +69,9 @@ class MainActivity : AudioServiceActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         ownsMainEngine = true
-        FluxerUnifiedPushService.noteMainEngineStarted()
+        MainEngineState.onEngineStarted()
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
-        NotificationReplyBridge(applicationContext).register(flutterEngine)
         VoiceSpeakerRouteBridge(this).register(flutterEngine)
         SystemVoiceCallGuardBridge(applicationContext).register(flutterEngine)
         VoiceTaskRemovedBridge(applicationContext).also { bridge ->

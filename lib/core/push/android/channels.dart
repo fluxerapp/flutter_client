@@ -1,4 +1,8 @@
+import 'dart:ui' show Color;
+
+import 'package:fluxer_app/core/push/notification/localization.dart';
 import 'package:fluxer_app/core/push/notification/payload.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 const String kAndroidPushMessageChannelId = 'fluxer_messages';
 const String kAndroidPushDirectMessageChannelId = 'fluxer_direct_messages';
@@ -8,15 +12,8 @@ const String kAndroidPushSilentMessageChannelId = 'fluxer_messages_silent';
 const String kAndroidPushSilentDirectMessageChannelId =
     'fluxer_direct_messages_silent';
 
-const String kAndroidPushMessageChannelName = 'Messages';
-const String kAndroidPushDirectMessageChannelName = 'Direct messages';
-const String kAndroidPushForumThreadCreatedChannelName = 'New forum posts';
-const String kAndroidPushSilentMessageChannelName = 'Messages without sound';
-const String kAndroidPushSilentDirectMessageChannelName =
-    'Direct messages without sound';
-
-const String kAndroidPushChannelDescription = 'Messages and alerts';
-const String kAndroidPushNotificationIcon = '@drawable/fluxer_logo_monochrome';
+const String kAndroidPushNotificationIcon = '@drawable/ic_stat_fluxer';
+const Color kAndroidPushAccentColor = Color(0xFF4641D9);
 
 String androidPushChannelId(
   Map<String, String> payload, {
@@ -40,16 +37,17 @@ String androidPushChannelName(
   Map<String, String> payload, {
   bool soundEnabled = true,
 }) {
+  final FluxerLocalizations l10n = pushNotificationLocalizations();
   if (isDmPushPayload(payload)) {
     return soundEnabled
-        ? kAndroidPushDirectMessageChannelName
-        : kAndroidPushSilentDirectMessageChannelName;
+        ? l10n.notificationChannelDirectMessages
+        : l10n.notificationChannelDirectMessagesSilent;
   }
   if (!soundEnabled) {
-    return kAndroidPushSilentMessageChannelName;
+    return l10n.notificationChannelMessagesSilent;
   }
   if (isForumThreadCreatedPushPayload(payload)) {
-    return kAndroidPushForumThreadCreatedChannelName;
+    return l10n.notificationChannelForumPosts;
   }
-  return kAndroidPushMessageChannelName;
+  return l10n.notificationChannelMessages;
 }
