@@ -53,6 +53,8 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
   final Set<String> _recentlySpokeKeys = <String>{};
   Timer? _debounceTimer;
   bool _hasPendingEmit = false;
+  Set<String> _emittedSpeakingKeys = const <String>{};
+  Set<String> _emittedRecentlySpokeKeys = const <String>{};
 
   @override
   VoiceActiveSpeakersState build() {
@@ -143,9 +145,26 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
   }
 
   void _emit() {
+    final bool speakingChanged = !setEquals(
+      _speakingKeys,
+      _emittedSpeakingKeys,
+    );
+    final bool recentChanged = !setEquals(
+      _recentlySpokeKeys,
+      _emittedRecentlySpokeKeys,
+    );
+    if (!speakingChanged && !recentChanged) {
+      return;
+    }
+    if (speakingChanged) {
+      _emittedSpeakingKeys = Set<String>.unmodifiable(_speakingKeys);
+    }
+    if (recentChanged) {
+      _emittedRecentlySpokeKeys = Set<String>.unmodifiable(_recentlySpokeKeys);
+    }
     state = VoiceActiveSpeakersState(
-      speakingKeys: Set<String>.unmodifiable(_speakingKeys),
-      recentlySpokeKeys: Set<String>.unmodifiable(_recentlySpokeKeys),
+      speakingKeys: _emittedSpeakingKeys,
+      recentlySpokeKeys: _emittedRecentlySpokeKeys,
     );
   }
 
@@ -177,6 +196,9 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
     _attachedMesh = null;
     if (emitState) {
       _emit();
+      return;
     }
+    _emittedSpeakingKeys = const <String>{};
+    _emittedRecentlySpokeKeys = const <String>{};
   }
 }

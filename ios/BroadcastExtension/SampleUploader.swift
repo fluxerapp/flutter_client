@@ -12,6 +12,8 @@ import OSLog
 
 private enum Constants {
     static let bufferMaxLength = 10240
+    static let maxFrameLongEdge = 1920
+    static let jpegQuality: Float = 0.85
 }
 
 class SampleUploader {
@@ -105,12 +107,17 @@ private extension SampleUploader {
         
         CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
         
-        let scaleFactor = 1.0
-        let width = CVPixelBufferGetWidth(imageBuffer)/Int(scaleFactor)
-        let height = CVPixelBufferGetHeight(imageBuffer)/Int(scaleFactor)
+        let bufferWidth = CVPixelBufferGetWidth(imageBuffer)
+        let bufferHeight = CVPixelBufferGetHeight(imageBuffer)
+        let scale = min(1.0, CGFloat(Constants.maxFrameLongEdge) / CGFloat(max(bufferWidth, bufferHeight, 1)))
+        let width = max(1, Int((CGFloat(bufferWidth) * scale).rounded()))
+        let height = max(1, Int((CGFloat(bufferHeight) * scale).rounded()))
         let orientation = CMGetAttachment(buffer, key: RPVideoSampleOrientationKey as CFString, attachmentModeOut: nil)?.uintValue ?? 0
-                                    
-        let scaleTransform = CGAffineTransform(scaleX: CGFloat(1.0/scaleFactor), y: CGFloat(1.0/scaleFactor))
+
+        let scaleTransform = CGAffineTransform(
+            scaleX: CGFloat(width) / CGFloat(max(bufferWidth, 1)),
+            y: CGFloat(height) / CGFloat(max(bufferHeight, 1))
+        )
         let bufferData = self.jpegData(from: imageBuffer, scale: scaleTransform)
         
         CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
@@ -134,13 +141,14 @@ private extension SampleUploader {
     }
     
     func jpegData(from buffer: CVPixelBuffer, scale scaleTransform: CGAffineTransform) -> Data? {
-        let image = CIImage(cvPixelBuffer: buffer).transformed(by: scaleTransform)
-        
-        guard let colorSpace = image.colorSpace else {
+        let source = CIImage(cvPixelBuffer: buffer)
+
+        guard let colorSpace = source.colorSpace else {
             return nil
         }
-      
-        let options: [CIImageRepresentationOption: Float] = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: 1.0]
+
+        let image = source.transformed(by: scaleTransform)
+        let options: [CIImageRepresentationOption: Float] = [kCGImageDestinationLossyCompressionQuality as CIImageRepresentationOption: Constants.jpegQuality]
 
         return SampleUploader.imageContext.jpegRepresentation(of: image, colorSpace: colorSpace, options: options)
     }

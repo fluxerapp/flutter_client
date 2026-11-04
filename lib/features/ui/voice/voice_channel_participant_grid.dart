@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
@@ -814,11 +813,13 @@ class _VoiceChannelParticipantGridState
     final bool screenShareExpanded = _screenShareExpanded(watchedTileIds);
     final bool reserveHandheldControls = voiceCallReserveHandheldControls(
       context,
-      showsOverlay: ref.watch(
-        voiceCallOverlayProvider.select(
-          (VoiceCallOverlayState state) => state.showsOverlay,
-        ),
-      ),
+      showsOverlay:
+          !screenShareExpanded &&
+          ref.watch(
+            voiceCallOverlayProvider.select(
+              (VoiceCallOverlayState state) => state.showsOverlay,
+            ),
+          ),
       screenShareExpanded: screenShareExpanded,
     );
     final EdgeInsets stageInsets = voiceCallGridStageInsets(
@@ -1861,93 +1862,51 @@ class _VoiceChannelParticipantGridState
     }
 
     if (canVideoFullscreen) {
-      final double screenAspect = maxWidth / math.max(1, maxHeight);
+      final Widget mainFrame = Padding(
+        padding: mainPadding,
+        child: Center(
+          child: AspectRatio(
+            aspectRatio: voiceGridTileAspectRatio,
+            child: mainStage,
+          ),
+        ),
+      );
       return SizedBox(
         width: maxWidth,
         height: maxHeight,
-        child: TweenAnimationBuilder<double>(
-          tween: Tween<double>(end: screenShareExpanded ? 1 : 0),
-          duration: _tileMoveDuration(context),
-          curve: _kTileMoveCurve,
-          builder: (BuildContext context, double t, Widget? _) {
-            final EdgeInsets padding = EdgeInsets.lerp(
-              mainPadding,
-              EdgeInsets.zero,
-              t,
-            )!;
-            final double aspect = lerpDouble(
-              voiceGridTileAspectRatio,
-              screenAspect,
-              t,
-            )!;
-            final double filmstripOpacity = 1 - t;
-            final Widget mainFrame = Padding(
-              padding: padding,
-              child: Center(
-                child: AspectRatio(aspectRatio: aspect, child: mainStage),
-              ),
-            );
-            if (!hasSecondary) {
-              return mainFrame;
-            }
-            if (landscape) {
-              return Stack(
+        child: !hasSecondary
+            ? mainFrame
+            : Stack(
                 children: <Widget>[
                   Positioned.fill(child: mainFrame),
-                  Positioned(
-                    top: voiceGridEdgePaddingPx,
-                    bottom: voiceGridEdgePaddingPx,
-                    right:
-                        lerpDouble(
-                          voiceGridEdgePaddingPx,
-                          -filmstripCrossAxis,
-                          t,
-                        ) ??
-                        voiceGridEdgePaddingPx,
-                    width: filmstripCrossAxis,
-                    child: Opacity(
-                      opacity: filmstripOpacity,
-                      child: IgnorePointer(
-                        ignoring: t > 0.02,
-                        child: ListView.separated(
-                          scrollCacheExtent: const ScrollCacheExtent.pixels(0),
-                          addAutomaticKeepAlives: false,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: voiceGridEdgePaddingPx,
-                          ),
-                          itemCount: secondary.length,
-                          separatorBuilder: (BuildContext _, int _) =>
-                              const SizedBox(height: 8),
-                          itemBuilder: (BuildContext _, int index) {
-                            return AspectRatio(
-                              aspectRatio: voiceGridTileAspectRatio,
-                              child: filmstripTile(secondary[index]),
-                            );
-                          },
+                  if (landscape)
+                    Positioned(
+                      top: voiceGridEdgePaddingPx,
+                      bottom: voiceGridEdgePaddingPx,
+                      right: voiceGridEdgePaddingPx,
+                      width: filmstripCrossAxis,
+                      child: ListView.separated(
+                        scrollCacheExtent: const ScrollCacheExtent.pixels(0),
+                        addAutomaticKeepAlives: false,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: voiceGridEdgePaddingPx,
                         ),
+                        itemCount: secondary.length,
+                        separatorBuilder: (BuildContext _, int _) =>
+                            const SizedBox(height: 8),
+                        itemBuilder: (BuildContext _, int index) {
+                          return AspectRatio(
+                            aspectRatio: voiceGridTileAspectRatio,
+                            child: filmstripTile(secondary[index]),
+                          );
+                        },
                       ),
-                    ),
-                  ),
-                ],
-              );
-            }
-            return Stack(
-              children: <Widget>[
-                Positioned.fill(child: mainFrame),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom:
-                      lerpDouble(
-                        voiceGridEdgePaddingPx,
-                        -filmstripCrossAxis * 1.4,
-                        t,
-                      ) ??
-                      voiceGridEdgePaddingPx,
-                  child: Opacity(
-                    opacity: filmstripOpacity,
-                    child: IgnorePointer(
-                      ignoring: t > 0.02,
+                    )
+                  else
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: voiceGridEdgePaddingPx,
                       child: useMiniGrid
                           ? _buildFocusMiniGrid(
                               secondary: secondary,
@@ -1976,12 +1935,8 @@ class _VoiceChannelParticipantGridState
                               ),
                             ),
                     ),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
+                ],
+              ),
       );
     }
 
@@ -2541,6 +2496,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
           isFocusMain: isFocusMain || (isActiveScreenShare && !isFilmstrip),
           tileWidth: tileWidth,
           tileHeight: tileHeight,
+          devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
         ),
       ),
     );
@@ -2658,7 +2614,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
                                       right: metrics.inset,
                                       child: screenShareFullscreenExpanded
                                           ? _TileHudVisibility(
-                                              child: _StreamStatusBadge(
+                                              child: _HudStreamStatusBadge(
                                                 participant: participant,
                                                 collectQuality:
                                                     isActiveScreenShare,
@@ -2811,14 +2767,20 @@ class _ScreenShareHudAspectHost extends StatefulWidget {
 
 class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
   static const Duration _kPollInterval = Duration(seconds: 1);
+  static const int _kStableReadsBeforeBackoff = 3;
+  static const int _kStablePollEveryTicks = 5;
 
   double? _aspectRatio;
   Timer? _poll;
   bool _refreshing = false;
+  VideoTrack? _observedTrack;
+  int _stableReads = 0;
+  int _ticksSinceRead = 0;
 
   @override
   void initState() {
     super.initState();
+    _observedTrack = widget.participant?.screenShareTrack;
     widget.participant?.addListener(_onParticipantChanged);
     _syncAspect();
     _syncPolling();
@@ -2830,6 +2792,8 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
     if (oldWidget.participant != widget.participant) {
       oldWidget.participant?.removeListener(_onParticipantChanged);
       widget.participant?.addListener(_onParticipantChanged);
+      _observedTrack = widget.participant?.screenShareTrack;
+      _stableReads = 0;
     }
     if (oldWidget.enabled != widget.enabled ||
         oldWidget.refreshStats != widget.refreshStats ||
@@ -2847,6 +2811,12 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
   }
 
   void _onParticipantChanged() {
+    final VideoTrack? track = widget.participant?.screenShareTrack;
+    if (identical(track, _observedTrack)) {
+      return;
+    }
+    _observedTrack = track;
+    _stableReads = 0;
     unawaited(_refreshAspect());
   }
 
@@ -2870,12 +2840,20 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
   void _syncPolling() {
     _poll?.cancel();
     _poll = null;
+    _stableReads = 0;
+    _ticksSinceRead = 0;
     if (!widget.enabled ||
         !widget.refreshStats ||
         !widget.useStreamAspectRatio) {
       return;
     }
     _poll = Timer.periodic(_kPollInterval, (_) {
+      _ticksSinceRead++;
+      if (_stableReads >= _kStableReadsBeforeBackoff &&
+          _ticksSinceRead < _kStablePollEveryTicks) {
+        return;
+      }
+      _ticksSinceRead = 0;
       unawaited(_refreshAspect());
     });
   }
@@ -2891,6 +2869,11 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
       );
       if (!mounted || !widget.enabled) {
         return;
+      }
+      if (next == null || next != _aspectRatio) {
+        _stableReads = 0;
+      } else {
+        _stableReads++;
       }
       if (next != _aspectRatio) {
         setState(() => _aspectRatio = next);
@@ -2916,14 +2899,39 @@ class _ScreenShareHudAspectHostState extends State<_ScreenShareHudAspectHost> {
   }
 }
 
-class _StreamStatusBadge extends StatefulWidget {
-  const _StreamStatusBadge({
+class _HudStreamStatusBadge extends ConsumerWidget {
+  const _HudStreamStatusBadge({
     required this.participant,
     required this.collectQuality,
   });
 
   final VoiceMediaParticipant? participant;
   final bool collectQuality;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _StreamStatusBadge(
+      participant: participant,
+      collectQuality: collectQuality,
+      pollStats: ref.watch(
+        voiceCallOverlayProvider.select(
+          (VoiceCallOverlayState state) => state.showsOverlay,
+        ),
+      ),
+    );
+  }
+}
+
+class _StreamStatusBadge extends StatefulWidget {
+  const _StreamStatusBadge({
+    required this.participant,
+    required this.collectQuality,
+    this.pollStats = true,
+  });
+
+  final VoiceMediaParticipant? participant;
+  final bool collectQuality;
+  final bool pollStats;
 
   @override
   State<_StreamStatusBadge> createState() => _StreamStatusBadgeState();
@@ -2936,10 +2944,13 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
   int _height = 0;
   int _fps = 0;
   bool _refreshing = false;
+  VideoTrack? _observedTrack;
+  bool _observedHasScreenShare = false;
 
   @override
   void initState() {
     super.initState();
+    _observeParticipant();
     widget.participant?.addListener(_onParticipantChanged);
     _syncPolling();
     unawaited(_refresh());
@@ -2948,17 +2959,31 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
   @override
   void didUpdateWidget(covariant _StreamStatusBadge oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.participant != widget.participant) {
+    final bool participantChanged = oldWidget.participant != widget.participant;
+    if (participantChanged) {
       oldWidget.participant?.removeListener(_onParticipantChanged);
       widget.participant?.addListener(_onParticipantChanged);
+      _observeParticipant();
     }
-    if (oldWidget.collectQuality != widget.collectQuality) {
-      if (!widget.collectQuality) {
-        _apply(height: 0, fps: 0);
-      }
+    final bool collectChanged =
+        oldWidget.collectQuality != widget.collectQuality;
+    final bool pollChanged = oldWidget.pollStats != widget.pollStats;
+    if (collectChanged && !widget.collectQuality) {
+      _apply(height: 0, fps: 0);
+    }
+    if (collectChanged || pollChanged) {
       _syncPolling();
     }
-    unawaited(_refresh());
+    if (participantChanged ||
+        collectChanged ||
+        (pollChanged && widget.pollStats)) {
+      unawaited(_refresh());
+    }
+  }
+
+  void _observeParticipant() {
+    _observedTrack = widget.participant?.screenShareTrack;
+    _observedHasScreenShare = widget.participant?.hasScreenShare ?? false;
   }
 
   @override
@@ -2971,7 +2996,7 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
   void _syncPolling() {
     _poll?.cancel();
     _poll = null;
-    if (!widget.collectQuality) {
+    if (!widget.collectQuality || !widget.pollStats) {
       return;
     }
     _poll = Timer.periodic(_kPollInterval, (_) {
@@ -2980,6 +3005,13 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
   }
 
   void _onParticipantChanged() {
+    final VideoTrack? track = widget.participant?.screenShareTrack;
+    final bool hasScreenShare = widget.participant?.hasScreenShare ?? false;
+    if (identical(track, _observedTrack) &&
+        hasScreenShare == _observedHasScreenShare) {
+      return;
+    }
+    _observeParticipant();
     unawaited(_refresh());
   }
 
@@ -3362,103 +3394,88 @@ class _VoiceParticipantNameplate extends StatelessWidget {
     }
     return Semantics(
       label: semantics.toString(),
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Align(
-            alignment: Alignment.bottomLeft,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: constraints.maxWidth),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: context.colors.backgroundSecondary,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 6,
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.colors.backgroundSecondary,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                if (showMute) ...<Widget>[
+                  Tooltip(
+                    message: hasCommunityMic
+                        ? l10n.voiceParticipantTooltipCommunityMuted
+                        : l10n.voiceParticipantTooltipMuted,
+                    child: PhosphorIcon(
+                      PhosphorIconsFill.microphoneSlash,
+                      size: 14,
+                      color: micColor,
+                    ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      if (showMute) ...<Widget>[
-                        Tooltip(
-                          message: hasCommunityMic
-                              ? l10n.voiceParticipantTooltipCommunityMuted
-                              : l10n.voiceParticipantTooltipMuted,
-                          child: PhosphorIcon(
-                            PhosphorIconsFill.microphoneSlash,
-                            size: 14,
-                            color: micColor,
-                          ),
+                  const SizedBox(width: 4),
+                ],
+                if (showDeaf) ...<Widget>[
+                  Tooltip(
+                    message: voice.deaf
+                        ? l10n.voiceParticipantTooltipCommunityDeafened
+                        : l10n.voiceParticipantTooltipDeafened,
+                    child: PhosphorIcon(
+                      PhosphorIconsFill.speakerSlash,
+                      size: 14,
+                      color: deafColor,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                ],
+                Tooltip(
+                  message: voice.isMobile
+                      ? l10n.voiceParticipantTooltipMobileDevice
+                      : l10n.voiceParticipantTooltipDesktopDevice,
+                  child: PhosphorIcon(
+                    voice.isMobile
+                        ? PhosphorIconsFill.deviceMobile
+                        : PhosphorIconsFill.desktop,
+                    size: 14,
+                    color: const Color(0xFFFFFFFF),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Tooltip(
+                    message: connectionId != null && connectionId.isNotEmpty
+                        ? l10n.voiceParticipantTooltipConnection(connectionId)
+                        : display,
+                    child: Text.rich(
+                      TextSpan(
+                        style: context.textStyles.bodySmall.copyWith(
+                          color: context.colors.textPrimary,
+                          fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(width: 4),
-                      ],
-                      if (showDeaf) ...<Widget>[
-                        Tooltip(
-                          message: voice.deaf
-                              ? l10n.voiceParticipantTooltipCommunityDeafened
-                              : l10n.voiceParticipantTooltipDeafened,
-                          child: PhosphorIcon(
-                            PhosphorIconsFill.speakerSlash,
-                            size: 14,
-                            color: deafColor,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                      ],
-                      Tooltip(
-                        message: voice.isMobile
-                            ? l10n.voiceParticipantTooltipMobileDevice
-                            : l10n.voiceParticipantTooltipDesktopDevice,
-                        child: PhosphorIcon(
-                          voice.isMobile
-                              ? PhosphorIconsFill.deviceMobile
-                              : PhosphorIconsFill.desktop,
-                          size: 14,
-                          color: const Color(0xFFFFFFFF),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Flexible(
-                        child: Tooltip(
-                          message:
-                              connectionId != null && connectionId.isNotEmpty
-                              ? l10n.voiceParticipantTooltipConnection(
-                                  connectionId,
-                                )
-                              : display,
-                          child: Text.rich(
+                        children: <InlineSpan>[
+                          TextSpan(text: display),
+                          if (connectionId != null && connectionId.isNotEmpty)
                             TextSpan(
+                              text: ' ($connectionId)',
                               style: context.textStyles.bodySmall.copyWith(
-                                color: context.colors.textPrimary,
-                                fontWeight: FontWeight.w500,
+                                color: context.colors.textSecondary,
                               ),
-                              children: <InlineSpan>[
-                                TextSpan(text: display),
-                                if (connectionId != null &&
-                                    connectionId.isNotEmpty)
-                                  TextSpan(
-                                    text: ' ($connectionId)',
-                                    style: context.textStyles.bodySmall
-                                        .copyWith(
-                                          color: context.colors.textSecondary,
-                                        ),
-                                  ),
-                              ],
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                        ],
                       ),
-                    ],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

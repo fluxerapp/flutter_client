@@ -168,6 +168,7 @@ class VoiceLiveKitParticipant implements VoiceMediaParticipant {
     }
     if (!publication.subscribed) {
       await publication.subscribe();
+      return;
     }
     if (quality != null && publication.videoQuality != quality) {
       await publication.setVideoQuality(quality);

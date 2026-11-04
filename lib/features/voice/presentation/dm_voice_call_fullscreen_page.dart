@@ -139,19 +139,31 @@ class _DmVoiceCallFullscreenPageState
                   child: usePhoneVoiceOverlay
                       ? VoiceCallMobilePageLayout(
                           channelId: widget.channelId,
-                          child: VoiceChannelParticipantGrid(
-                            channelId: widget.channelId,
+                          child: RepaintBoundary(
+                            child: VoiceChannelParticipantGrid(
+                              key: const ValueKey<String>(
+                                'voice-participant-grid',
+                              ),
+                              channelId: widget.channelId,
+                            ),
                           ),
                         )
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Expanded(
-                              child: VoiceChannelParticipantGrid(
-                                channelId: widget.channelId,
+                              child: RepaintBoundary(
+                                child: VoiceChannelParticipantGrid(
+                                  key: const ValueKey<String>(
+                                    'voice-participant-grid',
+                                  ),
+                                  channelId: widget.channelId,
+                                ),
                               ),
                             ),
-                            const VoiceChannelControlBar(),
+                            const RepaintBoundary(
+                              child: VoiceChannelControlBar(),
+                            ),
                           ],
                         ),
                 )

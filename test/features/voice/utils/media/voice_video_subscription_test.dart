@@ -3,6 +3,53 @@ import 'package:fluxer_app/features/voice/utils/media/video_subscription.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 void main() {
+  group('voiceCameraSubscribeQuality device pixels', () {
+    test('thresholds use physical pixels', () {
+      expect(
+        voiceCameraSubscribeQuality(
+          isFilmstrip: false,
+          isFocusMain: false,
+          tileWidth: 300,
+          tileHeight: 170,
+        ),
+        VideoQuality.LOW,
+      );
+      expect(
+        voiceCameraSubscribeQuality(
+          isFilmstrip: false,
+          isFocusMain: false,
+          tileWidth: 300,
+          tileHeight: 170,
+          devicePixelRatio: 3,
+        ),
+        VideoQuality.HIGH,
+      );
+      expect(
+        voiceCameraSubscribeQuality(
+          isFilmstrip: false,
+          isFocusMain: false,
+          tileWidth: 180,
+          tileHeight: 100,
+          devicePixelRatio: 2,
+        ),
+        VideoQuality.MEDIUM,
+      );
+    });
+
+    test('filmstrip stays low on high density screens', () {
+      expect(
+        voiceCameraSubscribeQuality(
+          isFilmstrip: true,
+          isFocusMain: false,
+          tileWidth: 300,
+          tileHeight: 170,
+          devicePixelRatio: 3,
+        ),
+        VideoQuality.LOW,
+      );
+    });
+  });
+
   group('shouldSubscribeRemoteCamera', () {
     test('subscribes only when visible and not omitted', () {
       expect(

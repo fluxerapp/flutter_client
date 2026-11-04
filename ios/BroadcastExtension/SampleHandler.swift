@@ -20,6 +20,7 @@ class SampleHandler: RPBroadcastSampleHandler {
 
     private var frameCount: Int = 0
     private var connectionOpenAttempts: Int = 0
+    private var connectTimer: DispatchSourceTimer?
 
     var socketFilePath: String {
       let sharedContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Constants.appGroupIdentifier)
@@ -64,6 +65,8 @@ class SampleHandler: RPBroadcastSampleHandler {
     override func broadcastFinished() {
         // User has requested to finish the broadcast.
         DarwinNotificationCenter.shared.postNotification(.broadcastStopped)
+        connectTimer?.cancel()
+        connectTimer = nil
         clientConnection?.close()
     }
 
@@ -101,6 +104,8 @@ private extension SampleHandler {
     func openConnection() {
         let queue = DispatchQueue(label: "broadcast.connectTimer")
         let timer = DispatchSource.makeTimerSource(queue: queue)
+        connectTimer?.cancel()
+        connectTimer = timer
         timer.schedule(deadline: .now(), repeating: .milliseconds(100), leeway: .milliseconds(500))
         timer.setEventHandler { [weak self] in
             self?.connectionOpenAttempts += 1

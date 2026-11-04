@@ -17,6 +17,20 @@ const int _kMaxPendingRemoteCandidates = 64;
 
 enum VoiceMeshPeerStatus { connecting, connected, failed }
 
+String voiceMeshEncodingSignature(RTCRtpEncoding encoding) {
+  return <Object?>[
+    encoding.active,
+    encoding.maxBitrate,
+    encoding.maxFramerate,
+    encoding.minBitrate,
+    encoding.numTemporalLayers,
+    encoding.scaleResolutionDownBy,
+    encoding.scalabilityMode,
+    encoding.priority,
+    encoding.networkPriority,
+  ].join('|');
+}
+
 typedef VoiceMeshSelectedPath = ({
   VoiceP2pConnectionReportsRequestReportsLocalCandidateTypeLocalCandidateType?
   localType,
@@ -136,6 +150,8 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
   List<RTCRtpTransceiver> _transceivers = const <RTCRtpTransceiver>[];
   final Map<VoiceMeshSource, String?> _sentTrackIds =
       <VoiceMeshSource, String?>{};
+  final Map<VoiceMeshSource, String> _sentEncodings =
+      <VoiceMeshSource, String>{};
   bool _remoteDescriptionSet = false;
   bool _hasAnswer = false;
   bool _localDescriptionSent = false;
@@ -421,6 +437,7 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
     _pendingRemoteCandidates.clear();
     _pendingLocalCandidates.clear();
     _sentTrackIds.clear();
+    _sentEncodings.clear();
     _restartUsed = false;
     _setStatus(VoiceMeshPeerStatus.connecting);
     _armSetupDeadline();
@@ -717,11 +734,16 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
           _sentTrackIds[source] != target?.id) {
         await sender.replaceTrack(target);
         _sentTrackIds[source] = target?.id;
+        _sentEncodings.remove(source);
       }
       final RTCRtpEncoding? encoding = target == null
           ? null
           : _transport.encodingFor(source);
       if (encoding == null) {
+        continue;
+      }
+      final String signature = voiceMeshEncodingSignature(encoding);
+      if (_sentEncodings[source] == signature) {
         continue;
       }
       try {
@@ -733,6 +755,7 @@ class VoiceMeshPeer extends ChangeNotifier implements VoiceMediaParticipant {
                 : null,
           ),
         );
+        _sentEncodings[source] = signature;
       } on Object catch (error) {
         talker.debug('[Voice][Mesh] setParameters failed: $error');
       }
