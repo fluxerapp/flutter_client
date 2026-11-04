@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -74,6 +75,7 @@ void main() {
           userSettingsViewModelProvider.overrideWith(
             () => _FixedUserSettingsViewModel(userId),
           ),
+          currentUserIdProvider.overrideWithValue(userId),
         ],
       );
       addTearDown(container.dispose);
@@ -127,6 +129,7 @@ void main() {
           userSettingsViewModelProvider.overrideWith(
             () => _FixedUserSettingsViewModel(userId),
           ),
+          currentUserIdProvider.overrideWithValue(userId),
         ],
       );
       addTearDown(container.dispose);
@@ -173,6 +176,7 @@ void main() {
           userSettingsViewModelProvider.overrideWith(
             () => _FixedUserSettingsViewModel(userId),
           ),
+          currentUserIdProvider.overrideWithValue(userId),
         ],
       );
       addTearDown(container.dispose);

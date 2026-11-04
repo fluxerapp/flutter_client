@@ -20,7 +20,6 @@ import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.d
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
-import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -29,6 +28,7 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/wide_layout_test_sizes.dart';
 
@@ -84,30 +84,29 @@ void main() {
     final colorTheme = buildDarkColorTheme();
     await tester.pumpWidget(
       ProviderScope(
-        overrides: <Override>[
-          fluxerRouterProvider.overrideWithValue(router),
-          fluxerDatabaseProvider.overrideWithValue(db),
-          dmRepositoryProvider.overrideWithValue(repository),
-          userPresenceProvider(
-            '200',
-          ).overrideWith((Ref ref) => Stream.value(null)),
-          matureContentGateReasonProvider('dm-channel-1').overrideWith(
-            (Ref ref) => Future.value(MatureContentGateReason.none),
-          ),
-          dmViewModelProvider.overrideWith(
-            () => _StaticDmViewModel(
-              const DmViewState(
-                conversations: <DmConversation>[],
-                friendsList: <Friend>[_alice],
-                activeTab: FriendsTab.online,
-                searchQuery: '',
+        overrides: coreTestProviderOverrides(
+          database: db,
+          extra: <Override>[
+            fluxerRouterProvider.overrideWithValue(router),
+            dmRepositoryProvider.overrideWithValue(repository),
+            userPresenceProvider(
+              '200',
+            ).overrideWith((Ref ref) => Stream.value(null)),
+            matureContentGateReasonProvider('dm-channel-1').overrideWith(
+              (Ref ref) => Future.value(MatureContentGateReason.none),
+            ),
+            dmViewModelProvider.overrideWith(
+              () => _StaticDmViewModel(
+                const DmViewState(
+                  conversations: <DmConversation>[],
+                  friendsList: <Friend>[_alice],
+                  activeTab: FriendsTab.online,
+                  searchQuery: '',
+                ),
               ),
             ),
-          ),
-          appearancePreferencesProvider.overrideWith(
-            _DefaultAppearancePreferences.new,
-          ),
-        ],
+          ],
+        ),
         child: MaterialApp.router(
           localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
@@ -133,6 +132,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repository.lastEnsureUserId, '200');
+    await releaseTestWidgetTree(tester);
   });
 }
 
@@ -143,11 +143,6 @@ class _StaticDmViewModel extends DmViewModel {
 
   @override
   DmViewState build() => _state;
-}
-
-class _DefaultAppearancePreferences extends AppearancePreferences {
-  @override
-  AppearancePreferencesState build() => const AppearancePreferencesState();
 }
 
 class _SpyDmRepository extends DmRepository {

@@ -6,9 +6,11 @@ import 'package:fluxer_app/core/badge/app_icon_badge_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 
 import '../../helpers/open_test_database.dart';
+import '../../helpers/test_account_user_id.dart';
 
 Future<ProviderContainer> _containerWithDmMention() async {
   final db = openTestDatabase();
@@ -23,7 +25,10 @@ Future<ProviderContainer> _containerWithDmMention() async {
     const ReadStatesCompanion(channelId: Value('dm-1'), mentionCount: Value(1)),
   );
   final container = ProviderContainer(
-    overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+    overrides: [
+      fluxerDatabaseProvider.overrideWithValue(db),
+      currentUserIdProvider.overrideWithValue(kTestAccountUserId),
+    ],
   );
   addTearDown(container.dispose);
   return container;

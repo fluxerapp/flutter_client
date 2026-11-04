@@ -11,9 +11,12 @@ import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../../helpers/core_test_provider_overrides.dart';
+
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: coreTestProviderOverrides(),
     child: MaterialApp(
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

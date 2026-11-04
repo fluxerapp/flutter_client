@@ -6,6 +6,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
@@ -19,6 +20,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:path/path.dart' as path_lib;
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/pump_fluxer_app.dart';
 
 const Size _kGalleryViewport = Size(400, 520);
@@ -83,6 +85,7 @@ void main() {
     expect(scrollController.offset, offsetWhileLoading);
     expect(source.loadCalls, 2);
     expect(find.byKey(const ValueKey<String>('photo-80')), findsWidgets);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('library changes while scrolled apply after returning to top', (
@@ -111,6 +114,7 @@ void main() {
     expect(scrollController.offset, 0);
     expect(source.loadCalls, 3);
     expect(find.byKey(const ValueKey<String>('photo-0')), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('a photo shows as picked while it resolves and taps queue', (
@@ -153,7 +157,7 @@ void main() {
           .map((PendingAttachment a) => a.galleryAssetId),
       <String>['photo-0', 'photo-1'],
     );
-    await tester.pump(const Duration(seconds: 30));
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('a photo keeps the name the library gives it', (tester) async {
@@ -182,7 +186,7 @@ void main() {
           .map((PendingAttachment a) => a.filename),
       <String>['IMG_0568.GIF'],
     );
-    await tester.pump(const Duration(seconds: 30));
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('the source bar sits below the grid, not over it', (
@@ -193,6 +197,7 @@ void main() {
     final Rect grid = tester.getRect(find.byType(AttachmentGalleryGrid));
     final Rect bar = tester.getRect(find.byType(AttachmentPanelSourceBar));
     expect(bar.top, greaterThanOrEqualTo(grid.bottom));
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('limited library access shows a manage banner', (tester) async {
@@ -211,6 +216,7 @@ void main() {
       find.text('Only photos and videos you chose to share are shown here.'),
     );
     expect(grid.top, greaterThanOrEqualTo(banner.bottom));
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('without photo access the camera is still offered', (
@@ -225,6 +231,7 @@ void main() {
     final Rect settings = tester.getRect(find.byType(FluxerButton).first);
     final Rect bar = tester.getRect(find.byType(AttachmentPanelSourceBar));
     expect(bar.overlaps(settings), isFalse);
+    await releaseTestWidgetTree(tester);
   });
 }
 
@@ -239,6 +246,7 @@ Future<ScrollController> _pumpGallery(
   await tester.pumpWidget(
     pumpFluxerApp(
       overrides: [
+        fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
         chatViewModelProvider.overrideWithValue(_chatState()),
         attachmentGallerySourceProvider.overrideWithValue(source),
         advancedPreferencesProvider.overrideWith(_NoPreuploadPreferences.new),

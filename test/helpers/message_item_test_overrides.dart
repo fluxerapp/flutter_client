@@ -39,14 +39,25 @@ const UserSettingsViewState kMessageItemTestUserSettings =
       trustedDomains: <String>[],
     );
 
+class _TestUserSettings extends UserSettingsViewModel {
+  @override
+  UserSettingsViewState build() => kMessageItemTestUserSettings;
+}
+
+class _TestAdvancedPreferences extends AdvancedPreferences {
+  @override
+  AdvancedPreferencesState build() => const AdvancedPreferencesState();
+}
+
+class _TestAppearancePreferences extends AppearancePreferences {
+  @override
+  AppearancePreferencesState build() => const AppearancePreferencesState();
+}
+
 List<Override> messageItemTestProviderOverrides() => [
-  advancedPreferencesProvider.overrideWithValue(
-    const AdvancedPreferencesState(),
-  ),
-  appearancePreferencesProvider.overrideWithValue(
-    const AppearancePreferencesState(),
-  ),
-  userSettingsViewModelProvider.overrideWithValue(kMessageItemTestUserSettings),
+  advancedPreferencesProvider.overrideWith(_TestAdvancedPreferences.new),
+  appearancePreferencesProvider.overrideWith(_TestAppearancePreferences.new),
+  userSettingsViewModelProvider.overrideWith(_TestUserSettings.new),
   androidAnimatorDurationDisabledProvider.overrideWith(
     (ref) => Stream<bool>.value(false),
   ),
