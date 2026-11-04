@@ -693,14 +693,18 @@ class _DMListState extends ConsumerState<DMList> {
             final convo = convos[index - leadingRows];
             final isSelected = convo.id == selectedId;
 
-            return _buildConvoTile(
-              context,
+            return Consumer(
               key: ValueKey<String>(convo.id),
-              convo: convo,
-              isSelected: isSelected,
-              isMobile: isMobile,
-              isPinned: pinnedIds.contains(convo.id),
-              isMuted: mutedIds.contains(convo.id),
+              builder: (BuildContext context, WidgetRef rowRef, _) =>
+                  _buildConvoTile(
+                    context,
+                    rowRef: rowRef,
+                    convo: convo,
+                    isSelected: isSelected,
+                    isMobile: isMobile,
+                    isPinned: pinnedIds.contains(convo.id),
+                    isMuted: mutedIds.contains(convo.id),
+                  ),
             );
           },
         ),
@@ -832,9 +836,9 @@ class _DMListState extends ConsumerState<DMList> {
 
   Widget _buildConvoTile(
     BuildContext context, {
+    required WidgetRef rowRef,
     required DmConversation convo,
     required bool isSelected,
-    Key? key,
     bool isMobile = false,
     bool isPinned = false,
     bool isMuted = false,
@@ -846,10 +850,12 @@ class _DMListState extends ConsumerState<DMList> {
         (isMobile ? _kMobileRowExtent : _kDesktopRowExtent) - rowGap;
     final layout = context.layout;
     final hasUnread = c.unreadCount > 0;
-    final currentUserId = ref.watch(currentUserIdProvider);
+    final currentUserId = rowRef.watch(currentUserIdProvider);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String displayName = c.displayNameWith(
-      c.isGroup ? null : ref.watch(friendNicknameProvider(c.recipientId)).value,
+      c.isGroup
+          ? null
+          : rowRef.watch(friendNicknameProvider(c.recipientId)).value,
       l10n: l10n,
       currentUserId: currentUserId,
     );
@@ -870,7 +876,6 @@ class _DMListState extends ConsumerState<DMList> {
     final String? lastMessageId = c.lastMessageId;
 
     return Stack(
-      key: key,
       clipBehavior: Clip.none,
       children: [
         if (hasUnread) ChannelUnreadIndicator.positioned(faded: isMuted),

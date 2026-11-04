@@ -445,9 +445,11 @@ class _GuildSidebarChannelListState
         !isMobileLayout(context) &&
         hasMembersPagePermission(
           ref.watch(
-                guildPermissionsProvider(watchAccountUserId(ref)),
-              )[widget.guildId] ??
-              0,
+            guildPermissionsProvider(watchAccountUserId(ref)).select(
+              (Map<String, int> permissions) =>
+                  permissions[widget.guildId] ?? 0,
+            ),
+          ),
         );
     final bool isMembersSelected = ref.watch(
       routeStateProvider.select(

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show immutable;
+
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -8,12 +10,24 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 
+@immutable
 class GroupMemberInfo {
   final String id;
   final String? avatar;
   final String name;
 
   const GroupMemberInfo({required this.id, required this.name, this.avatar});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GroupMemberInfo &&
+          other.id == id &&
+          other.avatar == avatar &&
+          other.name == name;
+
+  @override
+  int get hashCode => Object.hash(id, avatar, name);
 }
 
 class DmConversation {

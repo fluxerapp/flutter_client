@@ -21,7 +21,6 @@ void main() {
       ReadyEvent(
         sessionId: sessionId,
         user: _user(),
-        guilds: const [],
         rawGuilds: rawGuilds,
         privateChannels: privateChannels,
         relationships: const [],

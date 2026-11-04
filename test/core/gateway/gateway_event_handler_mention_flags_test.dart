@@ -25,7 +25,6 @@ void main() {
       ReadyEvent(
         sessionId: sessionId,
         user: UserPrivateResponse.fromJson(self),
-        guilds: const [],
         rawGuilds: rawGuilds,
         privateChannels: const [],
         relationships: const [],

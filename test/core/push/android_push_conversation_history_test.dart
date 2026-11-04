@@ -129,4 +129,32 @@ void main() {
     expect(remaining, isNull);
     expect(await AndroidPushConversationHistoryStore.readState(tag), isNull);
   });
+
+  test('concurrent trims and appends do not bring acked lines back', () async {
+    for (final String id in <String>['1', '2', '3', '4']) {
+      await AndroidPushConversationHistoryStore.appendLine(
+        conversationTag: tag,
+        line: line(id),
+        payload: payload,
+      );
+    }
+    await Future.wait(<Future<Object?>>[
+      AndroidPushConversationHistoryStore.trimAck(
+        conversationTag: tag,
+        upToMessageId: '2',
+      ),
+      AndroidPushConversationHistoryStore.appendLine(
+        conversationTag: tag,
+        line: line('5'),
+        payload: payload,
+      ),
+      AndroidPushConversationHistoryStore.trimAck(
+        conversationTag: tag,
+        upToMessageId: '4',
+      ),
+    ]);
+    final PushConversationState? state =
+        await AndroidPushConversationHistoryStore.readState(tag);
+    expect(state?.lines.map((PushConversationLine l) => l.messageId), ['5']);
+  });
 }

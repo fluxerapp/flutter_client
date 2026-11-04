@@ -101,6 +101,7 @@ void main() {
       await decryptWebPushRecord(
         record: record,
         privateKey: recipientPrivate,
+        publicKey: recipientPublic,
         authSecret: auth,
       ),
       '{"title":"Alice"}',

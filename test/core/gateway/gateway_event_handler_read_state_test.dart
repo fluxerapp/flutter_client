@@ -179,7 +179,6 @@ ReadyEvent _readyEvent({
 }) => ReadyEvent(
   sessionId: 'session-1',
   user: _privateUser(userId),
-  guilds: const [],
   rawGuilds: const [],
   privateChannels: const [],
   relationships: const [],
@@ -269,7 +268,6 @@ void main() {
       ReadyEvent(
         sessionId: 'session-1',
         user: _privateUser('me'),
-        guilds: const [],
         rawGuilds: const [],
         privateChannels: const [],
         relationships: const [],
