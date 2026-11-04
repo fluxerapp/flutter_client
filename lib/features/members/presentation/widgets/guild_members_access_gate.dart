@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
@@ -33,7 +34,7 @@ class _GuildMembersAccessGateState
 
   Future<void> _resolvePermissions() async {
     await ref
-        .read(guildPermissionsProvider.notifier)
+        .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
         .refreshPermissions(widget.guildId);
     if (mounted) {
       setState(() => _permissionsResolved = true);
@@ -47,7 +48,10 @@ class _GuildMembersAccessGateState
     }
 
     final int permissions =
-        ref.watch(guildPermissionsProvider)[widget.guildId] ?? 0;
+        ref.watch(
+          guildPermissionsProvider(watchAccountUserId(ref)),
+        )[widget.guildId] ??
+        0;
     if (!hasMembersPagePermission(permissions)) {
       return Center(
         child: Padding(

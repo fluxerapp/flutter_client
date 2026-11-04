@@ -64,6 +64,7 @@ class MainActivity : AudioServiceActivity() {
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
         NotificationReplyBridge(applicationContext).register(flutterEngine)
         VoiceSpeakerRouteBridge(this).register(flutterEngine)
+        SystemVoiceCallGuardBridge(applicationContext).register(flutterEngine)
         VoiceTaskRemovedBridge(applicationContext).also { bridge ->
             bridge.register(flutterEngine)
             VoiceTaskRemovedRegistry.bridge = bridge

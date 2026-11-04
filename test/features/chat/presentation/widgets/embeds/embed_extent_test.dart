@@ -16,9 +16,20 @@ import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+import '../../../../../helpers/core_test_provider_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
+
+const EmbedMedia _tapTestMedia = EmbedMedia(
+  url: 'https://x/img',
+  proxyUrl: 'https://cdn/img',
+  width: 400,
+  height: 300,
+);
+
 Widget _wrap(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: coreTestProviderOverrides(),
     child: MaterialApp(
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -107,10 +118,11 @@ void main() {
     });
 
     testWidgets('opens the media viewer when tapped', (tester) async {
-      await pumpRich(tester, _media(width: 400, height: 300));
+      await pumpRich(tester, _tapTestMedia);
       await tester.tap(_mediaTapTarget(find.byType(CachedNetworkImage)));
       await tester.pump();
       expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
   });
 
@@ -158,10 +170,11 @@ void main() {
     });
 
     testWidgets('opens the media viewer when tapped', (tester) async {
-      await pumpLink(tester, _media(width: 400, height: 300));
+      await pumpLink(tester, _tapTestMedia);
       await tester.tap(_mediaTapTarget(find.byType(CachedNetworkImage)));
       await tester.pump();
       expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+      await releaseTestWidgetTree(tester);
     });
   });
 }

@@ -2026,6 +2026,25 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
+  String profileBadgesOverflowButton(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get profileBadgesShowAllTooltip => 'Show all badges';
+
+  @override
+  String profileBadgesShowAllSemantic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count more badges, show all',
+      one: '+$count more badge, show all',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get profileBadgesVisionaryNumberNote =>
       'Shown only when your Visionary badge is visible and not masked.';
 
@@ -4393,6 +4412,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get matureCommunityUnavailableBody =>
       'Den här communityn med vuxet innehåll är inte tillgänglig för ditt konto.';
+
+  @override
+  String get matureContentIosWebOptInBody =>
+      'Turn on age-restricted communities and channels at fluxer.com in your browser or in the desktop app. They stay hidden in the iOS app until you do.';
 
   @override
   String get matureCategoryUnavailableBody =>

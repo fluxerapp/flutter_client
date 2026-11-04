@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -136,7 +137,7 @@ class ShareMediaSender {
     required String outgoingText,
   }) async {
     final CloudUploadController uploadNotifier = ref.read(
-      cloudUploadControllerProvider(channelId).notifier,
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).notifier,
     );
     String? clientNonce;
 

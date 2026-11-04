@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/commerce/store_billing_context_provider.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
@@ -319,7 +320,9 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     if (!ref.mounted) {
       return;
     }
-    if (ref.read(currentUserEntitlementsProvider).isEffectivelyPremium) {
+    if (ref
+        .read(currentUserEntitlementsProvider(readAccountUserId(ref)))
+        .isEffectivelyPremium) {
       state = state.copyWith(purchasePending: false);
       return;
     }
@@ -331,7 +334,9 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
     if (!ref.mounted) {
       return;
     }
-    if (ref.read(currentUserEntitlementsProvider).isEffectivelyPremium) {
+    if (ref
+        .read(currentUserEntitlementsProvider(readAccountUserId(ref)))
+        .isEffectivelyPremium) {
       state = state.copyWith(purchasePending: false);
     }
   }
@@ -380,7 +385,9 @@ class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
 
   Future<void> _refreshEntitlements() async {
     try {
-      await ref.read(currentUserPrivateReadProvider.notifier).refresh();
+      await ref
+          .read(currentUserPrivateReadProvider(readAccountUserId(ref)).notifier)
+          .refresh();
       await ref.read(premiumSettingsStateProvider.notifier).refresh();
     } on Object {
       return;

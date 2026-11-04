@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,7 +16,9 @@ class PremiumSettingsState extends _$PremiumSettingsState {
     try {
       final PremiumStateResponse state = await client.premium.getPremiumState();
       ref
-          .read(currentUserEntitlementsProvider.notifier)
+          .read(
+            currentUserEntitlementsProvider(readAccountUserId(ref)).notifier,
+          )
           .applyPremiumState(state);
       return state;
     } on Object {
@@ -40,7 +43,9 @@ class PremiumSettingsState extends _$PremiumSettingsState {
     final PremiumStateResponse? response = result.asData?.value;
     if (response != null) {
       ref
-          .read(currentUserEntitlementsProvider.notifier)
+          .read(
+            currentUserEntitlementsProvider(readAccountUserId(ref)).notifier,
+          )
           .applyPremiumState(response);
     }
     if (silent && result.hasError) {

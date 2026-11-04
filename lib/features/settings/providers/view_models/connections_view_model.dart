@@ -46,7 +46,7 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
   int _updateSeq = 0;
 
   @override
-  ConnectionsViewState build() {
+  ConnectionsViewState build(String accountUserId) {
     unawaited(Future.microtask(load));
     return ConnectionsViewState(
       blueskyEnabled:

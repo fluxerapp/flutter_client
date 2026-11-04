@@ -1,0 +1,46 @@
+name: Android F-Droid build check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fdroid-beta-oss:
+    name: F-Droid-style beta OSS build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Set up Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+            | sh -s -- -y --profile minimal --default-toolchain stable
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+
+      - name: Write Android release version stub
+        run: |
+          mkdir -p tool/release
+          printf '%s\n' \
+            'versionName=2099.01.100-beta.1' \
+            'versionCode=999999001' \
+            > tool/release/android_release_version.properties
+
+      - name: Build F-Droid-style beta OSS APK
+        run: bash tool/fdroid/build_beta_oss.sh

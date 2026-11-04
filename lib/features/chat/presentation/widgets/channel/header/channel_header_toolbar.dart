@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
@@ -89,7 +90,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
         ..._buildCallButtons(context, ref),
         if (canOfferAnnouncementFollow(
           channel,
-          ref.watch(guildPermissionsProvider),
+          ref.watch(guildPermissionsProvider(watchAccountUserId(ref))),
         ))
           ChannelHeaderIconButton(
             icon: PhosphorIconsFill.megaphone,

@@ -14,6 +14,8 @@ import 'package:fluxer_app/features/settings/providers/preferences/chat_preferen
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+import '../../../../../helpers/core_test_provider_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 const String _postUrl = 'https://example.com/post/1';
@@ -54,6 +56,7 @@ void main() {
     );
 
     expect(find.byType(AttachmentMediaGrid), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('EmbedRich renders gallery grid for same-url embed images', (
@@ -80,6 +83,7 @@ void main() {
     );
 
     expect(find.byType(AttachmentMediaGrid), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('forwarded snapshot groups same-url gallery embeds', (
@@ -113,12 +117,14 @@ void main() {
     expect(find.byType(AttachmentMediaGrid), findsOneWidget);
     expect(find.byType(EmbedLink), findsOneWidget);
     expect(find.byType(EmbedRich), findsNothing);
+    await releaseTestWidgetTree(tester);
   });
 }
 
 Widget _buildTestApp({required Widget child}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: coreTestProviderOverrides(),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

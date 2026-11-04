@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
@@ -145,7 +146,7 @@ class TypingIndicators extends _$TypingIndicators {
   Timer? _expiryTimer;
 
   @override
-  Map<String, Map<String, DateTime>> build() {
+  Map<String, Map<String, DateTime>> build(String accountUserId) {
     ref.onDispose(() => _expiryTimer?.cancel());
     return const <String, Map<String, DateTime>>{};
   }
@@ -237,7 +238,7 @@ class TypingIndicators extends _$TypingIndicators {
 @Riverpod(keepAlive: true)
 class VoiceStatesMap extends _$VoiceStatesMap {
   @override
-  Map<String, VoiceState> build() => {};
+  Map<String, VoiceState> build(String accountUserId) => {};
 
   void update(VoiceState voiceState) {
     final Map<String, VoiceState> next = Map<String, VoiceState>.of(state);
@@ -437,7 +438,7 @@ class CallState {
 @Riverpod(keepAlive: true)
 class ActiveCalls extends _$ActiveCalls {
   @override
-  Map<String, CallState> build() => {};
+  Map<String, CallState> build(String accountUserId) => {};
 
   static Set<String> _normalizeRingIds(List<String>? ringing) =>
       ringing == null ? <String>{} : Set<String>.from(ringing);
@@ -529,7 +530,7 @@ class ActiveCalls extends _$ActiveCalls {
 @Riverpod(keepAlive: true)
 class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
   @override
-  Set<String> build() => {};
+  Set<String> build(String accountUserId) => {};
 
   void markInitiated({
     required String channelId,
@@ -559,9 +560,9 @@ class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
 @riverpod
 VoiceState? voiceStateForConnection(Ref ref, String connectionId) {
   return ref.watch(
-    voiceStatesMapProvider.select(
-      (Map<String, VoiceState> map) => map[connectionId],
-    ),
+    voiceStatesMapProvider(
+      watchAccountUserId(ref),
+    ).select((Map<String, VoiceState> map) => map[connectionId]),
   );
 }
 
@@ -572,13 +573,15 @@ List<VoiceState> voiceStatesInChannel(
   String channelId,
 ) {
   ref.watch(
-    voiceStatesMapProvider.select(
+    voiceStatesMapProvider(watchAccountUserId(ref)).select(
       (Map<String, VoiceState> map) => _voiceStatesFingerprint(
         _voiceStatesInGuildChannel(map, guildId, channelId),
       ),
     ),
   );
-  final Map<String, VoiceState> map = ref.read(voiceStatesMapProvider);
+  final Map<String, VoiceState> map = ref.read(
+    voiceStatesMapProvider(readAccountUserId(ref)),
+  );
   return List<VoiceState>.unmodifiable(
     _voiceStatesInGuildChannel(map, guildId, channelId),
   );
@@ -587,12 +590,14 @@ List<VoiceState> voiceStatesInChannel(
 @riverpod
 List<VoiceState> voiceStatesInPrivateChannel(Ref ref, String channelId) {
   ref.watch(
-    voiceStatesMapProvider.select(
+    voiceStatesMapProvider(watchAccountUserId(ref)).select(
       (Map<String, VoiceState> map) =>
           _voiceStatesFingerprint(_voiceStatesInPrivateChannel(map, channelId)),
     ),
   );
-  final Map<String, VoiceState> map = ref.read(voiceStatesMapProvider);
+  final Map<String, VoiceState> map = ref.read(
+    voiceStatesMapProvider(readAccountUserId(ref)),
+  );
   return List<VoiceState>.unmodifiable(
     _voiceStatesInPrivateChannel(map, channelId),
   );
@@ -600,14 +605,16 @@ List<VoiceState> voiceStatesInPrivateChannel(Ref ref, String channelId) {
 
 @riverpod
 List<VoiceState> voiceStatesInGuild(Ref ref, String guildId) {
-  final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
+  final Map<String, VoiceState> map = ref.watch(
+    voiceStatesMapProvider(watchAccountUserId(ref)),
+  );
   return map.values.where((VoiceState vs) => vs.guildId == guildId).toList();
 }
 
 @riverpod
 int privateChannelVoiceParticipantCount(Ref ref, String channelId) {
   return ref.watch(
-    voiceStatesMapProvider.select(
+    voiceStatesMapProvider(watchAccountUserId(ref)).select(
       (Map<String, VoiceState> map) => _distinctUserCountInChannel(
         _voiceStatesInPrivateChannel(map, channelId),
       ),
@@ -622,7 +629,7 @@ int guildChannelVoiceParticipantCount(
   String channelId,
 ) {
   return ref.watch(
-    voiceStatesMapProvider.select(
+    voiceStatesMapProvider(watchAccountUserId(ref)).select(
       (Map<String, VoiceState> map) => _distinctUserCountInChannel(
         _voiceStatesInGuildChannel(map, guildId, channelId),
       ),
@@ -636,17 +643,23 @@ void gatewayEphemeralStateRecoveryListener(Ref ref) {
     if (next <= 0 || previous == next) {
       return;
     }
-    ref.read(typingIndicatorsProvider.notifier).clearAll();
-    ref.read(voiceStatesMapProvider.notifier).clear();
-    ref.read(activeCallsProvider.notifier).clear();
-    ref.read(outgoingVoiceCallInitiatorProvider.notifier).clearAll();
+    ref
+        .read(typingIndicatorsProvider(readAccountUserId(ref)).notifier)
+        .clearAll();
+    ref.read(voiceStatesMapProvider(readAccountUserId(ref)).notifier).clear();
+    ref.read(activeCallsProvider(readAccountUserId(ref)).notifier).clear();
+    ref
+        .read(
+          outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)).notifier,
+        )
+        .clearAll();
   });
 }
 
 @Riverpod(keepAlive: true)
 class InviteCache extends _$InviteCache {
   @override
-  Map<String, Map<String, dynamic>> build() => {};
+  Map<String, Map<String, dynamic>> build(String accountUserId) => {};
 
   void addInvite(Map<String, dynamic> data) {
     final code = data['code'] as String?;

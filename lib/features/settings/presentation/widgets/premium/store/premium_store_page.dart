@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_backdrop.dart';
@@ -73,7 +75,9 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
     final UserSettingsViewState settings = ref.watch(
       userSettingsViewModelProvider,
     );
-    final UserPrivateResponse? user = ref.watch(currentUserPrivateReadProvider);
+    final UserPrivateResponse? user = ref.watch(
+      currentUserPrivateReadProvider(watchAccountUserId(ref)),
+    );
     final bool purchaseDisabled =
         settings.isKnownUnclaimed || !(user?.verified ?? false);
     final String? purchaseDisabledMessage = settings.isKnownUnclaimed
@@ -84,7 +88,7 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
     final PremiumSubscriptionStatus status = computePremiumSubscriptionStatus(
       premiumState: ref.watch(premiumSettingsStateProvider).value,
       effectiveIsPremium: ref
-          .watch(currentUserEntitlementsProvider)
+          .watch(currentUserEntitlementsProvider(readAccountUserId(ref)))
           .isEffectivelyPremium,
       userPrivate: user,
     );
@@ -145,7 +149,9 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
               heroArtAsset: heroAsset,
               title: l10n.userSettingsNavFluxerPlutonium,
               scrollController: _scrollController,
-              footer: selfHosted ? null : const _DonateLine(),
+              footer: selfHosted || defaultTargetPlatform == TargetPlatform.iOS
+                  ? null
+                  : const _DonateLine(),
               highlights: const PremiumStoreHeroHighlights(),
             ),
             const PremiumStoreMarketingSections(),

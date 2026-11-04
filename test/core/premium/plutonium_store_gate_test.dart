@@ -145,14 +145,21 @@ void main() {
   });
 
   group('iOS App Store distribution', () {
-    const Map<AppStoreDistribution, bool> official =
+    const Map<AppStoreDistribution, bool> officialNonStable =
         <AppStoreDistribution, bool>{
           AppStoreDistribution.production: true,
           AppStoreDistribution.testflight: false,
           AppStoreDistribution.development: false,
           AppStoreDistribution.unknown: false,
         };
-    const Map<AppStoreDistribution, bool> officialWithSandboxToggle =
+    const Map<AppStoreDistribution, bool> officialStable =
+        <AppStoreDistribution, bool>{
+          AppStoreDistribution.production: true,
+          AppStoreDistribution.testflight: true,
+          AppStoreDistribution.development: false,
+          AppStoreDistribution.unknown: false,
+        };
+    const Map<AppStoreDistribution, bool> officialNonStableWithSandboxToggle =
         <AppStoreDistribution, bool>{
           AppStoreDistribution.production: true,
           AppStoreDistribution.testflight: true,
@@ -164,6 +171,7 @@ void main() {
       required AppStoreDistribution distribution,
       required bool officialInstance,
       required bool sandboxPurchases,
+      bool iosStableBuild = false,
       bool iosBetaOrCanaryBuild = false,
     }) {
       return resolvePremiumStorePurchasesEnabled(
@@ -173,33 +181,49 @@ void main() {
         officialInstance: officialInstance,
         appStoreDistribution: distribution,
         sandboxPurchases: sandboxPurchases,
+        iosStableBuild: iosStableBuild,
         iosBetaOrCanaryBuild: iosBetaOrCanaryBuild,
       );
     }
 
     for (final AppStoreDistribution distribution
         in AppStoreDistribution.values) {
-      test('${distribution.name} on official', () {
+      test('${distribution.name} on official non-stable', () {
         expect(
           resolve(
             distribution: distribution,
             officialInstance: true,
             sandboxPurchases: false,
           ),
-          official[distribution],
+          officialNonStable[distribution],
         );
       });
 
-      test('${distribution.name} on official with the sandbox toggle', () {
+      test('${distribution.name} on official stable', () {
         expect(
           resolve(
             distribution: distribution,
             officialInstance: true,
-            sandboxPurchases: true,
+            sandboxPurchases: false,
+            iosStableBuild: true,
           ),
-          officialWithSandboxToggle[distribution],
+          officialStable[distribution],
         );
       });
+
+      test(
+        '${distribution.name} on official non-stable with the sandbox toggle',
+        () {
+          expect(
+            resolve(
+              distribution: distribution,
+              officialInstance: true,
+              sandboxPurchases: true,
+            ),
+            officialNonStableWithSandboxToggle[distribution],
+          );
+        },
+      );
 
       for (final bool sandboxPurchases in <bool>[false, true]) {
         test(
@@ -229,6 +253,7 @@ void main() {
             officialInstance: true,
             appStoreDistribution: distribution,
             sandboxPurchases: false,
+            iosStableBuild: false,
             iosBetaOrCanaryBuild: false,
           ),
           isTrue,
@@ -268,6 +293,7 @@ void main() {
           officialInstance: official,
           appStoreDistribution: AppStoreDistribution.production,
           sandboxPurchases: false,
+          iosStableBuild: false,
           iosBetaOrCanaryBuild: false,
         );
         final bool commerceVisible = resolvePremiumCommerceVisible(
@@ -303,6 +329,7 @@ void main() {
             officialInstance: true,
             appStoreDistribution: AppStoreDistribution.production,
             sandboxPurchases: true,
+            iosStableBuild: false,
             iosBetaOrCanaryBuild: false,
           ),
           isFalse,

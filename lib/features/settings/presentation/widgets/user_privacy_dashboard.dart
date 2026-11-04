@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/privacy/privacy_activity_sharing_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/privacy/privacy_communication_section.dart';
@@ -19,7 +20,9 @@ class UserPrivacyDashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(privacyDashboardViewModelProvider);
+    final state = ref.watch(
+      privacyDashboardViewModelProvider(watchAccountUserId(ref)),
+    );
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
 
@@ -43,7 +46,11 @@ class UserPrivacyDashboard extends ConsumerWidget {
               child: FluxerButton.primary(
                 label: l10n.privacyDashboardRetry,
                 onPressedAsync: ref
-                    .read(privacyDashboardViewModelProvider.notifier)
+                    .read(
+                      privacyDashboardViewModelProvider(
+                        readAccountUserId(ref),
+                      ).notifier,
+                    )
                     .loadSettings,
               ),
             ),

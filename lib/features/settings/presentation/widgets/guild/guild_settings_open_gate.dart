@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -35,7 +36,7 @@ class _GuildSettingsOpenGateState extends ConsumerState<GuildSettingsOpenGate> {
 
   Future<void> _resolvePermissions() async {
     await ref
-        .read(guildPermissionsProvider.notifier)
+        .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
         .refreshPermissions(widget.guildId);
     if (mounted) {
       setState(() => _permissionsResolved = true);

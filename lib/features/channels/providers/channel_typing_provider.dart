@@ -1,6 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
@@ -25,7 +26,9 @@ bool _isRemoteUserTyping({
 bool isUserTypingInChannel(Ref ref, String channelId, String userId) {
   final String? currentUserId = ref.watch(currentUserIdProvider);
   final Map<String, DateTime>? entries = ref.watch(
-    typingIndicatorsProvider.select((m) => m[channelId]),
+    typingIndicatorsProvider(
+      watchAccountUserId(ref),
+    ).select((m) => m[channelId]),
   );
   return _isRemoteUserTyping(
     entries: entries,
@@ -57,7 +60,9 @@ bool dmAvatarIsTyping(Ref ref, DmConversation dm) {
 bool channelHasTyping(Ref ref, String channelId) {
   final String? currentUserId = ref.watch(currentUserIdProvider);
   final Map<String, DateTime>? entries = ref.watch(
-    typingIndicatorsProvider.select((m) => m[channelId]),
+    typingIndicatorsProvider(
+      watchAccountUserId(ref),
+    ).select((m) => m[channelId]),
   );
   if (entries == null) {
     return false;
@@ -75,7 +80,9 @@ bool channelHasTyping(Ref ref, String channelId) {
 List<String> typingUsersInChannel(Ref ref, String channelId) {
   final String? currentUserId = ref.watch(currentUserIdProvider);
   final Map<String, DateTime>? entries = ref.watch(
-    typingIndicatorsProvider.select((m) => m[channelId]),
+    typingIndicatorsProvider(
+      watchAccountUserId(ref),
+    ).select((m) => m[channelId]),
   );
   if (entries == null) {
     return const <String>[];
@@ -111,7 +118,9 @@ const Duration _kSidebarTypingRecentWindow = Duration(seconds: 5);
 bool channelHasRecentTyping(Ref ref, String channelId) {
   final String? currentUserId = ref.watch(currentUserIdProvider);
   final Map<String, DateTime>? entries = ref.watch(
-    typingIndicatorsProvider.select((m) => m[channelId]),
+    typingIndicatorsProvider(
+      watchAccountUserId(ref),
+    ).select((m) => m[channelId]),
   );
   if (entries == null || entries.isEmpty) {
     return false;

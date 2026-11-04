@@ -5,6 +5,7 @@ import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
@@ -60,7 +61,12 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
           for (final DropItem d in details.files) d,
         ];
         final FileUploadValidationResult result = await ref
-            .read(cloudUploadControllerProvider(widget.channelId).notifier)
+            .read(
+              cloudUploadControllerProvider(
+                readAccountUserId(ref),
+                widget.channelId,
+              ).notifier,
+            )
             .addFiles(composerUploadFiles(files));
         if (context.mounted) {
           _maybeToastValidation(context, ref, result);

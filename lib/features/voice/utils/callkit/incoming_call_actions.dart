@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -72,7 +73,7 @@ Future<void> executeAcceptIncomingVoiceCall(
   final String? uid = ref.read(currentUserIdProvider);
   if (uid != null) {
     ref
-        .read(activeCallsProvider.notifier)
+        .read(activeCallsProvider(readAccountUserId(ref)).notifier)
         .removeUserFromPendingRing(channelId: channelId, userId: uid);
   }
   if (!ctx.mounted) {
@@ -128,7 +129,9 @@ Future<void> executeDeclineIncomingVoiceCall(
 ) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
   final VoiceSessionState voice = ref.read(voiceSessionProvider);
-  ref.read(activeCallsProvider.notifier).clearPendingRingForChannel(channelId);
+  ref
+      .read(activeCallsProvider(readAccountUserId(ref)).notifier)
+      .clearPendingRingForChannel(channelId);
   if (voice.channelId == channelId && voice.isInVoice) {
     await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
   }
@@ -154,7 +157,7 @@ Future<void> executeIgnoreIncomingVoiceCall(
     return;
   }
   ref
-      .read(activeCallsProvider.notifier)
+      .read(activeCallsProvider(readAccountUserId(ref)).notifier)
       .removeUserFromPendingRing(channelId: channelId, userId: uid);
   try {
     final FluxerClient client = ref.read(fluxerClientProvider);
@@ -280,7 +283,7 @@ Future<void> executeAcceptIncomingVoiceCallCore(
   final String? uid = ref.read(currentUserIdProvider);
   if (uid != null) {
     ref
-        .read(activeCallsProvider.notifier)
+        .read(activeCallsProvider(readAccountUserId(ref)).notifier)
         .removeUserFromPendingRing(channelId: channelId, userId: uid);
   }
   final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
@@ -332,7 +335,9 @@ Future<void> executeDeclineIncomingVoiceCallCore(
   String channelId,
 ) async {
   final VoiceSessionState voice = ref.read(voiceSessionProvider);
-  ref.read(activeCallsProvider.notifier).clearPendingRingForChannel(channelId);
+  ref
+      .read(activeCallsProvider(readAccountUserId(ref)).notifier)
+      .clearPendingRingForChannel(channelId);
   if (voice.channelId == channelId && voice.isInVoice) {
     await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
   }
@@ -347,7 +352,7 @@ Future<void> executeIgnoreIncomingVoiceCallCore(
     return;
   }
   ref
-      .read(activeCallsProvider.notifier)
+      .read(activeCallsProvider(readAccountUserId(ref)).notifier)
       .removeUserFromPendingRing(channelId: channelId, userId: uid);
   final FluxerClient client = ref.read(fluxerClientProvider);
   await client.channels.stopRingingCallRecipients(

@@ -21,6 +21,7 @@ class MessageJumpLink extends ChannelJumpLink {
 
 const Set<String> kOfficialChannelJumpHosts = <String>{
   'fluxer.com',
+  'canary.fluxer.com',
   'fluxer.app',
   'canary.fluxer.app',
   'web.fluxer.app',

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -137,5 +138,8 @@ class GuildSettingsModerationActions extends _$GuildSettingsModerationActions {
 
 @riverpod
 int guildSettingsPermissions(Ref ref, String guildId) {
-  return ref.watch(guildPermissionsProvider)[guildId] ?? 0;
+  return ref.watch(
+        guildPermissionsProvider(watchAccountUserId(ref)),
+      )[guildId] ??
+      0;
 }

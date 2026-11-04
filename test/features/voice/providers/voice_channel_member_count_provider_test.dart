@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_member_count_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -33,11 +34,13 @@ void main() {
 
   test('counts distinct connected users per guild channel', () {
     final container = makeContainer();
-    container.read(voiceStatesMapProvider.notifier).updateBulk([
-      voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
-      voiceState(userId: 'u2', channelId: 'A', guildId: 'g1'),
-      voiceState(userId: 'u3', channelId: 'B', guildId: 'g1'),
-    ]);
+    container
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+        .updateBulk([
+          voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
+          voiceState(userId: 'u2', channelId: 'A', guildId: 'g1'),
+          voiceState(userId: 'u3', channelId: 'B', guildId: 'g1'),
+        ]);
 
     expect(count(container, 'g1', 'A'), 2);
     expect(count(container, 'g1', 'B'), 1);
@@ -48,10 +51,12 @@ void main() {
     'does not count users from a different guild in the same channel id',
     () {
       final container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk([
-        voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
-        voiceState(userId: 'u2', channelId: 'A', guildId: 'g2'),
-      ]);
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk([
+            voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
+            voiceState(userId: 'u2', channelId: 'A', guildId: 'g2'),
+          ]);
 
       expect(count(container, 'g1', 'A'), 1);
       expect(count(container, 'g2', 'A'), 1);
@@ -60,34 +65,38 @@ void main() {
 
   test('collapses multiple connections from a single user', () {
     final container = makeContainer();
-    container.read(voiceStatesMapProvider.notifier).updateBulk([
-      voiceState(
-        userId: 'u1',
-        channelId: 'A',
-        guildId: 'g1',
-        connectionId: 'conn-1',
-      ),
-      voiceState(
-        userId: 'u1',
-        channelId: 'A',
-        guildId: 'g1',
-        connectionId: 'conn-2',
-      ),
-    ]);
+    container
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+        .updateBulk([
+          voiceState(
+            userId: 'u1',
+            channelId: 'A',
+            guildId: 'g1',
+            connectionId: 'conn-1',
+          ),
+          voiceState(
+            userId: 'u1',
+            channelId: 'A',
+            guildId: 'g1',
+            connectionId: 'conn-2',
+          ),
+        ]);
 
     expect(count(container, 'g1', 'A'), 1);
   });
 
   test('unrelated channel update does not change count for channel A', () {
     final container = makeContainer();
-    container.read(voiceStatesMapProvider.notifier).updateBulk([
-      voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
-      voiceState(userId: 'u2', channelId: 'A', guildId: 'g1'),
-    ]);
+    container
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+        .updateBulk([
+          voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
+          voiceState(userId: 'u2', channelId: 'A', guildId: 'g1'),
+        ]);
     expect(count(container, 'g1', 'A'), 2);
 
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(voiceState(userId: 'u3', channelId: 'B', guildId: 'g1'));
     expect(count(container, 'g1', 'A'), 2);
   });
@@ -100,11 +109,13 @@ void main() {
       guildId: 'g1',
       connectionId: 'conn-1',
     );
-    container.read(voiceStatesMapProvider.notifier).update(joined);
+    container
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+        .update(joined);
     expect(count(container, 'g1', 'A'), 1);
 
     container
-        .read(voiceStatesMapProvider.notifier)
+        .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
         .update(
           const VoiceState(userId: 'u1', guildId: 'g1', connectionId: 'conn-1'),
         );

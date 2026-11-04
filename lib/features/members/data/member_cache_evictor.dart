@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/members/domain/member_list_viewport_state.dart';
@@ -42,7 +43,9 @@ Set<String> collectProtectedMemberUserIds({
   if (currentUserId.isNotEmpty) {
     protected.add(currentUserId);
   }
-  final Map<String, VoiceState> voiceStates = ref.read(voiceStatesMapProvider);
+  final Map<String, VoiceState> voiceStates = ref.read(
+    voiceStatesMapProvider(readAccountUserId(ref)),
+  );
   for (final VoiceState state in voiceStates.values) {
     if (state.guildId == guildId) {
       protected.add(state.userId);
@@ -51,7 +54,7 @@ Set<String> collectProtectedMemberUserIds({
   final String? activeChannelId = ref.read(activeChannelIdProvider);
   if (activeChannelId != null) {
     final MemberListViewportListState? listState = ref
-        .read(memberListViewportProvider.notifier)
+        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
         .getList(guildId: guildId, channelId: activeChannelId);
     if (listState != null) {
       for (final MemberListViewportRow row in listState.rows.values) {

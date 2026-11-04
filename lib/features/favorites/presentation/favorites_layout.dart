@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -130,7 +131,9 @@ class _FavoritesGuildChannelState
         return;
       }
       _syncedTarget = target;
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(widget.guildId);
+      ref
+          .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+          .syncIfNeeded(widget.guildId);
     });
   }
 

@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const Duration fluxerToastAnimationDuration = FluxerMotionTheme.panelDuration;
 
@@ -18,10 +18,12 @@ class FluxerToast {
     this.variant = FluxerToastVariant.info,
     this.duration = const Duration(seconds: 4),
     this.action,
+    this.leading,
   });
 
   final String message;
   final FluxerToastVariant variant;
   final Duration duration;
   final FluxerToastAction? action;
+  final Widget? leading;
 }

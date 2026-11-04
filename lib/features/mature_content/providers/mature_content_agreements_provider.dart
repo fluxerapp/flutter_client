@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
+import 'package:fluxer_app/features/mature_content/utils/mature_content_platform_policy.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_media_policy_utils.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -134,6 +135,9 @@ class MatureContentAgreements extends _$MatureContentAgreements {
     required MatureContentAgreementScope scope,
     required String scopeId,
   }) async {
+    if (!matureContentAllowsInAppConsent) {
+      return;
+    }
     switch (scope) {
       case MatureContentAgreementScope.guild:
         await agreeToGuild(scopeId);
@@ -259,6 +263,7 @@ Future<MatureContentGateReason> matureContentGateReason(
     context: context,
     nsfwAllowed: settings.nsfwAllowed,
     agreements: agreements,
+    allowInAppConsent: matureContentAllowsInAppConsent,
   );
 }
 

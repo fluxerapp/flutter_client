@@ -20,7 +20,7 @@ class ProfileBadgeDetailsTooltip extends StatelessWidget {
     final colors = context.colors;
     final String? artUrl = profileBadgeDisplayImageUrl(
       badge,
-      displayHeight: 48,
+      displayHeight: kProfileBadgeTooltipArtHeight,
     );
 
     return ConstrainedBox(
@@ -29,7 +29,10 @@ class ProfileBadgeDetailsTooltip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (artUrl != null) ...[
-            ProfileBadgeImage.fromBadge(badge, height: 48),
+            ProfileBadgeImage.fromBadge(
+              badge,
+              height: kProfileBadgeTooltipArtHeight,
+            ),
             const SizedBox(height: 4),
           ],
           Text(

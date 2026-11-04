@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
@@ -18,9 +19,11 @@ Future<void> leaveGuildAndCleanup(WidgetRef ref, String guildId) async {
   }
   final client = ref.read(fluxerClientProvider);
   final guildRepository = ref.read(guildRepositoryProvider);
-  final guildPermissions = ref.read(guildPermissionsProvider.notifier);
+  final guildPermissions = ref.read(
+    guildPermissionsProvider(readAccountUserId(ref)).notifier,
+  );
   final channelPermissionCache = ref.read(
-    channelPermissionCacheProvider.notifier,
+    channelPermissionCacheProvider(readAccountUserId(ref)).notifier,
   );
 
   try {
@@ -48,9 +51,11 @@ Future<void> deleteGuildAndCleanup(WidgetRef ref, String guildId) async {
   }
   final client = ref.read(fluxerClientProvider);
   final guildRepository = ref.read(guildRepositoryProvider);
-  final guildPermissions = ref.read(guildPermissionsProvider.notifier);
+  final guildPermissions = ref.read(
+    guildPermissionsProvider(readAccountUserId(ref)).notifier,
+  );
   final channelPermissionCache = ref.read(
-    channelPermissionCacheProvider.notifier,
+    channelPermissionCacheProvider(readAccountUserId(ref)).notifier,
   );
 
   await client.guilds.deleteGuild(

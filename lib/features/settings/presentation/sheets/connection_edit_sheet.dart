@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/connections_view_model.dart';
@@ -114,7 +115,7 @@ class _ConnectionEditBodyState extends ConsumerState<_ConnectionEditBody> {
     final l10n = FluxerLocalizations.of(context);
     try {
       await ref
-          .read(connectionsViewModelProvider.notifier)
+          .read(connectionsViewModelProvider(readAccountUserId(ref)).notifier)
           .updateVisibility(
             widget.connection.type.toJson(),
             widget.connection.id,

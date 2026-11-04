@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -241,7 +242,11 @@ void main() {
     await _flushAsync();
     final String nonce = h.localRows.single.clientNonce!;
     h.container
-        .read(messageUploadSessionsProvider.notifier)
+        .read(
+          messageUploadSessionsProvider(
+            readAccountUserId(h.container),
+          ).notifier,
+        )
         .removeSession(nonce);
     h.uploadClient.block!.complete();
     await _flushAsync();
@@ -262,7 +267,7 @@ void main() {
     expect(h.adapter.lastMultipart, isTrue);
     final Message local = h.localRows.single;
     final MessageUploadSession session = h.container.read(
-      messageUploadSessionsProvider,
+      messageUploadSessionsProvider(readAccountUserId(h.container)),
     )[local.clientNonce]!;
     expect(computeMessageUploadSendingProgress(session), 100);
 
@@ -448,11 +453,18 @@ class _Harness {
       .where((Message m) => m.deliveryState == MessageDeliveryState.sent)
       .toList();
 
-  List<Object> get composerItems =>
-      container.read(cloudUploadControllerProvider('channel-1')).items;
+  List<Object> get composerItems => container
+      .read(
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          'channel-1',
+        ),
+      )
+      .items;
 
-  Map<String, Object> get sessions =>
-      container.read(messageUploadSessionsProvider);
+  Map<String, Object> get sessions => container.read(
+    messageUploadSessionsProvider(readAccountUserId(container)),
+  );
 
   static Future<_Harness> create() async {
     final db = openTestDatabase();
@@ -522,7 +534,12 @@ class _Harness {
     final File file = File('${tempDir.path}/a.png')
       ..writeAsBytesSync(<int>[1, 2, 3]);
     final result = await container
-        .read(cloudUploadControllerProvider('channel-1').notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(container),
+            'channel-1',
+          ).notifier,
+        )
         .addFiles(composerUploadFiles(<XFile>[XFile(file.path)]));
     expect(result.isValid, isTrue);
     await _flushAsync();

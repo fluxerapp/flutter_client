@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase, Server, ServersCompanion;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/members/data/member_list_update_batcher.dart';
@@ -30,7 +31,9 @@ void main() {
 
   MemberListViewportListState? listState(ProviderContainer container) =>
       container
-          .read(memberListViewportProvider.notifier)
+          .read(
+            memberListViewportProvider(readAccountUserId(container)).notifier,
+          )
           .getList(guildId: 'g1', channelId: 'c1');
 
   String? rowStatus(ProviderContainer container, String userId) {
@@ -43,11 +46,15 @@ void main() {
   }
 
   void enqueue(ProviderContainer container, GuildMemberListUpdateEvent update) {
-    container.read(memberListUpdateBatcherProvider).enqueue(update);
+    container
+        .read(memberListUpdateBatcherProvider(readAccountUserId(container)))
+        .enqueue(update);
   }
 
   void clearAll(ProviderContainer container) {
-    container.read(memberListUpdateBatcherProvider).clearAll();
+    container
+        .read(memberListUpdateBatcherProvider(readAccountUserId(container)))
+        .clearAll();
   }
 
   Future<void> waitForBatchWindow() => Future<void>.delayed(
@@ -180,7 +187,7 @@ void main() {
   test('applies the local user own presence change immediately', () async {
     final container = buildContainer();
     container
-        .read(memberListViewportProvider.notifier)
+        .read(memberListViewportProvider(readAccountUserId(container)).notifier)
         .setSubscribedRanges(
           guildId: 'g1',
           channelId: 'c1',

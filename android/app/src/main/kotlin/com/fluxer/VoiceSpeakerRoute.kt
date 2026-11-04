@@ -137,6 +137,10 @@ class VoiceSpeakerRouteBridge(
                 val route = voiceOutputRouteFromName(call.argument<String>("route"))
                 val hold = call.argument<Boolean>("hold") ?: false
                 cancelRouteFollowUp()
+                if (!hold && isExternalVoiceCallActive(context, fluxerOwnsVoice = false)) {
+                    result.success(null)
+                    return
+                }
                 if (hold) {
                     setVoiceCallVolumeKeys(true)
                     scheduleRouteFollowUp(audioManager, route)

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -16,6 +16,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
 import '../../../../helpers/test_l10n.dart';
 
@@ -72,10 +73,12 @@ void main() {
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
           overrides: [
-            currentUserIdProvider.overrideWithValue('me'),
+            fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
             accountManagerProvider.overrideWith(_FakeAccountManager.new),
-            userSettingsStatusProvider.overrideWithValue(
-              _settings(status: 'dnd', customStatus: variant.customStatus),
+            userSettingsStatusStreamProvider.overrideWith(
+              (ref) => Stream<UserSettingsResponse?>.value(
+                _settings(status: 'dnd', customStatus: variant.customStatus),
+              ),
             ),
           ],
           child: MediaQuery(
@@ -92,7 +95,7 @@ void main() {
           ),
         ),
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       final Finder statusLabel = find.text(testL10n.statusChangeSheetTitle);
       final Finder accountsLabel = find.text(

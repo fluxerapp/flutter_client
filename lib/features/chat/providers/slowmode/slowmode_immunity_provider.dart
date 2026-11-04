@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,7 +13,7 @@ Future<bool> isSlowmodeImmune(Ref ref, String channelId) async {
     return false;
   }
 
-  ref.watch(channelPermissionCacheProvider);
+  ref.watch(channelPermissionCacheProvider(watchAccountUserId(ref)));
 
   final db = ref.read(fluxerDatabaseProvider);
   final channelRow = await db.channelDao.getChannelById(channelId);
@@ -27,17 +28,17 @@ Future<bool> isSlowmodeImmune(Ref ref, String channelId) async {
   }
 
   int? cachedBits = ref
-      .read(channelPermissionCacheProvider.notifier)
+      .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
       .getChannelBits(channelId);
   if (cachedBits == null) {
     await ref
-        .read(channelPermissionCacheProvider.notifier)
+        .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
         .rebuildChannel(channelId);
     if (!ref.mounted) {
       return false;
     }
     cachedBits = ref
-        .read(channelPermissionCacheProvider.notifier)
+        .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
         .getChannelBits(channelId);
   }
   if (cachedBits != null) {

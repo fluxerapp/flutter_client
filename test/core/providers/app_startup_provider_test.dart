@@ -125,6 +125,7 @@ class _FakeWellKnown extends WellKnown {
           collectDateOfBirth: false,
         ),
       ),
+      agePolicy: InstanceAgePolicySchema(geos: []),
     );
   }
 }

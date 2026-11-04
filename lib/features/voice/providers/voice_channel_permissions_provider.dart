@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_permissions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,9 +12,9 @@ VoiceChannelPermissions? voiceChannelPermissions(Ref ref, String channelId) {
     return null;
   }
   final int? bits = ref.watch(
-    channelPermissionCacheProvider.select(
-      (ChannelPermissionCaches caches) => caches[channelId],
-    ),
+    channelPermissionCacheProvider(
+      watchAccountUserId(ref),
+    ).select((ChannelPermissionCaches caches) => caches[channelId]),
   );
   return resolveVoiceChannelPermissionsForChannel(
     channelId: channelId,

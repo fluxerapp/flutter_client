@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding, SchedulerPhase;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -664,7 +665,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final int? channelPermissionBits = channelId.isEmpty
         ? null
         : ref.watch(
-            channelPermissionCacheProvider.select(
+            channelPermissionCacheProvider(watchAccountUserId(ref)).select(
               (ChannelPermissionCaches caches) => caches.effective[channelId],
             ),
           );
@@ -735,8 +736,6 @@ class _MessageListState extends ConsumerState<MessageList> {
         _channelStreamFor(
           messages: displayMessages,
           oldestUnreadMessageId: visualUnreadId,
-          currentUserId: currentUserId,
-          blockedUserIds: blockedUserIds,
         );
     final List<ChannelStreamItem> channelStream = built.items;
     final ChannelStreamIndex streamIndex = built.index;
@@ -1860,7 +1859,14 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (removed.isEmpty || removed.length > _kMaxSimultaneousDeleteCollapses) {
       return false;
     }
-    for (final (int index, Message message) in removed) {
+    final List<(int index, Message message)> animated = <(int, Message)>[
+      for (final (int index, Message message) in removed)
+        if (_messageRemovalAnimates(message, previous)) (index, message),
+    ];
+    if (animated.isEmpty) {
+      return false;
+    }
+    for (final (int index, Message message) in animated) {
       _collapsingMessageSnapshots[message.id] = message;
       _collapsingMessageIndex[message.id] = index;
       _collapsingMessageIds.add(message.id);
@@ -1934,14 +1940,67 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
+  bool _messageRemovalAnimates(Message message, List<Message> messages) {
+    final String? groupKey = getCollapsedMessageGroupKey(
+      messages: messages,
+      messageId: message.id,
+      context: _collapseContext(),
+    );
+    if (groupKey == null) {
+      return true;
+    }
+    return ref.read(chatViewModelProvider).revealedCollapsedGroupKey ==
+        groupKey;
+  }
+
+  Message? _successorMessage(List<Message> messages, String messageId) {
+    for (final Message message in messages) {
+      if (compareSnowflakeIds(message.id, messageId) > 0) {
+        return message;
+      }
+    }
+    return null;
+  }
+
+  void _retargetRevealedCollapsedGroup(String messageId) {
+    if (ref.read(chatViewModelProvider).revealedCollapsedGroupKey !=
+        messageId) {
+      return;
+    }
+    final Message? removed = _collapsingMessageSnapshots[messageId];
+    final Message? successor = removed == null
+        ? null
+        : _successorMessage(
+            ref.read(chatViewModelProvider).messages,
+            messageId,
+          );
+    if (removed == null ||
+        successor == null ||
+        !_sameCollapsedRun(removed, successor)) {
+      _chatViewModel.setCollapsedGroupRevealed(null);
+      return;
+    }
+    _chatViewModel.setCollapsedGroupRevealed(successor.id);
+  }
+
+  bool _sameCollapsedRun(Message a, Message b) {
+    final ChannelCollapseContext collapse = _collapseContext();
+    final ChannelStreamType? type = collapse.collapsedTypeFor(a);
+    return type != null &&
+        type == collapse.collapsedTypeFor(b) &&
+        isSameLocalDay(a.timestamp, b.timestamp);
+  }
+
   void _finishMessageCollapse(String messageId) {
+    if (!mounted || !_collapsingMessageIds.contains(messageId)) {
+      return;
+    }
+    _retargetRevealedCollapsedGroup(messageId);
     _collapsingMessageIds.remove(messageId);
     _collapsingMessageSnapshots.remove(messageId);
     _collapsingMessageIndex.remove(messageId);
     _rowResizeMessageIds.remove(messageId);
-    if (mounted) {
-      setState(() {});
-    }
+    setState(() {});
     if (_pin.pinned && _isNearLiveTail()) {
       _schedulePinnedTailGlue();
     }
@@ -2942,8 +3001,6 @@ class _MessageListState extends ConsumerState<MessageList> {
   _channelStreamFor({
     required List<Message> messages,
     required String? oldestUnreadMessageId,
-    required String? currentUserId,
-    required Set<String> blockedUserIds,
   }) {
     return createIndexedChannelStream(
       messages: messages,
@@ -2951,14 +3008,18 @@ class _MessageListState extends ConsumerState<MessageList> {
       groupSplitBoundaryId: _anchorEdge == MessageListAnchorEdge.after
           ? _anchorId
           : null,
-      context: ChannelCollapseContext(
-        treatSpam: true,
-        currentUserId: currentUserId,
-        blockedUserIds: blockedUserIds,
-        isUserMarkedAsSpammer: ref
-            .read(localUserSpamOverrideProvider.notifier)
-            .isUserMarkedAsSpammer,
-      ),
+      context: _collapseContext(),
+    );
+  }
+
+  ChannelCollapseContext _collapseContext() {
+    return ChannelCollapseContext(
+      treatSpam: true,
+      currentUserId: ref.read(currentUserIdProvider),
+      blockedUserIds: ref.read(blockedUserIdsProvider),
+      isUserMarkedAsSpammer: ref
+          .read(localUserSpamOverrideProvider.notifier)
+          .isUserMarkedAsSpammer,
     );
   }
 
@@ -2974,7 +3035,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       return null;
     }
     final String? indexed = ref
-        .read(channelLastMessageIndexProvider)
+        .read(channelLastMessageIndexProvider(readAccountUserId(ref)))
         .lastMessageIdFor(channelId);
     return compareSnowflakeIds(indexed, row) > 0 ? indexed : row;
   }
@@ -3758,18 +3819,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           dataIndex,
           spacing: renderSettings.messageGroupSpacing,
         );
-        final Object signature = (
-          item.type,
-          item.messages.length,
-          isRevealed,
-          item.showUnreadDividerBefore,
-          streamOwnsUnreadBoundary,
-          visualUnreadId,
-          highlightedMessageId,
-          replyingToMessageId,
-          leadingSpacing,
-        );
-        return _tileCache.resolve('group-$groupKey', signature, () {
+        Widget buildGroup() {
           return _wrapWithUnreadSeparator(
             context,
             BlockedMessageGroups(
@@ -3790,32 +3840,50 @@ class _MessageListState extends ConsumerState<MessageList> {
                 }
               },
               messageBuilder: (Message message, Message? previousMessage) {
-                return _buildMessageTile(
-                  context: context,
-                  message: message,
-                  previousMessage: previousMessage,
-                  visualUnreadId: visualUnreadId,
-                  highlightedMessageId: highlightedMessageId,
-                  replyingToMessageId: replyingToMessageId,
-                  currentUserId: currentUserId,
-                  isDmChannel: isDmChannel,
-                  guildId: guildId,
-                  channelPermissionBits: channelPermissionBits,
-                  channelCanSendMessages: channelCanSendMessages,
-                  channelCanAddReactions: channelCanAddReactions,
-                  channelCanPinMessage: channelCanPinMessage,
-                  channelCanManageMessages: channelCanManageMessages,
-                  renderSettings: renderSettings,
-                  blockedUserIds: blockedUserIds,
-                  renderDaySeparator: false,
-                  prependUnreadSeparator: streamOwnsUnreadBoundary,
-                  isGuildSendDisabled: isGuildSendDisabled,
+                return _wrapMessageRowMotion(
+                  messageId: message.id,
+                  child: _buildMessageTile(
+                    context: context,
+                    message: message,
+                    previousMessage: previousMessage,
+                    visualUnreadId: visualUnreadId,
+                    highlightedMessageId: highlightedMessageId,
+                    replyingToMessageId: replyingToMessageId,
+                    currentUserId: currentUserId,
+                    isDmChannel: isDmChannel,
+                    guildId: guildId,
+                    channelPermissionBits: channelPermissionBits,
+                    channelCanSendMessages: channelCanSendMessages,
+                    channelCanAddReactions: channelCanAddReactions,
+                    channelCanPinMessage: channelCanPinMessage,
+                    channelCanManageMessages: channelCanManageMessages,
+                    renderSettings: renderSettings,
+                    blockedUserIds: blockedUserIds,
+                    renderDaySeparator: false,
+                    prependUnreadSeparator: streamOwnsUnreadBoundary,
+                    isGuildSendDisabled: isGuildSendDisabled,
+                  ),
                 );
               },
             ),
             show: item.showUnreadDividerBefore,
           );
-        });
+        }
+
+        if (isRevealed) {
+          return buildGroup();
+        }
+        final Object signature = (
+          item.type,
+          item.messages.length,
+          item.showUnreadDividerBefore,
+          streamOwnsUnreadBoundary,
+          visualUnreadId,
+          highlightedMessageId,
+          replyingToMessageId,
+          leadingSpacing,
+        );
+        return _tileCache.resolve('group-$groupKey', signature, buildGroup);
       case ChannelStreamType.message:
         final Message? message = item.singleMessage;
         if (message == null) {

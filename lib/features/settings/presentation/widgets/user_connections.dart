@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/connection_add_sheet.dart';
@@ -49,14 +50,18 @@ class _UserConnectionsState extends ConsumerState<UserConnections>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       unawaited(
-        ref.read(connectionsViewModelProvider.notifier).load(silent: true),
+        ref
+            .read(connectionsViewModelProvider(readAccountUserId(ref)).notifier)
+            .load(silent: true),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(connectionsViewModelProvider);
+    final state = ref.watch(
+      connectionsViewModelProvider(watchAccountUserId(ref)),
+    );
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
 
@@ -202,8 +207,13 @@ class _Body extends ConsumerWidget {
             SizedBox(height: layout.s4),
             FluxerButton.primary(
               label: l10n.retry,
-              onPressed: () =>
-                  ref.read(connectionsViewModelProvider.notifier).load(),
+              onPressed: () => ref
+                  .read(
+                    connectionsViewModelProvider(
+                      readAccountUserId(ref),
+                    ).notifier,
+                  )
+                  .load(),
             ),
           ],
         ),
@@ -275,7 +285,9 @@ class _ConnectionList extends ConsumerWidget {
       onReorderItem: (oldIndex, newIndex) async {
         try {
           await ref
-              .read(connectionsViewModelProvider.notifier)
+              .read(
+                connectionsViewModelProvider(readAccountUserId(ref)).notifier,
+              )
               .reorder(oldIndex, newIndex);
         } on Object catch (_) {
           if (!context.mounted) {
@@ -309,7 +321,7 @@ class _ConnectionCard extends ConsumerWidget {
     final textStyles = context.textStyles;
     final l10n = FluxerLocalizations.of(context);
     final isPending = ref
-        .watch(connectionsViewModelProvider)
+        .watch(connectionsViewModelProvider(readAccountUserId(ref)))
         .pendingIds
         .contains(connection.id);
 

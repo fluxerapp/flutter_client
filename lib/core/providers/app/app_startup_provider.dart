@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/permissions/route_warmup_listener_provider.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -59,6 +60,7 @@ import 'package:fluxer_app/features/shell/providers/user/current_user_private_pr
 import 'package:fluxer_app/features/voice/providers/voice_p2p_consent_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
+import 'package:fluxer_app/features/voice/services/voice_wakelock_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -87,6 +89,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(fluxerMessageSfxBindingProvider)
     ..read(fluxerTtsBindingProvider)
     ..read(voiceCallKitCoordinatorProvider)
+    ..read(voiceWakelockCoordinatorProvider)
     ..read(gatewayPresenceCoordinatorProvider)
     ..read(guildListSyncProvider)
     ..read(slowmodeSyncProvider)
@@ -289,10 +292,14 @@ class AppStartup extends _$AppStartup {
           return;
         }
         ref
-            .read(currentUserEntitlementsProvider.notifier)
+            .read(
+              currentUserEntitlementsProvider(readAccountUserId(ref)).notifier,
+            )
             .applyUserProfile(user);
         ref
-            .read(currentUserPremiumTypeProvider.notifier)
+            .read(
+              currentUserPremiumTypeProvider(readAccountUserId(ref)).notifier,
+            )
             .set(user.premiumType?.json ?? 0);
         unawaited(refreshPremiumState(ref));
         break;
@@ -356,7 +363,9 @@ class AppStartup extends _$AppStartup {
       ref
           .read(userSettingsViewModelProvider.notifier)
           .applyStartupProfile(validatedUser);
-      ref.read(currentUserPrivateReadProvider.notifier).apply(validatedUser);
+      ref
+          .read(currentUserPrivateReadProvider(readAccountUserId(ref)).notifier)
+          .apply(validatedUser);
       unawaited(
         ref
             .read(sensitiveContentProvider.notifier)
@@ -364,7 +373,13 @@ class AppStartup extends _$AppStartup {
       );
     } else {
       unawaited(ref.read(userSettingsViewModelProvider.notifier).loadProfile());
-      unawaited(ref.read(currentUserPrivateReadProvider.notifier).refresh());
+      unawaited(
+        ref
+            .read(
+              currentUserPrivateReadProvider(readAccountUserId(ref)).notifier,
+            )
+            .refresh(),
+      );
       unawaited(ref.read(sensitiveContentProvider.notifier).hydrateFromLocal());
     }
     unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());

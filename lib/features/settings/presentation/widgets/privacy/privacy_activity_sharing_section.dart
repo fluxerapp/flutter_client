@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/privacy_dashboard_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/privacy_duration_formatting.dart';
@@ -41,7 +42,9 @@ class _PrivacyActivitySharingSectionState
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(privacyDashboardViewModelProvider);
+    final state = ref.watch(
+      privacyDashboardViewModelProvider(watchAccountUserId(ref)),
+    );
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     final colors = context.colors;
@@ -107,7 +110,9 @@ class _PrivacyActivitySharingSectionState
     }
 
     await ref
-        .read(privacyDashboardViewModelProvider.notifier)
+        .read(
+          privacyDashboardViewModelProvider(readAccountUserId(ref)).notifier,
+        )
         .updateVoiceActivitySharingWithToast(
           value: nextValue,
           successMessage: l10n.privacyDashboardVoiceActivityUpdated,

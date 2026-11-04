@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
@@ -14,6 +15,8 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dar
 
 import '../../../../helpers/open_test_database.dart';
 import 'gated_rebuild_permission_cache.dart';
+
+const String _testAccountUserId = 'test-user-id';
 
 void main() {
   test(
@@ -35,9 +38,10 @@ void main() {
         final container = ProviderContainer(
           overrides: [
             fluxerDatabaseProvider.overrideWithValue(db),
-            channelPermissionCacheProvider.overrideWith(
-              () => GatedRebuildPermissionCache(gate),
-            ),
+            currentUserIdProvider.overrideWithValue(_testAccountUserId),
+            channelPermissionCacheProvider(
+              _testAccountUserId,
+            ).overrideWith(() => GatedRebuildPermissionCache(gate)),
           ],
         );
         container

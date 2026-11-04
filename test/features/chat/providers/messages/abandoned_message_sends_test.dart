@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/abandoned_message_sends_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
@@ -58,7 +59,10 @@ void main() {
     final (:container, :adapter) = _container();
     addTearDown(container.dispose);
     final CloudUploadController uploads = container.read(
-      cloudUploadControllerProvider('channel-1').notifier,
+      cloudUploadControllerProvider(
+        readAccountUserId(container),
+        'channel-1',
+      ).notifier,
     );
     final CancelToken token = uploads.sendCancelToken('late-nonce');
     uploads
@@ -92,7 +96,10 @@ void main() {
     final (:container, adapter: _) = _container();
     addTearDown(container.dispose);
     final CloudUploadController uploads = container.read(
-      cloudUploadControllerProvider('channel-1').notifier,
+      cloudUploadControllerProvider(
+        readAccountUserId(container),
+        'channel-1',
+      ).notifier,
     );
     final CancelToken token = uploads.sendCancelToken('mid-nonce');
     uploads
@@ -107,7 +114,12 @@ void main() {
       final (:container, :adapter) = _container();
       addTearDown(container.dispose);
       container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ).notifier,
+          )
           .cancelMessageUpload('early-nonce');
 
       final AbandonedMessageSends abandoned = container.read(

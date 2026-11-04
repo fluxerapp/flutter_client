@@ -53,7 +53,8 @@ String _channelAliasKey(String guildId, String channelId) {
 @Riverpod(keepAlive: true)
 class MemberListViewport extends _$MemberListViewport {
   @override
-  MemberListViewportState build() => const MemberListViewportState();
+  MemberListViewportState build(String accountUserId) =>
+      const MemberListViewportState();
 
   void clearSession() {
     state = const MemberListViewportState();

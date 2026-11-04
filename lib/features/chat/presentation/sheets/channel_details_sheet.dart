@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -90,7 +91,6 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
-import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -220,9 +220,11 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     _selectedIndex = widget.initialTab == ChannelDetailsInitialTab.pins ? 1 : 0;
     widget.scrollController.addListener(_onScroll);
     if (_targetGuildId != null && _targetChannelId != null) {
-      _memberListViewport = ref.read(memberListViewportProvider.notifier);
+      _memberListViewport = ref.read(
+        memberListViewportProvider(readAccountUserId(ref)).notifier,
+      );
       _memberListDesiredRanges = ref.read(
-        memberListDesiredRangesProvider.notifier,
+        memberListDesiredRangesProvider(readAccountUserId(ref)).notifier,
       );
     }
     if (_selectedIndex == 1) {
@@ -461,26 +463,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     }
   }
 
-  Future<void> _setNotification(UserNotificationSettings setting) async {
-    final channel = widget.channel;
-    if (channel == null) {
-      return;
-    }
-    await ref
-        .read(guildUserSettingsRepositoryProvider)
-        .updateChannelOverride(
-          guildId: channel.guildId,
-          channelId: channel.id,
-          messageNotifications: setting,
-        );
-    if (!mounted) {
-      return;
-    }
-    _toast(
-      FluxerLocalizations.of(context).channelDetailsNotificationSettingsUpdated,
-    );
-  }
-
   void _toast(
     String message, {
     FluxerToastVariant variant = FluxerToastVariant.success,
@@ -613,7 +595,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
                         onMarkRead: _markRead,
                         onToggleFavorite: _toggleFavorite,
                         onToggleDmPin: _toggleDmPin,
-                        onSetNotification: _setNotification,
                         onCopy: _copy,
                         onCloseDm: _confirmCloseDm,
                         onDeleteMyMessages: () {

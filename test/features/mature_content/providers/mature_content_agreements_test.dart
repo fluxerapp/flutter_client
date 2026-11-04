@@ -14,6 +14,20 @@ void main() {
     scopeId: 'guild-1',
   );
 
+  test('requires web opt-in on iOS instead of in-app consent', () {
+    const MatureContentAgreementsState emptyAgreements =
+        MatureContentAgreementsState(isLoaded: true);
+    expect(
+      resolveChannelGateReason(
+        context: guildContext,
+        nsfwAllowed: true,
+        agreements: emptyAgreements,
+        allowInAppConsent: false,
+      ),
+      MatureContentGateReason.webOptInRequired,
+    );
+  });
+
   test('requires consent until guild agreement is recorded', () {
     const MatureContentAgreementsState emptyAgreements =
         MatureContentAgreementsState(isLoaded: true);

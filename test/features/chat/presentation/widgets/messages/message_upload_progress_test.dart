@@ -2,6 +2,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -18,6 +19,8 @@ import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 
+const String _testAccountUserId = 'test-user';
+
 void main() {
   testWidgets(
     'shows filename and indeterminate progress without session progress',
@@ -26,9 +29,10 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            messageUploadSessionsProvider.overrideWithValue(
-              const <String, MessageUploadSession>{},
-            ),
+            currentUserIdProvider.overrideWithValue(_testAccountUserId),
+            messageUploadSessionsProvider(
+              _testAccountUserId,
+            ).overrideWithValue(const <String, MessageUploadSession>{}),
           ],
           child: _buildTestApp(
             child: const MessageUploadProgress(
@@ -60,15 +64,17 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          messageUploadSessionsProvider
-              .overrideWithValue(<String, MessageUploadSession>{
-                nonce: const MessageUploadSession(
-                  nonce: nonce,
-                  channelId: 'channel-1',
-                  attachments: <PendingAttachment>[],
-                  sendingProgress: 50,
-                ),
-              }),
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
+          messageUploadSessionsProvider(
+            _testAccountUserId,
+          ).overrideWithValue(<String, MessageUploadSession>{
+            nonce: const MessageUploadSession(
+              nonce: nonce,
+              channelId: 'channel-1',
+              attachments: <PendingAttachment>[],
+              sendingProgress: 50,
+            ),
+          }),
         ],
         child: _buildTestApp(
           child: const MessageUploadProgress(
@@ -102,15 +108,17 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          messageUploadSessionsProvider
-              .overrideWithValue(<String, MessageUploadSession>{
-                nonce: const MessageUploadSession(
-                  nonce: nonce,
-                  channelId: 'channel-1',
-                  attachments: <PendingAttachment>[],
-                  sendingProgress: 100,
-                ),
-              }),
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
+          messageUploadSessionsProvider(
+            _testAccountUserId,
+          ).overrideWithValue(<String, MessageUploadSession>{
+            nonce: const MessageUploadSession(
+              nonce: nonce,
+              channelId: 'channel-1',
+              attachments: <PendingAttachment>[],
+              sendingProgress: 100,
+            ),
+          }),
         ],
         child: _buildTestApp(
           child: const MessageUploadProgress(
@@ -145,10 +153,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
           attachmentGallerySourceProvider.overrideWithValue(
             _ThumbnailGallerySource(),
           ),
-          messageUploadSessionsProvider.overrideWithValue(
+          messageUploadSessionsProvider(_testAccountUserId).overrideWithValue(
             <String, MessageUploadSession>{
               nonce: MessageUploadSession(
                 nonce: nonce,
@@ -195,9 +204,10 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          messageUploadSessionsProvider.overrideWithValue(
-            const <String, MessageUploadSession>{},
-          ),
+          currentUserIdProvider.overrideWithValue(_testAccountUserId),
+          messageUploadSessionsProvider(
+            _testAccountUserId,
+          ).overrideWithValue(const <String, MessageUploadSession>{}),
         ],
         child: _buildTestApp(
           child: const MessageUploadProgress(

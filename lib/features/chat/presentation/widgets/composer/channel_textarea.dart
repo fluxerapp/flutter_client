@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
@@ -87,6 +88,7 @@ import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_p
 import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
@@ -509,7 +511,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (rateLimit <= 0) {
       return null;
     }
-    final int? cachedBits = ref.read(channelPermissionCacheProvider)[channelId];
+    final int? cachedBits = ref.read(
+      channelPermissionCacheProvider(readAccountUserId(ref)),
+    )[channelId];
     if (cachedBits != null && bypassesSlowmode(cachedBits)) {
       return null;
     }
@@ -698,30 +702,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return _composerContentLength(_sendableWireText()) > maxMessageLength;
   }
 
-  void _showPlutoniumSheet(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    unawaited(
-      FluxerBottomSheet.show<void>(
-        context,
-        title: l10n.plutoniumNotAvailableTitle,
-        builder: (sheetContext, _) => Padding(
-          padding: EdgeInsets.fromLTRB(
-            sheetContext.layout.s4,
-            sheetContext.layout.s4,
-            sheetContext.layout.s4,
-            0,
-          ),
-          child: Text(
-            l10n.plutoniumNotAvailableBody,
-            style: sheetContext.textStyles.bodyMedium.copyWith(
-              color: sheetContext.colors.textSecondary,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> _handlePasteExceedsLimit(
     String pastedText,
     String channelId,
@@ -775,7 +755,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             unawaited(_handlePasteExceedsLimit(pastedText, channelId)),
         onPasteLostContent: _showCorruptedCustomEmojiToast,
         onValidationResult: _toastUploadValidation,
-        onUpgradePressed: () => _showPlutoniumSheet(context),
+        onUpgradePressed: () => unawaited(openPlutoniumCommerce(context, ref)),
         textAlignVertical: textAlignVertical,
         cursorColor: cursorColor,
         fitLinesToHeight: fitLinesToHeight,
@@ -1010,7 +990,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       keyboardInsetBottom: resolvedKeyboardInsetBottom(context),
     );
     final bool hasAttachments = ref.watch(
-      cloudUploadControllerProvider(channelId).select(
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).select(
         (CloudComposerAttachments attachments) => attachments.items.isNotEmpty,
       ),
     );
@@ -1279,7 +1259,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       chatViewModelProvider.select((s) => s.channelId),
     );
     final bool hasAttachments = ref.watch(
-      cloudUploadControllerProvider(channelId).select(
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).select(
         (CloudComposerAttachments attachments) => attachments.items.isNotEmpty,
       ),
     );
@@ -1680,6 +1660,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
     ref.watch(
       cloudUploadControllerProvider(
+        readAccountUserId(ref),
         channelId,
       ).select((CloudComposerAttachments a) => a.items.length),
     );
@@ -2168,7 +2149,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     String channelId,
     ComposerReactionShorthand command,
   ) async {
-    if (ref.read(cloudUploadControllerProvider(channelId)).items.isNotEmpty) {
+    if (ref
+        .read(cloudUploadControllerProvider(readAccountUserId(ref), channelId))
+        .items
+        .isNotEmpty) {
       return false;
     }
     final _CustomEmojiSendContext emojiContext = _readCustomEmojiSendContext(
@@ -2457,7 +2441,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       chatViewModelProvider.select((s) => s.channelId),
     );
     final CloudUploadController notifier = ref.read(
-      cloudUploadControllerProvider(channelId).notifier,
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).notifier,
     );
     final FileUploadValidationResult result = await notifier.addFiles(files);
     if (mounted) {
@@ -2470,10 +2454,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       case ComposerAttachSource.gallery:
         final String channelId = ref.read(chatViewModelProvider).channelId;
         final GallerySelectionChange change = await pickNativeGallerySelection(
-          attachments: ref.read(cloudUploadControllerProvider(channelId)).items,
+          attachments: ref
+              .read(
+                cloudUploadControllerProvider(
+                  readAccountUserId(ref),
+                  channelId,
+                ),
+              )
+              .items,
         );
         final FileUploadValidationResult result = await ref
-            .read(cloudUploadControllerProvider(channelId).notifier)
+            .read(
+              cloudUploadControllerProvider(
+                readAccountUserId(ref),
+                channelId,
+              ).notifier,
+            )
             .applyGallerySelection(change);
         if (mounted) {
           _toastUploadValidation(result);

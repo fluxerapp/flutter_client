@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
@@ -77,7 +78,9 @@ VoiceState watchTargetVoiceState(
 ) {
   final VoiceState fallback = target.participant.voice;
   return ref.watch(
-    voiceStatesMapProvider.select((Map<String, VoiceState> map) {
+    voiceStatesMapProvider(watchAccountUserId(ref)).select((
+      Map<String, VoiceState> map,
+    ) {
       final String? connectionId = fallback.connectionId;
       if (connectionId != null) {
         for (final VoiceState voiceState in map.values) {

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/daos/favorite_channels_dao.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
 import 'package:fluxer_app/features/channels/domain/hide_muted_channels_filter.dart';
@@ -512,7 +513,9 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
     final guild = entry.guild;
     if (channel != null && guild != null) {
       final int? cachedPermissionBits = ref.watch(
-        channelPermissionCacheProvider.select((m) => m[channel.id]),
+        channelPermissionCacheProvider(
+          watchAccountUserId(ref),
+        ).select((m) => m[channel.id]),
       );
       return SizedBox.square(
         dimension: _avatarSize,
@@ -555,7 +558,9 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
     }
     if (channel != null) {
       final int? cachedPermissionBits = ref.watch(
-        channelPermissionCacheProvider.select((m) => m[channel.id]),
+        channelPermissionCacheProvider(
+          watchAccountUserId(ref),
+        ).select((m) => m[channel.id]),
       );
       return SizedBox.square(
         dimension: _avatarSize,

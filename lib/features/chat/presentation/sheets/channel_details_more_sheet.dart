@@ -16,8 +16,6 @@ Future<void> _showDetailsMoreSheet(
   required Future<void> Function() onMarkRead,
   required Future<void> Function({required bool isFavorite}) onToggleFavorite,
   required Future<void> Function({required bool isPinned}) onToggleDmPin,
-  required Future<void> Function(UserNotificationSettings setting)
-  onSetNotification,
   required Future<void> Function(String value) onCopy,
   required Future<void> Function() onCloseDm,
   required Future<void> Function() onDeleteMyMessages,
@@ -102,7 +100,7 @@ Future<void> _showDetailsMoreSheet(
           ),
         if (canOfferAnnouncementFollow(
           channel,
-          ref.read(guildPermissionsProvider),
+          ref.read(guildPermissionsProvider(readAccountUserId(ref))),
         ))
           FluxerBottomSheetMenuItem(
             label: l10n.channelMenuFollow,
@@ -147,11 +145,7 @@ Future<void> _showDetailsMoreSheet(
             onTap: () {
               close();
               unawaited(
-                showChannelNotificationSettingsSheet(
-                  context,
-                  channel: channel,
-                  onSetNotification: onSetNotification,
-                ),
+                showChannelNotificationSettingsSheet(context, channel: channel),
               );
             },
           ),

@@ -118,7 +118,7 @@ class _CategoryHeader extends ConsumerWidget {
         .read(matureContentAgreementsProvider.notifier)
         .hasAgreedToCategory(category.id);
     final int? cachedPermissionBits = ref.read(
-      channelPermissionCacheProvider,
+      channelPermissionCacheProvider(readAccountUserId(ref)),
     )[category.id];
     final int? permissionBits =
         cachedPermissionBits ??

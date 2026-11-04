@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -18,7 +19,7 @@ void routeWarmupListener(Ref ref) {
     }
     unawaited(
       ref
-          .read(channelPermissionCacheProvider.notifier)
+          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
           .rebuildChannel(channelId),
     );
   }
@@ -28,7 +29,7 @@ void routeWarmupListener(Ref ref) {
     final String? channelId = ref.read(activeChannelIdProvider);
     unawaited(
       ref
-          .read(channelPermissionCacheProvider.notifier)
+          .read(channelPermissionCacheProvider(readAccountUserId(ref)).notifier)
           .rebuildAfterReady(
             priorityGuildId: guildId,
             priorityChannelId: channelId,

@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/mature_content/providers/mature_content_agre
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/test_l10n.dart';
 
 void main() {
@@ -57,7 +58,7 @@ Widget _buildTestApp({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: overrides,
+    overrides: coreTestProviderOverrides(extra: overrides),
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,

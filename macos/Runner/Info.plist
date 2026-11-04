@@ -48,7 +48,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Fluxer uses the microphone for voice channels and calls.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Take photos to send in a chat.</string>
+	<string>Fluxer uses the camera when you take a photo to send or turn on video in a call.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos from your library in a chat.</string>
 	<key>NSPrincipalClass</key>

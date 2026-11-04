@@ -137,9 +137,83 @@ def read_pubspec_app_version() -> int:
     return 0
 
 
+def write_pubspec_android_build_number(
+    build_number: int,
+    path: Path = PUBSPEC_PATH,
+) -> AppVersion:
+    if build_number < 0:
+        raise ValueError(f"build_number must be non-negative: {build_number}")
+    current = read_pubspec_version(path)
+    updated = AppVersion(
+        year=current.year,
+        month=current.month,
+        public_release=current.public_release,
+        build=f"+{build_number}",
+    )
+    write_pubspec_version(updated, path)
+    return updated
+
+
+ANDROID_RELEASE_VERSION_PATH = Path("tool/release/android_release_version.properties")
+FASTLANE_CHANGELOG_DIR = Path("fastlane/metadata/android/en-US/changelogs")
+
+
+def write_android_release_version_file(
+    *,
+    version_name: str,
+    version_code: int,
+    path: Path = ANDROID_RELEASE_VERSION_PATH,
+) -> None:
+    trimmed_name = version_name.strip()
+    if trimmed_name == "":
+        raise ValueError("version_name is required")
+    if version_code < 0:
+        raise ValueError(f"version_code must be non-negative: {version_code}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        f"versionName={trimmed_name}\nversionCode={version_code}\n",
+        encoding="utf-8",
+    )
+
+
+def ensure_fastlane_changelog(version_code: int) -> Path | None:
+    FASTLANE_CHANGELOG_DIR.mkdir(parents=True, exist_ok=True)
+    path = FASTLANE_CHANGELOG_DIR / f"{version_code}.txt"
+    if path.exists():
+        return None
+    path.write_text(
+        "See what's new on https://feedback.fluxer.com/changelog?platform=mobile\n",
+        encoding="utf-8",
+    )
+    return path
+
+
+def sync_beta_android_release_version(
+    *,
+    version_name: str,
+    version_code: int,
+    pubspec_path: Path = PUBSPEC_PATH,
+    properties_path: Path = ANDROID_RELEASE_VERSION_PATH,
+) -> list[Path]:
+    write_android_release_version_file(
+        version_name=version_name,
+        version_code=version_code,
+        path=properties_path,
+    )
+    write_pubspec_android_build_number(version_code, path=pubspec_path)
+    changed: list[Path] = [properties_path, pubspec_path]
+    changelog = ensure_fastlane_changelog(version_code)
+    if changelog is not None:
+        changed.append(changelog)
+    return changed
+
+
 def _cli() -> int:
-    if len(sys.argv) != 2:
-        print("usage: app_version.py roll|read", file=sys.stderr)
+    if len(sys.argv) < 2:
+        print(
+            "usage: app_version.py roll|read|sync-beta-android-release",
+            file=sys.stderr,
+        )
         return 2
     if sys.argv[1] == "roll":
         try:
@@ -155,7 +229,31 @@ def _cli() -> int:
         return 0
     if sys.argv[1] == "read":
         return read_pubspec_app_version()
-    print("usage: app_version.py roll|read", file=sys.stderr)
+    if sys.argv[1] == "sync-beta-android-release":
+        if len(sys.argv) != 4:
+            print(
+                "usage: app_version.py sync-beta-android-release "
+                "<versionName> <versionCode>",
+                file=sys.stderr,
+            )
+            return 2
+        try:
+            sync_beta_android_release_version(
+                version_name=sys.argv[2],
+                version_code=int(sys.argv[3]),
+            )
+        except (OSError, ValueError) as exc:
+            print(f"::error::{exc}", file=sys.stderr)
+            return 1
+        print(
+            f"Synced Android release version {sys.argv[2]} "
+            f"(versionCode={sys.argv[3]})"
+        )
+        return 0
+    print(
+        "usage: app_version.py roll|read|sync-beta-android-release",
+        file=sys.stderr,
+    )
     return 2
 
 

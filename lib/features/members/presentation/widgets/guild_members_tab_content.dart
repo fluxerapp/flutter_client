@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
@@ -45,6 +46,7 @@ class _GuildMembersTabContentState
     widget.scrollController.addListener(_handleScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       prefetchGuildRolesIfMissing(
+        ref: ref,
         database: ref.read(fluxerDatabaseProvider),
         repository: ref.read(memberRepositoryProvider),
         guildId: widget.guildId,
@@ -73,12 +75,14 @@ class _GuildMembersTabContentState
       return;
     }
     final MemberListViewportListState? listState = ref
-        .read(memberListViewportProvider.notifier)
+        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
         .getList(guildId: widget.guildId, channelId: widget.channelId);
     final int totalRows = listState?.totalRows ?? 0;
     if (!widget.scrollController.hasClients) {
       ref
-          .read(memberListDesiredRangesProvider.notifier)
+          .read(
+            memberListDesiredRangesProvider(readAccountUserId(ref)).notifier,
+          )
           .setRanges(
             guildId: widget.guildId,
             channelId: widget.channelId,
@@ -98,7 +102,7 @@ class _GuildMembersTabContentState
       groupHeaderHeight: kMemberListDetailsGroupHeaderHeight,
     );
     ref
-        .read(memberListDesiredRangesProvider.notifier)
+        .read(memberListDesiredRangesProvider(readAccountUserId(ref)).notifier)
         .setRanges(
           guildId: widget.guildId,
           channelId: widget.channelId,
@@ -134,9 +138,9 @@ class _GuildMembersTabContentState
         ),
         (_, _) {},
       )
-      ..watch(memberListViewportProvider);
+      ..watch(memberListViewportProvider(readAccountUserId(ref)));
     final MemberListViewportListState? listState = ref
-        .read(memberListViewportProvider.notifier)
+        .read(memberListViewportProvider(readAccountUserId(ref)).notifier)
         .getList(guildId: widget.guildId, channelId: widget.channelId);
     final Map<String, db.Role> rolesById =
         ref.watch(guildRolesByIdProvider(widget.guildId)).value ??

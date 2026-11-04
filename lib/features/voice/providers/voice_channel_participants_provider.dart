@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -80,7 +81,9 @@ void prefetchVoiceParticipantsForChannel(
   required String? guildId,
   required String channelId,
 }) {
-  final Map<String, VoiceState> map = ref.read(voiceStatesMapProvider);
+  final Map<String, VoiceState> map = ref.read(
+    voiceStatesMapProvider(readAccountUserId(ref)),
+  );
   final Set<String> ids = <String>{};
   for (final VoiceState vs in map.values) {
     if (vs.channelId != channelId) {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
@@ -112,7 +113,9 @@ class _ChannelAddOverridePickerContentState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(widget.guildId);
+      ref
+          .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+          .syncIfNeeded(widget.guildId);
       unawaited(_fetchMembers(''));
     });
   }

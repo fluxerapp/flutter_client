@@ -50,7 +50,7 @@ void main() {
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
           currentUserIdProvider.overrideWithValue(_selfId),
-          guildSyncProvider.overrideWith(_NoGuildSync.new),
+          guildSyncProvider(_selfId).overrideWith(_NoGuildSync.new),
           guildMentionMemberSearchProvider.overrideWithValue(_NoMembers()),
           guildRolesByIdProvider(
             _guildId,
@@ -110,7 +110,7 @@ void main() {
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
           currentUserIdProvider.overrideWithValue(_selfId),
-          guildSyncProvider.overrideWith(_NoGuildSync.new),
+          guildSyncProvider(_selfId).overrideWith(_NoGuildSync.new),
           guildMentionMemberSearchProvider.overrideWithValue(_NoMembers()),
           guildRolesByIdProvider(
             _guildId,

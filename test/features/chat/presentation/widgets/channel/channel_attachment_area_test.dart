@@ -4,6 +4,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -15,6 +16,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_at
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+import '../../../../../helpers/composer_channel_textarea_harness.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 const MethodChannel _attachmentMediaChannel = MethodChannel(
@@ -32,7 +34,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          cloudUploadControllerProvider('channel-1').overrideWith(
+          currentUserIdProvider.overrideWithValue(kComposerHarnessUserId),
+          cloudUploadControllerProvider(
+            kComposerHarnessUserId,
+            'channel-1',
+          ).overrideWith(
             () => _StaticUploads(<PendingAttachment>[
               _attachment(PendingAttachmentStatus.uploading, 0.4),
             ]),
@@ -57,7 +63,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          cloudUploadControllerProvider('channel-1').overrideWith(
+          currentUserIdProvider.overrideWithValue(kComposerHarnessUserId),
+          cloudUploadControllerProvider(
+            kComposerHarnessUserId,
+            'channel-1',
+          ).overrideWith(
             () => _StaticUploads(<PendingAttachment>[
               _attachment(PendingAttachmentStatus.sending, 1),
             ]),
@@ -91,7 +101,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          cloudUploadControllerProvider('channel-1').overrideWith(
+          currentUserIdProvider.overrideWithValue(kComposerHarnessUserId),
+          cloudUploadControllerProvider(
+            kComposerHarnessUserId,
+            'channel-1',
+          ).overrideWith(
             () => _StaticUploads(<PendingAttachment>[
               PendingAttachment(
                 id: 1,
@@ -129,7 +143,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          cloudUploadControllerProvider('channel-1').overrideWith(
+          currentUserIdProvider.overrideWithValue(kComposerHarnessUserId),
+          cloudUploadControllerProvider(
+            kComposerHarnessUserId,
+            'channel-1',
+          ).overrideWith(
             () => _StaticUploads(<PendingAttachment>[
               PendingAttachment(
                 id: 1,
@@ -169,7 +187,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          currentUserIdProvider.overrideWithValue(kComposerHarnessUserId),
           cloudUploadControllerProvider(
+            kComposerHarnessUserId,
             'channel-1',
           ).overrideWith(() => uploads),
         ],
@@ -219,7 +239,7 @@ class _StaticUploads extends CloudUploadController {
   final List<(int, int)> reorders = <(int, int)>[];
 
   @override
-  CloudComposerAttachments build(String channelId) =>
+  CloudComposerAttachments build(String accountUserId, String channelId) =>
       CloudComposerAttachments(_items);
 
   @override

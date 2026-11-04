@@ -41,9 +41,9 @@ class _ChannelTile extends ConsumerWidget {
       unreadBadgesLevel: unread?.unreadBadgesLevel,
     );
     final int? cachedPermissionBits = ref.watch(
-      channelPermissionCacheProvider.select(
-        (ChannelPermissionCaches caches) => caches[channel.id],
-      ),
+      channelPermissionCacheProvider(
+        watchAccountUserId(ref),
+      ).select((ChannelPermissionCaches caches) => caches[channel.id]),
     );
     final int? connectPermissionBits =
         cachedPermissionBits ??
@@ -65,7 +65,7 @@ class _ChannelTile extends ConsumerWidget {
         isVoice &&
         guild.hasVoiceE2ee &&
         ref.watch(
-          voiceStatesMapProvider.select(
+          voiceStatesMapProvider(watchAccountUserId(ref)).select(
             (Map<String, VoiceState> map) => isVoiceChannelE2eeEncryptedForIcon(
               voiceStates: map,
               guildId: guildId,
@@ -222,7 +222,7 @@ class _ChannelTile extends ConsumerWidget {
             .read(favoriteChannelsRepositoryProvider)
             .isFavorite(channel.id);
     final int? cachedPermissionBits = ref.read(
-      channelPermissionCacheProvider,
+      channelPermissionCacheProvider(readAccountUserId(ref)),
     )[channel.id];
     final int? permissionBits =
         cachedPermissionBits ??
@@ -267,7 +267,7 @@ class _ChannelTile extends ConsumerWidget {
       vanityUrlCode: guild.vanityUrlCode,
       canFollow: canOfferAnnouncementFollow(
         channel,
-        ref.read(guildPermissionsProvider),
+        ref.read(guildPermissionsProvider(readAccountUserId(ref))),
       ),
       canOfferP2pCall:
           ref.read(voiceP2pEnabledProvider) &&
@@ -410,27 +410,7 @@ class _ChannelTile extends ConsumerWidget {
       case ChannelMenuAction.notificationSettings:
         close();
         unawaited(
-          showChannelNotificationSettingsSheet(
-            menuContext,
-            channel: channel,
-            onSetNotification: (setting) async {
-              await ref
-                  .read(guildUserSettingsRepositoryProvider)
-                  .updateChannelOverride(
-                    guildId: channel.guildId,
-                    channelId: channel.id,
-                    messageNotifications: setting,
-                  );
-              ref
-                  .read(toastProvider.notifier)
-                  .show(
-                    const FluxerToast(
-                      message: 'Notification settings updated',
-                      variant: FluxerToastVariant.success,
-                    ),
-                  );
-            },
-          ),
+          showChannelNotificationSettingsSheet(menuContext, channel: channel),
         );
       case ChannelMenuAction.editChannel:
         close();

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 VoiceState _callVoiceState({
@@ -31,6 +32,8 @@ VoiceState _callVoiceState({
   'version': version,
 });
 
+const _testAccountUserId = 'test-user-id';
+
 void main() {
   ProviderContainer makeContainer() {
     final ProviderContainer container = ProviderContainer();
@@ -43,7 +46,7 @@ void main() {
       final ProviderContainer container = makeContainer();
 
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .replacePrivateChannel('dm-1', <VoiceState>[
             _callVoiceState(userId: 'u1', connectionId: 'conn-1'),
             _callVoiceState(userId: 'u2', connectionId: 'conn-2'),
@@ -63,56 +66,62 @@ void main() {
 
     test('CALL_UPDATE voice_states drop users who left the call', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[
-        _callVoiceState(userId: 'u1', connectionId: 'conn-1'),
-        _callVoiceState(userId: 'u2', connectionId: 'conn-2'),
-        _callVoiceState(
-          userId: 'u3',
-          connectionId: 'conn-3',
-          channelId: 'dm-2',
-        ),
-        const VoiceState(
-          userId: 'u2',
-          guildId: 'g1',
-          channelId: 'voice-1',
-          connectionId: 'conn-guild',
-        ),
-      ]);
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk(<VoiceState>[
+            _callVoiceState(userId: 'u1', connectionId: 'conn-1'),
+            _callVoiceState(userId: 'u2', connectionId: 'conn-2'),
+            _callVoiceState(
+              userId: 'u3',
+              connectionId: 'conn-3',
+              channelId: 'dm-2',
+            ),
+            const VoiceState(
+              userId: 'u2',
+              guildId: 'g1',
+              channelId: 'voice-1',
+              connectionId: 'conn-guild',
+            ),
+          ]);
 
-      container.read(voiceStatesMapProvider.notifier).replacePrivateChannel(
-        'dm-1',
-        <VoiceState>[_callVoiceState(userId: 'u1', connectionId: 'conn-1')],
-      );
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .replacePrivateChannel('dm-1', <VoiceState>[
+            _callVoiceState(userId: 'u1', connectionId: 'conn-1'),
+          ]);
 
       expect(
-        container.read(voiceStatesMapProvider).keys,
+        container.read(voiceStatesMapProvider(_testAccountUserId)).keys,
         unorderedEquals(<String>['conn-1', 'conn-3', 'conn-guild']),
       );
     });
 
     test('CALL_UPDATE keeps another connection of a user still listed', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[
-        _callVoiceState(userId: 'u1', connectionId: 'conn-phone'),
-        _callVoiceState(userId: 'u1', connectionId: 'conn-desktop'),
-      ]);
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk(<VoiceState>[
+            _callVoiceState(userId: 'u1', connectionId: 'conn-phone'),
+            _callVoiceState(userId: 'u1', connectionId: 'conn-desktop'),
+          ]);
 
-      container.read(voiceStatesMapProvider.notifier).replacePrivateChannel(
-        'dm-1',
-        <VoiceState>[
-          _callVoiceState(userId: 'u1', connectionId: 'conn-desktop'),
-        ],
-      );
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .replacePrivateChannel('dm-1', <VoiceState>[
+            _callVoiceState(userId: 'u1', connectionId: 'conn-desktop'),
+          ]);
 
       expect(
-        container.read(voiceStatesMapProvider).keys,
+        container.read(voiceStatesMapProvider(_testAccountUserId)).keys,
         unorderedEquals(<String>['conn-phone', 'conn-desktop']),
       );
     });
 
     test('CALL_UPDATE older than the live state keeps the live flags', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier)
+      container.read(
+          voiceStatesMapProvider(readAccountUserId(container)).notifier,
+        )
         ..update(
           _callVoiceState(
             userId: 'u1',
@@ -133,14 +142,18 @@ void main() {
           ),
         ]);
 
-      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      final VoiceState live = container.read(
+        voiceStatesMapProvider(_testAccountUserId),
+      )['conn-1']!;
       expect(live.selfMute, isFalse);
       expect(live.version, 3);
     });
 
     test('CALL_UPDATE newer than the live state replaces it', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier)
+      container.read(
+          voiceStatesMapProvider(readAccountUserId(container)).notifier,
+        )
         ..update(
           _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 2),
         )
@@ -153,14 +166,18 @@ void main() {
           ),
         ]);
 
-      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      final VoiceState live = container.read(
+        voiceStatesMapProvider(_testAccountUserId),
+      )['conn-1']!;
       expect(live.selfMute, isTrue);
       expect(live.version, 3);
     });
 
     test('late VOICE_STATE_UPDATE after a newer CALL_UPDATE is ignored', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier)
+      container.read(
+          voiceStatesMapProvider(readAccountUserId(container)).notifier,
+        )
         ..replacePrivateChannel('dm-1', <VoiceState>[
           _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
         ])
@@ -173,14 +190,18 @@ void main() {
           ),
         );
 
-      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      final VoiceState live = container.read(
+        voiceStatesMapProvider(_testAccountUserId),
+      )['conn-1']!;
       expect(live.selfMute, isFalse);
       expect(live.version, 3);
     });
 
     test('late VOICE_STATE_UPDATE after a newer one is ignored', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier)
+      container.read(
+          voiceStatesMapProvider(readAccountUserId(container)).notifier,
+        )
         ..update(
           _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
         )
@@ -193,14 +214,18 @@ void main() {
           ),
         );
 
-      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      final VoiceState live = container.read(
+        voiceStatesMapProvider(_testAccountUserId),
+      )['conn-1']!;
       expect(live.selfMute, isFalse);
       expect(live.version, 3);
     });
 
     test('VOICE_STATE_UPDATE with an equal version still applies', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier)
+      container.read(
+          voiceStatesMapProvider(readAccountUserId(container)).notifier,
+        )
         ..update(
           _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
         )
@@ -213,26 +238,33 @@ void main() {
           ),
         );
 
-      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      final VoiceState live = container.read(
+        voiceStatesMapProvider(_testAccountUserId),
+      )['conn-1']!;
       expect(live.selfMute, isTrue);
     });
 
     test('CALL_DELETE removes the voice states of that call only', () {
       final ProviderContainer container = makeContainer();
-      container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[
-        _callVoiceState(userId: 'u1', connectionId: 'conn-1'),
-        _callVoiceState(
-          userId: 'u3',
-          connectionId: 'conn-3',
-          channelId: 'dm-2',
-        ),
-      ]);
+      container
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
+          .updateBulk(<VoiceState>[
+            _callVoiceState(userId: 'u1', connectionId: 'conn-1'),
+            _callVoiceState(
+              userId: 'u3',
+              connectionId: 'conn-3',
+              channelId: 'dm-2',
+            ),
+          ]);
 
       container
-          .read(voiceStatesMapProvider.notifier)
+          .read(voiceStatesMapProvider(readAccountUserId(container)).notifier)
           .replacePrivateChannel('dm-1', const <VoiceState>[]);
 
-      expect(container.read(voiceStatesMapProvider).keys, <String>['conn-3']);
+      expect(
+        container.read(voiceStatesMapProvider(_testAccountUserId)).keys,
+        <String>['conn-3'],
+      );
     });
   });
 }

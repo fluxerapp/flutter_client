@@ -1,6 +1,7 @@
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_filename_utils.dart';
@@ -43,7 +44,12 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
     return null;
   }
   return ref
-      .read(cloudUploadControllerProvider(channelId).notifier)
+      .read(
+        cloudUploadControllerProvider(
+          readAccountUserId(ref),
+          channelId,
+        ).notifier,
+      )
       .addFiles(composerUploadFiles(files));
 }
 
@@ -143,7 +149,12 @@ Future<bool> handleComposerNativePaste({
     return false;
   }
   final FileUploadValidationResult result = await ref
-      .read(cloudUploadControllerProvider(channelId).notifier)
+      .read(
+        cloudUploadControllerProvider(
+          readAccountUserId(ref),
+          channelId,
+        ).notifier,
+      )
       .addFiles(<ComposerUploadFile>[
         for (final NativePasteFile file in files)
           composerUploadFile(
@@ -202,6 +213,11 @@ Future<FileUploadValidationResult?> handleComposerContentInserted({
     mimeType: mimeType,
   );
   return ref
-      .read(cloudUploadControllerProvider(channelId).notifier)
+      .read(
+        cloudUploadControllerProvider(
+          readAccountUserId(ref),
+          channelId,
+        ).notifier,
+      )
       .addFiles(composerUploadFiles(<XFile>[file]));
 }

@@ -1,11 +1,13 @@
 import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_messages_body.dart';
 import 'package:fluxer_app/features/notifications/presentation/notifications_page.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../helpers/open_test_database.dart';
 import '../../../helpers/pump_fluxer_app.dart';
 
 void main() {
@@ -19,7 +21,12 @@ void main() {
       addTearDown(tester.view.reset);
 
       await tester.pumpWidget(
-        pumpFluxerApp(child: const Scaffold(body: NotificationsPage())),
+        pumpFluxerApp(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
+          ],
+          child: const Scaffold(body: NotificationsPage()),
+        ),
       );
       await _settle(tester);
 
