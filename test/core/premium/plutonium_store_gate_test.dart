@@ -145,34 +145,11 @@ void main() {
   });
 
   group('iOS App Store distribution', () {
-    const Map<AppStoreDistribution, bool> officialNonStable =
-        <AppStoreDistribution, bool>{
-          AppStoreDistribution.production: true,
-          AppStoreDistribution.testflight: false,
-          AppStoreDistribution.development: false,
-          AppStoreDistribution.unknown: false,
-        };
-    const Map<AppStoreDistribution, bool> officialStable =
-        <AppStoreDistribution, bool>{
-          AppStoreDistribution.production: true,
-          AppStoreDistribution.testflight: true,
-          AppStoreDistribution.development: false,
-          AppStoreDistribution.unknown: false,
-        };
-    const Map<AppStoreDistribution, bool> officialNonStableWithSandboxToggle =
-        <AppStoreDistribution, bool>{
-          AppStoreDistribution.production: true,
-          AppStoreDistribution.testflight: true,
-          AppStoreDistribution.development: false,
-          AppStoreDistribution.unknown: false,
-        };
-
     bool resolve({
       required AppStoreDistribution distribution,
       required bool officialInstance,
-      required bool sandboxPurchases,
-      bool iosStableBuild = false,
-      bool iosBetaOrCanaryBuild = false,
+      required bool stableBuild,
+      required bool developerPurchases,
     }) {
       return resolvePremiumStorePurchasesEnabled(
         isAndroid: false,
@@ -180,66 +157,64 @@ void main() {
         pushProvider: PushProviderKind.apple,
         officialInstance: officialInstance,
         appStoreDistribution: distribution,
-        sandboxPurchases: sandboxPurchases,
-        iosStableBuild: iosStableBuild,
-        iosBetaOrCanaryBuild: iosBetaOrCanaryBuild,
+        stableBuild: stableBuild,
+        developerPurchases: developerPurchases,
       );
     }
 
     for (final AppStoreDistribution distribution
         in AppStoreDistribution.values) {
-      test('${distribution.name} on official non-stable', () {
+      final bool storeInstall =
+          distribution != AppStoreDistribution.development;
+
+      test('${distribution.name} stable build on official', () {
         expect(
           resolve(
             distribution: distribution,
             officialInstance: true,
-            sandboxPurchases: false,
+            stableBuild: true,
+            developerPurchases: false,
           ),
-          officialNonStable[distribution],
+          storeInstall,
         );
       });
 
-      test('${distribution.name} on official stable', () {
+      test('${distribution.name} beta or canary build on official', () {
         expect(
           resolve(
             distribution: distribution,
             officialInstance: true,
-            sandboxPurchases: false,
-            iosStableBuild: true,
+            stableBuild: false,
+            developerPurchases: false,
           ),
-          officialStable[distribution],
+          isFalse,
+        );
+        expect(
+          resolve(
+            distribution: distribution,
+            officialInstance: true,
+            stableBuild: false,
+            developerPurchases: true,
+          ),
+          isTrue,
         );
       });
 
-      test(
-        '${distribution.name} on official non-stable with the sandbox toggle',
-        () {
-          expect(
-            resolve(
-              distribution: distribution,
-              officialInstance: true,
-              sandboxPurchases: true,
-            ),
-            officialNonStableWithSandboxToggle[distribution],
-          );
-        },
-      );
-
-      for (final bool sandboxPurchases in <bool>[false, true]) {
-        test(
-          '${distribution.name} on self-hosted, toggle $sandboxPurchases',
-          () {
+      test('${distribution.name} on self-hosted with every flag', () {
+        for (final bool stableBuild in <bool>[false, true]) {
+          for (final bool developerPurchases in <bool>[false, true]) {
             expect(
               resolve(
                 distribution: distribution,
                 officialInstance: false,
-                sandboxPurchases: sandboxPurchases,
+                stableBuild: stableBuild,
+                developerPurchases: developerPurchases,
               ),
               isFalse,
             );
-          },
-        );
-      }
+          }
+        }
+      });
     }
 
     test('Android ignores the App Store distribution', () {
@@ -252,29 +227,11 @@ void main() {
             pushProvider: PushProviderKind.firebaseMessaging,
             officialInstance: true,
             appStoreDistribution: distribution,
-            sandboxPurchases: false,
-            iosStableBuild: false,
-            iosBetaOrCanaryBuild: false,
+            stableBuild: false,
+            developerPurchases: false,
           ),
           isTrue,
         );
-      }
-    });
-
-    test('beta and canary iOS builds never enable purchases', () {
-      for (final bool sandboxPurchases in <bool>[false, true]) {
-        for (final AppStoreDistribution distribution
-            in AppStoreDistribution.values) {
-          expect(
-            resolve(
-              distribution: distribution,
-              officialInstance: true,
-              sandboxPurchases: sandboxPurchases,
-              iosBetaOrCanaryBuild: true,
-            ),
-            isFalse,
-          );
-        }
       }
     });
   });
@@ -292,9 +249,8 @@ void main() {
           pushProvider: pushProvider,
           officialInstance: official,
           appStoreDistribution: AppStoreDistribution.production,
-          sandboxPurchases: false,
-          iosStableBuild: false,
-          iosBetaOrCanaryBuild: false,
+          stableBuild: true,
+          developerPurchases: false,
         );
         final bool commerceVisible = resolvePremiumCommerceVisible(
           selfHosted: !official,
@@ -328,9 +284,8 @@ void main() {
             pushProvider: pushProvider,
             officialInstance: true,
             appStoreDistribution: AppStoreDistribution.production,
-            sandboxPurchases: true,
-            iosStableBuild: false,
-            iosBetaOrCanaryBuild: false,
+            stableBuild: true,
+            developerPurchases: true,
           ),
           isFalse,
         );

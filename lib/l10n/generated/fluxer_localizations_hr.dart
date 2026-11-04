@@ -100,6 +100,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Sesija vam je istekla. Molimo vas da se ponovno prijavite.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail => 'Sada brišemo vaš račun.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Nije uspjelo pokretanje: $error';
   }
@@ -186,8 +189,21 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'Vaša pretplata na $productName nije obnovljena. Pogodnosti za $productName zadržavate do $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Pretplata na vaš $productName je istekla. Obnovite je sada kako biste zadržali svoje pogodnosti.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'Vaša pretplata na $productName je istekla.';
   }
 
   @override
@@ -369,6 +385,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get mfaUseSecurityKey =>
       'Pokušajte sa sigurnosnim ključem / pristupnim ključem';
+
+  @override
+  String get mfaUseBackupCode => 'Upotrijebi rezervni kod';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Upotrijebi kod iz aplikacije za provjeru autentičnosti';
 
   @override
   String get accountSelectorTitle => 'Odaberite račun';
@@ -1099,6 +1122,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Ovaj je poklon već preuzet.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Ovaj poklon nije moguće preuzeti u iOS aplikaciji. Možete ga preuzeti u desktop aplikaciji.';
 
   @override
   String get giftAcceptMaybeLater => 'Možda kasnije';
@@ -2017,22 +2044,22 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get emojiPickerTitle => 'Emojii';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Značke';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Odaberite koje značke drugi vide na vašem profilu.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Još nemate nijednu značku.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Vaše značke nije moguće učitati.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Prikaži $badgeLabel na vašem profilu';
   }
 
   @override
@@ -2041,22 +2068,23 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Prikaži sve značke';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: 'Još +$count znački, prikaži sve',
+      few: 'Još +$count značke, prikaži sve',
+      one: 'Još +$count značka, prikaži sve',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Prikazuje se samo kada je vaša značka Visionary vidljiva i nije maskirana kao pretplata.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Privatnost Plutonium značke';
@@ -2107,80 +2135,81 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass od $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Prikaži značku na mom profilu';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Sakrij od kada imate $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount => 'Sakrij koliko Operator Passova imate';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Zid Operators';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Kako zid funkcionira';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Niste na zidu.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'Na zidu';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Objavljeno';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => 'Naš tim ga je privremeno sakrio.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Zašto?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Niste na zidu dok su vam pogodnosti uklonjene.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Uvjeti za Operator Pass';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges => 'Šalji promjene profila na zid';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Dodaj moje ime na godišnji popis Operators';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Jednom godišnje objavljujemo popis Operators u bilješkama izdanja Fluxera i u njegovu izvornom kodu. Vaše ime sa zida nalazi se na tom popisu samo ako uključite ovu opciju.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Spremi';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Spremljeno.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed =>
+      'Spremanje nije uspjelo. Pokušajte ponovno.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Ime na zidu';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Ne prikazuj me';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Unesite ime ili označite „Ne prikazuj me“.';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => 'Upotrijebite najviše 32 znaka.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2197,8 +2226,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Kupnje unutar aplikacije još nisu dostupne na ovoj platformi. Pratite nas — uskoro!';
+  String get plutoniumNotSoldHere =>
+      'Plutonium nije moguće kupiti u ovoj verziji aplikacije.';
 
   @override
   String get profilePreviewLabel => 'Pretpregled';
@@ -2271,6 +2300,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Provjera nije uspjela. Molimo pokušajte ponovno.';
 
   @override
+  String get sudoWrongPassword => 'Lozinka nije točna. Pokušajte ponovno.';
+
+  @override
   String get securityAccountTitle => 'Račun';
 
   @override
@@ -2283,6 +2315,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Zaštitite svoj račun dvofaktorskom provjerom i passkeyevima';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Zaštitite svoj račun dvofaktorskom provjerom';
 
   @override
   String get securityLoginEmailSectionTitle => 'Postavke e-pošte';
@@ -6149,7 +6185,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Slušalice';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Promijeni audioizlaz';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Prikaži samo videozapise';
@@ -6212,7 +6248,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Zumiranje $scale';
   }
 
   @override
@@ -6373,6 +6409,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Poruka je predugačka';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Poruke mogu imati najviše $maxLengthString znakova. Skratite ovu poruku kako biste je poslali.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9762,14 +9807,21 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Dijelite videozapise pune duljine i velike datoteke bez prethodnog smanjivanja. Besplatni računi mogu slati do 25 MB.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Strimaj u 4K pri 60 FPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Dijelite svoj zaslon ili kameru u 4K pri 60 sličica u sekundi. Besplatni računi dijele u 720p pri 30.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Strimajte u višoj kvaliteti';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Dijelite svoj zaslon ili kameru u do 1080p pri 60 sličica u sekundi u aplikaciji te u do 4K pri 60 u desktop aplikaciji. Besplatni računi strimaju u do 720p pri 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Vaša pretplata';
 
   @override
   String get storePlutoniumCompareTitle =>
@@ -9849,8 +9901,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => 'Do 4K pri 60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Do 1080p pri 60 FPS u aplikaciji, do 4K pri 60 FPS na računalu';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Možete odabrati samo oznaku koju nitko drugi s istim korisničkim imenom već nema. Korisnička imena ne razlikuju velika i mala slova, tako da se Mina#4821 i mina#4821 smatraju istima. Oznaka #0000 rezervirana je za članove Fluxer Visionary.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Možete odabrati samo oznaku koju nitko drugi s istim korisničkim imenom već nema. Korisnička imena ne razlikuju velika i mala slova, pa se Mina#4821 i mina#4821 smatraju istima.';
 
   @override
   String get storePlutoniumLearnVisionary =>
@@ -9898,11 +9958,38 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Automatski se obnavlja putem App Storea dok ne otkažete.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Appleovi standardni Uvjeti korištenja (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Vrati kupnje';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'Vaša pretplata na Plutonium je vraćena.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Za ovaj Apple Account nema pretplate na Plutonium koju bi se moglo vratiti.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Vraćanje kupnji nije uspjelo. Pokušajte ponovno za trenutak.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Već imate pretplatu na Fluxer Plutonium.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Apple Account na ovom uređaju već plaća Plutonium za drugi Fluxer račun.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium nije dodan';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store je potvrdio vašu kupnju, ali Plutonium nije bilo moguće dodati ovom računu. Dodirnite „Vrati kupnje“ kako biste pokušali ponovno ili se obratite podršci ako i dalje ne radi.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9914,8 +10001,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Primili smo kupnju. Plutonium će se prikazati ovdje nakon aktivacije.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Pretplate u aplikaciji još nisu dostupne na ovom uređaju.';
+  String get storePlutoniumApprovalPending =>
+      'Vaša kupnja čeka odobrenje. Plutonium se dodaje vašem računu nakon što je odobrena.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Nije moguće učitati planove za Plutonium. Provjerite vezu i pokušajte ponovno.';
+
+  @override
+  String get storePlutoniumRetry => 'Pokušaj ponovno';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10583,11 +10677,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer se neočekivano zatvorio. Dijeljenje anonimnih podataka o rušenjima i pogreškama pomaže nam brže ispraviti probleme.';
+      'Fluxer se neočekivano zatvorio. Slanjem izvješća o rušenju pomažete nam brže pronaći i ispraviti problem.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Izvješća sadrže zapise o rušenjima, pogreške i osnovne podatke o performansama. Ne dijele se s trećim stranama i možete ih isključiti u bilo kojem trenutku.';
+      'Izvješća sadrže zapise o rušenju, pogreške, podatke o performansama, trajanje mrežnih zahtjeva te zaslone i dodire koji su doveli do problema, povezane s nasumičnim ID-om ove instalacije. Nikada ne sadrže sadržaj poruka i šalju se samo Fluxerovu vlastitom sustavu za praćenje pogrešaka. Ovo možete isključiti u bilo kojem trenutku.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10598,7 +10692,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Šalji izvješća o rušenju';
 
   @override
-  String get observabilityReportingConsentDecline => 'Ne želim uključiti';
+  String get observabilityReportingConsentDecline => 'Ne pitaj ponovno';
 
   @override
   String get advancedSettingsConfigure => 'Konfiguriraj';
@@ -10666,11 +10760,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Smanji logotip pri izlasku sa početnog zaslona';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Citati na početnom zaslonu';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Prikaži nasumični citat na početnom zaslonu. Ne sinkronizira se između uređaja.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Savjeti za tipkovnicu';
@@ -11026,7 +11120,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Omogućite ili onemogućite ugrađene pružatelje usluga obrnutog pretraživanja slika. Omogućeni pružatelji pojavljuju se u kontekstnom izborniku slika, avatara, natpisa, naljepnica i emojija.';
+      'Omogućite ili onemogućite ugrađene pružatelje obrnutog pretraživanja slika. Omogućeni pružatelji prikazuju se u opcijama slika.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12162,11 +12256,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Ikona uloge';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Učitajte sliku ili odaberite emoji. Uz ime člana prikazuje se ikona njegove najviše uloge koja ima ikonu.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12174,68 +12268,69 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Najmanje $minimumSize, najviše $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Učitaj ikonu uloge';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Trenutačna ikona uloge, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Trenutačna ikona uloge, učitana slika';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Odaberi emoji';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Učitaj sliku';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Ukloni ikonu';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Animirane ikone nisu podržane. Koristite statičnu sliku.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Ova vrsta datoteke nije podržana. Podržane vrste su $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Ova se slika nije mogla učitati. Pokušajte s drugom.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Ovako izgledaju poruke';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Ikona uloge, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Obreži ikonu uloge';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Spremi ikonu';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Preskoči obrezivanje';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Obrezivanje ikone nije uspjelo. Pokušajte ponovno.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Povucite za premještanje ikone uloge i koristite kotačić miša ili prste za zumiranje. Preporučena minimalna veličina je $minimumWidth×$minimumHeight piksela.';
   }
 
   @override
@@ -13603,25 +13698,28 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Postavljena je ikona uloge na $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Promijenjena je ikona uloge iz $oldEmoji u $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Uklonjena je ikona uloge';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Postavljena je prilagođena ikona uloge';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Promijenjena je prilagođena ikona uloge';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Uklonjena je prilagođena ikona uloge';
 
   @override
   String auditLogOptionChannel(String value) {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_duration_text.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_panel.dart';
@@ -13,6 +14,7 @@ class PremiumStoreComparison extends StatelessWidget {
   Widget build(BuildContext context) {
     final PremiumStoreStyle style = PremiumStoreStyle.of(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool ios = defaultTargetPlatform == TargetPlatform.iOS;
     final List<_Row> rows = [
       _Row(
         icon: PhosphorIconsRegular.hash,
@@ -32,12 +34,13 @@ class PremiumStoreComparison extends StatelessWidget {
         free: const _Mark(on: false),
         plutonium: const _Mark(on: true),
       ),
-      _Row(
-        icon: PhosphorIconsRegular.image,
-        label: l10n.storePlutoniumCompareBackgrounds,
-        free: const _Text('1'),
-        plutonium: const _Text('15'),
-      ),
+      if (!ios)
+        _Row(
+          icon: PhosphorIconsRegular.image,
+          label: l10n.storePlutoniumCompareBackgrounds,
+          free: const _Text('1'),
+          plutonium: const _Text('15'),
+        ),
       _Row(
         icon: PhosphorIconsRegular.usersThree,
         label: l10n.storePlutoniumCompareCommunities,
@@ -84,7 +87,11 @@ class PremiumStoreComparison extends StatelessWidget {
         icon: PhosphorIconsRegular.videoCamera,
         label: l10n.storePlutoniumCompareVideo,
         free: _Text(l10n.storePlutoniumVideoFree),
-        plutonium: _Text(l10n.storePlutoniumVideoPlutonium),
+        plutonium: _Text(
+          ios
+              ? l10n.storePlutoniumVideoPlutoniumIos
+              : l10n.storePlutoniumVideoPlutonium,
+        ),
       ),
       _Row(
         icon: PhosphorIconsRegular.identificationBadge,
@@ -92,12 +99,13 @@ class PremiumStoreComparison extends StatelessWidget {
         free: const _Mark(on: false),
         plutonium: const _Mark(on: true),
       ),
-      _Row(
-        icon: PhosphorIconsRegular.sparkle,
-        label: l10n.storePlutoniumCompareEarlyAccess,
-        free: const _Mark(on: false),
-        plutonium: const _Mark(on: true),
-      ),
+      if (!ios)
+        _Row(
+          icon: PhosphorIconsRegular.sparkle,
+          label: l10n.storePlutoniumCompareEarlyAccess,
+          free: const _Mark(on: false),
+          plutonium: const _Mark(on: true),
+        ),
       _Row(
         icon: PhosphorIconsRegular.palette,
         label: l10n.storePlutoniumCompareThemes,
@@ -116,12 +124,16 @@ class PremiumStoreComparison extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _CompareTable(rows: rows),
-          const SizedBox(height: 16),
-          Text(
-            l10n.storePlutoniumCompareMobileNote,
-            textAlign: TextAlign.center,
-            style: context.textStyles.bodySmall.copyWith(color: style.inkMuted),
-          ),
+          if (!ios) ...[
+            const SizedBox(height: 16),
+            Text(
+              l10n.storePlutoniumCompareMobileNote,
+              textAlign: TextAlign.center,
+              style: context.textStyles.bodySmall.copyWith(
+                color: style.inkMuted,
+              ),
+            ),
+          ],
         ],
       ),
     );

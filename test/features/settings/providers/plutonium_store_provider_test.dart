@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -21,6 +22,9 @@ class _FakeStoreClient implements PremiumStorePurchaseClient {
   final StreamController<List<PremiumStorePurchaseUpdate>> updates =
       StreamController<List<PremiumStorePurchaseUpdate>>.broadcast();
   final List<String> calls = <String>[];
+  List<PremiumStorePurchaseUpdate> restoreBatch =
+      <PremiumStorePurchaseUpdate>[];
+  Completer<void>? loadGate;
 
   Future<void> close() => updates.close();
 
@@ -35,6 +39,7 @@ class _FakeStoreClient implements PremiumStorePurchaseClient {
     PremiumStoreCatalog catalog,
   ) async {
     calls.add('load');
+    await loadGate?.future;
     return PremiumStoreProductSet(
       monthly: PremiumStoreProduct(
         id: catalog.monthly!.productId,
@@ -62,16 +67,21 @@ class _FakeStoreClient implements PremiumStorePurchaseClient {
   }
 
   @override
-  Future<void> restore() async {
-    calls.add('restore');
+  Future<void> restore({required bool userInitiated}) async {
+    calls.add(userInitiated ? 'restore:user' : 'restore');
+    updates.add(restoreBatch);
   }
+
+  @override
+  Future<String?> storefrontCountryCode() async => null;
 }
 
 class _FakePremiumApi extends Fake implements PremiumApi {
-  _FakePremiumApi(this.calls, {this.claimStatus});
+  _FakePremiumApi(this.calls, {this.claimStatus, this.claimCode});
 
   final List<String> calls;
-  final int? claimStatus;
+  int? claimStatus;
+  String? claimCode;
 
   @override
   Future<StorePurchaseClaimResponse> claimAppStoreTransaction({
@@ -85,7 +95,13 @@ class _FakePremiumApi extends Fake implements PremiumApi {
       );
       throw DioException(
         requestOptions: options,
-        response: Response<void>(requestOptions: options, statusCode: status),
+        response: Response<Object?>(
+          requestOptions: options,
+          statusCode: status,
+          data: claimCode == null
+              ? null
+              : <String, Object?>{'code': claimCode, 'message': claimCode},
+        ),
       );
     }
     return StorePurchaseClaimResponse.fromJson(<String, Object?>{
@@ -120,7 +136,27 @@ class _FakeFluxerClient extends FluxerClient {
 
 class _FixedBillingContext extends StoreBillingContextNotifier {
   @override
-  Future<StoreBillingContextResponse?> build() async => _context();
+  Future<StoreBillingContextResponse> build() async => _context();
+}
+
+class _FlakyBillingContext extends StoreBillingContextNotifier {
+  static int builds = 0;
+  static bool offline = false;
+
+  @override
+  Future<StoreBillingContextResponse> build() async {
+    builds += 1;
+    if (builds == 1 && offline) {
+      throw DioException(
+        requestOptions: RequestOptions(path: '/premium/store/billing'),
+        type: DioExceptionType.connectionError,
+      );
+    }
+    if (builds == 1) {
+      throw StateError('offline');
+    }
+    return _context();
+  }
 }
 
 StoreBillingContextResponse _context() {
@@ -158,13 +194,23 @@ ProviderContainer _container({
   bool? officialInstance,
   bool? purchasesEnabled,
   int? claimStatus,
+  String? claimCode,
+  bool flakyBilling = false,
 }) {
   final ProviderContainer container = ProviderContainer(
     overrides: [
       premiumStorePurchaseClientProvider.overrideWithValue(client),
-      storeBillingContextProvider.overrideWith(_FixedBillingContext.new),
+      storeBillingContextProvider.overrideWith(
+        flakyBilling ? _FlakyBillingContext.new : _FixedBillingContext.new,
+      ),
       fluxerClientProvider.overrideWithValue(
-        _FakeFluxerClient(_FakePremiumApi(calls, claimStatus: claimStatus)),
+        _FakeFluxerClient(
+          _FakePremiumApi(
+            calls,
+            claimStatus: claimStatus,
+            claimCode: claimCode,
+          ),
+        ),
       ),
       if (officialInstance != null)
         isActiveInstanceOfficialProvider.overrideWithValue(officialInstance),
@@ -185,10 +231,14 @@ Future<void> _settle() async {
   }
 }
 
-PremiumStorePurchaseUpdate _purchased(String id, {String jws = 'jws'}) {
+PremiumStorePurchaseUpdate _purchased(
+  String id, {
+  String jws = 'jws',
+  PremiumStorePurchaseStatus status = PremiumStorePurchaseStatus.purchased,
+}) {
   return PremiumStorePurchaseUpdate(
     productId: 'plutonium_monthly',
-    status: PremiumStorePurchaseStatus.purchased,
+    status: status,
     purchaseId: id,
     pendingCompletePurchase: true,
     serverVerificationData: jws,
@@ -254,12 +304,7 @@ void main() {
       ]);
       await _settle();
 
-      expect(client.calls, <String>[
-        'restore',
-        'load',
-        'buy:plutonium',
-        'complete:gpa.1',
-      ]);
+      expect(client.calls, <String>['load', 'buy:plutonium', 'complete:gpa.1']);
       expect(calls, isEmpty);
     });
 
@@ -283,7 +328,6 @@ void main() {
 
       expect(calls, <String>['claim:jws']);
       expect(client.calls, <String>[
-        'restore',
         'load',
         'buy:plutonium_monthly',
         'complete:1000',
@@ -333,9 +377,42 @@ void main() {
       final PremiumStoreState state = container.read(premiumStoreProvider);
       expect(state.purchasePending, isFalse);
       expect(state.errorSerial, errorsBefore + 1);
+      expect(state.lastError, PremiumStoreError.claimFailed);
     });
 
-    test('restore asks the store again', () async {
+    test('a restored purchase owned by another account blocks buying '
+        'without an error', () async {
+      final List<String> calls = <String>[];
+      final _FakeStoreClient client = _FakeStoreClient(
+        PremiumBillingStore.appStore,
+      );
+      final ProviderContainer container = _container(
+        client: client,
+        calls: calls,
+        purchasesEnabled: true,
+        claimStatus: 403,
+        claimCode: 'STORE_PURCHASE_OWNED_BY_OTHER_ACCOUNT',
+      );
+      await _settle();
+
+      final int errorsBefore = container.read(premiumStoreProvider).errorSerial;
+      client.updates.add(<PremiumStorePurchaseUpdate>[
+        _purchased('1003', status: PremiumStorePurchaseStatus.restored),
+      ]);
+      await _settle();
+
+      final PremiumStoreState state = container.read(premiumStoreProvider);
+      expect(client.calls, contains('complete:1003'));
+      expect(state.ownedByOtherAccount, isTrue);
+      expect(state.subscriptionPurchaseBlocked, isTrue);
+      expect(state.errorSerial, errorsBefore);
+      await container
+          .read(premiumStoreProvider.notifier)
+          .buy(PremiumStorePlan.monthly);
+      expect(client.calls, isNot(contains('buy:plutonium_monthly')));
+    });
+
+    test('a pending purchase stops the spinner until it is approved', () async {
       final List<String> calls = <String>[];
       final _FakeStoreClient client = _FakeStoreClient(
         PremiumBillingStore.appStore,
@@ -347,9 +424,180 @@ void main() {
       );
       await _settle();
 
-      await container.read(premiumStoreProvider.notifier).restore();
+      await container
+          .read(premiumStoreProvider.notifier)
+          .buy(PremiumStorePlan.monthly);
+      client.updates.add(<PremiumStorePurchaseUpdate>[
+        _purchased('1004', status: PremiumStorePurchaseStatus.pending),
+      ]);
+      await _settle();
 
-      expect(client.calls.where((String call) => call == 'restore').length, 2);
+      PremiumStoreState state = container.read(premiumStoreProvider);
+      expect(state.purchasingPlan, isNull);
+      expect(state.approvalPending, isTrue);
+
+      client.updates.add(<PremiumStorePurchaseUpdate>[_purchased('1004')]);
+      await _settle();
+
+      state = container.read(premiumStoreProvider);
+      expect(state.approvalPending, isFalse);
+      expect(calls, <String>['claim:jws']);
+    });
+
+    test('a purchase delivered before the products load is claimed', () async {
+      final List<String> calls = <String>[];
+      final _FakeStoreClient client = _FakeStoreClient(
+        PremiumBillingStore.appStore,
+      )..loadGate = Completer<void>();
+      _container(client: client, calls: calls, purchasesEnabled: true);
+      await _settle();
+
+      client.updates.add(<PremiumStorePurchaseUpdate>[_purchased('1005')]);
+      await _settle();
+
+      expect(calls, <String>['claim:jws']);
+      client.loadGate!.complete();
+    });
+
+    test('a failed plan load can be retried', () async {
+      _FlakyBillingContext.builds = 0;
+      _FlakyBillingContext.offline = false;
+      final List<String> calls = <String>[];
+      final _FakeStoreClient client = _FakeStoreClient(
+        PremiumBillingStore.appStore,
+      );
+      final ProviderContainer container = _container(
+        client: client,
+        calls: calls,
+        purchasesEnabled: true,
+        flakyBilling: true,
+      );
+      await _settle();
+
+      expect(container.read(premiumStoreProvider).loadFailed, isTrue);
+      expect(client.calls, isNot(contains('load')));
+
+      container.read(premiumStoreProvider.notifier).retry();
+      await _settle();
+
+      final PremiumStoreState state = container.read(premiumStoreProvider);
+      expect(state.loadFailed, isFalse);
+      expect(state.monthly?.id, 'plutonium_monthly');
+    });
+
+    test('restore reports when there is nothing to restore', () async {
+      final List<String> calls = <String>[];
+      final _FakeStoreClient client = _FakeStoreClient(
+        PremiumBillingStore.appStore,
+      );
+      final ProviderContainer container = _container(
+        client: client,
+        calls: calls,
+        purchasesEnabled: true,
+      );
+      await _settle();
+
+      final PremiumRestoreOutcome outcome = await container
+          .read(premiumStoreProvider.notifier)
+          .restore();
+
+      expect(outcome, PremiumRestoreOutcome.nothingToRestore);
+      expect(client.calls, contains('restore:user'));
+      expect(calls, isEmpty);
+    });
+
+    test('restore claims a restored subscription', () async {
+      final List<String> calls = <String>[];
+      final _FakeStoreClient client =
+          _FakeStoreClient(PremiumBillingStore.appStore)
+            ..restoreBatch = <PremiumStorePurchaseUpdate>[
+              _purchased('1006', status: PremiumStorePurchaseStatus.restored),
+            ];
+      final ProviderContainer container = _container(
+        client: client,
+        calls: calls,
+        purchasesEnabled: true,
+      );
+      await _settle();
+
+      final PremiumRestoreOutcome outcome = await container
+          .read(premiumStoreProvider.notifier)
+          .restore();
+
+      expect(outcome, PremiumRestoreOutcome.restored);
+      expect(calls, <String>['claim:jws']);
+      expect(client.calls, contains('complete:1006'));
+    });
+
+    test('restore claims again after a quiet check found another '
+        'account', () async {
+      final List<String> calls = <String>[];
+      final _FakeStoreClient client =
+          _FakeStoreClient(PremiumBillingStore.appStore)
+            ..restoreBatch = <PremiumStorePurchaseUpdate>[
+              _purchased('1007', status: PremiumStorePurchaseStatus.restored),
+            ];
+      final ProviderContainer container = _container(
+        client: client,
+        calls: calls,
+        purchasesEnabled: true,
+        claimStatus: 403,
+        claimCode: 'STORE_PURCHASE_OWNED_BY_OTHER_ACCOUNT',
+      );
+      await _settle();
+      final PremiumStoreNotifier notifier = container.read(
+        premiumStoreProvider.notifier,
+      );
+
+      await notifier.checkOwnership();
+      expect(container.read(premiumStoreProvider).ownedByOtherAccount, isTrue);
+      await notifier.checkOwnership();
+      expect(calls, <String>['claim:jws']);
+      expect(container.read(premiumStoreProvider).ownedByOtherAccount, isTrue);
+
+      expect(
+        await notifier.restore(),
+        PremiumRestoreOutcome.ownedByOtherAccount,
+      );
+      expect(calls, <String>['claim:jws', 'claim:jws']);
+
+      (container.read(fluxerClientProvider).premium as _FakePremiumApi)
+        ..claimStatus = null
+        ..claimCode = null;
+      expect(await notifier.restore(), PremiumRestoreOutcome.restored);
+      final PremiumStoreState state = container.read(premiumStoreProvider);
+      expect(state.ownedByOtherAccount, isFalse);
+      expect(state.subscriptionPurchaseBlocked, isFalse);
+    });
+
+    test('a plan load that fails offline at launch retries on its own', () {
+      fakeAsync((FakeAsync async) {
+        _FlakyBillingContext.builds = 0;
+        _FlakyBillingContext.offline = true;
+        final List<String> calls = <String>[];
+        final _FakeStoreClient client = _FakeStoreClient(
+          PremiumBillingStore.appStore,
+        );
+        final ProviderContainer container = _container(
+          client: client,
+          calls: calls,
+          purchasesEnabled: true,
+          flakyBilling: true,
+        );
+        async.flushMicrotasks();
+        expect(container.read(premiumStoreProvider).loadFailed, isTrue);
+        expect(client.updates.hasListener, isFalse);
+
+        async
+          ..elapse(const Duration(seconds: 3))
+          ..flushMicrotasks();
+
+        expect(client.updates.hasListener, isTrue);
+        expect(
+          container.read(premiumStoreProvider).monthly?.id,
+          'plutonium_monthly',
+        );
+      });
     });
   });
 }

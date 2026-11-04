@@ -100,6 +100,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Votre session a expiré. Veuillez vous reconnecter.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Nous supprimons votre compte maintenant.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Échec du démarrage : $error';
   }
@@ -186,8 +190,21 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'Votre abonnement $productName n\'a pas pu être renouvelé. Vous conservez vos avantages $productName jusqu\'au $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Votre abonnement $productName a expiré. Renouvelez dès maintenant pour conserver vos avantages.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'Votre abonnement $productName a expiré.';
   }
 
   @override
@@ -371,6 +388,13 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   @override
   String get mfaUseSecurityKey =>
       'Essayer plutôt une clé de sécurité / clé d\'accès';
+
+  @override
+  String get mfaUseBackupCode => 'Utiliser un code de secours';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Utiliser un code de l\'application d\'authentification';
 
   @override
   String get accountSelectorTitle => 'Choisir un compte';
@@ -1107,6 +1131,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Ce cadeau a déjà été récupéré.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Ce cadeau ne peut pas être récupéré dans l\'application iOS. Vous pouvez le récupérer dans l\'application de bureau.';
 
   @override
   String get giftAcceptMaybeLater => 'Peut-être plus tard';
@@ -2044,18 +2072,18 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Choisissez les badges que les autres voient sur votre profil.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Vous n\'avez encore aucun badge.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Impossible de charger vos badges.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Afficher $badgeLabel sur votre profil';
   }
 
   @override
@@ -2064,22 +2092,23 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Afficher tous les badges';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count autres badges, tout afficher',
+      many: '+$count autres badges, tout afficher',
+      one: '+$count autre badge, tout afficher',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Affiché uniquement quand votre badge Visionary est visible et n\'est pas affiché comme un abonnement.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Confidentialité du badge Plutonium';
@@ -2133,80 +2162,86 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass depuis $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile =>
+      'Afficher le badge sur mon profil';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Masquer quand vous avez obtenu votre $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount =>
+      'Masquer le nombre d’Operator Pass que vous avez';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Mur des Operators';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Comment fonctionne le mur';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Non répertorié.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'Sur le mur';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Publié';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden =>
+      'Masqué par notre équipe pour le moment.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Pourquoi ?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Retiré du mur tant que vos avantages sont supprimés.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Conditions de l’Operator Pass';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges =>
+      'Envoyer les modifications de profil au mur';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Ajouter mon nom à la liste annuelle des Operators';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Une fois par an, nous publions une liste des Operators dans les notes d\'une version de Fluxer et dans son code source. Votre nom sur le mur n\'y figure que si vous activez cette option.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Enregistrer';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Enregistré.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed =>
+      'Impossible de sauvegarder. Réessayez.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Nom sur le mur';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Ne pas m\'afficher';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Saisissez un nom, ou cochez « Ne pas m\'afficher ».';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong =>
+      'Utilisez 32 caractères au maximum.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2223,8 +2258,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Les achats intégrés ne sont pas encore disponibles sur cette plateforme. Restez à l\'écoute — bientôt disponible !';
+  String get plutoniumNotSoldHere =>
+      'Plutonium ne peut pas être acheté dans cette version de l\'application.';
 
   @override
   String get profilePreviewLabel => 'Aperçu';
@@ -2297,6 +2332,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'La vérification a échoué. Veuillez réessayer.';
 
   @override
+  String get sudoWrongPassword => 'Ce mot de passe est incorrect. Réessayez.';
+
+  @override
   String get securityAccountTitle => 'Compte';
 
   @override
@@ -2309,6 +2347,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Protégez votre compte avec l\'authentification à deux facteurs et les passkeys';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Protégez votre compte avec l\'authentification à deux facteurs';
 
   @override
   String get securityLoginEmailSectionTitle => 'Paramètres de l\'e-mail';
@@ -6223,7 +6265,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Écouteurs';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Changer la sortie audio';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Afficher uniquement les vidéos';
@@ -6447,6 +6489,15 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Message trop long';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Les messages peuvent contenir jusqu\'à $maxLengthString caractères. Raccourcissez celui-ci pour l\'envoyer.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9870,14 +9921,21 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Partagez des vidéos complètes et des fichiers volumineux sans les compresser. Les comptes gratuits peuvent envoyer jusqu\'à 25 Mo.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Diffusion 4K à 60 IPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Partagez votre écran ou votre caméra en 4K jusqu\'à 60 images par seconde. Les comptes gratuits diffusent jusqu\'à 720 p à 30 images par seconde.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Diffusez en meilleure qualité';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Partagez votre écran ou votre caméra jusqu\'en 1080p à 60 images par seconde dans l\'application, et jusqu\'en 4K à 60 dans l\'application de bureau. Les comptes gratuits diffusent jusqu\'en 720p à 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Votre abonnement';
 
   @override
   String get storePlutoniumCompareTitle => 'Comparer Gratuit et Plutonium';
@@ -9958,8 +10016,16 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => 'Jusqu\'à 4K à 60 IPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Jusqu\'à 1080p à 60 FPS dans l\'application, jusqu\'à 4K à 60 FPS sur ordinateur';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Vous ne pouvez choisir qu\'un tag que personne d\'autre avec le même nom d\'utilisateur n\'a déjà. Les noms d\'utilisateur ne sont pas sensibles à la casse, donc Mina#4821 et mina#4821 sont considérés comme identiques. Le tag #0000 est réservé aux membres Fluxer Visionary.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Vous ne pouvez choisir qu\'un tag que personne d\'autre avec le même nom d\'utilisateur n\'a déjà. Les noms d\'utilisateur ne sont pas sensibles à la casse, donc Mina#4821 et mina#4821 comptent comme identiques.';
 
   @override
   String get storePlutoniumLearnVisionary => 'En savoir plus sur Visionary.';
@@ -10006,11 +10072,38 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Se renouvelle automatiquement via l’App Store jusqu’à votre annulation.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Conditions d\'utilisation standard d\'Apple (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Restaurer les achats';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'Votre abonnement Plutonium a été restauré.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Aucun abonnement Plutonium à restaurer pour cet Apple Account.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Impossible de restaurer les achats. Réessayez dans un instant.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Vous avez déjà un abonnement Fluxer Plutonium.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'L\'Apple Account de cet appareil paie déjà Plutonium pour un autre compte Fluxer.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium n\'a pas été ajouté';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'L\'App Store a confirmé votre achat, mais Plutonium n\'a pas pu être ajouté à ce compte. Touchez « Restaurer les achats » pour réessayer, ou contactez le support si le problème persiste.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -10022,8 +10115,15 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Achat reçu. Plutonium s’affichera ici une fois activé.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Les abonnements intégrés à l\'application ne sont pas encore disponibles sur cet appareil.';
+  String get storePlutoniumApprovalPending =>
+      'Votre achat est en attente d\'approbation. Plutonium sera ajouté à votre compte une fois l\'achat approuvé.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Impossible de charger les offres Plutonium. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get storePlutoniumRetry => 'Réessayer';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10702,11 +10802,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer s\'est fermé de manière inattendue. Partager des données anonymes de plantage et d\'erreur nous aide à corriger les problèmes plus rapidement.';
+      'Fluxer s\'est fermé de façon inattendue. Envoyer un rapport de plantage nous aide à trouver et à corriger le problème plus rapidement.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Les rapports incluent les journaux de plantage, les erreurs et des données de performances de base. Ils ne sont pas partagés avec des tiers et vous pouvez désactiver cette option à tout moment.';
+      'Les rapports contiennent les journaux de plantage, les erreurs, les données de performance, la durée des requêtes réseau ainsi que les écrans et les appuis qui ont mené au problème, associés à un identifiant aléatoire propre à cette installation. Ils ne contiennent jamais le contenu des messages et sont envoyés uniquement à l\'outil de suivi des erreurs de Fluxer. Vous pouvez désactiver cette option à tout moment.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10718,7 +10818,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Envoyer les rapports de plantage';
 
   @override
-  String get observabilityReportingConsentDecline => 'Ne pas activer';
+  String get observabilityReportingConsentDecline => 'Ne plus demander';
 
   @override
   String get advancedSettingsConfigure => 'Configurer';
@@ -10787,11 +10887,12 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Réduire le logo en quittant l’écran de démarrage';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel =>
+      'Citations de l\'écran de démarrage';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Afficher une citation aléatoire sur l\'écran de démarrage. Non synchronisé entre les appareils.';
 
   @override
   String get advancedSettingKeyboardHintsLabel =>
@@ -11158,7 +11259,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Activez ou désactivez les fournisseurs de recherche d’images inversée intégrés. Les fournisseurs activés apparaissent dans le menu contextuel des images, avatars, bannières, stickers et emojis.';
+      'Activez ou désactivez les fournisseurs intégrés de recherche d\'image inversée. Les fournisseurs activés apparaissent dans les options des images.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12318,11 +12419,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Icône du rôle';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Importez une image ou choisissez un emoji. À côté du nom de chaque membre s\'affiche l\'icône de son rôle le plus élevé qui en a une.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12330,68 +12431,69 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Au moins $minimumSize, $maxSize maximum.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Importer l\'icône du rôle';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Icône actuelle du rôle, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Icône actuelle du rôle, image importée';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Choisir un emoji';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Importer une image';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Supprimer l\'icône';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Les icônes animées ne sont pas prises en charge. Utilisez une image statique.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Ce type de fichier n\'est pas pris en charge. Les types pris en charge sont $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Impossible de charger cette image. Essayez-en une autre.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Voici comment les messages s\'affichent';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Icône du rôle, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Recadrer l\'icône du rôle';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Enregistrer l\'icône';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Ignorer le recadrage';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Échec du recadrage de l\'icône. Veuillez réessayer.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Faites glisser pour repositionner l\'icône du rôle et utilisez la molette de défilement ou le pincement pour zoomer. La taille minimale recommandée est de $minimumWidth×$minimumHeight pixels.';
   }
 
   @override
@@ -13765,25 +13867,28 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'A défini l\'icône du rôle sur $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'A remplacé l\'icône du rôle de $oldEmoji par $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Supprimé l\'icône du rôle';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'A défini une icône de rôle personnalisée';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Icône de rôle personnalisée modifiée';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Supprimé l\'icône personnalisée du rôle';
 
   @override
   String auditLogOptionChannel(String value) {

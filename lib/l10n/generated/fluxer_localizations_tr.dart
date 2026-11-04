@@ -97,6 +97,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Oturum süreniz doldu. Lütfen tekrar giriş yapın.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Hesabınızı şimdi siliyoruz.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Başlatma başarısız: $error';
   }
@@ -184,8 +188,21 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return '$productName aboneliğiniz yenilenemedi. $productName ayrıcalıklarınız $graceDate tarihine kadar devam eder.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Aboneliğiniz $productName için sona erdi. Ayrıcalıklarınızı korumak için şimdi yenileyin.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return '$productName aboneliğinizin süresi doldu.';
   }
 
   @override
@@ -367,6 +384,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get mfaUseSecurityKey =>
       'Bunun yerine güvenlik anahtarını/geçiş anahtarını dene';
+
+  @override
+  String get mfaUseBackupCode => 'Yedek kod kullan';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Kimlik doğrulama uygulamasından kod kullan';
 
   @override
   String get accountSelectorTitle => 'Bir hesap seçin';
@@ -1092,6 +1116,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Bu hediye zaten alınmış.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Bu hediye iOS uygulamasında talep edilemez. Masaüstü uygulamasında talep edebilirsiniz.';
 
   @override
   String get giftAcceptMaybeLater => 'Belki daha sonra';
@@ -2008,22 +2036,21 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Rozetler';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Profilinizde başkalarının hangi rozetleri göreceğini seçin.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Henüz hiç rozetiniz yok.';
 
   @override
-  String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+  String get profileBadgesSettingsLoadFailed => 'Rozetleriniz yüklenemedi.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Profilinizde $badgeLabel göster';
   }
 
   @override
@@ -2032,22 +2059,22 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Tüm rozetleri göster';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count rozet daha, tümünü göster',
+      one: '+$count rozet daha, tümünü göster',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Yalnızca Visionary rozetiniz görünür olduğunda ve abonelik olarak maskelenmediğinde gösterilir.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium Rozeti Gizliliği';
@@ -2100,80 +2127,81 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return '$since tarihinden beri Operator Pass';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Rozeti profilimde göster';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return '$operatorPassName alma tarihini gizle';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount => 'Operator Pass sayısını gizle';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Operators duvarı';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Duvarın çalışma şekli';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Listelenmedi.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'Duvarda';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Yayında';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => 'Ekibimiz tarafından şimdilik gizlendi.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Neden?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Ayrıcalıklarınız kaldırıldığı sürece duvarda değilsiniz.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Operator Pass şartları';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges =>
+      'Profil değişikliklerini duvara gönder';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Adımı yıllık Operators listesine ekle';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Yılda bir kez, Operators listesini bir Fluxer sürümünün notlarında ve kaynak kodunda yayımlıyoruz. Duvardaki adınız yalnızca bunu açarsanız listede yer alır.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Kaydet';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Kaydedildi.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed => 'Kaydedilemedi. Tekrar deneyin.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Duvardaki ad';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Beni listeleme';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Bir ad girin veya “Beni listeleme” seçeneğini işaretleyin.';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => 'En fazla 32 karakter kullanın.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2190,8 +2218,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Bu platformda henüz uygulama içi satın alımlar mevcut değil. Takipte kalın — yakında!';
+  String get plutoniumNotSoldHere =>
+      'Plutonium, uygulamanın bu sürümünde satın alınamaz.';
 
   @override
   String get profilePreviewLabel => 'Önizleme';
@@ -2264,6 +2292,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Doğrulama başarısız. Lütfen tekrar deneyin.';
 
   @override
+  String get sudoWrongPassword => 'Parola yanlış. Tekrar deneyin.';
+
+  @override
   String get securityAccountTitle => 'Hesap';
 
   @override
@@ -2276,6 +2307,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Hesabını iki faktörlü kimlik doğrulama ve parolalarla koru';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Hesabını iki faktörlü kimlik doğrulamayla koru';
 
   @override
   String get securityLoginEmailSectionTitle => 'E-posta Ayarları';
@@ -6136,7 +6171,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Kulaklık';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Ses çıkışını değiştir';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Yalnızca videoları göster';
@@ -6199,7 +6234,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Yakınlaştırma $scale';
   }
 
   @override
@@ -6360,6 +6395,15 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Mesaj çok uzun';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Mesajlar en fazla $maxLengthString karakter olabilir. Göndermek için bu mesajı kısaltın.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9737,14 +9781,21 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Videoların ve büyük dosyaların tamamını küçültmeden paylaşın. Ücretsiz hesaplar 25 MB\'a kadar gönderebilir.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => '4K 60 FPS kalitesinde yayın yap';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Ekranınızı veya kameranızı saniyede 60 kare hızında 4K\'ya kadar paylaşın. Ücretsiz hesaplar 30 kare hızında 720p\'ye kadar yayın yapar.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Daha yüksek kalitede yayın yapın';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Ekranınızı veya kameranızı uygulamada saniyede 60 kare hızında 1080p\'ye kadar, masaüstü uygulamasında ise 60 kare hızında 4K\'ya kadar paylaşın. Ücretsiz hesaplar 30 kare hızında 720p\'ye kadar yayın yapar.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Aboneliğiniz';
 
   @override
   String get storePlutoniumCompareTitle =>
@@ -9823,8 +9874,16 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => '60 FPS ile 4K\'ya kadar';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Uygulamada 60 FPS ile 1080p\'ye kadar, masaüstünde 60 FPS ile 4K\'ya kadar';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Aynı kullanıcı adına sahip başka kimsenin kullanmadığı bir etiket seçebilirsiniz. Kullanıcı adları büyük/küçük harfe duyarlı değildir, bu nedenle Mina#4821 ve mina#4821 aynı kabul edilir. #0000 etiketi Fluxer Visionary üyeleri için ayrılmıştır.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Yalnızca aynı kullanıcı adına sahip başka kimsenin kullanmadığı bir etiket seçebilirsiniz. Kullanıcı adları büyük/küçük harfe duyarlı değildir, bu nedenle Mina#4821 ve mina#4821 aynı kabul edilir.';
 
   @override
   String get storePlutoniumLearnVisionary =>
@@ -9872,11 +9931,38 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Siz iptal edene kadar App Store üzerinden otomatik olarak yenilenir.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Apple\'ın standart Kullanım Koşulları (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Satın alımları geri yükle';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'Plutonium aboneliğiniz geri yüklendi.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Bu Apple Account için geri yüklenecek bir Plutonium aboneliği yok.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Satın alımlar geri yüklenemedi. Birazdan tekrar deneyin.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Zaten bir Fluxer Plutonium aboneliğiniz var.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Bu cihazdaki Apple Account, farklı bir Fluxer hesabı için zaten Plutonium ödemesi yapıyor.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium eklenmedi';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store satın alımınızı onayladı ancak Plutonium bu hesaba eklenemedi. Tekrar denemek için “Satın alımları geri yükle” seçeneğine dokunun veya sorun devam ederse destek ekibiyle iletişime geçin.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9888,8 +9974,15 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Satın alma işlemi alındı. Plutonium etkinleştirildiğinde burada görünecektir.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Uygulama içi abonelikler bu cihazda henüz kullanılamıyor.';
+  String get storePlutoniumApprovalPending =>
+      'Satın alımınız onay bekliyor. Onaylandığında Plutonium hesabınıza eklenir.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Plutonium planları yüklenemedi. Bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
+  String get storePlutoniumRetry => 'Tekrar dene';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10551,11 +10644,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer beklenmedik şekilde kapandı. Anonim çökme ve hata verilerini paylaşmak, sorunları daha hızlı düzeltmemize yardımcı olur.';
+      'Fluxer beklenmedik şekilde kapandı. Çökme raporu göndermek, sorunu daha hızlı bulup düzeltmemize yardımcı olur.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Raporlar çökme günlüklerini, hataları ve temel performans verilerini içerir. Üçüncü taraflarla paylaşılmaz ve bu ayarı istediğiniz zaman kapatabilirsiniz.';
+      'Raporlar; çökme günlüklerini, hataları, performans verilerini, ağ isteği sürelerini ve bir soruna yol açan ekranlarla dokunuşları içerir ve bu kurulum için rastgele bir kimliğe bağlanır. Raporlar hiçbir zaman mesaj içeriği içermez ve yalnızca Fluxer\'ın kendi hata izleyicisine gider. Bunu istediğiniz zaman kapatabilirsiniz.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10566,8 +10659,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Çökme raporları gönder';
 
   @override
-  String get observabilityReportingConsentDecline =>
-      'Etkinleştirmek istemiyorum';
+  String get observabilityReportingConsentDecline => 'Bir daha sorma';
 
   @override
   String get advancedSettingsConfigure => 'Yapılandır';
@@ -10636,11 +10728,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Splash ekranından çıkarken logoyu küçült';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Açılış ekranı alıntıları';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Açılış ekranında rastgele bir alıntı gösterir. Cihazlar arasında eşitlenmez.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Klavye ipuçları';
@@ -10995,7 +11087,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Yerleşik tersine görsel arama sağlayıcılarını etkinleştirin veya devre dışı bırakın. Etkinleştirilen sağlayıcılar, görsellerin, avatarların, banner\'ların, çıkartmaların ve emojilerin bağlam menüsünde görünür.';
+      'Yerleşik ters görsel arama sağlayıcılarını etkinleştirin veya devre dışı bırakın. Etkin sağlayıcılar görsel seçeneklerinde görünür.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12131,11 +12223,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Rol simgesi';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Bir görsel yükleyin veya bir emoji seçin. Üyelerde, simgesi olan en yüksek rollerinin simgesi görünür.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12143,68 +12235,68 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. En az $minimumSize, en fazla $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Rol simgesi yükle';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Geçerli rol simgesi, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Geçerli rol simgesi, yüklenen görsel';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Emoji seç';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Görsel yükle';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Simgeyi kaldır';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Hareketli simgeler desteklenmez. Statik bir görsel kullanın.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Bu dosya türü desteklenmiyor. Desteklenen türler: $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Bu görsel yüklenemedi. Başka bir tane deneyin.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Mesajlar böyle görünür';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Rol simgesi, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Rol simgesini kırp';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Simgeyi kaydet';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Kırpmayı atla';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed => 'Simge kırpılamadı. Tekrar deneyin.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Rol simgesini yeniden konumlandırmak için sürükleyin ve yakınlaştırmak için kaydırma tekerleğini veya kıstırma hareketini kullanın. Önerilen minimum boyut $minimumWidth×$minimumHeight pikseldir.';
   }
 
   @override
@@ -13565,25 +13657,25 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Rol simgesi $emoji olarak ayarlandı';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Rol simgesi $oldEmoji yerine $newEmoji olarak değiştirildi';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Rol simgesi kaldırıldı';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet => 'Özel bir rol simgesi ayarlandı';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged => 'Özel rol simgesi değiştirildi';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved => 'Özel rol simgesi kaldırıldı';
 
   @override
   String auditLogOptionChannel(String value) {

@@ -81,13 +81,7 @@ List<String> findGiftCodes(
   int limit = kMaxGiftCodesPerMessage,
 }) {
   final RegExp pattern = giftCodesRegExpFor(
-    giftBaseUrl != null
-        ? <String>[giftBaseUrl]
-        : <String>[
-            InstanceEndpoints.gift,
-            '${InstanceEndpoints.webApp}/gift',
-            if (!InstanceEndpoints.selfHosted) ...kOfficialGiftUrlBases,
-          ],
+    giftBaseUrl != null ? <String>[giftBaseUrl] : _instanceGiftUrlBases(),
   );
   final seen = <String>{};
   final result = <String>[];
@@ -104,6 +98,23 @@ List<String> findGiftCodes(
     }
   }
   return result;
+}
+
+List<String> _instanceGiftUrlBases() => <String>[
+  InstanceEndpoints.gift,
+  '${InstanceEndpoints.webApp}/gift',
+  if (!InstanceEndpoints.selfHosted) ...kOfficialGiftUrlBases,
+];
+
+String? parseGiftLinkCode(String url) {
+  final String trimmed = url.trim().replaceAll(RegExp(r'/+$'), '');
+  final RegExpMatch? match = giftCodesRegExpFor(
+    _instanceGiftUrlBases(),
+  ).firstMatch(trimmed);
+  if (match == null || match.start != 0 || match.end != trimmed.length) {
+    return null;
+  }
+  return match.group(1);
 }
 
 String extractGiftCode(String input) {

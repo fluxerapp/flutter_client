@@ -229,6 +229,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>FLTEnableImpeller</key>
 	<true/>
 	<key>FLTEnableWideGamut</key>

@@ -747,7 +747,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         maxLines: maxLines,
         enterSends: _enterSends,
         showComposerCounter: _showComposerCounter,
-        sendableWireLength: _composerContentLength(_sendableWireText()),
+        sendableWireLength: () => _composerContentLength(_sendableWireText()),
         hintSemanticsLabel: _resolveHintText(),
         onSendPressed: () => unawaited(_onSendPressed()),
         onComposerFieldTap: () => _keyboardSession.onComposerFieldTap(context),
@@ -1992,6 +1992,20 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         );
   }
 
+  void _showOverCharacterLimitToast() {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.characterCounterTooLongToast(
+              ref.read(maxMessageLengthProvider),
+            ),
+            variant: FluxerToastVariant.warning,
+          ),
+        );
+  }
+
   Future<void> _onSendPressed() async {
     final String channelId = ref.read(
       chatViewModelProvider.select((s) => s.channelId),
@@ -2018,6 +2032,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
     if (_isOverCharacterLimit(ref)) {
+      _showOverCharacterLimitToast();
       return;
     }
     final ChatViewModel vm = ref.read(chatViewModelProvider.notifier);

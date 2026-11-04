@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -142,7 +143,9 @@ void main() {
 
       await tester.pump();
 
-      final dynamic textWidget = tester.widget(find.textContaining('Line one'));
+      final widgets.Text textWidget = tester.widget<widgets.Text>(
+        find.textContaining('Line one'),
+      );
       expect(textWidget.textAlign, TextAlign.center);
     });
 
@@ -160,7 +163,9 @@ void main() {
 
       await tester.pump();
 
-      final dynamic textWidget = tester.widget(find.textContaining('Line one'));
+      final widgets.Text textWidget = tester.widget<widgets.Text>(
+        find.textContaining('Line one'),
+      );
       expect(textWidget.textAlign, isNull);
     });
 

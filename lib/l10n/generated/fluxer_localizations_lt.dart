@@ -102,6 +102,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Sesijos laikas pasibaigė. Prašome prisijungti iš naujo.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Jūsų paskyra trinama dabar.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Nepavyko paleisti: $error';
   }
@@ -188,8 +192,21 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'Jūsų „$productName“ prenumeratos nepavyko pratęsti. „$productName“ privalumus išsaugosite iki $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Jūsų „$productName“ prenumerata baigėsi. Atnaujinkite dabar, kad išsaugotumėte privalumus.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'Jūsų „$productName“ prenumerata baigėsi.';
   }
 
   @override
@@ -371,6 +388,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get mfaUseSecurityKey =>
       'Vietoj to naudokite saugos raktą / prieigos raktą';
+
+  @override
+  String get mfaUseBackupCode => 'Naudoti atsarginį kodą';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Naudoti kodą iš autentifikavimo programėlės';
 
   @override
   String get accountSelectorTitle => 'Pasirinkite paskyrą';
@@ -1100,6 +1124,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Ši dovana jau atsiimta.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Šios dovanos negalima atsiimti iOS programėlėje. Ją galite atsiimti kompiuterio programėlėje.';
 
   @override
   String get giftAcceptMaybeLater => 'Galbūt vėliau';
@@ -2026,22 +2054,22 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get emojiPickerTitle => 'Jaustukai';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Ženkleliai';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Pasirinkite, kuriuos ženklelius kiti mato jūsų profilyje.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Kol kas neturite ženklelių.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Nepavyko įkelti jūsų ženklelių.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Rodyti $badgeLabel jūsų profilyje';
   }
 
   @override
@@ -2050,22 +2078,24 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Rodyti visus ženklelius';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: 'Dar +$count ženklelių, rodyti visus',
+      many: 'Dar +$count ženklelio, rodyti visus',
+      few: 'Dar +$count ženkleliai, rodyti visus',
+      one: 'Dar +$count ženklelis, rodyti visus',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Rodoma tik tada, kai jūsų „Visionary“ ženklelis matomas ir nerodomas kaip prenumerata.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Plutonium ženkliuko privatumas';
@@ -2117,80 +2147,84 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass nuo $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile => 'Rodyti ženklelį mano profilyje';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Slėpti, kada gavote $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount =>
+      'Slėpti, kiek turite Operator Pass leidimų';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Operators siena';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Kaip veikia siena';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Nerodoma sienoje.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'Sienoje';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Rodoma';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => 'Mūsų komanda laikinai paslėpė.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Kodėl?';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Nerodoma sienoje, kol jūsų privalumai pašalinti.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Operator Pass sąlygos';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges =>
+      'Siųsti profilio pakeitimus į sieną';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Įtraukti mano vardą į metinį Operators sąrašą';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Kartą per metus Operators sąrašą skelbiame Fluxer leidimo pastabose ir jo šaltinio kode. Jūsų vardas iš sienos jame bus tik tada, jei tai įjungsite.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Išsaugoti';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Išsaugota.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed =>
+      'Nepavyko išsaugoti. Bandykite dar kartą.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Vardas sienoje';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Neįtraukti manęs';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Įveskite vardą arba pažymėkite „Neįtraukti manęs“.';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong =>
+      'Naudokite ne daugiau kaip 32 simbolius.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2207,8 +2241,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Pirkimai programėlėje dar nepasiekiami šioje platformoje. Sekite naujienas – netrukus!';
+  String get plutoniumNotSoldHere =>
+      'Šioje programėlės versijoje Plutonium įsigyti negalima.';
 
   @override
   String get profilePreviewLabel => 'Peržiūra';
@@ -2281,6 +2315,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Patvirtinimas nepavyko. Bandykite dar kartą.';
 
   @override
+  String get sudoWrongPassword =>
+      'Slaptažodis neteisingas. Bandykite dar kartą.';
+
+  @override
   String get securityAccountTitle => 'Paskyra';
 
   @override
@@ -2293,6 +2331,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Apsaugokite savo paskyrą dviejų veiksnių autentifikavimu ir slaptažodžių tvarkytuvais';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Apsaugokite savo paskyrą dviejų veiksnių autentifikavimu';
 
   @override
   String get securityLoginEmailSectionTitle => 'El. pašto nustatymai';
@@ -6205,7 +6247,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Ausinės';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Keisti garso išvestį';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Rodyti tik vaizdo įrašus';
@@ -6268,7 +6310,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Mastelis $scale';
   }
 
   @override
@@ -6429,6 +6471,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Žinutė per ilga';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Žinutės gali būti iki $maxLengthString simbolių. Sutrumpinkite šią žinutę, kad galėtumėte ją išsiųsti.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9822,14 +9873,21 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Bendrinkite viso ilgio vaizdo įrašus ir didelius failus jų nesumažinę. Nemokamos paskyros gali siųsti iki 25 MB.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Transliuokite 4K raiška 60 FPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Bendrinkite savo ekraną ar kamerą iki 4K raiška 60 kadrų per sekundę. Nemokamos paskyros transliuoja iki 720p raiška 30 kadrų per sekundę.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Transliuokite geresne kokybe';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Bendrinkite ekraną ar kamerą iki 1080p raiška 60 kadrų per sekundę programėlėje ir iki 4K raiška 60 kadrų per sekundę kompiuterio programėlėje. Nemokamos paskyros transliuoja iki 720p raiška 30 kadrų per sekundę.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Jūsų prenumerata';
 
   @override
   String get storePlutoniumCompareTitle =>
@@ -9911,8 +9969,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Iki 4K esant 60 kadrų per sekundę';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Iki 1080p 60 FPS programėlėje, iki 4K 60 FPS kompiuteryje';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Galite pasirinkti tik tokį žymeklį, kurio dar neturi joks kitas naudotojas su tokiu pat naudotojo vardu. Naudotojo vardai nėra jautrūs didžiosioms ir mažosioms raidėms, todėl Mina#4821 ir mina#4821 laikomi tokiais pačiais. Žymeklis #0000 yra skirtas Fluxer Visionary nariams.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Galite pasirinkti tik tokią žymą, kurios dar neturi niekas kitas su tuo pačiu naudotojo vardu. Naudotojų varduose didžiosios ir mažosios raidės neskiriamos, todėl Mina#4821 ir mina#4821 laikomi tuo pačiu.';
 
   @override
   String get storePlutoniumLearnVisionary =>
@@ -9960,11 +10026,37 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Automatiškai atnaujinama per App Store, kol neatšauksite.';
 
   @override
+  String get storePlutoniumAppleEula =>
+      'Standartinės Apple naudojimo sąlygos (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Atkurti pirkinius';
+
+  @override
+  String get storePlutoniumRestoreDone => 'Jūsų Plutonium prenumerata atkurta.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Šiai Apple Account nėra Plutonium prenumeratos, kurią būtų galima atkurti.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Nepavyko atkurti pirkinių. Bandykite dar kartą po akimirkos.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Jau turite Fluxer Plutonium prenumeratą.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Šiame įrenginyje naudojama Apple Account jau moka už Plutonium kitai Fluxer paskyrai.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Plutonium nepridėtas';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'App Store patvirtino jūsų pirkinį, bet Plutonium nepavyko pridėti prie šios paskyros. Bakstelėkite „Atkurti pirkinius“, kad bandytumėte dar kartą, arba susisiekite su pagalbos tarnyba, jei vis tiek neveikia.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -9976,8 +10068,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pirkinys gautas. Plutonium čia atsiras, kai tik bus aktyvuotas.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Prenumeratos programėlėje kol kas nepasiekiamos šiame įrenginyje.';
+  String get storePlutoniumApprovalPending =>
+      'Jūsų pirkinys laukia patvirtinimo. Plutonium bus pridėtas prie jūsų paskyros, kai pirkinys bus patvirtintas.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Nepavyko įkelti Plutonium planų. Patikrinkite ryšį ir bandykite dar kartą.';
+
+  @override
+  String get storePlutoniumRetry => 'Bandyti dar kartą';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10642,11 +10741,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Fluxer netikėtai užsidarė. Anoniminių gedimų ir klaidų duomenų bendrinimas padeda mums greičiau ištaisyti problemas.';
+      'Fluxer netikėtai užsidarė. Išsiuntę gedimo ataskaitą padėsite mums greičiau rasti ir ištaisyti problemą.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Ataskaitose yra gedimų žurnalai, klaidos ir pagrindiniai našumo duomenys. Jos neperduodamos trečiosioms šalims, ir šią funkciją galite bet kada išjungti.';
+      'Ataskaitose yra gedimų žurnalai, klaidos, našumo duomenys, tinklo užklausų trukmės ir ekranai bei bakstelėjimai, po kurių kilo problema. Jie susiejami su atsitiktiniu šio įdiegimo ID. Ataskaitose niekada nebūna žinučių turinio, ir jos siunčiamos tik į paties Fluxer klaidų sekimo sistemą. Tai galite bet kada išjungti.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10657,7 +10756,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get observabilityReportingConsentAgree => 'Siųsti gedimų ataskaitas';
 
   @override
-  String get observabilityReportingConsentDecline => 'Nenoriu įjungti';
+  String get observabilityReportingConsentDecline => 'Daugiau neklausti';
 
   @override
   String get advancedSettingsConfigure => 'Konfigūruoti';
@@ -10727,11 +10826,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Sumažinti logotipą, išeinant iš paleidimo ekrano';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel => 'Citatos pradžios ekrane';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Rodyti atsitiktinę citatą pradžios ekrane. Nesinchronizuojama tarp įrenginių.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Klaviatūros patarimai';
@@ -11090,7 +11189,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Įjunkite arba išjunkite integruotas atvirkštinės vaizdų paieškos paslaugas. Įjungtos paslaugos rodomos kontekstiniame paveikslėlių, avatarų, reklamjuosčių, lipdukų ir jaustukų meniu.';
+      'Įjunkite arba išjunkite integruotus atvirkštinės vaizdų paieškos teikėjus. Įjungti teikėjai rodomi vaizdų parinktyse.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12236,11 +12335,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Vaidmens piktograma';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Įkelkite paveikslėlį arba pasirinkite jaustuką. Prie nario vardo rodoma aukščiausio jo vaidmens, turinčio piktogramą, piktograma.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12248,68 +12347,69 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Ne mažiau kaip $minimumSize, iki $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Įkelti vaidmens piktogramą';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Dabartinė vaidmens piktograma, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Dabartinė vaidmens piktograma, įkeltas paveikslėlis';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Pasirinkti jaustuką';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Įkelti paveikslėlį';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Pašalinti piktogramą';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Animuotos piktogramos nepalaikomos. Naudokite statinį paveikslėlį.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Šis failo tipas nepalaikomas. Palaikomi tipai: $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Nepavyko įkelti šio paveikslėlio. Pabandykite kitą.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Štai kaip atrodo žinutės';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Vaidmens piktograma, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Apkarpyti vaidmens piktogramą';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Išsaugoti piktogramą';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Praleisti apkarpymą';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Nepavyko apkarpyti piktogramos. Bandykite dar kartą.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Vilkite, kad pakeistumėte vaidmens piktogramos padėtį, ir priartinkite pelės ratuku arba suglausdami pirštus. Rekomenduojamas minimalus dydis yra $minimumWidth×$minimumHeight pikselių.';
   }
 
   @override
@@ -13679,25 +13779,28 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Nustatyta vaidmens piktograma: $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Pakeista vaidmens piktograma iš $oldEmoji į $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved => 'Pašalinta vaidmens piktograma';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Nustatyta pasirinktinė vaidmens piktograma';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Pakeista pasirinktinė vaidmens piktograma';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Pašalinta pasirinktinė vaidmens piktograma';
 
   @override
   String auditLogOptionChannel(String value) {

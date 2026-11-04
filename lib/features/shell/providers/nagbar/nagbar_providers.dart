@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_conditions.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_dismissals_state.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_state.dart';
@@ -97,6 +98,17 @@ class NagbarDismissals extends _$NagbarDismissals {
 const Duration kPremiumGracePeriod = Duration(days: 3);
 const Duration kPremiumExpiredWindow = Duration(days: 30);
 
+DateTime? premiumGraceEnd({
+  required String? premiumUntil,
+  required String? premiumGraceEndsAt,
+}) {
+  final DateTime? explicit = DateTime.tryParse(premiumGraceEndsAt ?? '');
+  if (explicit != null) {
+    return explicit;
+  }
+  return DateTime.tryParse(premiumUntil ?? '')?.add(kPremiumGracePeriod);
+}
+
 @Riverpod(keepAlive: true)
 Future<NagbarConditions> nagbarConditions(Ref ref) async {
   ref.watch(scheduledMaintenanceDismissalReadProvider);
@@ -111,6 +123,8 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
     serviceStatusMaintenanceReadProvider,
   );
   final bool showPremiumCommerce = ref.watch(shouldShowPremiumCommerceProvider);
+  final bool billingNavVisible = ref.watch(premiumBillingNavVisibleProvider);
+  final bool giftNavVisible = ref.watch(premiumGiftBillingNavVisibleProvider);
   final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.watch(
     wellKnownProvider,
   );
@@ -133,12 +147,14 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
       emailsEnabled && settings.needsKnownEmailVerification;
   final bool canShowPremiumGracePeriod = _canShowPremiumGracePeriod(
     settings: settings,
+    premiumGraceEndsAt: privateUser?.premiumGraceEndsAt,
     dismissals: dismissals,
     showPremiumCommerce: showPremiumCommerce,
     isSelfHosted: isSelfHosted,
   );
   final bool canShowPremiumExpired = _canShowPremiumExpired(
     settings: settings,
+    premiumGraceEndsAt: privateUser?.premiumGraceEndsAt,
     dismissals: dismissals,
     showPremiumCommerce: showPremiumCommerce,
     isSelfHosted: isSelfHosted,
@@ -148,12 +164,14 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
     settings: settings,
     dismissals: dismissals,
     showPremiumCommerce: showPremiumCommerce,
+    billingNavVisible: billingNavVisible,
     isSelfHosted: isSelfHosted,
   );
   final bool canShowGiftInventory = _canShowGiftInventory(
     privateUser: privateUser,
     dismissals: dismissals,
     showPremiumCommerce: showPremiumCommerce,
+    giftNavVisible: giftNavVisible,
     isSelfHosted: isSelfHosted,
   );
   final bool canShowVisionaryMfa = _canShowVisionaryMfa(
@@ -354,6 +372,7 @@ DateTime? _parseDate(String? value) {
 
 bool _canShowPremiumGracePeriod({
   required UserSettingsViewState settings,
+  required String? premiumGraceEndsAt,
   required NagbarDismissalsState dismissals,
   required bool showPremiumCommerce,
   required bool isSelfHosted,
@@ -370,16 +389,20 @@ bool _canShowPremiumGracePeriod({
     return false;
   }
   final DateTime? expiryDate = DateTime.tryParse(premiumUntil);
-  if (expiryDate == null) {
+  final DateTime? graceEndDate = premiumGraceEnd(
+    premiumUntil: premiumUntil,
+    premiumGraceEndsAt: premiumGraceEndsAt,
+  );
+  if (expiryDate == null || graceEndDate == null) {
     return false;
   }
   final DateTime now = DateTime.now().toUtc();
-  final DateTime graceEndDate = expiryDate.add(kPremiumGracePeriod);
   return now.isAfter(expiryDate) && !now.isAfter(graceEndDate);
 }
 
 bool _canShowPremiumExpired({
   required UserSettingsViewState settings,
+  required String? premiumGraceEndsAt,
   required NagbarDismissalsState dismissals,
   required bool showPremiumCommerce,
   required bool isSelfHosted,
@@ -396,11 +419,14 @@ bool _canShowPremiumExpired({
     return false;
   }
   final DateTime? expiryDate = DateTime.tryParse(premiumUntil);
-  if (expiryDate == null) {
+  final DateTime? graceEndDate = premiumGraceEnd(
+    premiumUntil: premiumUntil,
+    premiumGraceEndsAt: premiumGraceEndsAt,
+  );
+  if (expiryDate == null || graceEndDate == null) {
     return false;
   }
   final DateTime now = DateTime.now().toUtc();
-  final DateTime graceEndDate = expiryDate.add(kPremiumGracePeriod);
   final DateTime expiredStateEndDate = expiryDate.add(kPremiumExpiredWindow);
   return now.isAfter(graceEndDate) && !now.isAfter(expiredStateEndDate);
 }
@@ -410,9 +436,11 @@ bool _canShowPremiumOnboarding({
   required UserSettingsViewState settings,
   required NagbarDismissalsState dismissals,
   required bool showPremiumCommerce,
+  required bool billingNavVisible,
   required bool isSelfHosted,
 }) {
   if (!showPremiumCommerce ||
+      !billingNavVisible ||
       isSelfHosted ||
       dismissals.premiumOnboardingDismissed) {
     return false;
@@ -430,9 +458,11 @@ bool _canShowGiftInventory({
   required UserPrivateResponse? privateUser,
   required NagbarDismissalsState dismissals,
   required bool showPremiumCommerce,
+  required bool giftNavVisible,
   required bool isSelfHosted,
 }) {
   if (!showPremiumCommerce ||
+      !giftNavVisible ||
       isSelfHosted ||
       dismissals.giftInventoryDismissed) {
     return false;

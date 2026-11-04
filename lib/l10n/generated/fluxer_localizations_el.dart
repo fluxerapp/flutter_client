@@ -98,6 +98,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Η συνεδρία σας έχει λήξει. Παρακαλώ συνδεθείτε ξανά.';
 
   @override
+  String get accountDeletionImmediateNoticeNoEmail =>
+      'Διαγράφουμε τον λογαριασμό σας τώρα.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Αποτυχία εκκίνησης: $error';
   }
@@ -184,8 +188,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
+  String nagbarPremiumGracePeriodNoAction(
+    String productName,
+    String graceDate,
+  ) {
+    return 'Η συνδρομή σας στο $productName δεν ανανεώθηκε. Διατηρείτε τα προνόμια του $productName έως τις $graceDate.';
+  }
+
+  @override
   String nagbarPremiumExpired(String productName) {
     return 'Η συνδρομή σας στο $productName έχει λήξει. Ανανεώστε τώρα για να διατηρήσετε τα προνόμιά σας.';
+  }
+
+  @override
+  String nagbarPremiumExpiredNoAction(String productName) {
+    return 'Η συνδρομή σας στο $productName έχει λήξει.';
   }
 
   @override
@@ -367,6 +384,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get mfaUseSecurityKey =>
       'Δοκιμάστε κλειδί ασφαλείας / κλειδί πρόσβασης';
+
+  @override
+  String get mfaUseBackupCode => 'Χρήση εφεδρικού κωδικού';
+
+  @override
+  String get mfaUseAuthenticatorCode =>
+      'Χρήση κωδικού από την εφαρμογή ελέγχου ταυτότητας';
 
   @override
   String get accountSelectorTitle => 'Επιλέξτε λογαριασμό';
@@ -1101,6 +1125,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get giftAcceptAlreadyClaimed => 'Αυτό το δώρο έχει ήδη παραληφθεί.';
+
+  @override
+  String get giftAcceptLifetimeNotInApp =>
+      'Αυτό το δώρο δεν μπορεί να εξαργυρωθεί στην εφαρμογή iOS. Μπορείτε να το εξαργυρώσετε στην εφαρμογή για υπολογιστές.';
 
   @override
   String get giftAcceptMaybeLater => 'Ίσως αργότερα';
@@ -2025,22 +2053,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get profileBadgesSettingsTitle => 'Badges';
+  String get profileBadgesSettingsTitle => 'Σήματα';
 
   @override
   String get profileBadgesSettingsDescription =>
-      'Choose which badges other people see on your profile.';
+      'Επιλέξτε ποια σήματα βλέπουν οι άλλοι στο προφίλ σας.';
 
   @override
-  String get profileBadgesSettingsEmpty => 'You don\'t have any badges yet.';
+  String get profileBadgesSettingsEmpty => 'Δεν έχετε ακόμα κανένα σήμα.';
 
   @override
   String get profileBadgesSettingsLoadFailed =>
-      'Your badges couldn\'t be loaded.';
+      'Δεν ήταν δυνατή η φόρτωση των σημάτων σας.';
 
   @override
   String profileBadgesShowOnProfile(String badgeLabel) {
-    return 'Show $badgeLabel on your profile';
+    return 'Εμφάνιση του $badgeLabel στο προφίλ σας';
   }
 
   @override
@@ -2049,22 +2077,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get profileBadgesShowAllTooltip => 'Show all badges';
+  String get profileBadgesShowAllTooltip => 'Εμφάνιση όλων των σημάτων';
 
   @override
   String profileBadgesShowAllSemantic(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '+$count more badges, show all',
-      one: '+$count more badge, show all',
+      other: '+$count ακόμη σήματα, εμφάνιση όλων',
+      one: '+$count ακόμη σήμα, εμφάνιση όλων',
     );
     return '$_temp0';
   }
 
   @override
   String get profileBadgesVisionaryNumberNote =>
-      'Shown only when your Visionary badge is visible and not masked.';
+      'Εμφανίζεται μόνο όταν το σήμα Visionary σας είναι ορατό και δεν εμφανίζεται ως συνδρομή.';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Απόρρητο Σήματος Plutonium';
@@ -2117,80 +2145,84 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String operatorPassSince(String since) {
-    return 'Operator Pass since $since';
+    return 'Operator Pass από $since';
   }
 
   @override
-  String get operatorPassShowBadgeOnProfile => 'Show badge on my profile';
+  String get operatorPassShowBadgeOnProfile =>
+      'Εμφάνιση σήματος στο προφίλ μου';
 
   @override
   String operatorPassHideDate(String operatorPassName) {
-    return 'Hide when you got your $operatorPassName';
+    return 'Απόκρυψη του πότε αποκτήσατε το $operatorPassName';
   }
 
   @override
-  String get operatorPassHideCount => 'Hide how many Operator Passes you have';
+  String get operatorPassHideCount =>
+      'Απόκρυψη του αριθμού των Operator Pass που έχετε';
 
   @override
-  String get operatorPassWallTitle => 'Operators\' wall';
+  String get operatorPassWallTitle => 'Τοίχος Operators';
 
   @override
-  String get operatorPassWallHowItWorks => 'How the wall works';
+  String get operatorPassWallHowItWorks => 'Πώς λειτουργεί ο τοίχος';
 
   @override
-  String get operatorPassWallNotListed => 'Not listed.';
+  String get operatorPassWallNotListed => 'Δεν εμφανίζεται στον τοίχο.';
 
   @override
-  String get operatorPassWallOnTheWall => 'On the wall';
+  String get operatorPassWallOnTheWall => 'Στον τοίχο';
 
   @override
-  String get operatorPassWallLive => 'Live';
+  String get operatorPassWallLive => 'Δημοσιευμένο';
 
   @override
-  String get operatorPassWallHidden => 'Hidden by our team for now.';
+  String get operatorPassWallHidden => 'Κρυφό από την ομάδα μας προς το παρόν.';
 
   @override
-  String get operatorPassWallHiddenWhy => 'Why?';
+  String get operatorPassWallHiddenWhy => 'Γιατί;';
 
   @override
   String get operatorPassWallRemoved =>
-      'Off the wall while your benefits are removed.';
+      'Εκτός τοίχου όσο τα προνόμιά σας έχουν αφαιρεθεί.';
 
   @override
-  String get operatorPassTermsLink => 'Operator Pass terms';
+  String get operatorPassTermsLink => 'Όροι του Operator Pass';
 
   @override
-  String get operatorPassWallSendChanges => 'Send profile changes to the wall';
+  String get operatorPassWallSendChanges =>
+      'Αποστολή αλλαγών προφίλ στον τοίχο';
 
   @override
   String get operatorPassWallReleaseList =>
-      'Add my name to the yearly Operators list';
+      'Προσθήκη του ονόματός μου στην ετήσια λίστα των Operators';
 
   @override
   String get operatorPassWallReleaseListHint =>
-      'Once a year, we publish a list of Operators in the notes of a Fluxer release and in its source code. Your wall name is only on it if you turn this on.';
+      'Μία φορά τον χρόνο δημοσιεύουμε μια λίστα με τους Operators στις σημειώσεις μιας έκδοσης του Fluxer και στον πηγαίο κώδικά της. Το όνομά σας στον τοίχο μπαίνει σε αυτήν μόνο αν το ενεργοποιήσετε.';
 
   @override
-  String get operatorPassWallSave => 'Save';
+  String get operatorPassWallSave => 'Αποθήκευση';
 
   @override
-  String get operatorPassWallSaved => 'Saved.';
+  String get operatorPassWallSaved => 'Αποθηκεύτηκε.';
 
   @override
-  String get operatorPassWallSaveFailed => 'Couldn\'t save. Try again.';
+  String get operatorPassWallSaveFailed =>
+      'Δεν ήταν δυνατή η αποθήκευση. Δοκιμάστε ξανά.';
 
   @override
-  String get operatorPassWallNameSettingsLabel => 'Name on the wall';
+  String get operatorPassWallNameSettingsLabel => 'Όνομα στον τοίχο';
 
   @override
-  String get operatorPassWallDontListMe => 'Don\'t list me';
+  String get operatorPassWallDontListMe => 'Να μην εμφανίζομαι';
 
   @override
   String get operatorPassWallNameRequired =>
-      'Enter a name, or check Don\'t list me.';
+      'Εισαγάγετε ένα όνομα ή επιλέξτε «Να μην εμφανίζομαι».';
 
   @override
-  String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
+  String get operatorPassWallNameTooLong => 'Χρησιμοποιήστε έως 32 χαρακτήρες.';
 
   @override
   String get avatarDescriptionNonPremium =>
@@ -2207,8 +2239,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'Οι αγορές εντός εφαρμογής δεν είναι ακόμη διαθέσιμες σε αυτήν την πλατφόρμα. Μείνετε συντονισμένοι — έρχεται σύντομα!';
+  String get plutoniumNotSoldHere =>
+      'Το Plutonium δεν μπορεί να αγοραστεί σε αυτήν την έκδοση της εφαρμογής.';
 
   @override
   String get profilePreviewLabel => 'Προεπισκόπηση';
@@ -2280,6 +2312,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get sudoVerificationFailed => 'Η επαλήθευση απέτυχε. Δοκιμάστε ξανά.';
 
   @override
+  String get sudoWrongPassword =>
+      'Ο κωδικός πρόσβασης είναι λάθος. Δοκιμάστε ξανά.';
+
+  @override
   String get securityAccountTitle => 'Λογαριασμός';
 
   @override
@@ -2292,6 +2328,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get securitySectionDescription =>
       'Προστατέψτε τον λογαριασμό σας με έλεγχο ταυτότητας δύο παραγόντων και κλειδιά πρόσβασης';
+
+  @override
+  String get securitySectionDescriptionNoPasskeys =>
+      'Προστατέψτε τον λογαριασμό σας με έλεγχο ταυτότητας δύο παραγόντων';
 
   @override
   String get securityLoginEmailSectionTitle => 'Ρυθμίσεις email';
@@ -6198,7 +6238,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceOutputRouteHeadset => 'Ακουστικά';
 
   @override
-  String get voiceChangeAudioOutputLabel => 'Change audio output';
+  String get voiceChangeAudioOutputLabel => 'Αλλαγή εξόδου ήχου';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Εμφάνιση μόνο βίντεο';
@@ -6261,7 +6301,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String voiceVideoZoomLevel(String scale) {
-    return 'Zoom $scale';
+    return 'Ζουμ $scale';
   }
 
   @override
@@ -6422,6 +6462,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get characterCounterTooLong => 'Το μήνυμα είναι πολύ μεγάλο';
+
+  @override
+  String characterCounterTooLongToast(int maxLength) {
+    final intl.NumberFormat maxLengthNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxLengthString = maxLengthNumberFormat.format(maxLength);
+
+    return 'Τα μηνύματα μπορούν να έχουν έως $maxLengthString χαρακτήρες. Συντομεύστε αυτό το μήνυμα για να το στείλετε.';
+  }
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -9849,14 +9898,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Μοιραστείτε βίντεο πλήρους μήκους και μεγάλα αρχεία χωρίς να τα συρρικνώσετε πρώτα. Οι δωρεάν λογαριασμοί μπορούν να στείλουν έως και 25 MB.';
 
   @override
-  String get storePlutoniumStreamTitle => 'Stream in 4K at 60 FPS';
+  String get storePlutoniumStreamTitle => 'Ροή σε 4K στα 60 FPS';
 
   @override
   String get storePlutoniumStreamBody =>
-      'Share your screen or camera in up to 4K at 60 frames per second. Free accounts stream in up to 720p at 30.';
+      'Μοιράσου την οθόνη ή την κάμερά σου σε έως 4K στα 60 καρέ ανά δευτερόλεπτο. Οι δωρεάν λογαριασμοί κάνουν streaming σε έως 720p στα 30.';
 
   @override
-  String get storePlutoniumManageHeading => 'Your subscription';
+  String get storePlutoniumStreamTitleIos => 'Ροή σε υψηλότερη ποιότητα';
+
+  @override
+  String get storePlutoniumStreamBodyIos =>
+      'Μοιραστείτε την οθόνη ή την κάμερά σας σε έως 1080p στα 60 καρέ ανά δευτερόλεπτο στην εφαρμογή και σε έως 4K στα 60 στην εφαρμογή για υπολογιστές. Οι δωρεάν λογαριασμοί κάνουν ροή σε έως 720p στα 30.';
+
+  @override
+  String get storePlutoniumManageHeading => 'Η συνδρομή σας';
 
   @override
   String get storePlutoniumCompareTitle => 'Σύγκριση Δωρεάν και Plutonium';
@@ -9936,8 +9992,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get storePlutoniumVideoPlutonium => 'Έως 4K στα 60 FPS';
 
   @override
+  String get storePlutoniumVideoPlutoniumIos =>
+      'Έως 1080p στα 60 FPS στην εφαρμογή, έως 4K στα 60 FPS σε υπολογιστή';
+
+  @override
   String get storePlutoniumTagFootnote =>
       'Μπορείτε να επιλέξετε μόνο μια ετικέτα που δεν έχει ήδη κάποιος άλλος με το ίδιο όνομα χρήστη. Τα ονόματα χρήστη δεν κάνουν διάκριση πεζών-κεφαλαίων, οπότε τα Mina#4821 και mina#4821 θεωρούνται ίδια. Η ετικέτα #0000 είναι δεσμευμένη για τα μέλη Fluxer Visionary.';
+
+  @override
+  String get storePlutoniumTagFootnoteIos =>
+      'Μπορείτε να επιλέξετε μόνο μια ετικέτα που δεν έχει ήδη κάποιος άλλος με το ίδιο όνομα χρήστη. Τα ονόματα χρήστη δεν κάνουν διάκριση πεζών-κεφαλαίων, οπότε τα Mina#4821 και mina#4821 θεωρούνται ίδια.';
 
   @override
   String get storePlutoniumLearnVisionary =>
@@ -9985,11 +10049,37 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ανανεώνεται αυτόματα μέσω του App Store μέχρι να το ακυρώσετε.';
 
   @override
+  String get storePlutoniumAppleEula => 'Τυπικοί Όροι Χρήσης της Apple (EULA)';
+
+  @override
   String get storePlutoniumRestorePurchases => 'Επαναφορά αγορών';
+
+  @override
+  String get storePlutoniumRestoreDone =>
+      'Η συνδρομή σας στο Plutonium επαναφέρθηκε.';
+
+  @override
+  String get storePlutoniumRestoreNothing =>
+      'Δεν υπάρχει συνδρομή Plutonium για επαναφορά σε αυτόν τον Apple Account.';
+
+  @override
+  String get storePlutoniumRestoreFailed =>
+      'Δεν ήταν δυνατή η επαναφορά των αγορών. Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
       'Έχετε ήδη συνδρομή Fluxer Plutonium.';
+
+  @override
+  String get storePlutoniumOwnedByOtherAccount =>
+      'Ο Apple Account σε αυτήν τη συσκευή πληρώνει ήδη για Plutonium σε διαφορετικό λογαριασμό Fluxer.';
+
+  @override
+  String get storePlutoniumClaimFailedTitle => 'Το Plutonium δεν προστέθηκε';
+
+  @override
+  String get storePlutoniumClaimFailedBody =>
+      'Το App Store επιβεβαίωσε την αγορά σας, αλλά δεν ήταν δυνατή η προσθήκη του Plutonium σε αυτόν τον λογαριασμό. Πατήστε «Επαναφορά αγορών» για να δοκιμάσετε ξανά ή επικοινωνήστε με την υποστήριξη αν εξακολουθεί να μη λειτουργεί.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
@@ -10001,8 +10091,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Η αγορά παραλήφθηκε. Το Plutonium θα εμφανιστεί εδώ μόλις ενεργοποιηθεί.';
 
   @override
-  String get storePlutoniumUnavailable =>
-      'Οι συνδρομές εντός εφαρμογής δεν είναι ακόμα διαθέσιμες σε αυτήν τη συσκευή.';
+  String get storePlutoniumApprovalPending =>
+      'Η αγορά σας περιμένει έγκριση. Το Plutonium προστίθεται στον λογαριασμό σας μόλις εγκριθεί.';
+
+  @override
+  String get storePlutoniumLoadFailed =>
+      'Δεν ήταν δυνατή η φόρτωση των προγραμμάτων Plutonium. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.';
+
+  @override
+  String get storePlutoniumRetry => 'Δοκιμάστε ξανά';
 
   @override
   String get storePlutoniumVisionaryStatus =>
@@ -10673,11 +10770,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentSubtitle =>
-      'Το Fluxer έκλεισε απροσδόκητα. Η κοινοποίηση ανώνυμων δεδομένων σφαλμάτων μάς βοηθά να διορθώνουμε τα προβλήματα πιο γρήγορα.';
+      'Το Fluxer τερματίστηκε απροσδόκητα. Η αποστολή αναφοράς σφάλματος μας βοηθά να βρούμε και να διορθώσουμε το πρόβλημα πιο γρήγορα.';
 
   @override
   String get observabilityReportingConsentBody =>
-      'Οι αναφορές περιλαμβάνουν αρχεία καταγραφής σφαλμάτων, σφάλματα και βασικά δεδομένα απόδοσης. Δεν κοινοποιούνται σε τρίτους και μπορείτε να τις απενεργοποιήσετε ανά πάσα στιγμή.';
+      'Οι αναφορές περιλαμβάνουν αρχεία καταγραφής σφαλμάτων, σφάλματα, δεδομένα απόδοσης, χρόνους αιτημάτων δικτύου και τις οθόνες και τα πατήματα που οδήγησαν σε ένα πρόβλημα, συνδεδεμένα με ένα τυχαίο αναγνωριστικό για αυτήν την εγκατάσταση. Δεν περιλαμβάνουν ποτέ περιεχόμενο μηνυμάτων και αποστέλλονται μόνο στο δικό μας σύστημα παρακολούθησης σφαλμάτων του Fluxer. Μπορείτε να το απενεργοποιήσετε ανά πάσα στιγμή.';
 
   @override
   String observabilityReportingConsentEnableLater(String reportingToggle) {
@@ -10689,8 +10786,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αποστολή αναφορών σφαλμάτων';
 
   @override
-  String get observabilityReportingConsentDecline =>
-      'Δεν θέλω να το ενεργοποιήσω';
+  String get observabilityReportingConsentDecline => 'Να μην ερωτηθώ ξανά';
 
   @override
   String get advancedSettingsConfigure => 'Διαμόρφωση';
@@ -10759,11 +10855,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Σμίκρυνση του λογότυπου κατά την έξοδο από την οθόνη εκκίνησης';
 
   @override
-  String get advancedSettingSplashQuotesLabel => 'Splash screen quotes';
+  String get advancedSettingSplashQuotesLabel =>
+      'Αποφθέγματα στην οθόνη εκκίνησης';
 
   @override
   String get advancedSettingSplashQuotesDescription =>
-      'Show a random quote on the splash screen. Won\'t sync across devices.';
+      'Εμφάνιση ενός τυχαίου αποφθέγματος στην οθόνη εκκίνησης. Δεν συγχρονίζεται μεταξύ συσκευών.';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Υποδείξεις πληκτρολογίου';
@@ -11131,7 +11228,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους παρόχους αντίστροφης αναζήτησης εικόνων. Οι ενεργοποιημένοι πάροχοι εμφανίζονται στο μενού περιβάλλοντος εικόνων, avatar, banner, αυτοκόλλητων και emoji.';
+      'Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους παρόχους αντίστροφης αναζήτησης εικόνων. Οι ενεργοποιημένοι πάροχοι εμφανίζονται στις επιλογές των εικόνων.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -12285,11 +12382,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsRolesRoleIcon => 'Role icon';
+  String get guildSettingsRolesRoleIcon => 'Εικονίδιο ρόλου';
 
   @override
   String get guildSettingsRolesRoleIconHelper =>
-      'Upload an image or pick an emoji. Members get the icon of their highest role that has one.';
+      'Ανεβάστε μια εικόνα ή επιλέξτε ένα emoji. Δίπλα στο όνομα κάθε μέλους εμφανίζεται το εικονίδιο του υψηλότερου ρόλου του που έχει εικονίδιο.';
 
   @override
   String guildSettingsRolesRoleIconUploadHint(
@@ -12297,68 +12394,69 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String minimumSize,
     String maxSize,
   ) {
-    return '$formats. At least $minimumSize, up to $maxSize.';
+    return '$formats. Τουλάχιστον $minimumSize, έως $maxSize.';
   }
 
   @override
   String get guildSettingsRolesRoleIconUploadAccessibility =>
-      'Upload role icon';
+      'Ανέβασμα εικονιδίου ρόλου';
 
   @override
   String guildSettingsRolesRoleIconCurrentEmojiAccessibility(String emojiName) {
-    return 'Current role icon, $emojiName';
+    return 'Τρέχον εικονίδιο ρόλου, $emojiName';
   }
 
   @override
   String get guildSettingsRolesRoleIconCurrentImageAccessibility =>
-      'Current role icon, uploaded image';
+      'Τρέχον εικονίδιο ρόλου, εικόνα που ανέβηκε';
 
   @override
-  String get guildSettingsRolesRoleIconChooseEmoji => 'Choose emoji';
+  String get guildSettingsRolesRoleIconChooseEmoji => 'Επιλογή emoji';
 
   @override
-  String get guildSettingsRolesRoleIconUploadImage => 'Upload image';
+  String get guildSettingsRolesRoleIconUploadImage => 'Ανέβασμα εικόνας';
 
   @override
-  String get guildSettingsRolesRoleIconRemove => 'Remove icon';
+  String get guildSettingsRolesRoleIconRemove => 'Αφαίρεση εικονιδίου';
 
   @override
   String get guildSettingsRolesRoleIconAnimatedError =>
-      'Animated icons are not supported. Use a static image.';
+      'Τα κινούμενα εικονίδια δεν υποστηρίζονται. Χρησιμοποιήστε μια στατική εικόνα.';
 
   @override
   String guildSettingsRolesRoleIconUnsupportedTypeError(String formats) {
-    return 'This file type is not supported. Supported types are $formats.';
+    return 'Αυτός ο τύπος αρχείου δεν υποστηρίζεται. Οι υποστηριζόμενοι τύποι είναι $formats.';
   }
 
   @override
   String get guildSettingsRolesRoleIconLoadError =>
-      'This image could not be loaded. Try another one.';
+      'Δεν ήταν δυνατή η φόρτωση αυτής της εικόνας. Δοκιμάστε άλλη.';
 
   @override
   String get guildSettingsRolesRoleIconUsagePreviewMessage =>
-      'This is how messages appear';
+      'Έτσι εμφανίζονται τα μηνύματα';
 
   @override
   String roleIconAccessibilityLabel(String roleName) {
-    return 'Role icon, $roleName';
+    return 'Εικονίδιο ρόλου, $roleName';
   }
 
   @override
-  String get roleIconCropTitle => 'Crop role icon';
+  String get roleIconCropTitle => 'Περικοπή εικονιδίου ρόλου';
 
   @override
-  String get roleIconCropSave => 'Save icon';
+  String get roleIconCropSave => 'Αποθήκευση εικονιδίου';
 
   @override
-  String get roleIconCropSkip => 'Skip cropping';
+  String get roleIconCropSkip => 'Παράλειψη περικοπής';
 
   @override
-  String get roleIconCropFailed => 'Failed to crop icon. Try again.';
+  String get roleIconCropFailed =>
+      'Αποτυχία περικοπής εικονιδίου. Δοκιμάστε ξανά.';
 
   @override
   String roleIconCropDescription(int minimumWidth, int minimumHeight) {
-    return 'Drag to reposition your role icon and use the scroll wheel or pinch to zoom. The recommended minimum size is $minimumWidth×$minimumHeight pixels.';
+    return 'Σύρετε για να αλλάξετε τη θέση του εικονιδίου του ρόλου και χρησιμοποιήστε τον τροχό κύλισης ή τσιμπήστε για μεγέθυνση. Το προτεινόμενο ελάχιστο μέγεθος είναι $minimumWidth×$minimumHeight pixel.';
   }
 
   @override
@@ -13738,25 +13836,29 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String auditLogChangeRoleEmojiSet(String emoji) {
-    return 'Set the role icon to $emoji';
+    return 'Ορίστηκε το εικονίδιο του ρόλου σε $emoji';
   }
 
   @override
   String auditLogChangeRoleEmojiChanged(String oldEmoji, String newEmoji) {
-    return 'Changed the role icon from $oldEmoji to $newEmoji';
+    return 'Άλλαξε το εικονίδιο του ρόλου από $oldEmoji σε $newEmoji';
   }
 
   @override
-  String get auditLogChangeRoleEmojiRemoved => 'Removed the role icon';
+  String get auditLogChangeRoleEmojiRemoved =>
+      'Αφαιρέθηκε το εικονίδιο του ρόλου';
 
   @override
-  String get auditLogChangeRoleIconSet => 'Set a custom role icon';
+  String get auditLogChangeRoleIconSet =>
+      'Ορίστηκε προσαρμοσμένο εικονίδιο για τον ρόλο';
 
   @override
-  String get auditLogChangeRoleIconChanged => 'Changed the custom role icon';
+  String get auditLogChangeRoleIconChanged =>
+      'Άλλαξε το προσαρμοσμένο εικονίδιο του ρόλου';
 
   @override
-  String get auditLogChangeRoleIconRemoved => 'Removed the custom role icon';
+  String get auditLogChangeRoleIconRemoved =>
+      'Αφαιρέθηκε το προσαρμοσμένο εικονίδιο του ρόλου';
 
   @override
   String auditLogOptionChannel(String value) {

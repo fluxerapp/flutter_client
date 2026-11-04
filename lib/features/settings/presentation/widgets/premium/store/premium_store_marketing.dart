@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/instance/instance_legal_links.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/premium/store/premium_store_comparison.dart';
@@ -50,6 +51,9 @@ class _TagFootnote extends StatelessWidget {
     final TextStyle muted = context.textStyles.timestamp.copyWith(
       color: style.inkMuted,
     );
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return Text(l10n.storePlutoniumTagFootnoteIos, style: muted);
+    }
     return Text.rich(
       TextSpan(
         style: muted,
