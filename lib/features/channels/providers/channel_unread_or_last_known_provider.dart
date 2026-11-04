@@ -1,6 +1,5 @@
-import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/channels/providers/guild_channel_unread_snapshot_provider.dart';
-import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
@@ -10,31 +9,28 @@ part 'channel_unread_or_last_known_provider.g.dart';
 
 @riverpod
 UnreadState? channelUnreadOrLastKnown(Ref ref, String channelId) {
-  ref.watch(readStateOverlayVersionProvider);
-  final ReadStateWriteBatcher batcher = ref.read(readStateWriteBatcherProvider);
   final UnreadState? fromStream = ref
       .watch(channelUnreadProvider(channelId))
       .value;
-
-  if (batcher.hasOverlay(channelId) && fromStream != null) {
-    return fromStream;
-  }
-
   if (fromStream != null) {
     return fromStream;
   }
 
   final UnreadState? fromSnapshot = ref.watch(
-    guildChannelUnreadSnapshotProvider,
-  )[channelId];
+    guildChannelUnreadSnapshotProvider.select(
+      (Map<String, UnreadState> snapshot) => snapshot[channelId],
+    ),
+  );
   if (fromSnapshot != null) {
     return fromSnapshot;
   }
 
   if (ref.watch(guildReadStateReadyProvider)) {
-    final int aggregateMention = _guildMentionCountForChannel(
-      ref.watch(guildReadStateProvider),
-      channelId,
+    final int aggregateMention = ref.watch(
+      guildReadStateProvider.select(
+        (Map<String, GuildReadStateEntry> guildStates) =>
+            _guildMentionCountForChannel(guildStates, channelId),
+      ),
     );
     if (aggregateMention > 0) {
       return UnreadState(hasUnread: true, mentionCount: aggregateMention);

@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/push/android/conversation/messaging_style.dart';
 import 'package:fluxer_app/core/push/android/media/cache.dart';
 import 'package:fluxer_app/core/push/android/media/instance_urls.dart';
 import 'package:fluxer_app/core/push/android/reply_bridge.dart';
+import 'package:fluxer_app/core/push/notification/clear.dart';
 import 'package:fluxer_app/core/push/notification/ids.dart'
     show
         kLocalNotificationMessageIdKey,
@@ -376,6 +377,7 @@ final class LocalPushNotifications {
           line: line,
           payload: payload,
         );
+    PushNotificationClear.forgetAndroidClear(resolvePushChannelId(payload));
     await _publishAndroidConversationNotification(
       conversationTag: conversationTag,
       payload: state.payload,
@@ -503,109 +505,6 @@ final class LocalPushNotifications {
         );
       }
     }
-    await _cancelLegacyAndroidChannelMessages(
-      channelId: channelId,
-      channelTag: channelTag,
-      conversationId: conversationId,
-      upToMessageId: upToMessageId,
-    );
-  }
-
-  Future<void> _cancelLegacyAndroidChannelMessages({
-    required String channelId,
-    required String channelTag,
-    required int conversationId,
-    String? upToMessageId,
-  }) async {
-    if (defaultTargetPlatform != TargetPlatform.android) {
-      return;
-    }
-    var unreadRemain = false;
-    try {
-      final List<ActiveNotification> active = await _plugin
-          .getActiveNotifications();
-      final List<ActiveNotification> covered = <ActiveNotification>[];
-      for (final ActiveNotification notification in active) {
-        if (notification.id == null) {
-          continue;
-        }
-        if (notification.id == conversationId &&
-            notification.tag == channelTag) {
-          continue;
-        }
-        final bool tagMatch = pushNotificationTagMatchesChannel(
-          notification.tag,
-          channelId,
-        );
-        final bool groupMatch = pushNotificationTagMatchesChannel(
-          notification.groupKey,
-          channelId,
-        );
-        if (!tagMatch && !groupMatch) {
-          continue;
-        }
-        final String? messageId = _messageIdForActiveNotification(
-          notification,
-          channelId,
-        );
-        if (messageId == null) {
-          if (notification.tag == channelTag) {
-            continue;
-          }
-        }
-        if (pushMessageIsCoveredByAck(messageId, upToMessageId)) {
-          covered.add(notification);
-        } else {
-          unreadRemain = true;
-        }
-      }
-      for (final ActiveNotification notification in covered) {
-        await _plugin.cancel(id: notification.id!, tag: notification.tag);
-      }
-    } on Object catch (e, st) {
-      if (kDebugMode) {
-        debugPrint(
-          '[LocalPushNotifications] active notification scan failed: $e\n$st',
-        );
-      }
-    }
-    if (unreadRemain) {
-      return;
-    }
-  }
-
-  String? _messageIdForActiveNotification(
-    ActiveNotification notification,
-    String channelId,
-  ) {
-    final String? fromTag = pushMessageIdFromChannelTag(
-      notification.tag,
-      channelId,
-    );
-    if (fromTag != null) {
-      return fromTag;
-    }
-    final String? raw = notification.payload;
-    if (raw == null || raw.isEmpty) {
-      return null;
-    }
-    try {
-      final Object? decoded = jsonDecode(raw);
-      if (decoded is! Map) {
-        return null;
-      }
-      final Object? messageId = decoded['message_id'];
-      if (messageId == null) {
-        return null;
-      }
-      final String value = messageId.toString();
-      if (value.isEmpty) {
-        return null;
-      }
-      return value;
-    } on FormatException {
-      return null;
-    }
   }
 
   Future<void> cancelAll() async {
@@ -657,11 +556,6 @@ final class LocalPushNotifications {
       if (!ready) {
         return;
       }
-    }
-    final String? channelId = resolvePushChannelId(payload);
-    if (channelId != null && channelId.isNotEmpty) {
-      await cancelForChannel(channelId, upToMessageId: payload['message_id']);
-      return;
     }
     final Set<String?> tags = <String?>{resolvePushDisplayTag(payload)};
     final Set<int> ids = <int>{...pushNotificationCancelIds(payload)};

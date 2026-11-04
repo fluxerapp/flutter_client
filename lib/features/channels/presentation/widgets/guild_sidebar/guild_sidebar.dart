@@ -152,28 +152,29 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
   @override
   Widget build(BuildContext context) {
     final String? guildId = ref.watch(activeGuildIdProvider);
-    final Set<String> trackedUnavailableGuildIds = ref.watch(
-      guildAvailabilityProvider,
-    );
-    final ChannelListState channelListState = ref.watch(
-      channelListViewModelProvider,
+    final (Guild? listGuild, bool listReceived) = ref.watch(
+      channelListViewModelProvider.select(
+        (ChannelListState state) =>
+            (state.guild, state.hasReceivedInitialChannelList),
+      ),
     );
     final Guild? routeGuild = guildId == null
         ? null
         : ref.watch(routeGuildProvider(guildId)).value;
-    final Guild? guild = channelListState.guild?.id == guildId
-        ? channelListState.guild
-        : routeGuild;
+    final Guild? guild = listGuild?.id == guildId ? listGuild : routeGuild;
     final bool guildOutageUnavailable =
         guildId != null &&
-        isGuildOutageUnavailable(
-          guildId: guildId,
-          trackedUnavailableGuildIds: trackedUnavailableGuildIds,
-          guild: guild,
+        ref.watch(
+          guildAvailabilityProvider.select(
+            (Set<String> ids) => isGuildOutageUnavailable(
+              guildId: guildId,
+              trackedUnavailableGuildIds: ids,
+              guild: guild,
+            ),
+          ),
         );
     final bool hasReceivedInitialChannelList =
-        channelListState.guild?.id == guildId &&
-        channelListState.hasReceivedInitialChannelList;
+        listGuild?.id == guildId && listReceived;
     final bool guildReady =
         guild != null && guildId != null && guild.id == guildId;
 
@@ -217,10 +218,8 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
                 : _GuildSidebarChannelListHost(
                     activeGuildId: guildId,
                     guild: guild,
-                    onHeaderTap: guildOutageUnavailable
-                        ? null
-                        : () =>
-                              unawaited(_handleServerHeaderTap(context, guild)),
+                    onHeaderTap: () =>
+                        unawaited(_handleServerHeaderTap(context, guild)),
                   ),
           ),
         ],

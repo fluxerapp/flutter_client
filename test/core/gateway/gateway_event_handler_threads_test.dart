@@ -146,7 +146,6 @@ Future<void> _ready(
   ReadyEvent(
     sessionId: sessionId,
     user: _user(),
-    guilds: const [],
     rawGuilds: [
       if (unavailable)
         {'id': _guildId, 'unavailable': true}

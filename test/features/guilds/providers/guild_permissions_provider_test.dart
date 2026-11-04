@@ -183,4 +183,69 @@ void main() {
       isFalse,
     );
   });
+
+  test('prefetch resolves many guilds in one state write', () async {
+    final db = openTestDatabase();
+    final List<String> guildIds = <String>[for (var i = 0; i < 40; i++) 'pg$i'];
+    for (final String id in guildIds) {
+      await db.guildDao.upsertServer(
+        ServersCompanion.insert(
+          id: id,
+          name: id,
+          ownerId: const Value(_ownerId),
+        ),
+      );
+      await db.roleDao.upsertRoles([
+        RolesCompanion.insert(
+          id: id,
+          guildId: id,
+          name: '@everyone',
+          permissions: Value(Permission.viewChannel.value.toString()),
+        ),
+      ]);
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: _userId,
+          guildId: id,
+          roleIdsJson: const Value('[]'),
+          joinedAt: Value(DateTime.utc(2020)),
+        ),
+      );
+    }
+
+    final container = await _container(db);
+    addTearDown(container.dispose);
+    var writes = 0;
+    final GuildPermissionsProvider permissions = guildPermissionsProvider(
+      readAccountUserId(container),
+    );
+    container.listen(permissions, (_, _) => writes++);
+    final notifier = container.read(permissions.notifier);
+
+    await Future.wait(<Future<void>>[
+      notifier.prefetch(guildIds),
+      notifier.prefetch(guildIds),
+    ]);
+
+    expect(writes, 1);
+    expect(container.read(permissions), <String, int>{
+      for (final String id in guildIds) id: Permission.viewChannel.value,
+    });
+
+    notifier.clearAll();
+    final Future<void> dropped = notifier.prefetch(guildIds);
+    notifier.clearAll();
+    await dropped;
+
+    expect(container.read(permissions), isEmpty);
+
+    final Future<void> partlyEvicted = notifier.prefetch(guildIds);
+    notifier.evict('pg3');
+    await partlyEvicted;
+
+    expect(container.read(permissions), <String, int>{
+      for (final String id in guildIds)
+        if (id != 'pg3') id: Permission.viewChannel.value,
+    });
+  });
 }

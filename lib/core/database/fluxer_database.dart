@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 106;
+  int get schemaVersion => 107;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1664,6 +1664,16 @@ class FluxerDatabase extends _$FluxerDatabase {
             columnName: recentInstances.url.name,
           )) {
         await m.addColumn(recentInstances, recentInstances.url);
+      }
+      if (from < 107) {
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_guild_emojis_guild '
+          'ON guild_emojis (guild_id)',
+        );
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_guild_stickers_guild '
+          'ON guild_stickers (guild_id)',
+        );
       }
     },
   );

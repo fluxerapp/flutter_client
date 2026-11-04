@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -39,12 +40,23 @@ class GuildEmojiDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> replaceForGuild(
     String guildId,
     List<GuildEmojisCompanion> emojis,
+  ) => replaceForGuilds(<String, List<GuildEmojisCompanion>>{guildId: emojis});
+
+  Future<void> replaceForGuilds(
+    Map<String, List<GuildEmojisCompanion>> emojisByGuildId,
   ) async {
-    await (delete(guildEmojis)..where((e) => e.guildId.equals(guildId))).go();
-    await batch((b) {
-      for (final emoji in emojis) {
-        b.insert(guildEmojis, emoji);
-      }
+    if (emojisByGuildId.isEmpty) {
+      return;
+    }
+    await batch((Batch b) {
+      b.deleteWhere(
+        guildEmojis,
+        (row) => row.guildId.isIn(emojisByGuildId.keys),
+      );
+      batchUpsert(b, attachedDatabase, guildEmojis, <GuildEmojisCompanion>[
+        for (final List<GuildEmojisCompanion> rows in emojisByGuildId.values)
+          ...rows,
+      ]);
     });
   }
 

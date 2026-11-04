@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/bulk_upsert.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     as app_channel;
@@ -50,10 +51,24 @@ class GuildRepository {
         if ((await _db.authSessionDao.getActiveSession())?.userId != userId) {
           return;
         }
-        await _db.guildDao.upsertServers(companions);
+        final Map<String, db.Server> stored = <String, db.Server>{
+          for (final db.Server row in await _db.guildDao.getServers())
+            row.id: row,
+        };
+        await _db.guildDao.upsertServers(<db.ServersCompanion>[
+          for (final db.ServersCompanion companion in companions)
+            if (rowDiffersFromStored(
+              _db,
+              companion,
+              stored[companion.id.value],
+            ))
+              companion,
+        ]);
         final Set<String> apiIds = guilds.map((guild) => guild.id).toSet();
-        final Set<String> localIdsAfterUpsert =
-            (await _db.guildDao.getServers()).map((row) => row.id).toSet();
+        final Set<String> localIdsAfterUpsert = <String>{
+          ...stored.keys,
+          ...apiIds,
+        };
         await removeGuildsNotInLocalDb(
           _db,
           guildIdsKeptAfterMembershipSync(

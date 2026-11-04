@@ -91,9 +91,11 @@ class ChannelHeaderToolbar extends ConsumerWidget {
         if (channel != null && showsThreadHeaderActions(channel))
           ThreadHeaderToolbarButtons(channel: channel!),
         ..._buildCallButtons(context, ref),
-        if (canOfferAnnouncementFollow(
-          channel,
-          ref.watch(guildPermissionsProvider(watchAccountUserId(ref))),
+        if (ref.watch(
+          guildPermissionsProvider(watchAccountUserId(ref)).select(
+            (Map<String, int> permissions) =>
+                canOfferAnnouncementFollow(channel, permissions),
+          ),
         ))
           ChannelHeaderIconButton(
             icon: PhosphorIconsFill.megaphone,

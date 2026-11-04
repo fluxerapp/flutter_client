@@ -101,8 +101,10 @@ final Provider<String?> publishNudgeMessageIdProvider = Provider<String?>((
     return null;
   }
   final int? bits = ref.watch(
-    channelPermissionCacheProvider(watchAccountUserId(ref)),
-  )[channelId];
+    channelPermissionCacheProvider(
+      watchAccountUserId(ref),
+    ).select((ChannelPermissionCaches caches) => caches[channelId]),
+  );
   if (bits == null) {
     return null;
   }

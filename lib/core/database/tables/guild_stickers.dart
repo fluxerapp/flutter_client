@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+@TableIndex(name: 'idx_guild_stickers_guild', columns: {#guildId})
 class GuildStickers extends Table {
   TextColumn get id => text()();
   TextColumn get guildId => text()();

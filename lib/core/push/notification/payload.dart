@@ -7,29 +7,6 @@ const String kPushNotificationClearAction = 'clear_channel';
 
 String buildChannelTag(String channelId) => 'channel:$channelId';
 
-bool pushNotificationTagMatchesChannel(String? tag, String channelId) {
-  if (tag == null || tag.isEmpty || channelId.isEmpty) {
-    return false;
-  }
-  final String channelTag = buildChannelTag(channelId);
-  return tag == channelTag || tag.startsWith('$channelTag:');
-}
-
-String? pushMessageIdFromChannelTag(String? tag, String channelId) {
-  if (tag == null || channelId.isEmpty) {
-    return null;
-  }
-  final String prefix = '${buildChannelTag(channelId)}:';
-  if (!tag.startsWith(prefix)) {
-    return null;
-  }
-  final String messageId = tag.substring(prefix.length);
-  if (messageId.isEmpty) {
-    return null;
-  }
-  return messageId;
-}
-
 bool pushMessageIsCoveredByAck(String? messageId, String? upToMessageId) {
   if (upToMessageId == null || upToMessageId.isEmpty) {
     return true;

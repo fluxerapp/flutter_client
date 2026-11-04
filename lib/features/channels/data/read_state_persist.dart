@@ -51,15 +51,3 @@ Future<bool> upsertReadStateIfChanged(
   await database.readStateDao.upsertReadState(companion);
   return true;
 }
-
-Future<void> upsertReadStatesIfChanged(
-  FluxerDatabase database,
-  List<ReadStatesCompanion> companions,
-) async {
-  if (companions.isEmpty) {
-    return;
-  }
-  for (final ReadStatesCompanion companion in companions) {
-    await upsertReadStateIfChanged(database, companion);
-  }
-}

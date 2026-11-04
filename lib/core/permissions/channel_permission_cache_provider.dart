@@ -73,30 +73,10 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
           guildId: guildId,
           onlyChannelIds: onlyChannelIds,
         );
-    if (!ref.mounted || outcomes.isEmpty) {
+    if (!ref.mounted) {
       return;
     }
-    final Map<String, int> nextEffective = Map<String, int>.from(
-      state.effective,
-    );
-    var changed = false;
-    for (final MapEntry<String, ChannelPermissionBitsOutcome> entry
-        in outcomes.entries) {
-      if (entry.value.shouldCache) {
-        if (nextEffective[entry.key] != entry.value.value) {
-          nextEffective[entry.key] = entry.value.value;
-          changed = true;
-        }
-      } else if (nextEffective.remove(entry.key) != null) {
-        changed = true;
-      }
-    }
-    if (changed) {
-      state = ChannelPermissionCaches(
-        effective: nextEffective,
-        local: state.local,
-      );
-    }
+    _mergeEffective(outcomes);
   }
 
   Future<void> rebuildAfterReady({
@@ -117,16 +97,58 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
       return;
     }
     if (priorityGuildId != null && guildIds.remove(priorityGuildId)) {
-      guildIds.insert(0, priorityGuildId);
-    }
-    for (var index = 0; index < guildIds.length; index++) {
+      await rebuildGuild(priorityGuildId);
       if (!ref.mounted) {
         return;
       }
-      if (index > 0) {
-        await Future<void>.delayed(const Duration(milliseconds: 15));
+    }
+    final Map<String, int> before = state.effective;
+    final Map<String, ChannelPermissionBitsOutcome> outcomes =
+        <String, ChannelPermissionBitsOutcome>{};
+    for (final String guildId in guildIds) {
+      outcomes.addAll(
+        await computeEffectiveGuildChannelPermissionBitsOutcomesForGuild(
+          ref: ref,
+          guildId: guildId,
+        ),
+      );
+      if (!ref.mounted) {
+        return;
       }
-      await rebuildGuild(guildIds[index]);
+    }
+    _mergeEffective(outcomes, unchangedSince: before);
+  }
+
+  void _mergeEffective(
+    Map<String, ChannelPermissionBitsOutcome> outcomes, {
+    Map<String, int>? unchangedSince,
+  }) {
+    final Map<String, int> current = state.effective;
+    final Map<String, int> nextEffective = Map<String, int>.from(current);
+    var changed = false;
+    for (final MapEntry<String, ChannelPermissionBitsOutcome> entry
+        in outcomes.entries) {
+      final String channelId = entry.key;
+      if (unchangedSince != null &&
+          (current[channelId] != unchangedSince[channelId] ||
+              current.containsKey(channelId) !=
+                  unchangedSince.containsKey(channelId))) {
+        continue;
+      }
+      if (entry.value.shouldCache) {
+        if (nextEffective[channelId] != entry.value.value) {
+          nextEffective[channelId] = entry.value.value;
+          changed = true;
+        }
+      } else if (nextEffective.remove(channelId) != null) {
+        changed = true;
+      }
+    }
+    if (changed) {
+      state = ChannelPermissionCaches(
+        effective: nextEffective,
+        local: state.local,
+      );
     }
   }
 
