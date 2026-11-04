@@ -14946,7 +14946,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Varsayılan ters görsel arama",
     "advancedSettingDefaultReverseImageSearchDescription": "Bir görseli ararken hangi ters görsel arama hizmetinin varsayılan olarak kullanılacağını seçin.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Yerleşik ters görsel arama",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Yerleşik tersine görsel arama sağlayıcılarını etkinleştirin veya devre dışı bırakın. Etkinleştirilen sağlayıcılar, görsellerin, avatarların, banner'ların, çıkartmaların ve emojilerin bağlam menüsünde görünür.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Yerleşik ters görsel arama sağlayıcılarını etkinleştirin veya devre dışı bırakın. Etkin sağlayıcılar görsel seçeneklerinde görünür.",
     "advancedSettingCustomReverseImageSearchLabel": "Özel ters görsel arama",
     "advancedSettingCustomReverseImageSearchDescription": "Özel bir URL deseniyle kendi ters görsel arama sağlayıcılarınızı ekleyin. Görsel URL'si için yer tutucu olarak '{url}' kullanın.",
     "advancedSettingAddReverseImageSearchLabel": "Ters görsel arama ekle",
@@ -18271,11 +18271,11 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer beklenmedik şekilde kapandı. Anonim çökme ve hata verilerini paylaşmak, sorunları daha hızlı düzeltmemize yardımcı olur.",
+    "observabilityReportingConsentSubtitle": "Fluxer beklenmedik şekilde kapandı. Çökme raporu göndermek, sorunu daha hızlı bulup düzeltmemize yardımcı olur.",
     "@observabilityReportingConsentSubtitle": {
         "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
     },
-    "observabilityReportingConsentBody": "Raporlar çökme günlüklerini, hataları ve temel performans verilerini içerir. Üçüncü taraflarla paylaşılmaz ve bu ayarı istediğiniz zaman kapatabilirsiniz.",
+    "observabilityReportingConsentBody": "Raporlar; çökme günlüklerini, hataları, performans verilerini, ağ isteği sürelerini ve bir soruna yol açan ekranlarla dokunuşları içerir ve bu kurulum için rastgele bir kimliğe bağlanır. Raporlar hiçbir zaman mesaj içeriği içermez ve yalnızca Fluxer'ın kendi hata izleyicisine gider. Bunu istediğiniz zaman kapatabilirsiniz.",
     "@observabilityReportingConsentBody": {
         "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
@@ -18293,7 +18293,7 @@
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
     },
-    "observabilityReportingConsentDecline": "Etkinleştirmek istemiyorum",
+    "observabilityReportingConsentDecline": "Bir daha sorma",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
@@ -18988,47 +18988,9 @@
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
     },
-    "gatewayOfflineToast": "Çevrimdışısınız. Fluxer, tekrar çevrimiçi olduğunuzda yeniden bağlanır.",
-    "@gatewayOfflineToast": {
-        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
-    },
-    "accountDeletionScheduledNotice": "Hesabınız {date} tarihinde silinecek. Bu tarihten önce giriş yaparsanız silme işlemi iptal edilir.",
-    "@accountDeletionScheduledNotice": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
-        "placeholders": {
-            "date": {
-                "type": "String",
-                "example": "November 17, 2026"
-            }
-        }
-    },
-    "accountDeletionScheduledNoticeNoDate": "Hesabınızın silinmesi planlandı. Silme tarihinden önce giriş yaparsanız silme işlemi iptal edilir.",
-    "@accountDeletionScheduledNoticeNoDate": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
-    },
-    "accountDeletionImmediateNotice": "Hesabınızı şimdi siliyoruz. Hesabınızda bir e-posta adresi varsa, işlem bittiğinde size e-posta göndereceğiz.",
-    "@accountDeletionImmediateNotice": {
-        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
-    },
     "accountDeletionImmediateNoticeNoEmail": "Hesabınızı şimdi siliyoruz.",
     "@accountDeletionImmediateNoticeNoEmail": {
         "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
-    },
-    "accountDisabledNotice": "Hesabınız devre dışı. Kullanmak istediğinizde tekrar giriş yapın.",
-    "@accountDisabledNotice": {
-        "description": "Notice on the sign-in screen after the person disabled their account."
-    },
-    "verificationResendEmail": "E-postayı tekrar gönder",
-    "@verificationResendEmail": {
-        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
-    },
-    "verificationEmailSent": "Doğrulama e-postası gönderildi. Gelen kutunuzu kontrol edin.",
-    "@verificationEmailSent": {
-        "description": "Toast after the verification email was sent again."
-    },
-    "verificationEmailRateLimited": "Çok fazla doğrulama e-postası istediniz. Lütfen bir süre bekleyip tekrar deneyin.",
-    "@verificationEmailRateLimited": {
-        "description": "Toast when the verification email was resent too often."
     },
     "nagbarPremiumGracePeriodNoAction": "{productName} aboneliğiniz yenilenemedi. {productName} ayrıcalıklarınız {graceDate} tarihine kadar devam eder.",
     "@nagbarPremiumGracePeriodNoAction": {
@@ -19051,188 +19013,9 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Giriş yaparak şunları kabul etmiş olursunuz: ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
-    "mfaPasskeyUnavailable": "Bu kurulumun geçiş anahtarları bu uygulamada çalışmaz ve hesabınızda başka bir doğrulama yöntemi yok. Bunun yerine web'de giriş yapın.",
-    "@mfaPasskeyUnavailable": {
-        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
-    },
-    "suspendedBannedTitle": "Hesap kalıcı olarak askıya alındı",
-    "@suspendedBannedTitle": {
-        "description": "Title of the sign-in screen for an account suspended with no end date."
-    },
-    "suspendedClosedTitle": "Hesap kapatıldı",
-    "@suspendedClosedTitle": {
-        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
-    },
-    "suspendedWhatHappened": "Ne oldu",
-    "@suspendedWhatHappened": {
-        "description": "Heading on the account restriction screen above what the team did and what it means."
-    },
-    "suspendedWhy": "Neden",
-    "@suspendedWhy": {
-        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
-    },
-    "suspendedHowWeDecided": "Nasıl karar verdik",
-    "@suspendedHowWeDecided": {
-        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
-    },
-    "suspendedHowToAppeal": "Nasıl itiraz edebilirsin",
-    "@suspendedHowToAppeal": {
-        "description": "Heading on the account restriction screen above the appeal instructions."
-    },
-    "suspendedNoteFromTeam": "Ekibimizden not: {statement}",
-    "@suspendedNoteFromTeam": {
-        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
-        "placeholders": {
-            "statement": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedDecisionId": "Karar kimliği: {decisionId}",
-    "@suspendedDecisionId": {
-        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
-        "placeholders": {
-            "decisionId": {
-                "type": "String",
-                "example": "1234567890"
-            }
-        }
-    },
-    "suspendedRule": "Kural: {title}",
-    "@suspendedRule": {
-        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
-        "placeholders": {
-            "title": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedAppealNoDeadline": "Bir hata yaptığımızı düşünüyorsanız {email} adresine e-posta gönderin ve kullanıcı adınızı ekleyin.",
-    "@suspendedAppealNoDeadline": {
-        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedAppealNoEmail": "Bir hata yaptığımızı düşünüyorsanız {deadline} tarihine kadar {email} adresine e-posta gönderin. Karar kimliğini ve kullanıcı adınızı ekleyin. İtirazlar ücretsizdir ve her birini bir kişi inceler.",
-    "@suspendedAppealNoEmail": {
-        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedAppealWithEmail": "Bir hata yaptığımızı düşünüyorsanız {deadline} tarihine kadar {email} adresine e-posta gönderin. Mümkünse hesabınızdaki e-posta adresinden yazın ve karar kimliğini ekleyin. İtirazlar ücretsizdir ve her birini bir kişi inceler.",
-    "@suspendedAppealWithEmail": {
-        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedDeletionRequest": "Hesabınızın ve verilerinizin silinmesini istemek için hesabınızdaki adresten {email} adresine e-posta gönderin.",
-    "@suspendedDeletionRequest": {
-        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedDeletionRequestNoEmail": "Hesabınızın ve verilerinizin silinmesini istemek için {email} adresine e-posta gönderin ve kullanıcı adınızı ekleyin.",
-    "@suspendedDeletionRequestNoEmail": {
-        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "registerDateOfBirthDone": "Bitti",
-    "@registerDateOfBirthDone": {
-        "description": "Button that closes the date of birth wheel on iPhone and iPad."
-    },
-    "registerDateOfBirthNotSet": "Ayarlanmadı",
-    "@registerDateOfBirthNotSet": {
-        "description": "VoiceOver value of the date of birth field before a date is chosen."
-    },
-    "registerConsentBuiltInRules": "Bu kurulumun uygunsuz içeriğe ve kötü niyetli kullanıcılara hiç tolerans göstermediğini ve yöneticilerinin bu kuralları ihlal eden içerikleri ve hesapları kaldırabileceğini kabul ediyorum.",
-    "@registerConsentBuiltInRules": {
-        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
-    },
     "giftAcceptLifetimeNotInApp": "Bu hediye iOS uygulamasında talep edilemez. Masaüstü uygulamasında talep edebilirsiniz.",
     "@giftAcceptLifetimeNotInApp": {
         "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
-    },
-    "stickerPickerSearchHint": "Mükemmel çıkartmayı bul",
-    "@stickerPickerSearchHint": {
-        "description": "Placeholder of the search field in the sticker picker."
-    },
-    "stickerPickerEmptyNoCommunitiesTitle": "Kullanılabilir çıkartma yok",
-    "@stickerPickerEmptyNoCommunitiesTitle": {
-        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyNoCommunitiesBody": "Çıkartmaları burada kullanmak için çıkartması olan bir topluluğa katılın.",
-    "@stickerPickerEmptyNoCommunitiesBody": {
-        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyHereTitle": "Kullanılabilir çıkartma yok",
-    "@stickerPickerEmptyHereTitle": {
-        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerEmptyHereBody": "Bu sohbette kullanılabilir çıkartma yok.",
-    "@stickerPickerEmptyHereBody": {
-        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerNoResultsTitle": "Çıkartma bulunamadı",
-    "@stickerPickerNoResultsTitle": {
-        "description": "Title shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPickerNoResultsBody": "Farklı bir arama terimi deneyin.",
-    "@stickerPickerNoResultsBody": {
-        "description": "Body shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPlutoniumUpsellText": "Plutonium ile {communityCount} içinden {stickerCount} kullanın.",
-    "@stickerPlutoniumUpsellText": {
-        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
-        "placeholders": {
-            "stickerCount": {
-                "type": "String"
-            },
-            "communityCount": {
-                "type": "String"
-            }
-        }
-    },
-    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 çıkartma} other{{count} çıkartma}}",
-    "@stickerPlutoniumUpsellStickerCount": {
-        "description": "Sticker count label in the sticker picker upsell banner.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "profileBadgesSettingsTitle": "Rozetler",
     "@profileBadgesSettingsTitle": {
@@ -19331,43 +19114,9 @@
     "@operatorPassWallOnTheWall": {
         "description": "Label for the live wall entry."
     },
-    "operatorPassWallInReview": "İncelemede",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "{date} tarihine kadar",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "operatorPassWallLive": "Yayında",
     "@operatorPassWallLive": {
         "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Reddedildi: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Ekip notu: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
     },
     "operatorPassWallHidden": "Ekibimiz tarafından şimdilik gizlendi.",
     "@operatorPassWallHidden": {
@@ -19413,10 +19162,6 @@
     "@operatorPassWallNameSettingsLabel": {
         "description": "Label for wall name field in settings."
     },
-    "operatorPassWallNameHint": "Yeni adları yayına girmeden önce kontrol ediyoruz.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
     "operatorPassWallDontListMe": "Beni listeleme",
     "@operatorPassWallDontListMe": {
         "description": "Opt out of the Operators' wall."
@@ -19429,262 +19174,13 @@
     "@operatorPassWallNameTooLong": {
         "description": "Validation when wall name is too long."
     },
-    "operatorPassWallDeclineGuidelines": "Topluluk kurallarını ihlal ediyor",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Başka biri gibi davranıyor",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Hakları olmadan bir ad veya görsel kullanıyor",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Daha genç kullanıcılar için uygun değil",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "Plutonium, uygulamanın bu sürümünde satın alınamaz.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
     },
-    "sudoEmailCodeSend": "Bana e-postayla kod gönder",
-    "@sudoEmailCodeSend": {
-        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
-    },
-    "sudoEmailCodeSent": "E-posta adresinize 6 haneli bir kod gönderdik.",
-    "@sudoEmailCodeSent": {
-        "description": "Shown in the identity check sheet after the code was sent."
-    },
-    "sudoEmailCodeLabel": "E-postadaki kod",
-    "@sudoEmailCodeLabel": {
-        "description": "Label of the code field in the identity check sheet."
-    },
-    "sudoEmailCodeResend": "Yeni bir kod gönder",
-    "@sudoEmailCodeResend": {
-        "description": "Link in the identity check sheet that sends another email code."
-    },
-    "sudoSsoReauthHint": "Siz olduğunuzu doğrulamak için tekrar giriş yapın.",
-    "@sudoSsoReauthHint": {
-        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
-    },
-    "sudoSsoReauthButtonGeneric": "Tekrar giriş yap",
-    "@sudoSsoReauthButtonGeneric": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
-    },
-    "sudoSsoReauthButton": "{provider} ile giriş yap",
-    "@sudoSsoReauthButton": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
-        "placeholders": {
-            "provider": {
-                "type": "String",
-                "example": "Okta"
-            }
-        }
-    },
-    "sudoSsoReauthWrongAccount": "Farklı bir hesapta oturum açtın. Burada kullandığın hesapla oturum aç.",
-    "@sudoSsoReauthWrongAccount": {
-        "description": "Error in the identity check sheet when the single sign-on returned another account."
-    },
-    "sudoPasskeyUnavailable": "Bu kurulumun geçiş anahtarları bu uygulamada çalışmaz. Kimlik doğrulama uygulamanızı veya bir yedek kodu kullanın ya da web'de onaylayın.",
-    "@sudoPasskeyUnavailable": {
-        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
-    },
-    "dangerZoneDeleteEntryDescription": "Hesabınızı ve kişisel verilerinizi silin. Mesajlarınızı da silebilirsiniz.",
-    "@dangerZoneDeleteEntryDescription": {
-        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
-    },
-    "dangerZoneDeleteIntro": "Hesabınız, profiliniz ve kişisel verileriniz silinir. Silmediğiniz mesajlar, adınız veya profiliniz olmadan gönderdiğiniz yerde kalır.",
-    "@dangerZoneDeleteIntro": {
-        "description": "First paragraph of the delete account sheet."
-    },
-    "dangerZoneDeleteMessagesLabel": "Mesajlarımı da sil",
-    "@dangerZoneDeleteMessagesLabel": {
-        "description": "Switch label in the delete account sheet. Off by default."
-    },
-    "dangerZoneDeleteMessagesHint": "DM'lerde, grup DM'lerinde ve topluluklarda gönderdiğiniz tüm mesajları hesabınızla birlikte siler.",
-    "@dangerZoneDeleteMessagesHint": {
-        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
-    },
-    "dangerZoneDeleteExportHint": "Verilerinizin bir kopyasını saklamak için önce {privacyDashboard} bölümünden dışa aktarma isteyin.",
-    "@dangerZoneDeleteExportHint": {
-        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
-        "placeholders": {
-            "privacyDashboard": {
-                "type": "String",
-                "example": "Privacy dashboard"
-            }
-        }
-    },
-    "dangerZoneDeleteLater": "14 gün içinde sil",
-    "@dangerZoneDeleteLater": {
-        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
-    },
-    "dangerZoneDeleteLaterHint": "Bu 14 gün içinde giriş yaparak silme işlemini iptal edebilirsiniz.",
-    "@dangerZoneDeleteLaterHint": {
-        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
-    },
-    "dangerZoneDeleteSchedule": "Silmeyi planla",
-    "@dangerZoneDeleteSchedule": {
-        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
-    },
-    "dangerZoneDeleteScheduleHint": "Hesabınız bu kurulumun bekleme süresinden sonra silinir. Bu süre bitmeden giriş yaparsanız silme işlemi iptal edilir.",
-    "@dangerZoneDeleteScheduleHint": {
-        "description": "Line in the delete account sheet on self-hosted instances."
-    },
-    "dangerZoneDeleteNow": "Şimdi sil",
-    "@dangerZoneDeleteNow": {
-        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
-    },
-    "dangerZoneDeleteNowConfirmTitle": "Hesabınız şimdi silinsin mi?",
-    "@dangerZoneDeleteNowConfirmTitle": {
-        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteNowConfirmBody": "Hesabınız hemen silinir ve geri getirilemez.",
-    "@dangerZoneDeleteNowConfirmBody": {
-        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteAppStoreBilling": "Plutonium aboneliğiniz Apple tarafından faturalandırılıyor. Hesabınızı silmek aboneliği iptal etmez, bu yüzden önce App Store'da iptal edin.",
-    "@dangerZoneDeleteAppStoreBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
-    },
-    "dangerZoneDeleteGooglePlayBilling": "Plutonium aboneliğiniz Google Play tarafından faturalandırılıyor. Hesabınızı silmek aboneliği iptal etmez, bu yüzden önce Google Play'de iptal edin.",
-    "@dangerZoneDeleteGooglePlayBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
-    },
-    "dangerZoneDeleteOwnsCommunitiesList": "Bu toplulukların sahibisiniz. Hesabınızı silmeden önce her birini silin veya başka bir üyeye devredin.",
-    "@dangerZoneDeleteOwnsCommunitiesList": {
-        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
-    },
-    "dangerZoneDeleteOwnedCommunitiesHelp": "Ayarlarını açmak için bir topluluğa dokunun. “Topluluğu sil” en alttadır. Topluluğu devretmek için “Üyeler” bölümünü açın, bir üyeye dokunun, profilindeki üç noktaya dokunun ve “Sahipliği devret” seçeneğini seçin.",
-    "@dangerZoneDeleteOwnedCommunitiesHelp": {
-        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
-    },
-    "matureMediaRevealLabel": "Hassas medyayı göster",
-    "@matureMediaRevealLabel": {
-        "description": "Accessibility label for the button that reveals blurred sensitive media."
-    },
-    "matureMediaAppLockedLabel": "Hassas medya iPhone ve iPad'de gizlidir.",
-    "@matureMediaAppLockedLabel": {
-        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
-    },
-    "matureContentAppLockedBody": "iPhone ve iPad'de 18+ içerik kapalı. 18+ olarak işaretlenmiş toplulukları ve kanalları burada görüntülemek için Fluxer'ı web'de veya masaüstünde açın, ayarlarınızda “Gizlilik” bölümüne gidin ve “iPhone ve iPad'de 18+ içeriğe izin ver” seçeneğini açın.",
-    "@matureContentAppLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
-    },
-    "matureContentRegionLockedBody": "Bulunduğunuz yerdeki yetişkin içerik yasaları nedeniyle yetişkinlere uygun içerik buradan kullanılamıyor.",
-    "@matureContentRegionLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
-    },
-    "matureMessageHiddenPreview": "18+ kanalındaki mesaj",
-    "@matureMessageHiddenPreview": {
-        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
-    },
-    "ageRangeUnderMinimumTitle": "Fluxer bu hesapta kullanılamıyor",
-    "@ageRangeUnderMinimumTitle": {
-        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "ageRangeUnderMinimumBody": "Apple Account'unuzun paylaştığı yaş aralığı 13'ün altında. Fluxer yalnızca 13 yaş ve üzerindeki kişiler içindir.",
-    "@ageRangeUnderMinimumBody": {
-        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "sensitiveContentAppLockedHint": "Burada “Göster” seçeneğini seçmek için Fluxer'ı web'de veya masaüstünde açın, ayarlarınızda “Gizlilik” bölümüne gidin ve “iPhone ve iPad'de 18+ içeriğe izin ver” seçeneğini açın.",
-    "@sensitiveContentAppLockedHint": {
-        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
-    },
-    "savedMediaEdit": "Düzenle",
-    "@savedMediaEdit": {
-        "description": "Action in the saved media item menu that opens the edit sheet."
-    },
-    "savedMediaEditTitle": "Kayıtlı medyayı düzenle",
-    "@savedMediaEditTitle": {
-        "description": "Title of the sheet for editing a saved media item."
-    },
-    "savedMediaDeleteTitle": "Kayıtlı medyayı sil",
-    "@savedMediaDeleteTitle": {
-        "description": "Title of the sheet that confirms deleting a saved media item."
-    },
-    "savedMediaDeleteConfirm": "“{name}” kayıtlı medyanızdan kaldırılsın mı?",
-    "@savedMediaDeleteConfirm": {
-        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            }
-        }
-    },
-    "savedMediaDeleteFailed": "Kayıtlı medya silinemedi.",
-    "@savedMediaDeleteFailed": {
-        "description": "Error shown when deleting a saved media item fails."
-    },
-    "savedMediaSearchHint": "Kayıtlı medyada ara",
-    "@savedMediaSearchHint": {
-        "description": "Placeholder of the search field in the saved media picker."
-    },
-    "savedMediaUnavailableTitle": "Kayıtlı medya kullanılamıyor",
-    "@savedMediaUnavailableTitle": {
-        "description": "Title shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaUnavailableBody": "Birazdan tekrar deneyin.",
-    "@savedMediaUnavailableBody": {
-        "description": "Body shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaEmptyTitle": "Kayıtlı medya yok",
-    "@savedMediaEmptyTitle": {
-        "description": "Title shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaEmptyBody": "Burada görmek için mesajlardaki medyayı kaydedin.",
-    "@savedMediaEmptyBody": {
-        "description": "Body shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaNoResultsTitle": "Sonuç bulunamadı",
-    "@savedMediaNoResultsTitle": {
-        "description": "Title shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaNoResultsBody": "Farklı bir arama terimi veya filtre deneyin.",
-    "@savedMediaNoResultsBody": {
-        "description": "Body shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaFilterAll": "Tümü",
-    "@savedMediaFilterAll": {
-        "description": "Saved media picker filter that shows every item."
-    },
-    "savedMediaFilterImages": "Görseller",
-    "@savedMediaFilterImages": {
-        "description": "Saved media picker filter that shows only images."
-    },
-    "savedMediaFilterVideos": "Videolar",
-    "@savedMediaFilterVideos": {
-        "description": "Saved media picker filter that shows only videos."
-    },
-    "savedMediaFilterAudio": "Ses",
-    "@savedMediaFilterAudio": {
-        "description": "Saved media picker filter that shows only audio."
-    },
-    "savedMediaFilterGifs": "GIF'ler",
-    "@savedMediaFilterGifs": {
-        "description": "Saved media picker filter that shows only GIFs."
-    },
-    "savedMediaGifBadge": "GIF",
-    "@savedMediaGifBadge": {
-        "description": "Small badge on a saved media tile that marks it as a GIF."
-    },
-    "voiceCallControlsSheetLabel": "Sesli arama kontrolleri",
-    "@voiceCallControlsSheetLabel": {
-        "description": "Accessibility label of the drag handle on the voice call controls sheet."
-    },
-    "voiceParticipantMenuReport": "Bildir",
-    "@voiceParticipantMenuReport": {
-        "description": "Voice participant menu item that opens the report flow for that person."
-    },
     "voiceChangeAudioOutputLabel": "Ses çıkışını değiştir",
     "@voiceChangeAudioOutputLabel": {
         "description": "Opens the system audio route picker for voice calls on iOS."
-    },
-    "voiceMicPermissionRequired": "Bu aramada sesinizi açmak için mikrofon erişimine izin verin.",
-    "@voiceMicPermissionRequired": {
-        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
     },
     "voiceVideoZoomLevel": "Yakınlaştırma {scale}",
     "@voiceVideoZoomLevel": {
@@ -19694,89 +19190,6 @@
                 "type": "String"
             }
         }
-    },
-    "messageAlertNote": "Not",
-    "@messageAlertNote": {
-        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
-    },
-    "messageAlertTip": "İpucu",
-    "@messageAlertTip": {
-        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
-    },
-    "messageAlertImportant": "Önemli",
-    "@messageAlertImportant": {
-        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
-    },
-    "messageAlertWarning": "Uyarı",
-    "@messageAlertWarning": {
-        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
-    },
-    "messageAlertCaution": "Dikkat",
-    "@messageAlertCaution": {
-        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
-    },
-    "reportFlowTitleCommunity": "Topluluğu bildir",
-    "@reportFlowTitleCommunity": {
-        "description": "Report sheet title while the community report flow loads."
-    },
-    "reportFlowSelectedCommunity": "Bildirdiğiniz topluluk",
-    "@reportFlowSelectedCommunity": {
-        "description": "Report sheet heading above the card of the community being reported."
-    },
-    "reportFlowThankYouBodySelfHosted": "Bu kurulumun yöneticileri raporunuzu inceleyecek. Raporun sizden geldiğini belli etmeyeceğiz.",
-    "@reportFlowThankYouBodySelfHosted": {
-        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
-    },
-    "reportFlowAlreadyReportedCommunity": "Bu topluluğu zaten bildirdiniz.",
-    "@reportFlowAlreadyReportedCommunity": {
-        "description": "Report sheet note when the reporter already reported this community."
-    },
-    "chatReplyingTo": "{authorName} adlı kişiye yanıt veriliyor",
-    "@chatReplyingTo": {
-        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
-        "placeholders": {
-            "authorName": {
-                "type": "String"
-            }
-        }
-    },
-    "chatForwardedFrom": "Şuradan iletildi: {source}",
-    "@chatForwardedFrom": {
-        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
-        "placeholders": {
-            "source": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerPlay": "Oynat",
-    "@videoPlayerPlay": {
-        "description": "Accessibility label of the play button on an inline video."
-    },
-    "videoPlayerPause": "Duraklat",
-    "@videoPlayerPause": {
-        "description": "Accessibility label of the pause button on an inline video."
-    },
-    "videoPlayerVolume": "Ses düzeyi",
-    "@videoPlayerVolume": {
-        "description": "Accessibility label of the volume button on an inline video."
-    },
-    "videoPlayerPlaybackSpeed": "Oynatma hızı {speed}x",
-    "@videoPlayerPlaybackSpeed": {
-        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
-        "placeholders": {
-            "speed": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerFullScreen": "Tam ekran",
-    "@videoPlayerFullScreen": {
-        "description": "Accessibility label of the full screen button on an inline video."
-    },
-    "channelHeaderOpenDetails": "Kanal ayrıntılarını aç",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
     },
     "storePlutoniumStreamTitle": "4K 60 FPS kalitesinde yayın yap",
     "storePlutoniumStreamBody": "Ekranınızı veya kameranızı saniyede 60 kare hızında 4K'ya kadar paylaşın. Ücretsiz hesaplar 30 kare hızında 720p'ye kadar yayın yapar.",
@@ -19837,18 +19250,6 @@
     "@storePlutoniumRetry": {
         "description": "Button on the Plutonium page that loads the plans again after a failure."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer beklenmedik şekilde kapandı. Çökme raporu göndermek, sorunu daha hızlı bulup düzeltmemize yardımcı olur.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Raporlar; çökme günlüklerini, hataları, performans verilerini, ağ isteği sürelerini ve bir soruna yol açan ekranlarla dokunuşları içerir ve bu kurulum için rastgele bir kimliğe bağlanır. Raporlar hiçbir zaman mesaj içeriği içermez ve yalnızca Fluxer'ın kendi hata izleyicisine gider. Bunu istediğiniz zaman kapatabilirsiniz.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
-    "observabilityReportingConsentDecline": "Bir daha sorma",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
-    },
     "advancedSettingSplashQuotesLabel": "Açılış ekranı alıntıları",
     "@advancedSettingSplashQuotesLabel": {
         "description": "Toggle label for splash screen loading quotes in advanced settings."
@@ -19856,147 +19257,6 @@
     "advancedSettingSplashQuotesDescription": "Açılış ekranında rastgele bir alıntı gösterir. Cihazlar arasında eşitlenmez.",
     "@advancedSettingSplashQuotesDescription": {
         "description": "Toggle description for the local-only splash screen quotes setting."
-    },
-    "advancedSettingBuiltInReverseImageSearchDescription": "Yerleşik ters görsel arama sağlayıcılarını etkinleştirin veya devre dışı bırakın. Etkin sağlayıcılar görsel seçeneklerinde görünür.",
-    "searchProviderSearchWith": "{engine} ile ara",
-    "@searchProviderSearchWith": {
-        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "searchProviderTranslateWith": "{engine} ile çevir",
-    "@searchProviderTranslateWith": {
-        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "userSettingsTitle": "Ayarlar",
-    "@userSettingsTitle": {
-        "description": "Title of the user settings sheet on phones."
-    },
-    "userSettingsCopyAppInfo": "Uygulama bilgilerini kopyala",
-    "@userSettingsCopyAppInfo": {
-        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
-    },
-    "userSettingsNavHelp": "Yardım ve destek",
-    "@userSettingsNavHelp": {
-        "description": "User settings navigation item that opens the help center on the official instance."
-    },
-    "instanceInsecureConnection": "{domain} güvenli bağlantı (https) kullanmıyor. Fluxer, yalnızca yerel ağınızdaki kurulumlara http üzerinden bağlanır.",
-    "@instanceInsecureConnection": {
-        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
-        "placeholders": {
-            "domain": {
-                "type": "String",
-                "example": "chat.example.com"
-            }
-        }
-    },
-    "friendsPageTitle": "Arkadaşlarım",
-    "@friendsPageTitle": {
-        "description": "Title of the friends page on tablets and desktop."
-    },
-    "friendsActiveNowTitle": "Şu an aktif",
-    "@friendsActiveNowTitle": {
-        "description": "Heading of the active now panel on the friends page."
-    },
-    "friendsActiveNowEmptyTitle": "Şimdilik sessiz...",
-    "@friendsActiveNowEmptyTitle": {
-        "description": "Title shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsActiveNowEmptyBody": "Arkadaşlarınız sesli kanallarda aktif olduğunda etkinlikleri burada görünür.",
-    "@friendsActiveNowEmptyBody": {
-        "description": "Body shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsTabOnline": "Çevrimiçi",
-    "@friendsTabOnline": {
-        "description": "Friends page tab that lists online friends."
-    },
-    "friendsTabAll": "Tümü",
-    "@friendsTabAll": {
-        "description": "Friends page tab that lists all friends."
-    },
-    "friendsTabPending": "Beklemede",
-    "@friendsTabPending": {
-        "description": "Friends page tab that lists pending friend requests."
-    },
-    "friendsTabBlocked": "Engellendi",
-    "@friendsTabBlocked": {
-        "description": "Friends page tab that lists blocked users."
-    },
-    "friendsSearchOnline": "Çevrimiçi arkadaş ara",
-    "@friendsSearchOnline": {
-        "description": "Search placeholder on the online tab of the friends page."
-    },
-    "friendsSearchAll": "Arkadaş ara",
-    "@friendsSearchAll": {
-        "description": "Search placeholder on the all tab of the friends page."
-    },
-    "friendsSearchPending": "Bekleyen istekleri ara",
-    "@friendsSearchPending": {
-        "description": "Search placeholder on the pending tab of the friends page."
-    },
-    "friendsSearchBlocked": "Engellenen kullanıcılarda ara",
-    "@friendsSearchBlocked": {
-        "description": "Search placeholder on the blocked tab of the friends page."
-    },
-    "friendsEmptySearchTitle": "Bu aramaya uyan arkadaş bulunamadı",
-    "@friendsEmptySearchTitle": {
-        "description": "Title shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptySearchBody": "Başka bir ad deneyin veya yazımınızı kontrol edin.",
-    "@friendsEmptySearchBody": {
-        "description": "Body shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptyOnlineTitle": "Çevrimiçi arkadaş yok",
-    "@friendsEmptyOnlineTitle": {
-        "description": "Title shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyOnlineBody": "Çevrimiçi olduklarında burada görünecekler.",
-    "@friendsEmptyOnlineBody": {
-        "description": "Body shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyAllTitle": "Henüz arkadaş yok",
-    "@friendsEmptyAllTitle": {
-        "description": "Title shown on the all tab of the friends page when the user has no friends."
-    },
-    "friendsEmptyAllBody": "Gideceğimiz yere daha çok arkadaş lazım.",
-    "@friendsEmptyAllBody": {
-        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
-    },
-    "friendsEmptyPendingTitle": "Bekleyen istek yok",
-    "@friendsEmptyPendingTitle": {
-        "description": "Title shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyPendingBody": "Bekleyen arkadaşlık istekleri burada görünür.",
-    "@friendsEmptyPendingBody": {
-        "description": "Body shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyBlockedBody": "Kimseyi engellemediniz.",
-    "@friendsEmptyBlockedBody": {
-        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
-    },
-    "friendsOutgoingStatus": "Giden arkadaşlık isteği",
-    "@friendsOutgoingStatus": {
-        "description": "Status line under a user on the friends page when the current user sent them a friend request."
-    },
-    "friendsBlockedStatus": "Engellendi",
-    "@friendsBlockedStatus": {
-        "description": "Status line under a blocked user on the friends page."
-    },
-    "channelMutedHint": "Sessize alındı",
-    "@channelMutedHint": {
-        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
-    },
-    "guildMenuReportCommunity": "Topluluğu bildir",
-    "@guildMenuReportCommunity": {
-        "description": "Community menu item that opens the community report flow."
     },
     "guildSettingsRolesRoleIcon": "Rol simgesi",
     "@guildSettingsRolesRoleIcon": {
@@ -20144,17 +19404,5 @@
     "auditLogChangeRoleIconRemoved": "Özel rol simgesi kaldırıldı",
     "@auditLogChangeRoleIconRemoved": {
         "description": "Role audit log detail when image icon is removed."
-    },
-    "dmListFriendsButton": "Arkadaşlar",
-    "@dmListFriendsButton": {
-        "description": "Button at the top of the direct messages list that opens the friends page."
-    },
-    "forumPostBlockedAuthor": "Engellediğiniz birinin gönderisi",
-    "@forumPostBlockedAuthor": {
-        "description": "Forum post card title shown instead of the real title when the post author is blocked."
-    },
-    "forumReportPost": "Gönderiyi bildir",
-    "@forumReportPost": {
-        "description": "Forum post actions item that reports the post's first message."
     }
 }

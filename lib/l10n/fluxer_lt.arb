@@ -14946,7 +14946,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Numatytoji atvirkštinė vaizdų paieška",
     "advancedSettingDefaultReverseImageSearchDescription": "Pasirinkite, kuri atvirkštinės vaizdų paieškos paslauga bus naudojama pagal numatytuosius nustatymus ieškant vaizdo.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Integruota atvirkštinė vaizdų paieška",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Įjunkite arba išjunkite integruotas atvirkštinės vaizdų paieškos paslaugas. Įjungtos paslaugos rodomos kontekstiniame paveikslėlių, avatarų, reklamjuosčių, lipdukų ir jaustukų meniu.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Įjunkite arba išjunkite integruotus atvirkštinės vaizdų paieškos teikėjus. Įjungti teikėjai rodomi vaizdų parinktyse.",
     "advancedSettingCustomReverseImageSearchLabel": "Pasirinktinė atvirkštinė vaizdų paieška",
     "advancedSettingCustomReverseImageSearchDescription": "Pridėkite savo atvirkštinės vaizdo paieškos paslaugų teikėjus su pasirinktiniu URL šablonu. Naudokite '{url}' kaip vaizdo URL vietos rezervavimo simbolį.",
     "advancedSettingAddReverseImageSearchLabel": "Pridėti atvirkštinę vaizdų paiešką",
@@ -18279,11 +18279,11 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer netikėtai užsidarė. Anoniminių gedimų ir klaidų duomenų bendrinimas padeda mums greičiau ištaisyti problemas.",
+    "observabilityReportingConsentSubtitle": "Fluxer netikėtai užsidarė. Išsiuntę gedimo ataskaitą padėsite mums greičiau rasti ir ištaisyti problemą.",
     "@observabilityReportingConsentSubtitle": {
         "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
     },
-    "observabilityReportingConsentBody": "Ataskaitose yra gedimų žurnalai, klaidos ir pagrindiniai našumo duomenys. Jos neperduodamos trečiosioms šalims, ir šią funkciją galite bet kada išjungti.",
+    "observabilityReportingConsentBody": "Ataskaitose yra gedimų žurnalai, klaidos, našumo duomenys, tinklo užklausų trukmės ir ekranai bei bakstelėjimai, po kurių kilo problema. Jie susiejami su atsitiktiniu šio įdiegimo ID. Ataskaitose niekada nebūna žinučių turinio, ir jos siunčiamos tik į paties Fluxer klaidų sekimo sistemą. Tai galite bet kada išjungti.",
     "@observabilityReportingConsentBody": {
         "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
@@ -18301,7 +18301,7 @@
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
     },
-    "observabilityReportingConsentDecline": "Nenoriu įjungti",
+    "observabilityReportingConsentDecline": "Daugiau neklausti",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
@@ -18988,47 +18988,9 @@
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
     },
-    "gatewayOfflineToast": "Esate neprisijungę prie interneto. Fluxer vėl prisijungs, kai ryšys atsiras.",
-    "@gatewayOfflineToast": {
-        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
-    },
-    "accountDeletionScheduledNotice": "Jūsų paskyra bus ištrinta {date}. Jei prisijungsite iki tol, ištrynimas bus atšauktas.",
-    "@accountDeletionScheduledNotice": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
-        "placeholders": {
-            "date": {
-                "type": "String",
-                "example": "November 17, 2026"
-            }
-        }
-    },
-    "accountDeletionScheduledNoticeNoDate": "Suplanuotas jūsų paskyros ištrynimas. Jei prisijungsite iki ištrynimo datos, jis bus atšauktas.",
-    "@accountDeletionScheduledNoticeNoDate": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
-    },
-    "accountDeletionImmediateNotice": "Jūsų paskyra trinama dabar. Jei paskyroje nurodytas el. pašto adresas, atsiųsime el. laišką, kai tai bus baigta.",
-    "@accountDeletionImmediateNotice": {
-        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
-    },
     "accountDeletionImmediateNoticeNoEmail": "Jūsų paskyra trinama dabar.",
     "@accountDeletionImmediateNoticeNoEmail": {
         "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
-    },
-    "accountDisabledNotice": "Jūsų paskyra išjungta. Kai norėsite ja naudotis, tiesiog vėl prisijunkite.",
-    "@accountDisabledNotice": {
-        "description": "Notice on the sign-in screen after the person disabled their account."
-    },
-    "verificationResendEmail": "Iš naujo siųsti el. laišką",
-    "@verificationResendEmail": {
-        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
-    },
-    "verificationEmailSent": "Patvirtinimo el. laiškas išsiųstas. Patikrinkite gautuosius.",
-    "@verificationEmailSent": {
-        "description": "Toast after the verification email was sent again."
-    },
-    "verificationEmailRateLimited": "Išsiuntėte per daug patvirtinimo el. laiškų. Palaukite ir bandykite dar kartą.",
-    "@verificationEmailRateLimited": {
-        "description": "Toast when the verification email was resent too often."
     },
     "nagbarPremiumGracePeriodNoAction": "Jūsų „{productName}“ prenumeratos nepavyko pratęsti. „{productName}“ privalumus išsaugosite iki {graceDate}.",
     "@nagbarPremiumGracePeriodNoAction": {
@@ -19051,188 +19013,9 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Prisijungdami sutinkate su ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
-    "mfaPasskeyUnavailable": "Šios instancijos prieigos raktai šioje programėlėje neveikia, o jūsų paskyra neturi kito patvirtinimo būdo. Prisijunkite žiniatinklyje.",
-    "@mfaPasskeyUnavailable": {
-        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
-    },
-    "suspendedBannedTitle": "Paskyra visam laikui sustabdyta",
-    "@suspendedBannedTitle": {
-        "description": "Title of the sign-in screen for an account suspended with no end date."
-    },
-    "suspendedClosedTitle": "Paskyra uždaryta",
-    "@suspendedClosedTitle": {
-        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
-    },
-    "suspendedWhatHappened": "Kas nutiko",
-    "@suspendedWhatHappened": {
-        "description": "Heading on the account restriction screen above what the team did and what it means."
-    },
-    "suspendedWhy": "Kodėl",
-    "@suspendedWhy": {
-        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
-    },
-    "suspendedHowWeDecided": "Kaip priėmėme sprendimą",
-    "@suspendedHowWeDecided": {
-        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
-    },
-    "suspendedHowToAppeal": "Kaip apskųsti sprendimą",
-    "@suspendedHowToAppeal": {
-        "description": "Heading on the account restriction screen above the appeal instructions."
-    },
-    "suspendedNoteFromTeam": "Mūsų komandos pastaba: {statement}",
-    "@suspendedNoteFromTeam": {
-        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
-        "placeholders": {
-            "statement": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedDecisionId": "Sprendimo ID: {decisionId}",
-    "@suspendedDecisionId": {
-        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
-        "placeholders": {
-            "decisionId": {
-                "type": "String",
-                "example": "1234567890"
-            }
-        }
-    },
-    "suspendedRule": "Taisyklė: {title}",
-    "@suspendedRule": {
-        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
-        "placeholders": {
-            "title": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedAppealNoDeadline": "Jei manote, kad suklydome, parašykite el. laišką adresu {email} ir nurodykite savo naudotojo vardą.",
-    "@suspendedAppealNoDeadline": {
-        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedAppealNoEmail": "Jei manote, kad suklydome, parašykite el. laišką adresu {email} iki {deadline}. Nurodykite sprendimo ID ir savo naudotojo vardą. Skundai nemokami, ir kiekvieną jų peržiūri žmogus.",
-    "@suspendedAppealNoEmail": {
-        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedAppealWithEmail": "Jei manote, kad suklydome, parašykite el. laišką adresu {email} iki {deadline}. Jei galite, rašykite iš paskyroje nurodyto el. pašto adreso ir nurodykite sprendimo ID. Skundai nemokami, ir kiekvieną jų peržiūri žmogus.",
-    "@suspendedAppealWithEmail": {
-        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedDeletionRequest": "Norėdami paprašyti ištrinti jūsų paskyrą ir duomenis, parašykite el. laišką adresu {email} iš paskyroje nurodyto adreso.",
-    "@suspendedDeletionRequest": {
-        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedDeletionRequestNoEmail": "Norėdami paprašyti ištrinti jūsų paskyrą ir duomenis, parašykite el. laišką adresu {email} ir nurodykite savo naudotojo vardą.",
-    "@suspendedDeletionRequestNoEmail": {
-        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "registerDateOfBirthDone": "Atlikta",
-    "@registerDateOfBirthDone": {
-        "description": "Button that closes the date of birth wheel on iPhone and iPad."
-    },
-    "registerDateOfBirthNotSet": "Nenustatyta",
-    "@registerDateOfBirthNotSet": {
-        "description": "VoiceOver value of the date of birth field before a date is chosen."
-    },
-    "registerConsentBuiltInRules": "Sutinku, kad ši instancija netoleruoja nepriimtino turinio ar piktnaudžiaujančių naudotojų ir kad jos administratoriai gali pašalinti šias taisykles pažeidžiantį turinį ir paskyras.",
-    "@registerConsentBuiltInRules": {
-        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
-    },
     "giftAcceptLifetimeNotInApp": "Šios dovanos negalima atsiimti iOS programėlėje. Ją galite atsiimti kompiuterio programėlėje.",
     "@giftAcceptLifetimeNotInApp": {
         "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
-    },
-    "stickerPickerSearchHint": "Raskite tobulą lipduką",
-    "@stickerPickerSearchHint": {
-        "description": "Placeholder of the search field in the sticker picker."
-    },
-    "stickerPickerEmptyNoCommunitiesTitle": "Nėra prieinamų lipdukų",
-    "@stickerPickerEmptyNoCommunitiesTitle": {
-        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyNoCommunitiesBody": "Prisijunkite prie bendruomenės su lipdukais, kad galėtumėte juos naudoti čia.",
-    "@stickerPickerEmptyNoCommunitiesBody": {
-        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyHereTitle": "Nėra prieinamų lipdukų",
-    "@stickerPickerEmptyHereTitle": {
-        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerEmptyHereBody": "Šiame pokalbyje lipdukų naudoti negalima.",
-    "@stickerPickerEmptyHereBody": {
-        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerNoResultsTitle": "Lipdukų nerasta",
-    "@stickerPickerNoResultsTitle": {
-        "description": "Title shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPickerNoResultsBody": "Pabandykite kitą paieškos žodį.",
-    "@stickerPickerNoResultsBody": {
-        "description": "Body shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPlutoniumUpsellText": "Atrakinkite {stickerCount} iš {communityCount} su Plutonium.",
-    "@stickerPlutoniumUpsellText": {
-        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
-        "placeholders": {
-            "stickerCount": {
-                "type": "String"
-            },
-            "communityCount": {
-                "type": "String"
-            }
-        }
-    },
-    "stickerPlutoniumUpsellStickerCount": "{count, plural, one{{count} lipduką} few{{count} lipdukus} many{{count} lipduko} other{{count} lipdukų}}",
-    "@stickerPlutoniumUpsellStickerCount": {
-        "description": "Sticker count label in the sticker picker upsell banner.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "profileBadgesSettingsTitle": "Ženkleliai",
     "@profileBadgesSettingsTitle": {
@@ -19331,43 +19114,9 @@
     "@operatorPassWallOnTheWall": {
         "description": "Label for the live wall entry."
     },
-    "operatorPassWallInReview": "Peržiūrima",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "iki {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "operatorPassWallLive": "Rodoma",
     "@operatorPassWallLive": {
         "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Atmesta: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Komandos pastaba: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
     },
     "operatorPassWallHidden": "Mūsų komanda laikinai paslėpė.",
     "@operatorPassWallHidden": {
@@ -19413,10 +19162,6 @@
     "@operatorPassWallNameSettingsLabel": {
         "description": "Label for wall name field in settings."
     },
-    "operatorPassWallNameHint": "Naujus vardus patikriname prieš juos parodydami.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
     "operatorPassWallDontListMe": "Neįtraukti manęs",
     "@operatorPassWallDontListMe": {
         "description": "Opt out of the Operators' wall."
@@ -19429,262 +19174,13 @@
     "@operatorPassWallNameTooLong": {
         "description": "Validation when wall name is too long."
     },
-    "operatorPassWallDeclineGuidelines": "Pažeidžia bendruomenės gaires",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Apsimetama kitu asmeniu",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Naudojamas vardas ar vaizdas be teisių į jį",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Netinka jaunesniems naudotojams",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "Šioje programėlės versijoje Plutonium įsigyti negalima.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
     },
-    "sudoEmailCodeSend": "Atsiųsti kodą el. paštu",
-    "@sudoEmailCodeSend": {
-        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
-    },
-    "sudoEmailCodeSent": "Atsiuntėme 6 skaitmenų kodą į jūsų el. pašto adresą.",
-    "@sudoEmailCodeSent": {
-        "description": "Shown in the identity check sheet after the code was sent."
-    },
-    "sudoEmailCodeLabel": "Kodas iš el. laiško",
-    "@sudoEmailCodeLabel": {
-        "description": "Label of the code field in the identity check sheet."
-    },
-    "sudoEmailCodeResend": "Siųsti naują kodą",
-    "@sudoEmailCodeResend": {
-        "description": "Link in the identity check sheet that sends another email code."
-    },
-    "sudoSsoReauthHint": "Prisijunkite dar kartą, kad patvirtintumėte, jog tai jūs.",
-    "@sudoSsoReauthHint": {
-        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
-    },
-    "sudoSsoReauthButtonGeneric": "Prisijunkite dar kartą",
-    "@sudoSsoReauthButtonGeneric": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
-    },
-    "sudoSsoReauthButton": "Prisijungti per {provider}",
-    "@sudoSsoReauthButton": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
-        "placeholders": {
-            "provider": {
-                "type": "String",
-                "example": "Okta"
-            }
-        }
-    },
-    "sudoSsoReauthWrongAccount": "Prisijungei prie kitos paskyros. Prisijunk paskyra, kurią naudoji čia.",
-    "@sudoSsoReauthWrongAccount": {
-        "description": "Error in the identity check sheet when the single sign-on returned another account."
-    },
-    "sudoPasskeyUnavailable": "Šios instancijos prieigos raktai šioje programėlėje neveikia. Naudokite autentifikavimo programėlę ar atsarginį kodą arba patvirtinkite žiniatinklyje.",
-    "@sudoPasskeyUnavailable": {
-        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
-    },
-    "dangerZoneDeleteEntryDescription": "Ištrinkite savo paskyrą ir asmens duomenis. Taip pat galite ištrinti savo žinutes.",
-    "@dangerZoneDeleteEntryDescription": {
-        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
-    },
-    "dangerZoneDeleteIntro": "Jūsų paskyra, profilis ir asmens duomenys ištrinami. Žinutės, kurių neištrinsite, liks ten, kur jas išsiuntėte, be jūsų vardo ar profilio.",
-    "@dangerZoneDeleteIntro": {
-        "description": "First paragraph of the delete account sheet."
-    },
-    "dangerZoneDeleteMessagesLabel": "Taip pat ištrinti mano žinutes",
-    "@dangerZoneDeleteMessagesLabel": {
-        "description": "Switch label in the delete account sheet. Off by default."
-    },
-    "dangerZoneDeleteMessagesHint": "Kartu su paskyra ištrinamos visos žinutės, kurias išsiuntėte DM, grupės DM ir bendruomenėse.",
-    "@dangerZoneDeleteMessagesHint": {
-        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
-    },
-    "dangerZoneDeleteExportHint": "Jei norite išsaugoti savo duomenų kopiją, pirmiausia paprašykite eksporto skiltyje {privacyDashboard}.",
-    "@dangerZoneDeleteExportHint": {
-        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
-        "placeholders": {
-            "privacyDashboard": {
-                "type": "String",
-                "example": "Privacy dashboard"
-            }
-        }
-    },
-    "dangerZoneDeleteLater": "Ištrinti po 14 dienų",
-    "@dangerZoneDeleteLater": {
-        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
-    },
-    "dangerZoneDeleteLaterHint": "Ištrynimą galite atšaukti prisijungę per šias 14 dienų.",
-    "@dangerZoneDeleteLaterHint": {
-        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
-    },
-    "dangerZoneDeleteSchedule": "Suplanuoti ištrynimą",
-    "@dangerZoneDeleteSchedule": {
-        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
-    },
-    "dangerZoneDeleteScheduleHint": "Jūsų paskyra ištrinama pasibaigus šios instancijos laukimo laikotarpiui. Jei prisijungsite iki tol, ištrynimas bus atšauktas.",
-    "@dangerZoneDeleteScheduleHint": {
-        "description": "Line in the delete account sheet on self-hosted instances."
-    },
-    "dangerZoneDeleteNow": "Ištrinti dabar",
-    "@dangerZoneDeleteNow": {
-        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
-    },
-    "dangerZoneDeleteNowConfirmTitle": "Ištrinti paskyrą dabar?",
-    "@dangerZoneDeleteNowConfirmTitle": {
-        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteNowConfirmBody": "Jūsų paskyra ištrinama iš karto ir jos atkurti nebus galima.",
-    "@dangerZoneDeleteNowConfirmBody": {
-        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteAppStoreBilling": "Jūsų Plutonium prenumeratą apmokestina Apple. Ištrynus paskyrą, ji neatšaukiama, todėl pirmiausia ją atšaukite App Store.",
-    "@dangerZoneDeleteAppStoreBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
-    },
-    "dangerZoneDeleteGooglePlayBilling": "Jūsų Plutonium prenumeratą apmokestina Google Play. Ištrynus paskyrą, ji neatšaukiama, todėl pirmiausia ją atšaukite Google Play.",
-    "@dangerZoneDeleteGooglePlayBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
-    },
-    "dangerZoneDeleteOwnsCommunitiesList": "Esate šių bendruomenių savininkas. Prieš ištrindami paskyrą, kiekvieną jų ištrinkite arba perduokite kitam nariui.",
-    "@dangerZoneDeleteOwnsCommunitiesList": {
-        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
-    },
-    "dangerZoneDeleteOwnedCommunitiesHelp": "Bakstelėkite bendruomenę, kad atidarytumėte jos nustatymus. „Ištrinti bendruomenę“ yra apačioje. Norėdami ją perduoti, atidarykite „Nariai“, bakstelėkite narį, jo profilyje bakstelėkite tris taškus ir pasirinkite „Perduoti nuosavybę“.",
-    "@dangerZoneDeleteOwnedCommunitiesHelp": {
-        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
-    },
-    "matureMediaRevealLabel": "Rodyti jautrią mediją",
-    "@matureMediaRevealLabel": {
-        "description": "Accessibility label for the button that reveals blurred sensitive media."
-    },
-    "matureMediaAppLockedLabel": "Jautri medija iPhone ir iPad įrenginiuose paslėpta.",
-    "@matureMediaAppLockedLabel": {
-        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
-    },
-    "matureContentAppLockedBody": "18+ turinys iPhone ir iPad įrenginiuose išjungtas. Norėdami čia peržiūrėti 18+ pažymėtas bendruomenes ir kanalus, atidarykite Fluxer žiniatinklyje arba kompiuteryje, nustatymuose eikite į „Privatumas“ ir įjunkite „Leisti 18+ turinį iPhone ir iPad įrenginiuose“.",
-    "@matureContentAppLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
-    },
-    "matureContentRegionLockedBody": "Dėl jūsų buvimo vietoje galiojančių suaugusiesiems skirto turinio įstatymų šis turinys iš čia nepasiekiamas.",
-    "@matureContentRegionLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
-    },
-    "matureMessageHiddenPreview": "Žinutė 18+ kanale",
-    "@matureMessageHiddenPreview": {
-        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
-    },
-    "ageRangeUnderMinimumTitle": "Fluxer šiai paskyrai nepasiekiamas",
-    "@ageRangeUnderMinimumTitle": {
-        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "ageRangeUnderMinimumBody": "Jūsų Apple Account bendrinamas amžiaus intervalas yra mažesnis nei 13 metų. Fluxer skirtas tik 13 metų ir vyresniems asmenims.",
-    "@ageRangeUnderMinimumBody": {
-        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "sensitiveContentAppLockedHint": "Norėdami čia pasirinkti „Rodyti“, atidarykite Fluxer žiniatinklyje arba kompiuteryje, nustatymuose eikite į „Privatumas“ ir įjunkite „Leisti 18+ turinį iPhone ir iPad įrenginiuose“.",
-    "@sensitiveContentAppLockedHint": {
-        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
-    },
-    "savedMediaEdit": "Redaguoti",
-    "@savedMediaEdit": {
-        "description": "Action in the saved media item menu that opens the edit sheet."
-    },
-    "savedMediaEditTitle": "Redaguoti išsaugotą mediją",
-    "@savedMediaEditTitle": {
-        "description": "Title of the sheet for editing a saved media item."
-    },
-    "savedMediaDeleteTitle": "Ištrinti išsaugotą mediją",
-    "@savedMediaDeleteTitle": {
-        "description": "Title of the sheet that confirms deleting a saved media item."
-    },
-    "savedMediaDeleteConfirm": "Pašalinti „{name}“ iš išsaugotos medijos?",
-    "@savedMediaDeleteConfirm": {
-        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            }
-        }
-    },
-    "savedMediaDeleteFailed": "Nepavyko ištrinti išsaugotos medijos.",
-    "@savedMediaDeleteFailed": {
-        "description": "Error shown when deleting a saved media item fails."
-    },
-    "savedMediaSearchHint": "Ieškoti išsaugotos medijos",
-    "@savedMediaSearchHint": {
-        "description": "Placeholder of the search field in the saved media picker."
-    },
-    "savedMediaUnavailableTitle": "Išsaugota medija nepasiekiama",
-    "@savedMediaUnavailableTitle": {
-        "description": "Title shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaUnavailableBody": "Bandyti dar kartą po akimirkos.",
-    "@savedMediaUnavailableBody": {
-        "description": "Body shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaEmptyTitle": "Nėra išsaugotos medijos",
-    "@savedMediaEmptyTitle": {
-        "description": "Title shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaEmptyBody": "Išsaugokite mediją iš žinučių, kad ji būtų rodoma čia.",
-    "@savedMediaEmptyBody": {
-        "description": "Body shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaNoResultsTitle": "Nėra rezultatų",
-    "@savedMediaNoResultsTitle": {
-        "description": "Title shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaNoResultsBody": "Pabandykite kitą paieškos žodį arba filtrą.",
-    "@savedMediaNoResultsBody": {
-        "description": "Body shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaFilterAll": "Visi",
-    "@savedMediaFilterAll": {
-        "description": "Saved media picker filter that shows every item."
-    },
-    "savedMediaFilterImages": "Vaizdai",
-    "@savedMediaFilterImages": {
-        "description": "Saved media picker filter that shows only images."
-    },
-    "savedMediaFilterVideos": "Vaizdo įrašai",
-    "@savedMediaFilterVideos": {
-        "description": "Saved media picker filter that shows only videos."
-    },
-    "savedMediaFilterAudio": "Garsas",
-    "@savedMediaFilterAudio": {
-        "description": "Saved media picker filter that shows only audio."
-    },
-    "savedMediaFilterGifs": "GIF'ai",
-    "@savedMediaFilterGifs": {
-        "description": "Saved media picker filter that shows only GIFs."
-    },
-    "savedMediaGifBadge": "GIF",
-    "@savedMediaGifBadge": {
-        "description": "Small badge on a saved media tile that marks it as a GIF."
-    },
-    "voiceCallControlsSheetLabel": "Balso skambučio valdikliai",
-    "@voiceCallControlsSheetLabel": {
-        "description": "Accessibility label of the drag handle on the voice call controls sheet."
-    },
-    "voiceParticipantMenuReport": "Pranešti",
-    "@voiceParticipantMenuReport": {
-        "description": "Voice participant menu item that opens the report flow for that person."
-    },
     "voiceChangeAudioOutputLabel": "Keisti garso išvestį",
     "@voiceChangeAudioOutputLabel": {
         "description": "Opens the system audio route picker for voice calls on iOS."
-    },
-    "voiceMicPermissionRequired": "Leiskite prieigą prie mikrofono, kad šiame skambutyje galėtumėte įjungti mikrofoną.",
-    "@voiceMicPermissionRequired": {
-        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
     },
     "voiceVideoZoomLevel": "Mastelis {scale}",
     "@voiceVideoZoomLevel": {
@@ -19694,89 +19190,6 @@
                 "type": "String"
             }
         }
-    },
-    "messageAlertNote": "Pastaba",
-    "@messageAlertNote": {
-        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
-    },
-    "messageAlertTip": "Patarimas",
-    "@messageAlertTip": {
-        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
-    },
-    "messageAlertImportant": "Svarbu",
-    "@messageAlertImportant": {
-        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
-    },
-    "messageAlertWarning": "Įspėjimas",
-    "@messageAlertWarning": {
-        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
-    },
-    "messageAlertCaution": "Atsargiai",
-    "@messageAlertCaution": {
-        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
-    },
-    "reportFlowTitleCommunity": "Pranešti apie bendruomenę",
-    "@reportFlowTitleCommunity": {
-        "description": "Report sheet title while the community report flow loads."
-    },
-    "reportFlowSelectedCommunity": "Bendruomenė, apie kurią pranešate",
-    "@reportFlowSelectedCommunity": {
-        "description": "Report sheet heading above the card of the community being reported."
-    },
-    "reportFlowThankYouBodySelfHosted": "Šios instancijos administratoriai peržiūrės jūsų pranešimą. Mes neatskleisime, kad jį pateikėte jūs.",
-    "@reportFlowThankYouBodySelfHosted": {
-        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
-    },
-    "reportFlowAlreadyReportedCommunity": "Jau pranešėte apie šią bendruomenę.",
-    "@reportFlowAlreadyReportedCommunity": {
-        "description": "Report sheet note when the reporter already reported this community."
-    },
-    "chatReplyingTo": "Atsakoma {authorName}",
-    "@chatReplyingTo": {
-        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
-        "placeholders": {
-            "authorName": {
-                "type": "String"
-            }
-        }
-    },
-    "chatForwardedFrom": "Persiųsta iš {source}",
-    "@chatForwardedFrom": {
-        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
-        "placeholders": {
-            "source": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerPlay": "Leisti",
-    "@videoPlayerPlay": {
-        "description": "Accessibility label of the play button on an inline video."
-    },
-    "videoPlayerPause": "Pristabdyti",
-    "@videoPlayerPause": {
-        "description": "Accessibility label of the pause button on an inline video."
-    },
-    "videoPlayerVolume": "Garsumas",
-    "@videoPlayerVolume": {
-        "description": "Accessibility label of the volume button on an inline video."
-    },
-    "videoPlayerPlaybackSpeed": "Atkūrimo greitis {speed}x",
-    "@videoPlayerPlaybackSpeed": {
-        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
-        "placeholders": {
-            "speed": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerFullScreen": "Visas ekranas",
-    "@videoPlayerFullScreen": {
-        "description": "Accessibility label of the full screen button on an inline video."
-    },
-    "channelHeaderOpenDetails": "Atidaryti kanalo informaciją",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
     },
     "storePlutoniumStreamTitle": "Transliuokite 4K raiška 60 FPS",
     "storePlutoniumStreamBody": "Bendrinkite savo ekraną ar kamerą iki 4K raiška 60 kadrų per sekundę. Nemokamos paskyros transliuoja iki 720p raiška 30 kadrų per sekundę.",
@@ -19837,18 +19250,6 @@
     "@storePlutoniumRetry": {
         "description": "Button on the Plutonium page that loads the plans again after a failure."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer netikėtai užsidarė. Išsiuntę gedimo ataskaitą padėsite mums greičiau rasti ir ištaisyti problemą.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Ataskaitose yra gedimų žurnalai, klaidos, našumo duomenys, tinklo užklausų trukmės ir ekranai bei bakstelėjimai, po kurių kilo problema. Jie susiejami su atsitiktiniu šio įdiegimo ID. Ataskaitose niekada nebūna žinučių turinio, ir jos siunčiamos tik į paties Fluxer klaidų sekimo sistemą. Tai galite bet kada išjungti.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
-    "observabilityReportingConsentDecline": "Daugiau neklausti",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
-    },
     "advancedSettingSplashQuotesLabel": "Citatos pradžios ekrane",
     "@advancedSettingSplashQuotesLabel": {
         "description": "Toggle label for splash screen loading quotes in advanced settings."
@@ -19856,147 +19257,6 @@
     "advancedSettingSplashQuotesDescription": "Rodyti atsitiktinę citatą pradžios ekrane. Nesinchronizuojama tarp įrenginių.",
     "@advancedSettingSplashQuotesDescription": {
         "description": "Toggle description for the local-only splash screen quotes setting."
-    },
-    "advancedSettingBuiltInReverseImageSearchDescription": "Įjunkite arba išjunkite integruotus atvirkštinės vaizdų paieškos teikėjus. Įjungti teikėjai rodomi vaizdų parinktyse.",
-    "searchProviderSearchWith": "Ieškoti su {engine}",
-    "@searchProviderSearchWith": {
-        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "searchProviderTranslateWith": "Versti su {engine}",
-    "@searchProviderTranslateWith": {
-        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "userSettingsTitle": "Nustatymai",
-    "@userSettingsTitle": {
-        "description": "Title of the user settings sheet on phones."
-    },
-    "userSettingsCopyAppInfo": "Kopijuoti programėlės informaciją",
-    "@userSettingsCopyAppInfo": {
-        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
-    },
-    "userSettingsNavHelp": "Pagalba ir palaikymas",
-    "@userSettingsNavHelp": {
-        "description": "User settings navigation item that opens the help center on the official instance."
-    },
-    "instanceInsecureConnection": "{domain} nenaudoja saugaus ryšio (https). Fluxer per http jungiasi tik prie instancijų jūsų vietiniame tinkle.",
-    "@instanceInsecureConnection": {
-        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
-        "placeholders": {
-            "domain": {
-                "type": "String",
-                "example": "chat.example.com"
-            }
-        }
-    },
-    "friendsPageTitle": "Mano draugai",
-    "@friendsPageTitle": {
-        "description": "Title of the friends page on tablets and desktop."
-    },
-    "friendsActiveNowTitle": "Aktyvūs dabar",
-    "@friendsActiveNowTitle": {
-        "description": "Heading of the active now panel on the friends page."
-    },
-    "friendsActiveNowEmptyTitle": "Kol kas ramu...",
-    "@friendsActiveNowEmptyTitle": {
-        "description": "Title shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsActiveNowEmptyBody": "Kai draugai bus aktyvūs balso kanaluose, jų veikla bus rodoma čia.",
-    "@friendsActiveNowEmptyBody": {
-        "description": "Body shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsTabOnline": "Prisijungęs",
-    "@friendsTabOnline": {
-        "description": "Friends page tab that lists online friends."
-    },
-    "friendsTabAll": "Visi",
-    "@friendsTabAll": {
-        "description": "Friends page tab that lists all friends."
-    },
-    "friendsTabPending": "Laukiama",
-    "@friendsTabPending": {
-        "description": "Friends page tab that lists pending friend requests."
-    },
-    "friendsTabBlocked": "Užblokuoti",
-    "@friendsTabBlocked": {
-        "description": "Friends page tab that lists blocked users."
-    },
-    "friendsSearchOnline": "Ieškoti prisijungusių draugų",
-    "@friendsSearchOnline": {
-        "description": "Search placeholder on the online tab of the friends page."
-    },
-    "friendsSearchAll": "Ieškoti draugų",
-    "@friendsSearchAll": {
-        "description": "Search placeholder on the all tab of the friends page."
-    },
-    "friendsSearchPending": "Ieškoti laukiančių užklausų",
-    "@friendsSearchPending": {
-        "description": "Search placeholder on the pending tab of the friends page."
-    },
-    "friendsSearchBlocked": "Ieškoti užblokuotų naudotojų",
-    "@friendsSearchBlocked": {
-        "description": "Search placeholder on the blocked tab of the friends page."
-    },
-    "friendsEmptySearchTitle": "Nėra draugų, atitinkančių paiešką",
-    "@friendsEmptySearchTitle": {
-        "description": "Title shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptySearchBody": "Pabandykite kitą vardą arba patikrinkite rašybą.",
-    "@friendsEmptySearchBody": {
-        "description": "Body shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptyOnlineTitle": "Nėra prisijungusių draugų",
-    "@friendsEmptyOnlineTitle": {
-        "description": "Title shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyOnlineBody": "Kai jie prisijungs, jie atsiras čia.",
-    "@friendsEmptyOnlineBody": {
-        "description": "Body shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyAllTitle": "Dar nėra draugų",
-    "@friendsEmptyAllTitle": {
-        "description": "Title shown on the all tab of the friends page when the user has no friends."
-    },
-    "friendsEmptyAllBody": "Ten, kur einame, reikia daugiau draugų.",
-    "@friendsEmptyAllBody": {
-        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
-    },
-    "friendsEmptyPendingTitle": "Nėra laukiančių užklausų",
-    "@friendsEmptyPendingTitle": {
-        "description": "Title shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyPendingBody": "Čia rodomos laukiančios draugystės užklausos.",
-    "@friendsEmptyPendingBody": {
-        "description": "Body shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyBlockedBody": "Nieko neužblokavote.",
-    "@friendsEmptyBlockedBody": {
-        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
-    },
-    "friendsOutgoingStatus": "Išsiųsta draugystės užklausa",
-    "@friendsOutgoingStatus": {
-        "description": "Status line under a user on the friends page when the current user sent them a friend request."
-    },
-    "friendsBlockedStatus": "Užblokuotas",
-    "@friendsBlockedStatus": {
-        "description": "Status line under a blocked user on the friends page."
-    },
-    "channelMutedHint": "Nutildyta",
-    "@channelMutedHint": {
-        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
-    },
-    "guildMenuReportCommunity": "Pranešti apie bendruomenę",
-    "@guildMenuReportCommunity": {
-        "description": "Community menu item that opens the community report flow."
     },
     "guildSettingsRolesRoleIcon": "Vaidmens piktograma",
     "@guildSettingsRolesRoleIcon": {
@@ -20144,17 +19404,5 @@
     "auditLogChangeRoleIconRemoved": "Pašalinta pasirinktinė vaidmens piktograma",
     "@auditLogChangeRoleIconRemoved": {
         "description": "Role audit log detail when image icon is removed."
-    },
-    "dmListFriendsButton": "Draugai",
-    "@dmListFriendsButton": {
-        "description": "Button at the top of the direct messages list that opens the friends page."
-    },
-    "forumPostBlockedAuthor": "Užblokuoto naudotojo įrašas",
-    "@forumPostBlockedAuthor": {
-        "description": "Forum post card title shown instead of the real title when the post author is blocked."
-    },
-    "forumReportPost": "Pranešti apie įrašą",
-    "@forumReportPost": {
-        "description": "Forum post actions item that reports the post's first message."
     }
 }

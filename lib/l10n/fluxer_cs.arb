@@ -14946,7 +14946,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Výchozí vyhledávání podle obrázku",
     "advancedSettingDefaultReverseImageSearchDescription": "Vyberte výchozí službu pro vyhledávání podle obrázku.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Vestavěné vyhledávání podle obrázků",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Zapněte nebo vypněte vestavěné poskytovatele vyhledávání podle obrázku. Zapnutí poskytovatelé se zobrazují v kontextové nabídce obrázků, avatarů, bannerů, samolepek a emoji.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Zapněte nebo vypněte vestavěné poskytovatele zpětného vyhledávání obrázků. Zapnutí poskytovatelé se zobrazí v možnostech obrázků.",
     "advancedSettingCustomReverseImageSearchLabel": "Vlastní vyhledávání podle obrázku",
     "advancedSettingCustomReverseImageSearchDescription": "Přidejte si vlastní poskytovatele zpětného vyhledávání obrázků pomocí vlastního vzoru URL. Použijte '{url}' jako zástupný symbol pro URL obrázku.",
     "advancedSettingAddReverseImageSearchLabel": "Přidat vyhledávání podle obrázku",
@@ -18271,11 +18271,11 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer se neočekávaně ukončil. Sdílení anonymních dat o pádech a chybách nám pomůže problémy opravit rychleji.",
+    "observabilityReportingConsentSubtitle": "Fluxer se neočekávaně ukončil. Odesláním hlášení o pádu nám pomůžete problém rychleji najít a opravit.",
     "@observabilityReportingConsentSubtitle": {
         "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
     },
-    "observabilityReportingConsentBody": "Zprávy obsahují záznamy o pádech, chyby a základní údaje o výkonu. Nesdílíme je s třetími stranami a kdykoli to můžete vypnout.",
+    "observabilityReportingConsentBody": "Hlášení obsahují protokoly pádů, chyby, údaje o výkonu, časování síťových požadavků a obrazovky a klepnutí, které k problému vedly, propojené s náhodným ID této instalace. Nikdy neobsahují obsah zpráv a odesílají se jen do vlastního systému sledování chyb Fluxeru. Kdykoli to můžete vypnout.",
     "@observabilityReportingConsentBody": {
         "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
@@ -18293,7 +18293,7 @@
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
     },
-    "observabilityReportingConsentDecline": "Nezapínat",
+    "observabilityReportingConsentDecline": "Už se neptat",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
@@ -18988,47 +18988,9 @@
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
     },
-    "gatewayOfflineToast": "Jste offline. Fluxer se znovu připojí, jakmile budete zase online.",
-    "@gatewayOfflineToast": {
-        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
-    },
-    "accountDeletionScheduledNotice": "Váš účet bude smazán {date}. Pokud se do té doby přihlásíte, smazání se zruší.",
-    "@accountDeletionScheduledNotice": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
-        "placeholders": {
-            "date": {
-                "type": "String",
-                "example": "November 17, 2026"
-            }
-        }
-    },
-    "accountDeletionScheduledNoticeNoDate": "Smazání vašeho účtu je naplánováno. Pokud se přihlásíte před datem smazání, smazání se zruší.",
-    "@accountDeletionScheduledNoticeNoDate": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
-    },
-    "accountDeletionImmediateNotice": "Váš účet právě mažeme. Pokud má váš účet e-mailovou adresu, pošleme vám e-mail, až bude hotovo.",
-    "@accountDeletionImmediateNotice": {
-        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
-    },
     "accountDeletionImmediateNoticeNoEmail": "Váš účet právě mažeme.",
     "@accountDeletionImmediateNoticeNoEmail": {
         "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
-    },
-    "accountDisabledNotice": "Váš účet je deaktivovaný. Až ho budete chtít znovu používat, stačí se přihlásit.",
-    "@accountDisabledNotice": {
-        "description": "Notice on the sign-in screen after the person disabled their account."
-    },
-    "verificationResendEmail": "Znovu odeslat e-mail",
-    "@verificationResendEmail": {
-        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
-    },
-    "verificationEmailSent": "Ověřovací e-mail byl odeslán. Zkontrolujte si doručenou poštu.",
-    "@verificationEmailSent": {
-        "description": "Toast after the verification email was sent again."
-    },
-    "verificationEmailRateLimited": "Vyžádali jste si příliš mnoho ověřovacích e-mailů. Počkejte chvíli a zkuste to znovu.",
-    "@verificationEmailRateLimited": {
-        "description": "Toast when the verification email was resent too often."
     },
     "nagbarPremiumGracePeriodNoAction": "Vaše předplatné {productName} se nepodařilo obnovit. Výhody {productName} vám zůstanou do {graceDate}.",
     "@nagbarPremiumGracePeriodNoAction": {
@@ -19051,188 +19013,9 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Přihlášením souhlasíte s ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
-    "mfaPasskeyUnavailable": "Přístupové klíče z této instance v této aplikaci nefungují a váš účet nemá žádný jiný způsob ověření. Přihlaste se místo toho na webu.",
-    "@mfaPasskeyUnavailable": {
-        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
-    },
-    "suspendedBannedTitle": "Účet zablokován",
-    "@suspendedBannedTitle": {
-        "description": "Title of the sign-in screen for an account suspended with no end date."
-    },
-    "suspendedClosedTitle": "Účet zrušen",
-    "@suspendedClosedTitle": {
-        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
-    },
-    "suspendedWhatHappened": "Co se stalo",
-    "@suspendedWhatHappened": {
-        "description": "Heading on the account restriction screen above what the team did and what it means."
-    },
-    "suspendedWhy": "Proč",
-    "@suspendedWhy": {
-        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
-    },
-    "suspendedHowWeDecided": "Jak jsme rozhodli",
-    "@suspendedHowWeDecided": {
-        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
-    },
-    "suspendedHowToAppeal": "Jak se odvolat",
-    "@suspendedHowToAppeal": {
-        "description": "Heading on the account restriction screen above the appeal instructions."
-    },
-    "suspendedNoteFromTeam": "Poznámka od našeho týmu: {statement}",
-    "@suspendedNoteFromTeam": {
-        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
-        "placeholders": {
-            "statement": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedDecisionId": "ID rozhodnutí: {decisionId}",
-    "@suspendedDecisionId": {
-        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
-        "placeholders": {
-            "decisionId": {
-                "type": "String",
-                "example": "1234567890"
-            }
-        }
-    },
-    "suspendedRule": "Pravidlo: {title}",
-    "@suspendedRule": {
-        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
-        "placeholders": {
-            "title": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedAppealNoDeadline": "Pokud si myslíte, že jsme se zmýlili, napište na {email} a uveďte své uživatelské jméno.",
-    "@suspendedAppealNoDeadline": {
-        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedAppealNoEmail": "Pokud si myslíte, že jsme se zmýlili, napište na {email} do {deadline}. Uveďte ID rozhodnutí a své uživatelské jméno. Odvolání je zdarma a každé posoudí člověk.",
-    "@suspendedAppealNoEmail": {
-        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedAppealWithEmail": "Pokud si myslíte, že jsme se zmýlili, napište na {email} do {deadline}. Pokud můžete, pište z e-mailové adresy svého účtu a uveďte ID rozhodnutí. Odvolání je zdarma a každé posoudí člověk.",
-    "@suspendedAppealWithEmail": {
-        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedDeletionRequest": "Pokud chcete požádat o smazání svého účtu a dat, napište na {email} z adresy svého účtu.",
-    "@suspendedDeletionRequest": {
-        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedDeletionRequestNoEmail": "Pokud chcete požádat o smazání svého účtu a dat, napište na {email} a uveďte své uživatelské jméno.",
-    "@suspendedDeletionRequestNoEmail": {
-        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "registerDateOfBirthDone": "Hotovo",
-    "@registerDateOfBirthDone": {
-        "description": "Button that closes the date of birth wheel on iPhone and iPad."
-    },
-    "registerDateOfBirthNotSet": "Nenastaveno",
-    "@registerDateOfBirthNotSet": {
-        "description": "VoiceOver value of the date of birth field before a date is chosen."
-    },
-    "registerConsentBuiltInRules": "Souhlasím s tím, že tato instance netoleruje závadný obsah ani uživatele, kteří ostatní obtěžují, a že její správci mohou odstranit obsah a účty, které tato pravidla porušují.",
-    "@registerConsentBuiltInRules": {
-        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
-    },
     "giftAcceptLifetimeNotInApp": "Tento dárek nelze uplatnit v aplikaci pro iOS. Uplatnit ho můžete v aplikaci pro počítač.",
     "@giftAcceptLifetimeNotInApp": {
         "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
-    },
-    "stickerPickerSearchHint": "Najděte perfektní samolepku",
-    "@stickerPickerSearchHint": {
-        "description": "Placeholder of the search field in the sticker picker."
-    },
-    "stickerPickerEmptyNoCommunitiesTitle": "Žádné samolepky nejsou k dispozici",
-    "@stickerPickerEmptyNoCommunitiesTitle": {
-        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyNoCommunitiesBody": "Připojte se ke komunitě se samolepkami, abyste je tu mohli používat.",
-    "@stickerPickerEmptyNoCommunitiesBody": {
-        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyHereTitle": "Žádné samolepky nejsou k dispozici",
-    "@stickerPickerEmptyHereTitle": {
-        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerEmptyHereBody": "V této konverzaci nejsou k dispozici žádné samolepky.",
-    "@stickerPickerEmptyHereBody": {
-        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerNoResultsTitle": "Nebyly nalezeny žádné samolepky",
-    "@stickerPickerNoResultsTitle": {
-        "description": "Title shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPickerNoResultsBody": "Zkuste jiný hledaný výraz.",
-    "@stickerPickerNoResultsBody": {
-        "description": "Body shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPlutoniumUpsellText": "Odemkněte {stickerCount} z {communityCount} s Plutonium.",
-    "@stickerPlutoniumUpsellText": {
-        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
-        "placeholders": {
-            "stickerCount": {
-                "type": "String"
-            },
-            "communityCount": {
-                "type": "String"
-            }
-        }
-    },
-    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 samolepku} few{{count} samolepky} many{{count} samolepky} other{{count} samolepek}}",
-    "@stickerPlutoniumUpsellStickerCount": {
-        "description": "Sticker count label in the sticker picker upsell banner.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "profileBadgesSettingsTitle": "Odznaky",
     "@profileBadgesSettingsTitle": {
@@ -19331,43 +19114,9 @@
     "@operatorPassWallOnTheWall": {
         "description": "Label for the live wall entry."
     },
-    "operatorPassWallInReview": "Kontroluje se",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "do {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "operatorPassWallLive": "Zveřejněno",
     "@operatorPassWallLive": {
         "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Zamítnuto: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Poznámka týmu: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
     },
     "operatorPassWallHidden": "Prozatím skryto naším týmem.",
     "@operatorPassWallHidden": {
@@ -19413,10 +19162,6 @@
     "@operatorPassWallNameSettingsLabel": {
         "description": "Label for wall name field in settings."
     },
-    "operatorPassWallNameHint": "Nová jména před zveřejněním kontrolujeme.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
     "operatorPassWallDontListMe": "Neuvádět mě",
     "@operatorPassWallDontListMe": {
         "description": "Opt out of the Operators' wall."
@@ -19429,262 +19174,13 @@
     "@operatorPassWallNameTooLong": {
         "description": "Validation when wall name is too long."
     },
-    "operatorPassWallDeclineGuidelines": "Porušuje pravidla komunity",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Vydává se za někoho jiného",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Používá jméno nebo obrázek bez práv k nim",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Nevhodné pro mladší uživatele",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "Plutonium nelze v této verzi aplikace koupit.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
     },
-    "sudoEmailCodeSend": "Poslat mi kód e-mailem",
-    "@sudoEmailCodeSend": {
-        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
-    },
-    "sudoEmailCodeSent": "Na vaši e-mailovou adresu jsme poslali šestimístný kód.",
-    "@sudoEmailCodeSent": {
-        "description": "Shown in the identity check sheet after the code was sent."
-    },
-    "sudoEmailCodeLabel": "Kód z e-mailu",
-    "@sudoEmailCodeLabel": {
-        "description": "Label of the code field in the identity check sheet."
-    },
-    "sudoEmailCodeResend": "Odeslat nový kód",
-    "@sudoEmailCodeResend": {
-        "description": "Link in the identity check sheet that sends another email code."
-    },
-    "sudoSsoReauthHint": "Přihlaste se znovu a potvrďte, že jste to vy.",
-    "@sudoSsoReauthHint": {
-        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
-    },
-    "sudoSsoReauthButtonGeneric": "Přihlásit se znovu",
-    "@sudoSsoReauthButtonGeneric": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
-    },
-    "sudoSsoReauthButton": "Přihlásit se přes {provider}",
-    "@sudoSsoReauthButton": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
-        "placeholders": {
-            "provider": {
-                "type": "String",
-                "example": "Okta"
-            }
-        }
-    },
-    "sudoSsoReauthWrongAccount": "Přihlásil ses k jinému účtu. Přihlas se účtem, který tu používáš.",
-    "@sudoSsoReauthWrongAccount": {
-        "description": "Error in the identity check sheet when the single sign-on returned another account."
-    },
-    "sudoPasskeyUnavailable": "Přístupové klíče z této instance v této aplikaci nefungují. Použijte aplikaci pro ověřování nebo záložní kód, nebo to potvrďte na webu.",
-    "@sudoPasskeyUnavailable": {
-        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
-    },
-    "dangerZoneDeleteEntryDescription": "Smažte svůj účet a osobní údaje. Smazat můžete i své zprávy.",
-    "@dangerZoneDeleteEntryDescription": {
-        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
-    },
-    "dangerZoneDeleteIntro": "Váš účet, profil a osobní údaje budou smazány. Zprávy, které nesmažete, zůstanou tam, kam jste je poslali, bez vašeho jména a profilu.",
-    "@dangerZoneDeleteIntro": {
-        "description": "First paragraph of the delete account sheet."
-    },
-    "dangerZoneDeleteMessagesLabel": "Smazat i mé zprávy",
-    "@dangerZoneDeleteMessagesLabel": {
-        "description": "Switch label in the delete account sheet. Off by default."
-    },
-    "dangerZoneDeleteMessagesHint": "Spolu s vaším účtem smaže všechny zprávy, které jste poslali v přímých zprávách, skupinových konverzacích a komunitách.",
-    "@dangerZoneDeleteMessagesHint": {
-        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
-    },
-    "dangerZoneDeleteExportHint": "Pokud si chcete ponechat kopii svých dat, nejprve si vyžádejte export v sekci {privacyDashboard}.",
-    "@dangerZoneDeleteExportHint": {
-        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
-        "placeholders": {
-            "privacyDashboard": {
-                "type": "String",
-                "example": "Privacy dashboard"
-            }
-        }
-    },
-    "dangerZoneDeleteLater": "Smazat za 14 dní",
-    "@dangerZoneDeleteLater": {
-        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
-    },
-    "dangerZoneDeleteLaterHint": "Smazání můžete zrušit tím, že se během těchto 14 dní přihlásíte.",
-    "@dangerZoneDeleteLaterHint": {
-        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
-    },
-    "dangerZoneDeleteSchedule": "Naplánovat smazání",
-    "@dangerZoneDeleteSchedule": {
-        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
-    },
-    "dangerZoneDeleteScheduleHint": "Váš účet bude smazán po čekací době této instance. Pokud se do té doby přihlásíte, smazání se zruší.",
-    "@dangerZoneDeleteScheduleHint": {
-        "description": "Line in the delete account sheet on self-hosted instances."
-    },
-    "dangerZoneDeleteNow": "Smazat hned",
-    "@dangerZoneDeleteNow": {
-        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
-    },
-    "dangerZoneDeleteNowConfirmTitle": "Smazat účet hned teď?",
-    "@dangerZoneDeleteNowConfirmTitle": {
-        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteNowConfirmBody": "Váš účet bude okamžitě smazán a nepůjde obnovit.",
-    "@dangerZoneDeleteNowConfirmBody": {
-        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteAppStoreBilling": "Vaše předplatné Plutonium účtuje Apple. Smazáním účtu se předplatné nezruší, proto ho nejprve zrušte v App Store.",
-    "@dangerZoneDeleteAppStoreBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
-    },
-    "dangerZoneDeleteGooglePlayBilling": "Vaše předplatné Plutonium účtuje Google Play. Smazáním účtu se předplatné nezruší, proto ho nejprve zrušte v Google Play.",
-    "@dangerZoneDeleteGooglePlayBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
-    },
-    "dangerZoneDeleteOwnsCommunitiesList": "Vlastníte tyto komunity. Než smažete svůj účet, každou z nich smažte nebo ji předejte jinému členovi.",
-    "@dangerZoneDeleteOwnsCommunitiesList": {
-        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
-    },
-    "dangerZoneDeleteOwnedCommunitiesHelp": "Klepnutím na komunitu otevřete její nastavení. Možnost „Smazat komunitu“ najdete úplně dole. Pokud ji chcete předat, otevřete „Členové“, klepněte na člena, klepněte na tři tečky v jeho profilu a vyberte „Převést vlastnictví“.",
-    "@dangerZoneDeleteOwnedCommunitiesHelp": {
-        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
-    },
-    "matureMediaRevealLabel": "Zobrazit citlivá média",
-    "@matureMediaRevealLabel": {
-        "description": "Accessibility label for the button that reveals blurred sensitive media."
-    },
-    "matureMediaAppLockedLabel": "Citlivá média jsou na iPhonu a iPadu skrytá.",
-    "@matureMediaAppLockedLabel": {
-        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
-    },
-    "matureContentAppLockedBody": "Obsah 18+ je na iPhonu a iPadu vypnutý. Pokud zde chcete zobrazovat komunity a kanály označené 18+, otevřete Fluxer na webu nebo v aplikaci pro počítač, v nastavení přejděte do „Soukromí“ a zapněte „Povolit obsah 18+ na iPhonu a iPadu“.",
-    "@matureContentAppLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
-    },
-    "matureContentRegionLockedBody": "Kvůli zákonům o obsahu pro dospělé v místě, kde se nacházíte, zde obsah pro dospělé není k dispozici.",
-    "@matureContentRegionLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
-    },
-    "matureMessageHiddenPreview": "Zpráva v kanálu 18+",
-    "@matureMessageHiddenPreview": {
-        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
-    },
-    "ageRangeUnderMinimumTitle": "Fluxer není pro tento účet dostupný",
-    "@ageRangeUnderMinimumTitle": {
-        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "ageRangeUnderMinimumBody": "Věkové rozmezí sdílené vaším Apple Account je pod 13 let. Fluxer je určen jen lidem ve věku 13 let a starším.",
-    "@ageRangeUnderMinimumBody": {
-        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "sensitiveContentAppLockedHint": "Pokud zde chcete vybrat „Zobrazit“, otevřete Fluxer na webu nebo v aplikaci pro počítač, v nastavení přejděte do „Soukromí“ a zapněte „Povolit obsah 18+ na iPhonu a iPadu“.",
-    "@sensitiveContentAppLockedHint": {
-        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
-    },
-    "savedMediaEdit": "Upravit",
-    "@savedMediaEdit": {
-        "description": "Action in the saved media item menu that opens the edit sheet."
-    },
-    "savedMediaEditTitle": "Upravit uložená média",
-    "@savedMediaEditTitle": {
-        "description": "Title of the sheet for editing a saved media item."
-    },
-    "savedMediaDeleteTitle": "Smazat uložená média",
-    "@savedMediaDeleteTitle": {
-        "description": "Title of the sheet that confirms deleting a saved media item."
-    },
-    "savedMediaDeleteConfirm": "Odebrat „{name}“ z uložených médií?",
-    "@savedMediaDeleteConfirm": {
-        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            }
-        }
-    },
-    "savedMediaDeleteFailed": "Uložená média se nepodařilo smazat.",
-    "@savedMediaDeleteFailed": {
-        "description": "Error shown when deleting a saved media item fails."
-    },
-    "savedMediaSearchHint": "Hledat uložená média",
-    "@savedMediaSearchHint": {
-        "description": "Placeholder of the search field in the saved media picker."
-    },
-    "savedMediaUnavailableTitle": "Uložená média nejsou k dispozici",
-    "@savedMediaUnavailableTitle": {
-        "description": "Title shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaUnavailableBody": "Zkuste to znovu za chvíli.",
-    "@savedMediaUnavailableBody": {
-        "description": "Body shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaEmptyTitle": "Žádná uložená média",
-    "@savedMediaEmptyTitle": {
-        "description": "Title shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaEmptyBody": "Uložte si média ze zpráv a zobrazí se tady.",
-    "@savedMediaEmptyBody": {
-        "description": "Body shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaNoResultsTitle": "Žádné výsledky",
-    "@savedMediaNoResultsTitle": {
-        "description": "Title shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaNoResultsBody": "Zkuste jiný hledaný výraz nebo filtr.",
-    "@savedMediaNoResultsBody": {
-        "description": "Body shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaFilterAll": "Vše",
-    "@savedMediaFilterAll": {
-        "description": "Saved media picker filter that shows every item."
-    },
-    "savedMediaFilterImages": "Obrázky",
-    "@savedMediaFilterImages": {
-        "description": "Saved media picker filter that shows only images."
-    },
-    "savedMediaFilterVideos": "Videa",
-    "@savedMediaFilterVideos": {
-        "description": "Saved media picker filter that shows only videos."
-    },
-    "savedMediaFilterAudio": "Zvuk",
-    "@savedMediaFilterAudio": {
-        "description": "Saved media picker filter that shows only audio."
-    },
-    "savedMediaFilterGifs": "GIFy",
-    "@savedMediaFilterGifs": {
-        "description": "Saved media picker filter that shows only GIFs."
-    },
-    "savedMediaGifBadge": "GIF",
-    "@savedMediaGifBadge": {
-        "description": "Small badge on a saved media tile that marks it as a GIF."
-    },
-    "voiceCallControlsSheetLabel": "Ovládání hlasového hovoru",
-    "@voiceCallControlsSheetLabel": {
-        "description": "Accessibility label of the drag handle on the voice call controls sheet."
-    },
-    "voiceParticipantMenuReport": "Nahlásit",
-    "@voiceParticipantMenuReport": {
-        "description": "Voice participant menu item that opens the report flow for that person."
-    },
     "voiceChangeAudioOutputLabel": "Změnit výstup zvuku",
     "@voiceChangeAudioOutputLabel": {
         "description": "Opens the system audio route picker for voice calls on iOS."
-    },
-    "voiceMicPermissionRequired": "Pokud chcete v tomto hovoru zapnout mikrofon, povolte přístup k mikrofonu.",
-    "@voiceMicPermissionRequired": {
-        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
     },
     "voiceVideoZoomLevel": "Přiblížení {scale}",
     "@voiceVideoZoomLevel": {
@@ -19694,89 +19190,6 @@
                 "type": "String"
             }
         }
-    },
-    "messageAlertNote": "Poznámka",
-    "@messageAlertNote": {
-        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
-    },
-    "messageAlertTip": "Tip",
-    "@messageAlertTip": {
-        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
-    },
-    "messageAlertImportant": "Důležité",
-    "@messageAlertImportant": {
-        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
-    },
-    "messageAlertWarning": "Upozornění",
-    "@messageAlertWarning": {
-        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
-    },
-    "messageAlertCaution": "Upozornění",
-    "@messageAlertCaution": {
-        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
-    },
-    "reportFlowTitleCommunity": "Nahlásit komunitu",
-    "@reportFlowTitleCommunity": {
-        "description": "Report sheet title while the community report flow loads."
-    },
-    "reportFlowSelectedCommunity": "Komunita, kterou nahlašujete",
-    "@reportFlowSelectedCommunity": {
-        "description": "Report sheet heading above the card of the community being reported."
-    },
-    "reportFlowThankYouBodySelfHosted": "Vaše nahlášení posoudí správci této instance. Neprozradíme, že pochází od vás.",
-    "@reportFlowThankYouBodySelfHosted": {
-        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
-    },
-    "reportFlowAlreadyReportedCommunity": "Tuto komunitu jste již nahlásili.",
-    "@reportFlowAlreadyReportedCommunity": {
-        "description": "Report sheet note when the reporter already reported this community."
-    },
-    "chatReplyingTo": "Odpověď uživateli {authorName}",
-    "@chatReplyingTo": {
-        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
-        "placeholders": {
-            "authorName": {
-                "type": "String"
-            }
-        }
-    },
-    "chatForwardedFrom": "Přeposláno z {source}",
-    "@chatForwardedFrom": {
-        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
-        "placeholders": {
-            "source": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerPlay": "Přehrát",
-    "@videoPlayerPlay": {
-        "description": "Accessibility label of the play button on an inline video."
-    },
-    "videoPlayerPause": "Pozastavit",
-    "@videoPlayerPause": {
-        "description": "Accessibility label of the pause button on an inline video."
-    },
-    "videoPlayerVolume": "Hlasitost",
-    "@videoPlayerVolume": {
-        "description": "Accessibility label of the volume button on an inline video."
-    },
-    "videoPlayerPlaybackSpeed": "Rychlost přehrávání {speed}×",
-    "@videoPlayerPlaybackSpeed": {
-        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
-        "placeholders": {
-            "speed": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerFullScreen": "Celá obrazovka",
-    "@videoPlayerFullScreen": {
-        "description": "Accessibility label of the full screen button on an inline video."
-    },
-    "channelHeaderOpenDetails": "Otevřít podrobnosti kanálu",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
     },
     "storePlutoniumStreamTitle": "Streamujte ve 4K při 60 snímcích za sekundu",
     "storePlutoniumStreamBody": "Sdílejte svou obrazovku nebo kameru ve 4K při 60 snímcích za sekundu. Bezplatné účty streamují ve 720p při 30.",
@@ -19837,18 +19250,6 @@
     "@storePlutoniumRetry": {
         "description": "Button on the Plutonium page that loads the plans again after a failure."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer se neočekávaně ukončil. Odesláním hlášení o pádu nám pomůžete problém rychleji najít a opravit.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Hlášení obsahují protokoly pádů, chyby, údaje o výkonu, časování síťových požadavků a obrazovky a klepnutí, které k problému vedly, propojené s náhodným ID této instalace. Nikdy neobsahují obsah zpráv a odesílají se jen do vlastního systému sledování chyb Fluxeru. Kdykoli to můžete vypnout.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
-    "observabilityReportingConsentDecline": "Už se neptat",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
-    },
     "advancedSettingSplashQuotesLabel": "Citáty na úvodní obrazovce",
     "@advancedSettingSplashQuotesLabel": {
         "description": "Toggle label for splash screen loading quotes in advanced settings."
@@ -19856,147 +19257,6 @@
     "advancedSettingSplashQuotesDescription": "Zobrazovat na úvodní obrazovce náhodný citát. Nesynchronizuje se mezi zařízeními.",
     "@advancedSettingSplashQuotesDescription": {
         "description": "Toggle description for the local-only splash screen quotes setting."
-    },
-    "advancedSettingBuiltInReverseImageSearchDescription": "Zapněte nebo vypněte vestavěné poskytovatele zpětného vyhledávání obrázků. Zapnutí poskytovatelé se zobrazí v možnostech obrázků.",
-    "searchProviderSearchWith": "Hledat pomocí {engine}",
-    "@searchProviderSearchWith": {
-        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "searchProviderTranslateWith": "Přeložit pomocí {engine}",
-    "@searchProviderTranslateWith": {
-        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "userSettingsTitle": "Nastavení",
-    "@userSettingsTitle": {
-        "description": "Title of the user settings sheet on phones."
-    },
-    "userSettingsCopyAppInfo": "Kopírovat informace o aplikaci",
-    "@userSettingsCopyAppInfo": {
-        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
-    },
-    "userSettingsNavHelp": "Nápověda a podpora",
-    "@userSettingsNavHelp": {
-        "description": "User settings navigation item that opens the help center on the official instance."
-    },
-    "instanceInsecureConnection": "{domain} nepoužívá zabezpečené připojení (https). Fluxer se přes http připojuje jen k instancím ve vaší místní síti.",
-    "@instanceInsecureConnection": {
-        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
-        "placeholders": {
-            "domain": {
-                "type": "String",
-                "example": "chat.example.com"
-            }
-        }
-    },
-    "friendsPageTitle": "Moji přátelé",
-    "@friendsPageTitle": {
-        "description": "Title of the friends page on tablets and desktop."
-    },
-    "friendsActiveNowTitle": "Právě aktivní",
-    "@friendsActiveNowTitle": {
-        "description": "Heading of the active now panel on the friends page."
-    },
-    "friendsActiveNowEmptyTitle": "Teď je tu klid...",
-    "@friendsActiveNowEmptyTitle": {
-        "description": "Title shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsActiveNowEmptyBody": "Když jsou přátelé aktivní v hlasových kanálech, jejich aktivita se zobrazí zde.",
-    "@friendsActiveNowEmptyBody": {
-        "description": "Body shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsTabOnline": "Online",
-    "@friendsTabOnline": {
-        "description": "Friends page tab that lists online friends."
-    },
-    "friendsTabAll": "Vše",
-    "@friendsTabAll": {
-        "description": "Friends page tab that lists all friends."
-    },
-    "friendsTabPending": "Čekající",
-    "@friendsTabPending": {
-        "description": "Friends page tab that lists pending friend requests."
-    },
-    "friendsTabBlocked": "Blokováno",
-    "@friendsTabBlocked": {
-        "description": "Friends page tab that lists blocked users."
-    },
-    "friendsSearchOnline": "Hledat online přátele",
-    "@friendsSearchOnline": {
-        "description": "Search placeholder on the online tab of the friends page."
-    },
-    "friendsSearchAll": "Hledat přátele",
-    "@friendsSearchAll": {
-        "description": "Search placeholder on the all tab of the friends page."
-    },
-    "friendsSearchPending": "Hledat čekající žádosti",
-    "@friendsSearchPending": {
-        "description": "Search placeholder on the pending tab of the friends page."
-    },
-    "friendsSearchBlocked": "Hledat blokované uživatele",
-    "@friendsSearchBlocked": {
-        "description": "Search placeholder on the blocked tab of the friends page."
-    },
-    "friendsEmptySearchTitle": "Žádní přátelé neodpovídají hledání",
-    "@friendsEmptySearchTitle": {
-        "description": "Title shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptySearchBody": "Zkuste jiné jméno nebo zkontrolujte pravopis.",
-    "@friendsEmptySearchBody": {
-        "description": "Body shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptyOnlineTitle": "Žádní přátelé nejsou online",
-    "@friendsEmptyOnlineTitle": {
-        "description": "Title shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyOnlineBody": "Až budou online, zobrazí se přímo tady.",
-    "@friendsEmptyOnlineBody": {
-        "description": "Body shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyAllTitle": "Zatím žádní přátelé",
-    "@friendsEmptyAllTitle": {
-        "description": "Title shown on the all tab of the friends page when the user has no friends."
-    },
-    "friendsEmptyAllBody": "Kam jdeme, tam potřebujeme víc přátel.",
-    "@friendsEmptyAllBody": {
-        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
-    },
-    "friendsEmptyPendingTitle": "Žádné čekající žádosti",
-    "@friendsEmptyPendingTitle": {
-        "description": "Title shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyPendingBody": "Žádosti o přátelství čekající na vyřízení se zobrazí zde.",
-    "@friendsEmptyPendingBody": {
-        "description": "Body shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyBlockedBody": "Nikoho jste nezablokovali.",
-    "@friendsEmptyBlockedBody": {
-        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
-    },
-    "friendsOutgoingStatus": "Odeslaná žádost o přátelství",
-    "@friendsOutgoingStatus": {
-        "description": "Status line under a user on the friends page when the current user sent them a friend request."
-    },
-    "friendsBlockedStatus": "Blokováno",
-    "@friendsBlockedStatus": {
-        "description": "Status line under a blocked user on the friends page."
-    },
-    "channelMutedHint": "Ztlumeno",
-    "@channelMutedHint": {
-        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
-    },
-    "guildMenuReportCommunity": "Nahlásit komunitu",
-    "@guildMenuReportCommunity": {
-        "description": "Community menu item that opens the community report flow."
     },
     "guildSettingsRolesRoleIcon": "Ikona role",
     "@guildSettingsRolesRoleIcon": {
@@ -20144,17 +19404,5 @@
     "auditLogChangeRoleIconRemoved": "Odebrána vlastní ikona role",
     "@auditLogChangeRoleIconRemoved": {
         "description": "Role audit log detail when image icon is removed."
-    },
-    "dmListFriendsButton": "Přátelé",
-    "@dmListFriendsButton": {
-        "description": "Button at the top of the direct messages list that opens the friends page."
-    },
-    "forumPostBlockedAuthor": "Příspěvek od někoho, koho jste zablokovali",
-    "@forumPostBlockedAuthor": {
-        "description": "Forum post card title shown instead of the real title when the post author is blocked."
-    },
-    "forumReportPost": "Nahlásit příspěvek",
-    "@forumReportPost": {
-        "description": "Forum post actions item that reports the post's first message."
     }
 }

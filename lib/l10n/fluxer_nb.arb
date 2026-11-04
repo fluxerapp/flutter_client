@@ -14946,7 +14946,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Standard omvendt bildesøk",
     "advancedSettingDefaultReverseImageSearchDescription": "Velg hvilken tjeneste for omvendt bildesøk som skal brukes som standard når du søker etter et bilde.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Innebygd omvendt bildesøk",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Aktiver eller deaktiver innebygde leverandører for omvendt bildesøk. Aktiverte leverandører vises i kontekstmenyen for bilder, avatarer, bannere, klistremerker og emojier.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Slå innebygde leverandører av omvendt bildesøk av eller på. Aktiverte leverandører vises i alternativene for bilder.",
     "advancedSettingCustomReverseImageSearchLabel": "Egendefinert omvendt bildesøk",
     "advancedSettingCustomReverseImageSearchDescription": "Legg til dine egne leverandører for omvendt bildesøk med et egendefinert URL-mønster. Bruk «{url}» som plassholder for bilde-URL-en.",
     "advancedSettingAddReverseImageSearchLabel": "Legg til omvendt bildesøk",
@@ -18280,11 +18280,11 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer ble avsluttet uventet. Hvis du deler anonyme krasj- og feildata, kan vi rette problemer raskere.",
+    "observabilityReportingConsentSubtitle": "Fluxer ble avsluttet uventet. Å sende en krasjrapport hjelper oss å finne og rette problemet raskere.",
     "@observabilityReportingConsentSubtitle": {
         "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
     },
-    "observabilityReportingConsentBody": "Rapportene inneholder krasjlogger, feil og grunnleggende ytelsesdata. De deles ikke med tredjeparter, og du kan slå dette av når som helst.",
+    "observabilityReportingConsentBody": "Rapportene inneholder krasjlogger, feil, ytelsesdata, tidsbruk for nettverksforespørsler og skjermene og trykkene som førte frem til et problem, knyttet til en tilfeldig ID for denne installasjonen. De inneholder aldri meldingsinnhold, og de sendes bare til Fluxers egen feilsporing. Du kan slå dette av når som helst.",
     "@observabilityReportingConsentBody": {
         "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
@@ -18302,7 +18302,7 @@
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
     },
-    "observabilityReportingConsentDecline": "Nei takk",
+    "observabilityReportingConsentDecline": "Ikke spør igjen",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
@@ -18988,47 +18988,9 @@
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
     },
-    "gatewayOfflineToast": "Du er frakoblet. Fluxer kobler til igjen når du er på nett igjen.",
-    "@gatewayOfflineToast": {
-        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
-    },
-    "accountDeletionScheduledNotice": "Kontoen din slettes {date}. Hvis du logger inn før det, avbrytes slettingen.",
-    "@accountDeletionScheduledNotice": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
-        "placeholders": {
-            "date": {
-                "type": "String",
-                "example": "November 17, 2026"
-            }
-        }
-    },
-    "accountDeletionScheduledNoticeNoDate": "Kontoen din er planlagt slettet. Hvis du logger inn før slettedatoen, avbrytes slettingen.",
-    "@accountDeletionScheduledNoticeNoDate": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
-    },
-    "accountDeletionImmediateNotice": "Vi sletter kontoen din nå. Hvis kontoen din har en e-postadresse, sender vi deg en e-post når det er gjort.",
-    "@accountDeletionImmediateNotice": {
-        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
-    },
     "accountDeletionImmediateNoticeNoEmail": "Vi sletter kontoen din nå.",
     "@accountDeletionImmediateNoticeNoEmail": {
         "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
-    },
-    "accountDisabledNotice": "Kontoen din er deaktivert. Logg inn igjen når du vil bruke den.",
-    "@accountDisabledNotice": {
-        "description": "Notice on the sign-in screen after the person disabled their account."
-    },
-    "verificationResendEmail": "Send e-post på nytt",
-    "@verificationResendEmail": {
-        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
-    },
-    "verificationEmailSent": "E-post for bekreftelse er sendt. Sjekk innboksen din.",
-    "@verificationEmailSent": {
-        "description": "Toast after the verification email was sent again."
-    },
-    "verificationEmailRateLimited": "Du har bedt om for mange bekreftelses-e-poster. Vent litt og prøv igjen.",
-    "@verificationEmailRateLimited": {
-        "description": "Toast when the verification email was resent too often."
     },
     "nagbarPremiumGracePeriodNoAction": "{productName}-abonnementet ditt ble ikke fornyet. Du beholder {productName}-fordelene dine til {graceDate}.",
     "@nagbarPremiumGracePeriodNoAction": {
@@ -19051,188 +19013,9 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Ved å logge inn godtar du ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
-    "mfaPasskeyUnavailable": "Passnøkler fra denne instansen fungerer ikke i denne appen, og kontoen din har ingen annen bekreftelsesmetode. Logg inn på nettet i stedet.",
-    "@mfaPasskeyUnavailable": {
-        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
-    },
-    "suspendedBannedTitle": "Konto utestengt",
-    "@suspendedBannedTitle": {
-        "description": "Title of the sign-in screen for an account suspended with no end date."
-    },
-    "suspendedClosedTitle": "Konto stengt",
-    "@suspendedClosedTitle": {
-        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
-    },
-    "suspendedWhatHappened": "Hva som skjedde",
-    "@suspendedWhatHappened": {
-        "description": "Heading on the account restriction screen above what the team did and what it means."
-    },
-    "suspendedWhy": "Hvorfor",
-    "@suspendedWhy": {
-        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
-    },
-    "suspendedHowWeDecided": "Slik tok vi avgjørelsen",
-    "@suspendedHowWeDecided": {
-        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
-    },
-    "suspendedHowToAppeal": "Slik klager du",
-    "@suspendedHowToAppeal": {
-        "description": "Heading on the account restriction screen above the appeal instructions."
-    },
-    "suspendedNoteFromTeam": "Merknad fra teamet vårt: {statement}",
-    "@suspendedNoteFromTeam": {
-        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
-        "placeholders": {
-            "statement": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedDecisionId": "Avgjørelses-ID: {decisionId}",
-    "@suspendedDecisionId": {
-        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
-        "placeholders": {
-            "decisionId": {
-                "type": "String",
-                "example": "1234567890"
-            }
-        }
-    },
-    "suspendedRule": "Regel: {title}",
-    "@suspendedRule": {
-        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
-        "placeholders": {
-            "title": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedAppealNoDeadline": "Hvis du mener vi har tatt feil, send en e-post til {email} og oppgi brukernavnet ditt.",
-    "@suspendedAppealNoDeadline": {
-        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedAppealNoEmail": "Hvis du mener vi har tatt feil, send en e-post til {email} innen {deadline}. Oppgi avgjørelses-ID-en og brukernavnet ditt. Det er gratis å klage, og en person går gjennom hver klage.",
-    "@suspendedAppealNoEmail": {
-        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedAppealWithEmail": "Hvis du mener vi har tatt feil, send en e-post til {email} innen {deadline}. Skriv fra e-postadressen på kontoen din hvis du kan, og oppgi avgjørelses-ID-en. Det er gratis å klage, og en person går gjennom hver klage.",
-    "@suspendedAppealWithEmail": {
-        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedDeletionRequest": "For å be oss slette kontoen og dataene dine, send en e-post til {email} fra adressen på kontoen din.",
-    "@suspendedDeletionRequest": {
-        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedDeletionRequestNoEmail": "For å be oss slette kontoen og dataene dine, send en e-post til {email} og oppgi brukernavnet ditt.",
-    "@suspendedDeletionRequestNoEmail": {
-        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "registerDateOfBirthDone": "Ferdig",
-    "@registerDateOfBirthDone": {
-        "description": "Button that closes the date of birth wheel on iPhone and iPad."
-    },
-    "registerDateOfBirthNotSet": "Ikke angitt",
-    "@registerDateOfBirthNotSet": {
-        "description": "VoiceOver value of the date of birth field before a date is chosen."
-    },
-    "registerConsentBuiltInRules": "Jeg godtar at denne instansen har nulltoleranse for støtende innhold og krenkende brukere, og at administratorene kan fjerne innhold og kontoer som bryter disse reglene.",
-    "@registerConsentBuiltInRules": {
-        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
-    },
     "giftAcceptLifetimeNotInApp": "Denne gaven kan ikke løses inn i iOS-appen. Du kan løse den inn i skrivebordsappen.",
     "@giftAcceptLifetimeNotInApp": {
         "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
-    },
-    "stickerPickerSearchHint": "Finn det perfekte klistremerket",
-    "@stickerPickerSearchHint": {
-        "description": "Placeholder of the search field in the sticker picker."
-    },
-    "stickerPickerEmptyNoCommunitiesTitle": "Ingen klistremerker tilgjengelig",
-    "@stickerPickerEmptyNoCommunitiesTitle": {
-        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyNoCommunitiesBody": "Bli med i et fellesskap med klistremerker for å bruke dem her.",
-    "@stickerPickerEmptyNoCommunitiesBody": {
-        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyHereTitle": "Ingen klistremerker tilgjengelig",
-    "@stickerPickerEmptyHereTitle": {
-        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerEmptyHereBody": "Ingen klistremerker er tilgjengelige i denne samtalen.",
-    "@stickerPickerEmptyHereBody": {
-        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerNoResultsTitle": "Ingen klistremerker funnet",
-    "@stickerPickerNoResultsTitle": {
-        "description": "Title shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPickerNoResultsBody": "Prøv et annet søkeord.",
-    "@stickerPickerNoResultsBody": {
-        "description": "Body shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPlutoniumUpsellText": "Lås opp {stickerCount} fra {communityCount} med Plutonium.",
-    "@stickerPlutoniumUpsellText": {
-        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
-        "placeholders": {
-            "stickerCount": {
-                "type": "String"
-            },
-            "communityCount": {
-                "type": "String"
-            }
-        }
-    },
-    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 klistremerke} other{{count} klistremerker}}",
-    "@stickerPlutoniumUpsellStickerCount": {
-        "description": "Sticker count label in the sticker picker upsell banner.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "profileBadgesSettingsTitle": "Merker",
     "@profileBadgesSettingsTitle": {
@@ -19331,43 +19114,9 @@
     "@operatorPassWallOnTheWall": {
         "description": "Label for the live wall entry."
     },
-    "operatorPassWallInReview": "Til gjennomgang",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "innen {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "operatorPassWallLive": "Publisert",
     "@operatorPassWallLive": {
         "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Avslått: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Merknad fra teamet: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
     },
     "operatorPassWallHidden": "Skjult av teamet vårt foreløpig.",
     "@operatorPassWallHidden": {
@@ -19413,10 +19162,6 @@
     "@operatorPassWallNameSettingsLabel": {
         "description": "Label for wall name field in settings."
     },
-    "operatorPassWallNameHint": "Vi sjekker nye navn før de publiseres.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
     "operatorPassWallDontListMe": "Ikke før meg opp",
     "@operatorPassWallDontListMe": {
         "description": "Opt out of the Operators' wall."
@@ -19429,262 +19174,13 @@
     "@operatorPassWallNameTooLong": {
         "description": "Validation when wall name is too long."
     },
-    "operatorPassWallDeclineGuidelines": "Bryter retningslinjene for fellesskapet",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Utgir seg for å være noen andre",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Bruker et navn eller bilde uten å ha rettighetene til det",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Ikke egnet for yngre brukere",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "Plutonium kan ikke kjøpes i denne versjonen av appen.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
     },
-    "sudoEmailCodeSend": "Send meg en kode",
-    "@sudoEmailCodeSend": {
-        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
-    },
-    "sudoEmailCodeSent": "Vi har sendt en 6-sifret kode til e-postadressen din.",
-    "@sudoEmailCodeSent": {
-        "description": "Shown in the identity check sheet after the code was sent."
-    },
-    "sudoEmailCodeLabel": "Kode fra e-posten",
-    "@sudoEmailCodeLabel": {
-        "description": "Label of the code field in the identity check sheet."
-    },
-    "sudoEmailCodeResend": "Send en ny kode",
-    "@sudoEmailCodeResend": {
-        "description": "Link in the identity check sheet that sends another email code."
-    },
-    "sudoSsoReauthHint": "Logg inn igjen for å bekrefte at det er deg.",
-    "@sudoSsoReauthHint": {
-        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
-    },
-    "sudoSsoReauthButtonGeneric": "Logg inn igjen",
-    "@sudoSsoReauthButtonGeneric": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
-    },
-    "sudoSsoReauthButton": "Logg inn med {provider}",
-    "@sudoSsoReauthButton": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
-        "placeholders": {
-            "provider": {
-                "type": "String",
-                "example": "Okta"
-            }
-        }
-    },
-    "sudoSsoReauthWrongAccount": "Du logget på en annen konto. Logg på med kontoen du bruker her.",
-    "@sudoSsoReauthWrongAccount": {
-        "description": "Error in the identity check sheet when the single sign-on returned another account."
-    },
-    "sudoPasskeyUnavailable": "Passnøkler fra denne instansen fungerer ikke i denne appen. Bruk autentiseringsappen din eller en sikkerhetskopikode, eller bekreft på nettet.",
-    "@sudoPasskeyUnavailable": {
-        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
-    },
-    "dangerZoneDeleteEntryDescription": "Slett kontoen din og personopplysningene dine. Du kan også slette meldingene dine.",
-    "@dangerZoneDeleteEntryDescription": {
-        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
-    },
-    "dangerZoneDeleteIntro": "Kontoen, profilen og personopplysningene dine slettes. Meldinger du ikke sletter, blir værende der du sendte dem, uten navnet eller profilen din.",
-    "@dangerZoneDeleteIntro": {
-        "description": "First paragraph of the delete account sheet."
-    },
-    "dangerZoneDeleteMessagesLabel": "Slett også meldingene mine",
-    "@dangerZoneDeleteMessagesLabel": {
-        "description": "Switch label in the delete account sheet. Off by default."
-    },
-    "dangerZoneDeleteMessagesHint": "Sletter alle meldinger du har sendt i direktemeldinger, gruppechatter og fellesskap, sammen med kontoen din.",
-    "@dangerZoneDeleteMessagesHint": {
-        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
-    },
-    "dangerZoneDeleteExportHint": "Hvis du vil beholde en kopi av dataene dine, ber du om en eksport i {privacyDashboard} først.",
-    "@dangerZoneDeleteExportHint": {
-        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
-        "placeholders": {
-            "privacyDashboard": {
-                "type": "String",
-                "example": "Privacy dashboard"
-            }
-        }
-    },
-    "dangerZoneDeleteLater": "Slett om 14 dager",
-    "@dangerZoneDeleteLater": {
-        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
-    },
-    "dangerZoneDeleteLaterHint": "Du kan avbryte ved å logge inn i løpet av de 14 dagene.",
-    "@dangerZoneDeleteLaterHint": {
-        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
-    },
-    "dangerZoneDeleteSchedule": "Planlegg sletting",
-    "@dangerZoneDeleteSchedule": {
-        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
-    },
-    "dangerZoneDeleteScheduleHint": "Kontoen din slettes etter ventetiden til denne instansen. Hvis du logger inn før det, avbrytes slettingen.",
-    "@dangerZoneDeleteScheduleHint": {
-        "description": "Line in the delete account sheet on self-hosted instances."
-    },
-    "dangerZoneDeleteNow": "Slett nå",
-    "@dangerZoneDeleteNow": {
-        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
-    },
-    "dangerZoneDeleteNowConfirmTitle": "Vil du slette kontoen din nå?",
-    "@dangerZoneDeleteNowConfirmTitle": {
-        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteNowConfirmBody": "Kontoen din slettes med en gang og kan ikke gjenopprettes.",
-    "@dangerZoneDeleteNowConfirmBody": {
-        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteAppStoreBilling": "Plutonium-abonnementet ditt faktureres av Apple. Å slette kontoen avslutter det ikke, så avslutt det i App Store først.",
-    "@dangerZoneDeleteAppStoreBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
-    },
-    "dangerZoneDeleteGooglePlayBilling": "Plutonium-abonnementet ditt faktureres av Google Play. Å slette kontoen avslutter det ikke, så avslutt det i Google Play først.",
-    "@dangerZoneDeleteGooglePlayBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
-    },
-    "dangerZoneDeleteOwnsCommunitiesList": "Du eier disse fellesskapene. Slett hvert av dem, eller gi det til et annet medlem, før du sletter kontoen din.",
-    "@dangerZoneDeleteOwnsCommunitiesList": {
-        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
-    },
-    "dangerZoneDeleteOwnedCommunitiesHelp": "Trykk på et fellesskap for å åpne innstillingene. «Slett fellesskap» ligger nederst. For å gi det bort åpner du «Medlemmer», trykker på et medlem, trykker på de tre prikkene på profilen og velger «Overfør eierskap».",
-    "@dangerZoneDeleteOwnedCommunitiesHelp": {
-        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
-    },
-    "matureMediaRevealLabel": "Vis sensitive medier",
-    "@matureMediaRevealLabel": {
-        "description": "Accessibility label for the button that reveals blurred sensitive media."
-    },
-    "matureMediaAppLockedLabel": "Sensitive medier er skjult på iPhone og iPad.",
-    "@matureMediaAppLockedLabel": {
-        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
-    },
-    "matureContentAppLockedBody": "18+-innhold er slått av på iPhone og iPad. For å se fellesskap og kanaler merket 18+ her, åpne Fluxer på nettet eller på datamaskinen, gå til «Personvern» i innstillingene og slå på «Tillat 18+-innhold på iPhone og iPad».",
-    "@matureContentAppLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
-    },
-    "matureContentRegionLockedBody": "På grunn av lover om innhold for voksne der du befinner deg, er innhold for voksne ikke tilgjengelig herfra.",
-    "@matureContentRegionLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
-    },
-    "matureMessageHiddenPreview": "Melding i en 18+-kanal",
-    "@matureMessageHiddenPreview": {
-        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
-    },
-    "ageRangeUnderMinimumTitle": "Fluxer er ikke tilgjengelig på denne kontoen",
-    "@ageRangeUnderMinimumTitle": {
-        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "ageRangeUnderMinimumBody": "Aldersgruppen som Apple Account deler, er under 13 år. Fluxer er bare for personer som er 13 år eller eldre.",
-    "@ageRangeUnderMinimumBody": {
-        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "sensitiveContentAppLockedHint": "For å velge «Vis» her, åpne Fluxer på nettet eller på datamaskinen, gå til «Personvern» i innstillingene og slå på «Tillat 18+-innhold på iPhone og iPad».",
-    "@sensitiveContentAppLockedHint": {
-        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
-    },
-    "savedMediaEdit": "Rediger",
-    "@savedMediaEdit": {
-        "description": "Action in the saved media item menu that opens the edit sheet."
-    },
-    "savedMediaEditTitle": "Rediger lagrede medier",
-    "@savedMediaEditTitle": {
-        "description": "Title of the sheet for editing a saved media item."
-    },
-    "savedMediaDeleteTitle": "Slett lagrede medier",
-    "@savedMediaDeleteTitle": {
-        "description": "Title of the sheet that confirms deleting a saved media item."
-    },
-    "savedMediaDeleteConfirm": "Vil du fjerne «{name}» fra de lagrede mediene dine?",
-    "@savedMediaDeleteConfirm": {
-        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            }
-        }
-    },
-    "savedMediaDeleteFailed": "Kunne ikke slette lagrede medier.",
-    "@savedMediaDeleteFailed": {
-        "description": "Error shown when deleting a saved media item fails."
-    },
-    "savedMediaSearchHint": "Søk i lagrede medier",
-    "@savedMediaSearchHint": {
-        "description": "Placeholder of the search field in the saved media picker."
-    },
-    "savedMediaUnavailableTitle": "Lagrede medier er ikke tilgjengelige",
-    "@savedMediaUnavailableTitle": {
-        "description": "Title shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaUnavailableBody": "Prøv igjen om en liten stund.",
-    "@savedMediaUnavailableBody": {
-        "description": "Body shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaEmptyTitle": "Ingen lagrede medier",
-    "@savedMediaEmptyTitle": {
-        "description": "Title shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaEmptyBody": "Lagre medier fra meldinger for å se dem her.",
-    "@savedMediaEmptyBody": {
-        "description": "Body shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaNoResultsTitle": "Ingen resultater",
-    "@savedMediaNoResultsTitle": {
-        "description": "Title shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaNoResultsBody": "Prøv et annet søkeord eller filter.",
-    "@savedMediaNoResultsBody": {
-        "description": "Body shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaFilterAll": "Alle",
-    "@savedMediaFilterAll": {
-        "description": "Saved media picker filter that shows every item."
-    },
-    "savedMediaFilterImages": "Bilder",
-    "@savedMediaFilterImages": {
-        "description": "Saved media picker filter that shows only images."
-    },
-    "savedMediaFilterVideos": "Videoer",
-    "@savedMediaFilterVideos": {
-        "description": "Saved media picker filter that shows only videos."
-    },
-    "savedMediaFilterAudio": "Lyd",
-    "@savedMediaFilterAudio": {
-        "description": "Saved media picker filter that shows only audio."
-    },
-    "savedMediaFilterGifs": "GIF-er",
-    "@savedMediaFilterGifs": {
-        "description": "Saved media picker filter that shows only GIFs."
-    },
-    "savedMediaGifBadge": "GIF",
-    "@savedMediaGifBadge": {
-        "description": "Small badge on a saved media tile that marks it as a GIF."
-    },
-    "voiceCallControlsSheetLabel": "Kontroller for taleanrop",
-    "@voiceCallControlsSheetLabel": {
-        "description": "Accessibility label of the drag handle on the voice call controls sheet."
-    },
-    "voiceParticipantMenuReport": "Rapporter",
-    "@voiceParticipantMenuReport": {
-        "description": "Voice participant menu item that opens the report flow for that person."
-    },
     "voiceChangeAudioOutputLabel": "Endre lydutgang",
     "@voiceChangeAudioOutputLabel": {
         "description": "Opens the system audio route picker for voice calls on iOS."
-    },
-    "voiceMicPermissionRequired": "Gi tilgang til mikrofonen for å slå på lyden i dette anropet.",
-    "@voiceMicPermissionRequired": {
-        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
     },
     "voiceVideoZoomLevel": "Zoom {scale}",
     "@voiceVideoZoomLevel": {
@@ -19694,89 +19190,6 @@
                 "type": "String"
             }
         }
-    },
-    "messageAlertNote": "Notat",
-    "@messageAlertNote": {
-        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
-    },
-    "messageAlertTip": "Tips",
-    "@messageAlertTip": {
-        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
-    },
-    "messageAlertImportant": "Viktig",
-    "@messageAlertImportant": {
-        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
-    },
-    "messageAlertWarning": "Advarsel",
-    "@messageAlertWarning": {
-        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
-    },
-    "messageAlertCaution": "Forsiktig",
-    "@messageAlertCaution": {
-        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
-    },
-    "reportFlowTitleCommunity": "Rapporter fellesskap",
-    "@reportFlowTitleCommunity": {
-        "description": "Report sheet title while the community report flow loads."
-    },
-    "reportFlowSelectedCommunity": "Fellesskapet du rapporterer",
-    "@reportFlowSelectedCommunity": {
-        "description": "Report sheet heading above the card of the community being reported."
-    },
-    "reportFlowThankYouBodySelfHosted": "Administratorene av denne instansen går gjennom rapporten din. Vi avslører ikke at den kom fra deg.",
-    "@reportFlowThankYouBodySelfHosted": {
-        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
-    },
-    "reportFlowAlreadyReportedCommunity": "Du har allerede rapportert dette fellesskapet.",
-    "@reportFlowAlreadyReportedCommunity": {
-        "description": "Report sheet note when the reporter already reported this community."
-    },
-    "chatReplyingTo": "Svarer {authorName}",
-    "@chatReplyingTo": {
-        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
-        "placeholders": {
-            "authorName": {
-                "type": "String"
-            }
-        }
-    },
-    "chatForwardedFrom": "Videresendt fra {source}",
-    "@chatForwardedFrom": {
-        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
-        "placeholders": {
-            "source": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerPlay": "Spill av",
-    "@videoPlayerPlay": {
-        "description": "Accessibility label of the play button on an inline video."
-    },
-    "videoPlayerPause": "Pause",
-    "@videoPlayerPause": {
-        "description": "Accessibility label of the pause button on an inline video."
-    },
-    "videoPlayerVolume": "Volum",
-    "@videoPlayerVolume": {
-        "description": "Accessibility label of the volume button on an inline video."
-    },
-    "videoPlayerPlaybackSpeed": "Avspillingshastighet {speed}x",
-    "@videoPlayerPlaybackSpeed": {
-        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
-        "placeholders": {
-            "speed": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerFullScreen": "Fullskjerm",
-    "@videoPlayerFullScreen": {
-        "description": "Accessibility label of the full screen button on an inline video."
-    },
-    "channelHeaderOpenDetails": "Åpne kanaldetaljer",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
     },
     "storePlutoniumStreamTitle": "Strøm i 4K med 60 bilder per sekund",
     "storePlutoniumStreamBody": "Del skjermen eller kameraet ditt i opptil 4K med 60 bilder per sekund. Gratis kontoer strømmer i opptil 720p med 30.",
@@ -19837,18 +19250,6 @@
     "@storePlutoniumRetry": {
         "description": "Button on the Plutonium page that loads the plans again after a failure."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer ble avsluttet uventet. Å sende en krasjrapport hjelper oss å finne og rette problemet raskere.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Rapportene inneholder krasjlogger, feil, ytelsesdata, tidsbruk for nettverksforespørsler og skjermene og trykkene som førte frem til et problem, knyttet til en tilfeldig ID for denne installasjonen. De inneholder aldri meldingsinnhold, og de sendes bare til Fluxers egen feilsporing. Du kan slå dette av når som helst.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
-    "observabilityReportingConsentDecline": "Ikke spør igjen",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
-    },
     "advancedSettingSplashQuotesLabel": "Sitater på oppstartsskjermen",
     "@advancedSettingSplashQuotesLabel": {
         "description": "Toggle label for splash screen loading quotes in advanced settings."
@@ -19856,147 +19257,6 @@
     "advancedSettingSplashQuotesDescription": "Vis et tilfeldig sitat på oppstartsskjermen. Synkroniseres ikke mellom enheter.",
     "@advancedSettingSplashQuotesDescription": {
         "description": "Toggle description for the local-only splash screen quotes setting."
-    },
-    "advancedSettingBuiltInReverseImageSearchDescription": "Slå innebygde leverandører av omvendt bildesøk av eller på. Aktiverte leverandører vises i alternativene for bilder.",
-    "searchProviderSearchWith": "Søk med {engine}",
-    "@searchProviderSearchWith": {
-        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "searchProviderTranslateWith": "Oversett med {engine}",
-    "@searchProviderTranslateWith": {
-        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "userSettingsTitle": "Innstillinger",
-    "@userSettingsTitle": {
-        "description": "Title of the user settings sheet on phones."
-    },
-    "userSettingsCopyAppInfo": "Kopier appinfo",
-    "@userSettingsCopyAppInfo": {
-        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
-    },
-    "userSettingsNavHelp": "Hjelp og brukerstøtte",
-    "@userSettingsNavHelp": {
-        "description": "User settings navigation item that opens the help center on the official instance."
-    },
-    "instanceInsecureConnection": "{domain} bruker ikke en sikker tilkobling (https). Fluxer kobler bare til over http for instanser på ditt lokale nettverk.",
-    "@instanceInsecureConnection": {
-        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
-        "placeholders": {
-            "domain": {
-                "type": "String",
-                "example": "chat.example.com"
-            }
-        }
-    },
-    "friendsPageTitle": "Mine venner",
-    "@friendsPageTitle": {
-        "description": "Title of the friends page on tablets and desktop."
-    },
-    "friendsActiveNowTitle": "Aktiv nå",
-    "@friendsActiveNowTitle": {
-        "description": "Heading of the active now panel on the friends page."
-    },
-    "friendsActiveNowEmptyTitle": "Det er stille for øyeblikket ...",
-    "@friendsActiveNowEmptyTitle": {
-        "description": "Title shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsActiveNowEmptyBody": "Når venner er aktive i talekanaler, vises aktiviteten deres her.",
-    "@friendsActiveNowEmptyBody": {
-        "description": "Body shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsTabOnline": "Pålogget",
-    "@friendsTabOnline": {
-        "description": "Friends page tab that lists online friends."
-    },
-    "friendsTabAll": "Alle",
-    "@friendsTabAll": {
-        "description": "Friends page tab that lists all friends."
-    },
-    "friendsTabPending": "Ventende",
-    "@friendsTabPending": {
-        "description": "Friends page tab that lists pending friend requests."
-    },
-    "friendsTabBlocked": "Blokkert",
-    "@friendsTabBlocked": {
-        "description": "Friends page tab that lists blocked users."
-    },
-    "friendsSearchOnline": "Søk blant påloggede venner",
-    "@friendsSearchOnline": {
-        "description": "Search placeholder on the online tab of the friends page."
-    },
-    "friendsSearchAll": "Søk etter venner",
-    "@friendsSearchAll": {
-        "description": "Search placeholder on the all tab of the friends page."
-    },
-    "friendsSearchPending": "Søk i ventende forespørsler",
-    "@friendsSearchPending": {
-        "description": "Search placeholder on the pending tab of the friends page."
-    },
-    "friendsSearchBlocked": "Søk i blokkerte brukere",
-    "@friendsSearchBlocked": {
-        "description": "Search placeholder on the blocked tab of the friends page."
-    },
-    "friendsEmptySearchTitle": "Ingen venner samsvarer med søket",
-    "@friendsEmptySearchTitle": {
-        "description": "Title shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptySearchBody": "Prøv et annet navn eller sjekk stavemåten.",
-    "@friendsEmptySearchBody": {
-        "description": "Body shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptyOnlineTitle": "Ingen venner pålogget",
-    "@friendsEmptyOnlineTitle": {
-        "description": "Title shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyOnlineBody": "Når de er pålogget, vises de her.",
-    "@friendsEmptyOnlineBody": {
-        "description": "Body shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyAllTitle": "Ingen venner ennå",
-    "@friendsEmptyAllTitle": {
-        "description": "Title shown on the all tab of the friends page when the user has no friends."
-    },
-    "friendsEmptyAllBody": "Der vi skal, trenger vi flere venner.",
-    "@friendsEmptyAllBody": {
-        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
-    },
-    "friendsEmptyPendingTitle": "Ingen ventende forespørsler",
-    "@friendsEmptyPendingTitle": {
-        "description": "Title shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyPendingBody": "Ventende venneforespørsler vises her.",
-    "@friendsEmptyPendingBody": {
-        "description": "Body shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyBlockedBody": "Du har ikke blokkert noen.",
-    "@friendsEmptyBlockedBody": {
-        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
-    },
-    "friendsOutgoingStatus": "Utgående venneforespørsel",
-    "@friendsOutgoingStatus": {
-        "description": "Status line under a user on the friends page when the current user sent them a friend request."
-    },
-    "friendsBlockedStatus": "Blokkert",
-    "@friendsBlockedStatus": {
-        "description": "Status line under a blocked user on the friends page."
-    },
-    "channelMutedHint": "Dempet",
-    "@channelMutedHint": {
-        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
-    },
-    "guildMenuReportCommunity": "Rapporter fellesskap",
-    "@guildMenuReportCommunity": {
-        "description": "Community menu item that opens the community report flow."
     },
     "guildSettingsRolesRoleIcon": "Rolleikon",
     "@guildSettingsRolesRoleIcon": {
@@ -20144,17 +19404,5 @@
     "auditLogChangeRoleIconRemoved": "Fjernet egendefinert rolleikon",
     "@auditLogChangeRoleIconRemoved": {
         "description": "Role audit log detail when image icon is removed."
-    },
-    "dmListFriendsButton": "Venner",
-    "@dmListFriendsButton": {
-        "description": "Button at the top of the direct messages list that opens the friends page."
-    },
-    "forumPostBlockedAuthor": "Innlegg fra noen du har blokkert",
-    "@forumPostBlockedAuthor": {
-        "description": "Forum post card title shown instead of the real title when the post author is blocked."
-    },
-    "forumReportPost": "Rapporter innlegg",
-    "@forumReportPost": {
-        "description": "Forum post actions item that reports the post's first message."
     }
 }

@@ -14946,7 +14946,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "การค้นหารูปภาพย้อนกลับเริ่มต้น",
     "advancedSettingDefaultReverseImageSearchDescription": "เลือกบริการค้นหารูปภาพย้อนกลับที่จะใช้เป็นค่าเริ่มต้นเมื่อค้นหารูปภาพ",
     "advancedSettingBuiltInReverseImageSearchLabel": "ค้นหารูปภาพย้อนกลับในตัว",
-    "advancedSettingBuiltInReverseImageSearchDescription": "เปิดหรือปิดผู้ให้บริการค้นหารูปภาพย้อนกลับในตัว ผู้ให้บริการที่เปิดใช้งานจะปรากฏในเมนูบริบทของรูปภาพ, รูปโปรไฟล์, แบนเนอร์, สติกเกอร์ และอิโมจิ",
+    "advancedSettingBuiltInReverseImageSearchDescription": "เปิดหรือปิดผู้ให้บริการค้นหารูปภาพย้อนกลับในตัว ผู้ให้บริการที่เปิดใช้งานจะแสดงในตัวเลือกของรูปภาพ",
     "advancedSettingCustomReverseImageSearchLabel": "ค้นหารูปภาพย้อนกลับแบบกำหนดเอง",
     "advancedSettingCustomReverseImageSearchDescription": "เพิ่มผู้ให้บริการค้นหารูปภาพย้อนกลับของคุณเองด้วยรูปแบบ URL ที่กำหนดเอง ใช้ '{url}' เป็นตัวยึดตำแหน่งสำหรับ URL ของรูปภาพ",
     "advancedSettingAddReverseImageSearchLabel": "เพิ่มการค้นหารูปภาพย้อนกลับ",
@@ -18279,11 +18279,11 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer ปิดตัวลงโดยไม่คาดคิด การแชร์ข้อมูลข้อขัดข้องและข้อผิดพลาดแบบไม่ระบุตัวตนช่วยให้เราแก้ไขปัญหาได้เร็วขึ้น",
+    "observabilityReportingConsentSubtitle": "Fluxer ปิดตัวลงโดยไม่คาดคิด การส่งรายงานข้อขัดข้องช่วยให้เราค้นหาและแก้ไขปัญหาได้เร็วขึ้น",
     "@observabilityReportingConsentSubtitle": {
         "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
     },
-    "observabilityReportingConsentBody": "รายงานประกอบด้วยบันทึกข้อขัดข้อง ข้อผิดพลาด และข้อมูลประสิทธิภาพพื้นฐาน รายงานจะไม่ถูกแชร์กับบุคคลที่สาม และคุณสามารถปิดตัวเลือกนี้ได้ทุกเมื่อ",
+    "observabilityReportingConsentBody": "รายงานประกอบด้วยบันทึกข้อขัดข้อง ข้อผิดพลาด ข้อมูลประสิทธิภาพ ระยะเวลาของคำขอเครือข่าย และหน้าจอกับการแตะที่นำไปสู่ปัญหา ซึ่งเชื่อมโยงกับรหัสสุ่มของการติดตั้งนี้ รายงานจะไม่มีเนื้อหาข้อความเลย และจะส่งไปยังระบบติดตามข้อผิดพลาดของ Fluxer เองเท่านั้น คุณปิดตัวเลือกนี้ได้ทุกเมื่อ",
     "@observabilityReportingConsentBody": {
         "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
@@ -18301,7 +18301,7 @@
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
     },
-    "observabilityReportingConsentDecline": "ไม่ต้องการเปิดใช้งาน",
+    "observabilityReportingConsentDecline": "ไม่ต้องถามอีก",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
@@ -18988,47 +18988,9 @@
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
     },
-    "gatewayOfflineToast": "คุณออฟไลน์อยู่ Fluxer จะเชื่อมต่อใหม่เมื่อคุณกลับมาออนไลน์",
-    "@gatewayOfflineToast": {
-        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
-    },
-    "accountDeletionScheduledNotice": "บัญชีของคุณจะถูกลบในวันที่ {date} การลงชื่อเข้าใช้ก่อนวันนั้นจะยกเลิกการลบ",
-    "@accountDeletionScheduledNotice": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
-        "placeholders": {
-            "date": {
-                "type": "String",
-                "example": "November 17, 2026"
-            }
-        }
-    },
-    "accountDeletionScheduledNoticeNoDate": "บัญชีของคุณถูกกำหนดเวลาให้ลบแล้ว การลงชื่อเข้าใช้ก่อนวันที่ลบจะยกเลิกการลบ",
-    "@accountDeletionScheduledNoticeNoDate": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
-    },
-    "accountDeletionImmediateNotice": "เรากำลังลบบัญชีของคุณตอนนี้ หากบัญชีของคุณมีที่อยู่อีเมล เราจะส่งอีเมลแจ้งเมื่อลบเสร็จแล้ว",
-    "@accountDeletionImmediateNotice": {
-        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
-    },
     "accountDeletionImmediateNoticeNoEmail": "เรากำลังลบบัญชีของคุณตอนนี้",
     "@accountDeletionImmediateNoticeNoEmail": {
         "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
-    },
-    "accountDisabledNotice": "บัญชีของคุณถูกปิดใช้งานอยู่ ลงชื่อเข้าใช้อีกครั้งได้ทุกเมื่อที่คุณต้องการใช้งาน",
-    "@accountDisabledNotice": {
-        "description": "Notice on the sign-in screen after the person disabled their account."
-    },
-    "verificationResendEmail": "ส่งอีเมลอีกครั้ง",
-    "@verificationResendEmail": {
-        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
-    },
-    "verificationEmailSent": "ส่งอีเมลยืนยันแล้ว โปรดตรวจสอบกล่องจดหมายเข้าของคุณ",
-    "@verificationEmailSent": {
-        "description": "Toast after the verification email was sent again."
-    },
-    "verificationEmailRateLimited": "คุณส่งคำขออีเมลยืนยันมากเกินไปแล้ว โปรดรอสักครู่แล้วลองอีกครั้ง",
-    "@verificationEmailRateLimited": {
-        "description": "Toast when the verification email was resent too often."
     },
     "nagbarPremiumGracePeriodNoAction": "การสมัครสมาชิก {productName} ของคุณต่ออายุไม่สำเร็จ คุณยังคงได้รับสิทธิประโยชน์ของ {productName} จนถึงวันที่ {graceDate}",
     "@nagbarPremiumGracePeriodNoAction": {
@@ -19051,188 +19013,9 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "การลงชื่อเข้าใช้หมายความว่าคุณยอมรับ ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
-    "mfaPasskeyUnavailable": "พาสคีย์จากอินสแตนซ์นี้ใช้ไม่ได้ในแอปนี้ และบัญชีของคุณไม่มีวิธียืนยันอื่น โปรดลงชื่อเข้าใช้บนเว็บแทน",
-    "@mfaPasskeyUnavailable": {
-        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
-    },
-    "suspendedBannedTitle": "บัญชีถูกแบน",
-    "@suspendedBannedTitle": {
-        "description": "Title of the sign-in screen for an account suspended with no end date."
-    },
-    "suspendedClosedTitle": "บัญชีถูกปิด",
-    "@suspendedClosedTitle": {
-        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
-    },
-    "suspendedWhatHappened": "เกิดอะไรขึ้น",
-    "@suspendedWhatHappened": {
-        "description": "Heading on the account restriction screen above what the team did and what it means."
-    },
-    "suspendedWhy": "เหตุผล",
-    "@suspendedWhy": {
-        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
-    },
-    "suspendedHowWeDecided": "วิธีที่เราตัดสิน",
-    "@suspendedHowWeDecided": {
-        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
-    },
-    "suspendedHowToAppeal": "วิธีอุทธรณ์",
-    "@suspendedHowToAppeal": {
-        "description": "Heading on the account restriction screen above the appeal instructions."
-    },
-    "suspendedNoteFromTeam": "หมายเหตุจากทีมของเรา: {statement}",
-    "@suspendedNoteFromTeam": {
-        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
-        "placeholders": {
-            "statement": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedDecisionId": "รหัสคำตัดสิน: {decisionId}",
-    "@suspendedDecisionId": {
-        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
-        "placeholders": {
-            "decisionId": {
-                "type": "String",
-                "example": "1234567890"
-            }
-        }
-    },
-    "suspendedRule": "กฎ: {title}",
-    "@suspendedRule": {
-        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
-        "placeholders": {
-            "title": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedAppealNoDeadline": "หากคุณคิดว่าเราตัดสินผิด โปรดส่งอีเมลไปที่ {email} และระบุชื่อผู้ใช้ของคุณ",
-    "@suspendedAppealNoDeadline": {
-        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedAppealNoEmail": "หากคุณคิดว่าเราตัดสินผิด โปรดส่งอีเมลไปที่ {email} ภายในวันที่ {deadline} และระบุรหัสคำตัดสินกับชื่อผู้ใช้ของคุณ การอุทธรณ์ไม่มีค่าใช้จ่าย และจะมีเจ้าหน้าที่ตรวจสอบทุกเรื่อง",
-    "@suspendedAppealNoEmail": {
-        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedAppealWithEmail": "หากคุณคิดว่าเราตัดสินผิด โปรดส่งอีเมลไปที่ {email} ภายในวันที่ {deadline} หากทำได้ โปรดส่งจากที่อยู่อีเมลที่ใช้กับบัญชีของคุณ และระบุรหัสคำตัดสิน การอุทธรณ์ไม่มีค่าใช้จ่าย และจะมีเจ้าหน้าที่ตรวจสอบทุกเรื่อง",
-    "@suspendedAppealWithEmail": {
-        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedDeletionRequest": "หากต้องการขอให้เราลบบัญชีและข้อมูลของคุณ โปรดส่งอีเมลไปที่ {email} จากที่อยู่อีเมลที่ใช้กับบัญชีของคุณ",
-    "@suspendedDeletionRequest": {
-        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedDeletionRequestNoEmail": "หากต้องการขอให้เราลบบัญชีและข้อมูลของคุณ โปรดส่งอีเมลไปที่ {email} และระบุชื่อผู้ใช้ของคุณ",
-    "@suspendedDeletionRequestNoEmail": {
-        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "registerDateOfBirthDone": "เสร็จสิ้น",
-    "@registerDateOfBirthDone": {
-        "description": "Button that closes the date of birth wheel on iPhone and iPad."
-    },
-    "registerDateOfBirthNotSet": "ไม่ได้ตั้งค่า",
-    "@registerDateOfBirthNotSet": {
-        "description": "VoiceOver value of the date of birth field before a date is chosen."
-    },
-    "registerConsentBuiltInRules": "ฉันยอมรับว่าอินสแตนซ์นี้ไม่ยอมรับเนื้อหาที่ไม่เหมาะสมหรือผู้ใช้ที่มีพฤติกรรมไม่เหมาะสม และผู้ดูแลระบบของอินสแตนซ์สามารถลบเนื้อหาและบัญชีที่ละเมิดกฎเหล่านี้ได้",
-    "@registerConsentBuiltInRules": {
-        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
-    },
     "giftAcceptLifetimeNotInApp": "ไม่สามารถรับของขวัญนี้ในแอป iOS ได้ คุณสามารถรับได้ในแอปเดสก์ท็อป",
     "@giftAcceptLifetimeNotInApp": {
         "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
-    },
-    "stickerPickerSearchHint": "ค้นหาสติกเกอร์ที่ถูกใจ",
-    "@stickerPickerSearchHint": {
-        "description": "Placeholder of the search field in the sticker picker."
-    },
-    "stickerPickerEmptyNoCommunitiesTitle": "ไม่มีสติกเกอร์",
-    "@stickerPickerEmptyNoCommunitiesTitle": {
-        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyNoCommunitiesBody": "เข้าร่วมคอมมูนิตี้ที่มีสติกเกอร์เพื่อใช้สติกเกอร์ที่นี่",
-    "@stickerPickerEmptyNoCommunitiesBody": {
-        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyHereTitle": "ไม่มีสติกเกอร์",
-    "@stickerPickerEmptyHereTitle": {
-        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerEmptyHereBody": "ไม่มีสติกเกอร์ที่ใช้ได้ในการสนทนานี้",
-    "@stickerPickerEmptyHereBody": {
-        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerNoResultsTitle": "ไม่พบสติกเกอร์",
-    "@stickerPickerNoResultsTitle": {
-        "description": "Title shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPickerNoResultsBody": "ลองใช้คำค้นหาอื่น",
-    "@stickerPickerNoResultsBody": {
-        "description": "Body shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPlutoniumUpsellText": "ปลดล็อก{stickerCount}จาก{communityCount}ด้วย Plutonium",
-    "@stickerPlutoniumUpsellText": {
-        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
-        "placeholders": {
-            "stickerCount": {
-                "type": "String"
-            },
-            "communityCount": {
-                "type": "String"
-            }
-        }
-    },
-    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{สติกเกอร์ 1 รายการ} other{สติกเกอร์ {count} รายการ}}",
-    "@stickerPlutoniumUpsellStickerCount": {
-        "description": "Sticker count label in the sticker picker upsell banner.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "profileBadgesSettingsTitle": "ป้าย",
     "@profileBadgesSettingsTitle": {
@@ -19331,43 +19114,9 @@
     "@operatorPassWallOnTheWall": {
         "description": "Label for the live wall entry."
     },
-    "operatorPassWallInReview": "กำลังตรวจสอบ",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "ภายใน {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "operatorPassWallLive": "แสดงอยู่",
     "@operatorPassWallLive": {
         "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "ถูกปฏิเสธ: {name} {reason}",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "หมายเหตุจากทีม: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
     },
     "operatorPassWallHidden": "ซ่อนไว้โดยทีมงานของเราในตอนนี้",
     "@operatorPassWallHidden": {
@@ -19413,10 +19162,6 @@
     "@operatorPassWallNameSettingsLabel": {
         "description": "Label for wall name field in settings."
     },
-    "operatorPassWallNameHint": "เราตรวจสอบชื่อใหม่ก่อนที่จะแสดง",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
     "operatorPassWallDontListMe": "ไม่ต้องแสดงชื่อฉัน",
     "@operatorPassWallDontListMe": {
         "description": "Opt out of the Operators' wall."
@@ -19429,262 +19174,13 @@
     "@operatorPassWallNameTooLong": {
         "description": "Validation when wall name is too long."
     },
-    "operatorPassWallDeclineGuidelines": "ละเมิดหลักเกณฑ์ของคอมมูนิตี้",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "แอบอ้างเป็นบุคคลอื่น",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "ใช้ชื่อหรือรูปภาพโดยไม่มีสิทธิ์",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "ไม่เหมาะสำหรับผู้ใช้ที่อายุน้อย",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "ไม่สามารถซื้อ Plutonium ในแอปเวอร์ชันนี้ได้",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
     },
-    "sudoEmailCodeSend": "ส่งรหัสมาให้ฉันทางอีเมล",
-    "@sudoEmailCodeSend": {
-        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
-    },
-    "sudoEmailCodeSent": "เราส่งรหัส 6 หลักไปยังที่อยู่อีเมลของคุณแล้ว",
-    "@sudoEmailCodeSent": {
-        "description": "Shown in the identity check sheet after the code was sent."
-    },
-    "sudoEmailCodeLabel": "รหัสจากอีเมล",
-    "@sudoEmailCodeLabel": {
-        "description": "Label of the code field in the identity check sheet."
-    },
-    "sudoEmailCodeResend": "ส่งรหัสใหม่",
-    "@sudoEmailCodeResend": {
-        "description": "Link in the identity check sheet that sends another email code."
-    },
-    "sudoSsoReauthHint": "ลงชื่อเข้าใช้อีกครั้งเพื่อยืนยันว่าเป็นคุณ",
-    "@sudoSsoReauthHint": {
-        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
-    },
-    "sudoSsoReauthButtonGeneric": "ลงชื่อเข้าใช้อีกครั้ง",
-    "@sudoSsoReauthButtonGeneric": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
-    },
-    "sudoSsoReauthButton": "ลงชื่อเข้าใช้ด้วย {provider}",
-    "@sudoSsoReauthButton": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
-        "placeholders": {
-            "provider": {
-                "type": "String",
-                "example": "Okta"
-            }
-        }
-    },
-    "sudoSsoReauthWrongAccount": "คุณลงชื่อเข้าใช้บัญชีอื่น โปรดลงชื่อเข้าใช้ด้วยบัญชีที่คุณใช้อยู่ที่นี่",
-    "@sudoSsoReauthWrongAccount": {
-        "description": "Error in the identity check sheet when the single sign-on returned another account."
-    },
-    "sudoPasskeyUnavailable": "พาสคีย์จากอินสแตนซ์นี้ใช้ไม่ได้ในแอปนี้ ใช้แอปยืนยันตัวตนหรือรหัสสำรอง หรือยืนยันบนเว็บ",
-    "@sudoPasskeyUnavailable": {
-        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
-    },
-    "dangerZoneDeleteEntryDescription": "ลบบัญชีและข้อมูลส่วนตัวของคุณ คุณลบข้อความของคุณได้ด้วย",
-    "@dangerZoneDeleteEntryDescription": {
-        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
-    },
-    "dangerZoneDeleteIntro": "บัญชี โปรไฟล์ และข้อมูลส่วนตัวของคุณจะถูกลบ ข้อความที่คุณไม่ได้ลบจะยังคงอยู่ในที่ที่คุณส่งไว้ โดยไม่มีชื่อหรือโปรไฟล์ของคุณ",
-    "@dangerZoneDeleteIntro": {
-        "description": "First paragraph of the delete account sheet."
-    },
-    "dangerZoneDeleteMessagesLabel": "ลบข้อความของฉันด้วย",
-    "@dangerZoneDeleteMessagesLabel": {
-        "description": "Switch label in the delete account sheet. Off by default."
-    },
-    "dangerZoneDeleteMessagesHint": "ลบทุกข้อความที่คุณส่งในข้อความส่วนตัว แชทกลุ่ม และคอมมูนิตี้ พร้อมกับบัญชีของคุณ",
-    "@dangerZoneDeleteMessagesHint": {
-        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
-    },
-    "dangerZoneDeleteExportHint": "หากต้องการเก็บสำเนาข้อมูลของคุณ ให้ขอส่งออกข้อมูลใน{privacyDashboard}ก่อน",
-    "@dangerZoneDeleteExportHint": {
-        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
-        "placeholders": {
-            "privacyDashboard": {
-                "type": "String",
-                "example": "Privacy dashboard"
-            }
-        }
-    },
-    "dangerZoneDeleteLater": "ลบใน 14 วัน",
-    "@dangerZoneDeleteLater": {
-        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
-    },
-    "dangerZoneDeleteLaterHint": "คุณยกเลิกได้โดยลงชื่อเข้าใช้ภายใน 14 วันนี้",
-    "@dangerZoneDeleteLaterHint": {
-        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
-    },
-    "dangerZoneDeleteSchedule": "กำหนดเวลาลบ",
-    "@dangerZoneDeleteSchedule": {
-        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
-    },
-    "dangerZoneDeleteScheduleHint": "บัญชีของคุณจะถูกลบหลังจากระยะเวลารอของอินสแตนซ์นี้ การลงชื่อเข้าใช้ก่อนถึงเวลานั้นจะยกเลิกการลบ",
-    "@dangerZoneDeleteScheduleHint": {
-        "description": "Line in the delete account sheet on self-hosted instances."
-    },
-    "dangerZoneDeleteNow": "ลบตอนนี้",
-    "@dangerZoneDeleteNow": {
-        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
-    },
-    "dangerZoneDeleteNowConfirmTitle": "ลบบัญชีของคุณตอนนี้ใช่หรือไม่",
-    "@dangerZoneDeleteNowConfirmTitle": {
-        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteNowConfirmBody": "บัญชีของคุณจะถูกลบทันทีและกู้คืนไม่ได้",
-    "@dangerZoneDeleteNowConfirmBody": {
-        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteAppStoreBilling": "การสมัครสมาชิก Plutonium ของคุณเรียกเก็บเงินโดย Apple การลบบัญชีไม่ได้ยกเลิกการสมัครสมาชิก ดังนั้นโปรดยกเลิกใน App Store ก่อน",
-    "@dangerZoneDeleteAppStoreBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
-    },
-    "dangerZoneDeleteGooglePlayBilling": "การสมัครสมาชิก Plutonium ของคุณเรียกเก็บเงินโดย Google Play การลบบัญชีไม่ได้ยกเลิกการสมัครสมาชิก ดังนั้นโปรดยกเลิกใน Google Play ก่อน",
-    "@dangerZoneDeleteGooglePlayBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
-    },
-    "dangerZoneDeleteOwnsCommunitiesList": "คุณเป็นเจ้าของคอมมูนิตี้เหล่านี้ ลบแต่ละคอมมูนิตี้ หรือโอนให้สมาชิกคนอื่น ก่อนที่คุณจะลบบัญชี",
-    "@dangerZoneDeleteOwnsCommunitiesList": {
-        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
-    },
-    "dangerZoneDeleteOwnedCommunitiesHelp": "แตะคอมมูนิตี้เพื่อเปิดการตั้งค่า \"ลบคอมมูนิตี้\" อยู่ด้านล่างสุด หากต้องการโอนให้ผู้อื่น ให้เปิด \"สมาชิก\" แตะสมาชิก แตะจุดสามจุดบนโปรไฟล์ของสมาชิกนั้น แล้วเลือก \"โอนความเป็นเจ้าของ\"",
-    "@dangerZoneDeleteOwnedCommunitiesHelp": {
-        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
-    },
-    "matureMediaRevealLabel": "แสดงสื่อที่ละเอียดอ่อน",
-    "@matureMediaRevealLabel": {
-        "description": "Accessibility label for the button that reveals blurred sensitive media."
-    },
-    "matureMediaAppLockedLabel": "สื่อที่ละเอียดอ่อนถูกซ่อนบน iPhone และ iPad",
-    "@matureMediaAppLockedLabel": {
-        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
-    },
-    "matureContentAppLockedBody": "เนื้อหา 18+ ปิดอยู่บน iPhone และ iPad หากต้องการดูคอมมูนิตี้และช่องที่ระบุว่าเป็น 18+ ที่นี่ ให้เปิด Fluxer บนเว็บหรือบนเดสก์ท็อป ไปที่ \"ความเป็นส่วนตัว\" ในการตั้งค่า แล้วเปิด \"อนุญาตเนื้อหา 18+ บน iPhone และ iPad\"",
-    "@matureContentAppLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
-    },
-    "matureContentRegionLockedBody": "เนื่องจากกฎหมายเกี่ยวกับเนื้อหาสำหรับผู้ใหญ่ในพื้นที่ของคุณ เนื้อหาสำหรับผู้ใหญ่จึงไม่พร้อมใช้งานจากที่นี่",
-    "@matureContentRegionLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
-    },
-    "matureMessageHiddenPreview": "ข้อความในช่อง 18+",
-    "@matureMessageHiddenPreview": {
-        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
-    },
-    "ageRangeUnderMinimumTitle": "Fluxer ไม่พร้อมใช้งานสำหรับบัญชีนี้",
-    "@ageRangeUnderMinimumTitle": {
-        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "ageRangeUnderMinimumBody": "ช่วงอายุที่ Apple Account ของคุณแชร์ไว้ต่ำกว่า 13 ปี Fluxer มีไว้สำหรับผู้ที่มีอายุ 13 ปีขึ้นไปเท่านั้น",
-    "@ageRangeUnderMinimumBody": {
-        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "sensitiveContentAppLockedHint": "หากต้องการเลือก \"แสดง\" ที่นี่ ให้เปิด Fluxer บนเว็บหรือบนเดสก์ท็อป ไปที่ \"ความเป็นส่วนตัว\" ในการตั้งค่า แล้วเปิด \"อนุญาตเนื้อหา 18+ บน iPhone และ iPad\"",
-    "@sensitiveContentAppLockedHint": {
-        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
-    },
-    "savedMediaEdit": "แก้ไข",
-    "@savedMediaEdit": {
-        "description": "Action in the saved media item menu that opens the edit sheet."
-    },
-    "savedMediaEditTitle": "แก้ไขสื่อที่บันทึกไว้",
-    "@savedMediaEditTitle": {
-        "description": "Title of the sheet for editing a saved media item."
-    },
-    "savedMediaDeleteTitle": "ลบสื่อที่บันทึกไว้",
-    "@savedMediaDeleteTitle": {
-        "description": "Title of the sheet that confirms deleting a saved media item."
-    },
-    "savedMediaDeleteConfirm": "นำ \"{name}\" ออกจากสื่อที่บันทึกไว้ใช่หรือไม่",
-    "@savedMediaDeleteConfirm": {
-        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            }
-        }
-    },
-    "savedMediaDeleteFailed": "ลบสื่อที่บันทึกไว้ไม่ได้",
-    "@savedMediaDeleteFailed": {
-        "description": "Error shown when deleting a saved media item fails."
-    },
-    "savedMediaSearchHint": "ค้นหาสื่อที่บันทึกไว้",
-    "@savedMediaSearchHint": {
-        "description": "Placeholder of the search field in the saved media picker."
-    },
-    "savedMediaUnavailableTitle": "สื่อที่บันทึกไว้ไม่พร้อมใช้งาน",
-    "@savedMediaUnavailableTitle": {
-        "description": "Title shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaUnavailableBody": "ลองอีกครั้งในอีกสักครู่",
-    "@savedMediaUnavailableBody": {
-        "description": "Body shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaEmptyTitle": "ไม่มีสื่อที่บันทึกไว้",
-    "@savedMediaEmptyTitle": {
-        "description": "Title shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaEmptyBody": "บันทึกสื่อจากข้อความเพื่อให้แสดงที่นี่",
-    "@savedMediaEmptyBody": {
-        "description": "Body shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaNoResultsTitle": "ไม่พบผลลัพธ์",
-    "@savedMediaNoResultsTitle": {
-        "description": "Title shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaNoResultsBody": "ลองใช้คำค้นหาหรือตัวกรองอื่น",
-    "@savedMediaNoResultsBody": {
-        "description": "Body shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaFilterAll": "ทั้งหมด",
-    "@savedMediaFilterAll": {
-        "description": "Saved media picker filter that shows every item."
-    },
-    "savedMediaFilterImages": "รูปภาพ",
-    "@savedMediaFilterImages": {
-        "description": "Saved media picker filter that shows only images."
-    },
-    "savedMediaFilterVideos": "วิดีโอ",
-    "@savedMediaFilterVideos": {
-        "description": "Saved media picker filter that shows only videos."
-    },
-    "savedMediaFilterAudio": "เสียง",
-    "@savedMediaFilterAudio": {
-        "description": "Saved media picker filter that shows only audio."
-    },
-    "savedMediaFilterGifs": "GIF",
-    "@savedMediaFilterGifs": {
-        "description": "Saved media picker filter that shows only GIFs."
-    },
-    "savedMediaGifBadge": "GIF",
-    "@savedMediaGifBadge": {
-        "description": "Small badge on a saved media tile that marks it as a GIF."
-    },
-    "voiceCallControlsSheetLabel": "ตัวควบคุมการโทรด้วยเสียง",
-    "@voiceCallControlsSheetLabel": {
-        "description": "Accessibility label of the drag handle on the voice call controls sheet."
-    },
-    "voiceParticipantMenuReport": "รายงาน",
-    "@voiceParticipantMenuReport": {
-        "description": "Voice participant menu item that opens the report flow for that person."
-    },
     "voiceChangeAudioOutputLabel": "เปลี่ยนเอาต์พุตเสียง",
     "@voiceChangeAudioOutputLabel": {
         "description": "Opens the system audio route picker for voice calls on iOS."
-    },
-    "voiceMicPermissionRequired": "อนุญาตการเข้าถึงไมโครโฟนเพื่อเปิดเสียงในการโทรนี้",
-    "@voiceMicPermissionRequired": {
-        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
     },
     "voiceVideoZoomLevel": "ซูม {scale}",
     "@voiceVideoZoomLevel": {
@@ -19694,89 +19190,6 @@
                 "type": "String"
             }
         }
-    },
-    "messageAlertNote": "โน้ต",
-    "@messageAlertNote": {
-        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
-    },
-    "messageAlertTip": "เคล็ดลับ",
-    "@messageAlertTip": {
-        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
-    },
-    "messageAlertImportant": "สำคัญ",
-    "@messageAlertImportant": {
-        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
-    },
-    "messageAlertWarning": "คำเตือน",
-    "@messageAlertWarning": {
-        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
-    },
-    "messageAlertCaution": "ข้อควรระวัง",
-    "@messageAlertCaution": {
-        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
-    },
-    "reportFlowTitleCommunity": "รายงานคอมมูนิตี้",
-    "@reportFlowTitleCommunity": {
-        "description": "Report sheet title while the community report flow loads."
-    },
-    "reportFlowSelectedCommunity": "คอมมูนิตี้ที่คุณกำลังรายงาน",
-    "@reportFlowSelectedCommunity": {
-        "description": "Report sheet heading above the card of the community being reported."
-    },
-    "reportFlowThankYouBodySelfHosted": "ผู้ดูแลระบบของอินสแตนซ์นี้จะตรวจสอบรายงานของคุณ เราจะไม่เปิดเผยว่ารายงานนี้มาจากคุณ",
-    "@reportFlowThankYouBodySelfHosted": {
-        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
-    },
-    "reportFlowAlreadyReportedCommunity": "คุณได้รายงานคอมมูนิตี้นี้ไปแล้ว",
-    "@reportFlowAlreadyReportedCommunity": {
-        "description": "Report sheet note when the reporter already reported this community."
-    },
-    "chatReplyingTo": "กำลังตอบกลับ {authorName}",
-    "@chatReplyingTo": {
-        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
-        "placeholders": {
-            "authorName": {
-                "type": "String"
-            }
-        }
-    },
-    "chatForwardedFrom": "ส่งต่อจาก {source}",
-    "@chatForwardedFrom": {
-        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
-        "placeholders": {
-            "source": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerPlay": "เล่น",
-    "@videoPlayerPlay": {
-        "description": "Accessibility label of the play button on an inline video."
-    },
-    "videoPlayerPause": "หยุดชั่วคราว",
-    "@videoPlayerPause": {
-        "description": "Accessibility label of the pause button on an inline video."
-    },
-    "videoPlayerVolume": "ระดับเสียง",
-    "@videoPlayerVolume": {
-        "description": "Accessibility label of the volume button on an inline video."
-    },
-    "videoPlayerPlaybackSpeed": "ความเร็วในการเล่น {speed}x",
-    "@videoPlayerPlaybackSpeed": {
-        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
-        "placeholders": {
-            "speed": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerFullScreen": "เต็มหน้าจอ",
-    "@videoPlayerFullScreen": {
-        "description": "Accessibility label of the full screen button on an inline video."
-    },
-    "channelHeaderOpenDetails": "เปิดรายละเอียดช่อง",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
     },
     "storePlutoniumStreamTitle": "สตรีมด้วยคุณภาพ 4K ที่ 60 FPS",
     "storePlutoniumStreamBody": "แชร์หน้าจอหรือกล้องของคุณด้วยคุณภาพสูงสุด 4K ที่ 60 เฟรมต่อวินาที บัญชีฟรีสตรีมด้วยคุณภาพสูงสุด 720p ที่ 30",
@@ -19837,18 +19250,6 @@
     "@storePlutoniumRetry": {
         "description": "Button on the Plutonium page that loads the plans again after a failure."
     },
-    "observabilityReportingConsentSubtitle": "Fluxer ปิดตัวลงโดยไม่คาดคิด การส่งรายงานข้อขัดข้องช่วยให้เราค้นหาและแก้ไขปัญหาได้เร็วขึ้น",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "รายงานประกอบด้วยบันทึกข้อขัดข้อง ข้อผิดพลาด ข้อมูลประสิทธิภาพ ระยะเวลาของคำขอเครือข่าย และหน้าจอกับการแตะที่นำไปสู่ปัญหา ซึ่งเชื่อมโยงกับรหัสสุ่มของการติดตั้งนี้ รายงานจะไม่มีเนื้อหาข้อความเลย และจะส่งไปยังระบบติดตามข้อผิดพลาดของ Fluxer เองเท่านั้น คุณปิดตัวเลือกนี้ได้ทุกเมื่อ",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
-    "observabilityReportingConsentDecline": "ไม่ต้องถามอีก",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
-    },
     "advancedSettingSplashQuotesLabel": "คำคมบนหน้าจอเริ่มต้น",
     "@advancedSettingSplashQuotesLabel": {
         "description": "Toggle label for splash screen loading quotes in advanced settings."
@@ -19856,147 +19257,6 @@
     "advancedSettingSplashQuotesDescription": "แสดงคำคมแบบสุ่มบนหน้าจอเริ่มต้น ไม่ซิงค์ข้ามอุปกรณ์",
     "@advancedSettingSplashQuotesDescription": {
         "description": "Toggle description for the local-only splash screen quotes setting."
-    },
-    "advancedSettingBuiltInReverseImageSearchDescription": "เปิดหรือปิดผู้ให้บริการค้นหารูปภาพย้อนกลับในตัว ผู้ให้บริการที่เปิดใช้งานจะแสดงในตัวเลือกของรูปภาพ",
-    "searchProviderSearchWith": "ค้นหาด้วย {engine}",
-    "@searchProviderSearchWith": {
-        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "searchProviderTranslateWith": "แปลด้วย {engine}",
-    "@searchProviderTranslateWith": {
-        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "userSettingsTitle": "การตั้งค่า",
-    "@userSettingsTitle": {
-        "description": "Title of the user settings sheet on phones."
-    },
-    "userSettingsCopyAppInfo": "คัดลอกข้อมูลแอป",
-    "@userSettingsCopyAppInfo": {
-        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
-    },
-    "userSettingsNavHelp": "ความช่วยเหลือและการสนับสนุน",
-    "@userSettingsNavHelp": {
-        "description": "User settings navigation item that opens the help center on the official instance."
-    },
-    "instanceInsecureConnection": "{domain} ไม่ได้ใช้การเชื่อมต่อที่ปลอดภัย (https) Fluxer จะเชื่อมต่อผ่าน http เฉพาะกับอินสแตนซ์ในเครือข่ายภายในของคุณเท่านั้น",
-    "@instanceInsecureConnection": {
-        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
-        "placeholders": {
-            "domain": {
-                "type": "String",
-                "example": "chat.example.com"
-            }
-        }
-    },
-    "friendsPageTitle": "เพื่อนของฉัน",
-    "@friendsPageTitle": {
-        "description": "Title of the friends page on tablets and desktop."
-    },
-    "friendsActiveNowTitle": "กำลังใช้งานอยู่",
-    "@friendsActiveNowTitle": {
-        "description": "Heading of the active now panel on the friends page."
-    },
-    "friendsActiveNowEmptyTitle": "ตอนนี้เงียบจังเลย...",
-    "@friendsActiveNowEmptyTitle": {
-        "description": "Title shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsActiveNowEmptyBody": "เมื่อเพื่อนของคุณกำลังใช้งานช่องเสียง กิจกรรมของพวกเขาจะแสดงที่นี่",
-    "@friendsActiveNowEmptyBody": {
-        "description": "Body shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsTabOnline": "ออนไลน์",
-    "@friendsTabOnline": {
-        "description": "Friends page tab that lists online friends."
-    },
-    "friendsTabAll": "ทั้งหมด",
-    "@friendsTabAll": {
-        "description": "Friends page tab that lists all friends."
-    },
-    "friendsTabPending": "รอดำเนินการ",
-    "@friendsTabPending": {
-        "description": "Friends page tab that lists pending friend requests."
-    },
-    "friendsTabBlocked": "ถูกบล็อก",
-    "@friendsTabBlocked": {
-        "description": "Friends page tab that lists blocked users."
-    },
-    "friendsSearchOnline": "ค้นหาเพื่อนที่ออนไลน์",
-    "@friendsSearchOnline": {
-        "description": "Search placeholder on the online tab of the friends page."
-    },
-    "friendsSearchAll": "ค้นหาเพื่อน",
-    "@friendsSearchAll": {
-        "description": "Search placeholder on the all tab of the friends page."
-    },
-    "friendsSearchPending": "ค้นหาคำขอที่รอดำเนินการ",
-    "@friendsSearchPending": {
-        "description": "Search placeholder on the pending tab of the friends page."
-    },
-    "friendsSearchBlocked": "ค้นหาผู้ใช้ที่ถูกบล็อก",
-    "@friendsSearchBlocked": {
-        "description": "Search placeholder on the blocked tab of the friends page."
-    },
-    "friendsEmptySearchTitle": "ไม่มีเพื่อนที่ตรงกับการค้นหานี้",
-    "@friendsEmptySearchTitle": {
-        "description": "Title shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptySearchBody": "ลองใช้ชื่ออื่นหรือตรวจสอบการสะกด",
-    "@friendsEmptySearchBody": {
-        "description": "Body shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptyOnlineTitle": "ไม่มีเพื่อนออนไลน์",
-    "@friendsEmptyOnlineTitle": {
-        "description": "Title shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyOnlineBody": "เมื่อเพื่อนออนไลน์ จะมาปรากฏตรงนี้",
-    "@friendsEmptyOnlineBody": {
-        "description": "Body shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyAllTitle": "ยังไม่มีเพื่อน",
-    "@friendsEmptyAllTitle": {
-        "description": "Title shown on the all tab of the friends page when the user has no friends."
-    },
-    "friendsEmptyAllBody": "ไปที่ไหนก็ต้องมีเพื่อนเยอะๆ",
-    "@friendsEmptyAllBody": {
-        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
-    },
-    "friendsEmptyPendingTitle": "ไม่มีคำขอที่รอดำเนินการ",
-    "@friendsEmptyPendingTitle": {
-        "description": "Title shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyPendingBody": "คำขอเป็นเพื่อนที่รอดำเนินการจะแสดงที่นี่",
-    "@friendsEmptyPendingBody": {
-        "description": "Body shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyBlockedBody": "คุณยังไม่ได้บล็อกใคร",
-    "@friendsEmptyBlockedBody": {
-        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
-    },
-    "friendsOutgoingStatus": "คำขอเป็นเพื่อนที่ส่งไปแล้ว",
-    "@friendsOutgoingStatus": {
-        "description": "Status line under a user on the friends page when the current user sent them a friend request."
-    },
-    "friendsBlockedStatus": "ถูกบล็อก",
-    "@friendsBlockedStatus": {
-        "description": "Status line under a blocked user on the friends page."
-    },
-    "channelMutedHint": "ปิดเสียงอยู่",
-    "@channelMutedHint": {
-        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
-    },
-    "guildMenuReportCommunity": "รายงานคอมมูนิตี้",
-    "@guildMenuReportCommunity": {
-        "description": "Community menu item that opens the community report flow."
     },
     "guildSettingsRolesRoleIcon": "ไอคอนบทบาท",
     "@guildSettingsRolesRoleIcon": {
@@ -20144,17 +19404,5 @@
     "auditLogChangeRoleIconRemoved": "ลบไอคอนบทบาทที่กำหนดเองแล้ว",
     "@auditLogChangeRoleIconRemoved": {
         "description": "Role audit log detail when image icon is removed."
-    },
-    "dmListFriendsButton": "เพื่อน",
-    "@dmListFriendsButton": {
-        "description": "Button at the top of the direct messages list that opens the friends page."
-    },
-    "forumPostBlockedAuthor": "โพสต์จากคนที่คุณบล็อก",
-    "@forumPostBlockedAuthor": {
-        "description": "Forum post card title shown instead of the real title when the post author is blocked."
-    },
-    "forumReportPost": "รายงานโพสต์",
-    "@forumReportPost": {
-        "description": "Forum post actions item that reports the post's first message."
     }
 }

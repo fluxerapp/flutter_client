@@ -14946,7 +14946,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Προεπιλεγμένη αντίστροφη αναζήτηση εικόνας",
     "advancedSettingDefaultReverseImageSearchDescription": "Επιλέξτε ποια υπηρεσία αντίστροφης αναζήτησης εικόνων θα χρησιμοποιείται από προεπιλογή κατά την αναζήτηση μιας εικόνας.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Ενσωματωμένη αντίστροφη αναζήτηση εικόνας",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους παρόχους αντίστροφης αναζήτησης εικόνων. Οι ενεργοποιημένοι πάροχοι εμφανίζονται στο μενού περιβάλλοντος εικόνων, avatar, banner, αυτοκόλλητων και emoji.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους παρόχους αντίστροφης αναζήτησης εικόνων. Οι ενεργοποιημένοι πάροχοι εμφανίζονται στις επιλογές των εικόνων.",
     "advancedSettingCustomReverseImageSearchLabel": "Προσαρμοσμένη αντίστροφη αναζήτηση εικόνων",
     "advancedSettingCustomReverseImageSearchDescription": "Προσθέστε τους δικούς σας παρόχους αναζήτησης εικόνων με ένα προσαρμοσμένο μοτίβο URL. Χρησιμοποιήστε το '{url}' ως σύμβολο κράτησης θέσης για τη διεύθυνση URL της εικόνας.",
     "advancedSettingAddReverseImageSearchLabel": "Προσθήκη αντίστροφης αναζήτησης εικόνων",
@@ -18284,11 +18284,11 @@
     "@observabilityReportingConsentTitle": {
         "description": "Title of the post-crash opt-in sheet for crash and error reporting."
     },
-    "observabilityReportingConsentSubtitle": "Το Fluxer έκλεισε απροσδόκητα. Η κοινοποίηση ανώνυμων δεδομένων σφαλμάτων μάς βοηθά να διορθώνουμε τα προβλήματα πιο γρήγορα.",
+    "observabilityReportingConsentSubtitle": "Το Fluxer τερματίστηκε απροσδόκητα. Η αποστολή αναφοράς σφάλματος μας βοηθά να βρούμε και να διορθώσουμε το πρόβλημα πιο γρήγορα.",
     "@observabilityReportingConsentSubtitle": {
         "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
     },
-    "observabilityReportingConsentBody": "Οι αναφορές περιλαμβάνουν αρχεία καταγραφής σφαλμάτων, σφάλματα και βασικά δεδομένα απόδοσης. Δεν κοινοποιούνται σε τρίτους και μπορείτε να τις απενεργοποιήσετε ανά πάσα στιγμή.",
+    "observabilityReportingConsentBody": "Οι αναφορές περιλαμβάνουν αρχεία καταγραφής σφαλμάτων, σφάλματα, δεδομένα απόδοσης, χρόνους αιτημάτων δικτύου και τις οθόνες και τα πατήματα που οδήγησαν σε ένα πρόβλημα, συνδεδεμένα με ένα τυχαίο αναγνωριστικό για αυτήν την εγκατάσταση. Δεν περιλαμβάνουν ποτέ περιεχόμενο μηνυμάτων και αποστέλλονται μόνο στο δικό μας σύστημα παρακολούθησης σφαλμάτων του Fluxer. Μπορείτε να το απενεργοποιήσετε ανά πάσα στιγμή.",
     "@observabilityReportingConsentBody": {
         "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
     },
@@ -18306,7 +18306,7 @@
     "@observabilityReportingConsentAgree": {
         "description": "Primary button on the post-crash crash reporting opt-in sheet."
     },
-    "observabilityReportingConsentDecline": "Δεν θέλω να το ενεργοποιήσω",
+    "observabilityReportingConsentDecline": "Να μην ερωτηθώ ξανά",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
     },
@@ -18988,47 +18988,9 @@
     "@animatedImageUseStatic": {
         "description": "Body of the dialog shown when an animated image can't be used on this account."
     },
-    "gatewayOfflineToast": "Είστε εκτός σύνδεσης. Το Fluxer θα συνδεθεί ξανά μόλις επανέλθει η σύνδεσή σας.",
-    "@gatewayOfflineToast": {
-        "description": "Banner shown instead of the reconnecting message when the device has no network connection. The app keeps showing cached content and reconnects on its own."
-    },
-    "accountDeletionScheduledNotice": "Ο λογαριασμός σας θα διαγραφεί στις {date}. Αν συνδεθείτε πριν από τότε, η διαγραφή ακυρώνεται.",
-    "@accountDeletionScheduledNotice": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion. date is the deletion date.",
-        "placeholders": {
-            "date": {
-                "type": "String",
-                "example": "November 17, 2026"
-            }
-        }
-    },
-    "accountDeletionScheduledNoticeNoDate": "Ο λογαριασμός σας έχει προγραμματιστεί για διαγραφή. Αν συνδεθείτε πριν από την ημερομηνία διαγραφής, η διαγραφή ακυρώνεται.",
-    "@accountDeletionScheduledNoticeNoDate": {
-        "description": "Notice on the sign-in screen after the person scheduled their account for deletion, when the instance did not say when the deletion runs."
-    },
-    "accountDeletionImmediateNotice": "Διαγράφουμε τον λογαριασμό σας τώρα. Αν ο λογαριασμός σας έχει διεύθυνση email, θα σας στείλουμε email όταν ολοκληρωθεί.",
-    "@accountDeletionImmediateNotice": {
-        "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account."
-    },
     "accountDeletionImmediateNoticeNoEmail": "Διαγράφουμε τον λογαριασμό σας τώρα.",
     "@accountDeletionImmediateNoticeNoEmail": {
         "description": "Notice on the sign-in screen after the person chose \"Delete now\" for their account, on an instance that does not send email."
-    },
-    "accountDisabledNotice": "Ο λογαριασμός σας είναι απενεργοποιημένος. Συνδεθείτε ξανά όποτε θέλετε να τον χρησιμοποιήσετε.",
-    "@accountDisabledNotice": {
-        "description": "Notice on the sign-in screen after the person disabled their account."
-    },
-    "verificationResendEmail": "Επανάληψη αποστολής email",
-    "@verificationResendEmail": {
-        "description": "Button that sends the email verification link again. Shown in the verify email bar, the add friend screen and \"Security & login\"."
-    },
-    "verificationEmailSent": "Στάλθηκε email επαλήθευσης. Ελέγξτε τα εισερχόμενά σας.",
-    "@verificationEmailSent": {
-        "description": "Toast after the verification email was sent again."
-    },
-    "verificationEmailRateLimited": "Έχετε ζητήσει πάρα πολλά email επαλήθευσης. Περιμένετε λίγο και δοκιμάστε ξανά.",
-    "@verificationEmailRateLimited": {
-        "description": "Toast when the verification email was resent too often."
     },
     "nagbarPremiumGracePeriodNoAction": "Η συνδρομή σας στο {productName} δεν ανανεώθηκε. Διατηρείτε τα προνόμια του {productName} έως τις {graceDate}.",
     "@nagbarPremiumGracePeriodNoAction": {
@@ -19051,188 +19013,9 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Συνδεόμενοι, αποδέχεστε τους ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
-    "mfaPasskeyUnavailable": "Τα κλειδιά πρόσβασης από αυτήν την παρουσία δεν λειτουργούν σε αυτήν την εφαρμογή και ο λογαριασμός σας δεν έχει άλλη μέθοδο επαλήθευσης. Συνδεθείτε από το web.",
-    "@mfaPasskeyUnavailable": {
-        "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
-    },
-    "suspendedBannedTitle": "Ο λογαριασμός ανεστάλη οριστικά",
-    "@suspendedBannedTitle": {
-        "description": "Title of the sign-in screen for an account suspended with no end date."
-    },
-    "suspendedClosedTitle": "Ο λογαριασμός έκλεισε",
-    "@suspendedClosedTitle": {
-        "description": "Title of the sign-in screen for an account that is closed and will be deleted."
-    },
-    "suspendedWhatHappened": "Τι συνέβη",
-    "@suspendedWhatHappened": {
-        "description": "Heading on the account restriction screen above what the team did and what it means."
-    },
-    "suspendedWhy": "Γιατί",
-    "@suspendedWhy": {
-        "description": "Heading on the account restriction screen above the rule that was broken and the findings."
-    },
-    "suspendedHowWeDecided": "Πώς αποφασίσαμε",
-    "@suspendedHowWeDecided": {
-        "description": "Heading on the account restriction screen above how the case reached the team and who decided it."
-    },
-    "suspendedHowToAppeal": "Πώς να κάνεις ένσταση",
-    "@suspendedHowToAppeal": {
-        "description": "Heading on the account restriction screen above the appeal instructions."
-    },
-    "suspendedNoteFromTeam": "Σημείωση από την ομάδα μας: {statement}",
-    "@suspendedNoteFromTeam": {
-        "description": "Line on the account restriction screen with a note the team wrote to the account holder.",
-        "placeholders": {
-            "statement": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedDecisionId": "Αναγνωριστικό απόφασης: {decisionId}",
-    "@suspendedDecisionId": {
-        "description": "Reference line on the account restriction screen. People quote this ID when they appeal.",
-        "placeholders": {
-            "decisionId": {
-                "type": "String",
-                "example": "1234567890"
-            }
-        }
-    },
-    "suspendedRule": "Κανόνας: {title}",
-    "@suspendedRule": {
-        "description": "Names the rule behind a restriction. title is the rule title, shown as a link when the instance publishes one.",
-        "placeholders": {
-            "title": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedAppealNoDeadline": "Αν πιστεύετε ότι κάναμε λάθος, στείλτε email στο {email} και συμπεριλάβετε το όνομα χρήστη σας.",
-    "@suspendedAppealNoDeadline": {
-        "description": "Appeal line for a restriction from before the team recorded decisions, with no appeal deadline. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedAppealNoEmail": "Αν πιστεύετε ότι κάναμε λάθος, στείλτε email στο {email} έως τις {deadline}. Συμπεριλάβετε το αναγνωριστικό απόφασης και το όνομα χρήστη σας. Οι ενστάσεις είναι δωρεάν και κάθε μία εξετάζεται από έναν άνθρωπο.",
-    "@suspendedAppealNoEmail": {
-        "description": "Appeal line for an account with no email address. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedAppealWithEmail": "Αν πιστεύετε ότι κάναμε λάθος, στείλτε email στο {email} έως τις {deadline}. Αν μπορείτε, γράψτε από τη διεύθυνση email του λογαριασμού σας και συμπεριλάβετε το αναγνωριστικό απόφασης. Οι ενστάσεις είναι δωρεάν και κάθε μία εξετάζεται από έναν άνθρωπο.",
-    "@suspendedAppealWithEmail": {
-        "description": "Appeal line on the account restriction screen. email is the appeals address, shown as a link, and deadline is a date.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            },
-            "deadline": {
-                "type": "String",
-                "example": "December 3, 2026"
-            }
-        }
-    },
-    "suspendedDeletionRequest": "Για να μας ζητήσετε να διαγράψουμε τον λογαριασμό και τα δεδομένα σας, στείλτε email στο {email} από τη διεύθυνση του λογαριασμού σας.",
-    "@suspendedDeletionRequest": {
-        "description": "Line on the account restriction screen about asking for account deletion. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "suspendedDeletionRequestNoEmail": "Για να μας ζητήσετε να διαγράψουμε τον λογαριασμό και τα δεδομένα σας, στείλτε email στο {email} και συμπεριλάβετε το όνομα χρήστη σας.",
-    "@suspendedDeletionRequestNoEmail": {
-        "description": "Line on the account restriction screen about asking for account deletion, for an account with no email address. email is the appeals address, shown as a link.",
-        "placeholders": {
-            "email": {
-                "type": "String",
-                "example": "appeals@fluxer.com"
-            }
-        }
-    },
-    "registerDateOfBirthDone": "Τέλος",
-    "@registerDateOfBirthDone": {
-        "description": "Button that closes the date of birth wheel on iPhone and iPad."
-    },
-    "registerDateOfBirthNotSet": "Δεν έχει οριστεί",
-    "@registerDateOfBirthNotSet": {
-        "description": "VoiceOver value of the date of birth field before a date is chosen."
-    },
-    "registerConsentBuiltInRules": "Συμφωνώ ότι αυτή η παρουσία έχει μηδενική ανοχή σε απαράδεκτο περιεχόμενο ή καταχρηστικούς χρήστες και ότι οι διαχειριστές της μπορούν να αφαιρούν περιεχόμενο και λογαριασμούς που παραβιάζουν αυτούς τους κανόνες.",
-    "@registerConsentBuiltInRules": {
-        "description": "Sign-up consent checkbox text on an instance that has no terms or privacy policy links."
-    },
     "giftAcceptLifetimeNotInApp": "Αυτό το δώρο δεν μπορεί να εξαργυρωθεί στην εφαρμογή iOS. Μπορείτε να το εξαργυρώσετε στην εφαρμογή για υπολογιστές.",
     "@giftAcceptLifetimeNotInApp": {
         "description": "Shown on the gift modal, chat gift embed and gift code redemption in the iOS app for a lifetime gift, which can't be claimed there."
-    },
-    "stickerPickerSearchHint": "Βρες το τέλειο αυτοκόλλητο",
-    "@stickerPickerSearchHint": {
-        "description": "Placeholder of the search field in the sticker picker."
-    },
-    "stickerPickerEmptyNoCommunitiesTitle": "Δεν υπάρχουν διαθέσιμα αυτοκόλλητα",
-    "@stickerPickerEmptyNoCommunitiesTitle": {
-        "description": "Title shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyNoCommunitiesBody": "Γίνετε μέλος μιας κοινότητας με αυτοκόλλητα για να τα χρησιμοποιείτε εδώ.",
-    "@stickerPickerEmptyNoCommunitiesBody": {
-        "description": "Body shown in the sticker picker when none of the user's communities have stickers."
-    },
-    "stickerPickerEmptyHereTitle": "Δεν υπάρχουν διαθέσιμα αυτοκόλλητα",
-    "@stickerPickerEmptyHereTitle": {
-        "description": "Title shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerEmptyHereBody": "Δεν υπάρχουν διαθέσιμα αυτοκόλλητα σε αυτήν τη συνομιλία.",
-    "@stickerPickerEmptyHereBody": {
-        "description": "Body shown in the sticker picker when no stickers can be used in the current conversation."
-    },
-    "stickerPickerNoResultsTitle": "Δεν βρέθηκαν αυτοκόλλητα",
-    "@stickerPickerNoResultsTitle": {
-        "description": "Title shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPickerNoResultsBody": "Δοκιμάστε έναν διαφορετικό όρο αναζήτησης.",
-    "@stickerPickerNoResultsBody": {
-        "description": "Body shown in the sticker picker when the search matches nothing."
-    },
-    "stickerPlutoniumUpsellText": "Ξεκλειδώστε {stickerCount} από {communityCount} με το Plutonium.",
-    "@stickerPlutoniumUpsellText": {
-        "description": "Upsell banner text in the sticker picker for users without Plutonium. {stickerCount} is a sticker count label and {communityCount} is a community count label.",
-        "placeholders": {
-            "stickerCount": {
-                "type": "String"
-            },
-            "communityCount": {
-                "type": "String"
-            }
-        }
-    },
-    "stickerPlutoniumUpsellStickerCount": "{count, plural, =1{1 αυτοκόλλητο} other{{count} αυτοκόλλητα}}",
-    "@stickerPlutoniumUpsellStickerCount": {
-        "description": "Sticker count label in the sticker picker upsell banner.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "profileBadgesSettingsTitle": "Σήματα",
     "@profileBadgesSettingsTitle": {
@@ -19331,43 +19114,9 @@
     "@operatorPassWallOnTheWall": {
         "description": "Label for the live wall entry."
     },
-    "operatorPassWallInReview": "Υπό έλεγχο",
-    "@operatorPassWallInReview": {
-        "description": "Label for a pending wall name."
-    },
-    "operatorPassWallReviewBy": "έως {date}",
-    "@operatorPassWallReviewBy": {
-        "description": "Review due date label.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "operatorPassWallLive": "Δημοσιευμένο",
     "@operatorPassWallLive": {
         "description": "Status when a wall name is live."
-    },
-    "operatorPassWallDeclined": "Απορρίφθηκε: {name}. {reason}.",
-    "@operatorPassWallDeclined": {
-        "description": "Declined wall name status.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            },
-            "reason": {
-                "type": "String"
-            }
-        }
-    },
-    "operatorPassWallTeamNote": "Σημείωση ομάδας: {note}",
-    "@operatorPassWallTeamNote": {
-        "description": "Team note on a declined wall name.",
-        "placeholders": {
-            "note": {
-                "type": "String"
-            }
-        }
     },
     "operatorPassWallHidden": "Κρυφό από την ομάδα μας προς το παρόν.",
     "@operatorPassWallHidden": {
@@ -19413,10 +19162,6 @@
     "@operatorPassWallNameSettingsLabel": {
         "description": "Label for wall name field in settings."
     },
-    "operatorPassWallNameHint": "Ελέγχουμε τα νέα ονόματα πριν δημοσιευτούν.",
-    "@operatorPassWallNameHint": {
-        "description": "Hint under wall name field."
-    },
     "operatorPassWallDontListMe": "Να μην εμφανίζομαι",
     "@operatorPassWallDontListMe": {
         "description": "Opt out of the Operators' wall."
@@ -19429,262 +19174,13 @@
     "@operatorPassWallNameTooLong": {
         "description": "Validation when wall name is too long."
     },
-    "operatorPassWallDeclineGuidelines": "Παραβιάζει τις οδηγίες κοινότητας",
-    "@operatorPassWallDeclineGuidelines": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineImpersonation": "Παριστάνει κάποιον άλλο",
-    "@operatorPassWallDeclineImpersonation": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineRights": "Χρησιμοποιεί όνομα ή εικόνα χωρίς τα σχετικά δικαιώματα",
-    "@operatorPassWallDeclineRights": {
-        "description": "Decline reason for wall name."
-    },
-    "operatorPassWallDeclineAge": "Ακατάλληλο για νεότερους χρήστες",
-    "@operatorPassWallDeclineAge": {
-        "description": "Decline reason for wall name."
-    },
     "plutoniumNotSoldHere": "Το Plutonium δεν μπορεί να αγοραστεί σε αυτήν την έκδοση της εφαρμογής.",
     "@plutoniumNotSoldHere": {
         "description": "Body of the sheet shown when someone taps a Plutonium upsell in a build that does not sell Plutonium, and the message on the Plutonium page when purchases are off in this build."
     },
-    "sudoEmailCodeSend": "Αποστολή κωδικού με email",
-    "@sudoEmailCodeSend": {
-        "description": "Button in the identity check sheet for accounts without a password. Sends a 6-digit code to the account email address."
-    },
-    "sudoEmailCodeSent": "Στείλαμε έναν 6ψήφιο κωδικό στη διεύθυνση email σας.",
-    "@sudoEmailCodeSent": {
-        "description": "Shown in the identity check sheet after the code was sent."
-    },
-    "sudoEmailCodeLabel": "Κωδικός από το email",
-    "@sudoEmailCodeLabel": {
-        "description": "Label of the code field in the identity check sheet."
-    },
-    "sudoEmailCodeResend": "Αποστολή νέου κωδικού",
-    "@sudoEmailCodeResend": {
-        "description": "Link in the identity check sheet that sends another email code."
-    },
-    "sudoSsoReauthHint": "Συνδεθείτε ξανά για να επιβεβαιώσετε ότι είστε εσείς.",
-    "@sudoSsoReauthHint": {
-        "description": "Text in the identity check sheet for accounts that sign in with the instance's single sign-on."
-    },
-    "sudoSsoReauthButtonGeneric": "Σύνδεση ξανά",
-    "@sudoSsoReauthButtonGeneric": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on when the instance gives no provider name."
-    },
-    "sudoSsoReauthButton": "Σύνδεση με {provider}",
-    "@sudoSsoReauthButton": {
-        "description": "Button in the identity check sheet that opens the instance's single sign-on. provider is the sign-on provider name.",
-        "placeholders": {
-            "provider": {
-                "type": "String",
-                "example": "Okta"
-            }
-        }
-    },
-    "sudoSsoReauthWrongAccount": "Συνδέθηκες σε διαφορετικό λογαριασμό. Συνδέσου με τον λογαριασμό που χρησιμοποιείς εδώ.",
-    "@sudoSsoReauthWrongAccount": {
-        "description": "Error in the identity check sheet when the single sign-on returned another account."
-    },
-    "sudoPasskeyUnavailable": "Τα κλειδιά πρόσβασης από αυτήν την παρουσία δεν λειτουργούν σε αυτήν την εφαρμογή. Χρησιμοποιήστε την εφαρμογή ελέγχου ταυτότητας ή έναν εφεδρικό κωδικό, ή επιβεβαιώστε από το web.",
-    "@sudoPasskeyUnavailable": {
-        "description": "Shown in the identity check sheet on iOS for a self-hosted instance when a passkey is the only way to confirm."
-    },
-    "dangerZoneDeleteEntryDescription": "Διαγράψτε τον λογαριασμό και τα προσωπικά σας δεδομένα. Μπορείτε να διαγράψετε και τα μηνύματά σας.",
-    "@dangerZoneDeleteEntryDescription": {
-        "description": "Description of the \"Delete account\" row in \"Security & login\" and in settings search."
-    },
-    "dangerZoneDeleteIntro": "Ο λογαριασμός, το προφίλ και τα προσωπικά σας δεδομένα διαγράφονται. Τα μηνύματα που δεν διαγράφετε παραμένουν εκεί που τα στείλατε, χωρίς το όνομα ή το προφίλ σας.",
-    "@dangerZoneDeleteIntro": {
-        "description": "First paragraph of the delete account sheet."
-    },
-    "dangerZoneDeleteMessagesLabel": "Διαγραφή και των μηνυμάτων μου",
-    "@dangerZoneDeleteMessagesLabel": {
-        "description": "Switch label in the delete account sheet. Off by default."
-    },
-    "dangerZoneDeleteMessagesHint": "Διαγράφει κάθε μήνυμα που στείλατε σε DM, ομαδικές συνομιλίες και κοινότητες, μαζί με τον λογαριασμό σας.",
-    "@dangerZoneDeleteMessagesHint": {
-        "description": "Hint under the \"Also delete my messages\" switch in the delete account sheet."
-    },
-    "dangerZoneDeleteExportHint": "Για να κρατήσετε ένα αντίγραφο των δεδομένων σας, ζητήστε πρώτα μια εξαγωγή από τον {privacyDashboard}.",
-    "@dangerZoneDeleteExportHint": {
-        "description": "Line in the delete account sheet. privacyDashboard is the \"Privacy dashboard\" settings page name, shown as a link.",
-        "placeholders": {
-            "privacyDashboard": {
-                "type": "String",
-                "example": "Privacy dashboard"
-            }
-        }
-    },
-    "dangerZoneDeleteLater": "Διαγραφή σε 14 ημέρες",
-    "@dangerZoneDeleteLater": {
-        "description": "Button in the delete account sheet on the official instance. Schedules the deletion after the 14-day grace period."
-    },
-    "dangerZoneDeleteLaterHint": "Μπορείτε να την ακυρώσετε συνδεόμενοι μέσα σε αυτές τις 14 ημέρες.",
-    "@dangerZoneDeleteLaterHint": {
-        "description": "Line in the delete account sheet on the official instance, about the 14-day grace period."
-    },
-    "dangerZoneDeleteSchedule": "Προγραμματισμός διαγραφής",
-    "@dangerZoneDeleteSchedule": {
-        "description": "Button in the delete account sheet on self-hosted instances, whose grace period the app does not know."
-    },
-    "dangerZoneDeleteScheduleHint": "Ο λογαριασμός σας διαγράφεται μετά την περίοδο αναμονής αυτής της παρουσίας. Αν συνδεθείτε πριν από τότε, η διαγραφή ακυρώνεται.",
-    "@dangerZoneDeleteScheduleHint": {
-        "description": "Line in the delete account sheet on self-hosted instances."
-    },
-    "dangerZoneDeleteNow": "Διαγραφή τώρα",
-    "@dangerZoneDeleteNow": {
-        "description": "Button in the delete account sheet that deletes the account right away, and the confirm button of the follow-up sheet."
-    },
-    "dangerZoneDeleteNowConfirmTitle": "Διαγραφή του λογαριασμού σας τώρα;",
-    "@dangerZoneDeleteNowConfirmTitle": {
-        "description": "Title of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteNowConfirmBody": "Ο λογαριασμός σας διαγράφεται αμέσως και δεν μπορεί να ανακτηθεί.",
-    "@dangerZoneDeleteNowConfirmBody": {
-        "description": "Body of the confirmation sheet after tapping \"Delete now\"."
-    },
-    "dangerZoneDeleteAppStoreBilling": "Η συνδρομή σας στο Plutonium χρεώνεται από την Apple. Η διαγραφή του λογαριασμού σας δεν την ακυρώνει, οπότε ακυρώστε την πρώτα στο App Store.",
-    "@dangerZoneDeleteAppStoreBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in the App Store."
-    },
-    "dangerZoneDeleteGooglePlayBilling": "Η συνδρομή σας στο Plutonium χρεώνεται από το Google Play. Η διαγραφή του λογαριασμού σας δεν την ακυρώνει, οπότε ακυρώστε την πρώτα στο Google Play.",
-    "@dangerZoneDeleteGooglePlayBilling": {
-        "description": "Notice in the delete account sheet when the Plutonium subscription was bought in Google Play."
-    },
-    "dangerZoneDeleteOwnsCommunitiesList": "Είστε ιδιοκτήτης αυτών των κοινοτήτων. Διαγράψτε καθεμία ή μεταβιβάστε την σε άλλο μέλος πριν διαγράψετε τον λογαριασμό σας.",
-    "@dangerZoneDeleteOwnsCommunitiesList": {
-        "description": "Text above the list of owned communities in the sheet shown when someone who owns communities tries to delete their account."
-    },
-    "dangerZoneDeleteOwnedCommunitiesHelp": "Πατήστε μια κοινότητα για να ανοίξετε τις ρυθμίσεις της. Η «Διαγραφή κοινότητας» βρίσκεται στο κάτω μέρος. Για να τη μεταβιβάσετε, ανοίξτε τα «Μέλη», πατήστε ένα μέλος, πατήστε τις τρεις τελείες στο προφίλ του και επιλέξτε «Μεταβίβαση ιδιοκτησίας».",
-    "@dangerZoneDeleteOwnedCommunitiesHelp": {
-        "description": "Help under the list of owned communities. Quotes the \"Delete community\", \"Members\" and \"Transfer ownership\" labels exactly."
-    },
-    "matureMediaRevealLabel": "Εμφάνιση ευαίσθητων πολυμέσων",
-    "@matureMediaRevealLabel": {
-        "description": "Accessibility label for the button that reveals blurred sensitive media."
-    },
-    "matureMediaAppLockedLabel": "Τα ευαίσθητα πολυμέσα είναι κρυφά σε iPhone και iPad.",
-    "@matureMediaAppLockedLabel": {
-        "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
-    },
-    "matureContentAppLockedBody": "Το περιεχόμενο 18+ είναι απενεργοποιημένο σε iPhone και iPad. Για να βλέπετε εδώ κοινότητες και κανάλια με σήμανση 18+, ανοίξτε το Fluxer στο web ή στην εφαρμογή για υπολογιστές, μεταβείτε στο «Απόρρητο» στις ρυθμίσεις σας και ενεργοποιήστε το «Να επιτρέπεται περιεχόμενο 18+ σε iPhone και iPad».",
-    "@matureContentAppLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
-    },
-    "matureContentRegionLockedBody": "Λόγω των νόμων για το περιεχόμενο για ενήλικες στην περιοχή σας, το περιεχόμενο για ενήλικες δεν είναι διαθέσιμο από εδώ.",
-    "@matureContentRegionLockedBody": {
-        "description": "Body of the gate shown in place of an 18+ community or channel when local law blocks it."
-    },
-    "matureMessageHiddenPreview": "Μήνυμα σε κανάλι 18+",
-    "@matureMessageHiddenPreview": {
-        "description": "Shown instead of a message preview in the inbox, mentions, saved messages and the DM list when 18+ content is not available to the account or device."
-    },
-    "ageRangeUnderMinimumTitle": "Το Fluxer δεν είναι διαθέσιμο σε αυτόν τον λογαριασμό",
-    "@ageRangeUnderMinimumTitle": {
-        "description": "Title of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "ageRangeUnderMinimumBody": "Το εύρος ηλικίας που κοινοποιεί ο Apple Account σας είναι κάτω από 13. Το Fluxer απευθύνεται μόνο σε άτομα 13 ετών και άνω.",
-    "@ageRangeUnderMinimumBody": {
-        "description": "Body of the full-screen page shown on iPhone and iPad when the age range shared by the Apple Account is under 13."
-    },
-    "sensitiveContentAppLockedHint": "Για να επιλέξετε «Εμφάνιση» εδώ, ανοίξτε το Fluxer στο web ή στην εφαρμογή για υπολογιστές, μεταβείτε στο «Απόρρητο» στις ρυθμίσεις σας και ενεργοποιήστε το «Να επιτρέπεται περιεχόμενο 18+ σε iPhone και iPad».",
-    "@sensitiveContentAppLockedHint": {
-        "description": "Hint under the sensitive content settings in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's labels."
-    },
-    "savedMediaEdit": "Επεξεργασία",
-    "@savedMediaEdit": {
-        "description": "Action in the saved media item menu that opens the edit sheet."
-    },
-    "savedMediaEditTitle": "Επεξεργασία αποθηκευμένων πολυμέσων",
-    "@savedMediaEditTitle": {
-        "description": "Title of the sheet for editing a saved media item."
-    },
-    "savedMediaDeleteTitle": "Διαγραφή αποθηκευμένων πολυμέσων",
-    "@savedMediaDeleteTitle": {
-        "description": "Title of the sheet that confirms deleting a saved media item."
-    },
-    "savedMediaDeleteConfirm": "Αφαίρεση του «{name}» από τα αποθηκευμένα πολυμέσα σας;",
-    "@savedMediaDeleteConfirm": {
-        "description": "Confirmation text in the delete saved media sheet. {name} is the saved item's name.",
-        "placeholders": {
-            "name": {
-                "type": "String"
-            }
-        }
-    },
-    "savedMediaDeleteFailed": "Δεν ήταν δυνατή η διαγραφή των αποθηκευμένων πολυμέσων.",
-    "@savedMediaDeleteFailed": {
-        "description": "Error shown when deleting a saved media item fails."
-    },
-    "savedMediaSearchHint": "Αναζήτηση αποθηκευμένων πολυμέσων",
-    "@savedMediaSearchHint": {
-        "description": "Placeholder of the search field in the saved media picker."
-    },
-    "savedMediaUnavailableTitle": "Τα αποθηκευμένα πολυμέσα δεν είναι διαθέσιμα",
-    "@savedMediaUnavailableTitle": {
-        "description": "Title shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaUnavailableBody": "Δοκιμάστε ξανά σε λίγο.",
-    "@savedMediaUnavailableBody": {
-        "description": "Body shown in the saved media picker when the list fails to load."
-    },
-    "savedMediaEmptyTitle": "Δεν υπάρχουν αποθηκευμένα πολυμέσα",
-    "@savedMediaEmptyTitle": {
-        "description": "Title shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaEmptyBody": "Αποθηκεύστε πολυμέσα από μηνύματα για να τα βλέπετε εδώ.",
-    "@savedMediaEmptyBody": {
-        "description": "Body shown in the saved media picker when nothing has been saved yet."
-    },
-    "savedMediaNoResultsTitle": "Κανένα αποτέλεσμα",
-    "@savedMediaNoResultsTitle": {
-        "description": "Title shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaNoResultsBody": "Δοκιμάστε έναν διαφορετικό όρο αναζήτησης ή φίλτρο.",
-    "@savedMediaNoResultsBody": {
-        "description": "Body shown in the saved media picker when the search or filter matches nothing."
-    },
-    "savedMediaFilterAll": "Όλα",
-    "@savedMediaFilterAll": {
-        "description": "Saved media picker filter that shows every item."
-    },
-    "savedMediaFilterImages": "Εικόνες",
-    "@savedMediaFilterImages": {
-        "description": "Saved media picker filter that shows only images."
-    },
-    "savedMediaFilterVideos": "Βίντεο",
-    "@savedMediaFilterVideos": {
-        "description": "Saved media picker filter that shows only videos."
-    },
-    "savedMediaFilterAudio": "Ήχος",
-    "@savedMediaFilterAudio": {
-        "description": "Saved media picker filter that shows only audio."
-    },
-    "savedMediaFilterGifs": "GIF",
-    "@savedMediaFilterGifs": {
-        "description": "Saved media picker filter that shows only GIFs."
-    },
-    "savedMediaGifBadge": "GIF",
-    "@savedMediaGifBadge": {
-        "description": "Small badge on a saved media tile that marks it as a GIF."
-    },
-    "voiceCallControlsSheetLabel": "Χειριστήρια φωνητικής κλήσης",
-    "@voiceCallControlsSheetLabel": {
-        "description": "Accessibility label of the drag handle on the voice call controls sheet."
-    },
-    "voiceParticipantMenuReport": "Αναφορά",
-    "@voiceParticipantMenuReport": {
-        "description": "Voice participant menu item that opens the report flow for that person."
-    },
     "voiceChangeAudioOutputLabel": "Αλλαγή εξόδου ήχου",
     "@voiceChangeAudioOutputLabel": {
         "description": "Opens the system audio route picker for voice calls on iOS."
-    },
-    "voiceMicPermissionRequired": "Επιτρέψτε την πρόσβαση στο μικρόφωνο για να καταργήσετε τη σίγαση σε αυτήν την κλήση.",
-    "@voiceMicPermissionRequired": {
-        "description": "Shown in the call bar when the user tries to unmute and microphone access was denied."
     },
     "voiceVideoZoomLevel": "Ζουμ {scale}",
     "@voiceVideoZoomLevel": {
@@ -19694,89 +19190,6 @@
                 "type": "String"
             }
         }
-    },
-    "messageAlertNote": "Σημείωση",
-    "@messageAlertNote": {
-        "description": "Label at the top of a \"> [!NOTE]\" alert block in a message."
-    },
-    "messageAlertTip": "Συμβουλή",
-    "@messageAlertTip": {
-        "description": "Label at the top of a \"> [!TIP]\" alert block in a message."
-    },
-    "messageAlertImportant": "Σημαντικό",
-    "@messageAlertImportant": {
-        "description": "Label at the top of a \"> [!IMPORTANT]\" alert block in a message."
-    },
-    "messageAlertWarning": "Προειδοποίηση",
-    "@messageAlertWarning": {
-        "description": "Label at the top of a \"> [!WARNING]\" alert block in a message."
-    },
-    "messageAlertCaution": "Προσοχή",
-    "@messageAlertCaution": {
-        "description": "Label at the top of a \"> [!CAUTION]\" alert block in a message."
-    },
-    "reportFlowTitleCommunity": "Αναφορά κοινότητας",
-    "@reportFlowTitleCommunity": {
-        "description": "Report sheet title while the community report flow loads."
-    },
-    "reportFlowSelectedCommunity": "Κοινότητα που αναφέρετε",
-    "@reportFlowSelectedCommunity": {
-        "description": "Report sheet heading above the card of the community being reported."
-    },
-    "reportFlowThankYouBodySelfHosted": "Οι διαχειριστές αυτής της παρουσίας θα ελέγξουν την αναφορά σας. Δεν θα αποκαλύψουμε ότι προήλθε από εσάς.",
-    "@reportFlowThankYouBodySelfHosted": {
-        "description": "Report sheet thank-you text on a self-hosted instance, where the instance administrators review reports."
-    },
-    "reportFlowAlreadyReportedCommunity": "Έχετε ήδη αναφέρει αυτήν την κοινότητα.",
-    "@reportFlowAlreadyReportedCommunity": {
-        "description": "Report sheet note when the reporter already reported this community."
-    },
-    "chatReplyingTo": "Απάντηση στον/στην {authorName}",
-    "@chatReplyingTo": {
-        "description": "Text above the composer while replying to a message. {authorName} is the author of the message being replied to.",
-        "placeholders": {
-            "authorName": {
-                "type": "String"
-            }
-        }
-    },
-    "chatForwardedFrom": "Προωθήθηκε από {source}",
-    "@chatForwardedFrom": {
-        "description": "Line above a forwarded message. {source} is where the message was forwarded from.",
-        "placeholders": {
-            "source": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerPlay": "Αναπαραγωγή",
-    "@videoPlayerPlay": {
-        "description": "Accessibility label of the play button on an inline video."
-    },
-    "videoPlayerPause": "Παύση",
-    "@videoPlayerPause": {
-        "description": "Accessibility label of the pause button on an inline video."
-    },
-    "videoPlayerVolume": "Ένταση",
-    "@videoPlayerVolume": {
-        "description": "Accessibility label of the volume button on an inline video."
-    },
-    "videoPlayerPlaybackSpeed": "Ταχύτητα αναπαραγωγής {speed}x",
-    "@videoPlayerPlaybackSpeed": {
-        "description": "Accessibility label of the playback speed button on an inline video. {speed} is the current speed, such as 1.5.",
-        "placeholders": {
-            "speed": {
-                "type": "String"
-            }
-        }
-    },
-    "videoPlayerFullScreen": "Πλήρης οθόνη",
-    "@videoPlayerFullScreen": {
-        "description": "Accessibility label of the full screen button on an inline video."
-    },
-    "channelHeaderOpenDetails": "Άνοιγμα λεπτομερειών καναλιού",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label of the channel title in the channel header, which opens the channel details."
     },
     "storePlutoniumStreamTitle": "Ροή σε 4K στα 60 FPS",
     "storePlutoniumStreamBody": "Μοιράσου την οθόνη ή την κάμερά σου σε έως 4K στα 60 καρέ ανά δευτερόλεπτο. Οι δωρεάν λογαριασμοί κάνουν streaming σε έως 720p στα 30.",
@@ -19837,18 +19250,6 @@
     "@storePlutoniumRetry": {
         "description": "Button on the Plutonium page that loads the plans again after a failure."
     },
-    "observabilityReportingConsentSubtitle": "Το Fluxer τερματίστηκε απροσδόκητα. Η αποστολή αναφοράς σφάλματος μας βοηθά να βρούμε και να διορθώσουμε το πρόβλημα πιο γρήγορα.",
-    "@observabilityReportingConsentSubtitle": {
-        "description": "Subtitle on the post-crash crash reporting opt-in sheet. Keep the name Fluxer as is."
-    },
-    "observabilityReportingConsentBody": "Οι αναφορές περιλαμβάνουν αρχεία καταγραφής σφαλμάτων, σφάλματα, δεδομένα απόδοσης, χρόνους αιτημάτων δικτύου και τις οθόνες και τα πατήματα που οδήγησαν σε ένα πρόβλημα, συνδεδεμένα με ένα τυχαίο αναγνωριστικό για αυτήν την εγκατάσταση. Δεν περιλαμβάνουν ποτέ περιεχόμενο μηνυμάτων και αποστέλλονται μόνο στο δικό μας σύστημα παρακολούθησης σφαλμάτων του Fluxer. Μπορείτε να το απενεργοποιήσετε ανά πάσα στιγμή.",
-    "@observabilityReportingConsentBody": {
-        "description": "Body copy on the post-crash crash reporting opt-in sheet explaining what is collected."
-    },
-    "observabilityReportingConsentDecline": "Να μην ερωτηθώ ξανά",
-    "@observabilityReportingConsentDecline": {
-        "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
-    },
     "advancedSettingSplashQuotesLabel": "Αποφθέγματα στην οθόνη εκκίνησης",
     "@advancedSettingSplashQuotesLabel": {
         "description": "Toggle label for splash screen loading quotes in advanced settings."
@@ -19856,147 +19257,6 @@
     "advancedSettingSplashQuotesDescription": "Εμφάνιση ενός τυχαίου αποφθέγματος στην οθόνη εκκίνησης. Δεν συγχρονίζεται μεταξύ συσκευών.",
     "@advancedSettingSplashQuotesDescription": {
         "description": "Toggle description for the local-only splash screen quotes setting."
-    },
-    "advancedSettingBuiltInReverseImageSearchDescription": "Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους παρόχους αντίστροφης αναζήτησης εικόνων. Οι ενεργοποιημένοι πάροχοι εμφανίζονται στις επιλογές των εικόνων.",
-    "searchProviderSearchWith": "Αναζήτηση με {engine}",
-    "@searchProviderSearchWith": {
-        "description": "Menu action that searches the selected text or image with a search provider. {engine} is the provider name, such as Google.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "searchProviderTranslateWith": "Μετάφραση με {engine}",
-    "@searchProviderTranslateWith": {
-        "description": "Menu action that translates the selected text with a translation provider. {engine} is the provider name.",
-        "placeholders": {
-            "engine": {
-                "type": "String"
-            }
-        }
-    },
-    "userSettingsTitle": "Ρυθμίσεις",
-    "@userSettingsTitle": {
-        "description": "Title of the user settings sheet on phones."
-    },
-    "userSettingsCopyAppInfo": "Αντιγραφή πληροφοριών εφαρμογής",
-    "@userSettingsCopyAppInfo": {
-        "description": "Accessibility label of the app version footer in settings, which copies the app info when tapped."
-    },
-    "userSettingsNavHelp": "Βοήθεια και υποστήριξη",
-    "@userSettingsNavHelp": {
-        "description": "User settings navigation item that opens the help center on the official instance."
-    },
-    "instanceInsecureConnection": "Το {domain} δεν χρησιμοποιεί ασφαλή σύνδεση (https). Το Fluxer συνδέεται μέσω http μόνο σε παρουσίες στο τοπικό σας δίκτυο.",
-    "@instanceInsecureConnection": {
-        "description": "Error when adding an instance whose address uses http on the public internet. domain is the instance address.",
-        "placeholders": {
-            "domain": {
-                "type": "String",
-                "example": "chat.example.com"
-            }
-        }
-    },
-    "friendsPageTitle": "Οι φίλοι μου",
-    "@friendsPageTitle": {
-        "description": "Title of the friends page on tablets and desktop."
-    },
-    "friendsActiveNowTitle": "Ενεργοί τώρα",
-    "@friendsActiveNowTitle": {
-        "description": "Heading of the active now panel on the friends page."
-    },
-    "friendsActiveNowEmptyTitle": "Έχει ησυχία τώρα...",
-    "@friendsActiveNowEmptyTitle": {
-        "description": "Title shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsActiveNowEmptyBody": "Όταν οι φίλοι σου είναι ενεργοί σε φωνητικά κανάλια, η δραστηριότητά τους θα εμφανίζεται εδώ.",
-    "@friendsActiveNowEmptyBody": {
-        "description": "Body shown in the active now panel when no friends are in voice channels."
-    },
-    "friendsTabOnline": "Σε σύνδεση",
-    "@friendsTabOnline": {
-        "description": "Friends page tab that lists online friends."
-    },
-    "friendsTabAll": "Όλα",
-    "@friendsTabAll": {
-        "description": "Friends page tab that lists all friends."
-    },
-    "friendsTabPending": "Σε εκκρεμότητα",
-    "@friendsTabPending": {
-        "description": "Friends page tab that lists pending friend requests."
-    },
-    "friendsTabBlocked": "Μπλοκαρισμένοι",
-    "@friendsTabBlocked": {
-        "description": "Friends page tab that lists blocked users."
-    },
-    "friendsSearchOnline": "Αναζήτηση συνδεδεμένων φίλων",
-    "@friendsSearchOnline": {
-        "description": "Search placeholder on the online tab of the friends page."
-    },
-    "friendsSearchAll": "Αναζήτηση φίλων",
-    "@friendsSearchAll": {
-        "description": "Search placeholder on the all tab of the friends page."
-    },
-    "friendsSearchPending": "Αναζήτηση αιτημάτων σε εκκρεμότητα",
-    "@friendsSearchPending": {
-        "description": "Search placeholder on the pending tab of the friends page."
-    },
-    "friendsSearchBlocked": "Αναζήτηση μπλοκαρισμένων χρηστών",
-    "@friendsSearchBlocked": {
-        "description": "Search placeholder on the blocked tab of the friends page."
-    },
-    "friendsEmptySearchTitle": "Κανένας φίλος δεν ταιριάζει με αυτήν την αναζήτηση",
-    "@friendsEmptySearchTitle": {
-        "description": "Title shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptySearchBody": "Δοκιμάστε άλλο όνομα ή ελέγξτε την ορθογραφία.",
-    "@friendsEmptySearchBody": {
-        "description": "Body shown on the friends page when the search matches nobody."
-    },
-    "friendsEmptyOnlineTitle": "Κανένας φίλος σε σύνδεση",
-    "@friendsEmptyOnlineTitle": {
-        "description": "Title shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyOnlineBody": "Όταν συνδεθούν, θα εμφανιστούν εδώ.",
-    "@friendsEmptyOnlineBody": {
-        "description": "Body shown on the online tab of the friends page when no friends are online."
-    },
-    "friendsEmptyAllTitle": "Δεν υπάρχουν φίλοι ακόμα",
-    "@friendsEmptyAllTitle": {
-        "description": "Title shown on the all tab of the friends page when the user has no friends."
-    },
-    "friendsEmptyAllBody": "Εκεί που πάμε, χρειαζόμαστε περισσότερους φίλους.",
-    "@friendsEmptyAllBody": {
-        "description": "Body shown on the all tab of the friends page when the user has no friends. A light film reference, translate the joke freely."
-    },
-    "friendsEmptyPendingTitle": "Δεν υπάρχουν αιτήματα σε αναμονή",
-    "@friendsEmptyPendingTitle": {
-        "description": "Title shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyPendingBody": "Τα εκκρεμή αιτήματα φιλίας εμφανίζονται εδώ.",
-    "@friendsEmptyPendingBody": {
-        "description": "Body shown on the pending tab of the friends page when there are no requests."
-    },
-    "friendsEmptyBlockedBody": "Δεν έχετε μπλοκάρει κανέναν.",
-    "@friendsEmptyBlockedBody": {
-        "description": "Body shown on the blocked tab of the friends page when no users are blocked."
-    },
-    "friendsOutgoingStatus": "Εξερχόμενο αίτημα φιλίας",
-    "@friendsOutgoingStatus": {
-        "description": "Status line under a user on the friends page when the current user sent them a friend request."
-    },
-    "friendsBlockedStatus": "Μπλοκαρισμένος",
-    "@friendsBlockedStatus": {
-        "description": "Status line under a blocked user on the friends page."
-    },
-    "channelMutedHint": "Σε σίγαση",
-    "@channelMutedHint": {
-        "description": "Hint under a channel or category in the notification menu when it is muted with no end time."
-    },
-    "guildMenuReportCommunity": "Αναφορά κοινότητας",
-    "@guildMenuReportCommunity": {
-        "description": "Community menu item that opens the community report flow."
     },
     "guildSettingsRolesRoleIcon": "Εικονίδιο ρόλου",
     "@guildSettingsRolesRoleIcon": {
@@ -20144,17 +19404,5 @@
     "auditLogChangeRoleIconRemoved": "Αφαιρέθηκε το προσαρμοσμένο εικονίδιο του ρόλου",
     "@auditLogChangeRoleIconRemoved": {
         "description": "Role audit log detail when image icon is removed."
-    },
-    "dmListFriendsButton": "Φίλοι",
-    "@dmListFriendsButton": {
-        "description": "Button at the top of the direct messages list that opens the friends page."
-    },
-    "forumPostBlockedAuthor": "Ανάρτηση από άτομο που έχετε μπλοκάρει",
-    "@forumPostBlockedAuthor": {
-        "description": "Forum post card title shown instead of the real title when the post author is blocked."
-    },
-    "forumReportPost": "Αναφορά ανάρτησης",
-    "@forumReportPost": {
-        "description": "Forum post actions item that reports the post's first message."
     }
 }
