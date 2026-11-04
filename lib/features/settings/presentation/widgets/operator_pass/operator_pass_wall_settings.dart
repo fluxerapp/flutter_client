@@ -17,7 +17,6 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
-import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 
 class OperatorPassWallSettings extends ConsumerStatefulWidget {
@@ -62,23 +61,6 @@ class _OperatorPassWallSettingsState
       return;
     }
     await openExternalUrl(uri);
-  }
-
-  String _declineReason(
-    FluxerLocalizations l10n,
-    OperatorPassWallDeclineReasonSchema reason,
-  ) {
-    return switch (reason) {
-      OperatorPassWallDeclineReasonSchema.guidelines =>
-        l10n.operatorPassWallDeclineGuidelines,
-      OperatorPassWallDeclineReasonSchema.impersonation =>
-        l10n.operatorPassWallDeclineImpersonation,
-      OperatorPassWallDeclineReasonSchema.rights =>
-        l10n.operatorPassWallDeclineRights,
-      OperatorPassWallDeclineReasonSchema.ageSuitability =>
-        l10n.operatorPassWallDeclineAge,
-      OperatorPassWallDeclineReasonSchema.$unknown => reason.json ?? '',
-    };
   }
 
   Future<void> _handleSave() async {
@@ -194,11 +176,7 @@ class _OperatorPassWallSettingsState
               ),
             ),
             SizedBox(height: layout.s2),
-            _OperatorPassWallStatus(
-              listing: listing,
-              selfHosted: selfHosted,
-              declineReason: _declineReason,
-            ),
+            _OperatorPassWallStatus(listing: listing, selfHosted: selfHosted),
             if (!removed) ...[
               SizedBox(height: layout.s3),
               OperatorPassWallNameField(
@@ -270,16 +248,10 @@ class _OperatorPassWallStatus extends ConsumerWidget {
   const _OperatorPassWallStatus({
     required this.listing,
     required this.selfHosted,
-    required this.declineReason,
   });
 
   final OperatorPassListingResponse listing;
   final bool selfHosted;
-  final String Function(
-    FluxerLocalizations,
-    OperatorPassWallDeclineReasonSchema,
-  )
-  declineReason;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -348,60 +320,13 @@ class _OperatorPassWallStatus extends ConsumerWidget {
       );
     }
 
-    final bool pending =
-        listing.reviewState == OperatorPassWallReviewStateSchema.pending &&
-        listing.pendingName != null;
-    final bool declined =
-        listing.reviewState == OperatorPassWallReviewStateSchema.declined;
-    final bool live =
-        listing.displayState == OperatorPassWallDisplayStateSchema.live &&
-        !pending &&
-        !declined;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _WallRow(
-          label: l10n.operatorPassWallOnTheWall,
-          avatarUrl: listing.shownAvatarUrl,
-          name: listing.shownName ?? '',
-          trailing: live ? l10n.operatorPassWallLive : null,
-        ),
-        if (pending)
-          _WallRow(
-            label: l10n.operatorPassWallInReview,
-            name: listing.pendingName ?? '',
-            trailing: listing.reviewDueAt == null
-                ? null
-                : l10n.operatorPassWallReviewBy(
-                    formatUserMediumDate(
-                      listing.reviewDueAt!.toLocal(),
-                      l10n.localeName,
-                    ),
-                  ),
-          ),
-        if (declined &&
-            listing.declinedName != null &&
-            listing.declineReason != null)
-          Padding(
-            padding: EdgeInsets.only(top: context.layout.s2),
-            child: Text(
-              l10n.operatorPassWallDeclined(
-                listing.declinedName!,
-                declineReason(l10n, listing.declineReason!),
-              ),
-              style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
-            ),
-          ),
-        if (declined && listing.declineNote != null)
-          Padding(
-            padding: EdgeInsets.only(top: context.layout.s1),
-            child: Text(
-              l10n.operatorPassWallTeamNote(listing.declineNote!),
-              style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
-            ),
-          ),
-      ],
+    return _WallRow(
+      label: l10n.operatorPassWallOnTheWall,
+      avatarUrl: listing.shownAvatarUrl,
+      name: listing.shownName ?? '',
+      trailing: listing.displayState == OperatorPassWallDisplayStateSchema.live
+          ? l10n.operatorPassWallLive
+          : null,
     );
   }
 }

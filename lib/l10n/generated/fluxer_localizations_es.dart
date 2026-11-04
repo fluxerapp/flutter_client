@@ -2143,25 +2143,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get operatorPassWallOnTheWall => 'On the wall';
 
   @override
-  String get operatorPassWallInReview => 'In review';
-
-  @override
-  String operatorPassWallReviewBy(String date) {
-    return 'by $date';
-  }
-
-  @override
   String get operatorPassWallLive => 'Live';
-
-  @override
-  String operatorPassWallDeclined(String name, String reason) {
-    return 'Declined: $name. $reason.';
-  }
-
-  @override
-  String operatorPassWallTeamNote(String note) {
-    return 'Team note: $note';
-  }
 
   @override
   String get operatorPassWallHidden => 'Hidden by our team for now.';
@@ -2200,10 +2182,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get operatorPassWallNameSettingsLabel => 'Name on the wall';
 
   @override
-  String get operatorPassWallNameHint =>
-      'We check new names before they go live.';
-
-  @override
   String get operatorPassWallDontListMe => 'Don\'t list me';
 
   @override
@@ -2212,21 +2190,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get operatorPassWallNameTooLong => 'Use 32 characters or fewer.';
-
-  @override
-  String get operatorPassWallDeclineGuidelines =>
-      'Breaks the community guidelines';
-
-  @override
-  String get operatorPassWallDeclineImpersonation =>
-      'Pretends to be someone else';
-
-  @override
-  String get operatorPassWallDeclineRights =>
-      'Uses a name or image without the rights to it';
-
-  @override
-  String get operatorPassWallDeclineAge => 'Not suitable for younger users';
 
   @override
   String get avatarDescriptionNonPremium =>

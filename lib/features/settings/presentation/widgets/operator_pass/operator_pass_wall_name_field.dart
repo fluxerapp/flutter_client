@@ -43,7 +43,6 @@ class OperatorPassWallNameField extends StatelessWidget {
           onChanged: (_) {},
           enabled: !disabled && !optOut,
           errorText: error,
-          hint: l10n.operatorPassWallNameHint,
         ),
         SizedBox(height: context.layout.s2),
         FluxerCheckbox(

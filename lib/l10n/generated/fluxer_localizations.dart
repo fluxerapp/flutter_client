@@ -3674,35 +3674,11 @@ abstract class FluxerLocalizations {
   /// **'On the wall'**
   String get operatorPassWallOnTheWall;
 
-  /// Label for a pending wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'In review'**
-  String get operatorPassWallInReview;
-
-  /// Review due date label.
-  ///
-  /// In en, this message translates to:
-  /// **'by {date}'**
-  String operatorPassWallReviewBy(String date);
-
   /// Status when a wall name is live.
   ///
   /// In en, this message translates to:
   /// **'Live'**
   String get operatorPassWallLive;
-
-  /// Declined wall name status.
-  ///
-  /// In en, this message translates to:
-  /// **'Declined: {name}. {reason}.'**
-  String operatorPassWallDeclined(String name, String reason);
-
-  /// Team note on a declined wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Team note: {note}'**
-  String operatorPassWallTeamNote(String note);
 
   /// Wall listing hidden by staff.
   ///
@@ -3770,12 +3746,6 @@ abstract class FluxerLocalizations {
   /// **'Name on the wall'**
   String get operatorPassWallNameSettingsLabel;
 
-  /// Hint under wall name field.
-  ///
-  /// In en, this message translates to:
-  /// **'We check new names before they go live.'**
-  String get operatorPassWallNameHint;
-
   /// Opt out of the Operators' wall.
   ///
   /// In en, this message translates to:
@@ -3793,30 +3763,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Use 32 characters or fewer.'**
   String get operatorPassWallNameTooLong;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Breaks the community guidelines'**
-  String get operatorPassWallDeclineGuidelines;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Pretends to be someone else'**
-  String get operatorPassWallDeclineImpersonation;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Uses a name or image without the rights to it'**
-  String get operatorPassWallDeclineRights;
-
-  /// Decline reason for wall name.
-  ///
-  /// In en, this message translates to:
-  /// **'Not suitable for younger users'**
-  String get operatorPassWallDeclineAge;
 
   /// Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars.
   ///
