@@ -34,9 +34,9 @@ class PremiumPurchaseDisclaimer extends ConsumerWidget {
           : CrossAxisAlignment.start,
       children: [
         InstanceLegalAgreementText(
-          prefix: isPremium
-              ? l10n.premiumDisclaimerAgreementPastPrefix
-              : l10n.premiumDisclaimerAgreementPrefix,
+          message: isPremium
+              ? l10n.premiumDisclaimerAgreementPast
+              : l10n.premiumDisclaimerAgreement,
           textAlign: alignCenter ? TextAlign.center : TextAlign.start,
           baseStyle: mutedStyle,
           linkStyle: mutedStyle.copyWith(color: colors.textLink),

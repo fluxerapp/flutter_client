@@ -9,6 +9,7 @@ import 'package:cupertino_ui/cupertino_ui.dart'
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_legal_links.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
@@ -731,39 +732,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   style: textStyles.bodySmall.copyWith(
                     color: colors.textPrimary,
                   ),
-                  children: [
-                    if (termsUrl == null && privacyUrl == null)
-                      TextSpan(text: l10n.registerConsentBuiltInRules)
-                    else ...[
-                      TextSpan(text: l10n.registerConsentPrefix),
-                      if (termsUrl != null)
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.baseline,
-                          baseline: TextBaseline.alphabetic,
-                          child: MediaQuery.withNoTextScaling(
-                            child: FluxerTextLink(
-                              text: l10n.registerConsentTerms,
-                              url: termsUrl,
-                              style: textStyles.bodySmall,
-                            ),
-                          ),
+                  children: switch (instanceLegalLinksPresence(
+                    termsUrl: termsUrl,
+                    privacyUrl: privacyUrl,
+                  )) {
+                    null => [TextSpan(text: l10n.registerConsentBuiltInRules)],
+                    final InstanceLegalLinksPresence presence =>
+                      instanceLegalLinkSpans(
+                        l10n.registerConsentLinks(presence.name),
+                        terms: (String label) => _consentLinkSpan(
+                          label,
+                          termsUrl!,
+                          textStyles.bodySmall,
                         ),
-                      if (termsUrl != null && privacyUrl != null)
-                        TextSpan(text: l10n.registerConsentAnd),
-                      if (privacyUrl != null)
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.baseline,
-                          baseline: TextBaseline.alphabetic,
-                          child: MediaQuery.withNoTextScaling(
-                            child: FluxerTextLink(
-                              text: l10n.registerConsentPrivacy,
-                              url: privacyUrl,
-                              style: textStyles.bodySmall,
-                            ),
-                          ),
+                        privacy: (String label) => _consentLinkSpan(
+                          label,
+                          privacyUrl!,
+                          textStyles.bodySmall,
                         ),
-                    ],
-                  ],
+                      ),
+                  },
                 ),
               ),
             ),
@@ -817,5 +805,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   String _monthName(int month) {
     final locale = Localizations.localeOf(context).toString();
     return DateFormat.MMMM(locale).format(DateTime(2000, month));
+  }
+
+  InlineSpan _consentLinkSpan(String label, String url, TextStyle style) {
+    return WidgetSpan(
+      alignment: PlaceholderAlignment.baseline,
+      baseline: TextBaseline.alphabetic,
+      child: MediaQuery.withNoTextScaling(
+        child: FluxerTextLink(text: label, url: url, style: style),
+      ),
+    );
   }
 }

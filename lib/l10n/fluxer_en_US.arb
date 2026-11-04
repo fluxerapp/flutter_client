@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "I agree to the ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Terms of service",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " and ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Privacy policy",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{I agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>} terms{I agree to the <terms>Terms of service</terms>} other{I agree to the <privacy>Privacy policy</privacy>}}",
     "registerConfirmPassword": "Confirm password",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6258,7 +6243,7 @@
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
     },
-    "advancedCrashReportingDescription": "Reports go to Fluxer's error tracker, even when you're signed in to another instance. They don't include instance names, IDs or message content.",
+    "advancedCrashReportingDescription": "Reports go to Fluxer's error tracker, even when you're signed in to another instance. They're linked to a random ID for this install and don't include your account ID, instance names or message content.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -6270,6 +6255,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer app privacy policy",
     "userSettingsNavDeveloperTools": "Developer tools",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -11133,14 +11119,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "We've updated our terms. Please review and accept them to continue.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Review terms",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarPushNotification": "Enable notifications so you don't miss messages and mentions.",
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
@@ -14688,9 +14666,9 @@
     "premiumPurchaseHistoryDescription": "Your recent invoices. To change the payment method for your subscription, add or choose one in the billing portal and make it the default.",
     "premiumManagePaymentMethods": "Manage payment methods",
     "premiumSelfServeRefundButton": "Refund latest purchase",
-    "premiumDisclaimerAgreementPrefix": "By purchasing, you agree to our ",
-    "premiumDisclaimerAgreementPastPrefix": "By purchasing, you agreed to our ",
-    "premiumDisclaimerAgreementMiddle": " and ",
+    "premiumDisclaimerAgreement": "{links, select, both{By purchasing, you agree to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By purchasing, you agree to our <terms>Terms of service</terms>.} other{By purchasing, you agree to our <privacy>Privacy policy</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{By purchasing, you agreed to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By purchasing, you agreed to our <terms>Terms of service</terms>.} other{By purchasing, you agreed to our <privacy>Privacy policy</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Terms of service</terms> and <privacy>Privacy policy</privacy>} terms{<terms>Terms of service</terms>} other{<privacy>Privacy policy</privacy>}}",
     "premiumActiveUntil": "Active until {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "By signing in, you agree to the ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By signing in, you agree to the <terms>Terms of service</terms>.} other{By signing in, you agree to the <privacy>Privacy policy</privacy>.}}",
     "mfaPasskeyUnavailable": "Passkeys from this instance don't work in this app, and your account has no other verification method. Sign in on the web instead.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

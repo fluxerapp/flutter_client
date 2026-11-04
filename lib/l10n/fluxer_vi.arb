@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Chúng tôi đã cập nhật điều khoản. Vui lòng xem lại và chấp nhận để tiếp tục.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Xem lại điều khoản",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Tham gia {communityName} để trò chuyện với đội ngũ và cập nhật thông tin mới nhất.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Tôi đồng ý với ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Điều khoản dịch vụ",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " và ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Chính sách quyền riêng tư",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Tôi đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>} terms{Tôi đồng ý với <terms>Điều khoản dịch vụ</terms>} other{Tôi đồng ý với <privacy>Chính sách quyền riêng tư</privacy>}}",
     "registerConfirmPassword": "Xác nhận mật khẩu",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "Các hóa đơn gần đây của bạn. Để thay đổi phương thức thanh toán cho gói đăng ký của bạn, hãy thêm hoặc chọn một phương thức trong cổng thanh toán và đặt nó làm mặc định.",
     "premiumManagePaymentMethods": "Quản lý phương thức thanh toán",
     "premiumSelfServeRefundButton": "Hoàn tiền giao dịch gần nhất",
-    "premiumDisclaimerAgreementPrefix": "Khi mua, bạn đồng ý với ",
-    "premiumDisclaimerAgreementPastPrefix": "Bằng việc mua hàng, bạn đã đồng ý với ",
-    "premiumDisclaimerAgreementMiddle": " và ",
+    "premiumDisclaimerAgreement": "{links, select, both{Khi mua, bạn đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>.} terms{Khi mua, bạn đồng ý với <terms>Điều khoản dịch vụ</terms>.} other{Khi mua, bạn đồng ý với <privacy>Chính sách quyền riêng tư</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Khi mua, bạn đã đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>.} terms{Khi mua, bạn đã đồng ý với <terms>Điều khoản dịch vụ</terms>.} other{Khi mua, bạn đã đồng ý với <privacy>Chính sách quyền riêng tư</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>} terms{<terms>Điều khoản dịch vụ</terms>} other{<privacy>Chính sách quyền riêng tư</privacy>}}",
     "premiumActiveUntil": "Còn hiệu lực đến {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Chính sách quyền riêng tư của ứng dụng Fluxer",
     "userSettingsNavDeveloperTools": "Công cụ nhà phát triển",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18147,7 +18125,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Báo cáo được gửi tới hệ thống theo dõi lỗi của Fluxer, kể cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hay nội dung tin nhắn.",
+    "advancedCrashReportingDescription": "Báo cáo được gửi tới hệ thống theo dõi lỗi của Fluxer, kể cả khi bạn đăng nhập vào máy chủ khác. Báo cáo được liên kết với một ID ngẫu nhiên của lượt cài đặt này và không bao gồm ID tài khoản của bạn, tên máy chủ hay nội dung tin nhắn.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Khi đăng nhập, bạn đồng ý với ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Khi đăng nhập, bạn đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>.} terms{Khi đăng nhập, bạn đồng ý với <terms>Điều khoản dịch vụ</terms>.} other{Khi đăng nhập, bạn đồng ý với <privacy>Chính sách quyền riêng tư</privacy>.}}",
     "mfaPasskeyUnavailable": "Khóa truy cập từ máy chủ này không hoạt động trong ứng dụng này, và tài khoản của bạn không có phương thức xác minh nào khác. Hãy đăng nhập trên web.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

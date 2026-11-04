@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Ich stimme den ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Nutzungsbedingungen",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " und ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Datenschutzerklärung",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Ich stimme den <terms>Nutzungsbedingungen</terms> und der <privacy>Datenschutzerklärung</privacy> zu} terms{Ich stimme den <terms>Nutzungsbedingungen</terms> zu} other{Ich stimme der <privacy>Datenschutzerklärung</privacy> zu}}",
     "registerConfirmPassword": "Passwort bestätigen",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Datenschutzerklärung der Fluxer-App",
     "userSettingsNavDeveloperTools": "Entwicklertools",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10672,14 +10658,6 @@
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Wir haben unsere Nutzungsbedingungen aktualisiert. Bitte lies sie und stimme ihnen zu, um fortzufahren.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Bedingungen prüfen",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Tritt {communityName} bei, um mit dem Team zu chatten und auf dem Laufenden zu bleiben.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Deine letzten Rechnungen. Um die Zahlungsmethode für dein Abonnement zu ändern, füge eine hinzu oder wähle eine im Abrechnungsportal aus und lege sie als Standard fest.",
     "premiumManagePaymentMethods": "Zahlungsmethoden verwalten",
     "premiumSelfServeRefundButton": "Letzte Zahlung zurückerstatten",
-    "premiumDisclaimerAgreementPrefix": "Mit dem Kauf stimmen Sie unseren ",
-    "premiumDisclaimerAgreementPastPrefix": "Mit dem Kauf haben Sie unseren ",
-    "premiumDisclaimerAgreementMiddle": " und ",
+    "premiumDisclaimerAgreement": "{links, select, both{Mit dem Kauf stimmst du den <terms>Nutzungsbedingungen</terms> und der <privacy>Datenschutzerklärung</privacy> zu.} terms{Mit dem Kauf stimmst du den <terms>Nutzungsbedingungen</terms> zu.} other{Mit dem Kauf stimmst du der <privacy>Datenschutzerklärung</privacy> zu.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Mit dem Kauf hast du den <terms>Nutzungsbedingungen</terms> und der <privacy>Datenschutzerklärung</privacy> zugestimmt.} terms{Mit dem Kauf hast du den <terms>Nutzungsbedingungen</terms> zugestimmt.} other{Mit dem Kauf hast du der <privacy>Datenschutzerklärung</privacy> zugestimmt.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Nutzungsbedingungen</terms> und <privacy>Datenschutzerklärung</privacy>} terms{<terms>Nutzungsbedingungen</terms>} other{<privacy>Datenschutzerklärung</privacy>}}",
     "premiumActiveUntil": "Aktiv bis zum {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18098,7 +18076,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Berichte gehen an den Fehler-Tracker von Fluxer, auch wenn du bei einer anderen Instanz angemeldet bist. Sie enthalten keine Instanznamen, IDs oder Nachrichteninhalte.",
+    "advancedCrashReportingDescription": "Berichte gehen an den Fehler-Tracker von Fluxer, auch wenn du bei einer anderen Instanz angemeldet bist. Sie sind mit einer zufälligen ID dieser Installation verknüpft und enthalten weder deine Konto-ID noch Instanznamen oder Nachrichteninhalte.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Mit der Anmeldung akzeptierst du die ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Mit der Anmeldung akzeptierst du die <terms>Nutzungsbedingungen</terms> und die <privacy>Datenschutzerklärung</privacy>.} terms{Mit der Anmeldung akzeptierst du die <terms>Nutzungsbedingungen</terms>.} other{Mit der Anmeldung akzeptierst du die <privacy>Datenschutzerklärung</privacy>.}}",
     "mfaPasskeyUnavailable": "Passkeys dieser Instanz funktionieren in dieser App nicht, und dein Account hat keine andere Verifizierungsmethode. Melde dich stattdessen im Web an.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

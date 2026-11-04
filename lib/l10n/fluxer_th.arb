@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "ฉันยอมรับ ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "ข้อกำหนดในการให้บริการ",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " และ ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "นโยบายความเป็นส่วนตัว",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{ฉันยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>และ<privacy>นโยบายความเป็นส่วนตัว</privacy>} terms{ฉันยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>} other{ฉันยอมรับ<privacy>นโยบายความเป็นส่วนตัว</privacy>}}",
     "registerConfirmPassword": "ยืนยันรหัสผ่าน",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "นโยบายความเป็นส่วนตัวของแอป Fluxer",
     "userSettingsNavDeveloperTools": "เครื่องมือสำหรับนักพัฒนา",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10989,14 +10975,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "เราได้อัปเดตข้อกำหนดแล้ว โปรดตรวจสอบและยอมรับเพื่อดำเนินการต่อ",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "ตรวจสอบข้อกำหนด",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarJoinCommunity": "เข้าร่วม {communityName}",
     "@nagbarJoinCommunity": {
         "description": "Official community membership nagbar CTA.",
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "ใบแจ้งหนี้ล่าสุดของคุณ หากต้องการเปลี่ยนวิธีการชำระเงินสำหรับการสมัครใช้งานของคุณ ให้เพิ่มหรือเลือกวิธีการชำระเงินในพอร์ทัลการเรียกเก็บเงิน แล้วตั้งเป็นค่าเริ่มต้น",
     "premiumManagePaymentMethods": "จัดการวิธีการชำระเงิน",
     "premiumSelfServeRefundButton": "คืนเงินการซื้อล่าสุด",
-    "premiumDisclaimerAgreementPrefix": "เมื่อซื้อ คุณยอมรับ ",
-    "premiumDisclaimerAgreementPastPrefix": "เมื่อซื้อ คุณได้ตกลงตาม ",
-    "premiumDisclaimerAgreementMiddle": " และ ",
+    "premiumDisclaimerAgreement": "{links, select, both{การซื้อถือว่าคุณยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>และ<privacy>นโยบายความเป็นส่วนตัว</privacy>} terms{การซื้อถือว่าคุณยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>} other{การซื้อถือว่าคุณยอมรับ<privacy>นโยบายความเป็นส่วนตัว</privacy>}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{คุณได้ยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>และ<privacy>นโยบายความเป็นส่วนตัว</privacy>แล้วเมื่อทำการซื้อ} terms{คุณได้ยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>แล้วเมื่อทำการซื้อ} other{คุณได้ยอมรับ<privacy>นโยบายความเป็นส่วนตัว</privacy>แล้วเมื่อทำการซื้อ}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>ข้อกำหนดในการให้บริการ</terms>และ<privacy>นโยบายความเป็นส่วนตัว</privacy>} terms{<terms>ข้อกำหนดในการให้บริการ</terms>} other{<privacy>นโยบายความเป็นส่วนตัว</privacy>}}",
     "premiumActiveUntil": "ใช้งานได้ถึง {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18130,7 +18108,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "รายงานจะถูกส่งไปยังระบบติดตามข้อผิดพลาดของ Fluxer แม้ว่าคุณจะลงชื่อเข้าใช้อินสแตนซ์อื่นอยู่ก็ตาม รายงานจะไม่มีชื่ออินสแตนซ์ ID หรือเนื้อหาข้อความ",
+    "advancedCrashReportingDescription": "รายงานจะถูกส่งไปยังระบบติดตามข้อผิดพลาดของ Fluxer แม้ว่าคุณจะลงชื่อเข้าใช้อินสแตนซ์อื่นอยู่ก็ตาม รายงานจะเชื่อมโยงกับ ID แบบสุ่มของการติดตั้งนี้ และจะไม่มี ID บัญชีของคุณ ชื่ออินสแตนซ์ หรือเนื้อหาข้อความ",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "การลงชื่อเข้าใช้หมายความว่าคุณยอมรับ ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{การลงชื่อเข้าใช้ถือว่าคุณยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>และ<privacy>นโยบายความเป็นส่วนตัว</privacy>} terms{การลงชื่อเข้าใช้ถือว่าคุณยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>} other{การลงชื่อเข้าใช้ถือว่าคุณยอมรับ<privacy>นโยบายความเป็นส่วนตัว</privacy>}}",
     "mfaPasskeyUnavailable": "พาสคีย์จากอินสแตนซ์นี้ใช้ไม่ได้ในแอปนี้ และบัญชีของคุณไม่มีวิธียืนยันอื่น โปรดลงชื่อเข้าใช้บนเว็บแทน",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

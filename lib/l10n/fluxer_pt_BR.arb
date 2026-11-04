@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Concordo com os ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Termos de serviço",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " e ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Política de privacidade",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Concordo com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>} terms{Concordo com os <terms>Termos de serviço</terms>} other{Concordo com a <privacy>Política de privacidade</privacy>}}",
     "registerConfirmPassword": "Confirmar senha",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Política de privacidade do app Fluxer",
     "userSettingsNavDeveloperTools": "Ferramentas do desenvolvedor",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -11194,14 +11180,6 @@
             }
         }
     },
-    "nagbarTermsAcceptance": "Atualizamos nossos termos. Por favor, revise e aceite-os para continuar.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Revisar termos",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarJoinCommunity": "Entrar em {communityName}",
     "@nagbarJoinCommunity": {
         "description": "Official community membership nagbar CTA.",
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Suas faturas recentes. Para alterar o método de pagamento da sua assinatura, adicione ou escolha um no portal de cobrança e defina-o como padrão.",
     "premiumManagePaymentMethods": "Gerenciar formas de pagamento",
     "premiumSelfServeRefundButton": "Reembolsar última compra",
-    "premiumDisclaimerAgreementPrefix": "Ao comprar, você concorda com nossos ",
-    "premiumDisclaimerAgreementPastPrefix": "Ao comprar, você concordou com nossos ",
-    "premiumDisclaimerAgreementMiddle": " e ",
+    "premiumDisclaimerAgreement": "{links, select, both{Ao comprar, você concorda com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>.} terms{Ao comprar, você concorda com os <terms>Termos de serviço</terms>.} other{Ao comprar, você concorda com a <privacy>Política de privacidade</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Ao comprar, você concordou com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>.} terms{Ao comprar, você concordou com os <terms>Termos de serviço</terms>.} other{Ao comprar, você concordou com a <privacy>Política de privacidade</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Termos de serviço</terms> e <privacy>Política de privacidade</privacy>} terms{<terms>Termos de serviço</terms>} other{<privacy>Política de privacidade</privacy>}}",
     "premiumActiveUntil": "Ativo até {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18110,7 +18088,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Os relatórios vão para o rastreador de erros da Fluxer, mesmo quando você está conectado a outra instância. Eles não incluem nomes de instâncias, IDs nem conteúdo de mensagens.",
+    "advancedCrashReportingDescription": "Os relatórios vão para o rastreador de erros da Fluxer, mesmo quando você está conectado a outra instância. Eles ficam vinculados a um ID aleatório desta instalação e não incluem o ID da sua conta, nomes de instâncias nem conteúdo de mensagens.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Ao fazer login, você concorda com os ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Ao entrar, você concorda com os <terms>Termos de serviço</terms> e a <privacy>Política de privacidade</privacy>.} terms{Ao entrar, você concorda com os <terms>Termos de serviço</terms>.} other{Ao entrar, você concorda com a <privacy>Política de privacidade</privacy>.}}",
     "mfaPasskeyUnavailable": "As chaves de acesso desta instância não funcionam neste app, e sua conta não tem outro método de verificação. Faça login pela web.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

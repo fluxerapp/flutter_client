@@ -512,18 +512,6 @@ abstract class FluxerLocalizations {
   /// **'Enable 2FA'**
   String get nagbarEnableMfa;
 
-  /// Terms acceptance nagbar body.
-  ///
-  /// In en, this message translates to:
-  /// **'We\'ve updated our terms. Please review and accept them to continue.'**
-  String get nagbarTermsAcceptance;
-
-  /// Terms acceptance nagbar CTA.
-  ///
-  /// In en, this message translates to:
-  /// **'Review terms'**
-  String get nagbarReviewTerms;
-
   /// Official community membership nagbar body.
   ///
   /// In en, this message translates to:
@@ -590,11 +578,11 @@ abstract class FluxerLocalizations {
   /// **'Log in with a passkey'**
   String get logInWithPasskey;
 
-  /// Text before the Terms of service link under the sign-in button. The trailing space separates it from the link.
+  /// Sentence under the sign-in button. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **'By signing in, you agree to the '**
-  String get loginLegalAgreementPrefix;
+  /// **'{links, select, both{By signing in, you agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By signing in, you agree to the <terms>Terms of service</terms>.} other{By signing in, you agree to the <privacy>Privacy policy</privacy>.}}'**
+  String loginLegalAgreement(String links);
 
   /// Button label that starts single sign-on.
   ///
@@ -1544,29 +1532,11 @@ abstract class FluxerLocalizations {
   /// **'Year'**
   String get registerYear;
 
-  /// Text before the Terms of Service link in the consent checkbox.
+  /// Sign-up consent checkbox text. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **'I agree to the '**
-  String get registerConsentPrefix;
-
-  /// Terms of Service link text in the consent checkbox.
-  ///
-  /// In en, this message translates to:
-  /// **'Terms of service'**
-  String get registerConsentTerms;
-
-  /// Conjunction between Terms and Privacy links.
-  ///
-  /// In en, this message translates to:
-  /// **' and '**
-  String get registerConsentAnd;
-
-  /// Privacy Policy link text in the consent checkbox.
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy policy'**
-  String get registerConsentPrivacy;
+  /// **'{links, select, both{I agree to the <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>} terms{I agree to the <terms>Terms of service</terms>} other{I agree to the <privacy>Privacy policy</privacy>}}'**
+  String registerConsentLinks(String links);
 
   /// Sign-up consent checkbox text on an instance that has no terms or privacy policy links.
   ///
@@ -16179,23 +16149,23 @@ abstract class FluxerLocalizations {
   /// **'Refund latest purchase'**
   String get premiumSelfServeRefundButton;
 
-  /// No description provided for @premiumDisclaimerAgreementPrefix.
+  /// Sentence under a purchase button. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **'By purchasing, you agree to our '**
-  String get premiumDisclaimerAgreementPrefix;
+  /// **'{links, select, both{By purchasing, you agree to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By purchasing, you agree to our <terms>Terms of service</terms>.} other{By purchasing, you agree to our <privacy>Privacy policy</privacy>.}}'**
+  String premiumDisclaimerAgreement(String links);
 
-  /// No description provided for @premiumDisclaimerAgreementPastPrefix.
+  /// Sentence shown to someone who already bought Plutonium. Keep the <terms> and <privacy> tags around the words that open each document, and inflect those words to fit the sentence. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **'By purchasing, you agreed to our '**
-  String get premiumDisclaimerAgreementPastPrefix;
+  /// **'{links, select, both{By purchasing, you agreed to our <terms>Terms of service</terms> and <privacy>Privacy policy</privacy>.} terms{By purchasing, you agreed to our <terms>Terms of service</terms>.} other{By purchasing, you agreed to our <privacy>Privacy policy</privacy>.}}'**
+  String premiumDisclaimerAgreementPast(String links);
 
-  /// No description provided for @premiumDisclaimerAgreementMiddle.
+  /// The instance's legal links shown on their own. Keep the <terms> and <privacy> tags around each link label. 'both' shows both links, 'terms' only the terms of service, 'other' only the privacy policy.
   ///
   /// In en, this message translates to:
-  /// **' and '**
-  String get premiumDisclaimerAgreementMiddle;
+  /// **'{links, select, both{<terms>Terms of service</terms> and <privacy>Privacy policy</privacy>} terms{<terms>Terms of service</terms>} other{<privacy>Privacy policy</privacy>}}'**
+  String instanceLegalLinksList(String links);
 
   /// No description provided for @premiumActiveUntil.
   ///
@@ -17979,10 +17949,10 @@ abstract class FluxerLocalizations {
   /// **'Send crash and performance reports'**
   String get advancedPerformanceReportingLabel;
 
-  /// Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is.
+  /// Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to. They are tied to a random per-install ID and leave out the account ID, instance names and message content. Keep the name Fluxer as is.
   ///
   /// In en, this message translates to:
-  /// **'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.'**
+  /// **'Reports go to Fluxer\'s error tracker, even when you\'re signed in to another instance. They\'re linked to a random ID for this install and don\'t include your account ID, instance names or message content.'**
   String get advancedCrashReportingDescription;
 
   /// Title of the post-crash opt-in sheet for crash and error reporting.
@@ -18916,6 +18886,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'App logs'**
   String get userSettingsNavAppLogs;
+
+  /// User settings navigation item shown on self-hosted instances. It opens the privacy policy of Fluxer, the company that makes the app, which still receives push relay traffic and opt-in crash reports. Keep the name Fluxer as is.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer app privacy policy'**
+  String get userSettingsNavFluxerAppPrivacyPolicy;
 
   /// Title of the user settings sheet on phones.
   ///

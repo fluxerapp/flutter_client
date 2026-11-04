@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
+import 'package:fluxer_app/shared/external_links/first_party_site_link.dart';
 import 'package:fluxer_dart/export.dart';
 
 const Set<String> _kPurchaseBadgeKinds = <String>{
@@ -29,7 +30,8 @@ bool profileBadgeLinkAllowed({
   required bool officialInstance,
   required ProfileBadgeResponse badge,
 }) {
-  if (badge.href == null) {
+  final String? href = badge.href;
+  if (href == null) {
     return false;
   }
   if (defaultTargetPlatform != TargetPlatform.iOS) {
@@ -38,8 +40,13 @@ bool profileBadgeLinkAllowed({
   if (!officialInstance) {
     return false;
   }
-  return externalPurchaseLinksAllowed ||
-      !_kPurchaseBadgeKinds.contains(badge.kind);
+  if (externalPurchaseLinksAllowed) {
+    return true;
+  }
+  final Uri? uri = Uri.tryParse(href);
+  return uri != null &&
+      !_kPurchaseBadgeKinds.contains(badge.kind) &&
+      !isFirstPartySiteLinkWithoutAppView(uri);
 }
 
 bool profileBadgeHasAction({

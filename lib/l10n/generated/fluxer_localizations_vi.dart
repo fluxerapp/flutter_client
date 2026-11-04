@@ -272,13 +272,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Bật 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Chúng tôi đã cập nhật điều khoản. Vui lòng xem lại và chấp nhận để tiếp tục.';
-
-  @override
-  String get nagbarReviewTerms => 'Xem lại điều khoản';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Tham gia $communityName để trò chuyện với đội ngũ và cập nhật thông tin mới nhất.';
   }
@@ -317,7 +310,17 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get logInWithPasskey => 'Đăng nhập bằng khóa truy cập';
 
   @override
-  String get loginLegalAgreementPrefix => 'Khi đăng nhập, bạn đồng ý với ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Khi đăng nhập, bạn đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>.',
+      'terms':
+          'Khi đăng nhập, bạn đồng ý với <terms>Điều khoản dịch vụ</terms>.',
+      'other':
+          'Khi đăng nhập, bạn đồng ý với <privacy>Chính sách quyền riêng tư</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -865,16 +868,15 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get registerYear => 'Năm';
 
   @override
-  String get registerConsentPrefix => 'Tôi đồng ý với ';
-
-  @override
-  String get registerConsentTerms => 'Điều khoản dịch vụ';
-
-  @override
-  String get registerConsentAnd => ' và ';
-
-  @override
-  String get registerConsentPrivacy => 'Chính sách quyền riêng tư';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Tôi đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>',
+      'terms': 'Tôi đồng ý với <terms>Điều khoản dịch vụ</terms>',
+      'other': 'Tôi đồng ý với <privacy>Chính sách quyền riêng tư</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9868,14 +9870,39 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Hoàn tiền giao dịch gần nhất';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Khi mua, bạn đồng ý với ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Khi mua, bạn đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>.',
+      'terms': 'Khi mua, bạn đồng ý với <terms>Điều khoản dịch vụ</terms>.',
+      'other':
+          'Khi mua, bạn đồng ý với <privacy>Chính sách quyền riêng tư</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Bằng việc mua hàng, bạn đã đồng ý với ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Khi mua, bạn đã đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>.',
+      'terms': 'Khi mua, bạn đã đồng ý với <terms>Điều khoản dịch vụ</terms>.',
+      'other':
+          'Khi mua, bạn đã đồng ý với <privacy>Chính sách quyền riêng tư</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' và ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách quyền riêng tư</privacy>',
+      'terms': '<terms>Điều khoản dịch vụ</terms>',
+      'other': '<privacy>Chính sách quyền riêng tư</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10931,7 +10958,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Báo cáo được gửi tới hệ thống theo dõi lỗi của Fluxer, kể cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hay nội dung tin nhắn.';
+      'Báo cáo được gửi tới hệ thống theo dõi lỗi của Fluxer, kể cả khi bạn đăng nhập vào máy chủ khác. Báo cáo được liên kết với một ID ngẫu nhiên của lượt cài đặt này và không bao gồm ID tài khoản của bạn, tên máy chủ hay nội dung tin nhắn.';
 
   @override
   String get observabilityReportingConsentTitle => 'Giúp sửa lỗi sự cố';
@@ -11509,6 +11536,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Nhật ký ứng dụng';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Chính sách quyền riêng tư của ứng dụng Fluxer';
 
   @override
   String get userSettingsTitle => 'Cài đặt';

@@ -272,13 +272,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Aktifkan 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Kami telah memperbarui persyaratan kami. Harap tinjau dan terima untuk melanjutkan.';
-
-  @override
-  String get nagbarReviewTerms => 'Tinjau persyaratan';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Gabung ke $communityName untuk mengobrol dengan tim dan mengikuti kabar terbaru.';
   }
@@ -317,7 +310,17 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get logInWithPasskey => 'Masuk dengan passkey';
 
   @override
-  String get loginLegalAgreementPrefix => 'Dengan masuk, kamu menyetujui ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Dengan masuk, Anda menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>.',
+      'terms':
+          'Dengan masuk, Anda menyetujui <terms>Ketentuan layanan</terms>.',
+      'other':
+          'Dengan masuk, Anda menyetujui <privacy>Kebijakan privasi</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -863,16 +866,15 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get registerYear => 'Tahun';
 
   @override
-  String get registerConsentPrefix => 'Saya setuju dengan ';
-
-  @override
-  String get registerConsentTerms => 'Ketentuan layanan';
-
-  @override
-  String get registerConsentAnd => ' dan ';
-
-  @override
-  String get registerConsentPrivacy => 'Kebijakan privasi';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Saya menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>',
+      'terms': 'Saya menyetujui <terms>Ketentuan layanan</terms>',
+      'other': 'Saya menyetujui <privacy>Kebijakan privasi</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9868,15 +9870,41 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Kembalikan pembelian terakhir';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Dengan membeli, Anda menyetujui ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Dengan membeli, Anda menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>.',
+      'terms':
+          'Dengan membeli, Anda menyetujui <terms>Ketentuan layanan</terms>.',
+      'other':
+          'Dengan membeli, Anda menyetujui <privacy>Kebijakan privasi</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Dengan membeli, Anda menyetujui ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Dengan membeli, Anda telah menyetujui <terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>.',
+      'terms':
+          'Dengan membeli, Anda telah menyetujui <terms>Ketentuan layanan</terms>.',
+      'other':
+          'Dengan membeli, Anda telah menyetujui <privacy>Kebijakan privasi</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' dan ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Ketentuan layanan</terms> dan <privacy>Kebijakan privasi</privacy>',
+      'terms': '<terms>Ketentuan layanan</terms>',
+      'other': '<privacy>Kebijakan privasi</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10922,7 +10950,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Laporan dikirim ke pelacak error Fluxer, bahkan saat Anda masuk ke instance lain. Laporan tidak menyertakan nama instance, ID, atau isi pesan.';
+      'Laporan dikirim ke pelacak error Fluxer, bahkan saat Anda masuk ke instance lain. Laporan ditautkan ke ID acak untuk instalasi ini dan tidak menyertakan ID akun Anda, nama instance, atau isi pesan.';
 
   @override
   String get observabilityReportingConsentTitle => 'Bantu perbaiki crash';
@@ -11499,6 +11527,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Log Aplikasi';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Kebijakan privasi aplikasi Fluxer';
 
   @override
   String get userSettingsTitle => 'Pengaturan';

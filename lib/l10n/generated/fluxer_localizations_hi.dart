@@ -272,13 +272,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get nagbarEnableMfa => '2FA सक्षम करें';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'हमने अपनी शर्तें अपडेट कर दी हैं। जारी रखने के लिए कृपया उनकी समीक्षा करें और स्वीकार करें।';
-
-  @override
-  String get nagbarReviewTerms => 'शर्तें देखें';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'टीम के साथ चैट करने और अप-टू-डेट रहने के लिए $communityName से जुड़ें।';
   }
@@ -317,8 +310,17 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get logInWithPasskey => 'पासकी से लॉग इन करें';
 
   @override
-  String get loginLegalAgreementPrefix =>
-      'साइन इन करके, आप इनसे सहमत होते हैं: ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'साइन इन करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।',
+      'terms':
+          'साइन इन करके, आप <terms>सेवा की शर्तों</terms> से सहमत होते हैं।',
+      'other':
+          'साइन इन करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -862,16 +864,15 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get registerYear => 'साल';
 
   @override
-  String get registerConsentPrefix => 'मैं सहमत हूँ ';
-
-  @override
-  String get registerConsentTerms => 'सेवा की शर्तें';
-
-  @override
-  String get registerConsentAnd => ' और ';
-
-  @override
-  String get registerConsentPrivacy => 'गोपनीयता नीति';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'मैं <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत हूँ',
+      'terms': 'मैं <terms>सेवा की शर्तों</terms> से सहमत हूँ',
+      'other': 'मैं <privacy>गोपनीयता नीति</privacy> से सहमत हूँ',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9869,13 +9870,39 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'पिछली खरीदारी का रिफ़ंड';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'खरीदकर, आप हमारी ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'खरीदारी करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।',
+      'terms':
+          'खरीदारी करके, आप <terms>सेवा की शर्तों</terms> से सहमत होते हैं।',
+      'other':
+          'खरीदारी करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => 'खरीदकर, आपने हमारी ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'खरीदारी करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत हुए।',
+      'terms': 'खरीदारी करके, आप <terms>सेवा की शर्तों</terms> से सहमत हुए।',
+      'other': 'खरीदारी करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत हुए।',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' और ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>सेवा की शर्तें</terms> और <privacy>गोपनीयता नीति</privacy>',
+      'terms': '<terms>सेवा की शर्तें</terms>',
+      'other': '<privacy>गोपनीयता नीति</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10914,7 +10941,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। इनमें इंस्टेंस के नाम, ID या मैसेज की सामग्री शामिल नहीं होती।';
+      'रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। ये इस इंस्टॉल की एक रैंडम ID से जुड़ी होती हैं, और इनमें आपके अकाउंट की ID, इंस्टेंस के नाम या मैसेज की सामग्री शामिल नहीं होती।';
 
   @override
   String get observabilityReportingConsentTitle =>
@@ -11484,6 +11511,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'ऐप लॉग';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Fluxer ऐप की गोपनीयता नीति';
 
   @override
   String get userSettingsTitle => 'सेटिंग्स';

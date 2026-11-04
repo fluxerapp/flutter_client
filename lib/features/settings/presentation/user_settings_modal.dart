@@ -188,6 +188,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
     final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? sectionIndex = widget.initialSection == null
@@ -196,10 +197,12 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
             widget.initialSection!,
             showBilling: showBilling,
             showGifts: userSettingsShowGiftBillingNav(ref),
+            showWhatsNew: showWhatsNew,
             showGiveFeedback: showGiveFeedback,
             showHelp: showHelp,
             showJoinFluxerLabs: showJoinFluxerLabs,
             isTouchPrimary: isTouchPrimary,
+            showAppLogs: _showAppLogs(),
           );
     if (sectionIndex != null) {
       _selectedIndex = sectionIndex;
@@ -243,21 +246,25 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
     final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsDesktopNavEntry> desktopNav =
         buildUserSettingsDesktopNav(
           showBilling: showBilling,
           showGifts: userSettingsShowGiftBillingNav(ref),
+          showWhatsNew: showWhatsNew,
           showGiveFeedback: showGiveFeedback,
           showHelp: showHelp,
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
+          showAppLogs: state.developerMode || AppBuildConfig.isCanary,
           showPrivacyPolicy: ref.watch(
             refreshedActiveInstanceProvider.select(
               (instance) => instance.privacyUrl != null,
             ),
           ),
+          showFluxerAppPrivacyPolicy: userSettingsShowFluxerAppPrivacyNav(ref),
           showTerms: ref.watch(
             refreshedActiveInstanceProvider.select(
               (instance) => instance.termsUrl != null,
@@ -440,6 +447,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_logout());
       return;
     }
+    if (entry.isAppLogs) {
+      _openAppLogs();
+      return;
+    }
     if (entry.isJoinFluxerLabs) {
       unawaited(_joinFluxerLabs());
       return;
@@ -460,6 +471,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(
         _openLegalUrl(ref.read(refreshedActiveInstanceProvider).privacyUrl),
       );
+      return;
+    }
+    if (entry.isFluxerAppPrivacyPolicy) {
+      unawaited(_openLegalUrl(InstanceConstants.defaultPrivacyUrl));
       return;
     }
     if (entry.isTermsOfService) {
@@ -501,6 +516,19 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     await handleExternalLinkTap(context, url, skipWarning: true);
   }
 
+  bool _showAppLogs() =>
+      ref.read(userSettingsViewModelProvider).developerMode ||
+      AppBuildConfig.isCanary;
+
+  void _openAppLogs() {
+    unawaited(
+      pushTalkerLogScreen(
+        context,
+        title: FluxerLocalizations.of(context).userSettingsNavAppLogs,
+      ),
+    );
+  }
+
   void _onSearchHitSelected(UserSettingsSearchHit? hit) {
     if (hit == null) {
       return;
@@ -512,16 +540,19 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
     final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? index = indexForUserSettingsSection(
       hit.section,
       showBilling: showBilling,
       showGifts: userSettingsShowGiftBillingNav(ref),
+      showWhatsNew: showWhatsNew,
       showGiveFeedback: showGiveFeedback,
       showHelp: showHelp,
       showJoinFluxerLabs: showJoinFluxerLabs,
       isTouchPrimary: isTouchPrimary,
+      showAppLogs: _showAppLogs(),
     );
     if (index == null) {
       return;
@@ -563,16 +594,19 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
         final bool showBilling = userSettingsShowBillingNav(ref);
         final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
         final bool showHelp = userSettingsShowHelpNav(ref);
+        final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
         final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
         final bool isTouchPrimary = ref.read(inputModalityProvider);
         final int? index = indexForUserSettingsSection(
           target,
           showBilling: showBilling,
           showGifts: userSettingsShowGiftBillingNav(ref),
+          showWhatsNew: showWhatsNew,
           showGiveFeedback: showGiveFeedback,
           showHelp: showHelp,
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
+          showAppLogs: _showAppLogs(),
         );
         if (index != null) {
           setState(() => _selectedIndex = index);
@@ -677,6 +711,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showGiveFeedback = userSettingsShowGiveFeedbackNav(ref);
     final bool showHelp = userSettingsShowHelpNav(ref);
+    final bool showWhatsNew = userSettingsShowWhatsNewNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
@@ -743,11 +778,18 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               onOpenPrivacyPolicy: privacyUrl == null
                   ? null
                   : () => unawaited(_openLegalUrl(privacyUrl)),
+              onOpenFluxerAppPrivacyPolicy:
+                  userSettingsShowFluxerAppPrivacyNav(ref)
+                  ? () => unawaited(
+                      _openLegalUrl(InstanceConstants.defaultPrivacyUrl),
+                    )
+                  : null,
               onOpenTerms: termsUrl == null
                   ? null
                   : () => unawaited(_openLegalUrl(termsUrl)),
               showBilling: showBilling,
               showGifts: userSettingsShowGiftBillingNav(ref),
+              showWhatsNew: showWhatsNew,
               showGiveFeedback: showGiveFeedback,
               showHelp: showHelp,
               showJoinFluxerLabs: showJoinFluxerLabs,

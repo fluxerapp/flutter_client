@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Я погоджуюся з ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Умови використання",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " та ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Політика конфіденційності",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Я погоджуюся з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>} terms{Я погоджуюся з <terms>Умовами використання</terms>} other{Я погоджуюся з <privacy>Політикою конфіденційності</privacy>}}",
     "registerConfirmPassword": "Підтвердьте пароль",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Політика конфіденційності застосунку Fluxer",
     "userSettingsNavDeveloperTools": "Інструменти розробника",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -11075,10 +11061,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Ми оновили наші умови. Будь ласка, перегляньте їх та прийміть, щоб продовжити.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "nagbarEnableNotifications": "Увімкнути сповіщення",
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
@@ -11207,10 +11189,6 @@
     "nagbarViewGiftInventory": "Переглянути інвентар подарунків",
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
-    },
-    "nagbarReviewTerms": "Переглянути умови",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarJoinCommunity": "Приєднатися до {communityName}",
     "@nagbarJoinCommunity": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Ваші останні рахунки-фактури. Щоб змінити спосіб оплати підписки, додайте або виберіть його в платіжному порталі та встановіть як основний.",
     "premiumManagePaymentMethods": "Керувати способами оплати",
     "premiumSelfServeRefundButton": "Повернути останню покупку",
-    "premiumDisclaimerAgreementPrefix": "Купуючи, ви погоджуєтеся з нашими ",
-    "premiumDisclaimerAgreementPastPrefix": "Купуючи, ви погодилися з нашими ",
-    "premiumDisclaimerAgreementMiddle": " та ",
+    "premiumDisclaimerAgreement": "{links, select, both{Купуючи, ви погоджуєтеся з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>.} terms{Купуючи, ви погоджуєтеся з <terms>Умовами використання</terms>.} other{Купуючи, ви погоджуєтеся з <privacy>Політикою конфіденційності</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Купуючи, ви погодилися з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>.} terms{Купуючи, ви погодилися з <terms>Умовами використання</terms>.} other{Купуючи, ви погодилися з <privacy>Політикою конфіденційності</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Умови використання</terms> та <privacy>Політика конфіденційності</privacy>} terms{<terms>Умови використання</terms>} other{<privacy>Політика конфіденційності</privacy>}}",
     "premiumActiveUntil": "Активно до {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18130,7 +18108,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Звіти надходять до системи відстеження помилок Fluxer, навіть якщо ви ввійшли на іншому екземплярі. Вони не містять назв екземплярів, ID чи вмісту повідомлень.",
+    "advancedCrashReportingDescription": "Звіти надходять до системи відстеження помилок Fluxer, навіть якщо ви ввійшли на іншому екземплярі. Вони прив'язані до випадкового ID цього встановлення й не містять ID вашого облікового запису, назв екземплярів чи вмісту повідомлень.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Входячи, ви погоджуєтеся з ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Входячи, ви погоджуєтеся з <terms>Умовами використання</terms> та <privacy>Політикою конфіденційності</privacy>.} terms{Входячи, ви погоджуєтеся з <terms>Умовами використання</terms>.} other{Входячи, ви погоджуєтеся з <privacy>Політикою конфіденційності</privacy>.}}",
     "mfaPasskeyUnavailable": "Ключі доступу з цього екземпляра не працюють у цьому застосунку, а інших способів перевірки у вашому обліковому записі немає. Натомість увійдіть у вебверсії.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

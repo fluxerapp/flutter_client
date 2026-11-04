@@ -6,58 +6,58 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  Future<bool?> storedFlag() async {
+    await pumpEventQueue();
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kAppForegroundSessionActiveKey);
+  }
+
+  void changeLifecycle(AppLifecycleState state) {
+    WidgetsBinding.instance.handleAppLifecycleStateChanged(state);
+  }
+
   setUp(() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
   });
 
-  test('bootstrap reports no crash when session flag was cleared', () async {
+  test('a launch after a foreground crash reports it', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      kAppForegroundSessionActiveKey: true,
+    });
+
     final AppForegroundSessionBootstrapResult result =
         await bootstrapAppForegroundSession();
 
-    expect(result.hadForegroundCrash, isFalse);
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    expect(preferences.getBool(kAppForegroundSessionActiveKey), isTrue);
+    expect(result.hadForegroundCrash, isTrue);
   });
 
   test(
-    'bootstrap reports foreground crash when session flag was set',
+    'a launch in the background does not mark a foreground session',
     () async {
-      SharedPreferences.setMockInitialValues(<String, Object>{
-        kAppForegroundSessionActiveKey: true,
-      });
+      changeLifecycle(AppLifecycleState.hidden);
+      changeLifecycle(AppLifecycleState.paused);
 
       final AppForegroundSessionBootstrapResult result =
           await bootstrapAppForegroundSession();
 
-      expect(result.hadForegroundCrash, isTrue);
+      expect(result.hadForegroundCrash, isFalse);
+      expect(await storedFlag(), isNot(isTrue));
     },
   );
 
-  test('paused lifecycle clears the session flag', () async {
-    await bootstrapAppForegroundSession();
-    installAppForegroundSessionLifecycleBinding();
+  test(
+    'opening the app switcher clears the flag before a swipe-away',
+    () async {
+      await bootstrapAppForegroundSession();
+      changeLifecycle(AppLifecycleState.resumed);
+      expect(await storedFlag(), isTrue);
 
-    WidgetsBinding.instance.handleAppLifecycleStateChanged(
-      AppLifecycleState.paused,
-    );
-    await pumpEventQueue();
+      changeLifecycle(AppLifecycleState.inactive);
 
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    expect(preferences.getBool(kAppForegroundSessionActiveKey), isFalse);
-  });
-
-  test('resumed lifecycle sets the session flag', () async {
-    SharedPreferences.setMockInitialValues(<String, Object>{
-      kAppForegroundSessionActiveKey: false,
-    });
-    installAppForegroundSessionLifecycleBinding();
-
-    WidgetsBinding.instance.handleAppLifecycleStateChanged(
-      AppLifecycleState.resumed,
-    );
-    await pumpEventQueue();
-
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    expect(preferences.getBool(kAppForegroundSessionActiveKey), isTrue);
-  });
+      expect(await storedFlag(), isFalse);
+      final AppForegroundSessionBootstrapResult relaunch =
+          await bootstrapAppForegroundSession();
+      expect(relaunch.hadForegroundCrash, isFalse);
+    },
+  );
 }

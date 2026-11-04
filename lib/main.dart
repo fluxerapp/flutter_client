@@ -82,7 +82,6 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   FluxerAppZoomBinding.ensureInitialized();
   registerBundledLicenses();
   await trustBundledRootCertificates();
-  installAppForegroundSessionLifecycleBinding();
   unawaited(ApplePushService.installReplyHandler());
   assertPushProviderBuildConfig();
   if (Platform.isAndroid &&

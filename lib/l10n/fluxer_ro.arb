@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Am actualizat termenii. Te rugăm să îi revizuiești și să îi accepți pentru a continua.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "Revizuiește termenii",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "Alătură-te {communityName} pentru a discuta cu echipa și a fi la curent cu noutățile.",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Sunt de acord cu ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Termeni și condiții",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " și ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Politica de confidențialitate",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Sunt de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>} terms{Sunt de acord cu <terms>Termenii serviciului</terms>} other{Sunt de acord cu <privacy>Politica de confidențialitate</privacy>}}",
     "registerConfirmPassword": "Confirmă parola",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "Facturile tale recente. Pentru a schimba metoda de plată pentru abonamentul tău, adaugă sau alege una în portalul de facturare și seteaz-o ca implicită.",
     "premiumManagePaymentMethods": "Gestionează metodele de plată",
     "premiumSelfServeRefundButton": "Restituie ultima achiziție",
-    "premiumDisclaimerAgreementPrefix": "Prin achiziționare, ești de acord cu termenii noștri ",
-    "premiumDisclaimerAgreementPastPrefix": "Prin achiziționare, ați fost de acord cu ",
-    "premiumDisclaimerAgreementMiddle": " și ",
+    "premiumDisclaimerAgreement": "{links, select, both{Prin cumpărare, ești de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>.} terms{Prin cumpărare, ești de acord cu <terms>Termenii serviciului</terms>.} other{Prin cumpărare, ești de acord cu <privacy>Politica de confidențialitate</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Prin cumpărare, ai fost de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>.} terms{Prin cumpărare, ai fost de acord cu <terms>Termenii serviciului</terms>.} other{Prin cumpărare, ai fost de acord cu <privacy>Politica de confidențialitate</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Termeni și condiții</terms> și <privacy>Politica de confidențialitate</privacy>} terms{<terms>Termeni și condiții</terms>} other{<privacy>Politica de confidențialitate</privacy>}}",
     "premiumActiveUntil": "Activ până la {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Politica de confidențialitate a aplicației Fluxer",
     "userSettingsNavDeveloperTools": "Instrumente pentru dezvoltatori",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18131,7 +18109,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Rapoartele ajung la sistemul de urmărire a erorilor al Fluxer, chiar dacă ești conectat la o altă instanță. Nu includ nume de instanțe, ID-uri sau conținutul mesajelor.",
+    "advancedCrashReportingDescription": "Rapoartele ajung la sistemul de urmărire a erorilor al Fluxer, chiar dacă ești conectat la o altă instanță. Sunt asociate cu un ID aleatoriu al acestei instalări și nu includ ID-ul contului tău, nume de instanțe sau conținutul mesajelor.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Prin autentificare, ești de acord cu ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Conectându-te, ești de acord cu <terms>Termenii serviciului</terms> și <privacy>Politica de confidențialitate</privacy>.} terms{Conectându-te, ești de acord cu <terms>Termenii serviciului</terms>.} other{Conectându-te, ești de acord cu <privacy>Politica de confidențialitate</privacy>.}}",
     "mfaPasskeyUnavailable": "Cheile de acces de pe această instanță nu funcționează în această aplicație, iar contul tău nu are altă metodă de verificare. Autentifică-te pe web.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

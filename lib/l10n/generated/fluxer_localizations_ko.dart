@@ -264,12 +264,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get nagbarEnableMfa => '2단계 인증 사용';
 
   @override
-  String get nagbarTermsAcceptance => '약관이 업데이트되었습니다. 계속하려면 검토하고 동의해 주세요.';
-
-  @override
-  String get nagbarReviewTerms => '이용약관 검토';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return '$communityName에 참여하여 팀과 채팅하고 최신 소식을 받아보세요.';
   }
@@ -307,7 +301,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get logInWithPasskey => '보안 키로 로그인';
 
   @override
-  String get loginLegalAgreementPrefix => '로그인하면 다음에 동의하는 것으로 간주됩니다: ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '로그인하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+      'terms': '로그인하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.',
+      'other': '로그인하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -836,16 +838,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get registerYear => '년';
 
   @override
-  String get registerConsentPrefix => '동의합니다';
-
-  @override
-  String get registerConsentTerms => '이용약관';
-
-  @override
-  String get registerConsentAnd => ' 및 ';
-
-  @override
-  String get registerConsentPrivacy => '개인정보처리방침';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의합니다',
+      'terms': '<terms>이용약관</terms>에 동의합니다',
+      'other': '<privacy>개인정보처리방침</privacy>에 동의합니다',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9476,13 +9476,36 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => '최근 구매 환불';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => '구매함으로써 다음 사항에 동의합니다. ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '구매하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+      'terms': '구매하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.',
+      'other': '구매하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix => '구매함으로써 귀하는 당사의 ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '구매 시 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.',
+      'terms': '구매 시 <terms>이용약관</terms>에 동의하셨습니다.',
+      'other': '구매 시 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' 및 ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>',
+      'terms': '<terms>이용약관</terms>',
+      'other': '<privacy>개인정보처리방침</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10479,7 +10502,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      '다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서에는 인스턴스 이름, ID, 메시지 내용이 포함되지 않습니다.';
+      '다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서는 이 설치의 임의 ID에 연결되며, 계정 ID, 인스턴스 이름, 메시지 내용은 포함되지 않습니다.';
 
   @override
   String get observabilityReportingConsentTitle => '충돌 문제 해결에 도움 주기';
@@ -11006,6 +11029,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => '앱 로그';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy => 'Fluxer 앱 개인정보처리방침';
 
   @override
   String get userSettingsTitle => '설정';

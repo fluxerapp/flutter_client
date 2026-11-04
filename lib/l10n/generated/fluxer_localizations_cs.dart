@@ -276,13 +276,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Zapnout 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Aktualizovali jsme naše podmínky. Chcete-li pokračovat, zkontrolujte je a přijměte je.';
-
-  @override
-  String get nagbarReviewTerms => 'Zkontrolovat podmínky';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Připojte se ke komunitě $communityName, povídejte si s týmem a sledujte novinky.';
   }
@@ -321,7 +314,16 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get logInWithPasskey => 'Přihlásit se pomocí klíče';
 
   @override
-  String get loginLegalAgreementPrefix => 'Přihlášením souhlasíte s ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Přihlášením souhlasíte s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>.',
+      'terms': 'Přihlášením souhlasíte s <terms>Podmínkami služby</terms>.',
+      'other':
+          'Přihlášením souhlasíte s <privacy>Zásadami ochrany osobních údajů</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -868,16 +870,15 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get registerYear => 'Rok';
 
   @override
-  String get registerConsentPrefix => 'Souhlasím s ';
-
-  @override
-  String get registerConsentTerms => 'Podmínky služby';
-
-  @override
-  String get registerConsentAnd => ' a ';
-
-  @override
-  String get registerConsentPrivacy => 'Zásady ochrany osobních údajů';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Souhlasím s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>',
+      'terms': 'Souhlasím s <terms>Podmínkami služby</terms>',
+      'other': 'Souhlasím s <privacy>Zásadami ochrany osobních údajů</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9929,15 +9930,39 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Vrátit poslední nákup';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'Zakoupením souhlasíte s našimi ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Zakoupením souhlasíte s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>.',
+      'terms': 'Zakoupením souhlasíte s <terms>Podmínkami služby</terms>.',
+      'other':
+          'Zakoupením souhlasíte s <privacy>Zásadami ochrany osobních údajů</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Zakoupením jste souhlasili s našimi ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Zakoupením jste souhlasili s <terms>Podmínkami služby</terms> a <privacy>Zásadami ochrany osobních údajů</privacy>.',
+      'terms': 'Zakoupením jste souhlasili s <terms>Podmínkami služby</terms>.',
+      'other':
+          'Zakoupením jste souhlasili s <privacy>Zásadami ochrany osobních údajů</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' a ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Podmínky služby</terms> a <privacy>Zásady ochrany osobních údajů</privacy>',
+      'terms': '<terms>Podmínky služby</terms>',
+      'other': '<privacy>Zásady ochrany osobních údajů</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10990,7 +11015,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Zprávy se odesílají do systému sledování chyb Fluxeru, i když jste přihlášeni k jiné instanci. Neobsahují názvy instancí, ID ani obsah zpráv.';
+      'Zprávy se odesílají do systému sledování chyb Fluxeru, i když jste přihlášeni k jiné instanci. Jsou propojené s náhodným ID této instalace a neobsahují ID vašeho účtu, názvy instancí ani obsah zpráv.';
 
   @override
   String get observabilityReportingConsentTitle => 'Pomozte opravit pády';
@@ -11570,6 +11595,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Protokoly aplikace';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Zásady ochrany osobních údajů aplikace Fluxer';
 
   @override
   String get userSettingsTitle => 'Nastavení';

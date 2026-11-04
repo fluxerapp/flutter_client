@@ -260,7 +260,6 @@ NagbarConditions _emptyConditions({
 }) {
   return NagbarConditions(
     canShowCorruptedInstallation: false,
-    canShowTermsAcceptance: false,
     canShowScheduledMaintenance: canShowScheduledMaintenance,
     userIsUnclaimed: userIsUnclaimed,
     userNeedsVerification: userNeedsVerification,

@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "동의합니다",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "이용약관",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " 및 ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "개인정보처리방침",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의합니다} terms{<terms>이용약관</terms>에 동의합니다} other{<privacy>개인정보처리방침</privacy>에 동의합니다}}",
     "registerConfirmPassword": "비밀번호 확인",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer 앱 개인정보처리방침",
     "userSettingsNavDeveloperTools": "개발자 도구",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -10995,10 +10981,6 @@
             }
         }
     },
-    "nagbarReviewTerms": "이용약관 검토",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "chatSpammerMessagesCollapsed": "{count, plural, =1{스팸 의심 메시지 1개} other{{count}개의 스팸 의심 메시지}}",
     "@chatSpammerMessagesCollapsed": {
         "description": "Collapsed summary label for consecutive messages from spammer-flagged users.",
@@ -11128,10 +11110,6 @@
     "sessionExpiredToast": "세션이 만료되었습니다. 다시 로그인해 주세요.",
     "@sessionExpiredToast": {
         "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
-    },
-    "nagbarTermsAcceptance": "약관이 업데이트되었습니다. 계속하려면 검토하고 동의해 주세요.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
     },
     "nagbarJoinCommunity": "{communityName}에 참여하기",
     "@nagbarJoinCommunity": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "최근 청구서입니다. 구독 결제 방법을 변경하려면, 결제 포털에서 추가하거나 선택한 후 기본으로 설정하세요.",
     "premiumManagePaymentMethods": "결제 수단 관리",
     "premiumSelfServeRefundButton": "최근 구매 환불",
-    "premiumDisclaimerAgreementPrefix": "구매함으로써 다음 사항에 동의합니다. ",
-    "premiumDisclaimerAgreementPastPrefix": "구매함으로써 귀하는 당사의 ",
-    "premiumDisclaimerAgreementMiddle": " 및 ",
+    "premiumDisclaimerAgreement": "{links, select, both{구매하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.} terms{구매하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.} other{구매하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{구매 시 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.} terms{구매 시 <terms>이용약관</terms>에 동의하셨습니다.} other{구매 시 <privacy>개인정보처리방침</privacy>에 동의하셨습니다.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>} terms{<terms>이용약관</terms>} other{<privacy>개인정보처리방침</privacy>}}",
     "premiumActiveUntil": "{date}까지 활성",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18126,7 +18104,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서에는 인스턴스 이름, ID, 메시지 내용이 포함되지 않습니다.",
+    "advancedCrashReportingDescription": "다른 인스턴스에 로그인되어 있더라도 보고서는 Fluxer의 오류 추적 시스템으로 전송됩니다. 보고서는 이 설치의 임의 ID에 연결되며, 계정 ID, 인스턴스 이름, 메시지 내용은 포함되지 않습니다.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "로그인하면 다음에 동의하는 것으로 간주됩니다: ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{로그인하면 <terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.} terms{로그인하면 <terms>이용약관</terms>에 동의하는 것으로 간주됩니다.} other{로그인하면 <privacy>개인정보처리방침</privacy>에 동의하는 것으로 간주됩니다.}}",
     "mfaPasskeyUnavailable": "이 인스턴스의 패스키는 이 앱에서 작동하지 않으며, 회원님의 계정에는 다른 인증 방법이 없습니다. 대신 웹에서 로그인하세요.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

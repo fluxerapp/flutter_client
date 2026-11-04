@@ -676,22 +676,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "Hyväksyn ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "Käyttöehdot",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " ja ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "Tietosuojakäytäntö",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{Hyväksyn <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>} terms{Hyväksyn <terms>käyttöehdot</terms>} other{Hyväksyn <privacy>tietosuojakäytännön</privacy>}}",
     "registerConfirmPassword": "Vahvista salasana",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -6098,6 +6083,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer-sovelluksen tietosuojakäytäntö",
     "userSettingsNavDeveloperTools": "Kehittäjän työkalut",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -9517,10 +9503,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "Olemme päivittäneet käyttöehtomme. Tarkista ja hyväksy ne jatkaaksesi.",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
     "systemCallDurationMonths": "{count} kuukautta",
     "@systemCallDurationMonths": {
         "description": "Duration label for multiple months in a call duration.",
@@ -10427,10 +10409,6 @@
     "permissionTimeOutMembersDescription": "Estä jäseniä lähettämästä viestejä, reagoimasta ja liittymästä äänikanaville määräajaksi.",
     "@permissionTimeOutMembersDescription": {
         "description": "Permission description."
-    },
-    "nagbarReviewTerms": "Tarkista ehdot",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
     },
     "nagbarManageSubscription": "Hallinnoi tilausta",
     "@nagbarManageSubscription": {
@@ -14430,9 +14408,9 @@
     "premiumPurchaseHistoryDescription": "Viimeisimmät laskusi. Jos haluat muuttaa tilauksesi maksutapaa, lisää tai valitse sellainen laskutusportaalissa ja aseta se oletukseksi.",
     "premiumManagePaymentMethods": "Hallinnoi maksutapoja",
     "premiumSelfServeRefundButton": "Palauta viimeisin ostos",
-    "premiumDisclaimerAgreementPrefix": "Ostamalla hyväksyt meidän ",
-    "premiumDisclaimerAgreementPastPrefix": "Ostamalla hyväksyit meidän ",
-    "premiumDisclaimerAgreementMiddle": " ja ",
+    "premiumDisclaimerAgreement": "{links, select, both{Ostamalla hyväksyt <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.} terms{Ostamalla hyväksyt <terms>käyttöehdot</terms>.} other{Ostamalla hyväksyt <privacy>tietosuojakäytännön</privacy>.}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{Ostamalla hyväksyit <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.} terms{Ostamalla hyväksyit <terms>käyttöehdot</terms>.} other{Ostamalla hyväksyit <privacy>tietosuojakäytännön</privacy>.}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>Käyttöehdot</terms> ja <privacy>Tietosuojakäytäntö</privacy>} terms{<terms>Käyttöehdot</terms>} other{<privacy>Tietosuojakäytäntö</privacy>}}",
     "premiumActiveUntil": "Aktiivinen kohteeseen {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -18122,7 +18100,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "Raportit menevät Fluxerin virheenseurantaan, vaikka olisit kirjautuneena toiseen instanssiin. Ne eivät sisällä instanssien nimiä, tunnuksia tai viestien sisältöä.",
+    "advancedCrashReportingDescription": "Raportit menevät Fluxerin virheenseurantaan, vaikka olisit kirjautuneena toiseen instanssiin. Ne on liitetty tämän asennuksen satunnaiseen tunnukseen, eivätkä ne sisällä tilisi tunnusta, instanssien nimiä tai viestien sisältöä.",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18898,10 +18876,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "Kirjautumalla sisään hyväksyt ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{Kirjautumalla sisään hyväksyt <terms>käyttöehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.} terms{Kirjautumalla sisään hyväksyt <terms>käyttöehdot</terms>.} other{Kirjautumalla sisään hyväksyt <privacy>tietosuojakäytännön</privacy>.}}",
     "mfaPasskeyUnavailable": "Tämän instanssin pääsyavaimet eivät toimi tässä sovelluksessa, eikä tililläsi ole muuta vahvistustapaa. Kirjaudu sen sijaan sisään verkossa.",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."

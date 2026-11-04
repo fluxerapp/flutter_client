@@ -274,13 +274,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get nagbarEnableMfa => 'Omogući 2FA';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'Ažurirali smo naše uvjete. Pregledajte ih i prihvatite kako biste nastavili.';
-
-  @override
-  String get nagbarReviewTerms => 'Pregledaj uvjete';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'Pridružite se zajednici $communityName kako biste razgovarali s timom i bili u tijeku.';
   }
@@ -319,7 +312,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get logInWithPasskey => 'Prijava pomoću sigurnosnog ključa';
 
   @override
-  String get loginLegalAgreementPrefix => 'Prijavom prihvaćate ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Prijavom prihvaćate <terms>Uvjete pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>.',
+      'terms': 'Prijavom prihvaćate <terms>Uvjete pružanja usluge</terms>.',
+      'other': 'Prijavom prihvaćate <privacy>Pravila privatnosti</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -870,16 +871,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get registerYear => 'Godina';
 
   @override
-  String get registerConsentPrefix => 'Slažem se s ';
-
-  @override
-  String get registerConsentTerms => 'Uvjeti pružanja usluge';
-
-  @override
-  String get registerConsentAnd => ' i ';
-
-  @override
-  String get registerConsentPrivacy => 'Pravila privatnosti';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Slažem se s <terms>Uvjetima pružanja usluge</terms> i <privacy>Pravilima privatnosti</privacy>',
+      'terms': 'Slažem se s <terms>Uvjetima pružanja usluge</terms>',
+      'other': 'Slažem se s <privacy>Pravilima privatnosti</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9917,14 +9917,37 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Vrati zadnju kupnju';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Kupnjom prihvaćate naše ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Kupnjom prihvaćate <terms>Uvjete pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>.',
+      'terms': 'Kupnjom prihvaćate <terms>Uvjete pružanja usluge</terms>.',
+      'other': 'Kupnjom prihvaćate <privacy>Pravila privatnosti</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'Kupnjom ste prihvatili naše ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'Kupnjom ste prihvatili <terms>Uvjete pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>.',
+      'terms': 'Kupnjom ste prihvatili <terms>Uvjete pružanja usluge</terms>.',
+      'other': 'Kupnjom ste prihvatili <privacy>Pravila privatnosti</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' i ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          '<terms>Uvjeti pružanja usluge</terms> i <privacy>Pravila privatnosti</privacy>',
+      'terms': '<terms>Uvjeti pružanja usluge</terms>',
+      'other': '<privacy>Pravila privatnosti</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10983,7 +11006,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'Izvješća idu u Fluxerov sustav za praćenje pogrešaka, čak i kada ste prijavljeni na drugu instancu. Ne sadrže nazive instanci, ID-ove ni sadržaj poruka.';
+      'Izvješća idu u Fluxerov sustav za praćenje pogrešaka, čak i kada ste prijavljeni na drugu instancu. Povezana su s nasumičnim ID-om ove instalacije i ne sadrže ID vašeg računa, nazive instanci ni sadržaj poruka.';
 
   @override
   String get observabilityReportingConsentTitle => 'Pomozite ispraviti rušenja';
@@ -11561,6 +11584,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'Dnevnici aplikacije';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'Pravila privatnosti aplikacije Fluxer';
 
   @override
   String get userSettingsTitle => 'Postavke';

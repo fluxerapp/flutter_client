@@ -363,7 +363,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
               onOpenSheet: () => unawaited(showInstanceSelectorSheet(context)),
             ),
             InstanceLegalAgreementText(
-              prefix: strings.loginLegalAgreementPrefix,
+              message: strings.loginLegalAgreement,
               textAlign: TextAlign.start,
               forSignIn: true,
               padding: EdgeInsets.only(top: layout.s4),

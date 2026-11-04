@@ -280,13 +280,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get nagbarEnableMfa => 'تمكين المصادقة الثنائية';
 
   @override
-  String get nagbarTermsAcceptance =>
-      'لقد قمنا بتحديث شروطنا. يُرجى مراجعتها وقبولها للمتابعة.';
-
-  @override
-  String get nagbarReviewTerms => 'مراجعة الشروط';
-
-  @override
   String nagbarGuildMembershipCta(String communityName) {
     return 'انضم إلى $communityName للدردشة مع الفريق والبقاء على اطلاع دائم.';
   }
@@ -325,7 +318,16 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get logInWithPasskey => 'تسجيل الدخول باستخدام مفتاح المرور';
 
   @override
-  String get loginLegalAgreementPrefix => 'بتسجيل الدخول، أنت توافق على ';
+  String loginLegalAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'بتسجيل الدخول، فإنك توافق على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>.',
+      'terms': 'بتسجيل الدخول، فإنك توافق على <terms>شروط الخدمة</terms>.',
+      'other':
+          'بتسجيل الدخول، فإنك توافق على <privacy>سياسة الخصوصية</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
   String continueWithSso(String provider) {
@@ -871,16 +873,15 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get registerYear => 'السنة';
 
   @override
-  String get registerConsentPrefix => 'أوافق على ';
-
-  @override
-  String get registerConsentTerms => 'شروط الخدمة';
-
-  @override
-  String get registerConsentAnd => ' و ';
-
-  @override
-  String get registerConsentPrivacy => 'سياسة الخصوصية';
+  String registerConsentLinks(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'أوافق على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>',
+      'terms': 'أوافق على <terms>شروط الخدمة</terms>',
+      'other': 'أوافق على <privacy>سياسة الخصوصية</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String get registerConsentBuiltInRules =>
@@ -9823,15 +9824,38 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'استرداد آخر عملية شراء';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'بإتمام عملية الشراء، أنت توافق على ';
+  String premiumDisclaimerAgreement(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'بإتمام الشراء، فإنك توافق على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>.',
+      'terms': 'بإتمام الشراء، فإنك توافق على <terms>شروط الخدمة</terms>.',
+      'other':
+          'بإتمام الشراء، فإنك توافق على <privacy>سياسة الخصوصية</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementPastPrefix =>
-      'بشرائك، تكون قد وافقت على ';
+  String premiumDisclaimerAgreementPast(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both':
+          'بإتمام الشراء، فقد وافقت على <terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>.',
+      'terms': 'بإتمام الشراء، فقد وافقت على <terms>شروط الخدمة</terms>.',
+      'other':
+          'بإتمام الشراء، فقد وافقت على <privacy>سياسة الخصوصية</privacy>.',
+    });
+    return '$_temp0';
+  }
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' و ';
+  String instanceLegalLinksList(String links) {
+    String _temp0 = intl.Intl.selectLogic(links, {
+      'both': '<terms>شروط الخدمة</terms> و<privacy>سياسة الخصوصية</privacy>',
+      'terms': '<terms>شروط الخدمة</terms>',
+      'other': '<privacy>سياسة الخصوصية</privacy>',
+    });
+    return '$_temp0';
+  }
 
   @override
   String premiumActiveUntil(String date) {
@@ -10870,7 +10894,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get advancedCrashReportingDescription =>
-      'تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Fluxer، حتى عندما تكون مسجّلًا الدخول إلى مثيل آخر. لا تتضمن أسماء المثيلات أو المعرّفات أو محتوى الرسائل.';
+      'تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Fluxer، حتى عندما تكون مسجّلًا الدخول إلى مثيل آخر. ترتبط بمعرّف عشوائي لهذا التثبيت، ولا تتضمن معرّف حسابك أو أسماء المثيلات أو محتوى الرسائل.';
 
   @override
   String get observabilityReportingConsentTitle => 'ساعد في إصلاح الأعطال';
@@ -11441,6 +11465,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAppLogs => 'سجلات التطبيق';
+
+  @override
+  String get userSettingsNavFluxerAppPrivacyPolicy =>
+      'سياسة خصوصية تطبيق Fluxer';
 
   @override
   String get userSettingsTitle => 'الإعدادات';

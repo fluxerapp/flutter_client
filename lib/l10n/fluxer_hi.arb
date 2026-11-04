@@ -226,14 +226,6 @@
     "@nagbarEnableMfa": {
         "description": "Visionary MFA nagbar CTA."
     },
-    "nagbarTermsAcceptance": "हमने अपनी शर्तें अपडेट कर दी हैं। जारी रखने के लिए कृपया उनकी समीक्षा करें और स्वीकार करें।",
-    "@nagbarTermsAcceptance": {
-        "description": "Terms acceptance nagbar body."
-    },
-    "nagbarReviewTerms": "शर्तें देखें",
-    "@nagbarReviewTerms": {
-        "description": "Terms acceptance nagbar CTA."
-    },
     "nagbarGuildMembershipCta": "टीम के साथ चैट करने और अप-टू-डेट रहने के लिए {communityName} से जुड़ें।",
     "@nagbarGuildMembershipCta": {
         "description": "Official community membership nagbar body.",
@@ -884,22 +876,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsentPrefix": "मैं सहमत हूँ ",
-    "@registerConsentPrefix": {
-        "description": "Text before the Terms of Service link in the consent checkbox."
-    },
-    "registerConsentTerms": "सेवा की शर्तें",
-    "@registerConsentTerms": {
-        "description": "Terms of Service link text in the consent checkbox."
-    },
-    "registerConsentAnd": " और ",
-    "@registerConsentAnd": {
-        "description": "Conjunction between Terms and Privacy links."
-    },
-    "registerConsentPrivacy": "गोपनीयता नीति",
-    "@registerConsentPrivacy": {
-        "description": "Privacy Policy link text in the consent checkbox."
-    },
+    "registerConsentLinks": "{links, select, both{मैं <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत हूँ} terms{मैं <terms>सेवा की शर्तों</terms> से सहमत हूँ} other{मैं <privacy>गोपनीयता नीति</privacy> से सहमत हूँ}}",
     "registerConfirmPassword": "पासवर्ड की पुष्टि करें",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
@@ -10652,9 +10629,9 @@
     "premiumPurchaseHistoryDescription": "आपकी हाल की इनवॉइस। अपने सब्सक्रिप्शन के लिए भुगतान विधि बदलने के लिए, बिलिंग पोर्टल में एक जोड़ें या चुनें और उसे डिफ़ॉल्ट बनाएं।",
     "premiumManagePaymentMethods": "भुगतान के तरीके प्रबंधित करें",
     "premiumSelfServeRefundButton": "पिछली खरीदारी का रिफ़ंड",
-    "premiumDisclaimerAgreementPrefix": "खरीदकर, आप हमारी ",
-    "premiumDisclaimerAgreementPastPrefix": "खरीदकर, आपने हमारी ",
-    "premiumDisclaimerAgreementMiddle": " और ",
+    "premiumDisclaimerAgreement": "{links, select, both{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।} terms{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> से सहमत होते हैं।} other{खरीदारी करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।}}",
+    "premiumDisclaimerAgreementPast": "{links, select, both{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत हुए।} terms{खरीदारी करके, आप <terms>सेवा की शर्तों</terms> से सहमत हुए।} other{खरीदारी करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत हुए।}}",
+    "instanceLegalLinksList": "{links, select, both{<terms>सेवा की शर्तें</terms> और <privacy>गोपनीयता नीति</privacy>} terms{<terms>सेवा की शर्तें</terms>} other{<privacy>गोपनीयता नीति</privacy>}}",
     "premiumActiveUntil": "{date} तक सक्रिय",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11693,6 +11670,7 @@
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
+    "userSettingsNavFluxerAppPrivacyPolicy": "Fluxer ऐप की गोपनीयता नीति",
     "userSettingsNavDeveloperTools": "डेवलपर टूल",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
@@ -18147,7 +18125,7 @@
     "@advancedCrashReportingSectionDescription": {
         "description": "Advanced settings section description for opt-in crash and performance reporting, which is off until the user turns it on. Keep the name Fluxer as is. Fluxer is the company that runs the error tracker."
     },
-    "advancedCrashReportingDescription": "रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। इनमें इंस्टेंस के नाम, ID या मैसेज की सामग्री शामिल नहीं होती।",
+    "advancedCrashReportingDescription": "रिपोर्ट Fluxer के एरर ट्रैकर पर जाती हैं, तब भी जब आप किसी दूसरे इंस्टेंस में साइन इन हों। ये इस इंस्टॉल की एक रैंडम ID से जुड़ी होती हैं, और इनमें आपके अकाउंट की ID, इंस्टेंस के नाम या मैसेज की सामग्री शामिल नहीं होती।",
     "@advancedCrashReportingDescription": {
         "description": "Toggle description for crash and performance reporting. Reports always go to the error tracker run by Fluxer, the company, never to the instance the user is signed in to, and leave out instance names, IDs and message content. Keep the name Fluxer as is."
     },
@@ -18915,10 +18893,7 @@
             }
         }
     },
-    "loginLegalAgreementPrefix": "साइन इन करके, आप इनसे सहमत होते हैं: ",
-    "@loginLegalAgreementPrefix": {
-        "description": "Text before the Terms of service link under the sign-in button. The trailing space separates it from the link."
-    },
+    "loginLegalAgreement": "{links, select, both{साइन इन करके, आप <terms>सेवा की शर्तों</terms> और <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।} terms{साइन इन करके, आप <terms>सेवा की शर्तों</terms> से सहमत होते हैं।} other{साइन इन करके, आप <privacy>गोपनीयता नीति</privacy> से सहमत होते हैं।}}",
     "mfaPasskeyUnavailable": "इस इंस्टेंस की पासकी इस ऐप में काम नहीं करतीं, और आपके अकाउंट में वेरिफ़िकेशन का कोई दूसरा तरीका नहीं है। इसके बजाय वेब पर साइन इन करें।",
     "@mfaPasskeyUnavailable": {
         "description": "Shown on the sign-in verification screen on iOS for a self-hosted instance when a passkey is the account's only verification method."
