@@ -59,7 +59,11 @@ class PushRelayConsent extends _$PushRelayConsent {
   }
 }
 
-Future<bool> ensurePushRelayConsent(Ref ref, String relayUrl) async {
+Future<bool> ensurePushRelayConsent(
+  Ref ref,
+  String relayUrl, {
+  bool allowPrompt = true,
+}) async {
   final bool isOfficialInstance = ref.read(isActiveInstanceOfficialProvider);
   final PushRelayConsent consent = ref.read(pushRelayConsentProvider.notifier);
   await consent.ensureLoaded();
@@ -71,12 +75,13 @@ Future<bool> ensurePushRelayConsent(Ref ref, String relayUrl) async {
   )) {
     return true;
   }
-  if (shouldPromptForPushRelayConsent(
-    relayUrl: relayUrl,
-    isConsentGranted: isConsentGranted,
-    hasDecision: consent._hasDecision,
-    isOfficialInstance: isOfficialInstance,
-  )) {
+  if (allowPrompt &&
+      shouldPromptForPushRelayConsent(
+        relayUrl: relayUrl,
+        isConsentGranted: isConsentGranted,
+        hasDecision: consent._hasDecision,
+        isOfficialInstance: isOfficialInstance,
+      )) {
     ref.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
   }
   return false;

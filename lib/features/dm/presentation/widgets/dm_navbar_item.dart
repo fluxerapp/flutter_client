@@ -20,6 +20,8 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dar
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart'
     show kGuildNavbarWidth;
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart'
+    show shellShowsConcurrentChannelList;
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -66,9 +68,11 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
         ),
       ),
     );
-    final bool isSelected = ref.watch(
-      activeChannelIdProvider.select((id) => id == widget.channelId),
-    );
+    final bool isSelected =
+        shellShowsConcurrentChannelList(context) &&
+        ref.watch(
+          activeChannelIdProvider.select((id) => id == widget.channelId),
+        );
     final colors = context.colors;
 
     final isMuted =
@@ -103,10 +107,11 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
         ),
       ),
     );
-    final String displayName = isGroup
-        ? conversation?.groupDisplayName ?? widget.displayName
-        : ref.watch(friendNicknameProvider(widget.recipientId)).value ??
-              widget.displayName;
+    final String? friendNickname = isGroup
+        ? null
+        : ref.watch(friendNicknameProvider(widget.recipientId)).value;
+    final String displayName =
+        friendNickname ?? conversation?.displayName ?? widget.displayName;
     final avatarImageUrl = isGroup
         ? null
         : FluxerMediaUrl.userAvatar(
@@ -230,17 +235,19 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
   }) {
     for (final DmConversation conversation in conversations) {
       if (conversation.id == widget.channelId) {
+        final String displayName = conversation.displayNameWith(
+          null,
+          l10n: l10n,
+          currentUserId: currentUserId,
+        );
         if (!conversation.isGroup) {
           return _DmNavbarConversationView(
+            displayName: displayName,
             recipientAvatar: conversation.recipientAvatar,
           );
         }
         return _DmNavbarConversationView(
-          groupDisplayName: conversation.displayNameWith(
-            null,
-            l10n: l10n,
-            currentUserId: currentUserId,
-          ),
+          displayName: displayName,
           groupIconUrl: FluxerMediaUrl.guildIcon(
             guildId: conversation.id,
             hash: conversation.icon,
@@ -256,14 +263,14 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem> {
 @immutable
 class _DmNavbarConversationView {
   const _DmNavbarConversationView({
+    required this.displayName,
     this.recipientAvatar,
-    this.groupDisplayName,
     this.groupIconUrl,
     this.groupMembers = const <GroupMemberInfo>[],
   });
 
+  final String displayName;
   final String? recipientAvatar;
-  final String? groupDisplayName;
   final String? groupIconUrl;
   final List<GroupMemberInfo> groupMembers;
 
@@ -272,15 +279,15 @@ class _DmNavbarConversationView {
     return identical(this, other) ||
         other is _DmNavbarConversationView &&
             other.recipientAvatar == recipientAvatar &&
-            other.groupDisplayName == groupDisplayName &&
+            other.displayName == displayName &&
             other.groupIconUrl == groupIconUrl &&
             listEquals(other.groupMembers, groupMembers);
   }
 
   @override
   int get hashCode => Object.hash(
+    displayName,
     recipientAvatar,
-    groupDisplayName,
     groupIconUrl,
     Object.hashAll(groupMembers),
   );

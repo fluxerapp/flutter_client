@@ -457,8 +457,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get accountExpired => 'Vypršela platnost';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Platnost relace pro $identifier vypršela. Přihlaste se znovu.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Vaše relace pro $name vypršela. Přihlaste se znovu.';
   }
 
   @override
@@ -10983,6 +10983,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Už se neptat';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Teď ne';
 
   @override
   String get advancedSettingsConfigure => 'Nastavit';

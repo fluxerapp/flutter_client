@@ -5,6 +5,7 @@ import WebRTC
 
 enum VoiceOutputPortPlan: Equatable {
   case speaker
+  case keepSystemRoute
   case earpiece
   case headset(AVAudioSession.Port)
   case headsetUnavailable
@@ -18,11 +19,13 @@ let voiceCallInputPortPriority: [AVAudioSession.Port] = [
 
 func voiceOutputPortPlan(
   route: String,
-  availableInputPorts: [AVAudioSession.Port]
+  availableInputPorts: [AVAudioSession.Port],
+  currentOutputPorts: [AVAudioSession.Port]
 ) -> VoiceOutputPortPlan {
+  let headsetIsActive = currentOutputPorts.contains { voiceHeadsetOutputPortTypes.contains($0) }
   switch route {
   case "earpiece":
-    return .earpiece
+    return headsetIsActive ? .keepSystemRoute : .earpiece
   case "headset":
     for port in voiceCallInputPortPriority {
       if availableInputPorts.contains(port) {
@@ -31,25 +34,29 @@ func voiceOutputPortPlan(
     }
     return .headsetUnavailable
   default:
-    return .speaker
+    return headsetIsActive ? .keepSystemRoute : .speaker
   }
 }
 
-private let voiceHeadsetOutputPortTypes: Set<AVAudioSession.Port> = [
+private let voiceNamedOutputPortTypes: Set<AVAudioSession.Port> = [
+  .airPlay,
+  .carAudio,
+  .HDMI,
+  .lineOut,
+  .usbAudio,
+]
+
+private let voiceHeadsetOutputPortTypes = voiceNamedOutputPortTypes.union([
   .bluetoothHFP,
   .bluetoothA2DP,
   .bluetoothLE,
   .headphones,
   .headsetMic,
-  .usbAudio,
-  .airPlay,
-  .carAudio,
-]
+])
 
-func voiceActiveRouteName(outputPorts: [AVAudioSession.Port]) -> String {
+func voiceActiveRouteName(outputPorts: [AVAudioSession.Port]) -> String? {
   let outputs = Set(outputPorts)
-  let headsetPorts = voiceHeadsetOutputPortTypes
-  if outputs.contains(where: { headsetPorts.contains($0) }) {
+  if outputs.contains(where: { voiceHeadsetOutputPortTypes.contains($0) }) {
     return "headset"
   }
   if outputs.contains(.builtInReceiver) {
@@ -58,48 +65,88 @@ func voiceActiveRouteName(outputPorts: [AVAudioSession.Port]) -> String {
   if outputs.contains(.builtInSpeaker) {
     return "speaker"
   }
-  return "speaker"
+  return nil
 }
 
-func voiceActiveRouteName(from route: AVAudioSessionRouteDescription) -> String {
-  voiceActiveRouteName(outputPorts: route.outputs.map(\.portType))
+func voiceActiveRouteDeviceName(outputs: [(port: AVAudioSession.Port, name: String)]) -> String? {
+  for output in outputs where voiceNamedOutputPortTypes.contains(output.port) {
+    let name = output.name.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !name.isEmpty {
+      return name
+    }
+  }
+  return nil
+}
+
+func voiceActiveRoute(from route: AVAudioSessionRouteDescription) -> [String: String]? {
+  guard let name = voiceActiveRouteName(outputPorts: route.outputs.map(\.portType)) else {
+    return nil
+  }
+  var result = ["route": name]
+  result["name"] = voiceActiveRouteDeviceName(
+    outputs: route.outputs.map { (port: $0.portType, name: $0.portName) }
+  )
+  return result
 }
 
 private final class VoiceSpeakerRouteEventStreamHandler: NSObject, FlutterStreamHandler {
-  private var routeObserver: NSObjectProtocol?
+  private var observers: [NSObjectProtocol] = []
   private var pendingRouteEvent: DispatchWorkItem?
 
   func onListen(
     withArguments arguments: Any?,
     eventSink events: @escaping FlutterEventSink
   ) -> FlutterError? {
-    routeObserver = NotificationCenter.default.addObserver(
-      forName: AVAudioSession.routeChangeNotification,
-      object: nil,
-      queue: .main
-    ) { [weak self] _ in
-      self?.scheduleRouteEvent(to: events)
-    }
+    let center = NotificationCenter.default
+    observers = [
+      center.addObserver(
+        forName: AVAudioSession.routeChangeNotification,
+        object: nil,
+        queue: .main
+      ) { [weak self] _ in
+        self?.scheduleRouteEvent(to: events)
+      },
+      center.addObserver(
+        forName: AVAudioSession.interruptionNotification,
+        object: nil,
+        queue: .main
+      ) { [weak self] notification in
+        let raw = notification.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt
+        guard let raw, AVAudioSession.InterruptionType(rawValue: raw) == .ended else {
+          return
+        }
+        self?.scheduleRouteEvent(to: events)
+      },
+      center.addObserver(
+        forName: AVAudioSession.mediaServicesWereResetNotification,
+        object: nil,
+        queue: .main
+      ) { [weak self] _ in
+        self?.scheduleRouteEvent(to: events)
+      },
+    ]
     return nil
   }
 
   func onCancel(withArguments arguments: Any?) -> FlutterError? {
     pendingRouteEvent?.cancel()
     pendingRouteEvent = nil
-    if let routeObserver {
-      NotificationCenter.default.removeObserver(routeObserver)
+    for observer in observers {
+      NotificationCenter.default.removeObserver(observer)
     }
-    routeObserver = nil
+    observers = []
     return nil
   }
 
   private func scheduleRouteEvent(to events: @escaping FlutterEventSink) {
     pendingRouteEvent?.cancel()
     let work = DispatchWorkItem {
-      let name = voiceActiveRouteName(
+      guard let route = voiceActiveRoute(
         from: AVAudioSession.sharedInstance().currentRoute
-      )
-      events(name)
+      ) else {
+        return
+      }
+      events(route)
     }
     pendingRouteEvent = work
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: work)
@@ -130,7 +177,7 @@ final class VoiceSpeakerRouteBridge {
       case "availableRoutes":
         result(Self.availableRouteNames())
       case "activeRoute":
-        result(Self.readActiveRouteName())
+        result(Self.readActiveRoute())
       default:
         result(FlutterMethodNotImplemented)
       }
@@ -141,8 +188,8 @@ final class VoiceSpeakerRouteBridge {
     ).setStreamHandler(routeEventHandler)
   }
 
-  private static func readActiveRouteName() -> String {
-    voiceActiveRouteName(from: AVAudioSession.sharedInstance().currentRoute)
+  private static func readActiveRoute() -> [String: String]? {
+    voiceActiveRoute(from: AVAudioSession.sharedInstance().currentRoute)
   }
 
   private static func apply(route: String) {
@@ -153,12 +200,15 @@ final class VoiceSpeakerRouteBridge {
     let inputs = av.availableInputs ?? []
     let plan = voiceOutputPortPlan(
       route: route,
-      availableInputPorts: inputs.map(\.portType)
+      availableInputPorts: inputs.map(\.portType),
+      currentOutputPorts: av.currentRoute.outputs.map(\.portType)
     )
     switch plan {
     case .speaker:
       try? av.setPreferredInput(nil)
       try? session.overrideOutputAudioPort(.speaker)
+    case .keepSystemRoute:
+      return
     case .earpiece:
       try? session.overrideOutputAudioPort(.none)
       let builtIn = inputs.first { $0.portType == .builtInMic }

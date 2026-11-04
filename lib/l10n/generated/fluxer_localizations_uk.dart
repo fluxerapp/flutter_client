@@ -461,8 +461,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get accountExpired => 'Термін дії закінчився';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Термін дії сеансу для $identifier закінчився. Будь ласка, увійдіть знову.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Ваш сеанс для $name завершився. Увійдіть знову.';
   }
 
   @override
@@ -11030,6 +11030,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Більше не питати';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Не зараз';
 
   @override
   String get advancedSettingsConfigure => 'Налаштувати';

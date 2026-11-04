@@ -457,8 +457,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get accountExpired => 'Süresi doldu';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return '$identifier için oturum süresi doldu. Lütfen tekrar giriş yapın.';
+  String accountSessionExpiredNotice(String name) {
+    return '$name için oturumunuzun süresi doldu. Tekrar giriş yapın.';
   }
 
   @override
@@ -10928,6 +10928,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Bir daha sorma';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Şimdi değil';
 
   @override
   String get advancedSettingsConfigure => 'Yapılandır';

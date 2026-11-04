@@ -13,6 +13,20 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Key kVoiceChangeAudioOutputKey = Key('voice-change-audio-output');
 
+String _voiceActiveOutputRouteLabel(WidgetRef ref, FluxerLocalizations l10n) {
+  final VoiceActiveOutputRoute? active = ref.watch(
+    voiceIosNativeRouteSyncProvider,
+  );
+  final String? deviceName = active?.deviceName;
+  if (deviceName != null) {
+    return deviceName;
+  }
+  return voiceOutputRouteLabel(
+    l10n,
+    active?.route ?? ref.watch(voiceSettingsProvider).outputRoute,
+  );
+}
+
 String voiceOutputRouteLabel(FluxerLocalizations l10n, VoiceOutputRoute route) {
   switch (route) {
     case VoiceOutputRoute.speaker:
@@ -95,10 +109,8 @@ class VoiceChangeAudioOutputSettingsRow extends ConsumerWidget {
     if (!showNativeVoiceAudioRoutePicker()) {
       return const SizedBox.shrink();
     }
-    ref.watch(voiceIosNativeRouteSyncProvider);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final VoiceOutputRoute route = ref.watch(voiceSettingsProvider).outputRoute;
-    final String routeLabel = voiceOutputRouteLabel(l10n, route);
+    final String routeLabel = _voiceActiveOutputRouteLabel(ref, l10n);
     return _NativeRoutePickerOverlay(
       label: l10n.voiceChangeAudioOutputLabel,
       value: routeLabel,
@@ -125,10 +137,8 @@ class VoiceChangeAudioOutputPanelRow extends ConsumerWidget {
     if (!showNativeVoiceAudioRoutePicker()) {
       return const SizedBox.shrink();
     }
-    ref.watch(voiceIosNativeRouteSyncProvider);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final VoiceOutputRoute route = ref.watch(voiceSettingsProvider).outputRoute;
-    final String routeLabel = voiceOutputRouteLabel(l10n, route);
+    final String routeLabel = _voiceActiveOutputRouteLabel(ref, l10n);
     final colors = context.colors;
     return _NativeRoutePickerOverlay(
       label: l10n.voiceChangeAudioOutputLabel,

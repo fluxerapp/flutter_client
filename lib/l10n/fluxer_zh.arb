@@ -240,11 +240,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "{identifier} 的会话已过期。请重新登录。",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "你的 {name} 会话已过期。请重新登录。",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -19552,6 +19552,10 @@
     "observabilityReportingConsentDecline": "不再询问",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "暂不",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
     },
     "advancedSettingSplashQuotesLabel": "启动画面语录",
     "@advancedSettingSplashQuotesLabel": {

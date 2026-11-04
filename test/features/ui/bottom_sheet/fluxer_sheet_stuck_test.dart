@@ -605,4 +605,59 @@ void main() {
     final bool atHalf = (top - halfTop).abs() < screenHeight * 0.05;
     expect(atFull || atHalf, isTrue);
   });
+
+  testWidgets(
+    'a fling back to the top of a scrollable sheet stops without a gap',
+    (WidgetTester tester) async {
+      late BuildContext pageContext;
+      await tester.pumpWidget(
+        _app(
+          Builder(
+            builder: (BuildContext context) {
+              pageContext = context;
+              return const SizedBox.expand();
+            },
+          ),
+        ),
+      );
+
+      late ScrollController sheetController;
+      unawaited(
+        FluxerBottomSheet.showScrollable<void>(
+          pageContext,
+          builder:
+              (
+                BuildContext context,
+                ScrollController controller,
+                VoidCallback close,
+              ) {
+                sheetController = controller;
+                return ListView.builder(
+                  controller: controller,
+                  itemCount: 80,
+                  itemBuilder: (BuildContext context, int index) =>
+                      SizedBox(height: 40, child: Text('Row $index')),
+                );
+              },
+        ),
+      );
+      await tester.pumpAndSettle();
+      final double fullTop = tester.getTopLeft(find.text('Row 0')).dy;
+
+      sheetController.jumpTo(240);
+      await tester.pump();
+      double lowest = sheetController.offset;
+      sheetController.addListener(
+        () => lowest = lowest < sheetController.offset
+            ? lowest
+            : sheetController.offset,
+      );
+      await tester.fling(find.text('Row 10'), const Offset(0, 200), 4000);
+      await tester.pumpAndSettle();
+
+      expect(lowest, greaterThanOrEqualTo(0));
+      expect(tester.getTopLeft(find.text('Row 0')).dy, fullTop);
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+  );
 }

@@ -453,8 +453,8 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get accountExpired => 'פג תוקף';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'התוקף של הפעלת המשתמש עבור $identifier פג. אנא התחבר מחדש.';
+  String accountSessionExpiredNotice(String name) {
+    return 'פג התוקף של ההפעלה שלך עבור $name. התחבר מחדש.';
   }
 
   @override
@@ -10771,6 +10771,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'אל תשאל שוב';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'לא עכשיו';
 
   @override
   String get advancedSettingsConfigure => 'הגדרות מתקדמות';

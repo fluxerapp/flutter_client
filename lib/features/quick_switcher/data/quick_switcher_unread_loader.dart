@@ -1,6 +1,9 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/own_guild_unread_permissions.dart';
+import 'package:fluxer_app/features/channels/data/read_state_effective.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isGuildTextBasedChannel;
@@ -12,6 +15,7 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
   required FluxerDatabase db,
+  required ReadStateWriteBatcher readStateWriteBatcher,
   required String? currentUserId,
   required List<DmConversation> conversations,
   bool unreadBadgeCustomizationEnabled = false,
@@ -24,10 +28,22 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
   final Map<String, Channel> guildChannelsById = <String, Channel>{
     for (final Channel row in guildChannelRows) row.id: row,
   };
-  final List<ReadState> readStates = await db.readStateDao.getReadStates();
   final Map<String, ReadState> readStateByChannelId = <String, ReadState>{
-    for (final ReadState state in readStates) state.channelId: state,
+    for (final ReadState state in await db.readStateDao.getReadStates())
+      state.channelId: state,
   };
+  for (final String channelId in readStateWriteBatcher.overlayChannelIds()) {
+    final ReadState? row = readStateByChannelId[channelId];
+    final ReadStateEffectiveFields effective = readStateWriteBatcher
+        .effectiveFields(channelId, row);
+    readStateByChannelId[channelId] =
+        (row ?? ReadState(channelId: channelId, mentionCount: 0, manual: false))
+            .copyWith(
+              lastMessageId: Value(effective.lastMessageId),
+              mentionCount: effective.mentionCount,
+            );
+  }
+  final List<ReadState> readStates = readStateByChannelId.values.toList();
   final List<UserGuildSettingsTableData> guildSettingsRows = await db
       .userGuildSettingsDao
       .getAll();

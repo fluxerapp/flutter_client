@@ -240,11 +240,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "Session expired for {identifier}. Please log in again.",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "Your session for {name} expired. Log in again.",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -19552,6 +19552,10 @@
     "observabilityReportingConsentDecline": "Don't ask again",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "Not now",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
     },
     "advancedSettingSplashQuotesLabel": "Splash screen quotes",
     "@advancedSettingSplashQuotesLabel": {

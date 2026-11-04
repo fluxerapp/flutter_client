@@ -342,6 +342,7 @@ class AppStartup extends _$AppStartup {
           username: user.username,
           discriminator: user.discriminator,
           avatar: user.avatar,
+          email: user.email,
         );
         if (!ref.mounted) {
           return;

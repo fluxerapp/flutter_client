@@ -27,10 +27,9 @@ import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
-  const LoginForm({this.heading, this.subheading, super.key});
+  const LoginForm({this.heading, super.key});
 
   final String? heading;
-  final String? subheading;
 
   @override
   ConsumerState<LoginForm> createState() => _LoginFormState();
@@ -65,6 +64,9 @@ class _LoginFormState extends ConsumerState<LoginForm>
     _emailFocusNode.addListener(_trackEmailFocus);
     _passwordFocusNode.addListener(_trackPasswordFocus);
     WidgetsBinding.instance.addObserver(this);
+    final LoginViewState vm = ref.read(loginViewModelProvider);
+    _emailController.text = vm.email;
+    _passwordController.text = vm.password;
     _emailController.addListener(_syncEmailToViewModel);
     _passwordController.addListener(_syncPasswordToViewModel);
   }
@@ -83,7 +85,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
 
   bool _isInteractionBlocked() {
     final vm = ref.read(loginViewModelProvider);
-    return vm.isLoggingIn || vm.isStartingSso;
+    return vm.signInInFlight;
   }
 
   bool _shouldTrackKeyboardRestore(FocusNode node) {
@@ -215,7 +217,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
       });
 
     return AnimatedOpacity(
-      opacity: vm.isLoggingIn || vm.isStartingSso ? 0.6 : 1.0,
+      opacity: vm.signInInFlight ? 0.6 : 1.0,
       duration: context.motion.fast,
       child: AutofillGroup(
         child: Column(
@@ -228,11 +230,11 @@ class _LoginFormState extends ConsumerState<LoginForm>
                 style: context.textStyles.heading,
               ),
             ),
-            if (widget.subheading case final String subheading) ...[
+            if (vm.expiredAccountName case final String accountName) ...[
               SizedBox(height: layout.s2),
               Center(
                 child: Text(
-                  subheading,
+                  strings.accountSessionExpiredNotice(accountName),
                   style: context.textStyles.bodyMedium.copyWith(
                     color: context.colors.textSecondary,
                   ),

@@ -302,8 +302,8 @@ void main() {
     test('stored accounts build avatars on their own media host', () async {
       InstanceEndpoints.apply(
         wellKnownFixture(
-          media: 'http://192.168.0.145/media',
-          staticCdn: 'http://192.168.0.145/static',
+          media: 'http://192.168.1.20/media',
+          staticCdn: 'http://192.168.1.20/static',
         ),
       );
       addTearDown(InstanceEndpoints.resetToDefaults);
@@ -342,6 +342,49 @@ void main() {
             'https://media.chat.example/avatars/self-hosted-user/def.webp?size=80',
       });
     });
+
+    test(
+      'stored accounts sign in with the login their instance uses',
+      () async {
+        await repository.migrateLegacyTokens();
+        for (final (String userId, String? accountIdentity, String? email) in [
+          ('email-user', 'email', 'tester@example.com'),
+          ('username-user', 'username', null),
+          ('unknown-email-user', 'email', null),
+        ]) {
+          await db.authSessionDao.saveSessionMetadata(
+            userId: userId,
+            instanceSnapshotJson: InstanceConfigSnapshot.fromWellKnown(
+              wellKnown: wellKnownFixture(
+                media: 'https://chat.example/media',
+                staticCdn: 'https://chat.example/static',
+                accountIdentity: accountIdentity,
+              ),
+              normalizer: const InstanceEndpointNormalizer(),
+            ).toJson(),
+          );
+          await db.authSessionDao.updateUserData(
+            userId: userId,
+            username: 'tester',
+            discriminator: '0000',
+            avatar: null,
+            email: email,
+          );
+          await tokenStorage.saveToken(userId: userId, token: 'token-$userId');
+        }
+
+        final Map<String, String> logins = <String, String>{
+          for (final account in await repository.getStoredAccounts())
+            account.userId: account.signInLogin,
+        };
+
+        expect(logins, <String, String>{
+          'email-user': 'tester@example.com',
+          'username-user': 'tester',
+          'unknown-email-user': '',
+        });
+      },
+    );
 
     test('getActiveSession skips and removes tokenless sessions', () async {
       await repository.migrateLegacyTokens();

@@ -240,11 +240,11 @@
     "@accountExpired": {
         "description": "Label shown on accounts with expired sessions."
     },
-    "accountSessionExpired": "Η συνεδρία έληξε για τον/την {identifier}. Συνδεθείτε ξανά.",
-    "@accountSessionExpired": {
-        "description": "Message when selecting an expired account.",
+    "accountSessionExpiredNotice": "Η συνεδρία σας για τον λογαριασμό {name} έληξε. Συνδεθείτε ξανά.",
+    "@accountSessionExpiredNotice": {
+        "description": "Notice above the sign-in form when a saved account's session expired. {name} is the account's username.",
         "placeholders": {
-            "identifier": {
+            "name": {
                 "type": "String"
             }
         }
@@ -19552,6 +19552,10 @@
     "observabilityReportingConsentDecline": "Να μην ερωτηθώ ξανά",
     "@observabilityReportingConsentDecline": {
         "description": "Secondary button that permanently dismisses the post-crash crash reporting opt-in sheet."
+    },
+    "observabilityReportingConsentNotNow": "Όχι τώρα",
+    "@observabilityReportingConsentNotNow": {
+        "description": "Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash."
     },
     "advancedSettingSplashQuotesLabel": "Αποφθέγματα στην οθόνη εκκίνησης",
     "@advancedSettingSplashQuotesLabel": {

@@ -729,49 +729,6 @@ void main() {
     });
   });
 
-  group('shouldReapplySpeakerOutputOnPreferenceChange', () {
-    test('reapplies when the in-call speaker setting changes', () {
-      expect(
-        shouldReapplySpeakerOutputOnPreferenceChange(
-          isInVoice: true,
-          speakerPreferenceChanged: true,
-          isAndroid: false,
-        ),
-        isTrue,
-      );
-    });
-    test('skips when the speaker setting did not change', () {
-      expect(
-        shouldReapplySpeakerOutputOnPreferenceChange(
-          isInVoice: true,
-          speakerPreferenceChanged: false,
-          isAndroid: false,
-        ),
-        isFalse,
-      );
-    });
-    test('skips when not in a call', () {
-      expect(
-        shouldReapplySpeakerOutputOnPreferenceChange(
-          isInVoice: false,
-          speakerPreferenceChanged: true,
-          isAndroid: false,
-        ),
-        isFalse,
-      );
-    });
-    test('skips on Android where native route hold owns reapply', () {
-      expect(
-        shouldReapplySpeakerOutputOnPreferenceChange(
-          isInVoice: true,
-          speakerPreferenceChanged: true,
-          isAndroid: true,
-        ),
-        isFalse,
-      );
-    });
-  });
-
   group('incomingRingBelongsToOtherAccount', () {
     test('keeps a ring for another account', () {
       expect(

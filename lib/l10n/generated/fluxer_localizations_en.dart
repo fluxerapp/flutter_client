@@ -456,8 +456,8 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get accountExpired => 'Expired';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Your session for $name expired. Log in again.';
   }
 
   @override
@@ -10873,6 +10873,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get observabilityReportingConsentDecline => 'Don\'t ask again';
 
   @override
+  String get observabilityReportingConsentNotNow => 'Not now';
+
+  @override
   String get advancedSettingsConfigure => 'Configure';
 
   @override
@@ -17216,8 +17219,8 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get accountExpired => 'Expired';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Your session for $name expired. Log in again.';
   }
 
   @override
@@ -27625,6 +27628,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get observabilityReportingConsentDecline => 'Don\'t ask again';
 
   @override
+  String get observabilityReportingConsentNotNow => 'Not now';
+
+  @override
   String get advancedSettingsConfigure => 'Configure';
 
   @override
@@ -33967,8 +33973,8 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get accountExpired => 'Expired';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Your session for $name expired. Log in again.';
   }
 
   @override
@@ -44374,6 +44380,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get observabilityReportingConsentDecline => 'Don\'t ask again';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Not now';
 
   @override
   String get advancedSettingsConfigure => 'Configure';

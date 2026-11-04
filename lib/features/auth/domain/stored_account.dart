@@ -12,6 +12,8 @@ class StoredAccount {
   final bool isValid;
   final String? displayDomain;
   final String mediaBaseUrl;
+  final String? email;
+  final bool usernameSignIn;
 
   const StoredAccount({
     required this.userId,
@@ -21,6 +23,8 @@ class StoredAccount {
     this.discriminator,
     this.avatar,
     this.displayDomain,
+    this.email,
+    this.usernameSignIn = false,
   });
 
   String get displayName => username ?? userId;
@@ -31,6 +35,13 @@ class StoredAccount {
       return displayName;
     }
     return '$displayName#$tag';
+  }
+
+  String get signInLogin => usernameSignIn ? identifier : email ?? '';
+
+  bool matchesSignInLogin(String login) {
+    final String typed = login.trim().toLowerCase();
+    return typed == signInLogin.toLowerCase() || typed == email?.toLowerCase();
   }
 
   String? avatarUrl({int size = MediaProxySizes.avatarDefault}) {

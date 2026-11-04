@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/account_closure_notice_alert.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/account_selector.dart';
@@ -10,11 +11,12 @@ import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
 import 'package:fluxer_app/features/auth/providers/account_closure_notice_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
+import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -26,7 +28,13 @@ class LoginScreen extends ConsumerWidget {
 
     final accountState = ref.watch(accountManagerProvider);
 
-    if (vm.showAccountSelector && accountState.accounts.isNotEmpty) {
+    final bool showAccountSelector =
+        vm.showAccountSelector &&
+        !vm.signInInFlight &&
+        !ref.watch(authStateProvider) &&
+        accountState.accounts.isNotEmpty;
+
+    if (showAccountSelector) {
       final AccountClosureNotice? closure = ref.watch(
         pendingAccountClosureNoticeProvider,
       );
@@ -34,27 +42,37 @@ class LoginScreen extends ConsumerWidget {
         currentUserId: ref.read(currentUserIdProvider) ?? '',
         onSelectAccount: (account) {
           ref.read(pendingAccountClosureNoticeProvider.notifier).clear();
-          if (account.isValid) {
-            final l10n = FluxerLocalizations.of(context);
+          final AuthRepository authRepository = ref.read(
+            authRepositoryProvider,
+          );
+          final InstanceSelector selector = ref.read(
+            instanceSelectorProvider.notifier,
+          );
+          void openExpiredSignIn() {
+            notifier.startExpiredSignIn(account);
             unawaited(
-              ref
-                  .read(accountManagerProvider.notifier)
-                  .switchToAccount(account.userId, ignoreIfPending: true)
-                  .catchError((Object e) {
-                    if (e is SessionExpiredFailure) {
-                      notifier.setError(
-                        l10n.accountSessionExpired(account.identifier),
-                      );
-                    }
-                  }),
+              authRepository
+                  .resolveInstanceSnapshotForUser(account.userId)
+                  .then(selector.selectKnownInstance),
             );
-          } else {
-            notifier
-              ..updateEmail(account.identifier)
-              ..hideAccountSelector();
           }
+
+          if (!account.isValid) {
+            openExpiredSignIn();
+            return;
+          }
+          unawaited(
+            ref
+                .read(accountManagerProvider.notifier)
+                .switchToAccount(account.userId, ignoreIfPending: true)
+                .catchError((Object e) {
+                  if (e is SessionExpiredFailure) {
+                    openExpiredSignIn();
+                  }
+                }),
+          );
         },
-        onAddAccount: notifier.hideAccountSelector,
+        onAddAccount: notifier.startNewSignIn,
       );
       if (closure == null) {
         return selector;

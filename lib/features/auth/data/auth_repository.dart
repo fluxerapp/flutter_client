@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' hide AuthSession;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_legacy_endpoint_migrator.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/account_recovery_result.dart';
@@ -497,6 +498,19 @@ class AuthRepository {
     }
   }
 
+  bool _resolveUsernameSignIn(String? instanceSnapshotJson) {
+    if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
+      return false;
+    }
+    try {
+      return InstanceRuntimeConfig.fromWellKnown(
+        InstanceConfigSnapshot.fromJson(instanceSnapshotJson).wellKnown,
+      ).usernameSignIn;
+    } on Object {
+      return false;
+    }
+  }
+
   String? _parseDisplayDomain(String? instanceSnapshotJson) {
     if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
       return null;
@@ -696,6 +710,8 @@ class AuthRepository {
           avatar: s.avatar,
           displayDomain: _resolveDisplayDomain(s.instanceSnapshotJson),
           mediaBaseUrl: _resolveMediaBaseUrl(s.instanceSnapshotJson),
+          email: s.email,
+          usernameSignIn: _resolveUsernameSignIn(s.instanceSnapshotJson),
         ),
       );
     }

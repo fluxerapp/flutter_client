@@ -33,6 +33,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/share/pending_share_provider.dart';
 import 'package:fluxer_app/core/share/shared_media_payload.dart';
+import 'package:fluxer_app/features/auth/providers/awaiting_tap_after_sign_in_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/share_media_sheet.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -61,6 +62,14 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   int _distributorPickerAttempts = 0;
   bool _deferredObservabilityReportingConsent = false;
   bool _deferredPushRelayConsent = false;
+
+  void _scheduleConsentPromptsAfterSignInTap() {
+    _scheduleObservabilityReportingConsent();
+    if (PushProviderGuard.isApple || PushProviderGuard.isFirebaseMessaging) {
+      _schedulePushRelayConsentPrompt();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -94,6 +103,14 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
           persistGuildChannelFromLocation(db, next);
           persistAppLocation(db, next);
         });
+      })
+      ..listenManual<bool>(awaitingTapAfterSignInProvider, (
+        bool? previous,
+        bool next,
+      ) {
+        if (previous ?? false) {
+          _scheduleConsentPromptsAfterSignInTap();
+        }
       })
       ..listenManual<String?>(activeGuildIdProvider, (
         String? previous,
@@ -247,6 +264,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       _deferredPushRelayConsent = true;
       return;
     }
+    if (ref.read(awaitingTapAfterSignInProvider)) {
+      return;
+    }
     final BuildContext? rootContext = rootNavigatorKey.currentContext;
     if (rootContext == null || !rootContext.mounted) {
       if (attempt >= 60) {
@@ -328,6 +348,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
     }
     if (_isPushRelayConsentPresentationInFlight()) {
       _deferredObservabilityReportingConsent = true;
+      return;
+    }
+    if (ref.read(awaitingTapAfterSignInProvider)) {
       return;
     }
     final BuildContext? rootContext = rootNavigatorKey.currentContext;

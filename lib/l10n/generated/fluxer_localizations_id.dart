@@ -455,8 +455,8 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get accountExpired => 'Kedaluwarsa';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Sesi kedaluwarsa untuk $identifier. Silakan masuk lagi.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Sesi Anda untuk $name telah kedaluwarsa. Silakan masuk lagi.';
   }
 
   @override
@@ -10917,6 +10917,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Jangan tanya lagi';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Nanti saja';
 
   @override
   String get advancedSettingsConfigure => 'Konfigurasi';

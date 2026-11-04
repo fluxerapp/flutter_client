@@ -1038,6 +1038,8 @@ class _ProfileIdentityAvatar extends StatelessWidget {
     }
     return FluxerTappable(
       onTap: onTap,
+      semanticLabel: FluxerLocalizations.of(context).statusChangeSheetTitle,
+      excludeChildSemantics: true,
       builder: (BuildContext context, Set<WidgetState> states) => avatar,
     );
   }

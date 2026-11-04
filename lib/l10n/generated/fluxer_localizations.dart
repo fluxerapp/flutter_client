@@ -812,11 +812,11 @@ abstract class FluxerLocalizations {
   /// **'Expired'**
   String get accountExpired;
 
-  /// Message when selecting an expired account.
+  /// Notice above the sign-in form when a saved account's session expired. {name} is the account's username.
   ///
   /// In en, this message translates to:
-  /// **'Session expired for {identifier}. Please log in again.'**
-  String accountSessionExpired(String identifier);
+  /// **'Your session for {name} expired. Log in again.'**
+  String accountSessionExpiredNotice(String name);
 
   /// Title for the in-app account switcher sheet.
   ///
@@ -17888,6 +17888,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t ask again'**
   String get observabilityReportingConsentDecline;
+
+  /// Secondary button that closes the post-crash crash reporting opt-in sheet for now. The sheet can appear again after a later crash.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get observabilityReportingConsentNotNow;
 
   /// Button label that opens a dedicated advanced settings modal.
   ///

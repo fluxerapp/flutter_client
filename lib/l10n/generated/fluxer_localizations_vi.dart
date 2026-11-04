@@ -454,8 +454,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get accountExpired => 'Đã hết hạn';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Phiên đã hết hạn cho $identifier. Vui lòng đăng nhập lại.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Phiên của bạn cho $name đã hết hạn. Hãy đăng nhập lại.';
   }
 
   @override
@@ -10926,6 +10926,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Không hỏi lại';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Để sau';
 
   @override
   String get advancedSettingsConfigure => 'Cấu hình';

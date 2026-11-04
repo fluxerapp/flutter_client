@@ -656,16 +656,9 @@ class VoiceSettingsApplicator {
     VoiceOutputRoute route,
   ) async {
     try {
-      switch (route) {
-        case VoiceOutputRoute.speaker:
-          await AudioManager.instance.setSpeakerOutputPreferred(
-            true,
-            force: true,
-          );
-        case VoiceOutputRoute.headset:
-        case VoiceOutputRoute.earpiece:
-          await AudioManager.instance.setSpeakerOutputPreferred(false);
-      }
+      await AudioManager.instance.setSpeakerOutputPreferred(
+        liveKitPrefersSpeaker(route),
+      );
     } on Object catch (_) {}
   }
 
