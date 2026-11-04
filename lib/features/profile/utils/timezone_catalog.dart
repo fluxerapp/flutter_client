@@ -1,4 +1,5 @@
-import 'package:timezone/data/latest.dart' as tz_data;
+import 'package:fluxer_app/features/profile/utils/supported_timezone_ids.dart';
+import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
 bool _initialized = false;
@@ -60,10 +61,8 @@ List<TimezoneCatalogOption> buildTimezoneCatalogOptions() {
   final DateTime utcNow = DateTime.now().toUtc();
   final List<TimezoneCatalogOption> options = <TimezoneCatalogOption>[];
 
-  for (final MapEntry<String, tz.Location> entry
-      in tz.timeZoneDatabase.locations.entries) {
-    final String id = entry.key;
-    final tz.Location location = entry.value;
+  for (final String id in kSupportedTimezoneIds) {
+    final tz.Location location = tz.getLocation(id);
     final tz.TZDateTime zoned = tz.TZDateTime.from(utcNow, location);
     final int offsetMinutes = zoned.timeZoneOffset.inMinutes;
     final String place = _formatZonePlaceName(id);

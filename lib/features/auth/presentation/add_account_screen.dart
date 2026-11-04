@@ -43,11 +43,12 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
           .arm(ref.read(activeInstanceProvider));
       ref.invalidate(instanceSelectorProvider);
       ref.read(pendingAccountClosureNoticeProvider.notifier).clear();
-      final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier)
-        ..hideAccountSelector();
+      final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier);
       final StoredAccount? account = widget.expiredAccount;
-      if (account != null) {
-        notifier.updateEmail(account.identifier);
+      if (account == null) {
+        notifier.startNewSignIn();
+      } else {
+        notifier.startExpiredSignIn(account);
         unawaited(_selectAccountInstance(account.userId));
       }
     });
@@ -129,15 +130,7 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
         body: AuthViewport(
           maxWidth: isMobileLayout(context) ? double.infinity : 420,
           padding: EdgeInsets.all(layout.s5),
-          child: AuthFlowContent(
-            heading: l10n.accountAdd,
-            subheading: switch (widget.expiredAccount) {
-              final StoredAccount account => l10n.accountSessionExpired(
-                account.identifier,
-              ),
-              null => null,
-            },
-          ),
+          child: AuthFlowContent(heading: l10n.accountAdd),
         ),
       ),
     );

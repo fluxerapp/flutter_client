@@ -461,8 +461,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get accountExpired => 'Baigėsi';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Baigėsi $identifier seanso galiojimas. Prašome prisijungti iš naujo.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Jūsų $name seanso galiojimas baigėsi. Prisijunkite iš naujo.';
   }
 
   @override
@@ -11039,6 +11039,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Daugiau neklausti';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Ne dabar';
 
   @override
   String get advancedSettingsConfigure => 'Konfigūruoti';

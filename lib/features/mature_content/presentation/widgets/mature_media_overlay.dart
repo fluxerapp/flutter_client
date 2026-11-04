@@ -126,7 +126,7 @@ class _MatureMediaOverlayState extends ConsumerState<MatureMediaOverlay> {
           Positioned.fill(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: context.colors.spoilerBackground.withValues(alpha: 0.72),
+                color: context.colors.backgroundTertiary,
               ),
               child: Center(
                 child: policy.canReveal

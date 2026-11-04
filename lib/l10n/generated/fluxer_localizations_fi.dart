@@ -454,8 +454,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get accountExpired => 'Vanhentunut';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Istunto vanhentui tunnuksella $identifier. Kirjaudu uudelleen.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Istuntosi tilille $name vanheni. Kirjaudu uudelleen.';
   }
 
   @override
@@ -10948,6 +10948,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Älä kysy uudelleen';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Ei nyt';
 
   @override
   String get advancedSettingsConfigure => 'Määritä';

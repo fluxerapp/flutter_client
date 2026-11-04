@@ -454,8 +454,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get accountExpired => 'หมดอายุแล้ว';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'เซสชันหมดอายุสำหรับ $identifier โปรดเข้าสู่ระบบอีกครั้ง';
+  String accountSessionExpiredNotice(String name) {
+    return 'เซสชันของคุณสำหรับ $name หมดอายุแล้ว โปรดเข้าสู่ระบบอีกครั้ง';
   }
 
   @override
@@ -10833,6 +10833,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'ไม่ต้องถามอีก';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'ไม่ใช่ตอนนี้';
 
   @override
   String get advancedSettingsConfigure => 'กำหนดค่า';

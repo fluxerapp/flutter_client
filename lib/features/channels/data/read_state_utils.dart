@@ -282,21 +282,3 @@ String? oldestUnreadMessageId({
 
   return null;
 }
-
-bool dmReadStatesChanged(
-  Map<String, ReadState> previous,
-  Map<String, ReadState> next,
-) {
-  if (previous.length != next.length) {
-    return true;
-  }
-  for (final entry in next.entries) {
-    final prior = previous[entry.key];
-    if (prior == null ||
-        prior.lastMessageId != entry.value.lastMessageId ||
-        prior.mentionCount != entry.value.mentionCount) {
-      return true;
-    }
-  }
-  return false;
-}

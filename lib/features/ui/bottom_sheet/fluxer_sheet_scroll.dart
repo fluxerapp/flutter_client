@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/gestures.dart' show Drag;
 import 'package:flutter/physics.dart' show Tolerance, nearEqual;
 import 'package:flutter/rendering.dart'
@@ -67,6 +69,15 @@ class _FluxerSheetContentPhysics extends ScrollPhysics {
         position.maxScrollExtent > position.minScrollExtent ||
         position.pixels != position.minScrollExtent;
   }
+
+  @override
+  double applyBoundaryConditions(ScrollMetrics position, double value) {
+    final double min = position.minScrollExtent;
+    if (value < min && value < position.pixels) {
+      return value - math.min(min, position.pixels);
+    }
+    return super.applyBoundaryConditions(position, value);
+  }
 }
 
 enum _FluxerSheetDragOwner { none, content, sheet }
@@ -130,9 +141,6 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
   @override
   Drag drag(DragStartDetails details, VoidCallback dragCancelCallback) {
     _owner = _FluxerSheetDragOwner.none;
-    if (pixels < minScrollExtent) {
-      jumpTo(minScrollExtent);
-    }
     return super.drag(details, dragCancelCallback);
   }
 
@@ -167,28 +175,20 @@ class _FluxerSheetScrollPosition extends ScrollPositionWithSingleContext {
 
   @override
   void correctBy(double correction) {
-    if (hasContentDimensions && _clampsOverscroll(pixels + correction)) {
+    if (hasContentDimensions &&
+        _clampsTrailingOverscroll(pixels + correction)) {
       return;
     }
     super.correctBy(correction);
   }
 
-  bool _clampsOverscroll(double corrected) {
-    final bool clampsTrailing =
-        pixels > maxScrollExtent &&
+  bool _clampsTrailingOverscroll(double corrected) {
+    return pixels > maxScrollExtent &&
         nearEqual(
           corrected,
           maxScrollExtent,
           Tolerance.defaultTolerance.distance,
         );
-    final bool clampsLeading =
-        pixels < minScrollExtent &&
-        nearEqual(
-          corrected,
-          minScrollExtent,
-          Tolerance.defaultTolerance.distance,
-        );
-    return clampsTrailing || clampsLeading;
   }
 
   @override

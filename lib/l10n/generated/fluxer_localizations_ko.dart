@@ -438,8 +438,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get accountExpired => '만료됨';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return '$identifier의 세션이 만료되었습니다. 다시 로그인하세요.';
+  String accountSessionExpiredNotice(String name) {
+    return '$name의 세션이 만료되었습니다. 다시 로그인하세요.';
   }
 
   @override
@@ -10472,6 +10472,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => '다시 묻지 않기';
+
+  @override
+  String get observabilityReportingConsentNotNow => '나중에';
 
   @override
   String get advancedSettingsConfigure => '구성';

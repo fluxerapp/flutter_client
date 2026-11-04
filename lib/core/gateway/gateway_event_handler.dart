@@ -2519,6 +2519,7 @@ class GatewayEventHandler {
         username: event.user.username,
         discriminator: event.user.discriminator,
         avatar: event.user.avatar,
+        email: event.user.email,
       ),
     );
     _emit(() => onCurrentUserUpdate?.call(event.user));

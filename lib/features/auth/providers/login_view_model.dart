@@ -19,9 +19,11 @@ import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/domain/registration_result.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
+import 'package:fluxer_app/features/auth/providers/awaiting_tap_after_sign_in_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
@@ -60,6 +62,7 @@ class LoginViewState {
   final bool isStartingSso;
   final String? ssoError;
   final String? pendingApprovalUserId;
+  final StoredAccount? expiredAccount;
 
   const LoginViewState({
     required this.email,
@@ -82,13 +85,19 @@ class LoginViewState {
     required this.ssoError,
     required this.pendingApprovalUserId,
     this.usernameSuggestions = const [],
+    this.expiredAccount,
   });
 
+  String? get expiredAccountName => switch (expiredAccount) {
+    final StoredAccount account when account.matchesSignInLogin(email) =>
+      account.identifier,
+    _ => null,
+  };
+
+  bool get signInInFlight => isLoggingIn || isStartingSso;
+
   bool get canLogin =>
-      !isLoggingIn &&
-      !isStartingSso &&
-      email.trim().isNotEmpty &&
-      password.isNotEmpty;
+      !signInInFlight && email.trim().isNotEmpty && password.isNotEmpty;
 
   LoginViewState copyWith({
     String? email,
@@ -111,6 +120,7 @@ class LoginViewState {
     bool? isStartingSso,
     Object? ssoError = _unset,
     Object? pendingApprovalUserId = _unset,
+    Object? expiredAccount = _unset,
   }) {
     return LoginViewState(
       email: email ?? this.email,
@@ -148,9 +158,34 @@ class LoginViewState {
       pendingApprovalUserId: pendingApprovalUserId == _unset
           ? this.pendingApprovalUserId
           : pendingApprovalUserId as String?,
+      expiredAccount: expiredAccount == _unset
+          ? this.expiredAccount
+          : expiredAccount as StoredAccount?,
     );
   }
 }
+
+const LoginViewState _kInitialLoginViewState = LoginViewState(
+  email: '',
+  password: '',
+  isPasswordVisible: false,
+  errorMessage: null,
+  errorType: null,
+  fieldErrors: {},
+  isLoggingIn: false,
+  ipAuthChallenge: null,
+  mfaChallenge: null,
+  accountRestricted: false,
+  enforcementNotice: null,
+  showAccountSelector: true,
+  showForgotPassword: false,
+  forgotPasswordEmailSent: false,
+  resetToken: null,
+  showRegister: false,
+  isStartingSso: false,
+  ssoError: null,
+  pendingApprovalUserId: null,
+);
 
 @Riverpod(keepAlive: true)
 class LoginViewModel extends _$LoginViewModel {
@@ -160,28 +195,26 @@ class LoginViewModel extends _$LoginViewModel {
 
   @override
   LoginViewState build() {
-    ref.onDispose(() => _suggestionTimer?.cancel());
-    return const LoginViewState(
-      email: '',
-      password: '',
-      isPasswordVisible: false,
-      errorMessage: null,
-      errorType: null,
-      fieldErrors: {},
-      isLoggingIn: false,
-      ipAuthChallenge: null,
-      mfaChallenge: null,
-      accountRestricted: false,
-      enforcementNotice: null,
-      showAccountSelector: true,
-      showForgotPassword: false,
-      forgotPasswordEmailSent: false,
-      resetToken: null,
-      showRegister: false,
-      isStartingSso: false,
-      ssoError: null,
-      pendingApprovalUserId: null,
-    );
+    ref
+      ..onDispose(() => _suggestionTimer?.cancel())
+      ..listen<bool>(authStateProvider, (_, _) {
+        if (state.expiredAccount != null) {
+          state = state.copyWith(expiredAccount: null);
+        }
+      });
+    return _kInitialLoginViewState;
+  }
+
+  void startNewSignIn() {
+    _suggestionTimer?.cancel();
+    _pendingRecoveredKit = null;
+    _recoveryPrefill = null;
+    state = _kInitialLoginViewState.copyWith(showAccountSelector: false);
+  }
+
+  void startExpiredSignIn(StoredAccount account) {
+    startNewSignIn();
+    state = state.copyWith(email: account.signInLogin, expiredAccount: account);
   }
 
   Future<void> startSsoLogin() async {
@@ -501,10 +534,6 @@ class LoginViewModel extends _$LoginViewModel {
     final String trimmed = login.trim();
     final int hashIndex = trimmed.indexOf('#');
     return hashIndex < 0 ? trimmed : trimmed.substring(0, hashIndex);
-  }
-
-  void hideAccountSelector() {
-    state = state.copyWith(showAccountSelector: false);
   }
 
   Future<void> completeMfa() async {
@@ -828,6 +857,7 @@ class LoginViewModel extends _$LoginViewModel {
   }
 
   Future<bool> _restoreAuthenticatedSession() async {
+    ref.read(awaitingTapAfterSignInProvider.notifier).arm();
     ref.invalidate(appStartupProvider);
     try {
       await ref

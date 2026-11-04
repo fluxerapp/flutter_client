@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
@@ -30,14 +33,49 @@ class InstanceDiscoveryException implements Exception {
   String toString() => message;
 }
 
+Future<bool> waitForSystemPromptAnswer({
+  Duration grace = const Duration(seconds: 1),
+}) async {
+  final WidgetsBinding binding = WidgetsBinding.instance;
+  bool interrupted = binding.lifecycleState != AppLifecycleState.resumed;
+  final Completer<bool> answered = Completer<bool>();
+  final AppLifecycleListener listener = AppLifecycleListener(
+    binding: binding,
+    onStateChange: (AppLifecycleState state) {
+      if (state != AppLifecycleState.resumed) {
+        interrupted = true;
+      } else if (interrupted && !answered.isCompleted) {
+        answered.complete(true);
+      }
+    },
+  );
+  final Timer graceTimer = Timer(grace, () {
+    if (!interrupted && !answered.isCompleted) {
+      answered.complete(false);
+    }
+  });
+  try {
+    return await answered.future;
+  } finally {
+    graceTimer.cancel();
+    listener.dispose();
+  }
+}
+
 class InstanceDiscoveryService {
   InstanceDiscoveryService({
     InstanceEndpointNormalizer? normalizer,
     Dio? dio,
     bool? rejectPublicCleartext,
+    Future<bool> Function()? waitForLocalNetworkPrompt,
   }) : _normalizer = normalizer ?? const InstanceEndpointNormalizer(),
        _rejectPublicCleartext =
            rejectPublicCleartext ?? defaultTargetPlatform == TargetPlatform.iOS,
+       _waitForLocalNetworkPrompt =
+           waitForLocalNetworkPrompt ??
+           (defaultTargetPlatform == TargetPlatform.iOS
+               ? waitForSystemPromptAnswer
+               : null),
        _dio =
            dio ??
            Dio(
@@ -51,6 +89,26 @@ class InstanceDiscoveryService {
   final InstanceEndpointNormalizer _normalizer;
   final Dio _dio;
   final bool _rejectPublicCleartext;
+  final Future<bool> Function()? _waitForLocalNetworkPrompt;
+
+  Future<Response<dynamic>> _fetchWellKnown(String wellKnownUrl) async {
+    try {
+      return await _dio.get<dynamic>(wellKnownUrl);
+    } on DioException catch (error) {
+      final Future<bool> Function()? waitForPrompt = _waitForLocalNetworkPrompt;
+      if (waitForPrompt == null ||
+          error.type != DioExceptionType.connectionError ||
+          !isLocalNetworkHost(Uri.parse(wellKnownUrl).host) ||
+          !await waitForPrompt()) {
+        rethrow;
+      }
+      talker.info(
+        '[InstanceDiscovery] Retrying $wellKnownUrl after the local network '
+        'prompt',
+      );
+      return _dio.get<dynamic>(wellKnownUrl);
+    }
+  }
 
   void _assertSecureEndpoints(List<String> endpoints) {
     if (!_rejectPublicCleartext) {
@@ -76,7 +134,7 @@ class InstanceDiscoveryService {
       'apiEndpoint=$apiEndpoint wellKnownUrl=$wellKnownUrl',
     );
     try {
-      final Response<dynamic> response = await _dio.get<dynamic>(wellKnownUrl);
+      final Response<dynamic> response = await _fetchWellKnown(wellKnownUrl);
       if (response.statusCode != 200 || response.data == null) {
         talker.warning(
           '[InstanceDiscovery] Non-success response from $wellKnownUrl '

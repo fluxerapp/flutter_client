@@ -1,13 +1,15 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/quick_switcher/data/quick_switcher_unread_loader.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
 
 class QuickSwitcherRepository {
-  const QuickSwitcherRepository(this._database);
+  const QuickSwitcherRepository(this._database, this._readStateWriteBatcher);
 
   final FluxerDatabase _database;
+  final ReadStateWriteBatcher _readStateWriteBatcher;
 
   Future<List<Channel>> getGuildChannels() async {
     final Set<String> joined = await _database.threadDao.getJoinedThreadIds();
@@ -35,6 +37,7 @@ class QuickSwitcherRepository {
   }) {
     return loadQuickSwitcherUnreadChannels(
       db: _database,
+      readStateWriteBatcher: _readStateWriteBatcher,
       currentUserId: currentUserId,
       conversations: conversations,
       unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,

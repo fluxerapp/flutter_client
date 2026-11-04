@@ -428,7 +428,7 @@ void main() {
     testWidgets('selected DM uses the subtle list selection tokens', (
       tester,
     ) async {
-      _setMobileSurface(tester);
+      _setMobileSurface(tester, size: const Size(708, 823));
       final colors = buildDarkColorTheme();
 
       await tester.pumpWidget(
@@ -449,6 +449,28 @@ void main() {
       expect(row.selectedColor, colors.listItemSelectedBg);
       expect(row.selectedBorderColor, colors.listItemSelectedBorder);
       expect(row.borderRadius, BorderRadius.circular(12));
+    });
+
+    testWidgets('phone rows never show the routed DM as selected', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            dmMessagePreviewMode: DmMessagePreviewMode.none,
+            selectedChannelId: '100',
+            conversations: [oneToOne(id: '100', name: 'Monty')],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.widget<FluxerSelectableRow>(rowSurface('Monty')).isSelected,
+        isFalse,
+      );
     });
 
     testWidgets('rows are 50pt boxes on a 55pt pitch with 32pt avatars', (
@@ -1262,8 +1284,11 @@ Finder _mobileSearchButton() => find.byWidgetPredicate(
       widget.icon == PhosphorIconsBold.magnifyingGlass,
 );
 
-void _setMobileSurface(WidgetTester tester) {
-  tester.view.physicalSize = const Size(390, 844);
+void _setMobileSurface(
+  WidgetTester tester, {
+  Size size = const Size(390, 844),
+}) {
+  tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);

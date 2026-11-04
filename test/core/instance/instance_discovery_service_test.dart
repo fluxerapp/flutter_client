@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
@@ -266,6 +267,53 @@ void main() {
         );
       },
     );
+
+    test(
+      'retries a local instance once the local network prompt is answered',
+      () async {
+        final TestWidgetsFlutterBinding binding =
+            TestWidgetsFlutterBinding.ensureInitialized()
+              ..handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        final _UnreachableOnceAdapter adapter = _UnreachableOnceAdapter(
+          buildDiscovery(),
+        );
+        final InstanceDiscoveryService service = InstanceDiscoveryService(
+          dio: Dio()..httpClientAdapter = adapter,
+          waitForLocalNetworkPrompt: waitForSystemPromptAnswer,
+        );
+
+        final Future<InstanceConfigSnapshot> connect = service
+            .connectToEndpoint('http://192.168.1.20:8080');
+        await pumpEventQueue();
+        binding
+          ..handleAppLifecycleStateChanged(AppLifecycleState.inactive)
+          ..handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+
+        expect((await connect).displayDomain, 'chat.example.com');
+        expect(adapter.requests, 2);
+      },
+    );
+
+    test(
+      'reports an unreachable local instance when no prompt appears',
+      () async {
+        TestWidgetsFlutterBinding.ensureInitialized()
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        final _UnreachableOnceAdapter adapter = _UnreachableOnceAdapter(
+          buildDiscovery(),
+        );
+        final InstanceDiscoveryService service = InstanceDiscoveryService(
+          dio: Dio()..httpClientAdapter = adapter,
+          waitForLocalNetworkPrompt: waitForSystemPromptAnswer,
+        );
+
+        await expectLater(
+          service.connectToEndpoint('http://192.168.1.20:8080'),
+          throwsA(isA<InstanceDiscoveryException>()),
+        );
+        expect(adapter.requests, 1);
+      },
+    );
   });
 }
 
@@ -397,6 +445,38 @@ class _CountingAdapter implements HttpClientAdapter {
   ) async {
     requests++;
     return ResponseBody.fromString('{}', 404);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _UnreachableOnceAdapter implements HttpClientAdapter {
+  _UnreachableOnceAdapter(this.responseJson);
+
+  final Map<String, dynamic> responseJson;
+  int requests = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    requests++;
+    if (requests == 1) {
+      throw DioException.connectionError(
+        requestOptions: options,
+        reason: 'No route to host',
+      );
+    }
+    return ResponseBody.fromString(
+      jsonEncode(responseJson),
+      200,
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+      },
+    );
   }
 
   @override

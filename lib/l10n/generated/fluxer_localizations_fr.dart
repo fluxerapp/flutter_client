@@ -461,8 +461,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get accountExpired => 'Expiré';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Session expirée pour $identifier. Veuillez vous reconnecter.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Votre session pour $name a expiré. Reconnectez-vous.';
   }
 
   @override
@@ -11100,6 +11100,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Ne plus demander';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Pas maintenant';
 
   @override
   String get advancedSettingsConfigure => 'Configurer';

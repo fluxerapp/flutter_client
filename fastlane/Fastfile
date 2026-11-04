@@ -1,3 +1,4 @@
+require "shellwords"
 require "yaml"
 require_relative "ios_bundle_check"
 
@@ -211,12 +212,19 @@ def distribute_to_groups(build:, app:, groups:, changelog:, internal_only: false
   UI.success("Distributed to groups: #{distributed_names.join(', ')}")
 end
 
+def declared_non_exempt_encryption
+  plist = File.join(project_root_path, "ios/Runner/Info.plist")
+  value = `/usr/libexec/PlistBuddy -c "Print :ITSAppUsesNonExemptEncryption" #{plist.shellescape}`.strip
+  UI.user_error!("ITSAppUsesNonExemptEncryption is missing from #{plist}") unless %w[true false].include?(value)
+  value == "true"
+end
+
 def ensure_export_compliance(build:)
   return build unless build.uses_non_exempt_encryption.nil?
 
   Spaceship::ConnectAPI.patch_builds(
     build_id: build.id,
-    attributes: { usesNonExemptEncryption: false }
+    attributes: { usesNonExemptEncryption: declared_non_exempt_encryption }
   )
   UI.important("Export compliance was unset; waiting for App Store Connect to finish processing again...")
 

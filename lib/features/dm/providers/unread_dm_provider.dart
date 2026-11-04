@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_effective.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/dm/data/dm_repository.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -185,34 +186,6 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     return _sortChannels(unread.values.toList());
   }
 
-  ({DmChannel channel, bool hasUnread}) _unreadEntry({
-    required DmChannel channel,
-    required ReadStateEffectiveFields effective,
-    String? strictLatestMessageId,
-    bool channelLastMessageExistsInCache = false,
-  }) {
-    final String? latestMessageId = resolveLatestMessageIdForUnread(
-      strictLatestMessageId: strictLatestMessageId,
-      channelLastMessageId: channel.lastMessageId,
-      ackLastMessageId: effective.lastMessageId,
-      mentionCount: effective.mentionCount,
-      channelLastMessageExistsInCache: channelLastMessageExistsInCache,
-    );
-    final bool hasUnreadMessages =
-        (latestMessageId == null && channel.unreadCount > 0) ||
-        hasUnreadByReadState(
-          channelLastMessageId: latestMessageId,
-          ackLastMessageId: effective.lastMessageId,
-          fallbackAckMs: snowflakeTimestampMs(channel.id),
-          mentionCount: 0,
-        );
-    final int mentionCount = effective.mentionCount;
-    return (
-      channel: channel.copyWith(unreadCount: mentionCount),
-      hasUnread: hasUnreadMessages || mentionCount > 0,
-    );
-  }
-
   Future<void> _drain(FluxerDatabase db, int generation) async {
     if (_drainingGeneration == generation) {
       return;
@@ -264,25 +237,44 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     }
   }
 
-  void _publish() {
-    final batcher = ref.read(readStateWriteBatcherProvider);
-    final unreadChannels = <DmChannel>[];
-    for (final DmChannel channel in _latestRows) {
-      final Message? lastMessage = _lastMessages[channel.id];
-      final entry = _unreadEntry(
-        channel: channel,
-        effective: batcher.effectiveFields(
-          channel.id,
-          _dmReadStateSnapshot[channel.id],
-        ),
-        strictLatestMessageId: lastMessage?.id,
-        channelLastMessageExistsInCache:
-            lastMessage?.id == channel.lastMessageId,
-      );
-      if (entry.hasUnread && !_shouldExcludeChannel(entry.channel)) {
-        unreadChannels.add(entry.channel);
-      }
+  DmChannel? _unreadEntry(DmChannel channel, ReadStateWriteBatcher batcher) {
+    if (_shouldExcludeChannel(channel)) {
+      return null;
     }
+    final ReadStateEffectiveFields effective = batcher.effectiveFields(
+      channel.id,
+      _dmReadStateSnapshot[channel.id],
+    );
+    final Message? lastMessage = _lastMessages[channel.id];
+    final String? latestMessageId = resolveLatestMessageIdForUnread(
+      strictLatestMessageId: lastMessage?.id,
+      channelLastMessageId: channel.lastMessageId,
+      ackLastMessageId: effective.lastMessageId,
+      mentionCount: effective.mentionCount,
+      channelLastMessageExistsInCache: lastMessage?.id == channel.lastMessageId,
+    );
+    final bool hasUnreadMessages =
+        (latestMessageId == null && channel.unreadCount > 0) ||
+        hasUnreadByReadState(
+          channelLastMessageId: latestMessageId,
+          ackLastMessageId: effective.lastMessageId,
+          fallbackAckMs: snowflakeTimestampMs(channel.id),
+          mentionCount: 0,
+        );
+    if (!hasUnreadMessages && effective.mentionCount == 0) {
+      return null;
+    }
+    return channel.copyWith(unreadCount: effective.mentionCount);
+  }
+
+  void _publish() {
+    final ReadStateWriteBatcher batcher = ref.read(
+      readStateWriteBatcherProvider,
+    );
+    final unreadChannels = <DmChannel>[
+      for (final DmChannel channel in _latestRows)
+        ?_unreadEntry(channel, batcher),
+    ];
     state = UnreadDmState(
       channels: _orderChannels({for (final c in unreadChannels) c.id: c}),
       unreadChannelIds: unreadChannels.map((c) => c.id).toSet(),
@@ -304,18 +296,12 @@ class UnreadDmChannels extends _$UnreadDmChannels {
       if (!batcher.hasOverlay(channel.id)) {
         continue;
       }
-      final ReadState? readState = _dmReadStateSnapshot[channel.id];
-      final ReadStateEffectiveFields effective = batcher.effectiveFields(
-        channel.id,
-        readState,
-      );
-      final entry = _unreadEntry(channel: channel, effective: effective);
-      if (!entry.hasUnread || _shouldExcludeChannel(channel)) {
+      final DmChannel? updated = _unreadEntry(channel, batcher);
+      if (updated == null) {
         changed = unread.remove(channel.id) != null || changed;
         changed = unreadIds.remove(channel.id) || changed;
         continue;
       }
-      final DmChannel updated = entry.channel;
       final DmChannel? previous = unread[channel.id];
       if (previous == null || previous.unreadCount != updated.unreadCount) {
         unread[channel.id] = updated;

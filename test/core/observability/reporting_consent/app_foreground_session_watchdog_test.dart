@@ -1,63 +1,64 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Future<bool?> storedFlag() async {
-    await pumpEventQueue();
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getBool(kAppForegroundSessionActiveKey);
-  }
+  late Directory directory;
+
+  bool markerExists() =>
+      File('${directory.path}/$kAppForegroundSessionMarkerName').existsSync();
 
   void changeLifecycle(AppLifecycleState state) {
     WidgetsBinding.instance.handleAppLifecycleStateChanged(state);
   }
 
-  setUp(() {
-    SharedPreferences.setMockInitialValues(<String, Object>{});
+  Future<bool> relaunchReportsCrash() async {
+    final AppForegroundSessionBootstrapResult result =
+        await bootstrapAppForegroundSession(directory: directory);
+    return result.hadForegroundCrash;
+  }
+
+  setUp(() async {
+    directory = await Directory.systemTemp.createTemp('foreground_session');
+    changeLifecycle(AppLifecycleState.detached);
   });
 
-  test('a launch after a foreground crash reports it', () async {
-    SharedPreferences.setMockInitialValues(<String, Object>{
-      kAppForegroundSessionActiveKey: true,
-    });
+  tearDown(() async {
+    changeLifecycle(AppLifecycleState.detached);
+    await directory.delete(recursive: true);
+  });
 
-    final AppForegroundSessionBootstrapResult result =
-        await bootstrapAppForegroundSession();
+  test('a kill while resumed is reported on the next launch', () async {
+    expect(await relaunchReportsCrash(), isFalse);
+    changeLifecycle(AppLifecycleState.resumed);
 
-    expect(result.hadForegroundCrash, isTrue);
+    expect(await relaunchReportsCrash(), isTrue);
   });
 
   test(
-    'a launch in the background does not mark a foreground session',
+    'Home clears the marker inside the lifecycle callback, before iOS suspends',
     () async {
+      await relaunchReportsCrash();
+      changeLifecycle(AppLifecycleState.resumed);
+      expect(markerExists(), isTrue);
+
+      changeLifecycle(AppLifecycleState.inactive);
+      expect(markerExists(), isFalse);
       changeLifecycle(AppLifecycleState.hidden);
       changeLifecycle(AppLifecycleState.paused);
 
-      final AppForegroundSessionBootstrapResult result =
-          await bootstrapAppForegroundSession();
-
-      expect(result.hadForegroundCrash, isFalse);
-      expect(await storedFlag(), isNot(isTrue));
+      expect(await relaunchReportsCrash(), isFalse);
     },
   );
 
-  test(
-    'opening the app switcher clears the flag before a swipe-away',
-    () async {
-      await bootstrapAppForegroundSession();
-      changeLifecycle(AppLifecycleState.resumed);
-      expect(await storedFlag(), isTrue);
+  test('a background launch from a push does not mark a session', () async {
+    changeLifecycle(AppLifecycleState.paused);
 
-      changeLifecycle(AppLifecycleState.inactive);
-
-      expect(await storedFlag(), isFalse);
-      final AppForegroundSessionBootstrapResult relaunch =
-          await bootstrapAppForegroundSession();
-      expect(relaunch.hadForegroundCrash, isFalse);
-    },
-  );
+    expect(await relaunchReportsCrash(), isFalse);
+    expect(markerExists(), isFalse);
+  });
 }

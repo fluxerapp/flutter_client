@@ -416,21 +416,29 @@ class _PhaseLabel extends StatelessWidget {
                 if (t < 1)
                   Opacity(
                     opacity: 1 - t,
-                    child: Text(
-                      reconnectingMessage,
-                      style: reconnectingStyle,
-                      maxLines: _labelMaxLines,
-                      overflow: TextOverflow.ellipsis,
+                    child: _FixedWidthLabel(
+                      width: reconnectingSize.width,
+                      maxWidth: constraints.maxWidth,
+                      child: Text(
+                        reconnectingMessage,
+                        style: reconnectingStyle,
+                        maxLines: _labelMaxLines,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 if (t > 0)
                   Opacity(
                     opacity: t,
-                    child: Text(
-                      connectedMessage,
-                      style: connectedStyle,
-                      maxLines: _labelMaxLines,
-                      overflow: TextOverflow.ellipsis,
+                    child: _FixedWidthLabel(
+                      width: connectedSize.width,
+                      maxWidth: constraints.maxWidth,
+                      child: Text(
+                        connectedMessage,
+                        style: connectedStyle,
+                        maxLines: _labelMaxLines,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
               ],
@@ -438,6 +446,29 @@ class _PhaseLabel extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _FixedWidthLabel extends StatelessWidget {
+  const _FixedWidthLabel({
+    required this.width,
+    required this.maxWidth,
+    required this.child,
+  });
+
+  final double width;
+  final double maxWidth;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final double resolved = width.ceilToDouble().clamp(0, maxWidth);
+    return UnconstrainedBox(
+      alignment: Alignment.centerLeft,
+      constrainedAxis: Axis.vertical,
+      clipBehavior: Clip.hardEdge,
+      child: SizedBox(width: resolved, child: child),
     );
   }
 }

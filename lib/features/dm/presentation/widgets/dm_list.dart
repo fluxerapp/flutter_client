@@ -51,6 +51,8 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart'
+    show shellShowsConcurrentChannelList;
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar.dart';
@@ -121,7 +123,7 @@ class _DMListState extends ConsumerState<DMList> {
   }
 
   void _scheduleScrollRestore({
-    required int? selectedRowIndex,
+    required int? routedRowIndex,
     required double rowExtent,
     required double topPadding,
   }) {
@@ -142,10 +144,10 @@ class _DMListState extends ConsumerState<DMList> {
       final double target;
       if (savedOffset != null) {
         target = savedOffset;
-      } else if (selectedRowIndex != null) {
+      } else if (routedRowIndex != null) {
         target =
             topPadding +
-            (selectedRowIndex + 0.5) * rowExtent -
+            (routedRowIndex + 0.5) * rowExtent -
             position.viewportDimension / 2;
       } else {
         return;
@@ -274,7 +276,10 @@ class _DMListState extends ConsumerState<DMList> {
     final List<DmConversation> convos = ref.watch(
       sortedDmConversationsProvider,
     );
-    final String? selectedId = ref.watch(activeChannelIdProvider);
+    final String? routedChannelId = ref.watch(activeChannelIdProvider);
+    final String? selectedId = shellShowsConcurrentChannelList(context)
+        ? routedChannelId
+        : null;
     final bool hasReceivedInitialConversations = ref.watch(
       dmViewModelProvider.select(
         (DmViewState state) => state.hasReceivedInitialConversations,
@@ -366,6 +371,7 @@ class _DMListState extends ConsumerState<DMList> {
                         context,
                         visibleConvos,
                         selectedId,
+                        routedChannelId: routedChannelId,
                         isMobile: isMobile,
                         pinnedIds: pinnedIds,
                         mutedIds: mutedIds,
@@ -553,6 +559,7 @@ class _DMListState extends ConsumerState<DMList> {
                 context,
                 onTap: () =>
                     unawaited(QuickSwitcherBottomSheet.show(context, ref)),
+                semanticLabel: l10n.uiSearch,
                 padding: const EdgeInsets.all(8),
                 child: PhosphorIcon(
                   PhosphorIconsBold.magnifyingGlass,
@@ -632,6 +639,7 @@ class _DMListState extends ConsumerState<DMList> {
     BuildContext context,
     List<DmConversation> convos,
     String? selectedId, {
+    required String? routedChannelId,
     required bool isMobile,
     required Set<String> pinnedIds,
     required Set<String> mutedIds,
@@ -642,12 +650,12 @@ class _DMListState extends ConsumerState<DMList> {
         : EdgeInsets.zero;
     final int leadingRows = isMobile ? 1 : 0;
     if (_needsScrollRestore && convos.isNotEmpty) {
-      final int selectedConvoIndex = convos.indexWhere(
-        (DmConversation c) => c.id == selectedId,
+      final int routedConvoIndex = convos.indexWhere(
+        (DmConversation c) => c.id == routedChannelId,
       );
       _scheduleScrollRestore(
-        selectedRowIndex: selectedConvoIndex >= 0
-            ? selectedConvoIndex + leadingRows
+        routedRowIndex: routedConvoIndex >= 0
+            ? routedConvoIndex + leadingRows
             : null,
         rowExtent: isMobile ? _kMobileRowExtent : _kDesktopRowExtent,
         topPadding: listPadding.top,

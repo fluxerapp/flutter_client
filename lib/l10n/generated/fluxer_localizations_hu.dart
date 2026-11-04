@@ -458,8 +458,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get accountExpired => 'Lejárt';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'A munkamenet lejárt: $identifier. Kérlek, jelentkezz be újra.';
+  String accountSessionExpiredNotice(String name) {
+    return 'A(z) $name munkameneted lejárt. Jelentkezz be újra.';
   }
 
   @override
@@ -11026,6 +11026,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Ne kérdezze többet';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Most nem';
 
   @override
   String get advancedSettingsConfigure => 'Beállítás';

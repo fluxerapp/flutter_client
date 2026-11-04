@@ -29,53 +29,57 @@ class FluxerSaveBar extends StatelessWidget {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
-    return AnimatedSlide(
-      duration: motion.normal,
-      curve: motion.curve,
-      offset: visible ? Offset.zero : const Offset(0, 1),
-      child: AnimatedOpacity(
+    return ExcludeSemantics(
+      excluding: !visible,
+      child: AnimatedSlide(
         duration: motion.normal,
         curve: motion.curve,
-        opacity: visible ? 1.0 : 0.0,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.backgroundSecondaryAlt,
-            border: Border(top: BorderSide(color: colors.borderColor)),
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: layout.s4,
-              right: layout.s4,
-              top: layout.s3,
-              bottom: bottomPadding > 0 ? bottomPadding : layout.s3,
+        offset: visible ? Offset.zero : const Offset(0, 1),
+        child: AnimatedOpacity(
+          duration: motion.normal,
+          curve: motion.curve,
+          opacity: visible ? 1.0 : 0.0,
+          child: DecoratedBox(
+            key: ValueKey<bool>(visible),
+            decoration: BoxDecoration(
+              color: colors.backgroundSecondaryAlt,
+              border: Border(top: BorderSide(color: colors.borderColor)),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    label ?? l10n.uiUnsavedChanges,
-                    style: context.textStyles.bodyMedium.copyWith(
-                      color: colors.textSecondary,
-                      fontWeight: FontWeight.w500,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: layout.s4,
+                right: layout.s4,
+                top: layout.s3,
+                bottom: bottomPadding > 0 ? bottomPadding : layout.s3,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      label ?? l10n.uiUnsavedChanges,
+                      style: context.textStyles.bodyMedium.copyWith(
+                        color: colors.textSecondary,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: layout.s2),
-                FluxerButton.secondary(
-                  onPressed: isSaving ? null : onReset,
-                  label: l10n.uiReset,
-                  size: FluxerButtonSize.small,
-                  fitContent: true,
-                ),
-                SizedBox(width: layout.s2),
-                FluxerButton.primary(
-                  onPressed: isSaving ? null : onSave,
-                  label: l10n.save,
-                  size: FluxerButtonSize.small,
-                  isLoading: isSaving,
-                  fitContent: true,
-                ),
-              ],
+                  SizedBox(width: layout.s2),
+                  FluxerButton.secondary(
+                    onPressed: isSaving ? null : onReset,
+                    label: l10n.uiReset,
+                    size: FluxerButtonSize.small,
+                    fitContent: true,
+                  ),
+                  SizedBox(width: layout.s2),
+                  FluxerButton.primary(
+                    onPressed: isSaving ? null : onSave,
+                    label: l10n.save,
+                    size: FluxerButtonSize.small,
+                    isLoading: isSaving,
+                    fitContent: true,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

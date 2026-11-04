@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 
@@ -8,6 +12,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   const MethodChannel channel = MethodChannel('fluxer_app/voice_speaker_route');
+  const EventChannel events = EventChannel(
+    'fluxer_app/voice_speaker_route_events',
+  );
 
   setUp(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -17,7 +24,53 @@ void main() {
   tearDown(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockStreamHandler(events, null);
     debugDefaultTargetPlatformOverride = null;
+  });
+
+  group('VoiceIosNativeRouteSync', () {
+    test('follows a return to headphones right after the speaker', () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (MethodCall call) async {
+            return call.method == 'activeRoute'
+                ? <String, String>{'route': 'speaker'}
+                : null;
+          });
+      final StreamController<Map<String, String>> routes =
+          StreamController<Map<String, String>>();
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockStreamHandler(
+            events,
+            MockStreamHandler.inline(
+              onListen: (Object? _, MockStreamHandlerEventSink sink) {
+                routes.stream.listen(sink.success);
+              },
+            ),
+          );
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      addTearDown(routes.close);
+      container.read(voiceIosNativeRouteSyncProvider);
+      await pumpEventQueue();
+      expect(
+        container.read(voiceIosNativeRouteSyncProvider),
+        const VoiceActiveOutputRoute(VoiceOutputRoute.speaker),
+      );
+      routes
+        ..add(<String, String>{'route': 'speaker'})
+        ..add(<String, String>{'route': 'headset'});
+      await pumpEventQueue();
+      expect(
+        container.read(voiceIosNativeRouteSyncProvider),
+        const VoiceActiveOutputRoute(VoiceOutputRoute.headset),
+      );
+      expect(
+        container.read(voiceSettingsProvider).outputRoute,
+        VoiceOutputRoute.headset,
+      );
+    });
   });
 
   group('readNativeActiveVoiceOutputRoute', () {
@@ -26,12 +79,53 @@ void main() {
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(channel, (MethodCall call) async {
             if (call.method == 'activeRoute') {
-              return 'earpiece';
+              return <String, String>{'route': 'earpiece'};
             }
             return null;
           });
-      final VoiceOutputRoute? route = await readNativeActiveVoiceOutputRoute();
-      expect(route, VoiceOutputRoute.earpiece);
+      final VoiceActiveOutputRoute? route =
+          await readNativeActiveVoiceOutputRoute();
+      expect(route, const VoiceActiveOutputRoute(VoiceOutputRoute.earpiece));
+    });
+  });
+
+  group('voiceActiveOutputRouteFromNative', () {
+    test('keeps the device name iOS reports for an output with a name', () {
+      expect(
+        voiceActiveOutputRouteFromNative(<Object?, Object?>{
+          'route': 'headset',
+          'name': 'Car Audio',
+        }),
+        const VoiceActiveOutputRoute(
+          VoiceOutputRoute.headset,
+          deviceName: 'Car Audio',
+        ),
+      );
+    });
+
+    test('has no device name for headphones', () {
+      expect(
+        voiceActiveOutputRouteFromNative(<Object?, Object?>{
+          'route': 'headset',
+        }),
+        const VoiceActiveOutputRoute(VoiceOutputRoute.headset),
+      );
+      expect(
+        voiceActiveOutputRouteFromNative(<Object?, Object?>{
+          'route': 'headset',
+          'name': '',
+        }),
+        const VoiceActiveOutputRoute(VoiceOutputRoute.headset),
+      );
+    });
+
+    test('ignores a payload without a route', () {
+      expect(voiceActiveOutputRouteFromNative(null), isNull);
+      expect(voiceActiveOutputRouteFromNative('headset'), isNull);
+      expect(
+        voiceActiveOutputRouteFromNative(<Object?, Object?>{'name': 'TV'}),
+        isNull,
+      );
     });
   });
 

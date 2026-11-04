@@ -54,7 +54,6 @@ import 'package:fluxer_app/features/voice/utils/audio/participant_volume_utils.d
 import 'package:fluxer_app/features/voice/utils/audio/speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/audio/voice_join_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/audio/volume_utils.dart';
-import 'package:fluxer_app/features/voice/utils/callkit/callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_join_guard.dart';
 import 'package:fluxer_app/features/voice/utils/connection/channel_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/connection/connection_voice_state.dart';
@@ -148,7 +147,6 @@ class VoiceSession extends _$VoiceSession {
   bool _ensuringMicrophone = false;
   StreamSubscription<List<MediaDevice>>? _mediaDeviceChangeSubscription;
   Timer? _audioRouteRecoveryTimer;
-  final List<Timer> _speakerOutputRetryTimers = <Timer>[];
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _lastKnownOutputDeviceIds;
   Set<String>? _pendingRecoveryInputIds;
@@ -2184,7 +2182,6 @@ class VoiceSession extends _$VoiceSession {
     _cancelLiveKitConnectWatchdog();
     _cancelRegionHotSwapTimeout();
     _cancelDeferredServerDisconnect();
-    _cancelSpeakerOutputRetry();
     _startWithVideoAfterConnect = false;
     unawaited(
       playFluxerSoundEffect(
@@ -2252,7 +2249,6 @@ class VoiceSession extends _$VoiceSession {
     _cancelRegionHotSwapTimeout();
     unawaited(_abortRegionHotSwap());
     _cancelDeferredServerDisconnect();
-    _cancelSpeakerOutputRetry();
     unawaited(disableAndroidScreenShareBackground());
     _detachMediaDeviceChangeListener();
     _detachLocalParticipantListener();
@@ -2732,6 +2728,7 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     talker.debug('[Voice] toggleSelfStream requested: enable=$nextSelfStream');
+    _clearScreenShareError();
     _togglingScreenShare = true;
     try {
       final bool hasCapturePermission = await _requestScreenCapturePermission(
@@ -2837,6 +2834,16 @@ class VoiceSession extends _$VoiceSession {
         clip: clip,
       ),
     );
+  }
+
+  void _clearScreenShareError() {
+    final String? error = state.errorMessage;
+    if (error == kVoiceSessionErrorScreenShareToggle ||
+        error == kVoiceSessionErrorScreenSharePermissionDenied ||
+        error == kVoiceSessionErrorScreenShareUnsupported ||
+        error == kVoiceSessionErrorP2pScreenShareUnavailable) {
+      state = state.copyWith(clearError: true);
+    }
   }
 
   Future<bool> _requestScreenCapturePermission({
@@ -3074,6 +3081,10 @@ class VoiceSession extends _$VoiceSession {
       );
       final bool currentSelfStream =
           _selfConnectionVoiceState()?.selfStream ?? false;
+      if (actualSelfStream &&
+          _hasPublishedLocalScreenShareVideo(requireTrack: true)) {
+        _clearScreenShareError();
+      }
       if (actualSelfStream == currentSelfStream) {
         return;
       }
@@ -3260,7 +3271,7 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (Platform.isIOS) {
-      ref.read(voiceIosNativeRouteSyncProvider);
+      unawaited(ref.read(voiceIosNativeRouteSyncProvider.notifier).refresh());
     }
     _mediaDeviceChangeSubscription = Hardware.instance.onDeviceChange.stream
         .listen(_scheduleAudioRouteRecovery);
@@ -3482,27 +3493,6 @@ class VoiceSession extends _$VoiceSession {
     await _applyAudioOutputDevice(settings.outputDeviceId);
   }
 
-  void _cancelSpeakerOutputRetry() {
-    for (final Timer timer in _speakerOutputRetryTimers) {
-      timer.cancel();
-    }
-    _speakerOutputRetryTimers.clear();
-  }
-
-  void _scheduleSpeakerOutputRetry() {
-    _cancelSpeakerOutputRetry();
-    for (final Duration delay in kVoiceCallKitSpeakerReapplyDelays) {
-      _speakerOutputRetryTimers.add(
-        Timer(delay, () {
-          if (!state.isInVoice) {
-            return;
-          }
-          unawaited(_applyVoiceOutputRouting(ref.read(voiceSettingsProvider)));
-        }),
-      );
-    }
-  }
-
   Future<void> _applyAudioOutputDevice(String outputDeviceId) async {
     if (outputDeviceId == kDefaultVoiceDeviceId || outputDeviceId.isEmpty) {
       return;
@@ -3525,17 +3515,9 @@ class VoiceSession extends _$VoiceSession {
     final bool outputRoutingChanged =
         previous == null ||
         previous.outputDeviceId != next.outputDeviceId ||
-        previous.outputRoute != next.outputRoute;
+        (previous.outputRoute != next.outputRoute && !Platform.isIOS);
     if (outputRoutingChanged) {
       await _applyVoiceOutputRouting(next);
-      if (shouldReapplySpeakerOutputOnPreferenceChange(
-        isInVoice: state.isInVoice,
-        speakerPreferenceChanged:
-            previous != null && previous.outputRoute != next.outputRoute,
-        isAndroid: Platform.isAndroid,
-      )) {
-        _scheduleSpeakerOutputRetry();
-      }
     }
     final Room? room = state.liveKitRoom;
     final VoiceMeshTransport? mesh = state.mesh;

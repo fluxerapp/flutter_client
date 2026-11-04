@@ -462,8 +462,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get accountExpired => 'انتهت الصلاحية';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'انتهت صلاحية الجلسة لـ $identifier. يرجى تسجيل الدخول مرة أخرى.';
+  String accountSessionExpiredNotice(String name) {
+    return 'انتهت صلاحية جلستك للحساب $name. سجّل الدخول مرة أخرى.';
   }
 
   @override
@@ -10863,6 +10863,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'لا تسألني مرة أخرى';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'ليس الآن';
 
   @override
   String get advancedSettingsConfigure => 'تكوين';

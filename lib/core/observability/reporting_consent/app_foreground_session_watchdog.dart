@@ -1,9 +1,9 @@
-import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 
-const String kAppForegroundSessionActiveKey = 'app_foreground_session_active';
+const String kAppForegroundSessionMarkerName = 'app_foreground_session_active';
 
 class AppForegroundSessionBootstrapResult {
   const AppForegroundSessionBootstrapResult({required this.hadForegroundCrash});
@@ -18,13 +18,17 @@ AppForegroundSessionBootstrapResult get cachedAppForegroundSessionBootstrap =>
     _bootstrapResult ??
     const AppForegroundSessionBootstrapResult(hadForegroundCrash: false);
 
-Future<AppForegroundSessionBootstrapResult>
-bootstrapAppForegroundSession() async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
+Future<AppForegroundSessionBootstrapResult> bootstrapAppForegroundSession({
+  Directory? directory,
+}) async {
+  final Directory markerDirectory =
+      directory ?? await getApplicationSupportDirectory();
+  final File marker = File(
+    '${markerDirectory.path}/$kAppForegroundSessionMarkerName',
+  );
   final AppForegroundSessionBootstrapResult result =
       AppForegroundSessionBootstrapResult(
-        hadForegroundCrash:
-            preferences.getBool(kAppForegroundSessionActiveKey) ?? false,
+        hadForegroundCrash: marker.existsSync(),
       );
   _bootstrapResult = result;
   final WidgetsBinding binding = WidgetsBinding.instance;
@@ -34,28 +38,28 @@ bootstrapAppForegroundSession() async {
     binding.removeObserver(previousObserver);
   }
   final _AppForegroundSessionLifecycleObserver observer =
-      _AppForegroundSessionLifecycleObserver(preferences);
+      _AppForegroundSessionLifecycleObserver(marker);
   _lifecycleObserver = observer;
   binding.addObserver(observer);
-  await observer.record(binding.lifecycleState);
+  observer.didChangeAppLifecycleState(
+    binding.lifecycleState ?? AppLifecycleState.detached,
+  );
   return result;
 }
 
 class _AppForegroundSessionLifecycleObserver extends WidgetsBindingObserver {
-  _AppForegroundSessionLifecycleObserver(this._preferences);
+  _AppForegroundSessionLifecycleObserver(this._marker);
 
-  final SharedPreferences _preferences;
-
-  Future<void> record(AppLifecycleState? state) async {
-    final bool active = state == AppLifecycleState.resumed;
-    if (_preferences.getBool(kAppForegroundSessionActiveKey) == active) {
-      return;
-    }
-    await _preferences.setBool(kAppForegroundSessionActiveKey, active);
-  }
+  final File _marker;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    unawaited(record(state));
+    if (state == AppLifecycleState.resumed) {
+      _marker.createSync(recursive: true);
+      return;
+    }
+    if (_marker.existsSync()) {
+      _marker.deleteSync();
+    }
   }
 }

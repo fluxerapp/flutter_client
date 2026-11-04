@@ -456,8 +456,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get accountExpired => 'Isteklo';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Sesija za $identifier je istekla. Molimo vas ponovno se prijavite.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Vaša sesija za $name je istekla. Ponovno se prijavite.';
   }
 
   @override
@@ -10973,6 +10973,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Ne pitaj ponovno';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Ne sada';
 
   @override
   String get advancedSettingsConfigure => 'Konfiguriraj';

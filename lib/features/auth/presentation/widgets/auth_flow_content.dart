@@ -19,10 +19,9 @@ import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class AuthFlowContent extends ConsumerWidget {
-  const AuthFlowContent({this.heading, this.subheading, super.key});
+  const AuthFlowContent({this.heading, super.key});
 
   final String? heading;
-  final String? subheading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -84,7 +83,7 @@ class AuthFlowContent extends ConsumerWidget {
     );
     final Widget form = ref.watch(isAuthInstanceSsoEnforcedProvider)
         ? const SsoLoginPanel()
-        : LoginForm(heading: heading, subheading: subheading);
+        : LoginForm(heading: heading);
     if (closure == null) {
       return form;
     }

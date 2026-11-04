@@ -459,8 +459,8 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get accountExpired => 'Expirat';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Sesiunea a expirat pentru $identifier. Te rugăm să te autentifici din nou.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Sesiunea ta pentru $name a expirat. Autentifică-te din nou.';
   }
 
   @override
@@ -11013,6 +11013,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Nu mă mai întreba';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Nu acum';
 
   @override
   String get advancedSettingsConfigure => 'Configurează';

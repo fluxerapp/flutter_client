@@ -455,8 +455,8 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get accountExpired => 'Verlopen';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Sessie verlopen voor $identifier. Log alstublieft opnieuw in.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Je sessie voor $name is verlopen. Log opnieuw in.';
   }
 
   @override
@@ -10987,6 +10987,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Niet meer vragen';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Niet nu';
 
   @override
   String get advancedSettingsConfigure => 'Configureren';

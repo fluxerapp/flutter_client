@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_permission_resolver.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
-import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 
 class ChannelUnreadPermissionOutcome {
@@ -285,22 +284,4 @@ Future<bool> canReadChannelForUnread({
     return true;
   }
   return outcome.canRead;
-}
-
-Future<int> guildChannelFallbackAckMs({
-  required db.FluxerDatabase database,
-  required db.Channel channel,
-  required String? currentUserId,
-}) async {
-  if (currentUserId != null && currentUserId.isNotEmpty) {
-    final member = await database.memberDao.getMemberByUserId(
-      currentUserId,
-      channel.guildId,
-    );
-    final joinedAt = member?.joinedAt;
-    if (joinedAt != null) {
-      return joinedAt.millisecondsSinceEpoch;
-    }
-  }
-  return snowflakeTimestampMs(channel.id);
 }

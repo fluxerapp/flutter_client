@@ -455,8 +455,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get accountExpired => 'Utgånget';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Sessionen har gått ut för $identifier. Logga in igen.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Din session för $name har gått ut. Logga in igen.';
   }
 
   @override
@@ -10952,6 +10952,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Fråga inte igen';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Inte nu';
 
   @override
   String get advancedSettingsConfigure => 'Konfigurera';

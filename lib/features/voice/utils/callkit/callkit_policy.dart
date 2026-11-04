@@ -249,17 +249,6 @@ bool shouldApplySpeakerOutputWhileInVoice({
   return hasActiveVoiceSession || isInVoice;
 }
 
-bool shouldReapplySpeakerOutputOnPreferenceChange({
-  required bool isInVoice,
-  required bool speakerPreferenceChanged,
-  required bool isAndroid,
-}) {
-  if (isAndroid) {
-    return false;
-  }
-  return isInVoice && speakerPreferenceChanged;
-}
-
 const Duration kVoiceCallKitAudioSessionRecoveryDelay = Duration(
   milliseconds: 750,
 );

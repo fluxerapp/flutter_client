@@ -5,6 +5,8 @@ import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/observability_reporting_prompt_provider.dart';
+import 'package:fluxer_app/core/providers/app/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
@@ -18,6 +20,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/auth/providers/awaiting_tap_after_sign_in_provider.dart';
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -282,6 +285,90 @@ void main() {
     container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
     expect(container.read(pushRelayConsentPromptProvider), isFalse);
   });
+
+  testWidgets(
+    'consent prompts wait for the first tap after a sign-in and never stack',
+    (WidgetTester tester) async {
+      final GatewayConnection gatewayConnection = GatewayConnection(
+        token: 'test-token',
+        dio: Dio(),
+      );
+      addTearDown(gatewayConnection.dispose);
+
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(_database),
+          routeStateProvider.overrideWith(
+            () => _TestRouteStateNotifier(_RouteStateSource()),
+          ),
+          guildListViewModelProvider.overrideWithValue(
+            const GuildListViewState(guilds: <Guild>[]),
+          ),
+          channelRepositoryProvider.overrideWithValue(
+            _RecordingChannelRepository(),
+          ),
+          gatewayConnectionProvider.overrideWithValue(gatewayConnection),
+          pushNotificationsCoordinatorProvider.overrideWithValue(false),
+          appIconBadgeCoordinatorProvider.overrideWithValue(null),
+          instanceRuntimeConfigProvider.overrideWithValue(
+            InstanceRuntimeConfig.defaults,
+          ),
+          isActiveInstanceOfficialProvider.overrideWithValue(false),
+        ],
+      );
+      addTearDown(container.dispose);
+      container.read(splashExitAllowedProvider.notifier).allow();
+      container.read(awaitingTapAfterSignInProvider.notifier).arm();
+
+      final colorTheme = buildDarkColorTheme();
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp(
+            navigatorKey: rootNavigatorKey,
+            locale: kTestLocale,
+            localizationsDelegates: fluxerLocalizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: colorTheme,
+              textTheme: FluxerTextTheme.fromColors(colorTheme),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: const ShellRouteListeners(child: SizedBox.shrink()),
+          ),
+        ),
+      );
+      container
+          .read(observabilityReportingPromptProvider.notifier)
+          .requestPrompt();
+      container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(
+        find.text(testL10n.observabilityReportingConsentTitle),
+        findsNothing,
+      );
+      expect(find.text(testL10n.pushRelayConsentTitle), findsNothing);
+
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(
+        find.text(testL10n.observabilityReportingConsentTitle),
+        findsOneWidget,
+      );
+      expect(find.text(testL10n.pushRelayConsentTitle), findsNothing);
+
+      rootNavigatorKey.currentState!.pop();
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(
+        find.text(testL10n.observabilityReportingConsentTitle),
+        findsNothing,
+      );
+      expect(find.text(testL10n.pushRelayConsentTitle), findsOneWidget);
+    },
+  );
 }
 
 class _ActiveGuildFrameRecorder extends ConsumerWidget {

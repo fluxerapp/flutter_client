@@ -457,8 +457,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get accountExpired => 'Έληξε';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return 'Η συνεδρία έληξε για τον/την $identifier. Συνδεθείτε ξανά.';
+  String accountSessionExpiredNotice(String name) {
+    return 'Η συνεδρία σας για τον λογαριασμό $name έληξε. Συνδεθείτε ξανά.';
   }
 
   @override
@@ -11072,6 +11072,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get observabilityReportingConsentDecline => 'Να μην ερωτηθώ ξανά';
+
+  @override
+  String get observabilityReportingConsentNotNow => 'Όχι τώρα';
 
   @override
   String get advancedSettingsConfigure => 'Διαμόρφωση';

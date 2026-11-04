@@ -433,8 +433,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get accountExpired => '已过期';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return '$identifier 的会话已过期。请重新登录。';
+  String accountSessionExpiredNotice(String name) {
+    return '你的 $name 会话已过期。请重新登录。';
   }
 
   @override
@@ -10252,6 +10252,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get observabilityReportingConsentDecline => '不再询问';
 
   @override
+  String get observabilityReportingConsentNotNow => '暂不';
+
+  @override
   String get advancedSettingsConfigure => '配置';
 
   @override
@@ -16201,8 +16204,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get accountExpired => '已過期';
 
   @override
-  String accountSessionExpired(String identifier) {
-    return '對 $identifier 的連線已過期。請重新登入。';
+  String accountSessionExpiredNotice(String name) {
+    return '你的 $name 工作階段已過期。請重新登入。';
   }
 
   @override
@@ -26019,6 +26022,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get observabilityReportingConsentDecline => '不要再詢問';
+
+  @override
+  String get observabilityReportingConsentNotNow => '暫時不要';
 
   @override
   String get advancedSettingsConfigure => '設定';
