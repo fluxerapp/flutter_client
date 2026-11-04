@@ -94,12 +94,33 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Συνδέθηκε';
 
   @override
+  String get gatewayOfflineToast =>
+      'Είστε εκτός σύνδεσης. Το Fluxer θα συνδεθεί ξανά μόλις επανέλθει η σύνδεσή σας.';
+
+  @override
   String get sessionExpiredToast =>
       'Η συνεδρία σας έχει λήξει. Παρακαλώ συνδεθείτε ξανά.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Ο λογαριασμός σας θα διαγραφεί στις $date. Αν συνδεθείτε πριν από τότε, η διαγραφή ακυρώνεται.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Ο λογαριασμός σας έχει προγραμματιστεί για διαγραφή. Αν συνδεθείτε πριν από την ημερομηνία διαγραφής, η διαγραφή ακυρώνεται.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Διαγράφουμε τον λογαριασμό σας τώρα. Αν ο λογαριασμός σας έχει διεύθυνση email, θα σας στείλουμε email όταν ολοκληρωθεί.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Διαγράφουμε τον λογαριασμό σας τώρα.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Ο λογαριασμός σας είναι απενεργοποιημένος. Συνδεθείτε ξανά όποτε θέλετε να τον χρησιμοποιήσετε.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Γεια σου $displayName, επιβεβαίωσε τη διεύθυνση email σου.';
   }
+
+  @override
+  String get verificationResendEmail => 'Επανάληψη αποστολής email';
+
+  @override
+  String get verificationEmailSent =>
+      'Στάλθηκε email επαλήθευσης. Ελέγξτε τα εισερχόμενά σας.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Έχετε ζητήσει πάρα πολλά email επαλήθευσης. Περιμένετε λίγο και δοκιμάστε ξανά.';
 
   @override
   String get nagbarOpenSettings => 'Άνοιγμα ρυθμίσεων';
@@ -385,6 +417,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Δοκιμάστε άλλη μέθοδο';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Τα κλειδιά πρόσβασης από αυτήν την παρουσία δεν λειτουργούν σε αυτήν την εφαρμογή και ο λογαριασμός σας δεν έχει άλλη μέθοδο επαλήθευσης. Συνδεθείτε από το web.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Δοκιμάστε κλειδί ασφαλείας / κλειδί πρόσβασης';
 
@@ -524,78 +560,68 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get signOut => 'Αποσύνδεση';
 
   @override
-  String get suspendedPermanentTitle => 'Ο λογαριασμός αναστάλθηκε μόνιμα';
-
-  @override
   String get suspendedTemporaryTitle => 'Ο λογαριασμός αναστάλθηκε';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Ο λογαριασμός σας έχει ανασταλεί μόνιμα για παραβίαση των Όρων Παροχής Υπηρεσιών μας.';
+  String get suspendedBannedTitle => 'Ο λογαριασμός ανεστάλη οριστικά';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Ο λογαριασμός σας έχει ανασταλεί προσωρινά. Θα μπορείτε να έχετε πρόσβαση στον λογαριασμό σας μόλις λήξει η περίοδος αναστολής.';
+  String get suspendedClosedTitle => 'Ο λογαριασμός έκλεισε';
 
   @override
-  String get suspendedIssuedAt => 'Εκδόθηκε';
+  String get suspendedWhatHappened => 'Τι συνέβη';
 
   @override
-  String get suspendedEndsAt => 'Λήγει';
+  String get suspendedWhy => 'Γιατί';
 
   @override
-  String get suspendedDuration => 'Διάρκεια';
+  String get suspendedHowWeDecided => 'Πώς αποφασίσαμε';
 
   @override
-  String get suspendedPermanent => 'Μόνιμη';
+  String get suspendedHowToAppeal => 'Πώς να κάνεις ένσταση';
 
   @override
-  String get suspendedReason => 'Λόγος';
-
-  @override
-  String get suspendedAppealDeadline => 'Προθεσμία Έφεσης';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Ο λογαριασμός σας έχει προγραμματιστεί για διαγραφή στις $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Σημείωση από την ομάδα μας: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Έλεγχος για ενημερώσεις';
+  String suspendedDecisionId(String decisionId) {
+    return 'Αναγνωριστικό απόφασης: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Έλεγχος ξανά σε $secondsδ';
+  String suspendedRule(String title) {
+    return 'Κανόνας: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Αν πιστεύετε ότι κάναμε λάθος, στείλτε email στο $email και συμπεριλάβετε το όνομα χρήστη σας.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Αν πιστεύετε ότι κάναμε λάθος, στείλτε email στο $email έως τις $deadline. Συμπεριλάβετε το αναγνωριστικό απόφασης και το όνομα χρήστη σας. Οι ενστάσεις είναι δωρεάν και κάθε μία εξετάζεται από έναν άνθρωπο.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Αν πιστεύετε ότι κάναμε λάθος, στείλτε email στο $email έως τις $deadline. Αν μπορείτε, γράψτε από τη διεύθυνση email του λογαριασμού σας και συμπεριλάβετε το αναγνωριστικό απόφασης. Οι ενστάσεις είναι δωρεάν και κάθε μία εξετάζεται από έναν άνθρωπο.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Για να μας ζητήσετε να διαγράψουμε τον λογαριασμό και τα δεδομένα σας, στείλτε email στο $email από τη διεύθυνση του λογαριασμού σας.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Για να μας ζητήσετε να διαγράψουμε τον λογαριασμό και τα δεδομένα σας, στείλτε email στο $email και συμπεριλάβετε το όνομα χρήστη σας.';
   }
 
   @override
   String get suspendedBackToLogin => 'Επιστροφή στη Σύνδεση';
-
-  @override
-  String get suspendedAppealTitle => 'Έφεση';
-
-  @override
-  String get suspendedAppealHint =>
-      'Εξηγήστε γιατί η αναστολή σας πρέπει να επανεξεταστεί (τουλάχιστον 50 χαρακτήρες)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Υποβολή Έφεσης';
-
-  @override
-  String get suspendedAppealPending => 'Σε Αναμονή Επανεξέτασης';
-
-  @override
-  String get suspendedAppealAccepted => 'Έφεση Έγινε Δεκτή';
-
-  @override
-  String get suspendedAppealRejected => 'Έφεση Απορρίφθηκε';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Η έφεσή σας έγινε δεκτή και ο λογαριασμός σας αποκαταστάθηκε.';
-
-  @override
-  String get suspendedSignIn => 'Σύνδεση στον Λογαριασμό σας';
 
   @override
   String get forgotPasswordTitle => 'Ξεχάσατε τον κωδικό σας;';
@@ -2329,6 +2355,39 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ο κωδικός πρόσβασης είναι λάθος. Δοκιμάστε ξανά.';
 
   @override
+  String get sudoEmailCodeSend => 'Αποστολή κωδικού με email';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Στείλαμε έναν 6ψήφιο κωδικό στη διεύθυνση email σας.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Κωδικός από το email';
+
+  @override
+  String get sudoEmailCodeResend => 'Αποστολή νέου κωδικού';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Συνδεθείτε ξανά για να επιβεβαιώσετε ότι είστε εσείς.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Σύνδεση ξανά';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Σύνδεση με $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Συνδέθηκες σε διαφορετικό λογαριασμό. Συνδέσου με τον λογαριασμό που χρησιμοποιείς εδώ.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Τα κλειδιά πρόσβασης από αυτήν την παρουσία δεν λειτουργούν σε αυτήν την εφαρμογή. Χρησιμοποιήστε την εφαρμογή ελέγχου ταυτότητας ή έναν εφεδρικό κωδικό, ή επιβεβαιώστε από το web.';
+
+  @override
   String get securityAccountTitle => 'Λογαριασμός';
 
   @override
@@ -2680,6 +2739,59 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Απενεργοποιήστε προσωρινά τον λογαριασμό σας. Μπορείτε να τον επανενεργοποιήσετε αργότερα συνδεόμενοι ξανά.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Διαγράψτε τον λογαριασμό και τα προσωπικά σας δεδομένα. Μπορείτε να διαγράψετε και τα μηνύματά σας.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Ο λογαριασμός, το προφίλ και τα προσωπικά σας δεδομένα διαγράφονται. Τα μηνύματα που δεν διαγράφετε παραμένουν εκεί που τα στείλατε, χωρίς το όνομα ή το προφίλ σας.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Διαγραφή και των μηνυμάτων μου';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Διαγράφει κάθε μήνυμα που στείλατε σε DM, ομαδικές συνομιλίες και κοινότητες, μαζί με τον λογαριασμό σας.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Για να κρατήσετε ένα αντίγραφο των δεδομένων σας, ζητήστε πρώτα μια εξαγωγή από τον $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Διαγραφή σε 14 ημέρες';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Μπορείτε να την ακυρώσετε συνδεόμενοι μέσα σε αυτές τις 14 ημέρες.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Προγραμματισμός διαγραφής';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Ο λογαριασμός σας διαγράφεται μετά την περίοδο αναμονής αυτής της παρουσίας. Αν συνδεθείτε πριν από τότε, η διαγραφή ακυρώνεται.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Διαγραφή τώρα';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle =>
+      'Διαγραφή του λογαριασμού σας τώρα;';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Ο λογαριασμός σας διαγράφεται αμέσως και δεν μπορεί να ανακτηθεί.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Η συνδρομή σας στο Plutonium χρεώνεται από την Apple. Η διαγραφή του λογαριασμού σας δεν την ακυρώνει, οπότε ακυρώστε την πρώτα στο App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Η συνδρομή σας στο Plutonium χρεώνεται από το Google Play. Η διαγραφή του λογαριασμού σας δεν την ακυρώνει, οπότε ακυρώστε την πρώτα στο Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Η απενεργοποίηση του λογαριασμού σας θα σας αποσυνδέσει από όλες τις συνεδρίες. Μπορείτε να ενεργοποιήσετε ξανά τον λογαριασμό σας οποιαδήποτε στιγμή κάνοντας ξανά είσοδο.';
 
@@ -2687,50 +2799,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Διαγραφή λογαριασμού';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Διαγράψτε οριστικά τον λογαριασμό σας και όλα τα σχετικά δεδομένα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Δεν είναι δυνατή η διαγραφή λογαριασμού';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Δεν μπορείτε να διαγράψετε τον λογαριασμό σας όσο είστε κάτοχος κοινοτήτων. Μεταφέρετε πρώτα την ιδιοκτησία των παρακάτω κοινοτήτων:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Είστε ιδιοκτήτης αυτών των κοινοτήτων. Διαγράψτε καθεμία ή μεταβιβάστε την σε άλλο μέλος πριν διαγράψετε τον λογαριασμό σας.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'και $count ακόμη';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Για να μεταφέρετε την ιδιοκτησία, μεταβείτε στο $settingsPath και χρησιμοποιήστε την επιλογή μεταφοράς ιδιοκτησίας.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Είστε σίγουροι ότι θέλετε να διαγράψετε τον λογαριασμό σας; Αυτή η ενέργεια θα προγραμματίσει τον λογαριασμό σας για οριστική διαγραφή.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Μπορείτε να ακυρώσετε τη διαδικασία διαγραφής εντός 14 ημερών';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Μετά από 14 ημέρες, ο λογαριασμός σας θα διαγραφεί οριστικά';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Μόλις ολοκληρωθεί η διαγραφή, δεν μπορείτε να ανακτήσετε την πρόσβαση στον λογαριασμό σας';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Δεν θα μπορείτε να διαγράψετε τα μηνύματά σας μετά τη διαγραφή του λογαριασμού σας';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Αν θέλετε να εξάγετε τα δεδομένα σας ή να διαγράψετε πρώτα τα μηνύματά σας, επισκεφθείτε την ενότητα Πίνακας Ελέγχου Απορρήτου στις Ρυθμίσεις Χρήστη πριν προχωρήσετε.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Πατήστε μια κοινότητα για να ανοίξετε τις ρυθμίσεις της. Η «Διαγραφή κοινότητας» βρίσκεται στο κάτω μέρος. Για να τη μεταβιβάσετε, ανοίξτε τα «Μέλη», πατήστε ένα μέλος, πατήστε τις τρεις τελείες στο προφίλ του και επιλέξτε «Μεταβίβαση ιδιοκτησίας».';
 
   @override
   String get claimAccountTitle => 'Διεκδικήστε τον λογαριασμό σας';
@@ -2754,9 +2832,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Ο λογαριασμός διεκδικήθηκε με επιτυχία';
-
-  @override
-  String get importantInformation => 'Σημαντικές πληροφορίες:';
 
   @override
   String get genericError => 'Προέκυψε ένα σφάλμα';
@@ -11728,6 +11803,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return 'Το $domain εκτελεί νεότερη έκδοση του Fluxer από αυτήν την εφαρμογή. Ενημερώστε την εφαρμογή και δοκιμάστε ξανά.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return 'Το $domain δεν χρησιμοποιεί ασφαλή σύνδεση (https). Το Fluxer συνδέεται μέσω http μόνο σε παρουσίες στο τοπικό σας δίκτυο.';
   }
 
   @override

@@ -381,103 +381,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "Account permanently suspended",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "Account suspended",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "Your account has been permanently suspended for violating our terms of service.",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "Issued",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "Ends",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "Duration",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "Permanent",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "Reason",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "Appeal deadline",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "Your account is scheduled for deletion on {date}.",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "Check for updates",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "Check again in {seconds}s",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "Back to login",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "Appeal",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "Explain why your suspension should be reconsidered (minimum 50 characters)...",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "Submit appeal",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "Pending review",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "Appeal accepted",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "Appeal rejected",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "Your appeal has been accepted and your account has been reinstated.",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "Sign in to your account",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "Forgot your password?",
     "@forgotPasswordTitle": {
@@ -2575,59 +2485,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "Permanently delete your account and all associated data. This action cannot be undone.",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "Cannot delete account",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "You cannot delete your account while you own communities. Transfer ownership of the following communities first:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "and {count} more",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "To transfer ownership, go to {settingsPath} and use the transfer ownership option.",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "Are you sure you want to delete your account? This action will schedule your account for permanent deletion.",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "You can cancel the deletion process within 14 days",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "After 14 days, your account will be permanently deleted",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "Once deletion is processed, you cannot recover access to your account",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "You will not be able to delete your sent messages after your account is deleted",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "If you want to export your data or delete your messages first, please visit the Privacy dashboard section in User settings before proceeding.",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "Claim your account",
     "@claimAccountTitle": {
@@ -2656,10 +2516,6 @@
     "claimAccountSuccess": "Account claimed successfully",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "Important information:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "An error occurred",
     "@genericError": {

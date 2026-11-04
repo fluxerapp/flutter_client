@@ -381,103 +381,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "계정이 영구적으로 정지되었습니다.",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "계정이 정지되었습니다.",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "서비스 약관 위반으로 계정이 영구적으로 정지되었습니다.",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "계정이 일시적으로 정지되었습니다. 정지 기간이 끝나면 계정에 액세스할 수 있습니다.",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "발급일",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "종료일",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "정지 기간",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "영구",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "사유",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "이의 제기 마감일",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "계정이 {date}에 삭제될 예정입니다.",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "업데이트 확인",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "{seconds}초 후에 다시 확인",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "로그인으로 돌아가기",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "이의 제기",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "정지가 재고되어야 하는 이유를 설명해주세요 (최소 50자)...",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "이의 제기 제출",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "검토 대기 중",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "이의 제기 수락됨",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "이의 제기 거부됨",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "이의 제기가 수락되었으며 계정이 복구되었습니다.",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "계정에 로그인",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "비밀번호를 잊으셨나요?",
     "@forgotPasswordTitle": {
@@ -2575,59 +2485,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "회원님의 계정과 모든 관련 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "계정을 삭제할 수 없습니다",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "커뮤니티를 소유하고 있는 동안에는 계정을 삭제할 수 없습니다. 먼저 다음 커뮤니티의 소유권을 이전하세요:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "{count}개 더",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "소유권을 이전하려면 {settingsPath}로 이동하여 소유권 이전 옵션을 사용하세요.",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "정말로 계정을 삭제하시겠어요? 계정이 영구적으로 삭제되도록 예약됩니다.",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "14일 이내에 계정 삭제를 취소할 수 있습니다",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "14일 후 계정이 영구적으로 삭제됩니다",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "계정 삭제가 처리되면 다시 복구할 수 없습니다",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "계정이 삭제된 후에는 보낸 메시지를 삭제할 수 없습니다.",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "데이터를 내보내거나 먼저 메시지를 삭제하려면 진행하기 전에 사용자 설정의 개인정보 보호 대시보드 섹션을 방문하세요.",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "계정 등록하기",
     "@claimAccountTitle": {
@@ -2656,10 +2516,6 @@
     "claimAccountSuccess": "계정 등록 완료",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "중요 안내:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "오류가 발생했습니다",
     "@genericError": {

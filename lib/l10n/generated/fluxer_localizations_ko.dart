@@ -91,10 +91,30 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get gatewayConnectedToast => '연결됨';
 
   @override
+  String get gatewayOfflineToast => '오프라인 상태입니다. 다시 온라인이 되면 Fluxer가 다시 연결됩니다.';
+
+  @override
   String get sessionExpiredToast => '세션이 만료되었습니다. 다시 로그인해 주세요.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return '회원님의 계정은 $date에 삭제됩니다. 그 전에 로그인하면 삭제가 취소됩니다.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      '회원님의 계정은 삭제가 예약되어 있습니다. 삭제일 전에 로그인하면 삭제가 취소됩니다.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      '지금 회원님의 계정을 삭제하고 있습니다. 계정에 이메일 주소가 있으면 삭제가 끝났을 때 이메일로 알려 드립니다.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail => '지금 회원님의 계정을 삭제하고 있습니다.';
+
+  @override
+  String get accountDisabledNotice =>
+      '회원님의 계정은 비활성화되어 있습니다. 다시 사용하고 싶을 때 언제든 로그인하세요.';
 
   @override
   String splashStartupFailed(String error) {
@@ -147,6 +167,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return '$displayName님, 이메일 주소를 확인해 주세요.';
   }
+
+  @override
+  String get verificationResendEmail => '이메일 재전송';
+
+  @override
+  String get verificationEmailSent => '인증 이메일을 보냈습니다. 받은편지함을 확인해 주세요.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      '인증 이메일을 너무 많이 요청했습니다. 잠시 기다렸다가 다시 시도해 주세요.';
 
   @override
   String get nagbarOpenSettings => '설정 열기';
@@ -373,6 +403,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get mfaTryAnotherMethod => '다른 방법 시도';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      '이 인스턴스의 패스키는 이 앱에서 작동하지 않으며, 회원님의 계정에는 다른 인증 방법이 없습니다. 대신 웹에서 로그인하세요.';
+
+  @override
   String get mfaUseSecurityKey => '보안 키/패스키로 시도하기';
 
   @override
@@ -506,75 +540,68 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get signOut => '로그아웃';
 
   @override
-  String get suspendedPermanentTitle => '계정이 영구적으로 정지되었습니다.';
-
-  @override
   String get suspendedTemporaryTitle => '계정이 정지되었습니다.';
 
   @override
-  String get suspendedPermanentDescription => '서비스 약관 위반으로 계정이 영구적으로 정지되었습니다.';
+  String get suspendedBannedTitle => '계정 영구 정지';
 
   @override
-  String get suspendedTemporaryDescription =>
-      '계정이 일시적으로 정지되었습니다. 정지 기간이 끝나면 계정에 액세스할 수 있습니다.';
+  String get suspendedClosedTitle => '계정 폐쇄';
 
   @override
-  String get suspendedIssuedAt => '발급일';
+  String get suspendedWhatHappened => '조치 내용';
 
   @override
-  String get suspendedEndsAt => '종료일';
+  String get suspendedWhy => '사유';
 
   @override
-  String get suspendedDuration => '정지 기간';
+  String get suspendedHowWeDecided => '결정 과정';
 
   @override
-  String get suspendedPermanent => '영구';
+  String get suspendedHowToAppeal => '이의 제기 방법';
 
   @override
-  String get suspendedReason => '사유';
-
-  @override
-  String get suspendedAppealDeadline => '이의 제기 마감일';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return '계정이 $date에 삭제될 예정입니다.';
+  String suspendedNoteFromTeam(String statement) {
+    return '팀에서 남긴 메모: $statement';
   }
 
   @override
-  String get suspendedRecheck => '업데이트 확인';
+  String suspendedDecisionId(String decisionId) {
+    return '결정 ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '$seconds초 후에 다시 확인';
+  String suspendedRule(String title) {
+    return '규칙: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return '저희 결정이 잘못되었다고 생각되면 $email(으)로 사용자 이름을 포함하여 이메일을 보내 주세요.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return '저희 결정이 잘못되었다고 생각되면 $deadline까지 $email(으)로 이메일을 보내 주세요. 결정 ID와 사용자 이름을 포함해 주세요. 이의 제기는 무료이며, 모든 이의 제기는 담당자가 직접 검토합니다.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return '저희 결정이 잘못되었다고 생각되면 $deadline까지 $email(으)로 이메일을 보내 주세요. 가능하면 계정에 등록된 이메일 주소로 보내고, 결정 ID를 포함해 주세요. 이의 제기는 무료이며, 모든 이의 제기는 담당자가 직접 검토합니다.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return '계정과 데이터 삭제를 요청하려면 계정에 등록된 주소로 $email에 이메일을 보내 주세요.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return '계정과 데이터 삭제를 요청하려면 $email(으)로 사용자 이름을 포함하여 이메일을 보내 주세요.';
   }
 
   @override
   String get suspendedBackToLogin => '로그인으로 돌아가기';
-
-  @override
-  String get suspendedAppealTitle => '이의 제기';
-
-  @override
-  String get suspendedAppealHint => '정지가 재고되어야 하는 이유를 설명해주세요 (최소 50자)...';
-
-  @override
-  String get suspendedAppealSubmit => '이의 제기 제출';
-
-  @override
-  String get suspendedAppealPending => '검토 대기 중';
-
-  @override
-  String get suspendedAppealAccepted => '이의 제기 수락됨';
-
-  @override
-  String get suspendedAppealRejected => '이의 제기 거부됨';
-
-  @override
-  String get suspendedAppealAcceptedDescription => '이의 제기가 수락되었으며 계정이 복구되었습니다.';
-
-  @override
-  String get suspendedSignIn => '계정에 로그인';
 
   @override
   String get forgotPasswordTitle => '비밀번호를 잊으셨나요?';
@@ -2215,6 +2242,37 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get sudoWrongPassword => '비밀번호가 올바르지 않습니다. 다시 시도해 주세요.';
 
   @override
+  String get sudoEmailCodeSend => '코드 이메일로 보내기';
+
+  @override
+  String get sudoEmailCodeSent => '이메일 주소로 6자리 코드를 보냈습니다.';
+
+  @override
+  String get sudoEmailCodeLabel => '이메일로 받은 코드';
+
+  @override
+  String get sudoEmailCodeResend => '새 코드 보내기';
+
+  @override
+  String get sudoSsoReauthHint => '본인 확인을 위해 다시 로그인하세요.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => '다시 로그인';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '$provider(으)로 로그인';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      '다른 계정으로 로그인했습니다. 여기서 사용하는 계정으로 로그인하세요.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      '이 인스턴스의 패스키는 이 앱에서 작동하지 않습니다. 인증 앱이나 백업 코드를 사용하거나 웹에서 확인하세요.';
+
+  @override
   String get securityAccountTitle => '계정';
 
   @override
@@ -2544,6 +2602,56 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '계정을 일시적으로 비활성화합니다. 나중에 다시 로그인하여 재활성화할 수 있습니다.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      '계정과 개인 데이터를 삭제합니다. 메시지도 함께 삭제할 수 있습니다.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      '회원님의 계정, 프로필, 개인 데이터가 삭제됩니다. 삭제하지 않은 메시지는 이름이나 프로필 없이 보낸 곳에 그대로 남습니다.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => '내 메시지도 삭제';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'DM, 그룹 DM, 커뮤니티에서 보낸 모든 메시지를 계정과 함께 삭제합니다.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return '데이터 사본을 보관하려면 먼저 $privacyDashboard에서 내보내기를 요청하세요.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14일 후 삭제';
+
+  @override
+  String get dangerZoneDeleteLaterHint => '14일 동안 로그인하면 삭제를 취소할 수 있습니다.';
+
+  @override
+  String get dangerZoneDeleteSchedule => '삭제 예약';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      '이 인스턴스의 대기 기간이 지나면 계정이 삭제됩니다. 그 전에 로그인하면 삭제가 취소됩니다.';
+
+  @override
+  String get dangerZoneDeleteNow => '지금 삭제';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => '지금 계정을 삭제할까요?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody => '계정이 즉시 삭제되며 복구할 수 없습니다.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      '회원님의 Plutonium 구독은 Apple에서 청구합니다. 계정을 삭제해도 구독은 취소되지 않으므로 먼저 App Store에서 구독을 취소하세요.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      '회원님의 Plutonium 구독은 Google Play에서 청구합니다. 계정을 삭제해도 구독은 취소되지 않으므로 먼저 Google Play에서 구독을 취소하세요.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       '계정을 비활성화하면 모든 세션에서 로그아웃됩니다. 다시 로그인하여 언제든지 계정을 다시 활성화할 수 있습니다.';
 
@@ -2551,45 +2659,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => '계정 삭제';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      '회원님의 계정과 모든 관련 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => '계정을 삭제할 수 없습니다';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      '커뮤니티를 소유하고 있는 동안에는 계정을 삭제할 수 없습니다. 먼저 다음 커뮤니티의 소유권을 이전하세요:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      '회원님이 소유한 커뮤니티입니다. 계정을 삭제하기 전에 각 커뮤니티를 삭제하거나 다른 멤버에게 넘겨주세요.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return '$count개 더';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return '소유권을 이전하려면 $settingsPath로 이동하여 소유권 이전 옵션을 사용하세요.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      '정말로 계정을 삭제하시겠어요? 계정이 영구적으로 삭제되도록 예약됩니다.';
-
-  @override
-  String get dangerZoneDeleteBullet1 => '14일 이내에 계정 삭제를 취소할 수 있습니다';
-
-  @override
-  String get dangerZoneDeleteBullet2 => '14일 후 계정이 영구적으로 삭제됩니다';
-
-  @override
-  String get dangerZoneDeleteBullet3 => '계정 삭제가 처리되면 다시 복구할 수 없습니다';
-
-  @override
-  String get dangerZoneDeleteBullet4 => '계정이 삭제된 후에는 보낸 메시지를 삭제할 수 없습니다.';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      '데이터를 내보내거나 먼저 메시지를 삭제하려면 진행하기 전에 사용자 설정의 개인정보 보호 대시보드 섹션을 방문하세요.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      '커뮤니티를 탭하면 설정이 열립니다. \"커뮤니티 삭제\"는 맨 아래에 있습니다. 넘겨주려면 \"멤버\"를 열고 멤버를 탭한 다음, 프로필에서 점 세 개를 탭하고 \"소유권 이전\"을 선택하세요.';
 
   @override
   String get claimAccountTitle => '계정 등록하기';
@@ -2613,9 +2691,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => '계정 등록 완료';
-
-  @override
-  String get importantInformation => '중요 안내:';
 
   @override
   String get genericError => '오류가 발생했습니다';
@@ -11072,6 +11147,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain은(는) 이 앱보다 최신 버전의 Fluxer를 실행 중입니다. 앱을 업데이트한 후 다시 시도해 주세요.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain은(는) 보안 연결(https)을 사용하지 않습니다. Fluxer는 로컬 네트워크에 있는 인스턴스에만 http로 연결합니다.';
   }
 
   @override

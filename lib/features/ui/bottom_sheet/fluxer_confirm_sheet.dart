@@ -16,6 +16,7 @@ class FluxerConfirmSheet {
     Widget? body,
     bool isDanger = false,
     bool? useRootNavigator,
+    String? cancelLabel,
   }) {
     return FluxerBottomSheet.show<bool>(
       context,
@@ -63,6 +64,13 @@ class FluxerConfirmSheet {
                   )
                 else
                   FluxerButton.primary(onPressed: confirm, label: confirmLabel),
+                if (cancelLabel != null) ...[
+                  SizedBox(height: layout.s2),
+                  FluxerButton.secondary(
+                    onPressed: () => Navigator.of(sheetContext).pop(false),
+                    label: cancelLabel,
+                  ),
+                ],
               ],
             ),
           ),

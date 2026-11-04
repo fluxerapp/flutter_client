@@ -95,11 +95,32 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get gatewayConnectedToast => 'מחובר';
 
   @override
+  String get gatewayOfflineToast =>
+      'אין חיבור לאינטרנט. Fluxer יתחבר מחדש כשהחיבור יחזור.';
+
+  @override
   String get sessionExpiredToast => 'פג תוקף ההפעלה שלך. אנא היכנס שוב.';
+
+  @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'החשבון שלך יימחק ב-$date. התחברות לפני מועד זה מבטלת את המחיקה.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'החשבון שלך מתוזמן למחיקה. התחברות לפני מועד המחיקה מבטלת אותה.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'אנחנו מוחקים את החשבון שלך עכשיו. אם יש בחשבון כתובת אימייל, נשלח לך אימייל כשהמחיקה תסתיים.';
 
   @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'אנחנו מוחקים את החשבון שלך עכשיו.';
+
+  @override
+  String get accountDisabledNotice =>
+      'החשבון שלך מושבת. אפשר להתחבר שוב בכל פעם שתרצה להשתמש בו.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'היי $displayName, אנא אמת את כתובת האימייל שלך.';
   }
+
+  @override
+  String get verificationResendEmail => 'שלח אימייל שוב';
+
+  @override
+  String get verificationEmailSent =>
+      'נשלחה הודעת אימות. יש לבדוק את תיבת הדואר הנכנס.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'ביקשת יותר מדי אימיילי אימות. המתן רגע ונסה שוב.';
 
   @override
   String get nagbarOpenSettings => 'פתח הגדרות';
@@ -385,6 +417,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'נסה שיטה אחרת';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'מפתחות גישה מהמופע הזה לא עובדים באפליקציה הזו, ואין לחשבון שלך שיטת אימות אחרת. התחבר דרך האתר במקום זאת.';
+
+  @override
   String get mfaUseSecurityKey => 'נסה במקום זאת מפתח אבטחה / מפתח גישה';
 
   @override
@@ -520,78 +556,68 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get signOut => 'התנתקות';
 
   @override
-  String get suspendedPermanentTitle => 'החשבון הושעה לצמיתות';
-
-  @override
   String get suspendedTemporaryTitle => 'החשבון הושעה';
 
   @override
-  String get suspendedPermanentDescription =>
-      'החשבון שלך הושעה לצמיתות עקב הפרת תנאי השירות שלנו.';
+  String get suspendedBannedTitle => 'החשבון נחסם';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'החשבון שלך הושעה זמנית. תוכל לגשת לחשבונך בתום תקופת ההשעיה.';
+  String get suspendedClosedTitle => 'החשבון נסגר';
 
   @override
-  String get suspendedIssuedAt => 'הונפק';
+  String get suspendedWhatHappened => 'מה קרה';
 
   @override
-  String get suspendedEndsAt => 'נגמר';
+  String get suspendedWhy => 'למה';
 
   @override
-  String get suspendedDuration => 'משך';
+  String get suspendedHowWeDecided => 'איך החלטנו';
 
   @override
-  String get suspendedPermanent => 'לצמיתות';
+  String get suspendedHowToAppeal => 'איך לערער';
 
   @override
-  String get suspendedReason => 'סיבה';
-
-  @override
-  String get suspendedAppealDeadline => 'מועד הגשת ערעור';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'החשבון שלך מיועד למחיקה בתאריך $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'הערה מהצוות שלנו: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'בדוק עדכונים';
+  String suspendedDecisionId(String decisionId) {
+    return 'מזהה החלטה: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'בדוק שוב בעוד $seconds שניות';
+  String suspendedRule(String title) {
+    return 'כלל: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'אם אתה חושב שטעינו, שלח אימייל אל $email וציין את שם המשתמש שלך.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'אם אתה חושב שטעינו, שלח אימייל אל $email עד $deadline. ציין את מזהה ההחלטה ואת שם המשתמש שלך. ערעורים הם בחינם, ואדם בודק כל אחד מהם.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'אם אתה חושב שטעינו, שלח אימייל אל $email עד $deadline. אם אפשר, כתוב מכתובת האימייל של החשבון שלך, וציין את מזהה ההחלטה. ערעורים הם בחינם, ואדם בודק כל אחד מהם.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'כדי לבקש מאיתנו למחוק את החשבון והנתונים שלך, שלח אימייל אל $email מהכתובת של החשבון שלך.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'כדי לבקש מאיתנו למחוק את החשבון והנתונים שלך, שלח אימייל אל $email וציין את שם המשתמש שלך.';
   }
 
   @override
   String get suspendedBackToLogin => 'חזרה לכניסה';
-
-  @override
-  String get suspendedAppealTitle => 'ערעור';
-
-  @override
-  String get suspendedAppealHint =>
-      'הסבירו מדוע יש לשקול מחדש את ההשעיה שלכם (לפחות 50 תווים)...';
-
-  @override
-  String get suspendedAppealSubmit => 'שלח ערעור';
-
-  @override
-  String get suspendedAppealPending => 'ממתין לבדיקה';
-
-  @override
-  String get suspendedAppealAccepted => 'הערעור התקבל';
-
-  @override
-  String get suspendedAppealRejected => 'הערעור נדחה';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'הערעור שלך התקבל והחשבון שלך הוחזר לפעילות.';
-
-  @override
-  String get suspendedSignIn => 'התחבר לחשבונך';
 
   @override
   String get forgotPasswordTitle => 'שכחת את הסיסמה?';
@@ -2279,6 +2305,37 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get sudoWrongPassword => 'הסיסמה שגויה. נסה שוב.';
 
   @override
+  String get sudoEmailCodeSend => 'שלח לי קוד באימייל';
+
+  @override
+  String get sudoEmailCodeSent => 'שלחנו קוד בן 6 ספרות לכתובת האימייל שלך.';
+
+  @override
+  String get sudoEmailCodeLabel => 'הקוד מהאימייל';
+
+  @override
+  String get sudoEmailCodeResend => 'שלח קוד חדש';
+
+  @override
+  String get sudoSsoReauthHint => 'התחבר שוב כדי לאשר שזה אתה.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'התחבר שוב';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'התחברות עם $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'התחברת לחשבון אחר. יש להתחבר עם החשבון שבו נעשה שימוש כאן.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'מפתחות גישה מהמופע הזה לא עובדים באפליקציה הזו. השתמש באפליקציית האימות שלך או בקוד גיבוי, או אשר דרך האתר.';
+
+  @override
   String get securityAccountTitle => 'חשבון';
 
   @override
@@ -2621,6 +2678,58 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'השבתה זמנית של החשבון. תוכל/י להפעיל אותו מחדש מאוחר יותר על ידי התחברות.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'מחיקת החשבון והנתונים האישיים שלך. אפשר למחוק גם את ההודעות שלך.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'החשבון, הפרופיל והנתונים האישיים שלך נמחקים. הודעות שלא תמחק נשארות במקום שבו שלחת אותן, בלי השם או הפרופיל שלך.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'למחוק גם את ההודעות שלי';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'מוחק כל הודעה ששלחת בהודעות פרטיות, בצ\'אטים קבוצתיים ובקהילות, יחד עם החשבון שלך.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'כדי לשמור עותק של הנתונים שלך, בקש קודם ייצוא ב$privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'מחיקה בעוד 14 ימים';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'אפשר לבטל על ידי התחברות במהלך 14 הימים.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'תזמון מחיקה';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'החשבון שלך יימחק בתום תקופת ההמתנה של המופע הזה. התחברות לפני כן מבטלת את המחיקה.';
+
+  @override
+  String get dangerZoneDeleteNow => 'מחיקה עכשיו';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'למחוק את החשבון שלך עכשיו?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'החשבון שלך יימחק מיד ולא ניתן יהיה לשחזר אותו.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'המנוי שלך ל-Plutonium מחויב על ידי Apple. מחיקת החשבון לא מבטלת אותו, לכן בטל אותו קודם ב-App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'המנוי שלך ל-Plutonium מחויב על ידי Google Play. מחיקת החשבון לא מבטלת אותו, לכן בטל אותו קודם ב-Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'השבתת החשבון שלך תנתק אותך מכל הפעלות. תוכל להפעיל מחדש את החשבון שלך בכל עת על ידי כניסה מחדש.';
 
@@ -2628,48 +2737,15 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'מחיקת חשבון';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'מחיקה לצמיתות של החשבון וכל הנתונים המשויכים אליו. לא ניתן לבטל פעולה זו.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'לא ניתן למחוק את החשבון';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'אינך יכול למחוק את חשבונך כל עוד אתה הבעלים של קהילות. העבר בעלות על הקהילות הבאות תחילה:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'אתה הבעלים של הקהילות האלה. מחק כל אחת מהן, או העבר אותה לחבר אחר, לפני שתמחק את החשבון שלך.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'וגם $count נוספים';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'כדי להעביר בעלות, עבור אל $settingsPath והשתמש באפשרות העברת בעלות.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'האם למחוק את החשבון שלך? פעולה זו תתזמן את החשבון שלך למחיקה לצמיתות.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'באפשרותך לבטל את תהליך המחיקה בתוך 14 יום';
-
-  @override
-  String get dangerZoneDeleteBullet2 => 'לאחר 14 יום, החשבון שלך יימחק לצמיתות';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'לאחר השלמת המחיקה, לא תוכל/י לשחזר את הגישה לחשבונך';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'לא תוכל/י למחוק את ההודעות ששלחת לאחר מחיקת החשבון שלך';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'אם ברצונך לייצא את הנתונים שלך או למחוק את ההודעות שלך תחילה, אנא בקר בקטע לוח הבקרה של פרטיות בהגדרות המשתמש לפני שתמשיך.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'הקש על קהילה כדי לפתוח את ההגדרות שלה. \"מחיקת קהילה\" נמצא בתחתית. כדי להעביר אותה, פתח את \"חברים\", הקש על חבר, הקש על שלוש הנקודות בפרופיל שלו ובחר \"העברת בעלות\".';
 
   @override
   String get claimAccountTitle => 'תבע את החשבון שלך';
@@ -2693,9 +2769,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'החשבון נתבע בהצלחה';
-
-  @override
-  String get importantInformation => 'מידע חשוב:';
 
   @override
   String get genericError => 'אירעה שגיאה';
@@ -11406,6 +11479,11 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain מריץ גרסה חדשה יותר של Fluxer מהאפליקציה הזו. עדכן את האפליקציה ונסה שוב.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain לא משתמש בחיבור מאובטח (https). Fluxer מתחבר דרך http רק למופעים ברשת המקומית שלך.';
   }
 
   @override

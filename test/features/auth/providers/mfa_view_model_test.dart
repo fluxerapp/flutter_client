@@ -70,7 +70,6 @@ void main() {
 
     final state = container.read(mfaViewModelProvider(challenge));
 
-    expect(challenge.hasMultipleMethods, isFalse);
     expect(state.selectedMethod, MfaMethod.totp);
     expect(state.error, isNull);
   });
@@ -87,7 +86,6 @@ void main() {
 
     final state = container.read(mfaViewModelProvider(challenge));
 
-    expect(challenge.hasMultipleMethods, isFalse);
     expect(state.selectedMethod, isNull);
     expect(
       state.error,

@@ -94,12 +94,33 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Conectado';
 
   @override
+  String get gatewayOfflineToast =>
+      'Você está offline. O Fluxer se reconecta quando você voltar a ficar online.';
+
+  @override
   String get sessionExpiredToast =>
       'Sua sessão expirou. Por favor entre novamente.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Sua conta será excluída em $date. Se você fizer login antes disso, a exclusão será cancelada.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Sua conta está programada para exclusão. Se você fizer login antes da data de exclusão, ela será cancelada.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Estamos excluindo sua conta agora. Se sua conta tiver um endereço de e-mail, enviaremos um e-mail quando terminarmos.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Estamos excluindo sua conta agora.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Sua conta está desativada. Faça login novamente quando quiser usá-la.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Olá, $displayName, verifique seu endereço de e-mail.';
   }
+
+  @override
+  String get verificationResendEmail => 'Reenviar e-mail';
+
+  @override
+  String get verificationEmailSent =>
+      'E-mail de verificação enviado. Verifique sua caixa de entrada.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Você solicitou muitos e-mails de verificação. Aguarde um momento e tente novamente.';
 
   @override
   String get nagbarOpenSettings => 'Abrir configurações';
@@ -386,6 +418,10 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Tentar outro método';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'As chaves de acesso desta instância não funcionam neste app, e sua conta não tem outro método de verificação. Faça login pela web.';
+
+  @override
   String get mfaUseSecurityKey => 'Use chave de segurança / senha em vez disso';
 
   @override
@@ -524,78 +560,68 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get signOut => 'Sair';
 
   @override
-  String get suspendedPermanentTitle => 'Conta Suspensa Permanentemente';
-
-  @override
   String get suspendedTemporaryTitle => 'Conta Suspensa';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Sua conta foi suspensa permanentemente por violar nossos Termos de Serviço.';
+  String get suspendedBannedTitle => 'Conta banida';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Sua conta foi suspensa temporariamente. Você poderá acessá-la quando o período de suspensão terminar.';
+  String get suspendedClosedTitle => 'Conta encerrada';
 
   @override
-  String get suspendedIssuedAt => 'Emitido em';
+  String get suspendedWhatHappened => 'O que aconteceu';
 
   @override
-  String get suspendedEndsAt => 'Termina em';
+  String get suspendedWhy => 'Por quê';
 
   @override
-  String get suspendedDuration => 'Duração';
+  String get suspendedHowWeDecided => 'Como decidimos';
 
   @override
-  String get suspendedPermanent => 'Permanente';
+  String get suspendedHowToAppeal => 'Como recorrer';
 
   @override
-  String get suspendedReason => 'Motivo';
-
-  @override
-  String get suspendedAppealDeadline => 'Prazo para Recurso';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Sua conta está programada para exclusão em $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Nota da nossa equipe: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Verificar atualizações';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID da decisão: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Verificar novamente em ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Regra: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Se você acha que erramos, envie um e-mail para $email e informe seu nome de usuário.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Se você acha que erramos, envie um e-mail para $email até $deadline. Informe o ID da decisão e seu nome de usuário. O recurso é gratuito, e uma pessoa analisa cada pedido.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Se você acha que erramos, envie um e-mail para $email até $deadline. Se puder, escreva do endereço de e-mail da sua conta e informe o ID da decisão. O recurso é gratuito, e uma pessoa analisa cada pedido.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Para nos pedir que excluamos sua conta e seus dados, envie um e-mail para $email a partir do endereço da sua conta.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Para nos pedir que excluamos sua conta e seus dados, envie um e-mail para $email e informe seu nome de usuário.';
   }
 
   @override
   String get suspendedBackToLogin => 'Voltar ao login';
-
-  @override
-  String get suspendedAppealTitle => 'Recurso';
-
-  @override
-  String get suspendedAppealHint =>
-      'Explique por que sua suspensão deve ser reconsiderada (mínimo de 50 caracteres)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Enviar Recurso';
-
-  @override
-  String get suspendedAppealPending => 'Análise Pendente';
-
-  @override
-  String get suspendedAppealAccepted => 'Recurso Aceito';
-
-  @override
-  String get suspendedAppealRejected => 'Recurso Rejeitado';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Seu recurso foi aceito e sua conta foi restaurada.';
-
-  @override
-  String get suspendedSignIn => 'Entrar na sua conta';
 
   @override
   String get forgotPasswordTitle => 'Esqueceu sua senha?';
@@ -2315,6 +2341,39 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get sudoWrongPassword => 'Essa senha está incorreta. Tente novamente.';
 
   @override
+  String get sudoEmailCodeSend => 'Enviar código por e-mail';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Enviamos um código de 6 dígitos para o seu endereço de e-mail.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Código do e-mail';
+
+  @override
+  String get sudoEmailCodeResend => 'Enviar um novo código';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Faça login novamente para confirmar que é você.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Fazer login novamente';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Entrar com $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Você entrou em outra conta. Entre com a conta que você usa aqui.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'As chaves de acesso desta instância não funcionam neste app. Use seu app autenticador ou um código de backup, ou confirme pela web.';
+
+  @override
   String get securityAccountTitle => 'Conta';
 
   @override
@@ -2662,6 +2721,58 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Desative sua conta temporariamente. Você pode reativá-la mais tarde fazendo login novamente.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Exclua sua conta e seus dados pessoais. Você também pode excluir suas mensagens.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Sua conta, seu perfil e seus dados pessoais são excluídos. As mensagens que você não excluir continuam onde foram enviadas, sem seu nome ou perfil.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Excluir também minhas mensagens';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Exclui todas as mensagens que você enviou em DMs, conversas em grupo e comunidades, junto com sua conta.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Para guardar uma cópia dos seus dados, solicite antes uma exportação no $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Excluir em 14 dias';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Você pode cancelar fazendo login durante esses 14 dias.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Programar exclusão';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Sua conta é excluída após o período de espera desta instância. Se você fizer login antes disso, a exclusão será cancelada.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Excluir agora';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Excluir sua conta agora?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Sua conta é excluída imediatamente e não pode ser recuperada.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Sua assinatura do Plutonium é cobrada pela Apple. Excluir sua conta não a cancela, então cancele-a primeiro na App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Sua assinatura do Plutonium é cobrada pelo Google Play. Excluir sua conta não a cancela, então cancele-a primeiro no Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Desativar sua conta fará logout de todas as sessões. Você pode reativar sua conta a qualquer momento fazendo login novamente.';
 
@@ -2669,50 +2780,16 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Excluir Conta';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Exclua permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Não é possível excluir a conta';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Você não pode excluir sua conta enquanto for proprietário de comunidades. Transfira a propriedade das seguintes comunidades primeiro:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Você é dono destas comunidades. Exclua cada uma delas ou transfira-a para outro membro antes de excluir sua conta.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'e mais $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Para transferir a propriedade, acesse $settingsPath e use a opção de transferir propriedade.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Tem certeza de que deseja excluir sua conta? Esta ação agendará sua conta para exclusão permanente.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Você pode cancelar o processo de exclusão em até 14 dias';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Após 14 dias, sua conta será permanentemente excluída';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Após o processamento da exclusão, você não poderá recuperar o acesso à sua conta';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Você não poderá excluir suas mensagens enviadas após a exclusão da sua conta';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Se você deseja exportar seus dados ou excluir suas mensagens primeiro, visite a seção Painel de Privacidade em Configurações do Usuário antes de prosseguir.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Toque em uma comunidade para abrir as configurações dela. \"Excluir comunidade\" fica no final. Para transferi-la, abra \"Membros\", toque em um membro, toque nos três pontos no perfil dele e escolha \"Transferir a propriedade\".';
 
   @override
   String get claimAccountTitle => 'Reivindicar Sua Conta';
@@ -2736,9 +2813,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Conta reivindicada com sucesso';
-
-  @override
-  String get importantInformation => 'Informações importantes:';
 
   @override
   String get genericError => 'Ocorreu um erro';
@@ -11649,6 +11723,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   }
 
   @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain não usa uma conexão segura (https). O Fluxer só se conecta por http a instâncias na sua rede local.';
+  }
+
+  @override
   String get instanceCompatibilityTitle => 'Não é possível usar esta instância';
 
   @override
@@ -16785,12 +16864,33 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get gatewayConnectedToast => 'Conectado';
 
   @override
+  String get gatewayOfflineToast =>
+      'Você está offline. O Fluxer se reconecta quando você voltar a ficar online.';
+
+  @override
   String get sessionExpiredToast =>
       'Sua sessão expirou. Por favor entre novamente.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Sua conta será excluída em $date. Se você fizer login antes disso, a exclusão será cancelada.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Sua conta está programada para exclusão. Se você fizer login antes da data de exclusão, ela será cancelada.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Estamos excluindo sua conta agora. Se sua conta tiver um endereço de e-mail, enviaremos um e-mail quando terminarmos.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Estamos excluindo sua conta agora.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Sua conta está desativada. Faça login novamente quando quiser usá-la.';
 
   @override
   String splashStartupFailed(String error) {
@@ -16843,6 +16943,17 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Olá, $displayName, por favor, verifique seu endereço de e-mail.';
   }
+
+  @override
+  String get verificationResendEmail => 'Reenviar e-mail';
+
+  @override
+  String get verificationEmailSent =>
+      'E-mail de verificação enviado. Verifique sua caixa de entrada.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Você solicitou muitos e-mails de verificação. Aguarde um momento e tente novamente.';
 
   @override
   String get nagbarOpenSettings => 'Abrir configurações';
@@ -17077,6 +17188,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get mfaTryAnotherMethod => 'Tentar outro método';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'As chaves de acesso desta instância não funcionam neste app, e sua conta não tem outro método de verificação. Faça login pela web.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Tentar uma chave de segurança ou chave de acesso';
 
@@ -17216,78 +17331,68 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get signOut => 'Sair';
 
   @override
-  String get suspendedPermanentTitle => 'Conta Suspensa Permanentemente';
-
-  @override
   String get suspendedTemporaryTitle => 'Conta Suspensa';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Sua conta foi suspensa permanentemente por violar nossos Termos de Serviço.';
+  String get suspendedBannedTitle => 'Conta banida';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Sua conta foi suspensa temporariamente. Você poderá acessá-la quando o período de suspensão terminar.';
+  String get suspendedClosedTitle => 'Conta encerrada';
 
   @override
-  String get suspendedIssuedAt => 'Emitido em';
+  String get suspendedWhatHappened => 'O que aconteceu';
 
   @override
-  String get suspendedEndsAt => 'Termina em';
+  String get suspendedWhy => 'Por quê';
 
   @override
-  String get suspendedDuration => 'Duração';
+  String get suspendedHowWeDecided => 'Como decidimos';
 
   @override
-  String get suspendedPermanent => 'Permanente';
+  String get suspendedHowToAppeal => 'Como recorrer';
 
   @override
-  String get suspendedReason => 'Motivo';
-
-  @override
-  String get suspendedAppealDeadline => 'Prazo para Recurso';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Sua conta está programada para exclusão em $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Nota da nossa equipe: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Verificar atualizações';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID da decisão: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Verificar novamente em ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Regra: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Se você acha que erramos, envie um e-mail para $email e informe seu nome de usuário.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Se você acha que erramos, envie um e-mail para $email até $deadline. Informe o ID da decisão e seu nome de usuário. O recurso é gratuito, e uma pessoa analisa cada pedido.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Se você acha que erramos, envie um e-mail para $email até $deadline. Se puder, escreva do endereço de e-mail da sua conta e informe o ID da decisão. O recurso é gratuito, e uma pessoa analisa cada pedido.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Para nos pedir que excluamos sua conta e seus dados, envie um e-mail para $email a partir do endereço da sua conta.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Para nos pedir que excluamos sua conta e seus dados, envie um e-mail para $email e informe seu nome de usuário.';
   }
 
   @override
   String get suspendedBackToLogin => 'Voltar ao login';
-
-  @override
-  String get suspendedAppealTitle => 'Recurso';
-
-  @override
-  String get suspendedAppealHint =>
-      'Explique por que sua suspensão deve ser reconsiderada (mínimo de 50 caracteres)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Enviar Recurso';
-
-  @override
-  String get suspendedAppealPending => 'Análise Pendente';
-
-  @override
-  String get suspendedAppealAccepted => 'Recurso Aceito';
-
-  @override
-  String get suspendedAppealRejected => 'Recurso Rejeitado';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Seu recurso foi aceito e sua conta foi restaurada.';
-
-  @override
-  String get suspendedSignIn => 'Entrar na sua conta';
 
   @override
   String get forgotPasswordTitle => 'Esqueceu a senha?';
@@ -19001,6 +19106,39 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get sudoWrongPassword => 'Essa senha está incorreta. Tente novamente.';
 
   @override
+  String get sudoEmailCodeSend => 'Enviar código por e-mail';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Enviamos um código de 6 dígitos para o seu endereço de e-mail.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Código do e-mail';
+
+  @override
+  String get sudoEmailCodeResend => 'Enviar um novo código';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Faça login novamente para confirmar que é você.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Fazer login novamente';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Entrar com $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Você entrou em outra conta. Entre com a conta que você usa aqui.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'As chaves de acesso desta instância não funcionam neste app. Use seu app autenticador ou um código de backup, ou confirme pela web.';
+
+  @override
   String get securityAccountTitle => 'Conta';
 
   @override
@@ -19348,6 +19486,58 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Desativar sua conta temporariamente. Você pode reativá-la mais tarde fazendo login novamente.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Exclua sua conta e seus dados pessoais. Você também pode excluir suas mensagens.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Sua conta, seu perfil e seus dados pessoais são excluídos. As mensagens que você não excluir continuam onde foram enviadas, sem seu nome ou perfil.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Excluir também minhas mensagens';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Exclui todas as mensagens que você enviou em DMs, conversas em grupo e comunidades, junto com sua conta.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Para guardar uma cópia dos seus dados, solicite antes uma exportação no $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Excluir em 14 dias';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Você pode cancelar fazendo login durante esses 14 dias.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Programar exclusão';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Sua conta é excluída após o período de espera desta instância. Se você fizer login antes disso, a exclusão será cancelada.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Excluir agora';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Excluir sua conta agora?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Sua conta é excluída imediatamente e não pode ser recuperada.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Sua assinatura do Plutonium é cobrada pela Apple. Excluir sua conta não a cancela, então cancele-a primeiro na App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Sua assinatura do Plutonium é cobrada pelo Google Play. Excluir sua conta não a cancela, então cancele-a primeiro no Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Desativar sua conta fará logout de todas as sessões. Você pode reativar sua conta a qualquer momento fazendo login novamente.';
 
@@ -19355,50 +19545,16 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get dangerZoneDeleteTitle => 'Excluir conta';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Excluir permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Não é possível excluir a conta';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Você não pode excluir sua conta enquanto for proprietário de comunidades. Transfira a propriedade das seguintes comunidades primeiro:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Você é dono destas comunidades. Exclua cada uma delas ou transfira-a para outro membro antes de excluir sua conta.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'e mais $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Para transferir a propriedade, acesse $settingsPath e use a opção de transferir propriedade.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Tem certeza de que deseja excluir sua conta? Esta ação agendará sua conta para exclusão permanente.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Você pode cancelar o processo de exclusão em até 14 dias';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Após 14 dias, sua conta será excluída permanentemente';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Após a exclusão ser processada, você não poderá recuperar o acesso à sua conta';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Você não poderá excluir suas mensagens enviadas após a exclusão da sua conta';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Se você deseja exportar seus dados ou excluir suas mensagens primeiro, visite a seção Painel de Privacidade em Configurações do Usuário antes de prosseguir.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Toque em uma comunidade para abrir as configurações dela. \"Excluir comunidade\" fica no final. Para transferi-la, abra \"Membros\", toque em um membro, toque nos três pontos no perfil dele e escolha \"Transferir a propriedade\".';
 
   @override
   String get claimAccountTitle => 'Reivindique sua conta';
@@ -19422,9 +19578,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get claimAccountSuccess => 'Conta reivindicada com sucesso';
-
-  @override
-  String get importantInformation => 'Informações importantes:';
 
   @override
   String get genericError => 'Ocorreu um erro';
@@ -28339,6 +28492,11 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain usa uma versão do Fluxer mais nova que este app. Atualize o app e tente novamente.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain não usa uma conexão segura (https). O Fluxer só se conecta por http a instâncias na sua rede local.';
   }
 
   @override

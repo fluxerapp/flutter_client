@@ -122,6 +122,52 @@ void main() {
       isFalse,
     );
   });
+
+  test('a cached discovery document is refreshed after launch', () async {
+    const String privacyUrl = 'https://chat.example/privacy';
+    final Map<String, dynamic> payload =
+        jsonDecode(
+              jsonEncode(
+                wellKnownFixture(
+                  media: 'https://chat.example/media',
+                  staticCdn: 'https://chat.example/static',
+                ).toJson(),
+              ),
+            )
+            as Map<String, dynamic>;
+    final Map<String, dynamic> appPublic = Map<String, dynamic>.from(
+      payload['app_public'] as Map,
+    );
+    appPublic['legal'] = <String, dynamic>{
+      'terms_url': null,
+      'privacy_url': privacyUrl,
+    };
+    payload['app_public'] = appPublic;
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
+        authTokenStorageProvider.overrideWithValue(MapAuthTokenStorage()),
+        fluxerDioProvider.overrideWith((Ref ref) {
+          return Dio(BaseOptions(baseUrl: ref.watch(fluxerBaseUrlProvider)))
+            ..httpClientAdapter = _StaticJsonAdapter(payload);
+        }),
+      ],
+    );
+    addTearDown(container.dispose);
+    container
+        .read(activeInstanceProvider.notifier)
+        .applySnapshot(selfHostedInstanceSnapshot());
+
+    expect(container.read(refreshedActiveInstanceProvider).privacyUrl, isNull);
+    await container.read(wellKnownProvider.future);
+    await pumpEventQueue();
+
+    expect(
+      container.read(refreshedActiveInstanceProvider).privacyUrl,
+      privacyUrl,
+    );
+  });
 }
 
 class _StaticJsonAdapter implements HttpClientAdapter {

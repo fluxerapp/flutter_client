@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/instance/instance_compatibility.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
@@ -9,6 +10,7 @@ enum InstanceDiscoveryFailureReason {
   invalidDiscoveryResponse,
   instanceOutdated,
   requiresNewerClient,
+  insecureConnection,
 }
 
 class InstanceDiscoveryException implements Exception {
@@ -29,26 +31,45 @@ class InstanceDiscoveryException implements Exception {
 }
 
 class InstanceDiscoveryService {
-  InstanceDiscoveryService({InstanceEndpointNormalizer? normalizer, Dio? dio})
-    : _normalizer = normalizer ?? const InstanceEndpointNormalizer(),
-      _dio =
-          dio ??
-          Dio(
-            BaseOptions(
-              connectTimeout: const Duration(seconds: 15),
-              receiveTimeout: const Duration(seconds: 10),
-              headers: const <String, dynamic>{'Accept': 'application/json'},
-            ),
-          );
+  InstanceDiscoveryService({
+    InstanceEndpointNormalizer? normalizer,
+    Dio? dio,
+    bool? rejectPublicCleartext,
+  }) : _normalizer = normalizer ?? const InstanceEndpointNormalizer(),
+       _rejectPublicCleartext =
+           rejectPublicCleartext ?? defaultTargetPlatform == TargetPlatform.iOS,
+       _dio =
+           dio ??
+           Dio(
+             BaseOptions(
+               connectTimeout: const Duration(seconds: 15),
+               receiveTimeout: const Duration(seconds: 10),
+               headers: const <String, dynamic>{'Accept': 'application/json'},
+             ),
+           );
 
   final InstanceEndpointNormalizer _normalizer;
   final Dio _dio;
+  final bool _rejectPublicCleartext;
+
+  void _assertSecureEndpoints(List<String> endpoints) {
+    if (!_rejectPublicCleartext) {
+      return;
+    }
+    if (endpoints.any(isPublicCleartextEndpoint)) {
+      throw const InstanceDiscoveryException(
+        'Instance does not use a secure connection',
+        reason: InstanceDiscoveryFailureReason.insecureConnection,
+      );
+    }
+  }
 
   Future<InstanceConfigSnapshot> connectToEndpoint(String input) async {
     if (_normalizer.isOfficialInstanceInput(input)) {
       return InstanceConfigSnapshot.officialDefault();
     }
     final String apiEndpoint = _normalizer.normalizeEndpoint(input);
+    _assertSecureEndpoints(<String>[apiEndpoint]);
     final String wellKnownUrl = _normalizer.buildWellKnownUrl(apiEndpoint);
     talker.debug(
       '[InstanceDiscovery] Discovering instance input=$input '
@@ -99,6 +120,11 @@ class InstanceDiscoveryService {
             wellKnown: wellKnown,
             normalizer: _normalizer,
           );
+      _assertSecureEndpoints(<String>[
+        snapshot.apiBaseUrl,
+        snapshot.gatewayUrl,
+        snapshot.mediaBaseUrl,
+      ]);
       talker.info(
         '[InstanceDiscovery] Connected to ${snapshot.displayDomain} '
         'api=${snapshot.apiBaseUrl}',

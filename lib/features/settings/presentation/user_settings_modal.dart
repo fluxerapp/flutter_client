@@ -5,26 +5,15 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
-import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
-import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_provider.dart';
-import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
-import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
-import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
-import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
@@ -62,6 +51,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_utils.dart';
+import 'package:fluxer_app/features/settings/utils/sign_out_current_account.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/confirm_user_settings_logout.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_deep_link_scope.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_nav_l10n.dart';
@@ -263,6 +253,16 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
           showHelp: showHelp,
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
+          showPrivacyPolicy: ref.watch(
+            refreshedActiveInstanceProvider.select(
+              (instance) => instance.privacyUrl != null,
+            ),
+          ),
+          showTerms: ref.watch(
+            refreshedActiveInstanceProvider.select(
+              (instance) => instance.termsUrl != null,
+            ),
+          ),
         );
 
     return WideSettingsModalFrame(
@@ -456,6 +456,18 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_openWhatsNew());
       return;
     }
+    if (entry.isPrivacyPolicy) {
+      unawaited(
+        _openLegalUrl(ref.read(refreshedActiveInstanceProvider).privacyUrl),
+      );
+      return;
+    }
+    if (entry.isTermsOfService) {
+      unawaited(
+        _openLegalUrl(ref.read(refreshedActiveInstanceProvider).termsUrl),
+      );
+      return;
+    }
     if (entry.isSeparator) {
       return;
     }
@@ -480,6 +492,13 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
 
   Future<void> _openWhatsNew() async {
     await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
+  }
+
+  Future<void> _openLegalUrl(String? url) async {
+    if (url == null) {
+      return;
+    }
+    await handleExternalLinkTap(context, url, skipWarning: true);
   }
 
   void _onSearchHitSelected(UserSettingsSearchHit? hit) {
@@ -517,36 +536,9 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       return;
     }
 
-    final userId = ref.read(currentUserIdProvider) ?? '';
-
-    await ref.read(gatewayConnectionProvider).disconnect();
-    ref.read(gatewayReadyProvider.notifier).reset();
-
-    ref
-      ..invalidate(gatewayConnectionProvider)
-      ..invalidate(gatewayEventListenerProvider)
-      ..invalidate(gatewayStateListenerProvider)
-      ..invalidate(gatewayForegroundListenerProvider)
-      ..invalidate(gatewayReconnectBannerListenerProvider)
-      ..invalidate(gatewayReconnectBannerProvider)
-      ..invalidate(gatewayConnectionFailedProvider)
-      ..invalidate(connectivityListenerProvider)
-      ..invalidate(typingIndicatorsProvider)
-      ..invalidate(voiceStatesMapProvider)
-      ..invalidate(activeCallsProvider(readAccountUserId(ref)))
-      ..invalidate(outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)))
-      ..invalidate(inviteCacheProvider(readAccountUserId(ref)))
-      ..invalidate(currentUserIdProvider)
-      ..invalidate(dmViewModelProvider)
-      ..invalidate(guildListViewModelProvider)
-      ..invalidate(organizedGuildListProvider)
-      ..invalidate(folderExpandedStateProvider)
-      ..invalidate(channelListViewModelProvider)
-      ..invalidate(chatViewModelProvider)
-      ..invalidate(userSettingsViewModelProvider)
-      ..invalidate(loginViewModelProvider);
-
-    await ref.read(accountManagerProvider.notifier).signOut(userId);
+    await signOutCurrentAccount(
+      ProviderScope.containerOf(context, listen: false),
+    );
     if (mounted) {
       Navigator.of(context).pop();
     }
@@ -696,6 +688,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final UserSettingsViewState settingsState = ref.watch(
       userSettingsViewModelProvider,
     );
+    final String? privacyUrl = ref.watch(
+      refreshedActiveInstanceProvider.select((instance) => instance.privacyUrl),
+    );
+    final String? termsUrl = ref.watch(
+      refreshedActiveInstanceProvider.select((instance) => instance.termsUrl),
+    );
 
     return FluxerSettingsNavList(
       controller: widget.scrollController,
@@ -736,6 +734,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               onGiveFeedback: () => unawaited(_openFeedback()),
               onOpenHelp: () => unawaited(_openHelp()),
               onLogout: _logout,
+              onOpenPrivacyPolicy: privacyUrl == null
+                  ? null
+                  : () => unawaited(_openLegalUrl(privacyUrl)),
+              onOpenTerms: termsUrl == null
+                  ? null
+                  : () => unawaited(_openLegalUrl(termsUrl)),
               showBilling: showBilling,
               showGifts: userSettingsShowGiftBillingNav(ref),
               showGiveFeedback: showGiveFeedback,
@@ -806,6 +810,13 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
   }
 
+  Future<void> _openLegalUrl(String? url) async {
+    if (url == null) {
+      return;
+    }
+    await handleExternalLinkTap(context, url, skipWarning: true);
+  }
+
   void _openAppLogs() {
     unawaited(pushTalkerLogScreen(context));
   }
@@ -815,36 +826,9 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       return;
     }
 
-    final userId = ref.read(currentUserIdProvider) ?? '';
-
-    await ref.read(gatewayConnectionProvider).disconnect();
-    ref.read(gatewayReadyProvider.notifier).reset();
-
-    ref
-      ..invalidate(gatewayConnectionProvider)
-      ..invalidate(gatewayEventListenerProvider)
-      ..invalidate(gatewayStateListenerProvider)
-      ..invalidate(gatewayForegroundListenerProvider)
-      ..invalidate(gatewayReconnectBannerListenerProvider)
-      ..invalidate(gatewayReconnectBannerProvider)
-      ..invalidate(gatewayConnectionFailedProvider)
-      ..invalidate(connectivityListenerProvider)
-      ..invalidate(typingIndicatorsProvider)
-      ..invalidate(voiceStatesMapProvider)
-      ..invalidate(activeCallsProvider(readAccountUserId(ref)))
-      ..invalidate(outgoingVoiceCallInitiatorProvider(readAccountUserId(ref)))
-      ..invalidate(inviteCacheProvider(readAccountUserId(ref)))
-      ..invalidate(currentUserIdProvider)
-      ..invalidate(dmViewModelProvider)
-      ..invalidate(guildListViewModelProvider)
-      ..invalidate(organizedGuildListProvider)
-      ..invalidate(folderExpandedStateProvider)
-      ..invalidate(channelListViewModelProvider)
-      ..invalidate(chatViewModelProvider)
-      ..invalidate(userSettingsViewModelProvider)
-      ..invalidate(loginViewModelProvider);
-
-    await ref.read(accountManagerProvider.notifier).signOut(userId);
+    await signOutCurrentAccount(
+      ProviderScope.containerOf(context, listen: false),
+    );
     if (mounted) {
       Navigator.of(context, rootNavigator: true).pop();
     }

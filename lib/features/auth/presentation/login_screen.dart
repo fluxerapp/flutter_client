@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/account_closure_notice_alert.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/account_selector.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
+import 'package:fluxer_app/features/auth/providers/account_closure_notice_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -25,9 +27,13 @@ class LoginScreen extends ConsumerWidget {
     final accountState = ref.watch(accountManagerProvider);
 
     if (vm.showAccountSelector && accountState.accounts.isNotEmpty) {
-      return AccountSelector(
+      final AccountClosureNotice? closure = ref.watch(
+        pendingAccountClosureNoticeProvider,
+      );
+      final Widget selector = AccountSelector(
         currentUserId: ref.read(currentUserIdProvider) ?? '',
         onSelectAccount: (account) {
+          ref.read(pendingAccountClosureNoticeProvider.notifier).clear();
           if (account.isValid) {
             final l10n = FluxerLocalizations.of(context);
             unawaited(
@@ -49,6 +55,18 @@ class LoginScreen extends ConsumerWidget {
           }
         },
         onAddAccount: notifier.hideAccountSelector,
+      );
+      if (closure == null) {
+        return selector;
+      }
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AccountClosureNoticeAlert(notice: closure),
+          SizedBox(height: context.layout.s6),
+          selector,
+        ],
       );
     }
 

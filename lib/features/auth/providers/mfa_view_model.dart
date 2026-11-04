@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -76,10 +77,10 @@ class MfaViewModel extends _$MfaViewModel {
     _challenge = challenge;
 
     MfaMethod? initialMethod;
-    if (!challenge.hasMultipleMethods) {
-      if (challenge.totp) {
-        initialMethod = MfaMethod.totp;
-      }
+    if (challenge.totp &&
+        (!challenge.webauthn ||
+            !ref.read(authInstanceSupportsPasskeysProvider))) {
+      initialMethod = MfaMethod.totp;
     }
 
     return MfaViewState(

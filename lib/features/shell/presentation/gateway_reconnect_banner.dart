@@ -242,11 +242,15 @@ class _GatewayReconnectBannerState
     final FluxerColorTheme colors = context.colors;
     final FluxerLayoutTheme layout = context.layout;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String reconnectingMessage = l10n.gatewayReconnectingToast;
+    final bool deviceOffline = ref.watch(gatewayDeviceOfflineProvider);
+    final String reconnectingMessage = deviceOffline
+        ? l10n.gatewayOfflineToast
+        : l10n.gatewayReconnectingToast;
     final String connectedMessage = l10n.gatewayConnectedToast;
     final bool connected =
         _contentPhase == GatewayReconnectBannerPhase.connected;
-    final bool retryable = phase == GatewayReconnectBannerPhase.reconnecting;
+    final bool retryable =
+        phase == GatewayReconnectBannerPhase.reconnecting && !deviceOffline;
     final BorderRadius pillRadius = layout.radiusFull;
     final TextStyle reconnectingStyle = context.textStyles.bodyMedium.copyWith(
       fontWeight: FontWeight.w600,

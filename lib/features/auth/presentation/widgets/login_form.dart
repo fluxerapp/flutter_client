@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_legal_links.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/instance_selector_sheet.dart';
@@ -181,6 +182,9 @@ class _LoginFormState extends ConsumerState<LoginForm>
     );
     final bool canSubmit = vm.canLogin && canAuthenticate;
     final bool isSsoEnabled = ref.watch(isAuthInstanceSsoEnabledProvider);
+    final bool supportsPasskeys = ref.watch(
+      authInstanceSupportsPasskeysProvider,
+    );
     final InstanceSsoSchema? ssoConfig = ref
         .watch(authInstanceSnapshotProvider)
         .ssoConfig;
@@ -241,7 +245,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
               controller: _emailController,
               label: usernameSignIn ? strings.usernameLabel : strings.email,
               focusNode: _emailFocusNode,
-              autofocus: true,
+              autofocus: !isFluxerNativeMobileOs,
               autofillHints: usernameSignIn
                   ? const [AutofillHints.username]
                   : const [AutofillHints.email],
@@ -314,16 +318,18 @@ class _LoginFormState extends ConsumerState<LoginForm>
               label: strings.logIn,
               isLoading: vm.isLoggingIn,
             ),
-            SizedBox(height: layout.s6),
-            _buildOrDivider(context, strings),
-            SizedBox(height: layout.s6),
-            FluxerButton.secondary(
-              onPressed: vm.isLoggingIn || !canAuthenticate
-                  ? null
-                  : () => unawaited(notifier.loginWithPasskey()),
-              icon: PhosphorIconsFill.key,
-              label: strings.logInWithPasskey,
-            ),
+            if (supportsPasskeys) ...[
+              SizedBox(height: layout.s6),
+              _buildOrDivider(context, strings),
+              SizedBox(height: layout.s6),
+              FluxerButton.secondary(
+                onPressed: vm.isLoggingIn || !canAuthenticate
+                    ? null
+                    : () => unawaited(notifier.loginWithPasskey()),
+                icon: PhosphorIconsFill.key,
+                label: strings.logInWithPasskey,
+              ),
+            ],
             if (isSsoEnabled) ...[
               SizedBox(height: context.layout.s6),
               _buildOrDivider(context, strings),

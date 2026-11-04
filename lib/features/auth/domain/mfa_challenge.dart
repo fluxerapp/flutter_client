@@ -10,6 +10,4 @@ class MfaChallenge {
   });
 
   int get methodCount => [totp, webauthn].where((m) => m).length;
-
-  bool get hasMultipleMethods => methodCount > 1;
 }

@@ -93,12 +93,33 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Bağlandı';
 
   @override
+  String get gatewayOfflineToast =>
+      'Çevrimdışısınız. Fluxer, tekrar çevrimiçi olduğunuzda yeniden bağlanır.';
+
+  @override
   String get sessionExpiredToast =>
       'Oturum süreniz doldu. Lütfen tekrar giriş yapın.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Hesabınız $date tarihinde silinecek. Bu tarihten önce giriş yaparsanız silme işlemi iptal edilir.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Hesabınızın silinmesi planlandı. Silme tarihinden önce giriş yaparsanız silme işlemi iptal edilir.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Hesabınızı şimdi siliyoruz. Hesabınızda bir e-posta adresi varsa, işlem bittiğinde size e-posta göndereceğiz.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Hesabınızı şimdi siliyoruz.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Hesabınız devre dışı. Kullanmak istediğinizde tekrar giriş yapın.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Merhaba $displayName, lütfen e-posta adresinizi doğrulayın.';
   }
+
+  @override
+  String get verificationResendEmail => 'E-postayı tekrar gönder';
+
+  @override
+  String get verificationEmailSent =>
+      'Doğrulama e-postası gönderildi. Gelen kutunuzu kontrol edin.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Çok fazla doğrulama e-postası istediniz. Lütfen bir süre bekleyip tekrar deneyin.';
 
   @override
   String get nagbarOpenSettings => 'Ayarları aç';
@@ -386,6 +418,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Başka bir yöntemi dene';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Bu kurulumun geçiş anahtarları bu uygulamada çalışmaz ve hesabınızda başka bir doğrulama yöntemi yok. Bunun yerine web\'de giriş yapın.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Bunun yerine güvenlik anahtarını/geçiş anahtarını dene';
 
@@ -523,78 +559,68 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get signOut => 'Çıkış yap';
 
   @override
-  String get suspendedPermanentTitle => 'Hesap Kalıcı Olarak Askıya Alındı';
-
-  @override
   String get suspendedTemporaryTitle => 'Hesap Askıya Alındı';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Hizmet Şartlarımızı ihlal ettiğiniz için hesabınız kalıcı olarak askıya alındı.';
+  String get suspendedBannedTitle => 'Hesap kalıcı olarak askıya alındı';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Hesabınız geçici olarak askıya alındı. Askı süresi sona erdiğinde hesabınıza erişebileceksiniz.';
+  String get suspendedClosedTitle => 'Hesap kapatıldı';
 
   @override
-  String get suspendedIssuedAt => 'Yayınlandı';
+  String get suspendedWhatHappened => 'Ne oldu';
 
   @override
-  String get suspendedEndsAt => 'Bitiş';
+  String get suspendedWhy => 'Neden';
 
   @override
-  String get suspendedDuration => 'Süre';
+  String get suspendedHowWeDecided => 'Nasıl karar verdik';
 
   @override
-  String get suspendedPermanent => 'Kalıcı';
+  String get suspendedHowToAppeal => 'Nasıl itiraz edebilirsin';
 
   @override
-  String get suspendedReason => 'Neden';
-
-  @override
-  String get suspendedAppealDeadline => 'İtiraz Süresi Sonu';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return '$date tarihinde hesabınızın silinmesi planlanıyor.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Ekibimizden not: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Güncellemeleri kontrol et';
+  String suspendedDecisionId(String decisionId) {
+    return 'Karar kimliği: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return '${seconds}sn Sonra Tekrar Dene';
+  String suspendedRule(String title) {
+    return 'Kural: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Bir hata yaptığımızı düşünüyorsanız $email adresine e-posta gönderin ve kullanıcı adınızı ekleyin.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Bir hata yaptığımızı düşünüyorsanız $deadline tarihine kadar $email adresine e-posta gönderin. Karar kimliğini ve kullanıcı adınızı ekleyin. İtirazlar ücretsizdir ve her birini bir kişi inceler.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Bir hata yaptığımızı düşünüyorsanız $deadline tarihine kadar $email adresine e-posta gönderin. Mümkünse hesabınızdaki e-posta adresinden yazın ve karar kimliğini ekleyin. İtirazlar ücretsizdir ve her birini bir kişi inceler.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Hesabınızın ve verilerinizin silinmesini istemek için hesabınızdaki adresten $email adresine e-posta gönderin.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Hesabınızın ve verilerinizin silinmesini istemek için $email adresine e-posta gönderin ve kullanıcı adınızı ekleyin.';
   }
 
   @override
   String get suspendedBackToLogin => 'Girişe Dön';
-
-  @override
-  String get suspendedAppealTitle => 'İtiraz';
-
-  @override
-  String get suspendedAppealHint =>
-      'Askıya alınmanızın neden yeniden değerlendirilmesi gerektiğini açıklayın (en az 50 karakter)...';
-
-  @override
-  String get suspendedAppealSubmit => 'İtiraz Gönder';
-
-  @override
-  String get suspendedAppealPending => 'İncelemede';
-
-  @override
-  String get suspendedAppealAccepted => 'İtiraz Kabul Edildi';
-
-  @override
-  String get suspendedAppealRejected => 'İtiraz Reddedildi';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'İtirazınız kabul edildi ve hesabınız yeniden etkinleştirildi.';
-
-  @override
-  String get suspendedSignIn => 'Hesabınıza Giriş Yapın';
 
   @override
   String get forgotPasswordTitle => 'Parolanızı mı unuttunuz?';
@@ -2309,6 +2335,39 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get sudoWrongPassword => 'Parola yanlış. Tekrar deneyin.';
 
   @override
+  String get sudoEmailCodeSend => 'Bana e-postayla kod gönder';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'E-posta adresinize 6 haneli bir kod gönderdik.';
+
+  @override
+  String get sudoEmailCodeLabel => 'E-postadaki kod';
+
+  @override
+  String get sudoEmailCodeResend => 'Yeni bir kod gönder';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Siz olduğunuzu doğrulamak için tekrar giriş yapın.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Tekrar giriş yap';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return '$provider ile giriş yap';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Farklı bir hesapta oturum açtın. Burada kullandığın hesapla oturum aç.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Bu kurulumun geçiş anahtarları bu uygulamada çalışmaz. Kimlik doğrulama uygulamanızı veya bir yedek kodu kullanın ya da web\'de onaylayın.';
+
+  @override
   String get securityAccountTitle => 'Hesap';
 
   @override
@@ -2656,6 +2715,58 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Hesabınızı geçici olarak devre dışı bırakın. Daha sonra tekrar giriş yaparak yeniden etkinleştirebilirsiniz.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Hesabınızı ve kişisel verilerinizi silin. Mesajlarınızı da silebilirsiniz.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Hesabınız, profiliniz ve kişisel verileriniz silinir. Silmediğiniz mesajlar, adınız veya profiliniz olmadan gönderdiğiniz yerde kalır.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Mesajlarımı da sil';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'DM\'lerde, grup DM\'lerinde ve topluluklarda gönderdiğiniz tüm mesajları hesabınızla birlikte siler.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Verilerinizin bir kopyasını saklamak için önce $privacyDashboard bölümünden dışa aktarma isteyin.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => '14 gün içinde sil';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Bu 14 gün içinde giriş yaparak silme işlemini iptal edebilirsiniz.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Silmeyi planla';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Hesabınız bu kurulumun bekleme süresinden sonra silinir. Bu süre bitmeden giriş yaparsanız silme işlemi iptal edilir.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Şimdi sil';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Hesabınız şimdi silinsin mi?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Hesabınız hemen silinir ve geri getirilemez.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Plutonium aboneliğiniz Apple tarafından faturalandırılıyor. Hesabınızı silmek aboneliği iptal etmez, bu yüzden önce App Store\'da iptal edin.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Plutonium aboneliğiniz Google Play tarafından faturalandırılıyor. Hesabınızı silmek aboneliği iptal etmez, bu yüzden önce Google Play\'de iptal edin.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Hesabınızı devre dışı bırakmak sizi tüm oturumlardan çıkaracaktır. Tekrar giriş yaparak hesabınızı istediğiniz zaman yeniden etkinleştirebilirsiniz.';
 
@@ -2663,49 +2774,15 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Hesabı sil';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Hesabınızı ve ilgili tüm verileri kalıcı olarak silin. Bu işlem geri alınamaz.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Hesap silinemiyor';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Sahibi olduğunuz topluluklar varken hesabınızı silemezsiniz. Önce aşağıdaki toplulukların sahipliğini devredin:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Bu toplulukların sahibisiniz. Hesabınızı silmeden önce her birini silin veya başka bir üyeye devredin.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 've $count tane daha';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Sahipliği devretmek için $settingsPath bölümüne gidin ve sahipliği devretme seçeneğini kullanın.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Hesabınızı silmek istediğinizden emin misiniz? Bu işlem, hesabınızın kalıcı olarak silinmesini planlayacaktır.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Silme işlemini 14 gün içinde iptal edebilirsiniz';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      '14 gün sonra hesabınız kalıcı olarak silinecek';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Silme işlemi tamamlandığında hesabınıza tekrar erişemezsiniz';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Hesabınız silindikten sonra gönderdiğiniz mesajları silemezsiniz';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Verilerinizi dışa aktarmak veya önce mesajlarınızı silmek istiyorsanız, devam etmeden önce Lütfen Kullanıcı Ayarlarındaki Gizlilik Paneli bölümünü ziyaret edin.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Ayarlarını açmak için bir topluluğa dokunun. “Topluluğu sil” en alttadır. Topluluğu devretmek için “Üyeler” bölümünü açın, bir üyeye dokunun, profilindeki üç noktaya dokunun ve “Sahipliği devret” seçeneğini seçin.';
 
   @override
   String get claimAccountTitle => 'Hesabınızı sahiplenin';
@@ -2729,9 +2806,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Hesap başarıyla sahiplenildi';
-
-  @override
-  String get importantInformation => 'Önemli bilgiler:';
 
   @override
   String get genericError => 'Bir hata oluştu';
@@ -11582,6 +11656,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain, bu uygulamadan daha yeni bir Fluxer sürümü çalıştırıyor. Uygulamayı güncelleyip tekrar deneyin.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain güvenli bağlantı (https) kullanmıyor. Fluxer, yalnızca yerel ağınızdaki kurulumlara http üzerinden bağlanır.';
   }
 
   @override

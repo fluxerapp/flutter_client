@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 
 final RegExp _schemePrefixPattern = RegExp(r'^[a-zA-Z][a-zA-Z0-9+\-.]*://');
@@ -86,4 +89,62 @@ class InstanceEndpointNormalizer {
     }
     return trimmed;
   }
+}
+
+bool passkeysSupportedFor(String apiBaseUrl) {
+  return defaultTargetPlatform != TargetPlatform.iOS ||
+      const InstanceEndpointNormalizer().isOfficialInstanceInput(apiBaseUrl);
+}
+
+const List<String> _localNetworkHostSuffixes = <String>[
+  '.local',
+  '.lan',
+  '.home.arpa',
+  '.internal',
+];
+
+bool isLocalNetworkHost(String host) {
+  String normalized = host.trim().toLowerCase();
+  if (normalized.startsWith('[') && normalized.endsWith(']')) {
+    normalized = normalized.substring(1, normalized.length - 1);
+  }
+  if (normalized.isEmpty) {
+    return false;
+  }
+  final InternetAddress? address = InternetAddress.tryParse(normalized);
+  if (address != null) {
+    return _isLocalNetworkAddress(address);
+  }
+  if (normalized == 'localhost' || !normalized.contains('.')) {
+    return true;
+  }
+  return _localNetworkHostSuffixes.any(normalized.endsWith);
+}
+
+bool _isLocalNetworkAddress(InternetAddress address) {
+  final List<int> bytes = address.rawAddress;
+  if (address.type == InternetAddressType.IPv4) {
+    final int a = bytes[0];
+    final int b = bytes[1];
+    return a == 127 ||
+        a == 10 ||
+        (a == 172 && b >= 16 && b <= 31) ||
+        (a == 192 && b == 168) ||
+        (a == 169 && b == 254) ||
+        (a == 100 && b >= 64 && b <= 127);
+  }
+  if (address.isLoopback) {
+    return true;
+  }
+  final bool uniqueLocal = (bytes[0] & 0xfe) == 0xfc;
+  final bool linkLocal = bytes[0] == 0xfe && (bytes[1] & 0xc0) == 0x80;
+  return uniqueLocal || linkLocal;
+}
+
+bool isPublicCleartextEndpoint(String endpoint) {
+  final Uri? url = Uri.tryParse(endpoint);
+  if (url == null || (url.scheme != 'http' && url.scheme != 'ws')) {
+    return false;
+  }
+  return !isLocalNetworkHost(url.host);
 }

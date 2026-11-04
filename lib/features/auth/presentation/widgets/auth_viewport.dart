@@ -14,11 +14,19 @@ class AuthViewport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          child: SingleChildScrollView(padding: padding, child: child),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: SingleChildScrollView(
+              padding: padding,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: child,
+            ),
+          ),
         ),
       ),
     );

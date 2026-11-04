@@ -381,103 +381,13 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "Conta Suspensa Permanentemente",
-    "@suspendedPermanentTitle": {
-        "description": "Title when account is permanently banned."
-    },
     "suspendedTemporaryTitle": "Conta Suspensa",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "Sua conta foi suspensa permanentemente por violar nossos Termos de Serviço.",
-    "@suspendedPermanentDescription": {
-        "description": "Description for permanent suspension."
-    },
-    "suspendedTemporaryDescription": "Sua conta foi suspensa temporariamente. Você poderá acessá-la quando o período de suspensão terminar.",
-    "@suspendedTemporaryDescription": {
-        "description": "Description for temporary suspension."
-    },
-    "suspendedIssuedAt": "Emitido em",
-    "@suspendedIssuedAt": {
-        "description": "Label for when the ban was issued."
-    },
-    "suspendedEndsAt": "Termina em",
-    "@suspendedEndsAt": {
-        "description": "Label for when a temporary ban ends."
-    },
-    "suspendedDuration": "Duração",
-    "@suspendedDuration": {
-        "description": "Label for ban duration."
-    },
-    "suspendedPermanent": "Permanente",
-    "@suspendedPermanent": {
-        "description": "Value shown for permanent ban duration."
-    },
-    "suspendedReason": "Motivo",
-    "@suspendedReason": {
-        "description": "Label for ban reason."
-    },
-    "suspendedAppealDeadline": "Prazo para Recurso",
-    "@suspendedAppealDeadline": {
-        "description": "Label for appeal deadline date."
-    },
-    "suspendedDeletionWarning": "Sua conta está programada para exclusão em {date}.",
-    "@suspendedDeletionWarning": {
-        "description": "Warning about scheduled account deletion.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "suspendedRecheck": "Verificar atualizações",
-    "@suspendedRecheck": {
-        "description": "Button to recheck ban status."
-    },
-    "suspendedRecheckCooldown": "Verificar novamente em {seconds}s",
-    "@suspendedRecheckCooldown": {
-        "description": "Recheck button with cooldown timer.",
-        "placeholders": {
-            "seconds": {
-                "type": "int"
-            }
-        }
-    },
     "suspendedBackToLogin": "Voltar ao login",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
-    },
-    "suspendedAppealTitle": "Recurso",
-    "@suspendedAppealTitle": {
-        "description": "Title for the appeal section."
-    },
-    "suspendedAppealHint": "Explique por que sua suspensão deve ser reconsiderada (mínimo de 50 caracteres)...",
-    "@suspendedAppealHint": {
-        "description": "Placeholder text for the appeal textarea."
-    },
-    "suspendedAppealSubmit": "Enviar Recurso",
-    "@suspendedAppealSubmit": {
-        "description": "Button to submit an appeal."
-    },
-    "suspendedAppealPending": "Análise Pendente",
-    "@suspendedAppealPending": {
-        "description": "Badge for appeal with pending status."
-    },
-    "suspendedAppealAccepted": "Recurso Aceito",
-    "@suspendedAppealAccepted": {
-        "description": "Badge for accepted appeal."
-    },
-    "suspendedAppealRejected": "Recurso Rejeitado",
-    "@suspendedAppealRejected": {
-        "description": "Badge for rejected appeal."
-    },
-    "suspendedAppealAcceptedDescription": "Seu recurso foi aceito e sua conta foi restaurada.",
-    "@suspendedAppealAcceptedDescription": {
-        "description": "Message when appeal is accepted."
-    },
-    "suspendedSignIn": "Entrar na sua conta",
-    "@suspendedSignIn": {
-        "description": "Button to sign in after appeal is accepted."
     },
     "forgotPasswordTitle": "Esqueceu sua senha?",
     "@forgotPasswordTitle": {
@@ -2575,59 +2485,9 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "Exclua permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.",
-    "@dangerZoneDeleteDescription": {
-        "description": "Description for account delete."
-    },
     "dangerZoneDeleteCannotDeleteAccount": "Não é possível excluir a conta",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
-    },
-    "dangerZoneDeleteOwnsCommunities": "Você não pode excluir sua conta enquanto for proprietário de comunidades. Transfira a propriedade das seguintes comunidades primeiro:",
-    "@dangerZoneDeleteOwnsCommunities": {
-        "description": "Warning message shown when user owns communities and tries to delete account."
-    },
-    "dangerZoneDeleteAndXMore": "e mais {count}",
-    "@dangerZoneDeleteAndXMore": {
-        "description": "Shown when user owns more than 3 communities.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "dangerZoneDeleteTransferInstructions": "Para transferir a propriedade, acesse {settingsPath} e use a opção de transferir propriedade.",
-    "@dangerZoneDeleteTransferInstructions": {
-        "description": "Instructions for transferring community ownership.",
-        "placeholders": {
-            "settingsPath": {
-                "type": "String"
-            }
-        }
-    },
-    "dangerZoneDeleteConfirmDescription": "Tem certeza de que deseja excluir sua conta? Esta ação agendará sua conta para exclusão permanente.",
-    "@dangerZoneDeleteConfirmDescription": {
-        "description": "Confirmation description for account delete."
-    },
-    "dangerZoneDeleteBullet1": "Você pode cancelar o processo de exclusão em até 14 dias",
-    "@dangerZoneDeleteBullet1": {
-        "description": "First bullet point in delete confirmation."
-    },
-    "dangerZoneDeleteBullet2": "Após 14 dias, sua conta será permanentemente excluída",
-    "@dangerZoneDeleteBullet2": {
-        "description": "Second bullet point."
-    },
-    "dangerZoneDeleteBullet3": "Após o processamento da exclusão, você não poderá recuperar o acesso à sua conta",
-    "@dangerZoneDeleteBullet3": {
-        "description": "Third bullet point."
-    },
-    "dangerZoneDeleteBullet4": "Você não poderá excluir suas mensagens enviadas após a exclusão da sua conta",
-    "@dangerZoneDeleteBullet4": {
-        "description": "Fourth bullet point."
-    },
-    "dangerZoneDeleteDisclaimer": "Se você deseja exportar seus dados ou excluir suas mensagens primeiro, visite a seção Painel de Privacidade em Configurações do Usuário antes de prosseguir.",
-    "@dangerZoneDeleteDisclaimer": {
-        "description": "Disclaimer about data export before deletion."
     },
     "claimAccountTitle": "Reivindicar Sua Conta",
     "@claimAccountTitle": {
@@ -2656,10 +2516,6 @@
     "claimAccountSuccess": "Conta reivindicada com sucesso",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
-    },
-    "importantInformation": "Informações importantes:",
-    "@importantInformation": {
-        "description": "Header for important information section."
     },
     "genericError": "Ocorreu um erro",
     "@genericError": {

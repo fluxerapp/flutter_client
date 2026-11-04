@@ -94,12 +94,33 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Verbunden';
 
   @override
+  String get gatewayOfflineToast =>
+      'Du bist offline. Fluxer verbindet sich wieder, sobald du wieder online bist.';
+
+  @override
   String get sessionExpiredToast =>
       'Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Dein Account wird am $date gelöscht. Wenn du dich vorher anmeldest, wird die Löschung abgebrochen.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Dein Account ist zur Löschung vorgemerkt. Wenn du dich vor dem Löschdatum anmeldest, wird die Löschung abgebrochen.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Wir löschen deinen Account jetzt. Wenn dein Account eine E-Mail-Adresse hat, schicken wir dir eine E-Mail, sobald das erledigt ist.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Wir löschen deinen Account jetzt.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Dein Account ist deaktiviert. Melde dich wieder an, wann immer du ihn nutzen möchtest.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Hallo $displayName, bitte bestätige deine E-Mail-Adresse.';
   }
+
+  @override
+  String get verificationResendEmail => 'E-Mail erneut senden';
+
+  @override
+  String get verificationEmailSent =>
+      'Verifizierungs-E-Mail gesendet. Posteingang prüfen.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Du hast zu viele Verifizierungs-E-Mails angefordert. Bitte warte einen Moment und versuche es erneut.';
 
   @override
   String get nagbarOpenSettings => 'Einstellungen öffnen';
@@ -386,6 +418,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Andere Methode versuchen';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Passkeys dieser Instanz funktionieren in dieser App nicht, und dein Account hat keine andere Verifizierungsmethode. Melde dich stattdessen im Web an.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Stattdessen Sicherheitsschlüssel/Passkey verwenden';
 
@@ -525,78 +561,68 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get signOut => 'Abmelden';
 
   @override
-  String get suspendedPermanentTitle => 'Account dauerhaft gesperrt';
-
-  @override
   String get suspendedTemporaryTitle => 'Account gesperrt';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Dein Account wurde dauerhaft wegen Verstoßes gegen unsere Nutzungsbedingungen gesperrt.';
+  String get suspendedBannedTitle => 'Account dauerhaft gesperrt';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Dein Account wurde vorübergehend gesperrt. Du kannst auf deinen Account zugreifen, sobald die Dauer der Sperrung abgelaufen ist.';
+  String get suspendedClosedTitle => 'Account geschlossen';
 
   @override
-  String get suspendedIssuedAt => 'Ausgestellt';
+  String get suspendedWhatHappened => 'Was passiert ist';
 
   @override
-  String get suspendedEndsAt => 'Endet';
+  String get suspendedWhy => 'Warum';
 
   @override
-  String get suspendedDuration => 'Dauer';
+  String get suspendedHowWeDecided => 'So haben wir entschieden';
 
   @override
-  String get suspendedPermanent => 'Dauerhaft';
+  String get suspendedHowToAppeal => 'So legst du Einspruch ein';
 
   @override
-  String get suspendedReason => 'Grund';
-
-  @override
-  String get suspendedAppealDeadline => 'Frist für Überprüfung';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Dein Account ist zur Löschung am $date vorgesehen.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Hinweis von unserem Team: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Auf Updates überprüfen';
+  String suspendedDecisionId(String decisionId) {
+    return 'Entscheidungs-ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'In ${seconds}s erneut prüfen';
+  String suspendedRule(String title) {
+    return 'Regel: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Wenn du denkst, dass wir uns geirrt haben, schreib eine E-Mail an $email und gib deinen Benutzernamen an.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Wenn du denkst, dass wir uns geirrt haben, schreib bis zum $deadline eine E-Mail an $email. Gib die Entscheidungs-ID und deinen Benutzernamen an. Einsprüche sind kostenlos, und jeder wird von einer Person geprüft.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Wenn du denkst, dass wir uns geirrt haben, schreib bis zum $deadline eine E-Mail an $email. Schreib nach Möglichkeit von der E-Mail-Adresse deines Accounts und gib die Entscheidungs-ID an. Einsprüche sind kostenlos, und jeder wird von einer Person geprüft.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Wenn du möchtest, dass wir deinen Account und deine Daten löschen, schreib von der Adresse deines Accounts eine E-Mail an $email.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Wenn du möchtest, dass wir deinen Account und deine Daten löschen, schreib eine E-Mail an $email und gib deinen Benutzernamen an.';
   }
 
   @override
   String get suspendedBackToLogin => 'Zurück zum Login';
-
-  @override
-  String get suspendedAppealTitle => 'Überprüfung';
-
-  @override
-  String get suspendedAppealHint =>
-      'Erkläre, warum deine Sperrung überdacht werden sollte (mindestens 50 Zeichen)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Überprüfung einreichen';
-
-  @override
-  String get suspendedAppealPending => 'Wartet auf Überprüfung';
-
-  @override
-  String get suspendedAppealAccepted => 'Überprüfung akzeptiert';
-
-  @override
-  String get suspendedAppealRejected => 'Überprüfung abgelehnt';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Dein Einspruch wurde angenommen und dein Account wurde wiederhergestellt.';
-
-  @override
-  String get suspendedSignIn => 'Melde dich bei deinem Account an';
 
   @override
   String get forgotPasswordTitle => 'Passwort vergessen?';
@@ -2332,6 +2358,39 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Das Passwort ist falsch. Versuche es erneut.';
 
   @override
+  String get sudoEmailCodeSend => 'Code per E-Mail senden';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Wir haben einen 6-stelligen Code an deine E-Mail-Adresse gesendet.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Code aus der E-Mail';
+
+  @override
+  String get sudoEmailCodeResend => 'Neuen Code senden';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Melde dich erneut an, um zu bestätigen, dass du es bist.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Erneut anmelden';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Mit $provider anmelden';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Du hast dich bei einem anderen Konto angemeldet. Melde dich mit dem Konto an, das du hier verwendest.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Passkeys dieser Instanz funktionieren in dieser App nicht. Verwende deine Authenticator-App oder einen Backup-Code oder bestätige im Web.';
+
+  @override
   String get securityAccountTitle => 'Konto';
 
   @override
@@ -2680,6 +2739,58 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Deinen Account vorübergehend deaktivieren. Du kannst ihn später durch erneutes Anmelden wieder aktivieren.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Lösche deinen Account und deine personenbezogenen Daten. Du kannst auch deine Nachrichten löschen.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Dein Account, dein Profil und deine personenbezogenen Daten werden gelöscht. Nachrichten, die du nicht löschst, bleiben dort, wo du sie gesendet hast, ohne deinen Namen oder dein Profil.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Auch meine Nachrichten löschen';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Löscht zusammen mit deinem Account jede Nachricht, die du in DMs, Gruppen-DMs und Communitys gesendet hast.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Wenn du eine Kopie deiner Daten behalten möchtest, fordere zuerst einen Export im $privacyDashboard an.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'In 14 Tagen löschen';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Du kannst die Löschung abbrechen, indem du dich innerhalb der 14 Tage anmeldest.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Löschung planen';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Dein Account wird nach der Wartezeit dieser Instanz gelöscht. Wenn du dich vorher anmeldest, wird die Löschung abgebrochen.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Jetzt löschen';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Account jetzt löschen?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Dein Account wird sofort gelöscht und kann nicht wiederhergestellt werden.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Dein Plutonium-Abonnement wird über Apple abgerechnet. Das Löschen deines Accounts kündigt es nicht, kündige es daher zuerst im App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Dein Plutonium-Abonnement wird über Google Play abgerechnet. Das Löschen deines Accounts kündigt es nicht, kündige es daher zuerst in Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Das Deaktivieren deines Accounts wird dich aus allen Sitzungen abmelden. Du kannst deinen Account jederzeit wieder aktivieren, indem du dich erneut anmeldest.';
 
@@ -2687,50 +2798,16 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Account löschen';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Deinen Account und alle damit verbundenen Daten dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Account kann nicht gelöscht werden';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Du kannst deinen Account nicht löschen, solange du Communitys besitzt. Übertrage zuerst den Besitz der folgenden Communitys:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Diese Communitys gehören dir. Lösche jede davon oder übertrage sie an ein anderes Mitglied, bevor du deinen Account löschst.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'und $count weitere';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Um den Besitz zu übertragen, gehe zu $settingsPath und nutze die Option „Besitz übertragen“.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Möchtest du deinen Account wirklich löschen? Dadurch wird dein Account zur endgültigen Löschung vorgemerkt.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Du kannst den Löschvorgang innerhalb von 14 Tagen abbrechen';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Nach 14 Tagen wird dein Account endgültig gelöscht';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Sobald die Löschung verarbeitet wurde, kannst du den Zugriff auf deinen Account nicht wiederherstellen';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Du kannst deine gesendeten Nachrichten nach der Löschung deines Account nicht mehr löschen';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Wenn du deine Daten exportieren oder zuerst deine Nachrichten löschen möchtest, besuche bitte den Abschnitt „Datenschutz-Dashboard“ in den Benutzereinstellungen, bevor du fortfährst.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Tippe auf eine Community, um ihre Einstellungen zu öffnen. „Community löschen“ findest du ganz unten. Um sie abzugeben, öffne „Mitglieder“, tippe auf ein Mitglied, tippe auf die drei Punkte in seinem Profil und wähle „Eigentumsrechte übertragen“.';
 
   @override
   String get claimAccountTitle => 'Deinen Account beanspruchen';
@@ -2754,9 +2831,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Account erfolgreich beansprucht';
-
-  @override
-  String get importantInformation => 'Wichtige Informationen:';
 
   @override
   String get genericError => 'Ein Fehler ist aufgetreten';
@@ -11707,6 +11781,11 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain verwendet eine neuere Version von Fluxer als diese App. Aktualisiere die App und versuche es dann erneut.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain verwendet keine sichere Verbindung (https). Fluxer verbindet sich über http nur mit Instanzen in deinem lokalen Netzwerk.';
   }
 
   @override

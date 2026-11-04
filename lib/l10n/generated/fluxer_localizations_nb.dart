@@ -94,12 +94,33 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Tilkoblet';
 
   @override
+  String get gatewayOfflineToast =>
+      'Du er frakoblet. Fluxer kobler til igjen når du er på nett igjen.';
+
+  @override
   String get sessionExpiredToast =>
       'Sesjonen din er utløpt. Vennligst logg inn igjen.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Kontoen din slettes $date. Hvis du logger inn før det, avbrytes slettingen.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Kontoen din er planlagt slettet. Hvis du logger inn før slettedatoen, avbrytes slettingen.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Vi sletter kontoen din nå. Hvis kontoen din har en e-postadresse, sender vi deg en e-post når det er gjort.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Vi sletter kontoen din nå.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Kontoen din er deaktivert. Logg inn igjen når du vil bruke den.';
 
   @override
   String splashStartupFailed(String error) {
@@ -152,6 +173,17 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Hei, $displayName! Bekreft e-postadressen din.';
   }
+
+  @override
+  String get verificationResendEmail => 'Send e-post på nytt';
+
+  @override
+  String get verificationEmailSent =>
+      'E-post for bekreftelse er sendt. Sjekk innboksen din.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Du har bedt om for mange bekreftelses-e-poster. Vent litt og prøv igjen.';
 
   @override
   String get nagbarOpenSettings => 'Åpne innstillinger';
@@ -385,6 +417,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Prøv en annen metode';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Passnøkler fra denne instansen fungerer ikke i denne appen, og kontoen din har ingen annen bekreftelsesmetode. Logg inn på nettet i stedet.';
+
+  @override
   String get mfaUseSecurityKey => 'Prøv sikkerhetsnøkkel / passnøkkel i stedet';
 
   @override
@@ -520,78 +556,68 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get signOut => 'Logg ut';
 
   @override
-  String get suspendedPermanentTitle => 'Konto permanent suspendert';
-
-  @override
   String get suspendedTemporaryTitle => 'Konto suspendert';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Kontoen din er permanent suspendert for brudd på våre tjenestevilkår.';
+  String get suspendedBannedTitle => 'Konto utestengt';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Kontoen din er midlertidig suspendert. Du vil kunne få tilgang til kontoen din når suspensjonsperioden er over.';
+  String get suspendedClosedTitle => 'Konto stengt';
 
   @override
-  String get suspendedIssuedAt => 'Utstedt';
+  String get suspendedWhatHappened => 'Hva som skjedde';
 
   @override
-  String get suspendedEndsAt => 'Avsluttes';
+  String get suspendedWhy => 'Hvorfor';
 
   @override
-  String get suspendedDuration => 'Varighet';
+  String get suspendedHowWeDecided => 'Slik tok vi avgjørelsen';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedHowToAppeal => 'Slik klager du';
 
   @override
-  String get suspendedReason => 'Årsak';
-
-  @override
-  String get suspendedAppealDeadline => 'Ankefrist';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Kontoen din er planlagt slettet $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Merknad fra teamet vårt: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Se etter oppdateringer';
+  String suspendedDecisionId(String decisionId) {
+    return 'Avgjørelses-ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Prøv igjen om ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Regel: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Hvis du mener vi har tatt feil, send en e-post til $email og oppgi brukernavnet ditt.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Hvis du mener vi har tatt feil, send en e-post til $email innen $deadline. Oppgi avgjørelses-ID-en og brukernavnet ditt. Det er gratis å klage, og en person går gjennom hver klage.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Hvis du mener vi har tatt feil, send en e-post til $email innen $deadline. Skriv fra e-postadressen på kontoen din hvis du kan, og oppgi avgjørelses-ID-en. Det er gratis å klage, og en person går gjennom hver klage.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'For å be oss slette kontoen og dataene dine, send en e-post til $email fra adressen på kontoen din.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'For å be oss slette kontoen og dataene dine, send en e-post til $email og oppgi brukernavnet ditt.';
   }
 
   @override
   String get suspendedBackToLogin => 'Tilbake til innlogging';
-
-  @override
-  String get suspendedAppealTitle => 'Anke';
-
-  @override
-  String get suspendedAppealHint =>
-      'Forklar hvorfor suspensjonen din bør vurderes på nytt (minimum 50 tegn)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Send anke';
-
-  @override
-  String get suspendedAppealPending => 'Venter på gjennomgang';
-
-  @override
-  String get suspendedAppealAccepted => 'Anke akseptert';
-
-  @override
-  String get suspendedAppealRejected => 'Anke avslått';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Anken din er akseptert og kontoen din er gjenopprettet.';
-
-  @override
-  String get suspendedSignIn => 'Logg inn på kontoen din';
 
   @override
   String get forgotPasswordTitle => 'Glemt passordet ditt?';
@@ -2304,6 +2330,39 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get sudoWrongPassword => 'Passordet er feil. Prøv igjen.';
 
   @override
+  String get sudoEmailCodeSend => 'Send meg en kode';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Vi har sendt en 6-sifret kode til e-postadressen din.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Kode fra e-posten';
+
+  @override
+  String get sudoEmailCodeResend => 'Send en ny kode';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Logg inn igjen for å bekrefte at det er deg.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Logg inn igjen';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Logg inn med $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Du logget på en annen konto. Logg på med kontoen du bruker her.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Passnøkler fra denne instansen fungerer ikke i denne appen. Bruk autentiseringsappen din eller en sikkerhetskopikode, eller bekreft på nettet.';
+
+  @override
   String get securityAccountTitle => 'Konto';
 
   @override
@@ -2650,6 +2709,58 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Deaktiver kontoen din midlertidig. Du kan aktivere den igjen senere ved å logge på.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Slett kontoen din og personopplysningene dine. Du kan også slette meldingene dine.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Kontoen, profilen og personopplysningene dine slettes. Meldinger du ikke sletter, blir værende der du sendte dem, uten navnet eller profilen din.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Slett også meldingene mine';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Sletter alle meldinger du har sendt i direktemeldinger, gruppechatter og fellesskap, sammen med kontoen din.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Hvis du vil beholde en kopi av dataene dine, ber du om en eksport i $privacyDashboard først.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Slett om 14 dager';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Du kan avbryte ved å logge inn i løpet av de 14 dagene.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Planlegg sletting';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Kontoen din slettes etter ventetiden til denne instansen. Hvis du logger inn før det, avbrytes slettingen.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Slett nå';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Vil du slette kontoen din nå?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Kontoen din slettes med en gang og kan ikke gjenopprettes.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Plutonium-abonnementet ditt faktureres av Apple. Å slette kontoen avslutter det ikke, så avslutt det i App Store først.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Plutonium-abonnementet ditt faktureres av Google Play. Å slette kontoen avslutter det ikke, så avslutt det i Google Play først.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Deaktivering av kontoen din vil logge deg ut av alle økter. Du kan reaktivere kontoen din når som helst ved å logge inn igjen.';
 
@@ -2657,49 +2768,15 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Slett konto';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Slett kontoen din og alle tilknyttede data permanent. Denne handlingen kan ikke angres.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Kan ikke slette konto';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Du kan ikke slette kontoen din mens du eier fellesskap. Overfør eierskapet til følgende fellesskap først:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Du eier disse fellesskapene. Slett hvert av dem, eller gi det til et annet medlem, før du sletter kontoen din.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'og $count til';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'For å overføre eierskap, gå til $settingsPath og bruk alternativet for å overføre eierskap.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Er du sikker på at du vil slette kontoen din? Kontoen blir da lagt i kø for permanent sletting.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Du kan avbryte sletteprosessen innen 14 dager';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Etter 14 dager blir kontoen din slettet permanent';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Når slettingen er behandlet, kan du ikke lenger få tilgang til kontoen din';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Du vil ikke kunne slette sendte meldinger etter at kontoen din er slettet';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Hvis du vil eksportere dataene dine eller slette meldingene dine først, vennligst besøk delen Personverndashbord i Brukerinnstillinger før du fortsetter.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Trykk på et fellesskap for å åpne innstillingene. «Slett fellesskap» ligger nederst. For å gi det bort åpner du «Medlemmer», trykker på et medlem, trykker på de tre prikkene på profilen og velger «Overfør eierskap».';
 
   @override
   String get claimAccountTitle => 'Fullfør registreringen av kontoen din';
@@ -2723,9 +2800,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Registreringen av kontoen er fullført';
-
-  @override
-  String get importantInformation => 'Viktig informasjon:';
 
   @override
   String get genericError => 'En feil oppstod';
@@ -11581,6 +11655,11 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain kjører en nyere versjon av Fluxer enn denne appen. Oppdater appen og prøv igjen.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain bruker ikke en sikker tilkobling (https). Fluxer kobler bare til over http for instanser på ditt lokale nettverk.';
   }
 
   @override

@@ -169,7 +169,7 @@ class AccountManager extends _$AccountManager {
     }
   }
 
-  Future<void> signOut(String userId) async {
+  Future<void> signOut(String userId, {bool keepInstance = false}) async {
     final repo = ref.read(authRepositoryProvider);
 
     await PushAccountLifecycle.leaveActiveAccount(
@@ -182,7 +182,9 @@ class AccountManager extends _$AccountManager {
     await loadAccounts();
 
     if (state.accounts.isEmpty) {
-      ref.read(activeInstanceProvider.notifier).resetToOfficialDefault();
+      if (!keepInstance) {
+        ref.read(activeInstanceProvider.notifier).resetToOfficialDefault();
+      }
       ref.invalidate(instanceSelectorProvider);
     }
 

@@ -98,12 +98,33 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Prijungta';
 
   @override
+  String get gatewayOfflineToast =>
+      'Esate neprisijungę prie interneto. Fluxer vėl prisijungs, kai ryšys atsiras.';
+
+  @override
   String get sessionExpiredToast =>
       'Sesijos laikas pasibaigė. Prašome prisijungti iš naujo.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Jūsų paskyra bus ištrinta $date. Jei prisijungsite iki tol, ištrynimas bus atšauktas.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Suplanuotas jūsų paskyros ištrynimas. Jei prisijungsite iki ištrynimo datos, jis bus atšauktas.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Jūsų paskyra trinama dabar. Jei paskyroje nurodytas el. pašto adresas, atsiųsime el. laišką, kai tai bus baigta.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Jūsų paskyra trinama dabar.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Jūsų paskyra išjungta. Kai norėsite ja naudotis, tiesiog vėl prisijunkite.';
 
   @override
   String splashStartupFailed(String error) {
@@ -156,6 +177,17 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Sveiki, $displayName, patvirtinkite savo el. pašto adresą.';
   }
+
+  @override
+  String get verificationResendEmail => 'Iš naujo siųsti el. laišką';
+
+  @override
+  String get verificationEmailSent =>
+      'Patvirtinimo el. laiškas išsiųstas. Patikrinkite gautuosius.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Išsiuntėte per daug patvirtinimo el. laiškų. Palaukite ir bandykite dar kartą.';
 
   @override
   String get nagbarOpenSettings => 'Atidaryti nustatymus';
@@ -389,6 +421,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Pabandykite kitą metodą';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Šios instancijos prieigos raktai šioje programėlėje neveikia, o jūsų paskyra neturi kito patvirtinimo būdo. Prisijunkite žiniatinklyje.';
+
+  @override
   String get mfaUseSecurityKey =>
       'Vietoj to naudokite saugos raktą / prieigos raktą';
 
@@ -527,78 +563,68 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get signOut => 'Atsijungti';
 
   @override
-  String get suspendedPermanentTitle => 'Paskyra visam laikui sustabdyta';
-
-  @override
   String get suspendedTemporaryTitle => 'Paskyra sustabdyta';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Jūsų paskyra buvo visam laikui sustabdyta dėl mūsų paslaugų teikimo sąlygų pažeidimo.';
+  String get suspendedBannedTitle => 'Paskyra visam laikui sustabdyta';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Jūsų paskyra buvo laikinai sustabdyta. Galėsite pasiekti savo paskyrą pasibaigus sustabdymo laikotarpiui.';
+  String get suspendedClosedTitle => 'Paskyra uždaryta';
 
   @override
-  String get suspendedIssuedAt => 'Išduota';
+  String get suspendedWhatHappened => 'Kas nutiko';
 
   @override
-  String get suspendedEndsAt => 'Baigiasi';
+  String get suspendedWhy => 'Kodėl';
 
   @override
-  String get suspendedDuration => 'Trukmė';
+  String get suspendedHowWeDecided => 'Kaip priėmėme sprendimą';
 
   @override
-  String get suspendedPermanent => 'Visam laikui';
+  String get suspendedHowToAppeal => 'Kaip apskųsti sprendimą';
 
   @override
-  String get suspendedReason => 'Priežastis';
-
-  @override
-  String get suspendedAppealDeadline => 'Apeliacijos terminas';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Jūsų paskyra numatyta ištrinti $date d.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Mūsų komandos pastaba: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Tikrinti, ar yra naujinimų';
+  String suspendedDecisionId(String decisionId) {
+    return 'Sprendimo ID: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Patikrinti dar po ${seconds}s';
+  String suspendedRule(String title) {
+    return 'Taisyklė: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Jei manote, kad suklydome, parašykite el. laišką adresu $email ir nurodykite savo naudotojo vardą.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Jei manote, kad suklydome, parašykite el. laišką adresu $email iki $deadline. Nurodykite sprendimo ID ir savo naudotojo vardą. Skundai nemokami, ir kiekvieną jų peržiūri žmogus.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Jei manote, kad suklydome, parašykite el. laišką adresu $email iki $deadline. Jei galite, rašykite iš paskyroje nurodyto el. pašto adreso ir nurodykite sprendimo ID. Skundai nemokami, ir kiekvieną jų peržiūri žmogus.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Norėdami paprašyti ištrinti jūsų paskyrą ir duomenis, parašykite el. laišką adresu $email iš paskyroje nurodyto adreso.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Norėdami paprašyti ištrinti jūsų paskyrą ir duomenis, parašykite el. laišką adresu $email ir nurodykite savo naudotojo vardą.';
   }
 
   @override
   String get suspendedBackToLogin => 'Atgal į prisijungimą';
-
-  @override
-  String get suspendedAppealTitle => 'Apeliacija';
-
-  @override
-  String get suspendedAppealHint =>
-      'Paaiškinkite, kodėl jūsų suspendavimas turėtų būti persvarstytas (mažiausiai 50 simbolių)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Pateikti apeliaciją';
-
-  @override
-  String get suspendedAppealPending => 'Laukiama peržiūros';
-
-  @override
-  String get suspendedAppealAccepted => 'Apeliacija priimta';
-
-  @override
-  String get suspendedAppealRejected => 'Apeliacija atmesta';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Jūsų apeliacija buvo priimta ir jūsų paskyra atkurta.';
-
-  @override
-  String get suspendedSignIn => 'Prisijunkite prie savo paskyros';
 
   @override
   String get forgotPasswordTitle => 'Pamiršote slaptažodį?';
@@ -2332,6 +2358,39 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Slaptažodis neteisingas. Bandykite dar kartą.';
 
   @override
+  String get sudoEmailCodeSend => 'Atsiųsti kodą el. paštu';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Atsiuntėme 6 skaitmenų kodą į jūsų el. pašto adresą.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Kodas iš el. laiško';
+
+  @override
+  String get sudoEmailCodeResend => 'Siųsti naują kodą';
+
+  @override
+  String get sudoSsoReauthHint =>
+      'Prisijunkite dar kartą, kad patvirtintumėte, jog tai jūs.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Prisijunkite dar kartą';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Prisijungti per $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Prisijungei prie kitos paskyros. Prisijunk paskyra, kurią naudoji čia.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Šios instancijos prieigos raktai šioje programėlėje neveikia. Naudokite autentifikavimo programėlę ar atsarginį kodą arba patvirtinkite žiniatinklyje.';
+
+  @override
   String get securityAccountTitle => 'Paskyra';
 
   @override
@@ -2680,6 +2739,58 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Laikinai išjungti paskyrą. Vėliau galėsite ją vėl suaktyvinti prisijungę.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Ištrinkite savo paskyrą ir asmens duomenis. Taip pat galite ištrinti savo žinutes.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Jūsų paskyra, profilis ir asmens duomenys ištrinami. Žinutės, kurių neištrinsite, liks ten, kur jas išsiuntėte, be jūsų vardo ar profilio.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Taip pat ištrinti mano žinutes';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Kartu su paskyra ištrinamos visos žinutės, kurias išsiuntėte DM, grupės DM ir bendruomenėse.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Jei norite išsaugoti savo duomenų kopiją, pirmiausia paprašykite eksporto skiltyje $privacyDashboard.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Ištrinti po 14 dienų';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Ištrynimą galite atšaukti prisijungę per šias 14 dienų.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Suplanuoti ištrynimą';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Jūsų paskyra ištrinama pasibaigus šios instancijos laukimo laikotarpiui. Jei prisijungsite iki tol, ištrynimas bus atšauktas.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Ištrinti dabar';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Ištrinti paskyrą dabar?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Jūsų paskyra ištrinama iš karto ir jos atkurti nebus galima.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Jūsų Plutonium prenumeratą apmokestina Apple. Ištrynus paskyrą, ji neatšaukiama, todėl pirmiausia ją atšaukite App Store.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Jūsų Plutonium prenumeratą apmokestina Google Play. Ištrynus paskyrą, ji neatšaukiama, todėl pirmiausia ją atšaukite Google Play.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Išjungus paskyrą, būsite atsijungę iš visų sesijų. Bet kuriuo metu galėsite vėl aktyvuoti paskyrą prisijungę.';
 
@@ -2687,50 +2798,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Ištrinti paskyrą';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Visam laikui ištrinkite savo paskyrą ir visus susijusius duomenis. Šio veiksmo anuliuoti negalima.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount =>
       'Negalima ištrinti paskyros';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Negalite ištrinti paskyros, kol turite bendruomenių. Pirmiausia perleiskite nuosavybės teises šioms bendruomenėms:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Esate šių bendruomenių savininkas. Prieš ištrindami paskyrą, kiekvieną jų ištrinkite arba perduokite kitam nariui.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'ir dar $count';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Norėdami perleisti nuosavybę, eikite į $settingsPath ir naudokite parinktį „Perleisti nuosavybę“.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Ar tikrai norite ištrinti paskyrą? Atlikus šį veiksmą, bus suplanuotas negrįžtamas jūsų paskyros ištrynimas.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Galite atšaukti paskyros ištrynimą per 14 dienų';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Po 14 dienų jūsų paskyra bus visam laikui ištrinta';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Kai paskyra bus ištrinta, negalėsite atkurti prieigos prie jos';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Negalėsite ištrinti savo išsiųstų žinučių po to, kai jūsų paskyra bus ištrinta';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Jei norite eksportuoti savo duomenis arba pirmiausia ištrinti žinutes, prieš tęsdami apsilankykite „Privatumo informacijos suvestinė“ skiltyje „Vartotojo nustatymai“.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Bakstelėkite bendruomenę, kad atidarytumėte jos nustatymus. „Ištrinti bendruomenę“ yra apačioje. Norėdami ją perduoti, atidarykite „Nariai“, bakstelėkite narį, jo profilyje bakstelėkite tris taškus ir pasirinkite „Perduoti nuosavybę“.';
 
   @override
   String get claimAccountTitle => 'Užregistruokite paskyrą';
@@ -2754,9 +2831,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Paskyra sėkmingai užregistruota';
-
-  @override
-  String get importantInformation => 'Svarbi informacija:';
 
   @override
   String get genericError => 'Įvyko klaida';
@@ -11686,6 +11760,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain naudoja naujesnę Fluxer versiją nei ši programėlė. Atnaujinkite programėlę ir bandykite dar kartą.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain nenaudoja saugaus ryšio (https). Fluxer per http jungiasi tik prie instancijų jūsų vietiniame tinkle.';
   }
 
   @override

@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/account_recovery_result.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
-import 'package:fluxer_app/features/auth/domain/ban_view.dart';
+import 'package:fluxer_app/features/auth/domain/enforcement_notice.dart';
 import 'package:fluxer_app/features/auth/domain/ip_authorization_challenge.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
@@ -21,7 +21,6 @@ import 'package:fluxer_app/features/auth/domain/registration_result.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
-import 'package:fluxer_app/features/auth/providers/ban_view_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
@@ -49,7 +48,8 @@ class LoginViewState {
   final bool isLoggingIn;
   final IpAuthorizationChallenge? ipAuthChallenge;
   final MfaChallenge? mfaChallenge;
-  final BanViewInfo? banViewInfo;
+  final bool accountRestricted;
+  final EnforcementNotice? enforcementNotice;
   final bool showAccountSelector;
   final bool showForgotPassword;
   final bool forgotPasswordEmailSent;
@@ -70,7 +70,8 @@ class LoginViewState {
     required this.isLoggingIn,
     required this.ipAuthChallenge,
     required this.mfaChallenge,
-    required this.banViewInfo,
+    required this.accountRestricted,
+    required this.enforcementNotice,
     required this.showAccountSelector,
     required this.showForgotPassword,
     required this.forgotPasswordEmailSent,
@@ -98,7 +99,8 @@ class LoginViewState {
     bool? isLoggingIn,
     Object? ipAuthChallenge = _unset,
     Object? mfaChallenge = _unset,
-    Object? banViewInfo = _unset,
+    bool? accountRestricted,
+    Object? enforcementNotice = _unset,
     bool? showAccountSelector,
     bool? showForgotPassword,
     bool? forgotPasswordEmailSent,
@@ -127,9 +129,10 @@ class LoginViewState {
       mfaChallenge: mfaChallenge == _unset
           ? this.mfaChallenge
           : mfaChallenge as MfaChallenge?,
-      banViewInfo: banViewInfo == _unset
-          ? this.banViewInfo
-          : banViewInfo as BanViewInfo?,
+      accountRestricted: accountRestricted ?? this.accountRestricted,
+      enforcementNotice: enforcementNotice == _unset
+          ? this.enforcementNotice
+          : enforcementNotice as EnforcementNotice?,
       showAccountSelector: showAccountSelector ?? this.showAccountSelector,
       showForgotPassword: showForgotPassword ?? this.showForgotPassword,
       forgotPasswordEmailSent:
@@ -167,7 +170,8 @@ class LoginViewModel extends _$LoginViewModel {
       isLoggingIn: false,
       ipAuthChallenge: null,
       mfaChallenge: null,
-      banViewInfo: null,
+      accountRestricted: false,
+      enforcementNotice: null,
       showAccountSelector: true,
       showForgotPassword: false,
       forgotPasswordEmailSent: false,
@@ -216,15 +220,25 @@ class LoginViewModel extends _$LoginViewModel {
         );
         return;
       }
-      final AuthSession session = await ref
+      final LoginResult result = await ref
           .read(authRepositoryProvider)
           .completeSso(code: code, state: callbackState);
-      final bool restored = await _completeLoginSuccess(session);
-      state = state.copyWith(
-        email: restored ? '' : state.email,
-        password: restored ? '' : state.password,
-        isStartingSso: false,
-      );
+      switch (result) {
+        case LoginSuccess(:final session):
+          final bool restored = await _completeLoginSuccess(session);
+          state = state.copyWith(
+            email: restored ? '' : state.email,
+            password: restored ? '' : state.password,
+            isStartingSso: false,
+          );
+        case LoginMfaRequired(:final challenge):
+          state = state.copyWith(mfaChallenge: challenge, isStartingSso: false);
+        case LoginIpAuthRequired(:final challenge):
+          state = state.copyWith(
+            ipAuthChallenge: challenge,
+            isStartingSso: false,
+          );
+      }
     } on SsoAuthCancelledException {
       if (isAddingAccount) {
         ref
@@ -241,7 +255,9 @@ class LoginViewModel extends _$LoginViewModel {
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();
       }
-      state = state.copyWith(ssoError: error.message, isStartingSso: false);
+      state = error.kind == AuthFailureKind.accountRestricted
+          ? _stateAfterAuthFailure(state, error)
+          : state.copyWith(ssoError: error.message, isStartingSso: false);
     } on Exception catch (e) {
       if (isAddingAccount) {
         ref
@@ -282,9 +298,8 @@ class LoginViewModel extends _$LoginViewModel {
     state = state.copyWith(mfaChallenge: null);
   }
 
-  void clearBanView() {
-    ref.read(banViewProvider.notifier).clear();
-    state = state.copyWith(banViewInfo: null);
+  void clearAccountRestriction() {
+    state = state.copyWith(accountRestricted: false, enforcementNotice: null);
   }
 
   void setError(String message) {
@@ -466,7 +481,7 @@ class LoginViewModel extends _$LoginViewModel {
             showForgotPassword: false,
             isLoggingIn: false,
           );
-        case LoginIpAuthRequired() || LoginSuspended():
+        case LoginIpAuthRequired():
           state = state.copyWith(isLoggingIn: false);
       }
     } on AuthFailure catch (error) {
@@ -645,7 +660,7 @@ class LoginViewModel extends _$LoginViewModel {
             resetToken: null,
             isLoggingIn: false,
           );
-        case LoginIpAuthRequired() || LoginSuspended():
+        case LoginIpAuthRequired():
           state = state.copyWith(resetToken: null, isLoggingIn: false);
       }
     } on AuthFailure catch (error) {
@@ -711,10 +726,6 @@ class LoginViewModel extends _$LoginViewModel {
           return false;
         case LoginMfaRequired(:final challenge):
           state = state.copyWith(mfaChallenge: challenge, isLoggingIn: false);
-          return false;
-        case LoginSuspended(:final banViewInfo):
-          unawaited(ref.read(banViewProvider.notifier).initialize(banViewInfo));
-          state = state.copyWith(banViewInfo: banViewInfo, isLoggingIn: false);
           return false;
       }
     } on AuthFailure catch (error) {
@@ -788,6 +799,17 @@ class LoginViewModel extends _$LoginViewModel {
     LoginViewState current,
     AuthFailure error,
   ) {
+    if (error.kind == AuthFailureKind.accountRestricted) {
+      return current.copyWith(
+        accountRestricted: true,
+        enforcementNotice: error.notice,
+        errorMessage: null,
+        errorType: null,
+        fieldErrors: const {},
+        isLoggingIn: false,
+        isStartingSso: false,
+      );
+    }
     if (error.kind == AuthFailureKind.verificationFailed) {
       return current.copyWith(
         errorType: LoginError.verificationFailed,
@@ -857,7 +879,7 @@ class LoginViewModel extends _$LoginViewModel {
             ipAuthChallenge: challenge,
             isLoggingIn: false,
           );
-        case LoginMfaRequired() || LoginSuspended():
+        case LoginMfaRequired():
           state = state.copyWith(isLoggingIn: false);
       }
     } on AuthFailure catch (error) {

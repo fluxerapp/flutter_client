@@ -132,4 +132,16 @@ void main() {
       );
     });
   });
+
+  test('isLocalNetworkHost classifies hosts', () {
+    expect(isLocalNetworkHost('chat.example.com'), isFalse);
+    expect(isLocalNetworkHost('8.8.8.8'), isFalse);
+    expect(isLocalNetworkHost('192.168.1.20'), isTrue);
+    expect(isLocalNetworkHost('10.0.0.5'), isTrue);
+    expect(isLocalNetworkHost('172.20.1.1'), isTrue);
+    expect(isLocalNetworkHost('100.101.102.103'), isTrue);
+    expect(isLocalNetworkHost('fluxer.local'), isTrue);
+    expect(isLocalNetworkHost('fd00::1'), isTrue);
+    expect(isLocalNetworkHost('localhost'), isTrue);
+  });
 }

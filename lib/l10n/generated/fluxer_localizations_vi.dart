@@ -93,12 +93,33 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get gatewayConnectedToast => 'Đã kết nối';
 
   @override
+  String get gatewayOfflineToast =>
+      'Bạn đang ngoại tuyến. Fluxer sẽ tự kết nối lại khi bạn có mạng trở lại.';
+
+  @override
   String get sessionExpiredToast =>
       'Phiên của bạn đã hết hạn. Vui lòng đăng nhập lại.';
 
   @override
+  String accountDeletionScheduledNotice(String date) {
+    return 'Tài khoản của bạn sẽ bị xóa vào $date. Đăng nhập trước thời điểm đó sẽ hủy việc xóa.';
+  }
+
+  @override
+  String get accountDeletionScheduledNoticeNoDate =>
+      'Tài khoản của bạn đã được lên lịch xóa. Đăng nhập trước ngày xóa sẽ hủy việc xóa.';
+
+  @override
+  String get accountDeletionImmediateNotice =>
+      'Chúng tôi đang xóa tài khoản của bạn. Nếu tài khoản của bạn có địa chỉ email, chúng tôi sẽ gửi email cho bạn khi hoàn tất.';
+
+  @override
   String get accountDeletionImmediateNoticeNoEmail =>
       'Chúng tôi đang xóa tài khoản của bạn.';
+
+  @override
+  String get accountDisabledNotice =>
+      'Tài khoản của bạn đã được vô hiệu hóa. Hãy đăng nhập lại bất cứ khi nào bạn muốn sử dụng.';
 
   @override
   String splashStartupFailed(String error) {
@@ -151,6 +172,17 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String nagbarEmailVerificationMessage(String displayName) {
     return 'Chào $displayName, vui lòng xác minh địa chỉ email của bạn.';
   }
+
+  @override
+  String get verificationResendEmail => 'Gửi lại email';
+
+  @override
+  String get verificationEmailSent =>
+      'Đã gửi email xác minh. Kiểm tra hộp thư đến của bạn.';
+
+  @override
+  String get verificationEmailRateLimited =>
+      'Bạn đã yêu cầu quá nhiều email xác minh. Vui lòng đợi một lát rồi thử lại.';
 
   @override
   String get nagbarOpenSettings => 'Mở cài đặt';
@@ -384,6 +416,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Thử phương thức khác';
 
   @override
+  String get mfaPasskeyUnavailable =>
+      'Khóa truy cập từ máy chủ này không hoạt động trong ứng dụng này, và tài khoản của bạn không có phương thức xác minh nào khác. Hãy đăng nhập trên web.';
+
+  @override
   String get mfaUseSecurityKey => 'Thử dùng khóa bảo mật / khóa truy cập';
 
   @override
@@ -522,78 +558,68 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get signOut => 'Đăng xuất';
 
   @override
-  String get suspendedPermanentTitle => 'Tài khoản bị đình chỉ vĩnh viễn';
-
-  @override
   String get suspendedTemporaryTitle => 'Tài khoản bị tạm ngưng';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Tài khoản của bạn đã bị đình chỉ vĩnh viễn vì vi phạm Điều khoản dịch vụ của chúng tôi.';
+  String get suspendedBannedTitle => 'Tài khoản bị cấm';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Tài khoản của bạn đã bị tạm khóa. Bạn sẽ có thể truy cập lại tài khoản sau khi hết thời gian khóa.';
+  String get suspendedClosedTitle => 'Tài khoản đã bị đóng';
 
   @override
-  String get suspendedIssuedAt => 'Đã ban hành';
+  String get suspendedWhatHappened => 'Điều gì đã xảy ra';
 
   @override
-  String get suspendedEndsAt => 'Kết thúc';
+  String get suspendedWhy => 'Lý do';
 
   @override
-  String get suspendedDuration => 'Thời lượng';
+  String get suspendedHowWeDecided => 'Cách chúng tôi quyết định';
 
   @override
-  String get suspendedPermanent => 'Vĩnh viễn';
+  String get suspendedHowToAppeal => 'Cách kháng nghị';
 
   @override
-  String get suspendedReason => 'Lý do';
-
-  @override
-  String get suspendedAppealDeadline => 'Hạn chót kháng cáo';
-
-  @override
-  String suspendedDeletionWarning(String date) {
-    return 'Tài khoản của bạn đã được lên lịch xóa vào ngày $date.';
+  String suspendedNoteFromTeam(String statement) {
+    return 'Ghi chú từ đội ngũ của chúng tôi: $statement';
   }
 
   @override
-  String get suspendedRecheck => 'Kiểm tra cập nhật';
+  String suspendedDecisionId(String decisionId) {
+    return 'ID quyết định: $decisionId';
+  }
 
   @override
-  String suspendedRecheckCooldown(int seconds) {
-    return 'Kiểm tra lại sau $seconds giây';
+  String suspendedRule(String title) {
+    return 'Quy tắc: $title';
+  }
+
+  @override
+  String suspendedAppealNoDeadline(String email) {
+    return 'Nếu bạn cho rằng chúng tôi đã quyết định sai, hãy gửi email đến $email và ghi kèm tên người dùng của bạn.';
+  }
+
+  @override
+  String suspendedAppealNoEmail(String email, String deadline) {
+    return 'Nếu bạn cho rằng chúng tôi đã quyết định sai, hãy gửi email đến $email chậm nhất vào $deadline. Ghi kèm ID quyết định và tên người dùng của bạn. Kháng nghị là miễn phí, và mỗi kháng nghị đều được một người xem xét.';
+  }
+
+  @override
+  String suspendedAppealWithEmail(String email, String deadline) {
+    return 'Nếu bạn cho rằng chúng tôi đã quyết định sai, hãy gửi email đến $email chậm nhất vào $deadline. Nếu có thể, hãy gửi từ địa chỉ email trên tài khoản của bạn và ghi kèm ID quyết định. Kháng nghị là miễn phí, và mỗi kháng nghị đều được một người xem xét.';
+  }
+
+  @override
+  String suspendedDeletionRequest(String email) {
+    return 'Để yêu cầu chúng tôi xóa tài khoản và dữ liệu của bạn, hãy gửi email đến $email từ địa chỉ email trên tài khoản của bạn.';
+  }
+
+  @override
+  String suspendedDeletionRequestNoEmail(String email) {
+    return 'Để yêu cầu chúng tôi xóa tài khoản và dữ liệu của bạn, hãy gửi email đến $email và ghi kèm tên người dùng của bạn.';
   }
 
   @override
   String get suspendedBackToLogin => 'Quay lại Đăng nhập';
-
-  @override
-  String get suspendedAppealTitle => 'Kháng nghị';
-
-  @override
-  String get suspendedAppealHint =>
-      'Giải thích lý do bạn nên được xem xét lại việc đình chỉ (tối thiểu 50 ký tự)...';
-
-  @override
-  String get suspendedAppealSubmit => 'Gửi kháng cáo';
-
-  @override
-  String get suspendedAppealPending => 'Chờ xem xét';
-
-  @override
-  String get suspendedAppealAccepted => 'Đã chấp nhận kháng nghị';
-
-  @override
-  String get suspendedAppealRejected => 'Yêu cầu bị từ chối';
-
-  @override
-  String get suspendedAppealAcceptedDescription =>
-      'Yêu cầu của bạn đã được chấp nhận và tài khoản của bạn đã được khôi phục.';
-
-  @override
-  String get suspendedSignIn => 'Đăng nhập vào tài khoản của bạn';
 
   @override
   String get forgotPasswordTitle => 'Quên mật khẩu?';
@@ -2300,6 +2326,38 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get sudoWrongPassword => 'Mật khẩu không đúng. Vui lòng thử lại.';
 
   @override
+  String get sudoEmailCodeSend => 'Gửi mã qua email cho tôi';
+
+  @override
+  String get sudoEmailCodeSent =>
+      'Chúng tôi đã gửi mã gồm 6 chữ số đến địa chỉ email của bạn.';
+
+  @override
+  String get sudoEmailCodeLabel => 'Mã trong email';
+
+  @override
+  String get sudoEmailCodeResend => 'Gửi mã mới';
+
+  @override
+  String get sudoSsoReauthHint => 'Đăng nhập lại để xác nhận đó là bạn.';
+
+  @override
+  String get sudoSsoReauthButtonGeneric => 'Đăng nhập lại';
+
+  @override
+  String sudoSsoReauthButton(String provider) {
+    return 'Đăng nhập bằng $provider';
+  }
+
+  @override
+  String get sudoSsoReauthWrongAccount =>
+      'Bạn đã đăng nhập vào một tài khoản khác. Hãy đăng nhập bằng tài khoản bạn đang dùng ở đây.';
+
+  @override
+  String get sudoPasskeyUnavailable =>
+      'Khóa truy cập từ máy chủ này không hoạt động trong ứng dụng này. Hãy dùng ứng dụng xác thực hoặc mã dự phòng, hoặc xác nhận trên web.';
+
+  @override
   String get securityAccountTitle => 'Tài khoản';
 
   @override
@@ -2646,6 +2704,58 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tạm thời vô hiệu hóa tài khoản của bạn. Bạn có thể kích hoạt lại sau bằng cách đăng nhập lại.';
 
   @override
+  String get dangerZoneDeleteEntryDescription =>
+      'Xóa tài khoản và dữ liệu cá nhân của bạn. Bạn cũng có thể xóa cả tin nhắn của mình.';
+
+  @override
+  String get dangerZoneDeleteIntro =>
+      'Tài khoản, hồ sơ và dữ liệu cá nhân của bạn sẽ bị xóa. Những tin nhắn bạn không xóa vẫn ở nơi bạn đã gửi, nhưng không còn kèm tên hoặc hồ sơ của bạn.';
+
+  @override
+  String get dangerZoneDeleteMessagesLabel => 'Xóa cả tin nhắn của tôi';
+
+  @override
+  String get dangerZoneDeleteMessagesHint =>
+      'Xóa mọi tin nhắn bạn đã gửi trong tin nhắn trực tiếp, tin nhắn nhóm và cộng đồng, cùng với tài khoản của bạn.';
+
+  @override
+  String dangerZoneDeleteExportHint(String privacyDashboard) {
+    return 'Để giữ một bản sao dữ liệu của bạn, hãy yêu cầu xuất dữ liệu trong $privacyDashboard trước.';
+  }
+
+  @override
+  String get dangerZoneDeleteLater => 'Xóa sau 14 ngày';
+
+  @override
+  String get dangerZoneDeleteLaterHint =>
+      'Bạn có thể hủy bằng cách đăng nhập trong 14 ngày đó.';
+
+  @override
+  String get dangerZoneDeleteSchedule => 'Lên lịch xóa';
+
+  @override
+  String get dangerZoneDeleteScheduleHint =>
+      'Tài khoản của bạn sẽ bị xóa sau thời gian chờ của máy chủ này. Đăng nhập trước thời điểm đó sẽ hủy việc xóa.';
+
+  @override
+  String get dangerZoneDeleteNow => 'Xóa ngay';
+
+  @override
+  String get dangerZoneDeleteNowConfirmTitle => 'Xóa tài khoản của bạn ngay?';
+
+  @override
+  String get dangerZoneDeleteNowConfirmBody =>
+      'Tài khoản của bạn sẽ bị xóa ngay lập tức và không thể khôi phục.';
+
+  @override
+  String get dangerZoneDeleteAppStoreBilling =>
+      'Gói đăng ký Plutonium của bạn do Apple tính phí. Xóa tài khoản không hủy gói đăng ký này, vì vậy hãy hủy gói trong App Store trước.';
+
+  @override
+  String get dangerZoneDeleteGooglePlayBilling =>
+      'Gói đăng ký Plutonium của bạn do Google Play tính phí. Xóa tài khoản không hủy gói đăng ký này, vì vậy hãy hủy gói trong Google Play trước.';
+
+  @override
   String get dangerZoneDisableConfirmDescription =>
       'Tắt tài khoản của bạn sẽ đăng xuất bạn khỏi tất cả các phiên. Bạn có thể bật lại tài khoản của mình bất kỳ lúc nào bằng cách đăng nhập lại.';
 
@@ -2653,49 +2763,15 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get dangerZoneDeleteTitle => 'Xóa tài khoản';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Xóa vĩnh viễn tài khoản và tất cả dữ liệu liên quan. Thao tác này không thể hoàn tác.';
-
-  @override
   String get dangerZoneDeleteCannotDeleteAccount => 'Không thể xóa tài khoản';
 
   @override
-  String get dangerZoneDeleteOwnsCommunities =>
-      'Bạn không thể xóa tài khoản khi đang sở hữu các cộng đồng. Trước tiên, hãy chuyển quyền sở hữu các cộng đồng sau:';
+  String get dangerZoneDeleteOwnsCommunitiesList =>
+      'Bạn đang sở hữu các cộng đồng này. Hãy xóa từng cộng đồng hoặc chuyển cho một thành viên khác trước khi xóa tài khoản.';
 
   @override
-  String dangerZoneDeleteAndXMore(int count) {
-    return 'và thêm $count nữa';
-  }
-
-  @override
-  String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'Để chuyển quyền sở hữu, hãy truy cập $settingsPath và chọn tùy chọn chuyển quyền sở hữu.';
-  }
-
-  @override
-  String get dangerZoneDeleteConfirmDescription =>
-      'Bạn có chắc chắn muốn xóa tài khoản của mình không? Thao tác này sẽ lên lịch xóa vĩnh viễn tài khoản của bạn.';
-
-  @override
-  String get dangerZoneDeleteBullet1 =>
-      'Bạn có thể hủy quá trình xóa trong vòng 14 ngày';
-
-  @override
-  String get dangerZoneDeleteBullet2 =>
-      'Sau 14 ngày, tài khoản của bạn sẽ bị xóa vĩnh viễn';
-
-  @override
-  String get dangerZoneDeleteBullet3 =>
-      'Sau khi quá trình xóa hoàn tất, bạn sẽ không thể khôi phục quyền truy cập vào tài khoản của mình';
-
-  @override
-  String get dangerZoneDeleteBullet4 =>
-      'Bạn sẽ không thể xóa các tin nhắn đã gửi sau khi tài khoản bị xóa';
-
-  @override
-  String get dangerZoneDeleteDisclaimer =>
-      'Nếu bạn muốn xuất dữ liệu hoặc xóa tin nhắn trước, vui lòng truy cập mục Bảng điều khiển quyền riêng tư trong Cài đặt người dùng trước khi tiếp tục.';
+  String get dangerZoneDeleteOwnedCommunitiesHelp =>
+      'Nhấn vào một cộng đồng để mở phần cài đặt của cộng đồng đó. \"Xóa cộng đồng\" nằm ở cuối trang. Để chuyển cộng đồng cho người khác, hãy mở \"Thành viên\", nhấn vào một thành viên, nhấn vào dấu ba chấm trên hồ sơ của họ và chọn \"Chuyển quyền sở hữu\".';
 
   @override
   String get claimAccountTitle => 'Xác nhận tài khoản';
@@ -2719,9 +2795,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get claimAccountSuccess => 'Đã xác nhận tài khoản thành công';
-
-  @override
-  String get importantInformation => 'Thông tin quan trọng:';
 
   @override
   String get genericError => 'Đã xảy ra lỗi';
@@ -11580,6 +11653,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String instanceRequiresNewerClient(String domain) {
     return '$domain đang chạy phiên bản Fluxer mới hơn ứng dụng này. Hãy cập nhật ứng dụng rồi thử lại.';
+  }
+
+  @override
+  String instanceInsecureConnection(String domain) {
+    return '$domain không dùng kết nối bảo mật (https). Fluxer chỉ kết nối qua http đến các máy chủ trong mạng cục bộ của bạn.';
   }
 
   @override
