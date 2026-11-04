@@ -277,6 +277,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get logInWithPasskey => '보안 키로 로그인';
 
   @override
+  String get loginLegalAgreementPrefix => '로그인하면 다음에 동의하는 것으로 간주됩니다: ';
+
+  @override
   String continueWithSso(String provider) {
     return '$provider로 계속하기';
   }
@@ -791,6 +794,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get registerDateOfBirth => '생년월일';
 
   @override
+  String get registerDateOfBirthDone => '완료';
+
+  @override
+  String get registerDateOfBirthNotSet => '설정 안 됨';
+
+  @override
   String get registerMonth => '월';
 
   @override
@@ -810,6 +819,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => '개인정보처리방침';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      '이 인스턴스는 불쾌한 콘텐츠나 악의적인 사용자를 용납하지 않으며, 관리자가 이 규칙을 위반하는 콘텐츠와 계정을 삭제할 수 있다는 데 동의합니다.';
 
   @override
   String get registerConfirmPassword => '비밀번호 확인';
@@ -4085,6 +4098,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => '첨부 파일을 다운로드할 수 없습니다.';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '이 첨부 파일을 저장하려면 $productName에 사진 라이브러리 접근 권한이 필요합니다.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => '첨부 파일 만료됨';
 
   @override
@@ -4210,7 +4228,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get matureMediaRevealButton => '보기';
 
   @override
-  String get matureMediaRevealHint => '클릭하여 보기';
+  String get matureMediaRevealLabel => '민감한 미디어 보기';
+
+  @override
+  String get matureMediaAppLockedLabel => 'iPhone 및 iPad에서는 민감한 미디어가 숨겨집니다.';
+
+  @override
+  String get matureMediaMinorLockedLabel => '회원님의 계정에서는 민감한 미디어가 숨겨집니다.';
 
   @override
   String get matureContentTitle => '성인 콘텐츠';
@@ -4272,6 +4296,24 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get matureChannelUnavailableBody => '이 성인 채널은 회원님의 계정에서 이용할 수 없습니다.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'iPhone 및 iPad에서는 18+ 콘텐츠가 꺼져 있습니다. 여기에서 18+로 표시된 커뮤니티와 채널을 보려면 웹이나 데스크톱에서 Fluxer를 열고 설정의 \"개인정보 보호\"로 이동한 다음 \"iPhone 및 iPad에서 18+ 콘텐츠 허용\"을(를) 켜세요.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      '회원님이 있는 지역의 성인 콘텐츠 관련 법률로 인해 이곳에서는 성인 콘텐츠를 이용할 수 없습니다.';
+
+  @override
+  String get matureMessageHiddenPreview => '18+ 채널의 메시지';
+
+  @override
+  String get ageRangeUnderMinimumTitle => '이 계정에서는 Fluxer를 이용할 수 없습니다';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      '회원님의 Apple Account에서 공유한 연령대가 13세 미만입니다. Fluxer는 13세 이상만 이용할 수 있습니다.';
+
+  @override
   String get matureContentProceedButton => '계속하기';
 
   @override
@@ -4303,6 +4345,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => '저장';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      '여기에서 \"표시\"를 선택하려면 웹이나 데스크톱에서 Fluxer를 열고 설정의 \"개인정보 보호\"로 이동한 다음 \"iPhone 및 iPad에서 18+ 콘텐츠 허용\"을(를) 켜세요.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -5885,6 +5931,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => '프로필 보기';
 
   @override
+  String get voiceParticipantMenuReport => '신고';
+
+  @override
   String get voiceParticipantMenuFocus => '이 사람 포커스';
 
   @override
@@ -6001,6 +6050,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => '참가자들에게 스트림이 공개됩니다.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => '차단한 사람의 영상';
 
   @override
   String get voiceLiveBadge => '라이브';
@@ -6968,6 +7020,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => '프로필 신고';
 
   @override
+  String get reportFlowTitleCommunity => '커뮤니티 신고';
+
+  @override
   String get reportFlowSummaryTitle => '신고 내용 확인';
 
   @override
@@ -6989,7 +7044,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get reportFlowSelectedMessage => '신고하려는 메시지';
 
   @override
-  String get reportFlowSelectedUser => '신고하려는 프로필';
+  String get reportFlowSelectedPerson => '신고하려는 사람';
+
+  @override
+  String get reportFlowSelectedCommunity => '신고할 커뮤니티';
 
   @override
   String get reportFlowReportCategory => '회원님의 답변';
@@ -7016,6 +7074,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '$productName 안전팀이 신고 내용을 검토합니다. 회원님이 신고했다는 사실은 밝히지 않습니다.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      '이 인스턴스의 관리자가 신고 내용을 검토합니다. 회원님이 신고했다는 사실은 밝히지 않습니다.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7061,6 +7123,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get reportFlowAlreadyReportedProfile => '이미 오늘 이 프로필을 신고했습니다.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity => '이미 이 커뮤니티를 신고했습니다.';
 
   @override
   String get reportFlowRateLimited => '신고를 너무 자주 보내고 있습니다. 나중에 다시 시도해 주세요.';
@@ -10722,6 +10787,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => '기능 플래그';
 
   @override
+  String get userSettingsNavHelp => '도움말 및 지원';
+
+  @override
   String get userSettingsNavWhatsNew => '새로운 기능';
 
   @override
@@ -11588,6 +11656,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => '커뮤니티 ID 복사';
+
+  @override
+  String get guildMenuReportCommunity => '커뮤니티 신고';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -14867,6 +14938,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get forumPostStarterDeleted => '원본 메시지가 삭제되었습니다.';
 
   @override
+  String get forumPostBlockedAuthor => '차단한 사람의 게시물';
+
+  @override
+  String get threadBlockedAuthor => '차단한 사람의 스레드';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -14913,6 +14990,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => '읽음으로 표시';
+
+  @override
+  String get forumReportPost => '게시물 신고';
 
   @override
   String get forumCopyPostLink => '링크 복사';

@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
@@ -82,6 +84,8 @@ import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_people_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/invite_people_recipients.dart';
 import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
+import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -705,7 +709,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           label: l10n.guildNavbarHelp,
           icon: PhosphorIconsBold.questionMark,
           onTap: () =>
-              handleExternalLinkTap(context, 'https://help.fluxer.app'),
+              handleExternalLinkTap(context, InstanceConstants.helpCenterUrl),
         );
     }
   }

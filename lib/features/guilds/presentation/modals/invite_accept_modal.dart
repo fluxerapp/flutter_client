@@ -13,6 +13,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/invite_accept_provider.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
 import 'package:fluxer_app/features/guilds/utils/invites/guild_invite_action_state.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
+import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
@@ -188,6 +190,7 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
           child: _InviteAcceptCard(child: _InviteAcceptError(l10n: l10n)),
         ),
         InviteAcceptGuild(:final invite) => _GuildInviteContent(
+          code: widget.code,
           invite: invite,
           l10n: l10n,
           isAccepting: _isAccepting,
@@ -396,6 +399,7 @@ class _InviteAcceptError extends StatelessWidget {
 
 class _GuildInviteContent extends ConsumerWidget {
   const _GuildInviteContent({
+    required this.code,
     required this.invite,
     required this.l10n,
     required this.isAccepting,
@@ -403,6 +407,7 @@ class _GuildInviteContent extends ConsumerWidget {
     required this.onGoTo,
   });
 
+  final String code;
   final InviteResponseSchemaGuildInviteResponse invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
@@ -484,6 +489,20 @@ class _GuildInviteContent extends ConsumerWidget {
                   ),
                 ),
               ),
+            ),
+            const SizedBox(height: 8),
+            FluxerButton.ghost(
+              onPressedAsync: () => openReportFlow(
+                context,
+                iarContext: IarGuildContext(
+                  guildId: invite.guild.id,
+                  name: invite.guild.name,
+                  iconUrl: _iconUrl,
+                  inviteCode: code,
+                ),
+              ),
+              icon: PhosphorIconsFill.flag,
+              label: l10n.guildMenuReportCommunity,
             ),
           ],
         ),

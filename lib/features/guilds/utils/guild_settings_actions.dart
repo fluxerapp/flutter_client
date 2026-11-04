@@ -412,6 +412,7 @@ Future<void> updateGuildUserSettings(
     case GuildAction.deleteMyMessages:
     case GuildAction.debugCommunity:
     case GuildAction.copyGuildId:
+    case GuildAction.reportGuild:
       return;
   }
 

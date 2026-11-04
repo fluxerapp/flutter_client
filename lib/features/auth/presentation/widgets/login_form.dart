@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/instance/instance_legal_links.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/instance_selector_sheet.dart';
@@ -354,6 +355,12 @@ class _LoginFormState extends ConsumerState<LoginForm>
             InstanceSelectorLoginEntry(
               enabled: !vm.isLoggingIn,
               onOpenSheet: () => unawaited(showInstanceSelectorSheet(context)),
+            ),
+            InstanceLegalAgreementText(
+              prefix: strings.loginLegalAgreementPrefix,
+              textAlign: TextAlign.start,
+              forSignIn: true,
+              padding: EdgeInsets.only(top: layout.s4),
             ),
           ],
         ),

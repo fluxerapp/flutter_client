@@ -3967,10 +3967,6 @@
     "@matureMediaRevealButton": {
         "description": "Short label on the mature media blur overlay."
     },
-    "matureMediaRevealHint": "Klicka för att visa",
-    "@matureMediaRevealHint": {
-        "description": "Accessibility label for the mature media reveal button."
-    },
     "matureContentTitle": "Vuxet innehåll",
     "@matureContentTitle": {
         "description": "Title for mature content gates and warnings."
@@ -5202,6 +5198,10 @@
     "@voiceOwnScreenShareSubtitle": {
         "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
+    "voiceBlockedParticipantVideoHidden": "Video från någon du har blockerat",
+    "@voiceBlockedParticipantVideoHidden": {
+        "description": "Shown on a voice call tile instead of the camera or screen share of a participant the viewer has blocked."
+    },
     "voiceLiveBadge": "Live",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -5640,9 +5640,9 @@
     "@reportFlowSelectedMessage": {
         "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "reportFlowSelectedUser": "Profilen du anmäler",
-    "@reportFlowSelectedUser": {
-        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
+    "reportFlowSelectedPerson": "Personen du anmäler",
+    "@reportFlowSelectedPerson": {
+        "description": "Report flow: heading above the card of the reported person on the first screen and the report summary screen. Used for both profile and call reports, so it must not say profile."
     },
     "reportFlowReportCategory": "Dina svar",
     "@reportFlowReportCategory": {
@@ -12388,6 +12388,15 @@
     "chatAttachmentDownloadFailedToast": "Kunde inte ladda ner bilaga",
     "@chatAttachmentDownloadFailedToast": {
         "description": "Toast shown when an attachment download fails."
+    },
+    "chatAttachmentDownloadPhotosAccessToast": "{productName} behöver åtkomst till ditt fotobibliotek för att spara bilagan.",
+    "@chatAttachmentDownloadPhotosAccessToast": {
+        "description": "Toast shown when saving an attachment to the photo library fails because the app has no photo library access. Shown with an \"Open settings\" action.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "chatTextualPreviewExpandLines": "{count, plural, one{Visa ({count} rad)} other{Visa ({count} rader)}}",
     "@chatTextualPreviewExpandLines": {
@@ -19569,6 +19578,10 @@
     "@matureMediaAppLockedLabel": {
         "description": "Shown on blurred sensitive media in the iOS app when the account has not allowed 18+ content on the web, in place of the reveal button."
     },
+    "matureMediaMinorLockedLabel": "Känsliga medier är dolda för ditt konto.",
+    "@matureMediaMinorLockedLabel": {
+        "description": "Shown on blurred sensitive media when the account belongs to a minor, in place of the reveal button."
+    },
     "matureContentAppLockedBody": "18+-innehåll är avstängt på iPhone och iPad. Om du vill se communities och kanaler markerade 18+ här, öppna Fluxer på webben eller på datorn, gå till ”Integritet” i dina inställningar och aktivera ”Tillåt 18+-innehåll på iPhone och iPad”.",
     "@matureContentAppLockedBody": {
         "description": "Body of the gate shown in place of an 18+ community or channel in the iOS app when the account has not allowed 18+ content on the web. The quoted labels must match the web app's Privacy tab and switch."
@@ -20152,6 +20165,10 @@
     "forumPostBlockedAuthor": "Inlägg från någon du har blockerat",
     "@forumPostBlockedAuthor": {
         "description": "Forum post card title shown instead of the real title when the post author is blocked."
+    },
+    "threadBlockedAuthor": "Tråd från någon du har blockerat",
+    "@threadBlockedAuthor": {
+        "description": "Thread title shown instead of the real title in thread lists, the thread header and the thread intro when the person who started the thread is blocked."
     },
     "forumReportPost": "Anmäl inlägg",
     "@forumReportPost": {

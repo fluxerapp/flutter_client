@@ -18,7 +18,10 @@ import '../../../helpers/test_l10n.dart';
 
 class _AdultSensitive extends SensitiveContent {
   @override
-  SensitiveContentState build() => const SensitiveContentState();
+  SensitiveContentState build() => const SensitiveContentState(
+    access: MatureAccess.allowed,
+    showLocked: false,
+  );
 }
 
 class _LoadedAgreements extends MatureContentAgreements {

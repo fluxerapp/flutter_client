@@ -2640,8 +2640,11 @@ class _FakeUserSettings extends UserSettingsViewModel {
 
 class _FakeSensitiveContent extends SensitiveContent {
   @override
-  SensitiveContentState build() =>
-      const SensitiveContentState(isLoading: false);
+  SensitiveContentState build() => const SensitiveContentState(
+    isLoading: false,
+    access: MatureAccess.allowed,
+    showLocked: false,
+  );
 }
 
 class _FakeMatureAgreements extends MatureContentAgreements {

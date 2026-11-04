@@ -42,7 +42,8 @@ class ReportFlowSummary extends StatelessWidget {
         SizedBox(height: layout.s4),
         ReportFlowSectionHeading(switch (target) {
           IarMessageContext() => l10n.reportFlowSelectedMessage,
-          IarUserContext() => l10n.reportFlowSelectedUser,
+          IarUserContext() => l10n.reportFlowSelectedPerson,
+          IarGuildContext() => l10n.reportFlowSelectedCommunity,
         }),
         ReportFlowTargetPreview(target: target),
         SizedBox(height: layout.s4),

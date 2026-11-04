@@ -293,6 +293,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get logInWithPasskey => 'تسجيل الدخول باستخدام مفتاح المرور';
 
   @override
+  String get loginLegalAgreementPrefix => 'بتسجيل الدخول، أنت توافق على ';
+
+  @override
   String continueWithSso(String provider) {
     return 'متابعة باستخدام $provider';
   }
@@ -827,6 +830,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get registerDateOfBirth => 'تاريخ الميلاد';
 
   @override
+  String get registerDateOfBirthDone => 'تم';
+
+  @override
+  String get registerDateOfBirthNotSet => 'غير محدد';
+
+  @override
   String get registerMonth => 'الشهر';
 
   @override
@@ -846,6 +855,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'سياسة الخصوصية';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'أوافق على أن هذا المثيل لا يتسامح مطلقًا مع المحتوى المرفوض أو المستخدمين المسيئين، وأن مسؤوليه يمكنهم إزالة المحتوى والحسابات التي تخالف هذه القواعد.';
 
   @override
   String get registerConfirmPassword => 'تأكيد كلمة المرور';
@@ -4220,6 +4233,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => 'تعذر تنزيل المرفق';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return 'يحتاج $productName إلى الوصول إلى مكتبة الصور الخاصة بك لحفظ هذا المرفق.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'انتهت صلاحية المرفق';
 
   @override
@@ -4345,7 +4363,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get matureMediaRevealButton => 'إظهار';
 
   @override
-  String get matureMediaRevealHint => 'انقر للإظهار';
+  String get matureMediaRevealLabel => 'إظهار الوسائط الحساسة';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'الوسائط الحساسة مخفية على iPhone وiPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel => 'الوسائط الحساسة مخفية لحسابك.';
 
   @override
   String get matureContentTitle => 'محتوى للبالغين';
@@ -4408,6 +4433,24 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'هذه القناة المخصصة للبالغين غير متاحة لحسابك.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'محتوى 18+ معطّل على iPhone وiPad. لعرض المجتمعات والقنوات المصنّفة 18+ هنا، افتح Fluxer على الويب أو على سطح المكتب، وانتقل إلى «الخصوصية» في إعداداتك وفعّل «السماح بمحتوى 18+ على iPhone وiPad».';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'بسبب قوانين المحتوى للبالغين في المكان الذي توجد فيه، المحتوى للبالغين غير متاح من هنا.';
+
+  @override
+  String get matureMessageHiddenPreview => 'رسالة في قناة 18+';
+
+  @override
+  String get ageRangeUnderMinimumTitle => 'Fluxer غير متاح على هذا الحساب';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'الفئة العمرية التي يشاركها Apple Account الخاص بك أقل من 13 عامًا. Fluxer مخصص فقط للأشخاص الذين تبلغ أعمارهم 13 عامًا فأكثر.';
+
+  @override
   String get matureContentProceedButton => 'متابعة';
 
   @override
@@ -4439,6 +4482,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'حفظ';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'لاختيار «إظهار» هنا، افتح Fluxer على الويب أو على سطح المكتب، وانتقل إلى «الخصوصية» في إعداداتك وفعّل «السماح بمحتوى 18+ على iPhone وiPad».';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6091,6 +6138,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'عرض الملف الشخصي';
 
   @override
+  String get voiceParticipantMenuReport => 'إبلاغ';
+
+  @override
   String get voiceParticipantMenuFocus => 'التركيز على هذا الشخص';
 
   @override
@@ -6214,6 +6264,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => 'البث الخاص بك مباشر للمشاركين.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden => 'فيديو من شخص حظرته';
 
   @override
   String get voiceLiveBadge => 'مباشر';
@@ -7219,6 +7272,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'الإبلاغ عن الملف الشخصي';
 
   @override
+  String get reportFlowTitleCommunity => 'الإبلاغ عن المجتمع';
+
+  @override
   String get reportFlowSummaryTitle => 'راجع بلاغك';
 
   @override
@@ -7241,7 +7297,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'الرسالة التي تبلغ عنها';
 
   @override
-  String get reportFlowSelectedUser => 'الملف الشخصي الذي تبلّغ عنه';
+  String get reportFlowSelectedPerson => 'الشخص الذي تبلّغ عنه';
+
+  @override
+  String get reportFlowSelectedCommunity => 'المجتمع الذي تبلّغ عنه';
 
   @override
   String get reportFlowReportCategory => 'إجاباتك';
@@ -7268,6 +7327,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'سيراجع فريق السلامة في $productName بلاغك. لن نكشف أن البلاغ جاء منك.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'سيراجع مسؤولو هذا المثيل بلاغك. لن نكشف أنه جاء منك.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7314,6 +7377,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'لقد أبلغت عن هذا الملف الشخصي بالفعل اليوم.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'لقد أبلغت عن هذا المجتمع بالفعل.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11130,6 +11197,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'علامات الميزات';
 
   @override
+  String get userSettingsNavHelp => 'المساعدة والدعم';
+
+  @override
   String get userSettingsNavWhatsNew => 'ما الجديد';
 
   @override
@@ -12015,6 +12085,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'نسخ معرف المجتمع';
+
+  @override
+  String get guildMenuReportCommunity => 'الإبلاغ عن المجتمع';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15449,6 +15522,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'تم حذف الرسالة الأصلية.';
 
   @override
+  String get forumPostBlockedAuthor => 'منشور من شخص حظرته';
+
+  @override
+  String get threadBlockedAuthor => 'سلسلة من شخص حظرته';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15498,6 +15577,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'وضع علامة كمقروءة';
+
+  @override
+  String get forumReportPost => 'الإبلاغ عن المنشور';
 
   @override
   String get forumCopyPostLink => 'نسخ الرابط';

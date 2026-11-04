@@ -4,6 +4,7 @@ class _DetailsIdentityHeader extends ConsumerWidget {
   const _DetailsIdentityHeader({
     required this.channel,
     required this.dm,
+    required this.showTopic,
     required this.topicExpanded,
     required this.onToggleTopic,
     required this.onClose,
@@ -12,6 +13,7 @@ class _DetailsIdentityHeader extends ConsumerWidget {
 
   final Channel? channel;
   final DmConversation? dm;
+  final bool showTopic;
   final bool topicExpanded;
   final VoidCallback onToggleTopic;
   final VoidCallback onClose;
@@ -39,8 +41,9 @@ class _DetailsIdentityHeader extends ConsumerWidget {
       l10n: l10n,
       channel: channelEntity,
       dm: dm,
+      uniqueUsernames: ref.watch(uniqueUsernamesProvider),
     );
-    final topic = channelEntity?.topic?.trim();
+    final topic = showTopic ? channelEntity?.topic?.trim() : null;
     final bool showUserTag = dm != null && isBotOrSystemDmRecipient(dm!);
     final hasTopic = topic != null && topic.isNotEmpty;
     final int? effectivePermissionBits = channelEntity != null

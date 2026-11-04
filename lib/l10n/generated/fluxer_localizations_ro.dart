@@ -288,6 +288,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get logInWithPasskey => 'Autentificare cu o cheie de acces';
 
   @override
+  String get loginLegalAgreementPrefix =>
+      'Prin autentificare, ești de acord cu ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Continuă cu $provider';
   }
@@ -828,6 +832,12 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get registerDateOfBirth => 'Data nașterii';
 
   @override
+  String get registerDateOfBirthDone => 'Gata';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Nesetat';
+
+  @override
   String get registerMonth => 'Lună';
 
   @override
@@ -847,6 +857,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Politica de confidențialitate';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Sunt de acord că această instanță nu tolerează conținutul inacceptabil sau utilizatorii abuzivi și că administratorii ei pot elimina conținutul și conturile care încalcă aceste reguli.';
 
   @override
   String get registerConfirmPassword => 'Confirmă parola';
@@ -4267,6 +4281,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-a putut descărca atașamentul';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName are nevoie de acces la biblioteca foto pentru a salva acest atașament.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Atașament expirat';
 
   @override
@@ -4393,7 +4412,15 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Arată';
 
   @override
-  String get matureMediaRevealHint => 'Dă clic pentru a afișa';
+  String get matureMediaRevealLabel => 'Dezvăluie conținutul media sensibil';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Conținutul media sensibil este ascuns pe iPhone și iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Conținutul media sensibil este ascuns pentru contul tău.';
 
   @override
   String get matureContentTitle => 'Conținut matur';
@@ -4456,6 +4483,25 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Acest canal pentru adulți nu este disponibil pentru contul tău.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'Conținutul 18+ este dezactivat pe iPhone și iPad. Pentru a vedea aici comunitățile și canalele marcate 18+, deschide Fluxer pe web sau pe desktop, mergi la „Confidențialitate” în setări și activează „Permite conținut 18+ pe iPhone și iPad”.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Din cauza legilor privind conținutul matur din zona ta, conținutul matur nu este disponibil de aici.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Mesaj într-un canal 18+';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer nu este disponibil pentru acest cont';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Intervalul de vârstă partajat de Apple Account este sub 13 ani. Fluxer este doar pentru persoane de 13 ani sau mai mult.';
+
+  @override
   String get matureContentProceedButton => 'Continuă';
 
   @override
@@ -4487,6 +4533,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Salvează';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Pentru a alege „Afișare” aici, deschide Fluxer pe web sau pe desktop, mergi la „Confidențialitate” în setări și activează „Permite conținut 18+ pe iPhone și iPad”.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6156,6 +6206,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Vezi profilul';
 
   @override
+  String get voiceParticipantMenuReport => 'Raportează';
+
+  @override
   String get voiceParticipantMenuFocus => 'Focalizează această persoană';
 
   @override
@@ -6283,6 +6336,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Streamul tău este live pentru participanți.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video de la cineva pe care l-ai blocat';
 
   @override
   String get voiceLiveBadge => 'În direct';
@@ -7302,6 +7359,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Raportează profilul';
 
   @override
+  String get reportFlowTitleCommunity => 'Raportează comunitatea';
+
+  @override
   String get reportFlowSummaryTitle => 'Verifică raportul tău';
 
   @override
@@ -7324,7 +7384,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Mesajul pe care îl raportezi';
 
   @override
-  String get reportFlowSelectedUser => 'Profilul pe care îl raportezi';
+  String get reportFlowSelectedPerson => 'Persoana pe care o raportezi';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Comunitatea pe care o raportezi';
 
   @override
   String get reportFlowReportCategory => 'Răspunsurile tale';
@@ -7352,6 +7415,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'Echipa de siguranță $productName va analiza raportul tău. Nu vom dezvălui că a venit de la tine.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Administratorii acestei instanțe vor analiza raportul tău. Nu vom dezvălui că a venit de la tine.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7400,6 +7467,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Ai raportat deja acest profil astăzi.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Ai raportat deja această comunitate.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11302,6 +11373,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Drapele funcționalități';
 
   @override
+  String get userSettingsNavHelp => 'Ajutor și asistență';
+
+  @override
   String get userSettingsNavWhatsNew => 'Noutăți';
 
   @override
@@ -12205,6 +12279,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Copiază ID-ul comunității';
+
+  @override
+  String get guildMenuReportCommunity => 'Raportează comunitatea';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15682,6 +15759,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Mesajul original a fost șters.';
 
   @override
+  String get forumPostBlockedAuthor =>
+      'Postare de la cineva pe care l-ai blocat';
+
+  @override
+  String get threadBlockedAuthor =>
+      'Fir de discuție de la cineva pe care l-ai blocat';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15729,6 +15814,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Marchează ca citit';
+
+  @override
+  String get forumReportPost => 'Raportează postarea';
 
   @override
   String get forumCopyPostLink => 'Copiază linkul';

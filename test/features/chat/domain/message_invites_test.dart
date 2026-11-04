@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
 void main() {
@@ -61,6 +62,23 @@ void main() {
       expect(
         msg('```\n[join](<https://fluxer.gg/abcd>)\n```').invites,
         isEmpty,
+      );
+    });
+
+    test('extracts a fluxer.com/invite code', () {
+      expect(msg('https://fluxer.com/invite/abcd').invites, <String>['abcd']);
+    });
+
+    test('a self-hosted instance matches its own invite links only', () {
+      addTearDown(InstanceEndpoints.resetToDefaults);
+      InstanceEndpoints.selfHosted = true;
+      InstanceEndpoints.invite = 'http://192.168.1.20:8080/invite';
+      InstanceEndpoints.webApp = 'http://192.168.1.20:8080';
+      expect(
+        msg(
+          'http://192.168.1.20:8080/invite/Ab12Cd34 and fluxer.gg/other',
+        ).invites,
+        <String>['Ab12Cd34'],
       );
     });
 

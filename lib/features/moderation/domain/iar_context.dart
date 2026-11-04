@@ -48,3 +48,23 @@ class IarUserContext extends IarContext {
   @override
   String? get blockableUserId => userId;
 }
+
+class IarGuildContext extends IarContext {
+  const IarGuildContext({
+    required this.guildId,
+    required this.name,
+    this.iconUrl,
+    this.inviteCode,
+  });
+
+  final String guildId;
+  final String name;
+  final String? iconUrl;
+  final String? inviteCode;
+
+  @override
+  ReportFlowTargetType get targetType => ReportFlowTargetType.guild;
+
+  @override
+  String? get blockableUserId => null;
+}

@@ -285,6 +285,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get logInWithPasskey => 'Masuk dengan passkey';
 
   @override
+  String get loginLegalAgreementPrefix => 'Dengan masuk, kamu menyetujui ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Lanjutkan dengan $provider';
   }
@@ -819,6 +822,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get registerDateOfBirth => 'Tanggal lahir';
 
   @override
+  String get registerDateOfBirthDone => 'Selesai';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Belum diatur';
+
+  @override
   String get registerMonth => 'Bulan';
 
   @override
@@ -838,6 +847,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Kebijakan privasi';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Saya setuju bahwa instance ini tidak menoleransi konten yang tidak pantas atau pengguna yang kasar, dan bahwa administratornya dapat menghapus konten dan akun yang melanggar aturan ini.';
 
   @override
   String get registerConfirmPassword => 'Konfirmasi kata sandi';
@@ -4232,6 +4245,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Tidak dapat mengunduh lampiran';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName memerlukan akses ke pustaka foto kamu untuk menyimpan lampiran ini.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Lampiran kedaluwarsa';
 
   @override
@@ -4357,7 +4375,15 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Tampilkan';
 
   @override
-  String get matureMediaRevealHint => 'Klik untuk menampilkan';
+  String get matureMediaRevealLabel => 'Tampilkan media sensitif';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Media sensitif disembunyikan di iPhone dan iPad.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Media sensitif disembunyikan untuk akunmu.';
 
   @override
   String get matureContentTitle => 'Konten dewasa';
@@ -4420,6 +4446,25 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Saluran dewasa ini tidak tersedia untuk akunmu.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'Konten 18+ nonaktif di iPhone dan iPad. Untuk melihat komunitas dan saluran bertanda 18+ di sini, buka Fluxer di web atau desktop, buka \"Privasi\" di pengaturanmu, lalu aktifkan \"Izinkan konten 18+ di iPhone dan iPad\".';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Karena undang-undang tentang konten dewasa di wilayahmu, konten dewasa tidak tersedia dari sini.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Pesan di saluran 18+';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'Fluxer tidak tersedia untuk akun ini';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Rentang usia yang dibagikan oleh Apple Account-mu di bawah 13 tahun. Fluxer hanya untuk orang berusia 13 tahun ke atas.';
+
+  @override
   String get matureContentProceedButton => 'Lanjutkan';
 
   @override
@@ -4452,6 +4497,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Simpan';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Untuk memilih \"Tampilkan\" di sini, buka Fluxer di web atau desktop, buka \"Privasi\" di pengaturanmu, lalu aktifkan \"Izinkan konten 18+ di iPhone dan iPad\".';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6112,6 +6161,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Lihat profil';
 
   @override
+  String get voiceParticipantMenuReport => 'Laporkan';
+
+  @override
   String get voiceParticipantMenuFocus => 'Fokuskan orang ini';
 
   @override
@@ -6236,6 +6288,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => 'Siaran Anda tayang untuk peserta.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video dari seseorang yang kamu blokir';
 
   @override
   String get voiceLiveBadge => 'Langsung';
@@ -7251,6 +7307,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Laporkan profil';
 
   @override
+  String get reportFlowTitleCommunity => 'Laporkan komunitas';
+
+  @override
   String get reportFlowSummaryTitle => 'Periksa laporanmu';
 
   @override
@@ -7273,7 +7332,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Pesan yang kamu laporkan';
 
   @override
-  String get reportFlowSelectedUser => 'Profil yang kamu laporkan';
+  String get reportFlowSelectedPerson => 'Orang yang kamu laporkan';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Komunitas yang kamu laporkan';
 
   @override
   String get reportFlowReportCategory => 'Jawabanmu';
@@ -7301,6 +7363,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'Tim Keamanan $productName akan meninjau laporanmu. Kami tidak akan mengungkapkan bahwa laporan itu berasal darimu.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Administrator instance ini akan meninjau laporanmu. Kami tidak akan mengungkapkan bahwa laporan itu berasal darimu.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7347,6 +7413,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Kamu sudah melaporkan profil ini hari ini.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Kamu sudah melaporkan komunitas ini.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11210,6 +11280,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Fitur';
 
   @override
+  String get userSettingsNavHelp => 'Bantuan dan dukungan';
+
+  @override
   String get userSettingsNavWhatsNew => 'Yang baru';
 
   @override
@@ -12108,6 +12181,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Salin ID komunitas';
+
+  @override
+  String get guildMenuReportCommunity => 'Laporkan komunitas';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15540,6 +15616,13 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Pesan aslinya telah dihapus.';
 
   @override
+  String get forumPostBlockedAuthor =>
+      'Postingan dari seseorang yang kamu blokir';
+
+  @override
+  String get threadBlockedAuthor => 'Utas dari seseorang yang kamu blokir';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15586,6 +15669,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Tandai sudah dibaca';
+
+  @override
+  String get forumReportPost => 'Laporkan postingan';
 
   @override
   String get forumCopyPostLink => 'Salin tautan';

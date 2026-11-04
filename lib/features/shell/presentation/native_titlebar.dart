@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/constants/assets.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -69,7 +70,7 @@ class NativeTitlebar extends ConsumerWidget {
                       onPressed: () => unawaited(
                         handleExternalLinkTap(
                           context,
-                          'https://help.fluxer.app',
+                          InstanceConstants.helpCenterUrl,
                         ),
                       ),
                     ),

@@ -1,3 +1,9 @@
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.dart';
+import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
+
+const int kMaxInviteCodesPerMessage = 10;
+
 const List<String> kOfficialInviteUrlBases = <String>[
   'https://fluxer.app/invite',
   'https://canary.fluxer.app/invite',
@@ -6,6 +12,68 @@ const List<String> kOfficialInviteUrlBases = <String>[
   'https://fluxer.gg/invite',
   'https://fluxer.gg',
 ];
+
+const List<String> _officialMessageInviteUrlBases = <String>[
+  'https://fluxer.gg',
+  'https://fluxer.app/invite',
+  'https://web.fluxer.app/invite',
+  'https://fluxer.com/invite',
+];
+
+String? _cachedMessageInvitePatternKey;
+RegExp? _cachedMessageInvitePattern;
+
+RegExp messageInviteRegExpFor(List<String> urlBases) {
+  final List<String> ordered =
+      <String>{
+        for (final String base in urlBases) ?normalizeGiftUrlBase(base),
+      }.toList()..sort((a, b) {
+        final int byLength = b.length.compareTo(a.length);
+        return byLength != 0 ? byLength : a.compareTo(b);
+      });
+  if (ordered.isEmpty) {
+    return RegExp('(?!)');
+  }
+  final String key = ordered.join('|');
+  if (_cachedMessageInvitePatternKey == key &&
+      _cachedMessageInvitePattern != null) {
+    return _cachedMessageInvitePattern!;
+  }
+  final String branches = ordered.map(RegExp.escape).join('|');
+  final RegExp pattern = RegExp(
+    '(?:https?://)?(?:$branches)/(?!invite/)([a-zA-Z0-9\\-]{2,32})(?![a-zA-Z0-9\\-])',
+    caseSensitive: false,
+  );
+  _cachedMessageInvitePatternKey = key;
+  _cachedMessageInvitePattern = pattern;
+  return pattern;
+}
+
+List<String> findMessageInviteCodes(String content) {
+  final RegExp pattern = messageInviteRegExpFor(
+    InstanceEndpoints.selfHosted
+        ? <String>[
+            InstanceEndpoints.invite,
+            '${InstanceEndpoints.webApp}/invite',
+          ]
+        : _officialMessageInviteUrlBases,
+  );
+  final Set<String> seen = <String>{};
+  final List<String> result = <String>[];
+  for (final Match m in pattern.allMatches(content)) {
+    if (matchOverlapsMarkdownCodeSpan(content, m)) {
+      continue;
+    }
+    final String? code = m.group(1);
+    if (code != null && seen.add(code)) {
+      result.add(code);
+      if (result.length == kMaxInviteCodesPerMessage) {
+        break;
+      }
+    }
+  }
+  return result;
+}
 
 final RegExp _bareInviteCodePattern = RegExp(r'^[a-zA-Z0-9\-]{2,32}$');
 final RegExp _genericInvitePathPattern = RegExp(

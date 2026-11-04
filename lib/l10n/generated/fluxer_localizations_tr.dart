@@ -286,6 +286,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get logInWithPasskey => 'Parolana ile giriş yap';
 
   @override
+  String get loginLegalAgreementPrefix =>
+      'Giriş yaparak şunları kabul etmiş olursunuz: ';
+
+  @override
   String continueWithSso(String provider) {
     return '$provider ile devam et';
   }
@@ -821,6 +825,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get registerDateOfBirth => 'Doğum tarihi';
 
   @override
+  String get registerDateOfBirthDone => 'Bitti';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Ayarlanmadı';
+
+  @override
   String get registerMonth => 'Ay';
 
   @override
@@ -840,6 +850,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Gizlilik politikası';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Bu kurulumun uygunsuz içeriğe ve kötü niyetli kullanıcılara hiç tolerans göstermediğini ve yöneticilerinin bu kuralları ihlal eden içerikleri ve hesapları kaldırabileceğini kabul ediyorum.';
 
   @override
   String get registerConfirmPassword => 'Parolayı onayla';
@@ -4236,6 +4250,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => 'Ek indirilemedi';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return 'Bu eki kaydetmek için $productName uygulamasının fotoğraf kütüphanenize erişmesi gerekiyor.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Ek sona erdi';
 
   @override
@@ -4361,7 +4380,15 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Göster';
 
   @override
-  String get matureMediaRevealHint => 'Görüntülemek için tıklayın';
+  String get matureMediaRevealLabel => 'Hassas medyayı göster';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Hassas medya iPhone ve iPad\'de gizlidir.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Hassas medya hesabınız için gizlidir.';
 
   @override
   String get matureContentTitle => 'Yetişkinlere uygun içerik';
@@ -4424,6 +4451,24 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu yetişkinlere özel kanal hesabınız için kullanılamıyor.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'iPhone ve iPad\'de 18+ içerik kapalı. 18+ olarak işaretlenmiş toplulukları ve kanalları burada görüntülemek için Fluxer\'ı web\'de veya masaüstünde açın, ayarlarınızda “Gizlilik” bölümüne gidin ve “iPhone ve iPad\'de 18+ içeriğe izin ver” seçeneğini açın.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Bulunduğunuz yerdeki yetişkin içerik yasaları nedeniyle yetişkinlere uygun içerik buradan kullanılamıyor.';
+
+  @override
+  String get matureMessageHiddenPreview => '18+ kanalındaki mesaj';
+
+  @override
+  String get ageRangeUnderMinimumTitle => 'Fluxer bu hesapta kullanılamıyor';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Apple Account\'unuzun paylaştığı yaş aralığı 13\'ün altında. Fluxer yalnızca 13 yaş ve üzerindeki kişiler içindir.';
+
+  @override
   String get matureContentProceedButton => 'Devam et';
 
   @override
@@ -4457,6 +4502,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Kaydet';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Burada “Göster” seçeneğini seçmek için Fluxer\'ı web\'de veya masaüstünde açın, ayarlarınızda “Gizlilik” bölümüne gidin ve “iPhone ve iPad\'de 18+ içeriğe izin ver” seçeneğini açın.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6123,6 +6172,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Profili görüntüle';
 
   @override
+  String get voiceParticipantMenuReport => 'Bildir';
+
+  @override
   String get voiceParticipantMenuFocus => 'Bu kişiye odaklan';
 
   @override
@@ -6247,6 +6299,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Akışınız katılımcılar için yayında.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Engellediğiniz birinin videosu';
 
   @override
   String get voiceLiveBadge => 'Canlı';
@@ -7255,6 +7311,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Profili bildir';
 
   @override
+  String get reportFlowTitleCommunity => 'Topluluğu bildir';
+
+  @override
   String get reportFlowSummaryTitle => 'Raporunuzu kontrol edin';
 
   @override
@@ -7277,7 +7336,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Bildirdiğiniz mesaj';
 
   @override
-  String get reportFlowSelectedUser => 'Bildirdiğiniz profil';
+  String get reportFlowSelectedPerson => 'Bildirdiğiniz kişi';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Bildirdiğiniz topluluk';
 
   @override
   String get reportFlowReportCategory => 'Yanıtlarınız';
@@ -7305,6 +7367,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '$productName güvenlik ekibi raporunuzu inceleyecek. Raporun sizden geldiğini belli etmeyeceğiz.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Bu kurulumun yöneticileri raporunuzu inceleyecek. Raporun sizden geldiğini belli etmeyeceğiz.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7352,6 +7418,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Bu profili bugün zaten bildirdiniz.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Bu topluluğu zaten bildirdiniz.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11220,6 +11290,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Özellik Bayrakları';
 
   @override
+  String get userSettingsNavHelp => 'Yardım ve destek';
+
+  @override
   String get userSettingsNavWhatsNew => 'Yenilikler';
 
   @override
@@ -12112,6 +12185,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Topluluk kimliğini kopyala';
+
+  @override
+  String get guildMenuReportCommunity => 'Topluluğu bildir';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15531,6 +15607,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'İlk mesaj silindi.';
 
   @override
+  String get forumPostBlockedAuthor => 'Engellediğiniz birinin gönderisi';
+
+  @override
+  String get threadBlockedAuthor => 'Engellediğiniz birinin alt başlığı';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15577,6 +15659,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Okundu olarak işaretle';
+
+  @override
+  String get forumReportPost => 'Gönderiyi bildir';
 
   @override
   String get forumCopyPostLink => 'Bağlantıyı kopyala';

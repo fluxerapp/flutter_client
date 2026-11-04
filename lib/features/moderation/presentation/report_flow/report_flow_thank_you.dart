@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/moderation/presentation/report_flow/report_flow_parts.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -16,7 +17,7 @@ class ReportFlowThankYou extends StatelessWidget {
   const ReportFlowThankYou({
     required this.reportSent,
     required this.endedOnStartScreen,
-    required this.productName,
+    required this.selfHosted,
     required this.blockTarget,
     required this.blocked,
     required this.blocking,
@@ -26,7 +27,7 @@ class ReportFlowThankYou extends StatelessWidget {
 
   final bool reportSent;
   final bool endedOnStartScreen;
-  final String productName;
+  final bool selfHosted;
   final ReportFlowBlockTarget? blockTarget;
   final bool blocked;
   final bool blocking;
@@ -43,8 +44,12 @@ class ReportFlowThankYou extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          reportSent
-              ? l10n.reportFlowThankYouBody(productName)
+          reportSent && selfHosted
+              ? l10n.reportFlowThankYouBodySelfHosted
+              : reportSent
+              ? l10n.reportFlowThankYouBody(
+                  InstanceConstants.defaultProductName,
+                )
               : endedOnStartScreen
               ? l10n.reportFlowThankYouNoReportBody
               : l10n.reportFlowThankYouNoReportBodyShort,

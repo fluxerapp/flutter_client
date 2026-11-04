@@ -965,6 +965,21 @@ class _GuildListItemState extends State<_GuildListItem>
         return;
       case GuildAction.copyGuildId:
         unawaited(copyToClipboard(context: context, value: guildId));
+      case GuildAction.reportGuild:
+        final Guild guild = widget.guild!;
+        unawaited(
+          openReportFlow(
+            context,
+            iarContext: IarGuildContext(
+              guildId: guild.id,
+              name: guild.name,
+              iconUrl: FluxerMediaUrl.guildIcon(
+                guildId: guild.id,
+                hash: guild.icon,
+              ),
+            ),
+          ),
+        );
       case GuildAction.markAsRead:
         widget.onMarkAsRead?.call();
       case GuildAction.hideMutedChannels:

@@ -290,6 +290,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get logInWithPasskey => 'Prisijungti naudojant slaptažidinį';
 
   @override
+  String get loginLegalAgreementPrefix => 'Prisijungdami sutinkate su ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Tęsti su $provider';
   }
@@ -827,6 +830,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get registerDateOfBirth => 'Gimimo data';
 
   @override
+  String get registerDateOfBirthDone => 'Atlikta';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Nenustatyta';
+
+  @override
   String get registerMonth => 'Mėnuo';
 
   @override
@@ -846,6 +855,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Privatumo politika';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Sutinku, kad ši instancija netoleruoja nepriimtino turinio ar piktnaudžiaujančių naudotojų ir kad jos administratoriai gali pašalinti šias taisykles pažeidžiantį turinį ir paskyras.';
 
   @override
   String get registerConfirmPassword => 'Patvirtinti slaptažodį';
@@ -4270,6 +4283,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => 'Nepavyko atsisiųsti priedo';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return 'Kad išsaugotų šį priedą, $productName reikia prieigos prie jūsų nuotraukų bibliotekos.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Priedo galiojimas baigėsi';
 
   @override
@@ -4395,7 +4413,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Atskleisti';
 
   @override
-  String get matureMediaRevealHint => 'Spustelėkite, kad atskleistumėte';
+  String get matureMediaRevealLabel => 'Rodyti jautrią mediją';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Jautri medija iPhone ir iPad įrenginiuose paslėpta.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Jautri medija jūsų paskyrai paslėpta.';
 
   @override
   String get matureContentTitle => 'Brandus turinys';
@@ -4458,6 +4484,24 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Šis brandaus turinio kanalas nepasiekiamas jūsų paskyrai.';
 
   @override
+  String get matureContentAppLockedBody =>
+      '18+ turinys iPhone ir iPad įrenginiuose išjungtas. Norėdami čia peržiūrėti 18+ pažymėtas bendruomenes ir kanalus, atidarykite Fluxer žiniatinklyje arba kompiuteryje, nustatymuose eikite į „Privatumas“ ir įjunkite „Leisti 18+ turinį iPhone ir iPad įrenginiuose“.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Dėl jūsų buvimo vietoje galiojančių suaugusiesiems skirto turinio įstatymų šis turinys iš čia nepasiekiamas.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Žinutė 18+ kanale';
+
+  @override
+  String get ageRangeUnderMinimumTitle => 'Fluxer šiai paskyrai nepasiekiamas';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Jūsų Apple Account bendrinamas amžiaus intervalas yra mažesnis nei 13 metų. Fluxer skirtas tik 13 metų ir vyresniems asmenims.';
+
+  @override
   String get matureContentProceedButton => 'Tęsti';
 
   @override
@@ -4489,6 +4533,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Išsaugoti';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Norėdami čia pasirinkti „Rodyti“, atidarykite Fluxer žiniatinklyje arba kompiuteryje, nustatymuose eikite į „Privatumas“ ir įjunkite „Leisti 18+ turinį iPhone ir iPad įrenginiuose“.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6198,6 +6246,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Peržiūrėti profilį';
 
   @override
+  String get voiceParticipantMenuReport => 'Pranešti';
+
+  @override
   String get voiceParticipantMenuFocus => 'Sutelkti dėmesį į šį asmenį';
 
   @override
@@ -6323,6 +6374,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Jūsų srautas dalyviams yra tiesiogiai.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Užblokuoto naudotojo vaizdo įrašas';
 
   @override
   String get voiceLiveBadge => 'Tiesiogiai';
@@ -7343,6 +7398,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Pranešti apie profilį';
 
   @override
+  String get reportFlowTitleCommunity => 'Pranešti apie bendruomenę';
+
+  @override
   String get reportFlowSummaryTitle => 'Peržiūrėkite savo pranešimą';
 
   @override
@@ -7365,7 +7423,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Žinutė, apie kurią pranešate';
 
   @override
-  String get reportFlowSelectedUser => 'Profilis, apie kurį pranešate';
+  String get reportFlowSelectedPerson => 'Asmuo, apie kurį pranešate';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Bendruomenė, apie kurią pranešate';
 
   @override
   String get reportFlowReportCategory => 'Jūsų atsakymai';
@@ -7393,6 +7454,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return '„$productName“ saugos komanda peržiūrės jūsų pranešimą. Mes neatskleisime, kad jį pateikėte jūs.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Šios instancijos administratoriai peržiūrės jūsų pranešimą. Mes neatskleisime, kad jį pateikėte jūs.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7440,6 +7505,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Jau šiandien pranešėte apie šį profilį.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Jau pranešėte apie šią bendruomenę.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11324,6 +11393,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Funkcijų vėliavėlės';
 
   @override
+  String get userSettingsNavHelp => 'Pagalba ir palaikymas';
+
+  @override
   String get userSettingsNavWhatsNew => 'Kas naujo';
 
   @override
@@ -12225,6 +12297,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Kopijuoti bendruomenės ID';
+
+  @override
+  String get guildMenuReportCommunity => 'Pranešti apie bendruomenę';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15690,6 +15765,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Pradinė žinutė buvo ištrinta.';
 
   @override
+  String get forumPostBlockedAuthor => 'Užblokuoto naudotojo įrašas';
+
+  @override
+  String get threadBlockedAuthor => 'Užblokuoto naudotojo gija';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15736,6 +15817,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Pažymėti kaip perskaitytą';
+
+  @override
+  String get forumReportPost => 'Pranešti apie įrašą';
 
   @override
   String get forumCopyPostLink => 'Kopijuoti nuorodą';

@@ -289,6 +289,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get logInWithPasskey => 'Přihlásit se pomocí klíče';
 
   @override
+  String get loginLegalAgreementPrefix => 'Přihlášením souhlasíte s ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Pokračovat s $provider';
   }
@@ -824,6 +827,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get registerDateOfBirth => 'Datum narození';
 
   @override
+  String get registerDateOfBirthDone => 'Hotovo';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Nenastaveno';
+
+  @override
   String get registerMonth => 'Měsíc';
 
   @override
@@ -843,6 +852,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Zásady ochrany osobních údajů';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Souhlasím s tím, že tato instance netoleruje závadný obsah ani uživatele, kteří ostatní obtěžují, a že její správci mohou odstranit obsah a účty, které tato pravidla porušují.';
 
   @override
   String get registerConfirmPassword => 'Potvrďte heslo';
@@ -4248,6 +4261,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se stáhnout přílohu';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName potřebuje přístup k vaší fotogalerii, aby mohl tuto přílohu uložit.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Platnost přílohy vypršela';
 
   @override
@@ -4376,7 +4394,15 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Zobrazit';
 
   @override
-  String get matureMediaRevealHint => 'Kliknutím odhalíte';
+  String get matureMediaRevealLabel => 'Zobrazit citlivá média';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Citlivá média jsou na iPhonu a iPadu skrytá.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Citlivá média jsou pro váš účet skrytá.';
 
   @override
   String get matureContentTitle => 'Obsah pro dospělé';
@@ -4439,6 +4465,24 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Tento kanál s obsahem pro dospělé není pro váš účet dostupný.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'Obsah 18+ je na iPhonu a iPadu vypnutý. Pokud zde chcete zobrazovat komunity a kanály označené 18+, otevřete Fluxer na webu nebo v aplikaci pro počítač, v nastavení přejděte do „Soukromí“ a zapněte „Povolit obsah 18+ na iPhonu a iPadu“.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Kvůli zákonům o obsahu pro dospělé v místě, kde se nacházíte, zde obsah pro dospělé není k dispozici.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Zpráva v kanálu 18+';
+
+  @override
+  String get ageRangeUnderMinimumTitle => 'Fluxer není pro tento účet dostupný';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Věkové rozmezí sdílené vaším Apple Account je pod 13 let. Fluxer je určen jen lidem ve věku 13 let a starším.';
+
+  @override
   String get matureContentProceedButton => 'Pokračovat';
 
   @override
@@ -4470,6 +4514,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Uložit';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Pokud zde chcete vybrat „Zobrazit“, otevřete Fluxer na webu nebo v aplikaci pro počítač, v nastavení přejděte do „Soukromí“ a zapněte „Povolit obsah 18+ na iPhonu a iPadu“.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6134,6 +6182,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Zobrazit profil';
 
   @override
+  String get voiceParticipantMenuReport => 'Nahlásit';
+
+  @override
   String get voiceParticipantMenuFocus => 'Zvýraznit tuto osobu';
 
   @override
@@ -6258,6 +6309,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get voiceOwnScreenShareSubtitle => 'Váš stream je pro účastníky živý.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video od někoho, koho jste zablokovali';
 
   @override
   String get voiceLiveBadge => 'Živě';
@@ -7285,6 +7340,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Nahlásit profil';
 
   @override
+  String get reportFlowTitleCommunity => 'Nahlásit komunitu';
+
+  @override
   String get reportFlowSummaryTitle => 'Zkontrolujte své nahlášení';
 
   @override
@@ -7307,7 +7365,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Zpráva, kterou nahlašujete';
 
   @override
-  String get reportFlowSelectedUser => 'Profil, který nahlašujete';
+  String get reportFlowSelectedPerson => 'Osoba, kterou nahlašujete';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Komunita, kterou nahlašujete';
 
   @override
   String get reportFlowReportCategory => 'Vaše odpovědi';
@@ -7335,6 +7396,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'Tým bezpečnosti $productName vaše nahlášení posoudí. Neprozradíme, že pochází od vás.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Vaše nahlášení posoudí správci této instance. Neprozradíme, že pochází od vás.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7382,6 +7447,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Tento profil jste dnes již nahlásili.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Tuto komunitu jste již nahlásili.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11260,6 +11329,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Příznaky funkcí';
 
   @override
+  String get userSettingsNavHelp => 'Nápověda a podpora';
+
+  @override
   String get userSettingsNavWhatsNew => 'Co je nového';
 
   @override
@@ -12150,6 +12222,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Kopírovat ID komunity';
+
+  @override
+  String get guildMenuReportCommunity => 'Nahlásit komunitu';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15603,6 +15678,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Původní zpráva byla smazána.';
 
   @override
+  String get forumPostBlockedAuthor =>
+      'Příspěvek od někoho, koho jste zablokovali';
+
+  @override
+  String get threadBlockedAuthor => 'Vlákno od někoho, koho jste zablokovali';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15650,6 +15732,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Označit jako přečtené';
+
+  @override
+  String get forumReportPost => 'Nahlásit příspěvek';
 
   @override
   String get forumCopyPostLink => 'Kopírovat odkaz';

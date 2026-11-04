@@ -1,6 +1,7 @@
 enum ReportFlowTargetType {
   message('message'),
-  user('user');
+  user('user'),
+  guild('guild');
 
   const ReportFlowTargetType(this.wireValue);
 

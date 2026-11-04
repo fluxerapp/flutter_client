@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
@@ -41,6 +42,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_recent_row.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_suggestions.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_author_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
@@ -66,10 +68,12 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/guild_members_tab_content.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
@@ -476,7 +480,13 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final targetChannelId = widget.channel?.id ?? widget.dm?.id;
-    final hasPins = targetChannelId != null;
+    final bool matureGateShown =
+        targetChannelId != null &&
+        (ref
+                .watch(shouldShowMatureContentGateProvider(targetChannelId))
+                .value ??
+            true);
+    final hasPins = targetChannelId != null && !matureGateShown;
     final showFavorites = ref.watch(
       appearancePreferencesProvider.select((s) => s.showFavorites),
     );
@@ -528,6 +538,7 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
         _DetailsIdentityHeader(
           channel: widget.channel,
           dm: widget.dm,
+          showTopic: !matureGateShown,
           topicExpanded: _topicExpanded,
           onToggleTopic: () => setState(() => _topicExpanded = !_topicExpanded),
           onClose: widget.close,
@@ -644,7 +655,7 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
         ),
         SizedBox(height: context.layout.s3),
         Expanded(
-          child: selectedIndex == 1 && targetChannelId != null
+          child: selectedIndex == 1 && hasPins
               ? _PinsTab(
                   channelId: targetChannelId,
                   guildId: widget.channel?.guildId,

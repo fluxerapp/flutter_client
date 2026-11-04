@@ -287,6 +287,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get logInWithPasskey => 'Prijava pomoću sigurnosnog ključa';
 
   @override
+  String get loginLegalAgreementPrefix => 'Prijavom prihvaćate ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Nastavi s $provider';
   }
@@ -826,6 +829,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get registerDateOfBirth => 'Datum rođenja';
 
   @override
+  String get registerDateOfBirthDone => 'Gotovo';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Nije postavljeno';
+
+  @override
   String get registerMonth => 'Mjesec';
 
   @override
@@ -845,6 +854,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Pravila privatnosti';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Prihvaćam da ova instanca ne tolerira neprimjeren sadržaj ni korisnike koji zlostavljaju druge te da njezini administratori mogu ukloniti sadržaj i račune koji krše ta pravila.';
 
   @override
   String get registerConfirmPassword => 'Potvrdite lozinku';
@@ -4250,6 +4263,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nije moguće preuzeti privitak';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return '$productName treba pristup vašoj biblioteci fotografija da bi spremio ovaj privitak.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Privitak je istekao';
 
   @override
@@ -4375,7 +4393,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Otkrij';
 
   @override
-  String get matureMediaRevealHint => 'Kliknite za prikaz';
+  String get matureMediaRevealLabel => 'Otkrij osjetljivi medijski sadržaj';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Osjetljivi medijski sadržaj skriven je na iPhoneu i iPadu.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Osjetljivi medijski sadržaj skriven je za vaš račun.';
 
   @override
   String get matureContentTitle => 'Sadržaj za odrasle';
@@ -4438,6 +4464,24 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ovaj kanal za odrasle nije dostupan vašem računu.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'Sadržaj 18+ isključen je na iPhoneu i iPadu. Da biste ovdje gledali zajednice i kanale označene kao 18+, otvorite Fluxer na webu ili na računalu, idite na „Privatnost“ u postavkama i uključite „Dopusti sadržaj 18+ na iPhoneu i iPadu“.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'Zbog zakona o sadržaju za odrasle na vašem području sadržaj za odrasle nije dostupan s vaše lokacije.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Poruka u kanalu 18+';
+
+  @override
+  String get ageRangeUnderMinimumTitle => 'Fluxer nije dostupan na ovom računu';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Dobni raspon koji dijeli vaš Apple Account je ispod 13 godina. Fluxer je namijenjen samo osobama od 13 i više godina.';
+
+  @override
   String get matureContentProceedButton => 'Nastavi';
 
   @override
@@ -4469,6 +4513,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Spremi';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Da biste ovdje odabrali „Prikaži“, otvorite Fluxer na webu ili na računalu, idite na „Privatnost“ u postavkama i uključite „Dopusti sadržaj 18+ na iPhoneu i iPadu“.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6136,6 +6184,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Prikaži profil';
 
   @override
+  String get voiceParticipantMenuReport => 'Prijavi';
+
+  @override
   String get voiceParticipantMenuFocus => 'Fokusiraj ovu osobu';
 
   @override
@@ -6261,6 +6312,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'Vaš je prijenos uživo za sudionike.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Video osobe koju ste blokirali';
 
   @override
   String get voiceLiveBadge => 'Uživo';
@@ -7276,6 +7331,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Prijavi profil';
 
   @override
+  String get reportFlowTitleCommunity => 'Prijavi zajednicu';
+
+  @override
   String get reportFlowSummaryTitle => 'Provjerite svoju prijavu';
 
   @override
@@ -7298,7 +7356,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Poruka koju prijavljujete';
 
   @override
-  String get reportFlowSelectedUser => 'Profil koji prijavljujete';
+  String get reportFlowSelectedPerson => 'Osoba koju prijavljujete';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Zajednica koju prijavljujete';
 
   @override
   String get reportFlowReportCategory => 'Vaši odgovori';
@@ -7326,6 +7387,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'Sigurnosni tim $productName pregledat će vašu prijavu. Nećemo otkriti da je došla od vas.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'Administratori ove instance pregledat će vašu prijavu. Nećemo otkriti da je došla od vas.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7373,6 +7438,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Već ste prijavili ovaj profil danas.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Već ste prijavili ovu zajednicu.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11253,6 +11322,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Zastavice značajki';
 
   @override
+  String get userSettingsNavHelp => 'Pomoć i podrška';
+
+  @override
   String get userSettingsNavWhatsNew => 'Novosti';
 
   @override
@@ -12145,6 +12217,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Kopiraj ID zajednice';
+
+  @override
+  String get guildMenuReportCommunity => 'Prijavi zajednicu';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15605,6 +15680,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Izvorna poruka je izbrisana.';
 
   @override
+  String get forumPostBlockedAuthor => 'Objava osobe koju ste blokirali';
+
+  @override
+  String get threadBlockedAuthor => 'Nit osobe koju ste blokirali';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15652,6 +15733,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Označi kao pročitano';
+
+  @override
+  String get forumReportPost => 'Prijavi objavu';
 
   @override
   String get forumCopyPostLink => 'Kopiraj poveznicu';

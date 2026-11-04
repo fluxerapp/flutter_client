@@ -147,7 +147,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 103;
+  int get schemaVersion => 104;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1632,6 +1632,15 @@ class FluxerDatabase extends _$FluxerDatabase {
         await m.database.customStatement(
           'DROP INDEX IF EXISTS idx_messages_author',
         );
+      }
+      if (from < 104) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'dm_channels',
+          columnName: dmChannels.nsfw.name,
+        )) {
+          await m.addColumn(dmChannels, dmChannels.nsfw);
+        }
       }
     },
   );

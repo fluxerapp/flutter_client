@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -209,7 +210,10 @@ GoRouter _shellRouterFor(String initialLocation) {
 
 ProviderContainer _containerFor(GoRouter router) {
   final container = ProviderContainer(
-    overrides: [fluxerRouterProvider.overrideWithValue(router)],
+    overrides: [
+      fluxerRouterProvider.overrideWithValue(router),
+      blockedUserIdsProvider.overrideWithValue(const <String>{}),
+    ],
   );
   addTearDown(container.dispose);
   return container;

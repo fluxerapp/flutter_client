@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/mature_content/presentation/sheets/channel_a
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
-import 'package:fluxer_app/features/mature_content/utils/mature_content_platform_policy.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_media_policy_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -42,7 +41,8 @@ Future<bool> promptForChannelGateIfNeeded({
 bool isResolvedChannelGateBlocking({
   required Channel channel,
   required ChannelListState channelList,
-  required bool nsfwAllowed,
+  required MatureAccess access,
+  required bool allowInAppConsent,
   required MatureContentAgreementsState agreements,
 }) {
   Channel? parentCategory;
@@ -60,9 +60,9 @@ bool isResolvedChannelGateBlocking({
           guild: listedGuild?.id == channel.guildId ? listedGuild : null,
           parentCategory: parentCategory,
         ),
-        nsfwAllowed: nsfwAllowed,
+        access: access,
         agreements: agreements,
-        allowInAppConsent: matureContentAllowsInAppConsent,
+        allowInAppConsent: allowInAppConsent,
       ) !=
       MatureContentGateReason.none;
 }
@@ -82,7 +82,10 @@ Future<bool> isChannelGateBlocking({
     return isResolvedChannelGateBlocking(
       channel: resolvedChannel,
       channelList: channelList,
-      nsfwAllowed: container.read(sensitiveContentProvider).nsfwAllowed,
+      access: container.read(sensitiveContentProvider).access,
+      allowInAppConsent: container
+          .read(sensitiveContentProvider)
+          .inAppConsentAllowed,
       agreements: container.read(matureContentAgreementsProvider),
     );
   }

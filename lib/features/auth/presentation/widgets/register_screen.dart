@@ -1,8 +1,17 @@
 import 'dart:async';
 
+import 'package:cupertino_ui/cupertino_ui.dart'
+    show
+        CupertinoButton,
+        CupertinoDatePicker,
+        CupertinoDatePickerMode,
+        showCupertinoModalPopup;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
@@ -88,25 +97,76 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     _saveDraft();
   }
 
+  DateTime? get _selectedDateOfBirth =>
+      (_birthYear != null && _birthMonth != null && _birthDay != null)
+      ? DateTime(_birthYear!, _birthMonth!, _birthDay!)
+      : null;
+
+  void _setDateOfBirth(DateTime value) {
+    setState(() {
+      _birthYear = value.year;
+      _birthMonth = value.month;
+      _birthDay = value.day;
+    });
+    _saveDraft();
+  }
+
   Future<void> _pickDateOfBirth() async {
-    final now = DateTime.now();
-    final initial =
-        (_birthYear != null && _birthMonth != null && _birthDay != null)
-        ? DateTime(_birthYear!, _birthMonth!, _birthDay!)
-        : DateTime(now.year - 18);
-    final picked = await showDatePicker(
+    final DateTime now = DateTime.now();
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      await _pickDateOfBirthCupertino(now);
+      return;
+    }
+    final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: initial,
+      initialDate: _selectedDateOfBirth ?? now,
       firstDate: DateTime(now.year - 150),
       lastDate: now,
+      initialDatePickerMode: DatePickerMode.year,
     );
     if (picked != null) {
-      setState(() {
-        _birthYear = picked.year;
-        _birthMonth = picked.month;
-        _birthDay = picked.day;
-      });
-      _saveDraft();
+      _setDateOfBirth(picked);
+    }
+  }
+
+  Future<void> _pickDateOfBirthCupertino(DateTime now) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    DateTime? chosen;
+    await showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext sheetContext) {
+        return Container(
+          height: 300,
+          color: sheetContext.colors.backgroundSecondary,
+          child: SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CupertinoButton(
+                    onPressed: () => Navigator.of(sheetContext).pop(),
+                    child: Text(l10n.registerDateOfBirthDone),
+                  ),
+                ),
+                Expanded(
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.date,
+                    initialDateTime: _selectedDateOfBirth ?? now,
+                    minimumDate: DateTime(now.year - 150),
+                    maximumDate: now,
+                    onDateTimeChanged: (DateTime value) => chosen = value,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    final DateTime? picked = chosen;
+    if (picked != null && mounted) {
+      _setDateOfBirth(picked);
     }
   }
 
@@ -148,6 +208,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         return;
       }
       _restoreDraft();
+      _refreshInstanceConfig();
     });
     _emailController.addListener(_saveDraft);
     _displayNameController.addListener(_saveDraft);
@@ -156,6 +217,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       ..addListener(_scheduleAvailabilityCheck);
     _passwordController.addListener(_saveDraft);
     _confirmController.addListener(_saveDraft);
+  }
+
+  void _refreshInstanceConfig() {
+    if (identical(
+      ref.read(authInstanceSnapshotProvider),
+      ref.read(activeInstanceProvider),
+    )) {
+      unawaited(ref.read(wellKnownProvider.notifier).refresh());
+    }
   }
 
   void _restoreDraft() {
@@ -266,7 +336,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   bool _isFormValid({
-    required bool requiresConsent,
     required bool requiresDateOfBirth,
     required bool usernameSignIn,
     required bool uniqueUsernames,
@@ -281,11 +350,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         _confirmController.text.isNotEmpty &&
         (!requiresDateOfBirth ||
             (_birthMonth != null && _birthDay != null && _birthYear != null)) &&
-        (!requiresConsent || _consent);
+        _consent;
   }
-
-  bool _requiresConsent(InstanceConfigSnapshot instance) =>
-      instance.termsUrl != null || instance.privacyUrl != null;
 
   String? get _dateOfBirth {
     if (_birthYear == null || _birthMonth == null || _birthDay == null) {
@@ -298,9 +364,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   void _submit() {
-    final InstanceConfigSnapshot instance = ref.read(
-      authInstanceSnapshotProvider,
-    );
     final InstanceRuntimeConfig runtime = ref.read(
       authInstanceRuntimeConfigProvider,
     );
@@ -313,7 +376,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!canRegister ||
         ref.read(loginViewModelProvider).pendingApprovalUserId != null ||
         !_isFormValid(
-          requiresConsent: _requiresConsent(instance),
           requiresDateOfBirth: runtime.collectDateOfBirth,
           usernameSignIn: runtime.usernameSignIn,
           uniqueUsernames: runtime.uniqueUsernames,
@@ -356,7 +418,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
     final String? termsUrl = instance.termsUrl;
     final String? privacyUrl = instance.privacyUrl;
-    final bool requiresConsent = _requiresConsent(instance);
     final bool collectDateOfBirth = ref.watch(
       authInstanceRuntimeConfigProvider.select(
         (InstanceRuntimeConfig config) => config.collectDateOfBirth,
@@ -537,37 +598,47 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
               SizedBox(height: layout.s2),
               if (isMobileLayout(context))
-                FluxerGestureDetector(
+                Semantics(
+                  button: true,
+                  label: l10n.registerDateOfBirth,
+                  value: _formattedDateOfBirth.isNotEmpty
+                      ? _formattedDateOfBirth
+                      : l10n.registerDateOfBirthNotSet,
+                  excludeSemantics: true,
                   onTap: _pickDateOfBirth,
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: colors.backgroundTertiary,
-                      borderRadius: layout.radiusMd,
-                      border: Border.all(
-                        color: vm.fieldErrors['date_of_birth'] != null
-                            ? colors.textDanger
-                            : colors.backgroundModifierAccent,
+                  child: FluxerGestureDetector(
+                    onTap: _pickDateOfBirth,
+                    child: Container(
+                      width: double.infinity,
+                      constraints: const BoxConstraints(minHeight: 44),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
                       ),
-                    ),
-                    child: Text(
-                      _formattedDateOfBirth.isNotEmpty
-                          ? _formattedDateOfBirth
-                          : DateFormat.yMd(
-                                  Localizations.localeOf(context).toString(),
-                                )
-                                .format(DateTime(2000, 12, 30))
-                                .replaceAll('2000', 'yyyy')
-                                .replaceAll('30', 'dd')
-                                .replaceAll('12', 'mm'),
-                      style: textStyles.bodySmall.copyWith(
-                        color: _formattedDateOfBirth.isNotEmpty
-                            ? colors.textPrimary
-                            : colors.textTertiary,
+                      decoration: BoxDecoration(
+                        color: colors.backgroundTertiary,
+                        borderRadius: layout.radiusMd,
+                        border: Border.all(
+                          color: vm.fieldErrors['date_of_birth'] != null
+                              ? colors.textDanger
+                              : colors.backgroundModifierAccent,
+                        ),
+                      ),
+                      child: Text(
+                        _formattedDateOfBirth.isNotEmpty
+                            ? _formattedDateOfBirth
+                            : DateFormat.yMd(
+                                    Localizations.localeOf(context).toString(),
+                                  )
+                                  .format(DateTime(2000, 12, 30))
+                                  .replaceAll('2000', 'yyyy')
+                                  .replaceAll('30', 'dd')
+                                  .replaceAll('12', 'mm'),
+                        style: textStyles.bodySmall.copyWith(
+                          color: _formattedDateOfBirth.isNotEmpty
+                              ? colors.textPrimary
+                              : colors.textTertiary,
+                        ),
                       ),
                     ),
                   ),
@@ -649,19 +720,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               SizedBox(height: layout.s5),
             ],
 
-            if (requiresConsent) ...[
-              FluxerCheckbox(
-                value: _consent,
-                onChanged: (v) {
-                  setState(() => _consent = v ?? false);
-                  _saveDraft();
-                },
-                child: Text.rich(
-                  TextSpan(
-                    style: textStyles.bodySmall.copyWith(
-                      color: colors.textPrimary,
-                    ),
-                    children: [
+            FluxerCheckbox(
+              value: _consent,
+              onChanged: (v) {
+                setState(() => _consent = v ?? false);
+                _saveDraft();
+              },
+              child: Text.rich(
+                TextSpan(
+                  style: textStyles.bodySmall.copyWith(
+                    color: colors.textPrimary,
+                  ),
+                  children: [
+                    if (termsUrl == null && privacyUrl == null)
+                      TextSpan(text: l10n.registerConsentBuiltInRules)
+                    else ...[
                       TextSpan(text: l10n.registerConsentPrefix),
                       if (termsUrl != null)
                         WidgetSpan(
@@ -690,11 +763,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                         ),
                     ],
-                  ),
+                  ],
                 ),
               ),
-              SizedBox(height: layout.s5),
-            ],
+            ),
+            SizedBox(height: layout.s5),
 
             if (resolveLoginError(vm, l10n) case final errorText?) ...[
               AuthFormErrorText(errorText),
@@ -704,7 +777,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             FluxerButton.primary(
               onPressed:
                   _isFormValid(
-                        requiresConsent: requiresConsent,
                         requiresDateOfBirth: collectDateOfBirth,
                         usernameSignIn: usernameSignIn,
                         uniqueUsernames: uniqueUsernames,

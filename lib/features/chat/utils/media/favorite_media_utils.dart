@@ -282,6 +282,20 @@ Attachment? resolveMessageAttachment(Message message, String? attachmentId) {
   return null;
 }
 
+bool isMatureMessageMedia(
+  Message message, {
+  String? attachmentId,
+  int? embedIndex,
+}) {
+  if (resolveMessageAttachment(message, attachmentId)?.isMatureMedia ?? false) {
+    return true;
+  }
+  return embedIndex != null &&
+      embedIndex >= 0 &&
+      embedIndex < message.embeds.length &&
+      message.embeds[embedIndex].isMatureMedia;
+}
+
 EmbedMedia? resolveMessageEmbedMedia(Message message, int? embedIndex) {
   if (embedIndex == null ||
       embedIndex < 0 ||

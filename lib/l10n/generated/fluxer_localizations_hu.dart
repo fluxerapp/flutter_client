@@ -286,6 +286,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get logInWithPasskey => 'Bejelentkezés kulcstartóval';
 
   @override
+  String get loginLegalAgreementPrefix =>
+      'A bejelentkezéssel elfogadod a következőt: ';
+
+  @override
   String continueWithSso(String provider) {
     return 'Folytatás a(z) $provider szolgáltatással';
   }
@@ -827,6 +831,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get registerDateOfBirth => 'Születési dátum';
 
   @override
+  String get registerDateOfBirthDone => 'Kész';
+
+  @override
+  String get registerDateOfBirthNotSet => 'Nincs beállítva';
+
+  @override
   String get registerMonth => 'Hónap';
 
   @override
@@ -846,6 +856,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get registerConsentPrivacy => 'Adatvédelmi irányelvek';
+
+  @override
+  String get registerConsentBuiltInRules =>
+      'Elfogadom, hogy ez a példány nem tűri a kifogásolható tartalmakat és a bántalmazó felhasználókat, és hogy az adminisztrátorai eltávolíthatják az e szabályokat megszegő tartalmakat és fiókokat.';
 
   @override
   String get registerConfirmPassword => 'Jelszó megerősítése';
@@ -4273,6 +4287,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült letölteni a mellékletet';
 
   @override
+  String chatAttachmentDownloadPhotosAccessToast(String productName) {
+    return 'A(z) $productName alkalmazásnak hozzá kell férnie a fotókönyvtáradhoz a melléklet mentéséhez.';
+  }
+
+  @override
   String get chatAttachmentExpiredTooltip => 'A melléklet lejárt';
 
   @override
@@ -4399,7 +4418,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Felfedés';
 
   @override
-  String get matureMediaRevealHint => 'Kattints a megjelenítéshez';
+  String get matureMediaRevealLabel => 'Érzékeny média felfedése';
+
+  @override
+  String get matureMediaAppLockedLabel =>
+      'Az érzékeny média rejtve van iPhone-on és iPaden.';
+
+  @override
+  String get matureMediaMinorLockedLabel =>
+      'Az érzékeny média rejtve van a fiókod számára.';
 
   @override
   String get matureContentTitle => 'Felnőtt tartalom';
@@ -4465,6 +4492,25 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez a felnőtt tartalmú csatorna nem érhető el a fiókod számára.';
 
   @override
+  String get matureContentAppLockedBody =>
+      'A 18+ tartalom ki van kapcsolva iPhone-on és iPaden. Ha itt szeretnéd megtekinteni a 18+ jelölésű közösségeket és csatornákat, nyisd meg a Fluxert a weben vagy asztali gépen, a beállításaidban lépj az „Adatvédelem” részre, és kapcsold be a „18+ tartalom engedélyezése iPhone-on és iPaden” lehetőséget.';
+
+  @override
+  String get matureContentRegionLockedBody =>
+      'A tartózkodási helyeden érvényes, felnőtt tartalomra vonatkozó jogszabályok miatt a felnőtt tartalom innen nem érhető el.';
+
+  @override
+  String get matureMessageHiddenPreview => 'Üzenet egy 18+ csatornában';
+
+  @override
+  String get ageRangeUnderMinimumTitle =>
+      'A Fluxer nem érhető el ezen a fiókon';
+
+  @override
+  String get ageRangeUnderMinimumBody =>
+      'Az Apple Account által megosztott korcsoport 13 év alatti. A Fluxer csak 13 éves és idősebb személyeknek szól.';
+
+  @override
   String get matureContentProceedButton => 'Tovább';
 
   @override
@@ -4496,6 +4542,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get sensitiveContentSaveButton => 'Mentés';
+
+  @override
+  String get sensitiveContentAppLockedHint =>
+      'Ha itt a „Megjelenítés” lehetőséget szeretnéd választani, nyisd meg a Fluxert a weben vagy asztali gépen, a beállításaidban lépj az „Adatvédelem” részre, és kapcsold be a „18+ tartalom engedélyezése iPhone-on és iPaden” lehetőséget.';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
@@ -6166,6 +6216,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Profil megtekintése';
 
   @override
+  String get voiceParticipantMenuReport => 'Bejelentés';
+
+  @override
   String get voiceParticipantMenuFocus => 'Felhasználó kiemelése';
 
   @override
@@ -6294,6 +6347,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get voiceOwnScreenShareSubtitle =>
       'A streamed élőben látható a résztvevők számára.';
+
+  @override
+  String get voiceBlockedParticipantVideoHidden =>
+      'Videó egy általad letiltott személytől';
 
   @override
   String get voiceLiveBadge => 'Élő';
@@ -7318,6 +7375,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get reportFlowTitleUserProfile => 'Profil bejelentése';
 
   @override
+  String get reportFlowTitleCommunity => 'Közösség bejelentése';
+
+  @override
   String get reportFlowSummaryTitle => 'A bejelentésed ellenőrzése';
 
   @override
@@ -7340,7 +7400,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get reportFlowSelectedMessage => 'Az általad bejelentett üzenet';
 
   @override
-  String get reportFlowSelectedUser => 'Az általad bejelentett profil';
+  String get reportFlowSelectedPerson => 'Az általad bejelentett személy';
+
+  @override
+  String get reportFlowSelectedCommunity => 'Az általad bejelentett közösség';
 
   @override
   String get reportFlowReportCategory => 'A válaszaid';
@@ -7367,6 +7430,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String reportFlowThankYouBody(String productName) {
     return 'A(z) $productName biztonsági csapata áttekinti a bejelentésedet. Nem fogjuk felfedni, hogy tőled érkezett.';
   }
+
+  @override
+  String get reportFlowThankYouBodySelfHosted =>
+      'A példány adminisztrátorai áttekintik a bejelentésedet. Nem fogjuk felfedni, hogy tőled érkezett.';
 
   @override
   String get reportFlowThankYouNoReportBody =>
@@ -7415,6 +7482,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get reportFlowAlreadyReportedProfile =>
       'Ezt a profilt ma már bejelentetted.';
+
+  @override
+  String get reportFlowAlreadyReportedCommunity =>
+      'Már bejelentetted ezt a közösséget.';
 
   @override
   String get reportFlowRateLimited =>
@@ -11323,6 +11394,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavFeatureFlags => 'Funkciójelzők';
 
   @override
+  String get userSettingsNavHelp => 'Súgó és támogatás';
+
+  @override
   String get userSettingsNavWhatsNew => 'Újdonságok';
 
   @override
@@ -12226,6 +12300,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildMenuCopyCommunityId => 'Közösségi azonosító másolása';
+
+  @override
+  String get guildMenuReportCommunity => 'Közösség bejelentése';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -15694,6 +15771,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get forumPostStarterDeleted => 'Az eredeti üzenetet törölték.';
 
   @override
+  String get forumPostBlockedAuthor =>
+      'Bejegyzés egy általad letiltott személytől';
+
+  @override
+  String get threadBlockedAuthor => 'Szál egy általad letiltott személytől';
+
+  @override
   String forumPostSnippet(String author, String content) {
     return '$author: $content';
   }
@@ -15740,6 +15824,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get forumMarkPostRead => 'Megjelölés olvasottként';
+
+  @override
+  String get forumReportPost => 'Bejegyzés bejelentése';
 
   @override
   String get forumCopyPostLink => 'Link másolása';

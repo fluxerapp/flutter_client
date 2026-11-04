@@ -17,6 +17,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/me
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -280,6 +282,93 @@ void main() {
       expect(find.text('Delete attachment'), findsNothing);
       await releaseTestWidgetTree(tester);
     });
+
+    for (final (String name, MatureMediaPolicy policy, Matcher matcher)
+        in <(String, MatureMediaPolicy, Matcher)>[
+          (
+            'hides Add to favorites for hidden flagged media',
+            const MatureMediaPolicy(
+              shouldBlur: true,
+              shouldBlock: false,
+              canReveal: false,
+              appLocked: true,
+            ),
+            findsNothing,
+          ),
+          (
+            'offers Add to favorites for flagged media the viewer can reveal',
+            const MatureMediaPolicy(
+              shouldBlur: true,
+              shouldBlock: false,
+              canReveal: true,
+            ),
+            findsOneWidget,
+          ),
+          (
+            'offers Add to favorites for flagged media shown as is',
+            MatureMediaPolicy.none,
+            findsOneWidget,
+          ),
+        ]) {
+      testWidgets(name, (tester) async {
+        final Message flagged = Message(
+          id: 'msg-flagged',
+          channelId: 'channel-1',
+          authorId: 'user-2',
+          authorName: 'peer',
+          content: '',
+          timestamp: DateTime(2026, 5, 6, 12),
+          attachments: const [
+            Attachment(
+              id: 'att-flagged',
+              filename: 'flagged.png',
+              url: 'https://x/flagged',
+              contentType: 'image/png',
+              nsfw: true,
+            ),
+          ],
+        );
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: baseOverrides(
+              flagged.id,
+              extra: [
+                appearancePreferencesProvider.overrideWithValue(
+                  const AppearancePreferencesState(),
+                ),
+                matureMediaPolicyProvider(
+                  const MatureMediaPolicyRequest(
+                    channelId: 'channel-1',
+                    isMatureMedia: true,
+                  ),
+                ).overrideWith((ref) => policy),
+              ],
+            ),
+            child: buildTestApp(
+              onOpen: (context) => showMessageBottomSheet(
+                context,
+                message: flagged,
+                isOwnMessage: false,
+                isDmChannel: true,
+                canDelete: false,
+                canReport: false,
+                canAddReactions: false,
+                canPinMessage: false,
+                canManageMessages: false,
+                canSendMessages: true,
+                developerMode: false,
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(find.text('Open'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Add to favorites'), matcher);
+        await releaseTestWidgetTree(tester);
+      });
+    }
   });
 
   testWidgets('shows Translate under view reactions for other-script text', (

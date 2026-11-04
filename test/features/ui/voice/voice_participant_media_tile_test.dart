@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/features/ui/voice/voice_blocked_participant_placeholder.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
@@ -137,6 +138,41 @@ void main() {
     await tester.pump(kVoiceVideoUnsubscribeGrace);
   });
 
+  testWidgets('a blocked participant stream shows only the placeholder', (
+    WidgetTester tester,
+  ) async {
+    await _pumpTile(
+      tester,
+      overrides: <Override>[fluxerDioProvider.overrideWithValue(_previewDio())],
+      tile: const VoiceParticipantMediaTile(
+        media: null,
+        userId: 'streamer',
+        currentUserId: 'me',
+        localConnectionId: 'my-conn',
+        voice: VoiceState(
+          userId: 'streamer',
+          guildId: 'g1',
+          channelId: 'c1',
+          connectionId: 'stream-conn',
+          selfStream: true,
+        ),
+        display: 'Bea',
+        backgroundColor: Color(0xFF333333),
+        tileSource: VoiceParticipantTileSource.screenShare,
+        isActiveScreenShare: true,
+        streamPreviewUrl:
+            'https://api.example/v1/streams/g1:c1:stream-conn/preview',
+        blocked: true,
+      ),
+    );
+    expect(find.byType(VoiceBlockedParticipantPlaceholder), findsOneWidget);
+    expect(find.byType(VoiceStreamPreviewImage), findsNothing);
+    expect(find.byType(VoiceCallAvatar), findsNothing);
+    expect(find.text('Video from someone you blocked'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(kVoiceVideoUnsubscribeGrace);
+  });
+
   group('remote camera subscription', () {
     late _FakeParticipant participant;
     late _FakeMediaRoom media;
@@ -211,6 +247,33 @@ void main() {
       await tester.pump(kVoiceVideoUnsubscribeGrace);
 
       expect(participant.wanted.last, isFalse);
+    });
+
+    testWidgets('a blocked participant never subscribes', (
+      WidgetTester tester,
+    ) async {
+      await _pumpTile(
+        tester,
+        tile: VoiceParticipantMediaTile(
+          media: media,
+          userId: 'u1',
+          currentUserId: 'me',
+          localConnectionId: null,
+          voice: const VoiceState(userId: 'u1', selfStream: true),
+          display: 'Ada',
+          backgroundColor: const Color(0xFF333333),
+          tileSource: VoiceParticipantTileSource.screenShare,
+          isActiveScreenShare: true,
+          streamPreviewUrl: null,
+          blocked: true,
+        ),
+      );
+      await tester.pump();
+
+      expect(participant.wanted, isEmpty);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump(kVoiceVideoUnsubscribeGrace);
     });
 
     testWidgets('remounting a tile keeps the track subscribed', (

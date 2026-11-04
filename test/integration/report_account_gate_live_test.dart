@@ -165,15 +165,10 @@ class _Run {
     tester.element(find.text('open')),
   ).read(userSettingsViewModelProvider.notifier);
 
-  Future<ReportRestriction?> loadProfile() async {
+  Future<void> loadProfile() async {
     final UserSettingsViewModel settings = _settings;
     await live(settings.loadProfile);
     await tester.pumpAndSettle();
-    return getReportRestriction(
-      ProviderScope.containerOf(
-        tester.element(find.text('open')),
-      ).read(userSettingsViewModelProvider),
-    );
   }
 
   Future<void> pump() async {
@@ -262,7 +257,7 @@ class _Run {
 
   Future<void> walkToSummary() async {
     await tester.tap(find.text('open'));
-    await tapKey('report-flow-next');
+    await tapKey('report-flow-option-profile');
     await tapKey('report-flow-item-name');
     await tapKey('report-flow-next');
     await tapKey('report-flow-option-spam');
@@ -342,35 +337,11 @@ void main() {
           : seed.unverified;
 
       messageItemTestWidgets(
-        '${gated.label} loaded profile blocks the summary with no POST',
+        '${gated.label} account posts and the API rejection shows the notice',
         (tester) async {
           final _Run run = _Run(tester, seed, accountFor(gated.restriction));
           await run.pump();
-          expect(await run.loadProfile(), gated.restriction);
-
-          await run.walkToSummary();
-
-          expect(find.byKey(_noticeKey), findsOneWidget);
-          expect(
-            find.text(l10n.reportFlowAccountSetupRequired),
-            findsOneWidget,
-          );
-          expect(find.text(gated.action(l10n)), findsOneWidget);
-          expect(run.submitEnabled, isFalse);
-          await tester.tap(find.byKey(_submitKey));
-          await tester.pumpAndSettle();
-          expect(run.posts, isEmpty);
-          expect(await run.reports(), isEmpty);
-        },
-        skip: skip,
-      );
-
-      messageItemTestWidgets(
-        '${gated.label} unknown profile posts and the API rejection shows '
-        'the notice',
-        (tester) async {
-          final _Run run = _Run(tester, seed, accountFor(gated.restriction));
-          await run.pump();
+          await run.loadProfile();
 
           await run.walkToSummary();
           expect(find.byKey(_noticeKey), findsNothing);
@@ -383,9 +354,6 @@ void main() {
           expect(find.text(gated.action(l10n)), findsOneWidget);
           expect(find.text(l10n.reportFlowSummaryTitle), findsOneWidget);
           expect(await run.reports(), isEmpty);
-
-          expect(await run.loadProfile(), gated.restriction);
-          expect(run.submitEnabled, isFalse);
         },
         skip: skip,
       );
@@ -396,7 +364,7 @@ void main() {
     ) async {
       final _Run run = _Run(tester, seed, seed.reporter);
       await run.pump();
-      expect(await run.loadProfile(), isNull);
+      await run.loadProfile();
 
       await run.walkToSummary();
       expect(find.byKey(_noticeKey), findsNothing);
