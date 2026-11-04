@@ -43,6 +43,8 @@ class MessageListLiveRemoval extends StatefulWidget {
 class _MessageListLiveRemovalState extends State<MessageListLiveRemoval>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
+  late final CurvedAnimation _sizeCurve;
+  late final CurvedAnimation _fadeCurve;
   late final Animation<double> _sizeFactor;
   late final Animation<double> _opacity;
   bool _completed = false;
@@ -54,33 +56,59 @@ class _MessageListLiveRemovalState extends State<MessageListLiveRemoval>
       vsync: this,
       duration: kMessageListLiveTailMotionDuration,
     );
-    final CurvedAnimation sizeCurve = CurvedAnimation(
+    _sizeCurve = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInCubic,
     );
-    final CurvedAnimation fadeCurve = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    );
-    _sizeFactor = Tween<double>(begin: 1, end: 0).animate(sizeCurve);
-    _opacity = Tween<double>(begin: 1, end: 0).animate(fadeCurve);
+    _fadeCurve = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+    _sizeFactor = Tween<double>(begin: 1, end: 0).animate(_sizeCurve);
+    _opacity = Tween<double>(begin: 1, end: 0).animate(_fadeCurve);
     _controller.addStatusListener(_onStatus);
     _controller.forward();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _completeAfterFrame();
+    }
+  }
+
   void _onStatus(AnimationStatus status) {
-    if (status != AnimationStatus.completed || _completed) {
+    if (status != AnimationStatus.completed) {
+      return;
+    }
+    _complete();
+  }
+
+  void _complete() {
+    if (_completed) {
       return;
     }
     _completed = true;
     widget.onComplete?.call();
   }
 
+  void _completeAfterFrame() {
+    if (_completed) {
+      return;
+    }
+    _completed = true;
+    final VoidCallback? onComplete = widget.onComplete;
+    if (onComplete == null) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) => onComplete());
+  }
+
   @override
   void dispose() {
-    _controller
-      ..removeStatusListener(_onStatus)
-      ..dispose();
+    _completeAfterFrame();
+    _controller.removeStatusListener(_onStatus);
+    _sizeCurve.dispose();
+    _fadeCurve.dispose();
+    _controller.dispose();
     super.dispose();
   }
 

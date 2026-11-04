@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_row_motion.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/open_test_database.dart';
@@ -211,4 +213,172 @@ void main() {
 
     await disposeMessageList(tester);
   });
+
+  testWidgets('deleting a revealed blocked message removes it', (
+    WidgetTester tester,
+  ) async {
+    configureMessageListViewport(tester);
+    final List<Message> messages = _blockedRun();
+    final db.FluxerDatabase database = openTestDatabase();
+    final InstrumentedChatViewModel chatViewModel = InstrumentedChatViewModel(
+      detachedState(messages, hasMoreNewer: false),
+    );
+    await tester.pumpWidget(
+      messageListApp(
+        database: database,
+        chatViewModel: chatViewModel,
+        blockedUserIds: const <String>{_targetId},
+        disableMessageListAnimations: false,
+      ),
+    );
+    await pumpFluxerFrames(tester);
+
+    await tester.tap(find.text(testL10n.chatBlockedMessagesCollapsed(3)));
+    await pumpFluxerFrames(tester);
+    expect(
+      find.textContaining('blocked fern', findRichText: true),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('blocked address', findRichText: true),
+      findsOneWidget,
+    );
+
+    chatViewModel.testState = chatViewModel.testState.copyWith(
+      write: (
+        messages: <Message>[messages[0], messages[1], messages[3]],
+        origin: MessagesOrigin.localMutation,
+      ),
+    );
+    await _pumpMessageRemoval(tester);
+
+    expect(
+      find.textContaining('blocked address', findRichText: true),
+      findsNothing,
+    );
+    expect(
+      find.textContaining('blocked fern', findRichText: true),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('blocked pickup', findRichText: true),
+      findsOneWidget,
+    );
+    expect(find.text(testL10n.chatBlockedMessagesCollapsed(2)), findsOneWidget);
+
+    await disposeMessageList(tester);
+  });
+
+  testWidgets('deleting the first revealed blocked message keeps the rest '
+      'open', (WidgetTester tester) async {
+    configureMessageListViewport(tester);
+    final List<Message> messages = _blockedRun();
+    final db.FluxerDatabase database = openTestDatabase();
+    final InstrumentedChatViewModel chatViewModel = InstrumentedChatViewModel(
+      detachedState(messages, hasMoreNewer: false),
+    );
+    await tester.pumpWidget(
+      messageListApp(
+        database: database,
+        chatViewModel: chatViewModel,
+        blockedUserIds: const <String>{_targetId},
+        disableMessageListAnimations: false,
+      ),
+    );
+    await pumpFluxerFrames(tester);
+
+    await tester.tap(find.text(testL10n.chatBlockedMessagesCollapsed(3)));
+    await pumpFluxerFrames(tester);
+
+    chatViewModel.testState = chatViewModel.testState.copyWith(
+      write: (
+        messages: <Message>[messages[0], messages[2], messages[3]],
+        origin: MessagesOrigin.localMutation,
+      ),
+    );
+    await _pumpMessageRemoval(tester);
+
+    expect(
+      find.textContaining('blocked fern', findRichText: true),
+      findsNothing,
+    );
+    expect(
+      find.textContaining('blocked address', findRichText: true),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('blocked pickup', findRichText: true),
+      findsOneWidget,
+    );
+
+    await disposeMessageList(tester);
+  });
+
+  testWidgets('deleting a collapsed blocked message updates the count', (
+    WidgetTester tester,
+  ) async {
+    configureMessageListViewport(tester);
+    final List<Message> messages = _blockedRun();
+    final db.FluxerDatabase database = openTestDatabase();
+    final InstrumentedChatViewModel chatViewModel = InstrumentedChatViewModel(
+      detachedState(messages, hasMoreNewer: false),
+    );
+    await tester.pumpWidget(
+      messageListApp(
+        database: database,
+        chatViewModel: chatViewModel,
+        blockedUserIds: const <String>{_targetId},
+        disableMessageListAnimations: false,
+      ),
+    );
+    await pumpFluxerFrames(tester);
+    expect(find.text(testL10n.chatBlockedMessagesCollapsed(3)), findsOneWidget);
+
+    chatViewModel.testState = chatViewModel.testState.copyWith(
+      write: (
+        messages: <Message>[messages[0], messages[1], messages[3]],
+        origin: MessagesOrigin.localMutation,
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text(testL10n.chatBlockedMessagesCollapsed(2)), findsOneWidget);
+    expect(
+      find.textContaining('blocked fern', findRichText: true),
+      findsNothing,
+    );
+
+    await tester.pump(kMessageListLiveTailMotionDuration);
+    await tester.pump();
+    expect(find.text(testL10n.chatBlockedMessagesCollapsed(2)), findsOneWidget);
+
+    await disposeMessageList(tester);
+  });
+}
+
+Future<void> _pumpMessageRemoval(WidgetTester tester) async {
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 50));
+  await tester.pump(kMessageListLiveTailMotionDuration);
+  await tester.pump();
+}
+
+List<Message> _blockedRun() {
+  final List<(String, String)> rows = <(String, String)>[
+    (messageListCurrentUserId, 'Let me check.'),
+    (_targetId, 'blocked fern'),
+    (_targetId, 'blocked address'),
+    (_targetId, 'blocked pickup'),
+  ];
+  return <Message>[
+    for (int index = 0; index < rows.length; index += 1)
+      Message(
+        id: snowflakeForUtc(messageListSeedBase.add(Duration(minutes: index))),
+        channelId: messageListChannelId,
+        authorId: rows[index].$1,
+        authorName: rows[index].$1 == _targetId ? 'Jordan Target' : 'Tester',
+        content: rows[index].$2,
+        timestamp: messageListSeedBase.add(Duration(minutes: index)),
+      ),
+  ];
 }
