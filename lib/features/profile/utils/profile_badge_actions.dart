@@ -1,18 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_badge_detail_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/profile_badge_image.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_caption_style.dart';
 import 'package:fluxer_app/features/profile/utils/profile_badge_media.dart';
-import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
-import 'package:fluxer_app/features/settings/utils/commerce/user_settings_billing_nav.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 import 'package:fluxer_dart/export.dart';
@@ -121,28 +116,7 @@ Future<void> handleProfileBadgeTap(
   bool touch = false,
 }) async {
   if (!touch && profileBadgeOpensPremiumSheet(badge)) {
-    if (userSettingsShowBillingNav(ref)) {
-      await openUserBillingSettings(
-        context,
-        UserSettingsSection.fluxerPlutonium,
-      );
-      return;
-    }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    await FluxerBottomSheet.show<void>(
-      context,
-      title: l10n.plutoniumNotAvailableTitle,
-      useRootNavigator: true,
-      builder: (sheetContext, _) => Padding(
-        padding: EdgeInsets.all(sheetContext.layout.s4),
-        child: Text(
-          l10n.plutoniumNotAvailableBody,
-          style: sheetContext.textStyles.bodyMedium.copyWith(
-            color: sheetContext.colors.textSecondary,
-          ),
-        ),
-      ),
-    );
+    await openPlutoniumCommerce(context, ref, useRootNavigator: true);
     return;
   }
   final String? href = badge.href;

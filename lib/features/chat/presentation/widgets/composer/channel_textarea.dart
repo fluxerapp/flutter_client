@@ -88,6 +88,7 @@ import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_p
 import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/utils/commerce/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
@@ -701,30 +702,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return _composerContentLength(_sendableWireText()) > maxMessageLength;
   }
 
-  void _showPlutoniumSheet(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    unawaited(
-      FluxerBottomSheet.show<void>(
-        context,
-        title: l10n.plutoniumNotAvailableTitle,
-        builder: (sheetContext, _) => Padding(
-          padding: EdgeInsets.fromLTRB(
-            sheetContext.layout.s4,
-            sheetContext.layout.s4,
-            sheetContext.layout.s4,
-            0,
-          ),
-          child: Text(
-            l10n.plutoniumNotAvailableBody,
-            style: sheetContext.textStyles.bodyMedium.copyWith(
-              color: sheetContext.colors.textSecondary,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> _handlePasteExceedsLimit(
     String pastedText,
     String channelId,
@@ -778,7 +755,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             unawaited(_handlePasteExceedsLimit(pastedText, channelId)),
         onPasteLostContent: _showCorruptedCustomEmojiToast,
         onValidationResult: _toastUploadValidation,
-        onUpgradePressed: () => _showPlutoniumSheet(context),
+        onUpgradePressed: () => unawaited(openPlutoniumCommerce(context, ref)),
         textAlignVertical: textAlignVertical,
         cursorColor: cursorColor,
         fitLinesToHeight: fitLinesToHeight,
