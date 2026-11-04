@@ -125,7 +125,7 @@ class _FluxerMarkdownState extends State<FluxerMarkdown> {
       style,
       isDark,
       textScaler,
-      MediaQuery.maybeOf(context)?.boldText ?? false,
+      MediaQuery.maybeBoldTextOf(context) ?? false,
       Directionality.maybeOf(context),
       Localizations.maybeLocaleOf(context),
       _timestampLayoutToken(),

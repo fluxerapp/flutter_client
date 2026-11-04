@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/core/talker.dart';
 
 const Duration kMessageListTailFollowDuration = Duration(milliseconds: 300);
 const Curve kMessageListTailFollowCurve = Curves.ease;
@@ -154,6 +155,29 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
     if (t >= 1.0) {
       _finishTailFollow();
     }
+  }
+
+  @override
+  void correctBy(double correction) {
+    if (correction.abs() > 1) {
+      talker.debug(
+        '[MessageList] sliver correction ${correction.toStringAsFixed(1)} '
+        'pixels=${pixels.toStringAsFixed(1)}',
+      );
+    }
+    super.correctBy(correction);
+  }
+
+  @override
+  void goBallistic(double velocity) {
+    if (velocity == 0 && hasContentDimensions && outOfRange) {
+      talker.debug(
+        '[MessageList] spring back pixels=${pixels.toStringAsFixed(1)} '
+        'min=${minScrollExtent.toStringAsFixed(1)} '
+        'max=${maxScrollExtent.toStringAsFixed(1)}',
+      );
+    }
+    super.goBallistic(velocity);
   }
 
   @override

@@ -173,13 +173,30 @@ void main() {
     test('a geometry change bumps the revision exactly once per edge', () {
       sample(older: 2000, newer: 3000);
       final int olderRevision = port.lastFor(PaginationEdge.older)!.revision;
-      sample(older: 2010, newer: 3000 - 10);
+      sample(older: 2040, newer: 3000 - 40);
       expect(port.lastFor(PaginationEdge.older)!.revision, olderRevision + 1);
       expect(
         port.edgeDemands(PaginationEdge.older).length,
         2,
         reason: 'one push per changed sample, not per notification source',
       );
+    });
+
+    test('small moves far from an edge push nothing until they add up', () {
+      sample(older: 2000, newer: 3000);
+      final int eventCount = port.edgeDemands(PaginationEdge.older).length;
+      sample(older: 2010, newer: 2990);
+      sample(older: 2020, newer: 2980);
+      expect(port.edgeDemands(PaginationEdge.older).length, eventCount);
+      sample(older: 2040, newer: 2960);
+      expect(port.edgeDemands(PaginationEdge.older).length, eventCount + 1);
+    });
+
+    test('small moves still push while an edge is demanding', () {
+      sample(older: 100, newer: 3000);
+      final int eventCount = port.edgeDemands(PaginationEdge.older).length;
+      sample(older: 90, newer: 3010);
+      expect(port.edgeDemands(PaginationEdge.older).length, eventCount + 1);
     });
 
     test('forceGeometryRevision bumps ONLY its edge with byte-identical '

@@ -66,7 +66,7 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
     }
     _hideScheduled = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
+      if (!mounted || !_hideScheduled) {
         return;
       }
       _hideScheduled = false;
@@ -88,18 +88,31 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
       animated: animated,
       size: widget.requestSize,
     );
-    final ({int? width, int? height}) cache = animated
-        ? (width: null, height: null)
-        : containDecodeCacheSize(
-            cellWidth: widget.size,
-            cellHeight: widget.size,
-            devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
-          );
-    final Widget image = CachedNetworkImage(
+    if (animated) {
+      return FluxerEmojiFrameBoundary(
+        size: widget.size,
+        child: AllowImageFrameAnimation(
+          child: FluxerAnimatedEmojiImage(
+            url: url,
+            // The a2 key skips lossy animated emoji left in the disk cache: https://feedback.fluxer.com/p/2156
+            cacheKey: 'emoji_${widget.emojiId}_a2_${widget.requestSize}',
+            size: widget.size,
+            fallback: _buildImage(context, animated: false),
+            placeholder:
+                loadingPlaceholder?.call(context, url) ??
+                SizedBox(width: widget.size, height: widget.size),
+          ),
+        ),
+      );
+    }
+    final ({int? width, int? height}) cache = containDecodeCacheSize(
+      cellWidth: widget.size,
+      cellHeight: widget.size,
+      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
+    );
+    return CachedNetworkImage(
       imageUrl: url,
-      // The a2 key skips lossy animated emoji left in the disk cache: https://feedback.fluxer.com/p/2156
-      cacheKey:
-          'emoji_${widget.emojiId}_${animated ? 'a2' : 's'}_${widget.requestSize}',
+      cacheKey: 'emoji_${widget.emojiId}_s_${widget.requestSize}',
       width: widget.size,
       height: widget.size,
       memCacheWidth: cache.width,
@@ -110,18 +123,9 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
       placeholder:
           loadingPlaceholder ??
           (_, _) => SizedBox(width: widget.size, height: widget.size),
-      errorBuilder: animated
-          ? (BuildContext ctx, _, _) => _buildImage(ctx, animated: false)
-          : widget.errorBuilder != null
+      errorBuilder: widget.errorBuilder != null
           ? (ctx, _, _) => widget.errorBuilder!(ctx)
           : (_, _, _) => SizedBox(width: widget.size, height: widget.size),
-    );
-    if (!animated) {
-      return image;
-    }
-    return FluxerEmojiFrameBoundary(
-      size: widget.size,
-      child: AllowImageFrameAnimation(child: image),
     );
   }
 

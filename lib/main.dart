@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_entrypoint.dart';
 import 'package:fluxer_app/core/bootstrap/flutter_error_ui.dart';
 import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
+import 'package:fluxer_app/core/bootstrap/touch_resampling_config.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
@@ -88,6 +89,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   configureFluxerMobileDetection();
   configureFluxerImageCache();
   configureFluxerGpuResourceCache();
+  configureFluxerTouchResampling();
   configureFluxerErrorUi();
   FluxerObservability.instance.installGlobalErrorHandlers();
   if (AppBuildConfig.hasObservabilityConfig) {

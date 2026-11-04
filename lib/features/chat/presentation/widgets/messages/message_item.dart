@@ -968,16 +968,16 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
     final bool hasChannelDetailsSession =
         ref.watch(channelDetailsDrawerProvider) != null;
-    final double channelDetailsReveal = ref.watch(
-      channelDetailsDrawerRevealProvider,
-    );
     final double screenWidth = MediaQuery.sizeOf(context).width;
-    final bool channelDetailsDrawerBlocksSwipe =
-        channelDetailsDrawerBlocksMessageSwipe(
+    final bool channelDetailsDrawerBlocksSwipe = ref.watch(
+      channelDetailsDrawerRevealProvider.select(
+        (double revealPixels) => channelDetailsDrawerBlocksMessageSwipe(
           hasDrawerSession: hasChannelDetailsSession,
-          revealPixels: channelDetailsReveal,
+          revealPixels: revealPixels,
           screenWidth: screenWidth,
-        );
+        ),
+      ),
+    );
     final bool swipeToOpenChannelDetails =
         handheldChannelDetailsGesturesApply(context) &&
         ref.watch(swipeRightToLeftActionPreferencesProvider).effectiveAction ==

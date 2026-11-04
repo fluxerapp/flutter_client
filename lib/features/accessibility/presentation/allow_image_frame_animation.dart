@@ -7,12 +7,11 @@ class AllowImageFrameAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData data = MediaQuery.of(context);
-    if (!data.disableAnimations) {
+    if (!MediaQuery.disableAnimationsOf(context)) {
       return child;
     }
     return MediaQuery(
-      data: data.copyWith(disableAnimations: false),
+      data: MediaQuery.of(context).copyWith(disableAnimations: false),
       child: child,
     );
   }

@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 const int kDesktopImageCacheMaxBytes = 100 << 20;
 const int kMobileImageCacheMaxBytes = 40 << 20;
@@ -22,6 +24,9 @@ void configureFluxerImageCache() {
     stalePeriod: kNetworkImageDiskCacheStalePeriod,
     maxNrOfCacheObjects: kNetworkImageDiskCacheMaxObjects,
   );
+  FluxerAnimatedEmojiImage.onFirstFailure = (String url, Object error) {
+    talker.warning('[Emoji] animated load failed for $url: $error');
+  };
 }
 
 void configureFluxerGpuResourceCache() {
