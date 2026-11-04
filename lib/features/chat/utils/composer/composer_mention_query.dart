@@ -56,15 +56,6 @@ class MemberMentionSearchFields {
   final String accountGlobalName;
   final String username;
   final String tag;
-
-  List<String> get searchKeys => <String>[
-    displayLabel,
-    guildNickname,
-    friendNickname,
-    accountGlobalName,
-    username,
-    tag,
-  ].where((String v) => v.isNotEmpty).toList();
 }
 
 MemberMentionSearchFields memberMentionSearchFields(
@@ -173,7 +164,14 @@ MentionMatchRank mentionMatchRankForMember(
     discriminator: discriminator,
   );
   MentionMatchRank best = MentionMatchRank.noMatch;
-  for (final String key in fields.searchKeys) {
+  for (final String key in <String>[
+    fields.displayLabel,
+    fields.guildNickname,
+    fields.friendNickname,
+    fields.accountGlobalName,
+    fields.username,
+    fields.tag,
+  ]) {
     final MentionMatchRank rank = _matchRankForValue(query, key);
     if (rank.score > best.score) {
       best = rank;
@@ -256,19 +254,6 @@ class MentionAutocompleteSession {
   }
 }
 
-int _memberSortKey(
-  Member a,
-  Member b,
-  Map<String, String?> friendNicknameById,
-) => memberDisplayLabel(a, friendNickname: friendNicknameById[a.id])
-    .toLowerCase()
-    .compareTo(
-      memberDisplayLabel(
-        b,
-        friendNickname: friendNicknameById[b.id],
-      ).toLowerCase(),
-    );
-
 List<Member> rankMembersForMentionQuery(
   List<Member> members,
   ParsedMentionQuery parsed, {
@@ -279,56 +264,76 @@ List<Member> rankMembersForMentionQuery(
   MentionAutocompleteSession? stableSession,
 }) {
   final String trimmed = parsed.usernameQuery.trim();
-  final List<Member> filtered = members
-      .where(
-        (Member m) => memberMatchesMentionQuery(
-          m,
-          parsed,
-          discriminatorByUserId?[m.id],
-          friendNickname: friendNicknameById[m.id],
-        ),
-      )
-      .toList();
+  final bool ranksByMatch = trimmed.isNotEmpty && !parsed.hasTagSeparator;
+  final String q = trimmed.toLowerCase();
   final Set<String> prefer = prioritizeMemberIds ?? const <String>{};
-  int compare(Member a, Member b) {
-    final bool pa = prefer.contains(a.id);
-    final bool pb = prefer.contains(b.id);
-    if (pa != pb) {
-      return pa ? -1 : 1;
-    }
-    if (trimmed.isNotEmpty && !parsed.hasTagSeparator) {
-      final String q = trimmed.toLowerCase();
-      final MentionMatchRank ra = mentionMatchRankForMember(
-        a,
+  final List<_RankedMember> filtered = <_RankedMember>[];
+  for (final Member member in members) {
+    final String? friendNickname = friendNicknameById[member.id];
+    final String? discriminator = discriminatorByUserId?[member.id];
+    int score = 0;
+    if (ranksByMatch) {
+      score = mentionMatchRankForMember(
+        member,
         q,
-        friendNickname: friendNicknameById[a.id],
-        discriminator: discriminatorByUserId?[a.id],
-      );
-      final MentionMatchRank rb = mentionMatchRankForMember(
-        b,
-        q,
-        friendNickname: friendNicknameById[b.id],
-        discriminator: discriminatorByUserId?[b.id],
-      );
-      if (ra.score != rb.score) {
-        return rb.score.compareTo(ra.score);
+        friendNickname: friendNickname,
+        discriminator: discriminator ?? '0',
+      ).score;
+      if (score < MentionMatchRank.fuzzy.score) {
+        continue;
       }
+    } else if (!memberMatchesMentionQuery(
+      member,
+      parsed,
+      discriminator,
+      friendNickname: friendNickname,
+    )) {
+      continue;
     }
-    if (stableSession != null) {
-      final int sa = stableSession.rankFor(a.id);
-      final int sb = stableSession.rankFor(b.id);
-      if (sa != sb) {
-        return sa.compareTo(sb);
-      }
-    }
-    return _memberSortKey(a, b, friendNicknameById);
+    filtered.add(
+      _RankedMember(
+        member: member,
+        preferred: prefer.contains(member.id),
+        score: score,
+        sessionRank: stableSession?.rankFor(member.id) ?? 0,
+        labelLower: memberDisplayLabel(
+          member,
+          friendNickname: friendNickname,
+        ).toLowerCase(),
+      ),
+    );
   }
+  filtered.sort((_RankedMember a, _RankedMember b) {
+    if (a.preferred != b.preferred) {
+      return a.preferred ? -1 : 1;
+    }
+    if (a.score != b.score) {
+      return b.score.compareTo(a.score);
+    }
+    if (a.sessionRank != b.sessionRank) {
+      return a.sessionRank.compareTo(b.sessionRank);
+    }
+    return a.labelLower.compareTo(b.labelLower);
+  });
+  return <Member>[
+    for (final _RankedMember ranked in filtered.take(limit)) ranked.member,
+  ];
+}
 
-  filtered.sort(compare);
-  if (filtered.length <= limit) {
-    return filtered;
-  }
-  return filtered.sublist(0, limit);
+class _RankedMember {
+  const _RankedMember({
+    required this.member,
+    required this.preferred,
+    required this.score,
+    required this.sessionRank,
+    required this.labelLower,
+  });
+
+  final Member member;
+  final bool preferred;
+  final int score;
+  final int sessionRank;
+  final String labelLower;
 }
 
 List<Member> filterGuildMembersForAutocomplete({

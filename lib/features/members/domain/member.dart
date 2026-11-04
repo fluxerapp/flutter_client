@@ -108,12 +108,15 @@ class Member {
     this.roles = const [],
   });
 
-  factory Member.fromRow(db.Member row, db.User? user, List<db.Role> allRoles) {
+  factory Member.fromRow(
+    db.Member row,
+    db.User? user,
+    Map<String, db.Role> rolesById,
+  ) {
     final roleIds = _parseRoleIds(row.roleIdsJson);
-    final roleMap = {for (final r in allRoles) r.id: r};
     final memberRoles = <MemberRole>[
       for (final id in roleIds)
-        if (roleMap.containsKey(id)) MemberRole.fromRow(roleMap[id]!),
+        if (rolesById.containsKey(id)) MemberRole.fromRow(rolesById[id]!),
     ];
 
     final bool isAvatarUnset = hasMemberProfileFlag(

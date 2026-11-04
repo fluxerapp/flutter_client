@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/dm/data/dm_repository.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
@@ -273,5 +274,50 @@ void main() {
       }
     }
     expect(iterator.current.single.unreadCount, 3);
+  });
+
+  test('a message in one DM rebuilds only that conversation', () async {
+    final db = openTestDatabase();
+    await db.userDao.upsertUser(
+      UsersCompanion.insert(id: 'other', username: 'Other'),
+    );
+    await db.dmChannelDao.upsertDmChannels([
+      DmChannelsCompanion.insert(
+        id: 'dm-1',
+        recipientId: 'other',
+        lastMessageId: Value(_snowflakeForUtc(DateTime.utc(2025, 12, 31))),
+        lastMessageTime: Value(DateTime.utc(2025, 12, 31)),
+      ),
+      DmChannelsCompanion.insert(
+        id: 'dm-2',
+        recipientId: 'other',
+        lastMessageId: Value(_snowflakeForUtc(DateTime.utc(2026, 1, 2))),
+        lastMessageTime: Value(DateTime.utc(2026, 1, 2)),
+      ),
+    ]);
+
+    final repo = _createDmRepository(db);
+    final iterator = StreamIterator(repo.watchDmChannels());
+    addTearDown(iterator.cancel);
+
+    expect(await iterator.moveNext(), isTrue);
+    expect(await iterator.moveNext(), isTrue);
+    final List<DmConversation> before = iterator.current;
+    expect(before.map((c) => c.id), ['dm-2', 'dm-1']);
+
+    final DateTime sentAt = DateTime.utc(2026, 1, 3);
+    await db.dmChannelDao.updateLastMessage(
+      'dm-1',
+      _snowflakeForUtc(sentAt),
+      'hello',
+      'other',
+      sentAt,
+    );
+
+    expect(await iterator.moveNext(), isTrue);
+    final List<DmConversation> after = iterator.current;
+    expect(after.map((c) => c.id), ['dm-1', 'dm-2']);
+    expect(after.first.lastMessageId, _snowflakeForUtc(sentAt));
+    expect(after.last, same(before.first));
   });
 }

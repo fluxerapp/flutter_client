@@ -120,7 +120,7 @@ class FluxerMarkdownConfig {
   const FluxerMarkdownConfig({
     required this.unicodeEmojiUrlBuilder,
     required this.customEmojiUrlBuilder,
-    this.unicodeEmojiPattern,
+    this.unicodeEmojiMatcher,
     this.animateCustomEmoji = true,
     this.linkColor,
     this.blockquoteBorderColor,
@@ -159,7 +159,7 @@ class FluxerMarkdownConfig {
 
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
-  final RegExp? unicodeEmojiPattern;
+  final Object? unicodeEmojiMatcher;
   final bool animateCustomEmoji;
   final Color? linkColor;
   final Color? blockquoteBorderColor;
@@ -215,7 +215,7 @@ class FluxerMarkdownConfig {
     dimStrikethroughText,
     ansiPalette,
     spoilerSyncController,
-    unicodeEmojiPattern,
+    unicodeEmojiMatcher,
     internalLinkPattern,
     selectionContextMenuBuilder,
   );

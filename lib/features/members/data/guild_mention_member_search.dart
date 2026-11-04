@@ -77,9 +77,49 @@ class GuildMentionMemberSearch {
     }
   }
 
-  Future<GuildMentionSnapshot> refreshSnapshot(String guildId) {
-    invalidateSnapshot(guildId);
-    return ensureSnapshot(guildId);
+  bool snapshotMatchesRowCount(String guildId, int rowCount) {
+    return _snapshots[guildId]?.members.length == rowCount;
+  }
+
+  Future<GuildMentionSnapshot> _mergeIntoSnapshot(
+    String guildId,
+    List<String> userIds,
+  ) async {
+    final GuildMentionSnapshot? snapshot = _snapshots[guildId];
+    if (snapshot == null) {
+      return ensureSnapshot(guildId);
+    }
+    final List<Member> fresh = await _memberRepository
+        .getCachedMembersByUserIds(guildId, userIds);
+    final Map<String, String> freshDiscriminators = await discriminatorsFor(
+      fresh,
+    );
+    final int rowCount = await _database.memberDao.countMembers(guildId);
+    final GuildMentionSnapshot? current = _snapshots[guildId];
+    if (!identical(current, snapshot)) {
+      return current ?? ensureSnapshot(guildId);
+    }
+    final Map<String, Member> freshById = <String, Member>{
+      for (final Member member in fresh) member.id: member,
+    };
+    final List<Member> merged = <Member>[
+      for (final Member member in snapshot.members)
+        freshById.remove(member.id) ?? member,
+      ...freshById.values,
+    ];
+    if (merged.length != rowCount) {
+      invalidateSnapshot(guildId);
+      return ensureSnapshot(guildId);
+    }
+    final GuildMentionSnapshot next = GuildMentionSnapshot(
+      members: merged,
+      discriminators: <String, String>{
+        ...snapshot.discriminators,
+        ...freshDiscriminators,
+      },
+    );
+    _snapshots[guildId] = next;
+    return next;
   }
 
   Future<GuildMentionSnapshot> _loadSnapshot(String guildId) async {
@@ -152,7 +192,7 @@ class GuildMentionMemberSearch {
     final List<String> scopeUserIds =
         _gatewaySearchUserIds[guildId] ?? const <String>[];
     _remoteMemberIdsByGuild[guildId] = scopeUserIds.toSet();
-    await refreshSnapshot(guildId);
+    await _mergeIntoSnapshot(guildId, scopeUserIds);
     onComplete();
   }
 
@@ -241,7 +281,10 @@ class GuildMentionMemberSearch {
       for (final Member member in remote) member.id,
     };
     _remoteMemberIdsByGuild[guildId] = remoteMemberIds;
-    final GuildMentionSnapshot snapshot = await refreshSnapshot(guildId);
+    final GuildMentionSnapshot snapshot = await _mergeIntoSnapshot(
+      guildId,
+      scopeUserIds,
+    );
     final List<Member> ranked = filterSnapshotMembers(
       snapshot: snapshot,
       parsed: parsed,

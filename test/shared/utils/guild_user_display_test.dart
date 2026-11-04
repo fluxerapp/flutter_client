@@ -314,7 +314,7 @@ void main() {
       final members.Member actual = members.Member.fromRow(
         _dbMember(profileFlags: guildProfileAvatarUnsetFlag),
         _dbUser(),
-        const <db.Role>[],
+        const <String, db.Role>{},
       );
       expect(actual.avatar, isNull);
     });
@@ -323,7 +323,7 @@ void main() {
       final members.Member actual = members.Member.fromRow(
         _dbMember(),
         _dbUser(),
-        const <db.Role>[],
+        const <String, db.Role>{},
       );
       expect(actual.avatar, 'user_avatar');
       expect(actual.guildAvatar, isNull);
@@ -333,7 +333,7 @@ void main() {
       final members.Member actual = members.Member.fromRow(
         _dbMember(guildAvatar: 'guild_avatar'),
         _dbUser(),
-        const <db.Role>[],
+        const <String, db.Role>{},
       );
       expect(actual.guildAvatar, 'guild_avatar');
       expect(actual.avatar, 'guild_avatar');

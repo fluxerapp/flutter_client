@@ -12,14 +12,20 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'guild_bans_provider.g.dart';
 
 const Duration _kSearchDebounce = Duration(milliseconds: 300);
+const Duration _kLiveRefreshDebounce = Duration(milliseconds: 500);
 
 @riverpod
 class GuildBans extends _$GuildBans {
   Timer? _searchDebounce;
+  Timer? _liveRefreshDebounce;
+  int _loadGeneration = 0;
 
   @override
   Future<GuildBansState> build(String guildId) {
-    ref.onDispose(() => _searchDebounce?.cancel());
+    ref.onDispose(() {
+      _searchDebounce?.cancel();
+      _liveRefreshDebounce?.cancel();
+    });
     ref.listen(
       knownGuildBansProvider.select(
         (Map<String, Set<String>> bans) => bans[guildId] ?? const <String>{},
@@ -30,7 +36,11 @@ class GuildBans extends _$GuildBans {
             previousIds.containsAll(next)) {
           return;
         }
-        unawaited(refreshQuietly());
+        _liveRefreshDebounce?.cancel();
+        _liveRefreshDebounce = Timer(
+          _kLiveRefreshDebounce,
+          () => unawaited(refreshQuietly()),
+        );
       },
     );
     return _loadState();
@@ -59,9 +69,10 @@ class GuildBans extends _$GuildBans {
   }
 
   Future<void> refreshQuietly() async {
+    final int generation = ++_loadGeneration;
     try {
       final GuildBansState loaded = await _loadState();
-      if (!ref.mounted) {
+      if (!ref.mounted || generation != _loadGeneration) {
         return;
       }
       final GuildBansState? current = state.value;
