@@ -836,6 +836,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'לא נמצאו מפתחות גישה עבור אפליקציה זו. התחבר/י באמצעות דוא\"ל וסיסמה במקום זאת.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported => 'ה-Passkeys אינם נתמכים במכשיר זה.';
 
   @override

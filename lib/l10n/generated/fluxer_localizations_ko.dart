@@ -810,6 +810,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get passkeyNoCredentials => '이 앱에 대한 패스키가 없습니다. 대신 이메일과 비밀번호로 로그인하세요.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported => '이 기기에서는 패스키를 지원하지 않습니다.';
 
   @override

@@ -1090,6 +1090,10 @@
     "@passkeyNoCredentials": {
         "description": "Error when user has no passkeys registered and tries passkey login."
     },
+    "passkeyNoCredentialsForAccount": "This device has no passkey for this account. Use the device or password manager where you saved it.",
+    "@passkeyNoCredentialsForAccount": {
+        "description": "Error on the two-factor step when the account needs a passkey and none for it is available on this device."
+    },
     "passkeyDeviceNotSupported": "Passkeys are not supported on this device.",
     "@passkeyDeviceNotSupported": {
         "description": "Error when device does not support passkeys."

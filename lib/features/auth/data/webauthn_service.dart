@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'webauthn_service.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 PasskeyAuthenticator passkeyAuthenticator(Ref ref) {
   return PasskeyAuthenticator();
 }

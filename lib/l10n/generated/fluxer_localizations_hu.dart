@@ -845,6 +845,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nincsenek hitelesítő adatok ehhez az alkalmazáshoz. Jelentkezz be inkább e-maillel és jelszóval.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'A jelszavak nem támogatottak ezen az eszközön.';
 

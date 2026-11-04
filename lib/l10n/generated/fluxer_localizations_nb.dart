@@ -838,6 +838,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Ingen passnøkler funnet for denne appen. Logg inn med e-post og passord i stedet.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passnøkler støttes ikke på denne enheten.';
 

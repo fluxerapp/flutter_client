@@ -1538,6 +1538,12 @@ abstract class FluxerLocalizations {
   /// **'No passkeys found for this app. Log in with email and password instead.'**
   String get passkeyNoCredentials;
 
+  /// Error on the two-factor step when the account needs a passkey and none for it is available on this device.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has no passkey for this account. Use the device or password manager where you saved it.'**
+  String get passkeyNoCredentialsForAccount;
+
   /// Error when device does not support passkeys.
   ///
   /// In en, this message translates to:

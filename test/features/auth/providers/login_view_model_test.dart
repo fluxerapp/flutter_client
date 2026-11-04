@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
@@ -78,7 +79,7 @@ class _FakeAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> getPasskeyLoginOptions() {
+  Future<Map<String, dynamic>> getPasskeyLoginOptions({String? rpId}) {
     return Future<Map<String, dynamic>>.error(
       passkeyException ?? const AuthFailure('Unable to start passkey login.'),
     );
@@ -350,6 +351,9 @@ void main() {
               ),
             ),
           ),
+          authInstanceSnapshotProvider.overrideWithValue(
+            InstanceConfigSnapshot.officialDefault(),
+          ),
         ],
       );
       addTearDown(container.dispose);
@@ -373,6 +377,9 @@ void main() {
               passkeyException: Exception('passkey channel failed'),
             ),
           ),
+          authInstanceSnapshotProvider.overrideWithValue(
+            InstanceConfigSnapshot.officialDefault(),
+          ),
         ],
       );
       addTearDown(container.dispose);
@@ -391,6 +398,9 @@ void main() {
       overrides: [
         authRepositoryProvider.overrideWithValue(
           _FakeAuthRepository(passkeyException: StateError('bad options')),
+        ),
+        authInstanceSnapshotProvider.overrideWithValue(
+          InstanceConfigSnapshot.officialDefault(),
         ),
       ],
     );

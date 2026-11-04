@@ -7,6 +7,7 @@ enum LoginError {
   unableToSendResetLink,
   unableToResetPassword,
   passkeyNoCredentials,
+  passkeyNoCredentialsForAccount,
   passkeyDeviceNotSupported,
   passkeyDomainNotAssociated,
   passkeyTimeout,

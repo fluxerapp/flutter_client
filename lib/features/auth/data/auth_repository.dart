@@ -525,10 +525,12 @@ class AuthRepository {
 
   Future<Map<String, dynamic>> getMfaWebauthnOptions({
     required String ticket,
+    String? rpId,
   }) async {
     try {
       final options = await _client.auth.getWebauthnMfaOptions(
         body: MfaTicketRequest(ticket: ticket),
+        rpId: rpId,
       );
       return jsonDecode(jsonEncode(options)) as Map<String, dynamic>;
     } on DioException catch (error) {
@@ -559,9 +561,11 @@ class AuthRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getPasskeyLoginOptions() async {
+  Future<Map<String, dynamic>> getPasskeyLoginOptions({String? rpId}) async {
     try {
-      final options = await _client.auth.getWebauthnAuthenticationOptions();
+      final options = await _client.auth.getWebauthnAuthenticationOptions(
+        rpId: rpId,
+      );
       return jsonDecode(jsonEncode(options)) as Map<String, dynamic>;
     } on DioException catch (error) {
       throw _failureFromDio(error);

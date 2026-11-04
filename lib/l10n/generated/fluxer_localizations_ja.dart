@@ -809,6 +809,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'このアプリのパスキーが見つかりませんでした。代わりにメールとパスワードでログインしてください。';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported => 'このデバイスではパスキーはサポートされていません。';
 
   @override

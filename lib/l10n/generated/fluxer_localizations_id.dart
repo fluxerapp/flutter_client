@@ -837,6 +837,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Tidak ada passkey yang ditemukan untuk aplikasi ini. Masuk dengan email dan sandi saja.';
 
   @override
+  String get passkeyNoCredentialsForAccount =>
+      'This device has no passkey for this account. Use the device or password manager where you saved it.';
+
+  @override
   String get passkeyDeviceNotSupported =>
       'Passkey tidak didukung di perangkat ini.';
 
